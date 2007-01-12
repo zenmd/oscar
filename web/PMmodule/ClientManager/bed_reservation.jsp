@@ -115,7 +115,7 @@
 		<table>
 			<tr>
 				<td>
-					<html:submit onclick="clientManagerForm.method.value='saveBedReservation';">Save Bed Reservation</html:submit>
+					<html:submit onclick="clientManagerForm.method.value='saveBedReservation';">Save</html:submit>
 				</td>
 				<td>
 					<html:reset>Reset</html:reset>
