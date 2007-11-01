@@ -376,12 +376,12 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
 			note.setSigning_provider_no("");
 			note.setSigned(false);                        
 			cform.setSign("off");
-		} else {			
+		} else {
+			note.setProvider_no(providerNo);
 			note.setSigning_provider_no(userName);
 			note.setSigned(true);
 		}
-                
-		note.setProvider_no(providerNo);		
+				
 		if( provider != null )
                     note.setProvider(provider);
 		
@@ -515,7 +515,6 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
                     /*get access right*/
                     List accessRight=caseManagementMgr.getAccessRight(providerNo,getDemographicNo(request),(String)request.getSession().getAttribute("case_program_id"));                
                     setCPPMedicalHistory(cpp, providerNo,accessRight);
-                    cpp.setUpdate_date(now);
                     caseManagementMgr.saveCPP(cpp, providerNo);
                 }
 
@@ -948,8 +947,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
 		
 		CheckIssueBoxBean[] issueList = (CheckIssueBoxBean[]) cform.getNewIssueCheckList();
 		CheckIssueBoxBean substitution = null;
-		CaseManagementIssue origIssue = null;
-                CaseManagementIssue newIssue = null;
+		
 		//find the checked issue 
 		for(CheckIssueBoxBean curr:issueList) {
 			if(curr.isChecked()) {
@@ -962,18 +960,14 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
 			for(int x=0;x<oldList.length;x++) {
 				if(x == index) {
 					Issue iss = caseManagementMgr.getIssue(String.valueOf(substitution.getIssue().getId().longValue()));
-                                        origIssue = new CaseManagementIssue(oldList[x].getIssue());
 					oldList[x].getIssue().setIssue(iss);
 					oldList[x].getIssue().setIssue_id(substitution.getIssue().getId().longValue());
-                                        newIssue = oldList[x].getIssue();
 					this.caseManagementMgr.saveCaseIssue(oldList[x].getIssue());					
 				}			
 			}						
 		}
 		
 		cform.setIssueCheckList(oldList);
-                if( substitution != null && origIssue != null )
-                    this.caseManagementMgr.changeIssueInCPP(demono, origIssue, newIssue);
 		//updateIssueToConcern(cform);
 		
 		return mapping.findForward("view");
@@ -1043,8 +1037,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
 		// delete the right issue
 		CheckBoxBean[] caseIssueList = new CheckBoxBean[oldList.length - 1];
 		int k = 0;
-                CaseManagementIssue iss = null;
-                
+
 		if (ind.intValue() >= oldList.length)
 		{
 			log.error("issueDelete index error");
@@ -1064,17 +1057,16 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
 			if (i == ind.intValue())
 			{
 				// delete from caseissue table
-				iss = oldList[i].getIssue();
+				CaseManagementIssue iss = oldList[i].getIssue();
 				caseManagementMgr.deleteIssueById(iss);
 			}
 		}
 		cform.setIssueCheckList(caseIssueList);
                 
                 String inCaisi = (String)request.getSession().getAttribute("caisiLoaded");
-                if(inCaisi != null && inCaisi.equalsIgnoreCase("true") && iss != null ) {
+                if(inCaisi != null && inCaisi.equalsIgnoreCase("true")) {
                     // reset current concern in CPP
-                    //updateIssueToConcern(cform);
-                    caseManagementMgr.removeIssueFromCPP(demono,iss);
+                    updateIssueToConcern(cform);
                 }
                 
                 String ajax = request.getParameter("ajax");
@@ -1105,26 +1097,27 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
 
 		//noteSave(cform, request);
 		CheckBoxBean[] oldList = (CheckBoxBean[]) cform.getIssueCheckList();				
-                
+
 		String inds = (String) cform.getLineId();
 
 		Integer ind = new Integer(inds);
 		List iss = new ArrayList();
 		oldList[ind.intValue()].getIssue().setUpdate_date(new Date());
 		iss.add(oldList[ind.intValue()].getIssue());
-		caseManagementMgr.saveAndUpdateCaseIssues(iss);                
+		caseManagementMgr.saveAndUpdateCaseIssues(iss);
                 
                 String inCaisi = (String)request.getSession().getAttribute("caisiLoaded");
                 if(inCaisi != null && inCaisi.equalsIgnoreCase("true")) {
                     String providerNo = this.getProviderNo(request);
-                    
+                    // reset current concern in CPP
+                    updateIssueToConcern(cform);
+
                     //get access right
                     List accessRight=caseManagementMgr.getAccessRight(providerNo,demono,(String)request.getSession().getAttribute("case_program_id"));
 
                     // add medical history to CPP 
                     CaseManagementCPP cpp = this.caseManagementMgr.getCPP(getDemographicNo(request));
-                    setCPPMedicalHistory(cpp, providerNo,accessRight);                    
-                    cpp.setUpdate_date(new Date());
+                    setCPPMedicalHistory(cpp, providerNo,accessRight);
                     caseManagementMgr.saveCPP(cpp, providerNo);
                 }
                 
