@@ -553,6 +553,9 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction
                 
 		/* save note including add signature */	
 		String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString, roleName);
+		System.out.println("saving a note, time="+now +",demographic_no="+demo+",providerNo="+providerNo+",program_no="+note.getProgram_no());
+		System.out.println("Note="+note.getNote());
+		
 		/* remember the str written into echart */
 		request.getSession().setAttribute("lastSavedNoteString", savedStr);
                 

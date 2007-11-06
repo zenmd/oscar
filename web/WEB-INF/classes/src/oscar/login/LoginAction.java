@@ -103,7 +103,7 @@ public final class LoginAction
                    strAuth[3] + " : " + strAuth[4]);
       LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
       session.setMaxInactiveInterval(6800);
-
+      
       //initial db setting
       Properties pvar = cl.getOscarVariable();
       session.setAttribute("oscarVariables", pvar);
