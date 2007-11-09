@@ -2,6 +2,7 @@
 
 <input type="hidden" name="clientId" value="" />
 <input type="hidden" name="formId" value="" />
+<input type="hidden" id="formInstanceId" value="0" />
 
 <script>
 function updateQuickIntake(clientId) {
@@ -45,12 +46,12 @@ function printProgramIntake(clientId, programId) {
 
 function openSurvey() {
 	var selectBox = getElement('form.formId');
-	var formId = selectBox.options[selectBox.selectedIndex].value;
-	
+	var formId = selectBox.options[selectBox.selectedIndex].value;	
 	document.clientManagerForm.clientId.value='<c:out value="${client.demographicNo}"/>';
 	document.clientManagerForm.formId.value=formId;
+	var id = document.getElementById('formInstanceId').value;
 		
-	location.href = '<html:rewrite action="/PMmodule/Forms/SurveyExecute.do"/>' + "?method=survey&formId=" + formId + "&clientId=" + '<c:out value="${client.demographicNo}"/>';
+	location.href = '<html:rewrite action="/PMmodule/Forms/SurveyExecute.do"/>' + "?method=survey&formId=" + formId + "&formInstanceId=" + id + "&clientId=" + '<c:out value="${client.demographicNo}"/>';
 }
 </script>
 
@@ -174,7 +175,7 @@ function openSurvey() {
 			<td><c:out value="${form.description}" /></td>
 			<td><c:out value="${form.dateCreated}" /></td>
 			<td><c:out value="${form.username}" /></td>
-			<td><input type="button" value="update" onclick="document.clientManagerForm.elements['form.formId'].value='<c:out value="${form.formId}"/>';openSurvey();" /></td>
+			<td><input type="button" value="update" onclick="document.clientManagerForm.elements['form.formId'].value='<c:out value="${form.formId}"/>';document.clientManagerForm.elements['formInstanceId'].value='<c:out value="${form.id}"/>';openSurvey();" /></td>
 		</tr>
 	</c:forEach>
 </table>
