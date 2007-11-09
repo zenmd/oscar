@@ -34,6 +34,7 @@ public interface SurveyManager {
 	public OscarForm getForm(String formId);
 	public void saveFormInstance(OscarFormInstance instance);
 	public OscarFormInstance getLatestForm(String formId, String clientId);
+	public OscarFormInstance getCurrentFormById(String formInstanceId);
 	public List getForms(String clientId);
 	public List getForms(String formId, String clientId);
 	public void saveFormData(OscarFormData data);

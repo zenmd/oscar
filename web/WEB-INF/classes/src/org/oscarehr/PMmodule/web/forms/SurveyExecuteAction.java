@@ -140,7 +140,7 @@ public class SurveyExecuteAction extends DispatchAction {
 
         formBean.setTab("");
         data.reset();
-
+        String formInstanceId = request.getParameter("formInstanceId");
         String surveyId = request.getParameter("formId");
         String clientId = request.getParameter("clientId");
         String type = request.getParameter("type");
@@ -203,7 +203,8 @@ public class SurveyExecuteAction extends DispatchAction {
         /* load test data - if exists */
         OscarFormInstance instance = null;
         if (!clientId.equals("0")) {
-            instance = surveyManager.getLatestForm(surveyId, clientId);
+            //instance = surveyManager.getLatestForm(surveyId, clientId);
+            instance = surveyManager.getCurrentFormById(formInstanceId);
         }
         if (instance != null) {
             log.debug("loading up existing data");

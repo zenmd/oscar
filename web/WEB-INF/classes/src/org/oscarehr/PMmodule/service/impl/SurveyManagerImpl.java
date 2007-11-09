@@ -60,6 +60,10 @@ public class SurveyManagerImpl implements SurveyManager {
 		return surveyDAO.getLatestForm(Long.valueOf(formId),Long.valueOf(clientId));
 	}
 
+	public OscarFormInstance getCurrentFormById(String formInstanceId) {
+		return surveyDAO.getCurrentFormById(Long.valueOf(formInstanceId));
+	}
+	
 	public List getForms(String clientId) {
 		return surveyDAO.getForms(Long.valueOf(clientId));
 	}

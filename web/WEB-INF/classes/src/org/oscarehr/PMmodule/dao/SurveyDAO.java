@@ -50,6 +50,14 @@ public class SurveyDAO extends HibernateDaoSupport {
         return null;
     }
 
+    public OscarFormInstance getCurrentFormById(Long formInstanceId) {
+    	List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.id = ?", new Object[] {formInstanceId});
+    	if(result.size()>0) {
+    		return (OscarFormInstance)result.get(0);
+    	}    	
+    	return null;
+    }
+    
     public List getForms(Long clientId) {
         List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.clientId = ? order by f.dateCreated DESC", clientId);
         return result;
