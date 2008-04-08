@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="com.quatro.model.TopazValue" table="signature" mutable="true">
+		<id name="recordId" column="record_id">
+		  <generator class="native" />
+		</id>
+        <property name="clientNo" column="client_no"/> 
+		<property name="signatureBlob" type="blob" column="signature" />
+	</class>
+</hibernate-mapping>
