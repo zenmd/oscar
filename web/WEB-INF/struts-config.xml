@@ -21,9 +21,14 @@
         <form-bean name="lookupTableListForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="modules" type="java.util.List"></form-property>
         </form-bean>
-        <form-bean name="lookupCodeListForm" type="org.apache.struts.validator.DynaValidatorForm">
+        <form-bean name="lookupTreeForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="tableDef" type="com.quatro.model.LookupTableDefValue"></form-property>
-        	<form-property name="codes" type="java.util.List"></form-property>    
+        	<form-property name="tree" type="net.sf.navigator.menu.MenuRepository"></form-property>    
+        	<form-property name="tableId" type="java.lang.String"></form-property>    
+        	<form-property name="keywordName" type="java.lang.String"></form-property>    
+        	<form-property name="openerForm" type="java.lang.String"></form-property>    
+        	<form-property name="codeName" type="java.lang.String"></form-property>    
+        	<form-property name="descName" type="java.lang.String"></form-property>    
         </form-bean>
         <form-bean name="lookupCodeEditForm" type="com.quatro.web.lookup.LookupCodeEditForm">
         </form-bean>
@@ -341,7 +346,17 @@
         <!-- Generic Intake -->
         <form-bean name="genericIntakeSearchForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeSearchFormBean" />
         <form-bean name="genericIntakeEditForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean" />
+        <form-bean name="quatroIntakeEditForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="genders" type="java.util.List" />
+            <form-property name="months" type="org.apache.struts.util.LabelValueBean[]" />
+            <form-property name="days" type="org.apache.struts.util.LabelValueBean[]" />
+        </form-bean>
         <!-- Generic Intake -->
+
+        <form-bean name="imageDataForm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="image" type="byte[]" />
+        </form-bean>
 
                 
         <!--form-bean name="SendActionForm" type="oscar.indivoMessenger.SendActionForm"/>
@@ -360,8 +375,13 @@
     </global-forwards>
     
     <action-mappings>
-        
-        
+
+		<action path="/topazSave" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
+            <forward name="view" path="/PMmodule/ClientManager/signatureview.jsp" />
+		</action>
+		<action path="/topazGetImage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="imageDataForm" validate="false">
+            <forward name="image" path="/PMmodule/ClientManager/signatureimage.jsp" />
+		</action>
         
         <!-- caisi core action -->
 		<action path="/Admin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/admin/admin.jsp" validate="false">
@@ -1496,6 +1516,7 @@
             <forward name="searchForm" path="page.genericIntake.search" />
             <forward name="intakeEdit" path="/PMmodule/GenericIntake/Edit.do" redirect="true" />
         </action>
+<!-- 
         <action
             path="/PMmodule/GenericIntake/Edit"
             type="org.springframework.web.struts.DelegatingActionProxy"
@@ -1503,10 +1524,17 @@
             name="genericIntakeEditForm"
             scope="session">
             <forward name="edit" path="/PMmodule/GenericIntake/Edit.jsp" redirect="false"/>
-            <!-- <forward name="print" path="/PMmodule/GenericIntake/Print.jsp" redirect="true"/> --> 
             <forward name="print" path="/PMmodule/GenericIntake/PrintPreview.jsp" redirect="true"/>
             <forward name="clientEdit" path="/PMmodule/ClientManager.do" redirect="true"/>            
             <forward name="providerView" path="/PMmodule/ProviderInfo.do?method=view" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroIntake/Edit"
+ -->        
+        <action
+            path="/PMmodule/GenericIntake/Edit"
+            type="org.springframework.web.struts.DelegatingActionProxy"
+            parameter="method" name="quatroIntakeEditForm" scope="session">
+            <forward name="edit" path="page.intake.edit" />
         </action>
         <!-- Generic Intake -->
         <action path="/PMmodule/GenericIntake/Report" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
@@ -1558,9 +1586,9 @@
             <forward name="list" path="/PMmodule/lookup/LookupTableList.jsp" />
         </action>
 
-        <action path="/Lookup/LookupCodeList" type="org.springframework.web.struts.DelegatingActionProxy"
-              name="lookupCodeListForm" scope="request" validate="false" parameter="method">
-            <forward name="list" path="/PMmodule/lookup/LookupCodeList.jsp" />
+        <action path="/Lookup/LookupTree" type="org.springframework.web.struts.DelegatingActionProxy"
+              name="lookupTreeForm" scope="request" validate="false" parameter="method">
+            <forward name="tree" path="/PMmodule/lookup/LookupTree.jsp" />
         </action>
 
         <action path="/Lookup/LookupCodeEdit" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" 
@@ -1729,4 +1757,10 @@
     <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
         <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
     </plug-in>
+    
+    <plug-in className="net.sf.navigator.menu.MenuPlugIn">
+      <set-property property="menuConfig" value="/WEB-INF/menu-config.xml"/>
+    </plug-in>
+    
 </struts-config>
+

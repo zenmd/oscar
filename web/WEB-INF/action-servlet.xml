@@ -2,14 +2,14 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-<!-- 
+
 	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
 	</bean>
 	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
 	</bean>
- -->
+
 	<bean name="/Admin" class="com.quatro.web.admin.AdminAction" singleton="true" />
     <bean name="/Tickler" class="org.caisi.tickler.web.TicklerAction" singleton="false">
         <property name="ticklerManager" ref="ticklerManagerT"/>
