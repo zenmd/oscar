@@ -18,6 +18,8 @@ import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.util.Utility;
+import java.util.Arrays;
+
 public class LookupDao extends HibernateDaoSupport {
 
 	/* Column property mappings defined by the generic idx 
