@@ -12,4 +12,5 @@ public class UserAccessDao extends HibernateDaoSupport {
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      return getHibernateTemplate().find(sSQL ,params);
 	  }
+	  // hello
 }
