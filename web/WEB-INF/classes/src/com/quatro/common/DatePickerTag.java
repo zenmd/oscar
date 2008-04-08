@@ -78,9 +78,9 @@ public class DatePickerTag extends BaseInputTag{
 		int year = rightNow.get(Calendar.YEAR);
 		int month = rightNow.get(Calendar.MONTH) + 1;
 
-        prepareAttribute(results, "onclick", "window.open('/" + sRootPath + "/calendar/oscarCalendarPopup.jsp?" + 
-          "type=caisi&openerForm="+ openerForm + "&openerElement=" + sName + "&year=" + year + 
-          "&month=" + month +"', '', 'width=300,height=300');");        
+        prepareAttribute(results, "onclick", "window.open('/" + sRootPath + "/calendar/quatroCalendarPopup.jsp?" + 
+          "openerForm="+ openerForm + "&openerElement=" + sName + "&year=" + year + 
+          "&month=" + month +"', '', 'width=310,height=310');");        
         results.append(this.getElementClose());
         results.append("<img");
        	prepareAttribute(results, "src", "/" + sRootPath + "/images/timepicker.jpg");
