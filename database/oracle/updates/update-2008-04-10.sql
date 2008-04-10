@@ -89,3 +89,21 @@ create table lst_referredby{
   displayorder NUMBER,
   primary key(code)
 }
+
+create table lst_langauge
+(
+  id         number not null,
+  description  VARCHAR2(80),
+  isactive     NUMBER(1),
+  displayorder NUMBER,
+  primary key(id)
+);
+
+create table lst_country
+(
+  id         number not null,
+  description  VARCHAR2(80),
+  isactive     NUMBER(1),
+  displayorder NUMBER,
+  primary key(id)
+)
