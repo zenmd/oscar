@@ -26,7 +26,8 @@
 		// form.elements['criteria.searchUsingSoundex'].checked = true;
 		// form.elements['criteria.dateFrom'].value=''; 
 		// form.elements['criteria.dateTo'].value=''; 
-		// form.elements['criteria.bedProgramId'].selectedIndex = 0;
+		form.elements['criteria.bedProgramId'].selectedIndex = 0;
+		form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
@@ -45,23 +46,44 @@
 		<div class="axial">
 			<table border="0" cellspacing="2" cellpadding="3">
 				<tr>
-					<th>Client No</th>
+					<th><bean-el:message key="ClientSearch.clientNo" bundle="pmm"/></th>
 					<td><html:text property="criteria.demographicNo" size="15" /></td>
 				</tr>
 				<tr>
-					<th>Client First Name</th>
+					<th><bean-el:message key="ClientSearch.firstName"  bundle="pmm"/></th>
 					<td><html:text property="criteria.firstName" size="15" /></td>
 				</tr>
 		
 				<tr>
-					<th>Client Last Name</th>
+					<th><bean-el:message key="ClientSearch.lastName"  bundle="pmm"/>
+					</th>
 					<td><html:text property="criteria.lastName" size="15" /></td>
 				</tr>
 				
 				<tr>
-					<th>Date of Birth <br>
+					<th><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
 					(yyyy/mm/dd)</th>
 					<td><html:text property="criteria.dob" size="15" /></td>
+				</tr>
+				<tr>
+					<th> <bean-el:message key="ClientSearch.active" bundle="pmm"/></th>
+					<td> <html:select property="criteria.active">
+							<html:option value="">Any</html:option>
+							<html:option value="1">Yes</html:option>
+							<html:option value="0">No</html:option>
+						</html:select>
+					</td>
+				</tr>
+				<tr>
+					<th><bean-el:message key="ClientSearch.gender" bundle="pmm"/></th>
+					<td>
+						<html-el:select property="criteria.gender">
+							<html-el:option value="">Any</html-el:option>
+							<c:forEach var="gen" items="${genders}">
+								<html-el:option value="${gen.code}"><c:out value="${gen.description}"/></html-el:option>
+							</c:forEach>
+						</html-el:select>
+					</td>
 				</tr>
 				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">			
 				<caisi:isModuleLoad moduleName="GET_OHIP_INFO" reverse="false">
@@ -84,9 +106,19 @@
 					<th>Soundex on names <a href="javascript:void(0)" onclick="popupHelp('soundex')">?</a></th>
 					<td><html:checkbox property="criteria.searchUsingSoundex" /></td>
 				</tr>
-
+				</caisi:isModuleLoad>
 				<tr>
-					<th>Bed Program</th>
+					<th><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
+			          <td>
+			            <html:select property="criteria.assignedToProviderNo">
+			                <html:option value="">
+			                </html:option>
+			              	<html:options collection="allProviders" property="providerNo" labelProperty="fullName" />
+			            </html:select>
+			          </td>
+				</tr>
+				<tr>
+					<th><bean-el:message key="ClientSearch.program"  bundle="pmm"/> </th>
 			          <td>
 			            <html:select property="criteria.bedProgramId">
 			                <html:option value="">
@@ -95,6 +127,7 @@
 			            </html:select>
 			          </td>
 				</tr>
+				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">			
 				<tr>
 					<th>Admission Date From<br>
 						(yyyy/mm/dd)</th>
@@ -106,26 +139,6 @@
 					<td><html:text property="criteria.dateTo" size="12" /></td>
 				</tr>
 				</caisi:isModuleLoad>
-				<tr>
-					<th> Active?</th>
-					<td> <html:select property="criteria.active">
-							<html:option value="">Any</html:option>
-							<html:option value="1">Yes</html:option>
-							<html:option value="0">No</html:option>
-						</html:select>
-					</td>
-				</tr>
-				<tr>
-					<th> Gender</th>
-					<td>
-						<html-el:select property="criteria.gender">
-							<html-el:option value="">Any</html-el:option>
-							<c:forEach var="gen" items="${genders}">
-								<html-el:option value="${gen.code}"><c:out value="${gen.description}"/></html-el:option>
-							</c:forEach>
-						</html-el:select>
-					</td>
-				</tr>
 			</table>
 			<table>
 				<tr>
