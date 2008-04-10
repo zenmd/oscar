@@ -346,12 +346,7 @@
         <!-- Generic Intake -->
         <form-bean name="genericIntakeSearchForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeSearchFormBean" />
         <form-bean name="genericIntakeEditForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean" />
-        <form-bean name="quatroIntakeEditForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
-            <form-property name="genders" type="java.util.List" />
-            <form-property name="months" type="org.apache.struts.util.LabelValueBean[]" />
-            <form-property name="days" type="org.apache.struts.util.LabelValueBean[]" />
-        </form-bean>
+        <form-bean name="quatroIntakeEditForm" type="org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm" />
         <!-- Generic Intake -->
 
         <form-bean name="imageDataForm" type="org.apache.struts.action.DynaActionForm">
@@ -1516,7 +1511,7 @@
             <forward name="searchForm" path="page.genericIntake.search" />
             <forward name="intakeEdit" path="/PMmodule/GenericIntake/Edit.do" redirect="true" />
         </action>
-<!-- 
+
         <action
             path="/PMmodule/GenericIntake/Edit"
             type="org.springframework.web.struts.DelegatingActionProxy"
@@ -1528,13 +1523,12 @@
             <forward name="clientEdit" path="/PMmodule/ClientManager.do" redirect="true"/>            
             <forward name="providerView" path="/PMmodule/ProviderInfo.do?method=view" redirect="true" />
         </action>
+
         <action path="/PMmodule/QuatroIntake/Edit"
- -->        
-        <action
-            path="/PMmodule/GenericIntake/Edit"
             type="org.springframework.web.struts.DelegatingActionProxy"
             parameter="method" name="quatroIntakeEditForm" scope="session">
             <forward name="edit" path="page.intake.edit" />
+            <forward name="update" path="page.intake.edit" />
         </action>
         <!-- Generic Intake -->
         <action path="/PMmodule/GenericIntake/Report" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">

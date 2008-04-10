@@ -28,9 +28,9 @@ public class LookupListAction extends DispatchAction {
 		List lst = lookupManager.LoadCodeList(tableId, true, null, null);
 		LookupListForm qform = (LookupListForm) form;
 		qform.setLookups(lst);
-		qform.setOpenerFormName(request.getParameter("openerForm"));
-		qform.setOpenerCodeElementName(request.getParameter("codeName"));
-		qform.setOpenerDescElementName(request.getParameter("descName"));
+//		qform.setOpenerFormName(request.getParameter("openerFormName"));
+//		qform.setOpenerCodeElementName(request.getParameter("openerCodeElementName"));
+//		qform.setOpenerDescElementName(request.getParameter("openerDescElementName"));
 		return mapping.findForward("list");
 	}
 	
@@ -39,9 +39,9 @@ public class LookupListAction extends DispatchAction {
         String tableId=request.getParameter("tableId");
 		List lst = lookupManager.LoadCodeList(tableId, true, null, qform.getKeywordName());
 		qform.setLookups(lst);
-		qform.setOpenerFormName(request.getParameter("openerForm"));
-		qform.setOpenerCodeElementName(request.getParameter("codeName"));
-		qform.setOpenerDescElementName(request.getParameter("descName"));
+//		qform.setOpenerFormName(request.getParameter("openerFormName"));
+//		qform.setOpenerCodeElementName(request.getParameter("openerCodeElementName"));
+//		qform.setOpenerDescElementName(request.getParameter("openerDescElementName"));
 		return mapping.findForward("list");
 	}
 	

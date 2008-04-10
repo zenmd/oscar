@@ -42,6 +42,9 @@ function openRelations(){
 function updateQuickIntake(clientId) {
 	location.href = '<html:rewrite action="/PMmodule/GenericIntake/Edit.do"/>' + "?method=update&type=quick&clientId=" + clientId;
 }
+function updateQuatroIntake(clientId) {
+	location.href = '<html:rewrite action="/PMmodule/QuatroIntake/Edit.do"/>' + "?method=update&type=quick&clientId=" + clientId;
+}
 
 function printQuickIntake(clientId) {
 	url = '<html:rewrite action="/PMmodule/GenericIntake/Edit.do"/>' + "?method=print&type=quick&clientId=" + clientId;
@@ -387,7 +390,12 @@ function openSurvey() {
 					if (!UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external))
 					{
 						%>
+			            <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
 						<input type="button" value="Update" onclick="updateQuickIntake('<c:out value="${client.demographicNo}" />')" />&nbsp;
+						</caisi:isModuleLoad>
+			            <caisi:isModuleLoad moduleName="TORONTO_RFQ">
+						<input type="button" value="Update" onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />')" />&nbsp;
+						</caisi:isModuleLoad>
 						<%
 					}
 				%>			
@@ -397,7 +405,14 @@ function openSurvey() {
 		<c:if test="${mostRecentQuickIntake == null}">
 			<td><span style="color:red">None found</span></td>
 			<td></td>
-			<td><input type="button" value="Create" onclick="updateQuickIntake('<c:out value="${client.demographicNo}" />')" /></td>
+			<td>
+            <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
+			<input type="button" value="Create" onclick="updateQuickIntake('<c:out value="${client.demographicNo}" />')" />
+			</caisi:isModuleLoad>
+            <caisi:isModuleLoad moduleName="TORONTO_RFQ">
+			<input type="button" value="Create" onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />')" />
+			</caisi:isModuleLoad>
+			</td>
 		</c:if>
 	</tr>
 </table>

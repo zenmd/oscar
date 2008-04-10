@@ -18,6 +18,9 @@
 <body>
 <html:form action="/Lookup/LookupList.do">
 <html:hidden property="tableId"/>
+<html:hidden property="openerForm"/>
+<html:hidden property="codeName"/>
+<html:hidden property="descName"/>
 <table width="100%" border="0">
 <tr><td width="80%">Description: <html:text property="keywordName" style="width:100%;" /></td>
 <td width="20%"><html:submit property="method" value="search" /></td></tr>
@@ -33,9 +36,9 @@
     </display:column>
     <display:column sortable="false" title="Description">
         <a href='javascript:selectMe("<c:out value="${lookup.code}" />", "<c:out value="${lookup.description}" />", 
-        "<c:out value="${lookupListForm.openerFormName}" />", 
-        "<c:out value="${lookupListForm.openerCodeElementName}" />", 
-        "<c:out value="${lookupListForm.openerDescElementName}" />");'><c:out value="${lookup.description}"/> </a>
+        "<c:out value="${lookupListForm.openerForm}" />", 
+        "<c:out value="${lookupListForm.codeName}" />", 
+        "<c:out value="${lookupListForm.descName}" />");'><c:out value="${lookup.description}"/> </a>
     </display:column>
 
 </display:table>

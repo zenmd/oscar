@@ -6,9 +6,9 @@ import org.apache.struts.action.ActionForm;
 
 public class LookupListForm extends ActionForm{
 	List lookups;
-    String openerFormName;
-    String openerCodeElementName;
-    String openerDescElementName;
+    String openerForm;
+    String codeName;
+    String descName;
     String keywordName;
     String tableId;
     
@@ -20,28 +20,28 @@ public class LookupListForm extends ActionForm{
 		this.lookups = lookups;
 	}
 
-	public String getOpenerCodeElementName() {
-		return openerCodeElementName;
+	public String getCodeName() {
+		return codeName;
 	}
 
-	public void setOpenerCodeElementName(String openerCodeElementName) {
-		this.openerCodeElementName = openerCodeElementName;
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
 	}
 
-	public String getOpenerDescElementName() {
-		return openerDescElementName;
+	public String getDescName() {
+		return descName;
 	}
 
-	public void setOpenerDescElementName(String openerDescElementName) {
-		this.openerDescElementName = openerDescElementName;
+	public void setDescName(String descName) {
+		this.descName = descName;
 	}
 
-	public String getOpenerFormName() {
-		return openerFormName;
+	public String getOpenerForm() {
+		return openerForm;
 	}
 
-	public void setOpenerFormName(String openerFormName) {
-		this.openerFormName = openerFormName;
+	public void setOpenerForm(String openerForm) {
+		this.openerForm = openerForm;
 	}
 
 	public String getKeywordName() {

@@ -86,6 +86,11 @@
         <property name="lookupManager" ref="lookupManager"/>   
         <property name="caseManagementManager" ref="caseManagementManager"/>       
     </bean>
+    <bean name="/PMmodule/QuatroIntake/Edit" class="com.quatro.web.intake.IntakeEditAction" singleton="false">
+        <property name="clientManager" ref="clientManager"/>
+        <property name="lookupManager" ref="lookupManager"/>   
+        <property name="intakeManager" ref="intakeManager"/>   
+    </bean>
     <bean name="/PMmodule/GenericIntake/Report" class="org.oscarehr.PMmodule.web.GenericIntakeReportAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/EditIntake" class="org.oscarehr.PMmodule.web.EditIntakeAction" singleton="false" />
     <!-- Generic Intake -->

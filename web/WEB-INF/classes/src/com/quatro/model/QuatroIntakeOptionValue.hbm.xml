@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.quatro.model">
+	<class name="QuatroIntakeOptionValue" table="v_lk_intake" mutable="false">
+		<composite-id>
+			<key-property name="prefix" column="prefix" />
+			<key-property name="code" column="code" />
+	    </composite-id>
+
+		<property name="description" column="description" />
+		<property name="active" column="isactive" />
+		<property name="displayOrder" column="displayorder" />
+	</class>
+</hibernate-mapping>

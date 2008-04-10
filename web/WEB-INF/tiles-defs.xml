@@ -199,6 +199,17 @@
 			value="/PMmodule/PreIntakeForm.jsp" />
 	</definition>
 	
+    <definition
+		name="page.intake.edit"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/navigation.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/QuatroIntakeEdit.jsp" />
+	</definition>
+
 	<!-- Generic Intake -->
 	<definition
 		name="page.genericIntake.search"
