@@ -166,7 +166,7 @@ public class LookupTag extends BaseInputTag {
           results.append(property);
           return results.toString();
        }
-       return property;
+       return pre_name + "_" + property;
     }
     
 /*	
