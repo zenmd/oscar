@@ -55,7 +55,7 @@ public class IntakeEditAction extends DispatchAction {
         ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
         for(int i=0;i<lst.size();i++){
            Program obj = (Program)lst.get(i);
-           lst2.add(new LabelValueBean(obj.getId().toString(), obj.getName()));
+           lst2.add(new LabelValueBean(obj.getName(), obj.getId().toString()));
         }
         qform.setProgramList(lst2);
 //        qform.setProgramList(new ArrayList());
