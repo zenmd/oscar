@@ -34,7 +34,7 @@
         </td>
         <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome <b><c:out value="${sessionScope.provider.formattedName}" /></b>, current facility=<c:out value="${sessionScope.currentFacility.name}" />
         </td>
-        <td align="right" width="60px"><html:link action="/PMmodule/ProviderInfo.do">Home</html:link></td>
+        <td align="right" width="60px"><html:link action="/Home.do">Home</html:link></td>
         <td width="60px" align="center">
                <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
         </td>

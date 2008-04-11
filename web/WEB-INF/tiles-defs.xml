@@ -4,6 +4,16 @@
        "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
 <tiles-definitions>
 	<definition
+		name="page.home"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/Messages.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Home.jsp" />
+	</definition>
+	<definition
 		name="page.admin.list"
 		path="/PMmodule/layout.jsp">
 		<put

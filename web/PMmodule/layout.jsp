@@ -21,6 +21,7 @@
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/tigris.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />' />
+	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 
 		<!--   style type="text/css">
 			@import "<html:rewrite page="/css/tigris.css" />";

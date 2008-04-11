@@ -67,6 +67,26 @@ TH {
 	text-align: left;
 }
 
+.pageTitle
+{
+	background-image: url(../images/titleBar2.png); 
+	height:22px;
+    FONT-SIZE: 12pt;
+    font-weight:bold;
+    font-family:Arial Unicode MS;
+    COLOR:white;
+    text-align:center;   
+/*    background-color:#EDDECF;  
+    border-bottom-style:groove;
+    border-bottom-width:thin; 
+    border-left-style: groove;
+    border-left-width:thin; 
+    border-right-style: groove;
+    border-right-width:thin; 
+    border-top-style:groove;
+    border-top-width:thin; */
+ }
+}
 .error {
 	color: #FF0000;
 	background-color: #EEEEFF;

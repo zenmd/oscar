@@ -1,10 +1,6 @@
 <%@ include file="/taglibs.jsp"%>
-<%@ include file="/common/messages.jsp"%>
 <%@page import="oscar.OscarProperties" %>
 <%@page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
-<%@page import="java.util.*" %>
-<%@page import="org.oscarehr.PMmodule.model.Demographic" %>
-<%@page import="org.oscarehr.PMmodule.model.Program" %>
 
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
@@ -63,7 +59,9 @@
 				<tr>
 					<th><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
 					(yyyy/mm/dd)</th>
-					<td><html:text property="criteria.dob" size="15" /></td>
+					<td>
+					<quatro:datePickerTag property="criteria.dob" openerForm="clientSearchForm2"></quatro:datePickerTag>
+					</td>
 				</tr>
 				<tr>
 					<th> <bean-el:message key="ClientSearch.active" bundle="pmm"/></th>

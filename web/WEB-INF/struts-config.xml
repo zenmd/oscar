@@ -71,7 +71,6 @@
         <form-bean name="FrmForm" type="oscar.form.FrmForm" />
         <form-bean name="FrmFormForm" type="oscar.form.pageUtil.FrmFormForm" />
         <form-bean name="EctConsultationFormRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctConsultationFormRequestForm" />
-        <form-bean name="EctViewConsultationRequestsForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctViewConsultationRequestsForm" />
         <form-bean name="EctViewRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctViewRequestForm" />
         <form-bean name="EctDemographicSearchForm" type="oscar.oscarEncounter.search.pageUtil.EctDemographicSearchForm" />
         <form-bean name="EctProceedForm" type="oscar.oscarEncounter.search.pageUtil.EctProceedForm" />
@@ -379,6 +378,9 @@
 		</action>
         
         <!-- caisi core action -->
+		<action path="/Home" type="org.oscarehr.PMmodule.web.HomeAction" scope="request"  validate="false">
+            <forward name="home" path="page.home" />
+		</action>
 		<action path="/Admin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/admin/admin.jsp" validate="false">
             <forward name="list" path="page.admin.list" />
 		</action>
@@ -411,7 +413,7 @@
             <forward name="admin" path="/admin/admin.jsp" redirect="true" />
             <forward name="failure" path="/logout.jsp?login=failed" />
             <forward name="error" path="/loginfailed.jsp" />
-            <forward name="caisiPMM" path="/PMmodule/ProviderInfo.do" />
+            <forward name="caisiPMM" path="/Home.do" />
         </action>        
         <action input="/oscarMessenger/SendMessage.jsp" name="msgSendMessageForm" path="/oscarMessenger/SendMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgSendMessageAction">
             <forward name="success" path="/oscarMessenger/SentMessage.jsp" />
@@ -1217,9 +1219,6 @@
         <action input="/eform/efmpatientformlist.jsp" name="removeEForm" path="/eform/removeEForm" scope="request" type="oscar.eform.actions.RemEFormAction">
             <forward name="success" path="/eform/efmpatientformlist.jsp" />
         </action>
-        <action input="/eform/efmpatientformlistdeleted.jsp" name="unRemoveEForm" path="/eform/unRemoveEForm" scope="request" type="oscar.eform.actions.UnRemEFormAction">
-            <forward name="success" path="/eform/efmpatientformlistdeleted.jsp" />
-        </action>
         <action input="/eform/efmimagemanager.jsp" name="deleteEFormImage" path="/eform/deleteImage" scope="request" type="oscar.eform.actions.DelImageAction">
             <forward name="success" path="/eform/efmimagemanager.jsp" />
         </action>
@@ -1253,10 +1252,6 @@
         </action>
         <action input="/billing/CA/BC/dxcode_svccode_assoc.jsp" name="BillingCreateBillingForm" path="/billing/CA/BC/saveAssocAction" scope="request" type="oscar.oscarBilling.ca.bc.pageUtil.SaveAssocAction">
             <forward name="success" path="/billing/CA/BC/showServiceCodeAssocs.do" />
-        </action>
-        <action input="billingManageReferralDoc.jsp" name="AddReferralDocForm" path="/billing/CA/BC/AddReferralDoc" scope="request" type="oscar.oscarBilling.ca.bc.pageUtil.AddReferralDocAction">
-            <forward name="success" path="/billing/CA/BC/billingManageReferralDoc.jsp" />
-            <forward name="error" path="/billing/CA/BC/billingAddReferralDoc.jsp" />
         </action>
         <action input="/demographic/demographicImport.jsp" name="LabUploadForm" path="/lab/labUpload" scope="request" type="oscar.oscarLab.ca.bc.PathNet.pageUtil.LabUploadAction">
             <forward name="success" path="/lab/CA/BC/LabUpload.jsp" />
