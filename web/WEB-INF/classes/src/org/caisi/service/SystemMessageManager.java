@@ -50,5 +50,11 @@ public class SystemMessageManager {
 	public List getMessages() {
 		return dao.getMessages();
 	}
-
+	public List getActiveMessages() {
+		return dao.getActiveMessages();
+	}
+	public int getActiveMessageCount()
+	{
+		return dao.getActiveMessageCount();
+	}
 }

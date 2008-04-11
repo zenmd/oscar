@@ -44,6 +44,8 @@ import oscar.log.LogConst;
 import oscar.oscarDB.DBHandler;
 import oscar.oscarSecurity.CRHelper;
 import oscar.util.AlertTimer;
+import com.quatro.service.security.*;
+import com.quatro.service.security.SecurityManager;
 
 public final class LoginAction extends DispatchAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
@@ -95,8 +97,9 @@ public final class LoginAction extends DispatchAction {
         }
 
         String[] strAuth;
+        ApplicationContext appContext = getAppContext();
         try {
-            strAuth = cl.auth(userName, password, pin, ip);
+            strAuth = cl.auth(userName, password, pin, ip, appContext);
         }
         catch (Exception e) {
             String newURL = mapping.findForward("error").getPath();
@@ -139,9 +142,9 @@ public final class LoginAction extends DispatchAction {
             session.setAttribute("expired_days", strAuth[5]);
             
             // initiate security manager
-            com.quatro.service.security.UserAccessManager userAccessManager = (com.quatro.service.security.UserAccessManager) getAppContext().getBean("userAccessManager");
-            com.quatro.service.security.SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo);
-            session.setAttribute("securitymanager", secManager);
+            UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
+            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo);
+            session.setAttribute(SecurityManager.SESSION_KEY, secManager);
             
             String default_pmm = null;
             if (viewType.equalsIgnoreCase("receptionist") || viewType.equalsIgnoreCase("doctor")) {
@@ -192,7 +195,7 @@ public final class LoginAction extends DispatchAction {
             Provider provider = providerManager.getProvider(username);
             session.setAttribute("provider", provider);
 
-            List<Integer> facilityIds = ProviderDao.getFacilityIds(provider.getProvider_no());
+            List<Integer> facilityIds = ProviderDao.getFacilityIds(provider.getProviderNo());
             if (facilityIds.size() > 1) {
                 return(new ActionForward("/select_facility.jsp?nextPage=" + where));
             }

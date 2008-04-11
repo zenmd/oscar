@@ -19,6 +19,9 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 public class LoginCheckLogin {
     boolean bWAN = true;
 
@@ -97,10 +100,17 @@ public class LoginCheckLogin {
     }
 
     // authenticate is used to check password
-    public String[] auth(String user_name, String password, String pin, String ip) throws Exception, SQLException {
-        lb = new LoginCheckLoginBean();
+    public String[] auth(String user_name, String password, String pin, String ip, ApplicationContext appContext) throws Exception, SQLException {
+    	lb = new LoginCheckLoginBean();
         lb.ini(user_name, password, pin, ip, pvar);
-        return lb.authenticate();
+
+        boolean isOk = false;
+    	if ("yes".equals(oscar.OscarProperties.getInstance().getProperty("ldap_authentication")))
+    	{
+    		com.quatro.ldap.LdapAuthentication ldap = (com.quatro.ldap.LdapAuthentication) appContext.getBean("ldapAuthentication");
+    		isOk = ldap.authenticate(user_name, password);
+    	}
+    	return lb.authenticate(isOk); 
     }
 
     public synchronized void updateLoginList(String ip, String userName) {
@@ -248,5 +258,5 @@ public class LoginCheckLogin {
 	public void setPropFileName(String propFileName) {
 		this.propFileName = propFileName;
 	}
-
+	
 }

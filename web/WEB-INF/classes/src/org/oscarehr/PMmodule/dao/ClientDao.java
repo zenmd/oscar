@@ -49,6 +49,7 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SQLCriterion;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
@@ -120,7 +121,8 @@ public class ClientDao extends HibernateDaoSupport {
 		String lastName = "";
 		String firstNameL = "";
 		String lastNameL = "";
-		String bedProgramIdCond = "";
+		String bedProgramId = "";
+		String assignedToProviderNo = "";
 		String admitDateFromCond = "";
 		String admitDateToCond = "";
 		String active = "";
@@ -133,7 +135,6 @@ public class ClientDao extends HibernateDaoSupport {
 		@SuppressWarnings("unchecked")
 		List<Demographic> results = null;
 
-		boolean isOracle = OscarProperties.getInstance().getDbType().equals("oracle");
 		if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
 			firstName = bean.getFirstName();
 			firstName = StringEscapeUtils.escapeSql(firstName);
@@ -210,8 +211,16 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 		
 		if(bean.getBedProgramId() != null && bean.getBedProgramId().length() > 0) {
-			bedProgramIdCond = " program_id = " + bean.getBedProgramId();
+			bedProgramId = bean.getBedProgramId(); 
+			sql = "demographic_no in (select client_id from intake where program_id=" + bedProgramId + ")"; 
+			criteria.add(Restrictions.sqlRestriction(sql));
 		}
+		if(bean.getAssignedToProviderNo() != null && bean.getAssignedToProviderNo().length() > 0) {
+			assignedToProviderNo = bean.getAssignedToProviderNo();
+			sql = "demographic_no in (select client_id from admission where provider_no='" + assignedToProviderNo + "')"; 
+			criteria.add(Restrictions.sqlRestriction(sql));
+		}
+		
 		active = bean.getActive();
 		if("1".equals(active)) {
 			criteria.add(Expression.ge("activeCount", 1));

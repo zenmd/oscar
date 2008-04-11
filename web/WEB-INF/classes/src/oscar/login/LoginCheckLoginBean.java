@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.oscarehr.PMmodule.exception.AlreadyAdmittedException;
 
 import oscar.log.LogAction;
 import oscar.log.LogConst;
@@ -61,7 +62,7 @@ public class LoginCheckLoginBean {
         setVariables(variables);
     }
 
-    public String[] authenticate() throws Exception, SQLException {
+    public String[] authenticate(boolean isAuthenticated) throws Exception, SQLException {
         secBean = getUserID();
 
         // the user is not in security table
@@ -69,60 +70,62 @@ public class LoginCheckLoginBean {
             return cleanNullObj(LOG_PRE + "No Such User: " + username);
         }
         // check pin if needed
-
-        String sPin = pin;
-        if (oscar.OscarProperties.getInstance().isPINEncripted()) sPin = oscar.Misc.encryptPIN(sPin);
-        
-//        if (isWAN() && secBean.getB_RemoteLockSet().intValue() == 1
-//                && (!pin.equals(secBean.getPin()) || pin.length() < 3)) {
-        if (isWAN() && secBean.getB_RemoteLockSet().intValue() == 1
-                && (!sPin.equals(secBean.getPin()) || pin.length() < 3)) {
-            return cleanNullObj(LOG_PRE + "Pin-remote needed: " + username);
-        } else if (!isWAN() && secBean.getB_LocalLockSet().intValue() == 1
-                && (!sPin.equals(secBean.getPin()) || pin.length() < 3)) {
-            return cleanNullObj(LOG_PRE + "Pin-local needed: " + username);
-        }
-
-        if (secBean.getB_ExpireSet().intValue() == 1 && ( secBean.getDate_ExpireDate() == null || secBean.getDate_ExpireDate().before(UtilDateUtilities.now() ))) {
-            return cleanNullObjExpire(LOG_PRE + "Expired: " + username);
-        }
+    	String[] strAuth = new String[6];
         String expired_days = "";  
-        if (secBean.getB_ExpireSet().intValue() == 1 ){
-        //Give warning if the password will be expired in 10 days.
-            
-                long date_expireDate = secBean.getDate_ExpireDate().getTime();
-                long date_now = UtilDateUtilities.now().getTime();
-                long date_diff = (date_expireDate - date_now)/(24*3600*1000);
-
-                if (secBean.getB_ExpireSet().intValue() == 1 && date_diff < 11) {
-                        expired_days = String.valueOf(date_diff);        	
-                }
+        if (!isAuthenticated) {
+	        String sPin = pin;
+	        if (oscar.OscarProperties.getInstance().isPINEncripted()) sPin = oscar.Misc.encryptPIN(sPin);
+	        
+	//        if (isWAN() && secBean.getB_RemoteLockSet().intValue() == 1
+	//                && (!pin.equals(secBean.getPin()) || pin.length() < 3)) {
+	        if (isWAN() && secBean.getB_RemoteLockSet().intValue() == 1
+	                && (!sPin.equals(secBean.getPin()) || pin.length() < 3)) {
+	            return cleanNullObj(LOG_PRE + "Pin-remote needed: " + username);
+	        } else if (!isWAN() && secBean.getB_LocalLockSet().intValue() == 1
+	                && (!sPin.equals(secBean.getPin()) || pin.length() < 3)) {
+	            return cleanNullObj(LOG_PRE + "Pin-local needed: " + username);
+	        }
+	
+	        if (secBean.getB_ExpireSet().intValue() == 1 && ( secBean.getDate_ExpireDate() == null || secBean.getDate_ExpireDate().before(UtilDateUtilities.now() ))) {
+	            return cleanNullObjExpire(LOG_PRE + "Expired: " + username);
+	        }
+	        if (secBean.getB_ExpireSet().intValue() == 1 ){
+	        //Give warning if the password will be expired in 10 days.
+	            
+	                long date_expireDate = secBean.getDate_ExpireDate().getTime();
+	                long date_now = UtilDateUtilities.now().getTime();
+	                long date_diff = (date_expireDate - date_now)/(24*3600*1000);
+	
+	                if (secBean.getB_ExpireSet().intValue() == 1 && date_diff < 11) {
+	                        expired_days = String.valueOf(date_diff);        	
+	                }
+	        }
+	        
+	        StringBuffer sbTemp = new StringBuffer();
+	        byte[] btTypeInPasswd = md.digest(password.getBytes());
+	        for (int i = 0; i < btTypeInPasswd.length; i++)
+	            sbTemp = sbTemp.append(btTypeInPasswd[i]);
+	        password = sbTemp.toString();
+	
+	        userpassword = secBean.getPassword();
+	        if (userpassword.length() < 20) {
+	            sbTemp = new StringBuffer();
+	            byte[] btDBPasswd = md.digest(userpassword.getBytes());
+	            for (int i = 0; i < btDBPasswd.length; i++)
+	                sbTemp = sbTemp.append(btDBPasswd[i]);
+	            userpassword = sbTemp.toString();
+	        }
+	        isAuthenticated = password.equals(userpassword); 
         }
-        
-        StringBuffer sbTemp = new StringBuffer();
-        byte[] btTypeInPasswd = md.digest(password.getBytes());
-        for (int i = 0; i < btTypeInPasswd.length; i++)
-            sbTemp = sbTemp.append(btTypeInPasswd[i]);
-        password = sbTemp.toString();
-
-        userpassword = secBean.getPassword();
-        if (userpassword.length() < 20) {
-            sbTemp = new StringBuffer();
-            byte[] btDBPasswd = md.digest(userpassword.getBytes());
-            for (int i = 0; i < btDBPasswd.length; i++)
-                sbTemp = sbTemp.append(btDBPasswd[i]);
-            userpassword = sbTemp.toString();
-        }
-
-        if (password.equals(userpassword)) { // login successfully           
-        	String[] strAuth = new String[6];
+        if (isAuthenticated) {
+        // login successfully           
             strAuth[0] = secBean.getProvider_no();
             strAuth[1] = firstname;
             strAuth[2] = lastname;
             strAuth[3] = profession;
             strAuth[4] = rolename;
-            strAuth[5] = expired_days;            
-            return strAuth;
+            strAuth[5] = expired_days;
+        	return strAuth;
         } else { // login failed
             return cleanNullObj(LOG_PRE + "password failed: " + username);
         }

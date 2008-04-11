@@ -200,7 +200,7 @@ public class CustomFilter extends BaseObject {
 	public String getAssignee() {
 		if(getAssignees().size()>0) {
 			Provider p = (Provider)getAssignees().iterator().next();
-			return p.getProvider_no();
+			return p.getProviderNo();
 		}
 		return null;
 	}
@@ -213,7 +213,7 @@ public class CustomFilter extends BaseObject {
 	public String getProvider() {
 		if(getProviders().size()>0) {
 			Provider p = (Provider)getProviders().iterator().next();
-			return p.getProvider_no();
+			return p.getProviderNo();
 		}
 		return null;
 	}

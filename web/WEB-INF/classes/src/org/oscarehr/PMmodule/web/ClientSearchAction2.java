@@ -35,12 +35,15 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 
+import com.ibm.ws.http.HttpRequest;
 import com.quatro.service.LookupManager;
 
 public class ClientSearchAction2 extends BaseAction {
@@ -60,16 +63,8 @@ public class ClientSearchAction2 extends BaseAction {
 		}else{
 			request.getSession().setAttribute("outsideOfDomainEnabled","false");
 		}
-		
-		List<Program> allBedPrograms = new ArrayList<Program>();
-		Program[] allBedProgramsInArr = programManager.getBedPrograms();
 
-		for(int i=0; i < allBedProgramsInArr.length; i++){
-			allBedPrograms.add((Program)allBedProgramsInArr[i]);
-		}
-		request.setAttribute("allBedPrograms", allBedPrograms);
-		
-		request.setAttribute("genders",lookupManager.LoadCodeList("GEN", true, null, null));
+		setLookupLists(request);
 		
 		return mapping.findForward("form");
 	}
@@ -106,9 +101,23 @@ public class ClientSearchAction2 extends BaseAction {
 		if(formBean.isSearchOutsideDomain()) {
 			logManager.log("read","out of domain client search","",request);
 		}
-		request.setAttribute("genders",lookupManager.LoadCodeList("GEN", true, null, null));
-				
+		setLookupLists(request);
 		return mapping.findForward("form");
+	}
+	private void setLookupLists(HttpServletRequest request)
+	{
+		Integer facilityId = ((org.oscarehr.PMmodule.model.Facility)request.getSession().getAttribute("currentFacility")).getId();
+		
+		List<Program> allBedPrograms = new ArrayList<Program>();
+		Program[] allBedProgramsInArr = programManager.getBedPrograms(facilityId);
+
+		for(int i=0; i < allBedProgramsInArr.length; i++){
+			allBedPrograms.add((Program)allBedProgramsInArr[i]);
+		}
+		request.setAttribute("allBedPrograms", allBedPrograms);
+		List<Provider> allProviders = getProviderManager().getActiveProviders(facilityId.toString(),null);
+		request.setAttribute("allProviders", allProviders);
+		request.setAttribute("genders",lookupManager.LoadCodeList("GEN", true, null, null));
 	}
 
     public void setLookupManager(LookupManager lookupManager) {

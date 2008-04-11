@@ -310,7 +310,7 @@ public class PHRMessage  extends PHRDocument implements Serializable{
     
    
     public String getBody(){
-        String  ret = msg.getMessageContent().getAny().getTextContent();
+        String  ret = msg.getMessageContent().getAny().getNodeValue(); //getTextContent();
         if ( ret == null){
             return "";
         }

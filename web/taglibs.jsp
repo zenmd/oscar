@@ -17,3 +17,4 @@
 <%@ taglib uri="/WEB-INF/oscar-tag.tld" prefix="oscar" %>
 <%@ taglib uri="http://struts-menu.sf.net/tag" prefix="menu" %>
 <%@ taglib uri="http://struts-menu.sf.net/tag-el" prefix="menu-el" %>
+<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>

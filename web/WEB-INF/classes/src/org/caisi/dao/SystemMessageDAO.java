@@ -44,5 +44,15 @@ public class SystemMessageDAO extends HibernateDaoSupport  {
 	public void saveMessage(SystemMessage mesg) {
 		this.getHibernateTemplate().saveOrUpdate(mesg);
 	}
-
+	
+	public List getActiveMessages()
+	{
+		return this.getHibernateTemplate().find("from SystemMessage sm where sm.expiry_date >= now() order by sm.expiry_date desc");
+	}
+	public int getActiveMessageCount()
+	{
+        String query = "select count(*) from system_message t where where sm.expiry_date >= now()";
+        Long count = (Long) getHibernateTemplate().find(query).get(0);
+        return count.intValue();
+	}
 }

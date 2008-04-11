@@ -16,6 +16,10 @@
         </property>
     </bean>
 
+    <!-- ldap authentication -->
+	<bean id="ldapAuthentication" class="com.quatro.ldap.AuthenticationManager" lazy-init="default" dependency-check="none">
+	</bean>
+	
     <!-- data source configuration -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="default"
           autowire="default" dependency-check="default">
@@ -30,7 +34,6 @@
 		<property name="maxWait" value="4000" />
 
     </bean>
-
 
     <!-- hibernate session factory -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" lazy-init="default"
