@@ -91,9 +91,8 @@ public class SystemMessageAction extends DispatchAction {
 
         return list(mapping,form,request,response);
 	}
-	
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		List messages = mgr.getMessages();
+		List messages = mgr.getActiveMessages();
 		if(messages.size()>0) {
 			request.setAttribute("messages",messages);
 		}
