@@ -20,12 +20,16 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.service.ClientManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import com.quatro.common.LookupTagValue;
+import com.quatro.common.KeyConstants;
+import org.oscarehr.PMmodule.model.Program;
 
 public class IntakeEditAction extends DispatchAction {
     private ClientManager clientManager;
     private LookupManager lookupManager;
     private IntakeManager intakeManager;
+    private ProgramManager programManager;
 	
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		return edit(mapping,form,request,response);
@@ -44,7 +48,17 @@ public class IntakeEditAction extends DispatchAction {
         
         setOptionList(qform);
 
-		qform.setProgramList(new ArrayList());
+        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+        ArrayList lst= (ArrayList)programManager.getProgramDomainInFacility(
+        		(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO), 
+        		new Long(facilityId.longValue()));
+        ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
+        for(int i=0;i<lst.size();i++){
+           Program obj = (Program)lst.get(i);
+           lst2.add(new LabelValueBean(obj.getId().toString(), obj.getName()));
+        }
+        qform.setProgramList(lst2);
+//        qform.setProgramList(new ArrayList());
         
 		return mapping.findForward("edit");
 	}
@@ -111,6 +125,10 @@ public class IntakeEditAction extends DispatchAction {
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+	}
+
+	public void setProgramManager(ProgramManager programManager) {
+		this.programManager = programManager;
 	}
 
 }
