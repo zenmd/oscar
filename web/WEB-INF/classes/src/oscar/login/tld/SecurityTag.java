@@ -43,6 +43,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.oscarDB.DBHandler;
 import com.quatro.service.security.*;
+import com.quatro.common.KeyConstants;
 
 public class SecurityTag implements Tag {
     private PageContext pageContext;
@@ -170,7 +171,7 @@ public class SecurityTag implements Tag {
     private boolean checkPrivilege(String objName, String orgCd, String propPrivilege)
     {
     	com.quatro.service.security.SecurityManager secManager =(com.quatro.service.security.SecurityManager)pageContext.getSession().
-    			getAttribute(com.quatro.service.security.SecurityManager.SESSION_KEY); 
+    			getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER); 
     	if (orgCd == null) orgCd = "";
     	return secManager.GetAccess(objName, orgCd).compareToIgnoreCase(propPrivilege) >= 0;
     }
