@@ -46,6 +46,8 @@ import oscar.oscarSecurity.CRHelper;
 import oscar.util.AlertTimer;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
+import com.quatro.common.KeyConstants;
+import com.sun.msv.grammar.xmlschema.KeyConstraint;
 
 public final class LoginAction extends DispatchAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
@@ -144,7 +146,7 @@ public final class LoginAction extends DispatchAction {
             // initiate security manager
             UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
             SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo);
-            session.setAttribute(SecurityManager.SESSION_KEY, secManager);
+            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
             
             String default_pmm = null;
             if (viewType.equalsIgnoreCase("receptionist") || viewType.equalsIgnoreCase("doctor")) {
