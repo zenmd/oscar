@@ -172,6 +172,9 @@
 	<bean name="/Lookup/LookupTree" class="com.quatro.web.lookup.LookupTreeAction" singleton="false">
         <property name="lookupManager" ref="lookupManager"/>
 	</bean>
+    <bean name="/Lookup/LookupCodeList" class="com.quatro.web.lookup.LookupCodeListAction" singleton="false">
+        <property name="lookupManager" ref="lookupManager"/>
+    </bean>
 	<bean name="/Lookup/LookupCodeEdit" class="com.quatro.web.lookup.LookupCodeEditAction" singleton="false">
         <property name="lookupManager" ref="lookupManager"/>
 	</bean>

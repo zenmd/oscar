@@ -21,6 +21,10 @@
         <form-bean name="lookupTableListForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="modules" type="java.util.List"></form-property>
         </form-bean>
+        <form-bean name="lookupCodeListForm" type="org.apache.struts.validator.DynaValidatorForm">
+        	<form-property name="tableDef" type="com.quatro.model.LookupTableDefValue"></form-property>
+        	<form-property name="codes" type="java.util.List"></form-property>    
+        </form-bean>
         <form-bean name="lookupTreeForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="tableDef" type="com.quatro.model.LookupTableDefValue"></form-property>
         	<form-property name="tree" type="net.sf.navigator.menu.MenuRepository"></form-property>    
@@ -1568,18 +1572,18 @@
               name="lookupListForm" scope="request" validate="false">
             <forward name="list" path="/PMmodule/lookup/LookupList.jsp" />
         </action>
-
-
-        <action path="/Lookup/LookupTableList" type="org.springframework.web.struts.DelegatingActionProxy" 
-              name="lookupTableListForm" scope="request" validate="false" parameter="method">
-            <forward name="list" path="/PMmodule/lookup/LookupTableList.jsp" />
-        </action>
-
         <action path="/Lookup/LookupTree" type="org.springframework.web.struts.DelegatingActionProxy"
               name="lookupTreeForm" scope="request" validate="false" parameter="method">
             <forward name="tree" path="/PMmodule/lookup/LookupTree.jsp" />
         </action>
-
+        <action path="/Lookup/LookupTableList" type="org.springframework.web.struts.DelegatingActionProxy" 
+              name="lookupTableListForm" scope="request" validate="false" parameter="method">
+            <forward name="list" path="/PMmodule/lookup/LookupTableList.jsp" />
+        </action>
+        <action path="/Lookup/LookupCodeList" type="org.springframework.web.struts.DelegatingActionProxy" 
+              name="lookupCodeListForm" scope="request" validate="false" parameter="method">
+            <forward name="list" path="/PMmodule/lookup/LookupCodeList.jsp" />
+        </action>
         <action path="/Lookup/LookupCodeEdit" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" 
               name="lookupCodeEditForm" scope="session" validate="false" input="/PMmodule/lookup/LookupCodeEdit.jsp">
             <forward name="edit" path="/PMmodule/lookup/LookupCodeEdit.jsp" />
