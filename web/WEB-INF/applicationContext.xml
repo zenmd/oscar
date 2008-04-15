@@ -17,7 +17,7 @@
     </bean>
 
     <!-- ldap authentication -->
-	<bean id="ldapAuthentication" class="com.quatro.ldap.AuthenticationManager" lazy-init="default" dependency-check="none">
+	<bean id="ldapAuthentication" class="${ldap_authentication_class}" lazy-init="default" dependency-check="none">
 	</bean>
 	
     <!-- data source configuration -->
