@@ -1,0 +1,93 @@
+package org.oscarehr.PMmodule.model;
+
+import java.io.Serializable;
+
+import org.apache.commons.lang.builder.CompareToBuilder;
+
+public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Serializable {
+	private static final long serialVersionUID = 1L;
+    private int hashCode = Integer.MIN_VALUE;
+
+    private Integer id;// fields
+    private Integer intakeId;
+    private Integer intakeNodeId;
+    private String value;
+
+    public QuatroIntakeAnswer(){
+    }
+    
+    public QuatroIntakeAnswer(int intakeNodeId, String value){
+       	this.intakeNodeId=new Integer(intakeNodeId);
+       	this.value=value;
+    }
+    
+    public boolean equals(Object obj) {
+        if (null == obj)
+            return false;
+        if (!(obj instanceof QuatroIntake))
+            return false;
+        else {
+        	QuatroIntakeAnswer intakeAnswer = (QuatroIntakeAnswer) obj;
+            if (null == this.getId() || null == intakeAnswer.getId())
+                return false;
+            else
+                return (this.getId().equals(intakeAnswer.getId()));
+        }
+    }
+
+    public int hashCode() {
+        if (Integer.MIN_VALUE == this.hashCode) {
+            if (null == this.getId())
+                return super.hashCode();
+            else {
+                String hashStr = this.getClass().getName() + ":" + this.getId().hashCode();
+                this.hashCode = hashStr.hashCode();
+            }
+        }
+        return this.hashCode;
+    }
+
+	public int compareTo(QuatroIntakeAnswer answer) {
+		CompareToBuilder compareToBuilder = new CompareToBuilder();
+		compareToBuilder.append(getIntakeNodeId(), answer.getIntakeNodeId());
+		
+		return compareToBuilder.toComparison();
+	}
+    
+	public String toString() {
+		return new StringBuilder("QuatroIntakeAnswer").append("(").append(getId()).append(", ").append(getValue()).append(")").toString();
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getIntakeId() {
+		return intakeId;
+	}
+
+	public void setIntakeId(Integer intakeId) {
+		this.intakeId = intakeId;
+	}
+
+	public Integer getIntakeNodeId() {
+		return intakeNodeId;
+	}
+
+	public void setIntakeNodeId(Integer intakeNodeId) {
+		this.intakeNodeId = intakeNodeId;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+    
+}

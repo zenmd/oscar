@@ -42,8 +42,8 @@ function openRelations(){
 function updateQuickIntake(clientId) {
 	location.href = '<html:rewrite action="/PMmodule/GenericIntake/Edit.do"/>' + "?method=update&type=quick&clientId=" + clientId;
 }
-function updateQuatroIntake(clientId) {
-	location.href = '<html:rewrite action="/PMmodule/QuatroIntake/Edit.do"/>' + "?method=update&type=quick&clientId=" + clientId;
+function updateQuatroIntake(clientId, intakeId) {
+	location.href = '<html:rewrite action="/PMmodule/QuatroIntake/Edit.do"/>' + "?method=update&intakeId=" + intakeId + "&clientId=" + clientId;
 }
 
 function printQuickIntake(clientId) {
@@ -379,6 +379,30 @@ function openSurvey() {
 			<th>Actions</th>
 		</tr>
 	</thead>
+    <caisi:isModuleLoad moduleName="TORONTO_RFQ">
+    <logic-el:iterate id="intake" collection="${quatroIntake}">
+	<tr>
+		<td width="20%">Registration Intake</td>
+			<td><c:out value="${intake.createdOnStr}" /></td>
+			<td><c:out value="${sessionScope.provider.formattedName}" /></td>
+			<td><c:out value="${intake.intakeStatus}"/></td>
+		    <td>
+			<input type="button" value="Update" onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />&nbsp;
+			</td>
+     </tr>
+     </logic-el:iterate>						
+	 <tr>
+		<td width="20%">Registration Intake</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		    <td>
+			<input type="button" value="Create" onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" />&nbsp;
+			</td>
+	</tr>
+	</caisi:isModuleLoad>
+
+    <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
 	<tr>
 		<td width="20%">Registration Intake</td>
 		<c:if test="${mostRecentQuickIntake != null}">
@@ -390,12 +414,7 @@ function openSurvey() {
 					if (!UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external))
 					{
 						%>
-			            <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
 						<input type="button" value="Update" onclick="updateQuickIntake('<c:out value="${client.demographicNo}" />')" />&nbsp;
-						</caisi:isModuleLoad>
-			            <caisi:isModuleLoad moduleName="TORONTO_RFQ">
-						<input type="button" value="Update" onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />')" />&nbsp;
-						</caisi:isModuleLoad>
 						<%
 					}
 				%>			
@@ -406,15 +425,11 @@ function openSurvey() {
 			<td><span style="color:red">None found</span></td>
 			<td></td>
 			<td>
-            <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
 			<input type="button" value="Create" onclick="updateQuickIntake('<c:out value="${client.demographicNo}" />')" />
-			</caisi:isModuleLoad>
-            <caisi:isModuleLoad moduleName="TORONTO_RFQ">
-			<input type="button" value="Create" onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />')" />
-			</caisi:isModuleLoad>
 			</td>
 		</c:if>
 	</tr>
+    </caisi:isModuleLoad>
 </table>
 <br />
 

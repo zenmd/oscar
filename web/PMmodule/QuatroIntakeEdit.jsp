@@ -9,6 +9,7 @@
 <html-el:form action="/PMmodule/QuatroIntake/Edit.do">
 <html:hidden property="type"/>
 <html:hidden property="clientId"/>
+<html:hidden property="intakeId"/>
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
@@ -75,11 +76,6 @@
 <td cospan="2"><html-el:select property="curSleepArrangement">
 <html-el:optionsCollection property="optionList.curSleepArrangement" value="value" label="label"/>
 </html-el:select></td><td></td></tr>
-<tr><td>VAW</td>
-<td><html-el:select property="VAW">
-   <html-el:option value="Y" key="1" />
-   <html-el:option value="N" key="0" />
-</html-el:select></td><td></td><td></td></tr>
 <tr><td>Have you stayed in a shelter Before?</td>
 <td><html-el:select property="inShelterBefore">
    <html-el:option value="Y" key="1" />
@@ -139,10 +135,6 @@
 <td><html-el:text property="healthCardNo" size="20" maxlength="30" /></td>
 <td>On file?</td>
 <td><html-el:checkbox property="healthCardNoYN" /></td></tr>
-<tr><td>Social Insurance No.</td>
-<td><html-el:text property="SIN" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="SINYN" /></td></tr>
 <tr><td>Driver's License No.</td>
 <td><html-el:text property="driverLicenseNo" size="20" maxlength="30" /></td>
 <td>On file?</td>

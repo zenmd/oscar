@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.oscarehr.PMmodule.model">
+	<class name="QuatroIntakeAnswer" table="intake_answer">
+		<id name="id" type="integer" column="intake_answer_id">
+			<generator class="native" />
+		</id>
+
+		<property name="intakeNodeId" column="intake_node_id"/>
+		<property name="value" column="val" type="string" not-null="true" />
+		<property name="intakeId" column="intake_id" />
+	</class>
+</hibernate-mapping>

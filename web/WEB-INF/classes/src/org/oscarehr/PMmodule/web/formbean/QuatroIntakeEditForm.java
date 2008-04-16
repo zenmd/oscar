@@ -9,6 +9,7 @@ import java.util.List;
 public class QuatroIntakeEditForm extends ValidatorForm{
     private String type;
     private String clientId;
+    private String intakeId;
 	
 	private String dob;
     private Demographic client;
@@ -478,6 +479,12 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getIntakeId() {
+		return intakeId;
+	}
+	public void setIntakeId(String intakeId) {
+		this.intakeId = intakeId;
 	}
 
 }

@@ -61,6 +61,7 @@ import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Intake;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.JointAdmission;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
@@ -98,6 +99,8 @@ import org.springframework.beans.factory.annotation.Required;
 import oscar.oscarDemographic.data.DemographicRelationship;
 
 import com.quatro.service.LookupManager;
+import com.quatro.service.IntakeManager;
+import com.quatro.common.KeyConstants;
 
 public class ClientManagerAction extends BaseAction {
 
@@ -122,6 +125,8 @@ public class ClientManagerAction extends BaseAction {
 
     private GenericIntakeManager genericIntakeManager;
 
+    private IntakeManager intakeManager;
+    
     private AgencyManager agencyManager;
 
     private RoomDemographicManager roomDemographicManager;
@@ -1285,6 +1290,10 @@ public class ClientManagerAction extends BaseAction {
             Intake mostRecentQuickIntake = genericIntakeManager.getMostRecentQuickIntakeByFacility(Integer.valueOf(demographicNo), facilityId);
             request.setAttribute("mostRecentQuickIntake", mostRecentQuickIntake);
 
+            String providerNo2 = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+            List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo2);
+            request.setAttribute("quatroIntake", lstIntake);
+            
             HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Long.valueOf(demographicNo));
             request.setAttribute("healthsafety", healthsafety);
 
@@ -1590,4 +1599,8 @@ public class ClientManagerAction extends BaseAction {
     public void setRoomManager(RoomManager roomManager) {
     	this.roomManager = roomManager;
     }
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
 }
