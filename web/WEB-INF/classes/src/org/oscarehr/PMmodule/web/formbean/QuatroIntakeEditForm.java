@@ -3,11 +3,11 @@ package org.oscarehr.PMmodule.web.formbean;
 import org.apache.struts.validator.ValidatorForm;
 import org.oscarehr.PMmodule.model.Demographic;
 import com.quatro.web.intake.OptionList;
-import com.quatro.common.LookupTagValue;
+import com.quatro.model.LookupCodeValue;
 import java.util.List;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 
 public class QuatroIntakeEditForm extends ValidatorForm{
-    private String type;
     private String clientId;
     private String intakeId;
 	
@@ -17,6 +17,84 @@ public class QuatroIntakeEditForm extends ValidatorForm{
     private OptionList optionList;
     private List programList;
 
+    private LookupCodeValue language;
+    private LookupCodeValue originalCountry;
+    
+    private QuatroIntake intake;
+
+	public Demographic getClient() {
+		return client;
+	}
+
+	public void setClient(Demographic client) {
+		this.client = client;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public QuatroIntake getIntake() {
+		return intake;
+	}
+
+	public void setIntake(QuatroIntake intake) {
+		this.intake = intake;
+	}
+
+	public String getIntakeId() {
+		return intakeId;
+	}
+
+	public void setIntakeId(String intakeId) {
+		this.intakeId = intakeId;
+	}
+
+	public LookupCodeValue getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(LookupCodeValue language) {
+		this.language = language;
+	}
+
+	public OptionList getOptionList() {
+		return optionList;
+	}
+
+	public void setOptionList(OptionList optionList) {
+		this.optionList = optionList;
+	}
+
+	public LookupCodeValue getOriginalCountry() {
+		return originalCountry;
+	}
+
+	public void setOriginalCountry(LookupCodeValue originalCountry) {
+		this.originalCountry = originalCountry;
+	}
+
+	public List getProgramList() {
+		return programList;
+	}
+
+	public void setProgramList(List programList) {
+		this.programList = programList;
+	}
+    
+/*    
     private String referredBy;
     private String contactName;
     private String contactNumber;
@@ -474,17 +552,12 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
 	public String getIntakeId() {
 		return intakeId;
 	}
 	public void setIntakeId(String intakeId) {
 		this.intakeId = intakeId;
 	}
-
+*/
+    
 }

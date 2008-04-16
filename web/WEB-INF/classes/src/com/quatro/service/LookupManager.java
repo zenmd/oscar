@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.quatro.dao.LookupDao;
 import com.quatro.model.LookupTableDefValue;
+import com.quatro.model.LookupCodeValue;
 
 public class LookupManager {
     private LookupDao lookupDao=null;
@@ -21,7 +22,11 @@ public class LookupManager {
         return lookupDao.GetLookupTableDef(tableId);
     }
 	
-	public LookupDao getLookupDao() {
+    public LookupCodeValue GetLookupCode(String tableId, String code){
+        return lookupDao.GetCode(tableId, code);
+    }
+
+    public LookupDao getLookupDao() {
 		return lookupDao;
 	}
 

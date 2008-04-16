@@ -135,9 +135,14 @@ public final class LoginAction extends DispatchAction {
             // get View Type
             String viewType = LoginViewTypeHlp.getInstance().getProperty(strAuth[3].toLowerCase());
             String providerNo = strAuth[0];
-            session.setAttribute("user", strAuth[0]);
-            session.setAttribute("userfirstname", strAuth[1]);
-            session.setAttribute("userlastname", strAuth[2]);
+
+//            session.setAttribute("user", strAuth[0]);
+//            session.setAttribute("userfirstname", strAuth[1]);
+//            session.setAttribute("userlastname", strAuth[2]);
+
+            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, strAuth[0]);
+            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, strAuth[2] + ", "+ strAuth[1]);
+            
             session.setAttribute("userprofession", viewType);
             session.setAttribute("userrole", strAuth[4]);
             session.setAttribute("oscar_context_path", request.getContextPath());

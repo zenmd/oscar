@@ -9,22 +9,24 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
     private int hashCode = Integer.MIN_VALUE;
 
     private Integer id;// fields
-    private Integer intakeId;
+//    private Integer intakeId;
     private Integer intakeNodeId;
     private String value;
+    private QuatroIntakeDB intake;
 
     public QuatroIntakeAnswer(){
     }
     
-    public QuatroIntakeAnswer(int intakeNodeId, String value){
+    public QuatroIntakeAnswer(int intakeNodeId, String value, int id){
        	this.intakeNodeId=new Integer(intakeNodeId);
        	this.value=value;
+       	this.id=id;
     }
     
     public boolean equals(Object obj) {
         if (null == obj)
             return false;
-        if (!(obj instanceof QuatroIntake))
+        if (!(obj instanceof QuatroIntakeAnswer))
             return false;
         else {
         	QuatroIntakeAnswer intakeAnswer = (QuatroIntakeAnswer) obj;
@@ -65,7 +67,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+/*
 	public Integer getIntakeId() {
 		return intakeId;
 	}
@@ -73,7 +75,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 	public void setIntakeId(Integer intakeId) {
 		this.intakeId = intakeId;
 	}
-
+*/
 	public Integer getIntakeNodeId() {
 		return intakeNodeId;
 	}
@@ -88,6 +90,14 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public QuatroIntakeDB getIntake() {
+		return intake;
+	}
+
+	public void setIntake(QuatroIntakeDB intake) {
+		this.intake = intake;
 	}
     
 }

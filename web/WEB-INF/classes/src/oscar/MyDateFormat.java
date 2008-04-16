@@ -125,6 +125,14 @@ public class MyDateFormat {
     {
         if (pDate == null || "".equals(pDate)) return null;
         if ("TODAY".equals(pDate.toUpperCase())) return new java.sql.Date(new Date().getTime());
+        Calendar cal =getCalendar(pDate);
+        return new java.sql.Date(cal.getTime().getTime());
+    }
+
+	public static Calendar getCalendar(String pDate)
+    {
+        if (pDate == null || "".equals(pDate)) return null;
+        if ("TODAY".equals(pDate.toUpperCase())) return Calendar.getInstance();
         try
         {
         	char sep = '-';
@@ -155,7 +163,7 @@ public class MyDateFormat {
         		month = month - 1;
         	}
             GregorianCalendar cal = new GregorianCalendar(year, month, day);
-            return new java.sql.Date(cal.getTime().getTime());
+            return cal;
         }
         catch (Exception e)
         {
