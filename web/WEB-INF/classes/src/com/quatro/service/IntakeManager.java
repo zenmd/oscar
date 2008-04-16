@@ -6,8 +6,9 @@ import java.util.HashMap;
 import com.quatro.dao.IntakeDao;
 import com.quatro.web.intake.OptionList;
 import com.quatro.model.QuatroIntakeOptionValue;
-import com.quatro.web.intake.OptionListConstant;
+import com.quatro.web.intake.IntakeConstant;
 import org.apache.struts.util.LabelValueBean;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 
 public class IntakeManager {
     private IntakeDao intakeDao;
@@ -23,7 +24,7 @@ public class IntakeManager {
 	public OptionList LoadOptionsList() {
         List lst=intakeDao.LoadOptionsList();
         OptionList lst2= new OptionList();
-        HashMap<Integer, String> map= OptionListConstant.getPrefixDefined();
+        HashMap<Integer, String> map= IntakeConstant.getPrefixDefined();
 
         ArrayList[] lst3 = new ArrayList[11];
         for(int i=0;i<11;i++) lst3[i]= new ArrayList();
@@ -52,5 +53,16 @@ public class IntakeManager {
         return lst2;
 	}
 
+	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
+		return intakeDao.getQuatroIntakeHeaderListByFacility(clientId, facilityId, providerNo);
+	}
+
+	public QuatroIntake getQuatroIntake(Integer intakeId) {
+		return intakeDao.getQuatroIntake(intakeId);
+	}
 	
+	public void saveQuatroIntake(QuatroIntake intake) {
+		intakeDao.saveQuatroIntake(intake);
+	}
+
 }

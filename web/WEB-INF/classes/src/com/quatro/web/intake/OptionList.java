@@ -25,47 +25,47 @@ public class OptionList {
   }
   
   public List getGender(){
-	  return (List)optionValues.get(OptionListConstant.GENDER);
+	  return (List)optionValues.get(IntakeConstant.GENDER);
   }
   
   public List getReferredBy(){
-	  return (List)optionValues.get(OptionListConstant.REFERREDBY);
+	  return (List)optionValues.get(IntakeConstant.REFERREDBY);
   }
 
   public List getAboriginal(){
-	  return (List)optionValues.get(OptionListConstant.ABORIGINAL);
+	  return (List)optionValues.get(IntakeConstant.ABORIGINAL);
   }
 
   public List getCurSleepArrangement(){
-	  return (List)optionValues.get(OptionListConstant.CURSLEEPARRANGEMENT);
+	  return (List)optionValues.get(IntakeConstant.CURSLEEPARRANGEMENT);
   }
 
   public List getLengthOfHomeless(){
-	  return (List)optionValues.get(OptionListConstant.LENGTHOFHOMELESS);
+	  return (List)optionValues.get(IntakeConstant.LENGTHOFHOMELESS);
   }
 
   public List getReasonForHomeless(){
-	  return (List)optionValues.get(OptionListConstant.REASONFORHOMELESS);
+	  return (List)optionValues.get(IntakeConstant.REASONFORHOMELESS);
   }
 
   public List getSourceIncome(){
-	  return (List)optionValues.get(OptionListConstant.SOURCEINCOME);
+	  return (List)optionValues.get(IntakeConstant.SOURCEINCOME);
   }
   
   public List getLivedBefore(){
-	  return (List)optionValues.get(OptionListConstant.LIVEDBEFORE);
+	  return (List)optionValues.get(IntakeConstant.LIVEDBEFORE);
   }
 
   public List getStatusInCanada(){
-	  return (List)optionValues.get(OptionListConstant.STATUSINCANADA);
+	  return (List)optionValues.get(IntakeConstant.STATUSINCANADA);
   }
 
   public List getReferredTo(){
-	  return (List)optionValues.get(OptionListConstant.REFERREDTO);
+	  return (List)optionValues.get(IntakeConstant.REFERREDTO);
   }
 
   public List getReasonNoAdmit(){
-	  return (List)optionValues.get(OptionListConstant.REASONNOADMIT);
+	  return (List)optionValues.get(IntakeConstant.REASONNOADMIT);
   }
   
 }

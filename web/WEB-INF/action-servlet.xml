@@ -39,6 +39,7 @@
         <property name="surveyManager" ref="oscarSurveyManager"/>        
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="lookupManager" ref="lookupManager"/>       
+        <property name="intakeManager" ref="intakeManager"/>       
     </bean>
     <bean name="/PMmodule/ProviderInfo" class="org.oscarehr.PMmodule.web.ProviderInfoAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
