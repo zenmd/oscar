@@ -27,7 +27,13 @@ public class IntakeManager {
         HashMap<Integer, String> map= IntakeConstant.getPrefixDefined();
 
         ArrayList[] lst3 = new ArrayList[11];
-        for(int i=0;i<11;i++) lst3[i]= new ArrayList();
+        for(int i=0;i<11;i++){
+           lst3[i]= new ArrayList();
+           LabelValueBean obj2 = new LabelValueBean();
+   	       obj2.setLabel("  ");
+       	   obj2.setValue("");
+           lst3[i].add(obj2);
+        }
         
         boolean getRec;
         for(int i=0;i<11;i++){
@@ -61,8 +67,8 @@ public class IntakeManager {
 		return intakeDao.getQuatroIntake(intakeId);
 	}
 	
-	public void saveQuatroIntake(QuatroIntake intake) {
-		intakeDao.saveQuatroIntake(intake);
+	public Integer saveQuatroIntake(QuatroIntake intake) {
+		return intakeDao.saveQuatroIntake(intake);
 	}
 
 }

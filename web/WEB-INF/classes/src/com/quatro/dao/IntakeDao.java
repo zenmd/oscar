@@ -1,8 +1,18 @@
 package com.quatro.dao;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.model.QuatroIntakeOptionValue;
+import com.quatro.web.intake.IntakeConstant;
+
+import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 
 
@@ -14,13 +24,218 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 
 	public QuatroIntake getQuatroIntake(Integer intakeId) {
-		List result = getHibernateTemplate().find("from QuatroIntake i where i.id = ?",
+		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?",
 		  new Object[] {intakeId});
 
-		if(result.size()==0)
+		if(result.size()==0){
 		  return null;
-		else
-		  return (QuatroIntake)result.get(0);
+		}else{
+			QuatroIntakeDB intakeDb= (QuatroIntakeDB)result.get(0);
+			QuatroIntake intake= new QuatroIntake();
+	        for(QuatroIntakeAnswer obj: intakeDb.getAnswers()){
+	        	switch(obj.getIntakeNodeId()){
+	        	   //Referered by
+	        	   case IntakeConstant.REFERREDBY:
+		        	 intake.setReferredBy(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.CONTACTNAME:
+		        	 intake.setContactName(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.CONTACTNUMBER:
+		        	 intake.setContactNumber(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.CONTACTEMAIL:
+		        	 intake.setContactEmail(obj.getValue());  
+		          	 break;
+
+	        	   //Other information
+	        	   case IntakeConstant.LANGUAGE:
+		        	 intake.setAboriginalOther(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.YOUTH:
+		        	 intake.setYouth(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.ABORIGINAL:
+	        		 intake.setAboriginal(obj.getValue());  
+	        		 break;
+	        	   case IntakeConstant.ABORIGINALOTHER:
+		        	 intake.setAboriginalOther(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.VAW:
+		        	 intake.setVAW(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.CURSLEEPARRANGEMENT:
+		        	 intake.setCurSleepArrangement(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.INSHELTERBEFORE:
+		        	 intake.setInShelterBefore(obj.getValue());  
+		          	 break;
+	        	   case IntakeConstant.LENGTHOFHOMELESS:
+			         intake.setLengthOfHomeless(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.REASONFORHOMELESS:
+			         intake.setReasonForHomeless(obj.getValue());  
+			         break;
+	          		 
+	          	   //Presenting issues
+	        	   case IntakeConstant.PREGNANT:
+			         intake.setPregnant(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.DISCLOSEDABUSE:
+			         intake.setDisclosedAbuse(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.DISABILITY:
+			         intake.setDisability(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.OBSERVEDABUSE:
+			         intake.setObservedAbuse(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.DISCLOSEDMENTALISSUE:
+			         intake.setDisclosedMentalIssue(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.POORHYGIENE:
+			         intake.setPoorHygiene(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.OBSERVEDMENTALISSUE:
+			         intake.setObservedMentalIssue(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.DISCLOSEDALCOHOLABUSE:
+			         intake.setDisclosedAlcoholAbuse(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.OBSERVEDALCOHOLABUSE:
+			         intake.setObservedAlcoholAbuse(obj.getValue());  
+			         break;
+
+                   //Identification
+	        	   case IntakeConstant.BIRTHCERTIFICATE:
+			         intake.setBirthCertificate(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.BIRTHCERTIFICATEYN:
+			         intake.setBirthCertificateYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.SIN:
+			         intake.setSIN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.SINYN:
+			         intake.setSINYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.HEALTHCARDNO:
+			         intake.setHealthCardNo(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.HEALTHCARDNOYN:
+			         intake.setHealthCardNoYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.DRIVERLICENSENO:
+			         intake.setDriverLicenseNo(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.DRIVERLICENSENOYN:
+			         intake.setDriverLicenseNoYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.CITIZENCARDNO:
+			         intake.setCitizenCardNo(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.CITIZENCARDNOYN:
+			         intake.setCitizenCardNoYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.NATIVERESERVENO:
+			         intake.setNativeReserveNo(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.NATIVERESERVENOYN:
+			         intake.setNativeReserveNoYN(obj.getValue());  
+			         break;
+
+	        	   case IntakeConstant.VETERANNO:
+			         intake.setVeteranNo(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.VETERANNOYN:
+			         intake.setVeteranNoYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.RECORDLANDING:
+			         intake.setRecordLanding(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.RECORDLANDINGYN:
+			         intake.setRecordLandingYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.LIBRARYCARD:
+			         intake.setLibraryCard(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.LIBRARYCARDYN:
+			         intake.setLibraryCardYN(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.IDOTHER:
+			         intake.setIdOther(obj.getValue());  
+			         break;
+	        	   
+	        	   //Additional information
+			       case IntakeConstant.SOURCEINCOME:
+			         intake.setSourceIncome(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOME:
+			         intake.setIncome(obj.getValue());  
+			         break;
+
+	        	   case IntakeConstant.INCOMEWORKERNAME1:
+			         intake.setIncomeWorkerName1(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKERPHONE1:
+			         intake.setIncomeWorkerPhone1(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKEREMAIL1:
+			         intake.setIncomeWorkerEmail1(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKERNAME2:
+			         intake.setIncomeWorkerName2(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKERPHONE2:
+			         intake.setIncomeWorkerPhone2(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKEREMAIL2:
+			         intake.setIncomeWorkerEmail2(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKERNAME3:
+			         intake.setIncomeWorkerName3(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKERPHONE3:
+			         intake.setIncomeWorkerPhone3(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.INCOMEWORKEREMAIL3:
+			         intake.setIncomeWorkerEmail3(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.LIVEDBEFORE:
+			         intake.setLivedBefore(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.LIVEDBEFOREOTHER:
+			         intake.setLivedBeforeOther(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.STATUSINCANADA:
+			         intake.setStatusInCanada(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.ORIGINALCOUNTRY:
+			         intake.setOriginalCountry(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.REFERREDTO:
+			         intake.setReferredTo(obj.getValue());  
+			         break;
+	        	   case IntakeConstant.REASONNOADMIT:
+			         intake.setReasonNoAdmit(obj.getValue());  
+			         break;
+
+			       //Program
+//	        	   case IntakeConstant.PROGRAM:
+//			         intake.setProgram(obj.getValue());  
+//			         break;
+
+			       //Comments
+	        	   case IntakeConstant.COMMENTS:
+			         intake.setComments(obj.getValue());  
+			         break;
+			         
+	        	}
+	        }
+	        
+	        return intake;
+			
+		}
 		
 	}
 
@@ -36,8 +251,100 @@ public class IntakeDao extends HibernateDaoSupport {
 		return results;
 	}
 
-	public void saveQuatroIntake(QuatroIntake intake){
-	     getHibernateTemplate().saveOrUpdate(intake);
+	public Integer saveQuatroIntake(QuatroIntake intake){
+	    QuatroIntakeDB intakeDb= new QuatroIntakeDB();
+	    
+	    intakeDb.setId(intake.getId());
+	    
+	    intakeDb.setClientId(intake.getClientId());
+	    intakeDb.setCreatedOn(intake.getCreatedOn());
+	    intakeDb.setProgramId(intake.getProgramId());
+	    intakeDb.setStaffId(intake.getStaffId());
+
+		Set<QuatroIntakeAnswer> obj= new TreeSet<QuatroIntakeAnswer>();
+
+		int i=1;
+		//Referred by
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.REFERREDBY, intake.getReferredBy(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CONTACTNAME, intake.getContactName(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CONTACTNUMBER, intake.getContactNumber(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CONTACTEMAIL, intake.getContactEmail(), i++));
+
+		//Other information
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.LANGUAGE, intake.getLanguage(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.YOUTH, intake.getYouth(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.ABORIGINAL, intake.getAboriginal(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.ABORIGINALOTHER, intake.getAboriginalOther(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.VAW, intake.getVAW(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CURSLEEPARRANGEMENT, intake.getCurSleepArrangement(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INSHELTERBEFORE, intake.getInShelterBefore(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.LENGTHOFHOMELESS, intake.getLengthOfHomeless(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.REASONFORHOMELESS, intake.getReasonForHomeless(), i++));
+
+        //Presenting issues
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.PREGNANT, intake.getPregnant(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.DISCLOSEDABUSE, intake.getDisclosedAbuse(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.DISABILITY, intake.getDisability(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.OBSERVEDABUSE, intake.getObservedAbuse(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.DISCLOSEDMENTALISSUE, intake.getDisclosedMentalIssue(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.POORHYGIENE, intake.getPoorHygiene(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.OBSERVEDMENTALISSUE, intake.getObservedMentalIssue(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.DISCLOSEDALCOHOLABUSE, intake.getDisclosedAlcoholAbuse(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.OBSERVEDALCOHOLABUSE, intake.getObservedAlcoholAbuse(), i++));
+		
+		//Identification
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.BIRTHCERTIFICATE, intake.getBirthCertificate(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.BIRTHCERTIFICATEYN, intake.getBirthCertificateYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.SIN, intake.getSIN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.SINYN, intake.getSINYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.HEALTHCARDNO, intake.getHealthCardNo(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.HEALTHCARDNOYN, intake.getHealthCardNoYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.DRIVERLICENSENO, intake.getDriverLicenseNo(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.DRIVERLICENSENOYN, intake.getDriverLicenseNoYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CITIZENCARDNO, intake.getCitizenCardNo(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CITIZENCARDNOYN, intake.getCitizenCardNoYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.NATIVERESERVENO, intake.getNativeReserveNo(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.NATIVERESERVENOYN, intake.getNativeReserveNoYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.VETERANNO, intake.getVeteranNo(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.VETERANNOYN, intake.getVeteranNoYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.RECORDLANDING, intake.getRecordLanding(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.RECORDLANDINGYN, intake.getRecordLandingYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.LIBRARYCARD, intake.getLibraryCard(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.LIBRARYCARDYN, intake.getLibraryCardYN(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.IDOTHER, intake.getIdOther(), i++));
+		
+		//Additional information
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.SOURCEINCOME, intake.getSourceIncome(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOME, intake.getIncome(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKERNAME1, intake.getIncomeWorkerName1(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKERPHONE1, intake.getIncomeWorkerPhone1(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKEREMAIL1, intake.getIncomeWorkerEmail1(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKERNAME2, intake.getIncomeWorkerName2(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKERPHONE2, intake.getIncomeWorkerPhone2(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKEREMAIL2, intake.getIncomeWorkerEmail2(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKERNAME3, intake.getIncomeWorkerName3(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKERPHONE3, intake.getIncomeWorkerPhone3(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.INCOMEWORKEREMAIL3, intake.getIncomeWorkerEmail3(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.LIVEDBEFORE, intake.getLivedBefore(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.LIVEDBEFOREOTHER, intake.getLivedBeforeOther(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.STATUSINCANADA, intake.getStatusInCanada(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.ORIGINALCOUNTRY, intake.getOriginalCountry(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.REFERREDTO, intake.getReferredTo(), i++));
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.REASONNOADMIT, intake.getReasonNoAdmit(), i++));
+
+		//Program
+//		obj.add(new QuatroIntakeAnswer(IntakeConstant.PROGRAM, intake.get.getProgram()));
+		
+		//Comments
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.COMMENTS, intake.getComments(), i++));
+		
+		intakeDb.setAnswers(obj);
+	    
+//		if(intakeDb.getId().intValue()>0)
+//		  getHibernateTemplate().update(intakeDb);
+//		else
+		  getHibernateTemplate().saveOrUpdate(intakeDb);
+		  return intakeDb.getId();
 	}
 	
 }
