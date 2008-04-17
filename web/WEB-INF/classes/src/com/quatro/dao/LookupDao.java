@@ -19,12 +19,14 @@ import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.util.Utility;
 
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.Facility;
 
 public class LookupDao extends HibernateDaoSupport {
 
 	/* Column property mappings defined by the generic idx 
 	 *  1 - Code 2 - Description 3 Active 
-	 *  4 - Display Order, aka LineId 5 - ParentCode 6 - Buf1
+	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree
 	 */
 	
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
@@ -96,8 +98,12 @@ public class LookupDao extends HibernateDaoSupport {
 		 sSQL = sSQL1 + "(" + sSQL + ") b";
 		 sSQL += " where b." + fieldNames[6] + " like a." + fieldNames[6] + "||'%'";
 	   }
-	   
-	   sSQL += " order by 7,4,5,2";
+	   if (tableDef.isTree())
+	   {
+		   sSQL += " order by 7,1";
+	   } else {
+		   sSQL += " order by 4,5,2";
+	   }
 	   DBPreparedHandlerParam [] pars = new DBPreparedHandlerParam[i];
 	   for(int j=0; j<i;j++)
 	   {
@@ -114,7 +120,7 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setCode(rs.getString(1));
 			   lv.setDescription(db.getString(rs, 2));
 			   lv.setActive(1 == Integer.valueOf("0" + db.getString(rs, 3)));
-			   lv.setLineId(Integer.valueOf("0" + db.getString(rs,4)));
+			   lv.setOrderByIndex(Integer.valueOf("0" + db.getString(rs,4)));
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
 			   lv.setCodeTree(db.getString(rs, 7));
@@ -251,14 +257,63 @@ public class LookupDao extends HibernateDaoSupport {
 	
 	public String SaveCodeValue(boolean isNew, LookupTableDefValue tableDef, List fieldDefList) throws SQLException
 	{
+		String id = "";
+		if (isNew)
+		{
+			id = InsertCodeValue(tableDef, fieldDefList);
+		}
+		else
+		{
+			id = UpdateCodeValue(tableDef,fieldDefList);
+		}
+		if ("OGN".equals(tableDef.getTableId()))
+		{
+			SaveAsOrgCode(GetCode("OGN", id)); 
+		}
+		return id;
+	}
+	public String SaveCodeValue(boolean isNew, LookupCodeValue codeValue) throws SQLException
+	{
+		String tableId = codeValue.getPrefix();
+		LookupTableDefValue  tableDef = GetLookupTableDef(tableId);
+		List fieldDefList = this.LoadFieldDefList(tableId);
+		for(int i=0; i<fieldDefList.size(); i++)
+		{
+			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
+			
+			switch(fdv.getGenericIdx())
+			{
+			case 1:
+				fdv.setVal(codeValue.getCode());
+				break;
+			case 2:
+				fdv.setVal(codeValue.getDescription());
+				break;
+			case 3:
+				fdv.setVal(codeValue.isActive()?"1":"0");
+				break;
+			case 4:
+				fdv.setVal(String.valueOf(codeValue.getOrderByIndex()));
+				break;
+			case 5:
+				fdv.setVal(codeValue.getParentCode());
+				break;
+			case 6:
+				fdv.setVal(codeValue.getBuf1());
+				break;
+			case 7:
+				fdv.setVal(codeValue.getCodeTree());
+			}
+		}
 		if (isNew) 
 		{
 			return InsertCodeValue(tableDef, fieldDefList);
 		}
 		else
+		{
 			return UpdateCodeValue(tableDef,fieldDefList);
+		}
 	}
-	
 	private String InsertCodeValue(LookupTableDefValue tableDef, List fieldDefList) throws SQLException
 	{
 		String tableName = tableDef.getTableName();
@@ -271,10 +326,16 @@ public class LookupDao extends HibernateDaoSupport {
 			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
 			sql += fdv.getFieldName() + ",";
 			phs +="?,"; 
-			if (fdv.isAuto())
-			{
-				idFieldVal = String.valueOf(GetNextId(fdv.getFieldSQL(), tableName));
-				fdv.setVal(idFieldVal);
+			if (fdv.getGenericIdx() == 1) {
+				if (fdv.isAuto())
+				{
+					idFieldVal = String.valueOf(GetNextId(fdv.getFieldSQL(), tableName));
+					fdv.setVal(idFieldVal);
+				}
+				else
+				{
+					idFieldVal = fdv.getVal();
+				}
 			}
 			if ("S".equals(fdv.getFieldType()))
 			{
@@ -339,4 +400,83 @@ public class LookupDao extends HibernateDaoSupport {
 		db.queryExecuteUpdate(sql, params);
 		return idFieldVal;
 	}
+	public void SaveAsOrgCode(Program program) throws SQLException
+	{
+		LookupTableDefValue tableDef = this.GetLookupTableDef("ORG");
+		List codeValues = new ArrayList();
+		String  programId = "0000000" + program.getId().toString();
+		programId = "P" + programId.substring(programId.length()-7);
+		
+		String facilityId = "0000000" + String.valueOf(program.getFacilityId());
+		facilityId = "F" + facilityId.substring(facilityId.length()-7); 
+		
+		LookupCodeValue fcd = GetCode("ORG", "F" + program.getFacilityId());
+		
+		boolean isNew = false;
+		LookupCodeValue pcd = GetCode("ORG", programId);
+		if (pcd == null) {
+			isNew = true;
+			pcd = new LookupCodeValue();
+		}
+		pcd.setPrefix("ORG");
+		pcd.setCode("P" + program.getId());
+		pcd.setCodeTree(fcd.getCodeTree() + programId);
+		pcd.setDescription(program.getName());
+		pcd.setActive(program.getProgramStatus().equalsIgnoreCase("active"));
+		pcd.setOrderByIndex(0);
+		
+		this.SaveCodeValue(isNew,pcd);
+	}
+	public void SaveAsOrgCode(Facility facility) throws SQLException
+	{
+		LookupTableDefValue tableDef = this.GetLookupTableDef("ORG");
+		List codeValues = new ArrayList();
+		String  facilityId = "0000000" + facility.getId().toString();
+		facilityId = "F" + facilityId.substring(facilityId.length()-7);
+		
+		String orgId = "0000000" + String.valueOf(facility.getOrgId());
+		orgId = "O" + orgId.substring(orgId.length()-7); 
+		
+		LookupCodeValue ocd = GetCode("ORG", "O" + facility.getOrgId());
+		
+		boolean isNew = false;
+		LookupCodeValue fcd = GetCode("ORG", facilityId);
+		if (fcd == null) {
+			isNew = true;
+			fcd = new LookupCodeValue();
+		}
+		fcd.setPrefix("ORG");
+		fcd.setCode("F" + facility.getId());
+		fcd.setCodeTree(ocd.getCodeTree() + facilityId);
+		fcd.setDescription(facility.getName());
+		fcd.setActive(!facility.isDisabled());
+		fcd.setOrderByIndex(0);
+		
+		this.SaveCodeValue(isNew,fcd);
+	}
+	public void SaveAsOrgCode(LookupCodeValue organization) throws SQLException
+	{
+		LookupTableDefValue tableDef = this.GetLookupTableDef("ORG");
+		List codeValues = new ArrayList();
+		String  orgId = "0000000" + organization.getCode();
+		orgId = "O" + orgId.substring(orgId.length()-7);
+		
+		String sId = "R0000001";
+				
+		boolean isNew = false;
+		LookupCodeValue ocd = GetCode("ORG", orgId);
+		if (ocd == null) {
+			isNew = true;
+			ocd = new LookupCodeValue();
+		}
+		ocd.setPrefix("ORG");
+		ocd.setCode("O" + organization.getCode());
+		ocd.setCodeTree(sId + orgId);
+		ocd.setDescription(organization.getDescription());
+		ocd.setActive(organization.isActive());
+		ocd.setOrderByIndex(0);
+		
+		this.SaveCodeValue(isNew,ocd);
+	}
+
 }
