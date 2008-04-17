@@ -50,6 +50,8 @@ import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 
+import com.quatro.dao.LookupDao;
+
 import oscar.OscarProperties;
 
 public class ProgramManager {
@@ -65,6 +67,7 @@ public class ProgramManager {
     private DefaultRoleAccessDAO defaultRoleAccessDAO;
     private ProgramClientStatusDAO clientStatusDAO;
     private ProgramSignatureDao programSignatureDao;
+    private LookupDao lookupDao;
 
     private boolean enabled;
 
@@ -116,6 +119,10 @@ public class ProgramManager {
         this.clientStatusDAO = dao;
     }
 
+    public void setLookupDao(LookupDao dao) {
+        this.lookupDao = dao;
+    }
+
     public Program getProgram(String programId) {
         return programDao.getProgram(Integer.valueOf(programId));
     }
@@ -148,7 +155,7 @@ public class ProgramManager {
             return programDao.getCommunityProgramsByFacilityId(facilityId);
         }
         else {
-            return programDao.getPrograms();
+            return programDao.getAllPrograms();
         }
     }
 
@@ -165,7 +172,7 @@ public class ProgramManager {
     }
 
     public List<Program> getPrograms() {
-        return programDao.getPrograms();
+        return programDao.getAllPrograms();
     }
 
     public Program[] getBedPrograms() {
@@ -200,7 +207,15 @@ public class ProgramManager {
         if (program.getHoldingTank()) {
             programDao.resetHoldingTank();
         }
+        boolean isNew = (program.getId() == 0);
         programDao.saveProgram(program);
+        try {
+        	lookupDao.SaveAsOrgCode(program);
+        }
+        catch (Exception e)
+        {
+    		System.out.println(e.getStackTrace());
+        }
     }
 
     public void removeProgram(String programId) {
