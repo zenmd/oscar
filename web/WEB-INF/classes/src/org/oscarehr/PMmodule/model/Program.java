@@ -76,7 +76,7 @@ public class Program implements Serializable {
     private Integer maximumServiceRestrictionDays;
     private int defaultServiceRestrictionDays;
     private long facilityId;
-
+    private String orgCd;
     // constructors
     public Program() {
         // no arg constructor for JPA
@@ -90,6 +90,13 @@ public class Program implements Serializable {
         this.facilityId = facilityId;
     }
 
+    public String getOrgCd() {
+        return orgCd;
+    }
+
+    public void setOrgCd(String orgCd) {
+        this.orgCd = orgCd;
+    }
     /**
      * Constructor for primary key
      */
