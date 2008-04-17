@@ -1,7 +1,6 @@
 package com.quatro.model;
 import java.util.List;
 public class LookupCodeValue {
-	private int lineId;
 	private String prefix;
 	private String code;
 	private String description;
@@ -82,14 +81,7 @@ public class LookupCodeValue {
 	}
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
-	}
-	public int getLineId() {
-		return lineId;
-	}
-	public void setLineId(int lineId) {
-		this.lineId = lineId;
-	}
-    
+	}    
 	public String getCodeId()
 	{
 		return this.prefix + ":" + this.code;
