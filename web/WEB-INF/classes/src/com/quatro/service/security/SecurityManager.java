@@ -9,7 +9,6 @@ public class SecurityManager {
 	public static final String ACCESS_UPDATE = "u";
 	public static final String ACCESS_WRITE = "w";
 	public static final String ACCESS_ALL = "x";
-	public static final String SESSION_KEY = "secmgr";
 
 	Hashtable _userFunctionAccessList;
 
