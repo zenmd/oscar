@@ -17,8 +17,8 @@
 		<set name="answers"
 			inverse="false"
 			cascade="save-update"
-			lazy="false" >
-			<key column="intake_id" />
+			lazy="false">
+			<key column="intake_id" not-null="true" />
 			<one-to-many class="org.oscarehr.PMmodule.model.QuatroIntakeAnswer" />
 		</set>
 	</class>

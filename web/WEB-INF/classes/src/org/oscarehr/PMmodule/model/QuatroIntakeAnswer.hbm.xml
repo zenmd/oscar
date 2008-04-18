@@ -9,12 +9,13 @@
 		  <key-property name="intakeNodeId" column="intake_node_id"/>
         </composite-id>
 
-		<property name="intakeId" column="intake_id" type="integer" />
 		<property name="value" column="val" type="string" />
 
 		<many-to-one name="intake2"
-			class="org.oscarehr.PMmodule.model.QuatroIntakeDB" column="intake_id"
-			not-null="true" insert="false" update="false" />
+			class="org.oscarehr.PMmodule.model.QuatroIntakeDB" lazy="false"
+			insert="false" update="false">
+			<column name ="intake_id" />
+		</many-to-one>
 		
 	</class>
 </hibernate-mapping>
