@@ -141,6 +141,8 @@
 -->
 <div id="projecttools" class="toolgroup">
 <div class="label">
+<img src='<html:rewrite page="/images/1x1.gif" />' width="200px" height="1px" />
+<br>
     <strong>Navigator</strong>
 </div>
 <div class="body">

@@ -10,6 +10,36 @@
 <html:hidden property="intake.clientId"/>
 <html:hidden property="intake.id"/>
 <html:hidden property="intake.createdOnTxt" />
+<input type="hidden" name="method"/>
+<script lang="javascript">
+	function submitForm(methodVal) {
+		method.value = methodVal;
+		document.forms[0].submit();
+	}
+</script>
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr>
+		<th class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Client Intake</span></th>
+	</tr>
+	<tr>
+		<td align="left" class="buttonBar"><a href="javascript:submitForm("save");
+			action="/PMmodule/Admin/SysAdmin.do"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+			<html:link action="/PMmodule/ClientManager.do"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>		</td>
+	</tr>
+	<tr>
+		<td align="left"></td>
+	</tr>
+	<tr>
+		<td height="100%">
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+<!--  start of page content -->
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
@@ -235,7 +265,11 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 <tr><td width="15%">Comments/Details</td>
 <td width="85%"><html-el:textarea property="intake.comments" rows="6" style="width:90%" /></td></tr>
 <tr><td colspan="2"><hr></td></tr>
-<tr><td></td><td align="center"><html-el:submit property="method" value="save" /></td></tr>
+<tr><td></td><td align="center">&nbsp;</td></tr>
 </table>
-
+<!--  end of page content -->
+</div>
+</td>
+</tr>
+</table>
 </html-el:form>

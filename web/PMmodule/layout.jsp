@@ -54,25 +54,26 @@
 		
 		<html:base />
 	</head>
-	<body>
-		<div class="composite">
-			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%" border="2">
+	<body leftmargin="0" bottommargin="0" rightmargin="0" topmargin="0">
+			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr>
-				<td colspan="2" width="100%">
+				<td colspan="3" width="100%">
 					<tiles:insert name="Header.jsp">
 					</tiles:insert>
 				</td></tr>
 				<tr valign="top">
-					<td id="leftcol" width="200px" align="left">
+					<td id="leftcol" width="200px">
 						<tiles:insert attribute="navigation" />
 					</td>
-					<td align="left">
+					<td valign="top" width="5px">
+						<img src='<html:rewrite page="/images/1x1.gif" />' width="5px" />
+					</td>
+					<td align="left" width="100%">
 						<!--  div class="body" align="left"  this is the layout-->
 							<tiles:insert attribute="body" />
 						<!--  /div -->
 					</td>
 				</tr>
 			</table>
-		</div>
 	</body>
 </html:html>
