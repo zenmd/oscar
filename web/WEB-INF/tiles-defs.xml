@@ -24,6 +24,26 @@
 			value="/admin/admin.jsp" />
 	</definition>
 	<definition
+		name="page.admin.home"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/navigation.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Admin/Home.jsp" />
+	</definition>
+	<definition
+		name="page.admin.showORGTree"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/navigation.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Admin/Organization/ORGTree.jsp" />
+	</definition>
+	<definition
 		name="page.admin.lookup.tablelist"
 		path="/PMmodule/layout.jsp">
 		<put

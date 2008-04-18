@@ -1731,6 +1731,15 @@
         <action path="/phrExchange" name="FrmForm" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
         </action>
         
+        <!-- admin -->
+        <action path="/PMmodule/Admin/SysAdmin" type="org.apache.struts.actions.ForwardAction" parameter="page.admin.home" scope="request" validate="false" />
+		<action path="/PMmodule/Admin/ShowORGTree" type="org.springframework.web.struts.DelegatingActionProxy"
+              name="lookupTreeForm" scope="request" parameter="method">
+            <forward name="tree" path="page.admin.showORGTree" />
+        </action>   
+		
+    
+    
     </action-mappings>
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
     <message-resources parameter="oscarResources" />

@@ -214,4 +214,9 @@
     <bean name="/PMmodule/Reports/CustomReport" class="org.oscarehr.PMmodule.web.reports.CustomReportAction" singleton="false" autowire="byName">
     </bean>
 -->
+
+	<!-- Admin -->
+	<bean name="/PMmodule/Admin/ShowORGTree" class="com.quatro.web.admin.ShowORGTreeAction" singleton="false">
+        <property name="lookupManager" ref="lookupManager"/>
+	</bean>
 </beans>

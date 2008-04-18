@@ -31,6 +31,7 @@
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" /></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar-setup.js" />"></script>
+		<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
 				
 		<script type="text/javascript">
 			var djConfig = {
@@ -55,20 +56,20 @@
 	</head>
 	<body>
 		<div class="composite">
-			<table border="0" cellspacing="0" cellpadding="0" width="100%">
+			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%" border="2">
 				<tr>
 				<td colspan="2" width="100%">
 					<tiles:insert name="Header.jsp">
 					</tiles:insert>
 				</td></tr>
 				<tr valign="top">
-					<td id="leftcol" width="20%">
+					<td id="leftcol" width="200px" align="left">
 						<tiles:insert attribute="navigation" />
 					</td>
-					<td width="80%">
-						<div class="body">
+					<td align="left">
+						<!--  div class="body" align="left"  this is the layout-->
 							<tiles:insert attribute="body" />
-						</div>
+						<!--  /div -->
 					</td>
 				</tr>
 			</table>

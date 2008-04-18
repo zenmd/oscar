@@ -87,6 +87,16 @@ TH {
     border-top-width:thin; */
  }
 }
+.buttonBar
+{	
+	background-image: url(../images/buttonBar2.png); 
+    FONT-SIZE: 8pt;
+    font-family:Arial Unicode MS;
+    COLOR: black;
+    border-width:0pt;  
+    border-color:Silver;
+    border-style:solid;
+ }
 .error {
 	color: #FF0000;
 	background-color: #EEEEFF;
