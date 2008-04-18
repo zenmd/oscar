@@ -1,6 +1,7 @@
 package com.quatro.dao;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,9 +12,13 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.QuatroIntakeOptionValue;
 import com.quatro.web.intake.IntakeConstant;
 
+import org.oscarehr.PMmodule.model.ClientReferral;
+import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
+
+import oscar.MyDateFormat;
 
 
 public class IntakeDao extends HibernateDaoSupport {
@@ -220,10 +225,10 @@ public class IntakeDao extends HibernateDaoSupport {
 			         intake.setReasonNoAdmit(obj.getValue());  
 			         break;
 
-			       //Program
-//	        	   case IntakeConstant.PROGRAM:
-//			         intake.setProgram(obj.getValue());  
-//			         break;
+	        	   case IntakeConstant.CREATEDON:
+			         intake.setCreatedOnTxt(obj.getValue());  
+			 	     intake.setCreatedOn(MyDateFormat.getCalendar(intake.getCreatedOnTxt())); 
+			         break;
 
 			       //Comments
 	        	   case IntakeConstant.COMMENTS:
@@ -261,9 +266,19 @@ public class IntakeDao extends HibernateDaoSupport {
 	    intakeDb.setProgramId(intake.getProgramId());
 	    intakeDb.setStaffId(intake.getStaffId());
 
+	    intakeDb.setProgramType(intake.getProgramType());
+
+	    //intake for bed program, add/update referral and queue records.
+	    intakeDb.setReferralId(intake.getReferralId());
+	    intakeDb.setQueueId(intake.getQueueId());
+	    
+	    
 		Set<QuatroIntakeAnswer> obj= new TreeSet<QuatroIntakeAnswer>();
 
 		int i=1;
+
+		obj.add(new QuatroIntakeAnswer(IntakeConstant.CREATEDON, intake.getCreatedOnTxt(), i++));
+
 		//Referred by
 		obj.add(new QuatroIntakeAnswer(IntakeConstant.REFERREDBY, intake.getReferredBy(), i++));
 		obj.add(new QuatroIntakeAnswer(IntakeConstant.CONTACTNAME, intake.getContactName(), i++));
@@ -339,12 +354,91 @@ public class IntakeDao extends HibernateDaoSupport {
 		obj.add(new QuatroIntakeAnswer(IntakeConstant.COMMENTS, intake.getComments(), i++));
 		
 		intakeDb.setAnswers(obj);
-	    
-//		if(intakeDb.getId().intValue()>0)
-//		  getHibernateTemplate().update(intakeDb);
-//		else
-		  getHibernateTemplate().saveOrUpdate(intakeDb);
-		  return intakeDb.getId();
+		
+        ClientReferral referral = new ClientReferral();
+        referral.setClientId(intake.getClientId().longValue());
+        referral.setNotes("Intake Automated referral");
+        referral.setProgramId(intake.getProgramId().longValue());
+        referral.setProviderNo(intake.getStaffId());
+        referral.setReferralDate(new Date());
+        referral.setStatus(ClientReferral.STATUS_ACTIVE);
+        
+        ProgramQueue queue = new ProgramQueue();
+        queue.setClientId(referral.getClientId());
+        queue.setNotes(referral.getNotes());
+        queue.setProgramId(referral.getProgramId());
+        queue.setProviderNo(Long.parseLong(referral.getProviderNo()));
+        queue.setReferralDate(referral.getReferralDate());
+        queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+        queue.setReferralId(referral.getId());
+        queue.setTemporaryAdmission(referral.isTemporaryAdmission());
+        queue.setPresentProblems(referral.getPresentProblems());
+        
+
+//save referral		
+/*
+            ClientReferral referral = new ClientReferral();
+            referral.setClientId(new Long(demographicNo));
+            referral.setNotes("ER Automated referral\nConsent Type: " + consentFormBean.getConsentType() + "\nReason: " + consentFormBean.getConsentReason());
+            referral.setProgramId(program.getProgramId().longValue());
+            referral.setProviderNo(getProviderNo(request));
+            referral.setReferralDate(new Date());
+            referral.setStatus(ClientReferral.STATUS_ACTIVE);
+
+ 
+        referralDAO.saveClientReferral(referral);
+
+        if (referral.getStatus().equalsIgnoreCase(ClientReferral.STATUS_ACTIVE)) {
+            ProgramQueue queue = new ProgramQueue();
+            queue.setClientId(referral.getClientId());
+            queue.setNotes(referral.getNotes());
+            queue.setProgramId(referral.getProgramId());
+            queue.setProviderNo(Long.parseLong(referral.getProviderNo()));
+            queue.setReferralDate(referral.getReferralDate());
+            queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+            queue.setReferralId(referral.getId());
+            queue.setTemporaryAdmission(referral.isTemporaryAdmission());
+            queue.setPresentProblems(referral.getPresentProblems());
+
+            queueManager.saveProgramQueue(queue);
+        }
+*/	    
+
+        
+		if(intakeDb.getId().intValue()>0){
+		  getHibernateTemplate().update(intakeDb);
+/*		  
+          //delete old referral and queue records linked to this intake
+		  if(Integer.parseInt(intakeDb.getReferralId())>0){
+		    ClientReferral referralOld = new ClientReferral(Long.valueOf(intakeDb.getReferralId()));
+		    getHibernateTemplate().delete(referralOld);
+          }  
+          if(Integer.parseInt(intakeDb.getQueueId())>0){
+		    ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intakeDb.getQueueId()));
+		    getHibernateTemplate().delete(queueOld);
+          }
+          
+          //add referral and queue records linked to this intake for bed program
+		  if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+		    referral.setIntakeId(intakeDb.getId());
+		    getHibernateTemplate().save(referral);
+		    queue.setReferralId(referral.getId());
+		    queue.setIntakeId(intakeDb.getId());
+	        getHibernateTemplate().save(queue);
+		  }
+*/		  
+		}else{
+		  getHibernateTemplate().save(intakeDb);
+//		  if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+//		    referral.setIntakeId(intakeDb.getId());
+//		    getHibernateTemplate().save(referral);
+//		    queue.setReferralId(referral.getId());
+//		    queue.setIntakeId(intakeDb.getId());
+//            getHibernateTemplate().save(queue);
+//		  }
+		}
+
+	    return intakeDb.getId();
 	}
 	
 }

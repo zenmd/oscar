@@ -9,5 +9,7 @@ public class KeyConstants {
   public static final String CONSTANT_GENDER_Male = "M";
   public static final String CONST_GENDER_Female = "F";
   public static final String CONST_GENDER_Transgender = "T";
+  
+  public static final String BED_PROGRAM_TYPE="Bed";
 
 }

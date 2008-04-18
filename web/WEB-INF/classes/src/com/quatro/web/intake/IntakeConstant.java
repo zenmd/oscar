@@ -70,6 +70,8 @@ public class IntakeConstant {
 	  public static final int COUNTRYOFORIGINAL = 59;
 	  public static final int VAW = 60;
 	  public static final int INSHELTERBEFORE = 61;
+
+	  public static final int CREATEDON = 62;
 	  
 	  private static HashMap<Integer, String> PREFIX;
 	  

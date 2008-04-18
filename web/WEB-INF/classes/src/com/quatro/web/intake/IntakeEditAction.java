@@ -24,6 +24,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import com.quatro.model.LookupCodeValue;
 import oscar.MyDateFormat;
+import java.util.Calendar;
 
 public class IntakeEditAction extends DispatchAction {
     private ClientManager clientManager;
@@ -53,11 +54,14 @@ public class IntakeEditAction extends DispatchAction {
         		(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO), 
         		new Long(facilityId.longValue()));
         ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
+        ArrayList<LabelValueBean> lst3 = new ArrayList<LabelValueBean>();
         for(int i=0;i<lst.size();i++){
            Program obj = (Program)lst.get(i);
            lst2.add(new LabelValueBean(obj.getName(), obj.getId().toString()));
+           lst3.add(new LabelValueBean(obj.getType(), obj.getId().toString()));
         }
         qform.setProgramList(lst2);
+        qform.setProgramTypeList(lst3);
 
         Integer intakeId = Integer.valueOf(qform.getIntakeId());
         	
@@ -66,9 +70,15 @@ public class IntakeEditAction extends DispatchAction {
             obj=intakeManager.getQuatroIntake(intakeId);
         }else{
         	obj= new QuatroIntake();
+        	obj.setCreatedOn(Calendar.getInstance());
         }
         obj.setId(intakeId);
         obj.setClientId(Integer.valueOf(qform.getClientId()));
+
+	    Calendar cal= obj.getCreatedOn();
+		obj.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "-" + 
+				  String.valueOf(cal.get(Calendar.MONTH)+1) + "-" +  
+				  String.valueOf(cal.get(Calendar.DATE)));
         
         qform.setIntake(obj);
 
@@ -95,13 +105,27 @@ public class IntakeEditAction extends DispatchAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 		Demographic client= qform.getClient();
+		client.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(qform.getDob())));
+		client.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(qform.getDob())));
+		client.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(qform.getDob())));
     	clientManager.saveClient(client);
     	
 		QuatroIntake obj= qform.getIntake();
-		obj.setCreatedOn(MyDateFormat.getCalendar(qform.getDob()));
+
+		obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt())); 
+
 		obj.setLanguage(request.getParameter("language_code"));
 		obj.setOriginalCountry(request.getParameter("originalCountry_code"));
 		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+
+		ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();
+		for(int i=0;i<lst.size();i++){
+			LabelValueBean obj2= (LabelValueBean)lst.get(i);
+			if(Integer.valueOf(obj2.getValue()).equals(obj.getProgramId())){
+			  obj.setProgramType(obj2.getLabel());
+			  break;
+			}
+		}
         
         LookupCodeValue language = new LookupCodeValue();
         language.setCode(request.getParameter("language_code"));
