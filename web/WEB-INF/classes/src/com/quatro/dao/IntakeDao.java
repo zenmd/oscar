@@ -354,11 +354,11 @@ public class IntakeDao extends HibernateDaoSupport {
 		obj.add(new QuatroIntakeAnswer(IntakeConstant.COMMENTS, intake.getComments(), i++));
 		
 		intakeDb.setAnswers(obj);
-		
+/*		
         ClientReferral referral = new ClientReferral();
-        referral.setClientId(intake.getClientId().longValue());
+        if(intake.getClientId()!=null) referral.setClientId(intake.getClientId().longValue());
         referral.setNotes("Intake Automated referral");
-        referral.setProgramId(intake.getProgramId().longValue());
+        if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().longValue());
         referral.setProviderNo(intake.getStaffId());
         referral.setReferralDate(new Date());
         referral.setStatus(ClientReferral.STATUS_ACTIVE);
@@ -373,7 +373,7 @@ public class IntakeDao extends HibernateDaoSupport {
         queue.setReferralId(referral.getId());
         queue.setTemporaryAdmission(referral.isTemporaryAdmission());
         queue.setPresentProblems(referral.getPresentProblems());
-        
+*/        
 
 //save referral		
 /*

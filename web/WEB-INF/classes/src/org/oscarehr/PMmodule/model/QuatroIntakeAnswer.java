@@ -12,7 +12,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
     private Integer intakeId;
     private Integer intakeNodeId;
     private String value;
-    private QuatroIntakeDB intake;
+    private QuatroIntakeDB intake2;
 
     public QuatroIntakeAnswer(){
     }
@@ -96,12 +96,12 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 		this.value = value;
 	}
 
-	public QuatroIntakeDB getIntake() {
-		return intake;
+	public QuatroIntakeDB getIntake2() {
+		return intake2;
 	}
 
-	public void setIntake(QuatroIntakeDB intake) {
-		this.intake = intake;
+	public void setIntake2(QuatroIntakeDB intake2) {
+		this.intake2 = intake2;
 	}
     
 }
