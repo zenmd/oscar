@@ -9,7 +9,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
     private int hashCode = Integer.MIN_VALUE;
 
     private Integer id;// fields
-//    private Integer intakeId;
+    private Integer intakeId;
     private Integer intakeNodeId;
     private String value;
     private QuatroIntakeDB intake;
@@ -30,10 +30,12 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
             return false;
         else {
         	QuatroIntakeAnswer intakeAnswer = (QuatroIntakeAnswer) obj;
-            if (null == this.getId() || null == intakeAnswer.getId())
+            if (null == this.getId() || null == intakeAnswer.getId() ||
+           		null == this.getIntakeNodeId() || null == intakeAnswer.getIntakeNodeId())
                 return false;
             else
-                return (this.getId().equals(intakeAnswer.getId()));
+                return (this.getId().equals(intakeAnswer.getId()) && 
+                		this.getIntakeNodeId().equals(intakeAnswer.getIntakeNodeId()) );
         }
     }
 
@@ -42,7 +44,8 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
             if (null == this.getId())
                 return super.hashCode();
             else {
-                String hashStr = this.getClass().getName() + ":" + this.getId().hashCode();
+                String hashStr = this.getClass().getName() + ":" + this.getId().hashCode() +
+                                 ":" + this.getIntakeNodeId().hashCode();
                 this.hashCode = hashStr.hashCode();
             }
         }
@@ -51,6 +54,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 
 	public int compareTo(QuatroIntakeAnswer answer) {
 		CompareToBuilder compareToBuilder = new CompareToBuilder();
+		compareToBuilder.append(getId(), answer.getId());
 		compareToBuilder.append(getIntakeNodeId(), answer.getIntakeNodeId());
 		
 		return compareToBuilder.toComparison();
@@ -67,7 +71,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 	public void setId(Integer id) {
 		this.id = id;
 	}
-/*
+
 	public Integer getIntakeId() {
 		return intakeId;
 	}
@@ -75,7 +79,7 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
 	public void setIntakeId(Integer intakeId) {
 		this.intakeId = intakeId;
 	}
-*/
+
 	public Integer getIntakeNodeId() {
 		return intakeNodeId;
 	}

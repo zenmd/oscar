@@ -6,9 +6,10 @@
 	<class name="QuatroIntakeAnswer" table="intake_answer">
         <composite-id>
           <key-property name="id" type="integer" column="intake_answer_id" />
-		  <key-property name="intakeNodeId" column="intake_node_id" />
+		  <key-property name="intakeNodeId" column="intake_node_id"/>
         </composite-id>
 
+		<property name="intakeId" column="intake_id" type="integer" />
 		<property name="value" column="val" type="string" not-null="true" />
 
 		<many-to-one name="intake"

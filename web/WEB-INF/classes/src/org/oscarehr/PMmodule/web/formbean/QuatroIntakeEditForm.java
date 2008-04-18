@@ -16,6 +16,7 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 
     private OptionList optionList;
     private List programList;
+    private List programTypeList;
 
     private LookupCodeValue language;
     private LookupCodeValue originalCountry;
@@ -92,6 +93,14 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 
 	public void setProgramList(List programList) {
 		this.programList = programList;
+	}
+
+	public List getProgramTypeList() {
+		return programTypeList;
+	}
+
+	public void setProgramTypeList(List programTypeList) {
+		this.programTypeList = programTypeList;
 	}
     
 /*    

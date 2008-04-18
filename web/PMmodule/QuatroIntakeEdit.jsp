@@ -9,6 +9,7 @@
 <html-el:form action="/PMmodule/QuatroIntake/Edit.do">
 <html:hidden property="intake.clientId"/>
 <html:hidden property="intake.id"/>
+<html:hidden property="intake.createdOnTxt" />
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
@@ -222,7 +223,7 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 </table></div></td></tr>
 <tr><td width="15%">Program</td>
 <td width="85%"><html-el:select property="intake.programId">
-<html-el:optionsCollection property="programList" value="value" label="label"/>
+<html-el:optionsCollection property="programList" value="value" label="label" />
 </html-el:select></td></tr>
 </table>
 

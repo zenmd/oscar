@@ -373,7 +373,7 @@ function openSurvey() {
 	<thead>
 		<tr>
 			<th>Name</th>
-			<th>Most Recent</th>
+			<th>Created On</th>
 			<th>Staff</th>
 			<th>Status</th>
 			<th>Actions</th>

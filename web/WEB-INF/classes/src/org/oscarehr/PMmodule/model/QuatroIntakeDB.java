@@ -12,11 +12,13 @@ public class QuatroIntakeDB implements Serializable {
     private Integer id;// fields
     private Integer clientId;
     private String staffId;
-    private Calendar createdOn;// many to one    
+    private Calendar createdOn;    
     private java.util.Set<QuatroIntakeAnswer> answers;
     private String intakeStatus;
-//    private Integer intakeLocation;
     private Integer programId;
+    private String programType;
+    private String referralId;
+    private String queueId;
 
     public boolean equals(Object obj) {
         if (null == obj)
@@ -98,6 +100,30 @@ public class QuatroIntakeDB implements Serializable {
 
 	public void setStaffId(String staffId) {
 		this.staffId = staffId;
+	}
+
+	public String getProgramType() {
+		return programType;
+	}
+
+	public void setProgramType(String programType) {
+		this.programType = programType;
+	}
+
+	public String getQueueId() {
+		return queueId;
+	}
+
+	public void setQueueId(String queueId) {
+		this.queueId = queueId;
+	}
+
+	public String getReferralId() {
+		return referralId;
+	}
+
+	public void setReferralId(String referralId) {
+		this.referralId = referralId;
 	}
 
 

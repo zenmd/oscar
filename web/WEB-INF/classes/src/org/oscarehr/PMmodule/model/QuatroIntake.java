@@ -7,8 +7,10 @@ public class QuatroIntake {
     private Integer clientId;
     private String staffId;
     private Calendar createdOn;    
+    private String createdOnTxt;    
     private String intakeStatus;
     private Integer programId;
+    private String programType;
 
 	private String referredBy;
     private String contactName;
@@ -75,6 +77,9 @@ public class QuatroIntake {
     private String reasonNoAdmit;
 
     private String comments;
+
+    private String referralId;
+    private String queueId;
 
     public String getAboriginal() {
 		return aboriginal;
@@ -465,5 +470,29 @@ public class QuatroIntake {
 	}
 	public void setStaffId(String staffId) {
 		this.staffId = staffId;
+	}
+	public String getCreatedOnTxt() {
+		return createdOnTxt;
+	}
+	public void setCreatedOnTxt(String createdOnTxt) {
+		this.createdOnTxt = createdOnTxt;
+	}
+	public String getProgramType() {
+		return programType;
+	}
+	public void setProgramType(String programType) {
+		this.programType = programType;
+	}
+	public String getQueueId() {
+		return queueId;
+	}
+	public void setQueueId(String queueId) {
+		this.queueId = queueId;
+	}
+	public String getReferralId() {
+		return referralId;
+	}
+	public void setReferralId(String referralId) {
+		this.referralId = referralId;
 	}
 }

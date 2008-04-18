@@ -25,6 +25,7 @@
 		<property column="referral_date" length="19" name="ReferralDate" not-null="false" type="timestamp" />
 		<property column="provider_no" name="ProviderNo" />
 		<property column="facility_id" name="FacilityId" />
+		<property column="intake_id" name="intakeId" />
 		<property column="notes" name="Notes" not-null="false" type="string" />
 		<property column="completion_notes" name="CompletionNotes" not-null="false" type="string" />
 		<property column="program_id" length="11" name="ProgramId" not-null="true" type="java.lang.Long" />

@@ -22,6 +22,7 @@
 			<generator class="native" />
 		</id>
 		<property column="client_id" length="11" name="ClientId" not-null="true" type="java.lang.Long" />
+		<property column="intake_id" name="intakeId" />
 		<property column="referral_date" length="19" name="ReferralDate" not-null="false" type="timestamp" />
 		<property column="provider_no" length="11" name="ProviderNo" not-null="true" type="java.lang.Long" />
 		<property column="notes" length="255" name="Notes" not-null="false" type="string" />
