@@ -10,7 +10,7 @@
         </composite-id>
 
 		<property name="intakeId" column="intake_id" type="integer" />
-		<property name="value" column="val" type="string" not-null="true" />
+		<property name="value" column="val" type="string" />
 
 		<many-to-one name="intake"
 			class="org.oscarehr.PMmodule.model.QuatroIntakeDB" column="intake_id"
