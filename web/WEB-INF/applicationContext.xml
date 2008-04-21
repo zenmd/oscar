@@ -499,4 +499,10 @@
     <bean id="version" class="org.caisi.service.Version">
         <property name="version" value="3.1.0"/>
     </bean>
+    
+    <!-- Admin -->
+    <bean id="orgManager" class="com.quatro.service.ORGManager"  autowire="byName">
+        <property name="orgDao" ref="orgDao"/>
+    </bean>
+    <bean id="orgDao" class="com.quatro.dao.ORGDao" autowire="byName" />
 </beans>

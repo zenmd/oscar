@@ -3,7 +3,7 @@
 String _appPath = request.getContextPath();
 %>
 <%@ include file="/taglibs.jsp"%>
-<table style="width: 100%">
+<table width="100%">
 	<tr>
 		<th class="pageTitle">Home</th>
 	</tr>

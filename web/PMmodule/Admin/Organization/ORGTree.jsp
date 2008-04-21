@@ -2,6 +2,16 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ include file="../../../taglibs.jsp"%>
 
+
+
+
+<script type="text/javascript" src='<c:out value="${ctx}"/>/js/menuExpandable.js'></script>
+<style type="text/css">
+    @import "<html:rewrite page="/css/menuExpandable.css" />";
+</style>
+
+
+
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
 <bean:define id="tree" name="lookupTreeForm" property="tree"

@@ -217,6 +217,6 @@
 
 	<!-- Admin -->
 	<bean name="/PMmodule/Admin/ShowORGTree" class="com.quatro.web.admin.ShowORGTreeAction" singleton="false">
-        <property name="lookupManager" ref="lookupManager"/>
+        <property name="orgManager" ref="orgManager"/>
 	</bean>
 </beans>

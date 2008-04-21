@@ -1,6 +1,5 @@
 package com.quatro.web.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +16,17 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
-import com.quatro.service.LookupManager;
+import com.quatro.service.ORGManager;
 
 public class ShowORGTreeAction extends DispatchAction {
-	private LookupManager lookupManager = null;
+	private ORGManager orgManager = null;
 
-	public void setLookupManager(LookupManager lookupManager) {
-		this.lookupManager = lookupManager;
+	public ORGManager getOrgManager() {
+		return orgManager;
+	}
+
+	public void setOrgManager(ORGManager orgManager) {
+		this.orgManager = orgManager;
 	}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
@@ -35,9 +38,9 @@ public class ShowORGTreeAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		String tableId = request.getParameter("tableId");
 		
-		LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId);
+		LookupTableDefValue tableDef = orgManager.GetLookupTableDef(tableId);
 
-		List lst = lookupManager.LoadCodeList(tableId, true, null, null);
+		List lst = orgManager.LoadCodeList(tableId, true, null, null);
 		MenuRepository repository = setMenu(lst, request);
 
 		DynaActionForm qform = (DynaActionForm) form;
@@ -74,18 +77,11 @@ public class ShowORGTreeAction extends DispatchAction {
 			}
 			String title = obj.getDescription();
 			mc.setTitle(title);
-/*
-			String location = "javascript:selectMe('" + obj.getCode() + "','"
-					+ oscar.Misc.getStringJs(obj.getDescription()) + "','"
-					+ request.getParameter("openerForm") + "','"
-					+ request.getParameter("codeName") + "','"
-					+ oscar.Misc.getStringJs(request.getParameter("descName"))
-					+ "');";
-*/
-			String location = "";
+
+			String location = "javascript:void(0);";
+
 			mc.setLocation(location);
 
-				
 			repository.addMenu(mc);
 		}
 
