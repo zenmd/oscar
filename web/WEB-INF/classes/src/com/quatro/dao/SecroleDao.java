@@ -1,0 +1,64 @@
+/*
+ * 
+ * Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
+ * This software is published under the GPL GNU General Public License. 
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 
+ * of the License, or (at your option) any later version. * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
+ * along with this program; if not, write to the Free Software 
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
+ * 
+ * <OSCAR TEAM>
+ * 
+ * This software was written for 
+ * Centre for Research on Inner City Health, St. Michael's Hospital, 
+ * Toronto, Ontario, Canada 
+ */
+
+package com.quatro.dao;
+
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.caisi.model.Role;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.model.Secrole;
+
+public class SecroleDao extends HibernateDaoSupport {
+
+    private Log log = LogFactory.getLog(SecroleDao.class);
+
+    public List<Secrole> getRoles() {
+        @SuppressWarnings("unchecked")
+        List<Secrole> results = this.getHibernateTemplate().find("from Secrole r");
+
+        log.debug("getRoles: # of results=" + results.size());
+
+        return results;
+    }
+
+    public Secrole getRole(Long id) {
+        if (id == null || id.intValue() <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        Secrole result = (Secrole) this.getHibernateTemplate().get(Secrole.class, id);
+
+        log.debug("getRole: id=" + id + ",found=" + (result != null));
+
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Secrole> getDefaultRoles() {
+        return this.getHibernateTemplate().find("from Secrole r where r.userDefined=0");
+    }
+
+}

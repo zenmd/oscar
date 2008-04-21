@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.quatro.model.Secuserrole" table="SECUSERROLE">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" precision="22" scale="0" />
+            <generator class="native" />
+        </id>
+        <property name="providerNo" type="java.lang.String">
+            <column name="PROVIDER_NO" length="6" not-null="true" />
+        </property>
+        <property name="roleName" type="java.lang.String">
+            <column name="ROLE_NAME" length="30" not-null="true" />
+        </property>
+        <property name="orgcd" type="java.lang.String">
+            <column name="ORGCD" length="80" />
+        </property>
+        <property name="activeyn" type="java.lang.Long">
+            <column name="ACTIVEYN" precision="1" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

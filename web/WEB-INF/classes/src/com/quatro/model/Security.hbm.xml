@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.quatro.model.Security" table="SECURITY">
+        <id name="securityNo" type="java.lang.Long">
+            <column name="SECURITY_NO" precision="6" scale="0" />
+            <generator class="native" />
+        </id>
+        <property name="userName" type="java.lang.String">
+            <column name="USER_NAME" length="30" unique="true" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="PASSWORD" length="80" />
+        </property>
+        <property name="providerNo" type="java.lang.String">
+            <column name="PROVIDER_NO" length="6" />
+        </property>
+        <property name="pin" type="java.lang.String">
+            <column name="PIN" length="6" />
+        </property>
+        <property name="BRemotelockset" type="java.lang.Long">
+            <column name="B_REMOTELOCKSET" precision="1" scale="0" />
+        </property>
+        <property name="BLocallockset" type="java.lang.Long">
+            <column name="B_LOCALLOCKSET" precision="1" scale="0" />
+        </property>
+        <property name="dateExpiredate" type="java.util.Date">
+            <column name="DATE_EXPIREDATE" length="7" />
+        </property>
+        <property name="BExpireset" type="java.lang.Long">
+            <column name="B_EXPIRESET" precision="1" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -215,8 +215,14 @@
     </bean>
 -->
 
-	<!-- Admin -->
+	<!-- Admin Start -->
 	<bean name="/PMmodule/Admin/ShowORGTree" class="com.quatro.web.admin.ShowORGTreeAction" singleton="false">
         <property name="orgManager" ref="orgManager"/>
 	</bean>
+	<bean name="/PMmodule/Admin/RoleManager" class="com.quatro.web.admin.RoleManagerAction" singleton="false"  autowire="byName" />
+	
+	
+	<!-- admin End -->
+	
+	
 </beans>

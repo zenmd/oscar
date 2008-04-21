@@ -1731,14 +1731,18 @@
         <action path="/phrExchange" name="FrmForm" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
         </action>
         
-        <!-- admin -->
+        <!-- admin Start -->
         <action path="/PMmodule/Admin/SysAdmin" type="org.apache.struts.actions.ForwardAction" parameter="page.admin.home" scope="request" validate="false" />
 		<action path="/PMmodule/Admin/ShowORGTree" type="org.springframework.web.struts.DelegatingActionProxy"
               name="lookupTreeForm" scope="request" parameter="method">
             <forward name="tree" path="page.admin.showORGTree" />
         </action>   
-		
-    
+		<action path="/PMmodule/Admin/RoleManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="session">
+            <forward name="list" path="page.admin.role.list" />
+        </action>
+        
+        
+    	<!-- admin End -->
     
     </action-mappings>
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
