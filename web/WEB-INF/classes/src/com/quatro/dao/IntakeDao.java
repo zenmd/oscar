@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import java.util.ArrayList;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.QuatroIntakeOptionValue;
@@ -29,15 +30,60 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 
 	public QuatroIntake getQuatroIntake(Integer intakeId) {
-		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?",
+/*
+		List result = getHibernateTemplate().find("select i.id, i.clientId, " +
+			"i.staffId, i.createdOn, i.intakeStatus, p.type, i.programId," +
+			"i.referralId, i.queueId, i.answers " + 
+			" from QuatroIntakeDB i, Program p where i.id = ?" +
+			" and p.id=i.programId",
 		  new Object[] {intakeId});
+*/		
+		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?",
+			  new Object[] {intakeId});
+
+		List result2 = getHibernateTemplate().find("select p.type " +
+				" from QuatroIntakeDB i, Program p where i.id = ?" +
+				" and p.id=i.programId",
+				  new Object[] {intakeId});
 
 		if(result.size()==0){
 		  return null;
 		}else{
+/*			
+			Object oo[] = (Object[]) result.get(0);
+			QuatroIntakeDB intakeDb = new QuatroIntakeDB(); 
+			intakeDb.setId((Integer)oo[0]);
+			intakeDb.setClientId((Integer)oo[1]);
+			intakeDb.setStaffId((String)oo[2]);
+			intakeDb.setCreatedOn((Calendar)oo[3]);
+			intakeDb.setIntakeStatus((String)oo[4]);
+			intakeDb.setProgramType((String)oo[5]);
+			intakeDb.setProgramId((Integer)oo[6]);
+			intakeDb.setReferralId((Integer)oo[7]);
+			intakeDb.setQueueId((Integer)oo[8]);
+			intakeDb.setAnswers((Set)oo[9]);
+*/
 			QuatroIntakeDB intakeDb= (QuatroIntakeDB)result.get(0);
+			intakeDb.setProgramType((String)result2.get(0));
+			
 			QuatroIntake intake= new QuatroIntake();
-	        for(QuatroIntakeAnswer obj: intakeDb.getAnswers()){
+		    intake.setId(intakeDb.getId());
+		    intake.setClientId(intakeDb.getClientId());
+		    intake.setProgramId(intakeDb.getProgramId());
+		    intake.setStaffId(intakeDb.getStaffId());
+		    intake.setProgramType(intakeDb.getProgramType());
+
+		    intake.setCreatedOn(intakeDb.getCreatedOn());
+    	    Calendar cal= intakeDb.getCreatedOn();
+    	    intake.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "-" + 
+    				  String.valueOf(cal.get(Calendar.MONTH)+1) + "-" +  
+    				  String.valueOf(cal.get(Calendar.DATE)));
+            
+    	    //intake for bed program, add/update referral and queue records.
+    	    intake.setReferralId(intakeDb.getReferralId());
+    	    intake.setQueueId(intakeDb.getQueueId());
+
+			for(QuatroIntakeAnswer obj: intakeDb.getAnswers()){
 	        	switch(obj.getIntakeNodeId()){
 	        	   //Referered by
 	        	   case IntakeConstant.REFERREDBY:
@@ -225,10 +271,10 @@ public class IntakeDao extends HibernateDaoSupport {
 			         intake.setReasonNoAdmit(obj.getValue());  
 			         break;
 
-	        	   case IntakeConstant.CREATEDON:
-			         intake.setCreatedOnTxt(obj.getValue());  
-			 	     intake.setCreatedOn(MyDateFormat.getCalendar(intake.getCreatedOnTxt())); 
-			         break;
+//	        	   case IntakeConstant.CREATEDON:
+//			         intake.setCreatedOnTxt(obj.getValue());  
+//			 	     intake.setCreatedOn(MyDateFormat.getCalendar(intake.getCreatedOnTxt())); 
+//			         break;
 
 			       //Comments
 	        	   case IntakeConstant.COMMENTS:
@@ -256,7 +302,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		return results;
 	}
 
-	public Integer saveQuatroIntake(QuatroIntake intake){
+	public ArrayList saveQuatroIntake(QuatroIntake intake){
 	    QuatroIntakeDB intakeDb= new QuatroIntakeDB();
 	    
 	    intakeDb.setId(intake.getId());
@@ -354,7 +400,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		obj.add(new QuatroIntakeAnswer(IntakeConstant.COMMENTS, intake.getComments(), i++));
 		
 		intakeDb.setAnswers(obj);
-/*		
+		
         ClientReferral referral = new ClientReferral();
         if(intake.getClientId()!=null) referral.setClientId(intake.getClientId().longValue());
         referral.setNotes("Intake Automated referral");
@@ -373,7 +419,6 @@ public class IntakeDao extends HibernateDaoSupport {
         queue.setReferralId(referral.getId());
         queue.setTemporaryAdmission(referral.isTemporaryAdmission());
         queue.setPresentProblems(referral.getPresentProblems());
-*/        
 
 //save referral		
 /*
@@ -404,41 +449,53 @@ public class IntakeDao extends HibernateDaoSupport {
         }
 */	    
 
-        
-		if(intakeDb.getId().intValue()>0){
+        if(intakeDb.getId().intValue()>0){
 		  getHibernateTemplate().update(intakeDb);
-/*		  
+		  
           //delete old referral and queue records linked to this intake
-		  if(Integer.parseInt(intakeDb.getReferralId())>0){
-		    ClientReferral referralOld = new ClientReferral(Long.valueOf(intakeDb.getReferralId()));
+		  if(intakeDb.getReferralId().intValue()>0){
+		    ClientReferral referralOld = new ClientReferral(Long.valueOf(intakeDb.getReferralId().longValue()));
+		    referralOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
+		    referralOld.setProgramId(Long.valueOf(intakeDb.getProgramId().longValue()));
 		    getHibernateTemplate().delete(referralOld);
           }  
-          if(Integer.parseInt(intakeDb.getQueueId())>0){
-		    ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intakeDb.getQueueId()));
+          if(intakeDb.getQueueId().intValue()>0){
+		    ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intakeDb.getQueueId().longValue()));
+		    queueOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
+		    queueOld.setProviderNo(Long.valueOf(intakeDb.getStaffId()));
+		    queueOld.setProgramId(Long.valueOf(intakeDb.getProgramId().longValue()));
 		    getHibernateTemplate().delete(queueOld);
           }
           
           //add referral and queue records linked to this intake for bed program
 		  if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-		    referral.setIntakeId(intakeDb.getId());
+//		    referral.setIntakeId(intakeDb.getId());
 		    getHibernateTemplate().save(referral);
 		    queue.setReferralId(referral.getId());
-		    queue.setIntakeId(intakeDb.getId());
+//		    queue.setIntakeId(intakeDb.getId());
 	        getHibernateTemplate().save(queue);
 		  }
-*/		  
+		  
 		}else{
 		  getHibernateTemplate().save(intakeDb);
-//		  if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+		  if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
 //		    referral.setIntakeId(intakeDb.getId());
-//		    getHibernateTemplate().save(referral);
-//		    queue.setReferralId(referral.getId());
+		    getHibernateTemplate().save(referral);
+		    queue.setReferralId(referral.getId());
 //		    queue.setIntakeId(intakeDb.getId());
-//            getHibernateTemplate().save(queue);
-//		  }
+            getHibernateTemplate().save(queue);
+		  }
 		}
 
-	    return intakeDb.getId();
+        intakeDb.setReferralId(Integer.valueOf(referral.getId().intValue()));
+        intakeDb.setQueueId(Integer.valueOf(queue.getId().intValue()));
+
+        ArrayList<Integer> lst = new ArrayList<Integer>();
+        lst.add(intakeDb.getId());
+        lst.add(intakeDb.getReferralId());
+        lst.add(intakeDb.getQueueId());
+        
+	    return lst;
 	}
 	
 }

@@ -78,8 +78,8 @@ public class QuatroIntake {
 
     private String comments;
 
-    private String referralId;
-    private String queueId;
+    private Integer referralId;
+    private Integer queueId;
 
     public String getAboriginal() {
 		return aboriginal;
@@ -483,16 +483,16 @@ public class QuatroIntake {
 	public void setProgramType(String programType) {
 		this.programType = programType;
 	}
-	public String getQueueId() {
+	public Integer getQueueId() {
 		return queueId;
 	}
-	public void setQueueId(String queueId) {
+	public void setQueueId(Integer queueId) {
 		this.queueId = queueId;
 	}
-	public String getReferralId() {
+	public Integer getReferralId() {
 		return referralId;
 	}
-	public void setReferralId(String referralId) {
+	public void setReferralId(Integer referralId) {
 		this.referralId = referralId;
 	}
 }

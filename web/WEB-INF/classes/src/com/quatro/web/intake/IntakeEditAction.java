@@ -44,10 +44,8 @@ public class IntakeEditAction extends DispatchAction {
 		qform.setClient(client);
         qform.setDob(client.getYearOfBirth() + "-" + client.getMonthOfBirth() + "-" + client.getDateOfBirth());
         
-        if(qform.getOptionList()==null){
-  		  com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
-  		  qform.setOptionList(optionValues);
-        }  
+		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
+  		qform.setOptionList(optionValues);
 
         Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
         ArrayList lst= (ArrayList)programManager.getProgramDomainInFacility(
@@ -71,16 +69,20 @@ public class IntakeEditAction extends DispatchAction {
         }else{
         	obj= new QuatroIntake();
         	obj.setCreatedOn(Calendar.getInstance());
+            obj.setId(intakeId);
+            obj.setClientId(Integer.valueOf(qform.getClientId()));
+            obj.setReferralId(0);
+            obj.setQueueId(0);
+    		obj.setYouth(KeyConstants.CONSTANT_NO);
+    		obj.setVAW(KeyConstants.CONSTANT_NO);
         }
-        obj.setId(intakeId);
-        obj.setClientId(Integer.valueOf(qform.getClientId()));
 
-	    Calendar cal= obj.getCreatedOn();
-		obj.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "-" + 
-				  String.valueOf(cal.get(Calendar.MONTH)+1) + "-" +  
-				  String.valueOf(cal.get(Calendar.DATE)));
+//	    Calendar cal= obj.getCreatedOn();
+//		obj.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "-" + 
+//				  String.valueOf(cal.get(Calendar.MONTH)+1) + "-" +  
+//				  String.valueOf(cal.get(Calendar.DATE)));
         
-        qform.setIntake(obj);
+		qform.setIntake(obj);
 
         LookupCodeValue language;
         LookupCodeValue originalCountry;
@@ -112,12 +114,38 @@ public class IntakeEditAction extends DispatchAction {
     	
 		QuatroIntake obj= qform.getIntake();
 
-		obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt())); 
+		if(obj.getCreatedOnTxt().equals("")==false){
+		  obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt()));
+		}else{
+	  	  Calendar cal= Calendar.getInstance();
+		  obj.setCreatedOn(cal);
+	      obj.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "-" + 
+				  String.valueOf(cal.get(Calendar.MONTH)+1) + "-" +  
+				  String.valueOf(cal.get(Calendar.DATE)));
+		}
 
 		obj.setLanguage(request.getParameter("language_code"));
 		obj.setOriginalCountry(request.getParameter("originalCountry_code"));
 		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
-
+         
+		obj.setPregnant(request.getParameter("intake.pregnant"));
+		obj.setDisclosedAbuse(request.getParameter("intake.disclosedAbuse"));
+		obj.setObservedAbuse(request.getParameter("intake.observedAbuse"));
+		obj.setDisclosedMentalIssue(request.getParameter("intake.disclosedMentalIssue"));
+		obj.setPoorHygiene(request.getParameter("intake.poorHygiene"));
+		obj.setObservedMentalIssue(request.getParameter("intake.observedMentalIssue"));
+		obj.setDisclosedAlcoholAbuse(request.getParameter("intake.disclosedAlcoholAbuse"));
+		obj.setObservedAlcoholAbuse(request.getParameter("intake.observedAlcoholAbuse"));
+		obj.setBirthCertificateYN(request.getParameter("intake.birthCertificateYN"));
+		obj.setSINYN(request.getParameter("intake.SINYN"));
+		obj.setHealthCardNoYN(request.getParameter("intake.healthCardNoYN"));
+		obj.setDriverLicenseNoYN(request.getParameter("intake.driverLicenseNoYN"));
+		obj.setCitizenCardNoYN(request.getParameter("intake.citizenCardNoYN"));
+		obj.setNativeReserveNoYN(request.getParameter("intake.nativeReserveNoYN"));
+		obj.setVeteranNoYN(request.getParameter("intake.veteranNoYN"));
+		obj.setRecordLandingYN(request.getParameter("intake.recordLandingYN"));
+		obj.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
+		
 		ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();
 		for(int i=0;i<lst.size();i++){
 			LabelValueBean obj2= (LabelValueBean)lst.get(i);
@@ -134,10 +162,18 @@ public class IntakeEditAction extends DispatchAction {
         originalCountry.setCode(request.getParameter("originalCountry_code"));
         originalCountry.setDescription(request.getParameter("originalCountry_description"));
 		qform.setLanguage(language);        
-		qform.setOriginalCountry(originalCountry);        
+		qform.setOriginalCountry(originalCountry);
+		
 
-		Integer intakeId= intakeManager.saveQuatroIntake(obj);
-        qform.getIntake().setId(intakeId);
+		ArrayList lst2 = intakeManager.saveQuatroIntake(obj);
+		Integer intakeId = (Integer)lst2.get(0);
+		Integer referralId = (Integer)lst2.get(1);
+		Integer queueId = (Integer)lst2.get(2);
+		obj.setId(intakeId);
+		obj.setReferralId(referralId);
+		obj.setQueueId(queueId);
+		qform.setIntake(obj);
+//        qform.getIntake().setId(intakeId);
 
 		return mapping.findForward("edit");
 	}

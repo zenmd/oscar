@@ -67,7 +67,7 @@ public class IntakeManager {
 		return intakeDao.getQuatroIntake(intakeId);
 	}
 	
-	public Integer saveQuatroIntake(QuatroIntake intake) {
+	public ArrayList saveQuatroIntake(QuatroIntake intake) {
 		return intakeDao.saveQuatroIntake(intake);
 	}
 
