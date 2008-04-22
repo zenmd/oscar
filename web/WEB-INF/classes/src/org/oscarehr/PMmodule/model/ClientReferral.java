@@ -53,7 +53,6 @@ public class ClientReferral implements Serializable {
     private String _providerFirstName;
     private String _programName;
     private String _programType;
-    private Integer intakeId;  //used for referral by intake module.
 
     // constructors
     public ClientReferral() {
@@ -377,11 +376,4 @@ public class ClientReferral implements Serializable {
         this.facilityId = facilityId;
     }
 
-	public Integer getIntakeId() {
-		return intakeId;
-	}
-
-	public void setIntakeId(Integer intakeId) {
-		this.intakeId = intakeId;
-	}
 }
