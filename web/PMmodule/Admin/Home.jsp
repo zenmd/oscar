@@ -9,7 +9,7 @@ String _appPath = request.getContextPath();
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Organization Chart</span></th>
+			id="_ctl0_phBody_lblTitle" align="left">System Administration</span></th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link action="/Home.do"

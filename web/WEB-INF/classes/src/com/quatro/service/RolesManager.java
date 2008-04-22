@@ -32,16 +32,19 @@ import com.quatro.model.Secrole;
 
 public class RolesManager {
 
-	private SecroleDao dao;
+	private SecroleDao secroleDao;
 	
 	public void setSecroleDao(SecroleDao dao) {
-		this.dao = dao;
+		this.secroleDao = dao;
 	}
 	public List getRoles() {
-		return dao.getRoles();
+		return secroleDao.getRoles();
 	}
 	public Secrole getRole(String id) {
-		return dao.getRole(Long.valueOf(id));
+		return secroleDao.getRole(Long.valueOf(id));
+	}
+	public void save(Secrole secrole) {
+		secroleDao.save(secrole);
 	}
 
 }

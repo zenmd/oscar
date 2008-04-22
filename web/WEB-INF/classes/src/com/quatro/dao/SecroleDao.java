@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.caisi.model.Role;
+import org.oscarehr.PMmodule.model.Program;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.Secrole;
@@ -59,6 +60,18 @@ public class SecroleDao extends HibernateDaoSupport {
     @SuppressWarnings("unchecked")
     public List<Secrole> getDefaultRoles() {
         return this.getHibernateTemplate().find("from Secrole r where r.userDefined=0");
+    }
+
+    public void save(Secrole secrole) {
+        if (secrole == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        getHibernateTemplate().saveOrUpdate(secrole);
+
+        if (log.isDebugEnabled()) {
+            log.debug("SecroleDao : save: " + secrole.getRoleNo());
+        }
     }
 
 }

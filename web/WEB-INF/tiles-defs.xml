@@ -284,6 +284,17 @@
 		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/PMmodule/Admin/Role/RoleList.jsp" />
 	</definition>
+	<definition
+		name="page.admin.role.edit"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/navigation.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Admin/Role/RoleEdit.jsp" />
+	</definition>
+	
 	<!-- Admin End -->
 
 

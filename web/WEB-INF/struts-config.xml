@@ -364,6 +364,17 @@
                 <form-bean name="CreateIndivoMessageActionForm" type="oscar.indivoMessenger.CreateIndivoMessageActionForm"/>
                 <form-bean name="DisplayIndivoMsgsActionForm" type="oscar.indivoMessenger.DisplayIndivoMsgsActionForm"/ -->
 		
+		<!-- Admin Start -->
+		<form-bean name="secroleForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="roleNo" type="java.lang.Long" />
+            <form-property name="roleName" type="java.lang.String"></form-property>
+            <form-property name="description" type="java.lang.String"></form-property>
+        </form-bean>
+        
+        <!-- Admin End -->
+		
+		
+		
 
     </form-beans>
     
@@ -1584,15 +1595,15 @@
         </action>
         <action path="/Lookup/LookupTableList" type="org.springframework.web.struts.DelegatingActionProxy" 
               name="lookupTableListForm" scope="request" validate="false" parameter="method">
-            <forward name="list" path="/PMmodule/lookup/LookupTableList.jsp" />
+            <forward name="list" path="page.admin.lookup.tablelist" />
         </action>
         <action path="/Lookup/LookupCodeList" type="org.springframework.web.struts.DelegatingActionProxy" 
               name="lookupCodeListForm" scope="request" validate="false" parameter="method">
-            <forward name="list" path="/PMmodule/lookup/LookupCodeList.jsp" />
+            <forward name="list" path="page.admin.lookup.codelist" />
         </action>
         <action path="/Lookup/LookupCodeEdit" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" 
               name="lookupCodeEditForm" scope="session" validate="false" input="/PMmodule/lookup/LookupCodeEdit.jsp">
-            <forward name="edit" path="/PMmodule/lookup/LookupCodeEdit.jsp" />
+            <forward name="edit" path="page.admin.lookup.codeedit" />
         </action>
 
         <action path="/PMmodule/Reports/ProgramActivityReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="activityReportForm" scope="request" validate="false">
@@ -1743,8 +1754,9 @@
               name="lookupTreeForm" scope="request" parameter="method">
             <forward name="tree" path="page.admin.showORGTree" />
         </action>   
-		<action path="/PMmodule/Admin/RoleManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="session">
+		<action path="/PMmodule/Admin/RoleManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secroleForm" scope="request" validate="false">
             <forward name="list" path="page.admin.role.list" />
+            <forward name="edit" path="page.admin.role.edit" />
         </action>
         
         

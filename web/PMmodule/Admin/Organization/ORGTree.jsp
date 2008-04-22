@@ -4,7 +4,6 @@
 
 
 
-
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/menuExpandable.js'></script>
 <style type="text/css">
     @import "<html:rewrite page="/css/menuExpandable.css" />";

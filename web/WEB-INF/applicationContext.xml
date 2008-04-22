@@ -501,10 +501,18 @@
     </bean>
     
     <!-- Admin Start -->
+
+    <bean id="orgDao" class="com.quatro.dao.ORGDao" autowire="byName" />
+    <bean id="secroleDao" class="com.quatro.dao.SecroleDao" autowire="byName" />
+    
     <bean id="orgManager" class="com.quatro.service.ORGManager"  autowire="byName">
         <property name="orgDao" ref="orgDao"/>
     </bean>
-    <bean id="orgDao" class="com.quatro.dao.ORGDao" autowire="byName" />
+    <bean id="rolesManager" class="com.quatro.service.RolesManager"  autowire="byName">
+        <property name="secroleDao" ref="secroleDao"/>
+    </bean>
+    
+    
     
     <!-- admin End -->
 </beans>
