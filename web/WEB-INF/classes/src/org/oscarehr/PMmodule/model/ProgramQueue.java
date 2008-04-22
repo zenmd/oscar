@@ -355,5 +355,13 @@ public class ProgramQueue implements Serializable {
             return headClientId;
         return _clientId;
     }
+
+	public Integer getIntakeId() {
+		return intakeId;
+	}
+
+	public void setIntakeId(Integer intakeId) {
+		this.intakeId = intakeId;
+	}
     
 }
