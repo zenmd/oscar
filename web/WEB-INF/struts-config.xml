@@ -3,6 +3,8 @@
 <struts-config>
     <form-beans>
         <!-- caisi core -->
+        <form-bean name="dawsonForm" type="com.quatro.web.DawsonForm"></form-bean>
+        
         <form-bean name="systemMessageForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="system_message" type="org.caisi.model.SystemMessage" />
         </form-bean>
@@ -373,6 +375,10 @@
     </global-forwards>
     
     <action-mappings>
+		<action path="/Dawson" type="com.quatro.web.DawsonAction" name="dawsonForm" scope="session" validate="false">
+            <forward name="edit" path="/dawson.jsp" />
+		</action>
+
 
 		<action path="/topazSave" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
             <forward name="view" path="/PMmodule/ClientManager/signatureview.jsp" />

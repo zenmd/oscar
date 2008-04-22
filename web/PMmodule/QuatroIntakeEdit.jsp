@@ -1,20 +1,23 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
-
 <bean:define id="language" name="quatroIntakeEditForm" property="language" type="com.quatro.model.LookupCodeValue" />
 <bean:define id="originalCountry" name="quatroIntakeEditForm" property="originalCountry" type="com.quatro.model.LookupCodeValue" />
+
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
+<%String x2="12"; %>
  
 <html-el:form action="/PMmodule/QuatroIntake/Edit.do">
+<html:hidden property="intake.referralId"/>
+<html:hidden property="intake.queueId"/>
 <html:hidden property="intake.clientId"/>
 <html:hidden property="intake.id"/>
 <html:hidden property="intake.createdOnTxt" />
 <input type="hidden" name="method"/>
 <script lang="javascript">
 	function submitForm(methodVal) {
-		method.value = methodVal;
-		document.forms[0].submit();
+		document.forms(0).method.value = methodVal;
+		document.forms(0).submit();
 	}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
@@ -23,11 +26,10 @@
 			id="_ctl0_phBody_lblTitle" align="left">Client Intake</span></th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><a href="javascript:submitForm("save");
-			action="/PMmodule/Admin/SysAdmin.do"
+		<td align="left" class="buttonBar"><a href='javascript:submitForm("save");'
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-			<html:link action="/PMmodule/ClientManager.do"
+			<html:link action="/QuatroIntake/Edit.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>		</td>
 	</tr>
@@ -68,7 +70,6 @@
 </table></div></td></tr>
 <tr><td width="20%">Referred by</td>
 <td width="80%"><html-el:select property="intake.referredBy">
-<%String y="2"; %>
 <html-el:optionsCollection property="optionList.referredBy" value="value" label="label"/>
 </html-el:select></td></tr>
 <tr><td>Contact name</td>
@@ -86,11 +87,11 @@
 </table></div></td></tr>
 <tr><td width="22%">Language</td>
 <td width="32%"><quatro:lookupTag name="language" tableName="LNG" formProperty="quatroIntakeEditForm" 
-   codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" /></td>
+   codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" showCode="false" /></td>
 <td width="19%">Youth</td>
 <td width="27%"><html-el:select property="intake.youth">
-   <html-el:option value="Y" key="1" />
-   <html-el:option value="N" key="0" />
+   <html-el:option value="1">Yes</html-el:option>
+   <html-el:option value="0">No</html-el:option>
 </html-el:select></td></tr>
 <tr><td>Aboriginal</td>
 <td><html-el:select property="intake.aboriginal">
@@ -100,8 +101,8 @@
 <td><html-el:text property="intake.aboriginalOther" /></td></tr>
 <tr><td>VAW</td>
 <td><html-el:select property="intake.VAW">
-   <html-el:option value="Y" key="1" />
-   <html-el:option value="N" key="0" />
+   <html-el:option value="1">Yes</html-el:option>
+   <html-el:option value="0">No</html-el:option>
 </html-el:select></td><td></td><td></td></tr>
 <tr><td>Current sleeping arrangements</td>
 <td cospan="2"><html-el:select property="intake.curSleepArrangement">
@@ -109,8 +110,8 @@
 </html-el:select></td><td></td></tr>
 <tr><td>Have you stayed in a shelter Before?</td>
 <td><html-el:select property="intake.inShelterBefore">
-   <html-el:option value="Y" key="1" />
-   <html-el:option value="N" key="0" />
+   <html-el:option value="Yes" key="1" />
+   <html-el:option value="No" key="0" />
 </html-el:select></td><td></td><td></td></tr>
 <tr><td>Length of homelessness</td>
 <td cospan="2"><html-el:select property="intake.lengthOfHomeless">
@@ -232,7 +233,7 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 <td></td><td></td></tr>
 <tr><td>Coutry of origin</td>
 <td><quatro:lookupTag name="originalCountry" tableName="CNT" formProperty="quatroIntakeEditForm" 
-   codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" /></td>
+   codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" showCode="false" /></td>
 <td></td><td></td></tr>
 <tr><td>Referred to</td>
 <td><html-el:select property="intake.referredTo">
