@@ -1545,6 +1545,7 @@
             parameter="method" name="quatroIntakeEditForm" scope="session">
             <forward name="edit" path="page.intake.edit" />
             <forward name="update" path="page.intake.edit" />
+            <forward name="close" path="/PMmodule/ClientManager.do" redirect="true"></forward>
         </action>
         <!-- Generic Intake -->
         <action path="/PMmodule/GenericIntake/Report" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">

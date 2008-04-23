@@ -99,6 +99,14 @@ public class IntakeEditAction extends DispatchAction {
         
 		return mapping.findForward("edit");
 	}
+    
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
+		QuatroIntake intake= qform.getIntake();
+		Integer clientId = intake.getClientId();
+		request.getSession().setAttribute("clientId", clientId);
+    	return mapping.findForward("close");
+	}
 
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	return update(mapping,form,request,response);

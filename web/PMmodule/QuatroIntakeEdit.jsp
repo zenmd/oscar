@@ -29,9 +29,9 @@
 		<td align="left" class="buttonBar"><a href='javascript:submitForm("save");'
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-			<html:link action="/QuatroIntake/Edit.do"
+			<a href='javascript:submitForm("close");'
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>		</td>
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>		</td>
 	</tr>
 	<tr>
 		<td align="left"></td>
