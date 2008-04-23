@@ -24,6 +24,5 @@ public class ORGManager {
     public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc) {
         return orgDao.LoadCodeList(tableId, activeOnly, code, codeDesc);
 	}
-	
-    
+	    
 }
