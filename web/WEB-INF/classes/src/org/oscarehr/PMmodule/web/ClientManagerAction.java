@@ -159,7 +159,8 @@ public class ClientManagerAction extends BaseAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm clientForm = (DynaActionForm) form;
         clientForm.set("view", new ClientManagerFormBean());
-
+        Integer clientId = (Integer)request.getSession().getAttribute("clientId");
+        if (clientId != null) request.setAttribute(ID, clientId.toString());
         return edit(mapping, form, request, response);
     }
 
@@ -341,6 +342,9 @@ public class ClientManagerAction extends BaseAction {
             if (o instanceof Long) {
                 id = String.valueOf((Long) o);
             }
+        }
+        if (id == null || id.equals("")) {
+        	id=(String) request.getAttribute(ID);
         }
 
         setEditAttributes(form, request, id);

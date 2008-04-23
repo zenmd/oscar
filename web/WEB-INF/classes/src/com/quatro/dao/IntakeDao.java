@@ -299,19 +299,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 
 	public ArrayList saveQuatroIntake(QuatroIntake intake){
-	    QuatroIntakeDB intakeDb= new QuatroIntakeDB();
-	    intakeDb.setId(intake.getId());
-	    
-	    intakeDb.setClientId(intake.getClientId());
-	    intakeDb.setCreatedOn(intake.getCreatedOn());
-	    intakeDb.setProgramId(intake.getProgramId());
-	    intakeDb.setStaffId(intake.getStaffId());
-
-	    intakeDb.setProgramType(intake.getProgramType());
-
-	    //intake for bed program, add/update referral and queue records.
-	    intakeDb.setReferralId(intake.getReferralId());
-	    intakeDb.setQueueId(intake.getQueueId());
+	    QuatroIntakeDB intakeDb= null;
 	    
 		Set<QuatroIntakeAnswer> obj= new HashSet<QuatroIntakeAnswer>();//TreeSet<QuatroIntakeAnswer>();
 
@@ -390,17 +378,36 @@ public class IntakeDao extends HibernateDaoSupport {
 		hData.put(IntakeConstant.COMMENTS, intake.getComments());
 		
 		
-        if(intakeDb.getId().intValue()>0){
-		  List result = getHibernateTemplate().find("select i.intakeNodeId, i.id from QuatroIntakeAnswer i where i.intake2.id = ?",
+        if(intake.getId().intValue()>0){
+		  List result = getHibernateTemplate().find("from QuatroIntakeAnswer i where i.intake2.id = ?",
 				  new Object[] {intake.getId()});
 		  
 		  for(int i=0;i<result.size();i++){
-		     Object oo[] = (Object[]) result.get(i);
-		     obj.add(new QuatroIntakeAnswer(intake.getId(), 
-		    		 (Integer)oo[0], hData.get((Integer)oo[0]), (Integer)oo[1]));
+			  QuatroIntakeAnswer obj2=(QuatroIntakeAnswer)result.get(i);
+		      obj2.setValue(hData.get(obj2.getIntakeNodeId()));
+		      if (i==0){
+		    	intakeDb = obj2.getIntake2();
+			    intakeDb.setProgramType(intake.getProgramType());
+		      }
+		      obj.add(obj2);
 	      }
 
 		}else{
+			intakeDb = new QuatroIntakeDB();
+		    intakeDb.setId(intake.getId());
+		    
+		    intakeDb.setClientId(intake.getClientId());
+		    intakeDb.setCreatedOn(intake.getCreatedOn());
+		    intakeDb.setProgramId(intake.getProgramId());
+		    intakeDb.setStaffId(intake.getStaffId());
+
+		    intakeDb.setProgramType(intake.getProgramType());
+
+		    //intake for bed program, add/update referral and queue records.
+		    intakeDb.setReferralId(intake.getReferralId());
+		    intakeDb.setQueueId(intake.getQueueId());
+			
+			
 		   for(int i=1;i<IntakeConstant.TOTALITEMS-1;i++){
 			 obj.add(new QuatroIntakeAnswer(i, hData.get(i)));
 		   }
@@ -506,13 +513,13 @@ public class IntakeDao extends HibernateDaoSupport {
 		  getHibernateTemplate().update(intakeDb);
 		  
           //delete old referral and queue records linked to this intake
-		  if(intakeDb.getReferralId().intValue()>0){
+		  if(intakeDb.getReferralId() != null &&  intakeDb.getReferralId().intValue()>0){
 		    ClientReferral referralOld = new ClientReferral(Long.valueOf(intakeDb.getReferralId().longValue()));
 		    referralOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
 		    referralOld.setProgramId(Long.valueOf(intakeDb.getProgramId().longValue()));
 		    getHibernateTemplate().delete(referralOld);
           }  
-          if(intakeDb.getQueueId().intValue()>0){
+          if(intakeDb.getQueueId() != null && intakeDb.getQueueId().intValue()>0){
 		    ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intakeDb.getQueueId().longValue()));
 		    queueOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
 		    queueOld.setProviderNo(Long.valueOf(intakeDb.getStaffId()));
