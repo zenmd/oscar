@@ -1,7 +1,6 @@
 
 package com.quatro.web.admin;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,20 +12,24 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
-import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramTeam;
 import org.oscarehr.PMmodule.service.LogManager;
-
 import org.oscarehr.PMmodule.web.BaseAction;
 
+import com.quatro.model.LookupCodeValue;
+import com.quatro.model.LookupTableDefValue;
 import com.quatro.model.Secrole;
+import com.quatro.service.LookupManager;
 import com.quatro.service.RolesManager;
 
 public class RoleManagerAction extends BaseAction {
 
 	private LogManager logManager;
-
 	private RolesManager rolesManager;
+	private LookupManager lookupManager;
+
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
+	}
 
 	public void setLogManager(LogManager mgr) {
 		this.logManager = mgr;
@@ -82,7 +85,7 @@ public class RoleManagerAction extends BaseAction {
             secroleForm.set("roleNo", secrole.getRoleNo());
             secroleForm.set("roleName", secrole.getRoleName());
             secroleForm.set("description", secrole.getDescription());
-            //request.setAttribute("secrole",secrole);
+            request.setAttribute("secroleForEdit",secrole);
 
          }
 
@@ -103,8 +106,20 @@ public class RoleManagerAction extends BaseAction {
 		secrole.setRoleName((String)secroleForm.get("roleName"));
 		secrole.setDescription((String)secroleForm.get("description"));
 		rolesManager.save(secrole);
-		        
-		return list(mapping, form, request, response);
+		 
+		LookupCodeValue functions = new LookupCodeValue();//lookupManager.GetLookupCode("LNG", obj.getLanguage());
+		secroleForm.set("functions", functions);
+        
+		return mapping.findForward("functions");
+
+	}
+	
+	public ActionForward preNew(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println("=========== preNew ========= in RoleManagerAction");
+				        
+		return mapping.findForward("preNew");
 
 	}
 	

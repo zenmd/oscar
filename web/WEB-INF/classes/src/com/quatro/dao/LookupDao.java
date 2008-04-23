@@ -53,6 +53,7 @@ public class LookupDao extends HibernateDaoSupport {
 		String fieldNames [] = new String[7];
 		String sSQL1 = "";
 		String sSQL="select distinct ";
+		boolean activeFieldExists = true;
 		for (int i = 1; i <= 7; i++)
 		{
 			boolean ok = false;
@@ -70,6 +71,7 @@ public class LookupDao extends HibernateDaoSupport {
 			if (!ok) {
 				sSQL += " null field" + i + ",";
 				fieldNames[i-1] = "field" + i;
+				if (i==3) activeFieldExists = false;
 			}
 		}
 		sSQL = sSQL.substring(0,sSQL.length()-1);
@@ -77,7 +79,7 @@ public class LookupDao extends HibernateDaoSupport {
 		sSQL1 = sSQL.replace("s.", "a.") + " a,";	    
 		sSQL += " s where 1=1";
 	    int i= 0;
-        if (activeOnly) {
+        if (activeFieldExists && activeOnly) {
 	    	sSQL += " and " + fieldNames[2] + "=?"; 
 	    	params[i++] = new DBPreparedHandlerParam(1);
         }

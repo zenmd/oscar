@@ -11,7 +11,11 @@
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+		<html:link action="/PMmodule/Admin/RoleManager.do?method=preNew"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
 		</td>
+
 	</tr>
 	<tr>
 		<td align="left"></td>
@@ -22,9 +26,9 @@
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 
-		<table width="100%" cellpadding="0" cellspacing="0">
+		<table width="100%" cellpadding="0" cellspacing="0" border="10">
 			<tr>
-				<td align="left" class="clsHomePageHeader" colspan="5">
+				<td align="left" class="clsHomePageHeader">
 				<h2>Role List</h2>
 				</td>
 			</tr>
@@ -37,16 +41,14 @@
 			requestURI="/PMmodule/Admin/RoleManager.do">
 
 			<display:column sortable="true" title="Role">
-				<a
-					href="<html:rewrite action="/PMmodule/Admin/RoleManager.do"/>?method=edit&roleNo=<c:out value="${role.roleNo}" />">
+				<a href="<html:rewrite action="/PMmodule/Admin/RoleManager.do"/>?method=edit&roleNo=<c:out value="${role.roleNo}" />">
 				<c:out value="${role.roleName}" /> </a>
 			</display:column>
 
 			<display:column property="description" sortable="true"
 				title="Description" />
 
-		</display:table>
-		</div>
+		</display:table></div>
 		</td>
 	</tr>
 </table>

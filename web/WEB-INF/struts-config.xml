@@ -369,6 +369,11 @@
 			<form-property name="roleNo" type="java.lang.Long" />
             <form-property name="roleName" type="java.lang.String"></form-property>
             <form-property name="description" type="java.lang.String"></form-property>
+            <form-property name="functions" type="com.quatro.model.LookupCodeValue"></form-property>
+            <form-property name="accessTypes" type="com.quatro.model.LookupCodeValue"></form-property>
+            
+            
+            
         </form-bean>
         
         <!-- Admin End -->
@@ -1758,6 +1763,9 @@
 		<action path="/PMmodule/Admin/RoleManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secroleForm" scope="request" validate="false">
             <forward name="list" path="page.admin.role.list" />
             <forward name="edit" path="page.admin.role.edit" />
+            <forward name="preNew" path="page.admin.role.edit" />
+            <forward name="functions" path="page.admin.role.functions" />
+            
         </action>
         
         

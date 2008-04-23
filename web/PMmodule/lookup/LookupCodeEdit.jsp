@@ -1,63 +1,39 @@
-<!-- 
-/*
-* 
-* Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
-* This software is published under the GPL GNU General Public License. 
-* This program is free software; you can redistribute it and/or 
-* modify it under the terms of the GNU General Public License 
-* as published by the Free Software Foundation; either version 2 
-* of the License, or (at your option) any later version. * 
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
-* along with this program; if not, write to the Free Software 
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
-* 
-* <OSCAR TEAM>
-* 
-* This software was written for 
-* Centre for Research on Inner City Health, St. Michael's Hospital, 
-* Toronto, Ontario, Canada 
-*/
- -->
 
-<%@ include file="../../taglibs.jsp"%> 
-<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<html>
-<title>Lookup Code Edit</title>
-<head>
-<script type="text/javascript" src='<html:rewrite page="/js/quatroLookup.js" />'></script>
-<script type="text/javascript">
-	function submitForm()
-	{
-		document.forms[0].method.value="save";
-		document.forms[0].submit();
-	}
-</script>
-</head>
-<body>
-<html:form action="/Lookup/LookupCodeEdit">
-<html:hidden property="tableDef.tableId"/>
-<html:hidden property="tableDef.moduleId" />
-<div style="color:red">
-<!--  %@ include file="messages.jsp" % -->
-<div class="tabs" id="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
-		<tr>
-			<th title="LookupTableList">Lookup Code Edit</th>
-		</tr>
-	</table>
-</div>
- <table cellpadding="3" cellspacing="0" border="0" width="100%" class="toolgroup">
-     <tr>
-     <td  align="left">
+<%@ include file="/taglibs.jsp"%>
+
+
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr>
+		<th class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables</span></th>
+	</tr>
+	<tr>
+		<td  align="left" class="buttonBar">
 		<input type="hidden" id="method" name="method"></input>
 		<a href="javascript:submitForm();">
 			<img src="../images/Save16.png" border="0"/> Save </a> &nbsp;|&nbsp;
 		<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> <img src="../images/Back16.png" border="0"/> Back to Code List</html:link>
-</td></tr>
-</table>
+</td>
+
+ 	</tr>
+	<tr>
+		<td align="left"></td>
+	</tr>
+	<tr>
+		<td height="100%">
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+
+		<table width="100%" cellpadding="0" cellspacing="0" border="10">
+			<tr>
+				<td align="left" class="clsHomePageHeader">
+				<h2>Lookup Code Edit</h2>
+				</td>
+			</tr>
+
+		</table>
+
 <logic:notEmpty name="lookupCodeEditForm" property="errMsg">
 <table width="100%">
 	<tr><td>
@@ -120,7 +96,17 @@
   </tr>  
 </logic:iterate>
 </table>
-</div>
-</html:form>
-</body>
-</html>
+
+
+		</div>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	function submitForm()
+	{
+		document.forms[0].method.value="save";
+		document.forms[0].submit();
+	}
+</script>

@@ -1,41 +1,37 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
+<%@ include file="/taglibs.jsp"%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<html>
-<head>
-<title>Lookup</title>
-<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroReport.js'></script>
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
-<style type="text/css">
-	@import "<html:rewrite page="/css/displaytag.css" />";
-</style>
-</head>
-<body>
-<html:form action="/Lookup/LookupCodeEdit.do">
-<div class="tabs" id="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
-		<tr>
-			<th title="LookupTableList">Code List</th>
-		</tr>
-	</table>
-</div>
- <table cellpadding="3" cellspacing="0" border="0" width="100%" class="toolgroup">
-     <tr>
-     <td align="left">
+
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr>
+		<th class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables</span></th>
+	</tr>
+	<tr>
+		<td align="left" class="buttonBar">
 		<html:link  action="/Lookup/LookupCodeEdit.do" paramName="lookupCodeListForm" paramProperty="tableDef.tableId" paramId="id">
 		<img src="../images/New16.png" border="0"/> Add</html:link>&nbsp;|&nbsp;
 		<html:link action="/Lookup/LookupTableList.do"> <img src="../images/Back16.png" border="0"/> Back to Lookup Fields</html:link>
-</td></tr>
-     
-     
-     
-     
- </table>
+</td>
+
+	</tr>
+	<tr>
+		<td align="left"></td>
+	</tr>
+	<tr>
+		<td height="100%">
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+
+		<table width="100%" cellpadding="0" cellspacing="0" border="10">
+			<tr>
+				<td align="left" class="clsHomePageHeader">
+				<h2>Code List</h2>
+				</td>
+			</tr>
+
+		</table>
+
 
 <table>
 <tr>
@@ -85,7 +81,7 @@
 </table>
 
 
-
-</html:form>
-</body>
-</html>
+		</div>
+		</td>
+	</tr>
+</table>

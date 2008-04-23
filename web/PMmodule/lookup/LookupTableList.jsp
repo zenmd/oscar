@@ -1,13 +1,38 @@
 <%@ include file="/taglibs.jsp"%>
-<html>
-<body>
-<div class="tabs" id="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
-		<tr>
-			<th title="LookupTableList">Lookup Fields</th>
-		</tr>
-	</table>
-</div>
+
+
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr>
+		<th class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables</span></th>
+	</tr>
+	<tr>
+		<td align="left" class="buttonBar"><html:link
+			action="/PMmodule/Admin/SysAdmin.do"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+		</td>
+
+	</tr>
+	<tr>
+		<td align="left"></td>
+	</tr>
+	<tr>
+		<td height="100%">
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+
+		<table width="100%" cellpadding="0" cellspacing="0" border="10">
+			<tr>
+				<td align="left" class="clsHomePageHeader">
+				<h2>Lookup Fields</h2>
+				</td>
+			</tr>
+
+		</table>
+
+
 <logic:iterate id="module" property="modules" name="lookupTableListForm" type="com.quatro.model.LookupCodeValue">
 	<UL>
 		<li>
@@ -21,13 +46,9 @@
 		</li>
 	</UL>
 </logic:iterate>
-<p></p>
-  <hr width="100%" color="orange">
-  <table border="0" cellspacing="0" cellpadding="0" width="100%">
-    <tr>
-      <td><a href="../admin/admin.jsp"> <img src="../images/leftarrow.gif" border="0" width="25" height="20" align="absmiddle"><bean:message key="global.btnBack"/></a></td>
-      <!--  td align="right"><a href="../logout.jsp"><bean:message key="global.btnLogout"/><img src="../images/rightarrow.gif"  border="0" width="25" height="20" align="absmiddle"></a></td -->
-    </tr>
-  </table>
-</body>
-</html>
+
+
+		</div>
+		</td>
+	</tr>
+</table>

@@ -223,6 +223,7 @@
 	<bean name="/PMmodule/Admin/RoleManager" class="com.quatro.web.admin.RoleManagerAction" singleton="false">
 		<property name="rolesManager" ref="rolesManager"/>
 		<property name="logManager" ref="logManager"/>
+		<property name="lookupManager" ref="lookupManager"/>
 	</bean>
 	
 	<!-- admin End -->
