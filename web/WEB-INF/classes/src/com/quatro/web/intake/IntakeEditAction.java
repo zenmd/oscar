@@ -1,6 +1,7 @@
 package com.quatro.web.intake;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,18 +10,22 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.action.ActionMessages;
 
 import org.apache.struts.util.LabelValueBean;
 
 import org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm;
+import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
 import org.oscarehr.PMmodule.model.Demographic;
 
 import org.oscarehr.PMmodule.service.ClientManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import com.quatro.common.KeyConstants;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import com.quatro.model.LookupCodeValue;
 import oscar.MyDateFormat;
@@ -31,6 +36,7 @@ public class IntakeEditAction extends DispatchAction {
     private LookupManager lookupManager;
     private IntakeManager intakeManager;
     private ProgramManager programManager;
+    private ClientRestrictionManager clientRestrictionManager;
 	
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	return update(mapping,form,request,response);
@@ -77,11 +83,6 @@ public class IntakeEditAction extends DispatchAction {
     		obj.setVAW(KeyConstants.CONSTANT_NO);
         }
 
-//	    Calendar cal= obj.getCreatedOn();
-//		obj.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "-" + 
-//				  String.valueOf(cal.get(Calendar.MONTH)+1) + "-" +  
-//				  String.valueOf(cal.get(Calendar.DATE)));
-        
 		qform.setIntake(obj);
 
         LookupCodeValue language;
@@ -114,13 +115,31 @@ public class IntakeEditAction extends DispatchAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-		Demographic client= qform.getClient();
+		QuatroIntake obj= qform.getIntake();
+
+        ProgramClientRestriction restrInPlace =	clientRestrictionManager.checkClientRestriction(
+        		obj.getProgramId().intValue(), obj.getClientId().intValue(), new Date());
+        if (restrInPlace != null) {
+        	request.setAttribute("errors", "Error: Service restriction applied to the selected program.");
+    		return mapping.findForward("edit");
+        }
+        
+/*
+        if (restrInPlace != null) {
+        	ActionMessages messages = new ActionMessages();
+//        	 create a message... sideLocation = "top" || "middle" || "bottom"
+        	messages.add("top", new ActionMessage("error"));
+        	saveMessages(request, messages);
+    		return mapping.findForward("edit");
+        }
+*/    	
+    	
+    	Demographic client= qform.getClient();
 		client.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(qform.getDob())));
 		client.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(qform.getDob())));
 		client.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(qform.getDob())));
     	clientManager.saveClient(client);
     	
-		QuatroIntake obj= qform.getIntake();
 
 		if(obj.getCreatedOnTxt().equals("")==false){
 		  obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt()));
@@ -212,6 +231,11 @@ public class IntakeEditAction extends DispatchAction {
 
 	public void setProgramManager(ProgramManager programManager) {
 		this.programManager = programManager;
+	}
+
+	public void setClientRestrictionManager(
+			ClientRestrictionManager clientRestrictionManager) {
+		this.clientRestrictionManager = clientRestrictionManager;
 	}
 
 }

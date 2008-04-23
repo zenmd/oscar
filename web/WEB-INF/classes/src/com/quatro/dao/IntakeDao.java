@@ -102,7 +102,7 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	        	   //Other information
 	        	   case IntakeConstant.LANGUAGE:
-		        	 intake.setAboriginalOther(obj.getValue());  
+		        	 intake.setLanguage(obj.getValue());  
 		          	 break;
 	        	   case IntakeConstant.YOUTH:
 		        	 intake.setYouth(obj.getValue());  
@@ -543,8 +543,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		  }
 		}
 
-        intakeDb.setReferralId(Integer.valueOf(referral.getId().intValue()));
-        intakeDb.setQueueId(Integer.valueOf(queue.getId().intValue()));
+        if(referral.getId()!=null) intakeDb.setReferralId(Integer.valueOf(referral.getId().intValue()));
+        if(queue.getId()!=null) intakeDb.setQueueId(Integer.valueOf(queue.getId().intValue()));
 
         ArrayList<Integer> lst = new ArrayList<Integer>();
         lst.add(intakeDb.getId());

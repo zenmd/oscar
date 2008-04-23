@@ -92,6 +92,7 @@
         <property name="lookupManager" ref="lookupManager"/>   
         <property name="intakeManager" ref="intakeManager"/>   
         <property name="programManager" ref="programManager"/>
+        <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
     </bean>
     <bean name="/PMmodule/GenericIntake/Report" class="org.oscarehr.PMmodule.web.GenericIntakeReportAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/EditIntake" class="org.oscarehr.PMmodule.web.EditIntakeAction" singleton="false" />

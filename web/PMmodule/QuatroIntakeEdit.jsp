@@ -33,9 +33,7 @@
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>		</td>
 	</tr>
-	<tr>
-		<td align="left"></td>
-	</tr>
+	<tr><td align="left"><c:out value="${errors}" /></td></tr>
 	<tr>
 		<td height="100%">
 		<div
