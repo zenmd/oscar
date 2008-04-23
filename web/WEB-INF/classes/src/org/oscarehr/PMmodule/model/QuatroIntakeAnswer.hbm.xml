@@ -4,11 +4,11 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="QuatroIntakeAnswer" table="intake_answer">
-        <composite-id>
-          <key-property name="id" type="integer" column="intake_answer_id" />
-		  <key-property name="intakeNodeId" column="intake_node_id"/>
-        </composite-id>
+		<id name="id" type="integer" column="intake_answer_id" >
+			<generator class="native" />
+		</id>
 
+	    <property name="intakeNodeId" column="intake_node_id"/>
 		<property name="value" column="val" type="string" />
 
 		<many-to-one name="intake2"

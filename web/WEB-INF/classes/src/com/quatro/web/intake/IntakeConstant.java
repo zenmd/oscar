@@ -5,6 +5,8 @@ import java.util.HashMap;
 public class IntakeConstant {
 	  //constant int below should start from 0 to the max value without duplication/gap between.
 	  public static final int GENDER = 0;
+	  
+	  //1-62 is for intake answer, you may delete/modify/add new item(s), but don't leave gap between numbers
 	  public static final int REFERREDBY = 1;
 	  public static final int ABORIGINAL = 2;
 	  public static final int CURSLEEPARRANGEMENT = 3;
@@ -72,6 +74,9 @@ public class IntakeConstant {
 	  public static final int INSHELTERBEFORE = 61;
 
 	  public static final int CREATEDON = 62;
+	  
+	  //total intake constant numbers defined here.
+	  public static final int TOTALITEMS = 63;
 	  
 	  private static HashMap<Integer, String> PREFIX;
 	  
