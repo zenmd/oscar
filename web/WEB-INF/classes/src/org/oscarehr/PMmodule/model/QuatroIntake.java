@@ -9,6 +9,7 @@ public class QuatroIntake {
     private Calendar createdOn;    
     private String createdOnTxt;    
     private String intakeStatus;
+    private Integer currentProgramId;
     private Integer programId;
     private String programType;
 
@@ -494,5 +495,11 @@ public class QuatroIntake {
 	}
 	public void setReferralId(Integer referralId) {
 		this.referralId = referralId;
+	}
+	public Integer getCurrentProgramId() {
+		return currentProgramId;
+	}
+	public void setCurrentProgramId(Integer currentProgramId) {
+		this.currentProgramId = currentProgramId;
 	}
 }

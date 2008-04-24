@@ -5,7 +5,6 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
-<%String x2="12"; %>
  
 <html-el:form action="/PMmodule/QuatroIntake/Edit.do">
 <html:hidden property="intake.referralId"/>
@@ -33,7 +32,12 @@
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>		</td>
 	</tr>
-	<tr><td align="left"><c:out value="${errors}" /></td></tr>
+	<tr><td align="left" class="message">
+      <logic:messagesPresent message="true">
+        <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
+        </html:messages> 
+      </logic:messagesPresent>
+	</td></tr>
 	<tr>
 		<td height="100%">
 		<div
@@ -52,7 +56,7 @@
    <html-el:optionsCollection property="optionList.gender" value="value" label="label"/>
 </html-el:select></td></tr>
 <tr><td>Last name*</td><td><html-el:text property="client.lastName" size="20" maxlength="30" /></td>
-<td>Date of birth<br>(yyyy-mm-dd)</td><td>
+<td>Date of birth<br>(yyyy/mm/dd)</td><td>
 <quatro:datePickerTag property="dob" width="65%" openerForm="quatroIntakeEditForm">
 </quatro:datePickerTag>
 </td></tr>
@@ -60,7 +64,6 @@
 <td><html-el:text size="30" maxlength="70" property="client.alias"/></td>
 <td></td><td></td></tr>
 </table>
-<%String x="1"; %>
 <table width="100%" class="edit">
 <tr><td colspan="2"><br><div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
@@ -251,7 +254,8 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 <tr><th title="LookupTableList">Program</th></tr>
 </table></div></td></tr>
 <tr><td width="15%">Program</td>
-<td width="85%"><html-el:select property="intake.programId">
+<td width="85%"><html-el:hidden property="intake.currentProgramId" />
+<html-el:select property="intake.programId">
 <html-el:optionsCollection property="programList" value="value" label="label" />
 </html-el:select></td></tr>
 </table>

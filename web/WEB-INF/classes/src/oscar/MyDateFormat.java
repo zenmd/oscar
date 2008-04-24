@@ -33,6 +33,10 @@ public class MyDateFormat {
 	public MyDateFormat() {
 		//this.aDateTime = d;
 	}
+	public static String formatMonthOrDay(String value) {
+	   String str2= "0" + value;
+	   return str2.substring(str2.length()-2, str2.length());
+	}
 	// from 8 (int) to 08 (String), 19 to 19
 	public static String getDigitalXX(int d) {
 		return (d>9?(""+d):("0"+d));
@@ -71,15 +75,24 @@ public class MyDateFormat {
 	//from 2001-02-02 to 2	
 	public static int getDayFromStandardDate(String aDate) {
 		aDate = getMyStandardDate(aDate);
-		return Integer.parseInt(aDate.trim().substring(aDate.trim().lastIndexOf('-')+1));
+		if(aDate.trim().lastIndexOf('/')>0)
+		  return Integer.parseInt(aDate.trim().substring(aDate.trim().lastIndexOf('/')+1));
+		else
+		  return Integer.parseInt(aDate.trim().substring(aDate.trim().lastIndexOf('-')+1));
 	}
 	public static int getMonthFromStandardDate(String aDate) {
 		aDate = getMyStandardDate(aDate);
-		return Integer.parseInt(aDate.trim().substring(aDate.trim().indexOf('-')+1, aDate.trim().lastIndexOf('-')));
+		if(aDate.trim().lastIndexOf('/')>0)
+		  return Integer.parseInt(aDate.trim().substring(aDate.trim().indexOf('/')+1, aDate.trim().lastIndexOf('/')));
+		else
+		  return Integer.parseInt(aDate.trim().substring(aDate.trim().indexOf('-')+1, aDate.trim().lastIndexOf('-')));
 	}
 	public static int getYearFromStandardDate(String aDate) {
 		aDate = getMyStandardDate(aDate);
-		return Integer.parseInt(aDate.trim().substring(0,aDate.trim().indexOf('-'))); 
+		if(aDate.trim().lastIndexOf('/')>0)
+		  return Integer.parseInt(aDate.trim().substring(0,aDate.trim().indexOf('/')));
+		else
+		  return Integer.parseInt(aDate.trim().substring(0,aDate.trim().indexOf('-')));
 	}
 	public static int getHourFromStandardTime(String aTime) {
 		int i = aTime.indexOf(' '); 

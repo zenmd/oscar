@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.action.ActionMessage;
 
 import org.apache.struts.util.LabelValueBean;
 
@@ -24,6 +25,8 @@ import com.quatro.service.IntakeManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import com.quatro.common.KeyConstants;
+
+import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.QuatroIntake;
@@ -45,10 +48,11 @@ public class IntakeEditAction extends DispatchAction {
     public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
         String clientId = qform.getClientId();
-        
+
 		Demographic client= clientManager.getClientByDemographicNo(clientId);
 		qform.setClient(client);
-        qform.setDob(client.getYearOfBirth() + "-" + client.getMonthOfBirth() + "-" + client.getDateOfBirth());
+
+		qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
         
 		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
   		qform.setOptionList(optionValues);
@@ -83,6 +87,7 @@ public class IntakeEditAction extends DispatchAction {
     		obj.setVAW(KeyConstants.CONSTANT_NO);
         }
 
+        obj.setCurrentProgramId(obj.getProgramId());
 		qform.setIntake(obj);
 
         LookupCodeValue language;
@@ -114,32 +119,55 @@ public class IntakeEditAction extends DispatchAction {
 	}
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ActionMessages messages = new ActionMessages();
+        boolean isError = false;
+        boolean isWarning = false;
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-		QuatroIntake obj= qform.getIntake();
 
-        ProgramClientRestriction restrInPlace =	clientRestrictionManager.checkClientRestriction(
-        		obj.getProgramId().intValue(), obj.getClientId().intValue(), new Date());
-        if (restrInPlace != null) {
-        	request.setAttribute("errors", "Error: Service restriction applied to the selected program.");
-    		return mapping.findForward("edit");
-        }
-        
-/*
-        if (restrInPlace != null) {
-        	ActionMessages messages = new ActionMessages();
-//        	 create a message... sideLocation = "top" || "middle" || "bottom"
-        	messages.add("top", new ActionMessage("error"));
-        	saveMessages(request, messages);
-    		return mapping.findForward("edit");
-        }
-*/    	
-    	
     	Demographic client= qform.getClient();
 		client.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(qform.getDob())));
 		client.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(qform.getDob())));
 		client.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(qform.getDob())));
     	clientManager.saveClient(client);
     	
+    	QuatroIntake obj= qform.getIntake();
+		
+		//get program type
+    	ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();
+		for(int i=0;i<lst.size();i++){
+			LabelValueBean obj2= (LabelValueBean)lst.get(i);
+			if(Integer.valueOf(obj2.getValue()).equals(obj.getProgramId())){
+			  obj.setProgramType(obj2.getLabel());
+			  break;
+			}
+		}
+		
+		//check service restriction
+		if(!obj.getProgramId().equals(obj.getCurrentProgramId())){
+          ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
+        		obj.getProgramId().intValue(), obj.getClientId().intValue(), new Date());
+          if (restrInPlace != null && request.getParameter("skipError")==null) {
+        	for(Object element : qform.getProgramList()) {
+        		LabelValueBean obj3 = (LabelValueBean) element;
+            	if(obj3.getValue().equals(obj.getProgramId().toString())){
+          		  if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+               		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
+               			request.getContextPath(), obj3.getLabel()));
+               		isWarning = true;
+                    break;
+          		  }else{
+          			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.service_restriction",
+              			request.getContextPath(), obj3.getLabel()));
+              		isError = true;
+                    break;
+          		  }
+            	}
+            }
+            saveMessages(request,messages);
+            
+    		if(isError) return mapping.findForward("edit");
+          }
+		}
 
 		if(obj.getCreatedOnTxt().equals("")==false){
 		  obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt()));
@@ -172,15 +200,6 @@ public class IntakeEditAction extends DispatchAction {
 		obj.setVeteranNoYN(request.getParameter("intake.veteranNoYN"));
 		obj.setRecordLandingYN(request.getParameter("intake.recordLandingYN"));
 		obj.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
-		
-		ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();
-		for(int i=0;i<lst.size();i++){
-			LabelValueBean obj2= (LabelValueBean)lst.get(i);
-			if(Integer.valueOf(obj2.getValue()).equals(obj.getProgramId())){
-			  obj.setProgramType(obj2.getLabel());
-			  break;
-			}
-		}
         
         LookupCodeValue language = new LookupCodeValue();
         language.setCode(request.getParameter("language_code"));
@@ -199,9 +218,12 @@ public class IntakeEditAction extends DispatchAction {
 		obj.setId(intakeId);
 		obj.setReferralId(referralId);
 		obj.setQueueId(queueId);
+        obj.setCurrentProgramId(obj.getProgramId());
 		qform.setIntake(obj);
-//        qform.getIntake().setId(intakeId);
 
+		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.service_restriction", request.getContextPath()));
+        saveMessages(request,messages);
+		
 		return mapping.findForward("edit");
 	}
 	
