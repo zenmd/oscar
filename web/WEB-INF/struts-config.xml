@@ -372,7 +372,12 @@
             <form-property name="functions" type="com.quatro.model.LookupCodeValue"></form-property>
             <form-property name="accessTypes" type="com.quatro.model.LookupCodeValue"></form-property>
             
+            <form-property name="funSelectionList" type="java.util.ArrayList"></form-property>
+            <form-property name="txtFUNKey" type="java.lang.String"></form-property>  
+            <form-property name="txtFUNValue" type="java.lang.String"></form-property>          
+            <form-property name="lstFUN" type="java.lang.String"></form-property> 
             
+            <form-property name="functionsList" type="java.util.ArrayList"></form-property> 
             
         </form-bean>
         
