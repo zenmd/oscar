@@ -38,5 +38,6 @@
 <%@ taglib uri="/WEB-INF/caisirole-tag.tld" prefix="caisirole" %>
 
 <%@ taglib uri="/WEB-INF/oscar-tag.tld" prefix="oscar" %>
+<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 
 
