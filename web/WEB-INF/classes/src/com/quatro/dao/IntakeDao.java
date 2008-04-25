@@ -298,7 +298,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
 			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
 			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.createdOn desc",
-			new Object[] {clientId, new Long(facilityId.longValue()), providerNo });
+			new Object[] {clientId, facilityId, providerNo });
 
 		return results;
 	}
