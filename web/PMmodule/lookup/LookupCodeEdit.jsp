@@ -1,11 +1,17 @@
 
 <%@ include file="/taglibs.jsp"%>
-
-
+<script type="text/javascript">
+	function submitForm()
+	{
+		document.forms[0].method.value="save";
+		document.forms[0].submit();
+	}
+</script>
+<html:form action="/Lookup/LookupCodeEdit">
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables</span></th>
+			id="lblTitle" align="left">Lookup Tables</span></th>
 	</tr>
 	<tr>
 		<td  align="left" class="buttonBar">
@@ -102,11 +108,4 @@
 		</td>
 	</tr>
 </table>
-
-<script type="text/javascript">
-	function submitForm()
-	{
-		document.forms[0].method.value="save";
-		document.forms[0].submit();
-	}
-</script>
+</html:form>
