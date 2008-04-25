@@ -60,7 +60,7 @@ public class IntakeEditAction extends DispatchAction {
         Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
         ArrayList lst= (ArrayList)programManager.getProgramDomainInFacility(
         		(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO), 
-        		new Long(facilityId.longValue()));
+        		new Integer(facilityId.intValue()));
         ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
         ArrayList<LabelValueBean> lst3 = new ArrayList<LabelValueBean>();
         for(int i=0;i<lst.size();i++){

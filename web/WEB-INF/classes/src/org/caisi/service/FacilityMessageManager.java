@@ -55,7 +55,7 @@ public class FacilityMessageManager {
 		return dao.getMessages();
 	}
 
-	public List getMessagesByFacilityId(Long facilityId) {
+	public List getMessagesByFacilityId(Integer facilityId) {
 		if (facilityId == null || facilityId == null) {           
         	return null;
         }

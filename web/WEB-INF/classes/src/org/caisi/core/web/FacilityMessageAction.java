@@ -71,9 +71,9 @@ public class FacilityMessageAction extends DispatchAction {
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		//List activeMessages = mgr.getMessages();
 		Facility facility = (Facility)request.getSession().getAttribute("currentFacility");
-		Long facilityId = null;
+		Integer facilityId = null;
 		if(facility!=null)
-			facilityId = Long.valueOf(facility.getId().longValue());
+			facilityId = Integer.valueOf(facility.getId().intValue());
 		
 		List activeMessages = mgr.getMessagesByFacilityId(facilityId);
 		if(activeMessages!=null && activeMessages.size() >0)
