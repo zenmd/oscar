@@ -125,6 +125,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
      */
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         long start = System.currentTimeMillis();
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         long current = 0;
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         String tab = request.getParameter("tab");
@@ -140,7 +141,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
         // need to check to see if the client is in our program domain
         // if not...don't show this screen!
-        if (!caseManagementMgr.isClientInProgramDomain(providerNo, demoNo)) {
+        if (!caseManagementMgr.isClientInProgramDomain(currentFacilityId,providerNo, demoNo)) {
             return mapping.findForward("domain-error");
         }
 
@@ -222,7 +223,6 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
             current = System.currentTimeMillis();
             log.debug("GET ISSUES " + String.valueOf(current - start));
             start = current;
-            Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
             issues=caseManagementMgr.filterIssues(issues, providerNo, programId,currentFacilityId);
             current = System.currentTimeMillis();
             log.debug("FILTER ISSUES " + String.valueOf(current - start));
