@@ -1486,6 +1486,7 @@
             <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
             <forward name="service_restriction_error" path="page.pmm.client.service_restriction_error"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
         <action path="/PMmodule/ProviderInfo" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="view" path="page.pmm.provider.view" />
@@ -1662,6 +1663,19 @@
         <action path="/CaseManagementView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementView.jsp" name="caseManagementViewForm">
             <forward name="view" path="/casemgmt/CaseManagementView.jsp" />
             <forward name="page.casemgmt.view" path="page.casemgmt.view" />
+            <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
+            <forward name="domain-error" path="/casemgmt/domain-error.jsp" />
+            <forward name="unlockForm" path="/casemgmt/unlockNoteForm.jsp" />
+            <forward name="unlockSuccess" path="/casemgmt/unlockNoteSuccess.jsp" />
+            <forward name="unlockError" path="/casemgmt/unlockNoteError.jsp" />
+            <forward name="unlock_ajax" path="/casemgmt/unlockAjax.jsp" />
+            <forward name="expired" path="/casemgmt/expired.jsp" />  
+            <forward name="listNotes" path="/casemgmt/viewNotes.jsp"/>
+        </action>
+          <action path="/CaseManagementView2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="caseManagementViewForm">
+            <forward name="view" path="/casemgmt/CaseManagementSearch.jsp" />           
+            <forward name="client" path="/PMmodule/ClientSearch2.do" />
+            <forward name="page.casemgmt.search" path="page.casemgmt.search" />
             <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
             <forward name="domain-error" path="/casemgmt/domain-error.jsp" />
             <forward name="unlockForm" path="/casemgmt/unlockNoteForm.jsp" />

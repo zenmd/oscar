@@ -128,6 +128,16 @@
         <property name="admissionManager" ref="admissionManager"/>
         <property name="surveyManager" ref="oscarSurveyManager"/>        
     </bean>
+    <bean name="/CaseManagementView2" class="org.oscarehr.casemgmt.web.CaseManagementSearchAction" singleton="false" autowire="byName">
+        <property name="caseManagementManager" ref="caseManagementManager"/>
+        <property name="ticklerManager" ref="ticklerManager"/>
+        <property name="clientImageManager" ref="ClientImageManager"/>
+        <property name="roleManager" ref="roleManager"/>
+        <property name="programManager" ref="programManager"/>
+        <property name="admissionManager" ref="admissionManager"/>
+        <property name="surveyManager" ref="oscarSurveyManager"/>  
+        <property name="lookupManager" ref="lookupManager"></property>      
+    </bean>
     <bean name="/CaseManagementEntry" class="org.oscarehr.casemgmt.web.CaseManagementEntryAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="providerManager" ref="providerManager"/>

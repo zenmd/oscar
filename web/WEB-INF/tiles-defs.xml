@@ -245,6 +245,10 @@
 		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/casemgmt/CaseManagementView.jsp" />
 	</definition>
+	<definition name="page.casemgmt.search" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/CaseManagementSearch.jsp" />
+	</definition>
 	<!--
 		<definition
 		name="page.customreport.list"
