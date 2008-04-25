@@ -39,7 +39,7 @@ import org.hibernate.criterion.Restrictions;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
+import com.quatro.util.*;
 import oscar.OscarProperties;
 
 public class CaseManagementNoteDAO extends HibernateDaoSupport {
@@ -148,7 +148,11 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		Criteria criteria = getSession().createCriteria(CaseManagementNote.class);
 		
 		criteria.add(Expression.eq("demographic_no", searchBean.getDemographicNo()));
-		
+		if(!Utility.IsEmpty(searchBean.getSearchProviderNo()))
+		{
+			criteria.add(Expression.eq("provider_no", String.valueOf(searchBean.getSearchProviderNo())));
+		}
+		/*
 		if(searchBean.getSearchRoleId() > 0) {
 			criteria.add(Expression.eq("reporter_caisi_role",String.valueOf(searchBean.getSearchRoleId())));
 		}
@@ -157,6 +161,13 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 			criteria.add(Expression.eq("program_no",String.valueOf(searchBean.getSearchProgramId())));			
 		}
 		
+		if(!Utility.IsEmpty(searchBean.getSearchServiceComponent())){
+			criteria.add(Expression.eq("issue_id", String.valueOf(searchBean.getSearchServiceComponent())));
+		}
+		if(!Utility.IsEmpty(searchBean.getSearchCaseStatus())){
+			criteria.add(Expression.eq("resolved", String.valueOf(searchBean.getSearchCaseStatus())));
+		}
+		*/
 		try {
 			Date startDate;
 			Date endDate;
