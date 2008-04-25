@@ -33,7 +33,25 @@ public class CaseManagementSearchBean {
 	private int searchProgramId;
 	private String searchText;
 	private String searchEncounterType;
+	private String searchServiceComponent;
+	private String searchCaseStatus;
 	
+	public String getSearchCaseStatus() {
+		return searchCaseStatus;
+	}
+
+	public void setSearchCaseStatus(String searchCaseStatus) {
+		this.searchCaseStatus = searchCaseStatus;
+	}
+
+	public String getSearchServiceComponent() {
+		return searchServiceComponent;
+	}
+
+	public void setSearchServiceComponent(String searchServiceComponent) {
+		this.searchServiceComponent = searchServiceComponent;
+	}
+
 	public CaseManagementSearchBean(String demographicNo) {
 		this.demographicNo = demographicNo;
 	}
