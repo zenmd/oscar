@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
 import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
@@ -43,6 +44,9 @@ import org.oscarehr.casemgmt.service.TicklerManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.quatro.common.KeyConstants;
+import com.quatro.service.LookupManager;
+
 public class BaseCaseManagementViewAction extends DispatchAction {
 	
 	protected CaseManagementManager caseManagementMgr;
@@ -52,6 +56,7 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 	protected ProgramManager programMgr;
 	protected AdmissionManager admissionMgr;
 	protected SurveyManager surveyMgr;
+	protected LookupManager lookupMgr;
 	
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
@@ -68,7 +73,9 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 	public void setCaseManagementManager(CaseManagementManager caseManagementMgr) {
 		this.caseManagementMgr = caseManagementMgr;
 	}
-	
+	public void setLookupManager(LookupManager lkMgr) {
+		this.lookupMgr = lkMgr;
+	}
 	public void setTicklerManager(TicklerManager mgr) {
 		this.ticklerManager = mgr;
 	}
@@ -93,6 +100,7 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 		String demono= request.getParameter("demographicNo");
 		if (demono==null || "".equals(demono)) 
 			demono=(String)request.getSession().getAttribute("casemgmt_DemoNo");
+		    if(null==demono)demono=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);
 		else
 			request.getSession().setAttribute("casemgmt_DemoNo", demono);
 		return demono;
@@ -119,7 +127,9 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 			providerNo=(String)request.getSession().getAttribute("user");
 		return providerNo;
 	}
-	
+	public ProviderManager getProviderManager() {
+		return (ProviderManager) getAppContext().getBean("providerManager");
+	}
 	@Deprecated
     public int getProviderId(HttpServletRequest request){
         return(Integer.parseInt(getProviderNo(request)));
