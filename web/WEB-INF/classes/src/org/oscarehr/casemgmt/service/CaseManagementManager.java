@@ -42,6 +42,7 @@ import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.DefaultRoleAccess;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.ProgramAccess;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.AdmissionManager;
@@ -1035,15 +1036,15 @@ public class CaseManagementManager {
         this.caseManagementNoteDAO.saveNote(note);
     }
 
-    public boolean isClientInProgramDomain(String providerNo, String demographicNo) {
+    public boolean isClientInProgramDomain(Integer facilityId, String providerNo, String demographicNo) {
 
-        List providerPrograms = roleProgramAccessDAO.getProgramProviderByProviderNo(providerNo);
-
+        List providerPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
+        
         List allAdmissions = this.admissionManager.getAdmissions(Integer.valueOf(demographicNo));
 
         for (int x = 0; x < providerPrograms.size(); x++) {
-            ProgramProvider pp = (ProgramProvider)providerPrograms.get(x);
-            long programId = pp.getProgramId().longValue();
+            Program pp = (Program)providerPrograms.get(x);
+            long programId = pp.getId().longValue();
 
             for (int y = 0; y < allAdmissions.size(); y++) {
                 Admission admission = (Admission)allAdmissions.get(y);
