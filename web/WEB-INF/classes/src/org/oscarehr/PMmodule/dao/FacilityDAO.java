@@ -34,12 +34,12 @@ public class FacilityDAO extends HibernateDaoSupport {
         getHibernateTemplate().refresh(facility);
     }
     
-    public List<Long> getDistinctFacilityIdsByProgramId(int programId)
+    public List<Integer> getDistinctFacilityIdsByProgramId(int programId)
     {
         // select program_id,facility_id from room;
         
         String sqlCommand="select distinct facility_id from room where room.program_id="+programId;
-        return(SqlUtils.selectLongList(sqlCommand));
+        return(SqlUtils.selectIntList(sqlCommand));
     }
     
     public List<Long> getDistinctProgramIdsByFacilityId(int facilityId) {

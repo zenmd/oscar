@@ -143,7 +143,7 @@ public class ProgramManager {
         return programDao.getAllPrograms();
     }
 
-    public List<Program> getAllPrograms(String programStatus, String type, long facilityId) {
+    public List<Program> getAllPrograms(String programStatus, String type, Integer facilityId) {
         return programDao.getAllPrograms(programStatus, type, facilityId);
     }
 
@@ -169,6 +169,9 @@ public class ProgramManager {
         else {
             return programDao.getAllPrograms();
         }
+    }
+    public List<Program> getProgramsByProvider(Integer facilityId,String providerNo) {
+    	return programDao.getProgramByProvider(providerNo, facilityId);
     }
 
     public List<Program> getPrograms() {
@@ -370,7 +373,7 @@ public class ProgramManager {
         return programDomain;
     }
 
-    public List<Program> getProgramDomainInFacility(String providerNo, Long facilityId) {
+    public List<Program> getProgramDomainInFacility(String providerNo, Integer facilityId) {
     	List<Program> programs = getProgramDomain(providerNo);
     	List<Program> results = new ArrayList<Program>();
     	if(facilityId==null) 

@@ -141,7 +141,7 @@ public class ProgramDao extends HibernateDaoSupport {
     	return getAllPrograms("active",PROGRAM_TYPE_Bed,0);
     }
     
-    public List <Program> getAllPrograms(String programStatus, String type, long facilityId)
+    public List <Program> getAllPrograms(String programStatus, String type, Integer facilityId)
     {
     	Criteria c = getSession().createCriteria(Program.class);
     	if (!("Any".equals(programStatus) || "".equals(programStatus))) {
@@ -210,7 +210,7 @@ public class ProgramDao extends HibernateDaoSupport {
     public List<Program> getProgramByProvider(String providerNo, Integer facilityId)
     {
         Criteria criteria = getSession().createCriteria(Program.class);
-        String sql = "id in (select a.code from lst_orgcd a, secuserrole b where a.codetree like '%' || b.orgcd || '%')";
+        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like b.orgcd || '%' and b.provider_no='" + providerNo + "')";
 
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.eq("facilityId", facilityId));
@@ -390,7 +390,7 @@ public class ProgramDao extends HibernateDaoSupport {
             criteria.add(Expression.eq("mentalHealth", true));
         }
 
-        criteria.add(Expression.eq("facilityId", new Long(facilityId.longValue())));
+        criteria.add(Expression.eq("facilityId", facilityId));
         
         criteria.addOrder(Order.asc("name"));
 

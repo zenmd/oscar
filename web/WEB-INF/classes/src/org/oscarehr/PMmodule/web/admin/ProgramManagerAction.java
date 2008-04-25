@@ -103,7 +103,7 @@ public class ProgramManagerAction extends BaseAction {
         }
         else
         {
-        	list = programManager.getAllPrograms(searchStatus, searchType, Long.parseLong(searchFacilityId));
+        	list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId));
         }
     	request.setAttribute("programs", list);
         request.setAttribute("facilities",facilityDAO.getActiveFacilities());
@@ -602,7 +602,7 @@ public class ProgramManagerAction extends BaseAction {
         }
         
         try {
-            program.setFacilityId(Long.parseLong(request.getParameter("program.facilityId")));
+            program.setFacilityId(Integer.parseInt(request.getParameter("program.facilityId")));
         }
         catch (NumberFormatException e) {
             e.printStackTrace();

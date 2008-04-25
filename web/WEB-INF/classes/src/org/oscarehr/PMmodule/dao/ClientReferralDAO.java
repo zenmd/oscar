@@ -177,7 +177,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
             " and ( (cr.FacilityId=?) or (cr.ProgramId in (select s.id from Program s where s.facilityId=?)))";
           paramList.add(clientId);
           paramList.add(facilityId);
-          paramList.add((long)facilityId);
+          paramList.add(facilityId);
           Object params[] = paramList.toArray(new Object[paramList.size()]);
           results = getHibernateTemplate().find(sSQL, params);
         }
