@@ -7,7 +7,11 @@ public class Secobjprivilege implements java.io.Serializable {
 	// Fields
 
 	private SecobjprivilegeId id;
+	private String roleusergroup;
+	private String objectname_desc;
+	private String objectname_code;
 	private String privilege;
+	private String privilege_code;
 	private Long priority;
 	private String providerNo;
 
@@ -63,6 +67,38 @@ public class Secobjprivilege implements java.io.Serializable {
 
 	public void setProviderNo(String providerNo) {
 		this.providerNo = providerNo;
+	}
+
+	public String getObjectname_code() {
+		return objectname_code;
+	}
+
+	public void setObjectname_code(String objectname_code) {
+		this.objectname_code = objectname_code;
+	}
+
+	public String getObjectname_desc() {
+		return objectname_desc;
+	}
+
+	public void setObjectname_desc(String objectname_desc) {
+		this.objectname_desc = objectname_desc;
+	}
+
+	public String getPrivilege_code() {
+		return privilege_code;
+	}
+
+	public void setPrivilege_code(String privilege_code) {
+		this.privilege_code = privilege_code;
+	}
+
+	public String getRoleusergroup() {
+		return roleusergroup;
+	}
+
+	public void setRoleusergroup(String roleusergroup) {
+		this.roleusergroup = roleusergroup;
 	}
 
 }

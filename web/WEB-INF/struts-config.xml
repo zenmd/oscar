@@ -377,7 +377,7 @@
             <form-property name="txtFUNValue" type="java.lang.String"></form-property>          
             <form-property name="lstFUN" type="java.lang.String"></form-property> 
             
-            <form-property name="functionsList" type="java.util.ArrayList"></form-property> 
+            <form-property name="secobjprivilegeLst" type="java.util.ArrayList"></form-property> 
             
         </form-bean>
         

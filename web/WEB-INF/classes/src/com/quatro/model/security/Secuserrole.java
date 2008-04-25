@@ -1,4 +1,4 @@
-package com.quatro.model;
+package com.quatro.model.security;
 
 
 public class Secuserrole implements java.io.Serializable {

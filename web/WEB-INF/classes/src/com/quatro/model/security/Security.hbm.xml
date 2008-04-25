@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.quatro.model.Security" table="SECURITY">
+    <class name="com.quatro.model.security.Security" table="SECURITY">
         <id name="securityNo" type="java.lang.Long">
             <column name="SECURITY_NO" precision="6" scale="0" />
             <generator class="native" />

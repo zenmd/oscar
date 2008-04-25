@@ -20,12 +20,14 @@
 * Toronto, Ontario, Canada 
 */
 
-package com.quatro.service;
+package com.quatro.service.security;
 
 import java.util.List;
 
 import com.quatro.dao.SecroleDao;
-import com.quatro.model.Secrole;
+import com.quatro.dao.security.SecobjprivilegeDao;
+import com.quatro.model.security.Secobjprivilege;
+import com.quatro.model.security.Secrole;
 
 
 
@@ -33,6 +35,7 @@ import com.quatro.model.Secrole;
 public class RolesManager {
 
 	private SecroleDao secroleDao;
+	private SecobjprivilegeDao secobjprivilegeDao;
 	
 	public void setSecroleDao(SecroleDao dao) {
 		this.secroleDao = dao;
@@ -43,8 +46,17 @@ public class RolesManager {
 	public Secrole getRole(String id) {
 		return secroleDao.getRole(Long.valueOf(id));
 	}
+	public Secrole getRoleByRolename(String roleName) {
+		return secroleDao.getRoleByName(roleName);
+	}
 	public void save(Secrole secrole) {
 		secroleDao.save(secrole);
 	}
-
+	public void saveFunction(Secobjprivilege secobjprivilege) {
+		secobjprivilegeDao.save(secobjprivilege);
+	}
+	public void setSecobjprivilegeDao(SecobjprivilegeDao secobjprivilegeDao) {
+		this.secobjprivilegeDao = secobjprivilegeDao;
+	}
+	
 }

@@ -1,8 +1,10 @@
 <%@ include file="/taglibs.jsp"%>
 
-<bean:define id="lstFUNSelection" name="secroleForm" property="funSelectionList" />
-<bean:define id="accessTypes" name="secroleForm" property="accessTypes" type="com.quatro.model.LookupCodeValue" />
-						
+<bean:define id="lstFUNSelection" name="secroleForm"
+	property="funSelectionList" />
+<bean:define id="accessTypes" name="secroleForm" property="accessTypes"
+	type="com.quatro.model.LookupCodeValue" />
+
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
@@ -13,7 +15,8 @@
 			action="/PMmodule/Admin/RoleManager.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Role List&nbsp;&nbsp;|</html:link>
-		<html:link href="javascript:submitForm('save');" onclick="javascript:getFunctionsList();"
+		<html:link href="javascript:submitForm('saveFunction');"
+			onclick="javascript:getFunctionsList();"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 		</td>
@@ -38,7 +41,7 @@
 
 		</table>
 
-		<html:form action="/PMmodule/Admin/RoleManager" method="post" >
+		<html:form action="/PMmodule/Admin/RoleManager" method="post">
 			<html:hidden property="method" value="save" />
 			<table>
 
@@ -69,44 +72,109 @@
 				</tr>
 				<tr>
 					<td>Functions:</td>
-					<td>
-					
-					<table width="100%">
+					<td width="650px">
+<table>
 
-						<tr>
-							<td><html:select property="lstFUN" multiple="true" size="5"
-								style="width:350px;">
-								<html:options collection="lstFUNSelection" property="key"
-									labelProperty="value"></html:options>
-							</html:select> 
-							
-							<html:hidden property="txtFUNKey" value="" /> <html:hidden
-								property="txtFUNValue" value="" /></td>
-							<td class="clsButtonBarText"><a
-								onclick="javascript:showLookup('FUN', '', '', 'secroleForm','lstFUN','', true, '<c:out value="${ctx}"/>');"><img
-								src="/QuatroShelter/images/microsoftsearch.gif"></a><a
-								onclick="javascript:removeSel('lstFUN')"><img
-								src="/QuatroShelter/images/Reset16.gif"></a></td>
-						</tr>
-
-					</table>
+	<tr>
+		<td align="left" class="message"><logic:messagesPresent
+			message="true">
+			<html:messages id="message" message="true" bundle="pmm">
+				<c:out escapeXml="false" value="${message}" />
+			</html:messages>
+		</logic:messagesPresent></td>
+	</tr>
+</table>
+<br/>
+					<TABLE align="center" class="simple" width="100%">
 
 
-					</td>
+						<thead>
+							<TR>
+								<th align="center"><b>Select</b></th>
+								<th align="center"><b>Function</b></TH>
+								<TH align="center"><b>AccessType</b></TH>
+							</TR>
+						</thead>
+
+						<logic:iterate id="secobjprivilege" name="secroleForm"
+							property="secobjprivilegeLst" indexId="rIndex">
+							<TR>
+								<TD align="center" width="50px"><input type="checkbox"
+									name="p<%=String.valueOf(rIndex)%>" value="" /> <input
+									type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /></TD>
+
+								<TD width="350px">
+
+
+								<table cellpadding="0" style="border:0px;" cellspacing="0"
+									width="100%">
+									<tr>
+										<td style="border:0px;" width="1px"><input
+											style="width:100%;" type="text"
+											name="function_code<%=String.valueOf(rIndex)%>"
+											value='<c:out value="${secobjprivilege.objectname_code}"/>'></td>
+										<td style="border:0px;" width="100%"><input
+											style="width:100%;" type="text"
+											name="function_description<%=String.valueOf(rIndex)%>"
+											value='<c:out value="${secobjprivilege.objectname_desc}"/>'
+											readonly></td>
+										<td style="border:0px;" width="35px"><a
+											onclick="showLookup('FUN', '', '', 'secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+											src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+									</tr>
+								</table>
+
+
+
+
+
+
+
+
+							</TD>
+							<TD width="250px">
+
+
+							<table cellpadding="0" style="border:0px;" cellspacing="0"
+								width="100%">
+								<tr>
+									<td style="border:0px;" width="1px"><input type="text"
+										style="width:100%;"
+										name="accessTypes_code<%=String.valueOf(rIndex)%>"
+										value='<c:out value="${secobjprivilege.privilege_code}"/>'></td>
+									<td style="border:0px;" width="100%"><input style="width:100%;"
+										type="text"
+										name="accessTypes_description<%=String.valueOf(rIndex)%>"
+										value='<c:out value="${secobjprivilege.privilege}"/>' readonly></td>
+									<td style="border:0px;" width="35px"><a
+										onclick="showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+										src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+								</tr>
+							</table>
+
+
+							</TD>
+
+							</TR>
+
+						</logic:iterate>
+					</TABLE>
+
+
+				<table width="100%">
+					<tr>
+						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
+							href="javascript:submitForm('addFunction');">Add</a>&nbsp;&nbsp;&nbsp;|
+						&nbsp;&nbsp;<a href="javascript:submitForm('removeFunction');">Remove</a>
+						</td>
+					</tr>
+				</table>
+
+
+
+				</td>
 				</tr>
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
-				<tr>
-					<td>Access Type:</td>
-					<td>
-					<quatro:lookupTag name="accessTypes" tableName="PRV"
-					formProperty="secroleForm" codeProperty="code"
-					bodyProperty="description" width="390px" codeWidth="100px"
-					showCode="true" />
-				
-					</td>
-				</tr>
+
 
 			</table>
 
@@ -115,47 +183,6 @@
 
 
 
-<TABLE align="center" class="simple" width="100%"><!--  722px-->
-<thead>
-   	<TR><th class="sortable">Select</th>
-    	<th class="sortable">Function</TH>
-		<TH class="sortable">AccessType</TH>
-      	</TR></thead>
-
-	<logic:iterate id="tplCriteria" name="secroleForm" property="functionsList" indexId="rIndex">
-	<TR><TD align="center">
-        <input type="checkbox" name="p<%=String.valueOf(rIndex)%>" value="<%=String.valueOf(rIndex)%>" /> 
-     	<input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /> 
-   	</TD>
-   	<TD>
-		<html:select name="tplCriteria" property="relation" indexed="true">
-          <logic:iterate id="relation" name="arRelations" type="String">
-            <html:option value="<%=relation%>"><%=relation%></html:option>
-          </logic:iterate>
-		</html:select>
-	</TD>  
-	<TD>
-		<html:select name="tplCriteria" property="fieldNo" indexed="true" onchange="CriteriaChanged(this);">
-           <option value="0"></option>
-           <html:options collection="filterFields" property="fieldNo" labelProperty="fieldName"></html:options>
-		</html:select>
-	</TD>  
-	 
-   	</TR>
-   	<input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" />
-   	</logic:iterate>
-</TABLE>
-
-
-           <table width="100%">
-	         <tr>
-                <td class="clsButtonBarText" width="100%">
-                    &nbsp;&nbsp;<a href="javascript:submitForm('addFunction');">Add</a>&nbsp;&nbsp;&nbsp;|
-                        &nbsp;&nbsp;<a href="javascript:submitForm('removeFunction');">Remove</a>
-	                </td>     
-	            </tr>
-            </table>
-        
 
 
 

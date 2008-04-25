@@ -1,4 +1,4 @@
-package com.quatro.model;
+package com.quatro.model.security;
 
 
 public class Secrole implements java.io.Serializable {

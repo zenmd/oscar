@@ -22,15 +22,14 @@
 
 package com.quatro.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.caisi.model.Role;
-import org.oscarehr.PMmodule.model.Program;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.quatro.model.Secrole;
+import com.quatro.model.security.Secrole;
 
 public class SecroleDao extends HibernateDaoSupport {
 
@@ -53,6 +52,21 @@ public class SecroleDao extends HibernateDaoSupport {
         Secrole result = (Secrole) this.getHibernateTemplate().get(Secrole.class, id);
 
         log.debug("getRole: id=" + id + ",found=" + (result != null));
+
+        return result;
+    }
+    
+    public Secrole getRoleByName(String roleName) {
+    	Secrole result = null;
+    	if (roleName == null || roleName.length() <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        List lst = this.getHibernateTemplate().find("from Secrole r where r.roleName='" + roleName + "'");
+        if(lst != null && lst.size() > 0)
+        	result = (Secrole) lst.get(0);
+
+        log.debug("getRoleByName: roleName=" + roleName + ",found=" + (result != null));
 
         return result;
     }

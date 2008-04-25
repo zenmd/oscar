@@ -1,4 +1,3 @@
-
 package com.quatro.web.admin;
 
 import java.util.ArrayList;
@@ -22,16 +21,18 @@ import com.quatro.model.LookupCodeValue;
 import com.quatro.model.ReportFilterValue;
 import com.quatro.model.ReportTempCriValue;
 import com.quatro.model.ReportValue;
-import com.quatro.model.Secrole;
 import com.quatro.model.security.Secobjprivilege;
 import com.quatro.model.security.SecobjprivilegeId;
+import com.quatro.model.security.Secrole;
 import com.quatro.service.LookupManager;
-import com.quatro.service.RolesManager;
+import com.quatro.service.security.RolesManager;
 
 public class RoleManagerAction extends BaseAction {
 
 	private LogManager logManager;
+
 	private RolesManager rolesManager;
+
 	private LookupManager lookupManager;
 
 	public void setLookupManager(LookupManager lookupManager) {
@@ -54,7 +55,7 @@ public class RoleManagerAction extends BaseAction {
 
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		List<Secrole> list = null;
 		list = rolesManager.getRoles();
 
@@ -64,160 +65,276 @@ public class RoleManagerAction extends BaseAction {
 		return mapping.findForward("list");
 
 	}
-	
+
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		System.out.println("=========== EDIT ========= in RoleManagerAction");
-		
-        DynaActionForm secroleForm = (DynaActionForm) form;
 
-        String roleNo = request.getParameter("roleNo");
+		DynaActionForm secroleForm = (DynaActionForm) form;
 
-        if (isCancelled(request)) {
-            return list(mapping, form, request, response);
-        }
+		String roleNo = request.getParameter("roleNo");
 
-        if (roleNo != null) {
-            Secrole secrole = rolesManager.getRole(roleNo);
+		if (isCancelled(request)) {
+			return list(mapping, form, request, response);
+		}
 
-            if (secrole == null) {
-                ActionMessages messages = new ActionMessages();
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("role.missing"));
-                saveMessages(request, messages);
+		if (roleNo != null) {
+			Secrole secrole = rolesManager.getRole(roleNo);
 
-                return list(mapping, form, request, response);
-            }
+			if (secrole == null) {
+				ActionMessages messages = new ActionMessages();
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+						"role.missing"));
+				saveMessages(request, messages);
 
-            secroleForm.set("roleNo", secrole.getRoleNo());
-            secroleForm.set("roleName", secrole.getRoleName());
-            secroleForm.set("description", secrole.getDescription());
-            request.setAttribute("secroleForEdit",secrole);
+				return list(mapping, form, request, response);
+			}
 
-         }
+			secroleForm.set("roleNo", secrole.getRoleNo());
+			secroleForm.set("roleName", secrole.getRoleName());
+			secroleForm.set("description", secrole.getDescription());
+			request.setAttribute("secroleForEdit", secrole);
 
-        
-        return mapping.findForward("edit");
+		}
+
+		return mapping.findForward("edit");
 
 	}
-	
-	public ActionForward save(ActionMapping mapping, ActionForm form,
+
+	public ActionForward saveNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		
-		System.out.println("=========== SAVE ========= in RoleManagerAction");
-		
+
+		ActionMessages messages = new ActionMessages();
+        boolean isError = false;
+        boolean isWarning = false;
+        
 		DynaActionForm secroleForm = (DynaActionForm) form;
-		
+
 		Secrole secrole = new Secrole();
-		secrole.setRoleNo((Long)secroleForm.get("roleNo"));
-		secrole.setRoleName((String)secroleForm.get("roleName"));
-		secrole.setDescription((String)secroleForm.get("description"));
+		secrole.setRoleNo((Long) secroleForm.get("roleNo"));
+		String roleName = (String) secroleForm.get("roleName");
+		secrole.setRoleName(roleName);
+		secrole.setDescription((String) secroleForm.get("description"));
+
+		// check rolename, should be unique
+		Secrole existRole = rolesManager.getRoleByRolename(roleName);
+
+		if (existRole == null) {
+			rolesManager.save(secrole);
+
+			secroleForm.set("roleNo", secrole.getRoleNo());
+
+			LookupCodeValue functions = new LookupCodeValue();
+			secroleForm.set("functions", functions);
+
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.created",
+           			request.getContextPath(), roleName));
+			saveMessages(request,messages);
+			
+			return addFunction(mapping, form, request, response);//mapping.findForward("functions");
+		} else {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.role.exist",
+           			request.getContextPath(), roleName));
+			saveMessages(request,messages);
+			
+			return mapping.findForward("preNew");
+
+		}
+
+	}
+
+	public ActionForward saveChange(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out
+				.println("=========== SAVE Change ========= in RoleManagerAction");
+
+		DynaActionForm secroleForm = (DynaActionForm) form;
+
+		Secrole secrole = new Secrole();
+		secrole.setRoleNo((Long) secroleForm.get("roleNo"));
+		String roleName = (String) secroleForm.get("roleName");
+		secrole.setRoleName(roleName);
+		secrole.setDescription((String) secroleForm.get("description"));
+
 		rolesManager.save(secrole);
-		
+
 		secroleForm.set("roleNo", secrole.getRoleNo());
-        		
+
 		LookupCodeValue functions = new LookupCodeValue();
 		secroleForm.set("functions", functions);
-        
-		return mapping.findForward("functions");
+
+		return list(mapping, form, request, response);
 
 	}
-		
+
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		System.out.println("=========== preNew ========= in RoleManagerAction");
-				        
+
 		return mapping.findForward("preNew");
 
 	}
-	
 
 	public ActionForward addFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		
-		System.out.println("=========== addFunction ========= in RoleManagerAction");
+
+		System.out
+				.println("=========== addFunction ========= in RoleManagerAction");
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		ChangeFunLstTable(2, secroleForm, request);
-		
+
 		return mapping.findForward("functions");
 
 	}
-	
-    public void ChangeFunLstTable(int operationType, DynaActionForm myForm, HttpServletRequest request)
-    {	
-    	ArrayList<Secobjprivilege> obj= new ArrayList<Secobjprivilege>();
-    	
-    	ArrayList funs = new ArrayList();
-		if(request.getSession().getAttribute(DataViews.REPORT_CRI)!=null)
-			 funs = (ArrayList) request.getSession().getAttribute(DataViews.REPORT_CRI);
 
-		Map map=request.getParameterMap();
-		String[] obj2= (String[])map.get("lineno");
-		int lineno=0;
-		if(obj2!=null) lineno=obj2.length;
+	public ActionForward removeFunction(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out
+				.println("=========== removeFunction ========= in RoleManagerAction");
+		DynaActionForm secroleForm = (DynaActionForm) form;
+		ChangeFunLstTable(1, secroleForm, request);
+
+		return mapping.findForward("functions");
+
+	}
+
+	public void ChangeFunLstTable(int operationType, DynaActionForm myForm,
+			HttpServletRequest request) {
 		
-				
-		switch(operationType)
-		{
-		  case 1:  //remove
-		    for(int i=0;i<lineno;i++)
-		    {
-	         /* if(map.get("p" + i)!=null) continue;
-	          ReportTempCriValue criNew=(ReportTempCriValue)cris.get(i);
-	          String[] arRelation=(String[])map.get("tplCriteria[" + i + "].relation");
-	          String[] arFieldNo=(String[])map.get("tplCriteria[" + i + "].fieldNo");
-	          String[] arOp=(String[])map.get("tplCriteria[" + i + "].op");
-	          String[] arVal=(String[])map.get("tplCriteria[" + i + "].val");
-	          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valdesc");
-	          String[] arFieldType=(String[])map.get("tplCriteria[" + i + "].filter.fieldType");
-	          String[] arLookupTable=(String[])map.get("tplCriteria[" + i + "].filter.lookupTable");
-		      if(arRelation!=null) criNew.setRelation(arRelation[0]);
-		      if(arOp!=null) criNew.setOp(arOp[0]);
-		      if(arVal!=null) criNew.setVal(arVal[0]);
-		      if(arValDesc!=null) criNew.setValDesc(arValDesc[0]);
-	          if(arFieldNo!=null){
-		  		int iFieldNo = Integer.parseInt(arFieldNo[0]);
-				ReportFilterValue filter = new ReportFilterValue();
-			    filter.setFieldNo(iFieldNo);
-			    if(arFieldType!=null) filter.setFieldType(arFieldType[0]);
-			    if(arLookupTable!=null) filter.setLookupTable(arLookupTable[0]);
-		        criNew.setFilter(filter);
-		      }  
-	          obj.add(criNew);
-	          */
-		    }
-		    break;
-		  case 2:  //add
-			for(int i=0;i<lineno;i++)
-			{
-				Secobjprivilege objNew=(Secobjprivilege)funs.get(i);
-		      String[] accessType=(String[])map.get("tplCriteria[" + i + "].relation");
-	          String[] function=(String[])map.get("tplCriteria[" + i + "].fieldNo");
-		      
-			  if(accessType!=null) objNew.setPrivilege(accessType[0]);
-			  if(function!=null){
-				  SecobjprivilegeId id = new SecobjprivilegeId();
-				  id.setObjectname(function[0]);
-				  id.setRoleusergroup((String)myForm.get("roleName"));
-				  objNew.setId(id);
-			  }
-			  // providerNo ...
-			  
-		      obj.add(objNew);
+		ActionMessages messages = new ActionMessages();
+		
+		ArrayList<Secobjprivilege> secobjprivilegeLst = new ArrayList<Secobjprivilege>();
+
+		ArrayList funLst = new ArrayList();
+		if (request.getSession().getAttribute(DataViews.REPORT_CRI) != null)
+			funLst = (ArrayList) request.getSession().getAttribute(
+					DataViews.REPORT_CRI);
+
+		Map map = request.getParameterMap();
+		String[] arr_lineno = (String[]) map.get("lineno");
+		int lineno = 0;
+		if (arr_lineno != null)
+			lineno = arr_lineno.length;
+
+		switch (operationType) {
+		case 1: // remove
+			for (int i = 0; i < lineno; i++) {
+				String[] isChecked = (String[]) map.get("p" + i);
+
+				if (isChecked == null) {
+					Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
+
+					String[] accessType_code = (String[]) map
+							.get("accessTypes_code" + i);
+					String[] accessType_description = (String[]) map
+							.get("accessTypes_description" + i);
+					String[] function_code = (String[]) map.get("function_code"
+							+ i);
+					String[] function_description = (String[]) map
+							.get("function_description" + i);
+
+					if (accessType_code != null)
+						objNew.setPrivilege_code(accessType_code[0]);
+					if (accessType_description != null)
+						objNew.setPrivilege(accessType_description[0]);
+					if (function_code != null)
+						objNew.setObjectname_code(function_code[0]);
+					if (function_description != null)
+						objNew.setObjectname_desc(function_description[0]);
+
+					secobjprivilegeLst.add(objNew);
+
+				}
+
+			}
+			break;
+		case 2: // add
+			for (int i = 0; i < lineno; i++) {
+				Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
+
+				String[] accessType_code = (String[]) map
+						.get("accessTypes_code" + i);
+				String[] accessType_description = (String[]) map
+						.get("accessTypes_description" + i);
+				String[] function_code = (String[]) map
+						.get("function_code" + i);
+				String[] function_description = (String[]) map
+						.get("function_description" + i);
+
+				if (accessType_code != null)
+					objNew.setPrivilege_code(accessType_code[0]);
+				if (accessType_description != null)
+					objNew.setPrivilege(accessType_description[0]);
+				if (function_code != null)
+					objNew.setObjectname_code(function_code[0]);
+				if (function_description != null)
+					objNew.setObjectname_desc(function_description[0]);
+
+				secobjprivilegeLst.add(objNew);
 			}
 			Secobjprivilege objNew2 = new Secobjprivilege();
-			obj.add(objNew2);
+			secobjprivilegeLst.add(objNew2);
 			break;
-		  
-		}
-		myForm.set("functionsList", obj);
-		
-		request.getSession().setAttribute(DataViews.REPORT_CRI, obj);
-		
-		
-    }
 
-	
+		}
+		myForm.set("secobjprivilegeLst", secobjprivilegeLst);
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.function.add",
+       			request.getContextPath()));
+		saveMessages(request,messages);
+		
+		request.getSession().setAttribute(DataViews.REPORT_CRI,
+				secobjprivilegeLst);
+
+	}
+
+	public ActionForward saveFunction(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out
+				.println("=========== saveFunction ========= in RoleManagerAction");
+		DynaActionForm secroleForm = (DynaActionForm) form;
+
+		String roleName = (String) secroleForm.get("roleName");
+		String providerNo = (String) request.getSession().getAttribute("user");
+		ArrayList funLst = new ArrayList();
+		if (request.getSession().getAttribute(DataViews.REPORT_CRI) != null)
+			funLst = (ArrayList) request.getSession().getAttribute(
+					DataViews.REPORT_CRI);
+
+		Map map = request.getParameterMap();
+		String[] arr_lineno = (String[]) map.get("lineno");
+		int lineno = 0;
+		if (arr_lineno != null)
+			lineno = arr_lineno.length;
+
+		for (int i = 0; i < lineno; i++) {
+			String[] function_code = (String[]) map.get("function_code" + i);
+			if (function_code != null && function_code[0].length() > 0) {
+				SecobjprivilegeId id = new SecobjprivilegeId();
+				id.setObjectname(function_code[0]);
+				id.setRoleusergroup(roleName);
+
+				Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
+
+				String[] accessType_code = (String[]) map
+						.get("accessTypes_code" + i);
+				if (accessType_code != null)
+					objNew.setPrivilege(accessType_code[0]);
+
+				objNew.setId(id);
+				objNew.setProviderNo(providerNo);
+				objNew.setPriority(new Long("0"));
+
+				rolesManager.saveFunction(objNew);
+			}
+		}
+
+		return list(mapping, form, request, response);
+
+	}
 
 }

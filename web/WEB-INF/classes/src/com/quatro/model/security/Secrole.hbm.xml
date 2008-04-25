@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.quatro.model.Secrole" table="SECROLE">
+    <class name="com.quatro.model.security.Secrole" table="SECROLE">
         <id name="roleNo" type="java.lang.Long">
             <column name="ROLE_NO" precision="10" scale="0" />
             <generator class="native" />

@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.quatro.model.security.Secobjprivilege" table="SECOBJPRIVILEGE" schema="QUATROSHELTER">
+    <class name="com.quatro.model.security.Secobjprivilege" table="SECOBJPRIVILEGE">
         <composite-id name="id" class="com.quatro.model.security.SecobjprivilegeId">
             <key-property name="roleusergroup" type="java.lang.String">
                 <column name="ROLEUSERGROUP" length="30" />

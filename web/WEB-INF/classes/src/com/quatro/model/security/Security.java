@@ -1,4 +1,4 @@
-package com.quatro.model;
+package com.quatro.model.security;
 
 import java.util.Date;
 

@@ -7,17 +7,33 @@
 			id="_ctl0_phBody_lblTitle" align="left">Role Management</span></th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><html:link 
+		<td align="left" class="buttonBar"><html:link
 			action="/PMmodule/Admin/RoleManager.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Role List&nbsp;&nbsp;|</html:link>
-		<html:link 
-			href="javascript:submitForm();"
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-		</td>
+
+		<logic:present name="secroleForEdit">
+			<html:link href="javascript:submitForm('saveChange');"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+		</logic:present> <logic:notPresent name="secroleForEdit">
+			<html:link href="javascript:submitForm('saveNew');"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+		</logic:notPresent></td>
 
 	</tr>
+
+	<tr>
+		<td align="left" class="message"><logic:messagesPresent
+			message="true">
+			<html:messages id="message" message="true" bundle="pmm">
+				<c:out escapeXml="false" value="${message}" />
+			</html:messages>
+		</logic:messagesPresent></td>
+	</tr>
+
+
 	<tr>
 		<td align="left"></td>
 	</tr>
@@ -29,14 +45,14 @@
 
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr>
-				<td align="left" class="clsHomePageHeader" colspan="5">
-					<logic:present name="secroleForEdit">
-						<h2>Edit Role</h2>
-					</logic:present> <logic:notPresent name="secroleForEdit">
-						<h2>Add Role</h2>
-					</logic:notPresent>
-				</td>
+				<td align="left" class="clsHomePageHeader" colspan="5"><logic:present
+					name="secroleForEdit">
+					<h2>Edit Role</h2>
+				</logic:present> <logic:notPresent name="secroleForEdit">
+					<h2>Add Role</h2>
+				</logic:notPresent></td>
 			</tr>
+
 
 
 		</table>
@@ -47,7 +63,8 @@
 				<logic:present name="secroleForEdit">
 					<tr>
 						<td>Role No.:</td>
-						<td><html:text property="roleNo" readonly="true" style="border: none" /></td>
+						<td><html:text property="roleNo" readonly="true"
+							style="border: none" /></td>
 					</tr>
 					<tr>
 						<td colspan="2">&nbsp;</td>
@@ -64,7 +81,7 @@
 					<td>Description:</td>
 					<td><html:text property="description" size="50" /></td>
 				</tr>
-				
+
 			</table>
 
 		</html:form></div>
@@ -76,8 +93,8 @@
 function gotoRoleList(){
  	window.open("<c:out value='${ctx}'/>/PMmodule/Admin/RoleManager.do?method=list", "_self") ;
 }
-function submitForm(){
-	document.forms[0].method.value="save";
+function submitForm(mthd){
+	document.forms[0].method.value=mthd;
 	document.forms[0].submit();
 }
 //-->
