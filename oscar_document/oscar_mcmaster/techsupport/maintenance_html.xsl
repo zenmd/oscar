@@ -8,7 +8,7 @@
 <html>
 <head>
 <title>oscar Maintenance </title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
 
 <body class="BodyStyle" vlink="#0000FF" >
