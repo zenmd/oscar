@@ -45,6 +45,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.caisi.model.CustomFilter;
+import org.caisi.model.IssueAdmin;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramTeam;
@@ -266,7 +267,10 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             request.setAttribute("providers", providers);
             List<LookupCodeValue> caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
             request.setAttribute("caseStatusList", caseStatus);
-;
+            
+            List<IssueAdmin> issues = this.caseManagementMgr.getAllIssueInfo();
+            request.setAttribute("issues", issues);
+            
             // apply if we are filtering on role
             List roles = roleMgr.getRoles();
             request.setAttribute("roles", roles);
@@ -399,17 +403,21 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         CaseManagementSearchBean searchBean = new CaseManagementSearchBean(this.getDemographicNo(request));
-        searchBean.setSearchEncounterType(caseForm.getSearchEncounterType());
+        //searchBean.setSearchEncounterType(caseForm.getSearchEncounterType());
         searchBean.setSearchEndDate(caseForm.getSearchEndDate());
-        searchBean.setSearchProgramId(caseForm.getSearchProgramId());
+        //searchBean.setSearchProgramId(caseForm.getSearchProgramId());
         searchBean.setSearchProviderNo(caseForm.getSearchProviderNo());
-        searchBean.setSearchRoleId(caseForm.getSearchRoleId());
+        //searchBean.setSearchRoleId(caseForm.getSearchRoleId());
         searchBean.setSearchStartDate(caseForm.getSearchStartDate());
-        searchBean.setSearchText(caseForm.getSearchText());
+        //searchBean.setSearchText(caseForm.getSearchText());
+        searchBean.setSearchCaseStatus(caseForm.getSearchCaseStatus());
+        searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
         List results = this.caseManagementMgr.search(searchBean);
         List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
+        //List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
+        
+        List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
 
         List sortedResults = this.sort_notes(filteredResults, caseForm.getNote_sort());
         request.setAttribute("search_results", sortedResults);

@@ -14,6 +14,15 @@
 <%
 response.setHeader("Cache-Control", "no-cache");
 %>
+<script type="text/javascript">
+<!--
+	function submitForm(methodValue)
+	{
+		document.forms[0].method.value=methodValue;
+		document.forms[0].submit();
+	}
+//-->
+</script>
 <html:form action="/CaseManagementView2" method="get">
 	<html:hidden property="demographicNo" />
 	<html:hidden property="providerNo" />
@@ -87,19 +96,16 @@ setTimeout(string,time);
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Summary&nbsp;&nbsp;|
 			</html:link> <html:link action="#" style="color:Navy;text-decoration:none;">&nbsp;Detailed&nbsp;&nbsp;|
-			</html:link> <c:if test="${empty Notes and sessionScope.readonly=='false'}">
-				<!--
+			</html:link> <!--
 				<c:url
 					value="/CaseManagementEntry.do?method=edit&note_edit=new&from=casemgmt&demographicNo=${param.demographicNo}&providerNo=${param.providerNo}"
 					var="noteURL" />
 				<span style="cursor:pointer;color: blue"
 					onclick="popupNotePage('<c:out value="${noteURL}" escapeXml="false"/>')">New&nbsp;Note&nbsp;&nbsp;|</span>
-				 -->
-				<html:link
-					action="/CaseManagementEntry.do?method=edit&note_edit=new&from=casemgmt&demographicNo=${param.demographicNo}&providerNo=${param.providerNo}"
-					style="color:Navy;text-decoration:none;">
-				 New&nbsp;Note&nbsp;&nbsp;|</html:link>
-			</c:if> <html:link action="window.print();"
+				 --> <html:link
+				action="/CaseManagementEntry.do?method=edit&note_edit=new&from=casemgmt&demographicNo=${param.demographicNo}&providerNo=${param.providerNo}"
+				style="color:Navy;text-decoration:none;">
+				 New&nbsp;Note&nbsp;&nbsp;|</html:link> <html:link action="window.print();"
 				style="color:Navy;text-decoration:none;">&nbsp;Print&nbsp;&nbsp;|</html:link>
 			</td>
 		</tr>
@@ -166,32 +172,18 @@ setTimeout(string,time);
 		</tr>
 	</table>
 	</div>
-
 	<br />
 	<div class="axial">
 	<table border="0" cellspacing="2" cellpadding="3" width="100%">
 		<tr>
-			<th width="60%"><bean-el:message key="CaseSearch.provider"
+			<th width="20%"><bean-el:message key="CaseSearch.provider"
 				bundle="pmm" /></th>
-			<td><html:select property="providerNo">
+			<td width="30%"><html:select property="providerNo">
 				<html:option value="">
 				</html:option>
 				<html:options collection="providers" property="providerNo"
 					labelProperty="fullName" />
 			</html:select></td>
-		</tr>
-		<tr>
-			<th><bean-el:message key="CaseSearch.componentsOfService"
-				bundle="pmm" /></th>
-			<td><html:select property="searchServiceComponent">
-				<html:option value="">
-				</html:option>
-				<html:options collection="providers" property="providerNo"
-					labelProperty="fullName" />
-			</html:select></td>
-		</tr>
-
-		<tr>
 			<th><bean-el:message key="CaseSearch.caseStatus" bundle="pmm" />
 			</th>
 			<td><html:select property="searchCaseStatus">
@@ -201,30 +193,41 @@ setTimeout(string,time);
 					labelProperty="description" />
 			</html:select></td>
 		</tr>
+		<tr>
+			<th colspan="2"><bean-el:message
+				key="CaseSearch.componentsOfService" bundle="pmm" /></th>
+			<td colspan="2"><html:select property="searchServiceComponent">
+				<html:option value="">
+				</html:option>
+				<html:options collection="issues" property="id"
+					labelProperty="description" />
+			</html:select></td>
+		</tr>
+		<tr>
 
+		</tr>
 		<tr>
 			<th><bean-el:message key="CaseSearch.dateRangeFrom" bundle="pmm" />
 			</th>
-			<td><quatro:datePickerTag property="searchStartDate"
-				openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
-		</tr>
 
-		<tr>
+			<td><quatro:datePickerTag property="searchStartDate"
+				openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
 			<th><bean-el:message key="CaseSearch.dateRangeTo" bundle="pmm" /></th>
-			<td><quatro:datePickerTag property="searchEndDate" width="90px"
+			<td><quatro:datePickerTag property="searchEndDate" width="120px"
 				openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
 		</tr>
 		<tr>
-			<td align="center"><html:submit value="search" /></td>
-			<td align="center"><input type="button" name="reset"
-				value="reset" onclick="resetClientFields()" />
+			<td align="left" colspan="4"><input type="button" name="search"
+				value="search" onclick="submitForm('search')" />&nbsp; <input
+				type="button" name="reset" value="reset"
+				onclick="resetClientFields()" /></td>
 		</tr>
 	</table>
 	</div>
 
 
 	<br />
-	<c:if test="${not empty Notes}">
+	<c:if test="${not empty search_results}">
 		<table border="0" width="100%">
 			<tr>
 				<td align="left"><span
@@ -284,7 +287,7 @@ setTimeout(string,time);
 					int index = 0;
 					String bgcolor = "white";
 				%>
-				<c:forEach var="note" items="${Notes}">
+				<c:forEach var="note" items="${search_results}">
 					<%
 							if (index++ % 2 != 0) {
 							bgcolor = "white";
@@ -361,7 +364,7 @@ setTimeout(string,time);
 					int index1 = 0;
 					String bgcolor1 = "white";
 				%>
-				<c:forEach var="note" items="${Notes}">
+				<c:forEach var="note" items="${search_results}">
 					<%
 							if (index1++ % 2 != 0) {
 							bgcolor1 = "white";
@@ -369,7 +372,7 @@ setTimeout(string,time);
 							bgcolor1 = "#EEEEFF";
 						}
 						java.util.List noteList = (java.util.List) request
-								.getAttribute("Notes");
+								.getAttribute("search_results");
 						String noteId = ((CaseManagementNote) noteList.get(index1 - 1))
 								.getId().toString();
 						request.setAttribute("noteId", noteId);

@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
+import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -46,6 +47,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+import com.quatro.util.*;
 
 public class BaseCaseManagementViewAction extends DispatchAction {
 	
@@ -57,6 +59,7 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 	protected AdmissionManager admissionMgr;
 	protected SurveyManager surveyMgr;
 	protected LookupManager lookupMgr;
+	protected IssueAdminManager issAdmManager;
 	
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
@@ -123,7 +126,7 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 
 	public String getProviderNo(HttpServletRequest request){
 		String providerNo=request.getParameter("providerNo");
-		if (providerNo==null) 
+		if (Utility.IsEmpty(providerNo)) 
 			providerNo=(String)request.getSession().getAttribute("user");
 		return providerNo;
 	}

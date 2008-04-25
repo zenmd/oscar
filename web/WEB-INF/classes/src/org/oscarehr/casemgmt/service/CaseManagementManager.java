@@ -76,7 +76,7 @@ import org.oscarehr.casemgmt.model.Messagetbl;
 import org.oscarehr.casemgmt.model.base.BaseHashAudit;
 import org.oscarehr.common.dao.UserPropertyDAO;
 import org.oscarehr.common.model.UserProperty;
-
+import com.quatro.util.*;
 import oscar.OscarProperties;
 
 public class CaseManagementManager {
@@ -277,7 +277,10 @@ public class CaseManagementManager {
     public List<CaseManagementIssue> getActiveIssues(String providerNo, String demographic_no) {
         return caseManagementIssueDAO.getActiveIssuesByDemographic(demographic_no);
     }
-
+    public List<CaseManagementIssue> getAllIssues(String demographic_no) {
+        return caseManagementIssueDAO.getAllIssuesByDemographic(demographic_no);
+    }
+    
     public List<CaseManagementIssue> getIssues(String providerNo, String demographic_no, List accessRight) {
         return filterIssueList(getIssues(providerNo, demographic_no), providerNo, accessRight);
     }
@@ -323,7 +326,8 @@ public class CaseManagementManager {
         }
         return filteredIssue;
     }
-
+    
+    
     public Issue getIssue(String issue_id) {
         return this.issueDAO.getIssue(Long.valueOf(issue_id));
     }
@@ -772,6 +776,35 @@ public class CaseManagementManager {
             return this.caseManagementNoteDAO.getHistory(note);
     }
 
+    /*
+     * new search logic
+     * filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
+     */
+    public List filterNotes(List notes,String providerNo,Integer currentFacilityId,String issId,String caseStatus){
+    	List filteredNotes = new ArrayList();
+    	if(notes.isEmpty()) return notes;
+    	
+    	
+        //iterate through the issue list
+    	
+        for (Iterator iter = notes.iterator(); iter.hasNext();) {
+            CaseManagementNote cmNote = (CaseManagementNote)iter.next();
+            filteredNotes.add(cmNote);
+            }
+        
+    	
+        if(Utility.IsEmpty(issId)) issId="0";
+          if((Integer.valueOf(issId)>0) || !Utility.IsEmpty(caseStatus)){  
+        	  filteredNotes = notesIssueFiltering(Integer.parseInt(issId),caseStatus, filteredNotes) ;
+          }
+        
+        // filter notes based on facility
+        if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {
+            filteredNotes = notesFacilityFiltering(currentFacilityId, filteredNotes);
+        }
+
+    	return filteredNotes;
+    }
     /**
      * 
      * 
@@ -1029,6 +1062,38 @@ public class CaseManagementManager {
             if (programId==null || programManager.hasAccessBasedOnFacility(currentFacilityId, Integer.parseInt(programId))) results.add(caseManagementNote);
         }
 
+        return results;
+    }
+    private List<CaseManagementNote> notesIssueFiltering(Integer issueId,String caseStatus, List<CaseManagementNote> notes) {
+    	ArrayList<CaseManagementNote> results = new ArrayList<CaseManagementNote>();
+
+        for (CaseManagementNote caseManagementNote : notes) {
+            
+        	Set issues = caseManagementNote.getIssues();
+            Iterator its = issues.iterator();
+            String resYN ="";
+            while (its.hasNext()) {
+                CaseManagementIssue iss = (CaseManagementIssue)its.next();
+                if(issueId.intValue()>0 && !Utility.IsEmpty(caseStatus)){
+                     resYN =iss.isResolved()?"1":"0";          
+                     if (iss.getId().intValue() == issueId.intValue() && (resYN.equals(caseStatus))) {
+                    	 results.add(caseManagementNote);
+                     }
+                }else if(issueId.intValue()>0 && Utility.IsEmpty(caseStatus)){
+                	if (iss.getId().intValue() == issueId.intValue()) {
+                   	 results.add(caseManagementNote);
+                    }
+                }else if(!Utility.IsEmpty(caseStatus)){
+                	resYN =iss.isResolved()?"1":"0";          
+                    if (resYN.equals(caseStatus)) {
+                   	 results.add(caseManagementNote);
+                    }
+                }else{
+                	results.add(caseManagementNote);
+                }
+            }        	 
+        }
+        
         return results;
     }
     
