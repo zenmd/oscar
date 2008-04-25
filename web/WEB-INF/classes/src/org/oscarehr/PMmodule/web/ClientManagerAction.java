@@ -161,6 +161,7 @@ public class ClientManagerAction extends BaseAction {
         clientForm.set("view", new ClientManagerFormBean());
         Integer clientId = (Integer)request.getSession().getAttribute("clientId");
         if (clientId != null) request.setAttribute(ID, clientId.toString());
+		
         return edit(mapping, form, request, response);
     }
 
@@ -346,7 +347,12 @@ public class ClientManagerAction extends BaseAction {
         if (id == null || id.equals("")) {
         	id=(String) request.getAttribute(ID);
         }
-
+         
+        if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
+			request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,id);
+			request.getSession().removeAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION);
+			return mapping.findForward("case");
+		}
         setEditAttributes(form, request, id);
 
         logManager.log("read", "pmm client record", id, request);

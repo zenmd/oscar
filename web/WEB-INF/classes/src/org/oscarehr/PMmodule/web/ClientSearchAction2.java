@@ -44,6 +44,7 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 
 import com.ibm.ws.http.HttpRequest;
+import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 
 public class ClientSearchAction2 extends BaseAction {
@@ -64,8 +65,7 @@ public class ClientSearchAction2 extends BaseAction {
 			request.getSession().setAttribute("outsideOfDomainEnabled","false");
 		}
 
-		setLookupLists(request);
-		
+		setLookupLists(request);		
 		return mapping.findForward("form");
 	}
 	
@@ -102,6 +102,7 @@ public class ClientSearchAction2 extends BaseAction {
 			logManager.log("read","out of domain client search","",request);
 		}
 		setLookupLists(request);
+		
 		return mapping.findForward("form");
 	}
 	private void setLookupLists(HttpServletRequest request)
