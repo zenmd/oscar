@@ -89,9 +89,14 @@ String _appPath = request.getContextPath();
 									<table>
 										<tr align="left">
 											<th align="left" valign="middle" class="clsHomePageLabels">
-											<a
+											<!-- a
 												href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>
-											Case Management</a></th>
+											Case Management</a>
+											-->
+											<html:link 	action="/CaseManagementView2.do">
+										Case Management
+									</html:link>
+											</th>
 										</tr>
 									</table>
 									</th>
