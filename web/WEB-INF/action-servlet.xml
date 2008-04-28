@@ -9,7 +9,9 @@
 	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
 	</bean>
-
+	<bean name="/siteCheckLogin" class="oscar.login.SiteCheckAction" singleton="false">
+		<property name="secSiteManager" ref="secSiteManager" />
+	</bean>
 	<bean name="/Admin" class="com.quatro.web.admin.AdminAction" singleton="true" />
     <bean name="/Tickler" class="org.caisi.tickler.web.TicklerAction" singleton="false">
         <property name="ticklerManager" ref="ticklerManagerT"/>
