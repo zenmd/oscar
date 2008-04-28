@@ -40,15 +40,21 @@ BuildInfo buildInfo = BuildInfo.getInstance();
 String buildDate = buildInfo.getBuildDate();
 
 // clear old cookies
-Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
-Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
-Cookie admCookie = new Cookie(CookieSecurity.adminCookie, "");
-rcpCookie.setPath("/");
-prvCookie.setPath("/");
-admCookie.setPath("/");
-response.addCookie(rcpCookie);
-response.addCookie(prvCookie);
-response.addCookie(admCookie);
+if(props.isSiteSecured()) {
+        response.sendRedirect("login.jsp");
+}
+else
+{
+	Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
+	Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
+	Cookie admCookie = new Cookie(CookieSecurity.adminCookie, "");
+	rcpCookie.setPath("/");
+	prvCookie.setPath("/");
+	admCookie.setPath("/");
+	response.addCookie(rcpCookie);
+	response.addCookie(prvCookie);
+	response.addCookie(admCookie);
+}
 %>
 
 <html:html locale="true">
