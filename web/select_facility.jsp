@@ -5,7 +5,7 @@
 <%@page import="org.oscarehr.PMmodule.dao.ProviderDao"%>
 <%@page import="org.oscarehr.PMmodule.model.Provider"%>
 <%@page import="org.oscarehr.util.SessionConstants"%>
-
+<%@include file="taglibs.jsp"%>
 <%@include file="/layouts/caisi_html_top.jspf"%>
 
 <h2>Please select which facility you would like to currently work in</h2> 
@@ -21,7 +21,7 @@
 		{
 			Facility facility=facilityDAO.getFacility(facilityId);
 			%>
-				<li><a href='?nextPage=<%=request.getParameter("nextPage")%>&<%=SessionConstants.CURRENT_FACILITY_ID%>=<%=facility.getId()%>'><%=facility.getName()%></a></li>
+				<li><a  href='/QuatroShelter/login.do?nextPage=<%=request.getParameter("nextPage")%>&<%=SessionConstants.CURRENT_FACILITY_ID%>=<%=facility.getId()%>'><%=facility.getName()%></a></li>
 			<%
 		}
 	%>
