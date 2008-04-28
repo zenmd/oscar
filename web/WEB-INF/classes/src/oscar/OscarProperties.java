@@ -133,6 +133,10 @@ public class OscarProperties extends Properties {
          return getBooleanProperty("AUTO_GENERATE_PROVIDER_NO", "yes") || getBooleanProperty("AUTO_GENERATE_PROVIDER_NO", "true");
      }   
 
+     public boolean isSiteSecured() {
+         return getBooleanProperty("security_site_control", "yes") || getBooleanProperty("security_site_control", "true");
+     }   
+
      public boolean isPINEncripted() {
          return getBooleanProperty("IS_PIN_ENCRYPTED", "yes") || getBooleanProperty("IS_PIN_ENCRYPTED", "true");
      }
