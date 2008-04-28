@@ -115,6 +115,7 @@
     </bean>
 
     <!-- DAO -->
+    <bean id="secSiteDao" class="com.quatro.dao.security.SecSiteDao" autowire="byName"/>
     <bean id="redirectLinkDao" class="org.caisi.dao.RedirectLinkDao" autowire="byName"/>
     <bean id="redirectLinkTrackingDao" class="org.caisi.dao.RedirectLinkTrackingDao" autowire="byName"/>
     <bean id="issueGroupDao" class="org.caisi.dao.IssueGroupDao" autowire="byName"/>
@@ -186,6 +187,9 @@
     <bean id="scratchPadManagerTarget" class="com.quatro.service.ScratchPadManager">
        <property name="scratchPadDao" ref="scratchPadDao"/>
     </bean>
+	<bean id="secSiteManager" class="com.quatro.service.security.SecSiteManager" autowire="byName">
+		<property name="secSiteDao" ref="secSiteDao"/>
+	</bean>
     <bean id="lookupManager" class="com.quatro.service.LookupManager"  autowire="byName">
         <property name="lookupDao" ref="lookupDao"/>
     </bean>
