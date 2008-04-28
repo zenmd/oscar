@@ -22,18 +22,18 @@
 */
  -->
 <%@ include file="/taglibs.jsp"%>
-<div id="banner">
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
+<table border="1" cellspacing="0" cellpadding="0" width="100%">
 	<tr>
-		<td align="left" width="200px">
+		<td align="left" width="200px" rowspan="3">
 		<%if (oscar.OscarProperties.getInstance().isTorontoRFQ() && !oscar.OscarProperties.getInstance().getBooleanProperty("USE_CAISI_LOGO", "true")){%>
  	        <img src="<html:rewrite page="/images/QuatroShelterLogo.gif"  />" alt="QuatroShelter" id="caisilogo"  border="0"/>
  	    <%} else {%>
 	        <img src="<html:rewrite page="/images/caisi_1.jpg" />" alt="Caisi" id="caisilogo"  border="0"/>
 	    <%}%>
         </td>
-        <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome <b><c:out value="${sessionScope.provider.formattedName}" /></b>, current facility=<c:out value="${sessionScope.currentFacility.name}" />
-        </td>
+        <th>&nbsp;</th>
+        <td width="240px"><table width="100%"><tr>
+        <td>&nbsp;</td>
         <td align="right" width="60px"><html:link action="/Home.do">Home</html:link></td>
         <td width="60px" align="center">
                <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
@@ -41,6 +41,14 @@
         <td align="left" width="60px">
                <a href='<%=request.getContextPath()%>/logout.jsp'>Logout</a>
         </td>
+        </tr></table></td>
 	</tr>
+	<tr>
+		<th rowspan="2"> &nbsp;<c:out value="${sessionScope.pageTitle}"/> </th>
+        <td  width="240px" align="right"> <b>User: <c:out value="${sessionScope.provider.formattedName}" /></b></td>
+	</tr>
+	<tr>
+        <td  width="240px" align="right"> <b>Shelter: <c:out value="${sessionScope.currentFacility.name}"/></b></td>
+    </tr>
 </table>
 </div>
