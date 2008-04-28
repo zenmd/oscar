@@ -77,12 +77,11 @@ public final class LoginAction extends DispatchAction {
         String userName = ((LoginForm) form).getUsername();
         String password = ((LoginForm) form).getPassword();
         String pin = ((LoginForm) form).getPin();
-        String propName = request.getContextPath().substring(1) + ".properties";
         if (userName.equals("")) {
             return mapping.findForward(where);
         }
 
-        LoginCheckLogin cl = new LoginCheckLogin(propName);
+        LoginCheckLogin cl = new LoginCheckLogin();
         if (!cl.propFileFound) {
             String newURL = mapping.findForward("error").getPath();
             newURL = newURL + "?errormsg=Unable to open the properties file " + cl.propFileName + ".";

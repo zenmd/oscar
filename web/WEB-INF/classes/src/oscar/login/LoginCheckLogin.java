@@ -37,10 +37,8 @@ public class LoginCheckLogin {
 
     boolean propFileFound = true;
 
-    public LoginCheckLogin() {}
-
-    public LoginCheckLogin(String propFile) {
-        setOscarVariable(propFile);
+    public LoginCheckLogin() {
+        setOscarVariable();
     }
 
     public boolean isBlock(String ip) {
@@ -155,7 +153,7 @@ public class LoginCheckLogin {
         }
     }
 
-    public void setOscarVariable(String propFile) {
+    public void setOscarVariable() {
     	pvar = (Properties) oscar.OscarProperties.getInstance();
     	/*
         pvar = new Properties();
