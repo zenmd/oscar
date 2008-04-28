@@ -33,7 +33,6 @@
         </td>
         <th>&nbsp;</th>
         <td width="240px"><table width="100%"><tr>
-        <td>&nbsp;</td>
         <td align="right" width="60px"><html:link action="/Home.do">Home</html:link></td>
         <td width="60px" align="center">
                <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
