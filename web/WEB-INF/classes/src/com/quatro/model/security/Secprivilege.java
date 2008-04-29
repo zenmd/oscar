@@ -3,7 +3,7 @@ package com.quatro.model.security;
 /**
  * Secprivilege entity.
  * 
- * @author MyEclipse Persistence Tools
+ * @author JZhang
  */
 
 public class Secprivilege implements java.io.Serializable {

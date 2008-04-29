@@ -10,17 +10,32 @@ public class Secuserrole implements java.io.Serializable {
 	private String roleName;
 	private String orgcd;
 	private Long activeyn;
-
+	
+	// added more
+	private String fullName;
+	private String userName;
+	
+	
 	// Constructors
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	/** default constructor */
 	public Secuserrole() {
-	}
-
-	/** minimal constructor */
-	public Secuserrole(String providerNo, String roleName) {
-		this.providerNo = providerNo;
-		this.roleName = roleName;
 	}
 
 	/** full constructor */

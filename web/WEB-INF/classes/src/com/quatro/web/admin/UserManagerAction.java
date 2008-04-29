@@ -1,6 +1,8 @@
 package com.quatro.web.admin;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,26 +20,19 @@ import org.oscarehr.PMmodule.web.BaseAction;
 
 import com.quatro.model.DataViews;
 import com.quatro.model.LookupCodeValue;
-import com.quatro.model.ReportFilterValue;
-import com.quatro.model.ReportTempCriValue;
-import com.quatro.model.ReportValue;
 import com.quatro.model.security.Secobjprivilege;
-
 import com.quatro.model.security.Secrole;
-import com.quatro.service.LookupManager;
+import com.quatro.model.security.Secuserrole;
 import com.quatro.service.security.RolesManager;
+import com.quatro.service.security.UsersManager;
 
-public class RoleManagerAction extends BaseAction {
+public class UserManagerAction extends BaseAction {
 
 	private LogManager logManager;
 
 	private RolesManager rolesManager;
 
-	private LookupManager lookupManager;
-
-	public void setLookupManager(LookupManager lookupManager) {
-		this.lookupManager = lookupManager;
-	}
+	private UsersManager usersManager;
 
 	public void setLogManager(LogManager mgr) {
 		this.logManager = mgr;
@@ -45,6 +40,10 @@ public class RoleManagerAction extends BaseAction {
 
 	public void setRolesManager(RolesManager rolesManager) {
 		this.rolesManager = rolesManager;
+	}
+
+	public void setUsersManager(UsersManager usersManager) {
+		this.usersManager = usersManager;
 	}
 
 	@Override
@@ -56,11 +55,50 @@ public class RoleManagerAction extends BaseAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		List<Secrole> list = null;
-		list = rolesManager.getRoles();
+		ArrayList<Secuserrole> surlist = new ArrayList<Secuserrole>();
 
-		request.setAttribute("roles", list);
-		logManager.log("read", "full roles list", "", request);
+		List userlist = usersManager.getUsers();
+		Hashtable<String, Secuserrole> ht = new Hashtable<String, Secuserrole>();
+		if (userlist != null && userlist.size() > 0) {
+			for (int i = 0; i < userlist.size(); i++) {
+				Object[] tmp = (Object[]) userlist.get(i);
+
+				Secuserrole sur = new Secuserrole();
+				sur.setId((Long) tmp[0]);
+				sur.setUserName((String) tmp[1]);
+				sur.setFullName((String) tmp[2] + ", " + (String) tmp[3]);
+				sur.setProviderNo((String) tmp[4]);
+
+				ht.put((String) tmp[4], sur);
+			}
+
+			List rolelist = usersManager.getSecuserroles();
+			if (rolelist != null && rolelist.size() > 0) {
+				for (int i = 0; i < rolelist.size(); i++) {
+					Object[] tmp = (Object[]) rolelist.get(i);
+
+					Secuserrole sur = ht.get((String) tmp[0]);
+					if (sur != null) {
+						String roleNames = sur.getRoleName();
+						if (roleNames == null || roleNames.length() == 0)
+							sur.setRoleName((String) tmp[1]);
+						else
+							sur.setRoleName(roleNames + ", " + (String) tmp[1]);
+
+						sur.setOrgcd((String) tmp[2]);
+					}
+
+				}
+			}
+
+		}
+
+		Iterator it = ht.values().iterator();
+		while (it.hasNext())
+			surlist.add((Secuserrole) it.next());
+
+		request.setAttribute("secuserroles", surlist);
+		logManager.log("read", "full secuserroles list", "", request);
 
 		return mapping.findForward("list");
 
@@ -106,9 +144,9 @@ public class RoleManagerAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 
 		ActionMessages messages = new ActionMessages();
-        boolean isError = false;
-        boolean isWarning = false;
-        
+		boolean isError = false;
+		boolean isWarning = false;
+
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		Secrole secrole = new Secrole();
@@ -128,16 +166,18 @@ public class RoleManagerAction extends BaseAction {
 			LookupCodeValue functions = new LookupCodeValue();
 			secroleForm.set("functions", functions);
 
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.created",
-           			request.getContextPath(), roleName));
-			saveMessages(request,messages);
-			
-			return addFunction(mapping, form, request, response);//mapping.findForward("functions");
+			messages
+					.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+							"message.role.created", request.getContextPath(),
+							roleName));
+			saveMessages(request, messages);
+
+			return addFunction(mapping, form, request, response);// mapping.findForward("functions");
 		} else {
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.role.exist",
-           			request.getContextPath(), roleName));
-			saveMessages(request,messages);
-			
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.role.exist", request.getContextPath(), roleName));
+			saveMessages(request, messages);
+
 			return mapping.findForward("preNew");
 
 		}
@@ -204,9 +244,9 @@ public class RoleManagerAction extends BaseAction {
 
 	public void ChangeFunLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
-		
+
 		ActionMessages messages = new ActionMessages();
-		
+
 		ArrayList<Secobjprivilege> secobjprivilegeLst = new ArrayList<Secobjprivilege>();
 
 		ArrayList funLst = new ArrayList();
@@ -282,10 +322,10 @@ public class RoleManagerAction extends BaseAction {
 
 		}
 		myForm.set("secobjprivilegeLst", secobjprivilegeLst);
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.function.add",
-       			request.getContextPath()));
-		saveMessages(request,messages);
-		
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+				"message.role.function.add", request.getContextPath()));
+		saveMessages(request, messages);
+
 		request.getSession().setAttribute(DataViews.REPORT_CRI,
 				secobjprivilegeLst);
 
@@ -322,7 +362,7 @@ public class RoleManagerAction extends BaseAction {
 						.get("accessTypes_code" + i);
 				if (accessType_code != null)
 					objNew.setPrivilege(accessType_code[0]);
-				
+
 				objNew.setProviderNo(providerNo);
 				objNew.setPriority(new Long("0"));
 

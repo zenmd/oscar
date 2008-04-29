@@ -237,6 +237,11 @@
 		<property name="logManager" ref="logManager"/>
 		<property name="lookupManager" ref="lookupManager"/>
 	</bean>
+	<bean name="/PMmodule/Admin/UserManager" class="com.quatro.web.admin.UserManagerAction" singleton="false">
+		<property name="rolesManager" ref="rolesManager"/>
+		<property name="logManager" ref="logManager"/>
+		<property name="usersManager" ref="usersManager"/>
+	</bean>
 	
 	<!-- admin End -->
 	

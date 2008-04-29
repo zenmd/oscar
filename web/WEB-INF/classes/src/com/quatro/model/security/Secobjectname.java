@@ -3,7 +3,7 @@ package com.quatro.model.security;
 /**
  * Secobjectname entity.
  * 
- * @author MyEclipse Persistence Tools
+ * @author JZhang
  */
 
 public class Secobjectname implements java.io.Serializable {

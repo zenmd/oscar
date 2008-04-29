@@ -41,7 +41,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
         getHibernateTemplate().saveOrUpdate(secobjprivilege);
 
         if (log.isDebugEnabled()) {
-            log.debug("SecobjprivilegeDao : save: " + secobjprivilege.getId().getRoleusergroup() + ":" + secobjprivilege.getId().getObjectname());
+            log.debug("SecobjprivilegeDao : save: " + secobjprivilege.getRoleusergroup() + ":" + secobjprivilege.getObjectname());
         }
     }
 

@@ -52,7 +52,7 @@ String _appPath = request.getContextPath();
 				<th></th>
 
 				<th valign="middle"><html:link
-					action="/PMmodule/UserManager.do">
+					action="/PMmodule/Admin/UserManager.do">
 					<img ID="lnkClient" src="<%=_appPath%>/images/Client-60.gif"
 						Height="60" Width="60" border="0" />
 				</html:link></th>
@@ -60,7 +60,7 @@ String _appPath = request.getContextPath();
 				<table>
 					<tr align="left">
 						<th align="left" valign="top" class="clsHomePageLabels"><html:link
-							action="/PMmodule/UserManager.do">NOT READY FOR TESTING - User Management</html:link></th>
+							action="/PMmodule/Admin/UserManager.do">NOT READY FOR TESTING - User Management</html:link></th>
 					</tr>
 				</table>
 				</th>
@@ -76,7 +76,7 @@ String _appPath = request.getContextPath();
 				<table align="left">
 					<tr>
 						<th align="left" valign="top" class="clsHomePageLabels"><html:link
-							action="/PMmodule/Admin/RoleManager.do">NOT READY FOR TESTING - Role Management</html:link></th>
+							action="/PMmodule/Admin/RoleManager.do">Role Management</html:link></th>
 					</tr>
 				</table>
 				</th>

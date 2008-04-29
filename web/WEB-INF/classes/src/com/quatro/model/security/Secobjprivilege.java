@@ -6,30 +6,30 @@ public class Secobjprivilege implements java.io.Serializable {
 
 	// Fields
 
-	private SecobjprivilegeId id;
+	//private SecobjprivilegeId id;
 	private String roleusergroup;
-	private String objectname_desc;
-	private String objectname_code;
+	private String objectname;
+
 	private String privilege;
-	private String privilege_code;
 	private Long priority;
 	private String providerNo;
-
+	
+	private String privilege_code;
+	private String objectname_desc;
+	private String objectname_code;
 	// Constructors
 
 	/** default constructor */
 	public Secobjprivilege() {
 	}
 
-	/** minimal constructor */
-	public Secobjprivilege(SecobjprivilegeId id) {
-		this.id = id;
-	}
+
 
 	/** full constructor */
-	public Secobjprivilege(SecobjprivilegeId id, String privilege,
+	public Secobjprivilege(String roleusergroup, String objectname, String privilege,
 			Long priority, String providerNo) {
-		this.id = id;
+		this.roleusergroup = roleusergroup;
+		this.objectname = objectname;
 		this.privilege = privilege;
 		this.priority = priority;
 		this.providerNo = providerNo;
@@ -37,13 +37,6 @@ public class Secobjprivilege implements java.io.Serializable {
 
 	// Property accessors
 
-	public SecobjprivilegeId getId() {
-		return this.id;
-	}
-
-	public void setId(SecobjprivilegeId id) {
-		this.id = id;
-	}
 
 	public String getPrivilege() {
 		return this.privilege;
@@ -99,6 +92,14 @@ public class Secobjprivilege implements java.io.Serializable {
 
 	public void setRoleusergroup(String roleusergroup) {
 		this.roleusergroup = roleusergroup;
+	}
+
+	public String getObjectname() {
+		return objectname;
+	}
+
+	public void setObjectname(String objectname) {
+		this.objectname = objectname;
 	}
 
 }

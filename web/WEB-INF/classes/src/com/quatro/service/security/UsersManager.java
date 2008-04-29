@@ -24,21 +24,23 @@ package com.quatro.service.security;
 
 import java.util.List;
 
-import com.quatro.dao.security.SecobjprivilegeDao;
 import com.quatro.dao.security.SecroleDao;
-import com.quatro.model.security.Secobjprivilege;
+import com.quatro.dao.security.SecurityDao;
 import com.quatro.model.security.Secrole;
 
 
 
 
-public class RolesManager {
+public class UsersManager {
 
 	private SecroleDao secroleDao;
-	private SecobjprivilegeDao secobjprivilegeDao;
+	private SecurityDao securityDao;	
 	
-	public void setSecroleDao(SecroleDao dao) {
-		this.secroleDao = dao;
+	public List getSecuserroles() {
+		return securityDao.getSecuserroles();
+	}
+	public List getUsers() {
+		return securityDao.getUsers();
 	}
 	public List getRoles() {
 		return secroleDao.getRoles();
@@ -52,11 +54,13 @@ public class RolesManager {
 	public void save(Secrole secrole) {
 		secroleDao.save(secrole);
 	}
-	public void saveFunction(Secobjprivilege secobjprivilege) {
-		secobjprivilegeDao.save(secobjprivilege);
+
+	public void setSecurityDao(SecurityDao securityDao) {
+		this.securityDao = securityDao;
 	}
-	public void setSecobjprivilegeDao(SecobjprivilegeDao secobjprivilegeDao) {
-		this.secobjprivilegeDao = secobjprivilegeDao;
+	public void setSecroleDao(SecroleDao dao) {
+		this.secroleDao = dao;
 	}
+	
 	
 }

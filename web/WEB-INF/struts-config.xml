@@ -1788,7 +1788,11 @@
             <forward name="functions" path="page.admin.role.functions" />
             
         </action>
-        
+        <action path="/PMmodule/Admin/UserManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secroleForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.user.list" />
+            
+            
+        </action>
         
     	<!-- admin End -->
     

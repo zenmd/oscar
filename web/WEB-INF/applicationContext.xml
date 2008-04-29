@@ -507,8 +507,9 @@
     <!-- Admin Start -->
 
     <bean id="orgDao" class="com.quatro.dao.ORGDao" autowire="byName" />
-    <bean id="secroleDao" class="com.quatro.dao.SecroleDao" autowire="byName" />
+    <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName" />
     <bean id="secobjprivilegeDao" class="com.quatro.dao.security.SecobjprivilegeDao" autowire="byName" />
+    <bean id="securityDao" class="com.quatro.dao.security.SecurityDao" autowire="byName" />
     
     <bean id="orgManager" class="com.quatro.service.ORGManager"  autowire="byName">
         <property name="orgDao" ref="orgDao"/>
@@ -517,7 +518,10 @@
         <property name="secroleDao" ref="secroleDao"/>
         <property name="secobjprivilegeDao" ref="secobjprivilegeDao"/>
     </bean>
-    
+    <bean id="usersManager" class="com.quatro.service.security.UsersManager"  autowire="byName">
+        <property name="secroleDao" ref="secroleDao"/>
+        <property name="securityDao" ref="securityDao"/>
+    </bean>
     
     
     <!-- admin End -->

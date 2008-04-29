@@ -20,7 +20,7 @@
  * Toronto, Ontario, Canada 
  */
 
-package com.quatro.dao;
+package com.quatro.dao.security;
 
 import java.util.ArrayList;
 import java.util.List;

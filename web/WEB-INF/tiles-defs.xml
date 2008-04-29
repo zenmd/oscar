@@ -308,6 +308,11 @@
 			name="body"
 			value="/PMmodule/Admin/Role/RoleFunctions.jsp" />
 	</definition>
+	<definition name="page.admin.user.list"
+		path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/Admin/User/UserList.jsp" />
+	</definition>
 	
 	<!-- Admin End -->
 
