@@ -24,7 +24,7 @@ public class SecurityManager {
             for(UserAccessValue uav:orgList)
             {
             	if (uav.isOrgApplicable()) {
-	            	if (Utility.IsEmpty(uav.getOrgCd()) || orgcd.startsWith(uav.getOrgCd())){
+	            	if ("".equals(orgcd) || Utility.IsEmpty(uav.getOrgCd()) || orgcd.startsWith(uav.getOrgCd())){
 	            		privilege = uav.getPrivilege();
 	            		break;
 	            	}
