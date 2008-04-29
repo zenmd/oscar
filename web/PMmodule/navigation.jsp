@@ -108,84 +108,27 @@
     }
 </script>
 
-<!--
-	 <div id="navcolumn">
-     <table border="0" cellspacing="0" cellpadding="4">
-         <tr>
-            <td align="left">
-                <table border="0" cellpadding="0" cellspacing="2">
-                    <tr>
-                        <td nowrap="nowrap" width="120">
-                            <div align="center">
-                                <img src="<html:rewrite page="/images/caisi_1.jpg" />" alt="Caisi" id="caisilogo"
-                                     border="0"/>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td nowrap="nowrap" width="120">
-                            <div align="center">
-                                <%
-                                    ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-                                    version = (Version) ctx.getBean("version");
-                                %>
-                                <span style="font-weight:bold"><%=version.getVersion()%></span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</div>
--->
 <div id="projecttools" class="toolgroup">
 <div class="label">
-<img src='<html:rewrite page="/images/1x1.gif" />' width="200px" height="1px" />
-<br>
     <strong>Navigator</strong>
 </div>
 <div class="body">
-<!-- <div>
-        <span><html:link action="/PMmodule/ProviderInfo.do">Home</html:link></span>
-    </div>
--->
-    <div>
+	<security:oscarSec  objectName="_pmm.clientSearch" rights="r">
+    	<div>
         <span>Client Management</span>
-		<security:oscarSec 
-                               objectName="_pmm.clientSearch"
-                               rights="r">
         <div>
             <html:link action="/PMmodule/ClientSearch2.do">Search Client</html:link>
         </div>
-        </security:oscarSec>
-        
-        <%
-            if (!userHasExternalOrErClerkRole) {
-        %>
-        <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.newClient"
-                               rights="r">
-        <div>
-            <html:link action="/PMmodule/GenericIntake/Search.do">New Client</html:link>
-        </div>
-        </security:oscarSec>
-        
-        <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.mergeRecords"
-                               rights="r">
+        <security:oscarSec objectName="_pmm.mergeRecords" rights="r">
         <div>
             <a HREF="#" ONCLICK="popupPage2('<c:out value="${ctx}"/>/admin/demographicmergerecord.jsp', 'Merge');return false;">Merge
                 Records</a>
         </div>
         </security:oscarSec>
-        <%
-            }
-        %>
-    </div>
-
-    <c:if test="${sessionScope.userrole ne 'er_clerk' and sessionScope.userrole ne 'Vaccine Provider'}">
-        <div>
+	    </div>
+    </security:oscarSec>
+    <security:oscarSec objectName="_reportRunner" rights="r">
+	    <div>
             <span>Reporting Tools</span>
 			<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
             <div>
@@ -216,56 +159,42 @@
                 <html:link action="/SurveyManager.do?method=reportForm">User Created Form Report</html:link>
             </div>
             </caisi:isModuleLoad>
+            
 			<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
 			<div>
 				<html:link action="QuatroReport/ReportList.do">Quatro Report Runner</html:link>
 			</div>
 			</caisi:isModuleLoad>
         </div>
-    </c:if>
-
-    
-    <c:if test="${sessionScope.userrole ne 'er_clerk' and sessionScope.userrole ne 'Vaccine Provider'}">
-       <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.caseManagement"
-                               rights="r">
+    </security:oscarSec>
+    <security:oscarSec objectName="_pmm.caseManagement" rights="r">
 		<div> 
             <span>Case Management</span>
         <div>
             <span><a href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>Case Management</a></span>
         </div>
         </div>
-        </security:oscarSec>
-    </c:if>
-<!--    <div>
-        <span><a href='<%=request.getContextPath()%>/logout.jsp'>Logout</a></span>
-    </div>
--->
+    </security:oscarSec>
 </div>
-
-<div id="admintools" class="toolgroup">
+    <security:oscarSec objectName="_pmm_management" rights="r">
+	<div id="admintools" class="toolgroup">
     <div class="label">
         <strong>Administration</strong>
     </div>
     <div class="body">
-
         <div>
             <span>Agency</span>
-			<security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.agencyInformation"
-                               rights="r">
+			<security:oscarSec  objectName="_pmm.agencyInformation" rights="r">
             <div>
                 <html:link action="/PMmodule/AgencyManager.do">Agency Information</html:link>
             </div>
             </security:oscarSec>
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.manageFacilities"
-                               rights="r">
+            <security:oscarSec objectName="_pmm.manageFacilities" rights="r">
             <div>
                 <html:link action="/PMmodule/FacilityManager.do?method=list">Manage Facilities</html:link>
             </div>
             </security:oscarSec>
-            <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
+			<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
                 <div>
                     <span><a href='<%=request.getContextPath()%>/PMmodule/EditIntake.do'>Registration Editor</a></span>
                 </div>
@@ -274,73 +203,24 @@
                 </div>
             </caisi:isModuleLoad>
         </div>
-        
-        <div>
-            <span>Staff</span>	
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.staffList"
-                               rights="r">		
-            <div>
-                <html:link action="/PMmodule/StaffManager.do">Staff List</html:link>
-            </div>
-             </security:oscarSec>
-        </div>
-       
+		<security:oscarSec objectName="_pmm.programList" rights="r">
         <div>
             <span>Program</span>
-			<security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.programList"
-                               rights="r">
             <div>
                 <html:link action="/PMmodule/ProgramManager.do">Program List</html:link>
             </div>
-            </security:oscarSec>
-            
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.addProgram"
-                               rights="r">
-            <div>
-                <html:link action="/PMmodule/ProgramManager.do?method=add">Add Program</html:link>
-            </div>
-            </security:oscarSec>
-            
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.globalRoleAccess"
-                               rights="r">
-            <div>
-                <html:link action="/PMmodule/Admin/DefaultRoleAccess.do">Global Role Access</html:link>
-            </div>
-            </security:oscarSec>
         </div>
-        <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_admin,_admin.userAdmin,_admin.schedule,_admin.billing,_admin.resource,_admin.reporting,_admin.backup,_admin.messenger,_admin.eform,_admin.encounter,_admin.misc,_admin.torontoRfq"
-                               rights="r">
-                <div>
-                    <span>System Administration</span>
-
-                    <div>
-                        <a HREF="#" ONCLICK="popupPage2('<%=request.getContextPath()%>/admin/admin.jsp', 'Admin');return false;">Admin Page</a>
-                    </div>
-<!--
-                   	<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
-                   	<div>	
-                   		<html:link action="/Lookup/LookupTableList.do">Lookup Field Editor</html:link>
-                  	</div>
-                    </caisi:isModuleLoad>
--->
-                </div>
         </security:oscarSec>
-<!--         
-         <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.caisiRoles"
-                               rights="r">
-        <div><div>
-            <span><a href="javascript.void(0);"
-                     onclick="window.open('<html:rewrite action="/CaisiRole.do"/>','caisi_role','width=500,height=500');return false;">Caisi
-                Roles</a></span>
-        </div></div>
-		</security:oscarSec>
--->
+	</security:oscarSec>       
+    <security:oscarSec objectName="_admin" rights="r">
+        <div>
+            <span>System Administration</span>
+
+            <div>
+                <a HREF="#" ONCLICK="popupPage2('<%=request.getContextPath()%>/admin/admin.jsp', 'Admin');return false;">Admin Page</a>
+            </div>
+        </div>
+    </security:oscarSec>
     </div>
 </div>
 
