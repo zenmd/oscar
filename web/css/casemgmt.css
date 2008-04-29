@@ -121,3 +121,61 @@ div.tabs th, div.tabs td, s,#rightcol div.help, .colbar, .tasknav, body.docs div
         padding: 3px 9px;
 }
 
+.caseLayoutContainer {
+	width: 100%;
+	height: 100%;
+}
+
+.caseTopPane {
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	padding: 5px;
+}
+
+.caseChildPane {
+	padding: 2.5px;
+	overflow: auto;
+}
+
+.caseBottomPane {
+	padding: 5px;
+}
+
+.casePageContainer {
+	width: 100%;
+	height: 100%;
+}
+
+.casePage {
+	overflow: auto;
+}
+
+.caseSectionLabel {
+	color: #000;
+	font-size: 12px;
+	font-weight: bold;
+	background: url("images/soriaBarBg.gif") repeat-x top left #85aeec;
+	border: 1px solid #84a3d1;
+}
+
+.caseSectionContainer {
+	background: #fff;
+	border: 1px solid #84a3d1;
+}
+
+table.caseTable {
+	width: 100%;
+	font-size: 12px;
+	overflow: auto;
+}
+
+table.caseTable td {
+	padding: 2px;
+}
+
+table.caseTable label {
+	font-size: 10px;
+	font-weight: bold;
+}
+
