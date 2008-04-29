@@ -56,8 +56,8 @@
 	</head>
 	<body leftmargin="0" bottommargin="0" rightmargin="0" topmargin="0">
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
-				<tr>
-				<td colspan="3" width="100%">
+				<tr height="60px">
+				<td colspan="3">
 					<tiles:insert name="Header.jsp">
 					</tiles:insert>
 				</td></tr>
@@ -65,10 +65,10 @@
 					<td id="leftcol" width="200px">
 						<tiles:insert attribute="navigation" />
 					</td>
-					<td valign="top" width="5px">
-						<img src='<html:rewrite page="/images/1x1.gif" />' width="5px" />
+					<td valign="top" width="3px">
+						<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
 					</td>
-					<td align="left" width="100%">
+					<td align="left">
 						<!--  div class="body" align="left"  this is the layout-->
 							<tiles:insert attribute="body" />
 						<!--  /div -->
