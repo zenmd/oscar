@@ -143,6 +143,13 @@
     <bean name="/CaseManagementEntry" class="org.oscarehr.casemgmt.web.CaseManagementEntryAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="providerManager" ref="providerManager"/>
+        <property name="admissionManager" ref="admissionManager"></property>
+    </bean>
+    <bean name="/CaseManagementEntry2" class="org.oscarehr.casemgmt.web.CaseManagementNoteAction" singleton="false">
+        <property name="caseManagementManager" ref="caseManagementManager"/>
+        <property name="providerManager" ref="providerManager"/>
+        <property name="admissionManager" ref="admissionManager"></property>
+        <property name="lookupManager" ref="lookupManager"/>
     </bean>
     <bean name="/ClientImage" class="org.oscarehr.casemgmt.web.ClientImageAction" singleton="false">
         <property name="clientImageManager" ref="ClientImageManager"/>

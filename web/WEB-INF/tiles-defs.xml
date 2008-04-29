@@ -233,21 +233,87 @@
 		<put name="title" value="eForm Manager: Import Survey" />
 		<put name="body" value="/survey/surveyManager/importForm.jsp" />
 	</definition>
-	<definition name="page.newcasemgmt.view"
-		path="/casemgmt/newEncounterLayout.jsp">
-		<put name="header" value="/casemgmt/newEncounterHeader.jsp" />
-		<put name="leftNavigation" value="/casemgmt/newNavigation.jsp" />
+	<definition name="page.newcasemgmt.view" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/casemgmt/newCaseManagementView.jsp" />
-		<put name="rightNavigation" value="/casemgmt/rightColumn.jsp" />
-
 	</definition>
 	<definition name="page.casemgmt.view" path="/PMmodule/layout.jsp">
 		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/casemgmt/CaseManagementView.jsp" />
 	</definition>
+	<definition name="page.casemgmt.domain.error" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/domain-error.jsp" />
+	</definition>
+	<definition name="page.casemgmt.unlock.note" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/unlockNoteForm.jsp" />
+	</definition>
+	<definition name="page.casemgmt.unlock.note.success" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/unlockNoteSuccess.jsp" />
+	</definition>
+	
+	<definition name="page.casemgmt.unlock.note.error" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/unlockNoteError.jsp" />
+	</definition>
+	
+	<definition name="page.casemgmt.unlock.ajax" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/unlockAjax.jsp" />
+	</definition>
+	<definition name="page.casemgmt.expired" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/expired.jsp" />
+	</definition>
+	<definition name="page.casemgmt.view.notes" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/viewNotes.jsp" />
+	</definition>
+	<definition name="page.casemgmt.issue.search" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/IssueSearch.jsp" />
+	</definition>
+	
+	<definition name="page.casemgmt.issue.search" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/IssueSearch.jsp" />
+	</definition>
+	
+	<definition name="page.casemgmt.no.demo" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/noDemo.jsp" />
+	</definition>
+	<definition name="page.casemgmt.close" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/close.jsp" />
+	</definition>
+	<definition name="page.casemgmt.show.history" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/showHistory.jsp" />
+	</definition>
+	<definition name="page.casemgmt.issue.list" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/IssueList.jsp" />
+	</definition>
+	<definition name="page.casemgmt.no.issue.list" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/casemgmt/noteIssueList.jsp" />
+	</definition>
 	<definition name="page.casemgmt.search" path="/PMmodule/layout.jsp">
 		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/casemgmt/CaseManagementSearch.jsp" />
+	</definition>
+	<definition name="page.casemgmt.note.edit" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp"></put>
+		<put name="body" value="/casemgmt/CaseManagementNote.jsp" ></put>
+	  
+	</definition>
+	<definition name="page.casemgmt.history.view" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp"></put>
+		<put name="body" value="/casemgmt/historyview.jsp" ></put>
+	  
 	</definition>
 	<!--
 		<definition

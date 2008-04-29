@@ -1679,13 +1679,26 @@
             <forward name="client" path="/PMmodule/ClientSearch2.do" />
             <forward name="page.casemgmt.search" path="page.casemgmt.search" />
             <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
-            <forward name="domain-error" path="/casemgmt/domain-error.jsp" />
-            <forward name="unlockForm" path="/casemgmt/unlockNoteForm.jsp" />
-            <forward name="unlockSuccess" path="/casemgmt/unlockNoteSuccess.jsp" />
-            <forward name="unlockError" path="/casemgmt/unlockNoteError.jsp" />
-            <forward name="unlock_ajax" path="/casemgmt/unlockAjax.jsp" />
+            <forward name="domain-error" path="page.casemgmt.domain.error" />
+            <forward name="unlockForm" path="page.casemgmt.unlock.note" />
+            <forward name="unlockSuccess" path="page.casemgmt.unlock.note.success" />
+            <forward name="unlockError" path="page.casemgmt.unlock.note.error" />
+            <forward name="unlock_ajax" path="page.casemgmt.unlock.ajax" />
             <forward name="expired" path="/casemgmt/expired.jsp" />  
-            <forward name="listNotes" path="/casemgmt/viewNotes.jsp"/>
+            <forward name="listNotes" path="page.casemgmt.view.notes"/>
+        </action>
+        <action path="/CaseManagementEntry2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session"  name="caseManagementEntryForm">
+            <forward name="view" path="page.casemgmt.note.edit" />
+            <forward name="list" path="/CaseManagementView.do?method=view" redirect="true" />
+            <forward name="listCPPNotes" path="/CaseManagementView.do" redirect="true" />
+            <forward name="IssueSearch" path="page.casemgmt.issue.search" />
+            <forward name="NoDemoERR" path="page.casemgmt.no.demo" />
+            <forward name="windowClose" path="page.casemgmt.close" />
+            <forward name="historyview" path="page.casemgmt.history.view" />
+            <forward name="showHistory" path="page.casemgmt.show.history" />
+            <forward name="issueAutoCompletion" path="page.casemgmt.issue.list" />
+            <forward name="issueList_ajax" path="page.casemgmt.no.issue.list" />
+            <forward name="expired" path="/casemgmt/expired.jsp" />            
         </action>
         <action path="/CaseManagementEntry" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementEntry.jsp" name="caseManagementEntryForm">
             <forward name="view" path="/casemgmt/CaseManagementEntry.jsp" />
