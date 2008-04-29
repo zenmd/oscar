@@ -106,14 +106,15 @@
 					<select name="select_<c:out value="${provider.provider_no}"/>" onchange="this.form.change_provider.value='<c:out value="${provider.provider_no}"/>';this.form.submit();">
 						<option value="0"></option>
 						<c:forEach var="role" items="${roles}">
-							<%String selected="";
-								Role role = (Role)pageContext.getAttribute("role");
-								Provider p = (Provider)pageContext.getAttribute("provider");
-								if(p != null && p.getRole() != null) {
-									if((long)p.getRole().getRole_id() == role.getId().longValue()) {
-										selected="selected";
-									}
-								}
+							<%
+											String selected="";
+											Role role = (Role)pageContext.getAttribute("role");
+											Provider p = (Provider)pageContext.getAttribute("provider");
+											if(p != null && p.getRole() != null) {
+										if((long)p.getRole().getRole_id() == role.getId().longValue()) {
+											selected="selected";
+										}
+											}
 							%>
 
 								<option value="<c:out value="${role.id}"/>" <%=selected %> ><c:out value="${role.name}" /></option>
