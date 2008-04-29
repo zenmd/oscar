@@ -50,7 +50,11 @@ public class CaseManagementEntryFormBean extends ActionForm {
 	private String programNo;
 	private String demoName;
 	private String caseNote_note;
-	private String caseNote_history;	
+	private String caseNote_history;
+	private String lstIssue;
+	private String txtIssueKey;
+	private String txtIssueValue;
+	
         private String observation_date;
 	
         public CaseManagementEntryFormBean() {
@@ -235,6 +239,30 @@ public class CaseManagementEntryFormBean extends ActionForm {
 		
 		this.caseNote.setNote(caseNote_note);
 		this.caseNote_note = caseNote_note;
+	}
+
+	public String getLstIssue() {
+		return lstIssue;
+	}
+
+	public void setLstIssue(String lstIssue) {
+		this.lstIssue = lstIssue;
+	}
+
+	public String getTxtIssueKey() {
+		return txtIssueKey;
+	}
+
+	public void setTxtIssueKey(String txtIssueKey) {
+		this.txtIssueKey = txtIssueKey;
+	}
+
+	public String getTxtIssueValue() {
+		return txtIssueValue;
+	}
+
+	public void setTxtIssueValue(String txtIssueValue) {
+		this.txtIssueValue = txtIssueValue;
 	}
 	
 }

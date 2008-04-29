@@ -23,6 +23,7 @@
 package org.oscarehr.casemgmt.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -170,7 +171,8 @@ public class CaseManagementNote extends BaseObject {
     public void setObservation_date(Date observation_date) {
         this.observation_date = observation_date;
     }
-
+    
+   
     public String getProvider_no() {
         return provider_no;
     }
