@@ -159,7 +159,7 @@ public class ClientManagerAction extends BaseAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm clientForm = (DynaActionForm) form;
         clientForm.set("view", new ClientManagerFormBean());
-        Integer clientId = (Integer)request.getSession().getAttribute("clientId");
+        Integer clientId = (Integer)request.getSession().getAttribute("clientId");        
         if (clientId != null) request.setAttribute(ID, clientId.toString());
 		
         return edit(mapping, form, request, response);
@@ -349,7 +349,7 @@ public class ClientManagerAction extends BaseAction {
         }
          
         if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
-			request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,id);
+			request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(id));
 			request.getSession().removeAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION);
 			return mapping.findForward("case");
 		}
