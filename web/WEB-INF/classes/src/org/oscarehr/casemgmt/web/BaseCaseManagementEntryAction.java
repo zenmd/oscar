@@ -35,16 +35,23 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.actions.DispatchAction;
+import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
+import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
 import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.quatro.service.LookupManager;
+import com.quatro.util.*;
 
 public class BaseCaseManagementEntryAction extends DispatchAction {
 
@@ -52,6 +59,16 @@ public class BaseCaseManagementEntryAction extends DispatchAction {
 
 	
 	protected CaseManagementManager caseManagementMgr;
+	protected AdmissionManager admissionMgr;	
+	protected LookupManager lookupMgr;
+	
+	public void setLookupManager(LookupManager lookupMgr) {
+		this.lookupMgr = lookupMgr;
+	}
+
+	public void setAdmissionManager(AdmissionManager admMgr){
+		this.admissionMgr = admMgr;
+	}
 	protected ClientImageManager clientImageMgr;
         protected ProviderManager providerMgr;
 	
@@ -104,7 +121,7 @@ public class BaseCaseManagementEntryAction extends DispatchAction {
 
 	protected String getProviderNo(HttpServletRequest request) {
 		String providerNo = request.getParameter("providerNo");
-		if (providerNo == null) {
+		if (Utility.IsEmpty(providerNo)) {
 			providerNo = (String) request.getSession().getAttribute("user");
 		}
 		return providerNo;

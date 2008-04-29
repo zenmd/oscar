@@ -1,24 +1,4 @@
-/*
- * 
- * Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
- * This software is published under the GPL GNU General Public License. 
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License 
- * as published by the Free Software Foundation; either version 2 
- * of the License, or (at your option) any later version. * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
- * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
- * along with this program; if not, write to the Free Software 
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
- * 
- * <OSCAR TEAM>
- * 
- * This software was written for 
- * Centre for Research on Inner City Health, St. Michael's Hospital, 
- * Toronto, Ontario, Canada 
- */
+
 
 package org.oscarehr.casemgmt.web;
 
@@ -67,7 +47,7 @@ import oscar.oscarEncounter.pageUtil.EctSessionBean;
 import oscar.util.UtilDateUtilities;
 import com.quatro.util.*;
 
-public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
+public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
     private static Log log = LogFactory.getLog(CaseManagementEntryAction.class);
 
@@ -94,7 +74,6 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
         if(Utility.IsEmpty(programId)){
         	Integer demoInt = new Integer(demono);
         	programId = this.admissionMgr.getCurrentBedProgramAdmission(demoInt).getProgramId().toString();
-        	request.getSession().setAttribute("case_program_id", programId);
         }
 
         request.setAttribute("demoName", getDemoName(demono));
@@ -139,6 +118,8 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 
             String Hour = Integer.toString(todayCal.get(Calendar.HOUR));
             String Min = Integer.toString(todayCal.get(Calendar.MINUTE));
+            //Lillian comment billing logic
+            /*
             if ("BR".equals(ss)) {
                 url = bsurl + "/oscar/billing/procedimentoRealizado/init.do?appId=" + bean.appointmentNo;
             }
@@ -153,6 +134,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
                         + "&demographic_no=" + bean.demographicNo + "&providerview=" + bean.curProviderNo + "&user_no=" + bean.providerNo + "&apptProvider_no=" + bean.curProviderNo + "&bNewForm=1&status=t";
             }
             request.getSession().setAttribute("billing_url", url);
+            */
         }
 
         /* remove the remembered echart string */
@@ -162,7 +144,6 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
        
        
         
-         List issues = caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono), providerNo, programId,currentFacilityId);
 
         /*
          * if(request.getSession().getAttribute("archiveView")!="true") issues = caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono),providerNo,programId); else issues = caseManagementMgr.getIssues(providerNo, demono);
@@ -250,6 +231,15 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
                 this.insertReason(request, note);
             }
         }
+        List issues = caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono), providerNo, programId,currentFacilityId);
+
+        Iterator itr1 = note.getIssues().iterator();
+        ArrayList lstIssueSelection = new ArrayList();
+        while (itr1.hasNext()) {
+        	CaseManagementIssue iss =(CaseManagementIssue) itr1.next(); 
+            lstIssueSelection.add(iss.getIssue());
+        }
+        request.setAttribute("lstIssueSelection",lstIssueSelection);
 
         /*
          * do the restore if(restore != null && restore.booleanValue() == true) { String tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo,demono,programId); if(tmpsavenote != null) { note.setNote(tmpsavenote); }
@@ -269,8 +259,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
             checkedList[i].setUsed(caseManagementMgr.haveIssue(iss.getId(), demono));
 
         }
-        
-
+      
         Iterator itr = note.getIssues().iterator();
         while (itr.hasNext()) {
             int id = ((CaseManagementIssue) itr.next()).getId().intValue();
@@ -278,7 +267,6 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
         }
 
         cform.setIssueCheckList(checkedList);
-        
 
         // Why are we caching over 31000 issues?
         // System.out.println("Fetching all issues");
@@ -324,7 +312,6 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
             request.getSession().setAttribute("caseManagementEntryForm", cform);
             return mapping.findForward("issueList_ajax");
         }
-
         return mapping.findForward("view");
     }
 
@@ -978,7 +965,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 
     public ActionForward issueSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         log.debug("issueSearch");
-       
+        String programId = (String) request.getSession().getAttribute("case_program_id");
 
         request.setAttribute("change_flag", "true");
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
@@ -993,13 +980,6 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 
         // get current providerNo
         String providerNo = getProviderNo(request);
-        String programId = (String) request.getSession().getAttribute("case_program_id");
-        if(Utility.IsEmpty(programId)){
-        	Integer demoInt = new Integer(demono);
-        	programId = this.admissionMgr.getCurrentBedProgramAdmission(demoInt).getProgramId().toString();
-        	request.getSession().setAttribute("case_program_id", programId);
-        	
-        }
 
         // get the issue list have search string
         String search = (String) cform.getSearString();

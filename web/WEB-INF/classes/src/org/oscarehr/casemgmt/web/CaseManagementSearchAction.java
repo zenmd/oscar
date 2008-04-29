@@ -62,7 +62,7 @@ import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
-
+import com.quatro.util.*;
 
 import oscar.oscarRx.data.RxPatientData;
 import oscar.oscarRx.pageUtil.RxSessionBean;
@@ -73,7 +73,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        caseForm.setFilter_provider("");
+        caseForm.setFilter_provider("");      
+       
         return view(mapping, form, request, response);
     }
 
