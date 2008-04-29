@@ -22,64 +22,68 @@
 */
  -->
 
-<%@ include file="/casemgmt/taglibs.jsp" %>
+<%@ include file="../taglibs.jsp"%>
 
 <html>
 <head>
 <title>Note History</title>
- 	<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>	
-	<link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css" type="text/css">
+<c:set var="ctx" value="${pageContext.request.contextPath}"
+	scope="request" />
+<link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css"
+	type="text/css">
 
 </head>
 <body bgcolor="#eeeeff">
-<nested:form action="/CaseManagementEntry">
-<br>
-<b>Archived Note Update History</b>
-<br>
-<br>
-Client name: 
-<I>
-<logic:notEmpty name="demoName" scope="request">
-<c:out value="${requestScope.demoName}" />
-</logic:notEmpty>
-<logic:empty name="demoName" scope="request">
-<c:out value="${param.demoName}" />
-</logic:empty>
-</I>
-<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Age: 
-<I>
-<logic:notEmpty name="demoName" scope="request">
-<c:out value="${requestScope.demoAge}" />
-</logic:notEmpty>
-<logic:empty name="demoName" scope="request">
-<c:out value="${param.demoAge}" />
-</logic:empty>
-</I>
-<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DOB: 
-<I>
-<logic:notEmpty name="demoName" scope="request">
-<c:out value="${requestScope.demoDOB}" />
-</logic:notEmpty>
-<logic:empty name="demoName" scope="request">
-<c:out value="${param.demoDOB}" />
-</logic:empty>
-</I>
-<br><br>
-
-
-<input type="button" value=" Close This Page " onclick="self.close()">
-<br>
-<table width="400" border="0">
+<nested:form action="/CaseManagementEntry2">
+	<br>
+	<table style="width: 100%">
 		<tr>
-			<td class="fieldValue" >
-				<textarea name="caseNote_history" cols="107" rows="29" wrap="soft"><nested:write property="caseNote_history" /></textarea>
-			</td>
+			<th class="pageTitle">Archived Note Update History</th>
 		</tr>
-<br>
+		<tr>
+			<td align="left" class="buttonBar"><html:link
+				action="/CaseManagementView2.do"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
+			</html:link></td>
+		</tr>
+	</table>
 
-</nested:form>
+	<table class="simple">
+		<tr>
+			<td>Client name</td>
+			<td><logic:notEmpty name="demoName" scope="request">
+				<c:out value="${requestScope.demoName}" />
+			</logic:notEmpty> <logic:empty name="demoName" scope="request">
+				<c:out value="${param.demoName}" />
+			</logic:empty></td>
+		</tr>
+		<tr>
+			<th>Age</th>
+			<td><logic:notEmpty name="demoName" scope="request">
+				<c:out value="${requestScope.demoAge}" />
+			</logic:notEmpty> <logic:empty name="demoName" scope="request">
+				<c:out value="${param.demoAge}" />
+			</logic:empty></td>
+		</tr>
+		<tr>
+			<th>DOB</th>
+			<td><logic:notEmpty name="demoName" scope="request">
+				<c:out value="${requestScope.demoDOB}" />
+			</logic:notEmpty> <logic:empty name="demoName" scope="request">
+				<c:out value="${param.demoDOB}" />
+			</logic:empty></td>
+		</tr>
+	</table>
+	<br>
+	<table width="400" border="0">
+		<tr>
+			<td class="fieldValue"><textarea name="caseNote_history"
+				cols="107" rows="29" wrap="soft"><nested:write
+				property="caseNote_history" /></textarea></td>
+		</tr>
+		<br>
 
+		</nested:form>
 </body>
 </html>

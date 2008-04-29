@@ -22,10 +22,12 @@
 */
  -->
 
-<%@ include file="/casemgmt/taglibs.jsp" %>
+<%@ include file="../taglibs.jsp" %>
 
-
-<h3 style="color:red">Access Denied</h3>
+<table style="width:100%">
+<tr><th class="pageTitle">Access Denied</th></tr>
+<tr><td class="buttonBar"></td>
+</table>
 
 <p>
 You cannot access this client's Encounters because he/she is not in your

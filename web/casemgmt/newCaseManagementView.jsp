@@ -22,7 +22,7 @@
 */
  -->
 
-<%@ include file="/casemgmt/taglibs.jsp" %>
+<%@ include file="../taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 
 <%@page import="java.util.Arrays, java.util.Properties, java.util.List, java.util.Set, java.util.ArrayList, java.util.Iterator, java.text.SimpleDateFormat, java.util.Date, java.text.ParseException"%>

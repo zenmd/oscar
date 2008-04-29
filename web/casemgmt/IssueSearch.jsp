@@ -53,18 +53,35 @@ function backToNote(from)
 <c:if test="${param.from=='casemgmt'||requestScope.from=='casemgmt'}">
 <input type="hidden" name="from" value="casemgmt" />
 </c:if>
+<table style="width:100%">
+	<tr>
+		<th class="pageTitle">Issue Search</th>
+	</tr>
+	<tr>
+		<td class="buttonBar">
+		
+		</td>
+</table>
+<table style="width:100%" class="simple">
+<tr><th>
+Client name</th><td><c:out value="${requestScope.demoName}" /></td></tr>
 
-<b>Client name: <I><c:out value="${requestScope.demoName}" /></I></b>
-<br><br>
-
-<P><b>Search the Issue </b></P>
+<tr><th>Search the Issue </th>
+<td>
 <nested:text property="searString"></nested:text>
-<nested:submit value="search" onclick="this.form.method.value='issueSearch';"/>
+</td>
+</tr>
+<tr>
+<th></th>
+<td><nested:submit value="search" onclick="this.form.method.value='issueSearch';"/></td>
+</tr>
+</table>
+
  
 <nested:equal property="showList" value="true">
 <P><b>Issue List</b></P>
-<table width="100%" border="0"  cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
-	<tr class="title">
+<table width="100%" border="0"  cellpadding="0" cellspacing="1" class="simple">
+	<tr>
 		<td></td>
 		<td>Issue Code</td>
 		<td>Issue Description</td>

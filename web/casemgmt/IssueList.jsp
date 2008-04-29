@@ -29,7 +29,13 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@page import="org.oscarehr.casemgmt.model.*" %>
 <%@page import="java.util.ArrayList" %>
-
+<table style="width:100%">
+	<tr>
+		<th class="pageTitle">Issue List</th>
+	</tr>
+	<tr>
+		<td class="buttonBar"></td>
+</table>
 <ul>
     <c:forEach var="issue" items="${issueList}">
         <li id="<c:out value="${issue.id}"/>"><c:out value="${issue.description}" /></li>

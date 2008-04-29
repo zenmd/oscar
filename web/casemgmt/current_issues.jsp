@@ -29,7 +29,14 @@
 <%@page import="org.oscarehr.util.SpringUtils"%>
 
 
-Issue Filter Create Report View:
+
+<table style="width:100%">
+	<tr>
+		<th class="pageTitle">Issue Filter Create Report View</th>
+	</tr>
+	<tr>
+		<td class="buttonBar"></td>
+</table>
 
 <table width="100%" border="0"  cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
 	<tr class="title">

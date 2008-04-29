@@ -38,7 +38,7 @@
 <head>
 <title>Client Image Manager</title>
 <meta http-equiv="Cache-Control" content="no-cache">
-<link rel="stylesheet" href="../web.css" />
+<link rel="stylesheet" href="../css/core.css" / >
 <script>
 	function init_page() {
 		<%
@@ -58,9 +58,16 @@
 	}
 </script>
 </head>
-<body bgcolor="#C4D9E7" bgproperties="fixed" onLoad="self.focus();init_page();" topmargin="0" leftmargin="0" rightmargin="0">
+<body bgproperties="fixed" onLoad="self.focus();init_page();" topmargin="0" leftmargin="0" rightmargin="0">
 <table border="0" cellspacing="0" cellpadding="0" width="100%" >
-  <tr bgcolor="#486ebd"><th align=CENTER NOWRAP><font face="Helvetica" color="#FFFFFF">Client Image Manager</font></th></tr>
+  <tr>
+  <th class="pageTitle" width="100%">Client Image Manager  
+  </th></tr>
+  <tr>  	
+	<td align="left" class="buttonBar">
+	<a href="#" onClick='window.close()'> Cancel </a>
+	</td>
+  </tr>
 </table>
 <table BORDER="0" CELLPADDING="1" CELLSPACING="0" WIDTH="100%" BGCOLOR="#C4D9E7">
 
@@ -69,8 +76,8 @@
 	<%
 	request.getSession().setAttribute("clientId",request.getParameter("demographicNo"));
 	%>
-		<tr valign="top"><td rowspan="2" ALIGN="right" valign="middle"> <font face="Verdana" color="#0000FF"><b><i>Add Image
-        </i></b></font></td>
+		<tr valign="top"><td rowspan="2" ALIGN="right" valign="middle"> <font><b>Add Image
+        </b></font></td>
 
 
     <td valign="middle" rowspan="2" ALIGN="left">		
@@ -84,18 +91,5 @@
 Attention:
 <br>
 Only gif and jpg image type are allowed for the client photo uploading.
-<br>
-<br>
-
-
-<form>
-
-  <input type="button" name="Button" value="cancel" onclick="self.close();"/>
-</form>
-
-
-
-
-
 
 </body>
