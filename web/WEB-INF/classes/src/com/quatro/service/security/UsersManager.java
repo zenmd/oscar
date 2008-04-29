@@ -36,8 +36,8 @@ public class UsersManager {
 	private SecroleDao secroleDao;
 	private SecurityDao securityDao;	
 	
-	public List getSecuserroles() {
-		return securityDao.getSecuserroles();
+	public List getProfile(String providerNo) {
+		return securityDao.getProfile(providerNo);
 	}
 	public List getUsers() {
 		return securityDao.getUsers();

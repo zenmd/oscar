@@ -313,6 +313,12 @@
 		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/PMmodule/Admin/User/UserList.jsp" />
 	</definition>
+	<definition name="page.admin.user.profile"
+		path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/Admin/User/UserProfile.jsp" />
+	</definition>
+	
 	
 	<!-- Admin End -->
 

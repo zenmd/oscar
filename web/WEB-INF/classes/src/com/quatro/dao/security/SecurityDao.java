@@ -29,17 +29,17 @@ public class SecurityDao extends HibernateDaoSupport {
 
 	
 	
-	public List getSecuserroles() {
+	public List getProfile(String providerNo) {
 		log.debug("All User list");
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
 			
-			String queryString =  "select sur.providerNo, sur.roleName, sur.orgcd"
-				+ " from Secuserrole sur";
-				//+ " where s.providerNo = p.providerNo";
-				//+ " and p.providerNo = sur.providerNo";
+			String queryString =  "select sur.providerNo, sur.roleName, sur.orgcd, s.userName"
+				+ " from Secuserrole sur, Security s"
+				+ " where sur.providerNo = '" + providerNo + "'"
+				+ " and s.providerNo = sur.providerNo";
 			
-			/* SQL:
+			/* SQL: for displaying users with or without roles
 			select s.security_No, s.user_Name, p.last_Name, p.first_Name, sur.role_Name, sur.orgcd 
 			from Security s, Provider p LEFT OUTER JOIN secuserrole sur ON p.provider_No = sur.provider_No
 			where s.provider_No = p.provider_No

@@ -51,7 +51,38 @@ public class UserManagerAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		return list(mapping, form, request, response);
 	}
+	
+	public ActionForward profile(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
 
+		String providerNo = request.getParameter("providerNo");
+		
+		ArrayList<Secuserrole> profilelist = new ArrayList<Secuserrole>();
+
+		List list = usersManager.getProfile(providerNo);//sur.providerNo, sur.roleName, sur.orgcd
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Object[] tmp = (Object[]) list.get(i);
+
+				Secuserrole sur = new Secuserrole();
+				if (tmp != null ) {
+					sur.setProviderNo((String) tmp[0]);
+					sur.setRoleName((String) tmp[1]);
+					sur.setOrgcd((String) tmp[2]);
+					sur.setUserName((String) tmp[3]);
+					profilelist.add(sur);
+				}
+
+			}
+		}
+
+
+		request.setAttribute("profilelist", profilelist);
+		logManager.log("read", "full secuserroles list", "", request);
+
+		return mapping.findForward("profile");
+
+	}
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -69,9 +100,13 @@ public class UserManagerAction extends BaseAction {
 				sur.setFullName((String) tmp[2] + ", " + (String) tmp[3]);
 				sur.setProviderNo((String) tmp[4]);
 
-				ht.put((String) tmp[4], sur);
+				//ht.put((String) tmp[4], sur);
+				surlist.add(sur);
 			}
-
+			
+		}
+			
+			/*
 			List rolelist = usersManager.getSecuserroles();
 			if (rolelist != null && rolelist.size() > 0) {
 				for (int i = 0; i < rolelist.size(); i++) {
@@ -96,7 +131,7 @@ public class UserManagerAction extends BaseAction {
 		Iterator it = ht.values().iterator();
 		while (it.hasNext())
 			surlist.add((Secuserrole) it.next());
-
+*/
 		request.setAttribute("secuserroles", surlist);
 		logManager.log("read", "full secuserroles list", "", request);
 
