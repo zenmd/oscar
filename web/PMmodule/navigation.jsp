@@ -171,7 +171,7 @@
 		<div> 
             <span>Case Management</span>
         <div>
-            <span><a href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>Case Management</a></span>
+            <span><html:link 	action="/CaseManagementView2.do">Case Management</html:link></span>
         </div>
         </div>
     </security:oscarSec>
