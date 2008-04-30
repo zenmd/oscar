@@ -123,8 +123,12 @@ public final class SiteCheckAction extends DispatchAction {
 	     	    if (secSiteManager.isKeyValid(ssv.getSiteId(),ssv.getSiteKey()))
 	     	    {
 	     	    	newKey = secSiteManager.generateNewKey();
+		     	    sendMessage(response,"confirmed:" + newKey);
 	     	    }
-	     	    sendMessage(response,"confirmed:" + newKey);
+	     	    else
+	     	    {
+		     	    sendMessage(response,"error:" + "Your computer is not autorized to access QuatroShelter, please contact system administrator");
+	     	    }
  	    	}catch(Exception e){ 
  	    		sendMessage(response,"error");
  	    	}
