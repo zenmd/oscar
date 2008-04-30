@@ -223,8 +223,7 @@
         </property>
         <property name="delay" value="120000"/>
         <property name="period" value="3600000"/>
-    </bean>
-    
+    </bean>    
     <bean id="scheduledErProgramDischargeTask" class="org.springframework.scheduling.timer.ScheduledTimerTask"
           lazy-init="default"  dependency-check="default">
         <property name="timerTask">
@@ -251,10 +250,12 @@
            dependency-check="default">
         <property name="scheduledTimerTasks">
             <list>
+<!--
                 <ref bean="scheduledIntegratorUpdateTask"/>
                 <ref bean="scheduledBedProgramDischargeTask"/>
                 <ref bean="scheduledErProgramDischargeTask"/>
                 <ref bean="scheduledPopulationReportTask"/>
+-->
             </list>
         </property>
     </bean>
