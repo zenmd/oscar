@@ -43,6 +43,82 @@
         <property name="lookupManager" ref="lookupManager"/>       
         <property name="intakeManager" ref="intakeManager"/>       
     </bean>
+    <bean name="/PMmodule/QuatroClientSummary" class="org.oscarehr.PMmodule.web.QuatroClientSummaryAction" singleton="false" autowire="byName">
+        <property name="healthSafetyManager" ref="healthSafetyManager"/>
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="caseManagementManager" ref="caseManagementManager" />
+        <property name="consentManager" ref="consentManager" />
+        <property name="bedDemographicManager" ref="bedDemographicManager" />
+        <property name="roomDemographicManager" ref="roomDemographicManager" />
+        <property name="roomManager" ref="roomManager" />
+    </bean>
+    <bean name="/PMmodule/QuatroHistory" class="org.oscarehr.PMmodule.web.QuatroClientHistoryAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="caseManagementManager" ref="caseManagementManager" />
+        <property name="bedDemographicManager" ref="bedDemographicManager" />
+        <property name="roomDemographicManager" ref="roomDemographicManager" />
+        <property name="roomManager" ref="roomManager" />
+    </bean>
+    <bean name="/PMmodule/QuatroIntake" class="org.oscarehr.PMmodule.web.QuatroClientIntakeAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="intakeManager" ref="intakeManager"/>   
+    </bean>
+    <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="caseManagementManager" ref="caseManagementManager" />
+        <property name="bedDemographicManager" ref="bedDemographicManager" />
+        <property name="roomDemographicManager" ref="roomDemographicManager" />
+        <property name="roomManager" ref="roomManager" />
+        <property name="bedManager" ref="bedManager" />
+    </bean>
+    <bean name="/PMmodule/QuatroRefer" class="org.oscarehr.PMmodule.web.QuatroClientReferAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="caseManagementManager" ref="caseManagementManager" />
+        <property name="bedDemographicManager" ref="bedDemographicManager" />
+        <property name="roomDemographicManager" ref="roomDemographicManager" />
+        <property name="roomManager" ref="roomManager" />
+        <property name="bedManager" ref="bedManager" />
+    </bean>
+    <bean name="/PMmodule/QuatroDischarge" class="org.oscarehr.PMmodule.web.QuatroClientDischargeAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="caseManagementManager" ref="caseManagementManager" />
+        <property name="bedDemographicManager" ref="bedDemographicManager" />
+        <property name="roomDemographicManager" ref="roomDemographicManager" />
+        <property name="roomManager" ref="roomManager" />
+        <property name="bedManager" ref="bedManager" />
+        <property name="lookupManager" ref="lookupManager" />
+    </bean>
+    <bean name="/PMmodule/QuatroServiceRestriction" class="org.oscarehr.PMmodule.web.QuatroClientServiceRestrictionAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />
+        <property name="providerManager" ref="providerManager" />
+        <property name="programManager" ref="programManager"/>       
+        <property name="admissionManager" ref="admissionManager" />
+        <property name="caseManagementManager" ref="caseManagementManager" />
+        <property name="bedDemographicManager" ref="bedDemographicManager" />
+        <property name="roomDemographicManager" ref="roomDemographicManager" />
+        <property name="roomManager" ref="roomManager" />
+        <property name="bedManager" ref="bedManager" />
+    </bean>
+    <bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
+    </bean>
     <bean name="/PMmodule/ProviderInfo" class="org.oscarehr.PMmodule.web.ProviderInfoAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >

@@ -108,7 +108,39 @@
 		<put name="body" value="/PMmodule/PreIntakeForm.jsp" />
 	</definition>
 
-	<definition name="page.intake.edit" path="/PMmodule/layout.jsp">
+	<definition name="page.quatro.pmm.summary" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroSummary.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.history" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroHistory.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.intake" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroIntake.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.admission" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroAdmission.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.refer" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroRefer.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.discharge" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroDischarge.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.servicerestriction" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroServiceRestriction.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.complaint" path="/PMmodule/layout.jsp">
+		<put name="navigation" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/QuatroComplaint.jsp" />
+	</definition>
+	<definition name="page.quatro.intake.edit" path="/PMmodule/layout.jsp">
 		<put name="navigation" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/PMmodule/QuatroIntakeEdit.jsp" />
 	</definition>

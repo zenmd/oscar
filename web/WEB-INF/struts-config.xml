@@ -294,6 +294,116 @@
             <form-property name="serviceRestriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction" />
             <form-property name="serviceRestrictionLength" type="java.lang.Integer" />
         </form-bean>
+        <form-bean name="quatroClientSummaryForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+        </form-bean>
+        <form-bean name="quatroClientHistoryForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+        </form-bean>
+        <form-bean name="quatroClientIntakeForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+        </form-bean>
+        <form-bean name="quatroClientAdmissionForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+            <form-property name="residentStatus" type="java.lang.String" />
+            <form-property name="primaryWorker" type="java.lang.String" />
+            <form-property name="lockerNo" type="java.lang.String" />
+            <form-property name="noOfBags" type="java.lang.String" />
+            <form-property name="nextKinName" type="java.lang.String" />
+            <form-property name="nextKinRelationship" type="java.lang.String" />
+            <form-property name="nextKinTelephone" type="java.lang.String" />
+            <form-property name="nextKinNumber" type="java.lang.String" />
+            <form-property name="nextKinStreet" type="java.lang.String" />
+            <form-property name="nextKinCity" type="java.lang.String" />
+            <form-property name="nextKinProvince" type="java.lang.String" />
+            <form-property name="nextKinPostal" type="java.lang.String" />
+            <form-property name="ovPassStartDate" type="java.lang.String" />
+            <form-property name="ovPassEndDate" type="java.lang.String" />
+            <form-property name="issuedBy" type="java.lang.String" />
+            <form-property name="notSignReason" type="java.lang.String" />
+            <form-property name="notSignReasonList" type="java.util.List" />
+        </form-bean>
+        <form-bean name="quatroClientReferForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+        </form-bean>
+        <form-bean name="quatroClientDischargeForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+        </form-bean>
+        <form-bean name="quatroClientServiceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
+            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
+            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
+            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
+            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
+            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="programWithIntakeId" type="java.lang.String" />
+        </form-bean>
+        <form-bean name="quatroClientComplaintForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm">
+        </form-bean>
         <form-bean name="staffManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider" />
             <form-property name="program_provider" type="org.oscarehr.PMmodule.model.ProgramProvider" />
@@ -1490,6 +1600,83 @@
             <forward name="service_restriction_error" path="page.pmm.client.service_restriction_error"/>
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
+        <action path="/PMmodule/QuatroClientSummary" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientSummaryForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.summary" />
+            <forward name="edit-redirect" path="page.quatro.pmm.summary" redirect="true" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroHistory" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientHistoryForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.history" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroIntake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientIntakeForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.intake" />
+            <forward name="update" path="page.quatro.pmm.intake" />
+            <forward name="close" path="/PMmodule/QuatroIntake.do" redirect="true"></forward>
+        </action>
+        <action path="/PMmodule/QuatroAdmission" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientAdmissionForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.admission" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroRefer" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientReferForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.refer" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroDischarge" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientDischargeForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.discharge" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroServiceRestriction" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientServiceRestrictionForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.servicerestriction" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/QuatroComplaint" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientComplaintForm" scope="session">
+            <forward name="edit" path="page.quatro.pmm.complaint" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
+            <forward name="consent" path="page.pmm.erconsent" />
+            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
+            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
+            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
+            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
+            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        </action>
+
         <action path="/PMmodule/ProviderInfo" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="view" path="page.pmm.provider.view" />
         </action>
@@ -1556,9 +1743,9 @@
         <action path="/PMmodule/QuatroIntake/Edit"
             type="org.springframework.web.struts.DelegatingActionProxy"
             parameter="method" name="quatroIntakeEditForm" scope="session">
-            <forward name="edit" path="page.intake.edit" />
-            <forward name="update" path="page.intake.edit" />
-            <forward name="close" path="/PMmodule/ClientManager.do" redirect="true"></forward>
+            <forward name="edit" path="page.quatro.intake.edit" />
+            <forward name="update" path="page.quatro.intake.edit" />
+            <forward name="close" path="/PMmodule/QuatroIntake.do" redirect="true"></forward>
         </action>
         <!-- Generic Intake -->
         <action path="/PMmodule/GenericIntake/Report" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
