@@ -39,6 +39,9 @@ OscarProperties props = OscarProperties.getInstance();
 BuildInfo buildInfo = BuildInfo.getInstance();
 String buildDate = "2008-05-01 09:15"; //buildInfo.getBuildDate();
 
+if(props.isSiteSecured()) {
+	response.sendRedirect("/login.jsp");
+}
 // clear old cookies
 Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
 Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
@@ -138,14 +141,14 @@ response.addCookie(admCookie);
                             %>
                         
                         <br/>            
-                        <input type="text" name="username" size="15" maxlength="15" autocomplete="off" />
+                        <input type="text" name="username" size="15" maxlength="15" autocomplete="off" value="oscardoc"/>
                         <br/>                
                         <bean:message key="loginApplication.formPwd"/><br/>
-                        <input type="password" name="password" size="15" maxlength="15" autocomplete="off" />
+                        <input type="password" name="password" size="15" maxlength="15" autocomplete="off" value="mac2002"/>
                         </br></br>
                         <bean:message key="index.formPIN"/>: 
                         <br/>
-                        <input type="password" name="pin" size="15" maxlength="15" autocomplete="off" /><br/>
+                        <input type="password" name="pin" size="15" maxlength="15" autocomplete="off" value="1117"/><br/>
                        
                         <span class="extrasmall">
                             <bean:message key="loginApplication.formCmt"/>
