@@ -40,6 +40,8 @@ import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.util.*;
+
+import oscar.MyDateFormat;
 import oscar.OscarProperties;
 
 public class CaseManagementNoteDAO extends HibernateDaoSupport {
@@ -143,7 +145,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 	}
 
 	public List search(CaseManagementSearchBean searchBean) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		
 		Criteria criteria = getSession().createCriteria(CaseManagementNote.class);
 		
@@ -169,20 +171,23 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		}
 		*/
 		try {
-			Date startDate;
-			Date endDate;
+			java.sql.Date startDate;
+			java.sql.Date endDate;
 			if(searchBean.getSearchStartDate().length()>0) {
-				startDate = formatter.parse(searchBean.getSearchStartDate());
+				//startDate = formatter.parse(searchBean.getSearchStartDate());				
+				startDate=MyDateFormat.dayStart(searchBean.getSearchStartDate());
 			} else {
-				startDate = formatter.parse("1970-01-01");
+				//startDate = formatter.parse("1970-01-01");
+				startDate = MyDateFormat.getSysDate("1970/01/01");
 			}
 			if(searchBean.getSearchEndDate().length()>0) {
-				endDate = formatter.parse(searchBean.getSearchEndDate());
+				//endDate = formatter.parse(searchBean.getSearchEndDate());				
+				endDate=MyDateFormat.dayEnd(searchBean.getSearchEndDate());
 			} else {
-				endDate = new Date();
+				endDate = MyDateFormat.getCurrentDate();
 			}
 			criteria.add(Restrictions.between("update_date",startDate,endDate));
-		}catch(ParseException e) {
+		}catch(Exception e) {
 			log.warn(e);
 		}
 
