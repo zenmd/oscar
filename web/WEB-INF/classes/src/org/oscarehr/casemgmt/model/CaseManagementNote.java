@@ -63,7 +63,8 @@ public class CaseManagementNote extends BaseObject {
 
     private String password;
     private boolean locked;
-
+    private Integer caseStatusId;
+    
     private int hashCode = Integer.MIN_VALUE;
 
     public boolean equals(Object obj) {
@@ -404,4 +405,14 @@ public class CaseManagementNote extends BaseObject {
         }
         return status;
     }
+
+
+	public Integer getCaseStatusId() {
+		return caseStatusId;
+	}
+
+
+	public void setCaseStatusId(Integer caseStatusId) {
+		this.caseStatusId = caseStatusId;
+	}
 }
