@@ -141,7 +141,87 @@ public class MyDateFormat {
         Calendar cal =getCalendar(pDate);
         return new java.sql.Date(cal.getTime().getTime());
     }
-
+	public static java.sql.Date dayStart(String pDate){
+		if (pDate == null || "".equals(pDate)) return null;      
+        try
+        {
+        	char sep = '-';
+        	boolean bnosep = false;
+        	int idx = pDate.indexOf(sep);
+        	if (idx < 0) {
+        		sep='/';
+        		idx= pDate.indexOf(sep);
+        	}
+        	bnosep = idx < 0;
+        	int day, month, year;
+        	if(bnosep) {
+                year = Integer.parseInt(pDate.substring(0, 4));
+                month = Integer.parseInt(pDate.substring(4, 6));
+                day= Integer.parseInt(pDate.substring(6, 8));
+        	}
+        	else
+        	{
+        		year = Integer.parseInt(pDate.substring(0,idx));
+        		int idx1 = pDate.indexOf(sep,idx+1);
+        		month = Integer.parseInt(pDate.substring(idx+1,idx1));
+        		idx = idx1;
+        		idx1 = pDate.indexOf(' ');
+        		if(idx1<0) idx1 = pDate.length();
+        		day = Integer.parseInt(pDate.substring(idx+1,idx1));
+        	}
+        	if(month>0){
+        		month = month - 1;
+        	}
+            GregorianCalendar cal = new GregorianCalendar(year, month, day,0,0,0);
+            return new java.sql.Date(cal.getTime().getTime());
+        }
+            catch (Exception e)
+            {
+                System.out.println("Invalid Date - the input date is in wrong format or out of range");
+                return null;
+            }
+	}
+	public static java.sql.Date dayEnd(String pDate){
+		if (pDate == null || "".equals(pDate)) return null;      
+        try
+        {
+        	char sep = '-';
+        	boolean bnosep = false;
+        	int idx = pDate.indexOf(sep);
+        	if (idx < 0) {
+        		sep='/';
+        		idx= pDate.indexOf(sep);
+        	}
+        	bnosep = idx < 0;
+        	int day, month, year;
+        	if(bnosep) {
+                year = Integer.parseInt(pDate.substring(0, 4));
+                month = Integer.parseInt(pDate.substring(4, 6));
+                day= Integer.parseInt(pDate.substring(6, 8));
+        	}
+        	else
+        	{
+        		year = Integer.parseInt(pDate.substring(0,idx));
+        		int idx1 = pDate.indexOf(sep,idx+1);
+        		month = Integer.parseInt(pDate.substring(idx+1,idx1));
+        		idx = idx1;
+        		idx1 = pDate.indexOf(' ');
+        		if(idx1<0) idx1 = pDate.length();
+        		day = Integer.parseInt(pDate.substring(idx+1,idx1));
+        	}
+        	if(month>0){
+        		month = month - 1;
+        	}
+            GregorianCalendar cal = new GregorianCalendar(year, month, day,23,59,59);
+            return new java.sql.Date(cal.getTime().getTime());
+        }
+            catch (Exception e)
+            {
+                System.out.println("Invalid Date - the input date is in wrong format or out of range");
+                return null;
+            }
+	}
+	
 	public static Calendar getCalendar(String pDate)
     {
         if (pDate == null || "".equals(pDate)) return null;
