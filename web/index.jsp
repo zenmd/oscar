@@ -39,9 +39,6 @@ OscarProperties props = OscarProperties.getInstance();
 BuildInfo buildInfo = BuildInfo.getInstance();
 String buildDate = "2008-05-01 09:15"; //buildInfo.getBuildDate();
 
-if(props.isSiteSecured()) {
-	response.sendRedirect("/login.jsp");
-}
 // clear old cookies
 Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
 Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
@@ -52,6 +49,9 @@ admCookie.setPath("/");
 response.addCookie(rcpCookie);
 response.addCookie(prvCookie);
 response.addCookie(admCookie);
+if(props.isSiteSecured()) {
+	response.sendRedirect("login.jsp");
+}
 %>
 
 <html:html locale="true">
