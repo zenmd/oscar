@@ -26,28 +26,29 @@
 	<tr>
 		<td align="left" width="200px" rowspan="3">
 		<%if (oscar.OscarProperties.getInstance().isTorontoRFQ() && !oscar.OscarProperties.getInstance().getBooleanProperty("USE_CAISI_LOGO", "true")){%>
- 	        <img src="<html:rewrite page="/images/QuatroShelterLogo.gif"  />" alt="QuatroShelter" id="caisilogo"  border="0"/>
+ 	        <img src="<html:rewrite page="/images/QuatroShelterLogo.gif"  />" alt="QuatroShelter" border="0"/>
  	    <%} else {%>
 	        <img src="<html:rewrite page="/images/caisi_1.jpg" />" alt="Caisi" id="caisilogo"  border="0"/>
 	    <%}%>
         </td>
-        <th>&nbsp;</th>
-        <td width="200px"><table width="100%"><tr>
-        <td align="right" width="60px"><html:link action="/Home.do">Home</html:link></td>
-        <td width="60px" align="center">
+		<th rowspan="3"> &nbsp;<c:out value="${sessionScope.pageTitle}"/> </th>
+        <td width="300px">
+        <table width="100%" style="text-align: right"><tr>
+        <td style="text-align: right"><html:link action="/Home.do">Home</html:link></td>
+        <td style="text-align: right">
                <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
         </td>
-        <td align="left" width="60px">
+        <td style="text-align: right">
                <a href='<%=request.getContextPath()%>/logout.jsp'>Logout</a>
         </td>
-        </tr></table></td>
+        </tr></table>
+        </td>
 	</tr>
 	<tr>
-		<th rowspan="2"> &nbsp;<c:out value="${sessionScope.pageTitle}"/> </th>
-        <td  width="200px" align="right">User: <c:out value="${sessionScope.provider.formattedName}" /></td>
+        <td width="300px" style="text-align: right">User: <c:out value="${sessionScope.provider.formattedName}" /></td>
 	</tr>
 	<tr>
-        <td  width="200px" align="right">Shelter: <c:out value="${sessionScope.currentFacility.name}"/></td>
+        <td width="300px" style="text-align: right">Shelter: <c:out value="${sessionScope.currentFacility.name}"/></td>
     </tr>
 </table>
-</div>
+<!--</div>-->
