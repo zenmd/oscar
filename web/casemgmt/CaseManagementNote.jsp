@@ -4,32 +4,31 @@
 <html>
 <head>
 <title>Case Management</title>
-<c:set var="ctx" value="${pageContext.request.contextPath}" 	scope="request" />
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
+<c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" />
+<script type="text/javascript" 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <!-- link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css"	type="text/css" -->
-<script language="JavaScript"
-	src="<c:out value="${ctx}"/>/jspspellcheck/spellcheck-caller.js"></script>
+<script language="JavaScript"	src="<c:out value="${ctx}"/>/jspspellcheck/spellcheck-caller.js"></script>
 <script type="text/javascript">
-	var flag=<%=request.getAttribute("change_flag")%>;
- 
-	<%org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean form=(org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean) session.getAttribute("caseManagementEntryForm");
-	int size=form.getIssueCheckList().length;
-	
-	if (session.getAttribute("newNote")!=null && "true".equalsIgnoreCase((String)session.getAttribute("newNote")))
+
+	var flag=<%=request.getAttribute("change_flag")%>; 
+	<%
+		org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean form=(org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean) session.getAttribute("caseManagementEntryForm");
+		int size=form.getIssueCheckList().length;	
+		if (session.getAttribute("newNote")!=null && "true".equalsIgnoreCase((String)session.getAttribute("newNote")))
 	{%>
-	var newNote=true;
+		var newNote=true;
 	<%}else{%>
-	var newNote=false;
-	<%}
-	
-	if (session.getAttribute("issueStatusChanged")!=null && "true".equalsIgnoreCase((String)session.getAttribute("issueStatusChanged")))
+		var newNote=false;
+	<%}	
+		if (session.getAttribute("issueStatusChanged")!=null && "true".equalsIgnoreCase((String)session.getAttribute("issueStatusChanged")))
 	{%>
-	var issueChanged=true;
+		var issueChanged=true;
 	<%}else{%>
-	var issueChanged=false;
+		var issueChanged=false;
 	<%}%>
 	
 	var issueSize=<%=size%>;
+	
 	function setChangeFlag(change){
 		flag=change;
 		document.getElementById("spanMsg").innerHTML="This note has not been saved yet!";
@@ -107,26 +106,40 @@
 		else 
 			return false;
 	}
-	
+	function isIssueEmpty()
+	{
+		if(document.caseManagementEntryForm.lstIssue==null ||document.caseManagementEntryForm.lstIssue=="") 
+			return true;		
+		else 
+			return false;
+	}
 	function validateSave(){
 	
 		var str1="You cannot save a note when there is no issue checked, please add an issue or check a currently available issue before save." ;
 		var str2="Are you sure that you want to sign and save without changing the status of any of the issues?";
-		var str3="Please choose encounter type before saving the note."
+		var str3="Please choose encounter type before saving the note.";
 		var str4="Are you sure that you want to save without signing?";
+		var str5="You cannot save a note when there is no issue, please add an issue before save." ;
 		if (!validateEnounter()){
 			alert(str3); return false;
 		}
+		/*
 		if (!validateIssuecheck()){
 			alert(str1); return false;
+		}
+		*/
+		if(isIssueEmpty()){
+			alert(str5);  return false;
 		}
 		if (!validateSignStatus()){
 			if(confirm(str4)) return true;
 			else return false;
 		}
+		/*
 		if (!validateIssueStatus())
 			if (confirm(str2)) return true;
 			else return false;
+		*/
 		return true;
 	}
 	
@@ -150,7 +163,7 @@
                  startSpellCheck('jspspellcheck/',elements);
                 
             }
-   function getIssueList()   {
+ function getIssueList(){
   	var elSel= document.getElementsByName("lstIssue")[0]; 
   	var txtKey= document.getElementsByName("txtIssueKey")[0]; 
   	var txtValue= document.getElementsByName("txtIssueValue")[0]; 
@@ -163,13 +176,14 @@
        		txtKey.value = txtKey.value + ":" + elSel.options[i].value;
     	}
     
-    if(txtValue.value==""){
-       txtValue.value = elSel.options[i].text;
-    }else{  
-       txtValue.value = txtValue.value + ":" + elSel.options[i].text;
-    }
-  }
- 	 return true;
+    	if(txtValue.value==""){
+      	 	txtValue.value = elSel.options[i].text;
+    	}else{  
+       	txtValue.value = txtValue.value + ":" + elSel.options[i].text;
+    	}
+   }
+   alert(txtValue.value);
+   return true;
 }
 
 function removeSel(str) {
@@ -195,7 +209,7 @@ var XMLHttpRequestObject = false;
  	function autoSave() {
 		if(XMLHttpRequestObject) {
 			var obj = document.getElementById('caseNote_note');
-			XMLHttpRequestObject.open("POST",'<html:rewrite action="/CaseManagementEntry"/>',true);
+			XMLHttpRequestObject.open("POST",'<html:rewrite action="/CaseManagementEntry2"/>',true);
             XMLHttpRequestObject.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
             /*
 			XMLHttpRequestObject.onreadystatechange = function()
@@ -231,6 +245,12 @@ var XMLHttpRequestObject = false;
 			document.caseManagementEntryForm.submit();			
 		}		
 	}	
+	function submitForm(methodValue)
+	{
+		getIssueList();
+		document.forms[0].method.value=methodValue;
+		document.forms[0].submit();
+	}
 </script>
 
 </head>
@@ -241,11 +261,10 @@ var XMLHttpRequestObject = false;
 	if (pId == null)
 		pId = "";
 %>
-<html:form action="/CaseManagementEntry2" onsubmit="return getIssueList();">
+<html:form action="/CaseManagementEntry2"	onsubmit="return getIssueList();">
 	<html:hidden property="demographicNo" />
 	<c:if test="${param.providerNo==null}">
-		<input type="hidden" name="providerNo"
-			value="<%=session.getAttribute("user")%>">
+		<input type="hidden" name="providerNo"	value="<%=session.getAttribute("user")%>">
 	</c:if>
 	<c:if test="${param.providerNo!=null}">
 		<html:hidden property="providerNo" />
@@ -258,22 +277,30 @@ var XMLHttpRequestObject = false;
 	<input type="hidden" name="lineId" value="0" />
 	<input type="hidden" name="addIssue" value="null" />
 	<input type="hidden" name="deleteId" value="0" />
-	<div id="pageTitle">
+	
 	<table width="100%">
 		<tr>
 			<th class="pageTitle" width="100%">Case Management Note</th>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar"><html:link
-				action="/CaseManagementView2.do"
+			<td align="left" class="buttonBar">
+			<!-- 
+			<span
+				style="text-decoration: cursor:pointer;color: blue"
+				onclick="document.caseManagementEntryForm.method.value='save';return validateSave();">
+			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save
+			&nbsp;| </span>
+			-->
+			<a onclick="return validateSave();" href='javascript:submitForm("save");'
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+			 <html:link action="/CaseManagementView2.do"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 			</html:link></td>
 		</tr>
-	</table>
-	</div>
-	<div id="clientInfo">
-	<table with="100%" class="simple" cellspacing="2" cellpadding="3">
+	</table>		
+	<table width="100%" class="simple" cellspacing="2" cellpadding="3">
 		<tr>
 			<th style="width: 20%">Client name</th>
 			<td><logic:notEmpty name="demoName" scope="request">
@@ -299,27 +326,34 @@ var XMLHttpRequestObject = false;
 			</logic:empty></td>
 		</tr>
 	</table>
-	</div>
-	<br />
-	<div class="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
+	
+	<br>
+	
+	<table cellpadding="3" cellspacing="0" border="0" width="90%">
 		<tr>
-			<th>Associated Issue(s)</th>
+			<th style="width:40%">Case Status</th>
+			<td><html:select property="caseNote.caseStatusId">
+				<html:options collection="lstCaseStatus" property="code"
+					labelProperty="description"></html:options>
+				</html:select>
+			</td>
 		</tr>
 	</table>
-	</div>
-<div>
+		
 	<table width="90%" border="0" cellpadding="0" cellspacing="1">
+	<tr>
+			<th>Components of Service Category</th>
+		</tr>
 		<tr>
-			<td>
-			<html:select property="lstIssue" multiple="true" size="5"
-				style="width:90%;">
+			<td><html:select property="lstIssue" multiple="true" size="5"
+				style="width:90%;" onchange="setChangeFlag(true);">
 				<html:options collection="lstIssueSelection" property="id"
 					labelProperty="description"></html:options>
 			</html:select>
-			<html:hidden property="txtIssueKey" value="" /><html:hidden
-				property="txtIssueValue" value="" /></td>
-		</tr>
+			 <html:hidden property="txtIssueKey" value="" />
+			 <html:hidden	property="txtIssueValue" value="" />
+			</td>
+		
 		<tr>
 			<td class="clsButtonBarText"><a id="issAdd"
 				href="javascript:showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">
@@ -330,21 +364,10 @@ var XMLHttpRequestObject = false;
 		</tr>
 	</table>
 	<br>
-	<br>
-	<nested:submit value="add new issue"
-		onclick="this.form.method.value='addNewIssue';" /></div>
 	
-	<br>
-	<div class="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
-		<tr>
-			<th>Progress Note Entry View</th>
-		</tr>
-	</table>
-	</div>
+	
 	<%
-				if ("true".equalsIgnoreCase((String) request
-				.getAttribute("change_flag"))) {
+		if ("true".equalsIgnoreCase((String) request.getAttribute("change_flag"))) {
 	%>
 	<span style="color:red">this note has not been saved yet!</span>
 	<%
@@ -359,26 +382,13 @@ var XMLHttpRequestObject = false;
 	<%
 	}
 	%>
-
-	<br />
-	
 	<table style="width: 100%">
 		<tr>
 			<td align="left" class="buttonBar"><span
 				style="text-decoration: cursor:pointer;color: blue"
 				onclick="javascript:spellCheck();"> <img border=0
 				src=<html:rewrite page="/images/Back16.png"/> />&nbsp; Spell Check
-			&nbsp;|</span> <span style="text-decoration: cursor:pointer;color: blue"
-				onclick="this.form.method.value='save';return validateSave();">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;
-			Save &nbsp;| </span> <span
-				style="text-decoration: cursor:pointer;color: blue"
-				onclick="this.form.method.value='saveAndExit';if (validateSave()) {return true;}else return false;">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;
-			Save and Exit&nbsp;| </span> <span
-				style="text-decoration: cursor:pointer;color: blue"
-				onclick="this.form.method.value='cancel';return true;">Cancel</span>
-			</td>
+			&nbsp;|</span></td>
 		</tr>
 	</table>
 	<table width="90%" border="1">
@@ -392,7 +402,7 @@ var XMLHttpRequestObject = false;
 		</tr>
 
 		<tr>
-			<td class="fieldTitle">Encounter Type:</td>
+			<td class="fieldTitle">Encounter Type</td>
 			<td class="fieldValue"><html:select
 				property="caseNote.encounter_type" onchange="setChangeFlag(true);">
 				<html:option value=""></html:option>>
@@ -446,20 +456,9 @@ var XMLHttpRequestObject = false;
 					property="caseNote.password" /></td>
 			</tr>
 		</caisi:isModuleLoad>
-		<!-- 
-		<tr>
-			<td class="fieldValue" colspan="2">
-			<input type="submit" value="Save"
-				onclick="this.form.method.value='save';return validateSave();"> 
-			<input type="submit"
-				value="Save and Exit" onclick="this.form.method.value='saveAndExit';if (validateSave()) {return true;}else return false;">
-			<input type="submit" 
-			    value="cancel" onclick = "this.form.method.value='cancel';return true;">
-			</td>
-			
-		</tr>
-		-->
+		 
 	</table>
+	
 </html:form>
 </body>
 </html>

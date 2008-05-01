@@ -103,9 +103,9 @@ setTimeout(string,time);
 			</html:link> <html:link
 				action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt"
 				style="color:Navy;text-decoration:none;">
-				 New&nbsp;Note&nbsp;&nbsp;|</html:link> <span
+				 New&nbsp;Note&nbsp;&nbsp;|</html:link> <a
 				style="text-decoration: cursor:pointer;color: blue"
-				onclick="window.print();">Print</span></td>
+				href="window.print();">Print</a></td>
 		</tr>
 	</table>
 	<div id="clientInfo" class="axial">
@@ -172,27 +172,27 @@ setTimeout(string,time);
 	<div class="axial">
 	<table border="0" cellspacing="2" cellpadding="3" width="100%">
 		<tr>
-			<th width="20%"><bean-el:message key="CaseSearch.dateRangeFrom"
+			<th width="30%"><bean-el:message key="CaseSearch.dateRangeFrom"
 				bundle="pmm" nowrap /></th>
 
 			<td width="20%"><quatro:datePickerTag property="searchStartDate"
 				openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
-			<th width="20%"><bean-el:message key="CaseSearch.dateRangeTo"
+			<th width="30%"><bean-el:message key="CaseSearch.dateRangeTo"
 				bundle="pmm" /></th>
 			<td><quatro:datePickerTag property="searchEndDate" width="120px"
 				openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
 		</tr>
 
 		<tr>
-			<th><bean-el:message key="CaseSearch.provider" bundle="pmm"
+			<th width="30%"><bean-el:message key="CaseSearch.provider" bundle="pmm"
 				nowrap /></th>
-			<td><html:select property="providerNo">
+			<td width="20%"><html:select property="providerNo">
 				<html:option value="">
 				</html:option>
 				<html:options collection="providers" property="providerNo"
 					labelProperty="fullName" nowrap />
 			</html:select></td>
-			<th><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"
+			<th width="30%"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"
 				nowrap /></th>
 			<td><html:select property="searchCaseStatus">
 				<html:option value="">
@@ -203,15 +203,15 @@ setTimeout(string,time);
 		</tr>
 
 		<tr>
-			<th><bean-el:message key="CaseSearch.componentsOfService"
+			<th width="30%"><bean-el:message key="CaseSearch.componentsOfService"
 				bundle="pmm" nowrap /></th>
-			<td><html:select property="searchServiceComponent">
+			<td width="20%"><html:select property="searchServiceComponent">
 				<html:option value="">
 				</html:option>
 				<html:options collection="issues" property="id"
 					labelProperty="description" />
 			</html:select></td>
-			<td>&nbsp;</td>
+			<td width="30%">&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -226,20 +226,15 @@ setTimeout(string,time);
 
 
 	<br />
-	<c:if test="${not empty search_results}">
+	<c:if test="${not empty Notes}">
 
 		<c:if
 			test="${sessionScope.caseManagementViewForm.note_view!='detailed'}">
 
 
 			<br />
-			<table style="width:100%">
+			<table width="100%">
 				<tr>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
 					<td align="right">Sort: <html:select property="note_sort"
 						onchange="document.caseManagementViewForm.method.value='view';document.caseManagementViewForm.submit()">
 						<html:option value="update_date">Date</html:option>
@@ -253,12 +248,12 @@ setTimeout(string,time);
 				cellpadding="3" class="simple">
 
 				<tr>
-					<td></td>
-					<td>Date</td>
-					<td>Provider</td>
-					<td>Status</td>
-					<td>Program</td>
-					<td>Role</td>
+					<td style="background-color:#EEEEFF"></td>
+					<td style="background-color:#EEEEFF">Date</td>
+					<td style="background-color:#EEEEFF">Provider</td>
+					<td style="background-color:#EEEEFF">Status</td>
+					<td style="background-color:#EEEEFF">Program</td>
+					<td style="background-color:#EEEEFF">Role</td>
 				</tr>
 
 				<%
@@ -268,7 +263,7 @@ setTimeout(string,time);
 				<div
 					style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
-				<c:forEach var="note" items="${search_results}">
+				<c:forEach var="note" items="${Notes}">
 					<%
 							if (index++ % 2 != 0) {
 							bgcolor = "white";
@@ -354,7 +349,7 @@ setTimeout(string,time);
 					int index1 = 0;
 					String bgcolor1 = "white";
 				%>
-				<c:forEach var="note" items="${search_results}">
+				<c:forEach var="note" items="${Notes}">
 					<%
 							if (index1++ % 2 != 0) {
 							bgcolor1 = "white";
@@ -362,7 +357,7 @@ setTimeout(string,time);
 							bgcolor1 = "#EEEEFF";
 						}
 						java.util.List noteList = (java.util.List) request
-								.getAttribute("search_results");
+								.getAttribute("Notes");
 						String noteId = ((CaseManagementNote) noteList.get(index1 - 1))
 								.getId().toString();
 						request.setAttribute("noteId", noteId);
