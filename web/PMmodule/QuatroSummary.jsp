@@ -9,12 +9,33 @@
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
-<input type="hidden" name="method"/>
+<input type="hidden" name="method" value="edit" />
+<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>"/>
 <script lang="javascript">
-	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
-	}
+function submitForm(methodVal) {
+	document.forms(0).method.value = methodVal;
+	document.forms(0).submit();
+}
+
+function openHealthSafety(){
+	var url = '<html:rewrite action="/PMmodule/QuatroHealthSafety.do"/>';
+		url += '?method=form&id='+ '<c:out value="${client.demographicNo}"/>';
+	window.open(url,'HealthSafety', 'scrollbars=1,width=800,height=450');
+}	
+
+function openRelations(){
+    var url = '../demographic/AddAlternateContact.jsp';
+	url += '?demo='+ '<c:out value="${client.demographicNo}"/>&pmmClient=yes';
+	location.href = url;
+}
+
+function saveJointAdmission(clientId,headClientId,jType){
+	location.href = '<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>' + "?method=save_joint_admission&clientId=<c:out value='${client.demographicNo}'/>&headClientId="+headClientId+"&dependentClientId="+clientId+"&type="+jType;
+}
+function removeJointAdmission(clientId){
+	location.href = '<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>' + "?method=remove_joint_admission&clientId=<c:out value='${client.demographicNo}'/>&dependentClientId="+clientId;
+}
+
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Summary</th></tr>
@@ -29,13 +50,9 @@
 		<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints</html:link>
 		</td>
 	</tr>
-	<tr>
-		<td align="left" class="buttonBar"><a href='javascript:submitForm("save");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-			<a href='javascript:submitForm("close");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>		</td>
+	<tr><td align="left" class="buttonBar">
+		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
@@ -126,7 +143,7 @@
          <th>Age</th>
        </thead>
        <c:forEach var="rHash" items="${relations}">
-          <tr><td><a href="<html:rewrite action="/PMmodule/ClientManager.do"/>?method=edit&id=<c:out value="${rHash['demographicNo']}"/>">
+          <tr><td><a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?method=edit&id=<c:out value="${rHash['demographicNo']}"/>">
            <c:out value="${rHash['lastName']}"/>, <c:out value="${rHash['firstName']}"/></a></td> 
           <td><c:out value="${rHash['relation']}"/></td>
           <td>
@@ -224,7 +241,7 @@
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="10" requestURI="/PMmodule/ClientManager.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="10" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="This client is not currently admitted to any programs." />
 	
@@ -260,7 +277,7 @@
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="referral" name="referrals" export="false" pagesize="10" requestURI="/PMmodule/ClientManager.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="referral" name="referrals" export="false" pagesize="10" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	
 	<display:column property="programName" sortable="true" title="Program Name" />

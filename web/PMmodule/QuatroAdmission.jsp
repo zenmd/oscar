@@ -16,8 +16,7 @@
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Client Management - Admission</span></th>
+		<th class="pageTitle" align="center">Client Management - Admission</th>
 	</tr>
 	<tr>
 		<td align="left" valign="middle" class="buttonBar2">
@@ -32,9 +31,9 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><a href='javascript:submitForm("close");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a></td>
+		<td align="left" class="buttonBar">
+		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
@@ -68,35 +67,35 @@
 </table>
 </td></tr>
 
-<tr><td><br><div class="tabs" id="tabs">
+<tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Next of Kin</th></tr>
+<tr><th>Next of Kin</th></tr>
 </table></div></td></tr>
 
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
-<tr><td width="25%">Name</td>
+<tr><td width="10%">Name</td>
 <td width="25%"><html:text property="nextKinName" /></td>
-<td width="20%">Relationship</td>
-<td width="30%"><html:text property="nextKinRelationship" /></td>
-<td>Telephone</td>
-<td><html:text property="nextKinTelephone" /></td></tr>
+<td width="10%">Relationship</td>
+<td width="20%"><html:text property="nextKinRelationship" /></td>
+<td width="10%">Telephone</td>
+<td width="25%"><html:text property="nextKinTelephone" style="width: 70%" /></td></tr>
 <tr><td>Number</td>
 <td><html:text property="nextKinNumber" /></td>
 <td>Street</td>
-<td colspan="3"><html:text property="nextKinStreet" /></td></tr>
+<td colspan="3"><html:text property="nextKinStreet" style="width: 80%" /></td></tr>
 <tr><td>City</td>
 <td><html:text property="nextKinCity" /></td>
 <td>Province</td>
-<td><html:text property="nextKinProvince" /></td>
+<td><html:select property="nextKinProvince" /></td>
 <td>Postal</td>
-<td colspan="3"><html:text property="nextKinPostal" /></td></tr>
+<td><html:text property="nextKinPostal" style="width: 70%" /></td></tr>
 </table>
 </td></tr>
 
-<tr><td><br><div class="tabs" id="tabs">
+<tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Overnight Pass</th></tr>
+<tr><th>Overnight Pass</th></tr>
 </table></div></td></tr>
 
 <tr><td>
@@ -115,9 +114,9 @@
 </table>
 </td></tr>
 
-<tr><td><br><div class="tabs" id="tabs">
+<tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Bed/Room Reservation</th></tr>
+<tr><th>Bed/Room Reservation</th></tr>
 </table></div></td></tr>
 
 <tr><td>

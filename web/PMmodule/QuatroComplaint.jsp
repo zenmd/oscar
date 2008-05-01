@@ -15,8 +15,7 @@
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Client Management - Complaints</span></th>
+		<th class="pageTitle" align="center">Client Management - Complaints</th>
 	</tr>
 	<tr>
 		<td align="left" valign="middle" class="buttonBar2">
@@ -31,9 +30,9 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><a href='javascript:submitForm("close");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a></td>
+		<td align="left" class="buttonBar">
+		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">

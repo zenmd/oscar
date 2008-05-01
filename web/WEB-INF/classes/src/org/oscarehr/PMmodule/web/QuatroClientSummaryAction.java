@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -110,6 +111,50 @@ public class QuatroClientSummaryAction extends DispatchAction {
        return mapping.findForward("edit");
    }
 
+   public ActionForward save_joint_admission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       JointAdmission jadmission = new JointAdmission();
+
+       String headClientId = request.getParameter("headClientId");
+       String clientId = request.getParameter("dependentClientId");
+       String type = request.getParameter("type");
+       Long headInteger = new Long(headClientId);
+       Long clientInteger = new Long(clientId);
+
+       jadmission.setAdmissionDate(new Date());
+       jadmission.setHeadClientId(headInteger);
+       jadmission.setArchived(false);
+       jadmission.setClientId(clientInteger);
+       jadmission.setProviderNo((String) request.getSession().getAttribute("user"));
+       jadmission.setTypeId(new Long(type));
+       System.out.println(jadmission.toString());
+       clientManager.saveJointAdmission(jadmission);
+       setEditAttributes(form, request, (String) request.getParameter("clientId"));
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("id", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       
+       return mapping.findForward("edit");
+   }
+   
+   public ActionForward remove_joint_admission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       String clientId = request.getParameter("dependentClientId");
+       clientManager.removeJointAdmission(new Long(clientId), (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+       setEditAttributes(form, request, (String) request.getParameter("clientId"));
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("id", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+
+       return mapping.findForward("edit");
+   }
+   
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
        
@@ -127,9 +172,11 @@ public class QuatroClientSummaryAction extends DispatchAction {
        request.setAttribute("actionParam", actionParam);
 
        String demographicNo= (String)actionParam.get("id");
+       setEditAttributes(form, request, demographicNo);
+   }
+   
+   private void setEditAttributes(ActionForm form, HttpServletRequest request, String demographicNo) {
        
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
        request.setAttribute("id", demographicNo);
@@ -182,15 +229,14 @@ public class QuatroClientSummaryAction extends DispatchAction {
        }
 
        // tab override - from survey module
-       String tabOverride = (String) request.getAttribute("tab.override");
+//       String tabOverride = (String) request.getAttribute("tab.override");
 
-       if (tabOverride != null && tabOverride.length() > 0) {
-           tabBean.setTab(tabOverride);
-       }
+//       if (tabOverride != null && tabOverride.length() > 0) {
+//           tabBean.setTab(tabOverride);
+//       }
 
-       if (tabBean.getTab().equals("Summary")) {
+//       if (tabBean.getTab().equals("Summary")) {
 
-           // request.setAttribute("admissions", admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo)));
            // only allow bed/service programs show up.(not external program)
            List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
            List bedServiceList = new ArrayList();
@@ -209,26 +255,8 @@ public class QuatroClientSummaryAction extends DispatchAction {
            Consent consent = consentManager.getMostRecentConsent(Long.valueOf(demographicNo));
            request.setAttribute("consent", consent);
 
-/*           
-           if (consent == null) {
-               DemographicExt remote_consent = clientManager.getDemographicExt(new Integer(demographicNo), "consent_st");
-
-               if (remote_consent != null) {
-                   request.setAttribute("remote_consent", remote_consent);
-                   request.setAttribute("remote_consent_exclusions", clientManager.getDemographicExt(new Integer(demographicNo), "consent_ex"));
-
-                   DemographicExt remoteConsentAgency = clientManager.getDemographicExt(new Integer(demographicNo), "consent_ag");
-                   if (remoteConsentAgency != null) {
-                       request.setAttribute("remote_consent_agency", remoteConsentAgency);
-                       request.setAttribute("remote_consent_agency_name", Agency.getAgencyName(Long.parseLong(remoteConsentAgency.getValue())));
-                   }
-
-                   request.setAttribute("remote_consent_date", clientManager.getDemographicExt(new Integer(demographicNo), "consent_dt"));
-               }
-           }
-*/
            request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
-       }
+//       }
 
            
        List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));

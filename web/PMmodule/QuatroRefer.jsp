@@ -8,6 +8,7 @@
  
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="method"/>
+<html:hidden property="id"/>
 <script>
 	function resetClientFields() {
 		var form = document.quatroClientReferForm;
@@ -32,11 +33,13 @@
  		var physicalHealth = form.elements['program.physicalHealth'].checked;
  		var mentalHealth = form.elements['program.mentalHealth'].checked;
  		var housing = form.elements['program.housing'].checked;		
+ 		var id = form.elements['id'].value;		
 		
-		var url = '<html:rewrite action="/PMmodule/ClientManager.do"/>';
+		var url = '<html:rewrite action="/PMmodule/QuatroRefer.do"/>';
 		url += '?method=search_programs&program.name=' + programName + '&program.type=' + programType;
 		url += '&program.manOrWoman='+manOrWoman+'&program.transgender='+transgender+'&program.firstNation='+firstNation+'&program.bedProgramAffiliated='+bedProgramAffiliated+'&program.alcohol='+alcohol+'&program.abstinenceSupport='+abstinenceSupport+'&program.physicalHealth='+physicalHealth+'&program.mentalHealth='+mentalHealth+'&program.housing='+housing;
 		url += '&formName=quatroClientReferForm&formElementName=program.name&formElementId=program.id&formElementType=program.type&submit=true';
+		url += '&id=' + id;
 		
 		window.open(url, "program_search", "width=800, height=600, scrollbars=1,location=1,status=1");
 	}
@@ -49,8 +52,7 @@
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Client Management - Refer</span></th>
+		<th class="pageTitle" align="center">Client Management - Refer</th>
 	</tr>
 	<tr>
 		<td align="left" valign="middle" class="buttonBar2">
@@ -65,9 +67,9 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><a href='javascript:submitForm("close");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a></td>
+		<td align="left" class="buttonBar">
+		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">

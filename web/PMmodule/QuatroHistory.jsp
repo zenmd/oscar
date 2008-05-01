@@ -8,15 +8,24 @@
 <html-el:form action="/PMmodule/QuatroHistory.do">
 <input type="hidden" name="method"/>
 <script lang="javascript">
-	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
-	}
+function submitForm(methodVal) {
+   document.forms(0).method.value = methodVal;
+   document.forms(0).submit();
+}
+
+function popupAdmissionInfo(admissionId) {
+   url = '<html:rewrite page="/PMmodule/ClientManager.do?method=view_admission&admissionId="/>';
+   window.open(url + admissionId, 'admission', 'width=800,height=600,scrollbars=1');
+}
+
+function popupReferralInfo(referralId) {
+   url = '<html:rewrite page="/PMmodule/ClientManager.do?method=view_referral&referralId="/>';
+   window.open(url + referralId, 'referral', 'width=800,height=600,scrollbars=1');
+}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Client Management - History</span></th>
+		<th class="pageTitle" align="center">Client Management - History</th>
 	</tr>
 	<tr>
 		<td align="left" valign="middle" class="buttonBar2">
@@ -31,9 +40,9 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><a href='javascript:submitForm("close");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a></td>
+		<td align="left" class="buttonBar">
+		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
@@ -55,7 +64,7 @@
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissionHistory" requestURI="/PMmodule/ClientManager.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissionHistory" requestURI="/PMmodule/QuatroHistory.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="This client is not currently admitted to any programs." />
 	<%
@@ -108,7 +117,7 @@
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="referral" name="referralHistory" requestURI="/PMmodule/ClientManager.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="referral" name="referralHistory" requestURI="/PMmodule/QuatroHistory.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	
     <display:column sortable="false">

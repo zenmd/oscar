@@ -111,7 +111,6 @@ public class QuatroClientReferAction  extends DispatchAction {
        DynaActionForm clientForm = (DynaActionForm) form;
        Program p = (Program) clientForm.get("program");
        
-//       String id = request.getParameter("id");
        setEditAttributes(form, request);
 
        long programId = p.getId();
@@ -119,10 +118,33 @@ public class QuatroClientReferAction  extends DispatchAction {
        p.setName(program.getName());
        request.setAttribute("program", program);
 
+       request.setAttribute("id", (String)clientForm.get("id"));
+       
        request.setAttribute("do_refer", true);
        request.setAttribute("temporaryAdmission", programManager.getEnabled());
 
        return mapping.findForward("edit");
+   }
+
+   public ActionForward search_programs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       DynaActionForm clientForm = (DynaActionForm) form;
+
+       Program criteria = (Program) clientForm.get("program");
+
+       request.setAttribute("programs", programManager.search(criteria));
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("id", request.getParameter("id")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("id");
+       request.setAttribute("id", demographicNo);
+
+       ProgramUtils.addProgramRestrictions(request);
+
+       return mapping.findForward("search_programs");
    }
    
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
@@ -136,19 +158,13 @@ public class QuatroClientReferAction  extends DispatchAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("id");
        
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
-       request.setAttribute("id", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 
-       /* refer */
-       if (tabBean.getTab().equals("Refer")) {
-           request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
-       }
+       request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
 
    }
 

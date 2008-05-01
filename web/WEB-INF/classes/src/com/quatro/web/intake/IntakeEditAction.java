@@ -2,6 +2,7 @@ package com.quatro.web.intake;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +48,14 @@ public class IntakeEditAction extends DispatchAction {
 
     public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-        String clientId = qform.getClientId();
+
+    	String clientId = qform.getClientId();
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("id", clientId); 
+        }
+        request.setAttribute("actionParam", actionParam);
 
 		Demographic client= clientManager.getClientByDemographicNo(clientId);
 		qform.setClient(client);
@@ -71,7 +79,7 @@ public class IntakeEditAction extends DispatchAction {
         qform.setProgramTypeList(lst3);
 
         Integer intakeId = Integer.valueOf(qform.getIntakeId());
-        	
+        
         QuatroIntake obj;
         if(intakeId.intValue()!=0){
             obj=intakeManager.getQuatroIntake(intakeId);
@@ -104,7 +112,7 @@ public class IntakeEditAction extends DispatchAction {
         
 		return mapping.findForward("edit");
 	}
-    
+/*    
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 		QuatroIntake intake= qform.getIntake();
@@ -112,7 +120,7 @@ public class IntakeEditAction extends DispatchAction {
 		request.getSession().setAttribute("clientId", clientId);
     	return mapping.findForward("close");
 	}
-
+*/
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	return update(mapping,form,request,response);
 	}

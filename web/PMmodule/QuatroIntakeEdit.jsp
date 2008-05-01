@@ -14,23 +14,31 @@
 <html:hidden property="intake.createdOnTxt" />
 <input type="hidden" name="method"/>
 <script lang="javascript">
-	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
-	}
+function submitForm(methodVal) {
+	document.forms(0).method.value = methodVal;
+	document.forms(0).submit();
+}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr><th class="pageTitle" align="center">Client Management - Add/Edit Intake</th></tr>
 	<tr>
-		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Client Intake</span></th>
+		<td align="left" valign="middle" class="buttonBar3">
+		&nbsp;Summary&nbsp;&nbsp;|&nbsp;&nbsp;
+		History&nbsp;&nbsp;|&nbsp;&nbsp;
+		<b>Intake</b>&nbsp;&nbsp;|&nbsp;&nbsp;
+		Admission&nbsp;&nbsp;|&nbsp;&nbsp;
+		Refer&nbsp;&nbsp;|&nbsp;&nbsp;
+		Discharge&nbsp;&nbsp;|&nbsp;&nbsp;
+		Service Restriction&nbsp;&nbsp;|&nbsp;&nbsp;
+		Complaints
+		</td>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><a href='javascript:submitForm("save");'
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-			<a href='javascript:submitForm("close");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>		</td>
+            <html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
+            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
@@ -45,9 +53,9 @@
                     height: 100%; width: 100%; overflow: auto;">
 <!--  start of page content -->
 <table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs" id="tabs">
+<tr><td colspan="4"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Personal information</th></tr>
+<tr><th>Personal information</th></tr>
 </table></div></td></tr>
 <tr><td width="15%">First name*</td>
 <td width="35%"><html-el:text property="client.firstName" size="20" maxlength="30" /></td>
@@ -65,9 +73,9 @@
 <td></td><td></td></tr>
 </table>
 <table width="100%" class="edit">
-<tr><td colspan="2"><br><div class="tabs" id="tabs">
+<tr><td colspan="2"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Referred by</th></tr>
+<tr><th>Referred by</th></tr>
 </table></div></td></tr>
 <tr><td width="20%">Referred by</td>
 <td width="80%"><html-el:select property="intake.referredBy">
@@ -82,9 +90,9 @@
 </table>
 
 <table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs" id="tabs">
+<tr><td colspan="4"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Other information</th></tr>
+<tr><th>Other information</th></tr>
 </table></div></td></tr>
 <tr><td width="22%">Language</td>
 <td width="32%"><quatro:lookupTag name="language" tableName="LNG" formProperty="quatroIntakeEditForm" 
@@ -125,9 +133,9 @@
 </table>
 
 <table width="100%" class="edit">
-<tr><td colspan="5"><br><div class="tabs" id="tabs">
+<tr><td colspan="5"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Presenting issues</th></tr>
+<tr><th>Presenting issues</th></tr>
 </table></div></td></tr>
 <tr><td width="15%">Pregnant</td>
 <td width="20%"></td>
@@ -152,9 +160,9 @@
 </table>
 
 <table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs" id="tabs">
+<tr><td colspan="4"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Identification</th></tr>
+<tr><th>Identification</th></tr>
 </table></div></td></tr>
 <tr><td width="30%">Birth Certificate</td>
 <td width="50%"><html-el:text property="intake.birthCertificate" size="20" maxlength="30" /></td>
@@ -198,9 +206,9 @@
 </table>
 
 <table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs" id="tabs">
+<tr><td colspan="4"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Additional information</th></tr>
+<tr><th>Additional information</th></tr>
 </table></div></td></tr>
 <tr><td width="20%">Source of income</td>
 <td width="35%"><html-el:select property="intake.sourceIncome">
@@ -249,9 +257,9 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 </table>
 
 <table width="100%" class="edit">
-<tr><td colspan="2"><br><div class="tabs" id="tabs">
+<tr><td colspan="2"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Program</th></tr>
+<tr><th>Program</th></tr>
 </table></div></td></tr>
 <tr><td width="15%">Program</td>
 <td width="85%"><html-el:hidden property="intake.currentProgramId" />
@@ -261,13 +269,12 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 </table>
 
 <table width="100%" class="edit">
-<tr><td colspan="2"><br><div class="tabs" id="tabs">
+<tr><td colspan="2"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th title="LookupTableList">Comments/Details</th></tr>
+<tr><th>Comments/Details</th></tr>
 </table></div></td></tr>
 <tr><td width="15%">Comments/Details</td>
 <td width="85%"><html-el:textarea property="intake.comments" rows="6" style="width:90%" /></td></tr>
-<tr><td colspan="2"><hr></td></tr>
 <tr><td></td><td align="center">&nbsp;</td></tr>
 </table>
 <!--  end of page content -->
