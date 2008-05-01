@@ -701,9 +701,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
 
         // this.caseManagementMgr.saveNote();
-        return mapping.findForward("view");
+        return edit(mapping, form, request, response);
+//        return mapping.findForward("view");
     }
-
     public ActionForward ajaxsave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getSession().getAttribute("userrole") == null) return mapping.findForward("expired");
         
@@ -1542,7 +1542,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
      */
     protected void insertReason(HttpServletRequest request, CaseManagementNote note) {
         oscar.oscarEncounter.pageUtil.EctSessionBean bean = (oscar.oscarEncounter.pageUtil.EctSessionBean) request.getSession().getAttribute("casemgmt_oscar_bean");
-
+        String reqStr = request.getParameter("note_edit");    
         if (bean != null) {
             String encounterText = "";
             String apptDate = convertDateFmt(bean.appointmentDate);
@@ -1562,10 +1562,12 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             if (!bean.oscarMsg.equals("")) {
                 encounterText += "\n\n" + bean.oscarMsg;
             }
-
+              
             note.setNote(encounterText);
             note.setEncounter_type(bean.encType);
 
+        }else if(reqStr!=null && "new".equals(reqStr)){
+        	note.setNote("\n[" + UtilDateUtilities.DateToString(UtilDateUtilities.now(), "dd-MMM-yyyy", request.getLocale()) + " .: " + "] \n");
         }
 
     }

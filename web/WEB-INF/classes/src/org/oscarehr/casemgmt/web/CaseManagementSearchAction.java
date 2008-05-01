@@ -45,6 +45,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.caisi.model.CustomFilter;
+import org.caisi.model.IssueAdmin;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramTeam;
@@ -61,7 +62,7 @@ import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
-
+import com.quatro.util.*;
 
 import oscar.oscarRx.data.RxPatientData;
 import oscar.oscarRx.pageUtil.RxSessionBean;
@@ -72,7 +73,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        caseForm.setFilter_provider("");
+        caseForm.setFilter_provider("");      
+       
         return view(mapping, form, request, response);
     }
 
@@ -169,8 +171,9 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         String programId = (String) request.getSession().getAttribute("case_program_id");
 
-        if (programId == null || programId.length() == 0) {
-            programId = "0";
+        if (Utility.IsEmpty(programId)) {
+            programId = this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demoNo)).getProgramId().toString();
+            request.setAttribute("case_program_id", programId);
         }
 
         // check to see if there is an unsaved note
@@ -230,14 +233,17 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             // filter the notes by the checked issues and date if set
             UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
             String[] checked_issues = request.getParameterValues("check_issue");
+            
             if (checked_issues != null && checked_issues[0].trim().length() > 0) {
                 // need to apply a filter
                 request.setAttribute("checked_issues", checked_issues);
-                notes = caseManagementMgr.getNotes(this.getDemographicNo(request), checked_issues, userProp);
+                if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
+                else notes = caseManagementMgr.getNotes(this.getDemographicNo(request), checked_issues, userProp);
                 notes = manageLockedNotes(notes, true, this.getUnlockedNotesMap(request));
             }
             else {
-                notes = caseManagementMgr.getNotes(this.getDemographicNo(request), userProp);
+            	 if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
+            	 else notes = caseManagementMgr.getNotes(this.getDemographicNo(request), userProp);
                 notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
             }
 
@@ -247,7 +253,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             current = System.currentTimeMillis();
             log.debug("GET NOTES " + String.valueOf(current - start));
             start = current;
-            notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
+          //  notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
+            notes = caseManagementMgr.filterNotes(notes,providerNo,currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
             current = System.currentTimeMillis();
             log.debug("FILTER NOTES " + String.valueOf(current - start));
             start = current;
@@ -267,8 +274,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             List<LookupCodeValue> caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
             request.setAttribute("caseStatusList", caseStatus);
             
-            //Issue 
-              List<CaseManagementIssue> lstCaseIssue = this.caseManagementMgr.getAllIssues(demoNo);
+            List<IssueAdmin> issues = this.caseManagementMgr.getAllIssueInfo();
+            request.setAttribute("issues", issues);
             
             // apply if we are filtering on role
             List roles = roleMgr.getRoles();
@@ -402,20 +409,25 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         CaseManagementSearchBean searchBean = new CaseManagementSearchBean(this.getDemographicNo(request));
-        searchBean.setSearchEncounterType(caseForm.getSearchEncounterType());
+        //searchBean.setSearchEncounterType(caseForm.getSearchEncounterType());
         searchBean.setSearchEndDate(caseForm.getSearchEndDate());
-        searchBean.setSearchProgramId(caseForm.getSearchProgramId());
+        //searchBean.setSearchProgramId(caseForm.getSearchProgramId());
         searchBean.setSearchProviderNo(caseForm.getSearchProviderNo());
-        searchBean.setSearchRoleId(caseForm.getSearchRoleId());
+        //searchBean.setSearchRoleId(caseForm.getSearchRoleId());
         searchBean.setSearchStartDate(caseForm.getSearchStartDate());
-        searchBean.setSearchText(caseForm.getSearchText());
+        //searchBean.setSearchText(caseForm.getSearchText());
+        searchBean.setSearchCaseStatus(caseForm.getSearchCaseStatus());
+        searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
         List results = this.caseManagementMgr.search(searchBean);
         List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
+        //List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
+        
+        List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
 
         List sortedResults = this.sort_notes(filteredResults, caseForm.getNote_sort());
-        request.setAttribute("search_results", sortedResults);
+       // request.setAttribute("search_results", sortedResults);
+        request.setAttribute("Notes", sortedResults);
         return view(mapping, form, request, response);
     }
 

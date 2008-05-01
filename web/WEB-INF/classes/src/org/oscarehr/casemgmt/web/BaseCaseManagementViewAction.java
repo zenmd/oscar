@@ -103,8 +103,9 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 		String demono= request.getParameter("demographicNo");
 		if (demono==null || "".equals(demono)) 
 			demono=(String)request.getSession().getAttribute("casemgmt_DemoNo");
-		    if(null==demono && null != request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
-		    	demono=((Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)).toString();		    
+		    if(null != request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
+		    	demono=((Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)).toString();	
+		    	request.getSession().setAttribute("casemgmt_DemoNo", demono);
 		    }
 		else
 			request.getSession().setAttribute("casemgmt_DemoNo", demono);
