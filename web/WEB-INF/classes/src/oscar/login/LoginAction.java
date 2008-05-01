@@ -203,7 +203,7 @@ public final class LoginAction extends DispatchAction {
 
             List<Integer> facilityIds = ProviderDao.getFacilityIds(provider.getProviderNo());
             if (facilityIds.size() > 1) {
-                return(new ActionForward("/select_facility.jsp?nextPage=" + where));
+                return(mapping.findForward("facilitySelection"));
             }
             else if (facilityIds.size() == 1) {
                 // set current facility
@@ -213,7 +213,7 @@ public final class LoginAction extends DispatchAction {
                 LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "facilityId="+facilityIds.get(0), ip);
             }
             else {
-                // do nothing, not in any facilities
+                request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, 0);
             }
         }
         // expired password

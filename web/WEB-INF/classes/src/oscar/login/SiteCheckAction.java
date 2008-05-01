@@ -269,7 +269,7 @@ public final class SiteCheckAction extends DispatchAction {
 
                 List<Integer> facilityIds = ProviderDao.getFacilityIds(provider.getProviderNo());
                 if (facilityIds.size() > 1) {
-                    return("confirmed:/QuatroShelter/select_facility.jsp?nextPage=" + where);
+                    return("confirmed:/QuatroShelter" + mapping.findForward("facilitySelection").getPath());
                 }
                 else if (facilityIds.size() == 1) {
                     // set current facility
@@ -280,7 +280,6 @@ public final class SiteCheckAction extends DispatchAction {
                 }
                 else {
                     request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, 0);
-                    LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "facilityId="+facilityIds.get(0), ip);
                 }
             }
             // expired password
@@ -295,7 +294,7 @@ public final class SiteCheckAction extends DispatchAction {
             }
 
 //            return mapping.findForward(where);
-            return("confirmed:/QuatroShelter/Home.do");
+            return("confirmed:" + mapping.findForward(where).getPath());
         }
     
 	public ApplicationContext getAppContext() {
