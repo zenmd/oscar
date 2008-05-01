@@ -555,7 +555,7 @@
             <forward name="failure" path="/logout.jsp?login=failed" />
             <forward name="error" path="/loginfailed.jsp" />
             <forward name="caisiPMM" path="/Home.do" />
- 			<forward name="facilitySelection" path="page.pmm.facilitySelection"/>
+ 			<forward name="facilitySelection" path="/facilitySelection.do"/>
         </action>     
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
             <forward name="receptionist" path="/receptionist/receptionistcontrol.jsp" redirect="true" />
