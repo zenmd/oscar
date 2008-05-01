@@ -30,31 +30,25 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <caisi:isModuleLoad moduleName="ticklerplus"><%
-    if(session.getValue("user") != null) {
+    if(session.getAttribute("user") != null) {
         response.sendRedirect("provider/providercontrol.jsp");
     }
 %></caisi:isModuleLoad><%
 OscarProperties props = OscarProperties.getInstance();
 
 BuildInfo buildInfo = BuildInfo.getInstance();
-String buildDate = buildInfo.getBuildDate();
+String buildDate = "2008-05-01 09:15"; //buildInfo.getBuildDate();
 
 // clear old cookies
-if(props.isSiteSecured()) {
-        response.sendRedirect("login.jsp");
-}
-else
-{
-	Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
-	Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
-	Cookie admCookie = new Cookie(CookieSecurity.adminCookie, "");
-	rcpCookie.setPath("/");
-	prvCookie.setPath("/");
-	admCookie.setPath("/");
-	response.addCookie(rcpCookie);
-	response.addCookie(prvCookie);
-	response.addCookie(admCookie);
-}
+Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
+Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
+Cookie admCookie = new Cookie(CookieSecurity.adminCookie, "");
+rcpCookie.setPath("/");
+prvCookie.setPath("/");
+admCookie.setPath("/");
+response.addCookie(rcpCookie);
+response.addCookie(prvCookie);
+response.addCookie(admCookie);
 %>
 
 <html:html locale="true">
@@ -125,11 +119,11 @@ else
                     %><bean:message key="<%=key%>"/>        
                 </td>
                 <td  class="topbar" align="center" >
-                    <span style="float: right; color:#FFFFFF; font-size: xx-small;">build date: <%= buildDate %></span>     
                     <%=props.getProperty("logintitle", "")%>
                     <% if (props.getProperty("logintitle", "").equals("")) { %>
-                    <bean:message key="loginApplication.alert"/>
-                    <% } %>                    
+                    <bean:message key="loginApplication.alert2"/>
+                    <% } %>
+                    <br>                    
                 </td>
             </tr>
             <tr>
@@ -144,42 +138,38 @@ else
                             %>
                         
                         <br/>            
-                        <input type="text" name="username" size="15" maxlength="15" autocomplete="off"/>
+                        <input type="text" name="username" size="15" maxlength="15" autocomplete="off" />
                         <br/>                
                         <bean:message key="loginApplication.formPwd"/><br/>
-                        <input type="password" name="password" size="15" maxlength="15" autocomplete="off"/><br/>
-                                <input type="submit" value="<bean:message key="index.btnSignIn"/>" />
+                        <input type="password" name="password" size="15" maxlength="15" autocomplete="off" />
                         </br></br>
                         <bean:message key="index.formPIN"/>: 
                         <br/>
-                        <input type="password" name="pin" size="15" maxlength="15" autocomplete="off"/><br/>
+                        <input type="password" name="pin" size="15" maxlength="15" autocomplete="off" /><br/>
                        
                         <span class="extrasmall">
                             <bean:message key="loginApplication.formCmt"/>
                         </span>
                         <input type=hidden name='propname' value='<bean:message key="loginApplication.propertyFile"/>' />
+                        <br/><input type="submit" value="<bean:message key="index.btnSignIn"/>" />
+
                         </html:form>
                         <hr width="100%" color="navy">
                         
                         <span class="extrasmall">
-                            <bean:message key="loginApplication.leftRmk"/>
-                            <a href=# onClick='popupPage(500,700,"<bean:message key="loginApplication.gpltext"/>")'><bean:message key="loginApplication.gplLink"/></a>
+                            <bean:message key="loginApplication.leftRmk2"/>
+                            <a href=# onClick='popupPage(500,700,"<bean:message key="loginApplication.gpltext"/>")'><bean:message key="loginApplication.gplLink2"/></a>
                         </span>
                     <!-- left side end-->
                 </td>
-                <td align="center" valign="top">
-                    <div style="margin-top:25px;"><% if (props.getProperty("loginlogo", "").equals("")) { %>
-                            <html:img srcKey="loginApplication.image.logo" width="450" height="274"/>
-                            <% } else { %>
-                            <img src="<%=props.getProperty("loginlogo", "")%>">
-                            <% } %>
+                <td align="center" valign="top"><br><br><br>
+                    <div style="margin-top:25px;">
+                            <img src="images/QuatroShelterBigLogo.gif">
+                            <br/>
+                   			<span style="float: center; font-size: xx-small;">build date: <%= buildDate %></span>    
                             <p>
                             <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">
-                                <% if (props.getProperty("logintext", "").equals("")) { %>
-                                <bean:message key="loginApplication.image.logoText"/>
-                                <% } else { %>
-                                <%=props.getProperty("logintext", "")%>
-                                <% } %>
+                                <br><br><br><br><br><br>Powered By <br><img src="images/CAISIlogoBIG.bmp"><br><img src="images/OSCARLogo.jpg"><br> version 2.4 02-15-2008
                             </font>
                     </div>
                     
