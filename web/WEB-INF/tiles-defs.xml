@@ -403,6 +403,16 @@
 		
 		<put name="body" value="/PMmodule/Admin/User/UserProfile.jsp" />
 	</definition>
+	<definition
+		name="page.admin.user.edit"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/navigation.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Admin/User/UserEdit.jsp" />
+	</definition>
 	
 	
 	<!-- Admin End -->

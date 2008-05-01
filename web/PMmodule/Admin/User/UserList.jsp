@@ -11,7 +11,7 @@
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-		<html:link action="/PMmodule/Admin/User/UserEdit.jsp"
+		<html:link action="/PMmodule/Admin/UserManager.do?method=preNew" 
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
 		</td>

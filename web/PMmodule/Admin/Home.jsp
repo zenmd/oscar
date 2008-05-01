@@ -60,7 +60,7 @@ String _appPath = request.getContextPath();
 				<table>
 					<tr align="left">
 						<th align="left" valign="top" class="clsHomePageLabels"><html:link
-							action="/PMmodule/Admin/UserManager.do">NOT READY FOR TESTING - User Management</html:link></th>
+							action="/PMmodule/Admin/UserManager.do">User Management</html:link></th>
 					</tr>
 				</table>
 				</th>

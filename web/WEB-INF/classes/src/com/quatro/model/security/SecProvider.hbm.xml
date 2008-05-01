@@ -61,7 +61,19 @@
         <property name="providerActivity" type="java.lang.String">
             <column name="PROVIDER_ACTIVITY" length="3" />
         </property>
-       
-
+        
+        <property name="init" type="java.lang.String">
+            <column name="INIT" length="10" />
+        </property>
+        <property name="title" type="java.lang.String">
+            <column name="TITLE" length="20" />
+        </property>
+        <property name="jobTitle" type="java.lang.String">
+            <column name="JOB_TITLE" length="100" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="EMAIL" length="320" />
+        </property>
+        
     </class>
 </hibernate-mapping>

@@ -510,6 +510,7 @@
     <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName" />
     <bean id="secobjprivilegeDao" class="com.quatro.dao.security.SecobjprivilegeDao" autowire="byName" />
     <bean id="securityDao" class="com.quatro.dao.security.SecurityDao" autowire="byName" />
+    <bean id="secProviderDao" class="com.quatro.dao.security.SecProviderDao" autowire="byName" />
     
     <bean id="orgManager" class="com.quatro.service.ORGManager"  autowire="byName">
         <property name="orgDao" ref="orgDao"/>
@@ -518,11 +519,21 @@
         <property name="secroleDao" ref="secroleDao"/>
         <property name="secobjprivilegeDao" ref="secobjprivilegeDao"/>
     </bean>
-    <bean id="usersManager" class="com.quatro.service.security.UsersManager"  autowire="byName">
+    <!-- 
+    <bean id="usersManager" class="com.quatro.service.security.UsersManager"  autowire="byName" parent="baseTransactionProxy">
         <property name="secroleDao" ref="secroleDao"/>
         <property name="securityDao" ref="securityDao"/>
+        <property name="secProviderDao" ref="secProviderDao"/>
     </bean>
-    
+    Note: 1.if using autowire="byName", we do not need claim the DAOs 
+          2. add transaction like bellow
+    -->
+    <bean id="usersManager" parent="baseTransactionProxy" lazy-init="default"
+          dependency-check="default">
+        <property name="target">
+            <bean class="com.quatro.service.security.UsersManager" autowire="byName"/>
+        </property>
+    </bean>
     
     <!-- admin End -->
 </beans>

@@ -21,6 +21,7 @@ public class SecurityDao extends HibernateDaoSupport {
 	private static final Log log = LogFactory.getLog(SecurityDao.class);
 	// property constants
 	public static final String USER_NAME = "userName";
+	public static final String PROVIDER_NO = "providerNo";
 	public static final String PASSWORD = "password";
 	public static final String PIN = "pin";
 	public static final String _BREMOTELOCKSET = "BRemotelockset";
@@ -73,6 +74,17 @@ public class SecurityDao extends HibernateDaoSupport {
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
+			throw re;
+		}
+	}
+	
+	public void saveOrUpdate(Security transientInstance) {
+		log.debug("saving/update Security instance");
+		try {
+			this.getHibernateTemplate().saveOrUpdate(transientInstance);
+			log.debug("save/update successful");
+		} catch (RuntimeException re) {
+			log.error("save/update failed", re);
 			throw re;
 		}
 	}
@@ -133,7 +145,9 @@ public class SecurityDao extends HibernateDaoSupport {
 	public List findByUserName(Object userName) {
 		return findByProperty(USER_NAME, userName);
 	}
-
+	public List findByProviderNo(Object providerNo) {
+		return findByProperty(PROVIDER_NO, providerNo);
+	}
 	public List findByPassword(Object password) {
 		return findByProperty(PASSWORD, password);
 	}

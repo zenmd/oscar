@@ -8,19 +8,22 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link
-			action="/PMmodule/Admin/RoleManager.do"
+			action="/PMmodule/Admin/UserManager.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User List&nbsp;&nbsp;|</html:link>
+			<logic:present	name="userForEdit">
+				<html:link href="javascript:submitForm('edit');"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+			</logic:present> 
+			<logic:notPresent name="userForEdit">
+				<html:link href="javascript:submitForm('new');"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+			</logic:notPresent>
 
-		<logic:present name="secroleForEdit">
-			<html:link href="javascript:submitForm('saveChange');"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-		</logic:present> <logic:notPresent name="secroleForEdit">
-			<html:link href="javascript:submitForm('saveNew');"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-		</logic:notPresent></td>
+			
+		</td>
 
 	</tr>
 
@@ -46,10 +49,10 @@
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr>
 				<td align="left" class="clsHomePageHeader" colspan="5"><logic:present
-					name="secroleForEdit">
-					<h2>Edit Role</h2>
-				</logic:present> <logic:notPresent name="secroleForEdit">
-					<h2>Add Role</h2>
+					name="userForEdit">
+					<h2>User Edit</h2>
+				</logic:present> <logic:notPresent name="userForEdit">
+					<h2>New User</h2>
 				</logic:notPresent></td>
 			</tr>
 
@@ -57,29 +60,51 @@
 
 		</table>
 
-		<html:form action="/PMmodule/Admin/RoleManager" method="post">
-			<html:hidden property="method" value="save" />
+		<html:form action="/PMmodule/Admin/UserManager" method="post">
+			<html:hidden property="method" value="" />
+			<html:hidden property="securityNo" />
+			<html:hidden property="providerNo" />
 			<table>
-				<logic:present name="secroleForEdit">
-					<tr>
-						<td>Role No.:</td>
-						<td><html:text property="roleNo" readonly="true"
-							style="border: none" /></td>
-					</tr>
-					<tr>
-						<td colspan="2">&nbsp;</td>
-					</tr>
-				</logic:present>
+
 				<tr>
-					<td>Role Name:</td>
-					<td><html:text property="roleName" size="50" /></td>
+					<td>User ID:</td>
+					<td><html:text property="userName" /></td>
+					<td>Email:</td>
+					<td><html:text property="email" /></td>
 				</tr>
 				<tr>
-					<td colspan="2">&nbsp;</td>
+					<td>First Name:</td>
+					<td><html:text property="firstName" /></td>
+					<td>Password:</td>
+					<td><html:password property="password" /></td>
 				</tr>
 				<tr>
-					<td>Description:</td>
-					<td><html:text property="description" size="50" /></td>
+					<td>Last Name:</td>
+					<td><html:text property="lastName" /></td>
+					<td>Confirm Password:</td>
+					<td><html:password property="confirmPassword"  /></td>
+				</tr>
+				<tr>
+					<td>Initial:</td>
+					<td><html:text property="init" /></td>
+					<td>PIN:</td>
+					<td><html:password property="pin" /></td>
+				</tr>
+				<tr>
+					<td>Title:</td>
+					<td><html:select property="title" >
+							<html:option value="">Select Title</html:option>
+							<html:option value="title1" />
+							<html:option value="title2" />
+						</html:select></td>
+					<td>Confirm PIN:</td>
+					<td><html:password property="confirmPin" /></td>
+				</tr>
+				<tr>
+					<td>Job Title:</td>
+					<td><html:text property="jobTitle" /></td>
+					<td>Active:</td>
+					<td><html:checkbox property="status" /></td>
 				</tr>
 
 			</table>
@@ -90,13 +115,87 @@
 </table>
 <script language="javascript" type="text/javascript">
 <!--
-function gotoRoleList(){
- 	window.open("<c:out value='${ctx}'/>/PMmodule/Admin/RoleManager.do?method=list", "_self") ;
+
+function submitForm(func){
+	document.forms[0].method.value='save';
+	
+	var fld_userName = document.getElementsByName('userName')[0];
+	var fld_password = document.getElementsByName('password')[0];
+	var fld_cPassword = document.getElementsByName('confirmPassword')[0];
+	var fld_pin = document.getElementsByName('pin')[0];
+	var fld_cPin = document.getElementsByName('confirmPin')[0];
+	
+	if(func == 'new'){
+	
+		if(validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 1) &&
+			validateRequired(fld_password, "Password")&& validateLength(fld_password, "Password", 20, 4)&&
+			validateRequired(fld_cPassword, "Confirm Password")&& validateLength(fld_cPassword, "Confirm Password", 20, 4)&&
+			validateRequired(fld_pin, "PIN")&& validateLength(fld_pin, "PIN", 4, 4)&&
+			validateRequired(fld_cPin, "Confirm PIN")&& validateLength(fld_cPin, "Confirm PIN", 4, 4))
+			
+			document.forms[0].submit();
+	}
+	if(func == 'edit'){
+		var v1 = false;
+		var v2 = false;
+		var v3 = false;
+		var v4 = false;
+		var v5 = false;	
+				
+		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 1))
+			v1 = true;
+
+		if (fld_password.value != null && fld_password.value.length > 0){
+		 	v2 = validateLength(fld_userName, "Password", 30, 1);
+		}else{
+			v2 = true;
+		}	
+
+		if (fld_cPassword.value != null && fld_cPassword.value.length > 0){
+		 	v3 = validateLength(fld_cPassword, "Confirm Password", 30, 1);
+		}else{
+			v3 = true;
+		}	
+		if (fld_pin.value != null && fld_pin.value.length > 0){
+		 	v4 = validateLength(fld_pin, "PIN", 30, 1);
+		}else{
+			v4 = true;
+		}	
+		if (fld_cPin.value != null && fld_cPin.value.length > 0){
+		 	v5 = validateLength(fld_cPin, "Confirm PIN", 30, 1);
+		}else{
+			v5 = true;
+		}	
+		if(v1 && v2 && v3 && v4 && v5)
+			document.forms[0].submit();
+	
+	}
 }
-function submitForm(mthd){
-	document.forms[0].method.value=mthd;
-	document.forms[0].submit();
+
+function validateRequired(field, fieldNameDisplayed ){
+	if (field.value == null || field.value == ''){
+		alert('The field "' + fieldNameDisplayed + '" is required.');
+		return(false);
+	}
+	
+	return(true);
 }
+
+function validateLength(field, fieldNameDisplayed, maxLength, minLength){
+	
+	if (maxLength > 0 && field.value.length > maxLength){
+		alert('The value you entered for "'+ fieldNameDisplayed + '" is too long, maximum length allowed is '+maxLength+' characters.');
+		return(false);
+	}
+
+	if (minLength > 0 && field.value.length < minLength){
+		alert('The value you entered for "' + fieldNameDisplayed + '" is too short, minimum length allowed is ' + minLength+' characters.');
+		return(false);
+	}
+	
+	return(true);
+}
+
 //-->
 </script>
 

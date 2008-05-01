@@ -138,7 +138,7 @@ public class RoleManagerAction extends BaseAction {
            			request.getContextPath(), roleName));
 			saveMessages(request,messages);
 			
-			return mapping.findForward("preNew");
+			return mapping.findForward("edit");
 
 		}
 
@@ -174,7 +174,7 @@ public class RoleManagerAction extends BaseAction {
 
 		System.out.println("=========== preNew ========= in RoleManagerAction");
 
-		return mapping.findForward("preNew");
+		return mapping.findForward("edit");
 
 	}
 

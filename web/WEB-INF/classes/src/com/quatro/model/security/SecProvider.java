@@ -33,6 +33,11 @@ public class SecProvider implements java.io.Serializable {
 	private String status;
 	private String comments;
 	private String providerActivity;
+	
+	private String init;
+	private String title;
+	private String jobTitle;
+	private String email;
 
 	// Constructors
 
@@ -209,6 +214,38 @@ public class SecProvider implements java.io.Serializable {
 
 	public void setProviderActivity(String providerActivity) {
 		this.providerActivity = providerActivity;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getInit() {
+		return init;
+	}
+
+	public void setInit(String init) {
+		this.init = init;
+	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 

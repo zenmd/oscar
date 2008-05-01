@@ -24,9 +24,12 @@ package com.quatro.service.security;
 
 import java.util.List;
 
+import com.quatro.dao.security.SecProviderDao;
 import com.quatro.dao.security.SecroleDao;
 import com.quatro.dao.security.SecurityDao;
+import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Secrole;
+import com.quatro.model.security.Security;
 
 
 
@@ -35,13 +38,24 @@ public class UsersManager {
 
 	private SecroleDao secroleDao;
 	private SecurityDao securityDao;	
+	private SecProviderDao secProviderDao;
 	
+	public void setSecProviderDao(SecProviderDao secProviderDao) {
+		this.secProviderDao = secProviderDao;
+	}
 	public List getProfile(String providerNo) {
 		return securityDao.getProfile(providerNo);
 	}
 	public List getUsers() {
 		return securityDao.getUsers();
 	}
+	public List getUserByProviderNo(String providerNo) {
+		return securityDao.findByProviderNo(providerNo);
+	}
+	public SecProvider getProviderByProviderNo(String providerNo) {
+		return secProviderDao.findById(providerNo);
+	}
+	
 	public List getRoles() {
 		return secroleDao.getRoles();
 	}
@@ -54,7 +68,14 @@ public class UsersManager {
 	public void save(Secrole secrole) {
 		secroleDao.save(secrole);
 	}
-
+	
+	public void save(SecProvider provider, Security user) {
+		secProviderDao.saveOrUpdate(provider);
+		user.setProviderNo(provider.getProviderNo());
+		securityDao.saveOrUpdate(user);
+		
+	}
+	
 	public void setSecurityDao(SecurityDao securityDao) {
 		this.securityDao = securityDao;
 	}
