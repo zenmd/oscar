@@ -14,8 +14,8 @@ public class FieldDefValue extends BaseObject{
 	    private int genericIdx;
 	    private int fieldIndex;
 	    
-	    private String val;
-	    private String valDesc;
+	    private String val = "";
+	    private String valDesc = "";
 	    
 		public String getValDesc() {
 			return valDesc;
