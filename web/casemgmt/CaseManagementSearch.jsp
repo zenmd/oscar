@@ -3,8 +3,7 @@
 <%@ page import="org.oscarehr.casemgmt.model.*"%>
 <%@ page import="org.oscarehr.casemgmt.web.formbeans.*"%>
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
-<%@ page
-	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@ page import="org.caisi.service.Version"%>
 <%@ page import="oscar.OscarProperties"%>
 
@@ -14,28 +13,14 @@
 <%
 response.setHeader("Cache-Control", "no-cache");
 %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"
-	scope="request" } />
+<c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" } />
 <script type="text/javascript">
-<!--
+
 	function submitForm(methodValue)
 	{
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
 	}
-//-->
-</script>
-<html:form action="/CaseManagementView2" method="get">
-	<html:hidden property="demographicNo" />
-	<html:hidden property="providerNo" />
-	<!--  no need for tabs 
-	 
-	<html:hidden property="tab" />
-	<html:hidden property="hideActiveIssue" />
-	-->
-	<input type="hidden" name="method" value="view" />
-
-	<script>
 	function resetClientFields() {
 		var form = document.caseManagementViewForm;
 		form.elements['searchProviderNo'].value='';
@@ -70,8 +55,7 @@ response.setHeader("Cache-Control", "no-cache");
         window.open(page, "", windowprops);
     }
     
-
-function popupUploadPage(varpage,dn) {
+	function popupUploadPage(varpage,dn) {
         var page = "" + varpage+"?demographicNo="+dn;
         windowprops = "height=500,width=500,location=no,"
           + "scrollbars=no,menubars=no,toolbars=no,resizable=yes,top=50,left=50";
@@ -79,35 +63,42 @@ function popupUploadPage(varpage,dn) {
          popup.focus();
         
     }
-    
-    
-function delay(time){
-string="document.getElementById('ci').src='<c:out value="${ctx}"/>/images/default_img.jpg'";
-setTimeout(string,time);
-}
+        
+	function delay(time){
+		var str="document.getElementById('ci').src='<c:out value="${ctx}"/>/images/default_img.jpg'";
+		setTimeout(str,time);
+	}
     
 </script>
 
+<html:form action="/CaseManagementView2">
+	<html:hidden property="demographicNo" />
+	<html:hidden property="providerNo" />
+	<!--  no need for tabs 
+	 
+	<html:hidden property="tab" />
+	<html:hidden property="hideActiveIssue" />
+	-->
+	<input type="hidden" name="method" value="view" />	
 	<div id="pageTitle">
 	<table width="100%">
 		<tr>
 			<th class="pageTitle" width="100%">Case Management Encounter</th>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar"><html:link
-				action="/CaseManagementView2.do?note_view=summary"
-				style="color:Navy;text-decoration:none;">
+			<td align="left" class="buttonBar">
+			<html:link	action="/CaseManagementView2.do?note_view=summary"	style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Summary&nbsp;&nbsp;|
-			</html:link> <html:link action="/CaseManagementView2.do?note_view=detailed"
-				style="color:Navy;text-decoration:none;">&nbsp;Detailed&nbsp;&nbsp;|
-			</html:link> <html:link
-				action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt"
-				style="color:Navy;text-decoration:none;">
-				 New&nbsp;Note&nbsp;&nbsp;|</html:link> <a
-				style="text-decoration: cursor:pointer;color: blue"
-				href="window.print();">Print</a></td>
+			</html:link> 
+			<html:link action="/CaseManagementView2.do?note_view=detailed"	style="color:Navy;text-decoration:none;">&nbsp;Detailed&nbsp;&nbsp;|
+			</html:link> 
+			<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt"	style="color:Navy;text-decoration:none;">
+				 New&nbsp;Note&nbsp;&nbsp;|
+			</html:link> 
+			<a	href="window.print();">Print</a></td>
 		</tr>
 	</table>
+	</div>
 	<div id="clientInfo" class="axial">
 	<table width="100%">
 		<tr>
@@ -144,27 +135,25 @@ setTimeout(string,time);
 			</table>
 			</td>
 			<td>
-			<%
-			String demo = request.getParameter("demographicNo");
-			%> <c:choose>
-				<c:when test="${not empty requestScope.image_filename}">
-					<img style="cursor: pointer;" id="ci"
-						src="<c:out value="${ctx}"/>/images/default_img.jpg"
-						alt="id_photo" height="100" title="Click to upload new photo."
-						OnMouseOver="document.getElementById('ci').src='<c:out value="${ctx}"/>/images/<c:out value="${requestScope.image_filename}"/>'"
-						OnMouseOut="delay(5000)" window.status='Click to upload new photo'
-						; return
-						true;" onClick="popupUploadPage('<html:rewrite page="/casemgmt/uploadimage.jsp"/>',<%=demo%>);return false;" />
-				</c:when>
-				<c:otherwise>
-					<img style="cursor: pointer;"
-						src="<c:out value="${ctx}"/>/images/defaultR_img.jpg"
-						alt="No_Id_Photo" height="100" title="Click to upload new photo."
-						OnMouseOver="window.status='Click to upload new photo';return true"
-						onClick="popupUploadPage('<c:out value="${ctx}"/>/casemgmt/uploadimage.jsp',<%=demo%>);return false;" />
-				</c:otherwise>
-			</c:choose></td>
-
+				<%
+					String demo = request.getParameter("demographicNo");
+				%>
+				<c:choose>
+					<c:when test="${not empty requestScope.image_filename}">
+						<img style="cursor: pointer;" id="ci"	src="<c:out value="${ctx}"/>/images/default_img.jpg"
+							alt="id_photo" height="100" title="Click to upload new photo."
+							OnMouseOver="document.getElementById('ci').src='<c:out value="${ctx}"/>/images/<c:out value="${requestScope.image_filename}"/>'"
+							OnMouseOut="delay(5000)" window.status='Click to upload new photo'; 
+							return	true;" onClick="popupUploadPage('<html:rewrite page="/casemgmt/uploadimage.jsp"/>',<%=demo%>);return false;" />
+					</c:when>
+					<c:otherwise>
+						<img style="cursor: pointer;"	src="<c:out value="${ctx}"/>/images/defaultR_img.jpg"
+							alt="No_Id_Photo" height="100" title="Click to upload new photo."
+							OnMouseOver="window.status='Click to upload new photo';return true"
+							onClick="popupUploadPage('<c:out value="${ctx}"/>/casemgmt/uploadimage.jsp',<%=demo%>);return false;" />
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
 	</table>
 	</div>
@@ -172,80 +161,66 @@ setTimeout(string,time);
 	<div class="axial">
 	<table border="0" cellspacing="2" cellpadding="3" width="100%">
 		<tr>
-			<th width="30%"><bean-el:message key="CaseSearch.dateRangeFrom"
-				bundle="pmm" nowrap /></th>
-
-			<td width="20%"><quatro:datePickerTag property="searchStartDate"
-				openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
-			<th width="30%"><bean-el:message key="CaseSearch.dateRangeTo"
-				bundle="pmm" /></th>
-			<td><quatro:datePickerTag property="searchEndDate" width="120px"
-				openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
+			<th width="30%"><bean-el:message key="CaseSearch.dateRangeFrom"	bundle="pmm" nowrap /></th>
+			<td width="20%"><quatro:datePickerTag property="searchStartDate" openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
+			<th width="30%"><bean-el:message key="CaseSearch.dateRangeTo" 	bundle="pmm" /></th>
+			<td><quatro:datePickerTag property="searchEndDate" width="120px" openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
 		</tr>
 
 		<tr>
-			<th width="30%"><bean-el:message key="CaseSearch.provider" bundle="pmm"
-				nowrap /></th>
-			<td width="20%"><html:select property="providerNo">
-				<html:option value="">
-				</html:option>
-				<html:options collection="providers" property="providerNo"
-					labelProperty="fullName" nowrap />
-			</html:select></td>
-			<th width="30%"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"
-				nowrap /></th>
-			<td><html:select property="searchCaseStatus">
-				<html:option value="">
-				</html:option>
-				<html:options collection="caseStatusList" property="code"
-					labelProperty="description" nowrap />
-			</html:select></td>
+			<th width="30%"><bean-el:message key="CaseSearch.provider" bundle="pmm"	nowrap /></th>
+			<td width="20%">
+				<html:select property="searchProviderNo">
+					<html:option value="">		</html:option>
+					<html:options collection="providers" property="providerNo"	labelProperty="fullName" nowrap />
+				</html:select>
+			</td>
+			<th width="30%"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"		nowrap /></th>
+			<td>
+				<html:select property="searchCaseStatus">
+					<html:option value="">	</html:option>
+					<html:options collection="caseStatusList" property="code"	labelProperty="description" nowrap />
+				</html:select>
+			</td>
 		</tr>
-
 		<tr>
-			<th width="30%"><bean-el:message key="CaseSearch.componentsOfService"
-				bundle="pmm" nowrap /></th>
-			<td width="20%"><html:select property="searchServiceComponent">
-				<html:option value="">
-				</html:option>
-				<html:options collection="issues" property="id"
-					labelProperty="description" />
-			</html:select></td>
+			<th width="30%"><bean-el:message key="CaseSearch.componentsOfService"	bundle="pmm" nowrap /></th>
+			<td width="20%">
+				<html:select property="searchServiceComponent">
+					<html:option value="">	</html:option>
+					<html:options collection="issues" property="id"	labelProperty="description" />
+				</html:select>
+			</td>
 			<td width="30%">&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td align="left" colspan="4"><input type="button" name="search"
-				value="search" onclick="submitForm('search')" />&nbsp; <input
-				type="button" name="reset" value="reset"
-				onclick="resetClientFields()" /></td>
+			<td align="left" colspan="4">
+				<input type="button" name="search"	value="search" onclick="submitForm('search')" />&nbsp; 
+				<input	type="button" name="reset" value="reset"	onclick="resetClientFields()" />
+			</td>
 		</tr>
-
 	</table>
 	</div>
-
-
 	<br />
 	<c:if test="${not empty Notes}">
-
-		<c:if
-			test="${sessionScope.caseManagementViewForm.note_view!='detailed'}">
-
-
+		<c:if test="${sessionScope.caseManagementViewForm.note_view!='detailed'}">
 			<br />
 			<table width="100%">
 				<tr>
-					<td align="right">Sort: <html:select property="note_sort"
-						onchange="document.caseManagementViewForm.method.value='view';document.caseManagementViewForm.submit()">
-						<html:option value="update_date">Date</html:option>
-						<html:option value="providerName">Provider</html:option>
-						<html:option value="programName">Program</html:option>
-						<html:option value="roleName">Role</html:option>
-					</html:select></td>
+					<td align="right">Sort: 
+						<html:select property="note_sort" onchange="document.caseManagementViewForm.method.value='view';document.caseManagementViewForm.submit()">
+							<html:option value="update_date">Date</html:option>
+							<html:option value="providerName">Provider</html:option>
+							<html:option value="programName">Program</html:option>
+							<html:option value="roleName">Role</html:option>
+						</html:select>
+					</td>
 				</tr>
 			</table>
-			<table id="test" width="100%" border="0" cellspacing="2"
-				cellpadding="3" class="simple">
+			<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 400px; width: 100%; overflow: auto;">
+			<table id="test" width="100%" border="0" cellspacing="2"	cellpadding="3" class="simple">
 
 				<tr>
 					<td style="background-color:#EEEEFF"></td>
@@ -259,13 +234,10 @@ setTimeout(string,time);
 				<%
 					int index = 0;
 					String bgcolor = "white";
-				%>
-				<div
-					style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+				%>				
 				<c:forEach var="note" items="${Notes}">
 					<%
-							if (index++ % 2 != 0) {
+						if (index++ % 2 != 0) {
 							bgcolor = "white";
 						} else {
 							bgcolor = "#EEEEFF";
@@ -273,93 +245,77 @@ setTimeout(string,time);
 					%>
 
 					<tr bgcolor="<%=bgcolor %>" align="center">
-						<td><c:choose>
-							<c:when
-								test="${(!note.signed) and (sessionScope.readonly=='false')}">
+						<td>
+							<c:choose>
+								<c:when	test="${(!note.signed) and (sessionScope.readonly=='false')}">
 
-								<a
-									href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+									<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true">
-
-								<img border="0"
-									src="<c:out value="${ctx}"/>/images/edit_white.png"
-									title="Edit/Sign Note" style="cursor:pointer" /> </a>
-							</c:when>
-							<c:when
-								test="${note.signed and note.provider_no eq param.providerNo and (note.locked !=true)}">
-
-								<a
-									href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+									<img border="0"	src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
+								</c:when>
+								<c:when test="${note.signed and note.provider_no eq param.providerNo and (note.locked !=true)}">
+									<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true">
-
-								<img border="0"
-									src="<c:out value="${ctx}"/>/images/edit_white.png"
-									title="Edit Note" style="cursor:pointer" /> </a>
-
-							</c:when>
-							<c:otherwise>
-								<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"
-									title="" />
-							</c:otherwise>
-						</c:choose> <c:choose>
-							<c:when test="${note.hasHistory == true and note.locked != true}">
-
-								<a
-									href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
+									<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png"	title="Edit Note" /> 
+									</a>
+								</c:when>
+								<c:otherwise>
+									<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+								</c:otherwise>
+							</c:choose> 
+							<c:choose>
+								<c:when test="${note.hasHistory == true and note.locked != true}">
+								<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />">
-
-								<img src="<c:out value="${ctx}"/>/images/history.gif"
-									title="Note History" style="cursor:pointer" /> </a>
-							</c:when>
-							<c:otherwise>
-								<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"
-									title="" />
-							</c:otherwise>
-						</c:choose> <c:choose>
-							<c:when test="${note.locked}">
-								<a
-									href="<html:rewrite action="/CaseManagementView2.do?method=unlock" />
-								 &noteId=<c:out value="${note.id}"/>
-								<img src="<c:out value="${ctx}"/>/images/ulock.gif"		title="Unlock" style="cursor:pointer"	 />
+									<img src="<c:out value="${ctx}"/>/images/history.gif"
+									title="Note History" /> 
 								</a>
-							</c:when>
+								</c:when>
+								<c:otherwise>
+									<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+								</c:otherwise>
+							</c:choose> 
+							<c:choose>
+								<c:when test="${note.locked}">
+									<a	href="<html:rewrite action="/CaseManagementView2.do?method=unlock" />	 &noteId=<c:out value="${note.id}"/>
+										<img src="<c:out value="${ctx}"/>/images/ulock.gif"		title="Unlock"  />
+									</a>
+								</c:when>
 							<c:otherwise>
-								<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"
-									title="" />
+								<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
 							</c:otherwise>
-						</c:choose></td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm a"
-							value="${note.observation_date}" /></td>
+							</c:choose>
+						</td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm a" value="${note.observation_date}" /></td>
 						<td><c:out value="${note.providerName}" /></td>
 						<td><c:out value="${note.status}" /></td>
 						<td><c:out value="${note.programName}" /></td>
 						<td><c:out value="${note.roleName}" /></td>
 					</tr>
-				</c:forEach>
+				</c:forEach>				
 			</table>
+			</div>
 		</c:if>
-		<c:if
-			test="${sessionScope.caseManagementViewForm.note_view=='detailed'}">
-			<table id="test" width="100%" border="0" cellpadding="0"
-				cellspacing="1" bgcolor="#C0C0C0">
+		<c:if test="${sessionScope.caseManagementViewForm.note_view=='detailed'}">
+			<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;   height: 400px; width: 100%; overflow: auto;">
+			<table id="test" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
 				<%
 					int index1 = 0;
 					String bgcolor1 = "white";
 				%>
+				
 				<c:forEach var="note" items="${Notes}">
 					<%
-							if (index1++ % 2 != 0) {
+						if (index1++ % 2 != 0) {
 							bgcolor1 = "white";
 						} else {
 							bgcolor1 = "#EEEEFF";
 						}
-						java.util.List noteList = (java.util.List) request
-								.getAttribute("Notes");
-						String noteId = ((CaseManagementNote) noteList.get(index1 - 1))
-								.getId().toString();
+						java.util.List noteList = (java.util.List) request.getAttribute("Notes");
+						String noteId = ((CaseManagementNote) noteList.get(index1 - 1)).getId().toString();
 						request.setAttribute("noteId", noteId);
 					%>
 					<tr>
@@ -367,13 +323,13 @@ setTimeout(string,time);
 						<table width="100%" border="0">
 							<tr bgcolor="<%=bgcolor1 %>">
 								<td width="7%">Provider</td>
-								<td width="93%"><c:out
-									value="${note.provider.formattedName }" /></td>
+								<td width="93%">
+									<c:out	value="${note.provider.formattedName }" />
+								</td>
 							</tr>
 							<tr bgcolor="<%=bgcolor1 %>">
 								<td width="7%">Date</td>
-								<td width="93%"><fmt:formatDate
-									pattern="yyyy-MM-dd hh:mm a" value="${note.observation_date}" /></td>
+								<td width="93%"><fmt:formatDate	pattern="yyyy-MM-dd hh:mm a" value="${note.observation_date}" /></td>
 							</tr>
 							<tr bgcolor="<%=bgcolor1 %>">
 								<td width="7%">Status</td>
@@ -381,40 +337,37 @@ setTimeout(string,time);
 							</tr>
 							<tr bgcolor="<%=bgcolor1 %>">
 								<td width="7%">Action</td>
-								<td width="93%"><c:if
-									test="${(!note.signed) and (sessionScope.readonly=='false')}">
-									
-								<a href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+								<td width="93%">
+								<c:if test="${(!note.signed) and (sessionScope.readonly=='false')}">									
+									<a href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />">							
 										Edit and Sign
-								</a>
+									</a>
 									
-								</c:if> <c:if
-									test="${note.signed and note.provider_no eq param.providerNo}">
-									
+								</c:if> 
+								<c:if	test="${note.signed and note.provider_no eq param.providerNo}">									
 									
 									<a href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${requestScope.noteId}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />">							
 										Edit This Note
 									</a>									
-								</c:if> <c:if test="${note.hasHistory == true}">
-									
+								</c:if> 
+								<c:if test="${note.hasHistory == true}">									
 										<a href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
-										&noteId=<c:out value="${requestScope.noteId}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
-										&providerNo=<c:out value="${param.providerNo}" />">							
-										Note History
-								</a>									
-								</c:if> <c:if test="${note.locked}">
-									<c:url
-										value="/CaseManagementView2.do?method=unlock&noteId=${requestScope.noteId}"
-										var="lockedURL" />
+											&noteId=<c:out value="${requestScope.noteId}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
+											&providerNo=<c:out value="${param.providerNo}" />">							
+											Note History
+										</a>									
+								</c:if> 
+								<c:if test="${note.locked}">
+									<c:url	value="/CaseManagementView2.do?method=unlock&noteId=${requestScope.noteId}"	var="lockedURL" />
 									<a href="<html:rewrite action="/CaseManagementEntry2.do?method=unlock"/>
-										&noteId=<c:out value="${requestScope.noteId}"/> ">												
-											Unlock
+										&noteId=<c:out value="${requestScope.noteId}"/> ">Unlock
 									</a>
-								</c:if></td>
+								</c:if>
+							</td>
 							</tr>
 							<tr bgcolor="<%=bgcolor1 %>">
 								<td width="7%">Note</td>
@@ -430,8 +383,9 @@ setTimeout(string,time);
 						</table>
 						</td>
 					</tr>
-				</c:forEach>
+				</c:forEach>				
 			</table>
+			</div>
 		</c:if>
 		<br />
 	</c:if>

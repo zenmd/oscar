@@ -144,56 +144,48 @@
 	}
 	
 
-</script>
-
-<script language="JavaScript">
-
- 	function spellCheck()
-            {
+ 	function spellCheck() {
             
                 // Build an array of form elements (not there values)
                 var elements = new Array(0);
                 
-                // Your form elements that you want to have spell checked
-                
-                elements[elements.length] = document.caseManagementEntryForm.caseNote_note;
-                
+                // Your form elements that you want to have spell checked                
+                elements[elements.length] = document.caseManagementEntryForm.caseNote_note;                
                        
                 // Start the spell checker
                  startSpellCheck('jspspellcheck/',elements);
                 
-            }
- function getIssueList(){
-  	var elSel= document.getElementsByName("lstIssue")[0]; 
-  	var txtKey= document.getElementsByName("txtIssueKey")[0]; 
-  	var txtValue= document.getElementsByName("txtIssueValue")[0]; 
-  	txtKey.value="";
-  	txtValue.value="";
-  	for(var i=0;i<elSel.options.length;i++){
-    	if(txtKey.value==""){
-   	    	txtKey.value = elSel.options[i].value;
-    	}else{  
-       		txtKey.value = txtKey.value + ":" + elSel.options[i].value;
-    	}
+       }
+ 	function getIssueList(){
+  		var elSel= document.getElementsByName("lstIssue")[0]; 
+  		var txtKey= document.getElementsByName("txtIssueKey")[0]; 
+  		var txtValue= document.getElementsByName("txtIssueValue")[0]; 
+  		txtKey.value="";
+  		txtValue.value="";
+  		for(var i=0;i<elSel.options.length;i++){
+    		if(txtKey.value==""){
+   	    		txtKey.value = elSel.options[i].value;
+    		}else{  
+       			txtKey.value = txtKey.value + ":" + elSel.options[i].value;
+    		}
     
-    	if(txtValue.value==""){
-      	 	txtValue.value = elSel.options[i].text;
-    	}else{  
-       	txtValue.value = txtValue.value + ":" + elSel.options[i].text;
-    	}
-   }
-   alert(txtValue.value);
-   return true;
-}
+    		if(txtValue.value==""){
+      	 		txtValue.value = elSel.options[i].text;
+    		}else{  
+       		txtValue.value = txtValue.value + ":" + elSel.options[i].text;
+    		}
+   		}  	
+   		return true;
+	}
 
-function removeSel(str) {
-    var elSel= document.getElementsByName(str)[0]; 
-    if(elSel.selectedIndex>=0){
-      elSel.remove(elSel.selectedIndex);
-    }else{
-      alert("Please select one item to remove.");
-    } 
-}            
+	function removeSel(str) {
+    	var elSel= document.getElementsByName(str)[0]; 
+    	if(elSel.selectedIndex>=0){
+      		elSel.remove(elSel.selectedIndex);
+    	}else{
+      		alert("Please select one item to remove.");
+    	} 
+	}            
 
 </script>
 
@@ -261,7 +253,7 @@ var XMLHttpRequestObject = false;
 	if (pId == null)
 		pId = "";
 %>
-<html:form action="/CaseManagementEntry2"	onsubmit="return getIssueList();">
+<html:form action="/CaseManagementEntry2">
 	<html:hidden property="demographicNo" />
 	<c:if test="${param.providerNo==null}">
 		<input type="hidden" name="providerNo"	value="<%=session.getAttribute("user")%>">
@@ -300,7 +292,7 @@ var XMLHttpRequestObject = false;
 			</html:link></td>
 		</tr>
 	</table>		
-	<table width="100%" class="simple" cellspacing="2" cellpadding="3">
+	<table width="80%" class="simple" cellspacing="2" cellpadding="3">
 		<tr>
 			<th style="width: 20%">Client name</th>
 			<td><logic:notEmpty name="demoName" scope="request">
@@ -328,8 +320,8 @@ var XMLHttpRequestObject = false;
 	</table>
 	
 	<br>
-	
-	<table cellpadding="3" cellspacing="0" border="0" width="90%">
+	<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;  height: 520px; width: 100%; overflow: auto">
+	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
 			<th style="width:40%">Case Status</th>
 			<td><html:select property="caseNote.caseStatusId">
@@ -340,7 +332,7 @@ var XMLHttpRequestObject = false;
 		</tr>
 	</table>
 		
-	<table width="90%" border="0" cellpadding="0" cellspacing="1">
+	<table width="70%" border="0" cellpadding="0" cellspacing="1">
 	<tr>
 			<th>Components of Service Category</th>
 		</tr>
@@ -382,7 +374,7 @@ var XMLHttpRequestObject = false;
 	<%
 	}
 	%>
-	<table style="width: 100%">
+	<table style="width: 90%">
 		<tr>
 			<td align="left" class="buttonBar"><span
 				style="text-decoration: cursor:pointer;color: blue"
@@ -400,9 +392,10 @@ var XMLHttpRequestObject = false;
 			<td class="fieldTitle"></td>
 
 		</tr>
-
+  </table>
+  <table width="90%">
 		<tr>
-			<td class="fieldTitle">Encounter Type</td>
+			<td class="fieldTitle" width="40%">Encounter Type</td>
 			<td class="fieldValue"><html:select
 				property="caseNote.encounter_type" onchange="setChangeFlag(true);">
 				<html:option value=""></html:option>>
@@ -418,17 +411,17 @@ var XMLHttpRequestObject = false;
 	</tr -->
 
 		<tr>
-			<td class="fieldTitle">Sign</td>
+			<td class="fieldTitle" width="40%">Sign</td>
 			<td class="fieldValue"><html:checkbox property="sign"
 				onchange="setChangeFlag(true);" /></td>
 		</tr>
 
 		<tr>
-			<td class="fieldTitle">include checked issues in note</td>
+			<td class="fieldTitle" width="40%">include checked issues in note</td>
 			<td class="fieldValue"><html:checkbox property="includeIssue"
 				onchange="setChangeFlag(true);" /></td>
-		</tr>
-
+		</tr>	
+			
 		<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
 			<c:if
 				test="${param.from=='casemgmt' || requestScope.from=='casemgmt'}">
@@ -458,7 +451,7 @@ var XMLHttpRequestObject = false;
 		</caisi:isModuleLoad>
 		 
 	</table>
-	
+	</div>
 </html:form>
 </body>
 </html>
