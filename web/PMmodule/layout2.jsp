@@ -58,12 +58,12 @@
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr height="60px">
 				<td colspan="3">
-					<tiles:insert  name="Header.jsp">
+					<tiles:insert  name="Header_NoLink.jsp">
 					</tiles:insert>
 				</td></tr>
 				<tr valign="top">
 					<td id="leftcol" width="200px">
-						<tiles:insert name="navigation" />
+						<tiles:insert name="Messages.jsp" />
 					</td>
 					<td valign="top" width="3px">
 						<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
