@@ -1,33 +1,35 @@
 package com.quatro.model.security;
 
-
-
 public class Secobjprivilege implements java.io.Serializable {
 
 	// Fields
 
-	//private SecobjprivilegeId id;
+	// private SecobjprivilegeId id;
 	private String roleusergroup;
+
 	private String objectname;
 
 	private String privilege;
+
 	private Long priority;
+
 	private String providerNo;
-	
+
 	private String privilege_code;
+
 	private String objectname_desc;
+
 	private String objectname_code;
+
 	// Constructors
 
 	/** default constructor */
 	public Secobjprivilege() {
 	}
 
-
-
 	/** full constructor */
-	public Secobjprivilege(String roleusergroup, String objectname, String privilege,
-			Long priority, String providerNo) {
+	public Secobjprivilege(String roleusergroup, String objectname,
+			String privilege, Long priority, String providerNo) {
 		this.roleusergroup = roleusergroup;
 		this.objectname = objectname;
 		this.privilege = privilege;
@@ -36,7 +38,6 @@ public class Secobjprivilege implements java.io.Serializable {
 	}
 
 	// Property accessors
-
 
 	public String getPrivilege() {
 		return this.privilege;
@@ -102,4 +103,36 @@ public class Secobjprivilege implements java.io.Serializable {
 		this.objectname = objectname;
 	}
 
+	public boolean equals(Object other) {
+		if ((this == other))
+			return true;
+		if ((other == null))
+			return false;
+		if (!(other instanceof Secobjprivilege))
+			return false;
+		Secobjprivilege castOther = (Secobjprivilege) other;
+
+		return ((this.getRoleusergroup() == castOther.getRoleusergroup()) || (this
+				.getRoleusergroup() != null
+				&& castOther.getRoleusergroup() != null && this
+				.getRoleusergroup().equals(castOther.getRoleusergroup())))
+				&& ((this.getObjectname() == castOther.getObjectname()) || (this
+						.getObjectname() != null
+						&& castOther.getObjectname() != null && this
+						.getObjectname().equals(castOther.getObjectname())));
+	}
+
+	public int hashCode() {
+		int result = 17;
+
+		result = 37
+				* result
+				+ (getRoleusergroup() == null ? 0 : this.getRoleusergroup()
+						.hashCode());
+		result = 37
+				* result
+				+ (getObjectname() == null ? 0 : this.getObjectname()
+						.hashCode());
+		return result;
+	}
 }
