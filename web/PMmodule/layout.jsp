@@ -63,7 +63,7 @@
 				</td></tr>
 				<tr valign="top">
 					<td id="leftcol" width="200px">
-						<tiles:insert name="navigation" />
+						<tiles:insert name="navigation.jsp" />
 					</td>
 					<td valign="top" width="3px">
 						<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
