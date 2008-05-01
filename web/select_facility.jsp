@@ -1,30 +1,26 @@
-<%@page import="org.oscarehr.PMmodule.dao.FacilityDAO"%>
-<%@page import="org.oscarehr.util.SpringUtils"%>
-<%@page import="org.oscarehr.PMmodule.model.Facility"%>
 <%@page import="java.util.List"%>
-<%@page import="org.oscarehr.PMmodule.dao.ProviderDao"%>
-<%@page import="org.oscarehr.PMmodule.model.Provider"%>
+<%@page import="com.quatro.model.LookupCodeValue"%>
 <%@page import="org.oscarehr.util.SessionConstants"%>
 <%@include file="taglibs.jsp"%>
-<%@include file="/layouts/caisi_html_top.jspf"%>
-
-<h2>Please select which facility you would like to currently work in</h2> 
-<%
-	FacilityDAO facilityDAO=(FacilityDAO)SpringUtils.beanFactory.getBean("facilityDAO");
-
-	Provider provider=(Provider)session.getAttribute("provider");
-	List<Integer> facilityIds=ProviderDao.getFacilityIds(provider.getProvider_no());
-%>
-<ul>
+<table width="100%">
+	<tr>
+		<th class="pageTitle">Facility Selection</th>
+	</tr>
+	<tr> <td>
+	<h>Please select which facility you would like to currently work in</h> 
 	<%
-		for (int facilityId : facilityIds)
-		{
-			Facility facility=facilityDAO.getFacility(facilityId);
-			%>
-				<li><a  href='/QuatroShelter/login.do?nextPage=<%=request.getParameter("nextPage")%>&<%=SessionConstants.CURRENT_FACILITY_ID%>=<%=facility.getId()%>'><%=facility.getName()%></a></li>
-			<%
-		}
+		List<LookupCodeValue> facilities = (List<LookupCodeValue>) request.getAttribute("facilities");
 	%>
-</ul>
-
-<%@include file="/layouts/caisi_html_bottom.jspf"%>
+	<ul>
+		<%
+			for (LookupCodeValue facility : facilities)
+			{
+				%>
+					<li><a  href='/QuatroShelter/login.do?nextPage=caisiPMM&<%=SessionConstants.CURRENT_FACILITY_ID%>=<%=facility.getCode()%>'><%=facility.getDescription()%></a></li>
+				<%
+			}
+		%>
+	</ul>
+	</td>
+	</tr>
+</table>
