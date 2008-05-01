@@ -36,7 +36,7 @@ public class LookupDao extends HibernateDaoSupport {
 	
 	public LookupCodeValue GetCode(String tableId,String code)
 	{
-		List lst = LoadCodeList(tableId, true, "", code, "");
+		List lst = LoadCodeList(tableId, false, code, "");
 		LookupCodeValue lkv = null;
 		if (lst.size()>0) 
 		{
