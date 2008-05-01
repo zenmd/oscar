@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -239,8 +240,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         	CaseManagementIssue iss =(CaseManagementIssue) itr1.next(); 
             lstIssueSelection.add(iss.getIssue());
         }
-        request.setAttribute("lstIssueSelection",lstIssueSelection);
-
+        request.setAttribute("lstIssueSelection",lstIssueSelection);         
+        
+        request.setAttribute("lstCaseStatus", this.lookupMgr.LoadCodeList("CST", true, null, null));
         /*
          * do the restore if(restore != null && restore.booleanValue() == true) { String tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo,demono,programId); if(tmpsavenote != null) { note.setNote(tmpsavenote); }
          *  }
@@ -472,7 +474,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if (caisiLoaded != null && caisiLoaded.equalsIgnoreCase("true")) inCaisi = true;
 
         String lastSavedNoteString = (String) request.getSession().getAttribute("lastSavedNoteString");
-
+        Date now = new Date();
         /* get the checked issue save into note */
         List issuelist = new ArrayList();
         CheckBoxBean[] checkedlist = (CheckBoxBean[]) cform.getIssueCheckList();
@@ -501,8 +503,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String team = null;
 
         // if this is an update, don't overwrite the program id
-        if (note.getProgram_no() == null || note.getProgram_no().equals("") || !note.getProgram_no().equals("")) {
-            String programId = (String) request.getSession().getAttribute("case_program_id");
+        if (Utility.IsEmpty(note.getProgram_no())) {
+            
+        	String programId =this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demo)).getProgramId().toString(); 
+        	request.getSession().setAttribute("case_program_id",programId);            
             note.setProgram_no(programId);
         }
 
@@ -530,19 +534,16 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         Set issueset = new HashSet();
         Set noteSet = new HashSet();
         String ongoing = "";
-        for (int i = 0; i < checkedlist.length; i++) {
-            if (!checkedlist[i].getIssue().isResolved()) ongoing = ongoing + checkedlist[i].getIssue().getIssue().getDescription() + "\n";
-            String ischecked = request.getParameter("issueCheckList[" + i + "].checked");
-            if (ischecked != null && ischecked.equalsIgnoreCase("on")) {
-                checkedlist[i].setChecked("on");
-                CaseManagementIssue iss = checkedlist[i].getIssue();
-                iss.setNotes(noteSet);
-                issueset.add(checkedlist[i].getIssue());
-            }
-            else {
-                checkedlist[i].setChecked("off");
-            }
-            issuelist.add(checkedlist[i].getIssue());
+        String[] iss=cform.getTxtIssueKey().split(":");
+        for(int i=0;i<iss.length;i++){
+        	CaseManagementIssue cmIss= new CaseManagementIssue();
+        	Long issId = Long.parseLong(iss[i]);
+        	cmIss.setIssue_id(issId);  
+        	cmIss.setDemographic_no(demo);
+        	cmIss.setUpdate_date(now);
+        	cmIss.setIssue(caseManagementMgr.getIssue(issId.toString()));
+            issueset.add(cmIss);
+        	issuelist.add(cmIss);
         }
 
         note.setIssues(issueset);
@@ -579,6 +580,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
 
         /* save all issue changes for demographic */
+       //  caseManagementMgr.saveAndUpdateCaseIssues(issuelist);
+        //Quatro Issue Logic
+        // issuelist = new ArrayList<CaseManagementIssue>();
         caseManagementMgr.saveAndUpdateCaseIssues(issuelist);
         if (inCaisi) cpp.setOngoingConcerns(ongoing);
 
@@ -586,7 +590,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         EctSessionBean sessionBean = (EctSessionBean) request.getSession().getAttribute("EctSessionBean");
         String verify = request.getParameter("verify");
         ResourceBundle prop;
-        Date now = new Date();
+        
         if (verify != null && verify.equalsIgnoreCase("on")) {
             prop = ResourceBundle.getBundle("oscarResources", request.getLocale());
             String message = "[" + prop.getString("oscarEncounter.class.EctSaveEncounterAction.msgVerAndSig") + " " + UtilDateUtilities.DateToString(now, "dd-MMM-yyyy H:mm", request.getLocale()) + " "

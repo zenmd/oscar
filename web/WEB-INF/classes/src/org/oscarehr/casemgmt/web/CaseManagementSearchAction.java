@@ -171,8 +171,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         String programId = (String) request.getSession().getAttribute("case_program_id");
 
-        if (programId == null || programId.length() == 0) {
-            programId = "0";
+        if (Utility.IsEmpty(programId)) {
+            programId = this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demoNo)).getProgramId().toString();
         }
 
         // check to see if there is an unsaved note
@@ -249,7 +249,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             current = System.currentTimeMillis();
             log.debug("GET NOTES " + String.valueOf(current - start));
             start = current;
-            notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
+          //  notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
+            notes = caseManagementMgr.filterNotes(notes,providerNo,currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
             current = System.currentTimeMillis();
             log.debug("FILTER NOTES " + String.valueOf(current - start));
             start = current;
@@ -421,7 +422,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
 
         List sortedResults = this.sort_notes(filteredResults, caseForm.getNote_sort());
-        request.setAttribute("search_results", sortedResults);
+       // request.setAttribute("search_results", sortedResults);
+        request.setAttribute("Notes", sortedResults);
         return view(mapping, form, request, response);
     }
 
