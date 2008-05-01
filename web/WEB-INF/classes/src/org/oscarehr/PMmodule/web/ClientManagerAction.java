@@ -347,9 +347,9 @@ public class ClientManagerAction extends BaseAction {
         if (id == null || id.equals("")) {
         	id=(String) request.getAttribute(ID);
         }
-         
-        if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
-			request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(id));
+        //need save the client Id into session
+        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(id));
+        if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){			
 			request.getSession().removeAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION);
 			return mapping.findForward("case");
 		}
