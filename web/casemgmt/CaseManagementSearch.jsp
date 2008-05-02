@@ -262,7 +262,7 @@ response.setHeader("Cache-Control", "no-cache");
 									</a>
 								</c:when>
 								<c:otherwise>
-									<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+									<img border="0" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
 								</c:otherwise>
 							</c:choose> 
 							<c:choose>
@@ -270,22 +270,22 @@ response.setHeader("Cache-Control", "no-cache");
 								<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />">
-									<img src="<c:out value="${ctx}"/>/images/history.gif"
+									<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"
 									title="Note History" /> 
 								</a>
 								</c:when>
 								<c:otherwise>
-									<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+									<img border="0" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
 								</c:otherwise>
 							</c:choose> 
 							<c:choose>
 								<c:when test="${note.locked}">
 									<a	href="<html:rewrite action="/CaseManagementView2.do?method=unlock" />	 &noteId=<c:out value="${note.id}"/>
-										<img src="<c:out value="${ctx}"/>/images/ulock.gif"		title="Unlock"  />
+										<img border="0" src="<c:out value="${ctx}"/>/images/ulock.gif"		title="Unlock"  />
 									</a>
 								</c:when>
 							<c:otherwise>
-								<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+								<img border="0" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
 							</c:otherwise>
 							</c:choose>
 						</td>
