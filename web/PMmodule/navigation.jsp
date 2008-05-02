@@ -217,7 +217,7 @@
             <span>System Administration</span>
 
             <div>
-                <a HREF="#" ONCLICK="popupPage2('<%=request.getContextPath()%>/admin/admin.jsp', 'Admin');return false;">Admin Page</a>
+                <html:link action="/PMmodule/Admin/SysAdmin.do">Admin Page</html:link>
             </div>
         </div>
     </security:oscarSec>
