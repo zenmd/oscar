@@ -186,12 +186,13 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 			} else {
 				endDate = MyDateFormat.getCurrentDate();
 			}
-			criteria.add(Restrictions.between("update_date",startDate,endDate));
+			criteria.add(Restrictions.between("observation_date",startDate,endDate));
 		}catch(Exception e) {
 			log.warn(e);
 		}
 
-		criteria.addOrder(Order.desc("update_date"));
+		criteria.addOrder(Order.desc("observation_date"));
+		List lst=criteria.list();
 		return criteria.list();
 		
 	}
