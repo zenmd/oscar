@@ -10,6 +10,9 @@ public class Secuserrole implements java.io.Serializable {
 	private String roleName;
 	private String orgcd;
 	private Long activeyn;
+	// added extra 
+	private String roleName_desc;
+	private String orgcd_desc;
 	
 	// added more
 	private String fullName;
@@ -87,6 +90,22 @@ public class Secuserrole implements java.io.Serializable {
 
 	public void setActiveyn(Long activeyn) {
 		this.activeyn = activeyn;
+	}
+
+	public String getOrgcd_desc() {
+		return orgcd_desc;
+	}
+
+	public void setOrgcd_desc(String orgcd_desc) {
+		this.orgcd_desc = orgcd_desc;
+	}
+
+	public String getRoleName_desc() {
+		return roleName_desc;
+	}
+
+	public void setRoleName_desc(String roleName_desc) {
+		this.roleName_desc = roleName_desc;
 	}
 
 }

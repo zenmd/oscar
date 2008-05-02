@@ -1,0 +1,173 @@
+package com.quatro.dao.security;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.hibernate.Query;
+import org.hibernate.criterion.Example;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.model.security.Secuserrole;
+
+/**
+ * A data access object (DAO) providing persistence and search support for
+ * Secuserrole entities. Transaction control of the save(), update() and
+ * delete() operations can directly support Spring container-managed
+ * transactions or they can be augmented to handle user-managed Spring
+ * transactions. Each of these methods provides additional information for how
+ * to configure it for the desired type of transaction control.
+ * 
+ * @see com.quatro.model.Secuserrole
+ * @author MyEclipse Persistence Tools
+ */
+
+public class SecuserroleDao extends HibernateDaoSupport {
+	private static final Log log = LogFactory.getLog(SecuserroleDao.class);
+	// property constants
+	public static final String PROVIDER_NO = "providerNo";
+	public static final String ROLE_NAME = "roleName";
+	public static final String ORGCD = "orgcd";
+	public static final String ACTIVEYN = "activeyn";
+
+	public void saveAll(List list) {
+		log.debug("saving ALL Secuserrole instances");
+		try {
+			for(int i =0; i< list.size(); i++)
+				getSession().save(list.get(i));
+			//this.getHibernateTemplate().saveOrUpdateAll(list);
+			log.debug("save ALL successful");
+		} catch (RuntimeException re) {
+			log.error("save ALL failed", re);
+			throw re;
+		}
+	}
+	public void save(Secuserrole transientInstance) {
+		log.debug("saving Secuserrole instance");
+		try {
+			getSession().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+	
+	public void delete(Secuserrole persistentInstance) {
+		log.debug("deleting Secuserrole instance");
+		try {
+			getSession().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public Secuserrole findById(java.lang.Long id) {
+		log.debug("getting Secuserrole instance with id: " + id);
+		try {
+			Secuserrole instance = (Secuserrole) getSession().get(
+					"com.quatro.model.Secuserrole", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List findByExample(Secuserrole instance) {
+		log.debug("finding Secuserrole instance by example");
+		try {
+			List results = getSession().createCriteria(
+					"com.quatro.model.Secuserrole").add(
+					Example.create(instance)).list();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding Secuserrole instance with property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "from Secuserrole as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProviderNo(Object providerNo) {
+		return findByProperty(PROVIDER_NO, providerNo);
+	}
+
+	public List findByRoleName(Object roleName) {
+		return findByProperty(ROLE_NAME, roleName);
+	}
+
+	public List findByOrgcd(Object orgcd) {
+		return findByProperty(ORGCD, orgcd);
+	}
+
+	public List findByActiveyn(Object activeyn) {
+		return findByProperty(ACTIVEYN, activeyn);
+	}
+
+	public List findAll() {
+		log.debug("finding all Secuserrole instances");
+		try {
+			String queryString = "from Secuserrole";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public Secuserrole merge(Secuserrole detachedInstance) {
+		log.debug("merging Secuserrole instance");
+		try {
+			Secuserrole result = (Secuserrole) getSession().merge(
+					detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(Secuserrole instance) {
+		log.debug("attaching dirty Secuserrole instance");
+		try {
+			getSession().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(Secuserrole instance) {
+		log.debug("attaching clean Secuserrole instance");
+		try {
+			getSession().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+}

@@ -413,7 +413,16 @@
 			name="body"
 			value="/PMmodule/Admin/User/UserEdit.jsp" />
 	</definition>
-	
+	<definition
+		name="page.admin.user.addRoles"
+		path="/PMmodule/layout.jsp">
+		<put
+			name="navigation"
+			value="/PMmodule/navigation.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Admin/User/AddRoles.jsp" />
+	</definition>	
 	
 	<!-- Admin End -->
 

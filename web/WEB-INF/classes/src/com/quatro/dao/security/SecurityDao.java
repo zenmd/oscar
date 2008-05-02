@@ -35,10 +35,12 @@ public class SecurityDao extends HibernateDaoSupport {
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
 			
-			String queryString =  "select sur.providerNo, sur.roleName, sur.orgcd, s.userName"
-				+ " from Secuserrole sur, Security s"
+			String queryString =  "select sur.providerNo, sur.roleName, org.description, s.userName"
+				+ " from Secuserrole sur, Security s, LstOrgcd org"
 				+ " where sur.providerNo = '" + providerNo + "'"
-				+ " and s.providerNo = sur.providerNo";
+				+ " and s.providerNo = sur.providerNo"
+				+ " and sur.orgcd = org.code"
+				+ " order by sur.orgcd";
 			
 			/* SQL: for displaying users with or without roles
 			select s.security_No, s.user_Name, p.last_Name, p.first_Name, sur.role_Name, sur.orgcd 

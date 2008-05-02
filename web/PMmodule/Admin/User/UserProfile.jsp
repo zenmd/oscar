@@ -41,7 +41,7 @@
 			<display:column property="userName" sortable="true"
 				title="User ID" group="1" />
 
-			<display:column property="orgcd" sortable="true"
+			<display:column property="orgcd_desc" sortable="true"
 				title="ORG" group="2" />
 
 			<display:column property="roleName" sortable="true"

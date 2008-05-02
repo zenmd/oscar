@@ -39,24 +39,24 @@
 			id="user" name="secuserroles" export="false" pagesize="0"
 			requestURI="/PMmodule/Admin/UserManager.do" >
 
-			<display:column title="">
-				<a
-					href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
-				Edit </a>
-			</display:column>
 
-			<display:column title="">
-				<input type="checkbox" name="chk"
-					value="<c:out value="${user.providerNo}" />" />
-			</display:column>
-
-			<display:column sortable="true" title="Name">
+			<display:column sortable="true" title="User ID" >
 				<a
 					href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=profile&providerNo=<c:out value="${user.providerNo}" />">
-				<c:out value="${user.fullName}" /> </a>
+				<c:out value="${user.userName}" /> </a>
 			</display:column>
-
-			<display:column property="userName" sortable="true" title="User ID" />
+			
+			<display:column property="fullName" sortable="true" title="Name" />
+				
+			<display:column title="">
+				<a	href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
+				Edit </a>
+			</display:column>
+			
+			<display:column title="">
+				<a	href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=addRole&providerNo=<c:out value="${user.providerNo}" />">
+				Assign ORG/Role </a>
+			</display:column>
 
 		</display:table></div>
 		</td>

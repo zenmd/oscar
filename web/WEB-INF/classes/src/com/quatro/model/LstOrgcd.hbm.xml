@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- 
+    author JZhang
+-->
+<hibernate-mapping>
+    <class name="com.quatro.model.LstOrgcd" table="LST_ORGCD" >
+        <id name="code" type="java.lang.String">
+            <column name="CODE" length="8" />
+            <generator class="native" />
+        </id>
+        <property name="description" type="java.lang.String">
+            <column name="DESCRIPTION" length="240" />
+        </property>
+        <property name="activeyn" type="java.lang.Long">
+            <column name="ACTIVEYN" precision="1" scale="0" />
+        </property>
+        <property name="orderbyindex" type="java.lang.Long">
+            <column name="ORDERBYINDEX" precision="22" scale="0" />
+        </property>
+        <property name="codetree" type="java.lang.String">
+            <column name="CODETREE" length="80" />
+        </property>
+        <property name="fullcode" type="java.lang.String">
+            <column name="FULLCODE" length="80" />
+        </property>
+    </class>
+</hibernate-mapping>

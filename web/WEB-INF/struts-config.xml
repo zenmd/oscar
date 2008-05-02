@@ -508,6 +508,8 @@
 	       <form-property name="email" type="java.lang.String"></form-property>
 	       <form-property name="status" type="java.lang.String"></form-property>
 	       
+           <form-property name="secUserRoleLst" type="java.util.ArrayList"></form-property> 
+            
             
         </form-bean>
         
@@ -2026,6 +2028,7 @@
             <forward name="list" path="page.admin.user.list" />
             <forward name="profile" path="page.admin.user.profile" />
             <forward name="edit" path="page.admin.user.edit" />
+            <forward name="addRoles" path="page.admin.user.addRoles" />
             
         </action>
         

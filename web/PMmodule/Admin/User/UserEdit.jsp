@@ -68,25 +68,25 @@
 
 				<tr>
 					<td>User ID:</td>
-					<td><html:text property="userName" /></td>
+					<td><html:text property="userName" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Email:</td>
 					<td><html:text property="email" /></td>
 				</tr>
 				<tr>
 					<td>First Name:</td>
-					<td><html:text property="firstName" /></td>
+					<td><html:text property="firstName" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Password:</td>
 					<td><html:password property="password" /></td>
 				</tr>
 				<tr>
 					<td>Last Name:</td>
-					<td><html:text property="lastName" /></td>
+					<td><html:text property="lastName" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Confirm Password:</td>
 					<td><html:password property="confirmPassword"  /></td>
 				</tr>
 				<tr>
 					<td>Initial:</td>
-					<td><html:text property="init" /></td>
+					<td><html:text property="init" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>PIN:</td>
 					<td><html:password property="pin" /></td>
 				</tr>
@@ -96,13 +96,13 @@
 							<html:option value="">Select Title</html:option>
 							<html:option value="title1" />
 							<html:option value="title2" />
-						</html:select></td>
+						</html:select></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Confirm PIN:</td>
 					<td><html:password property="confirmPin" /></td>
 				</tr>
 				<tr>
 					<td>Job Title:</td>
-					<td><html:text property="jobTitle" /></td>
+					<td><html:text property="jobTitle" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Active:</td>
 					<td><html:checkbox property="status" /></td>
 				</tr>
