@@ -76,6 +76,9 @@ import org.oscarehr.casemgmt.model.Messagetbl;
 import org.oscarehr.casemgmt.model.base.BaseHashAudit;
 import org.oscarehr.common.dao.UserPropertyDAO;
 import org.oscarehr.common.model.UserProperty;
+import com.quatro.dao.IntakeDao;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+
 import com.quatro.util.*;
 import oscar.OscarProperties;
 
@@ -103,6 +106,7 @@ public class CaseManagementManager {
     protected HashAuditDAO hashAuditDAO;
     protected EncounterWindowDAO ectWindowDAO;
     protected UserPropertyDAO userPropertyDAO;
+    protected IntakeDao intakeDao;
    
     private boolean enabled;
     
@@ -1104,18 +1108,19 @@ public class CaseManagementManager {
     public boolean isClientInProgramDomain(Integer facilityId, String providerNo, String demographicNo) {
 
         List providerPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
-        
-        List allAdmissions = this.admissionManager.getAdmissions(Integer.valueOf(demographicNo));
+     
+        List intakeList =  intakeDao.getQuatroIntakeHeaderListByFacility(new Integer(demographicNo), facilityId, providerNo);
+      //  List allAdmissions = this.admissionManager.getAdmissions(Integer.valueOf(demographicNo));
 
         for (int x = 0; x < providerPrograms.size(); x++) {
             Program pp = (Program)providerPrograms.get(x);
             long programId = pp.getId().longValue();
 
-            for (int y = 0; y < allAdmissions.size(); y++) {
-                Admission admission = (Admission)allAdmissions.get(y);
-                long admissionProgramId = admission.getProgramId().longValue();
+            for (int y = 0; y < intakeList.size(); y++) {
+            	QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeList.get(y);
+                long intakeProgramId = qih.getProgramId().longValue();
 
-                if (programId == admissionProgramId) {
+                if (programId == intakeProgramId) {
                     return true;
                 }
             }
@@ -1237,6 +1242,11 @@ public class CaseManagementManager {
     public void setProviderDAO(ProviderDao providerDAO) {
         this.providerDAO = providerDAO;
     }
+
+    public void setIntakeDAO(IntakeDao intakeDAO) {
+        this.intakeDao = intakeDAO;
+    }
+
 
     public void setCaseManagementTmpSaveDAO(CaseManagementTmpSaveDAO dao) {
         this.caseManagementTmpSaveDAO = dao;
