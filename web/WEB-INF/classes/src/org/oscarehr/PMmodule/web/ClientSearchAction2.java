@@ -65,7 +65,12 @@ public class ClientSearchAction2 extends BaseAction {
 			request.getSession().setAttribute("outsideOfDomainEnabled","false");
 		}
 
-		setLookupLists(request);		
+		setLookupLists(request);
+		DynaActionForm searchForm = (DynaActionForm)form;
+		ClientSearchFormBean formBean = (ClientSearchFormBean)searchForm.get("criteria");
+		if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
+			formBean.setBedProgramId("MyP");
+		}
 		return mapping.findForward("form");
 	}
 	
