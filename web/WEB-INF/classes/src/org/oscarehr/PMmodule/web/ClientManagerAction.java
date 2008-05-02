@@ -159,7 +159,7 @@ public class ClientManagerAction extends BaseAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm clientForm = (DynaActionForm) form;
         clientForm.set("view", new ClientManagerFormBean());
-        String cId=request.getSession().getAttribute("clientId").toString();
+        String cId=request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
         Integer clientId = new Integer(cId);        
         if (clientId != null) request.setAttribute(ID, clientId.toString());
 		
