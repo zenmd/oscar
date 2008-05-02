@@ -409,14 +409,16 @@ public class LookupDao extends HibernateDaoSupport {
 		List codeValues = new ArrayList();
 		String  programId = "0000000" + program.getId().toString();
 		programId = "P" + programId.substring(programId.length()-7);
+		String fullCode = "P" + program.getId();
 		
 		String facilityId = "0000000" + String.valueOf(program.getFacilityId());
 		facilityId = "F" + facilityId.substring(facilityId.length()-7); 
 		
 		LookupCodeValue fcd = GetCode("ORG", "F" + program.getFacilityId());
+		fullCode = fcd.getBuf1() + fullCode;
 		
 		boolean isNew = false;
-		LookupCodeValue pcd = GetCode("ORG", programId);
+		LookupCodeValue pcd = GetCode("ORG", "P" + program.getId());
 		if (pcd == null) {
 			isNew = true;
 			pcd = new LookupCodeValue();
@@ -425,6 +427,7 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setCode("P" + program.getId());
 		pcd.setCodeTree(fcd.getCodeTree() + programId);
 		pcd.setDescription(program.getName());
+		pcd.setBuf1(fullCode);
 		pcd.setActive(program.getProgramStatus().equalsIgnoreCase("active"));
 		pcd.setOrderByIndex(0);
 		
@@ -436,14 +439,16 @@ public class LookupDao extends HibernateDaoSupport {
 		List codeValues = new ArrayList();
 		String  facilityId = "0000000" + facility.getId().toString();
 		facilityId = "F" + facilityId.substring(facilityId.length()-7);
+		String fullCode = "F" + facility.getId();
 		
 		String orgId = "0000000" + String.valueOf(facility.getOrgId());
 		orgId = "O" + orgId.substring(orgId.length()-7); 
 		
 		LookupCodeValue ocd = GetCode("ORG", "O" + facility.getOrgId());
+		fullCode = ocd.getBuf1() + fullCode;
 		
 		boolean isNew = false;
-		LookupCodeValue fcd = GetCode("ORG", facilityId);
+		LookupCodeValue fcd = GetCode("ORG", "F" + facility.getId());
 		if (fcd == null) {
 			isNew = true;
 			fcd = new LookupCodeValue();
@@ -452,6 +457,7 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setCode("F" + facility.getId());
 		fcd.setCodeTree(ocd.getCodeTree() + facilityId);
 		fcd.setDescription(facility.getName());
+		fcd.setBuf1(fullCode);
 		fcd.setActive(!facility.isDisabled());
 		fcd.setOrderByIndex(0);
 		
@@ -465,9 +471,10 @@ public class LookupDao extends HibernateDaoSupport {
 		orgId = "O" + orgId.substring(orgId.length()-7);
 		
 		String sId = "R0000001";
-				
+		String fullCode = "R1" + "O" + organization.getCode() ;
+		
 		boolean isNew = false;
-		LookupCodeValue ocd = GetCode("ORG", orgId);
+		LookupCodeValue ocd = GetCode("ORG", "O" + organization.getCode());
 		if (ocd == null) {
 			isNew = true;
 			ocd = new LookupCodeValue();
@@ -476,6 +483,7 @@ public class LookupDao extends HibernateDaoSupport {
 		ocd.setCode("O" + organization.getCode());
 		ocd.setCodeTree(sId + orgId);
 		ocd.setDescription(organization.getDescription());
+		ocd.setBuf1(fullCode);
 		ocd.setActive(organization.isActive());
 		ocd.setOrderByIndex(0);
 		
