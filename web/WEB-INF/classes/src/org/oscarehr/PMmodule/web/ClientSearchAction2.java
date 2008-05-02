@@ -74,17 +74,23 @@ public class ClientSearchAction2 extends BaseAction {
 		DynaActionForm searchForm = (DynaActionForm)form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean)searchForm.get("criteria");
 		
-		List<Program> allBedPrograms = new ArrayList<Program>();
-		Program[] allBedProgramsInArr = programManager.getBedPrograms();
-
-		for(int i=0; i < allBedProgramsInArr.length; i++){
-			allBedPrograms.add((Program)allBedProgramsInArr[i]);
-		}
-		request.setAttribute("allBedPrograms", allBedPrograms);
-		
 		formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
 		boolean allowOnlyOptins=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);
 		
+		if("MyP".equals(formBean.getBedProgramId()))
+		{
+			Integer facilityId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+			String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+			List<Program> allBedPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
+			String prgId = "";
+			for(Program prg:allBedPrograms)
+			{
+				prgId += prg.getId().toString() + ","; 
+			}
+			if (!"".equals(prgId)) prgId = prgId.substring(0,prgId.length()-1);
+			formBean.setBedProgramId(prgId);
+		}
+
 		/* do the search */
 		request.setAttribute("clients",clientManager.search(formBean, allowOnlyOptins));
 		
@@ -107,14 +113,12 @@ public class ClientSearchAction2 extends BaseAction {
 	}
 	private void setLookupLists(HttpServletRequest request)
 	{
-		Integer facilityId = ((org.oscarehr.PMmodule.model.Facility)request.getSession().getAttribute("currentFacility")).getId();
-		
-		List<Program> allBedPrograms = new ArrayList<Program>();
-		Program[] allBedProgramsInArr = programManager.getBedPrograms(facilityId);
+		Integer facilityId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+		String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		List allBedPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
 
-		for(int i=0; i < allBedProgramsInArr.length; i++){
-			allBedPrograms.add((Program)allBedProgramsInArr[i]);
-		}
+		request.setAttribute("allBedPrograms", allBedPrograms);
+		
 		request.setAttribute("allBedPrograms", allBedPrograms);
 		List<Provider> allProviders = getProviderManager().getActiveProviders(facilityId.toString(),null);
 		request.setAttribute("allProviders", allProviders);

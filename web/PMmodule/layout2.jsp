@@ -23,11 +23,14 @@
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 
-		<!--   style type="text/css">
-			@import "<html:rewrite page="/css/tigris.css" />";
-			@import "<html:rewrite page="/css/displaytag.css" />";
-			@import "<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />";
-		</style -->
+        <style type="text/css">
+            body { 
+               font-family: Verdana, helvetica, sans-serif;
+               margin: 0px;
+               padding:0px;
+               
+            }
+		</style>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" /></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar-setup.js" />"></script>

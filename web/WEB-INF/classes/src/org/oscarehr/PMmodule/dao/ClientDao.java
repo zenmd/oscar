@@ -55,6 +55,7 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.web.formbean.ClientListsReportFormBean;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.util.DbConnectionFilter;
@@ -212,7 +213,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		if(bean.getBedProgramId() != null && bean.getBedProgramId().length() > 0) {
 			bedProgramId = bean.getBedProgramId(); 
-			sql = "demographic_no in (select client_id from intake where program_id=" + bedProgramId + ")"; 
+			sql = "demographic_no in (select client_id from intake where program_id in (" + bedProgramId + "))"; 
 			criteria.add(Restrictions.sqlRestriction(sql));
 		}
 		if(bean.getAssignedToProviderNo() != null && bean.getAssignedToProviderNo().length() > 0) {

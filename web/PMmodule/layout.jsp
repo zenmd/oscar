@@ -23,10 +23,13 @@
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 
-		<!--   style type="text/css">
-			@import "<html:rewrite page="/css/tigris.css" />";
-			@import "<html:rewrite page="/css/displaytag.css" />";
-			@import "<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />";
+        <style type="text/css">
+            body { 
+               font-family: Verdana, helvetica, sans-serif;
+               margin: 0px;
+               padding:0px;
+               
+            }
 		</style -->
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" /></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
@@ -54,25 +57,27 @@
 		
 		<html:base />
 	</head>
-	<body leftmargin="0" bottommargin="0" rightmargin="0" topmargin="0">
+	<body>
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr height="60px">
-				<td colspan="3">
+				<td>
 					<tiles:insert  name="Header.jsp">
 					</tiles:insert>
 				</td></tr>
-				<tr valign="top">
-					<td id="leftcol" width="200px">
-						<tiles:insert name="navigation.jsp" />
-					</td>
-					<td valign="top" width="3px">
-						<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
-					</td>
-					<td align="left">
-						<!--  div class="body" align="left"  this is the layout-->
-							<tiles:insert attribute="body" />
-						<!--  /div -->
-					</td>
+				<tr valign="top" height="100%">
+					<td><table width="100%" height="100%"><tr>
+						<td id="leftcol" width="200px">
+							<tiles:insert name="navigation.jsp" />
+						</td>
+						<td valign="top" width="3px">
+							<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
+						</td>
+						<td align="left">
+							<!--  div class="body" align="left"  this is the layout-->
+								<tiles:insert attribute="body" />
+							<!--  /div -->
+						</td>
+					</tr></table></td>
 				</tr>
 			</table>
 	</body>

@@ -132,7 +132,7 @@ public class LookupDao extends HibernateDaoSupport {
 	   }
 	   catch(SQLException e)
 	   {
-		   System.out.println(e.getStackTrace().toString());
+		  e.printStackTrace();
 	   }
 	   return list;
 	}
@@ -163,11 +163,12 @@ public class LookupDao extends HibernateDaoSupport {
 	{
 		String tableName = tableDef.getTableName();
 		List fs = LoadFieldDefList(tableDef.getTableId());
-		String idFieldName = ((FieldDefValue) fs.get(0)).getFieldSQL();
+		String idFieldName = "";
 		
 		String sql = "select ";
 		for(int i=0; i<fs.size(); i++) {
 			FieldDefValue fdv = (FieldDefValue) fs.get(i);
+			if(fdv.getGenericIdx()==1) idFieldName = fdv.getFieldSQL();
 			if (i==0) {
 				sql += fdv.getFieldSQL();
 			}
@@ -198,7 +199,7 @@ public class LookupDao extends HibernateDaoSupport {
 		}
 		catch(SQLException e)
 		{
-			System.out.println(e.getStackTrace());
+			e.printStackTrace();
 		}
 		return fs;
 	}
