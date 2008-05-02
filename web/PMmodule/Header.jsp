@@ -22,7 +22,7 @@
 */
  -->
 <%@ include file="/taglibs.jsp"%>
-<table border="1" cellspacing="0" cellpadding="0" width="100%">
+<table  width="100%">
 	<tr>
 		<td align="left" width="200px" rowspan="3">
 		<%if (oscar.OscarProperties.getInstance().isTorontoRFQ() && !oscar.OscarProperties.getInstance().getBooleanProperty("USE_CAISI_LOGO", "true")){%>
@@ -36,7 +36,7 @@
         <table width="100%" style="text-align: right"><tr>
         <td style="text-align: right"><html:link action="/Home.do">Home</html:link></td>
         <td style="text-align: right">
-               <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
+               <a target="_blank" href='<%=request.getContextPath()%>/help/QuatroShelter.htm'>Help</a>
         </td>
         <td style="text-align: right">
                <a href='<%=request.getContextPath()%>/logout.jsp'>Logout</a>

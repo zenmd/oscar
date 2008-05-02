@@ -35,7 +35,7 @@
         <td width="300px"><table width="100%"><tr>
         <td align="right" width="60px"><span>Home</span></td>
         <td width="60px" align="center">
-               <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
+               <a target="_blank" href='<%=request.getContextPath()%>/help/QuatroShelter.htm'>Help</a>
         </td>
         <td align="left" width="60px">
                <a href='<%=request.getContextPath()%>/logout.jsp'>Logout</a>
