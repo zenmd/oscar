@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<tocdata>
+<book name="1 QuatroShelter Basics" url="1_QuatroShelter_Basics.htm" >
+  <item name="1.1 Accessing QUATROSHELTER" url="1_QuatroShelter_Basics.htm#1_1_Accessing" />
+  <item name="1.2 Logging Out" url="1_QuatroShelter_Basics.htm#1_2_Logging_Out" />
+</book>
+<book name="2 Program Management Module" url="2_Program_Management_Module.htm" >
+  <item name="2.1 Accessing Program Management" url="2_Program_Management_Module.htm#2_1_Accessing_Program" />
+  <book name="2.2 Viewing client files" url="2_Program_Management_Module.htm#2_2_Viewing_client_files" >
+    <item name="2.2.1 In OSCAR Medical:" url="2_Program_Management_Module.htm#2_2_1_In_OSCAR_Medical" />
+    <item name="2.2.2 In QUATROSHELTER:" url="2_Program_Management_Module.htm#2_2_2_In_QUATROSHELTER" />
+  </book>
+  <book name="2.3 Searching for a Client" url="2_Program_Management_Module.htm#2_3_Searching_for_a" >
+    <item name="2.3.1 In OSCAR Medical:" url="2_Program_Management_Module.htm#2_3_1_In_OSCAR_Medical" />
+    <item name="2.3.2 In QUATROSHELTER:" url="2_Program_Management_Module.htm#2_3_2_In_QUATROSHELTER" />
+  </book>
+  <item name="2.4 Adding a new client" url="2_Program_Management_Module.htm#2_4_Adding_a_new_client" />
+  <item name="2.5 Bed Management" url="2_Program_Management_Module.htm#2_5_Bed_Management" />
+  <item name="2.6 Referring and Admissions" url="2_Program_Management_Module.htm#2_6_Referring_and" />
+  <item name="2.7 Admissions" url="2_Program_Management_Module.htm#2_7_Admissions" />
+  <item name="2.8 Temporary Admissions" url="2_Program_Management_Module.htm#2_8_Temporary_Admissions" />
+  <item name="2.9 Discharging a Client" url="2_Program_Management_Module.htm#2_9_Discharging_a_Client" />
+  <item name="2.10 Batch Discharge and Admission" url="2_Program_Management_Module.htm#2_10Batch_Discharge_and" />
+  <item name="2.11 Uploading Pictures of a Client" url="2_Program_Management_Module.htm#2_11Uploading_Pictures" />
+</book>
+<book name="3 CASE MANAGEMENT ENCOUNTER (CME)" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm" >
+  <item name="3.1 Case Notes and Issues" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm#3_1_Case_Notes_and_Issues" />
+  <item name="3.2 Editing Case Notes and Note History" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm#3_2_Editing_Case_Notes" />
+  <item name="3.3 Locking and Unlocking Case Notes" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm#3_3_Locking_and" />
+</book>
+<book name="4 Ticklers" url="4_Ticklers.htm" >
+  <item name="4.1 Adding a Tickler" url="4_Ticklers.htm#4_1_Adding_a_Tickler" />
+  <item name="4.2 Viewing a Tickler" url="4_Ticklers.htm#4_2_Viewing_a_Tickler" />
+  <item name="4.3 Using a custom filter to view a Tickler" url="4_Ticklers.htm#4_3_Using_a_custom" />
+</book>
+<item name="5 Documents" url="5_Documents.htm" />
+<book name="6 Administration" url="6_Administration.htm" >
+  <item name="6.1 Assigning access to QUATROSHELTER" url="6_Administration.htm#6_1_Assigning_access_to" />
+  <item name="6.2 Add a provider" url="6_Administration.htm#6_2_Add_a_provider" />
+  <item name="6.3 Assigning a role and a login to the provider" url="6_Administration.htm#6_3_Assigning_a_role_and" />
+  <item name="STEP FOUR" url="6_Administration.htm#STEP_FOUR" />
+  <item name="6.4 Add a login record for the provider" url="6_Administration.htm#6_4_Add_a_login_record" />
+</book>
+<book name="7 What to do when providers forget their Password and/or PIN number" url="7_What_to_do_when_providers_forget_their_Password_and_or_PIN.htm" >
+  <item name="7.1 1.5 Disabling a login for providers" url="7_What_to_do_when_providers_forget_their_Password_and_or_PIN.htm#7_1_1_5_Disabling_a" />
+</book>
+<item name="8 Adding a New Program into the QUATROSHELTER System" url="8_Adding_a_New_Program_into_the_QUATROSHELTER_System.htm" />
+<item name="9 ADDING STAFF TO A PROGRAM/ ADDING QUATROSHELTER ROLE IN QUATROSHELTER" url="9_ADDING_STAFF_TO_A_PROGRAM_ADDING_QUATROSHELTER_ROLE_IN.htm" />
+<item name="10 ADDING QUATROSHELTER ACCESS FOR PROGRAMS" url="10_ADDING_QUATROSHELTER_ACCESS_FOR_PROGRAMS.htm" />
+
+</tocdata>
