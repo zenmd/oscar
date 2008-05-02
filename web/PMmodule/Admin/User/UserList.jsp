@@ -1,6 +1,8 @@
 <%@ include file="/taglibs.jsp"%>
 
-
+<html:form action="/PMmodule/Admin/UserManager" method="post">
+			<html:hidden property="method" value="search" />
+			
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
@@ -34,6 +36,46 @@
 			</tr>
 
 		</table>
+		
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td rowspan="3" >
+					<a	href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=search">Search</a>
+				</td>
+				<td >UserID/Name:</td>
+				<td ><html:text property="userName" /></td>
+								
+			</tr>
+			<tr>
+				<td >Role:</td>
+				<td >
+				
+					<table cellpadding="0" style="border:0px;" cellspacing="0"	width="100%">
+						<tr>
+							<td style="border:0px;" width="1px"><input type="text"
+								style="width:100%;"
+								name="roleNmae" readonly></td>
+							<td style="border:0px;" width="100%"><input
+								style="width:100%;" type="text" 
+								name="role_description"
+								readonly></td>
+							<td style="border:0px;" width="35px"><a  
+								onclick="showLookup('ROL', '', '', 'secuserForm','roleName','role_description', true, '<c:out value="${ctx}"/>');"><img
+								src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+						</tr>
+					</table>
+				
+				
+				
+				</td>
+			</tr>
+			<tr>
+				<td >Active:</td>
+				<td ><html:checkbox property="status" /></td>
+			</tr>
+
+		</table>
+
 
 		<display:table class="simple" cellspacing="2" cellpadding="3"
 			id="user" name="secuserroles" export="false" pagesize="0"
@@ -63,3 +105,4 @@
 	</tr>
 </table>
 
+</html:form>

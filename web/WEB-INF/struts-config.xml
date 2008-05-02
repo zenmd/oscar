@@ -509,6 +509,8 @@
 	       <form-property name="status" type="java.lang.String"></form-property>
 	       
            <form-property name="secUserRoleLst" type="java.util.ArrayList"></form-property> 
+           
+           <form-property name="roleName" type="java.lang.String"></form-property>
             
             
         </form-bean>

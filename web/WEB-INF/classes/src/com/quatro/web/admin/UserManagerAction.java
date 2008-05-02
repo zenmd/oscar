@@ -87,9 +87,24 @@ public class UserManagerAction extends BaseAction {
 
 	}
 
+
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		return mapping.findForward("list");
+
+	}
+	public ActionForward search(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		DynaActionForm secuserForm = (DynaActionForm) form;
+
+		String userName = (String) secuserForm.get("userName");
+		String roleName = (String) secuserForm.get("roleName");
+		String status = (String) secuserForm.get("status");
+		
+		// TODO:search
+		
 		ArrayList<Secuserrole> surlist = new ArrayList<Secuserrole>();
 
 		List userlist = usersManager.getUsers();
