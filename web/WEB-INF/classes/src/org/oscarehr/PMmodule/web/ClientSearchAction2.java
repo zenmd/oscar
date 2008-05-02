@@ -71,6 +71,12 @@ public class ClientSearchAction2 extends BaseAction {
 		if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
 			formBean.setBedProgramId("MyP");
 		}
+		if(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)!=null){
+			String cId =request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
+			List<Demographic> lst= new ArrayList<Demographic>();
+			lst.add(this.clientManager.getClientByDemographicNo(cId));			
+			request.setAttribute("clients",lst);
+		}
 		return mapping.findForward("form");
 	}
 	
