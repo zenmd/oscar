@@ -163,19 +163,19 @@ response.setHeader("Cache-Control", "no-cache");
 		<tr>
 			<th width="30%"><bean-el:message key="CaseSearch.dateRangeFrom"	bundle="pmm" nowrap /></th>
 			<td width="20%"><quatro:datePickerTag property="searchStartDate" openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
-			<th width="30%"><bean-el:message key="CaseSearch.dateRangeTo" 	bundle="pmm" /></th>
+			<th style="width:20%;" align="right" ><bean-el:message key="CaseSearch.dateRangeTo" 	bundle="pmm" /></th>
 			<td><quatro:datePickerTag property="searchEndDate" width="120px" openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
 		</tr>
 
 		<tr>
-			<th width="30%"><bean-el:message key="CaseSearch.provider" bundle="pmm"	nowrap /></th>
+			<th width="30%" align="right"><bean-el:message key="CaseSearch.provider" bundle="pmm"	nowrap /></th>
 			<td width="20%">
 				<html:select property="searchProviderNo">
 					<html:option value="">		</html:option>
 					<html:options collection="providers" property="providerNo"	labelProperty="fullName" nowrap />
 				</html:select>
 			</td>
-			<th width="30%"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"		nowrap /></th>
+			<th width="20%" align="right"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"		nowrap /></th>
 			<td>
 				<html:select property="searchCaseStatus">
 					<html:option value="">	</html:option>
@@ -191,7 +191,7 @@ response.setHeader("Cache-Control", "no-cache");
 					<html:options collection="issues" property="id"	labelProperty="description" />
 				</html:select>
 			</td>
-			<td width="30%">&nbsp;</td>
+			<td width="20%">&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
