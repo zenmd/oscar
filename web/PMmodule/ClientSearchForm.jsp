@@ -121,6 +121,8 @@
 			            <html:select property="criteria.bedProgramId">
 			                <html:option value="">
 			                </html:option>
+			                <html:option value="MyP">My Programs
+			                </html:option>
 			              	<html:options collection="allBedPrograms" property="id" labelProperty="name" />
 			            </html:select>
 			          </td>

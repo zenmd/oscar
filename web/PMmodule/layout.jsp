@@ -30,7 +30,7 @@
                padding:0px;
                
             }
-		</style -->
+		</style>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" /></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar-setup.js" />"></script>

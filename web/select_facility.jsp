@@ -1,5 +1,5 @@
 <%@page import="java.util.List"%>
-<%@page import="com.quatro.model.LookupCodeValue"%>
+<%@page import="org.oscarehr.PMmodule.model.Facility"%>
 <%@page import="org.oscarehr.util.SessionConstants"%>
 <%@include file="taglibs.jsp"%>
 <table width="100%">
@@ -9,14 +9,14 @@
 	<tr> <td>
 	<h>Please select which facility you would like to currently work in</h> 
 	<%
-		List<LookupCodeValue> facilities = (List<LookupCodeValue>) request.getAttribute("facilities");
+		List<Facility> facilities = (List<Facility>) request.getAttribute("facilities");
 	%>
 	<ul>
 		<%
-			for (LookupCodeValue facility : facilities)
+			for (Facility facility : facilities)
 			{
 				%>
-					<li><a  href='/QuatroShelter/login.do?nextPage=caisiPMM&<%=SessionConstants.CURRENT_FACILITY_ID%>=<%=facility.getCode()%>'><%=facility.getDescription()%></a></li>
+					<li><a  href='/QuatroShelter/login.do?nextPage=caisiPMM&<%=SessionConstants.CURRENT_FACILITY_ID%>=<%=facility.getId()%>'><%=facility.getName()%></a></li>
 				<%
 			}
 		%>

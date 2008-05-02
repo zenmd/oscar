@@ -32,7 +32,7 @@
 	    <%}%>
         </td>
         <th>&nbsp;</th>
-        <td width="200px"><table width="100%"><tr>
+        <td width="300px"><table width="100%"><tr>
         <td align="right" width="60px"><span>Home</span></td>
         <td width="60px" align="center">
                <a target="_blank" href='<%=request.getContextPath()%>/help/index.html'>Help</a>
@@ -44,10 +44,10 @@
 	</tr>
 	<tr>
 		<th rowspan="2"> &nbsp;<c:out value="${sessionScope.pageTitle}"/> </th>
-        <td  width="200px" align="right">User: <c:out value="${sessionScope.provider.formattedName}" /></td>
+        <td  width="300px" align="right">User: <c:out value="${sessionScope.provider.formattedName}" /></td>
 	</tr>
 	<tr>
-        <td  width="200px" align="right">Shelter: <c:out value="${sessionScope.currentFacility.name}"/></td>
+        <td  width="300px" align="right">Shelter: <c:out value="${sessionScope.currentFacility.name}"/></td>
     </tr>
 </table>
 </div>
