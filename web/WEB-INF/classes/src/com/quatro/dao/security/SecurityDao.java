@@ -39,7 +39,7 @@ public class SecurityDao extends HibernateDaoSupport {
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
 			
-			String queryString =  "select DISTINCT sur.providerNo, sur.roleName, org.description, s.userName"
+			String queryString =  "select sur.providerNo, sur.roleName, org.description, s.userName"
 				+ " from Secuserrole sur, Security s, LstOrgcd org"
 				+ " where sur.providerNo = '" + providerNo + "'"
 				+ " and s.providerNo = sur.providerNo"
@@ -134,7 +134,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				
 				roleName = bean.getRoleName();
 				
-				sql4 = "r.roleName ='" + roleName + "'";
+				sql4 = "p.providerNo IN (select r.providerNo from Secuserrole r where r.roleName ='" + roleName + "')";
 				
 			}
 			
@@ -154,11 +154,11 @@ public class SecurityDao extends HibernateDaoSupport {
 			if (active.length() > 0) {
 				queryString = queryString + AND + sql3;
 			}
-			/*
+			
 			if (roleName.length() > 0) {
 				queryString = queryString + AND + sql4;
 			}
-			*/
+			
 			
 			
 			return this.getHibernateTemplate().find(queryString);

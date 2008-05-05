@@ -58,7 +58,7 @@
 						<html:option value="0">No</html:option>
 					</html:select></td>
 				</tr>
-				<!-- 
+				
 				<tr>
 					<th><bean-el:message key="UserSearch.roleName" bundle="pmm" /></th>
 					<td><html-el:select property="criteria.roleName">
@@ -70,7 +70,7 @@
 						</c:forEach>
 					</html-el:select></td>
 				</tr>
- -->
+ 
 
 			</table>
 
