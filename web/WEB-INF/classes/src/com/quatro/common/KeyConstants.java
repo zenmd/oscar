@@ -16,5 +16,6 @@ public class KeyConstants {
   public static final String CONSTANT_NO = "0";
   
   public static final String SESSION_KEY_CLIENTID="clientId"; 
-  public static final String SESSION_KEY_CURRENT_FUNCTION="func"; 
+  public static final String SESSION_KEY_CURRENT_FUNCTION="func";
+  public static final String SESSION_KEY_SWITCH_MODULE="switch";
 }
