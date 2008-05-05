@@ -56,6 +56,12 @@
       }	
 	  return true;
 	}
+	
+	function submitForm(methodValue)
+	{
+		document.forms[0].method.value=methodValue;
+		document.forms[0].submit();
+	}
 </script>
 </head>
 <body bgproperties="fixed" onLoad="self.focus();init_page();" topmargin="0" leftmargin="0" rightmargin="0">
@@ -65,24 +71,23 @@
   </th></tr>
   <tr>  	
 	<td align="left" class="buttonBar">
+	 <a href="javascript:submitForm('saveImage')" onclick="return onPicUpload();" style="color:Navy;text-decoration:none;">&nbsp;Upload&nbsp;&nbsp;|</a>
 	<a href="#" onClick='window.close()'> Cancel </a>
 	</td>
   </tr>
 </table>
 <table BORDER="0" CELLPADDING="1" CELLSPACING="0" WIDTH="100%">
 
-	<html:form action="/ClientImage" enctype="multipart/form-data" method="post" onsubmit="return onPicUpload();">
-	<input type="hidden" name="method" value="saveImage"/>
-	<%
-	request.getSession().setAttribute("clientId",request.getParameter("demographicNo"));
-	%>
+	<html:form action="/ClientImage" enctype="multipart/form-data">
+		<!-- input type="hidden" name="method" value="saveImage"/ -->
+		<%	request.getSession().setAttribute("clientId",request.getParameter("demographicNo")); %>
 		<tr valign="top"><td rowspan="2" ALIGN="right" valign="middle"> <font><b>Add Image
         </b></font></td>
 
 
     <td valign="middle" rowspan="2" ALIGN="left">		
 		<html:file property="clientImage.imagefile" size="30" accept="*.gif,*.jpg"/><br>
-		<html:submit value="Upload" />
+		<!-- html:submit value="Upload" /-->
 	</td>
 		</tr>
 	</html:form>
