@@ -117,7 +117,7 @@
     	<div>
         <span>Client Management</span>
         <div>
-            <html:link action="/PMmodule/ClientSearch2.do">Search Client</html:link>
+            <html:link action="/PMmodule/ClientSearch2.do?client=true" >Search Client</html:link>
         </div>
         <security:oscarSec objectName="_pmm.mergeRecords" rights="r">
         <div>
