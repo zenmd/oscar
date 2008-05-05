@@ -73,8 +73,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        caseForm.setFilter_provider("");  
-        
+        caseForm.setFilter_provider("");        
         return client(mapping, form, request, response);
     }
 
@@ -128,12 +127,23 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
 		String demono= request.getParameter("id");
-		if (Utility.IsEmpty(demono)) {
-			return mapping.findForward("client");
+		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
+		String nView=(String)request.getParameter("note_view");
+		
+		if(!Utility.IsEmpty(nView)) {
+			request.setAttribute("note_view", nView);
+			return view(mapping,form,request, response);
 		}
 		else
 		{
-			return view(mapping,form,request, response);
+			if (Utility.IsEmpty(demono)) {
+				
+				return mapping.findForward("client");
+			}
+			else
+			{
+				return view(mapping,form,request, response);
+			}
 		}
     }
     
