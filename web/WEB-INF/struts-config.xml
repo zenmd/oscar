@@ -1902,7 +1902,7 @@
         </action>
           <action path="/CaseManagementView2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="caseManagementViewForm">
             <forward name="view" path="/casemgmt/CaseManagementSearch.jsp" />           
-            <forward name="client" path="/PMmodule/ClientSearch2.do" />
+            <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"/>           
             <forward name="page.casemgmt.search" path="page.casemgmt.search" />
             <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
             <forward name="domain-error" path="page.casemgmt.domain.error" />
