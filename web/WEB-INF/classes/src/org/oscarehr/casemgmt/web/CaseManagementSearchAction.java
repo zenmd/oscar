@@ -73,8 +73,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        caseForm.setFilter_provider("");      
-       
+        caseForm.setFilter_provider("");  
+        
         return view(mapping, form, request, response);
     }
 
@@ -150,7 +150,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         
         //if client id is null, it should start from client search page 
         if(providerNo==null || demoNo ==null) {
-         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "caseView");
+         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
         }
 
@@ -346,6 +346,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         log.debug("THE END " + String.valueOf(current - start));
 
         String useNewCaseMgmt = (String) request.getSession().getAttribute("newCaseManagement");
+        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
         if (useNewCaseMgmt != null && useNewCaseMgmt.equals("true")) return mapping.findForward("page.newcasemgmt.view");
       //  else return mapping.findForward("page.casemgmt.view");
         else return mapping.findForward("page.casemgmt.search");
@@ -404,6 +405,10 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         return mapping.findForward("listNotes");
     }
 
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	request.getSession().setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
+    	return mapping.findForward("client");
+    }
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String programId = (String) request.getSession().getAttribute("case_program_id");
 
