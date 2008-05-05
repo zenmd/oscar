@@ -61,8 +61,8 @@ Program p = (Program)request.getAttribute("oldProgram");
 <input type="hidden" name="old_alcohol" value=<%if(p!=null) { %>"<%=p.isAlcohol()%>" <%}else{ %> "" <%} %>/>
 <input type="hidden" name="old_physicalHealth" value=<%if(p!=null) { %>"<%=p.isPhysicalHealth() %>" <%}else{ %> "" <%} %>/>
 <input type="hidden" name="old_mentalHealth" value=<%if(p!=null) { %>"<%=p.isMentalHealth() %>" <%}else{ %> "" <%} %>/>
-<input type="hidden" name="old_housing" value=<%if(p!=null) { %>"<%=p.isHousing() %>" <%}else{ %> "" <%} %>/>
 <input type="hidden" name="old_facility_id" value=<%if(p!=null) { %>"<%=p.getFacilityId() %>" <%}else{ %> "" <%} %>/>
+<input type="hidden" name="old_housing" value=<%if(p!=null) { %>"<%=p.isHousing() %>" <%}else{ %> "" <%} %>/>
 
 <div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
