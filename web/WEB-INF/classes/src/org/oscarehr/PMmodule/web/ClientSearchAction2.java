@@ -43,6 +43,7 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 
 public class ClientSearchAction2 extends BaseAction {
@@ -53,7 +54,10 @@ public class ClientSearchAction2 extends BaseAction {
     private ProgramManager programManager;
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		return form(mapping,form,request,response);
+    	if(!Utility.IsEmpty(request.getParameter("client"))) {
+			request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "client");
+    	}
+    	return form(mapping,form,request,response);
 	}
 	
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

@@ -75,7 +75,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         caseForm.setFilter_provider("");  
         
-        return view(mapping, form, request, response);
+        return client(mapping, form, request, response);
     }
 
     public ActionForward setViewType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -125,6 +125,19 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         return view(mapping, form, request, response);
     }
 
+    public ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
+		String demono= request.getParameter("id");
+		if (Utility.IsEmpty(demono)) {
+			return mapping.findForward("client");
+		}
+		else
+		{
+			return view(mapping,form,request, response);
+		}
+    }
+    
+    
     /* show case management view */
     /*
      * Session variables : case_program_id casemgmt_DemoNo casemgmt_VlCountry casemgmt_msgBeans readonly
@@ -406,7 +419,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	request.getSession().setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
+    	//request.getSession().setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
     	return mapping.findForward("client");
     }
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

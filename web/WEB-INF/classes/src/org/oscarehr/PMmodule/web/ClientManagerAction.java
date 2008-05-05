@@ -354,10 +354,8 @@ public class ClientManagerAction extends BaseAction {
         }
         //need save the client Id into session
         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(id));
-        String quitCase=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE);
-        if((quitCase==null 
-        		||"N".equals(quitCase))
-        		&& "cv".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION)))
+       // String quitCase=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE);
+        if("cv".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION)))
         {			
 			request.getSession().removeAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION);
 			return mapping.findForward("case");

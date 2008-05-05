@@ -599,6 +599,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             note.setNote(n);
 
             // only update appt if there is one
+//          Lillian comments appointment logic,because sessionBean is null 
             if (sessionBean.appointmentNo != null && !sessionBean.appointmentNo.equals("")) caseManagementMgr.updateAppointment(sessionBean.appointmentNo, sessionBean.status, "verify");
         }
         else if (note.isSigned()) {
@@ -609,7 +610,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             note.setNote(n);
 
             // only update appt if there is one
-            if (sessionBean.appointmentNo != null && !sessionBean.appointmentNo.equals("")) caseManagementMgr.updateAppointment(sessionBean.appointmentNo, sessionBean.status, "sign");
+            // Lillian comments appointment logic,because sessionBean is null  
+            //if (sessionBean.appointmentNo != null && !sessionBean.appointmentNo.equals("")) caseManagementMgr.updateAppointment(sessionBean.appointmentNo, sessionBean.status, "sign");
         }
 
         String roleName = caseManagementMgr.getRoleName(providerNo, note.getProgram_no());
