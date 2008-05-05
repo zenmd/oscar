@@ -175,6 +175,22 @@
         </div>
         </div>
     </security:oscarSec>
+    <security:oscarSec objectName="_pmm.document" rights="r">
+		<div> 
+            <span>Document Attachment</span>
+        <div>
+            <span><html:link action="/listDocument.do">Add/View Documents</html:link></span>
+        </div>
+        </div>
+    </security:oscarSec>
+    <security:oscarSec objectName="_pmm.task" rights="r">
+		<div> 
+            <span>Tasks</span>
+        <div>
+            <span><html:link 	action="/showTasks.do">My Tasks</html:link></span>
+        </div>
+        </div>
+    </security:oscarSec>
 </div>
     <security:oscarSec objectName="_pmm_management" rights="r">
 	<div id="admintools" class="toolgroup">
