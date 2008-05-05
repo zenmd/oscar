@@ -94,42 +94,7 @@ public class UserManagerAction extends BaseAction {
 		return mapping.findForward("list");
 
 	}
-	public ActionForward search(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-
-		DynaActionForm secuserForm = (DynaActionForm) form;
-
-		String userName = (String) secuserForm.get("userName");
-		String roleName = (String) secuserForm.get("roleName");
-		String status = (String) secuserForm.get("status");
-		
-		// TODO:search
-		
-		ArrayList<Secuserrole> surlist = new ArrayList<Secuserrole>();
-
-		List userlist = usersManager.getUsers();
-		Hashtable<String, Secuserrole> ht = new Hashtable<String, Secuserrole>();
-		if (userlist != null && userlist.size() > 0) {
-			for (int i = 0; i < userlist.size(); i++) {
-				Object[] tmp = (Object[]) userlist.get(i);
-
-				Secuserrole sur = new Secuserrole();
-				sur.setId((Long) tmp[0]);
-				sur.setUserName((String) tmp[1]);
-				sur.setFullName((String) tmp[2] + ", " + (String) tmp[3]);
-				sur.setProviderNo((String) tmp[4]);
-
-				surlist.add(sur);
-			}
-
-		}
-
-		request.setAttribute("secuserroles", surlist);
-		logManager.log("read", "full secuserroles list", "", request);
-
-		return mapping.findForward("list");
-
-	}
+	
 
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {

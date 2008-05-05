@@ -326,7 +326,11 @@
 		<property name="logManager" ref="logManager"/>
 		<property name="usersManager" ref="usersManager"/>
 	</bean>
-	
+	<bean name="/PMmodule/Admin/UserSearch" class="com.quatro.web.admin.UserSearchAction" singleton="false">
+		<property name="rolesManager" ref="rolesManager"/>
+		<property name="logManager" ref="logManager"/>
+		<property name="usersManager" ref="usersManager"/>
+	</bean>
 	<!-- admin End -->
 	
 	

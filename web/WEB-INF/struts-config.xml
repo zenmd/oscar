@@ -515,6 +515,10 @@
             
         </form-bean>
         
+        <form-bean name="userSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="criteria" type="com.quatro.web.admin.UserSearchFormBean" />
+        </form-bean>
+        
         <!-- Admin End -->
 		
 		
@@ -2031,6 +2035,10 @@
             <forward name="profile" path="page.admin.user.profile" />
             <forward name="edit" path="page.admin.user.edit" />
             <forward name="addRoles" path="page.admin.user.addRoles" />
+            
+        </action>
+        <action path="/PMmodule/Admin/UserSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="userSearchForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.user.list" />
             
         </action>
         

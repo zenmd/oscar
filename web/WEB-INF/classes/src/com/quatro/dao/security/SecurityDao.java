@@ -2,14 +2,18 @@ package com.quatro.dao.security;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.security.Security;
+import com.quatro.web.admin.UserSearchFormBean;
 
 /**
  * 
@@ -35,7 +39,7 @@ public class SecurityDao extends HibernateDaoSupport {
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
 			
-			String queryString =  "select sur.providerNo, sur.roleName, org.description, s.userName"
+			String queryString =  "select DISTINCT sur.providerNo, sur.roleName, org.description, s.userName"
 				+ " from Secuserrole sur, Security s, LstOrgcd org"
 				+ " where sur.providerNo = '" + providerNo + "'"
 				+ " and s.providerNo = sur.providerNo"
@@ -54,7 +58,7 @@ public class SecurityDao extends HibernateDaoSupport {
 		}
 	}
 	
-	public List getUsers() {
+	public List getAllUsers() {
 		log.debug("All User list");
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
@@ -68,6 +72,104 @@ public class SecurityDao extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	
+	public List search(UserSearchFormBean bean) {
+		log.debug("User search");
+		try {
+
+			String userName = "";
+			String firstName = "";
+			String lastName = "";
+			String active = "";
+			String roleName = "";
+			
+			
+			String AND = " and ";
+			
+			String sql0 = "";
+			String sql1 = "";
+			String sql2 = "";
+			String sql3 = "";
+			String sql4 = "";
+			
+			String queryString =  "select s.securityNo, s.userName, p.lastName, p.firstName, p.providerNo"
+				+ " from Security s, SecProvider p"
+				+ " where s.providerNo = p.providerNo";
+			
+			if (bean.getUserName() != null && bean.getUserName().length() > 0) {
+				userName = bean.getUserName();
+				userName = StringEscapeUtils.escapeSql(userName);
+				userName = userName.toLowerCase();
+				sql0 = "lower(p.firstName) like '%" + userName + "%'";
+				
+			}
+			
+			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
+				firstName = bean.getFirstName();
+				firstName = StringEscapeUtils.escapeSql(firstName);
+				firstName = firstName.toLowerCase();
+				
+				sql1 = "lower(p.firstName) like '%" + firstName + "%'";
+				
+			}
+			
+			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
+				lastName = bean.getLastName();
+				lastName = StringEscapeUtils.escapeSql(lastName);
+				lastName = lastName.toLowerCase();
+				
+				sql2 = "lower(p.lastName) like '%" + lastName + "%'";
+				
+			}
+			
+			if (bean.getActive() != null && bean.getActive().length() > 0) {
+				
+				active = bean.getActive();
+				
+				sql3 = "p.status ='" + active + "'";
+				
+			}
+			
+			if (bean.getRoleName() != null && bean.getRoleName().length() > 0) {
+				
+				roleName = bean.getRoleName();
+				
+				sql4 = "r.roleName ='" + roleName + "'";
+				
+			}
+			
+			
+			if (userName.length() > 0 )	{
+				queryString = queryString + AND + sql0;
+			}
+			
+			if (firstName.length() > 0)	{
+				queryString = queryString + AND + sql1;
+			}
+			
+			if (lastName.length()>0) {
+				queryString = queryString + AND + sql2;
+			}
+			
+			if (active.length() > 0) {
+				queryString = queryString + AND + sql3;
+			}
+			/*
+			if (roleName.length() > 0) {
+				queryString = queryString + AND + sql4;
+			}
+			*/
+			
+			
+			return this.getHibernateTemplate().find(queryString);
+
+			
+		} catch (RuntimeException re) {
+			log.error("User search failed", re);
+			throw re;
+		}
+	}
+	
 	
 	public void save(Security transientInstance) {
 		log.debug("saving Security instance");

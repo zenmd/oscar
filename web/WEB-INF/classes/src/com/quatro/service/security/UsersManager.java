@@ -32,6 +32,7 @@ import com.quatro.dao.security.SecuserroleDao;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Secrole;
 import com.quatro.model.security.Security;
+import com.quatro.web.admin.UserSearchFormBean;
 
 
 
@@ -49,8 +50,11 @@ public class UsersManager {
 	public List getProfile(String providerNo) {
 		return securityDao.getProfile(providerNo);
 	}
-	public List getUsers() {
-		return securityDao.getUsers();
+	public List getAllUsers() {
+		return securityDao.getAllUsers();
+	}
+	public List search(UserSearchFormBean formBean) {
+		return securityDao.search(formBean);
 	}
 	public List getUserByProviderNo(String providerNo) {
 		return securityDao.findByProviderNo(providerNo);

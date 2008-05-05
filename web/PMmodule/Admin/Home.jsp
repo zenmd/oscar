@@ -52,7 +52,7 @@ String _appPath = request.getContextPath();
 				<th></th>
 
 				<th valign="middle"><html:link
-					action="/PMmodule/Admin/UserManager.do">
+					action="/PMmodule/Admin/UserSearch.do">
 					<img ID="lnkClient" src="<%=_appPath%>/images/Client-60.gif"
 						Height="60" Width="60" border="0" />
 				</html:link></th>
@@ -60,7 +60,7 @@ String _appPath = request.getContextPath();
 				<table>
 					<tr align="left">
 						<th align="left" valign="top" class="clsHomePageLabels"><html:link
-							action="/PMmodule/Admin/UserManager.do">User Management</html:link></th>
+							action="/PMmodule/Admin/UserSearch.do">User Management</html:link></th>
 					</tr>
 				</table>
 				</th>
