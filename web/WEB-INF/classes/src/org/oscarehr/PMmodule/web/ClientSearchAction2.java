@@ -39,13 +39,11 @@ import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
-
-import com.ibm.ws.http.HttpRequest;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+
 
 public class ClientSearchAction2 extends BaseAction {
 	
@@ -68,10 +66,11 @@ public class ClientSearchAction2 extends BaseAction {
 		setLookupLists(request);
 		DynaActionForm searchForm = (DynaActionForm)form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean)searchForm.get("criteria");
-		if("caseView".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
+		if("cv".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
+			request.setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
 			formBean.setBedProgramId("MyP");
 		}
-		if(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)!=null){
+		if(null!=request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
 			String cId =request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
 			List<Demographic> lst= new ArrayList<Demographic>();
 			lst.add(this.clientManager.getClientByDemographicNo(cId));			
@@ -86,8 +85,7 @@ public class ClientSearchAction2 extends BaseAction {
 		ClientSearchFormBean formBean = (ClientSearchFormBean)searchForm.get("criteria");
 		
 		formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
-		boolean allowOnlyOptins=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);
-		
+		boolean allowOnlyOptins=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);		
 		if("MyP".equals(formBean.getBedProgramId()))
 		{
 			Integer facilityId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
