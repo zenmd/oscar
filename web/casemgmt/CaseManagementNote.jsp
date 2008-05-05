@@ -292,30 +292,37 @@ var XMLHttpRequestObject = false;
 			</html:link></td>
 		</tr>
 	</table>		
-	<table width="80%" class="simple" cellspacing="2" cellpadding="3">
+	<table width="90%" class="simple" cellspacing="2" cellpadding="3">
 		<tr>
-			<th style="width: 20%">Client name</th>
-			<td><logic:notEmpty name="demoName" scope="request">
-				<c:out value="${requestScope.demoName}" />
-			</logic:notEmpty> <logic:empty name="demoName" scope="request">
-				<c:out value="${param.demoName}" />
-			</logic:empty></td>
+			<th style="width: 40%">Client name</th>
+			<th style="width: 40%">DOB</th>
+			<th style="width: 20%">Age</th>
 		</tr>
-		<tr>
-			<th>Age</th>
-			<td><logic:notEmpty name="demoName" scope="request">
-				<c:out value="${requestScope.demoAge}" />
-			</logic:notEmpty> <logic:empty name="demoName" scope="request">
-				<c:out value="${param.demoAge}" />
-			</logic:empty></td>
-		</tr>
-		<tr>
-			<th>DOB</th>
-			<td><logic:notEmpty name="demoName" scope="request">
-				<c:out value="${requestScope.demoDOB}" />
-			</logic:notEmpty> <logic:empty name="demoName" scope="request">
-				<c:out value="${param.demoDOB}" />
-			</logic:empty></td>
+		<tr>	
+			<td>
+				<logic:notEmpty name="demoName" scope="request">
+					<c:out value="${requestScope.demoName}" />
+				</logic:notEmpty> 
+				<logic:empty name="demoName" scope="request">
+					<c:out value="${param.demoName}" />
+				</logic:empty>
+			</td>
+			<td>
+				<logic:notEmpty name="demoName" scope="request">
+					<c:out value="${requestScope.demoDOB}" />
+				</logic:notEmpty> 
+				<logic:empty name="demoName" scope="request">
+					<c:out value="${param.demoDOB}" />
+				</logic:empty>
+			</td>
+			<td>
+				<logic:notEmpty name="demoName" scope="request">
+					<c:out value="${requestScope.demoAge}" />
+				</logic:notEmpty> 
+				<logic:empty name="demoName" scope="request">
+					<c:out value="${param.demoAge}" />
+				</logic:empty>
+			</td>		
 		</tr>
 	</table>
 	
@@ -332,32 +339,36 @@ var XMLHttpRequestObject = false;
 		</tr>
 	</table>
 		
-	<table width="70%" border="0" cellpadding="0" cellspacing="1">
+	<table width="90%" border="0" cellpadding="0" cellspacing="1">
 	<tr>
 			<th>Components of Service Category</th>
 		</tr>
 		<tr>
-			<td><html:select property="lstIssue" multiple="true" size="5"
-				style="width:90%;" onchange="setChangeFlag(true);">
+			<td width="60%"><html:select property="lstIssue" multiple="true" size="3"
+				 onchange="setChangeFlag(true);" style="width:100%;">
 				<html:options collection="lstIssueSelection" property="id"
 					labelProperty="description"></html:options>
 			</html:select>
 			 <html:hidden property="txtIssueKey" value="" />
 			 <html:hidden	property="txtIssueValue" value="" />
-			</td>
+			</td>		
 		
-		<tr>
-			<td class="clsButtonBarText"><a id="issAdd"
-				href="javascript:showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">
-			Add</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a
-				href="javascript:removeSel('lstIssue')">Remove</a>
-			</div>
+			<td align="left">
+			<table width="100%">
+			 <tr>
+			 	<td>
+					<a id="issAdd"	href="javascript:showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">	Add</a>			 
+				</td>
+			</tr>
+			<tr>
+				<td><a	href="javascript:removeSel('lstIssue')">Remove</a>
+				</td>
+			</tr>
+			</table>
 			</td>
 		</tr>
 	</table>
-	<br>
-	
-	
+	<br>		
 	<%
 		if ("true".equalsIgnoreCase((String) request.getAttribute("change_flag"))) {
 	%>
@@ -365,10 +376,10 @@ var XMLHttpRequestObject = false;
 	<%
 	} else {
 	%>
-	<span id="spanMsg" style="color:blue"> <logic:messagesPresent
-		message="true">
+	<span id="spanMsg" style="color:blue"> 
+	<logic:messagesPresent	message="true">
 		<html:messages id="message" message="true" bundle="casemgmt">
-			<I><c:out value="${message}" /></I>
+			<c:out value="${message}" />
 		</html:messages>
 	</logic:messagesPresent> </span>
 	<%
@@ -376,7 +387,8 @@ var XMLHttpRequestObject = false;
 	%>
 	<table style="width: 90%">
 		<tr>
-			<td align="left" class="buttonBar"><span
+			<td align="left" class="buttonBar">
+			<span
 				style="text-decoration: cursor:pointer;color: blue"
 				onclick="javascript:spellCheck();"> <img border=0
 				src=<html:rewrite page="/images/Back16.png"/> />&nbsp; Spell Check
@@ -385,10 +397,12 @@ var XMLHttpRequestObject = false;
 	</table>
 	<table width="90%" border="1">
 		<tr>
-			<td class="fieldValue" colspan="1"><textarea
-				name="caseNote_note" id="caseNote_note" cols="60" rows="20"
-				wrap="hard" onchange="setChangeFlag(true);"><nested:write
-				property="caseNote.note" /></textarea></td>
+			<td class="fieldValue" colspan="1">
+				<textarea
+					name="caseNote_note" id="caseNote_note" cols="60" rows="12"
+					wrap="hard" onchange="setChangeFlag(true);"><nested:write
+					property="caseNote.note" /></textarea>
+			</td>
 			<td class="fieldTitle"></td>
 
 		</tr>

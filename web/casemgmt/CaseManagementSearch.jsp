@@ -95,7 +95,9 @@ response.setHeader("Cache-Control", "no-cache");
 			<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt"	style="color:Navy;text-decoration:none;">
 				 New&nbsp;Note&nbsp;&nbsp;|
 			</html:link> 
-			<a	href="window.print();">Print</a></td>
+			<a	href="window.print();" style="color:Navy;text-decoration:none;">Print</a>
+			<a href="javascript:submitForm('close')" style="color:Navy;text-decoration:none;">&nbsp;&nbsp;|&nbsp;Close&nbsp;&nbsp;|</a>
+			</td>
 		</tr>
 	</table>
 	</div>
@@ -201,14 +203,19 @@ response.setHeader("Cache-Control", "no-cache");
 			</td>
 		</tr>
 	</table>
-	</div>
-	<br />
+	</div>	
 	<c:if test="${not empty Notes}">
-		<c:if test="${sessionScope.caseManagementViewForm.note_view!='detailed'}">
-			<br />
-			<table width="100%">
-				<tr>
-					<td align="right">Sort: 
+	    <!-- for sort align right purpose -->
+	    <c:if test="${sessionScope.caseManagementViewForm.note_view!='detailed'}">
+	    <table width="100%">
+				<tr align="right">
+					<td style="width: 20%">&nbsp;
+					</td>
+					<td style="width: 20%">&nbsp;</td>	
+					<td style="width: 20%">&nbsp;</td>
+					<td style="width: 25%;">&nbsp;</td>									
+					<td  align="right">
+					Sort
 						<html:select property="note_sort" onchange="document.caseManagementViewForm.method.value='view';document.caseManagementViewForm.submit()">
 							<html:option value="update_date">Date</html:option>
 							<html:option value="providerName">Provider</html:option>
@@ -218,17 +225,20 @@ response.setHeader("Cache-Control", "no-cache");
 					</td>
 				</tr>
 			</table>
+			</c:if>
+		<c:if test="${sessionScope.caseManagementViewForm.note_view!='detailed'}">
+					
 			<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 400px; width: 100%; overflow: auto;">
+                    height: 350px; width: 100%; overflow: auto;">
 			<table id="test" width="100%" border="0" cellspacing="2"	cellpadding="3" class="simple">
-
+				
 				<tr>
 					<td style="background-color:#EEEEFF"></td>
-					<td style="background-color:#EEEEFF">Date</td>
-					<td style="background-color:#EEEEFF">Provider</td>
-					<td style="background-color:#EEEEFF">Status</td>
-					<td style="background-color:#EEEEFF">Program</td>
-					<td style="background-color:#EEEEFF">Role</td>
+					<th style="background-color:#EEEEFF">Date</thd>
+					<th style="background-color:#EEEEFF">Provider</th>
+					<th style="background-color:#EEEEFF">Status</th>
+					<th style="background-color:#EEEEFF">Program</th>
+					<th style="background-color:#EEEEFF">Role</th>
 				</tr>
 
 				<%

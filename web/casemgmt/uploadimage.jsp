@@ -22,7 +22,7 @@
 */
  -->
 
-<%@ include file="/casemgmt/taglibs.jsp" %>
+<%@ include file="../taglibs.jsp" %>
 
 <%@ page import="org.oscarehr.casemgmt.model.*" %>
 <%@ page import="org.oscarehr.casemgmt.web.formbeans.*" %>
@@ -69,7 +69,7 @@
 	</td>
   </tr>
 </table>
-<table BORDER="0" CELLPADDING="1" CELLSPACING="0" WIDTH="100%" BGCOLOR="#C4D9E7">
+<table BORDER="0" CELLPADDING="1" CELLSPACING="0" WIDTH="100%">
 
 	<html:form action="/ClientImage" enctype="multipart/form-data" method="post" onsubmit="return onPicUpload();">
 	<input type="hidden" name="method" value="saveImage"/>
@@ -88,8 +88,14 @@
 	</html:form>
 </table>
 <br>
-Attention:
-<br>
+<table width="100%">
+<tr>
+<th align="left">
+Attention</th>
+</tr>
+<tr>
+<td>
 Only gif and jpg image type are allowed for the client photo uploading.
-
+</td></tr>
+</table>
 </body>
