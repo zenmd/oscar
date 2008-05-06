@@ -31,14 +31,30 @@
 	function popupHelp(type) {
 		alert('not yet implemented... will show term definitions');
 	}
+	function submitForm()
+	{
+		document.forms(0).submit();
+	}
 </script>
 <html:form action="/PMmodule/ClientSearch2">
 	<input type="hidden" name="method" value="search" />
-	
+	<table width="100%" height="100%">
+		<tr>
+			<th class="pageTitle">Client Search</th>
+		</tr>
+		<tr>
+		<td class="buttonBar"><html:link
+			action="/PMmodule/QuatroIntake/Edit.do?method=update&intakeId=0&clientId=0"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Client&nbsp;&nbsp;|</html:link>
+		<a href="javascript:submitForm()" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;</a>
+		<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">
+		<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</a>
+		</td>
+		</tr>
+	<tr> <td>	
 	<div id="projecthome" class="app">
-		<div class="h4">
-			<h4>Search client by entering search criteria below</h4>
-		</div>
 		<div class="axial">
 			<table border="0" cellspacing="2" cellpadding="3">
 				<tr>
@@ -140,43 +156,25 @@
 				</tr>
 				</caisi:isModuleLoad>
 			</table>
-			<table>
-				<tr>
-					<%
-						String externalConsentPhrase=OscarProperties.getInstance().getProperty("EXTERNAL_PROVIDER_CONSENT_NOTIFICATION_PHRASE");
-						boolean userHasExternalOrErClerkRole=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);
-						userHasExternalOrErClerkRole=userHasExternalOrErClerkRole || UserRoleUtils.hasRole(request, UserRoleUtils.Roles.er_clerk);
-						if (externalConsentPhrase!=null && userHasExternalOrErClerkRole)
-						{
-							%>
-							<td align="center"><input type="submit" value="search" name="search_with_consent" onclick="return confirm('<%=externalConsentPhrase%>')" /></td>
-							<td align="center"><input type="submit" value="emergency" name="emergency_search" /></td>
-							<%
-						}
-						else
-						{
-							%>
-							<td align="center"><html:submit value="search" /></td>
-							<%
-						}
-					%>
-					<td align="center"><input type="button" name="reset" value="reset" onclick="resetClientFields()"/></td>
-				</tr>
-			</table>
 		</div>
-	</div>     
+	</div>  
+	</td>
+	</tr>
 </html:form>
-	<br />
 	<c:if test="${requestScope.clients != null}">
-            <form method="post" name="mergeform" action="../admin/MergeRecords.do" > 
-            	<display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/ClientSearch2.do">
+            <form method="post" name="mergeform" action="../admin/MergeRecords.do" >
+            <tr style="height: 100%">
+                <td>
+                    <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
+                        width: 100%; height: 100%; overflow: auto">
+            <display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="100" requestURI="/PMmodule/ClientSearch2.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
 			<display:column sortable="true" title="Client No">
-                 <a href="<html:rewrite action="/PMmodule/ClientManager.do"/>?id=<c:out value="${client.currentRecord}"/>&consent=<c:out value="${consent}"/>"><c:out value="${client.demographicNo}" /></a>
+                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?id=<c:out value="${client.currentRecord}"/>&consent=<c:out value="${consent}"/>"><c:out value="${client.demographicNo}" /></a>
             </display:column>
 			<display:column sortable="true" title="Name">
-                 <a href="<html:rewrite action="/PMmodule/ClientManager.do"/>?id=<c:out value="${client.currentRecord}"/>&consent=<c:out value="${consent}"/>"><c:out value="${client.formattedName}" /></a>
+                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?id=<c:out value="${client.currentRecord}"/>&consent=<c:out value="${consent}"/>"><c:out value="${client.formattedName}" /></a>
 			</display:column>
 			<display:column sortable="true" title="Date of Birth">
 				<c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />
@@ -221,15 +219,17 @@
                         
                     
 		</display:table>
-               <security:oscarSec roleName="<%=roleName$%>" objectName="_merge" rights="r"  >
+		</div>
+		</td>
+		</tr>
+		</table>
+               <security:oscarSec objectName="_merge" rights="w"  >
                         
                 <input type="hidden" name="mergeAction" value="merge" />
                 <input type="hidden" name="provider_no" value="<%= session.getAttribute("user") %>" />
                 <input type="hidden" name="caisiSearch" value="yes"/>
-            <input type="submit" value="Merge Selected Records"/>
+            	<input type="submit" value="Merge Selected Records"/>
             </security:oscarSec>
-	
-            <br />
             </form>
             </c:if>
         
