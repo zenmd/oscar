@@ -119,15 +119,8 @@ public class DatePickerTag extends BaseInputTag{
      protected String formatValue(Object value) throws JspException {
         if (value == null) return "";
 
-        if(value instanceof java.util.Date){
-     	   SimpleDateFormat formatter =  new SimpleDateFormat("yyyy/MM/dd");
-           return TagUtils.getInstance().filter(formatter.format(value));
-        }else if(value instanceof java.util.Calendar){
-      	   SimpleDateFormat formatter =  new SimpleDateFormat("yyyy/MM/dd");
-           return TagUtils.getInstance().filter(formatter.format(((Calendar)value).getTime()));
-        }else{
-           return TagUtils.getInstance().filter(value.toString());
-        }
+        String value2 = TagUtils.getInstance().filter(value.toString());
+        return value2.replace("-","/");        
      }
      
 	public TextTag getDtTextTag() {
