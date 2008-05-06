@@ -1563,9 +1563,9 @@
         
         
         <action path="/Tickler" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="ticklerForm" input="/ticklerPlus/ticklerForm.jsp" validate="false">
-            <forward name="list" path="/ticklerPlus/ticklerList.jsp" />
-            <forward name="view" path="/ticklerPlus/ticklerView.jsp" />
-            <forward name="edit" path="/ticklerPlus/ticklerForm.jsp" />
+            <forward name="list" path="page.tickler.list" />
+            <forward name="view" path="page.tickler.view" />
+            <forward name="edit" path="page.tickler.edit" />
             <forward name="preparedTicklerList" path="/ticklerPlus/preparedTicklerList.jsp" />
         </action>
         <action path="/CustomFilter" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="customFilterForm" input="/ticklerPlus/customFilterForm.jsp" validate="false">
@@ -1652,7 +1652,7 @@
             <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
             <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
-            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+            <forward name="case" path="/CaseManagementView2.do" redirect="false" />
         </action>
         <action path="/PMmodule/QuatroHistory" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientHistoryForm" scope="request">
             <forward name="edit" path="page.quatro.pmm.history" />
