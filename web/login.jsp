@@ -35,8 +35,9 @@
     }
 %></caisi:isModuleLoad><%
 OscarProperties props = OscarProperties.getInstance();
+
 BuildInfo buildInfo = BuildInfo.getInstance();
-String buildDate = buildInfo.getBuildDate();
+String buildDate = "2008-05-05 09:25"; //buildInfo.getBuildDate();
 	
 // clear old cookies
 Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
@@ -66,7 +67,10 @@ response.addCookie(admCookie);
         <style type="text/css">
             body { 
                font-family: Verdana, helvetica, sans-serif;
-               margin: 0px;
+               margin-left: 1px;
+               margin-right: 0px;
+               margin-bottom: 0px;
+               margin-top: 0px;
                padding:0px;
                
             }
@@ -122,41 +126,37 @@ response.addCookie(admCookie);
                         <br/>            
 					<table border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" width="300px" align="center">
 					<tr><td align="center" style="background-color: #c0c0c0;">
-					<OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
-					    width="300" height="300" align="baseline"
-					    codebase="http://java.sun.com/products/plugin/1.4/jinstall-14-win32.cab#Version=1,4,0,mn">
+<object 
+  classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+  		width="300" height="500"
+	  codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_5_0-windows-i586.cab#Version=1,5,0,0">
 					    <PARAM NAME="code" VALUE="com.quatro.model.security.QSSecurity.class">
 					    <PARAM NAME="archive" VALUE="QSSecurity.jar, registry.jar">
-					    <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.4">
+					    <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.5">
 					    <COMMENT>
-					        <EMBED type="application/x-java-applet;jpi-version=1.4" width="300"
-					           height="200" align="baseline" code="com.quatro.model.security.QSSecurity.class" 
-					           archive="QSSecurity.jar, registry.jar" 
-					           pluginspage="http://java.sun.com/j2se/1.4/download.html">
-					            <NOEMBED>
-					                No Java 2 SDK, Standard Edition v 1.4 support for APPLET!!
-					            </NOEMBED>
-					        </EMBED>
+						<embed align="baseline" code="com.quatro.model.security.QSSecurity.class"
+						  	width="300" height="500"
+  						  	type="application/x-java-applet;version=1.5.0"
+  						  	pluginspage="http://java.sun.com/j2se/1.5.0/download.html"					        
+					        archive="QSSecurity.jar, registry.jar" 
+					    >
+					    <NOEMBED>
+					        No Java 2 SDK, Standard Edition v 1.5 support for APPLET!!
+					    </NOEMBED>
+					    </EMBED>
 					    </COMMENT>
 					</OBJECT>
 					</td></tr></table>
                     <!-- left side end-->
                 </td>
                 <td align="center" valign="top"><br><br><br>
-                    <div style="margin-top:25px;"><% if (props.getProperty("loginlogo", "").equals("")) { %>
-                            <html:img srcKey="loginApplication.image.logo"/>
-                            <% } else { %>
-                            <img src="<%=props.getProperty("loginlogo", "")%>">
-                            <% } %>
-                            <p>Version 1.1 (Build: Feb 12, 9:00)</p>
-                            
+                    <div style="margin-top:25px;">
+                            <img src="images/QuatroShelterBigLogo.gif">
+                            <br/>
+                   			<span style="float: center; font-size: xx-small;">build date: <%= buildDate %></span>    
                             <p>
                             <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">
-                                <% if (props.getProperty("logintext", "").equals("")) { %>
-                                <bean:message key="loginApplication.image.logoText2"/>
-                                <% } else { %>
-                                <%=props.getProperty("logintext", "")%>
-                                <% } %>
+                                <br><br><br><br><br><br>Powered By <br><img src="images/CAISIlogoBIG.bmp"><br><img src="images/OSCARLogo.jpg"><br> version 2.4 02-15-2008
                             </font>
                     </div>
                     

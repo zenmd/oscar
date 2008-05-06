@@ -84,6 +84,10 @@ if(props.isSiteSecured()) {
         <style type="text/css">
             body { 
                font-family: Verdana, helvetica, sans-serif;
+               margin-left: 1px;
+               margin-right: 0px;
+               margin-bottom: 0px;
+               margin-top: 0px;
                margin: 0px;
                padding:0px;
                
