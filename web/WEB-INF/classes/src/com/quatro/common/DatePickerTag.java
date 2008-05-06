@@ -1,5 +1,6 @@
 package com.quatro.common;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.servlet.jsp.JspException;
@@ -117,7 +118,16 @@ public class DatePickerTag extends BaseInputTag{
     
      protected String formatValue(Object value) throws JspException {
         if (value == null) return "";
-        return TagUtils.getInstance().filter(value.toString());
+
+        if(value instanceof java.util.Date){
+     	   SimpleDateFormat formatter =  new SimpleDateFormat("yyyy/MM/dd");
+           return TagUtils.getInstance().filter(formatter.format(value));
+        }else if(value instanceof java.util.Calendar){
+      	   SimpleDateFormat formatter =  new SimpleDateFormat("yyyy/MM/dd");
+           return TagUtils.getInstance().filter(formatter.format(((Calendar)value).getTime()));
+        }else{
+           return TagUtils.getInstance().filter(value.toString());
+        }
      }
      
 	public TextTag getDtTextTag() {
