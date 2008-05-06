@@ -40,7 +40,7 @@
 	<input type="hidden" name="method" value="search" />
 	<table width="100%" height="100%">
 		<tr>
-			<th class="pageTitle">Client Search</th>
+			<th class="pageTitle">Client Search<c:out value="${moduleName}"/></th>
 		</tr>
 		<tr>
 		<td class="buttonBar"><html:link
