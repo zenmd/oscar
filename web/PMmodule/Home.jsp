@@ -135,7 +135,7 @@ String _appPath = request.getContextPath();
 									<th></th>
 									<th valign="middle"><a
 										href="<%=_appPath%>/admin/admin.jsp"> <img
-										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60"
+										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60" border="0"
 										OnClick="lnkResource1_Click"></img></a></th>
 									<th align="left" valign="middle">
 									<table>
@@ -153,13 +153,22 @@ String _appPath = request.getContextPath();
 								<!-- Jim added Start -->
 								<tr>
 									<th></th>
-									<th valign="middle"></th>
-									<th>			
+									<th valign="middle"><a
+										href="<%=_appPath%>/Tickler.do"> <img
+										src="<%=_appPath%>/images/mytasks60.gif" Height="60" Width="60" border="0"
+										OnClick="lnkResource1_Click"></img></a></th>
+									<th>
+									<table>
+										<tr align="left">
+											<th valign="top" align="left" class="clsHomePageLabels">
+											<a href="<%=_appPath%>/Tickler.do">My Tasks</a> &nbsp;</th>
+										</tr>
+									</table>
 									</th>
 									<th></th>
 									<th valign="middle"><a
 										href="<%=_appPath%>/PMmodule/SysAdmin.do"> <img
-										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60"
+										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60" border="0"
 										OnClick="lnkResource1_Click"></img></a></th>
 									<th align="left" valign="middle">
 									<table>
