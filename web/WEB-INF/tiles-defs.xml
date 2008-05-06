@@ -134,6 +134,9 @@
 	<definition name="page.quatro.pmm.complaint" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroComplaint.jsp" />
 	</definition>
+	<definition name="page.quatro.pmm.complaint.list" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/QuatroComplaintList.jsp" />
+	</definition>
 
 	<definition name="page.intake.edit" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroIntakeEdit.jsp" />

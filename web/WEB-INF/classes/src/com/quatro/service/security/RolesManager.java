@@ -55,6 +55,18 @@ public class RolesManager {
 	public void saveFunction(Secobjprivilege secobjprivilege) {
 		secobjprivilegeDao.save(secobjprivilege);
 	}
+	
+	public List getFunctions(String roleName) {
+		return secobjprivilegeDao.getFunctions(roleName);
+	}
+	
+	public String getFunctionDesc(String function_code ) {
+		return secobjprivilegeDao.getFunctionDesc(function_code);
+	}
+	
+	public String getAccessDesc(String accessType_code ) {
+		return secobjprivilegeDao.getAccessDesc(accessType_code);
+	}
 	public void setSecobjprivilegeDao(SecobjprivilegeDao secobjprivilegeDao) {
 		this.secobjprivilegeDao = secobjprivilegeDao;
 	}

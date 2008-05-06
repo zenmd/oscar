@@ -1710,6 +1710,7 @@
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
         <action path="/PMmodule/QuatroComplaint" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientComplaintForm" scope="request">
+            <forward name="list" path="page.quatro.pmm.complaint.list" />
             <forward name="edit" path="page.quatro.pmm.complaint" />
             <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
             <forward name="consent" path="page.pmm.erconsent" />

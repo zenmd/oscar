@@ -66,6 +66,7 @@ public class RoleManagerAction extends BaseAction {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -96,8 +97,45 @@ public class RoleManagerAction extends BaseAction {
 			secroleForm.set("description", secrole.getDescription());
 			request.setAttribute("secroleForEdit", secrole);
 
-		}
+		
+////////
+			ArrayList<Secobjprivilege> secobjprivilegeLst = new ArrayList<Secobjprivilege>();
+			ArrayList funLst = new ArrayList();
+			funLst = (ArrayList)rolesManager.getFunctions(secrole.getRoleName());
+			
+			
+			
+			int lineno = funLst.size();
+					
+			for (int i = 0; i < lineno; i++) {
+								
+				Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
 
+				String accessType_code = objNew.getPrivilege();
+				String accessType_description = rolesManager.getAccessDesc(accessType_code );
+				String function_code = objNew.getObjectname();
+				String function_description = rolesManager.getFunctionDesc(function_code );
+
+				if (accessType_code != null)
+					objNew.setPrivilege_code(accessType_code);
+				if (accessType_description != null)
+					objNew.setPrivilege(accessType_description);
+				if (function_code != null)
+					objNew.setObjectname_code(function_code);
+				if (function_description != null)
+					objNew.setObjectname_desc(function_description);
+				else
+					objNew.setObjectname_desc(function_code);
+
+				secobjprivilegeLst.add(objNew);
+	
+					
+			
+			}
+			secroleForm.set("secobjprivilegeLst", secobjprivilegeLst);
+			
+/////////	
+		}
 		return mapping.findForward("edit");
 
 	}
@@ -159,7 +197,8 @@ public class RoleManagerAction extends BaseAction {
 		secrole.setDescription((String) secroleForm.get("description"));
 
 		rolesManager.save(secrole);
-
+		saveFunctions(mapping, form, request, response);
+		
 		secroleForm.set("roleNo", secrole.getRoleNo());
 
 		LookupCodeValue functions = new LookupCodeValue();
@@ -189,6 +228,17 @@ public class RoleManagerAction extends BaseAction {
 		return mapping.findForward("functions");
 
 	}
+	public ActionForward addFunctionInEdit(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out
+				.println("=========== addFunction ========= in RoleManagerAction");
+		DynaActionForm secroleForm = (DynaActionForm) form;
+		ChangeFunLstTable(2, secroleForm, request);
+		request.setAttribute("secroleForEdit", "flag");
+		return mapping.findForward("edit");
+
+	}
 
 	public ActionForward removeFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -201,6 +251,18 @@ public class RoleManagerAction extends BaseAction {
 		return mapping.findForward("functions");
 
 	}
+	public ActionForward removeFunctionInEdit(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out
+				.println("=========== removeFunction ========= in RoleManagerAction");
+		DynaActionForm secroleForm = (DynaActionForm) form;
+		ChangeFunLstTable(1, secroleForm, request);
+		request.setAttribute("secroleForEdit", "flag");
+		
+		return mapping.findForward("edit");
+
+	}
 
 	public void ChangeFunLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
@@ -209,10 +271,7 @@ public class RoleManagerAction extends BaseAction {
 		
 		ArrayList<Secobjprivilege> secobjprivilegeLst = new ArrayList<Secobjprivilege>();
 
-		ArrayList funLst = new ArrayList();
-		if (request.getSession().getAttribute(DataViews.REPORT_CRI) != null)
-			funLst = (ArrayList) request.getSession().getAttribute(
-					DataViews.REPORT_CRI);
+		
 
 		Map map = request.getParameterMap();
 		String[] arr_lineno = (String[]) map.get("lineno");
@@ -226,8 +285,8 @@ public class RoleManagerAction extends BaseAction {
 				String[] isChecked = (String[]) map.get("p" + i);
 
 				if (isChecked == null) {
-					Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
-
+					Secobjprivilege objNew = new Secobjprivilege();
+					
 					String[] accessType_code = (String[]) map
 							.get("accessTypes_code" + i);
 					String[] accessType_description = (String[]) map
@@ -254,7 +313,7 @@ public class RoleManagerAction extends BaseAction {
 			break;
 		case 2: // add
 			for (int i = 0; i < lineno; i++) {
-				Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
+				Secobjprivilege objNew = new Secobjprivilege();
 
 				String[] accessType_code = (String[]) map
 						.get("accessTypes_code" + i);
@@ -286,8 +345,7 @@ public class RoleManagerAction extends BaseAction {
        			request.getContextPath()));
 		saveMessages(request,messages);
 		
-		request.getSession().setAttribute(DataViews.REPORT_CRI,
-				secobjprivilegeLst);
+		
 
 	}
 
@@ -296,15 +354,19 @@ public class RoleManagerAction extends BaseAction {
 
 		System.out
 				.println("=========== saveFunction ========= in RoleManagerAction");
+		saveFunctions( mapping, form, request, response);
+		
+		return list(mapping, form, request, response);
+
+	}
+	public void saveFunctions(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		String roleName = (String) secroleForm.get("roleName");
 		String providerNo = (String) request.getSession().getAttribute("user");
-		ArrayList funLst = new ArrayList();
-		if (request.getSession().getAttribute(DataViews.REPORT_CRI) != null)
-			funLst = (ArrayList) request.getSession().getAttribute(
-					DataViews.REPORT_CRI);
-
+		
 		Map map = request.getParameterMap();
 		String[] arr_lineno = (String[]) map.get("lineno");
 		int lineno = 0;
@@ -314,7 +376,7 @@ public class RoleManagerAction extends BaseAction {
 		for (int i = 0; i < lineno; i++) {
 			String[] function_code = (String[]) map.get("function_code" + i);
 			if (function_code != null && function_code[0].length() > 0) {
-				Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
+				Secobjprivilege objNew = new Secobjprivilege();
 				objNew.setObjectname(function_code[0]);
 				objNew.setRoleusergroup(roleName);
 
@@ -330,8 +392,7 @@ public class RoleManagerAction extends BaseAction {
 			}
 		}
 
-		return list(mapping, form, request, response);
-
+		
 	}
 
 }

@@ -64,11 +64,21 @@ public class QuatroClientComplaintAction  extends DispatchAction {
        Integer clientId = (Integer)request.getSession().getAttribute("clientId");
        if (clientId != null) request.setAttribute(ID, clientId.toString());
 */       
-       return edit(mapping, form, request, response);
+       return list(mapping, form, request, response);
+   }
+   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   
+	   //setEditAttributes(form, request);
+	   System.out.println("=========== list ========= in QuatroClientComplaintAction");
+
+	   return mapping.findForward("list");
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
+
+	   System.out.println("=========== edit ========= in QuatroClientComplaintAction");
+	   
+	   /*
 	   String id = request.getParameter("id");
 
        if (id == null || id.equals("")) {
@@ -89,6 +99,13 @@ public class QuatroClientComplaintAction  extends DispatchAction {
        setEditAttributes(form, request);
 
        return mapping.findForward("edit");
+   }
+   
+   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   System.out.println("=========== save ========= in QuatroClientComplaintAction");
+	   //setEditAttributes(form, request);
+
+	   return mapping.findForward("list");
    }
    
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {

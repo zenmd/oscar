@@ -95,6 +95,7 @@
 								<TD width="350px">
 
 
+
 									<table cellpadding="0" style="border:0px;" cellspacing="0"
 										width="100%">
 										<tr>
@@ -108,7 +109,7 @@
 												value='<c:out value="${secUserRole.orgcd_desc}"/>'
 												readonly></td>
 											<td style="border:0px;" width="35px"><a
-												onclick="showLookup('ORG', '', '', 'secuserForm','org_code<%=String.valueOf(rIndex)%>','org_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+												onclick="showLookupTree('ORG', '', '', 'secuserForm','org_code<%=String.valueOf(rIndex)%>','org_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
 												src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
 										</tr>
 									</table>
