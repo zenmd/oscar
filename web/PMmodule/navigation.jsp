@@ -187,7 +187,7 @@
 		<div> 
             <span>Tasks</span>
         <div>
-            <span><html:link 	action="/showTasks.do">My Tasks</html:link></span>
+            <span><html:link 	action="/Tickler.do">My Tasks</html:link></span>
         </div>
         </div>
     </security:oscarSec>

@@ -56,8 +56,16 @@ public class IntakeEditAction extends DispatchAction {
            actionParam.put("id", clientId); 
         }
         request.setAttribute("actionParam", actionParam);
-
-		Demographic client= clientManager.getClientByDemographicNo(clientId);
+        Demographic client = null;
+        if ("0".equals(clientId))
+        {
+        	client= new Demographic();
+        }
+        else
+        {
+        	client= clientManager.getClientByDemographicNo(clientId);
+        }
+       
 		qform.setClient(client);
 
 		qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
