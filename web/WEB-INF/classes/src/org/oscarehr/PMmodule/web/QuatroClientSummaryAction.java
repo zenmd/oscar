@@ -80,9 +80,9 @@ public class QuatroClientSummaryAction extends DispatchAction {
    }
 
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
+
 	   String id = request.getParameter("id");
-       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
+/*       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
 
        if (id == null || id.equals("")) {
            Object o = request.getAttribute("demographicNo");
@@ -99,6 +99,15 @@ public class QuatroClientSummaryAction extends DispatchAction {
        	id=(String) request.getAttribute(ID);
        }
 */
+       //need save the client Id into session
+       request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(id));
+      // String quitCase=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE);
+       if("cv".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION)))
+       {			
+			request.getSession().removeAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION);
+			return mapping.findForward("case");
+		}
+
        setEditAttributes(form, request);
 
 /*       
