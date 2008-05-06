@@ -195,8 +195,15 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         String programId = (String) request.getSession().getAttribute("case_program_id");
 
         if (Utility.IsEmpty(programId)) {
-            programId = this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demoNo)).getProgramId().toString();
-            request.setAttribute("case_program_id", programId);
+        	Admission curAdmission =this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demoNo)); 
+        	if (curAdmission == null) {
+                return mapping.findForward("domain-error");
+        	}
+        	else
+        	{
+        		programId = curAdmission.getProgramId().toString();
+            	request.setAttribute("case_program_id", programId);
+        	}
         }
 
         // check to see if there is an unsaved note

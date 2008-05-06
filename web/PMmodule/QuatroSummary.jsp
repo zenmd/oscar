@@ -37,9 +37,9 @@ function removeJointAdmission(clientId){
 }
 
 </script>
-<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
-	<tr><th class="pageTitle" align="center">Client Management - Summary</th></tr>
-	<tr><td align="left" valign="middle" class="buttonBar2">
+<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
+	<tr><th class="pageTitle">Client Management - Summary</th></tr>
+	<tr><td align="left"  class="buttonBar2" height="18px">
 		&nbsp;<b>Summary</b>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html-el:link action="/PMmodule/QuatroHistory.do" name="actionParam" style="color:Navy;text-decoration:none;">History</html-el:link>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;

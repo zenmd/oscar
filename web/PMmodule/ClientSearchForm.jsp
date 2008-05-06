@@ -38,19 +38,19 @@
 </script>
 <html:form action="/PMmodule/ClientSearch2">
 	<input type="hidden" name="method" value="search" />
-	<table width="100%" height="100%">
+	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
 		<tr>
 			<th class="pageTitle">Client Search<c:out value="${moduleName}"/></th>
 		</tr>
 		<tr>
-		<td class="buttonBar"><html:link
+		<td class="buttonBar" align="left" height="18px"><html:link
 			action="/PMmodule/QuatroIntake/Edit.do?method=update&intakeId=0&clientId=0"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Client&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;&nbsp;|</html:link>
 		<a href="javascript:submitForm()" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;</a>
+		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
 		<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">
-		<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</a>
+		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>
 		</td>
 		</tr>
 	<tr> <td>	
