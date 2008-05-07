@@ -64,6 +64,17 @@ public class MyDateFormat {
 			return aDate.substring(0,aDate.indexOf(' '));
 		}
 	}
+
+	public static String getStandardDate(Calendar cal) {
+	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+	    return formatter.format(cal.getTime());
+	}
+
+	public static String getStandardDateTime(Calendar cal) {
+	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    return formatter.format(cal.getTime());
+	}
+	
 	//from 2001, 2, 2 to 2001-02-02
 	public static String getMysqlStandardDate(int year,int month, int day) {
 		return (year+ "-"+ getDigitalXX(month)+ "-" +getDigitalXX(day));
