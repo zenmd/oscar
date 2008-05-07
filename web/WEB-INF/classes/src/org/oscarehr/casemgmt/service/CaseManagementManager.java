@@ -1109,18 +1109,17 @@ public class CaseManagementManager {
 
         List providerPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
      
-        List intakeList =  intakeDao.getQuatroIntakeHeaderListByFacility(new Integer(demographicNo), facilityId, providerNo);
-      //  List allAdmissions = this.admissionManager.getAdmissions(Integer.valueOf(demographicNo));
+        List allAdmissions = this.admissionManager.getAdmissionsByFacility(Integer.valueOf(demographicNo),facilityId);
 
         for (int x = 0; x < providerPrograms.size(); x++) {
             Program pp = (Program)providerPrograms.get(x);
             long programId = pp.getId().longValue();
 
-            for (int y = 0; y < intakeList.size(); y++) {
-            	QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeList.get(y);
-                long intakeProgramId = qih.getProgramId().longValue();
+            for (int y = 0; y < allAdmissions.size(); y++) {
+            	Admission qih = (Admission)allAdmissions.get(y);
+                long admitProgramId = qih.getProgramId().longValue();
 
-                if (programId == intakeProgramId) {
+                if (programId == admitProgramId) {
                     return true;
                 }
             }

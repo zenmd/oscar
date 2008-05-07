@@ -26,11 +26,13 @@
 
 <table style="width:100%">
 <tr><th class="pageTitle">Access Denied</th></tr>
-<tr><td class="buttonBar"></td>
+<tr><td class="buttonBar"><html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;&nbsp;Close&nbsp;&nbsp;
+</html:link>
+</td>
 </table>
 
 <p>
-You cannot access this client's Encounters because he/she is not in your
+You cannot access this client's Encounters because he/she is not in admitted in your
 program domain. What this means is that this client is currently not, and
 has never been a particpant in any program you have rights to. 
 </p>
@@ -39,4 +41,3 @@ has never been a particpant in any program you have rights to.
 Please talk to your administrator about getting the proper access.
 </p>
 
-<input type="button" value="Close Window" onclick="self.close()"/>
