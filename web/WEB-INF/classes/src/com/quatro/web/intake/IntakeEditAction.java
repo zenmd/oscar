@@ -50,12 +50,7 @@ public class IntakeEditAction extends DispatchAction {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	String clientId = qform.getClientId();
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("id", clientId); 
-        }
-        request.setAttribute("actionParam", actionParam);
+    	setClientIdParam(request,clientId);
         Demographic client = null;
         if ("0".equals(clientId))
         {
@@ -120,6 +115,15 @@ public class IntakeEditAction extends DispatchAction {
         
 		return mapping.findForward("edit");
 	}
+    private void setClientIdParam(HttpServletRequest request, String clientId)
+    {
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("id", clientId); 
+        }
+        request.setAttribute("actionParam", actionParam);
+    }
 /*    
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
@@ -140,6 +144,9 @@ public class IntakeEditAction extends DispatchAction {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	Demographic client= qform.getClient();
+    	String clientId = String.valueOf(client.getDemographicNo());
+       	setClientIdParam(request,clientId);
+        
 		client.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(qform.getDob())));
 		client.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(qform.getDob())));
 		client.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(qform.getDob())));
