@@ -30,6 +30,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -215,6 +217,20 @@ public class ProgramDao extends HibernateDaoSupport {
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.eq("facilityId", facilityId));
         return criteria.list();
+    }
+
+    public List getProgramIdsByProvider(String providerNo, Integer facilityId){
+    	String sql = "select p.program_id, p.name, p.type  from program p where p.facility_id=? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like b.orgcd || '%' and b.provider_no=?)";
+    	Query query = getSession().createSQLQuery(sql);
+    	((SQLQuery) query).addScalar("program_id", Hibernate.INTEGER); 
+    	((SQLQuery) query).addScalar("name", Hibernate.STRING); 
+    	((SQLQuery) query).addScalar("type", Hibernate.STRING); 
+    	query.setInteger(0, facilityId);
+    	query.setString(1, providerNo);
+    	List lst=query.list();
+    	
+    	//element in lst is Object[] type
+    	return lst;
     }
 
     public void saveProgram(Program program) {

@@ -173,6 +173,9 @@ public class ProgramManager {
     public List<Program> getProgramsByProvider(Integer facilityId,String providerNo) {
     	return programDao.getProgramByProvider(providerNo, facilityId);
     }
+    public List getProgramsIdsByProvider(Integer facilityId,String providerNo) {
+    	return programDao.getProgramIdsByProvider(providerNo, facilityId);
+    }
 
     public List<Program> getPrograms() {
         return programDao.getAllPrograms();
