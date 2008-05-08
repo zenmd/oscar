@@ -1,0 +1,54 @@
+package com.quatro.dao;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.oscarehr.casemgmt.dao.CaseManagementNoteDAO;
+import org.oscarehr.casemgmt.model.CaseManagementNote;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.model.AttachmentText;
+import com.quatro.model.Attachment;
+
+public class UploadFileDao extends HibernateDaoSupport {
+
+	private static Log log = LogFactory.getLog(CaseManagementNoteDAO.class);
+
+	public void saveAttachementText(AttachmentText rtv) {
+		getHibernateTemplate().saveOrUpdate(rtv);
+	}
+
+	public AttachmentText getAttachmentText(Integer docId) {
+		return (AttachmentText) getHibernateTemplate().get(
+				AttachmentText.class, docId);
+	}
+
+	public void saveAttachement(Attachment atv) {
+		getHibernateTemplate().saveOrUpdate(atv);
+		atv.getAttText().setDocId(atv.getId());
+		atv.getAttText().setRevDate(atv.getRevDate());
+		if(null!=atv.getAttText().getAttData());
+		getHibernateTemplate().saveOrUpdate(atv.getAttText());
+		
+	}
+   public void deleteAttachment(Integer docId){
+	   getHibernateTemplate().delete(getAttachment(docId));
+   }
+	public Attachment getAttachment(Integer docId) {
+		return (Attachment) getHibernateTemplate().get(Attachment.class, docId);
+	}
+
+	public List<Attachment> getAttach(Integer moduleId, String refNo,Integer programId) {
+
+		//String hql = "select a.id,a.providerNo,a.docType,a.fileName,a.moduleId,a.refProgramId,a.refNo,a.fileType,a.revDate from Attachment a where a.moduleId = ? and a.refNo=? and a.refProgramId=? order by a.revDate desc";
+		String hql = " from Attachment a where a.moduleId = ? and a.refNo=? and a.refProgramId=? order by a.revDate desc";
+		List<Attachment> lst =getHibernateTemplate().find(hql,	new Object[] { moduleId, refNo,programId });
+		return lst;
+	}
+}
