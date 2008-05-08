@@ -18,4 +18,13 @@ public class KeyConstants {
   public static final String SESSION_KEY_CLIENTID="clientId"; 
   public static final String SESSION_KEY_CURRENT_FUNCTION="func";
   public static final String SESSION_KEY_SWITCH_MODULE="switch";
+  public static final String SESSION_KEY_CURRENT_MODULE="curModule";
+  public static final String SESSION_KEY_CURRENT_RECORD="curRec";
+  public static final Integer MODULE_ID_CLIENT = 1;
+  public static final Integer MODULE_ID_SHELTER = 2;
+  public static final Integer MODULE_ID_CASE = 3;
+  public static final Integer MODULE_ID_SYSTEM = 4;
+  public static final Integer MODULE_ID_REPORT = 5;
+  public static final Integer MODULE_ID_INTAKE = 6;
+  public static final Integer MODULE_ID_AGENCY = 7;  
 }
