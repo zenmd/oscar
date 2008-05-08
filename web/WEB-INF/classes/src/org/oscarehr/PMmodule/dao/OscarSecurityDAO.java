@@ -37,7 +37,7 @@ public class OscarSecurityDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        List results = this.getHibernateTemplate().find("from SecUserRole s where s.ProviderNo = ?", providerNo);
+        List results = this.getHibernateTemplate().find("from Secuserrole s where s.providerNo = ?", providerNo);
 
         if (log.isDebugEnabled()) {
             log.debug("getUserRoles: providerNo=" + providerNo + ",# of results=" + results.size());
@@ -52,7 +52,7 @@ public class OscarSecurityDAO extends HibernateDaoSupport {
         }
 
         boolean result = false;
-        List results = this.getHibernateTemplate().find("from SecUserRole s where s.ProviderNo = ? and s.RoleName = 'admin'", providerNo);
+        List results = this.getHibernateTemplate().find("from Secuserrole s where s.providerNo = ? and s.roleName = 'admin'", providerNo);
         if (!results.isEmpty()) {
             result = true;
         }
