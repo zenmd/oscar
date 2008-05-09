@@ -24,7 +24,7 @@ import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.Consent;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.HealthSafety;
@@ -153,7 +153,12 @@ public class QuatroClientIntakeAction  extends DispatchAction {
 
            String providerNo2 = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo2);
-           request.setAttribute("quatroIntake", lstIntake);
+           List lstIntake2 = new ArrayList();
+           for(Object element : lstIntake){
+        	   QuatroIntakeHeader obj = (QuatroIntakeHeader)element;
+        	   if(obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE)) lstIntake2.add(obj);
+           }
+           request.setAttribute("quatroIntake", lstIntake2);
 //       }
 
 

@@ -113,7 +113,9 @@ public class QuatroClientSummaryAction extends DispatchAction {
     	 //One client should have no more than one bed program intake in one facility.
     	 //One facility may have more than one bed program, but we don't allow any client
     	 //to register muitiple bed programs in one facility.
-    	 if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+    	 if((obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE) ||
+    		obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)) && 
+    		obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
             List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
     		request.setAttribute("family", lst2);
    		    break;
