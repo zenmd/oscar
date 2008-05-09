@@ -3,6 +3,15 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
+	<bean name="/PMmodule/UploadFile" class="org.oscarehr.PMmodule.web.UploadFileAction" singleton="false">
+		<property name="uploadFileManager" ref="uploadFileManager"></property>
+		<property name="lookupManager" ref="lookupManager"></property>
+		<property name="admissionManager" ref="admissionManager"></property>
+	</bean>
+	<bean name="/PMmodule/ShowFile" class="org.oscarehr.PMmodule.web.ShowFileAction" singleton="false">
+		<property name="uploadFileManager" ref="uploadFileManager"></property>
+		<property name="lookupManager" ref="lookupManager"></property>
+	</bean>
 	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
 	</bean>

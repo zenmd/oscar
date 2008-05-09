@@ -122,6 +122,7 @@
     <bean id="bedDemographicDAO" class="org.oscarehr.PMmodule.dao.BedDemographicDAO" autowire="byName"/>
     <bean id="roomDemographicDAO" class="org.oscarehr.PMmodule.dao.RoomDemographicDAO" autowire="byName"/>
     <bean id="providerDao" class="org.oscarehr.PMmodule.dao.ProviderDao" autowire="byName" />
+    <bean id="uploadFileDao" class="com.quatro.dao.UploadFileDao" autowire="byName" />
     <bean id="bedDAO" class="org.oscarehr.PMmodule.dao.BedDAO" autowire="byName"/>
     <bean id="clientDao" class="org.oscarehr.PMmodule.dao.ClientDao" autowire="byName" />
 
@@ -266,6 +267,14 @@
                 <property name="programQueueDao" ref="programQueueDao"/>
                 <property name="clientReferralDAO" ref="clientReferralDAO"/>
             </bean>
+        </property>
+    </bean>
+     <bean id="uploadFileManager" parent="baseTransactionProxy" autowire="byName">
+        <property name="target">
+            <bean class="com.quatro.service.UploadFileManager" autowire="byName" >
+            	<property name="uploadFileDao" ref="uploadFileDao"></property>
+            </bean>
+            
         </property>
     </bean>
     <bean id="admissionManager" parent="baseTransactionProxy" autowire="byName">
