@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.oscarehr.PMmodule.model">
+	<class name="QuatroIntakeFamily" table="intake_family">
+		<composite-id>
+			<key-property name="intakeHeadId" column="intake_head_id" />
+			<key-property name="intakeId" column="intake_id" />
+	    </composite-id>
+
+		<property name="memberStatus" column="member_status" />
+		<property name="relationship" column="relationship" />
+		<property name="joinFamilyDate" column="join_family_date" type="calendar" />
+		<property name="leaveFamilyDate" column="leave_family_date" type="calendar" />
+	</class>
+</hibernate-mapping>

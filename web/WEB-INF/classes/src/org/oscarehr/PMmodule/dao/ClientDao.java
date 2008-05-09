@@ -99,6 +99,33 @@ public class ClientDao extends HibernateDaoSupport {
 		return result;
 	}
 
+	public List getClientFamilyByDemographicNo(String demographicNo) {
+
+		if (demographicNo == null || demographicNo.equals("")) {
+			throw new IllegalArgumentException();
+		}
+
+//		String queryStr = "from Demographic d where d.DemographicNo in (?) order by d.LastName, d.FirstName";
+//		List<Demographic> result = getHibernateTemplate().find(queryStr, new Object[] {demographicNo});
+		
+		
+        String[] split= demographicNo.split(",");
+        StringBuilder sb = new StringBuilder();
+        Object[] obj= new Object[split.length];
+        for(int i=0;i<split.length;i++){
+           sb.append(",?");
+           obj[i]=Integer.valueOf(split[i]);
+        }
+//        String sSQL="from QuatroIntakeHeader i where i.clientId = ? and i.programId in (" +
+//          sb.substring(1) + ") order by i.createdOn desc";
+		String sSQL = "from Demographic d where d.DemographicNo in (" +
+		  sb.substring(1) + ") order by d.LastName, d.FirstName";
+		List result = getHibernateTemplate().find(sSQL, obj);
+		
+		return result;
+	}
+
+
     public List<Demographic> getClients() {
 
 		String queryStr = " FROM Demographic";

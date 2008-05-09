@@ -36,4 +36,6 @@ public class KeyConstants {
   public static final String INTAKE_STATUS_ACTIVE = "active";
   public static final String INTAKE_STATUS_ADMITTED = "admitted";
   public static final String INTAKE_STATUS_REJECTED = "rejected";
+
+  public static final String FAMILY_HEAD_CODE = "AA";
 }

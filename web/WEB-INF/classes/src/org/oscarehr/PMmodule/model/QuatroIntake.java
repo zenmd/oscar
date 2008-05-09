@@ -12,6 +12,7 @@ public class QuatroIntake {
     private Integer currentProgramId;
     private Integer programId;
     private String programType;
+    private String programName;
 
 	private String referredBy;
     private String contactName;
@@ -501,5 +502,11 @@ public class QuatroIntake {
 	}
 	public void setCurrentProgramId(Integer currentProgramId) {
 		this.currentProgramId = currentProgramId;
+	}
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 }

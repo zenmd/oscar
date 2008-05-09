@@ -8,7 +8,7 @@ import java.util.Calendar;
 public class QuatroIntakeHeader implements Serializable {
 	private static final long serialVersionUID = 1L;
     private int hashCode = Integer.MIN_VALUE;
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd kk:mm");
 
     private Integer id;// fields
     private Integer clientId;
@@ -16,6 +16,7 @@ public class QuatroIntakeHeader implements Serializable {
     private Calendar createdOn;// many to one    
     private String intakeStatus;
     private Integer programId;
+    private String programType;
 
     public boolean equals(Object obj) {
         if (null == obj)
@@ -93,6 +94,14 @@ public class QuatroIntakeHeader implements Serializable {
 	
 	public String getCreatedOnStr() {
 		return DATE_FORMAT.format(getCreatedOn().getTime());
+	}
+
+	public String getProgramType() {
+		return programType;
+	}
+
+	public void setProgramType(String programType) {
+		this.programType = programType;
 	}
 
 }

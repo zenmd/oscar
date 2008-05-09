@@ -36,7 +36,8 @@ import oscar.MyDateFormat;
 import java.util.Calendar;
 
 public class IntakeEditAction extends DispatchAction {
-    private ClientManager clientManager;
+/*
+	private ClientManager clientManager;
     private LookupManager lookupManager;
     private IntakeManager intakeManager;
     private ProgramManager programManager;
@@ -50,17 +51,14 @@ public class IntakeEditAction extends DispatchAction {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	String clientId = qform.getClientId();
-    	setClientIdParam(request,clientId);
-        Demographic client = null;
-        if ("0".equals(clientId))
-        {
-        	client= new Demographic();
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("id", clientId); 
         }
-        else
-        {
-        	client= clientManager.getClientByDemographicNo(clientId);
-        }
-       
+        request.setAttribute("actionParam", actionParam);
+
+		Demographic client= clientManager.getClientByDemographicNo(clientId);
 		qform.setClient(client);
 
 		qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
@@ -115,24 +113,7 @@ public class IntakeEditAction extends DispatchAction {
         
 		return mapping.findForward("edit");
 	}
-    private void setClientIdParam(HttpServletRequest request, String clientId)
-    {
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("id", clientId); 
-        }
-        request.setAttribute("actionParam", actionParam);
-    }
-/*    
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-		QuatroIntake intake= qform.getIntake();
-		Integer clientId = intake.getClientId();
-		request.getSession().setAttribute("clientId", clientId);
-    	return mapping.findForward("close");
-	}
-*/
+
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	return update(mapping,form,request,response);
 	}
@@ -144,9 +125,6 @@ public class IntakeEditAction extends DispatchAction {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	Demographic client= qform.getClient();
-    	String clientId = String.valueOf(client.getDemographicNo());
-       	setClientIdParam(request,clientId);
-        
 		client.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(qform.getDob())));
 		client.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(qform.getDob())));
 		client.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(qform.getDob())));
@@ -281,5 +259,5 @@ public class IntakeEditAction extends DispatchAction {
 			ClientRestrictionManager clientRestrictionManager) {
 		this.clientRestrictionManager = clientRestrictionManager;
 	}
-
+*/
 }
