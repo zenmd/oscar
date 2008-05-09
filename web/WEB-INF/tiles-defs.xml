@@ -110,6 +110,9 @@
 		
 		<put name="body" value="/PMmodule/PreIntakeForm.jsp" />
 	</definition>
+	<definition name="page.quatro.pmm.familyintake" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/QuatroFamilyIntake.jsp" />
+	</definition>
 	<definition name="page.quatro.pmm.summary" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroSummary.jsp" />
 	</definition>
@@ -138,7 +141,7 @@
 		<put name="body" value="/PMmodule/QuatroComplaintList.jsp" />
 	</definition>
 
-	<definition name="page.intake.edit" path="/PMmodule/layout.jsp">
+	<definition name="page.quatro.pmm.intakeedit" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroIntakeEdit.jsp" />
 	</definition>
 

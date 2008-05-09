@@ -23,23 +23,10 @@ function openHealthSafety(){
 	window.open(url,'HealthSafety', 'scrollbars=1,width=800,height=450');
 }	
 
-function openRelations(){
-    var url = '../demographic/AddAlternateContact.jsp';
-	url += '?demo='+ '<c:out value="${client.demographicNo}"/>&pmmClient=yes';
-	location.href = url;
-}
-
-function saveJointAdmission(clientId,headClientId,jType){
-	location.href = '<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>' + "?method=save_joint_admission&clientId=<c:out value='${client.demographicNo}'/>&headClientId="+headClientId+"&dependentClientId="+clientId+"&type="+jType;
-}
-function removeJointAdmission(clientId){
-	location.href = '<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>' + "?method=remove_joint_admission&clientId=<c:out value='${client.demographicNo}'/>&dependentClientId="+clientId;
-}
-
 </script>
-<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
-	<tr><th class="pageTitle">Client Management - Summary</th></tr>
-	<tr><td align="left"  class="buttonBar2" height="18px">
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr><th class="pageTitle" align="center">Client Management - Summary</th></tr>
+	<tr><td align="left" valign="middle" class="buttonBar2">
 		&nbsp;<b>Summary</b>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html-el:link action="/PMmodule/QuatroHistory.do" name="actionParam" style="color:Navy;text-decoration:none;">History</html-el:link>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -128,70 +115,17 @@ function removeJointAdmission(clientId){
 </table></div></td></tr>
 
 <tr><td>
-<table wdith="100%" class="simple">
-   <c:choose>
-     <c:when test="${relations == null}">
-       <tr><td><span style="color:red">No Family Members Registered</span>
-         <input type="button" value="Update" onclick="openRelations()" /></td></tr>
-     </c:when>
-     <c:otherwise>
-       <thead>
-         <th>Name</th>
-         <th>Relation</th>
-         <th>Status</th>
-         <th>Joint Admission</th>
-         <th>Age</th>
-       </thead>
-       <c:forEach var="rHash" items="${relations}">
-          <tr><td><a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?method=edit&id=<c:out value="${rHash['demographicNo']}"/>">
-           <c:out value="${rHash['lastName']}"/>, <c:out value="${rHash['firstName']}"/></a></td> 
-          <td><c:out value="${rHash['relation']}"/></td>
-          <td>
-             <c:choose>
-              <c:when test="${rHash['dependent'] == null}">
-                <c:if test="${rHash['dependentable'] != null}">
-                  Add as 
-                  <input type="button" onclick="saveJointAdmission('<c:out value="${rHash['demographicNo']}"/>','<c:out value="${client.demographicNo}" />','2')" value="dependent"/>
-                  <input type="button" onclick="saveJointAdmission('<c:out value="${rHash['demographicNo']}"/>','<c:out value="${client.demographicNo}" />','1')" value="spouse"/>
-                </c:if>
-              </c:when>
-              <c:when test="${rHash['dependent'] == 2}">
-                Dependent <input type="button" onclick="removeJointAdmission('<c:out value="${rHash['demographicNo']}"/>')" value="remove"/>
-              </c:when>
-              <c:when test="${rHash['dependent'] == 1}">
-                Spouse <input type="button" onclick="removeJointAdmission('<c:out value="${rHash['demographicNo']}"/>')" value="remove"/>
-              </c:when>
-              <c:when test="${rHash['dependent'] == 0}">
-                Head
-              </c:when>
-             </c:choose>    
-           </td>
-           <td>
-             <c:choose>
-               <c:when test="${rHash['jointAdmission'] == null}">
-                 No
-               </c:when>
-               <c:otherwise>
-                 Yes
-               </c:otherwise>
-             </c:choose>  
-           </td>
-           <td><c:out value="${rHash['age']}"/></td></tr>
-       </c:forEach>
-       <tr><td colspan="4">
-          <c:choose>
-           <c:when test="${groupName == null}">
-              Joint admit total for <c:out value="${client.formattedName}" /> : <c:out value="${relationSize}"/>
-           </c:when>
-           <c:otherwise>
-              Joint admit total for <c:out value="${groupName}" /> : <c:out value="${relationSize}"/>
-           </c:otherwise>
-         </c:choose>
-       </td>
-       <td><input type="button" value="Update" onclick="openRelations()" /></td></tr>
-      </c:otherwise>
-    </c:choose>
-</table>
+<display:table class="simple" cellspacing="2" cellpadding="3" id="member" name="family" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
+	<display:setProperty name="paging.banner.placement" value="bottom" />
+	<display:setProperty name="basic.msg.empty_list" value="No family memeber exists." />
+	
+	<display:column property="lastName" sortable="true" title="Last Name" />
+	<display:column property="firstName" sortable="true" title="First Name" />
+	<display:column property="dob" sortable="true" title="DOB" />
+	<display:column property="sexDesc" sortable="true" title="Gender" />
+	<display:column property="alias" sortable="true" title="Alias" />
+	<display:column property="relationshipDesc" sortable="true" title="Relationship" />
+</display:table>
 </td></tr>
 
 <tr><td><br><div class="tabs">
@@ -282,7 +216,7 @@ function removeJointAdmission(clientId){
 	
 	<display:column property="programName" sortable="true" title="Program Name" />
 	<display:column property="programType" sortable="true" title="Program Type" />
-	<display:column property="referralDate" format="{0, date, yyyy-MM-dd kk:mm}" sortable="true" title="Referral Date" />
+	<display:column property="referralDate" format="{0, date, yyyy/MM/dd kk:mm}" sortable="true" title="Referral Date" />
 	<display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
 	<display:column sortable="true" title="Days in Queue">
 	<%

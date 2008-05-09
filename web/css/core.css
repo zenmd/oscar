@@ -117,6 +117,15 @@ TH {
     border-color:Silver;
     border-style:solid;
  }
+.buttonBar4
+{	
+    FONT-SIZE: 8pt;
+    font-family:Arial Unicode MS;
+    COLOR: black;
+    border-width:0pt;  
+    border-color:Silver;
+    border-style:solid;
+ }
 .error {
 	color: #FF0000;
 	background-color: #EEEEFF;

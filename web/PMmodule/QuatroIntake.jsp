@@ -15,7 +15,7 @@ function submitForm(methodVal) {
 }
 	
 function updateQuatroIntake(clientId, intakeId) {
-	location.href = '<html:rewrite action="/PMmodule/QuatroIntake/Edit.do"/>' + "?method=update&intakeId=" + intakeId + "&clientId=" + clientId;
+	location.href = '<html:rewrite action="/PMmodule/QuatroIntakeEdit.do"/>' + "?method=update&intakeId=" + intakeId + "&clientId=" + clientId;
 }
 	
 </script>
@@ -61,21 +61,21 @@ function updateQuatroIntake(clientId, intakeId) {
 
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
-  <tr><td>Name</td>
+  <tr><td>Program Type</td>
   <td>Created On</td>
   <td>Staff</td>
   <td>Status</td>
   <td>Actions</td></tr>
 
   <logic-el:iterate id="intake" collection="${quatroIntake}">
-    <tr><td width="20%">Registration Intake</td>
+    <tr><td width="20%"><c:out value="${intake.programType}" /></td>
     <td><c:out value="${intake.createdOnStr}" /></td>
     <td><c:out value="${sessionScope.provider.formattedName}" /></td>
     <td><c:out value="${intake.intakeStatus}"/></td>
     <td><input type="button" value="Update" 
       onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" /></td></tr>
   </logic-el:iterate>						
-  <tr><td>Registration Intake</td>
+  <tr><td></td>
   <td></td>
   <td></td>
   <td></td>

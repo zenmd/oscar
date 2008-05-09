@@ -52,6 +52,7 @@
         <property name="lookupManager" ref="lookupManager"/>       
         <property name="intakeManager" ref="intakeManager"/>       
     </bean>
+    <bean name="/PMmodule/QuatroFamilyIntake" class="org.oscarehr.PMmodule.web.QuatroFamilyIntakeAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroHealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroClientSummary" class="org.oscarehr.PMmodule.web.QuatroClientSummaryAction" singleton="false" autowire="byName">
         <property name="healthSafetyManager" ref="healthSafetyManager"/>
@@ -60,7 +61,6 @@
         <property name="programManager" ref="programManager"/>       
         <property name="admissionManager" ref="admissionManager" />
         <property name="caseManagementManager" ref="caseManagementManager" />
-        <property name="consentManager" ref="consentManager" />
         <property name="bedDemographicManager" ref="bedDemographicManager" />
         <property name="roomDemographicManager" ref="roomDemographicManager" />
         <property name="roomManager" ref="roomManager" />
@@ -81,6 +81,13 @@
         <property name="programManager" ref="programManager"/>       
         <property name="admissionManager" ref="admissionManager" />
         <property name="intakeManager" ref="intakeManager"/>   
+    </bean>
+    <bean name="/PMmodule/QuatroIntakeEdit" class="org.oscarehr.PMmodule.web.QuatroIntakeEditAction" singleton="false">
+        <property name="clientManager" ref="clientManager"/>
+        <property name="lookupManager" ref="lookupManager"/>   
+        <property name="intakeManager" ref="intakeManager"/>   
+        <property name="programManager" ref="programManager"/>
+        <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
     </bean>
     <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
@@ -174,13 +181,6 @@
         <property name="surveyManager" ref="oscarSurveyManager"/>
         <property name="lookupManager" ref="lookupManager"/>   
         <property name="caseManagementManager" ref="caseManagementManager"/>       
-    </bean>
-    <bean name="/PMmodule/QuatroIntake/Edit" class="com.quatro.web.intake.IntakeEditAction" singleton="false">
-        <property name="clientManager" ref="clientManager"/>
-        <property name="lookupManager" ref="lookupManager"/>   
-        <property name="intakeManager" ref="intakeManager"/>   
-        <property name="programManager" ref="programManager"/>
-        <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
     </bean>
     <bean name="/PMmodule/GenericIntake/Report" class="org.oscarehr.PMmodule.web.GenericIntakeReportAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/EditIntake" class="org.oscarehr.PMmodule.web.EditIntakeAction" singleton="false" />

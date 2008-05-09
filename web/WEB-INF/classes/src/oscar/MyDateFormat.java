@@ -362,5 +362,15 @@ public class MyDateFormat {
     int age= MyDateFormat.getAge(year, month, date);
     return age;
 	}
-	
+
+	public static String formatMonthDay(String pValue) {
+		if(pValue==null) return null;
+		
+		if(pValue.length()==1){
+		  return "0" + pValue;
+		}else{
+		  return pValue;
+		}  
+	}
+
 }

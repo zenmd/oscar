@@ -6,7 +6,9 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
-<html-el:form action="/PMmodule/QuatroIntake/Edit.do">
+<html-el:form action="/PMmodule/QuatroIntakeEdit.do">
+<html:hidden property="intake.staffId"/>
+<html:hidden property="intake.intakeStatus"/>
 <html:hidden property="intake.referralId"/>
 <html:hidden property="intake.queueId"/>
 <html:hidden property="intake.clientId"/>
@@ -38,7 +40,9 @@ function submitForm(methodVal) {
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
             <html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
-            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close</html:link></td>
+            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>|
+            <html:link action="/PMmodule/QuatroFamilyIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
+            <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
