@@ -360,6 +360,7 @@ public class ClientManagerAction extends BaseAction {
 			request.getSession().removeAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION);
 			return mapping.findForward("case");
 		}
+        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CLIENT);
         setEditAttributes(form, request, id);
 
         logManager.log("read", "pmm client record", id, request);
