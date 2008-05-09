@@ -27,4 +27,13 @@ public class KeyConstants {
   public static final Integer MODULE_ID_REPORT = 5;
   public static final Integer MODULE_ID_INTAKE = 6;
   public static final Integer MODULE_ID_AGENCY = 7;  
+
+  public static final String PROGRAM_TYPE_Bed = "Bed";
+  public static final String PROGRAM_TYPE_Service = "Service";
+  public static final String PROGRAM_TYPE_External = "external";
+  public static final String PROGRAM_TYPE_Community = "community";
+
+  public static final String INTAKE_STATUS_ACTIVE = "active";
+  public static final String INTAKE_STATUS_ADMITTED = "admitted";
+  public static final String INTAKE_STATUS_REJECTED = "rejected";
 }
