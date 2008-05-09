@@ -1,0 +1,62 @@
+
+<%@ include file="/taglibs.jsp"%>
+
+<%
+response.setHeader("Cache-Control", "no-cache");
+%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"
+	scope="request" />
+<script type="text/javascript"
+	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
+<script>	
+	function submitForm(methodValue)
+	{
+		document.forms[0].method.value=methodValue;
+		document.forms[0].submit();
+	}
+</script>
+
+<html:form action="/PMmodule/UploadFile.do"
+	enctype="multipart/form-data">
+	<input type="hidden" name="method" value="save" />
+	<table border="0" cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<th class="pageTitle" width="100%">Attachment Edit</th>
+		</tr>
+		<tr>
+			<td align="left" class="buttonBar">
+				<a	href="javascript:submitForm('save')"
+					style="color:Navy;text-decoration:none;">&nbsp;Upload&nbsp;&nbsp;|</a>
+				<html:link action="/PMmodule/UploadFile.do"	style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/close.png"/> />&nbsp;Close&nbsp;&nbsp;|
+				</html:link>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" class="message">
+			<logic:messagesPresent	message="true">
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+			</logic:messagesPresent></td>
+		</tr>
+	</table>
+
+	<br>
+
+	<table WIDTH="95%">
+		<tr>
+			<th align="right" width="20%">Document Category</th>
+			<td><html:select property="attachmentValue.docType">
+				<html:options collection="lstDocType" property="code" labelProperty="description"></html:options>
+			</html:select></td>
+		</tr>
+		<tr>
+			<th ALIGN="right" width="20%">File Name</th>
+			<td><html:file property="attachmentText.imagefile" size="30">
+			</html:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
+			<!-- html:submit value="Upload" property="method" />--></td>
+		</tr>
+	</table>
+</html:form>
+
