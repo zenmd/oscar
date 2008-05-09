@@ -263,41 +263,41 @@ response.setHeader("Cache-Control", "no-cache");
 
 									<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
-										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true">
+										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true" style="color:Navy;text-decoration:none;">
 									<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
 								</c:when>
 								<c:when test="${note.signed and note.provider_no eq param.providerNo and (note.locked !=true)}">
 									<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
-										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true">
+										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true" style="color:Navy;text-decoration:none;">
 									<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png"	title="Edit Note" /> 
 									</a>
 								</c:when>
 								<c:otherwise>
-									<img border="0" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+									<img border="0" style="color:Navy;text-decoration:none;" src="<c:out value="${ctx}"/>/images/transparent_icon.gif" 	title="" />
 								</c:otherwise>
 							</c:choose> 
 							<c:choose>
 								<c:when test="${note.hasHistory == true and note.locked != true}">
 								<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
-										&providerNo=<c:out value="${param.providerNo}" />" >
+										&providerNo=<c:out value="${param.providerNo}" />"  style="color:Navy;text-decoration:none;" >
 									<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"
 									title="Note History" /> 
 								</a>
 								</c:when>
 								<c:otherwise>
-									<img border="0" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+									<img border="0" style="color:Navy;text-decoration:none;" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
 								</c:otherwise>
 							</c:choose> 
 							<c:choose>
 								<c:when test="${note.locked}">
-									<a	href="<html:rewrite action="/CaseManagementView2.do?method=unlock" />	 &noteId=<c:out value="${note.id}"/>
+									<a style="color:Navy;text-decoration:none;"	href="<html:rewrite action="/CaseManagementView2.do?method=unlock" />	 &noteId=<c:out value="${note.id}"/>
 										<img border="0" src="<c:out value="${ctx}"/>/images/ulock.gif"		title="Unlock"  />
 									</a>
 								</c:when>
 							<c:otherwise>
-								<img border="0" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
+								<img border="0" style="color:Navy;text-decoration:none;" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
 							</c:otherwise>
 							</c:choose>
 						</td>

@@ -179,7 +179,7 @@
 		<div> 
             <span>Document Attachment</span>
         <div>
-            <span><html:link action="/listDocument.do">Add/View Documents</html:link></span>
+            <span><html:link action="/PMmodule/UploadFile.do">Add/View Documents</html:link></span>
         </div>
         </div>
     </security:oscarSec>
