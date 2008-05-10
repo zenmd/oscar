@@ -56,7 +56,6 @@ public class QuatroClientHistoryAction  extends DispatchAction {
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
 
-   public static final String ID = "id";
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 /*
@@ -117,14 +116,14 @@ public class QuatroClientHistoryAction  extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-       DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
-       DemographicExt demographicExtConsentMethod = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.METHOD_OBTAINED_KEY);
+//       DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
+//       DemographicExt demographicExtConsentMethod = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.METHOD_OBTAINED_KEY);
 
-       ConsentGiven consentGiven = ConsentGiven.NONE;
-       if (demographicExtConsent != null) consentGiven = ConsentGiven.valueOf(demographicExtConsent.getValue());
+//       ConsentGiven consentGiven = ConsentGiven.NONE;
+//       if (demographicExtConsent != null) consentGiven = ConsentGiven.valueOf(demographicExtConsent.getValue());
 
-       Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
-       if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
+//       Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
+//       if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
 
 //       request.setAttribute("consentStatus", consentGiven.name());
 //       request.setAttribute("consentMethod", methodObtained.name());
