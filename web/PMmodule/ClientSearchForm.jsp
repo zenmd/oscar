@@ -44,7 +44,7 @@
 		</tr>
 		<tr>
 		<td class="buttonBar" align="left" height="18px"><html:link
-			action="/PMmodule/QuatroIntake/Edit.do?method=update&intakeId=0&clientId=0"
+			action="/PMmodule/QuatroIntakeEdit.do?method=update&intakeId=0&clientId=0"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;&nbsp;|</html:link>
 		<a href="javascript:submitForm()" style="color:Navy;text-decoration:none;">
