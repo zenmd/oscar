@@ -175,9 +175,11 @@ public class QuatroIntakeEditAction extends DispatchAction {
           		  }
             	}
             }
-            saveMessages(request,messages);
             
-    		if(isError) return mapping.findForward("edit");
+    		if(isError){
+                saveMessages(request,messages);
+    			return mapping.findForward("edit");
+    		}
           }
 		}
 
@@ -223,17 +225,23 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		qform.setLanguage(language);        
 		qform.setOriginalCountry(originalCountry);
 		
-
-		ArrayList lst2 = intakeManager.saveQuatroIntake(obj);
-		Integer intakeId = (Integer)lst2.get(0);
-		Integer referralId = (Integer)lst2.get(1);
-		Integer queueId = (Integer)lst2.get(2);
-		obj.setId(intakeId);
-		obj.setReferralId(referralId);
-		obj.setQueueId(queueId);
-        obj.setCurrentProgramId(obj.getProgramId());
-		qform.setIntake(obj);
-
+        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(), facilityId).size()>0){
+  			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
+          			request.getContextPath()));
+        	isError = true;
+		}else{
+			ArrayList lst2 = intakeManager.saveQuatroIntake(obj);
+			Integer intakeId = (Integer)lst2.get(0);
+			Integer referralId = (Integer)lst2.get(1);
+			Integer queueId = (Integer)lst2.get(2);
+			obj.setId(intakeId);
+			obj.setReferralId(referralId);
+			obj.setQueueId(queueId);
+	        obj.setCurrentProgramId(obj.getProgramId());
+			qform.setIntake(obj);
+		}
+		
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.saved", request.getContextPath()));
         saveMessages(request,messages);
 		

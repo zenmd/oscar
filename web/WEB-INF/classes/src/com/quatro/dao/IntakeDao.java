@@ -20,6 +20,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
+import org.oscarehr.PMmodule.model.Program;
 
 import oscar.MyDateFormat;
 
@@ -30,9 +31,25 @@ public class IntakeDao extends HibernateDaoSupport {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
         return getHibernateTemplate().find(sSQL);
 	}
-	
-	
-	public Integer findQuatroIntake(Integer clientId, Integer programId) {
+
+    public List checkExistBedIntakeByPrograms(Integer clientId, Program[] programs){
+        StringBuilder sb = new StringBuilder();
+        Object[] obj= new Object[programs.length+1];
+        obj[0]=clientId;
+        for(int i=1;i<=programs.length;i++){
+           sb.append(",?");
+           obj[i]=programs[i-1].getId();
+        }
+
+    	String sSQL="from QuatroIntakeDB i where i.clientId = ?" +
+		        " and i.programId in (" + sb.substring(1) + ") and i.intakeStatus='" + 
+		          KeyConstants.INTAKE_STATUS_ACTIVE + "'";
+		
+    	List result = getHibernateTemplate().find(sSQL, obj);
+	    return result;
+    }
+
+    public Integer findQuatroIntake(Integer clientId, Integer programId) {
 		List result = getHibernateTemplate().find("select i.id" +
 					" from QuatroIntakeDB i where i.clientId = ?" +
 					" and i.programId=? and i.intakeStatus='" + 
@@ -61,7 +78,6 @@ public class IntakeDao extends HibernateDaoSupport {
 				" from QuatroIntakeDB i, Program p where i.id = ?" +
 				" and p.id=i.programId",
 				  new Object[] {intakeId});
-
 
 		if(result.size()==0){
 		  return null;
@@ -309,7 +325,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		}
 		
 	}
-	
+
 	public List getQuatroIntakeHeaderList(Integer clientId, String programIds) {
 // Quatro Shelter doesn't use program_provider table any more, use secuserrole table.		
 //		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
@@ -330,19 +346,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		
 		return results;
 	}
-		
-	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
-//		select * from Intake i where i.client_id = 200492 and i.program_id in 
-//		(select p.program_id from program p, program_provider q where p.facility_id =200058 
-//and p.program_id=q.program_id and q.provider_no=999998) order by i.creation_date desc
-		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
-			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
-			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.createdOn desc",
-			new Object[] {clientId, facilityId, providerNo });
-
-		return results;
-	}
-	
+   
 	public List getClientIntakeFamily(String intakeId){
 		String sSQL="select a.intakeHeadId from QuatroIntakeFamily a " +
 		  " WHERE a.intakeId = ? and a.memberStatus='" + 
@@ -363,9 +367,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		List result = getHibernateTemplate().find(sSQL2, new Object[] {Integer.valueOf(intakeHeadId)});
 		return result;
 	}
-	
-	
-		//bFamilyMember=true for family member intake
+
+	//bFamilyMember=true for family member intake
 	//bFamilyMember=false for individual person or family head intake
 	public ArrayList saveQuatroIntake(QuatroIntake intake, boolean bFamilyMember){
 	    QuatroIntakeDB intakeDb= null;

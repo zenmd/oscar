@@ -18,6 +18,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
+import org.oscarehr.PMmodule.model.Program;
 
 import oscar.MyDateFormat;
 
@@ -42,6 +43,12 @@ public class IntakeManager {
         return clientDao.getClientByDemographicNo(Integer.valueOf(demographicNo));
     }
 
+    public List checkExistBedIntakeByFacility(Integer clientId, Integer facilityId){
+    	Program[] programs =programDao.getBedPrograms(facilityId);
+    	if(programs==null || programs.length==0) return new ArrayList();
+    	return intakeDao.checkExistBedIntakeByPrograms(clientId, programs);
+    }
+    
     public List getClientFamilyByIntakeId(String intakeId) {
         if (intakeId == null || intakeId.length() == 0) {
             return null;
