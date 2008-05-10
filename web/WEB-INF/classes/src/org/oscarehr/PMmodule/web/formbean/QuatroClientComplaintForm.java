@@ -1,66 +1,64 @@
 package org.oscarehr.PMmodule.web.formbean;
 
-import org.apache.struts.validator.ValidatorForm;
-import org.oscarehr.PMmodule.model.QuatroComplaint;
-import org.oscarehr.PMmodule.model.QuatroComplaintOutcome;
 import java.util.List;
 
-public class QuatroClientComplaintForm extends ValidatorForm{
-	QuatroComplaint complaint;
-	QuatroComplaintOutcome outcome;
-    List titleList;
-    List radioStatuses;
-    List radioYNs;
-    List outcomeSatisfiedList;
-    List sourceComplaintList;
-    List methodContactList;
+import net.sf.navigator.menu.MenuRepository;
 
-    public QuatroComplaint getComplaint() {
+import org.apache.struts.validator.ValidatorForm;
+
+import com.quatro.model.Complaint;
+
+public class QuatroClientComplaintForm extends ValidatorForm{
+	
+	Complaint complaint;
+	
+    List sources;
+	List methods;
+	List outcomes;
+	List sections;
+	List subsections;
+	
+	//String OutstandingChk;
+	
+	
+	public Complaint getComplaint() {
+		if(complaint == null)
+			complaint = new Complaint();
+			
 		return complaint;
 	}
-	public void setComplaint(QuatroComplaint complaint) {
+	public void setComplaint(Complaint complaint) {
 		this.complaint = complaint;
 	}
-	public List getMethodContactList() {
-		return methodContactList;
+	public List getMethods() {
+		return methods;
 	}
-	public void setMethodContactList(List methodContactList) {
-		this.methodContactList = methodContactList;
+	public void setMethods(List methods) {
+		this.methods = methods;
 	}
-	public QuatroComplaintOutcome getOutcome() {
-		return outcome;
+	public List getOutcomes() {
+		return outcomes;
 	}
-	public void setOutcome(QuatroComplaintOutcome outcome) {
-		this.outcome = outcome;
+	public void setOutcomes(List outcomes) {
+		this.outcomes = outcomes;
 	}
-	public List getOutcomeSatisfiedList() {
-		return outcomeSatisfiedList;
+	public List getSections() {
+		return sections;
 	}
-	public void setOutcomeSatisfiedList(List outcomeSatisfiedList) {
-		this.outcomeSatisfiedList = outcomeSatisfiedList;
+	public void setSections(List sections) {
+		this.sections = sections;
 	}
-	public List getRadioStatuses() {
-		return radioStatuses;
+	public List getSources() {
+		return sources;
 	}
-	public void setRadioStatuses(List radioStatuses) {
-		this.radioStatuses = radioStatuses;
+	public void setSources(List sources) {
+		this.sources = sources;
 	}
-	public List getRadioYNs() {
-		return radioYNs;
+	public List getSubsections() {
+		return subsections;
 	}
-	public void setRadioYNs(List radioYNs) {
-		this.radioYNs = radioYNs;
+	public void setSubsections(List subsections) {
+		this.subsections = subsections;
 	}
-	public List getSourceComplaintList() {
-		return sourceComplaintList;
-	}
-	public void setSourceComplaintList(List sourceComplaintList) {
-		this.sourceComplaintList = sourceComplaintList;
-	}
-	public List getTitleList() {
-		return titleList;
-	}
-	public void setTitleList(List titleList) {
-		this.titleList = titleList;
-	}
+	
 }

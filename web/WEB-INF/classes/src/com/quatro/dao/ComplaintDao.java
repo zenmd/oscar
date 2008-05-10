@@ -12,15 +12,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.model.Complaint;
 
 /**
- * A data access object (DAO) providing persistence and search support for
- * Complaint entities. Transaction control of the save(), update() and delete()
- * operations can directly support Spring container-managed transactions or they
- * can be augmented to handle user-managed Spring transactions. Each of these
- * methods provides additional information for how to configure it for the
- * desired type of transaction control.
- * 
- * @see com.quatro.model.Complaint
- * @author MyEclipse Persistence Tools
+ *
+ * @author JZhang
  */
 
 public class ComplaintDao extends HibernateDaoSupport {
@@ -69,10 +62,73 @@ public class ComplaintDao extends HibernateDaoSupport {
 
 	public static final String PROGRAM_ID = "programId";
 
+	
+   public List getSources() {
+	   log.debug("finding all LstComplaintSource instances");
+		try {
+			String queryString = "from LstComplaintSource";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public List getMethods() {
+		log.debug("finding all LstComplaintMethod instances");
+		try {
+			String queryString = "from LstComplaintMethod";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public List getOutcomes() {
+		log.debug("finding all LstComplaintOutcome instances");
+		try {
+			String queryString = "from LstComplaintOutcome";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public List getSections() {
+		log.debug("finding all LstComplaintSection instances");
+		try {
+			String queryString = "from LstComplaintSection";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public List getSubsections() {
+		log.debug("finding all LstComplaintSubsection instances");
+		try {
+			String queryString = "from LstComplaintSubsection";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	
+	
 	public void save(Complaint transientInstance) {
 		log.debug("saving Complaint instance");
 		try {
-			getSession().save(transientInstance);
+			getSession().saveOrUpdate(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);

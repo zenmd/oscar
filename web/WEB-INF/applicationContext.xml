@@ -525,15 +525,7 @@
         <property name="secroleDao" ref="secroleDao"/>
         <property name="secobjprivilegeDao" ref="secobjprivilegeDao"/>
     </bean>
-    <!-- 
-    <bean id="usersManager" class="com.quatro.service.security.UsersManager"  autowire="byName" parent="baseTransactionProxy">
-        <property name="secroleDao" ref="secroleDao"/>
-        <property name="securityDao" ref="securityDao"/>
-        <property name="secProviderDao" ref="secProviderDao"/>
-    </bean>
-    Note: 1.if using autowire="byName", we do not need claim the DAOs 
-          2. add transaction like bellow
-    -->
+    
     <bean id="usersManager" parent="baseTransactionProxy" lazy-init="default" dependency-check="default">
         <property name="target">
             <bean class="com.quatro.service.security.UsersManager" autowire="byName"/>
@@ -541,4 +533,10 @@
     </bean>
     
     <!-- admin End -->
+    <bean id="complaintDao" class="com.quatro.dao.ComplaintDao" autowire="byName" />
+    <bean id="complaintManager" parent="baseTransactionProxy" lazy-init="default" dependency-check="default">
+        <property name="target">
+            <bean class="org.oscarehr.PMmodule.service.ComplaintManager" autowire="byName"/>
+        </property>
+    </bean>
 </beans>

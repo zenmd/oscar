@@ -1,10 +1,12 @@
 package com.quatro.model;
 
-import java.util.Date;
+//import java.util.Date;
+import java.util.Calendar;
+import oscar.MyDateFormat;
 
 
 /**
- * Complaint entity. @author MyEclipse Persistence Tools
+ * Complaint entity. @author JZhang
  */
 
 public class Complaint  implements java.io.Serializable {
@@ -18,68 +20,55 @@ public class Complaint  implements java.io.Serializable {
      private String firstname;
      private String lastname;
      private String standards;
+     private String[] standards1 = {};
+     private String[] standards2 = {};
      private String description;
      private String satisfiedWithOutcome;
      private String standardsBreached;
      private String outstandingIssues;
      private String status;
-     private Date completedDate;
-     private Date createdDate;
+     private Calendar completedDate;
+     private Calendar createdDate;
      private String duration;
      private String person1;
      private String title1;
-     private Date date1;
+     private Calendar date1;
      private String person2;
      private String title2;
-     private Date date2;
+     private Calendar date2;
      private String person3;
      private String title3;
-     private Date date3;
+     private Calendar date3;
      private String person4;
      private String title4;
-     private Date date4;
+     private Calendar date4;
      private Long clientId;
      private Long programId;
+     
+     
 
-
+     private String date1x;
+     private String date2x;
+     private String date3x;
+     private String date4x;
+     private String completedDatex;
+     private String createdDatex;
+     
     // Constructors
+/*
+    public String getCreatedDateStr() {
+		String str = "Unknown";
+    	if(createdDate != null)
+    		str = createdDate.toString().substring(0, 10);
+    	return str;
+	}
+*/
 
-    /** default constructor */
+	/** default constructor */
     public Complaint() {
     }
 
-    
-    /** full constructor */
-    public Complaint(String source, String method, String firstname, String lastname, String standards, String description, String satisfiedWithOutcome, String standardsBreached, String outstandingIssues, String status, Date completedDate, Date createdDate, String duration, String person1, String title1, Date date1, String person2, String title2, Date date2, String person3, String title3, Date date3, String person4, String title4, Date date4, Long clientId, Long programId) {
-        this.source = source;
-        this.method = method;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.standards = standards;
-        this.description = description;
-        this.satisfiedWithOutcome = satisfiedWithOutcome;
-        this.standardsBreached = standardsBreached;
-        this.outstandingIssues = outstandingIssues;
-        this.status = status;
-        this.completedDate = completedDate;
-        this.createdDate = createdDate;
-        this.duration = duration;
-        this.person1 = person1;
-        this.title1 = title1;
-        this.date1 = date1;
-        this.person2 = person2;
-        this.title2 = title2;
-        this.date2 = date2;
-        this.person3 = person3;
-        this.title3 = title3;
-        this.date3 = date3;
-        this.person4 = person4;
-        this.title4 = title4;
-        this.date4 = date4;
-        this.clientId = clientId;
-        this.programId = programId;
-    }
-
+  
    
     // Property accessors
 
@@ -123,15 +112,11 @@ public class Complaint  implements java.io.Serializable {
         this.lastname = lastname;
     }
 
-    public String getStandards() {
-        return this.standards;
-    }
-    
-    public void setStandards(String standards) {
-        this.standards = standards;
-    }
+	public void setStandards2(String[] standards2) {
+		this.standards2 = standards2;
+	}
 
-    public String getDescription() {
+	public String getDescription() {
         return this.description;
     }
     
@@ -171,19 +156,23 @@ public class Complaint  implements java.io.Serializable {
         this.status = status;
     }
 
-    public Date getCompletedDate() {
+    public Calendar getCompletedDate() {
         return this.completedDate;
     }
     
-    public void setCompletedDate(Date completedDate) {
+    public void setCompletedDate(Calendar completedDate) {
         this.completedDate = completedDate;
     }
 
-    public Date getCreatedDate() {
+    public void setCompletedDate(String completedDate) {
+        this.completedDate = MyDateFormat.getCalendar(completedDate);
+    }
+
+    public Calendar getCreatedDate() {
         return this.createdDate;
     }
     
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -211,12 +200,16 @@ public class Complaint  implements java.io.Serializable {
         this.title1 = title1;
     }
 
-    public Date getDate1() {
+    public Calendar getDate1() {
         return this.date1;
     }
     
-    public void setDate1(Date date1) {
+    public void setDate1(Calendar date1) {
         this.date1 = date1;
+    }
+
+    public void setDate1(String date1) {
+        this.date1 = MyDateFormat.getCalendar(date1);
     }
 
     public String getPerson2() {
@@ -235,14 +228,18 @@ public class Complaint  implements java.io.Serializable {
         this.title2 = title2;
     }
 
-    public Date getDate2() {
+    public Calendar getDate2() {
         return this.date2;
     }
     
-    public void setDate2(Date date2) {
+    public void setDate2(Calendar date2) {
         this.date2 = date2;
     }
 
+    public void setDate2(String date2) {
+        this.date2 = MyDateFormat.getCalendar(date2);
+    }
+    
     public String getPerson3() {
         return this.person3;
     }
@@ -259,14 +256,18 @@ public class Complaint  implements java.io.Serializable {
         this.title3 = title3;
     }
 
-    public Date getDate3() {
+    public Calendar getDate3() {
         return this.date3;
     }
     
-    public void setDate3(Date date3) {
+    public void setDate3(Calendar date3) {
         this.date3 = date3;
     }
 
+    public void setDate3(String date3) {
+        this.date3 = MyDateFormat.getCalendar(date3);
+    }
+    
     public String getPerson4() {
         return this.person4;
     }
@@ -283,12 +284,16 @@ public class Complaint  implements java.io.Serializable {
         this.title4 = title4;
     }
 
-    public Date getDate4() {
+    public Calendar getDate4() {
         return this.date4;
     }
     
-    public void setDate4(Date date4) {
+    public void setDate4(Calendar date4) {
         this.date4 = date4;
+    }
+
+    public void setDate4(String date4) {
+        this.date4 = MyDateFormat.getCalendar(date4);
     }
 
     public Long getClientId() {
@@ -306,6 +311,101 @@ public class Complaint  implements java.io.Serializable {
     public void setProgramId(Long programId) {
         this.programId = programId;
     }
+
+
+	public String[] getStandards2() {
+		return standards2;
+	}
+
+
+	public String getStandards() {
+		return standards;
+	}
+
+
+	public void setStandards(String standards) {
+		this.standards = standards;
+	}
+
+
+	public String[] getStandards1() {
+		return standards1;
+	}
+
+
+	public void setStandards1(String[] standards1) {
+		this.standards1 = standards1;
+	}
+
+
+	public String getCompletedDatex() {
+		return completedDatex;
+	}
+
+
+	public void setCompletedDatex(String completedDatex) {
+		this.completedDatex = completedDatex;
+	}
+
+
+	public String getDate1x() {
+		return date1x;
+	}
+
+
+	public void setDate1x(String date1x) {
+		this.date1x = date1x;
+	}
+
+
+	public String getDate2x() {
+		return date2x;
+	}
+
+
+	public void setDate2x(String date2x) {
+		this.date2x = date2x;
+	}
+
+
+	public String getDate3x() {
+		return date3x;
+	}
+
+
+	public void setDate3x(String date3x) {
+		this.date3x = date3x;
+	}
+
+
+	public String getDate4x() {
+		return date4x;
+	}
+
+
+	public void setDate4x(String date4x) {
+		this.date4x = date4x;
+	}
+
+
+	public String getCreatedDatex() {
+		String str = "Unknown";
+    	if(createdDate != null)
+    		str = MyDateFormat.getStandardDate(createdDate);
+    		
+		return str;
+	}
+	public String getCreatedDatexFromPage() {
+		   		
+		return createdDatex;
+	}
+
+	public void setCreatedDatex(String createdDatex) {
+		this.createdDatex = createdDatex;
+	}
+
+
+	
    
 
 

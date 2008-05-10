@@ -44,13 +44,10 @@
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				<html:link
-				action="/PMmodule/QuatroComplaint.do?method=edit"
+				action="/PMmodule/QuatroComplaint.do?method=edit" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
-				<html:link
-				action="/PMmodule/QuatroComplaint.do?method=save"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link></td>
+				</td>
 		</tr>
 		<tr>
 			<td align="left" class="message"><logic:messagesPresent
@@ -85,7 +82,7 @@
 	
 					<display:column sortable="true" title="ComplaintID">
 						<a
-							href="<html:rewrite action="/PMmodule/QuatroComplaint.do"/>?method=edit&id=<c:out value="${complaint.id}" />">
+							href="<html:rewrite action="/PMmodule/QuatroComplaint.do"/>?method=edit&id=<c:out value="${complaint.clientId}" />&complaintId=<c:out value="${complaint.id}" />">
 						<c:out value="${complaint.id}" /> </a>
 					</display:column>
 	
@@ -95,10 +92,12 @@
 	
 					<display:column property="lastname" sortable="true" title="Last Name" />
 					
-					<display:column property="lastname" sortable="true" title="Created Date" />
+					<display:column property="createdDatex"  sortable="true" title="Created Date" />
 					
-					<display:column property="status" sortable="true" title="Status" />
-					
+					<display:column sortable="true" title="Status">
+						<logic:equal name="complaint" property="status" value="1">Completed</logic:equal>
+						<logic:equal name="complaint" property="status" value="0">In Progress</logic:equal>
+					</display:column>
 						
 				</display:table>
 

@@ -135,8 +135,7 @@
         <property name="roomManager" ref="roomManager" />
         <property name="bedManager" ref="bedManager" />
     </bean>
-    <bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
-    </bean>
+    
     <bean name="/PMmodule/ProviderInfo" class="org.oscarehr.PMmodule.web.ProviderInfoAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >
@@ -342,6 +341,9 @@
 		<property name="usersManager" ref="usersManager"/>
 	</bean>
 	<!-- admin End -->
-	
+	<bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
+    	<property name="complaintManager" ref="complaintManager"/>
+    	<property name="lookupManager" ref="lookupManager"/>
+    </bean>
 	
 </beans>
