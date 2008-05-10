@@ -82,7 +82,7 @@ public class QuatroClientSummaryAction extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
 //        don't delete sample code below for html:link parameter       
 //        actionParam.put("id", "200492"); 
 //        actionParam.put("floatProperty", new Float(444.0)); 
@@ -92,7 +92,7 @@ public class QuatroClientSummaryAction extends DispatchAction {
 
        request.setAttribute("actionParam", actionParam);
 
-       String demographicNo= (String)actionParam.get("id");
+       String demographicNo= (String)actionParam.get("clientId");
        setEditAttributes(form, request, demographicNo);
 
        return mapping.findForward("edit");
@@ -102,7 +102,7 @@ public class QuatroClientSummaryAction extends DispatchAction {
        
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
-       request.setAttribute("id", demographicNo);
+       request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();

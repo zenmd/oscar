@@ -29,7 +29,6 @@ public class QuatroClientComplaintAction extends DispatchAction {
 
 	private LookupManager lookupManager;
 
-	public static final String ID = "id";
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -50,12 +49,12 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
-			actionParam.put("id", request.getParameter("id"));
+			actionParam.put("clientId", request.getParameter("clientId"));
 		}
 		request.setAttribute("actionParam", actionParam);
 
-		String tmp = (String) actionParam.get("id");
-		request.setAttribute("id", tmp);
+		String tmp = (String) actionParam.get("clientId");
+		request.setAttribute("clientId", tmp);
 
 		// String tmp = request.getParameter("id");
 		Long clientId = Long.valueOf(tmp);
@@ -75,12 +74,12 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
-			actionParam.put("id", request.getParameter("id"));
+			actionParam.put("clientId", request.getParameter("clientId"));
 		}
 		request.setAttribute("actionParam", actionParam);
 
-		String tmp = (String) actionParam.get("id");
-		request.setAttribute("id", tmp);
+		String tmp = (String) actionParam.get("clientId");
+		request.setAttribute("clientId", tmp);
 
 		QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 
@@ -166,12 +165,12 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
-			actionParam.put("id", request.getParameter("id"));
+			actionParam.put("clientId", request.getParameter("clientId"));
 		}
 		request.setAttribute("actionParam", actionParam);
 
-		String tmp = (String) actionParam.get("id");
-		request.setAttribute("id", tmp);
+		String tmp = (String) actionParam.get("clientId");
+		request.setAttribute("clientId", tmp);
 
 		QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 		Complaint complaint = complaintForm.getComplaint();

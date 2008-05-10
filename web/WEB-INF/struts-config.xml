@@ -355,7 +355,7 @@
             <form-property name="notSignReasonList" type="java.util.List" />
         </form-bean>
         <form-bean name="quatroClientReferForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="id" type="java.lang.String" />
+            <form-property name="clientId" type="java.lang.String" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
             <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />

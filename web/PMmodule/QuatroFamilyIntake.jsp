@@ -6,7 +6,7 @@
  
 <html-el:form action="/PMmodule/QuatroFamilyIntake.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="id" value="<c:out value="${id}" />"/>
+<input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <html:hidden property="intakeId" />
 <script lang="javascript">
 function submitForm(methodVal) {

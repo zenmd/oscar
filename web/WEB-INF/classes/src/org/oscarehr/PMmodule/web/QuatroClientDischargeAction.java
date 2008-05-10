@@ -69,7 +69,6 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    private LookupManager lookupManager;
    private IntakeManager intakeManager;
 
-   public static final String ID = "id";
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        
@@ -100,7 +99,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        Long aId = new Long(request.getParameter("admissionId"));
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("clientId")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
@@ -109,7 +108,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
 
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
-       request.setAttribute("id", demographicNo);
+       request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        
        clientForm.set("admission", admissionManager.getAdmission(aId));       
@@ -128,16 +127,16 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("id");
+       String demographicNo= (String)actionParam.get("clientId");
        
        ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
-       request.setAttribute("id", demographicNo);
+       request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);

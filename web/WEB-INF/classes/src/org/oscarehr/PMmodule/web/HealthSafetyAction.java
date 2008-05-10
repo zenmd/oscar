@@ -36,7 +36,7 @@ public class HealthSafetyAction extends DispatchAction {
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
-		String id = request.getParameter("id");
+		String id = request.getParameter("clientId");
 				
 		HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Long.valueOf(id));
 		if(healthsafety != null) {

@@ -57,13 +57,13 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("id");
-       request.setAttribute("id", demographicNo);
+       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        clientForm.setGenders(genders);
@@ -105,13 +105,13 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("id");
-       request.setAttribute("id", demographicNo);
+       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        clientForm.setGenders(genders);
@@ -167,13 +167,13 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("id");
-       request.setAttribute("id", demographicNo);
+       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        clientForm.setGenders(genders);
@@ -230,13 +230,13 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
 
-       String demographicNo= (String)actionParam.get("id");
-       request.setAttribute("id", demographicNo);
+       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        clientForm.setGenders(genders);

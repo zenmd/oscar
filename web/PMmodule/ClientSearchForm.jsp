@@ -171,10 +171,10 @@
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
 			<display:column sortable="true" title="Client No">
-                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?id=<c:out value="${client.currentRecord}"/>&consent=<c:out value="${consent}"/>"><c:out value="${client.demographicNo}" /></a>
+                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
             </display:column>
 			<display:column sortable="true" title="Name">
-                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?id=<c:out value="${client.currentRecord}"/>&consent=<c:out value="${consent}"/>"><c:out value="${client.formattedName}" /></a>
+                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.formattedName}" /></a>
 			</display:column>
 			<display:column sortable="true" title="Date of Birth">
 				<c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />

@@ -8,7 +8,7 @@
  
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="method"/>
-<html:hidden property="id"/>
+<html:hidden property="clientId"/>
 <script>
 	function resetClientFields() {
 		var form = document.quatroClientReferForm;

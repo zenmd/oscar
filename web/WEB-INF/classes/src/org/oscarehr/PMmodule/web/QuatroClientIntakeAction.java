@@ -107,16 +107,16 @@ public class QuatroClientIntakeAction  extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("id");
+       String demographicNo= (String)actionParam.get("clientId");
        
        ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
-       request.setAttribute("id", demographicNo);
+       request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
@@ -180,8 +180,8 @@ public class QuatroClientIntakeAction  extends DispatchAction {
 	 this.providerManager = providerManager;
    }
 
-public void setIntakeManager(IntakeManager intakeManager) {
-	this.intakeManager = intakeManager;
-}
+   public void setIntakeManager(IntakeManager intakeManager) {
+	 this.intakeManager = intakeManager;
+   }
 
 }

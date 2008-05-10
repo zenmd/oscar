@@ -54,7 +54,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
      	  actionParam = new HashMap();
-           actionParam.put("id", clientId); 
+           actionParam.put("clientId", clientId); 
            actionParam.put("intakeId", intakeId.toString()); 
         }
         request.setAttribute("actionParam", actionParam);
@@ -131,7 +131,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
      	  actionParam = new HashMap();
-           actionParam.put("id", clientId); 
+           actionParam.put("clientId", clientId); 
         }
         request.setAttribute("actionParam", actionParam);
     	

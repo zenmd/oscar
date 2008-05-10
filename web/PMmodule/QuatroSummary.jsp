@@ -10,7 +10,7 @@
  
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
 <input type="hidden" name="method" value="edit" />
-<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>"/>
+<input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
 <script lang="javascript">
 function submitForm(methodVal) {
 	document.forms(0).method.value = methodVal;
@@ -19,7 +19,7 @@ function submitForm(methodVal) {
 
 function openHealthSafety(){
 	var url = '<html:rewrite action="/PMmodule/QuatroHealthSafety.do"/>';
-		url += '?method=form&id='+ '<c:out value="${client.demographicNo}"/>';
+		url += '?method=form&clientId='+ '<c:out value="${client.demographicNo}"/>';
 	window.open(url,'HealthSafety', 'scrollbars=1,width=800,height=450');
 }	
 

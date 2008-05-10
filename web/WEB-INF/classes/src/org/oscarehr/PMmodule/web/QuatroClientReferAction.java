@@ -64,8 +64,6 @@ public class QuatroClientReferAction  extends DispatchAction {
    private RoomManager roomManager;
    private BedManager bedManager;
 
-   public static final String ID = "id";
-
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 /*
 	   DynaActionForm clientForm = (DynaActionForm) form;
@@ -118,7 +116,7 @@ public class QuatroClientReferAction  extends DispatchAction {
        p.setName(program.getName());
        request.setAttribute("program", program);
 
-       request.setAttribute("id", (String)clientForm.get("id"));
+       request.setAttribute("clientId", (String)clientForm.get("clientId"));
        
        request.setAttribute("do_refer", true);
        request.setAttribute("temporaryAdmission", programManager.getEnabled());
@@ -136,11 +134,11 @@ public class QuatroClientReferAction  extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("id");
-       request.setAttribute("id", demographicNo);
+       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("clientId", demographicNo);
 
        ProgramUtils.addProgramRestrictions(request);
 
@@ -153,10 +151,10 @@ public class QuatroClientReferAction  extends DispatchAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("id", request.getParameter("id")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("id");
+       String demographicNo= (String)actionParam.get("clientId");
        
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
