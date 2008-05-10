@@ -133,12 +133,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	String clientId = qform.getClientId();
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("clientId", clientId); 
-        }
-        request.setAttribute("actionParam", actionParam);
     	
     	Demographic client= qform.getClient();
     	String[] split = qform.getDob().split("/");
@@ -146,6 +140,15 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
 		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
     	clientManager.saveClient(client);
+
+    	HashMap actionParam = new HashMap();
+//        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+//        if(actionParam==null){
+//     	  actionParam = new HashMap();
+//           actionParam.put("clientId", clientId); 
+//        }
+        actionParam.put("clientId", client.getDemographicNo()); 
+        request.setAttribute("actionParam", actionParam);
     	
     	QuatroIntake obj= qform.getIntake();
     	obj.setClientId(client.getDemographicNo());
