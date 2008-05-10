@@ -59,10 +59,15 @@ public class QuatroIntakeEditAction extends DispatchAction {
         }
         request.setAttribute("actionParam", actionParam);
 
-		Demographic client= clientManager.getClientByDemographicNo(clientId);
+        Demographic client;
+        if(Integer.parseInt(clientId)>0){
+		  client= clientManager.getClientByDemographicNo(clientId);
+		  qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
+        }else{
+          client= new Demographic();
+  		  qform.setDob("");
+        } 	
 		qform.setClient(client);
-
-		qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
         
 		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
   		qform.setOptionList(optionValues);
@@ -143,6 +148,8 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	clientManager.saveClient(client);
     	
     	QuatroIntake obj= qform.getIntake();
+    	obj.setClientId(client.getDemographicNo());
+//    	obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 		
 		//get program type
     	ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();

@@ -470,6 +470,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		}else{
 			intakeDb = new QuatroIntakeDB();
 		    intakeDb.setId(intake.getId());
+		    intakeDb.setIntakeStatus(intake.getIntakeStatus());
 		    
 		    intakeDb.setClientId(intake.getClientId());
 		    intakeDb.setCreatedOn(intake.getCreatedOn());
