@@ -40,9 +40,13 @@ function submitForm(methodVal) {
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
             <html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
-            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>|
+            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+          <c:if test="${quatroIntakeEditForm.intake.id!=0}">
+            |
             <html:link action="/PMmodule/QuatroFamilyIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
-            <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</html:link></td>
+            <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</html:link>
+          </c:if>    
+            </td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
