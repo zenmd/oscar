@@ -50,7 +50,7 @@ public class IntakeManager {
         //avoid to join intake_family/intake table and demegraphic table for query
         List lst = intakeDao.getClientIntakeFamily(intakeId);
         
-        if(lst.size()==0) return lst;
+        if(lst==null) return null;
 
         List relationships = lookupDao.LoadCodeList("FRA",true, null, null);
         for(Object element : lst) {

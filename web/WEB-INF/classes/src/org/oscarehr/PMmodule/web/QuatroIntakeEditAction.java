@@ -190,7 +190,8 @@ public class QuatroIntakeEditAction extends DispatchAction {
 				  String.valueOf(cal.get(Calendar.MONTH)+1) + "/" +  
 				  String.valueOf(cal.get(Calendar.DATE)));
 		}
-
+ 
+		if(obj.getId().intValue()==0)obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);		
 		obj.setLanguage(request.getParameter("language_code"));
 		obj.setOriginalCountry(request.getParameter("originalCountry_code"));
 //		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
