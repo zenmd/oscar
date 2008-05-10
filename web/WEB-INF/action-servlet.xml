@@ -122,6 +122,7 @@
         <property name="roomManager" ref="roomManager" />
         <property name="bedManager" ref="bedManager" />
         <property name="lookupManager" ref="lookupManager" />
+        <property name="intakeManager" ref="intakeManager"/>   
     </bean>
     <bean name="/PMmodule/QuatroServiceRestriction" class="org.oscarehr.PMmodule.web.QuatroClientServiceRestrictionAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />

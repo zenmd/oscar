@@ -379,6 +379,10 @@
             <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
+            <form-property name="dischargeReason" type="java.lang.String"></form-property>
+            <form-property name="dischargeNote" type="java.lang.String"></form-property>
+            <form-property name="dischargeTo" type="java.lang.String"></form-property>
+            <form-property name="transportationType" type="java.lang.String"></form-property>            
         </form-bean>
         <form-bean name="quatroClientServiceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
@@ -1688,6 +1692,7 @@
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
         <action path="/PMmodule/QuatroDischarge" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientDischargeForm" scope="request">
+            <forward name="list" path="page.quatro.pmm.discharge.list"></forward>
             <forward name="edit" path="page.quatro.pmm.discharge" />
             <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
             <forward name="consent" path="page.pmm.erconsent" />

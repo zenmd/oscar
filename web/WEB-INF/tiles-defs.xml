@@ -131,6 +131,9 @@
 	<definition name="page.quatro.pmm.discharge" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroDischarge.jsp" />
 	</definition>
+	<definition name="page.quatro.pmm.discharge.list" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/QuatroDischargeList.jsp" />
+	</definition>
 	<definition name="page.quatro.pmm.servicerestriction" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroServiceRestriction.jsp" />
 	</definition>
