@@ -62,7 +62,9 @@ public class AdmissionManager {
     public List getAdmissions_archiveView(String programId, Integer demographicNo) {
 		return dao.getAdmissions_archiveView(Integer.valueOf(programId), demographicNo);
 	}
-	
+	public List getAdmissionListByStatus(Integer clientId, Integer facilityId, String providerNo,String status) {
+		return dao.getAdmissionListByStatus(clientId, facilityId,providerNo,status);
+	}
 	public Admission getAdmission(String programId, Integer demographicNo) {
 		return dao.getAdmission(Integer.valueOf(programId), demographicNo);
 	}

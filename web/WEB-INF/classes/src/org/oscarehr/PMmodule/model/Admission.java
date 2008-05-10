@@ -86,7 +86,11 @@ public class Admission implements Serializable {
 	private boolean dischargeFromTransfer=false;
 	private boolean admissionFromTransfer=false;
 	private boolean automaticDischarge=false;
-	
+	private String radioDischargeReasonDesc;
+	private String communityProgramCode;
+	private String communityProgramDesc;
+	private String transportationType;
+	private String transportationTypeDesc;
 	public boolean isDischargeFromTransfer() {
         return dischargeFromTransfer;
     }
@@ -467,5 +471,45 @@ public class Admission implements Serializable {
 	public String toString() {
     	return super.toString();
     }
+
+	public String getCommunityProgramCode() {
+		return communityProgramCode;
+	}
+
+	public void setCommunityProgramCode(String communityProgram) {
+		this.communityProgramCode = communityProgram;
+	}
+
+	public String getCommunityProgramDesc() {
+		return communityProgramDesc;
+	}
+
+	public void setCommunityProgramDesc(String communityProgramDesc) {
+		this.communityProgramDesc = communityProgramDesc;
+	}
+
+	public String getRadioDischargeReasonDesc() {
+		return radioDischargeReasonDesc;
+	}
+
+	public void setRadioDischargeReasonDesc(String radioDischargeReasonDesc) {
+		this.radioDischargeReasonDesc = radioDischargeReasonDesc;
+	}
+
+	public String getTransportationType() {
+		return transportationType;
+	}
+
+	public void setTransportationType(String transportationType) {
+		this.transportationType = transportationType;
+	}
+
+	public String getTransportationTypeDesc() {
+		return transportationTypeDesc;
+	}
+
+	public void setTransportationTypeDesc(String transportationTypeDesc) {
+		this.transportationTypeDesc = transportationTypeDesc;
+	}
 
 }

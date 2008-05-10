@@ -51,6 +51,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
@@ -66,52 +67,63 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    private RoomManager roomManager;
    private BedManager bedManager;
    private LookupManager lookupManager;
+   private IntakeManager intakeManager;
 
    public static final String ID = "id";
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   DynaActionForm clientForm = (DynaActionForm) form;
-       clientForm.set("view", new ClientManagerFormBean());
-       Integer clientId = (Integer)request.getSession().getAttribute("clientId");
-       if (clientId != null) request.setAttribute(ID, clientId.toString());
-*/       
-       return edit(mapping, form, request, response);
+       
+       return list(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   String id = request.getParameter("id");
-       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
-
-       if (id == null || id.equals("")) {
-           Object o = request.getAttribute("demographicNo");
-
-           if (o instanceof String) {
-               id = (String) o;
-           }
-
-           if (o instanceof Long) {
-               id = String.valueOf((Long) o);
-           }
-       }
-       if (id == null || id.equals("")) {
-       	id=(String) request.getAttribute(ID);
-       }
-*/
        setEditAttributes(form, request);
-/*
-       String roles = (String) request.getSession().getAttribute("userrole");
-
-       Demographic demographic = clientManager.getClientByDemographicNo(id);
-       request.getSession().setAttribute("clientGender", demographic.getSex());
-       request.getSession().setAttribute("clientAge", demographic.getAge());
-*/
+       
        return mapping.findForward("edit");
    }
-   
+   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   DynaActionForm clientForm = (DynaActionForm) form;
+	   Admission admObj =(Admission)clientForm.get("admission");
+	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+	   admObj.setDischargeDate(new Date());
+	   admissionManager.saveAdmission(admObj);
+       return mapping.findForward("edit");
+   }
+   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       setListAttributes(form, request);
+       return mapping.findForward("list");
+   }
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       Long aId = new Long(request.getParameter("admissionId"));
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("id", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+       
+       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
+
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       
+       request.setAttribute("id", demographicNo);
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       
+       clientForm.set("admission", admissionManager.getAdmission(aId));       
+       /* discharge */
+       List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
+       request.setAttribute("lstCommProgram", lstCommProgram);
+       List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
+       request.setAttribute("lstDischargeReason", lstDischargeReason);
+       List lstTransType =lookupManager.LoadCodeList("", true, null, null);
+       request.setAttribute("lstTransType", lstTransType);
+   }
+
+   private void setListAttributes(ActionForm form, HttpServletRequest request) {
+	   DynaActionForm clientForm = (DynaActionForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
@@ -144,37 +156,6 @@ public class QuatroClientDischargeAction  extends DispatchAction {
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 
-
-       // check role permission
-       HttpSession se = request.getSession();
-       List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
-       for (Iterator it = admissions.iterator(); it.hasNext();) {
-           Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
-           String inProgramType = admission.getProgramType();
-           if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-           else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-       }
-
-       // tab override - from survey module
-       String tabOverride = (String) request.getAttribute("tab.override");
-
-       if (tabOverride != null && tabOverride.length() > 0) {
-           tabBean.setTab(tabOverride);
-       }
-
-       if (tabBean.getTab().equals("Summary")) {
-           // request.setAttribute("admissions", admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo)));
-           // only allow bed/service programs show up.(not external program)
            List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
            List bedServiceList = new ArrayList();
            for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
@@ -185,26 +166,15 @@ public class QuatroClientDischargeAction  extends DispatchAction {
                bedServiceList.add(admission1);
            }
            request.setAttribute("admissions", bedServiceList);
-
-           request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
-       }
-
-       /* bed reservation view */
-       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
-       request.setAttribute("bedDemographic", bedDemographic);
-       
-       /* discharge */
-//       if (tabBean.getTab().equals("Discharge")) {
-           request.setAttribute("communityPrograms", programManager.getCommunityPrograms());
-           request.setAttribute("serviceAdmissions", admissionManager.getCurrentServiceProgramAdmission(Integer.valueOf(demographicNo)));
-           request.setAttribute("temporaryAdmissions", admissionManager.getCurrentTemporaryProgramAdmission(Integer.valueOf(demographicNo)));
-           request.setAttribute("current_bed_program", admissionManager.getCurrentBedProgramAdmission(Integer.valueOf(demographicNo)));
-           request.setAttribute("current_community_program", admissionManager.getCurrentCommunityProgramAdmission(Integer.valueOf(demographicNo)));
-           request.setAttribute("dischargeReasons", lookupManager.LoadCodeList("DRN",true, null, null));
-//       }
-
+           String providerNo2 = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+           
+           List lstDischarge = admissionManager.getAdmissionListByStatus(Integer.valueOf(demographicNo), facilityId, providerNo2, KeyConstants.INTAKE_STATUS_ADMITTED);           
+           request.setAttribute("quatroDischarge", lstDischarge);
    }
-
+   
+   public void setIntakeManager(IntakeManager intakeManager){
+	   this.intakeManager =intakeManager;
+   }
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
    }
