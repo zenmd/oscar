@@ -21,7 +21,7 @@
 		</tr>
 	</table>
 	
-	<div class="tabs">
+	<div >
 		<%
 			String selectedTab = request.getParameter("tab");
 				
@@ -29,8 +29,12 @@
 				selectedTab = ProgramManagerViewFormBean.tabs[0];
 			}
 		%>
-		<table cellpadding="0" cellspacing="0" border="0">
-			<tr>
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<th class="pageTitle" align="center">Program Management</th>
+			
+		</tr>
+			<tr><td  class="buttonBar2">
 				<%
 					Program program = (Program) request.getAttribute("program");
 
@@ -42,20 +46,20 @@
 						
 						if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase(selectedTab)) {
 				%>
-					<td style="background-color: #555;">
-						<a href="javascript:void(0)" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>
-					</td>
+					
+						<a href="javascript:void(0)" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><b><%=ProgramManagerViewFormBean.tabs[i]%></b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					
 				<%
 						} else {
 				%>
-					<td>
-						<a href="javascript:void(0)" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>
-					</td>
+					
+						<a href="javascript:void(0)" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					
 				<%
 						}
 					}
 				%>
-			</tr>
+			</td></tr>
 		</table>
 	</div>
 	<jsp:include page="/common/messages.jsp" />
