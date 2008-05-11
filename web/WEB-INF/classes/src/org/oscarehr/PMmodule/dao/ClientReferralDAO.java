@@ -202,7 +202,9 @@ public class ClientReferralDAO extends HibernateDaoSupport {
 
         return result;
     }
-
+    public void delete(ClientReferral refValue){
+    	getHibernateTemplate().delete(refValue);
+    }
     public void saveClientReferral(ClientReferral referral) {
         if (referral == null) {
             throw new IllegalArgumentException();

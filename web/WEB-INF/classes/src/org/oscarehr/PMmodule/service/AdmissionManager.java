@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.oscarehr.PMmodule.dao.AdmissionDao;
+import com.quatro.dao.IntakeDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.ProgramClientStatusDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
@@ -43,8 +44,11 @@ import org.oscarehr.PMmodule.model.JointAdmission;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.springframework.beans.factory.annotation.Required;
+import org.oscarehr.PMmodule.model.QuatroIntake;
+import com.quatro.common.KeyConstants;
 
 public class AdmissionManager {
 
@@ -58,12 +62,16 @@ public class AdmissionManager {
 	private RoomManager roomManager;
 	private BedManager bedManager;
 	private RoomDemographicManager roomDemographicManager;
-
-    public List getAdmissions_archiveView(String programId, Integer demographicNo) {
+	private IntakeDao intakeDao;
+   
+	public void setIntakeDao(IntakeDao intakeDao) {
+		this.intakeDao = intakeDao;
+	}
+	public List getAdmissions_archiveView(String programId, Integer demographicNo) {
 		return dao.getAdmissions_archiveView(Integer.valueOf(programId), demographicNo);
 	}
-	public List getAdmissionListByStatus(Integer clientId, Integer facilityId, String providerNo,String status) {
-		return dao.getAdmissionListByStatus(clientId, facilityId,providerNo,status);
+	public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
+		return dao.getAdmissionList(clientId, facilityId,providerNo);
 	}
 	public Admission getAdmission(String programId, Integer demographicNo) {
 		return dao.getAdmission(Integer.valueOf(programId), demographicNo);
@@ -72,7 +80,16 @@ public class AdmissionManager {
 	public Admission getCurrentAdmission(String programId, Integer demographicNo) {
 		return dao.getCurrentAdmission(Integer.valueOf(programId), demographicNo);
 	}
-		
+	public List<Admission> getAdmissionList(Integer intakeId,String status){
+		return dao.getAdmissionList(intakeId, status);	
+	}
+	public void saveAdmission(List admLst){
+		java.util.Iterator items =admLst.iterator();
+		while(items.hasNext()){
+			Admission admObj =(Admission)items.next();
+			dao.saveAdmission(admObj);
+		}
+	}
 	public List getAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
 		return dao.getAdmissionsByFacility(demographicNo, facilityId);
 	}
@@ -118,8 +135,56 @@ public class AdmissionManager {
 	}
 
 	public void saveAdmission(Admission admission) {
-		dao.saveAdmission(admission);
+		dao.saveAdmission(admission);		
 	}
+	 public void saveAdmission(Admission admission,boolean isReferral)
+	 {
+		 dao.saveAdmission(admission);
+		 if(isReferral){
+	    	ClientReferral referral = new ClientReferral();
+	        referral.setClientId(admission.getClientId().longValue());
+	        referral.setNotes("Discharge Automated referral");
+	        referral.setProgramId(admission.getBedProgramId().longValue());
+	        referral.setProviderNo(admission.getProviderNo());
+	        referral.setReferralDate(new Date());
+	        referral.setStatus(ClientReferral.STATUS_ACTIVE);	        
+	        
+	        ProgramQueue queue = new ProgramQueue();
+	        
+	          queue.setClientId(referral.getClientId());
+	          queue.setNotes(referral.getNotes());
+	          queue.setProgramId(referral.getProgramId());
+	          queue.setProviderNo(Long.parseLong(referral.getProviderNo()));
+	          queue.setReferralDate(referral.getReferralDate());
+	          queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+	          queue.setReferralId(referral.getId());
+	          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
+	          queue.setPresentProblems(referral.getPresentProblems());
+	        
+	          //delete old referral and queue records linked to this intake
+	         
+	          QuatroIntake intake=intakeDao.getQuatroIntake(admission.getIntakeId());
+			    if(intake.getReferralId() != null &&  intake.getReferralId().intValue()>0){
+			      ClientReferral referralOld = new ClientReferral(Long.valueOf(intake.getReferralId().longValue()));
+			      referralOld.setClientId(Long.valueOf(intake.getClientId().longValue()));
+			      referralOld.setProgramId(Long.valueOf(intake.getProgramId().longValue()));
+			      clientReferralDAO.delete(referralOld);
+	            }  
+	            if(intake.getQueueId() != null && intake.getQueueId().intValue()>0){
+			      ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intake.getQueueId().longValue()));
+			      queueOld.setClientId(Long.valueOf(intake.getClientId().longValue()));
+			      queueOld.setProviderNo(Long.valueOf(intake.getStaffId()));
+			      queueOld.setProgramId(Long.valueOf(intake.getProgramId().longValue()));
+			      programQueueDao.delete(queueOld);
+	            }
+	          
+	          
+			      clientReferralDAO.saveClientReferral(referral);
+			      queue.setReferralId(referral.getId());
+			      programQueueDao.saveProgramQueue(queue);
+		 }
+	}
+
 
 	/*public void processAdmissionToExternal(Integer demographicNo, String providerNo, Program program, String dischargeNotes, String admissionNotes) throws ProgramFullException, AdmissionException, ServiceRestrictionException {
 		processAdmission(demographicNo, providerNo, program, dischargeNotes, admissionNotes, false, null, false);

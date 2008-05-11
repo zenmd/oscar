@@ -49,10 +49,12 @@ import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
-
+import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.Secuserrole;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
 
@@ -68,6 +70,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    private BedManager bedManager;
    private LookupManager lookupManager;
    private IntakeManager intakeManager;
+   
 
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -82,11 +85,54 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
-	   Admission admObj =(Admission)clientForm.get("admission");
-	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
-	   admObj.setDischargeDate(new Date());
-	   admissionManager.saveAdmission(admObj);
-       return mapping.findForward("edit");
+	   Admission admObj =(Admission)clientForm.get("admission");	   
+	   Long aId =(Long) request.getSession(true).getAttribute("admissionId");
+	   Admission admOld= admissionManager.getAdmission(aId);
+	   String comProgram=admObj.getCommunityProgramCode();
+	   Integer bedProg =admObj.getBedProgramId();
+	   String rReason = admObj.getRadioDischargeReason();
+	   String transType=admObj.getTransportationType();
+	   String disNotes=admObj.getDischargeNotes();
+	   admObj =(Admission)admOld.clone();
+	   admObj.setCommunityProgramCode(comProgram);
+	   admObj.setBedProgramId(bedProg);
+	   admObj.setRadioDischargeReason(rReason);
+	   admObj.setTransportationType(transType);
+	   admObj.setDischargeNotes(disNotes);
+	   List<Admission> admLst = new ArrayList<Admission>();
+	   admLst.add(admObj);
+	   // 
+	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+	   if(!lstFamily.isEmpty()){
+		   admissionManager.saveAdmission(admObj);
+		   Iterator item = lstFamily.iterator();
+			while(item.hasNext()){
+				QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
+				List<Admission> lst =admissionManager.getAdmissionList(qifTmp.getIntakeId(),KeyConstants.INTAKE_STATUS_ADMITTED);
+				Iterator admItem =lst.iterator();
+				while (admItem.hasNext()){
+					Admission admLoc=(Admission)admItem.next();
+					if(admLoc.getId().intValue()!=admObj.getId().intValue()){ 
+						admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+						admLoc.setDischargeDate(new Date());
+					  	admLoc.setDischargeNotes(admObj.getDischargeNotes());	
+					  	admissionManager.saveAdmission(admLoc);
+					  	// admLst.add(admLoc);
+					}
+				}
+			}
+			
+	   }else{
+		   boolean isReferal=false;
+		   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId()>0) {
+			   isReferal =true;
+			   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
+		   
+		   }
+		   admissionManager.saveAdmission(admObj,isReferal);
+		  
+	   }
+       return null;
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);
@@ -97,6 +143,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        Long aId = new Long(request.getParameter("admissionId"));
+       request.getSession(true).setAttribute("admissionId", aId);
        if(actionParam==null){
     	  actionParam = new HashMap();
           actionParam.put("clientId", request.getParameter("clientId")); 
@@ -110,15 +157,19 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-       
-       clientForm.set("admission", admissionManager.getAdmission(aId));       
+       Admission admsObj =admissionManager.getAdmission(aId);
+      
+       clientForm.set("admission", admsObj);       
        /* discharge */
        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
        request.setAttribute("lstDischargeReason", lstDischargeReason);
-       List lstTransType =lookupManager.LoadCodeList("", true, null, null);
-       request.setAttribute("lstTransType", lstTransType);
+       List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
+       request.setAttribute("lstTransType", lstTransType);     
+       Program[]  lstBed=programManager.getBedPrograms(facilityId);
+       request.setAttribute("lstBedProgram",lstBed);
+       
    }
 
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
@@ -167,7 +218,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
            request.setAttribute("admissions", bedServiceList);
            String providerNo2 = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
-           List lstDischarge = admissionManager.getAdmissionListByStatus(Integer.valueOf(demographicNo), facilityId, providerNo2, KeyConstants.INTAKE_STATUS_ADMITTED);           
+           List lstDischarge = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
            request.setAttribute("quatroDischarge", lstDischarge);
    }
    

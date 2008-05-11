@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 /**
  * This is the object class that relates to the admission table. Any customizations belong here.
  */
-public class Admission implements Serializable {
+public class Admission implements Serializable,Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -88,9 +88,21 @@ public class Admission implements Serializable {
 	private boolean automaticDischarge=false;
 	private String radioDischargeReasonDesc;
 	private String communityProgramCode;
+	private Integer bedProgramId;
+	private String bedProgramDesc;
 	private String communityProgramDesc;
 	private String transportationType;
 	private String transportationTypeDesc;
+	private Integer intakeId;
+	
+	public Integer getIntakeId() {
+		return intakeId;
+	}
+
+	public void setIntakeId(Integer intakeId) {
+		this.intakeId = intakeId;
+	}
+
 	public boolean isDischargeFromTransfer() {
         return dischargeFromTransfer;
     }
@@ -446,7 +458,14 @@ public class Admission implements Serializable {
 	public void setAutomaticDischarge(boolean automaticDischarge) {
 		this.automaticDischarge = automaticDischarge;
 	}
-
+	
+	public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new Error("This should not occur since we implement Cloneable");
+        }
+    }
 	public boolean equals(Object obj) {
     	if (null == obj) return false;
     	if (!(obj instanceof org.oscarehr.PMmodule.model.Admission)) return false;
@@ -510,6 +529,22 @@ public class Admission implements Serializable {
 
 	public void setTransportationTypeDesc(String transportationTypeDesc) {
 		this.transportationTypeDesc = transportationTypeDesc;
+	}
+
+	public Integer getBedProgramId() {
+		return bedProgramId;
+	}
+
+	public void setBedProgramId(Integer bedProgramId) {
+		this.bedProgramId = bedProgramId;
+	}
+
+	public String getBedProgramDesc() {
+		return bedProgramDesc;
+	}
+
+	public void setBedProgramDesc(String bedProgramDesc) {
+		this.bedProgramDesc = bedProgramDesc;
 	}
 
 }

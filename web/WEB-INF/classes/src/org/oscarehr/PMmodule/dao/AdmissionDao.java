@@ -34,6 +34,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.AdmissionSearchBean;
+import org.oscarehr.PMmodule.model.ClientReferral;
+import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.common.KeyConstants;
 
@@ -64,6 +66,11 @@ public class AdmissionDao extends HibernateDaoSupport {
         }
 
         return rs;
+    }
+    public List<Admission> getAdmissionList(Integer intakeId,String status){
+    	 
+    	String queryStr = "FROM Admission a WHERE a.intakeId=? AND a.admissionStatus=?";
+         return this.getHibernateTemplate().find(queryStr, new Object[] { intakeId, status});       
     }
     public Admission getAdmission(Integer programId, Integer demographicNo) {
         Admission admission = null;
@@ -281,11 +288,11 @@ public class AdmissionDao extends HibernateDaoSupport {
         }
         return null;
     }
-    public List getAdmissionListByStatus(Integer clientId, Integer facilityId, String providerNo,String status) {
-    	List results = getHibernateTemplate().find("from Admission i where i.clientId = ? and i.admissionStatus=? and i.programId in " +
+    public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
+    	List results = getHibernateTemplate().find("from Admission i where i.clientId = ? and i.programId in " +
 			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
 			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.admissionDate desc",
-			new Object[] {clientId,status, facilityId, providerNo });
+			new Object[] {clientId, facilityId, providerNo });
 
 		return results;
 	}
@@ -434,13 +441,13 @@ public class AdmissionDao extends HibernateDaoSupport {
         return admission;
     }
 
-    public void saveAdmission(Admission admission) {
+       public void saveAdmission(Admission admission) {
         if (admission == null) {
             throw new IllegalArgumentException();
         }
 
         getHibernateTemplate().saveOrUpdate(admission);
-        getHibernateTemplate().flush();
+      //  getHibernateTemplate().flush();
 
         if (log.isDebugEnabled()) {
             log.debug("saveAdmission: id= " + admission.getId());

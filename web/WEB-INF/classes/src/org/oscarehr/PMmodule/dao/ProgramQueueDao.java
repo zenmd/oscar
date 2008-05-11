@@ -89,6 +89,10 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         }
 
     }
+    
+    public void delete(ProgramQueue pqObj){
+    	getHibernateTemplate().delete(pqObj);
+    }
 
     public ProgramQueue getQueue(Long programId, Long clientId) {
         if (programId == null) {

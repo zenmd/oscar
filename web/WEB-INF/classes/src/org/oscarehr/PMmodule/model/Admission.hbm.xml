@@ -40,6 +40,7 @@
 		<property column="discharge_date" length="19"	name="dischargeDate" not-null="false" type="timestamp" />
 		<property column="discharge_from_transfer"	name="dischargeFromTransfer" />
 		<property column="team_id" name="teamId" not-null="false"	type="integer" />
+		<property name="intakeId" column="intake_id" type="integer"></property>
 		<property name="teamName" type="string" formula="(select t.name from program_team t where t.team_id = team_id)" />
 		<many-to-one name="team" class="org.oscarehr.PMmodule.model.ProgramTeam" column="team_id"
 			update="false" insert="false" lazy="false" not-found="ignore" />

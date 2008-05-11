@@ -279,7 +279,11 @@
     </bean>
     <bean id="admissionManager" parent="baseTransactionProxy" autowire="byName">
         <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.AdmissionManager" autowire="byName" />
+            <bean class="org.oscarehr.PMmodule.service.AdmissionManager" autowire="byName">
+            	<property name="intakeDao" ref="intakeDao"/>
+            	<property name="clientReferralDAO" ref="clientReferralDAO"/>
+            	<property name="programQueueDao" ref="programQueueDao"/>            	
+            </bean>
         </property>
     </bean>
     <bean id="bedDemographicManager" parent="baseTransactionProxy">

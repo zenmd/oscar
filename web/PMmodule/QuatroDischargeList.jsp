@@ -90,20 +90,8 @@
 								</td>
 								<td><c:out value="${sessionScope.provider.formattedName}" /></td>
 								<td><c:out value="${discharge.admissionStatus}" /></td>
-								<td>
-								<!-- 
-								  <c:choose>
-									<c:when test="${discharge.admissionStatus eq admitStr}">
-									-->
-										<input type="button" value="Update"
+								<td> <input type="button" value="Update"
 										onclick="updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" />
-								 	<!-- 
-								 	</c:when>
-									<c:otherwise>
-										&nbsp;
-									</c:otherwise>
-								</c:choose> 
-								-->
 								</td>
 							</tr>
 						</logic-el:iterate>
