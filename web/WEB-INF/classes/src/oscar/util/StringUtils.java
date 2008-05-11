@@ -217,9 +217,6 @@ public class StringUtils {
             catch (NumberFormatException e) {
                 ret = false;
             }
-            finally {
-                return ret;
-            }
         }
         return ret;
     }
