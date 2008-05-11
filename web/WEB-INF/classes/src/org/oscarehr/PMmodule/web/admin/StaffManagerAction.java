@@ -122,7 +122,7 @@ public class StaffManagerAction extends BaseAction {
 		List<Facility> allFacilities=facilityDAO.getActiveFacilities();
         request.setAttribute("all_facilities",allFacilities);
         
-        List<Integer> providerFacilities=ProviderDao.getFacilityIds(provider.getProviderNo());
+        List<Integer> providerFacilities=providerManager.getFacilityIds(provider.getProviderNo());
         request.setAttribute("providerFacilities",providerFacilities);
 	}
 	

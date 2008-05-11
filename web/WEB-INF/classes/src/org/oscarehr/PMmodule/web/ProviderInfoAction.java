@@ -34,6 +34,7 @@ import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 
@@ -91,7 +92,7 @@ public class ProviderInfoAction extends BaseAction {
         }
        
 */        
-        List<Integer> facilityIds = ProviderDao.getFacilityIds(providerNo);
+        List<Integer> facilityIds = providerManager.getFacilityIds(providerNo);
         ArrayList<Facility> facilities=new ArrayList<Facility>();
         for (Integer facilityId : facilityIds){
             facilities.add(facilityDAO.getFacility(facilityId));
