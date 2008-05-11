@@ -99,6 +99,10 @@ public class ProviderManager
     public List<Facility> getFacilitiesInProgramDomain(String providerNo) {
         return programProviderDAO.getFacilitiesInProgramDomain(providerNo);
     }
+	public List<Integer> getFacilityIds(String provider_no)
+	{
+		return dao.getFacilityIds(provider_no);
+	}
 
     public List<Agency> getAgencyDomain(String providerNo) {
 		Agency localAgency =  agencyDAO.getLocalAgency();

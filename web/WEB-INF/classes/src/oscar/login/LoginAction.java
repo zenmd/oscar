@@ -201,7 +201,7 @@ public final class LoginAction extends DispatchAction {
             Provider provider = providerManager.getProvider(username);
             session.setAttribute("provider", provider);
 
-            List<Integer> facilityIds = ProviderDao.getFacilityIds(provider.getProviderNo());
+            List<Integer> facilityIds = providerManager.getFacilityIds(provider.getProviderNo());
             if (facilityIds.size() > 1) {
                 return(mapping.findForward("facilitySelection"));
             }
