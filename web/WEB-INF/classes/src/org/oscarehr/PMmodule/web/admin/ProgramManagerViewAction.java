@@ -59,6 +59,7 @@ import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
+import org.oscarehr.PMmodule.service.IncidentManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
@@ -94,6 +95,8 @@ public class ProgramManagerViewAction extends BaseAction {
     private ProgramManager programManager;
 
     private ProgramQueueManager programQueueManager;
+    
+    private IncidentManager incidentManager;
 
     public void setFacilityDAO(FacilityDAO facilityDAO) {
         this.facilityDAO = facilityDAO;
@@ -295,6 +298,10 @@ public class ProgramManagerViewAction extends BaseAction {
 
         if (formBean.getTab().equals("Client Status")) {
             request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
+        }
+        if (formBean.getTab().equals("Incidents")) {
+        	Long id = Long.valueOf(programId);
+            request.setAttribute("incidents", incidentManager.getIncidentsByProgramId(id));
         }
 
         logManager.log("view", "program", programId, request);
@@ -956,4 +963,8 @@ public class ProgramManagerViewAction extends BaseAction {
     public void setProgramQueueManager(ProgramQueueManager mgr) {
     	this.programQueueManager = mgr;
     }
+
+	public void setIncidentManager(IncidentManager incidentManager) {
+		this.incidentManager = incidentManager;
+	}
 }

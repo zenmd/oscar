@@ -539,4 +539,10 @@
             <bean class="org.oscarehr.PMmodule.service.ComplaintManager" autowire="byName"/>
         </property>
     </bean>
+    <bean id="incidentDao" class="com.quatro.dao.IncidentDao" autowire="byName" />
+    <bean id="incidentManager" parent="baseTransactionProxy" lazy-init="default" dependency-check="default">
+        <property name="target">
+            <bean class="org.oscarehr.PMmodule.service.IncidentManager" autowire="byName"/>
+        </property>
+    </bean>
 </beans>

@@ -137,11 +137,17 @@
 	<definition name="page.quatro.pmm.servicerestriction" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroServiceRestriction.jsp" />
 	</definition>
-	<definition name="page.quatro.pmm.complaint" path="/PMmodule/layout.jsp">
+	<definition name="page.quatro.pmm.complaint.edit" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroComplaint.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.complaint.list" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroComplaintList.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.incident.edit" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/IncidentEdit.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.incident.list" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/IncidentList.jsp" />
 	</definition>
 
 	<definition name="page.quatro.pmm.intakeedit" path="/PMmodule/layout.jsp">

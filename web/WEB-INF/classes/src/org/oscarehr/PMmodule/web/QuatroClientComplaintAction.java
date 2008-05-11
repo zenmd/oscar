@@ -196,16 +196,14 @@ public class QuatroClientComplaintAction extends DispatchAction {
 			Calendar c = MyDateFormat.getCalendar(str);
 			complaint.setCreatedDate(c);
 		}
-		// complaint.setSource(source);
-
-		// TODO:
+		
 		// checkboxes
 		String[] standards1 = complaint.getStandards1();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < standards1.length; i++) {
 			sb.append("," + standards1[i]);
 		}
-		// if(sarray.length>0) String strDb= sb.substring(1);
+		
 		complaint.setStandards(sb.toString());
 
 		Map map = request.getParameterMap();

@@ -24,7 +24,7 @@
 
 <html-el:form action="/PMmodule/QuatroComplaint.do">
 	<input type="hidden" name="method" />
-	<input type="hidden" name="id" value="<c:out value="${id}"/>" />
+	<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>" />
 
 	<html-el:hidden property="complaint.clientId"  />
 	<html-el:hidden property="complaint.id"  />
@@ -220,9 +220,9 @@
 								<html-el:optionsCollection property="outcomes"
 									value="code" label="description" />
 							</html-el:select></td>
-							<td width="50%" colspan="2">Was Toronto Shelter Standards Breached?</td>
-								<html-el:radio property="complaint.standardsBreached" value="1">Yes</html-el:radio>
-								<html-el:radio property="complaint.standardsBreached" value="0">No</html-el:radio>
+							<td width="50%" colspan="2">Was Toronto Shelter Standards Breached?
+								<input type="radio" name="complaint.standardsBreached" value="1">Yes</input>
+								<input type="radio" name="complaint.standardsBreached" value="0">No</input>
 							</td>
 						</tr>
 						<tr>

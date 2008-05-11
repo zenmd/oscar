@@ -345,5 +345,9 @@
     	<property name="complaintManager" ref="complaintManager"/>
     	<property name="lookupManager" ref="lookupManager"/>
     </bean>
+    <bean name="/PMmodule/Incident" class="org.oscarehr.PMmodule.web.IncidentAction" singleton="false" autowire="byName">
+    	<property name="incidentManager" ref="incidentManager"/>
+    	<property name="lookupManager" ref="lookupManager"/>
+    </bean>
 	
 </beans>

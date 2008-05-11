@@ -82,7 +82,7 @@
 	
 					<display:column sortable="true" title="ComplaintID">
 						<a
-							href="<html:rewrite action="/PMmodule/QuatroComplaint.do"/>?method=edit&id=<c:out value="${complaint.clientId}" />&complaintId=<c:out value="${complaint.id}" />">
+							href="<html:rewrite action="/PMmodule/QuatroComplaint.do"/>?method=edit&clientId=<c:out value="${complaint.clientId}" />&complaintId=<c:out value="${complaint.id}" />">
 						<c:out value="${complaint.id}" /> </a>
 					</display:column>
 	
