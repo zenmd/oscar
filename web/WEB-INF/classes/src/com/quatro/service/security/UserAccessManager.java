@@ -44,6 +44,7 @@ public class UserAccessManager
         	uofv = (UserAccessValue) list.get(startIdx);
     		if (uofv.getFunctionCd().equals(functionCd)) {
     			orgList.add(uofv);
+        		startIdx ++;
     		}
     		else
     		{
