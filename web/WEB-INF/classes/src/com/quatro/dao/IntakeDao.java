@@ -30,7 +30,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	public List LoadOptionsList() {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
         return getHibernateTemplate().find(sSQL);
-	}
+		}
 
     public List checkExistBedIntakeByPrograms(Integer clientId, Program[] programs){
         StringBuilder sb = new StringBuilder();
@@ -48,8 +48,8 @@ public class IntakeDao extends HibernateDaoSupport {
     	List result = getHibernateTemplate().find(sSQL, obj);
 	    return result;
     }
-
-    public Integer findQuatroIntake(Integer clientId, Integer programId) {
+		
+	public Integer findQuatroIntake(Integer clientId, Integer programId) {
 		List result = getHibernateTemplate().find("select i.id" +
 					" from QuatroIntakeDB i where i.clientId = ?" +
 					" and i.programId=? and i.intakeStatus='" + 
@@ -325,7 +325,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		}
 		
 	}
-
+	
 	public List getQuatroIntakeHeaderList(Integer clientId, String programIds) {
 // Quatro Shelter doesn't use program_provider table any more, use secuserrole table.		
 //		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
@@ -346,7 +346,19 @@ public class IntakeDao extends HibernateDaoSupport {
 		
 		return results;
 	}
-   
+		
+	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
+//		select * from Intake i where i.client_id = 200492 and i.program_id in 
+//		(select p.program_id from program p, program_provider q where p.facility_id =200058 
+//and p.program_id=q.program_id and q.provider_no=999998) order by i.creation_date desc
+		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
+			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
+			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.createdOn desc",
+			new Object[] {clientId, facilityId, providerNo });
+
+		return results;
+	}
+	
 	public List getClientIntakeFamily(String intakeId){
 		String sSQL="select a.intakeHeadId from QuatroIntakeFamily a " +
 		  " WHERE a.intakeId = ? and a.memberStatus='" + 
@@ -367,8 +379,41 @@ public class IntakeDao extends HibernateDaoSupport {
 		List result = getHibernateTemplate().find(sSQL2, new Object[] {Integer.valueOf(intakeHeadId)});
 		return result;
 	}
+	
+	public QuatroIntakeDB getQuatroIntakeDB (Integer intakeId){
+		QuatroIntakeDB intakeDb =null;
+		QuatroIntake intake = this.getQuatroIntake(intakeId);
+		 if(intake.getId().intValue()>0){
+			  List result = getHibernateTemplate().find("from QuatroIntakeAnswer i where i.intake2.id = ?",
+					  new Object[] {intake.getId()});
+			  
+			  for(int i=0;i<result.size();i++){
+				  QuatroIntakeAnswer obj2=(QuatroIntakeAnswer)result.get(i);			      
+			      if (i==0){
+			    	intakeDb = obj2.getIntake2();	
+			    	intakeDb.setProgramType(intake.getProgramType());
+			      }	      
+		      }
+		 }else{
+			 	intakeDb = new QuatroIntakeDB();
+			    intakeDb.setId(intake.getId());
+			    
+			    intakeDb.setClientId(intake.getClientId());
+			    intakeDb.setCreatedOn(intake.getCreatedOn());
+			    intakeDb.setProgramId(intake.getProgramId());
+			    intakeDb.setStaffId(intake.getStaffId());
 
-	//bFamilyMember=true for family member intake
+			    intakeDb.setProgramType(intake.getProgramType());
+
+			    //intake for bed program, add/update referral and queue records.
+			    intakeDb.setReferralId(intake.getReferralId());
+			    intakeDb.setQueueId(intake.getQueueId());
+		}
+
+		return intakeDb;
+	}
+	
+		//bFamilyMember=true for family member intake
 	//bFamilyMember=false for individual person or family head intake
 	public ArrayList saveQuatroIntake(QuatroIntake intake, boolean bFamilyMember){
 	    QuatroIntakeDB intakeDb= null;
@@ -471,7 +516,6 @@ public class IntakeDao extends HibernateDaoSupport {
 			intakeDb = new QuatroIntakeDB();
 		    intakeDb.setId(intake.getId());
 		    intakeDb.setIntakeStatus(intake.getIntakeStatus());
-		    
 		    intakeDb.setClientId(intake.getClientId());
 		    intakeDb.setCreatedOn(intake.getCreatedOn());
 		    intakeDb.setProgramId(intake.getProgramId());
