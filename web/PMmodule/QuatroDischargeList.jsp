@@ -1,0 +1,120 @@
+<%@ include file="/taglibs.jsp"%>
+<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
+<%@ page import="com.quatro.common.KeyConstants"  %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" />
+<script type="text/javascript"	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
+<script lang="javascript">
+		function submitForm(methodVal) {
+			document.forms(0).method.value = methodVal;
+			document.forms(0).submit();
+		}
+	
+		function updateQuatroDischarge(clientId, admId) {
+			location.href = '<html:rewrite action="/PMmodule/QuatroDischarge.do"/>' + "?method=edit&admissionId=" + admId + "&clientId=" + clientId;
+		}	
+</script>
+<html-el:form action="/PMmodule/QuatroDischarge.do">
+	<input type="hidden" name="method" />	
+	
+	<% String admitStr="admitted" ;%>
+	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+		<tr>
+			<th class="pageTitle" align="center">Client Management - Discharge</th>
+		</tr>
+		<tr>
+			<td align="left" valign="middle" class="buttonBar2">&nbsp;
+				<html:link	action="/PMmodule/QuatroClientSummary.do" name="actionParam"
+					style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<html:link action="/PMmodule/QuatroHistory.do" name="actionParam"
+					style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<html:link action="/PMmodule/QuatroIntake.do" name="actionParam" 
+					style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<html:link	action="/PMmodule/QuatroAdmission.do" name="actionParam"
+					style="color:Navy;text-decoration:none;">Admission</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<html:link action="/PMmodule/QuatroRefer.do" name="actionParam"
+					style="color:Navy;text-decoration:none;">Refer</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<b>Discharge</b>&nbsp;&nbsp;|&nbsp;&nbsp;				
+				<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" 
+					style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam"
+					style="color:Navy;text-decoration:none;">Complaints</html:link>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" class="buttonBar">
+				<html:link	action="/PMmodule/ClientSearch2.do"	style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;
+				</html:link>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" class="message">
+				<logic:messagesPresent	message="true">
+					<html:messages id="message" message="true" bundle="pmm">
+						<c:out escapeXml="false" value="${message}" />
+					</html:messages>
+				</logic:messagesPresent>
+			</td>
+		</tr>
+		<tr>
+			<td height="100%">
+			<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+
+			<!--  start of page content -->
+			<table width="100%" class="edit">
+				<tr>
+					<td><br>
+					<div class="tabs">
+						<table cellpadding="3" cellspacing="0" border="0">
+							<tr>
+								<th>Discharge</th>
+							</tr>
+						</table>
+					</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<table class="simple" cellspacing="2" cellpadding="3">
+						<tr>							
+							<td>Created On</td>
+							<td>Staff</td>
+							<td>Status</td>
+							<td>Actions</td>
+						</tr>
+						<logic-el:iterate id="discharge" collection="${quatroDischarge}">
+							<tr>								
+								<td>
+									<fmt:formatDate pattern="yyyy/MM/dd" value="${discharge.admissionDate}" />
+								</td>
+								<td><c:out value="${sessionScope.provider.formattedName}" /></td>
+								<td><c:out value="${discharge.admissionStatus}" /></td>
+								<td>
+								<!-- 
+								  <c:choose>
+									<c:when test="${discharge.admissionStatus eq admitStr}">
+									-->
+										<input type="button" value="Update"
+										onclick="updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" />
+								 	<!-- 
+								 	</c:when>
+									<c:otherwise>
+										&nbsp;
+									</c:otherwise>
+								</c:choose> 
+								-->
+								</td>
+							</tr>
+						</logic-el:iterate>
+					</table>
+					</td>
+				</tr>
+
+			</table>
+
+			<!--  end of page content --></div>
+			</td>
+		</tr>
+	</table>
+</html-el:form>
