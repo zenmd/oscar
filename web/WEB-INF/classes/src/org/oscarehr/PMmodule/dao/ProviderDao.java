@@ -28,6 +28,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -101,14 +104,14 @@ public class ProviderDao extends HibernateDaoSupport {
     	List<Provider> rs;
     	if(programId!=null && "0".equals(programId)==false){
     	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
-               "(select c.ProviderNo from ProgramProvider c where c.ProgramId =?) ORDER BY p.LastName";
+               "(select c.ProviderNo from Secuserrole c where c.orgCd ='P' || ?) ORDER BY p.LastName";
 	      paramList.add(Long.valueOf(programId));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      rs =  getHibernateTemplate().find(sSQL ,params);
     	}else if(facilityId!=null && "0".equals(facilityId)==false){
     	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
-                "(select c.ProviderNo from ProgramProvider c where c.ProgramId in " +
-                "(select a.id from Program a where a.facilityId=?)) ORDER BY p.LastName";
+                "(select c.ProviderNo from Secuserrole c where c.orgCd in " +
+                "(select 'P' || a.id from Program a where a.facilityId=?)) ORDER BY p.LastName";
   	      paramList.add(Integer.valueOf(facilityId));
   	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      rs = getHibernateTemplate().find(sSQL ,params);
@@ -180,8 +183,18 @@ public class ProviderDao extends HibernateDaoSupport {
         SqlUtils.update("delete from provider_facility where provider_no='"+provider_no+"' and facility_id="+facilityId);
 	}
 	
-	public static List<Integer> getFacilityIds(String provider_no)
+	public List<Integer> getFacilityIds(String provider_no)
 	{
-	    return(SqlUtils.selectIntList("select facility_id from provider_facility where provider_no='"+provider_no+'\''));
+//	    return(SqlUtils.selectIntList("select facility_id from secuserrole where provider_no='"+provider_no+'\''));
+		String sql = "select distinct substr(codetree,18,7) as facility_id from lst_orgcd" ;
+		sql += " where code in (select orgcd from secuserrole where provider_no=?)";
+		sql += " and fullcode like '%F%'";
+
+		Query query = getSession().createSQLQuery(sql);
+    	((SQLQuery) query).addScalar("facility_id", Hibernate.INTEGER); 
+    	query.setString(0, provider_no);
+
+    	List<Integer> lst=query.list();
+		return lst;
 	}
 }
