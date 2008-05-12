@@ -70,7 +70,6 @@
     </bean>
     <bean name="/PMmodule/QuatroIntake" class="org.oscarehr.PMmodule.web.QuatroClientIntakeAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
-        <property name="providerManager" ref="providerManager" />
         <property name="programManager" ref="programManager"/>       
         <property name="admissionManager" ref="admissionManager" />
         <property name="intakeManager" ref="intakeManager"/>   
