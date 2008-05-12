@@ -14,8 +14,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 
-import com.ibm.io.file.exception.FileExistsException;
-import com.ibm.io.file.exception.FileNotFoundException;
 import com.quatro.model.Attachment;
 import com.quatro.model.AttachmentText;
 import com.quatro.model.LookupCodeValue;
@@ -56,7 +54,7 @@ public class ShowFileAction extends BaseAction {
 
 	public void image(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
-			throws FileNotFoundException, Exception {
+			throws  Exception {
 
 	}
 

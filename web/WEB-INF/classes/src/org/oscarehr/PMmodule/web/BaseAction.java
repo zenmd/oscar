@@ -95,6 +95,7 @@ public abstract class BaseAction extends DispatchAction {
 	public IntakeAManager getIntakeAManager() {
 		return (IntakeAManager) getAppContext().getBean("intakeAManager");
 	}
+	
 
 	public IntakeCManager getIntakeCManager() {
 		return (IntakeCManager) getAppContext().getBean("intakeCManager");
