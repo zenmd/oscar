@@ -163,7 +163,7 @@ public class IncidentAction extends DispatchAction {
 		incident.setInvestigationDate(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()));
 
 		// TODO:
-		Long programId =Long.valueOf("200011");
+		Integer programId =Integer.valueOf("200011");
 		
 		if (incident.getId() == null || incident.getId() == 0) {
 			incident.setId(null);

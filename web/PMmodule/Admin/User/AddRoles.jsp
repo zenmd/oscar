@@ -110,7 +110,7 @@
 												readonly></td>
 											<td style="border:0px;" width="35px"><a
 												onclick="showLookupTree('ORG', '', '', 'secuserForm','org_code<%=String.valueOf(rIndex)%>','org_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-												src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+												src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 										</tr>
 									</table>
 								</TD>
@@ -131,7 +131,7 @@
 												readonly></td>
 											<td style="border:0px;" width="35px"><a  
 												onclick="showLookup2('ORGfld<%=String.valueOf(rIndex)%>','ROL', '', '', 'secuserForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-												src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+												src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 										</tr>
 									</table>
 

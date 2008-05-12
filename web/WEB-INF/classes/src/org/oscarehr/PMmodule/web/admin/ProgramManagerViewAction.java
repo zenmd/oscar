@@ -327,7 +327,7 @@ public class ProgramManagerViewAction extends BaseAction {
         		
         		if(mthd.equals("save")){
         			incidentForm = formBean.getIncidentForm();
-        			incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        			incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
         			incidentForm.getIncident().setProviderNo(providerNo);
         			
         			Map map = request.getParameterMap();
@@ -350,7 +350,7 @@ public class ProgramManagerViewAction extends BaseAction {
         		}
         		
         		incidentForm = incidentManager.getIncidentForm(incidentId);
-        		incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        		incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
         			
         		
         		formBean.setIncidentForm(incidentForm);

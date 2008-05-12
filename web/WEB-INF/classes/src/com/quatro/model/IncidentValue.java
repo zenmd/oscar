@@ -15,7 +15,7 @@ public class IncidentValue implements java.io.Serializable {
 
 	// Fields
 
-	private Long id;
+	private Integer id;
 	private Calendar createdDate;
 	private String providerNo;
 	private Calendar incidentDate;
@@ -40,7 +40,7 @@ public class IncidentValue implements java.io.Serializable {
 	private String followupCompletedby;
 	private Calendar followupDate;
 	private String reportCompleted;
-	private Long programId;
+	private Integer programId;
 	
 	private String incidentDatex;
 
@@ -130,11 +130,11 @@ public class IncidentValue implements java.io.Serializable {
 		this.followupInfo = followupInfo;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -210,11 +210,11 @@ public class IncidentValue implements java.io.Serializable {
 		this.policeReportNo = policeReportNo;
 	}
 
-	public Long getProgramId() {
+	public Integer getProgramId() {
 		return programId;
 	}
 
-	public void setProgramId(Long programId) {
+	public void setProgramId(Integer programId) {
 		this.programId = programId;
 	}
 

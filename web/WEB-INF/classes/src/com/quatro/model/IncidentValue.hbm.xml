@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="com.quatro.model.IncidentValue" table="INCIDENT" >
-        <id name="id" type="java.lang.Long">
+        <id name="id" type="java.lang.Integer">
             <column name="ID" precision="10" scale="0" />
             <generator class="native" />
         </id>
@@ -82,7 +82,7 @@
         <property name="reportCompleted" type="java.lang.String">
             <column name="REPORT_COMPLETED" length="1" />
         </property>
-        <property name="programId" type="java.lang.Long">
+        <property name="programId" type="java.lang.Integer">
             <column name="PROGRAM_ID" precision="10" scale="0" />
         </property>
     </class>
