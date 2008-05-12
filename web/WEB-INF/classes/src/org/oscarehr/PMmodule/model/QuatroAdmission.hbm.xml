@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
-	<class name="Admission" table="admission">
+	<class name="QuatroAdmission" table="admission">
 		<id column="am_id" name="id" type="integer" unsaved-value="0">
 			<generator class="native" />
 		</id>
