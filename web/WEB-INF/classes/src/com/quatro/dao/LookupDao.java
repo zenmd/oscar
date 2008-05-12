@@ -49,7 +49,7 @@ public class LookupDao extends HibernateDaoSupport {
 	{
 		LookupTableDefValue tableDef = GetLookupTableDef(tableId);
 		List fields = LoadFieldDefList(tableId);
-		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[4];
+		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[100];
 		String fieldNames [] = new String[7];
 		String sSQL1 = "";
 		String sSQL="select distinct ";
