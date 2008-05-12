@@ -68,7 +68,7 @@
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 			<a href="javascript:submitForm('save');"
 				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 		</tr>
 		<tr>
 			<td align="left" class="message">
@@ -110,7 +110,7 @@
 								<html-el:optionsCollection property="sources"
 									value="code" label="description" />
 							</html-el:select></td>
-							<td width="15%">Mathod of Contact</td>
+							<td width="15%">Method of Contact</td>
 							<td width="35%"><html-el:select
 								property="complaint.method">
 								<html-el:optionsCollection property="methods"

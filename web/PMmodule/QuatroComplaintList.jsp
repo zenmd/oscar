@@ -86,8 +86,7 @@
 						<c:out value="${complaint.id}" /> </a>
 					</display:column>
 	
-					<display:column property="source" sortable="true" title="Source of Complaint" />
-					
+									
 					<display:column property="firstname" sortable="true" title="First Name" />
 	
 					<display:column property="lastname" sortable="true" title="Last Name" />

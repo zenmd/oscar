@@ -33,7 +33,9 @@ import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 import oscar.MyDateFormat;
 
 import com.quatro.dao.IncidentDao;
+import com.quatro.dao.security.SecProviderDao;
 import com.quatro.model.IncidentValue;
+import com.quatro.model.security.SecProvider;
 import com.quatro.service.LookupManager;
 import com.quatro.util.KeyValueBean;
 
@@ -42,6 +44,8 @@ public class IncidentManager {
 	private static Log log = LogFactory.getLog(IncidentManager.class);
 
 	private IncidentDao incidentDao;
+	
+	private SecProviderDao secProviderDao;
 	
 	private LookupManager lookupManager;
 
@@ -121,6 +125,8 @@ public class IncidentManager {
 		incidentForm.setNatureLst(natureLst);
 		incidentForm.setOthersLst(othersLst);
 		
+		SecProvider provider = secProviderDao.findById(incident.getProviderNo());
+		incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
 		
 		incidentForm.setIncident(incident);
 		return incidentForm;
@@ -133,11 +139,11 @@ public class IncidentManager {
 		String hour = incidentForm.getHour();
 		String minute = incidentForm.getMinute();
 		if(ampm == null)
-			ampm = "  ";
+			ampm = "NA";
 		if(hour == null || hour.equals(""))
-			hour = "  ";
+			hour = "--";
 		if(minute == null || minute.equals(""))
-			minute = "  ";
+			minute = "--";
 		String incidentTime = hour + ":" + minute + ampm;
 		
 		incident.setIncidentTime(incidentTime);
@@ -196,7 +202,10 @@ public class IncidentManager {
 	public void setIncidentDao(IncidentDao incidentDao) {
 		this.incidentDao = incidentDao;
 	}
-
+	public List search(IncidentForm incidentForm) {
+		return incidentDao.search(incidentForm);
+	}
+	
 	public List getIncidentsByProgramId(Long programId) {
 		return incidentDao.findByProgramId(programId);
 	}
@@ -210,6 +219,9 @@ public class IncidentManager {
 	}
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
+	}
+	public void setSecProviderDao(SecProviderDao secProviderDao) {
+		this.secProviderDao = secProviderDao;
 	}
 
 }

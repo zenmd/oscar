@@ -29,7 +29,7 @@
 			<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
 			
 		</tr>
-			<tr><td  class="buttonBar2">
+			<tr height="18px"><td  class="buttonBar2">
 				<%
 					Program program = (Program) request.getAttribute("program");
 

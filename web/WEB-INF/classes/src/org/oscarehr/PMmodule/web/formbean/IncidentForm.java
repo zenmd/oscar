@@ -13,6 +13,7 @@ import com.quatro.util.KeyValueBean;
 public class IncidentForm extends ValidatorForm{
 	
 	private IncidentValue incident;
+	private String providerName;
 	
     private List othersLst;
 	private List natureLst;
@@ -32,6 +33,7 @@ public class IncidentForm extends ValidatorForm{
 	private String minute;
 	private String ampm;
 	
+	// for client/staff list
 	private String txtClientKeys;
 	private String txtClientValues;
 	private String lstClient;
@@ -42,6 +44,20 @@ public class IncidentForm extends ValidatorForm{
 	private String lstStaff;
 	private ArrayList<KeyValueBean> staffSelectionList;
 	
+	// for searching
+	private String clientId;
+	private String clientName;
+	private String startDateStr;
+	private String endDateStr;
+	private String incDateStr;
+	private String programId;
+	
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 	public ArrayList<KeyValueBean> getStaffSelectionList() {
 		if(staffSelectionList == null)
 			staffSelectionList = new ArrayList();
@@ -142,8 +158,6 @@ public class IncidentForm extends ValidatorForm{
 		String itime = incident.getIncidentTime();
 		if(itime != null && itime.length() > 0){
 			ampm = itime.substring(5);
-			if(ampm.equals("  "))
-				ampm = "";
 		}
 		return ampm;
 	}
@@ -154,7 +168,7 @@ public class IncidentForm extends ValidatorForm{
 		String itime = incident.getIncidentTime();
 		if(itime != null && itime.length() > 0){
 			hour = itime.substring(0,2);
-			if(hour.equals("  "))
+			if(hour.equals("--"))
 				hour = "";
 		}
 		return hour;
@@ -166,7 +180,7 @@ public class IncidentForm extends ValidatorForm{
 		String itime = incident.getIncidentTime();
 		if(itime != null && itime.length() > 0){
 			minute = itime.substring(3,5);
-			if(minute.equals("  "))
+			if(minute.equals("--"))
 				minute = "";
 		}
 		return minute;
@@ -217,6 +231,42 @@ public class IncidentForm extends ValidatorForm{
 	}
 	public void setTxtClientValues(String txtClientValues) {
 		this.txtClientValues = txtClientValues;
+	}
+	public String getProviderName() {
+		return providerName;
+	}
+	public void setProviderName(String providerName) {
+		this.providerName = providerName;
+	}
+	public String getProgramId() {
+		return programId;
+	}
+	public void setProgramId(String programId) {
+		this.programId = programId;
+	}
+	public String getClientName() {
+		return clientName;
+	}
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+	public String getEndDateStr() {
+		return endDateStr;
+	}
+	public void setEndDateStr(String endDateStr) {
+		this.endDateStr = endDateStr;
+	}
+	public String getStartDateStr() {
+		return startDateStr;
+	}
+	public void setStartDateStr(String startDateStr) {
+		this.startDateStr = startDateStr;
+	}
+	public String getIncDateStr() {
+		return incDateStr;
+	}
+	public void setIncDateStr(String incDateStr) {
+		this.incDateStr = incDateStr;
 	}
 
 	

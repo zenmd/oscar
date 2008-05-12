@@ -304,14 +304,27 @@ public class ProgramManagerViewAction extends BaseAction {
         
         if (formBean.getTab().equals("Incidents")) {
         	String incidentId = request.getParameter("incidentId");
+        	String mthd = request.getParameter("mthd");
+        	Long pid = Long.valueOf(programId);
+        	
         	IncidentForm incidentForm = null;
         	if(incidentId == null){
         		// incident list
-        		Long id = Long.valueOf(programId);
-        		request.setAttribute("incidents", incidentManager.getIncidentsByProgramId(id));
+        		List lst = new ArrayList();
+        		if(mthd != null && mthd.equals("search")){
+        			incidentForm = formBean.getIncidentForm();
+        			incidentForm.setProgramId(programId);
+        			lst = incidentManager.search(incidentForm);
+        		}else{
+        			incidentForm = new IncidentForm();
+        			formBean.setIncidentForm(incidentForm);
+        			//lst = incidentManager.getIncidentsByProgramId(pid);
+        		}
+        		
+        		request.setAttribute("incidents", lst);
         	}else {
         		// new/edit incident
-        		String mthd = request.getParameter("mthd");
+        		
         		if(mthd.equals("save")){
         			incidentForm = formBean.getIncidentForm();
         			incidentForm.getIncident().setProgramId(Long.valueOf(programId));

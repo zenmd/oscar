@@ -54,6 +54,7 @@ public class Complaint  implements java.io.Serializable {
      private String completedDatex;
      private String createdDatex;
      
+     
     // Constructors
 /*
     public String getCreatedDateStr() {
@@ -63,6 +64,8 @@ public class Complaint  implements java.io.Serializable {
     	return str;
 	}
 */
+
+
 
 	/** default constructor */
     public Complaint() {

@@ -1,13 +1,18 @@
 package com.quatro.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
+import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import oscar.MyDateFormat;
 
 import com.quatro.model.IncidentValue;
 
@@ -101,6 +106,45 @@ public class IncidentDao extends HibernateDaoSupport {
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	public List search(IncidentForm incidentForm) {
+		log.debug("Search Incident instance with propertys.");
+		try {
+			
+			
+			String AND = " and ";
+			//String OR = " or ";
+			
+			
+			
+			String programId = incidentForm.getProgramId();
+			String queryString = "from IncidentValue as model where model.programId = '" + programId + "'";
+			
+			String clientId = incidentForm.getClientId();
+			String clientName = incidentForm.getClientName();			
+			String incDateStr = incidentForm.getIncDateStr();
+			
+			if (clientId != null && clientId.length() > 0) {
+				queryString = queryString + AND + "model.clients like '%" + clientId + "%'";
+			}
+			if (clientName != null && clientName.length() > 0) {
+				clientName = StringEscapeUtils.escapeSql(clientName);
+				clientName = clientName.toLowerCase();
+				queryString = queryString + AND + "lower(model.clients) like '%" + clientName + "%'";
+			}
+			
+			if (incDateStr != null && incDateStr.length() > 0) {
+				//Calendar c = MyDateFormat.getCalendar(incDateStr);
+				queryString = queryString + AND + "model.incidentDate = to_date('" +  incDateStr + "','yyyy/mm/dd')";
+			}
+	
+			
+			return this.getHibernateTemplate().find(queryString);
+			
+		} catch (RuntimeException re) {
+			log.error("Search incident failed", re);
 			throw re;
 		}
 	}

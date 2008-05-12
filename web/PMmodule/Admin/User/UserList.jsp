@@ -19,7 +19,7 @@
 			<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;|</html:link>
 			<html:link href="javascript:resetForm()"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Reset16.gif"/> />&nbsp;Reset&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/Searchreset16.gif"/> />&nbsp;Reset&nbsp;&nbsp;|</html:link>
 		</td>
 
 	</tr>

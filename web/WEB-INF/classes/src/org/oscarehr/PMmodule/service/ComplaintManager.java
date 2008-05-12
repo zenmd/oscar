@@ -65,6 +65,7 @@ public class ComplaintManager {
 
 	private ComplaintDao complaintDao;
 
+	
 	public List getComplaintsByClientId(Long clientId) {
 		return complaintDao.findByClientId(clientId);
 	}

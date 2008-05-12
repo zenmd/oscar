@@ -119,6 +119,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 			String[] standards1 = standards.split(",");
 			complaint.setStandards1(standards1);
 		}
+				
 		List<LookupCodeValue> sources = lookupManager.LoadCodeList("CPS", true,
 				null, null);
 		List<LookupCodeValue> methods = lookupManager.LoadCodeList("CPM", true,

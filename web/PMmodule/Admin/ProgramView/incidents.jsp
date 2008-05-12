@@ -22,16 +22,21 @@
 */
 -->
 <%@ include file="/taglibs.jsp"%>
-<logic-el:present  name="incidents" >
+<logic-el:present name="incidents">
 	<jsp:include page='<%="/PMmodule/Admin/ProgramView/incidentList.jsp"%>' />
 </logic-el:present>
-<logic-el:notPresent name="incidents" >
+<logic-el:notPresent name="incidents">
 	<jsp:include page='<%="/PMmodule/Admin/ProgramView/incidentEdit.jsp"%>' />
 </logic-el:notPresent>
 
 <script type="text/javascript">
 <!--
+	function resetForm(){
 
+		document.forms[0].reset();
+
+	}
+	
 	function removeSel(str) {
 	    var elSel = document.getElementsByName(str)[0]; 
 	    if(elSel.selectedIndex >= 0){
@@ -94,10 +99,63 @@
 		document.programManagerViewForm.tab.value = "Incidents";
 		document.programManagerViewForm.submit();
 		
-/*		<a href="<html:rewrite action="/PMmodule/Incident.do"/>?method=edit&incidentId=<c:out value="${incident.id}" />&programId=<c:out value="${requestScope.id}"/>">
-		<c:out value="${incident.id}" /></a>
-*/		
+	
 	}
+	
+	function searchIncident(){
+
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?mthd=search";
+		//alert(document.programManagerViewForm.action);
+		document.programManagerViewForm.tab.value = "Incidents";
+		document.programManagerViewForm.submit();
+		
+	
+	}
+	
+	function checkHour(obj){
+			
+		if(isNaN(obj.value)){
+			obj.value="";
+			alert("Please enter digital characters only.");
+			return false;
+		}  
+	
+		if(obj.value > 0 && obj.value <= 12){
+			if(obj.value.indexOf(".") >= 0){
+		       	obj.value="";
+		       	alert("Please enter integer characters only.");
+		       	return false;
+			}
+		}else{
+			obj.value="";
+			alert("Hour must be between 1 and 12 for standard time.");
+			return false;
+		}
+	}
+	 	
+	function checkMinute(obj){
+				
+		if(isNaN(obj.value)){
+	        obj.value="";
+			alert("Please enter digital characters only.");
+			return false;
+		}  
+	
+		if(obj.value >= 0 && obj.value < 60){
+	        if(obj.value.indexOf(".") >= 0){
+				obj.value="";
+				alert("Please enter integer characters only.");
+				return false;
+			}
+		}else{
+			obj.value="";
+			alert("Minute must be between 0 and 59 for standard time.");
+	        return false;
+	    }
+	        	
+	}
+	
+	
 
 //-->
 </script>

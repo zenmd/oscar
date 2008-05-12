@@ -10,7 +10,9 @@
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;save&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
-
+</table>
+<br />
+<table>
 	<tr>
 		<td align="left" class="message">
 		<logic:messagesPresent
@@ -21,7 +23,7 @@
 		</logic:messagesPresent></td>
 	</tr>
 </table>
-
+<br />
 <div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 	<tr>
@@ -33,14 +35,15 @@
 <table width="100%" class="simple" cellspacing="2" cellpadding="3">
 	<tr>
 		<td colspan="2">Incident Record Date/Time: <html-el:text property="incidentForm.createdDateStr" readonly="true" style="border: none"/></td>
-		<td colspan="2">Incident Record By: <html-el:text property="incidentForm.incident.providerNo" readonly="true" style="border: none"/></td>
+		<td colspan="2">Incident Record By: <html-el:hidden property="incidentForm.incident.providerNo" />
+			<html-el:text property="incidentForm.providerName" readonly="true" style="border: none" /></td>
 	</tr>
 	<tr>
 		<td>Date of Incident: </td>
 		<td><quatro:datePickerTag property="incidentForm.incidentDateStr" 
 								width="150px" openerForm="programManagerViewForm" /></td>
-		<td colspan="2">Time of Incident: <html-el:text property="incidentForm.hour" style="width:40px" size="2"/><b>:</b>
-			<html-el:text property="incidentForm.minute" style="width:40px" size="2" />&nbsp;&nbsp;
+		<td colspan="2">Time of Incident: <html-el:text property="incidentForm.hour" style="width:40px" size="2" onchange="javascript:checkHour(this);"/><b>:</b>
+			<html-el:text property="incidentForm.minute" style="width:40px" size="2" onchange="javascript:checkMinute(this);" />&nbsp;&nbsp;
 			<html-el:radio property="incidentForm.ampm" value="AM">AM</html-el:radio>
 			<html-el:radio property="incidentForm.ampm" value="PM">PM</html-el:radio></td>
 	</tr>
@@ -152,6 +155,7 @@
 		<td colspan="2">Restriction Information:<html-el:text property="incidentForm.incident.restriction" /></td>		
 		<td colspan="2">Charges Laid: 
 			<html:select property="incidentForm.incident.chargesLaid">
+				<html:option value="-1" >--</html:option>
            		<html:option value="1">Yes</html:option>
            		<html:option value="0">No</html:option>
          	</html:select>
