@@ -1,12 +1,14 @@
 package org.oscarehr.PMmodule.web.formbean;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.validator.ValidatorForm;
 
-import com.quatro.model.Complaint;
+import oscar.MyDateFormat;
+
 import com.quatro.model.IncidentValue;
+import com.quatro.util.KeyValueBean;
 
 public class IncidentForm extends ValidatorForm{
 	
@@ -26,7 +28,28 @@ public class IncidentForm extends ValidatorForm{
 	private String[] naturesArr = {};
 	private String[] issuesArr = {};
 	private String[] dispositionArr = {};
+	private String hour;
+	private String minute;
+	private String ampm;
 	
+	private String txtClientKeys;
+	private String txtClientValues;
+	private String lstClient;
+	private ArrayList<KeyValueBean> clientSelectionList;
+	
+	private String txtStaffKeys;
+	private String txtStaffValues;
+	private String lstStaff;
+	private ArrayList<KeyValueBean> staffSelectionList;
+	
+	public ArrayList<KeyValueBean> getStaffSelectionList() {
+		if(staffSelectionList == null)
+			staffSelectionList = new ArrayList();
+		return staffSelectionList;
+	}
+	public void setStaffSelectionList(ArrayList<KeyValueBean> staffSelectionList) {
+		this.staffSelectionList = staffSelectionList;
+	}
 	public List getClientIssuesLst() {
 		return clientIssuesLst;
 	}
@@ -60,24 +83,32 @@ public class IncidentForm extends ValidatorForm{
 		this.othersLst = othersLst;
 	}
 	public String getCreatedDateStr() {
+		if(incident.getCreatedDate() != null)
+			createdDateStr = MyDateFormat.getStandardDate(incident.getCreatedDate());
 		return createdDateStr;
 	}
 	public void setCreatedDateStr(String createdDateStr) {
 		this.createdDateStr = createdDateStr;
 	}
 	public String getFollowupDateStr() {
+		if(incident.getFollowupDate() != null)
+			followupDateStr = MyDateFormat.getStandardDate(incident.getFollowupDate());
 		return followupDateStr;
 	}
 	public void setFollowupDateStr(String followupDateStr) {
 		this.followupDateStr = followupDateStr;
 	}
 	public String getIncidentDateStr() {
+		if(incident.getIncidentDate() != null)
+			incidentDateStr = MyDateFormat.getStandardDate(incident.getIncidentDate());
 		return incidentDateStr;
 	}
 	public void setIncidentDateStr(String incidentDateStr) {
 		this.incidentDateStr = incidentDateStr;
 	}
 	public String getInvestigationDateStr() {
+		if(incident.getInvestigationDate() != null)
+			investigationDateStr = MyDateFormat.getStandardDate(incident.getInvestigationDate());
 		return investigationDateStr;
 	}
 	public void setInvestigationDateStr(String investigationDateStr) {
@@ -106,6 +137,86 @@ public class IncidentForm extends ValidatorForm{
 	}
 	public void setOthersArr(String[] othersArr) {
 		this.othersArr = othersArr;
+	}
+	public String getAmpm() {
+		String itime = incident.getIncidentTime();
+		if(itime != null && itime.length() > 0){
+			ampm = itime.substring(5);
+			if(ampm.equals("  "))
+				ampm = "";
+		}
+		return ampm;
+	}
+	public void setAmpm(String ampm) {
+		this.ampm = ampm;
+	}
+	public String getHour() {
+		String itime = incident.getIncidentTime();
+		if(itime != null && itime.length() > 0){
+			hour = itime.substring(0,2);
+			if(hour.equals("  "))
+				hour = "";
+		}
+		return hour;
+	}
+	public void setHour(String hour) {
+		this.hour = hour;
+	}
+	public String getMinute() {
+		String itime = incident.getIncidentTime();
+		if(itime != null && itime.length() > 0){
+			minute = itime.substring(3,5);
+			if(minute.equals("  "))
+				minute = "";
+		}
+		return minute;
+	}
+	public void setMinute(String minute) {
+		this.minute = minute;
+	}
+	public String getLstStaff() {
+		return lstStaff;
+	}
+	public void setLstStaff(String lstStaff) {
+		this.lstStaff = lstStaff;
+	}
+	public String getTxtStaffKeys() {
+		return txtStaffKeys;
+	}
+	public void setTxtStaffKeys(String txtStaffKeys) {
+		this.txtStaffKeys = txtStaffKeys;
+	}
+	public String getTxtStaffValues() {
+		return txtStaffValues;
+	}
+	public void setTxtStaffValues(String txtStaffValues) {
+		this.txtStaffValues = txtStaffValues;
+	}
+	public ArrayList<KeyValueBean> getClientSelectionList() {
+		if(clientSelectionList == null)
+			clientSelectionList = new ArrayList();
+		return clientSelectionList;
+	}
+	public void setClientSelectionList(ArrayList<KeyValueBean> clientSelectionList) {
+		this.clientSelectionList = clientSelectionList;
+	}
+	public String getLstClient() {
+		return lstClient;
+	}
+	public void setLstClient(String lstClient) {
+		this.lstClient = lstClient;
+	}
+	public String getTxtClientKeys() {
+		return txtClientKeys;
+	}
+	public void setTxtClientKeys(String txtClientKeys) {
+		this.txtClientKeys = txtClientKeys;
+	}
+	public String getTxtClientValues() {
+		return txtClientValues;
+	}
+	public void setTxtClientValues(String txtClientValues) {
+		this.txtClientValues = txtClientValues;
 	}
 
 	

@@ -31,7 +31,7 @@
 
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-
+<jsp:include page="/common/messages.jsp" />
 <script>
     function do_admission() {
         var form = document.programManagerViewForm;

@@ -22,6 +22,7 @@
 */
  -->
 <%@ include file="/taglibs.jsp"%>
+<jsp:include page="/common/messages.jsp" />
 <div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 	<tr>

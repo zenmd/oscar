@@ -43,7 +43,17 @@ public class ProgramManagerViewFormBean extends ActionForm {
 	private String radioRejectionReason;
     private ProgramClientRestriction serviceRestriction;
 
-    public String getRadioRejectionReason() {
+    private IncidentForm incidentForm;
+    
+    public IncidentForm getIncidentForm() {
+		return incidentForm;
+	}
+
+	public void setIncidentForm(IncidentForm incidentForm) {
+		this.incidentForm = incidentForm;
+	}
+
+	public String getRadioRejectionReason() {
 		return radioRejectionReason;
 	}
 

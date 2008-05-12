@@ -23,6 +23,7 @@
  -->
 
 <%@ include file="/taglibs.jsp"%>
+<jsp:include page="/common/messages.jsp" />
 <style>
 		.non_sorted_header {
 			color:black;

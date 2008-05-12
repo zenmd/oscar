@@ -24,7 +24,7 @@
 
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-
+<jsp:include page="/common/messages.jsp" />
 <script>
 function assignTeam(id,selectBox) {
 	var team_id = selectBox.options[selectBox.selectedIndex].value;

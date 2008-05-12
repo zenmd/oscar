@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,6 +67,7 @@ import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.beans.factory.annotation.Required;
@@ -299,9 +301,47 @@ public class ProgramManagerViewAction extends BaseAction {
         if (formBean.getTab().equals("Client Status")) {
             request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
         }
+        
         if (formBean.getTab().equals("Incidents")) {
-        	Long id = Long.valueOf(programId);
-            request.setAttribute("incidents", incidentManager.getIncidentsByProgramId(id));
+        	String incidentId = request.getParameter("incidentId");
+        	IncidentForm incidentForm = null;
+        	if(incidentId == null){
+        		// incident list
+        		Long id = Long.valueOf(programId);
+        		request.setAttribute("incidents", incidentManager.getIncidentsByProgramId(id));
+        	}else {
+        		// new/edit incident
+        		String mthd = request.getParameter("mthd");
+        		if(mthd.equals("save")){
+        			incidentForm = formBean.getIncidentForm();
+        			incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        			incidentForm.getIncident().setProviderNo(providerNo);
+        			
+        			Map map = request.getParameterMap();
+        			ActionMessages messages = new ActionMessages();
+
+        			try {
+        				incidentId = incidentManager.saveIncident(incidentForm);
+           			
+        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+        						"error.saveIncident.success", request.getContextPath()));
+        				saveMessages(request, messages);
+        				
+        			} catch (Exception e) {
+        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+        						"error.saveIncident.failed", request.getContextPath()));
+        				saveMessages(request, messages);
+
+        			}
+        			
+        		}
+        		
+        		incidentForm = incidentManager.getIncidentForm(incidentId);
+        		incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        			
+        		
+        		formBean.setIncidentForm(incidentForm);
+        	}
         }
 
         logManager.log("view", "program", programId, request);

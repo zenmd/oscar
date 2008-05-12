@@ -22,56 +22,194 @@
 
 package org.oscarehr.PMmodule.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.oscarehr.PMmodule.dao.ClientDao;
-import org.oscarehr.PMmodule.dao.ClientReferralDAO;
-import org.oscarehr.PMmodule.dao.JointAdmissionDAO;
+import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 
-import com.quatro.dao.ComplaintDao;
+import oscar.MyDateFormat;
+
 import com.quatro.dao.IncidentDao;
-import com.quatro.model.Complaint;
 import com.quatro.model.IncidentValue;
+import com.quatro.service.LookupManager;
+import com.quatro.util.KeyValueBean;
 
 public class IncidentManager {
 
 	private static Log log = LogFactory.getLog(IncidentManager.class);
 
-	private ClientDao dao;
-
-	private ClientReferralDAO referralDAO;
-
-	private JointAdmissionDAO jointAdmissionDAO;
-
-	private ProgramQueueManager queueManager;
-
-	private AdmissionManager admissionManager;
-
-	private ClientRestrictionManager clientRestrictionManager;
-
-	private ComplaintDao complaintDao;
-	
 	private IncidentDao incidentDao;
 	
+	private LookupManager lookupManager;
+
+	public IncidentForm getIncidentForm(String incidentId) {
+		IncidentForm incidentForm = new IncidentForm();
+		IncidentValue incident = null;
+		if( incidentId == null || incidentId.equals("0"))
+			incident = new IncidentValue();
+		else{
+			incident = incidentDao.findById(Long.valueOf(incidentId));
+			
+			String clients = incident.getClients();
+			if(clients != null && clients.length() > 1){
+				ArrayList clientSelectionList = new ArrayList();
+				int sep = clients.indexOf("/");
+				String keys = clients.substring(0, sep);
+				String values = clients.substring(sep + 1);
+				String[] k = keys.split(":");
+				String[] v = values.split(":");
+				for(int i = 0; i < k.length; i++){
+					clientSelectionList.add(new KeyValueBean(k[i],v[i]));
+				}
+				incidentForm.setClientSelectionList(clientSelectionList);
+			}
+			String staff = incident.getStaff();
+			if(staff != null && staff.length() > 1){
+				ArrayList staffSelectionList = new ArrayList();
+				int sep = staff.indexOf("/");
+				String keys = staff.substring(0, sep);
+				String values = staff.substring(sep + 1);
+				String[] k = keys.split(":");
+				String[] v = values.split(":");
+				for(int i = 0; i < k.length; i++){
+					staffSelectionList.add(new KeyValueBean(k[i],v[i]));
+				}
+				incidentForm.setStaffSelectionList(staffSelectionList);
+			}
 	
+		}
+
+		String others = incident.getOtherInvolved();
+		String natures = incident.getNature();
+		String issues = incident.getClientIssues();
+		String disposition = incident.getDisposition();
+		if (others != null) {
+			String[] othersArr = others.split(",");
+			incidentForm.setOthersArr(othersArr);
+		}
+		
+		if (natures != null) {
+			String[] naturesArr = natures.split(",");
+			incidentForm.setNaturesArr(naturesArr);
+		}
+		
+		if (issues != null) {
+			String[] issuesArr = issues.split(",");
+			incidentForm.setIssuesArr(issuesArr);
+		}
+		
+		if (disposition != null) {
+			String[] dispositionArr = disposition.split(",");
+			incidentForm.setDispositionArr(dispositionArr);
+		}
+		
+		List clientIssuesLst = lookupManager.LoadCodeList("ICI", true,
+				null, null);
+		List dispositionLst = lookupManager.LoadCodeList("IDS", true,
+				null, null);
+		List natureLst = lookupManager.LoadCodeList("INI",
+				true, null, null);
+		List othersLst = lookupManager.LoadCodeList("IOI",
+				true, null, null);
+
+				
+		incidentForm.setClientIssuesLst(clientIssuesLst);
+		incidentForm.setDispositionLst(dispositionLst);
+		incidentForm.setNatureLst(natureLst);
+		incidentForm.setOthersLst(othersLst);
+		
+		
+		incidentForm.setIncident(incident);
+		return incidentForm;
+	}
+	public String saveIncident(IncidentForm incidentForm) {
+		
+		IncidentValue incident = incidentForm.getIncident();
+		
+		String ampm = incidentForm.getAmpm();
+		String hour = incidentForm.getHour();
+		String minute = incidentForm.getMinute();
+		if(ampm == null)
+			ampm = "  ";
+		if(hour == null || hour.equals(""))
+			hour = "  ";
+		if(minute == null || minute.equals(""))
+			minute = "  ";
+		String incidentTime = hour + ":" + minute + ampm;
+		
+		incident.setIncidentTime(incidentTime);
+		incident.setCreatedDate(MyDateFormat.getCalendar(incidentForm.getCreatedDateStr()));
+		incident.setFollowupDate(MyDateFormat.getCalendar(incidentForm.getFollowupDateStr()));
+		incident.setIncidentDate(MyDateFormat.getCalendar(incidentForm.getIncidentDateStr()));
+		incident.setInvestigationDate(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()));
+
+		if (incident.getId() == null || incident.getId() == 0) {
+			incident.setId(null);
+			incident.setCreatedDate(Calendar.getInstance());
+		} 
+		
+		// checkboxes
+		String[] othersArr = incidentForm.getOthersArr();
+		String[] naturesArr = incidentForm.getNaturesArr();
+		String[] issuesArr = incidentForm.getIssuesArr();
+		String[] dispositionArr = incidentForm.getDispositionArr();
+		
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < othersArr.length; i++) {
+			sb.append("," + othersArr[i]);
+		}
+		incident.setOtherInvolved(sb.toString());
+		
+		StringBuilder sb2 = new StringBuilder();
+		for (int i = 0; i < naturesArr.length; i++) {
+			sb2.append("," + naturesArr[i]);
+		}
+		incident.setNature(sb2.toString());
+		
+		StringBuilder sb3 = new StringBuilder();
+		for (int i = 0; i < issuesArr.length; i++) {
+			sb3.append("," + issuesArr[i]);
+		}
+		incident.setClientIssues(sb3.toString());
+		
+		StringBuilder sb4 = new StringBuilder();
+		for (int i = 0; i < dispositionArr.length; i++) {
+			sb4.append("," + dispositionArr[i]);
+		}
+		incident.setDisposition(sb4.toString());
+
+		String clients = incidentForm.getTxtClientKeys() + "/" + incidentForm.getTxtClientValues();
+		incident.setClients(clients);
+		String staff = incidentForm.getTxtStaffKeys() + "/" + incidentForm.getTxtStaffValues();
+		incident.setStaff(staff);
+		
+ 		incidentDao.save(incident);
+ 		String incidentId = "";
+ 		if(incident.getId() != null )
+ 			incidentId = incident.getId().toString();
+ 		return incidentId;
+	}
 	
 	public void setIncidentDao(IncidentDao incidentDao) {
 		this.incidentDao = incidentDao;
 	}
-	
+
 	public List getIncidentsByProgramId(Long programId) {
 		return incidentDao.findByProgramId(programId);
 	}
-		
+
 	public IncidentValue getIncidentsById(Long incidentId) {
 		return incidentDao.findById(incidentId);
 	}
+
 	public void save(IncidentValue incident) {
 		incidentDao.save(incident);
 	}
-	
-	
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
+	}
 
 }

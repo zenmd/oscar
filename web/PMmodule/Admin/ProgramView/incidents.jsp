@@ -21,21 +21,83 @@
 * Toronto, Ontario, Canada
 */
 -->
-
 <%@ include file="/taglibs.jsp"%>
-<div class="tabs" id="tabs">
-    <table cellpadding="3" cellspacing="0" border="0">
-        <tr>
-            <th title="Incidents">Incidents</th>
-        </tr>
-    </table>
-</div>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="incident" name="incidents" export="false" pagesize="0" requestURI="/PMmodule/ProgramManager.do">
-    <display:setProperty name="paging.banner.placement" value="bottom" />
-    <display:setProperty name="basic.msg.empty_list" value="No incidents currently in place for this program." />
-    <display:column property="id" sortable="true" title="Id" />
-    <display:column property="incidentDatex" sortable="true" title="Incident Date" />
-    
-</display:table>
+<logic-el:present  name="incidents" >
+	<jsp:include page='<%="/PMmodule/Admin/ProgramView/incidentList.jsp"%>' />
+</logic-el:present>
+<logic-el:notPresent name="incidents" >
+	<jsp:include page='<%="/PMmodule/Admin/ProgramView/incidentEdit.jsp"%>' />
+</logic-el:notPresent>
 
+<script type="text/javascript">
+<!--
 
+	function removeSel(str) {
+	    var elSel = document.getElementsByName(str)[0]; 
+	    if(elSel.selectedIndex >= 0){
+	      elSel.remove(elSel.selectedIndex);
+	    }else{
+	      alert("Please select one item to remove.");
+	    } 
+	}
+	function getList(){
+	
+		var elSel= document.getElementsByName("incidentForm.lstStaff")[0]; 
+		var txtKey= document.getElementsByName("incidentForm.txtStaffKeys")[0]; 
+		var txtValue= document.getElementsByName("incidentForm.txtStaffValues")[0]; 
+		txtKey.value="";
+		txtValue.value="";
+	
+		for(var i=0; i < elSel.options.length; i++){
+			if(txtKey.value==""){
+			   txtKey.value = elSel.options[i].value;
+			}else{  
+			   txtKey.value = txtKey.value + ":" + elSel.options[i].value;
+			}
+			
+			if(txtValue.value==""){
+			   txtValue.value = elSel.options[i].text;
+			}else{  
+			   txtValue.value = txtValue.value + ":" + elSel.options[i].text;
+			}
+		}
+		
+		var elSel2= document.getElementsByName("incidentForm.lstClient")[0]; 
+		var txtKey2= document.getElementsByName("incidentForm.txtClientKeys")[0]; 
+		var txtValue2= document.getElementsByName("incidentForm.txtClientValues")[0]; 
+		txtKey2.value="";
+		txtValue2.value="";
+	
+		for(var i=0; i < elSel2.options.length; i++){
+			if(txtKey2.value==""){
+			   txtKey2.value = elSel2.options[i].value;
+			}else{  
+			   txtKey2.value = txtKey2.value + ":" + elSel2.options[i].value;
+			}
+			
+			if(txtValue2.value==""){
+			   txtValue2.value = elSel2.options[i].text;
+			}else{  
+			   txtValue2.value = txtValue2.value + ":" + elSel2.options[i].text;
+			}
+		}
+		
+		return true;
+	}
+
+	function editIncident(arg, mthd){
+		if(mthd == "save"){
+			getList();
+		}
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
+		//alert(document.programManagerViewForm.action);
+		document.programManagerViewForm.tab.value = "Incidents";
+		document.programManagerViewForm.submit();
+		
+/*		<a href="<html:rewrite action="/PMmodule/Incident.do"/>?method=edit&incidentId=<c:out value="${incident.id}" />&programId=<c:out value="${requestScope.id}"/>">
+		<c:out value="${incident.id}" /></a>
+*/		
+	}
+
+//-->
+</script>

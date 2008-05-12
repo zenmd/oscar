@@ -15,11 +15,6 @@
 		}
 	</script>
 	
-	<table width="100%">
-		<tr>
-			<td style="text-align: right;" align="right"><c:out value="${program.name}" /></td>
-		</tr>
-	</table>
 	
 	<div >
 		<%
@@ -31,7 +26,7 @@
 		%>
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
-			<th class="pageTitle" align="center">Program Management</th>
+			<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
 			
 		</tr>
 			<tr><td  class="buttonBar2">
@@ -62,6 +57,6 @@
 			</td></tr>
 		</table>
 	</div>
-	<jsp:include page="/common/messages.jsp" />
+	
 	<jsp:include page='<%="/PMmodule/Admin/ProgramView/" + selectedTab.toLowerCase().replaceAll(" ", "_") + ".jsp"%>' />
 </html:form>

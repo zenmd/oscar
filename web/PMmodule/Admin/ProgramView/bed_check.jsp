@@ -13,7 +13,7 @@
 	This software was written for Centre for Research on Inner City Health, St. Michael's Hospital, Toronto, Ontario, Canada
 -->
 <%@ include file="/taglibs.jsp"%>
-
+<jsp:include page="/common/messages.jsp" />
 <script type="text/javascript">
 	function popupBedReservationChangeReport(reservedBedId) {
 		url = '<html:rewrite page="/PMmodule/ProgramManagerView.do?method=viewBedReservationChangeReport&reservedBedId="/>';

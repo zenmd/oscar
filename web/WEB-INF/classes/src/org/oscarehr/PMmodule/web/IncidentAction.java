@@ -34,8 +34,7 @@ public class IncidentAction extends DispatchAction {
 	
 	private IncidentManager incidentManager;
 
-	public static final String ID = "id";
-
+	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		
@@ -47,18 +46,8 @@ public class IncidentAction extends DispatchAction {
 
 		System.out
 				.println("=========== list ========= in IncidentAction");
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("id", request.getParameter("id"));
-		}
-		request.setAttribute("actionParam", actionParam);
 
-		String tmp = (String) actionParam.get("id");
-		request.setAttribute("id", tmp);
-
-		// String tmp = request.getParameter("id");
-		Long clientId = Long.valueOf(tmp);
+		
 		// TODO:
 		Long programId =Long.valueOf("200011");
 			
@@ -74,15 +63,16 @@ public class IncidentAction extends DispatchAction {
 
 		System.out
 				.println("=========== edit ========= in QuatroClientComplaintAction");
+		/*
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
 			actionParam.put("id", request.getParameter("id"));
 		}
 		request.setAttribute("actionParam", actionParam);
-
-		String tmp = (String) actionParam.get("id");
-		request.setAttribute("id", tmp);
+*/
+		String programId = request.getParameter("programId");
+		request.setAttribute("id", programId);
 
 		IncidentForm incidentForm = (IncidentForm) form;
 
@@ -101,18 +91,6 @@ public class IncidentAction extends DispatchAction {
 		
 
 			
-		if (incident.getCreatedDate() != null)
-			incidentForm.setCreatedDateStr(MyDateFormat.getStandardDate(incident.getCreatedDate()));
-		
-		if (incident.getIncidentDate() != null)
-			incidentForm.setIncidentDateStr(MyDateFormat.getStandardDate(incident.getIncidentDate()));
-		
-		if (incident.getInvestigationDate() != null)
-			incidentForm.setInvestigationDateStr(MyDateFormat.getStandardDate(incident.getInvestigationDate()));
-		
-		if (incident.getFollowupDate() != null)
-			incidentForm.setFollowupDateStr(MyDateFormat.getStandardDate(incident.getFollowupDate()));
-		
 		
 		String others = incident.getOtherInvolved();
 		String natures = incident.getNature();
@@ -254,6 +232,10 @@ public class IncidentAction extends DispatchAction {
 
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
+	}
+
+	public void setIncidentManager(IncidentManager incidentManager) {
+		this.incidentManager = incidentManager;
 	}
 
 }

@@ -120,7 +120,7 @@
 											readonly></td>
 										<td style="border:0px;" width="35px"><a
 											onclick="showLookup('FUN', '', '', 'secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-											src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+											src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 									</tr>
 								</table>
 
@@ -149,7 +149,7 @@
 											readonly></td>
 										<td style="border:0px;" width="35px"><a
 											onclick="showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-											src="/QuatroShelter/images/microsoftsearch.gif"></a></td>
+											src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 									</tr>
 								</table>
 

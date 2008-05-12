@@ -19,7 +19,7 @@ public class IncidentValue implements java.io.Serializable {
 	private Calendar createdDate;
 	private String providerNo;
 	private Calendar incidentDate;
-	private String incidentTime;
+	private String incidentTime;// hh:mmA
 	private String clients;
 	private String staff;
 	private String witnesses;

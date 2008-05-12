@@ -46,7 +46,7 @@
 				<html:link
 				action="/PMmodule/QuatroComplaint.do?method=edit" name="actionParam"
 				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
+				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
 				</td>
 		</tr>
 		<tr>

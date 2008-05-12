@@ -71,7 +71,8 @@
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 		</tr>
 		<tr>
-			<td align="left" class="message"><logic:messagesPresent
+			<td align="left" class="message">
+			<logic:messagesPresent
 				message="true">
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
