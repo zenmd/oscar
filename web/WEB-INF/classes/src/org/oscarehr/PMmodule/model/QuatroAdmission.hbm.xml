@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.oscarehr.PMmodule.model">
+	<class name="Admission" table="admission">
+		<id column="am_id" name="id" type="integer" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		
+		<property name="clientId" column="client_id" />
+		<property name="programId" column="program_id" />
+		<property name="providerNo" column="provider_no" />
+		<property name="admissionDate" column="admission_date" />
+		<property name="admissionStatus" column="admission_status" />
+		<property name="intakeId" column="intake_id" />
+		<property name="facilityId" column="facility_id" />
+
+		<property name="residentStatus" column="residentstatus" />
+		<property name="primaryWorker" column="primaryworker" />
+		<property name="lockerNo" column="lockerno" />
+		<property name="noOfBags" column="noofbags" />
+		<property name="nextKinName" column="nextkin_name" />
+		<property name="nextKinRelationship" column="nextkin_relationship" />
+		<property name="nextKinTelephone" column="nextkin_telephone" />
+		<property name="nextKinNumber" column="nextkin_number" />
+		<property name="nextKinStreet" column="nextkin_street" />
+		<property name="nextKinCity" column="nextkin_city" />
+		<property name="nextKinProvince" column="nextkin_province" />
+		<property name="nextKinPostal" column="nextkin_postal" />
+		<property name="ovPassStartDate" column="ovpass_startdate" />
+		<property name="ovPassEndDate" column="ovpass_enddate" />
+		<property name="notSignReason" column="notsign_reason" />
+		
+	</class>
+</hibernate-mapping>
+

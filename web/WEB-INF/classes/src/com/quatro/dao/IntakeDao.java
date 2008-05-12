@@ -61,7 +61,19 @@ public class IntakeDao extends HibernateDaoSupport {
 		  return 0;
 		
 	}
-	
+
+    public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
+		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.queueId = ?" +
+					" and i.intakeStatus='" + 
+					KeyConstants.INTAKE_STATUS_ACTIVE + "'", 
+					new Object[] {queueId});
+		if(result.size()>0)
+		  return (QuatroIntakeDB)result.get(0);
+		else
+		  return null;
+		
+	}
+    
 	public QuatroIntake getQuatroIntake(Integer intakeId) {
 /*
 		List result = getHibernateTemplate().find("select i.id, i.clientId, " +

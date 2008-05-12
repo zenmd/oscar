@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -34,121 +35,135 @@ import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.Demographic.ConsentGiven;
 import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
+//import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
+import com.quatro.service.LookupManager;
+import com.quatro.service.IntakeManager;
+import com.quatro.common.KeyConstants;
 
-import oscar.oscarDemographic.data.DemographicRelationship;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
+import org.oscarehr.PMmodule.model.QuatroAdmission;
+import oscar.MyDateFormat;
+import org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm;
 
 public class QuatroClientAdmissionAction  extends DispatchAction {
    private ClientManager clientManager;
-   private ProviderManager providerManager;
+   private LookupManager lookupManager;
    private ProgramManager programManager;
-   private AdmissionManager admissionManager;
+   private AdmissionManager admissionManager2;
+   private QuatroAdmissionManager admissionManager;
    private CaseManagementManager caseManagementManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
    private BedManager bedManager;
-
+   private IntakeManager intakeManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   DynaActionForm clientForm = (DynaActionForm) form;
-       clientForm.set("view", new ClientManagerFormBean());
-       Integer clientId = (Integer)request.getSession().getAttribute("clientId");
-       if (clientId != null) request.setAttribute(ID, clientId.toString());
-*/       
        return edit(mapping, form, request, response);
    }
-   
+
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   String id = request.getParameter("id");
-       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
-
-       if (id == null || id.equals("")) {
-           Object o = request.getAttribute("demographicNo");
-
-           if (o instanceof String) {
-               id = (String) o;
-           }
-
-           if (o instanceof Long) {
-               id = String.valueOf((Long) o);
-           }
-       }
-       if (id == null || id.equals("")) {
-       	id=(String) request.getAttribute(ID);
-       }
-*/
        setEditAttributes(form, request);
-/*
-       String roles = (String) request.getSession().getAttribute("userrole");
-
-       Demographic demographic = clientManager.getClientByDemographicNo(id);
-       request.getSession().setAttribute("clientGender", demographic.getSex());
-       request.getSession().setAttribute("clientAge", demographic.getAge());
-*/
        return mapping.findForward("edit");
    }
    
+   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       ActionMessages messages = new ActionMessages();
+       boolean isError = false;
+       boolean isWarning = false;
+       QuatroClientAdmissionForm qform = (QuatroClientAdmissionForm) form;
+
+       Integer clientId = qform.getClientId();
+       Integer intakeId = qform.getIntakeId();
+       Integer programId = qform.getProgramId();
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+
+       QuatroAdmission admission = new QuatroAdmission();
+       admission.setId(0);
+       admission.setClientId(clientId);
+       admission.setProgramId(programId);
+       admission.setAdmissionDate(Calendar.getInstance());
+       admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+       admission.setIntakeId(intakeId);
+       admission.setFacilityId(facilityId);
+       admission.setResidentStatus(qform.getResidentStatus());
+       admission.setPrimaryWorker(qform.getPrimaryWorker());
+       admission.setLockerNo(qform.getLockerNo());
+       admission.setNoOfBags(qform.getNoOfBags());
+       admission.setNextKinName(qform.getNextKinName());
+
+       admission.setNextKinRelationship(qform.getNextKinRelationship());
+       admission.setNextKinTelephone(qform.getNextKinTelephone());
+       admission.setNextKinNumber(qform.getNextKinNumber());
+       admission.setNextKinStreet(qform.getNextKinStreet());
+       admission.setNextKinCity(qform.getNextKinCity());
+       admission.setNextKinProvince(qform.getNextKinProvince());
+       admission.setNextKinPostal(qform.getNextKinPostal());
+       admission.setOvPassStartDate(MyDateFormat.getCalendar(qform.getOvPassStartDate()));
+       admission.setOvPassEndDate(MyDateFormat.getCalendar(qform.getOvPassEndDate()));
+       admission.setNotSignReason(qform.getNotSignReason());
+       
+       
+       admissionManager.saveAdmission(admission);
+       
+	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.admission.saved", request.getContextPath()));
+       saveMessages(request,messages);
+
+       return mapping.findForward("edit");
+   }
+
+   public ActionForward sign(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       setEditAttributes(form, request);
+       return mapping.findForward("edit");
+   }
+
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
+          actionParam.put("clientId", request.getParameter("clientId"));
+          if(request.getParameter("intakeId")==null){
+        	  Integer queueId=Integer.valueOf(request.getParameter("queueId"));
+              QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByQueueId(queueId);
+              if(intakeDB!=null){
+                actionParam.put("intakeId", intakeDB.getId());
+              }else{
+                actionParam.put("intakeId", 0);
+              }  
+          }else{
+             actionParam.put("intakeId", request.getParameter("intakeId"));
+          }
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-       
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
+       String demographicNo= (String)actionParam.get("clientId");
+       Integer intakeId = (Integer)actionParam.get("intakeId");
+       
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
        request.setAttribute("clientId", demographicNo);
+       request.setAttribute("intakeId", intakeId);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-       DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
-       DemographicExt demographicExtConsentMethod = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.METHOD_OBTAINED_KEY);
+       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 
-       ConsentGiven consentGiven = ConsentGiven.NONE;
-       if (demographicExtConsent != null) consentGiven = ConsentGiven.valueOf(demographicExtConsent.getValue());
-
-       Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
-       if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
-
-//       request.setAttribute("consentStatus", consentGiven.name());
-//       request.setAttribute("consentMethod", methodObtained.name());
-//       boolean consentStatusChecked = Demographic.ConsentGiven.ALL == consentGiven || Demographic.ConsentGiven.CIRCLE_OF_CARE == consentGiven;
-//       request.setAttribute("consentCheckBoxState", consentStatusChecked ? "checked=\"checked\"" : "");
-
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-
-       // program domain
-       List<Program> programDomain = new ArrayList<Program>();
-
-       for (Iterator<?> i = providerManager.getProgramDomain(providerNo).iterator(); i.hasNext();) {
-           ProgramProvider programProvider = (ProgramProvider) i.next();
-           programDomain.add(programManager.getProgram(programProvider.getProgramId()));
-       }
-
-       request.setAttribute("programDomain", programDomain);
 
        // check role permission
        HttpSession se = request.getSession();
-       List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
+       List admissions = admissionManager2.getCurrentAdmissions(Integer.valueOf(demographicNo));
        for (Iterator it = admissions.iterator(); it.hasNext();) {
            Admission admission = (Admission) it.next();
            String inProgramId = String.valueOf(admission.getProgramId());
@@ -166,17 +181,15 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
            }
        }
 
-       // tab override - from survey module
-       String tabOverride = (String) request.getAttribute("tab.override");
+	   List provinceList = lookupManager.LoadCodeList("POV",true, null, null);
+	   clientForm.set("provinceList", provinceList);
 
-       if (tabOverride != null && tabOverride.length() > 0) {
-           tabBean.setTab(tabOverride);
-       }
-
-
-       // request.setAttribute("admissions", admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo)));
+	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
+       clientForm.set("notSignReasonList", notSignReasonList);
+       
+	   
        // only allow bed/service programs show up.(not external program)
-       List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
+       List currentAdmissionList = admissionManager2.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
        List bedServiceList = new ArrayList();
        for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
            Admission admission1 = (Admission) ad.next();
@@ -187,7 +200,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        }
        request.setAttribute("admissions", bedServiceList);
 
-       request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
+
        
        /* bed reservation view */
        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
@@ -223,7 +236,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
            }
 
            // set bed program id
-           Admission bedProgramAdmission = admissionManager.getCurrentBedProgramAdmission(Integer.valueOf(demographicNo));
+           Admission bedProgramAdmission = admissionManager2.getCurrentBedProgramAdmission(Integer.valueOf(demographicNo));
            Integer bedProgramId = null;
            if(bedProgramAdmission != null){
            	bedProgramId = (bedProgramAdmission != null) ? bedProgramAdmission.getProgramId() : null;
@@ -288,73 +301,16 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
            clientForm.set("bedDemographicStatuses", bedDemographicManager.getBedDemographicStatuses());
 //       }
            
-       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
+       List<?> currentAdmissions = admissionManager2.getCurrentAdmissions(Integer.valueOf(demographicNo));
 
-       /* Relations */
-       DemographicRelationship demoRelation = new DemographicRelationship();
-       ArrayList<Hashtable> relList = demoRelation.getDemographicRelationshipsWithNamePhone(demographicNo, facilityId);
-       List<JointAdmission> list = clientManager.getDependents(new Long(demographicNo));
-       JointAdmission clientsJadm = clientManager.getJointAdmission(new Long(demographicNo));
-       int familySize = list.size() + 1;
-       if (familySize > 1) {
-           request.setAttribute("groupHead", "yes");
-       }
-       if (clientsJadm != null) {
-           request.setAttribute("dependentOn", clientsJadm.getHeadClientId());
-           List depList = clientManager.getDependents(clientsJadm.getHeadClientId());
-           familySize = depList.size() + 1;
-           Demographic headClientDemo = clientManager.getClientByDemographicNo("" + clientsJadm.getHeadClientId());
-           request.setAttribute("groupName", headClientDemo.getFormattedName() + " Group");
-       }
-
-       if (relList != null && relList.size() > 0) {
-           for (Hashtable h : relList) {
-               String demographic = (String) h.get("demographicNo");
-               Long demoLong = new Long(demographic);
-               JointAdmission demoJadm = clientManager.getJointAdmission(demoLong);
-               System.out.println("DEMO JADM: " + demoJadm);
-
-               // IS PERSON JOINTLY ADMITTED WITH ME, They will either have the same HeadClient or be my headClient
-               if (clientsJadm != null && clientsJadm.getHeadClientId().longValue() == demoLong) { // they're my head client
-                   h.put("jointAdmission", "head");
-               }
-               else if (demoJadm != null && clientsJadm != null && clientsJadm.getHeadClientId().longValue() == demoJadm.getHeadClientId().longValue()) {
-                   // They depend on the same person i do!
-                   h.put("jointAdmission", "dependent");
-               }
-               else if (demoJadm != null && demoJadm.getHeadClientId().longValue() == new Long(demographicNo).longValue()) {
-                   // They depend on me
-                   h.put("jointAdmission", "dependent");
-               }
-               // Can this person be added to my depended List
-               if (clientsJadm == null && demoJadm == null && clientManager.getDependents(demoLong).size() == 0) {
-                   // yes if - i am not dependent on anyone
-                   // - this person is not dependent on someone
-                   // - this person is not a head of a family already
-                   h.put("dependentable", "yes");
-               }
-               if (demoJadm != null) { // DEPENDS ON SOMEONE
-                   h.put("dependentOn", demoJadm.getHeadClientId());
-                   if (demoJadm.getHeadClientId().longValue() == new Long(demographicNo).longValue()) {
-                       h.put("dependent", demoJadm.getTypeId());
-                   }
-               }
-               else if (clientsJadm != null && clientsJadm.getHeadClientId().longValue() == demoLong) { // HEAD PERSON WON'T DEPEND ON ANYONE
-                   h.put("dependent", new Long(0));
-               }
-           }
-           request.setAttribute("relations", relList);
-           request.setAttribute("relationSize", familySize);
-
-       }
-       
-       ArrayList<LabelValueBean> notSignReasonList= new ArrayList<LabelValueBean>();
-       notSignReasonList.add(new LabelValueBean("asdf", "123"));
-       clientForm.set("notSignReasonList", notSignReasonList);
    }
 
-   public void setAdmissionManager(AdmissionManager admissionManager) {
+   public void setQuatroAdmissionManager(QuatroAdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
+   }
+
+   public void setAdmissionManager(AdmissionManager admissionManager2) {
+		 this.admissionManager2 = admissionManager2;
    }
 
    public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
@@ -373,10 +329,6 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
 	 this.programManager = programManager;
    }
 
-   public void setProviderManager(ProviderManager providerManager) {
-	 this.providerManager = providerManager;
-   }
-
    public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
 	 this.roomDemographicManager = roomDemographicManager;
    }
@@ -387,6 +339,14 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
 
    public void setBedManager(BedManager bedManager) {
 	 this.bedManager = bedManager;
+   }
+
+   public void setLookupManager(LookupManager lookupManager) {
+	 this.lookupManager = lookupManager;
+   }
+
+   public void setIntakeManager(IntakeManager intakeManager) {
+	 this.intakeManager = intakeManager;
    }
    
 }

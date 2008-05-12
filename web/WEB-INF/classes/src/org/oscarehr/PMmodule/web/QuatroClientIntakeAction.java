@@ -53,7 +53,6 @@ import oscar.oscarDemographic.data.DemographicRelationship;
 
 public class QuatroClientIntakeAction  extends DispatchAction {
    private ClientManager clientManager;
-   private ProviderManager providerManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
    private IntakeManager intakeManager;
@@ -61,43 +60,11 @@ public class QuatroClientIntakeAction  extends DispatchAction {
    public static final String ID = "id";
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   DynaActionForm clientForm = (DynaActionForm) form;
-       clientForm.set("view", new ClientManagerFormBean());
-       Integer clientId = (Integer)request.getSession().getAttribute("clientId");
-       if (clientId != null) request.setAttribute(ID, clientId.toString());
-*/       
        return edit(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   String id = request.getParameter("id");
-       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
-
-       if (id == null || id.equals("")) {
-           Object o = request.getAttribute("demographicNo");
-
-           if (o instanceof String) {
-               id = (String) o;
-           }
-
-           if (o instanceof Long) {
-               id = String.valueOf((Long) o);
-           }
-       }
-       if (id == null || id.equals("")) {
-       	id=(String) request.getAttribute(ID);
-       }
-*/
        setEditAttributes(form, request);
-/*
-       String roles = (String) request.getSession().getAttribute("userrole");
-
-       Demographic demographic = clientManager.getClientByDemographicNo(id);
-       request.getSession().setAttribute("clientGender", demographic.getSex());
-       request.getSession().setAttribute("clientAge", demographic.getAge());
-*/
        return mapping.findForward("edit");
    }
    
@@ -119,22 +86,6 @@ public class QuatroClientIntakeAction  extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-       DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
-       DemographicExt demographicExtConsentMethod = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.METHOD_OBTAINED_KEY);
-
-       ConsentGiven consentGiven = ConsentGiven.NONE;
-       if (demographicExtConsent != null) consentGiven = ConsentGiven.valueOf(demographicExtConsent.getValue());
-
-       Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
-       if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
-
-       request.setAttribute("consentStatus", consentGiven.name());
-       request.setAttribute("consentMethod", methodObtained.name());
-       boolean consentStatusChecked = Demographic.ConsentGiven.ALL == consentGiven || Demographic.ConsentGiven.CIRCLE_OF_CARE == consentGiven;
-       request.setAttribute("consentCheckBoxState", consentStatusChecked ? "checked=\"checked\"" : "");
-
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-
 
 //       if (tabBean.getTab().equals("Summary")) {
 
@@ -151,8 +102,8 @@ public class QuatroClientIntakeAction  extends DispatchAction {
            request.setAttribute("admissions", bedServiceList);
 
 
-           String providerNo2 = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-           List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo2);
+           String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+           List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo);
            List lstIntake2 = new ArrayList();
            for(Object element : lstIntake){
         	   QuatroIntakeHeader obj = (QuatroIntakeHeader)element;
@@ -174,10 +125,6 @@ public class QuatroClientIntakeAction  extends DispatchAction {
 
    public void setProgramManager(ProgramManager programManager) {
 	 this.programManager = programManager;
-   }
-
-   public void setProviderManager(ProviderManager providerManager) {
-	 this.providerManager = providerManager;
    }
 
    public void setIntakeManager(IntakeManager intakeManager) {

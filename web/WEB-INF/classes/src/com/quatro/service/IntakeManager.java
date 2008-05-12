@@ -13,6 +13,7 @@ import com.quatro.model.QuatroIntakeOptionValue;
 import com.quatro.web.intake.IntakeConstant;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
@@ -165,6 +166,10 @@ public class IntakeManager {
 
 	public QuatroIntake getQuatroIntake(Integer intakeId) {
 		return intakeDao.getQuatroIntake(intakeId);
+	}
+
+	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
+		return intakeDao.getQuatroIntakeDBByQueueId(queueId);
 	}
 	
 	public ArrayList saveQuatroIntake(QuatroIntake intake) {
