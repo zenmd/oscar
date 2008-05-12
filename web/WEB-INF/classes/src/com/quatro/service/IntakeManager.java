@@ -140,6 +140,7 @@ public class IntakeManager {
 
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
         List lst= programDao.getProgramIdsByProvider(providerNo, facilityId);
+        if (lst.size()==0) return lst;
         StringBuilder sb = new StringBuilder();
         for(Object element: lst){
           Object[] obj = (Object[])element;
