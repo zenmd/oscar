@@ -84,7 +84,7 @@
     </bean>
     <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
-        <property name="providerManager" ref="providerManager" />
+        <property name="lookupManager" ref="lookupManager" />
         <property name="programManager" ref="programManager"/>       
         <property name="admissionManager" ref="admissionManager" />
         <property name="caseManagementManager" ref="caseManagementManager" />

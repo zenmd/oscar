@@ -8,6 +8,8 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
+<input type="hidden" name="intakeId" value="<c:out value="${requestScope.intakeId}"/>"/>
 <script lang="javascript">
 	function submitForm(methodVal) {
 		document.forms(0).method.value = methodVal;
@@ -32,6 +34,12 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
+		<a href='javascript:submitForm("sign");' style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
+		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+		<a href='javascript:submitForm("preview");'style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview&nbsp;&nbsp;</a>|
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
@@ -62,7 +70,7 @@
 <td width="30%"><html:text property="primaryWorker" /></td></tr>
 <tr><td>Locker#</td>
 <td><html:text property="lockerNo" /></td>
-<td>Primary Worker</td>
+<td># of Bags</td>
 <td><html:text property="noOfBags" /></td></tr>
 </table>
 </td></tr>
@@ -87,7 +95,9 @@
 <tr><td>City</td>
 <td><html:text property="nextKinCity" /></td>
 <td>Province</td>
-<td><html:select property="nextKinProvince" /></td>
+<td><html:select property="nextKinProvince">
+<html-el:optionsCollection property="provinceList" value="code" label="description"/>
+</html:select></td>
 <td>Postal</td>
 <td><html:text property="nextKinPostal" style="width: 70%" /></td></tr>
 </table>
@@ -212,6 +222,8 @@
 	 <td><html:checkbox property="bedDemographic.latePass" /></td></tr>
 	 <tr><th width="20%">Until</th>
 	 <td>
+       <quatro:datePickerTag property="reservationEnd" width="20%" openerForm="quatroClientAdmissionForm" />
+<!-- 
 	   <c:choose>
 		  <c:when test="${clientManagerForm.map.bedDemographic.strReservationEnd == clientManagerForm.map.bedDemographic.infiniteDate}">
 			 <c:set var="endDate" value="" />
@@ -224,35 +236,14 @@
 		<input type="hidden" name="bedDemographic.strReservationEnd" id="strReservationEnd_field_hidden" value="<c:out value="${clientManagerForm.map.bedDemographic.strReservationEnd}"/>" />
 		<input type="text" name="" id="strReservationEnd_field" readonly="readonly" value="<c:out value="${endDate}"/>"  onchange="setEndDate();" />
 		<img align="top" src="<html:rewrite page="/images/calendar.gif" />" id="strReservationEnd_field-button" alt="Reserve Until Calendar" title="Reserve Until Calendar" />
-				
-		<script type="text/javascript">
-			Calendar.setup(
-			{
-				inputField :  'strReservationEnd_field',
-				ifFormat :    '%Y-%m-%d',
-				button :      'strReservationEnd_field-button',
-				align :       'cr',
-				singleClick : true,
-				firstDay :    1
-			});
-						
-			function setEndDate(){
-				document.getElementById('strReservationEnd_field_hidden').value = document.getElementById('strReservationEnd_field').value;
-			}
-		</script>
+-->		
 	  </td></tr>
 	</table>
 </td></tr>
 
-<tr><td align="center">	
- <input value="Sign" type="button" onclick="clientManagerForm.method.value='saveBedReservation';">&nbsp;&nbsp;
- <html:submit onclick="clientManagerForm.method.value='saveBedReservation';">Save</html:submit>&nbsp;&nbsp;
-<input value="Preview" type="button" onclick="clientManagerForm.method.value='saveBedReservation';">
-</td></tr>
-
 <tr><td align="center">Reason for not signing&nbsp;
 <html-el:select property="notSignReason">
-      <html-el:optionsCollection property="notSignReasonList" value="value" label="label"/>
+      <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
 </td></tr>
 

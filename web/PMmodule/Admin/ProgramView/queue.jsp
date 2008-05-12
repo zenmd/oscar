@@ -50,7 +50,16 @@
         form.method.value='view';
         form.submit();
     }
-    
+
+    function quatroAdmit(client_id,action,queue_id) {
+        var form = document.programManagerViewForm;
+        form.elements['clientId'].value=client_id;
+        form.elements['queueId'].value=queue_id;
+        if(action == 'admit') {
+            form.method.value='quatroAdmit';
+        }
+    }
+     
     function select_client(client_id,action,queue_id) {
         var form = document.programManagerViewForm;
         form.elements['clientId'].value=client_id;
@@ -114,9 +123,10 @@
    		</caisi:isModuleLoad>
 		
 		<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">		
-			<input type="button" value="Admit" 
-			<c:if test="${queue_entry.headClientId != null || sessionScope.performAdmissions !='true'}">disabled</c:if>         
+			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Admit</a>
+<!-- 			 <input type="button" value="Admit" 
                onclick="select_client('<c:out value="${queue_entry.clientId}"/>','<%=action %>','<c:out value="${queue_entry.id}"/>')" />
+ -->               
    		</caisi:isModuleLoad>
    		
 	</display:column>
@@ -129,7 +139,6 @@
     	
     	<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
     	<input type="button" value="Reject" 
-               <c:if test="${queue_entry.headClientId != null || sessionScope.performAdmissions !='true'}">disabled</c:if>
                onclick="select_client('<c:out value="${queue_entry.clientId}"/>','reject','<c:out value="${queue_entry.id}"/>')" />
     	</caisi:isModuleLoad>
     </display:column>
