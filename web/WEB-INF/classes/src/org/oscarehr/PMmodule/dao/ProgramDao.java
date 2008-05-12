@@ -212,7 +212,7 @@ public class ProgramDao extends HibernateDaoSupport {
     public List<Program> getProgramByProvider(String providerNo, Integer facilityId)
     {
         Criteria criteria = getSession().createCriteria(Program.class);
-        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like b.orgcd || '%' and b.provider_no='" + providerNo + "')";
+        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";
 
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.eq("facilityId", facilityId));
@@ -220,7 +220,7 @@ public class ProgramDao extends HibernateDaoSupport {
     }
 
     public List getProgramIdsByProvider(String providerNo, Integer facilityId){
-    	String sql = "select p.program_id, p.name, p.type  from program p where p.facility_id=? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like b.orgcd || '%' and b.provider_no=?)";
+    	String sql = "select p.program_id, p.name, p.type  from program p where p.facility_id=? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
     	Query query = getSession().createSQLQuery(sql);
     	((SQLQuery) query).addScalar("program_id", Hibernate.INTEGER); 
     	((SQLQuery) query).addScalar("name", Hibernate.STRING); 
