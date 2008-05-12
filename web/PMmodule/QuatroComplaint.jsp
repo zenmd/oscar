@@ -15,10 +15,10 @@
 		document.forms(0).submit();
 	}
 	function setOutstanding(arg){
-		alert("Outstanding state="+arg);
+		//alert("Outstanding state="+arg);
 	}
 	function setStandard(){
-		alert("Change standards fields state");
+		//alert("Change standards fields state");
 	}
 </script>
 
