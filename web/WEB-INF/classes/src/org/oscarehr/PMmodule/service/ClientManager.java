@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.ClientDao;
+import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.JointAdmissionDAO;
 import org.oscarehr.PMmodule.exception.AlreadyAdmittedException;
@@ -49,6 +50,7 @@ public class ClientManager {
     private static Log log = LogFactory.getLog(ClientManager.class);
 
     private ClientDao dao;
+    private ClientHistoryDao historyDAO;
     private ClientReferralDAO referralDAO;
     private JointAdmissionDAO jointAdmissionDAO;
     private ProgramQueueManager queueManager;
@@ -135,6 +137,8 @@ public class ClientManager {
 
             queueManager.saveProgramQueue(queue);
         }
+        
+        historyDAO.saveClientHistory(referral);
     }
 
     public List searchReferrals(ClientReferral referral) {
