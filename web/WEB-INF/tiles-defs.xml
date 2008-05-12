@@ -10,6 +10,15 @@
 		
 		<put name="body" value="/admin/admin.jsp" />
 	</definition>
+	<definition name="page.tickler.list" path="/PMmodule/layout.jsp">
+		<put name="body" value="/ticklerPlus/ticklerList.jsp" />
+	</definition>
+	<definition name="page.tickler.view" path="/PMmodule/layout.jsp">
+		<put name="body" value="/ticklerPlus/ticklerView.jsp" />
+	</definition>
+	<definition name="page.tickler.edit" path="/PMmodule/layout.jsp">
+		<put name="body" value="/ticklerPlus/ticklerForm.jsp" />
+	</definition>
 	<definition name="page.admin.lookup.tablelist"
 		path="/PMmodule/layout.jsp">
 		
@@ -116,8 +125,8 @@
 	<definition name="page.quatro.pmm.summary" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroSummary.jsp" />
 	</definition>
-	<definition name="page.quatro.pmm.history" path="/PMmodule/layout.jsp">
-		<put name="body" value="/PMmodule/QuatroHistory.jsp" />
+	<definition name="page.quatro.pmm.clientHistory" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/ClientHistory.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.intake" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroIntake.jsp" />

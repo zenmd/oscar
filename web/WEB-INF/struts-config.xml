@@ -296,18 +296,7 @@
         </form-bean>
         <form-bean name="quatroClientSummaryForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientSummaryForm">
         </form-bean>
-        <form-bean name="quatroClientHistoryForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
-            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
-            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
-            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
-            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
-            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
-            <form-property name="programWithIntakeId" type="java.lang.String" />
+        <form-bean name="clientHistoryForm" type="org.apache.struts.validator.DynaValidatorForm">
         </form-bean>
         <form-bean name="quatroClientIntakeForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
@@ -1658,15 +1647,8 @@
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
             <forward name="case" path="/CaseManagementView2.do" redirect="false" />
         </action>
-        <action path="/PMmodule/QuatroHistory" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientHistoryForm" scope="request">
-            <forward name="edit" path="page.quatro.pmm.history" />
-            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
-            <forward name="consent" path="page.pmm.erconsent" />
-            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
-            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
-            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
-            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
-            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+        <action path="/PMmodule/ClientHistory" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientHistoryForm" scope="request">
+            <forward name="list" path="page.quatro.pmm.clientHistory" />
         </action>
         <action path="/PMmodule/QuatroIntake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientIntakeForm" scope="request">
             <forward name="edit" path="page.quatro.pmm.intake" />

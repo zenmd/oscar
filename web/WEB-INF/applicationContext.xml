@@ -116,6 +116,7 @@
     <bean id="programDao" class="org.oscarehr.PMmodule.dao.ProgramDao" autowire="byName"/>
     <bean id="programQueueDao" class="org.oscarehr.PMmodule.dao.ProgramQueueDao" autowire="byName"/>
     <bean id="clientReferralDAO" class="org.oscarehr.PMmodule.dao.ClientReferralDAO" autowire="byName"/>
+    <bean id="clientHistoryDao" class="org.oscarehr.PMmodule.dao.ClientHistoryDao" autowire="byName"/>
     <bean id="agencyDao" class="org.oscarehr.PMmodule.dao.AgencyDao" autowire="byName"/>
     <bean id="admissionDao" class="org.oscarehr.PMmodule.dao.AdmissionDao" autowire="byName" />
     <bean id="jointAdmissionDAO" class="org.oscarehr.PMmodule.dao.JointAdmissionDAO" autowire="byName" />
@@ -407,6 +408,13 @@
                 <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
                 <property name="outsideOfDomainEnabled" value="${pmm.client.search.outside.of.domain.enabled}"/>
             	
+            </bean>
+        </property>
+    </bean>
+    <bean id="clientHistoryManager" parent="baseTransactionProxy">
+        <property name="target">
+            <bean class="org.oscarehr.PMmodule.service.ClientHistoryManager">
+                <property name="clientHistoryDao" ref="clientHistoryDao"/>
             </bean>
         </property>
     </bean>
