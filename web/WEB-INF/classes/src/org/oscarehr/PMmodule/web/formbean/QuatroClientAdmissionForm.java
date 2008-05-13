@@ -3,18 +3,24 @@ package org.oscarehr.PMmodule.web.formbean;
 import org.apache.struts.validator.ValidatorForm;
 import java.util.List;
 import org.oscarehr.PMmodule.model.Bed;
+import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicStatus;
+import org.oscarehr.PMmodule.model.Room;
+
 import java.util.Calendar;
 
 public class QuatroClientAdmissionForm extends ValidatorForm{
     private Integer clientId;
     private Integer intakeId;
     private Integer programId;
-    private Integer facilityId;
+    private Integer admissionId;
     private Calendar admissionDate;
     
-    private Bed[] unreservedBeds;
-    private BedDemographicStatus[] bedDemographicStatuses;
+    private Integer roomId;
+    private Integer bedId;
+
+    private Room[] availableRooms;
+    private Bed[] availableBeds;
 
     private String residentStatus;
     private String primaryWorker;
@@ -32,10 +38,10 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
     private String ovPassStartDate;
     private String ovPassEndDate;
     private String issuedBy;
-    private String reservationEnd;
     private String notSignReason;
     private List notSignReasonList;
-
+    
+/*
     public BedDemographicStatus[] getBedDemographicStatuses() {
 		return bedDemographicStatuses;
 	}
@@ -43,17 +49,12 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 			BedDemographicStatus[] bedDemographicStatuses) {
 		this.bedDemographicStatuses = bedDemographicStatuses;
 	}
+*/	
 	public Integer getClientId() {
 		return clientId;
 	}
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
-	}
-	public Integer getFacilityId() {
-		return facilityId;
-	}
-	public void setFacilityId(Integer facilityId) {
-		this.facilityId = facilityId;
 	}
 	public Integer getIntakeId() {
 		return intakeId;
@@ -163,24 +164,20 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	public void setProvinceList(List provinceList) {
 		this.provinceList = provinceList;
 	}
-	public String getReservationEnd() {
-		return reservationEnd;
-	}
-	public void setReservationEnd(String reservationEnd) {
-		this.reservationEnd = reservationEnd;
-	}
 	public String getResidentStatus() {
 		return residentStatus;
 	}
 	public void setResidentStatus(String residentStatus) {
 		this.residentStatus = residentStatus;
 	}
+/*	
 	public Bed[] getUnreservedBeds() {
 		return unreservedBeds;
 	}
 	public void setUnreservedBeds(Bed[] unreservedBeds) {
 		this.unreservedBeds = unreservedBeds;
 	}
+*/	
 	public Integer getProgramId() {
 		return programId;
 	}
@@ -192,5 +189,44 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	}
 	public void setAdmissionDate(Calendar admissionDate) {
 		this.admissionDate = admissionDate;
+	}
+/*	
+	public BedDemographic getBedDemographic() {
+		if(bedDemographic==null) return new BedDemographic(); 
+		return bedDemographic;
+	}
+	public void setBedDemographic(BedDemographic bedDemographic) {
+		this.bedDemographic = bedDemographic;
+	}
+*/
+	public Integer getRoomId() {
+		return roomId;
+	}
+	public void setRoomId(Integer roomId) {
+		this.roomId = roomId;
+	}
+	public Integer getBedId() {
+		return bedId;
+	}
+	public void setBedId(Integer bedId) {
+		this.bedId = bedId;
+	}
+	public Room[] getAvailableRooms() {
+		return availableRooms;
+	}
+	public void setAvailableRooms(Room[] availableRooms) {
+		this.availableRooms = availableRooms;
+	}
+	public Bed[] getAvailableBeds() {
+		return availableBeds;
+	}
+	public void setAvailableBeds(Bed[] availableBeds) {
+		this.availableBeds = availableBeds;
+	}
+	public Integer getAdmissionId() {
+		return admissionId;
+	}
+	public void setAdmissionId(Integer admissionId) {
+		this.admissionId = admissionId;
 	}
 }

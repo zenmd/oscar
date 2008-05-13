@@ -81,8 +81,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
            Object[] obj = (Object[])lst.get(i);
            lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
            lst3.add(new LabelValueBean((String)obj[2], ((Integer)obj[0]).toString()));
-//           lst2.add(new LabelValueBean(obj.getName(), obj.getId().toString()));
-//           lst3.add(new LabelValueBean(obj.getType(), obj.getId().toString()));
         }
         qform.setProgramList(lst2);
         qform.setProgramTypeList(lst3);
@@ -142,11 +140,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	clientManager.saveClient(client);
 
     	HashMap actionParam = new HashMap();
-//        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-//        if(actionParam==null){
-//     	  actionParam = new HashMap();
-//           actionParam.put("clientId", clientId); 
-//        }
     	QuatroIntake obj= qform.getIntake();
 
     	actionParam.put("clientId", client.getDemographicNo()); 
@@ -154,7 +147,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
         request.setAttribute("actionParam", actionParam);
     	
     	obj.setClientId(client.getDemographicNo());
-//    	obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 		
 		//get program type
     	ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();

@@ -24,6 +24,7 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 //import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
@@ -31,7 +32,8 @@ import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 
 
-import org.oscarehr.PMmodule.model.Admission;
+//import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.QuatroAdmission;
 import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Consent;
@@ -63,14 +65,13 @@ public class QuatroClientSummaryAction extends DispatchAction {
    private ProviderManager providerManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
+   private QuatroAdmissionManager quatroAdmissionManager;
    private CaseManagementManager caseManagementManager;
 //   private ConsentManager consentManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
    private IntakeManager intakeManager;
-   
-   public static final String ID = "id";
    
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return edit(mapping, form, request, response);
@@ -121,7 +122,7 @@ public class QuatroClientSummaryAction extends DispatchAction {
    		    break;
     	 }
        }
-       
+/*       
        // check role permission
        HttpSession se = request.getSession();
        List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
@@ -141,21 +142,13 @@ public class QuatroClientSummaryAction extends DispatchAction {
 
            }
        }
-
-       // tab override - from survey module
-//       String tabOverride = (String) request.getAttribute("tab.override");
-
-//       if (tabOverride != null && tabOverride.length() > 0) {
-//           tabBean.setTab(tabOverride);
-//       }
-
-//       if (tabBean.getTab().equals("Summary")) {
+*/
 
            // only allow bed/service programs show up.(not external program)
-           List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
+           List currentAdmissionList = quatroAdmissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
            List bedServiceList = new ArrayList();
            for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-               Admission admission1 = (Admission) ad.next();
+               QuatroAdmission admission1 = (QuatroAdmission) ad.next();
                if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
                    continue;
                }
@@ -232,5 +225,10 @@ public class QuatroClientSummaryAction extends DispatchAction {
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }
+
+public void setQuatroAdmissionManager(
+		QuatroAdmissionManager quatroAdmissionManager) {
+	this.quatroAdmissionManager = quatroAdmissionManager;
+}
    
 }

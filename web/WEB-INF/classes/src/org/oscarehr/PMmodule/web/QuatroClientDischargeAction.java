@@ -29,7 +29,7 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Intake;
-import org.oscarehr.PMmodule.model.JointAdmission;
+//import org.oscarehr.PMmodule.model.JointAdmission;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
@@ -57,12 +57,14 @@ import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
+import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 
 public class QuatroClientDischargeAction  extends DispatchAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
+   private QuatroAdmissionManager quatroAdmissionManager;
    private CaseManagementManager caseManagementManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
@@ -190,36 +192,12 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-       DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
-       DemographicExt demographicExtConsentMethod = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.METHOD_OBTAINED_KEY);
 
-       ConsentGiven consentGiven = ConsentGiven.NONE;
-       if (demographicExtConsent != null) consentGiven = ConsentGiven.valueOf(demographicExtConsent.getValue());
-
-       Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
-       if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
-
-       request.setAttribute("consentStatus", consentGiven.name());
-       request.setAttribute("consentMethod", methodObtained.name());
-       boolean consentStatusChecked = Demographic.ConsentGiven.ALL == consentGiven || Demographic.ConsentGiven.CIRCLE_OF_CARE == consentGiven;
-       request.setAttribute("consentCheckBoxState", consentStatusChecked ? "checked=\"checked\"" : "");
-
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-
-           List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
-           List bedServiceList = new ArrayList();
-           for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-               Admission admission1 = (Admission) ad.next();
-               if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
-                   continue;
-               }
-               bedServiceList.add(admission1);
-           }
-           request.setAttribute("admissions", bedServiceList);
-           String providerNo2 = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
-           List lstDischarge = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
-           request.setAttribute("quatroDischarge", lstDischarge);
+       List lstDischarge = quatroAdmissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
+       //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
+       request.setAttribute("quatroDischarge", lstDischarge);
    }
    
    public void setIntakeManager(IntakeManager intakeManager){
@@ -263,6 +241,11 @@ public class QuatroClientDischargeAction  extends DispatchAction {
 
 public void setLookupManager(LookupManager lookupManager) {
 	this.lookupManager = lookupManager;
+}
+
+public void setQuatroAdmissionManager(
+		QuatroAdmissionManager quatroAdmissionManager) {
+	this.quatroAdmissionManager = quatroAdmissionManager;
 }
    
 }

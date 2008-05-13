@@ -58,43 +58,11 @@ public class QuatroClientHistoryAction  extends DispatchAction {
 
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   DynaActionForm clientForm = (DynaActionForm) form;
-       clientForm.set("view", new ClientManagerFormBean());
-       Integer clientId = (Integer)request.getSession().getAttribute("clientId");
-       if (clientId != null) request.setAttribute(ID, clientId.toString());
-*/
        return edit(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
- /*
-	   String id = request.getParameter("id");
-       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
-
-       if (id == null || id.equals("")) {
-           Object o = request.getAttribute("demographicNo");
-
-           if (o instanceof String) {
-               id = (String) o;
-           }
-
-           if (o instanceof Long) {
-               id = String.valueOf((Long) o);
-           }
-       }
-       if (id == null || id.equals("")) {
-       	id=(String) request.getAttribute(ID);
-       }
-*/
        setEditAttributes(form, request);
-/*
-       String roles = (String) request.getSession().getAttribute("userrole");
-
-       Demographic demographic = clientManager.getClientByDemographicNo(id);
-       request.getSession().setAttribute("clientGender", demographic.getSex());
-       request.getSession().setAttribute("clientAge", demographic.getAge());
-*/
        return mapping.findForward("edit");
    }
    
@@ -116,60 +84,11 @@ public class QuatroClientHistoryAction  extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-//       DemographicExt demographicExtConsent = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.CONSENT_GIVEN_KEY);
-//       DemographicExt demographicExtConsentMethod = clientManager.getDemographicExt(Integer.parseInt(demographicNo), Demographic.METHOD_OBTAINED_KEY);
-
-//       ConsentGiven consentGiven = ConsentGiven.NONE;
-//       if (demographicExtConsent != null) consentGiven = ConsentGiven.valueOf(demographicExtConsent.getValue());
-
-//       Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
-//       if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
-
-//       request.setAttribute("consentStatus", consentGiven.name());
-//       request.setAttribute("consentMethod", methodObtained.name());
-//       boolean consentStatusChecked = Demographic.ConsentGiven.ALL == consentGiven || Demographic.ConsentGiven.CIRCLE_OF_CARE == consentGiven;
-//       request.setAttribute("consentCheckBoxState", consentStatusChecked ? "checked=\"checked\"" : "");
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 
-       // program domain
-       List<Program> programDomain = new ArrayList<Program>();
 
-       for (Iterator<?> i = providerManager.getProgramDomain(providerNo).iterator(); i.hasNext();) {
-           ProgramProvider programProvider = (ProgramProvider) i.next();
-           programDomain.add(programManager.getProgram(programProvider.getProgramId()));
-       }
-
-       request.setAttribute("programDomain", programDomain);
-
-       // check role permission
-       HttpSession se = request.getSession();
-       List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
-       for (Iterator it = admissions.iterator(); it.hasNext();) {
-           Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
-           String inProgramType = admission.getProgramType();
-           if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-           else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-       }
-
-       // tab override - from survey module
-       String tabOverride = (String) request.getAttribute("tab.override");
-
-       if (tabOverride != null && tabOverride.length() > 0) {
-           tabBean.setTab(tabOverride);
-       }
-
-
+/*
        // request.setAttribute("admissions", admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo)));
        // only allow bed/service programs show up.(not external program)
        List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
@@ -182,14 +101,14 @@ public class QuatroClientHistoryAction  extends DispatchAction {
            bedServiceList.add(admission1);
        }
        request.setAttribute("admissions", bedServiceList);
-
+*/
        request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
        
        /* history */
        request.setAttribute("admissionHistory", admissionManager.getAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId));
        request.setAttribute("referralHistory", clientManager.getReferralsByFacility(demographicNo, facilityId));
            
-       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
+//       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
 
        /* bed reservation view */
        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
@@ -208,64 +127,6 @@ public class QuatroClientHistoryAction  extends DispatchAction {
 			}
 		}
 		request.setAttribute("roomDemographic", roomDemographic);
-
-       /* Relations */
-       DemographicRelationship demoRelation = new DemographicRelationship();
-       ArrayList<Hashtable> relList = demoRelation.getDemographicRelationshipsWithNamePhone(demographicNo, facilityId);
-       List<JointAdmission> list = clientManager.getDependents(new Long(demographicNo));
-       JointAdmission clientsJadm = clientManager.getJointAdmission(new Long(demographicNo));
-       int familySize = list.size() + 1;
-       if (familySize > 1) {
-           request.setAttribute("groupHead", "yes");
-       }
-       if (clientsJadm != null) {
-           request.setAttribute("dependentOn", clientsJadm.getHeadClientId());
-           List depList = clientManager.getDependents(clientsJadm.getHeadClientId());
-           familySize = depList.size() + 1;
-           Demographic headClientDemo = clientManager.getClientByDemographicNo("" + clientsJadm.getHeadClientId());
-           request.setAttribute("groupName", headClientDemo.getFormattedName() + " Group");
-       }
-
-       if (relList != null && relList.size() > 0) {
-           for (Hashtable h : relList) {
-               String demographic = (String) h.get("demographicNo");
-               Long demoLong = new Long(demographic);
-               JointAdmission demoJadm = clientManager.getJointAdmission(demoLong);
-               System.out.println("DEMO JADM: " + demoJadm);
-
-               // IS PERSON JOINTLY ADMITTED WITH ME, They will either have the same HeadClient or be my headClient
-               if (clientsJadm != null && clientsJadm.getHeadClientId().longValue() == demoLong) { // they're my head client
-                   h.put("jointAdmission", "head");
-               }
-               else if (demoJadm != null && clientsJadm != null && clientsJadm.getHeadClientId().longValue() == demoJadm.getHeadClientId().longValue()) {
-                   // They depend on the same person i do!
-                   h.put("jointAdmission", "dependent");
-               }
-               else if (demoJadm != null && demoJadm.getHeadClientId().longValue() == new Long(demographicNo).longValue()) {
-                   // They depend on me
-                   h.put("jointAdmission", "dependent");
-               }
-               // Can this person be added to my depended List
-               if (clientsJadm == null && demoJadm == null && clientManager.getDependents(demoLong).size() == 0) {
-                   // yes if - i am not dependent on anyone
-                   // - this person is not dependent on someone
-                   // - this person is not a head of a family already
-                   h.put("dependentable", "yes");
-               }
-               if (demoJadm != null) { // DEPENDS ON SOMEONE
-                   h.put("dependentOn", demoJadm.getHeadClientId());
-                   if (demoJadm.getHeadClientId().longValue() == new Long(demographicNo).longValue()) {
-                       h.put("dependent", demoJadm.getTypeId());
-                   }
-               }
-               else if (clientsJadm != null && clientsJadm.getHeadClientId().longValue() == demoLong) { // HEAD PERSON WON'T DEPEND ON ANYONE
-                   h.put("dependent", new Long(0));
-               }
-           }
-           request.setAttribute("relations", relList);
-           request.setAttribute("relationSize", familySize);
-
-       }
    }
 
    public void setAdmissionManager(AdmissionManager admissionManager) {

@@ -32,12 +32,6 @@ public class QuatroClientComplaintAction extends DispatchAction {
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		/*
-		 * QuatroClientComplaintForm clientForm = (QuatroClientComplaintForm)
-		 * form; Integer clientId =
-		 * (Integer)request.getSession().getAttribute("clientId"); if (clientId !=
-		 * null) request.setAttribute(ID, clientId.toString());
-		 */
 		return list(mapping, form, request, response);
 	}
 

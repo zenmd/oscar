@@ -70,43 +70,11 @@ public class QuatroClientServiceRestrictionAction  extends DispatchAction {
 
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   DynaActionForm clientForm = (DynaActionForm) form;
-       clientForm.set("view", new ClientManagerFormBean());
-       Integer clientId = (Integer)request.getSession().getAttribute("clientId");
-       if (clientId != null) request.setAttribute(ID, clientId.toString());
-*/       
        return edit(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   String id = request.getParameter("id");
-       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
-
-       if (id == null || id.equals("")) {
-           Object o = request.getAttribute("demographicNo");
-
-           if (o instanceof String) {
-               id = (String) o;
-           }
-
-           if (o instanceof Long) {
-               id = String.valueOf((Long) o);
-           }
-       }
-       if (id == null || id.equals("")) {
-       	id=(String) request.getAttribute(ID);
-       }
-*/
        setEditAttributes(form, request);
-/*
-       String roles = (String) request.getSession().getAttribute("userrole");
-
-       Demographic demographic = clientManager.getClientByDemographicNo(id);
-       request.getSession().setAttribute("clientGender", demographic.getSex());
-       request.getSession().setAttribute("clientAge", demographic.getAge());
-*/
        return mapping.findForward("edit");
    }
    
@@ -137,58 +105,10 @@ public class QuatroClientServiceRestrictionAction  extends DispatchAction {
        Demographic.MethodObtained methodObtained = Demographic.MethodObtained.IMPLICIT;
        if (demographicExtConsentMethod != null) methodObtained = Demographic.MethodObtained.valueOf(demographicExtConsentMethod.getValue());
 
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-
-
-       // check role permission
-       HttpSession se = request.getSession();
-       List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
-       for (Iterator it = admissions.iterator(); it.hasNext();) {
-           Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
-           String inProgramType = admission.getProgramType();
-           if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-           else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-       }
-
-       // tab override - from survey module
-       String tabOverride = (String) request.getAttribute("tab.override");
-
-       if (tabOverride != null && tabOverride.length() > 0) {
-           tabBean.setTab(tabOverride);
-       }
-
-       if (tabBean.getTab().equals("Summary")) {
-
-           // request.setAttribute("admissions", admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo)));
-           // only allow bed/service programs show up.(not external program)
-           List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
-           List bedServiceList = new ArrayList();
-           for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-               Admission admission1 = (Admission) ad.next();
-               if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
-                   continue;
-               }
-               bedServiceList.add(admission1);
-           }
-           request.setAttribute("admissions", bedServiceList);
-
-       }
 
        /* service restrictions */
-//       if (tabBean.getTab().equals("Service Restrictions")) {
            request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
            request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
-//       }
 
    }
 

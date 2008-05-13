@@ -60,6 +60,7 @@
         <property name="providerManager" ref="providerManager" />
         <property name="programManager" ref="programManager"/>       
         <property name="admissionManager" ref="admissionManager" />
+        <property name="quatroAdmissionManager" ref="quatroAdmissionManager" />
         <property name="caseManagementManager" ref="caseManagementManager" />
         <property name="bedDemographicManager" ref="bedDemographicManager" />
         <property name="roomDemographicManager" ref="roomDemographicManager" />
@@ -85,7 +86,8 @@
         <property name="clientManager" ref="clientManager" />
         <property name="lookupManager" ref="lookupManager" />
         <property name="programManager" ref="programManager"/>       
-        <property name="admissionManager" ref="admissionManager" />
+        <property name="admissionManager" ref="quatroAdmissionManager" />
+        <property name="admissionManager2" ref="admissionManager" />
         <property name="caseManagementManager" ref="caseManagementManager" />
         <property name="bedDemographicManager" ref="bedDemographicManager" />
         <property name="roomDemographicManager" ref="roomDemographicManager" />

@@ -79,7 +79,6 @@ public class QuatroClientIntakeAction  extends DispatchAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
        
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
@@ -87,30 +86,16 @@ public class QuatroClientIntakeAction  extends DispatchAction {
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
 
-//       if (tabBean.getTab().equals("Summary")) {
-
-           // only allow bed/service programs show up.(not external program)
-           List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
-           List bedServiceList = new ArrayList();
-           for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-               Admission admission1 = (Admission) ad.next();
-               if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
-                   continue;
-               }
-               bedServiceList.add(admission1);
-           }
-           request.setAttribute("admissions", bedServiceList);
-
-
            String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo);
+/*
            List lstIntake2 = new ArrayList();
            for(Object element : lstIntake){
         	   QuatroIntakeHeader obj = (QuatroIntakeHeader)element;
         	   if(obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE)) lstIntake2.add(obj);
            }
-           request.setAttribute("quatroIntake", lstIntake2);
-//       }
+*/           
+           request.setAttribute("quatroIntake", lstIntake);
 
 
    }

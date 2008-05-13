@@ -8,8 +8,10 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
-<input type="hidden" name="intakeId" value="<c:out value="${requestScope.intakeId}"/>"/>
+<html:hidden property="clientId"/>
+<html:hidden property="intakeId"/>
+<html:hidden property="admissionId"/>
+<html:hidden property="programId"/>
 <script lang="javascript">
 	function submitForm(methodVal) {
 		document.forms(0).method.value = methodVal;
@@ -130,114 +132,21 @@
 </table></div></td></tr>
 
 <tr><td>
-<c:choose>
-  <c:when test="${empty bedProgramId}">
-	<table class="simple" cellspacing="2" cellpadding="3">
-	  <tr><td><span style="color:red">Client is not admitted to a bed program</span></td></tr>
-	</table>
-  </c:when>
-</c:choose>	
-</td></tr>
-
-<tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
 <!-- Begin of Assign Room -------------------------------------------------------------->
 	<tr><th width="20%">Assign Room</th>
 	<td>
-	  <c:choose>
-		<c:when test="${availableRooms == null}">
-	      <select property="roomId">
-			<option value="" selected="selected"> No available rooms</option>
-		  </select>
-		</c:when>
-		<c:otherwise>
-		  <select name="roomId"  onchange="clientManagerForm.method.value='refreshBedDropDownForReservation';clientManagerForm.submit();">
-			<option value="0">Select a room</option>
-			<c:forEach var="availableRoom" items="${availableRooms}">
-			  <c:choose>
-				<c:when test="${roomId == availableRoom.id}">
-				   <option value="<c:out value="${availableRoom.id}"/>" selected="selected">
-					 <c:out value="${availableRoom.name}" />
-				   </option>
-				</c:when>
-			    <c:otherwise>
-				  <option value="<c:out value="${availableRoom.id}"/>">
-					 <c:out value="${availableRoom.name}" />
-				  </option>
-				</c:otherwise>
-			   </c:choose>
-			</c:forEach>
-		  </select>
-		</c:otherwise>					
-	   </c:choose>
+	      <html:select property="roomId" onchange="quatroClientAdmissionForm.method.value='edit';quatroClientAdmissionForm.submit();">
+	       <option value="0"></option>
+           <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
+          </html:select>
 	</td></tr>
 <!-- End of Assign Room -------------------------------------------------------------->
 	<tr><th width="20%">Assign Bed</th>
-	<td><html:select property="bedDemographic.bedId">
-		<c:choose>
-		  <c:when test="${!isAssignedBed}">
-			<option value="0" selected="selected"><c:out value="N/A" /></option>
-		  </c:when>
-		  <c:otherwise>
-			<option value="0"></option>
-		  </c:otherwise>
-		</c:choose>
-					
-		<c:forEach var="unreservedBed" items="${clientManagerForm.map.unreservedBeds}">
-		  <c:choose>
-			<c:when test="${unreservedBed.id == clientManagerForm.map.bedDemographic.bedId}">
-			  <option value="<c:out value="${unreservedBed.id}"/>" selected="selected">
-				<c:out value="${unreservedBed.roomName}" /> - <c:out value="${unreservedBed.name}" />
-			  </option>
-			</c:when>
-		    <c:otherwise>
-			  <option value="<c:out value="${unreservedBed.id}"/>">
-				 <c:out value="${unreservedBed.roomName}" /> - <c:out value="${unreservedBed.name}" />
-			  </option>
-			</c:otherwise>
-		  </c:choose>
-		</c:forEach>
+	<td><html:select property="bedId">
+            <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	  </html:select>
 	</td></tr>
-	<tr><th width="20%">Status</th>
-	<td>
-	  <html:select property="bedDemographic.bedDemographicStatusId">
-	  <c:forEach var="bedDemographicStatus" items="${clientManagerForm.map.bedDemographicStatuses}">
-		<c:choose>
-		   <c:when test="${bedDemographicStatus.id == clientManagerForm.map.bedDemographic.bedDemographicStatusId}">
-			 <option value="<c:out value="${bedDemographicStatus.id}"/>" selected="selected">
-			   <c:out value="${bedDemographicStatus.name}" />
-			 </option>
-		   </c:when>
-		   <c:otherwise>
-			  <option value="<c:out value="${bedDemographicStatus.id}"/>">
-				 <c:out value="${bedDemographicStatus.name}" />
-			  </option>
-		   </c:otherwise>
-		</c:choose>
-	  </c:forEach>
-	  </html:select>
-	 </td></tr>
-	 <tr><th width="20%">Late Pass</th>
-	 <td><html:checkbox property="bedDemographic.latePass" /></td></tr>
-	 <tr><th width="20%">Until</th>
-	 <td>
-       <quatro:datePickerTag property="reservationEnd" width="20%" openerForm="quatroClientAdmissionForm" />
-<!-- 
-	   <c:choose>
-		  <c:when test="${clientManagerForm.map.bedDemographic.strReservationEnd == clientManagerForm.map.bedDemographic.infiniteDate}">
-			 <c:set var="endDate" value="" />
-		  </c:when>
-		  <c:otherwise>
-			 <c:set var="endDate" value="${clientManagerForm.map.bedDemographic.strReservationEnd}" />
-		  </c:otherwise>
-		</c:choose>
-
-		<input type="hidden" name="bedDemographic.strReservationEnd" id="strReservationEnd_field_hidden" value="<c:out value="${clientManagerForm.map.bedDemographic.strReservationEnd}"/>" />
-		<input type="text" name="" id="strReservationEnd_field" readonly="readonly" value="<c:out value="${endDate}"/>"  onchange="setEndDate();" />
-		<img align="top" src="<html:rewrite page="/images/calendar.gif" />" id="strReservationEnd_field-button" alt="Reserve Until Calendar" title="Reserve Until Calendar" />
--->		
-	  </td></tr>
 	</table>
 </td></tr>
 

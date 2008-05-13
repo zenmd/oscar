@@ -1,8 +1,9 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
-<%@page import="org.oscarehr.PMmodule.model.Admission"%>
+<%@page import="org.oscarehr.PMmodule.model.QuatroAdmission"%>
 <%@page import="java.util.Date"%>
+<%@page import="oscar.MyDateFormat"%>
 <%@page import="org.oscarehr.PMmodule.model.ClientReferral"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
@@ -181,12 +182,18 @@ function openHealthSafety(){
 	
 	<display:column property="programName" sortable="true" title="Program Name" />
 	<display:column property="programType" sortable="true" title="Program Type" />
-	<display:column property="admissionDate" format="{0, date, yyyy/MM/dd kk:mm}" sortable="true" title="Admission Date" />
+    <display:column sortable="true" title="Admission Date">
+    <%
+	   QuatroAdmission tempAdmission = (QuatroAdmission) pageContext.getAttribute("admission");
+       String admissiondate=MyDateFormat.getStandardDate(tempAdmission.getAdmissionDate());
+    %>
+    <%= admissiondate%>
+    </display:column>
 	<display:column sortable="true" title="Days in Program">
 	<%
-		Admission tempAdmission = (Admission) pageContext.getAttribute("admission");
-		Date admissionDate = tempAdmission.getAdmissionDate();
-		Date dischargeDate = tempAdmission.getDischargeDate() != null ? tempAdmission.getDischargeDate() : new Date();
+	    QuatroAdmission tempAdmission = (QuatroAdmission) pageContext.getAttribute("admission");
+		Date admissionDate = tempAdmission.getAdmissionDate().getTime();
+		Date dischargeDate = tempAdmission.getDischargeDate() != null ? tempAdmission.getDischargeDate().getTime() : new Date();
 			
 		long diff = dischargeDate.getTime() - admissionDate.getTime();
 		diff = diff / 1000; // seconds
@@ -198,10 +205,6 @@ function openHealthSafety(){
 	%>
 	<%=numDays%>
 	</display:column>
-	<caisi:isModuleLoad moduleName="pmm.refer.temporaryAdmission.enabled">
-	<display:column property="temporaryAdmission" sortable="true" title="Temporary Admission" />
-	</caisi:isModuleLoad>
-	<display:column property="admissionNotes" sortable="true" title="Admission Notes" />
 </display:table>
 </td></tr>
 

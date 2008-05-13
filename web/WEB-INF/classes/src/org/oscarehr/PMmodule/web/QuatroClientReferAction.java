@@ -65,43 +65,11 @@ public class QuatroClientReferAction  extends DispatchAction {
    private BedManager bedManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-/*
-	   DynaActionForm clientForm = (DynaActionForm) form;
-       clientForm.set("view", new ClientManagerFormBean());
-       Integer clientId = (Integer)request.getSession().getAttribute("clientId");
-       if (clientId != null) request.setAttribute(ID, clientId.toString());
-*/       
        return edit(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//       String id = request.getParameter("id");
-
-//       Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
-/*
-       if (id == null || id.equals("")) {
-           Object o = request.getAttribute("demographicNo");
-
-           if (o instanceof String) {
-               id = (String) o;
-           }
-
-           if (o instanceof Long) {
-               id = String.valueOf((Long) o);
-           }
-       }
-       if (id == null || id.equals("")) {
-       	id=(String) request.getAttribute(ID);
-       }
-*/
        setEditAttributes(form, request);
-/*
-       String roles = (String) request.getSession().getAttribute("userrole");
-
-       Demographic demographic = clientManager.getClientByDemographicNo(id);
-       request.getSession().setAttribute("clientGender", demographic.getSex());
-       request.getSession().setAttribute("clientAge", demographic.getAge());
-*/
        return mapping.findForward("edit");
    }
    
