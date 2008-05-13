@@ -127,7 +127,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 <body>
 
 
-<div align="left">
+<div align="center">
 
 <table border="0" width="766" height="495">
 	<tr>
