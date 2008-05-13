@@ -148,7 +148,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 
 			<table background="images/Silver-background-dark.gif" height="141">
 				<tr>
-					<td width="334" height="36" valign="top" align="right"><font
+					<td width="334" height="36" valign="middle" align="right"><font
 						size="3" face="Arial"> <b><bean:message
 						key="loginApplication.formUserName" /> <%
  			if (oscar.oscarSecurity.CRHelper.isCRFrameworkEnabled()
@@ -160,28 +160,28 @@ if (props.getProperty("logintitle", "").equals("")) {
  }
  %>
 					</b></font></td>
-					<td width="416" height="36" valign="top"><font size="3"
+					<td width="416" height="25%" valign="middle"><font size="3"
 						face="Arial"><b><input type="text" name="username"
-						size="15" maxlength="15" autocomplete="off" value="oscardoc" /></b></font></td>
+						size="15" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
-					<td width="334" height="27" valign="top" align="right"><font
+					<td width="334" height="25%" valign="middle" align="right"><font
 						size="3" face="Arial"><b><bean:message
 						key="loginApplication.formPwd" /></b></font></td>
-					<td width="416" height="27" valign="top"><font size="3"
+					<td width="416" height="27" valign="middle"><font size="3"
 						face="Arial"><b><input type="password" name="password"
-						size="15" maxlength="15" autocomplete="off" value="mac2002" /></b></font></td>
+						size="15" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
-					<td width="334" height="34" valign="top" align="right"><b><font
+					<td width="334" height="25%" valign="middle" align="right"><b><font
 						size="3" face="Arial"><bean:message key="index.formPIN" /></font></b></td>
-					<td width="416" height="34" valign="top"><b><input
+					<td width="416" height="34" valign="middle"><b><input
 						type="password" name="pin" size="15" maxlength="15"
-						autocomplete="off" value="1117" /></b></td>
+						autocomplete="off" /></b></td>
 				</tr>
 				<tr>
-					<td width="334" height="28" valign="top"></td>
-					<td width="416" height="28" valign="top"><font face="Arial"
+					
+					<td colspan="2" width="750" height="25%" valign="mid" align="center"><font face="Arial"
 						size="3"><input type="submit"
 						value="<bean:message key="index.btnSignIn"/>" />&nbsp; </font><input
 						type="reset" value="Reset">&nbsp; <input type="button"
