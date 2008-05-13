@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.batik.dom.util.HashTable;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -21,12 +21,9 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.web.BaseAction;
 
-import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.SecProvider;
-import com.quatro.model.security.Secrole;
 import com.quatro.model.security.Security;
 import com.quatro.model.security.Secuserrole;
-import com.quatro.service.ORGManager;
 import com.quatro.service.security.RolesManager;
 import com.quatro.service.security.UsersManager;
 
@@ -37,8 +34,6 @@ public class UserManagerAction extends BaseAction {
 	private RolesManager rolesManager;
 
 	private UsersManager usersManager;
-	
-	private ORGManager orgManager;
 
 	private MessageDigest md;
 
@@ -64,9 +59,35 @@ public class UserManagerAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 
 		String providerNo = request.getParameter("providerNo");
-
+		org.apache.struts.validator.DynaValidatorForm secForm = (org.apache.struts.validator.DynaValidatorForm) form;
 		ArrayList<Secuserrole> profilelist = new ArrayList<Secuserrole>();
+		
+		DynaActionForm secuserForm = (DynaActionForm) form;
+		
+		SecProvider provider = usersManager
+			.getProviderByProviderNo(providerNo);
 
+		if (provider != null) {
+			secuserForm.set("providerNo", providerNo);
+			secuserForm.set("firstName", provider.getFirstName());
+			secuserForm.set("lastName", provider.getLastName());
+			secuserForm.set("init", provider.getInit());
+			secuserForm.set("title", provider.getTitle());
+			secuserForm.set("jobTitle", provider.getJobTitle());
+			secuserForm.set("email", provider.getEmail());
+		}
+		
+		Security user;
+		List ulist = usersManager.getUserByProviderNo(providerNo);
+		if (ulist != null && ulist.size() > 0) {
+			user = (Security) ulist.get(0);
+
+			secuserForm.set("securityNo", user.getSecurityNo());
+			secuserForm.set("userName", user.getUserName());
+
+			request.setAttribute("userForEdit", user);
+		}
+		
 		List list = usersManager.getProfile(providerNo);
 
 		if (list != null && list.size() > 0) {
@@ -86,9 +107,10 @@ public class UserManagerAction extends BaseAction {
 		}
 
 		request.setAttribute("profilelist", profilelist);
+		secForm.set("secUserRoleLst", profilelist);
 		logManager.log("read", "full secuserroles list", "", request);
 
-		return mapping.findForward("profile");
+		return mapping.findForward("addRoles");
 
 	}
 
@@ -262,7 +284,7 @@ public class UserManagerAction extends BaseAction {
 		}
 
 		//return addRole(mapping, form, request, response);
-		return list(mapping, form, request, response);
+		return mapping.findForward("edit");
 	}
 
 	public ActionForward addRole(ActionMapping mapping, ActionForm form,
@@ -272,47 +294,13 @@ public class UserManagerAction extends BaseAction {
 				.println("=========== addRole ========= in UserManagerAction");
 		
 		DynaActionForm secuserForm = (DynaActionForm) form;
-		
-		changeRoleLstTable(2, secuserForm, request);
-		
-		ActionMessages messages = new ActionMessages();
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.user.addRole",
-       			request.getContextPath()));
-		saveMessages(request,messages);
-		
-		return mapping.findForward("addRoles");
-
-	}
-	public ActionForward removeRole(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-
-		System.out
-				.println("=========== removeRole ========= in UserManagerAction");
-		DynaActionForm secroleForm = (DynaActionForm) form;
-		changeRoleLstTable(1, secroleForm, request);
-
-		ActionMessages messages = new ActionMessages();
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.user.addRole",
-       			request.getContextPath()));
-		saveMessages(request,messages);
-		
-		return mapping.findForward("addRoles");
-
-	}
-	public ActionForward assignRole(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-
-		System.out
-				.println("=========== assignRole ========= in UserManagerAction");
-		
-		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = request.getParameter("providerNo");
-		if(providerNo == null )
-			providerNo = (String) secuserForm.get("providerNo");
-		
+
 		if (isCancelled(request)) {
 			return list(mapping, form, request, response);
 		}
+
+	
 
 		SecProvider provider = usersManager
 				.getProviderByProviderNo(providerNo);
@@ -333,7 +321,7 @@ public class UserManagerAction extends BaseAction {
 			
 			Security user;
 			List list = usersManager.getUserByProviderNo(providerNo);
-			if (list.size() > 0) {
+			if (list != null && list.size() > 0) {
 				user = (Security) list.get(0);
 
 				secuserForm.set("securityNo", user.getSecurityNo());
@@ -344,16 +332,28 @@ public class UserManagerAction extends BaseAction {
 		}
 
 		
-		changeRoleLstTable(3, secuserForm, request);
+		changeRoleLstTable(2, secuserForm, request);
 
 		return mapping.findForward("addRoles");
 
 	}
 
-	
+	public ActionForward removeRole(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out
+				.println("=========== removeRole ========= in UserManagerAction");
+		DynaActionForm secroleForm = (DynaActionForm) form;
+		changeRoleLstTable(1, secroleForm, request);
+
+		return mapping.findForward("addRoles");
+
+	}
 
 	public void changeRoleLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
+		
+		ActionMessages messages = new ActionMessages();
 		
 		ArrayList<Secuserrole> secUserRoleLst = new ArrayList<Secuserrole>();
 
@@ -372,128 +372,85 @@ public class UserManagerAction extends BaseAction {
 			secUserRoleLst.add(objNew2);
 			
 			break;
-		case 3: // load from Database
-			secUserRoleLst = (ArrayList)getRowList(request, myForm, 3);
-			// get description for orgs and roles
-			List roleLst = rolesManager.getRoles();
-			HashTable rtb = new HashTable();
-			for(int i = 0; i < roleLst.size(); i++){
-				Secrole r = (Secrole)(roleLst.get(i));
-				rtb.put(r.getRoleName(),r.getDescription());
-			}
-			List orgLst = orgManager.LoadCodeList("ORG", true, "","");
-			HashTable otb = new HashTable();
-			for(int i = 0; i < orgLst.size(); i++){
-				LookupCodeValue lv = (LookupCodeValue)(orgLst.get(i));
-				otb.put(lv.getCode(), lv.getDescription());
-			}
-			for(int i = 0; i < secUserRoleLst.size(); i++){
-				Secuserrole sur = secUserRoleLst.get(i);
-				if(sur.getRoleName() != null)
-				sur.setRoleName_desc((String)rtb.get(sur.getRoleName()));
-				if(sur.getOrgcd()!=null)
-				sur.setOrgcd_desc((String)otb.get(sur.getOrgcd()));
-			}
-			
-			break;
 
 		}
 		myForm.set("secUserRoleLst", secUserRoleLst);
 		
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.user.addRole",
+       			request.getContextPath()));
+		saveMessages(request,messages);
 		
 		request.getSession().setAttribute("secUserRoleLst",	secUserRoleLst);
 
 	}
 
 	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
-		ArrayList secUserRoleLst = new ArrayList();
+		ArrayList<Secuserrole> secUserRoleLst = new ArrayList<Secuserrole>();
 		
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = (String) secuserForm.get("providerNo");
+
+		Map map = request.getParameterMap();
+		String[] arr_lineno = (String[]) map.get("lineno");
+		int lineno = 0;
+		if (arr_lineno != null)
+			lineno = arr_lineno.length;
 		
-		if(operationType == 3){
-			secUserRoleLst = (ArrayList)usersManager.getSecUserRoles(providerNo);
-			Secuserrole objNew2 = new Secuserrole();
-			secUserRoleLst.add(objNew2);
-		}else{
-			Map map = request.getParameterMap();
-			String[] arr_lineno = (String[]) map.get("lineno");
-			int lineno = 0;
-			if (arr_lineno != null)
-				lineno = arr_lineno.length;
+		for (int i = 0; i < lineno; i++) {
 			
-			for (int i = 0; i < lineno; i++) {
+			String[] isChecked = (String[]) map.get("p" + i);
+			if ((operationType == 1 && isChecked == null) || operationType != 1) {
+
+				Secuserrole objNew = new Secuserrole();
 				
-				String[] isChecked = (String[]) map.get("p" + i);
-				if ((operationType == 1 && isChecked == null) || operationType != 1) {
-	
-					Secuserrole objNew = new Secuserrole();
-					
-					String[] org_code = (String[]) map
-							.get("org_code" + i);
-					String[] org_description = (String[]) map
-							.get("org_description" + i);
-					String[] role_code = (String[]) map
-							.get("role_code" + i);
-					String[] role_description = (String[]) map
-							.get("role_description" + i);
-			
-					if (org_code != null)
-						objNew.setOrgcd(org_code[0]);
-					if (org_description != null)
-						objNew.setOrgcd_desc(org_description[0]);
-					if (role_code != null)
-						objNew.setRoleName(role_code[0]);
-					if (role_description != null)
-						objNew.setRoleName_desc(role_description[0]);
-					
-					objNew.setProviderNo(providerNo);
-					objNew.setActiveyn(new Long("1"));
-			
-					secUserRoleLst.add(objNew);
-				}
+				String[] org_code = (String[]) map
+						.get("org_code" + i);
+				String[] org_description = (String[]) map
+						.get("org_description" + i);
+				String[] role_code = (String[]) map
+						.get("role_code" + i);
+				String[] role_description = (String[]) map
+						.get("role_description" + i);
+		
+				if (org_code != null)
+					objNew.setOrgcd(org_code[0]);
+				if (org_description != null)
+					objNew.setOrgcd_desc(org_description[0]);
+				if (role_code != null)
+					objNew.setRoleName(role_code[0]);
+				if (role_description != null)
+					objNew.setRoleName_desc(role_description[0]);
 				
+				objNew.setProviderNo(providerNo);
+				objNew.setActiveyn(new Long("1"));
+		
+				secUserRoleLst.add(objNew);
 			}
+			
 		}
 		return secUserRoleLst;
 	}
 	
 	public ActionForward saveRoles(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		System.out.println("=========== saveRoles ========= in UserManagerAction");
 		
-		ActionMessages messages = new ActionMessages();
+		List secUserRoleLst = getRowList(request, form, 0);
+		ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
 		
-		try{
-			List secUserRoleLst = getRowList(request, form, 0);
-			ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
+		Iterator it = secUserRoleLst.iterator();
+		while(it.hasNext()){
+			Secuserrole tmp = (Secuserrole)it.next();
+			if(tmp.getOrgcd() != null && tmp.getOrgcd().length() > 0 && tmp.getRoleName() != null && tmp.getRoleName().length() > 0)
+				LstforSave.add(tmp);
 			
-			Iterator it = secUserRoleLst.iterator();
-			while(it.hasNext()){
-				Secuserrole tmp = (Secuserrole)it.next();
-				if(tmp.getOrgcd() != null && tmp.getOrgcd().length() > 0 && tmp.getRoleName() != null && tmp.getRoleName().length() > 0)
-					LstforSave.add(tmp);
-				
-			}
-			
-			usersManager.saveRolesToUser(LstforSave);
-			
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
-	       			request.getContextPath()));
-			saveMessages(request,messages);
-		}catch(Exception e){
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
-	       			request.getContextPath()));
-			saveMessages(request,messages);
 		}
-		//return mapping.findForward("addRoles");
-		return assignRole(mapping, form, request, response);
+		
+		usersManager.saveRolesToUser(LstforSave);
+		
+		return profile(mapping,form,request,response);
 
-	}
-
-	public void setOrgManager(ORGManager orgManager) {
-		this.orgManager = orgManager;
 	}
 
 }
