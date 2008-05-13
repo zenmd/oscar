@@ -41,7 +41,7 @@
 	OscarProperties props = OscarProperties.getInstance();
 
 	BuildInfo buildInfo = BuildInfo.getInstance();
-	String buildDate = "2008-05-01 09:15"; //buildInfo.getBuildDate();
+	String buildDate = "2008-05-12 14:55"; //buildInfo.getBuildDate();
 
 	// clear old cookies
 	Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
