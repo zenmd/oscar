@@ -15,13 +15,15 @@
 				<html:link href="javascript:submitForm('edit');"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+				<html:link href="javascript:submitForm('addRoles');"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Profiles&nbsp;&nbsp;|</html:link>
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
 				<html:link href="javascript:submitForm('new');"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 			</logic:notPresent>
-
 			
 		</td>
 
@@ -47,17 +49,12 @@
                     height: 100%; width: 100%; overflow: auto;">
 
 		<table width="100%" cellpadding="0" cellspacing="0">
-			<tr>
-				<td align="left" class="clsHomePageHeader" colspan="5"><logic:present
-					name="userForEdit">
-					<h2>User Edit</h2>
-				</logic:present> <logic:notPresent name="userForEdit">
-					<h2>New User</h2>
-				</logic:notPresent></td>
-			</tr>
-
-
-
+				<tr><td align="left" class="message">
+			      <logic:messagesPresent message="true">
+			        <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
+			        </html:messages> 
+			      </logic:messagesPresent>
+				</td></tr>
 		</table>
 
 		<html:form action="/PMmodule/Admin/UserManager" method="post">

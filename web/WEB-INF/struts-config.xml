@@ -2007,7 +2007,7 @@
         </action>
         <action path="/PMmodule/Admin/UserManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secuserForm" scope="request" validate="false">
             <forward name="list" path="page.admin.user.list" />
-            <forward name="profile" path="page.admin.user.profile" />
+            <forward name="profile" path="page.admin.user.addRoles" />
             <forward name="edit" path="page.admin.user.edit" />
             <forward name="addRoles" path="page.admin.user.addRoles" />
             

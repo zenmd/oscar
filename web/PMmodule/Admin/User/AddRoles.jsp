@@ -28,39 +28,31 @@
                     height: 100%; width: 100%; overflow: auto;">
 
 		<table width="100%" cellpadding="0" cellspacing="0">
-			<tr>
-				<td align="left" class="clsHomePageHeader" colspan="5">
-				<h2>Add Roles to User</h2>
-				</td>
-			</tr>
-
-
+			<tr><td align="left" class="message">
+		      <logic:messagesPresent message="true">
+		        <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
+		        </html:messages> 
+		      </logic:messagesPresent>
+			</td></tr>
 		</table>
 
 		<html:form action="/PMmodule/Admin/UserManager" method="post">
 			<html:hidden property="method" value="save" />
+			<html:hidden property="providerNo" />
 			<table>
-
-				<tr>
-					<td>Provider No.:</td>
-					<td><html:text property="providerNo" readonly="true"
-						style="border: none" /></td>
-				</tr>
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
-
 				<tr>
 					<td>User ID:</td>
 					<td><html:text property="userName" readonly="true"
 						style="border: none" /></td>
 				</tr>
 				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
-				
+					<td>Name:</td>
+					<td><c:out value="${lastName}"></c:out>,&nbsp;<c:out value="${firstName}"></c:out></td>
 				<tr>
-					<td>Roles:</td>
+					<td colspan="2">Role/Org Profile:</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
 					<td width="650px">
 					<table>
 
@@ -127,7 +119,7 @@
 											<td style="border:0px;" width="100%"><input
 												style="width:100%;" type="text" 
 												name="role_description<%=String.valueOf(rIndex)%>"
-												value='<c:out value="${secUserRole.roleName_desc}"/>'
+												value='<c:out value="${secUserRole.roleName}"/>'
 												readonly></td>
 											<td style="border:0px;" width="35px"><a  
 												onclick="showLookup2('ORGfld<%=String.valueOf(rIndex)%>','ROL', '', '', 'secuserForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img

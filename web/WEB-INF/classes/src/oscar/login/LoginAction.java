@@ -133,6 +133,7 @@ public final class LoginAction extends DispatchAction {
 
             // get View Type
             String viewType = LoginViewTypeHlp.getInstance().getProperty(strAuth[3].toLowerCase());
+            if (viewType == null) viewType="doctor";
             String providerNo = strAuth[0];
 
 //            session.setAttribute("user", strAuth[0]);
@@ -166,7 +167,7 @@ public final class LoginAction extends DispatchAction {
                     default_pmm = strPreferAuth[5];
                 }
             }
-
+            
             if (viewType.equalsIgnoreCase("receptionist")) { // go to receptionist view
                 // where =
                 // "receptionist";//receptionistcontrol.jsp?year="+nowYear+"&month="+(nowMonth)+"&day="+(nowDay)+"&view=0&displaymode=day&dboperation=searchappointmentday";
@@ -179,7 +180,8 @@ public final class LoginAction extends DispatchAction {
                 where = "admin";
             }
 
-            if (where.equals("provider") && default_pmm != null && "enabled".equals(default_pmm)) {
+//            if (where.equals("provider") && default_pmm != null && "enabled".equals(default_pmm)) {
+            if (where.equals("provider")) {
                 where = "caisiPMM";
             }
             /*

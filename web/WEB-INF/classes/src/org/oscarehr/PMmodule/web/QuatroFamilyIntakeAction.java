@@ -81,6 +81,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	   }
 	   
        List dependent = intakeManager.getClientFamilyByIntakeId(intakeId);
+       if(dependent==null) dependent = new ArrayList(); 
        for(Object element: dependent){
     	  QuatroIntakeFamily obj= (QuatroIntakeFamily)element;
     	  if(obj.getIntakeHeadId().equals(obj.getIntakeId())){
@@ -88,7 +89,6 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
     		 break;
     	  }
        }
-       if(dependent==null) dependent = new ArrayList(); 
 
        clientForm.setFamilyHead(familyHead);
        clientForm.setDob(familyHead.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(familyHead.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(familyHead.getDateOfBirth()));
@@ -231,7 +231,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        if(actionParam==null){
     	  actionParam = new HashMap();
           actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", request.getParameter("intakeId")); 
+          actionParam.put("intakeId", intakeId); 
        }
        request.setAttribute("actionParam", actionParam);
 

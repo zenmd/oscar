@@ -147,10 +147,12 @@ public class QuatroIntakeEditAction extends DispatchAction {
 //     	  actionParam = new HashMap();
 //           actionParam.put("clientId", clientId); 
 //        }
-        actionParam.put("clientId", client.getDemographicNo()); 
+    	QuatroIntake obj= qform.getIntake();
+
+    	actionParam.put("clientId", client.getDemographicNo()); 
+        actionParam.put("intakeId", obj.getId().toString()); 
         request.setAttribute("actionParam", actionParam);
     	
-    	QuatroIntake obj= qform.getIntake();
     	obj.setClientId(client.getDemographicNo());
 //    	obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 		
