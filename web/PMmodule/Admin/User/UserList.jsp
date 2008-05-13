@@ -109,12 +109,12 @@
 				<display:column title="">
 					<a
 						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
-					Edit </a>
+					Edit User Information</a>
 				</display:column>
 
 				<display:column title="">
 					<a
-						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=assignRole&providerNo=<c:out value="${user.providerNo}" />">
+						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=addRole&providerNo=<c:out value="${user.providerNo}" />">
 					Assign ORG/Role </a>
 				</display:column>
 

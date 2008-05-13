@@ -24,6 +24,7 @@ import org.oscarehr.PMmodule.web.BaseAction;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Security;
 import com.quatro.model.security.Secuserrole;
+import com.quatro.service.ORGManager;
 import com.quatro.service.security.RolesManager;
 import com.quatro.service.security.UsersManager;
 
@@ -34,6 +35,7 @@ public class UserManagerAction extends BaseAction {
 	private RolesManager rolesManager;
 
 	private UsersManager usersManager;
+	private ORGManager orgManager;
 
 	private MessageDigest md;
 
@@ -451,6 +453,10 @@ public class UserManagerAction extends BaseAction {
 		
 		return profile(mapping,form,request,response);
 
+	}
+
+	public void setOrgManager(ORGManager orgManager) {
+		this.orgManager = orgManager;
 	}
 
 }

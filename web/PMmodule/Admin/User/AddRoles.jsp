@@ -54,17 +54,7 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td width="650px">
-					<table>
-
-						<tr>
-							<td align="left" class="message"><logic:messagesPresent
-								message="true">
-								<html:messages id="message" message="true" bundle="pmm">
-									<c:out escapeXml="false" value="${message}" />
-								</html:messages>
-							</logic:messagesPresent></td>
-						</tr>
-					</table>
+					
 					<br />
 					<TABLE align="center" class="simple" width="100%">
 
