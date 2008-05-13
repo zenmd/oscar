@@ -14,6 +14,9 @@ public class QuatroAdmission implements Serializable {
 	private String providerNo;
 	private java.util.Calendar admissionDate;
 	private String admissionStatus;
+	private String dischargeNotes;
+	private Calendar dischargeDate;
+
 	private Integer intakeId;
 	private Integer facilityId;
 	private String programName;
@@ -184,6 +187,18 @@ public class QuatroAdmission implements Serializable {
 	}
 	public void setResidentStatus(String residentStatus) {
 		this.residentStatus = residentStatus;
+	}
+	public Calendar getDischargeDate() {
+		return dischargeDate;
+	}
+	public void setDischargeDate(Calendar dischargeDate) {
+		this.dischargeDate = dischargeDate;
+	}
+	public String getDischargeNotes() {
+		return dischargeNotes;
+	}
+	public void setDischargeNotes(String dischargeNotes) {
+		this.dischargeNotes = dischargeNotes;
 	}	
 
 }

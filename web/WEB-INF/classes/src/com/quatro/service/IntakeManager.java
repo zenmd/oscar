@@ -171,6 +171,9 @@ public class IntakeManager {
 	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
 		return intakeDao.getQuatroIntakeDBByQueueId(queueId);
 	}
+	public QuatroIntakeDB getQuatroIntakeDBByIntakeId(Integer intakeId) {
+		return intakeDao.getQuatroIntakeDBByIntakeId(intakeId);
+	}
 	
 	public ArrayList saveQuatroIntake(QuatroIntake intake) {
 		return intakeDao.saveQuatroIntake(intake, false);

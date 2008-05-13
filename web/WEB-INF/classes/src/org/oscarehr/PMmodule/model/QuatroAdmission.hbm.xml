@@ -14,7 +14,8 @@
 		<property name="admissionDate" column="admission_date" />
 		<property name="admissionStatus" column="admission_status" />
 		<property name="intakeId" column="intake_id" />
-		<property name="facilityId" column="facility_id" />
+		<property name="dischargeNotes" column="discharge_notes" />
+		<property name="dischargeDate" column="discharge_date" />
 
 		<property name="residentStatus" column="residentstatus" />
 		<property name="primaryWorker" column="primaryworker" />
@@ -31,6 +32,11 @@
 		<property name="ovPassStartDate" column="ovpass_startdate" />
 		<property name="ovPassEndDate" column="ovpass_enddate" />
 		<property name="notSignReason" column="notsign_reason" />
+
+		<property name="programName" type="string"
+			formula="(select p.name from program p where p.program_id = program_id)" />
+		<property name="programType" type="string"
+			formula="(select p.type from program p where p.program_id = program_id)" />
 		
 	</class>
 </hibernate-mapping>
