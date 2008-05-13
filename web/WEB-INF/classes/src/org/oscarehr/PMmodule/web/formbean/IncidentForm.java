@@ -58,12 +58,12 @@ public class IncidentForm extends ValidatorForm{
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
-	public ArrayList<KeyValueBean> getStaffSelectionList() {
+	public ArrayList getStaffSelectionList() {
 		if(staffSelectionList == null)
 			staffSelectionList = new ArrayList();
 		return staffSelectionList;
 	}
-	public void setStaffSelectionList(ArrayList<KeyValueBean> staffSelectionList) {
+	public void setStaffSelectionList(ArrayList staffSelectionList) {
 		this.staffSelectionList = staffSelectionList;
 	}
 	public List getClientIssuesLst() {
@@ -155,34 +155,21 @@ public class IncidentForm extends ValidatorForm{
 		this.othersArr = othersArr;
 	}
 	public String getAmpm() {
-		String itime = incident.getIncidentTime();
-		if(itime != null && itime.length() > 0){
-			ampm = itime.substring(5);
-		}
+		
 		return ampm;
 	}
 	public void setAmpm(String ampm) {
 		this.ampm = ampm;
 	}
 	public String getHour() {
-		String itime = incident.getIncidentTime();
-		if(itime != null && itime.length() > 0){
-			hour = itime.substring(0,2);
-			if(hour.equals("--"))
-				hour = "";
-		}
+		
 		return hour;
 	}
 	public void setHour(String hour) {
 		this.hour = hour;
 	}
 	public String getMinute() {
-		String itime = incident.getIncidentTime();
-		if(itime != null && itime.length() > 0){
-			minute = itime.substring(3,5);
-			if(minute.equals("--"))
-				minute = "";
-		}
+		
 		return minute;
 	}
 	public void setMinute(String minute) {
@@ -206,12 +193,12 @@ public class IncidentForm extends ValidatorForm{
 	public void setTxtStaffValues(String txtStaffValues) {
 		this.txtStaffValues = txtStaffValues;
 	}
-	public ArrayList<KeyValueBean> getClientSelectionList() {
+	public ArrayList getClientSelectionList() {
 		if(clientSelectionList == null)
 			clientSelectionList = new ArrayList();
 		return clientSelectionList;
 	}
-	public void setClientSelectionList(ArrayList<KeyValueBean> clientSelectionList) {
+	public void setClientSelectionList(ArrayList clientSelectionList) {
 		this.clientSelectionList = clientSelectionList;
 	}
 	public String getLstClient() {

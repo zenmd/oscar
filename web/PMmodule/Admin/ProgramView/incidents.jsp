@@ -126,6 +126,9 @@
 		       	alert("Please enter integer characters only.");
 		       	return false;
 			}
+			if(obj.value < 10){
+				obj.value = "0" + obj.value;
+			}
 		}else{
 			obj.value="";
 			alert("Hour must be between 1 and 12 for standard time.");
@@ -146,6 +149,9 @@
 				obj.value="";
 				alert("Please enter integer characters only.");
 				return false;
+			}
+			if(obj.value < 10){
+				obj.value = "0" + obj.value;
 			}
 		}else{
 			obj.value="";

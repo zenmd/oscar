@@ -83,7 +83,20 @@ public class IncidentManager {
 				}
 				incidentForm.setStaffSelectionList(staffSelectionList);
 			}
-	
+			
+			String incidentTime = incident.getIncidentTime();
+			
+			String	hour = incidentTime.substring(0,2);
+			if(hour.equals("--"))
+				hour = "";
+			String minute = incidentTime.substring(3,5);
+			if(minute.equals("--"))
+				minute = "";
+			String ampm = incidentTime.substring(5);
+			
+			incidentForm.setHour(hour);
+			incidentForm.setMinute(minute);
+			incidentForm.setAmpm(ampm);
 		}
 
 		String others = incident.getOtherInvolved();
@@ -125,9 +138,10 @@ public class IncidentManager {
 		incidentForm.setNatureLst(natureLst);
 		incidentForm.setOthersLst(othersLst);
 		
-		SecProvider provider = secProviderDao.findById(incident.getProviderNo());
-		incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
-		
+		if(incident.getProviderNo() != null){
+			SecProvider provider = secProviderDao.findById(incident.getProviderNo());
+			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
+		}
 		incidentForm.setIncident(incident);
 		return incidentForm;
 	}
@@ -222,6 +236,9 @@ public class IncidentManager {
 	}
 	public void setSecProviderDao(SecProviderDao secProviderDao) {
 		this.secProviderDao = secProviderDao;
+	}
+	public SecProvider findProviderById(String providerNo){
+		return secProviderDao.findById(providerNo);
 	}
 
 }

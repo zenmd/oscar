@@ -14,7 +14,7 @@ public class Complaint  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer id;
+     private Long id;
      private String source;
      private String method;
      private String firstname;
@@ -42,8 +42,8 @@ public class Complaint  implements java.io.Serializable {
      private String person4;
      private String title4;
      private Calendar date4;
-     private Integer clientId;
-     private Integer programId;
+     private Long clientId;
+     private Long programId;
      
      
 
@@ -75,11 +75,11 @@ public class Complaint  implements java.io.Serializable {
    
     // Property accessors
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -299,19 +299,19 @@ public class Complaint  implements java.io.Serializable {
         this.date4 = MyDateFormat.getCalendar(date4);
     }
 
-    public Integer getClientId() {
+    public Long getClientId() {
         return this.clientId;
     }
     
-    public void setClientId(Integer clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
-    public Integer getProgramId() {
+    public Long getProgramId() {
         return this.programId;
     }
     
-    public void setProgramId(Integer programId) {
+    public void setProgramId(Long programId) {
         this.programId = programId;
     }
 

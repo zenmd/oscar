@@ -72,6 +72,8 @@ import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.quatro.model.security.SecProvider;
+
 public class ProgramManagerViewAction extends BaseAction {
 
     private static final Log log = LogFactory.getLog(ProgramManagerViewAction.class);
@@ -327,7 +329,7 @@ public class ProgramManagerViewAction extends BaseAction {
         		
         		if(mthd.equals("save")){
         			incidentForm = formBean.getIncidentForm();
-        			incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
+        			incidentForm.getIncident().setProgramId(Long.valueOf(programId));
         			incidentForm.getIncident().setProviderNo(providerNo);
         			
         			Map map = request.getParameterMap();
@@ -350,8 +352,12 @@ public class ProgramManagerViewAction extends BaseAction {
         		}
         		
         		incidentForm = incidentManager.getIncidentForm(incidentId);
-        		incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
-        			
+        		incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        		if(mthd.equals("new")){
+        			incidentForm.getIncident().setProviderNo(providerNo);
+        			SecProvider provider = incidentManager.findProviderById(providerNo);
+        			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
+        		}	
         		
         		formBean.setIncidentForm(incidentForm);
         	}

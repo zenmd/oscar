@@ -43,7 +43,7 @@
 			<th class="pageTitle" align="center">Client Management - Complaints</th>
 			
 		</tr>
-		<tr>
+		<tr height="18px">
 			<td align="left" valign="middle" class="buttonBar2">&nbsp;<html:link
 				action="/PMmodule/QuatroClientSummary.do" name="actionParam"
 				style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
