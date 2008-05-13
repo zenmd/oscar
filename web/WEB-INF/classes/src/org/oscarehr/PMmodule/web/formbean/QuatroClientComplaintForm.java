@@ -18,6 +18,7 @@ public class QuatroClientComplaintForm extends ValidatorForm{
 	List sections;
 	List subsections;
 	
+	String isStandards;
 	//String OutstandingChk;
 	
 	
@@ -59,6 +60,12 @@ public class QuatroClientComplaintForm extends ValidatorForm{
 	}
 	public void setSubsections(List subsections) {
 		this.subsections = subsections;
+	}
+	public String getIsStandards() {
+		return isStandards;
+	}
+	public void setIsStandards(String isStandards) {
+		this.isStandards = isStandards;
 	}
 	
 }

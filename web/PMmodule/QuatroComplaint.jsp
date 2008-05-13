@@ -11,15 +11,33 @@
 	function submitForm(methodVal) {
 		//alert("method=" + methodVal);
 		document.forms(0).method.value = methodVal;
-		//alert("method2=" + document.forms(0).method.value);
+		
 		document.forms(0).submit();
 	}
 	function setOutstanding(arg){
 		//alert("Outstanding state="+arg);
 	}
-	function setStandard(){
-		//alert("Change standards fields state");
+	function setStandard(obj){
+		//alert(obj.checked);
+		var boxes = document.getElementsByName("complaint.standards1");
+		for(var i = 0; i <= boxes.length; i++ ){
+			if(obj.checked == true){
+				boxes[i].disabled = false;
+			}else{
+				boxes[i].disabled = true;
+			}
+			
+		}
 	}
+	function init() {
+		
+		var obj = document.getElementsByName("isStandards")[0];
+		//alert("onload obj.checked=" + obj.checked);
+		
+		setStandard(obj);
+	}
+	window.onload = init;
+	
 </script>
 
 <html-el:form action="/PMmodule/QuatroComplaint.do">
@@ -143,8 +161,9 @@
 					<td>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
-								<td colspan="2">Is complaint related to Toronto Shelter
-								Standards? <input type="checkbox" onclick="setStandard()" /></td>
+								<td colspan="2">Is complaint related to Toronto Shelter	Standards? 
+									<html-el:checkbox name="quatroClientComplaintForm" property="isStandards" value="1" onclick="setStandard(this)" />
+								</td>
 							</tr>
 							<tr>
 								<td colspan="2">If yes, Specify Complaints(identify Section
@@ -228,8 +247,10 @@
 						</tr>
 						<tr>
 							<td colspan="2">Are There Outstanding Service System issues?
+								<!-- 
 								<input type="radio" name="OutstandingChk" onclick="setOutstanding('1')" value="1">Yes</input>
 								<input type="radio" name="OutstandingChk" onclick="setOutstanding('0')" value="0">No</input>
+								 -->
 							</td>
 							<td></td>
 							<td></td>							
