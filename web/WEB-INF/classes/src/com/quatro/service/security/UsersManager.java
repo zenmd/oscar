@@ -78,6 +78,9 @@ public class UsersManager {
 	public void saveRolesToUser(List list) {
 		secuserroleDao.saveAll(list);
 	}
+	public List getSecUserRoles(String providerNo) {
+		return secuserroleDao.findByProviderNo(providerNo);
+	}
 	
 	public void save(SecProvider provider, Security user) {
 		secProviderDao.saveOrUpdate(provider);

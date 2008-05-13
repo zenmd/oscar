@@ -35,8 +35,16 @@ public class SecuserroleDao extends HibernateDaoSupport {
 	public void saveAll(List list) {
 		log.debug("saving ALL Secuserrole instances");
 		try {
-			for(int i =0; i< list.size(); i++)
-				getSession().save(list.get(i));
+			for(int i =0; i< list.size(); i++){
+				Secuserrole obj = (Secuserrole)list.get(i);
+				
+				int rowcount = update(obj);
+				
+				if(rowcount <= 0){
+					getSession().save(obj);
+				}
+				
+			}
 			//this.getHibernateTemplate().saveOrUpdateAll(list);
 			log.debug("save ALL successful");
 		} catch (RuntimeException re) {
@@ -65,7 +73,23 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	public int update(Secuserrole instance) {
+		log.debug("finding Secuserrole instance with property: ");
+		try {
+			String queryString = "update Secuserrole as model set model.activeyn ='" + instance.getActiveyn() + "'"
+				+ " where model.providerNo ='" + instance.getProviderNo() + "'"
+				+ " and model.roleName ='" + instance.getRoleName() + "'"
+				+ " and model.orgcd ='" + instance.getOrgcd() + "'";
+			//update Supplier set name = :newName where name = :name
+			Query queryObject = getSession().createQuery(queryString);
+			
+			return queryObject.executeUpdate();
 
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public Secuserrole findById(java.lang.Long id) {
 		log.debug("getting Secuserrole instance with id: " + id);
 		try {

@@ -133,8 +133,7 @@ String _appPath = request.getContextPath();
 									</table>
 									</th>
 									<th></th>
-									<th valign="middle"><a
-										href="<%=_appPath%>/admin/admin.jsp"> <img
+									<th valign="middle"><a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img
 										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60" border="0"
 										OnClick="lnkResource1_Click"></img></a></th>
 									<th align="left" valign="middle">
@@ -142,7 +141,7 @@ String _appPath = request.getContextPath();
 										<tr align="left">
 
 											<th valign="top" align="left" class="clsHomePageLabels">
-											<a href="<%=_appPath%>/admin/admin.jsp">System
+											<a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do">System
 											Administration</a> &nbsp;</th>
 										</tr>
 									</table>
@@ -150,7 +149,7 @@ String _appPath = request.getContextPath();
 									<th>&nbsp;</th>
 								</tr>
 								
-								<!-- Jim added Start -->
+								
 								<tr>
 									<th></th>
 									<th valign="middle"><a
@@ -166,20 +165,8 @@ String _appPath = request.getContextPath();
 									</table>
 									</th>
 									<th></th>
-									<th valign="middle"><a
-										href="<%=_appPath%>/PMmodule/SysAdmin.do"> <img
-										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60" border="0"
-										OnClick="lnkResource1_Click"></img></a></th>
-									<th align="left" valign="middle">
-									<table>
-										<tr align="left">
-
-											<th valign="top" align="left" class="clsHomePageLabels">
-											<a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do">NEW System
-											Administration</a> &nbsp;</th>
-										</tr>
-									</table>
-									</th>
+									<th valign="middle"></th>
+									<th align="left" valign="middle"></th>
 									<th>&nbsp;</th>
 								</tr>
 								<!-- Jim added end -->
