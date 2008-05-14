@@ -100,7 +100,7 @@ public class ActivityReportAction extends DispatchAction {
 			int totalAdmissions = admissions.size();
 			
 			ClientReferral cr = new ClientReferral();
-			cr.setProgramId(new Long(p.getId().longValue()));
+			cr.setProgramId(new Integer(p.getId().intValue()));
 			List referrals = clientManager.searchReferrals(cr);
 			int totalReferrals = referrals.size();
 			

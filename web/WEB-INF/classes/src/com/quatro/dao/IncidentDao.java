@@ -68,7 +68,7 @@ public class IncidentDao extends HibernateDaoSupport {
 		}
 	}
 
-	public IncidentValue findById(java.lang.Long id) {
+	public IncidentValue findById(java.lang.Integer id) {
 		log.debug("getting Incident instance with id: " + id);
 		try {
 			IncidentValue instance = (IncidentValue) getSession().get(

@@ -76,6 +76,7 @@ public class Program implements Serializable {
     private Integer maximumServiceRestrictionDays;
     private int defaultServiceRestrictionDays;
     private Integer facilityId;
+    private String facilityDesc;
     private String orgCd;
     // constructors
     public Program() {
@@ -668,5 +669,13 @@ public class Program implements Serializable {
     public String toString() {
         return super.toString();
     }
+
+	public String getFacilityDesc() {
+		return facilityDesc;
+	}
+
+	public void setFacilityDesc(String facilityDesc) {
+		this.facilityDesc = facilityDesc;
+	}
     
 }

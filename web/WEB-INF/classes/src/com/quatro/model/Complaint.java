@@ -43,7 +43,7 @@ public class Complaint  implements java.io.Serializable {
      private String title4;
      private Calendar date4;
      private Long clientId;
-     private Long programId;
+     private Integer programId;
      
      
 
@@ -307,11 +307,11 @@ public class Complaint  implements java.io.Serializable {
         this.clientId = clientId;
     }
 
-    public Long getProgramId() {
+    public Integer getProgramId() {
         return this.programId;
     }
     
-    public void setProgramId(Long programId) {
+    public void setProgramId(Integer programId) {
         this.programId = programId;
     }
 

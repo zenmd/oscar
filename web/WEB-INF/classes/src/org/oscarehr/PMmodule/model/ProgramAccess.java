@@ -35,8 +35,8 @@ public class ProgramAccess implements Serializable {
     public static String PROP_ACCESS_TYPE_ID = "AccessTypeId";
     public static String PROP_ID = "Id";
     private int hashCode = Integer.MIN_VALUE;// primary key
-    private Long _id;// fields
-    private Long _programId;
+    private Integer _id;// fields
+    private Integer _programId;
     private String _accessTypeId;
     private boolean _allRoles;// many to one
     private AccessType _accessType;// collections
@@ -50,7 +50,7 @@ public class ProgramAccess implements Serializable {
      /**
       * Constructor for primary key
       */
-     public ProgramAccess (Long _id) {
+     public ProgramAccess (Integer _id) {
          this.setId(_id);
          initialize();
      }
@@ -64,7 +64,7 @@ public class ProgramAccess implements Serializable {
 *  generator-class="native"
 *  column="id"
 */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -72,7 +72,7 @@ public class ProgramAccess implements Serializable {
 	 * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -80,7 +80,7 @@ public class ProgramAccess implements Serializable {
     /**
 	 * Return the value associated with the column: program_id
      */
-    public Long getProgramId () {
+    public Integer getProgramId () {
         return _programId;
     }
 
@@ -88,7 +88,7 @@ public class ProgramAccess implements Serializable {
 	 * Set the value related to the column: program_id
      * @param _programId the program_id value
      */
-    public void setProgramId (Long _programId) {
+    public void setProgramId (Integer _programId) {
         this._programId = _programId;
     }
 

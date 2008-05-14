@@ -36,23 +36,23 @@ public class ClientReferral implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
-    private Long _id;// fields
-    private Long _clientId;
-    private java.util.Date _referralDate;
-    private String _providerNo;
+    private Integer id;// fields
+    private Long clientId;
+    private java.util.Date referralDate;
+    private String providerNo;
     private Integer facilityId;
-    private String _notes;
+    private String notes;
     private String presentProblems;
     private String radioRejectionReason;
-    private String _completionNotes;
-    private Long _programId;
-    private String _status;
-    private boolean _temporaryAdmission;
-    private java.util.Date _completionDate;
-    private String _providerLastName;
-    private String _providerFirstName;
-    private String _programName;
-    private String _programType;
+    private String completionNotes;
+    private Integer programId;
+    private String status;
+    private boolean temporaryAdmission;
+    private java.util.Date completionDate;
+    private String providerLastName;
+    private String providerFirstName;   
+    private String programName;
+    private String programType;
 
     // constructors
     public ClientReferral() {
@@ -62,7 +62,7 @@ public class ClientReferral implements Serializable {
     /**
      * Constructor for primary key
      */
-    public ClientReferral(Long _id) {
+    public ClientReferral(Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -70,7 +70,7 @@ public class ClientReferral implements Serializable {
     /**
      * Constructor for required fields
      */
-    public ClientReferral(Long _id, Long _clientId, String _providerNo, Long _programId) {
+    public ClientReferral(Integer _id, Long _clientId, String _providerNo, Integer _programId) {
 
         this.setId(_id);
         this.setClientId(_clientId);
@@ -91,8 +91,8 @@ public class ClientReferral implements Serializable {
      * 
      * @hibernate.id generator-class="native" column="referral_id"
      */
-    public Long getId() {
-        return _id;
+    public Integer getId() {
+        return id;
     }
 
     /**
@@ -101,8 +101,8 @@ public class ClientReferral implements Serializable {
      * @param _id
      *            the new ID
      */
-    public void setId(Long _id) {
-        this._id = _id;
+    public void setId(Integer _id) {
+        this.id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
@@ -110,7 +110,7 @@ public class ClientReferral implements Serializable {
      * Return the value associated with the column: client_id
      */
     public Long getClientId() {
-        return _clientId;
+        return clientId;
     }
 
     /**
@@ -120,14 +120,14 @@ public class ClientReferral implements Serializable {
      *            the client_id value
      */
     public void setClientId(Long _clientId) {
-        this._clientId = _clientId;
+        this.clientId = _clientId;
     }
 
     /**
      * Return the value associated with the column: referral_date
      */
     public java.util.Date getReferralDate() {
-        return _referralDate;
+        return referralDate;
     }
 
     /**
@@ -137,14 +137,14 @@ public class ClientReferral implements Serializable {
      *            the referral_date value
      */
     public void setReferralDate(java.util.Date _referralDate) {
-        this._referralDate = _referralDate;
+        this.referralDate = _referralDate;
     }
 
     /**
      * Return the value associated with the column: provider_no
      */
     public String getProviderNo() {
-        return _providerNo;
+        return providerNo;
     }
 
     /**
@@ -154,14 +154,14 @@ public class ClientReferral implements Serializable {
      *            the provider_no value
      */
     public void setProviderNo(String _providerNo) {
-        this._providerNo = _providerNo;
+        this.providerNo = _providerNo;
     }
 
     /**
      * Return the value associated with the column: notes
      */
     public String getNotes() {
-        return _notes;
+        return notes;
     }
 
     /**
@@ -171,7 +171,7 @@ public class ClientReferral implements Serializable {
      *            the notes value
      */
     public void setNotes(String _notes) {
-        this._notes = _notes;
+        this.notes = _notes;
     }
 
     public String getPresentProblems() {
@@ -194,7 +194,7 @@ public class ClientReferral implements Serializable {
      * Return the value associated with the column: completion_notes
      */
     public String getCompletionNotes() {
-        return _completionNotes;
+        return completionNotes;
     }
 
     /**
@@ -204,14 +204,14 @@ public class ClientReferral implements Serializable {
      *            the completion_notes value
      */
     public void setCompletionNotes(String _completionNotes) {
-        this._completionNotes = _completionNotes;
+        this.completionNotes = _completionNotes;
     }
 
     /**
      * Return the value associated with the column: program_id
      */
-    public Long getProgramId() {
-        return _programId;
+    public Integer getProgramId() {
+        return programId;
     }
 
     /**
@@ -220,15 +220,15 @@ public class ClientReferral implements Serializable {
      * @param _programId
      *            the program_id value
      */
-    public void setProgramId(Long _programId) {
-        this._programId = _programId;
+    public void setProgramId(Integer _programId) {
+        this.programId = _programId;
     }
 
     /**
      * Return the value associated with the column: status
      */
     public String getStatus() {
-        return _status;
+        return status;
     }
 
     /**
@@ -238,14 +238,14 @@ public class ClientReferral implements Serializable {
      *            the status value
      */
     public void setStatus(String _status) {
-        this._status = _status;
+        this.status = _status;
     }
 
     /**
      * Return the value associated with the column: temporary_admission_flag
      */
     public boolean isTemporaryAdmission() {
-        return _temporaryAdmission;
+        return temporaryAdmission;
     }
 
     /**
@@ -255,14 +255,14 @@ public class ClientReferral implements Serializable {
      *            the temporary_admission_flag value
      */
     public void setTemporaryAdmission(boolean _temporaryAdmission) {
-        this._temporaryAdmission = _temporaryAdmission;
+        this.temporaryAdmission = _temporaryAdmission;
     }
 
     /**
      * Return the value associated with the column: completion_date
      */
     public java.util.Date getCompletionDate() {
-        return _completionDate;
+        return completionDate;
     }
 
     /**
@@ -272,14 +272,14 @@ public class ClientReferral implements Serializable {
      *            the completion_date value
      */
     public void setCompletionDate(java.util.Date _completionDate) {
-        this._completionDate = _completionDate;
+        this.completionDate = _completionDate;
     }
 
     /**
      * Return the value associated with the column: ProviderLastName
      */
     public String getProviderLastName() {
-        return _providerLastName;
+        return providerLastName;
     }
 
     /**
@@ -289,14 +289,14 @@ public class ClientReferral implements Serializable {
      *            the ProviderLastName value
      */
     public void setProviderLastName(String _providerLastName) {
-        this._providerLastName = _providerLastName;
+        this.providerLastName = _providerLastName;
     }
 
     /**
      * Return the value associated with the column: ProviderFirstName
      */
     public String getProviderFirstName() {
-        return _providerFirstName;
+        return providerFirstName;
     }
 
     /**
@@ -306,14 +306,14 @@ public class ClientReferral implements Serializable {
      *            the ProviderFirstName value
      */
     public void setProviderFirstName(String _providerFirstName) {
-        this._providerFirstName = _providerFirstName;
+        this.providerFirstName = _providerFirstName;
     }
 
     /**
      * Return the value associated with the column: ProgramName
      */
     public String getProgramName() {
-        return _programName;
+        return programName;
     }
 
     /**
@@ -323,14 +323,14 @@ public class ClientReferral implements Serializable {
      *            the ProgramName value
      */
     public void setProgramName(String _programName) {
-        this._programName = _programName;
+        this.programName = _programName;
     }
 
     /**
      * Return the value associated with the column: programType
      */
     public String getProgramType() {
-        return _programType;
+        return programType;
     }
 
     /**
@@ -340,7 +340,7 @@ public class ClientReferral implements Serializable {
      *            the programType value
      */
     public void setProgramType(String _programType) {
-        this._programType = _programType;
+        this.programType = _programType;
     }
 
     public boolean equals(Object obj) {

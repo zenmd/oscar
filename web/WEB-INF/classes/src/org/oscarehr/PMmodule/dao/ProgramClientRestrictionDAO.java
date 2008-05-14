@@ -11,6 +11,8 @@ import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import java.util.Iterator;
+
 /**
  */
 public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
@@ -52,7 +54,11 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         }
         return pcrs;
     }
-
+    
+    public List findAllForClient(int demographicNo) {      
+        List results = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.demographicNo = ? order by pcr.endDate desc", demographicNo);       
+        return results;
+    }
     public Collection<ProgramClientRestriction> findForClient(int demographicNo) {
         Collection<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.demographicNo = ? order by pcr.programId", demographicNo);
         for (ProgramClientRestriction pcr : pcrs) {

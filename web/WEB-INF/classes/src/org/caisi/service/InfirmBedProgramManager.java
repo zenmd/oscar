@@ -101,9 +101,9 @@ public class InfirmBedProgramManager {
         ArrayList pList = new ArrayList();
         while (iter.hasNext()) {
             ProgramProvider p = (ProgramProvider)iter.next();
-            if (p != null && p.getProgramId() != null && p.getProgramId().longValue() > 0) {
+            if (p != null && p.getProgramId() != null && p.getProgramId().intValue() > 0) {
                 //logger.debug("programName="+p.getProgram().getName()+"::"+"programId="+p.getProgram().getId().toString());
-                Program program = programDao.getProgram(new Integer(p.getProgramId().intValue()));
+                Program program = programDao.getProgram(p.getProgramId());
                 
                 if (facilityId!=null && program.getFacilityId()!=facilityId.intValue()) continue;
                 

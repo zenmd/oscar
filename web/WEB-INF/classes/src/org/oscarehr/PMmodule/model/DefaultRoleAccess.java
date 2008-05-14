@@ -35,9 +35,9 @@ public class DefaultRoleAccess  implements Serializable {
     public static String PROP_ID = "id";
     public static String PROP_ROLE_ID = "roleId";
     private int hashCode = Integer.MIN_VALUE;// primary key
-    private Long _id;// fields
-    private long _roleId;
-    private long _accessTypeId;// many to one
+    private Integer id;// fields
+    private Integer roleId;
+    private Integer accessTypeId;// many to one
     private org.caisi.model.Role _caisi_role;
     private AccessType _access_type;
 
@@ -50,7 +50,7 @@ public class DefaultRoleAccess  implements Serializable {
     /**
      * Constructor for primary key
      */
-    public DefaultRoleAccess (Long _id) {
+    public DefaultRoleAccess (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -64,47 +64,47 @@ public class DefaultRoleAccess  implements Serializable {
      *  generator-class="native"
      *  column="id"
      */
-    public Long getId () {
-        return _id;
+    public Integer getId () {
+        return id;
     }
 
     /**
      * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
-        this._id = _id;
+    public void setId (Integer _id) {
+        this.id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
     /**
      * Return the value associated with the column: role_id
      */
-    public long getRoleId () {
-        return _roleId;
+    public Integer getRoleId () {
+        return roleId;
     }
 
     /**
      * Set the value related to the column: role_id
      * @param _roleId the role_id value
      */
-    public void setRoleId (long _roleId) {
-        this._roleId = _roleId;
+    public void setRoleId (Integer _roleId) {
+        this.roleId = _roleId;
     }
 
     /**
      * Return the value associated with the column: access_id
      */
-    public long getAccessTypeId () {
-        return _accessTypeId;
+    public Integer getAccessTypeId () {
+        return accessTypeId;
     }
 
     /**
      * Set the value related to the column: access_id
      * @param _accessTypeId the access_id value
      */
-    public void setAccessTypeId (long _accessTypeId) {
-        this._accessTypeId = _accessTypeId;
+    public void setAccessTypeId (Integer _accessTypeId) {
+        this.accessTypeId = _accessTypeId;
     }
 
     /**

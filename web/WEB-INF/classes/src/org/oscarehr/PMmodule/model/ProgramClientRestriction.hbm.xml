@@ -23,8 +23,11 @@
 			<generator class="native" />
 		</id>
 		<property name="programId" column="program_id" type="integer" not-null="false" length="10" />
+		<property name="programDesc" formula="(select a.name from program a where a.program_id=program_id)"></property>
         <property name="demographicNo" column="demographic_no" type="integer" not-null="false" length="10" />
         <property name="providerNo" column="provider_no" type="string" not-null="false" length="6" />
+        <property name="providerFirstName" formula="(select a.first_name from provider a where a.provider_no=provider_no)"></property>
+        <property name="providerLastName" formula="(select a.last_name from provider a where a.provider_no=provider_no)"></property>
         <property name="commentId" column="comments" type="string" not-null="true" length="255"/>
         <property name="comments" formula="(select a.description from lst_service_restriction a where a.id=comments)"/>
         <property name="startDate" column="start_date" type="timestamp" not-null="true"/>

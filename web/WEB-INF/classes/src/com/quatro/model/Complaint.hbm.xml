@@ -88,7 +88,7 @@
         <property name="clientId" type="java.lang.Long">
             <column name="CLIENT_ID" precision="10" scale="0" />
         </property>
-        <property name="programId" type="java.lang.Long">
+        <property name="programId" type="java.lang.Integer">
             <column name="PROGRAM_ID" precision="10" scale="0" />
         </property>
     </class>

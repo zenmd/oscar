@@ -293,38 +293,19 @@ public class ProgramDao extends HibernateDaoSupport {
             criteria.add(Expression.eq("manOrWoman", program.getManOrWoman()));
         }
 
-        if (program.isTransgender()) {
-            criteria.add(Expression.eq("transgender", true));
+        if (program.getFacilityId()!=null && program.getFacilityId().intValue()>0) {
+            criteria.add(Expression.eq("facilityId", program.getFacilityId()));
         }
 
-        if (program.isFirstNation()) {
-            criteria.add(Expression.eq("firstNation", true));
+        if (program.getAgeMin()>0) {
+            criteria.add(Expression.eq("ageMin", program.getAgeMin()));
         }
 
-        if (program.isBedProgramAffiliated()) {
-            criteria.add(Expression.eq("bedProgramAffiliated", true));
+        if (program.getAgeMax()>0) {
+            criteria.add(Expression.eq("ageMax", program.getAgeMax()));
         }
 
-        if (program.isAlcohol()) {
-            criteria.add(Expression.eq("alcohol", true));
-        }
-
-        if (program.getAbstinenceSupport() != null && program.getAbstinenceSupport().length() > 0) {
-            criteria.add(Expression.eq("abstinenceSupport", program.getAbstinenceSupport()));
-        }
-
-        if (program.isPhysicalHealth()) {
-            criteria.add(Expression.eq("physicalHealth", true));
-        }
-
-        if (program.isHousing()) {
-            criteria.add(Expression.eq("housing", true));
-        }
-
-        if (program.isMentalHealth()) {
-            criteria.add(Expression.eq("mentalHealth", true));
-        }
-        criteria.addOrder(Order.asc("name"));
+         criteria.addOrder(Order.asc("name"));
 
         List results = criteria.list();
 

@@ -30,13 +30,13 @@ public class SurveyExecuteFormBean implements Serializable {
 	private long id;
 	private long clientId;
 	private String description;
-	private long admissionId;
+	private Integer admissionId;
 
-	public long getAdmissionId() {
+	public Integer getAdmissionId() {
 		return admissionId;
 	}
 
-	public void setAdmissionId(long admissionId) {
+	public void setAdmissionId(Integer admissionId) {
 		this.admissionId = admissionId;
 	}
 

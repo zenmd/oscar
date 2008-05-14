@@ -18,10 +18,10 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ProgramAccess" table="program_access">
-		<id column="id" name="Id" type="java.lang.Long" unsaved-value="0">
+		<id column="id" name="Id" type="java.lang.Integer" unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<property column="program_id" length="11" name="ProgramId" not-null="false" type="java.lang.Long" />
+		<property column="program_id" length="11" name="ProgramId" not-null="false" type="java.lang.Integer" />
 		<property column="access_type_id" name="AccessTypeId" not-null="false" type="string" />
 		<property column="all_roles" name="AllRoles" not-null="false" type="boolean" />
 		<many-to-one name="AccessType" class="org.oscarehr.PMmodule.model.AccessType" column="access_type_id" update="false" insert="false" lazy="false" />

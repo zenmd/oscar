@@ -37,15 +37,15 @@ public class ProgramQueue implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
-    private Long _id;// fields
+    private Integer _id;// fields
     private Long _clientId;
     private java.util.Date _referralDate;
     private Long _providerNo;
     private String _notes;
-    private Long _programId;
+    private Integer _programId;
     private String _status;
     private boolean _temporaryAdmission;
-    private Long _referralId;
+    private Integer _referralId;
     private String _programName;
     private String _providerLastName;
     private String _providerFirstName;
@@ -63,7 +63,7 @@ public class ProgramQueue implements Serializable {
     /**
      * Constructor for primary key
      */
-    public ProgramQueue (Long _id) {
+    public ProgramQueue (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -72,10 +72,10 @@ public class ProgramQueue implements Serializable {
      * Constructor for required fields
      */
     public ProgramQueue (
-            Long _id,
+            Integer _id,
             Long _clientId,
             Long _providerNo,
-            Long _programId) {
+            Integer _programId) {
 
         this.setId(_id);
         this.setClientId(_clientId);
@@ -100,7 +100,7 @@ public class ProgramQueue implements Serializable {
      *  generator-class="native"
      *  column="queue_id"
      */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -108,7 +108,7 @@ public class ProgramQueue implements Serializable {
      * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -176,7 +176,7 @@ public class ProgramQueue implements Serializable {
     /**
      * Return the value associated with the column: program_id
      */
-    public Long getProgramId () {
+    public Integer getProgramId () {
         return _programId;
     }
 
@@ -184,7 +184,7 @@ public class ProgramQueue implements Serializable {
      * Set the value related to the column: program_id
      * @param _programId the program_id value
      */
-    public void setProgramId (Long _programId) {
+    public void setProgramId (Integer _programId) {
         this._programId = _programId;
     }
 
@@ -221,7 +221,7 @@ public class ProgramQueue implements Serializable {
     /**
      * Return the value associated with the column: referral_id
      */
-    public Long getReferralId () {
+    public Integer getReferralId () {
         return _referralId;
     }
 
@@ -229,7 +229,7 @@ public class ProgramQueue implements Serializable {
      * Set the value related to the column: referral_id
      * @param _referralId the referral_id value
      */
-    public void setReferralId (Long _referralId) {
+    public void setReferralId (Integer _referralId) {
         this._referralId = _referralId;
     }
 

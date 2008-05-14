@@ -130,7 +130,7 @@ public class AdmissionManager {
 		return dao.getCurrentAdmissionsByProgramId(Integer.valueOf(programId));
 	}
 
-    public Admission getAdmission(Long id) {
+    public Admission getAdmission(Integer id) {
 		return dao.getAdmission(id);
 	}
 
@@ -144,7 +144,7 @@ public class AdmissionManager {
 	    	ClientReferral referral = new ClientReferral();
 	        referral.setClientId(admission.getClientId().longValue());
 	        referral.setNotes("Discharge Automated referral");
-	        referral.setProgramId(admission.getBedProgramId().longValue());
+	        referral.setProgramId(admission.getBedProgramId().intValue());
 	        referral.setProviderNo(admission.getProviderNo());
 	        referral.setReferralDate(new Date());
 	        referral.setStatus(ClientReferral.STATUS_ACTIVE);	        
@@ -165,16 +165,16 @@ public class AdmissionManager {
 	         
 	          QuatroIntake intake=intakeDao.getQuatroIntake(admission.getIntakeId());
 			    if(intake.getReferralId() != null &&  intake.getReferralId().intValue()>0){
-			      ClientReferral referralOld = new ClientReferral(Long.valueOf(intake.getReferralId().longValue()));
+			      ClientReferral referralOld = new ClientReferral(Integer.valueOf(intake.getReferralId().intValue()));
 			      referralOld.setClientId(Long.valueOf(intake.getClientId().longValue()));
-			      referralOld.setProgramId(Long.valueOf(intake.getProgramId().longValue()));
+			      referralOld.setProgramId(Integer.valueOf(intake.getProgramId().intValue()));
 			      clientReferralDAO.delete(referralOld);
 	            }  
 	            if(intake.getQueueId() != null && intake.getQueueId().intValue()>0){
-			      ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intake.getQueueId().longValue()));
+			      ProgramQueue queueOld = new ProgramQueue(Integer.valueOf(intake.getQueueId().intValue()));
 			      queueOld.setClientId(Long.valueOf(intake.getClientId().longValue()));
 			      queueOld.setProviderNo(Long.valueOf(intake.getStaffId()));
-			      queueOld.setProgramId(Long.valueOf(intake.getProgramId().longValue()));
+			      queueOld.setProgramId(Integer.valueOf(intake.getProgramId().intValue()));
 			      programQueueDao.delete(queueOld);
 	            }
 	          
@@ -287,7 +287,7 @@ public class AdmissionManager {
 		saveAdmission(newAdmission);
 
 		// Clear them from the queue, Update their referral
-		ProgramQueue pq = programQueueDao.getActiveProgramQueue(program.getId().longValue(), (long) demographicNo);
+		ProgramQueue pq = programQueueDao.getActiveProgramQueue(program.getId().intValue(), (long) demographicNo);
 		if (pq != null) {
 			pq.setStatus(ProgramQueue.STATUS_ADMITTED);
 			programQueueDao.saveProgramQueue(pq);

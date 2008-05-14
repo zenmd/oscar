@@ -53,7 +53,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        List results = this.getHibernateTemplate().find("from ClientReferral cr where cr.ClientId = ?", clientId);
+        List results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ?", clientId);
 
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
@@ -75,8 +75,8 @@ public class ClientReferralDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        String sSQL="from ClientReferral cr where cr.ClientId = ? " +
-                    " and ( (cr.FacilityId=?) or (cr.ProgramId in (select s.id from Program s where s.facilityId=? or s.facilityId is null)))";
+        String sSQL="from ClientReferral cr where cr.clientId = ? " +
+                    " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=? or s.facilityId is null)))";
         List results = this.getHibernateTemplate().find(sSQL, new Object[] { clientId, facilityId, facilityId });
 //        		"from ClientReferral cr where cr.ClientId = ?", clientId);
 
@@ -99,7 +99,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     		System.out.println(cr.getId() + "|" + cr.getProgramName() + "|" + cr.getClientId());
 
             ClientReferral result = null;
-            List results = this.getHibernateTemplate().find("from ClientReferral r where r.ClientId = ? and r.Id < ? order by r.Id desc", new Object[] {cr.getClientId(), cr.getId()});
+            List results = this.getHibernateTemplate().find("from ClientReferral r where r.clientId = ? and r.Id < ? order by r.Id desc", new Object[] {cr.getClientId(), cr.getId()});
 
             // temp - completionNotes/Referring program/agency, notes/External
         	String completionNotes = "";
@@ -169,12 +169,12 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         @SuppressWarnings("unchecked")
         List<ClientReferral> results;
         if(facilityId==null){
-          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.ClientId = ? and (cr.Status = '"+ClientReferral.STATUS_ACTIVE+"' or cr.Status = '"+ClientReferral.STATUS_PENDING+"' or cr.Status = '"+ClientReferral.STATUS_UNKNOWN+"')", clientId);
+          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ? and (cr.status = '"+ClientReferral.STATUS_ACTIVE+"' or cr.status = '"+ClientReferral.STATUS_PENDING+"' or cr.status = '"+ClientReferral.STATUS_UNKNOWN+"')", clientId);
         }else{
           ArrayList paramList = new ArrayList();
-          String sSQL="from ClientReferral cr where cr.ClientId = ? and (cr.Status = '" + ClientReferral.STATUS_ACTIVE+"' or cr.Status = '" + 
-            ClientReferral.STATUS_PENDING + "' or cr.Status = '" + ClientReferral.STATUS_UNKNOWN + "')" + 
-            " and ( (cr.FacilityId=?) or (cr.ProgramId in (select s.id from Program s where s.facilityId=?)))";
+          String sSQL="from ClientReferral cr where cr.clientId = ? and (cr.status = '" + ClientReferral.STATUS_ACTIVE+"' or cr.status = '" + 
+            ClientReferral.STATUS_PENDING + "' or cr.status = '" + ClientReferral.STATUS_UNKNOWN + "')" + 
+            " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=?)))";
           paramList.add(clientId);
           paramList.add(facilityId);
           paramList.add(facilityId);
@@ -189,8 +189,8 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public ClientReferral getClientReferral(Long id) {
-        if (id == null || id.longValue() <= 0) {
+    public ClientReferral getClientReferral(Integer id) {
+        if (id == null || id.intValue()<= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -221,7 +221,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     public List search(ClientReferral referral) {
         Criteria criteria = getSession().createCriteria(ClientReferral.class);
 
-        if (referral != null && referral.getProgramId().longValue() > 0) {
+        if (referral != null && referral.getProgramId() > 0) {
             criteria.add(Expression.eq("ProgramId", referral.getProgramId()));
         }
 

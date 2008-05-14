@@ -37,10 +37,10 @@ public class ProgramProvider implements Serializable {
     public static String PROP_ID = "Id";
     public static String PROP_ROLE_ID = "RoleId";
     private int hashCode = Integer.MIN_VALUE;// primary key
-    private Long _id;// fields
-    private Long _programId;
-    private String _providerNo;
-    private Long _roleId;// many to one
+    private Integer id;// fields
+    private Integer programId;
+    private String providerNo;
+    private Integer roleId;// many to one
     private org.caisi.model.Role _role;
     private Provider _provider;// collections
     private java.util.Set _teams;
@@ -55,7 +55,7 @@ public class ProgramProvider implements Serializable {
     /**
 	 * Constructor for primary key
 	 */
-	public ProgramProvider (Long _id) {
+	public ProgramProvider (Integer _id) {
 		this.setId(_id);
 		initialize();
 	}
@@ -90,39 +90,39 @@ public class ProgramProvider implements Serializable {
 *  generator-class="native"
 *  column="id"
 */
-    public Long getId () {
-        return _id;
+    public Integer getId () {
+        return id;
     }
 
     /**
 	 * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
-        this._id = _id;
+    public void setId (Integer _id) {
+        this.id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
     /**
 	 * Return the value associated with the column: program_id
      */
-    public Long getProgramId () {
-        return _programId;
+    public Integer getProgramId () {
+        return programId;
     }
 
     /**
 	 * Set the value related to the column: program_id
      * @param _programId the program_id value
      */
-    public void setProgramId (Long _programId) {
-        this._programId = _programId;
+    public void setProgramId (Integer _programId) {
+        this.programId = _programId;
     }
 
     /**
 	 * Return the value associated with the column: provider_no
      */
     public String getProviderNo () {
-        return _providerNo;
+        return providerNo;
     }
 
     /**
@@ -130,22 +130,22 @@ public class ProgramProvider implements Serializable {
      * @param _providerNo the provider_no value
      */
     public void setProviderNo (String _providerNo) {
-        this._providerNo = _providerNo;
+        this.providerNo = _providerNo;
     }
 
     /**
 	 * Return the value associated with the column: role_id
      */
-    public Long getRoleId () {
-        return _roleId;
+    public Integer getRoleId () {
+        return roleId;
     }
 
     /**
 	 * Set the value related to the column: role_id
      * @param _roleId the role_id value
      */
-    public void setRoleId (Long _roleId) {
-        this._roleId = _roleId;
+    public void setRoleId (Integer _roleId) {
+        this.roleId = _roleId;
     }
 
     /**

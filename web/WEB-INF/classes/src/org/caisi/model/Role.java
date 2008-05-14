@@ -25,7 +25,7 @@ package org.caisi.model;
 import java.util.Date;
 
 public class Role extends BaseObject implements Comparable<Role>{
-	private Long id;
+	private Integer id;
 	private String name="";
 	/** this signifies if it's a user defined role or one that's shipped with the caisi system */
 	private boolean userDefined=true;
@@ -35,10 +35,10 @@ public class Role extends BaseObject implements Comparable<Role>{
 	public Role() {
 		update_date = new Date();
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {

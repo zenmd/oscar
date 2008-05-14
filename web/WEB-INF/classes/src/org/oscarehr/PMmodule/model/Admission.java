@@ -44,14 +44,14 @@ public class Admission implements Serializable,Cloneable {
 	/**
 	 * Constructor for primary key
 	 */
-	public Admission (Long id) {
+	public Admission (Integer id) {
 		this.setId(id);
 	}
 
 	/**
 	 * Constructor for required fields
 	 */
-	public Admission(Long id, String providerNo, Integer clientId, Integer programId) {
+	public Admission(Integer id, String providerNo, Integer clientId, Integer programId) {
 		this.setId(id);
 		this.setProviderNo(providerNo);
 		this.setClientId(clientId);
@@ -73,7 +73,7 @@ public class Admission implements Serializable,Cloneable {
 	private String programName;
 	private String programType;
 	private int hashCode = Integer.MIN_VALUE;
-	private Long id;
+	private Integer id;
 	private String providerNo;
 	private String admissionStatus;
 	private Integer clientId;
@@ -303,7 +303,7 @@ public class Admission implements Serializable,Cloneable {
      *  generator-class="native"
      *  column="am_id"
      */
-    public Long getId() {
+    public Integer getId() {
     	return id;
     }
 
@@ -311,7 +311,7 @@ public class Admission implements Serializable,Cloneable {
      * Set the unique identifier of this class
      * @param id the new ID
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
     	this.id = id;
     	this.hashCode = Integer.MIN_VALUE;
     }

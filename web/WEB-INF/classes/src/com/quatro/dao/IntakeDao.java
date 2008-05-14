@@ -562,7 +562,7 @@ public class IntakeDao extends HibernateDaoSupport {
         if(!bFamilyMember){
           if(intake.getClientId()!=null) referral.setClientId(intake.getClientId().longValue());
           referral.setNotes("Intake Automated referral");
-          if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().longValue());
+          if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().intValue());
           referral.setProviderNo(intake.getStaffId());
           referral.setReferralDate(new Date());
           referral.setStatus(ClientReferral.STATUS_ACTIVE);
@@ -586,16 +586,16 @@ public class IntakeDao extends HibernateDaoSupport {
 	      if(!bFamilyMember){
             //delete old referral and queue records linked to this intake
 		    if(intakeDb.getReferralId() != null &&  intakeDb.getReferralId().intValue()>0){
-		      ClientReferral referralOld = new ClientReferral(Long.valueOf(intakeDb.getReferralId().longValue()));
+		      ClientReferral referralOld = new ClientReferral(Integer.valueOf(intakeDb.getReferralId().intValue()));
 		      referralOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
-		      referralOld.setProgramId(Long.valueOf(intakeDb.getProgramId().longValue()));
+		      referralOld.setProgramId(Integer.valueOf(intakeDb.getProgramId().intValue()));
 		      getHibernateTemplate().delete(referralOld);
             }  
             if(intakeDb.getQueueId() != null && intakeDb.getQueueId().intValue()>0){
-		      ProgramQueue queueOld = new ProgramQueue(Long.valueOf(intakeDb.getQueueId().longValue()));
+		      ProgramQueue queueOld = new ProgramQueue(Integer.valueOf(intakeDb.getQueueId().intValue()));
 		      queueOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
 		      queueOld.setProviderNo(Long.valueOf(intakeDb.getStaffId()));
-		      queueOld.setProgramId(Long.valueOf(intakeDb.getProgramId().longValue()));
+		      queueOld.setProgramId(Integer.valueOf(intakeDb.getProgramId().intValue()));
 		      getHibernateTemplate().delete(queueOld);
             }
           

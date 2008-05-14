@@ -34,7 +34,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
     private Log log = LogFactory.getLog(ProgramQueueDao.class);
 
 
-    public ProgramQueue getProgramQueue(Long queueId) {
+    public ProgramQueue getProgramQueue(Integer queueId) {
         if (queueId == null || queueId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -48,7 +48,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return result;
     }
 
-    public List<ProgramQueue> getProgramQueuesByProgramId(Long programId) {
+    public List<ProgramQueue> getProgramQueuesByProgramId(Integer programId) {
         if (programId == null) {
             throw new IllegalArgumentException();
         }
@@ -63,7 +63,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return results;
     }
 
-    public List<ProgramQueue> getActiveProgramQueuesByProgramId(Long programId) {
+    public List<ProgramQueue> getActiveProgramQueuesByProgramId(Integer programId) {
         if (programId == null) {
             throw new IllegalArgumentException();
         }
@@ -94,7 +94,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
     	getHibernateTemplate().delete(pqObj);
     }
 
-    public ProgramQueue getQueue(Long programId, Long clientId) {
+    public ProgramQueue getQueue(Integer programId, Long clientId) {
         if (programId == null) {
             throw new IllegalArgumentException();
         }
@@ -117,7 +117,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return result;
     }
 
-    public ProgramQueue getActiveProgramQueue(Long programId, Long demographicNo) {
+    public ProgramQueue getActiveProgramQueue(Integer programId, Long demographicNo) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

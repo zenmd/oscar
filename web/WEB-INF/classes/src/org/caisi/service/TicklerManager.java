@@ -131,7 +131,7 @@ public class TicklerManager {
 	        if(programId==null || "".equals(programId) || "null".equals(programId))
 		        continue;
 	        
-	        ppList = roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Long(programId));
+	        ppList = roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Integer(programId));
 	        if (ppList == null || ppList.isEmpty()) {
 	        	continue;
 	        }
@@ -139,7 +139,7 @@ public class TicklerManager {
 		    Role role = pp.getRole();		   
 		    
 		    //Load up access list from program
-		    List programAccessList = roleProgramAccessDAO.getAccessListByProgramID(new Long(programId));
+		    List programAccessList = roleProgramAccessDAO.getAccessListByProgramID(new Integer(programId));
 		    Map programAccessMap = caseManagementManager.convertProgramAccessListToMap(programAccessList);
 			        
 	        
@@ -148,7 +148,7 @@ public class TicklerManager {
 	        Integer ticklerProgramId = t.getProgram_id();
 	        List ppList2 = new ArrayList();
 	        if(ticklerProgramId!=null) {
-	        	ppList2 = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(assignedProviderId, new Long(ticklerProgramId));
+	        	ppList2 = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(assignedProviderId, new Integer(ticklerProgramId));
 	        	if (ppList2 == null || ppList2.isEmpty()) {
 	        		//add = true; //????ture or false????
 	        		//filteredTicklers.add(t);

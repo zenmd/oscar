@@ -18,12 +18,12 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ProgramProvider" table="program_provider">
-		<id column="id" name="Id" type="java.lang.Long" unsaved-value="0">
+		<id column="id" name="Id" type="java.lang.Integer" unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<property column="program_id" length="11" name="ProgramId" not-null="false" type="java.lang.Long" />
+		<property column="program_id" length="11" name="ProgramId" not-null="false" type="java.lang.Integer" />
 		<property column="provider_no" length="11" name="ProviderNo" not-null="false" type="java.lang.String" />
-		<property column="role_id" length="11" name="RoleId" not-null="false" type="java.lang.Long" />
+		<property column="role_id" length="11" name="RoleId" not-null="false" type="java.lang.Integer" />
 		<set name="teams" table="program_provider_team" lazy="false">
 			<key column="id" />
 			<many-to-many class="org.oscarehr.PMmodule.model.ProgramTeam" />

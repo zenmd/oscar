@@ -18,7 +18,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="Admission" table="admission">
-		<id column="am_id" name="Id" type="java.lang.Long">
+		<id column="am_id" name="Id" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
 		<property column="provider_No" name="ProviderNo" />

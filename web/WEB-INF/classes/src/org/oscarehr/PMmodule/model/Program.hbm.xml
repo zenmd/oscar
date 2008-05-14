@@ -58,5 +58,6 @@
         <property name="maximumServiceRestrictionDays" column="maximum_restriction_days" type="integer" not-null="false" length="11"/>
         <property name="defaultServiceRestrictionDays" column="default_restriction_days" type="integer" not-null="true" length="11"/>
 		<property name="orgCd" formula="(select a.codetree from lst_orgcd a where a.code='P'||program_id)" update="false"/>
+		<property name="facilityDesc" formula="(select a.name from facility a where a.id=facility_id)"></property>
     </class>
 </hibernate-mapping>

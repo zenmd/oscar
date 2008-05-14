@@ -614,8 +614,8 @@ public class CaseManagementManager {
         while (itr.hasNext()) {
             Integer pId = itr.next();
 
-            List ppList = roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, pId.longValue());
-            List paList = roleProgramAccessDAO.getAccessListByProgramID(pId.longValue());
+            List ppList = roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, pId.intValue());
+            List paList = roleProgramAccessDAO.getAccessListByProgramID(pId.intValue());
 
             for (int i = 0; i < ppList.size(); i++) {
                 ProgramProvider pp = (ProgramProvider)ppList.get(i);
@@ -640,7 +640,7 @@ public class CaseManagementManager {
         return rt;
     }
 
-    public boolean roleInAccess(Long roleId, ProgramAccess pa) {
+    public boolean roleInAccess(Integer roleId, ProgramAccess pa) {
         boolean rt = false;
         Set roleset = pa.getRoles();
         Iterator itr = roleset.iterator();
@@ -678,7 +678,7 @@ public class CaseManagementManager {
         List ppList = null;
         if (program_id == null || "".equalsIgnoreCase(program_id) || "null".equalsIgnoreCase(program_id)) ppList = roleProgramAccessDAO.getProgramProviderByProviderNo(providerNo);
         else {
-            Long pid = new Long(program_id);
+            Integer pid = new Integer(program_id);
             ppList = roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, pid);
         }
         if (ppList != null && ppList.size() > 0) rt = ((ProgramProvider)ppList.get(0)).getRole().getName();
@@ -761,17 +761,17 @@ public class CaseManagementManager {
    
 
     public void deleteTmpSave(String providerNo, String demographicNo, String programId) {
-        caseManagementTmpSaveDAO.delete(providerNo, new Long(demographicNo), new Long(programId));
+        caseManagementTmpSaveDAO.delete(providerNo, new Long(demographicNo), new Integer(programId));
     }
 
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId) {
-        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Long(demographicNo), new Long(programId));
+        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Long(demographicNo), new Integer(programId));
         return obj;
     }
     
     //we want to load a temp saved note only if it's more recent than date
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId, Date date) {
-        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Long(demographicNo), new Long(programId), date);
+        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Long(demographicNo), new Integer(programId), date);
         return obj;
     }
     
@@ -825,7 +825,7 @@ public class CaseManagementManager {
         }
 
         //Get Role - if no ProgramProvider record found, show no issues.
-        List ppList = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Long(programId));
+        List ppList = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Integer(programId));
         if (ppList == null || ppList.isEmpty()) {
             return new ArrayList();
         }
@@ -834,7 +834,7 @@ public class CaseManagementManager {
         Role role = pp.getRole();
 
         //Load up access list from program
-        List programAccessList = roleProgramAccessDAO.getAccessListByProgramID(new Long(programId));
+        List programAccessList = roleProgramAccessDAO.getAccessListByProgramID(new Integer(programId));
         Map programAccessMap = convertProgramAccessListToMap(programAccessList);
 
         //iterate through the issue list
@@ -925,7 +925,7 @@ public class CaseManagementManager {
     public List searchIssues(String providerNo, String programId, String search) {
         //get Role
         //Get Role - if no ProgramProvider record found, show no issues.
-        List ppList = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Long(programId));
+        List ppList = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Integer(programId));
         if (ppList == null || ppList.isEmpty()) {
             return new ArrayList();
         }
@@ -933,7 +933,7 @@ public class CaseManagementManager {
         Role role = pp.getRole();
 
         //get program accesses
-        List paList = roleProgramAccessDAO.getAccessListByProgramID(new Long(programId));
+        List paList = roleProgramAccessDAO.getAccessListByProgramID(new Integer(programId));
         Map paMap = convertProgramAccessListToMap(paList);
 
         //get all roles
@@ -974,7 +974,7 @@ public class CaseManagementManager {
         }
 
         //Get Role - if no ProgramProvider record found, show no issues.
-        List ppList = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Long(programId));
+        List ppList = this.roleProgramAccessDAO.getProgramProviderByProviderProgramID(providerNo, new Integer(programId));
         if (ppList == null || ppList.isEmpty()) {
             return new ArrayList();
         }
@@ -983,7 +983,7 @@ public class CaseManagementManager {
         Role role = pp.getRole();
 
         //Load up access list from program
-        List programAccessList = roleProgramAccessDAO.getAccessListByProgramID(new Long(programId));
+        List programAccessList = roleProgramAccessDAO.getAccessListByProgramID(new Integer(programId));
         Map programAccessMap = convertProgramAccessListToMap(programAccessList);
 
         //iterate through the issue list
@@ -1113,11 +1113,11 @@ public class CaseManagementManager {
 
         for (int x = 0; x < providerPrograms.size(); x++) {
             Program pp = (Program)providerPrograms.get(x);
-            long programId = pp.getId().longValue();
+            int programId = pp.getId().intValue();
 
             for (int y = 0; y < allAdmissions.size(); y++) {
             	Admission qih = (Admission)allAdmissions.get(y);
-                long admitProgramId = qih.getProgramId().longValue();
+                int admitProgramId = qih.getProgramId().intValue();
 
                 if (programId == admitProgramId) {
                     return true;

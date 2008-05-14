@@ -30,12 +30,12 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class CaseManagementTmpSaveDAO extends HibernateDaoSupport {
 
-    public void delete(String providerNo, Long demographicNo, Long programId) {
+    public void delete(String providerNo, Long demographicNo, Integer programId) {
         List results = this.getHibernateTemplate().find("from CaseManagementTmpSave c where c.providerNo=? and c.demographicNo=? and c.programId=?", new Object[] {providerNo, demographicNo, programId});
         this.getHibernateTemplate().deleteAll(results);
     }
 
-    public CaseManagementTmpSave load(String providerNo, Long demographicNo, Long programId) {
+    public CaseManagementTmpSave load(String providerNo, Long demographicNo, Integer programId) {
         List results = this.getHibernateTemplate().find("from CaseManagementTmpSave c where c.providerNo=? and c.demographicNo=? and c.programId=? order by c.update_date DESC", new Object[] {providerNo, demographicNo, programId});
         if (!results.isEmpty()) {
             return (CaseManagementTmpSave)results.get(0);
@@ -44,7 +44,7 @@ public class CaseManagementTmpSaveDAO extends HibernateDaoSupport {
         return null;
     }
     
-    public CaseManagementTmpSave load(String providerNo, Long demographicNo, Long programId, Date date) {
+    public CaseManagementTmpSave load(String providerNo, Long demographicNo, Integer programId, Date date) {
         List results = this.getHibernateTemplate().find("from CaseManagementTmpSave c where c.providerNo=? and c.demographicNo=? and c.programId=? and c.update_date > ? order by c.update_date DESC", new Object[] {providerNo, demographicNo, programId, date});
         if (!results.isEmpty()) {
             return (CaseManagementTmpSave)results.get(0);

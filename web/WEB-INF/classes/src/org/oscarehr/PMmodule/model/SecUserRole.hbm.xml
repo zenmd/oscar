@@ -16,16 +16,11 @@
 <!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
-<hibernate-mapping>
-	<class name="org.oscarehr.casemgmt.model.CaseManagementTmpSave" table="casemgmt_tmpsave">
-		<id name="id" column="id" unsaved-value="0" type="java.lang.Long">
-			<generator class="native" />
-		</id>
-		<property name="demographicNo" column="demographic_no" type="long" />
-		<property name="providerNo" column="provider_no" type="string" />
-		<property name="programId" column="program_id" type="integer" />
-		<property name="note" type="string" />
-		<property name="update_date" type="java.util.Date" />
-                <property name="note_id" type="long" />
+<hibernate-mapping package="org.oscarehr.PMmodule.model">
+	<class name="SecUserRole" table="secUserRole">
+		<composite-id>
+			<key-property name="RoleName" column="role_name" type="string" />
+			<key-property name="ProviderNo" column="provider_no" type="string" />
+		</composite-id>
 	</class>
 </hibernate-mapping>

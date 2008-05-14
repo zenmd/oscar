@@ -37,7 +37,7 @@ public class RoleProgramAccessDAO extends HibernateDaoSupport {
     }
 
     @SuppressWarnings("unchecked")
-    public List<ProgramProvider> getProgramProviderByProviderProgramID(String providerNo, Long programId) {
+    public List<ProgramProvider> getProgramProviderByProviderProgramID(String providerNo, Integer programId) {
         String q = "select pp from ProgramProvider pp where pp.ProgramId=? and pp.ProviderNo=?";
 
         return getHibernateTemplate().find(q, new Object[] {programId, providerNo});
@@ -50,14 +50,14 @@ public class RoleProgramAccessDAO extends HibernateDaoSupport {
     }
 
     @SuppressWarnings("unchecked")
-    public List<ProgramProvider> getAccessListByProgramID(Long programId) {
+    public List<ProgramProvider> getAccessListByProgramID(Integer programId) {
         String q = "select pp from ProgramAccess pp where pp.ProgramId=?";
 
         return getHibernateTemplate().find(q, new Object[] {programId});
     }
 
     @SuppressWarnings("unchecked")
-    public List<DefaultRoleAccess> getDefaultAccessRightByRole(Long roleId) {
+    public List<DefaultRoleAccess> getDefaultAccessRightByRole(Integer roleId) {
         String q = "from DefaultRoleAccess da where da.caisi_role.id=?";
         return getHibernateTemplate().find(q, roleId);
     }

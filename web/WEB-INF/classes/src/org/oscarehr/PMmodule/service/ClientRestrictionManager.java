@@ -25,12 +25,14 @@ package org.oscarehr.PMmodule.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.oscarehr.PMmodule.dao.ProgramClientRestrictionDAO;
 import org.oscarehr.PMmodule.exception.ClientAlreadyRestrictedException;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.springframework.beans.factory.annotation.Required;
+import org.oscarehr.PMmodule.model.ProgramProvider;
 
 /**
  * Manage client restrictions
@@ -73,6 +75,22 @@ public class ClientRestrictionManager {
             }
         }
         return returnPcrs;
+    }
+
+    public List getAllRestrictionsForClient(int demographicNo,List ppList) {
+    	 ArrayList resLst = new ArrayList();
+         List results=programClientRestrictionDAO.findAllForClient(demographicNo);
+    	 Iterator items = results.iterator();
+         while(items.hasNext()){
+         	ProgramClientRestriction pcr =(ProgramClientRestriction)items.next();
+         	Iterator ppvs =ppList.iterator();
+         	while(ppvs.hasNext()){
+         		ProgramProvider ppv =(ProgramProvider)ppvs.next();
+         		if(pcr.getProgramId()==ppv.getProgramId().intValue()) resLst.add(pcr);
+         	}         	
+         }
+        // check dao for restriction
+        return  resLst;       
     }
 
     public List<ProgramClientRestriction> getActiveRestrictionsForClient(int demographicNo, int facilityId, Date asOfDate) {

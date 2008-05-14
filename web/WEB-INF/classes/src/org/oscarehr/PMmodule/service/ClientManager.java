@@ -113,7 +113,7 @@ public class ClientManager {
     }
 
     public ClientReferral getClientReferral(String id) {
-        return referralDAO.getClientReferral(Long.valueOf(id));
+        return referralDAO.getClientReferral(Integer.valueOf(id));
     }
 
     /*

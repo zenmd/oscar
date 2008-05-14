@@ -650,7 +650,7 @@ public class SurveyExecuteAction extends DispatchAction {
         }
     }
 
-    public void populateWithDataLink(SurveyExecuteDataBean data, String key, String dataLink, String demographic_no, String format, boolean refresh, long admissionId) {
+    public void populateWithDataLink(SurveyExecuteDataBean data, String key, String dataLink, String demographic_no, String format, boolean refresh, Integer admissionId) {
         //will make more dynamic in the future
         Demographic client = this.clientManager.getClientByDemographicNo(demographic_no);
 

@@ -9,9 +9,13 @@ import java.util.Date;
 public class ProgramClientRestriction implements Serializable {
 
     private Integer id;
-    private int programId;
-    private int demographicNo;
+    private Integer programId;
+    private String programDesc;
+    
+    private Integer demographicNo;
     private String providerNo;
+    private String providerFirstName;
+    private String providerLastName;
     private String commentId;
     private String comments;
     private Date startDate;
@@ -26,7 +30,7 @@ public class ProgramClientRestriction implements Serializable {
     public ProgramClientRestriction() {
     }
 
-    public ProgramClientRestriction(Integer id, int programId, int demographicNo, String providerNo, String comments, Date startDate, Date endDate, boolean enabled, Program program, Demographic client) {
+    public ProgramClientRestriction(Integer id, Integer programId, Integer demographicNo, String providerNo, String comments, Date startDate, Date endDate, boolean enabled, Program program, Demographic client) {
         this.id = id;
         this.programId = programId;
         this.demographicNo = demographicNo;
@@ -63,15 +67,15 @@ public class ProgramClientRestriction implements Serializable {
         return programId;
     }
 
-    public void setProgramId(int programId) {
+    public void setProgramId(Integer programId) {
         this.programId = programId;
     }
 
-    public int getDemographicNo() {
+    public Integer getDemographicNo() {
         return demographicNo;
     }
 
-    public void setDemographicNo(int demographicNo) {
+    public void setDemographicNo(Integer demographicNo) {
         this.demographicNo = demographicNo;
     }
 
@@ -161,6 +165,32 @@ public class ProgramClientRestriction implements Serializable {
     public void setEarlyTerminationProvider(String earlyTerminationProvider) {
         this.earlyTerminationProvider = earlyTerminationProvider;
     }
+
+	public String getProgramDesc() {
+		return programDesc;
+	}
+
+	public void setProgramDesc(String programDesc) {
+		this.programDesc = programDesc;
+	}
+	public String getProviderFormattedName() {
+	    return getProviderLastName() + "," + getProviderFirstName();
+	}
+	public String getProviderFirstName() {
+		return providerFirstName;
+	}
+
+	public void setProviderFirstName(String providerFirstName) {
+		this.providerFirstName = providerFirstName;
+	}
+
+	public String getProviderLastName() {
+		return providerLastName;
+	}
+
+	public void setProviderLastName(String providerLastName) {
+		this.providerLastName = providerLastName;
+	}
 
     
 
