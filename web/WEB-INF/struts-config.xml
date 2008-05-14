@@ -328,6 +328,9 @@
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
         </form-bean>
+        <form-bean name="programSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
+        	<form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
+        </form-bean>
         <form-bean name="quatroClientDischargeForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
@@ -357,6 +360,9 @@
             <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
+            <form-property name="serviceRestriction"  type="org.oscarehr.PMmodule.model.ProgramClientRestriction"></form-property>
+            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>
+            <form-property name="recordId" type="java.lang.Integer"></form-property>
         </form-bean>
         
         <form-bean name="quatroClientComplaintForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm" />
@@ -1637,7 +1643,11 @@
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
+        <action path="/PMmodule/QuatroProgramSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programSearchForm" scope="request">
+        	<forward name="view" path="/PMmodule/QuatroProgramSearch.jsp" />
+        </action>
         <action path="/PMmodule/QuatroRefer" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientReferForm" scope="request">
+            <forward name="list" path="page.quatro.pmm.refer.list" />
             <forward name="edit" path="page.quatro.pmm.refer" />
             <forward name="search_programs" path="/PMmodule/QuatroProgramSearch.jsp" />
             <forward name="consent" path="page.pmm.erconsent" />
@@ -1659,6 +1669,7 @@
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
         <action path="/PMmodule/QuatroServiceRestriction" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientServiceRestrictionForm" scope="request">
+            <forward name="list" path="page.quatro.pmm.servicerestriction.list" />
             <forward name="edit" path="page.quatro.pmm.servicerestriction" />
             <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
             <forward name="consent" path="page.pmm.erconsent" />

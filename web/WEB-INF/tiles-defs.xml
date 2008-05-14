@@ -134,6 +134,9 @@
 	<definition name="page.quatro.pmm.admission" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroAdmission.jsp" />
 	</definition>
+	<definition name="page.quatro.pmm.refer.list" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/QuatroReferList.jsp" />
+	</definition>
 	<definition name="page.quatro.pmm.refer" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroRefer.jsp" />
 	</definition>
@@ -145,6 +148,9 @@
 	</definition>
 	<definition name="page.quatro.pmm.servicerestriction" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroServiceRestriction.jsp" />
+	</definition>
+	<definition name="page.quatro.pmm.servicerestriction.list" path="/PMmodule/layout.jsp">
+		<put name="body" value="/PMmodule/QuatroServiceRestrictionList.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.complaint.edit" path="/PMmodule/layout.jsp">
 		<put name="body" value="/PMmodule/QuatroComplaint.jsp" />

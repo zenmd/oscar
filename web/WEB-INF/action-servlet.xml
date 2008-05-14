@@ -105,6 +105,11 @@
         <property name="roomManager" ref="roomManager" />
         <property name="bedManager" ref="bedManager" />
     </bean>
+    <bean name="/PMmodule/QuatroProgramSearch" class="org.oscarehr.PMmodule.web.QuatroProgramSearchAction" singleton="false" autowire="byName">
+        <property name="clientManager" ref="clientManager" />        
+        <property name="programManager" ref="programManager"/>  
+        <property name="lookupManager" ref="lookupManager" />       
+    </bean>
     <bean name="/PMmodule/QuatroDischarge" class="org.oscarehr.PMmodule.web.QuatroClientDischargeAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
         <property name="providerManager" ref="providerManager" />
