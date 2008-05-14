@@ -135,7 +135,7 @@ public class ProgramManagerViewAction extends BaseAction {
         se.setAttribute("performAdmissions",new Boolean(caseManagementManager.hasAccessRight("perform admissions","access",providerNo,"",programId)));
 		        
         // need the queue to determine which tab to go to first
-        List<ProgramQueue> queue = programQueueManager.getActiveProgramQueuesByProgramId(Long.valueOf(programId));
+        List<ProgramQueue> queue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId));
         request.setAttribute("queue", queue);
 
         HashSet<Long> genderConflict = new HashSet<Long>();
@@ -307,7 +307,7 @@ public class ProgramManagerViewAction extends BaseAction {
         if (formBean.getTab().equals("Incidents")) {
         	String incidentId = request.getParameter("incidentId");
         	String mthd = request.getParameter("mthd");
-        	Long pid = Long.valueOf(programId);
+        	Integer pid = Integer.valueOf(programId);
         	
         	IncidentForm incidentForm = null;
         	if(incidentId == null){
@@ -329,7 +329,7 @@ public class ProgramManagerViewAction extends BaseAction {
         		
         		if(mthd.equals("save")){
         			incidentForm = formBean.getIncidentForm();
-        			incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        			incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
         			incidentForm.getIncident().setProviderNo(providerNo);
         			
         			Map map = request.getParameterMap();
@@ -352,13 +352,12 @@ public class ProgramManagerViewAction extends BaseAction {
         		}
         		
         		incidentForm = incidentManager.getIncidentForm(incidentId);
-        		incidentForm.getIncident().setProgramId(Long.valueOf(programId));
+        		incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
         		if(mthd.equals("new")){
         			incidentForm.getIncident().setProviderNo(providerNo);
         			SecProvider provider = incidentManager.findProviderById(providerNo);
         			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
-        		}	
-        		
+        		}
         		formBean.setIncidentForm(incidentForm);
         	}
         }
@@ -501,7 +500,7 @@ public class ProgramManagerViewAction extends BaseAction {
         String admissionId = request.getParameter("admissionId");
         String teamId = request.getParameter("teamId");
         String programName = request.getParameter("program_name");
-        Admission ad = admissionManager.getAdmission(Long.valueOf(admissionId));
+        Admission ad = admissionManager.getAdmission(Integer.valueOf(admissionId));
 
         ad.setTeamId(Integer.valueOf(teamId));
 
@@ -519,7 +518,7 @@ public class ProgramManagerViewAction extends BaseAction {
         String admissionId = request.getParameter("admissionId");
         String statusId = request.getParameter("clientStatusId");
         String programName = request.getParameter("program_name");
-        Admission ad = admissionManager.getAdmission(Long.valueOf(admissionId));
+        Admission ad = admissionManager.getAdmission(Integer.valueOf(admissionId));
 
         ad.setClientStatusId(Integer.valueOf(statusId));
 
@@ -555,7 +554,7 @@ public class ProgramManagerViewAction extends BaseAction {
             String name = (String) e.nextElement();
             if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {
                 String admissionId = name.substring(8);
-                Admission admission = admissionManager.getAdmission(Long.valueOf(admissionId));
+                Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
                 if (admission == null) {
                     log.warn("admission #" + admissionId + " not found.");
                     continue;
