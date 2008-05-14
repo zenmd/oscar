@@ -12,7 +12,7 @@ public class Secobjectname implements java.io.Serializable {
 
 	private String objectname;
 	private String description;
-	private Long orgapplicable;
+	private Integer orgapplicable;
 
 	// Constructors
 
@@ -27,7 +27,7 @@ public class Secobjectname implements java.io.Serializable {
 
 	/** full constructor */
 	public Secobjectname(String objectname, String description,
-			Long orgapplicable) {
+			Integer orgapplicable) {
 		this.objectname = objectname;
 		this.description = description;
 		this.orgapplicable = orgapplicable;
@@ -51,11 +51,11 @@ public class Secobjectname implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public Long getOrgapplicable() {
+	public Integer getOrgapplicable() {
 		return this.orgapplicable;
 	}
 
-	public void setOrgapplicable(Long orgapplicable) {
+	public void setOrgapplicable(Integer orgapplicable) {
 		this.orgapplicable = orgapplicable;
 	}
 

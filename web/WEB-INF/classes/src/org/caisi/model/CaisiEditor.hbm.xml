@@ -18,7 +18,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.caisi.model.CaisiEditor" table="caisi_editor">
-		<id name="id" column="id" type="long" unsaved-value="0">
+		<id name="id" column="id" type="integer" unsaved-value="0">
 			<generator class="increment" />
 		</id>		
 		<property name="category" column="category" type="string" length="50" not-null="true" />

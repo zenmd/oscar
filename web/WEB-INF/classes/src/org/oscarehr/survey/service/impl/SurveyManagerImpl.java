@@ -44,7 +44,7 @@ public class SurveyManagerImpl implements SurveyManager {
 	}
 
 	public Survey getSurvey(String surveyId) {
-		return surveyDAO.getSurvey(Long.valueOf(surveyId));
+		return surveyDAO.getSurvey(Integer.valueOf(surveyId));
 	}
 
 	public List getSurveys() {
@@ -52,7 +52,7 @@ public class SurveyManagerImpl implements SurveyManager {
 	}
 
 	public void deleteSurvey(String surveyId) {
-		surveyDAO.deleteSurvey(Long.valueOf(surveyId));
+		surveyDAO.deleteSurvey(Integer.valueOf(surveyId));
 	}
 
 	public Survey getSurveyByName(String name) {

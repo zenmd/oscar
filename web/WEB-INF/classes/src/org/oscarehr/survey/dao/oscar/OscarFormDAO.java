@@ -35,17 +35,17 @@ public interface OscarFormDAO {
 	public List getOscarForms();
 	
 	public void saveOscarForm(OscarForm form);
-	public void updateStatus(Long formId, Short status);
-	public OscarForm getOscarForm(Long formId);
+	public void updateStatus(Integer formId, Short status);
+	public OscarForm getOscarForm(Integer formId);
 	
 	
 	public void saveOscarFormInstance(OscarFormInstance instance);
 	public void saveOscarFormData(OscarFormData data);
-	public OscarFormInstance getOscarFormInstance(Long formId, Long clientId);
-	public List getOscarForms(Long formId, Long clientId);
-	public List getOscarFormsByClientId(Long clientId);
+	public OscarFormInstance getOscarFormInstance(Integer formId, Integer clientId);
+	public List getOscarForms(Integer formId, Integer clientId);
+	public List getOscarFormsByClientId(Integer clientId);
 	
-	public void generateCSV(Long formId, OutputStream out);
-	public void convertFormXMLToDb(Long formId);
-	public Map<String[],String> getFormReport(Long formId, Date startDate, Date endDate) ;
+	public void generateCSV(Integer formId, OutputStream out);
+	public void convertFormXMLToDb(Integer formId);
+	public Map<String[],String> getFormReport(Integer formId, Date startDate, Date endDate) ;
 }

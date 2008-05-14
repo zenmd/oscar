@@ -33,7 +33,7 @@ public class HealthSafetyDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(HealthSafetyDao.class);
 
-    public HealthSafety getHealthSafetyByDemographic(Long demographicNo) {
+    public HealthSafety getHealthSafetyByDemographic(Integer demographicNo) {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

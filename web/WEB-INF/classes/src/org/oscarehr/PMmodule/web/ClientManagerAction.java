@@ -345,8 +345,8 @@ public class ClientManagerAction extends BaseAction {
                 id = (String) o;
             }
 
-            if (o instanceof Long) {
-                id = String.valueOf((Long) o);
+            if (o instanceof Integer) {
+                id = String.valueOf((Integer) o);
             }
         }
         if (id == null || id.equals("")) {
@@ -1312,10 +1312,10 @@ public class ClientManagerAction extends BaseAction {
             List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo2);
             request.setAttribute("quatroIntake", lstIntake);
             
-            HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Long.valueOf(demographicNo));
+            HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
             request.setAttribute("healthsafety", healthsafety);
 
-            Consent consent = consentManager.getMostRecentConsent(Long.valueOf(demographicNo));
+            Consent consent = consentManager.getMostRecentConsent(Integer.valueOf(demographicNo));
             request.setAttribute("consent", consent);
 
             if (consent == null) {
@@ -1328,7 +1328,7 @@ public class ClientManagerAction extends BaseAction {
                     DemographicExt remoteConsentAgency = clientManager.getDemographicExt(new Integer(demographicNo), "consent_ag");
                     if (remoteConsentAgency != null) {
                         request.setAttribute("remote_consent_agency", remoteConsentAgency);
-                        request.setAttribute("remote_consent_agency_name", Agency.getAgencyName(Long.parseLong(remoteConsentAgency.getValue())));
+                        request.setAttribute("remote_consent_agency_name", Agency.getAgencyName(Integer.parseInt(remoteConsentAgency.getValue())));
                     }
 
                     request.setAttribute("remote_consent_date", clientManager.getDemographicExt(new Integer(demographicNo), "consent_dt"));

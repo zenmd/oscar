@@ -33,11 +33,11 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class SurveyTestDAOHibernate extends HibernateDaoSupport implements
 		SurveyTestDAO {
 
-	public SurveyTestInstance getSurveyInstance(Long id) {
+	public SurveyTestInstance getSurveyInstance(Integer id) {
 		return (SurveyTestInstance)this.getHibernateTemplate().get(SurveyTestInstance.class,id);
 	}
 
-	public SurveyTestInstance getSurveyInstance(Long surveyId, Long clientId) {
+	public SurveyTestInstance getSurveyInstance(Integer surveyId, Integer clientId) {
 		List results = this.getHibernateTemplate().find("from SurveyTestInstance s where s.surveyId = ? and s.clientId = ? order by s.dateCreated DESC", 
 				new Object[] {surveyId,clientId});
 		if(results.size()>0) {
@@ -54,7 +54,7 @@ public class SurveyTestDAOHibernate extends HibernateDaoSupport implements
 		this.getHibernateTemplate().save(data);
 	}
 	
-	public void clearTestData(Long surveyId) {
+	public void clearTestData(Integer surveyId) {
 		List results = this.getHibernateTemplate().find("from SurveyTestInstance s where s.surveyId = ?",surveyId);
 		for(Iterator iter=results.iterator();iter.hasNext();) {
 			SurveyTestInstance instance = (SurveyTestInstance)iter.next();

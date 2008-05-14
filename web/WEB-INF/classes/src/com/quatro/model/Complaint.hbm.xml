@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="com.quatro.model.Complaint" table="COMPLAINT">
-        <id name="id" type="java.lang.Long">
+        <id name="id" type="java.lang.Integer">
             <column name="ID" precision="10" scale="0" />
             <generator class="native" />
         </id>
@@ -85,7 +85,7 @@
         <property name="date4" type="java.util.Calendar">
             <column name="DATE_4" length="7" />
         </property>
-        <property name="clientId" type="java.lang.Long">
+        <property name="clientId" type="java.lang.Integer">
             <column name="CLIENT_ID" precision="10" scale="0" />
         </property>
         <property name="programId" type="java.lang.Integer">

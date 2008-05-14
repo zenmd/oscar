@@ -30,7 +30,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class CaisiRoleDAO extends HibernateDaoSupport {
 
-	public CaisiRole getRole(Long id) {
+	public CaisiRole getRole(Integer id) {
 		return (CaisiRole)this.getHibernateTemplate().get(CaisiRole.class,id);
 	}
 

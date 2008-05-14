@@ -86,16 +86,16 @@ public class BasicReportAction extends BaseAction {
 			total++;
 		}
 		
-		map.put("Total number of programs", new Long(total));
-		map.put("Total number of bed programs", new Long(totalBed));
-		map.put("Total number of service programs", new Long(totalService));
+		map.put("Total number of programs", new Integer(total));
+		map.put("Total number of bed programs", new Integer(totalBed));
+		map.put("Total number of service programs", new Integer(totalService));
 		return map;
 	}
 	
 	protected Map getProviderStatistics() {
 		Map map = new LinkedHashMap();
 		
-		map.put("Total number of providers",new Long(providerManager.getProviders().size()));
+		map.put("Total number of providers",new Integer(providerManager.getProviders().size()));
 		/*
 		List roles = roleManager.getRoles();
 		for(Iterator iter=roles.iterator();iter.hasNext();) {

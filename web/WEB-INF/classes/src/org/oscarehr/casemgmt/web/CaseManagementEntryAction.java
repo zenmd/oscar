@@ -1053,7 +1053,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 
         // check to see if this issue has already been associated with this demographic
         boolean issueExists = false;
-        long lIssueId = Long.parseLong(issueId);
+        long lIssueId = Integer.parseInt(issueId);
         CheckBoxBean[] existingCaseIssueList = cform.getIssueCheckList();
         for (int idx = 0; idx < existingCaseIssueList.length; ++idx) {
             if (existingCaseIssueList[idx].getIssue().getIssue_id() == lIssueId) {

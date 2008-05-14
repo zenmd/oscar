@@ -36,7 +36,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class PrescriptionDAO extends HibernateDaoSupport {
 
-    public Prescription getPrescription(Long id) {
+    public Prescription getPrescription(Integer id) {
         return (Prescription)this.getHibernateTemplate().get(Prescription.class, id);
     }
 

@@ -25,7 +25,7 @@ package org.caisi.model;
 import java.util.Date;
 
 public class EChart extends BaseObject {
-	private Long id;
+	private Integer id;
 	private Date timeStamp;
 	private int demographicNo;
 	private String providerNo;
@@ -43,10 +43,10 @@ public class EChart extends BaseObject {
 	public void setDemographicNo(int demographicNo) {
 		this.demographicNo = demographicNo;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long chartId) {
+	public void setId(Integer chartId) {
 		id = chartId;
 	}
 	public String getEncounter() {

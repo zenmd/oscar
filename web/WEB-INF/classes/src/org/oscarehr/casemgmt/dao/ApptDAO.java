@@ -31,7 +31,7 @@ public class ApptDAO extends HibernateDaoSupport {
     public void updateAppointmentStatus(String apptId, String status, String type) {
 
         String sql = "from Appointment appt where appt.id = ?";
-        List list = getHibernateTemplate().find(sql, new Long(apptId));
+        List list = getHibernateTemplate().find(sql, new Integer(apptId));
         Appointment appt;
         if (list.size() != 0) {
             appt = (Appointment)list.get(list.size() - 1);

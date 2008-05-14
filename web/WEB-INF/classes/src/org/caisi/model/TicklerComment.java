@@ -27,17 +27,17 @@ import java.util.Date;
 import org.oscarehr.PMmodule.model.Provider;
 
 public class TicklerComment extends BaseObject {
-	private Long id;
-	private long tickler_no;
+	private Integer id;
+	private Integer tickler_no;
 	private String message;
 	private String provider_no;
 	private Date update_date;
 	private Provider provider;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getMessage() {
@@ -55,7 +55,7 @@ public class TicklerComment extends BaseObject {
 	public long getTickler_no() {
 		return tickler_no;
 	}
-	public void setTickler_no(long tickler_no) {
+	public void setTickler_no(Integer tickler_no) {
 		this.tickler_no = tickler_no;
 	}
 	public Date getUpdate_date() {

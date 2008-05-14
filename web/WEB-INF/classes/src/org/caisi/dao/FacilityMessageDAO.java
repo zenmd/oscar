@@ -33,7 +33,7 @@ public class FacilityMessageDAO extends HibernateDaoSupport  {
 
 	private static Log log = LogFactory.getLog(FacilityMessageDAO.class);
 	
-	public FacilityMessage getMessage(Long id) {
+	public FacilityMessage getMessage(Integer id) {
 		return (FacilityMessage)this.getHibernateTemplate().get(FacilityMessage.class,id);
 	}
 	

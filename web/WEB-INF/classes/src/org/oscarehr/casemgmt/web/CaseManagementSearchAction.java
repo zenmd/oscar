@@ -516,7 +516,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         if (success) {
             Map unlockedNoteMap = this.getUnlockedNotesMap(request);
-            unlockedNoteMap.put(new Long(noteId), new Boolean(success));
+            unlockedNoteMap.put(new Integer(noteId), new Boolean(success));
             request.getSession().setAttribute("unlockedNoteMap", unlockedNoteMap);
         }
 
@@ -535,7 +535,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         if (success) {
             Map unlockedNoteMap = this.getUnlockedNotesMap(request);
-            unlockedNoteMap.put(new Long(noteId), new Boolean(success));
+            unlockedNoteMap.put(new Integer(noteId), new Boolean(success));
             request.getSession().setAttribute("unlockedNoteMap", unlockedNoteMap);
             return mapping.findForward("unlockSuccess");
         }

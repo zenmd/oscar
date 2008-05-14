@@ -41,7 +41,7 @@ public class HealthSafetyManager {
 		this.healthSafetyDao = healthSafetyDao;
 	}
 
-	public HealthSafety getHealthSafetyByDemographic(Long demographicNo) {
+	public HealthSafety getHealthSafetyByDemographic(Integer demographicNo) {
 		return healthSafetyDao.getHealthSafetyByDemographic(demographicNo);
 	}
 

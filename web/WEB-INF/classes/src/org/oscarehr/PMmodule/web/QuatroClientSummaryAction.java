@@ -156,7 +156,7 @@ public class QuatroClientSummaryAction extends DispatchAction {
            }
            request.setAttribute("admissions", bedServiceList);
 
-           HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Long.valueOf(demographicNo));
+           HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
            request.setAttribute("healthsafety", healthsafety);
 
            request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));

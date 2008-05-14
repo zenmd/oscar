@@ -68,12 +68,12 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
     public int getCurrentPopulationSize() {
 
-        return ((Long)getHibernateTemplate().find(HQL_CURRENT_POP_SIZE).iterator().next()).intValue();
+        return ((Integer)getHibernateTemplate().find(HQL_CURRENT_POP_SIZE).iterator().next()).intValue();
     }
 
     public int getCurrentAndHistoricalPopulationSize(int numYears) {
 
-        return ((Long)getHibernateTemplate().find(HQL_CURRENT_HISTORICAL_POP_SIZE, DateTimeFormatUtils.getPast(numYears)).iterator().next()).intValue();
+        return ((Integer)getHibernateTemplate().find(HQL_CURRENT_HISTORICAL_POP_SIZE, DateTimeFormatUtils.getPast(numYears)).iterator().next()).intValue();
     }
 
     public int[] getUsages(int numYears) {
@@ -131,7 +131,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
     public int getMortalities(int numYears) {
 
-        return ((Long)getHibernateTemplate().find(HQL_GET_MORTALITIES, new Object[] {DateTimeFormatUtils.getPast(numYears)}).iterator().next()).intValue();
+        return ((Integer)getHibernateTemplate().find(HQL_GET_MORTALITIES, new Object[] {DateTimeFormatUtils.getPast(numYears)}).iterator().next()).intValue();
     }
 
     public int getPrevalence(SortedSet<String> icd10Codes) {
@@ -148,7 +148,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
         query.append(")");
 
-        return ((Long)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
+        return ((Integer)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
     }
 
     public int getIncidence(SortedSet<String> icd10Codes) {
@@ -165,7 +165,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
         query.append(")");
 
-        return ((Long)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
+        return ((Integer)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
     }
 
     public Map<Integer, Integer> getCaseManagementNoteCountGroupedByIssueGroup(int programId, int roleId, EncounterType encounterType, Date startDate, Date endDate) {

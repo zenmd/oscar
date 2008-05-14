@@ -139,7 +139,7 @@
 		<property column="cbox_assistInAddictions" length="1" name="cboxAssistinaddictions" not-null="false" type="string" />
 		<property column="cbox_assistInFinance" length="1" name="cboxAssistinfinance" not-null="false" type="string" />
 		<property column="radio_active" length="36" name="radioActive" not-null="false" type="string" />
-		<property column="provider_no" length="11" name="providerNo" not-null="false" type="java.lang.Long" />
+		<property column="provider_no" length="11" name="providerNo" not-null="false" type="java.lang.Integer" />
 		<property column="cbox_Employment" length="1" name="cboxEmployment" not-null="false" type="string" />
 		<property column="mentalHealthConcerns" length="255" name="mentalHealthConcerns" not-null="false" type="string" />
 		<property column="radio_takeMedication" length="36" name="radioTakemedication" not-null="false" type="string" />
@@ -163,7 +163,7 @@
 		<property column="radio_onlineCheck" length="36" name="radioOnlinecheck" not-null="false" type="string" />
 		<property column="allergicToMedicationName" length="255" name="allergicToMedicationName" not-null="false" type="string" />
 		<property column="formCreated" length="10" name="formCreated" not-null="false" type="date" />
-		<property column="demographic_no" length="11" name="demographicNo" not-null="true" type="java.lang.Long" />
+		<property column="demographic_no" length="11" name="demographicNo" not-null="true" type="java.lang.Integer" />
 		<property column="cbox_goToEmergencyRoom" length="1" name="cboxGotoemergencyroom" not-null="false" type="string" />
 		<property column="frequencyOfSeeingEmergencyRoomDoctor" length="8" name="frequencyOfSeeingEmergencyRoomDoctor" not-null="false" type="string" />
 		<property column="cbox_WSIB" length="1" name="cboxWsib" not-null="false" type="string" />

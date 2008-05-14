@@ -59,7 +59,7 @@ public class SurveyManagerImpl implements SurveyManager, CustomReportDataSource 
     }
 	
 	public OscarForm getForm(String formId) {
-		return surveyDAO.getForm(Long.valueOf(formId));
+		return surveyDAO.getForm(Integer.valueOf(formId));
 	}
 
 	public void saveFormInstance(OscarFormInstance instance) {
@@ -91,29 +91,29 @@ public class SurveyManagerImpl implements SurveyManager, CustomReportDataSource 
 	}
 	
 	public OscarFormInstance getLatestForm(String formId, String clientId) {
-		return surveyDAO.getLatestForm(Long.valueOf(formId),Long.valueOf(clientId));
+		return surveyDAO.getLatestForm(Integer.valueOf(formId),Integer.valueOf(clientId));
 	}
 
 	public List getForms(String clientId) {
-		return surveyDAO.getForms(Long.valueOf(clientId));
+		return surveyDAO.getForms(Integer.valueOf(clientId));
 	}
 
 	public List getForms(String formId, String clientId) {
-		return surveyDAO.getForms(Long.valueOf(formId),Long.valueOf(clientId));
+		return surveyDAO.getForms(Integer.valueOf(formId),Integer.valueOf(clientId));
 	}
 
 	public List getFormsByFacility(String clientId, Integer facilityId){
-		return surveyDAO.getForms(Long.valueOf(clientId), facilityId);
+		return surveyDAO.getForms(new Integer(clientId), facilityId);
 	}
 	
 	public OscarFormInstance getCurrentFormById(String formInstanceId) {
-		return surveyDAO.getCurrentFormById(Long.valueOf(formInstanceId));
+		return surveyDAO.getCurrentFormById(Integer.valueOf(formInstanceId));
 	}
 	public List getTmpForms(String instanceId, String formId, String clientId, String providerId) {
-		return surveyDAO.getTmpForms(Long.valueOf(instanceId),Long.valueOf(formId),Long.valueOf(clientId), Long.valueOf(providerId));
+		return surveyDAO.getTmpForms(Integer.valueOf(instanceId),Integer.valueOf(formId),Integer.valueOf(clientId), Integer.valueOf(providerId));
 	}
 	public List getTmpFormData(String tmpInstanceId) {
-		return surveyDAO.getTmpFormData(Long.valueOf(tmpInstanceId));
+		return surveyDAO.getTmpFormData(Integer.valueOf(tmpInstanceId));
 	}
 	public void saveFormData(OscarFormData data) {
 		surveyDAO.saveFormData(data);

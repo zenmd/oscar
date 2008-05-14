@@ -115,7 +115,7 @@ public class PHRActionDAOHibernate extends HibernateDaoSupport implements PHRAct
         }
         
         public boolean ifActionsWithErrors(final String providerNo) {
-            Long num =  (Long) getHibernateTemplate().execute(new HibernateCallback() {
+        	Integer num =  (Integer) getHibernateTemplate().execute(new HibernateCallback() {
                 public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 Query q = session.createQuery("select count(*) from PHRAction a where a.senderOscar = '" + providerNo + "' AND a.status=" + PHRAction.STATUS_NOT_AUTHORIZED);
                 q.setCacheable(true);

@@ -27,7 +27,7 @@ import java.util.Date;
 public class AdmissionSearchBean {
 	private String providerNo;
 	private String admissionStatus;
-	private Long clientId;
+	private Integer clientId;
 	private Date startDate;
 	private Date endDate;
 	private Integer programId;
@@ -44,10 +44,10 @@ public class AdmissionSearchBean {
 	public void setAdmissionStatus(String admissionStatus) {
 		this.admissionStatus = admissionStatus;
 	}
-	public Long getClientId() {
+	public Integer getClientId() {
 		return clientId;
 	}
-	public void setClientId(Long clientId) {
+	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
 	public Date getEndDate() {

@@ -25,8 +25,8 @@ package org.oscarehr.PMmodule.model;
 import java.util.Date;
 
 public class FormInfo {
-	private Long formId;
-	private Long providerNo;
+	private Integer formId;
+	private Integer providerNo;
 	private Date formDate;
 	private String providerName;
 	
@@ -36,10 +36,10 @@ public class FormInfo {
 	public void setFormDate(Date formDate) {
 		this.formDate = formDate;
 	}
-	public Long getFormId() {
+	public Integer getFormId() {
 		return formId;
 	}
-	public void setFormId(Long formId) {
+	public void setFormId(Integer formId) {
 		this.formId = formId;
 	}
 	public String getProviderName() {
@@ -48,10 +48,10 @@ public class FormInfo {
 	public void setProviderName(String providerName) {
 		this.providerName = providerName;
 	}
-	public Long getProviderNo() {
+	public Integer getProviderNo() {
 		return providerNo;
 	}
-	public void setProviderNo(Long providerNo) {
+	public void setProviderNo(Integer providerNo) {
 		this.providerNo = providerNo;
 	}
 }

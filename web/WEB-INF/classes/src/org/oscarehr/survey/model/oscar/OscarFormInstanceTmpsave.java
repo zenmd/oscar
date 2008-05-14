@@ -28,33 +28,33 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class OscarFormInstanceTmpsave implements Serializable {
-	private Long tmpInstanceId;
-	private long instanceId;
-	private long formId;
+	private Integer tmpInstanceId;
+	private Integer instanceId;
+	private Integer formId;
 	private String description;
 	private Date dateCreated;
-	private long userId;
+	private Integer userId;
 	private String username;
-	private long clientId;
+	private Integer clientId;
 	private Integer programId;
 	private Set data = new HashSet();
 		
-	public long getInstanceId() {
+	public Integer getInstanceId() {
 		return instanceId;
 	}
-	public void setInstanceId(long instanceId) {
+	public void setInstanceId(Integer instanceId) {
 		this.instanceId = instanceId;
 	}
-	public Long getTmpInstanceId() {
+	public Integer getTmpInstanceId() {
 		return tmpInstanceId;
 	}
-	public void setTmpInstanceId(Long tmpInstanceId) {
+	public void setTmpInstanceId(Integer tmpInstanceId) {
 		this.tmpInstanceId = tmpInstanceId;
 	}
-	public long getClientId() {
+	public Integer getClientId() {
 		return clientId;
 	}
-	public void setClientId(long clientId) {
+	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
 	public Set getData() {
@@ -70,16 +70,16 @@ public class OscarFormInstanceTmpsave implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 	
-	public long getFormId() {
+	public Integer getFormId() {
 		return formId;
 	}
-	public void setFormId(long formId) {
+	public void setFormId(Integer formId) {
 		this.formId = formId;
 	}
-	public long getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getDescription() {

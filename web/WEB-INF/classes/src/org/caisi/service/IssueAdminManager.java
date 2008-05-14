@@ -42,7 +42,7 @@ public class IssueAdminManager {
     }
 
     public IssueAdmin getIssueAdmin(String issueAdminId) {
-        IssueAdmin issueAdmin = dao.getIssueAdmin(Long.valueOf(issueAdminId));
+        IssueAdmin issueAdmin = dao.getIssueAdmin(Integer.valueOf(issueAdminId));
         if (issueAdmin == null) {
             log.warn("UserId '" + issueAdminId + "' not found in database.");
         }
@@ -55,6 +55,6 @@ public class IssueAdminManager {
     }
 
     public void removeIssueAdmin(String issueAdminId) {
-        dao.removeIssueAdmin(Long.valueOf(issueAdminId));
+        dao.removeIssueAdmin(Integer.valueOf(issueAdminId));
     }
 }

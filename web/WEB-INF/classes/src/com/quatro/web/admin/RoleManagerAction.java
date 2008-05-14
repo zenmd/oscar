@@ -150,7 +150,7 @@ public class RoleManagerAction extends BaseAction {
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		Secrole secrole = new Secrole();
-		secrole.setRoleNo((Long) secroleForm.get("roleNo"));
+		secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
@@ -191,7 +191,7 @@ public class RoleManagerAction extends BaseAction {
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		Secrole secrole = new Secrole();
-		secrole.setRoleNo((Long) secroleForm.get("roleNo"));
+		secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
@@ -386,7 +386,7 @@ public class RoleManagerAction extends BaseAction {
 					objNew.setPrivilege(accessType_code[0]);
 				
 				objNew.setProviderNo(providerNo);
-				objNew.setPriority(new Long("0"));
+				objNew.setPriority(new Integer("0"));
 
 				rolesManager.saveFunction(objNew);
 			}

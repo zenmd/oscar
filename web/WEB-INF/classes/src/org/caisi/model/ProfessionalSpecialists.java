@@ -23,7 +23,7 @@
 package org.caisi.model;
 
 public class ProfessionalSpecialists extends BaseObject {
-	private Long specId;
+	private Integer specId;
 	private String firstName;
 	private String lastName;
 	private String proLetters;
@@ -65,10 +65,10 @@ public class ProfessionalSpecialists extends BaseObject {
 	public void setProLetters(String proLetters) {
 		this.proLetters = proLetters;
 	}
-	public Long getSpecId() {
+	public Integer getSpecId() {
 		return specId;
 	}
-	public void setSpecId(Long specId) {
+	public void setSpecId(Integer specId) {
 		this.specId = specId;
 	}
 	public String getSpecType() {

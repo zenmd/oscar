@@ -42,11 +42,11 @@ public class SurveyTestManagerImpl implements SurveyTestManager {
 	}
 	
 	public SurveyTestInstance getSurveyInstance(String id) {
-		return this.surveyTestDAO.getSurveyInstance(Long.valueOf(id));
+		return this.surveyTestDAO.getSurveyInstance(Integer.valueOf(id));
 	}
 
 	public SurveyTestInstance getSurveyInstance(String surveyId, String clientId) {
-		return this.surveyTestDAO.getSurveyInstance(Long.valueOf(surveyId),Long.valueOf(clientId));
+		return this.surveyTestDAO.getSurveyInstance(Integer.valueOf(surveyId),Integer.valueOf(clientId));
 	}
 
 	public void saveSurveyInstance(SurveyTestInstance instance) {
@@ -59,6 +59,6 @@ public class SurveyTestManagerImpl implements SurveyTestManager {
 	}
 
 	public void clearTestData(String surveyId) {
-		this.surveyTestDAO.clearTestData(Long.valueOf(surveyId));
+		this.surveyTestDAO.clearTestData(Integer.valueOf(surveyId));
 	}
 }

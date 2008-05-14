@@ -7,15 +7,15 @@ public class Security implements java.io.Serializable {
 
 	// Fields
 
-	private Long securityNo;
+	private Integer securityNo;
 	private String userName;
 	private String password;
 	private String providerNo;
 	private String pin;
-	private Long BRemotelockset;
-	private Long BLocallockset;
+	private Integer BRemotelockset;
+	private Integer BLocallockset;
 	private Date dateExpiredate;
-	private Long BExpireset;
+	private Integer BExpireset;
 
 	// Constructors
 
@@ -25,8 +25,8 @@ public class Security implements java.io.Serializable {
 
 	/** full constructor */
 	public Security(String userName, String password, String providerNo,
-			String pin, Long BRemotelockset, Long BLocallockset,
-			Date dateExpiredate, Long BExpireset) {
+			String pin, Integer BRemotelockset, Integer BLocallockset,
+			Date dateExpiredate, Integer BExpireset) {
 		this.userName = userName;
 		this.password = password;
 		this.providerNo = providerNo;
@@ -39,11 +39,11 @@ public class Security implements java.io.Serializable {
 
 	// Property accessors
 
-	public Long getSecurityNo() {
+	public Integer getSecurityNo() {
 		return this.securityNo;
 	}
 
-	public void setSecurityNo(Long securityNo) {
+	public void setSecurityNo(Integer securityNo) {
 		this.securityNo = securityNo;
 	}
 
@@ -79,19 +79,19 @@ public class Security implements java.io.Serializable {
 		this.pin = pin;
 	}
 
-	public Long getBRemotelockset() {
+	public Integer getBRemotelockset() {
 		return this.BRemotelockset;
 	}
 
-	public void setBRemotelockset(Long BRemotelockset) {
+	public void setBRemotelockset(Integer BRemotelockset) {
 		this.BRemotelockset = BRemotelockset;
 	}
 
-	public Long getBLocallockset() {
+	public Integer getBLocallockset() {
 		return this.BLocallockset;
 	}
 
-	public void setBLocallockset(Long BLocallockset) {
+	public void setBLocallockset(Integer BLocallockset) {
 		this.BLocallockset = BLocallockset;
 	}
 
@@ -103,11 +103,11 @@ public class Security implements java.io.Serializable {
 		this.dateExpiredate = dateExpiredate;
 	}
 
-	public Long getBExpireset() {
+	public Integer getBExpireset() {
 		return this.BExpireset;
 	}
 
-	public void setBExpireset(Long BExpireset) {
+	public void setBExpireset(Integer BExpireset) {
 		this.BExpireset = BExpireset;
 	}
 

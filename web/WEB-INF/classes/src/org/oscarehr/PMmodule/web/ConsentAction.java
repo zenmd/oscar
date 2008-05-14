@@ -71,7 +71,7 @@ public class ConsentAction extends BaseAction {
 			return mapping.findForward("error");
 		}
 		
-		Consent consent = consentManager.getMostRecentConsent(Long.valueOf(id));
+		Consent consent = consentManager.getMostRecentConsent(Integer.valueOf(id));
 		if(consent != null) {
 			Consent newConsent = new Consent();
 			try {

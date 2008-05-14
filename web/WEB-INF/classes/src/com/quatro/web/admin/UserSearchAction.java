@@ -91,7 +91,7 @@ public class UserSearchAction extends BaseAction {
 				Object[] tmp = (Object[]) userlist.get(i);
 
 				Secuserrole sur = new Secuserrole();
-				sur.setId((Long) tmp[0]);
+				sur.setId((Integer) tmp[0]);
 				sur.setUserName((String) tmp[1]);
 				sur.setFullName((String) tmp[2] + ", " + (String) tmp[3]);
 				sur.setProviderNo((String) tmp[4]);

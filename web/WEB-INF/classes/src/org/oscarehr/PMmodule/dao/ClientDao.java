@@ -563,7 +563,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.FormEdited from Formintakea intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setLong(0, demographicNo.longValue());
+		q.setInteger(0, demographicNo);
 		List results = q.list();
 
 		if (!results.isEmpty()) {
@@ -586,7 +586,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.FormEdited from Formintakec intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setLong(0, demographicNo.longValue());
+		q.setInteger(0, demographicNo);
 
 		List result = q.list();
 		if (!result.isEmpty()) {
@@ -634,10 +634,10 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.ProviderNo from Formintakea intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setLong(0, demographicNo.longValue());
+		q.setInteger(0, demographicNo);
 		List result = q.list();
 		if (!result.isEmpty()) {
-			Long providerNo = (Long)result.get(0);
+			Integer providerNo = (Integer)result.get(0);
 			Provider provider = (Provider)this.getHibernateTemplate().get(Provider.class, String.valueOf(providerNo));
 			if (provider != null) {
 				providerName = provider.getFormattedName();
@@ -661,10 +661,10 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.ProviderNo from Formintakec intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setLong(0, demographicNo.longValue());
+		q.setInteger(0, demographicNo);
 		List result = q.list();
 		if (!result.isEmpty()) {
-			Long providerNo = (Long)result.get(0);
+			Integer providerNo = (Integer)result.get(0);
 			Provider provider = (Provider)this.getHibernateTemplate().get(Provider.class, String.valueOf(providerNo));
 			if (provider != null) {
 				providerName = provider.getFormattedName();

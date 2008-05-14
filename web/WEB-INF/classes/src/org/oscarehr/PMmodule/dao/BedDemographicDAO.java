@@ -105,7 +105,7 @@ public class BedDemographicDAO extends HibernateDaoSupport {
     }
 
     public int getBedsCountByRoom(Integer roomId) {
-		Long count = (Long)getHibernateTemplate().find("select count(*) from BedDemographic bd where bd.id.roomId = ?", roomId).get(0);
+    	Integer count = (Integer)getHibernateTemplate().find("select count(*) from BedDemographic bd where bd.id.roomId = ?", roomId).get(0);
         if(count != null){
         	log.debug("getRoomDemographicByRoom: roomOccupancy = " + count.intValue());
         }

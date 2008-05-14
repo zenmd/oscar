@@ -46,15 +46,15 @@ public class TicklerDAO extends HibernateDaoSupport {
         getHibernateTemplate().saveOrUpdate(tickler);
     }
 
-    public Tickler getTickler(Long id) {
+    public Tickler getTickler(Integer id) {
         return (Tickler)getHibernateTemplate().get(Tickler.class, id);
     }
 
-    public void addComment(Long tickler_id, String provider, String message) {
+    public void addComment(Integer tickler_id, String provider, String message) {
         Tickler tickler = this.getTickler(tickler_id);
         if (tickler != null) {
             TicklerComment comment = new TicklerComment();
-            comment.setTickler_no(tickler_id.longValue());
+            comment.setTickler_no(tickler_id);
             comment.setUpdate_date(new Date());
             comment.setProvider_no(provider);
             comment.setMessage(message);
@@ -63,7 +63,7 @@ public class TicklerDAO extends HibernateDaoSupport {
         }
     }
 
-    public void reassign(Long tickler_id, String provider, String task_assigned_to) {
+    public void reassign(Integer tickler_id, String provider, String task_assigned_to) {
         Tickler tickler = this.getTickler(tickler_id);
         if (tickler != null) {
             String message;
@@ -71,7 +71,7 @@ public class TicklerDAO extends HibernateDaoSupport {
             String current_assignee;
             tickler.setTask_assigned_to(task_assigned_to);
             TicklerComment comment = new TicklerComment();
-            comment.setTickler_no(tickler_id.longValue());
+            comment.setTickler_no(tickler_id);
             comment.setUpdate_date(new Date());
             comment.setProvider_no(provider);
             current_assignee = ((Provider)(getHibernateTemplate().find("from Provider p where p.ProviderNo = ?", task_assigned_to)).get(0)).getFormattedName();
@@ -104,7 +104,7 @@ public class TicklerDAO extends HibernateDaoSupport {
         paramList.add(currentDate.getTime());
         //paramList.add(new Date());
         Object params[] = paramList.toArray(new Object[paramList.size()]);
-        Long count = (Long) getHibernateTemplate().find(query ,params).get(0);
+        Integer count = (Integer) getHibernateTemplate().find(query ,params).get(0);
         return count.intValue();
  }
     
@@ -114,7 +114,7 @@ public class TicklerDAO extends HibernateDaoSupport {
             query = getTicklerQueryString(query,  paramList,  filter);
             Object params[] = paramList.toArray(new Object[paramList.size()]);
             listParams(params);
-            Long count = (Long) getHibernateTemplate().find(query ,params).get(0);
+            Integer count = (Integer) getHibernateTemplate().find(query ,params).get(0);
             return count.intValue();
      }
     
@@ -220,7 +220,7 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
     
     
-    private void updateTickler(Long tickler_id, String provider, char status) {
+    private void updateTickler(Integer tickler_id, String provider, char status) {
         Tickler tickler = this.getTickler(tickler_id);
         if (tickler != null) {
             tickler.setStatus(status);
@@ -234,15 +234,15 @@ public class TicklerDAO extends HibernateDaoSupport {
         }
     }
 
-    public void completeTickler(Long tickler_id, String provider) {
+    public void completeTickler(Integer tickler_id, String provider) {
         updateTickler(tickler_id, provider, 'C');
     }
 
-    public void deleteTickler(Long tickler_id, String provider) {
+    public void deleteTickler(Integer tickler_id, String provider) {
         updateTickler(tickler_id, provider, 'D');
     }
 
-    public void activateTickler(Long tickler_id, String provider) {
+    public void activateTickler(Integer tickler_id, String provider) {
         updateTickler(tickler_id, provider, 'A');
     }
 

@@ -34,7 +34,7 @@ public class SurveyDAOHibernate extends HibernateDaoSupport implements SurveyDAO
 		this.getHibernateTemplate().saveOrUpdate(survey);
 	}
 
-	public Survey getSurvey(Long id) {
+	public Survey getSurvey(Integer id) {
 		return (Survey)this.getHibernateTemplate().get(Survey.class,id);
 	}
 
@@ -42,7 +42,7 @@ public class SurveyDAOHibernate extends HibernateDaoSupport implements SurveyDAO
 		return this.getHibernateTemplate().find("from Survey");
 	}
 
-	public void deleteSurvey(Long id) {
+	public void deleteSurvey(Integer id) {
 		this.getHibernateTemplate().delete(getSurvey(id));
 	}
 

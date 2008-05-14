@@ -27,7 +27,7 @@ import java.util.Date;
 import org.caisi.model.BaseObject;
 
 public class Prescription extends BaseObject {
-	private Long id;
+	private Integer id;
 	private String provider_no;
 	private String demographic_no;
 	private Date date_prescribed;
@@ -61,10 +61,10 @@ public class Prescription extends BaseObject {
 	public void setDemographic_no(String demographic_no) {
 		this.demographic_no = demographic_no;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getProvider_no() {

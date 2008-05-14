@@ -747,7 +747,7 @@ public class SurveyManagerAction extends AbstractSurveyAction {
 		if(surveyId != null) {
 			Survey survey = surveyManager.getSurvey(surveyId);
 			if(survey.getStatus()==1) {
-			long instanceId = surveyLaunchManager.launch(survey);
+				Integer instanceId = surveyLaunchManager.launch(survey);
 			survey.setLaunchedInstanceId(instanceId);
 			surveyManager.saveSurvey(survey);
 			surveyManager.updateStatus(surveyId,Survey.STATUS_LAUNCHED);
@@ -814,7 +814,7 @@ public class SurveyManagerAction extends AbstractSurveyAction {
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         survey.setFacilityId(currentFacilityId);
         
-        survey.setUserId(Long.valueOf((String)request.getSession().getAttribute("user")));
+        survey.setUserId(Integer.valueOf((String)request.getSession().getAttribute("user")));
         
         try {
         	StringWriter sw = new StringWriter();
@@ -890,7 +890,7 @@ public class SurveyManagerAction extends AbstractSurveyAction {
 			survey.setDescription(surveyDocument.getSurvey().getName());
 			survey.setStatus(new Short(Survey.STATUS_TEST));
 			//survey.setSurveyData()
-			survey.setUserId(new Long(userManager.getUserId(request)));
+			survey.setUserId(userManager.getUserId(request));
 			survey.setVersion(surveyDocument.getSurvey().getVersion());
 			
 			//save data
@@ -956,7 +956,7 @@ public class SurveyManagerAction extends AbstractSurveyAction {
 		newSurvey.setDateCreated(new Date());
 		newSurvey.setDescription(survey.getDescription());
 		newSurvey.setSurveyData(survey.getSurveyData());
-		newSurvey.setUserId(new Long(userManager.getUserId(request)));
+		newSurvey.setUserId(userManager.getUserId(request));
 		newSurvey.setVersion(survey.getVersion());
 		newSurvey.setStatus(new Short(Survey.STATUS_IN_REVIEW));
 		
@@ -972,7 +972,7 @@ public class SurveyManagerAction extends AbstractSurveyAction {
 			response.setContentType("APPLICATION/OCTET-STREAM");
 			String strProjectInfoPageHeader = "Attachment;Filename=" + id + ".csv";
 			response.setHeader("Content-Disposition", strProjectInfoPageHeader);
-			this.oscarFormManager.generateCSV(Long.valueOf(id), response.getOutputStream());
+			this.oscarFormManager.generateCSV(Integer.valueOf(id), response.getOutputStream());
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -982,7 +982,7 @@ public class SurveyManagerAction extends AbstractSurveyAction {
 	public ActionForward export_to_db(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		
 		String id = request.getParameter("id");
-		this.oscarFormManager.convertFormXMLToDb(Long.valueOf(id));
+		this.oscarFormManager.convertFormXMLToDb(Integer.valueOf(id));
 		
 		return list(mapping,form,request,response);
 	}
@@ -1108,9 +1108,9 @@ public class SurveyManagerAction extends AbstractSurveyAction {
 @Deprecated	
 public ActionForward getUcfReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		
-		Long id = Long.valueOf(request.getParameter("formId"));
+	Integer id = Integer.valueOf(request.getParameter("formId"));
 		
-		this.oscarFormManager.convertFormXMLToDb(Long.valueOf(id));
+		this.oscarFormManager.convertFormXMLToDb(id);
 		//request.setAttribute("ucfReports", oscarFormManager.getFormReport(id, startDate, endDate));
 		
 		return mapping.findForward("ucfReport");

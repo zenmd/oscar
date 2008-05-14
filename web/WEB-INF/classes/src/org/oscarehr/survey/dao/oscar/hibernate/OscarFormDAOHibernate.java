@@ -10,7 +10,7 @@
 * but WITHOUT ANY WARRANTY; without even the implied warranty of 
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
 * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
-* along with this program; if not, write to the Free Software 
+* a with this program; if not, write to the Free Software 
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
 * 
 * <OSCAR TEAM>
@@ -63,7 +63,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		this.getHibernateTemplate().saveOrUpdate(form);
 	}
 
-	public void updateStatus(Long formId, Short status) {
+	public void updateStatus(Integer formId, Short status) {
 		OscarForm form = getOscarForm(formId);
 		if(form != null) {
 			form.setStatus(status.shortValue());
@@ -71,7 +71,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		saveOscarForm(form);
 	}
 
-	public OscarForm getOscarForm(Long formId) {
+	public OscarForm getOscarForm(Integer formId) {
 		return (OscarForm)this.getHibernateTemplate().get(OscarForm.class,formId);
 	}
 
@@ -83,7 +83,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		this.getHibernateTemplate().save(data);
 	}
 
-	public OscarFormInstance getOscarFormInstance(Long formId, Long clientId) {
+	public OscarFormInstance getOscarFormInstance(Integer formId, Integer clientId) {
 		List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.formId = ?, and f.clientId = ? order by dateCreated DESC",
 				new Object[] {formId,clientId});
 		if(result.size()>0) {
@@ -92,13 +92,13 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		return null;
 	}
 
-	public List getOscarForms(Long formId, Long clientId) {
+	public List getOscarForms(Integer formId, Integer clientId) {
 		List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.formId = ?, and f.clientId = ? order by dateCreated DESC",
 				new Object[] {formId,clientId});
 		return result;
 	}
 
-	public List getOscarFormsByClientId(Long clientId) {
+	public List getOscarFormsByClientId(Integer clientId) {
 		List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.clientId = ?",clientId);
 		return result;
 	}
@@ -160,7 +160,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		return keyMap;
 	}
 	
-	public void generateCSV(Long formId, OutputStream out) {
+	public void generateCSV(Integer formId, OutputStream out) {
 		PrintWriter pout = new PrintWriter(out,true);
 		
 		//get form structure - output headers, and determine order to print out data elements
@@ -190,7 +190,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		List result = this.getHibernateTemplate().find("select f.id,f.clientId,f.dateCreated from OscarFormInstance f where f.formId = ? order by f.clientId, f.dateCreated",formId);
 		for(x=0;x<result.size();x++) {
 			Object o = result.get(x);
-			Long instanceId = (Long)((Object[])result.get(x))[0];
+			Integer instanceId = (Integer)((Object[])result.get(x))[0];
 			
 			//get data for this instance
 			Map<String,OscarFormData> formMap = new HashMap<String,OscarFormData>();
@@ -210,7 +210,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 						
 			
 			//we need to add the client data
-			long clientId = (Long)((Object[])result.get(x))[1];			
+			Integer clientId = (Integer)((Object[])result.get(x))[1];			
 			Demographic demographic = (Demographic)getHibernateTemplate().get(Demographic.class, (int)clientId);
 			if(demographic != null) {
 				Timestamp ts = (java.sql.Timestamp)((Object[])result.get(x))[2];
@@ -287,7 +287,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
         return (new StringBuffer(2 + s.length())).append(quoteChar).append(s).append(quoteChar).toString();
 	}
 	
-	public void convertFormXMLToDb(Long formId) {
+	public void convertFormXMLToDb(Integer formId) {
 		OscarForm form = (OscarForm)this.getHibernateTemplate().get(OscarForm.class,formId);
 
 		SurveyDocument model = null;
@@ -380,7 +380,7 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		return "N/A";
 	}
 	
-	public Map<String[],String> getFormReport(Long formId, Date startDate, Date endDate) {
+	public Map<String[],String> getFormReport(Integer formId, Date startDate, Date endDate) {
 		Map<String[],String> questionAnswers = new LinkedHashMap();
 		List<OscarFormQuestion> questions = this.getHibernateTemplate().find("select ofq from OscarFormQuestion ofq where formId=?",formId);
 		if(questions!=null) {			
@@ -388,9 +388,9 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 				OscarFormQuestion o = questions.get(x);
 				
 				String description = questions.get(x).getDescription();
-				Long pageId = questions.get(x).getPage();
-				Long sectionId = questions.get(x).getSection();
-				Long questionId = questions.get(x).getQuestion();
+				Integer pageId = questions.get(x).getPage();
+				Integer sectionId = questions.get(x).getSection();
+				Integer questionId = questions.get(x).getQuestion();
 				String type = questions.get(x).getType();
 				
 				//count checkbox, select , and radio
@@ -423,9 +423,9 @@ public class OscarFormDAOHibernate extends HibernateDaoSupport implements
 		return questionAnswers;		
 	}
 	
-	public int countAnswersByQuestioins(Long formId,Date startDate, Date endDate, Long pageId,Long sectionId,Long questionId, String value) {
+	public int countAnswersByQuestioins(Integer formId,Date startDate, Date endDate, Integer pageId,Integer sectionId,Integer questionId, String value) {
 		String queryStr = "select count(d.value) from OscarFormInstance i, OscarFormData d where d.value=? and i.formId=? and i.dateCreated>=? and i.dateCreated<=? and i.id=d.instanceId and d.pageNumber=? and d.sectionId=? and d.questionId= ?";
-		Long results = (Long)getHibernateTemplate().find(queryStr, new Object[] { value, formId, startDate, endDate, pageId, sectionId, questionId} ).get(0);
+		Integer results = (Integer)getHibernateTemplate().find(queryStr, new Object[] { value, formId, startDate, endDate, pageId, sectionId, questionId} ).get(0);
 		if(results!=null) {
 			return results.intValue();
 		} else

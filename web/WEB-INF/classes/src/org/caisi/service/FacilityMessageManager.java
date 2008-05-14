@@ -39,7 +39,7 @@ public class FacilityMessageManager {
 	private FacilityMessageDAO dao = null;	
 	
 	public FacilityMessage getMessage(String messageId) {
-		return dao.getMessage(Long.valueOf(messageId));
+		return dao.getMessage(Integer.valueOf(messageId));
 	}
 	
 	

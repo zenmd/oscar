@@ -48,7 +48,7 @@ public class ConsentManager {
         this.clientDao = dao;
     }
 
-    public Consent getConsentByDemographic(Long demographicNo) {
+    public Consent getConsentByDemographic(Integer demographicNo) {
         return dao.getConsentByDemographic(demographicNo);
     }
 
@@ -67,7 +67,7 @@ public class ConsentManager {
         dao.saveConsent(consent);
     }
 
-    public Consent getMostRecentConsent(Long demographicNo) {
+    public Consent getMostRecentConsent(Integer demographicNo) {
         return dao.getMostRecentConsent(demographicNo);
     }
 
@@ -80,10 +80,10 @@ public class ConsentManager {
     }
 
     public ConsentInterview getConsentInterview(String id) {
-        return dao.getConsentInterview(Long.valueOf(id));
+        return dao.getConsentInterview(Integer.valueOf(id));
     }
 
     public ConsentInterview getConsentInterviewByDemographicNo(String demographicNo) {
-        return dao.getConsentInterviewByDemographicNo(new Long(demographicNo));
+        return dao.getConsentInterviewByDemographicNo(new Integer(demographicNo));
     }
 }

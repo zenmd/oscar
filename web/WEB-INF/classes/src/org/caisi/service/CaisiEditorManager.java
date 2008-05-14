@@ -44,7 +44,7 @@ public class CaisiEditorManager {
     }
 
     public CaisiEditor getCaisiEditor(String CaisiEditorId) {
-        CaisiEditor CaisiEditor = dao.getCaisiEditor(Long.valueOf(CaisiEditorId));
+        CaisiEditor CaisiEditor = dao.getCaisiEditor(Integer.valueOf(CaisiEditorId));
         if (CaisiEditor == null) {
             log.warn("UserId '" + CaisiEditorId + "' not found in database.");
         }
@@ -81,6 +81,6 @@ public class CaisiEditorManager {
     }
 
     public void removeCaisiEditor(String CaisiEditorId) {
-        dao.removeCaisiEditor(Long.valueOf(CaisiEditorId));
+        dao.removeCaisiEditor(Integer.valueOf(CaisiEditorId));
     }
 }

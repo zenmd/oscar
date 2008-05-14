@@ -15,7 +15,7 @@
         <property name="privilege" type="java.lang.String">
             <column name="PRIVILEGE" length="100" />
         </property>
-        <property name="priority" type="java.lang.Long">
+        <property name="priority" type="java.lang.Integer">
             <column name="PRIORITY" precision="2" scale="0" />
         </property>
         <property name="providerNo" type="java.lang.String">

@@ -23,11 +23,11 @@
 package org.oscarehr.survey.model;
 
 public class SurveyTestData extends BaseObject {
-	private Long id;
-	private long instanceId;
-	private long pageNumber;
-	private long sectionId;
-	private long questionId;
+	private Integer id;
+	private Integer instanceId;
+	private Integer pageNumber;
+	private Integer sectionId;
+	private Integer questionId;
 	private String value;
 	private String key;
 	private String type;
@@ -44,34 +44,34 @@ public class SurveyTestData extends BaseObject {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public long getInstanceId() {
 		return instanceId;
 	}
-	public void setInstanceId(long instanceId) {
+	public void setInstanceId(Integer instanceId) {
 		this.instanceId = instanceId;
 	}
 	public long getPageNumber() {
 		return pageNumber;
 	}
-	public void setPageNumber(long pageNumber) {
+	public void setPageNumber(Integer pageNumber) {
 		this.pageNumber = pageNumber;
 	}
 	public long getQuestionId() {
 		return questionId;
 	}
-	public void setQuestionId(long questionId) {
+	public void setQuestionId(Integer questionId) {
 		this.questionId = questionId;
 	}
 	public long getSectionId() {
 		return sectionId;
 	}
-	public void setSectionId(long sectionId) {
+	public void setSectionId(Integer sectionId) {
 		this.sectionId = sectionId;
 	}
 	public String getValue() {

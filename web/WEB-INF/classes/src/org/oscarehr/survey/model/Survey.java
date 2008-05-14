@@ -31,23 +31,23 @@ public class Survey extends BaseObject {
 	public static final short STATUS_LAUNCHED 	= 2;
 	public static final short STATUS_CLOSED 	= 3;
 	
-	private Long surveyId;
+	private Integer surveyId;
     private String description;
 	private String surveyData;
-    private Long userId;
+    private Integer userId;
     private Integer facilityId;
     private Short status;
     private Date dateCreated;
     private Date dateLaunched;
     private Date dateClosed;
     private String dummy; //Used specifically for non-teared values of a form
-    private long launchedInstanceId;
-    private long version;
+    private Integer launchedInstanceId;
+    private Integer version;
     
-    public long getVersion() {
+    public Integer getVersion() {
 		return version;
 	}
-	public void setVersion(long version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 	/**
@@ -113,25 +113,25 @@ public class Survey extends BaseObject {
     /**
      * @return Returns the surveyId.
      */
-    public Long getSurveyId() {
+    public Integer getSurveyId() {
         return this.surveyId;
     }
     /**
      * @param surveyId The surveyId to set.
      */
-    public void setSurveyId(Long surveyId) {
+    public void setSurveyId(Integer surveyId) {
         this.surveyId = surveyId;
     }
     /**
      * @return Returns the userId.
      */
-    public Long getUserId() {
+    public Integer getUserId() {
         return this.userId;
     }
     /**
      * @param userId The userId to set.
      */
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
     /**
@@ -158,10 +158,10 @@ public class Survey extends BaseObject {
     public void setDummy(String dummy) {
         this.dummy = dummy;
     }
-	public long getLaunchedInstanceId() {
+	public Integer getLaunchedInstanceId() {
 		return launchedInstanceId;
 	}
-	public void setLaunchedInstanceId(long launchedInstanceId) {
+	public void setLaunchedInstanceId(Integer launchedInstanceId) {
 		this.launchedInstanceId = launchedInstanceId;
 	}
     public Integer getFacilityId() {

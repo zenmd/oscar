@@ -238,7 +238,7 @@ public class FormFollowUp implements Serializable {
     private String _cboxDownsviewdells;
     private String _cboxHaveuniversity;
     private String _publicTrusteeInfo;
-    private String _cboxLongtermprogram;
+    private String _cboxtermprogram;
     private String _dateAssessment;
     private String _cboxAssistwithsincard;
     private String _drinksPerDay;
@@ -374,7 +374,7 @@ public class FormFollowUp implements Serializable {
     private String _agency4Name;
     private String _radioCaredforanxiety;
     private String _dateLastDoctor1Contact;
-
+    private String _cboxLongtermprogram;
     // constructors
      public FormFollowUp () {
          initialize();

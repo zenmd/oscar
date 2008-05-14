@@ -49,7 +49,7 @@ public class CaseManagementIssueDAO extends HibernateDaoSupport {
         return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? ", new Object[] {demographic_no});
     }
     public CaseManagementIssue getIssuebyId(String demo, String id) {
-        List<CaseManagementIssue> list = this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.issue_id = ? and demographic_no = ?",new Object[]{Long.parseLong(id),demo});
+        List<CaseManagementIssue> list = this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.issue_id = ? and demographic_no = ?",new Object[]{new Integer(id),demo});
         if( list != null && list.size() == 1 )
             return list.get(0);
         

@@ -26,11 +26,11 @@ import org.oscarehr.survey.model.SurveyTestData;
 import org.oscarehr.survey.model.SurveyTestInstance;
 
 public interface SurveyTestDAO {
-	public SurveyTestInstance getSurveyInstance(Long id);
-	public SurveyTestInstance getSurveyInstance(Long surveyId,Long clientId);
+	public SurveyTestInstance getSurveyInstance(Integer id);
+	public SurveyTestInstance getSurveyInstance(Integer surveyId,Integer clientId);
 	
 	public void saveSurveyInstance(SurveyTestInstance instance);
 	public void saveSurveyData(SurveyTestData data);
 	
-	public void clearTestData(Long surveyId);
+	public void clearTestData(Integer surveyId);
 }

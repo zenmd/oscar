@@ -2,12 +2,12 @@ package org.oscarehr.survey.model.oscar;
 
 public class OscarFormQuestion {
 
-	private Long id;
-	private long page;
-	private long section;
-	private long question;
+	private Integer id;
+	private Integer page;
+	private Integer section;
+	private Integer question;
 	private String description;
-	private long formId;
+	private Integer formId;
 	private String formQuestionId;
 	private String type;
 	
@@ -17,22 +17,22 @@ public class OscarFormQuestion {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public long getPage() {
+	public Integer getPage() {
 		return page;
 	}
-	public void setPage(long page) {
+	public void setPage(Integer page) {
 		this.page = page;
 	}
-	public long getSection() {
+	public Integer getSection() {
 		return section;
 	}
-	public void setSection(long section) {
+	public void setSection(Integer section) {
 		this.section = section;
 	}
-	public long getQuestion() {
+	public Integer getQuestion() {
 		return question;
 	}
-	public void setQuestion(long question) {
+	public void setQuestion(Integer question) {
 		this.question = question;
 	}
 	public String getDescription() {
@@ -41,10 +41,10 @@ public class OscarFormQuestion {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public long getFormId() {
+	public Integer getFormId() {
 		return formId;
 	}
-	public void setFormId(long formId) {
+	public void setFormId(Integer formId) {
 		this.formId = formId;
 	}
 	public String getFormQuestionId() {
@@ -53,10 +53,10 @@ public class OscarFormQuestion {
 	public void setFormQuestionId(String formQuestionId) {
 		this.formQuestionId = formQuestionId;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

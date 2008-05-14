@@ -25,7 +25,7 @@ package org.caisi.model;
 import java.util.Date;
 
 public class IssueAdmin extends BaseObject {
-  private Long id;
+  private Integer id;
   private String code;
   private String description;
   private String role;
@@ -41,10 +41,10 @@ public class IssueAdmin extends BaseObject {
     	this.update_date = new Date();
     }
 
-    public Long getId() {
+    public Integer getId() {
 	return id;
     }
-    public void setId(Long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
     public String getCode() {

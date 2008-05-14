@@ -36,7 +36,7 @@ public class CaisiEditorDAO extends HibernateDaoSupport {
         return getHibernateTemplate().find("from CaisiEditor");
     }
 
-    public CaisiEditor getCaisiEditor(Long id) {
+    public CaisiEditor getCaisiEditor(Integer id) {
         return (CaisiEditor)getHibernateTemplate().get(CaisiEditor.class, id);
     }
     
@@ -57,7 +57,7 @@ public class CaisiEditorDAO extends HibernateDaoSupport {
         }
     }
 
-    public void removeCaisiEditor(Long id) {
+    public void removeCaisiEditor(Integer id) {
         Object CaisiEditor = getHibernateTemplate().load(CaisiEditor.class, id);
         getHibernateTemplate().delete(CaisiEditor);
     }

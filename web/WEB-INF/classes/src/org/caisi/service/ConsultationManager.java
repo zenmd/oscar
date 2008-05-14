@@ -47,7 +47,7 @@ public class ConsultationManager {
     }
     
     public Consultation getConsultation(String requestId) {
-        return consultationDAO.getConsultation(Long.valueOf(requestId));
+        return consultationDAO.getConsultation(Integer.valueOf(requestId));
     }
 
 }

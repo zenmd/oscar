@@ -56,7 +56,7 @@ public class IntakeCDao extends HibernateDaoSupport {
         return result;
     }
 
-    public Formintakec getForm(Long id) {
+    public Formintakec getForm(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

@@ -27,17 +27,17 @@ import java.util.Date;
 import org.oscarehr.PMmodule.model.Provider;
 
 public class TicklerUpdate extends BaseObject {
-	private Long id;
+	private Integer id;
 	private long tickler_no;
 	private char status;
 	private String provider_no;
 	private Date update_date;
 	private Provider provider;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getProvider_no() {

@@ -39,7 +39,7 @@ import org.oscarehr.PMmodule.model.Provider;
 */
 public class CustomFilter extends BaseObject {
 	/* standard stuff */
-	private Long id;
+	private Integer id;
 	private String name;
 	private String demographic_no;
 	private String demographic_webName;
@@ -99,10 +99,10 @@ public class CustomFilter extends BaseObject {
 	public void setAssignees(Set assignees) {
 		this.assignees = assignees;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {

@@ -38,7 +38,7 @@ public class SystemMessageManager {
 	private SystemMessageDAO dao = null;
 	
 	public SystemMessage getMessage(String messageId) {
-		return dao.getMessage(Long.valueOf(messageId));
+		return dao.getMessage(Integer.valueOf(messageId));
 	}
 	public void setSystemMessageDAO(SystemMessageDAO dao) {
 		this.dao = dao;

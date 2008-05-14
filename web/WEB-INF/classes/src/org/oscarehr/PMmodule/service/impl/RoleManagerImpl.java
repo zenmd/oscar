@@ -45,7 +45,7 @@ public class RoleManagerImpl implements RoleManager {
 		return dao.getRoles();
 	}
 	public Role getRole(String id) {
-		return dao.getRole(Long.valueOf(id));
+		return dao.getRole(Integer.valueOf(id));
 	}
 
 }

@@ -78,12 +78,12 @@ public class FormsDAO extends HibernateDaoSupport {
         if(className.indexOf(".") != -1) {
             className = className.substring(className.lastIndexOf(".")+1);
         }
-        List results = this.getHibernateTemplate().find("select f.id,f.ProviderNo,f.FormEdited from " + className + " f where f.DemographicNo=? order by f.FormEdited DESC",Long.valueOf(clientId));
+        List results = this.getHibernateTemplate().find("select f.id,f.ProviderNo,f.FormEdited from " + className + " f where f.DemographicNo=? order by f.FormEdited DESC",Integer.valueOf(clientId));
         for(Iterator iter=results.iterator();iter.hasNext();) {
             FormInfo fi = new FormInfo();
             Object[] values = (Object[])iter.next();
-            Long id = (Long)values[0];
-            Long providerNo = (Long)values[1];
+            Integer id = (Integer)values[0];
+            Integer providerNo = (Integer)values[1];
             Date dateEdited = (Date)values[2];
             Provider provider = (Provider)this.getHibernateTemplate().get(Provider.class,String.valueOf(providerNo));
             fi.setFormId(id);

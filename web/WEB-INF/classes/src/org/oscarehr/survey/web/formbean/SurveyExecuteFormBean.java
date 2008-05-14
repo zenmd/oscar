@@ -27,8 +27,8 @@ import java.io.Serializable;
 
 public class SurveyExecuteFormBean implements Serializable {
 	private String tab;
-	private long id;
-	private long clientId;
+	private Integer id;
+	private Integer clientId;
 	private String description;
 	private Integer admissionId;
 
@@ -48,19 +48,19 @@ public class SurveyExecuteFormBean implements Serializable {
 		this.description = description;
 	}
 
-	public long getClientId() {
+	public Integer getClientId() {
 		return clientId;
 	}
 
-	public void setClientId(long clientId) {
+	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

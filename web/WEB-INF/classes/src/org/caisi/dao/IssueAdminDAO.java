@@ -36,7 +36,7 @@ public class IssueAdminDAO extends HibernateDaoSupport {
         return getHibernateTemplate().find("from IssueAdmin");
     }
 
-    public IssueAdmin getIssueAdmin(Long id) {
+    public IssueAdmin getIssueAdmin(Integer id) {
         return (IssueAdmin)getHibernateTemplate().get(IssueAdmin.class, id);
     }
 
@@ -48,7 +48,7 @@ public class IssueAdminDAO extends HibernateDaoSupport {
         }
     }
 
-    public void removeIssueAdmin(Long id) {
+    public void removeIssueAdmin(Integer id) {
         Object issueAdmin = getHibernateTemplate().load(IssueAdmin.class, id);
         getHibernateTemplate().delete(issueAdmin);
     }

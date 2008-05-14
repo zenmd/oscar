@@ -180,7 +180,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
 
     @SuppressWarnings("unchecked")
     public List<ProgramProvider> getProgramDomain(String providerNo) {
-        if (providerNo == null || Long.valueOf(providerNo) == null) {
+        if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
 
@@ -193,7 +193,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
     }
 
     public List<ProgramProvider> getProgramDomainByFacility(String providerNo, Integer facilityId) {
-        if (providerNo == null || Long.valueOf(providerNo) == null) {
+        if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
 
@@ -209,7 +209,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
 
     @SuppressWarnings("unchecked")
     public List<Facility> getFacilitiesInProgramDomain(String providerNo) {
-        if (providerNo == null || Long.valueOf(providerNo) == null) {
+        if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
         List results = this.getHibernateTemplate().find("select distinct f from Facility f, Room r, ProgramProvider pp where pp.ProgramId = r.programId and f.id = r.facilityId and pp.ProviderNo = ?", providerNo);
@@ -219,7 +219,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
     
     @SuppressWarnings("unchecked")
     public List<Facility> getFacilityMessagesInProgramDomain(String providerNo) {
-        if (providerNo == null || Long.valueOf(providerNo) == null) {
+        if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
         List results = this.getHibernateTemplate().find("select distinct fm from FacilityMessage fm, Room r, ProgramProvider pp where pp.ProgramId = r.programId and fm.facilityId = r.facilityId and pp.ProviderNo = ?", providerNo);

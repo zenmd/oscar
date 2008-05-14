@@ -510,7 +510,7 @@ public class ProgramManagerAction extends BaseAction {
         String teamId = request.getParameter("teamId");
 
         if (teamId != null && teamId.length() > 0) {
-            long team_id = Long.valueOf(teamId);
+        	Integer team_id = Integer.valueOf(teamId);
 
             for (Object o : pp.getTeams()) {
                 ProgramTeam team = (ProgramTeam) o;

@@ -29,17 +29,17 @@ import java.util.Date;
 import org.caisi.model.BaseObject;
 
 public class Allergy extends BaseObject {
-	private Long allergyid;
+	private Integer allergyid;
 	private String demographic_no;
 	private Date entry_date;
 	private String description;
 	private String reaction;
 	
 	
-	public Long getAllergyid() {
+	public Integer getAllergyid() {
 		return allergyid;
 	}
-	public void setAllergyid(Long allergyid) {
+	public void setAllergyid(Integer allergyid) {
 		this.allergyid = allergyid;
 	}
 	public String getDemographic_no() {

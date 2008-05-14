@@ -33,17 +33,17 @@ public class HealthSafety  implements Serializable {
     private static final long serialVersionUID = 1L;
     private int hashCode = Integer.MIN_VALUE;// primary key
 	
-	private long id;
-    private Long demographicNo;
+	private Integer id;
+    private Integer demographicNo;
 	private String message;
     private String userName;
     private java.util.Date updateDate;
 
-    public Long getId () {
+    public Integer getId () {
         return id;
     }
 
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this.id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -67,11 +67,11 @@ public class HealthSafety  implements Serializable {
 		this.userName = userName;
 	}
 
-	public Long getDemographicNo() {
+	public Integer getDemographicNo() {
 		return demographicNo;
 	}
 
-	public void setDemographicNo(Long demographicNo) {
+	public void setDemographicNo(Integer demographicNo) {
 		this.demographicNo = demographicNo;
 	}
 	

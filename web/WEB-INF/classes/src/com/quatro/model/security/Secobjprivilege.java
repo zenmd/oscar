@@ -11,7 +11,7 @@ public class Secobjprivilege implements java.io.Serializable {
 
 	private String privilege;
 
-	private Long priority;
+	private Integer priority;
 
 	private String providerNo;
 
@@ -29,7 +29,7 @@ public class Secobjprivilege implements java.io.Serializable {
 
 	/** full constructor */
 	public Secobjprivilege(String roleusergroup, String objectname,
-			String privilege, Long priority, String providerNo) {
+			String privilege, Integer priority, String providerNo) {
 		this.roleusergroup = roleusergroup;
 		this.objectname = objectname;
 		this.privilege = privilege;
@@ -47,11 +47,11 @@ public class Secobjprivilege implements java.io.Serializable {
 		this.privilege = privilege;
 	}
 
-	public Long getPriority() {
+	public Integer getPriority() {
 		return this.priority;
 	}
 
-	public void setPriority(Long priority) {
+	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
 

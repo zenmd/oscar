@@ -12,8 +12,8 @@ public class LstOrgcd implements java.io.Serializable {
 
 	private String code;
 	private String description;
-	private Long activeyn;
-	private Long orderbyindex;
+	private Integer activeyn;
+	private Integer orderbyindex;
 	private String codetree;
 	private String fullcode;
 
@@ -29,8 +29,8 @@ public class LstOrgcd implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public LstOrgcd(String code, String description, Long activeyn,
-			Long orderbyindex, String codetree, String fullcode) {
+	public LstOrgcd(String code, String description, Integer activeyn,
+			Integer orderbyindex, String codetree, String fullcode) {
 		this.code = code;
 		this.description = description;
 		this.activeyn = activeyn;
@@ -57,19 +57,19 @@ public class LstOrgcd implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public Long getActiveyn() {
+	public Integer getActiveyn() {
 		return this.activeyn;
 	}
 
-	public void setActiveyn(Long activeyn) {
+	public void setActiveyn(Integer activeyn) {
 		this.activeyn = activeyn;
 	}
 
-	public Long getOrderbyindex() {
+	public Integer getOrderbyindex() {
 		return this.orderbyindex;
 	}
 
-	public void setOrderbyindex(Long orderbyindex) {
+	public void setOrderbyindex(Integer orderbyindex) {
 		this.orderbyindex = orderbyindex;
 	}
 

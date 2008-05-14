@@ -162,7 +162,7 @@ public class BaseCaseManagementEntryAction extends DispatchAction {
 		}
 	}
 
-	protected boolean inCheckList(Long id, int[] list)	{
+	protected boolean inCheckList(Integer id, int[] list)	{
 		boolean ret = false;
 		for (int i = 0; i < list.length; i++) {
 			if (list[i] == id.intValue())

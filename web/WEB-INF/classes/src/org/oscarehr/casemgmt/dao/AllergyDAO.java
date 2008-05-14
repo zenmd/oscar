@@ -29,7 +29,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class AllergyDAO extends HibernateDaoSupport {
 
-    public Allergy getAllergy(Long allergyid) {
+    public Allergy getAllergy(Integer allergyid) {
         return (Allergy)this.getHibernateTemplate().get(Allergy.class, allergyid);
     }
 

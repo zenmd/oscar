@@ -33,7 +33,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 
 public class Tickler extends BaseObject {
-	private Long tickler_no;
+	private Integer tickler_no;
 	private String demographic_no;
 	private Integer program_id;
 	private String message;
@@ -96,10 +96,10 @@ public class Tickler extends BaseObject {
 	public void setTask_assigned_to(String task_assigned_to) {
 		this.task_assigned_to = task_assigned_to;
 	}
-	public Long getTickler_no() {
+	public Integer getTickler_no() {
 		return tickler_no;
 	}
-	public void setTickler_no(Long tickler_no) {
+	public void setTickler_no(Integer tickler_no) {
 		this.tickler_no = tickler_no;
 	}
 	public Date getUpdate_date() {

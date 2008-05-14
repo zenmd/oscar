@@ -28,7 +28,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.caisi.model.BaseObject;
 
 public class ClientImage extends BaseObject {
-	private Long id;
+	private Integer id;
 	private long demographic_no;
 	private String image_type;
 	private byte[] image_data;
@@ -46,11 +46,11 @@ public class ClientImage extends BaseObject {
 		this.demographic_no = demographic_no;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

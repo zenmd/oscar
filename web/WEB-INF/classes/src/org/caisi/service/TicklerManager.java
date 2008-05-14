@@ -205,30 +205,30 @@ public class TicklerManager {
     }
 
     public Tickler getTickler(String tickler_no) {
-        Long id = Long.valueOf(tickler_no);
+    	Integer id = Integer.valueOf(tickler_no);
         return ticklerDAO.getTickler(id);
     }
 
     public void addComment(String tickler_no, String provider, String message) {
-        Long id = Long.valueOf(tickler_no);
+    	Integer id = Integer.valueOf(tickler_no);
         ticklerDAO.addComment(id, provider, message);
     }
 
     public void reassign(String tickler_no, String provider, String task_assigned_to) {
-        Long id = Long.valueOf(tickler_no);
+    	Integer id = Integer.valueOf(tickler_no);
         ticklerDAO.reassign(id, provider, task_assigned_to);
     }
 
     public void deleteTickler(String tickler_no, String provider) {
-        ticklerDAO.deleteTickler(Long.valueOf(tickler_no), provider);
+        ticklerDAO.deleteTickler(Integer.valueOf(tickler_no), provider);
     }
 
     public void completeTickler(String tickler_no, String provider) {
-        ticklerDAO.completeTickler(Long.valueOf(tickler_no), provider);
+        ticklerDAO.completeTickler(Integer.valueOf(tickler_no), provider);
     }
 
     public void activateTickler(String tickler_no, String provider) {
-        ticklerDAO.activateTickler(Long.valueOf(tickler_no), provider);
+        ticklerDAO.activateTickler(Integer.valueOf(tickler_no), provider);
     }
 
     public List getCustomFilters() {

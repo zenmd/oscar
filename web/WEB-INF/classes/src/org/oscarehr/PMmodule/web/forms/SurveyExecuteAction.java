@@ -137,9 +137,9 @@ public class SurveyExecuteAction extends DispatchAction {
         saveMessages(request, messages);
     }
 
-    protected long getUserId(HttpServletRequest request) {
+    protected Integer getUserId(HttpServletRequest request) {
         String value = (String) request.getSession().getAttribute("user");
-        return Long.parseLong(value);
+        return Integer.parseInt(value);
     }
 
     protected String getUsername(HttpServletRequest request) {
@@ -192,8 +192,8 @@ public class SurveyExecuteAction extends DispatchAction {
             clientId = String.valueOf(formBean.getClientId());
         }
 
-        formBean.setId(Long.parseLong(surveyId));
-        formBean.setClientId(Long.parseLong(clientId));
+        formBean.setId(Integer.parseInt(surveyId));
+        formBean.setClientId(Integer.parseInt(clientId));
         OscarForm surveyObj = surveyManager.getForm(surveyId);
         if (surveyObj == null) {
             postMessage(request, "survey.missing");
@@ -264,9 +264,9 @@ public class SurveyExecuteAction extends DispatchAction {
             		String questionId = parsed[2];              
           
             		OscarFormData dataItem = new OscarFormData();
-            		dataItem.setPageNumber(Long.parseLong(pageNumber));
-            		dataItem.setSectionId(Long.parseLong(sectionId));
-            		dataItem.setQuestionId(Long.parseLong(questionId));
+            		dataItem.setPageNumber(Integer.parseInt(pageNumber));
+            		dataItem.setSectionId(Integer.parseInt(sectionId));
+            		dataItem.setQuestionId(Integer.parseInt(questionId));
             		//dataItem.setValue((String)data.getValue(key));//?????
             		Set data_tmp = tmpsave.getData();
             		for(Iterator it = data_tmp.iterator(); it.hasNext();) {
@@ -530,9 +530,9 @@ public class SurveyExecuteAction extends DispatchAction {
             String questionId = parsed[2];
 
             OscarFormData dataItem = new OscarFormData();
-            dataItem.setPageNumber(Long.parseLong(pageNumber));
-            dataItem.setSectionId(Long.parseLong(sectionId));
-            dataItem.setQuestionId(Long.parseLong(questionId));
+            dataItem.setPageNumber(Integer.parseInt(pageNumber));
+            dataItem.setSectionId(Integer.parseInt(sectionId));
+            dataItem.setQuestionId(Integer.parseInt(questionId));
             dataItem.setValue((String) data.getValue(key));
             dataItem.setKey(key);
             instance.getData().add(dataItem);
@@ -680,7 +680,7 @@ public class SurveyExecuteAction extends DispatchAction {
         }
     }
 
-    public void saveDataLink(SurveyExecuteDataBean data, String key, String dataLink, long demographic_no, String format) {
+    public void saveDataLink(SurveyExecuteDataBean data, String key, String dataLink, Integer demographic_no, String format) {
         Demographic client = this.clientManager.getClientByDemographicNo(String.valueOf(demographic_no));
 
         if (dataLink.equals("Demographic/FirstName")) {
@@ -721,7 +721,7 @@ public class SurveyExecuteAction extends DispatchAction {
         List tmpInstanceForms = surveyManager.getTmpForms(formInstanceId, String.valueOf(formBean.getId()),String.valueOf(formBean.getClientId()), String.valueOf(getUserId(request)));
         if(tmpInstanceForms.size()==0 || tmpInstanceForms==null ) {
         	newForm = true;
-        	instance.setInstanceId(Long.valueOf(formInstanceId));
+        	instance.setInstanceId(Integer.valueOf(formInstanceId));
         	instance.setClientId(formBean.getClientId());
             instance.setDateCreated(new Date());
             instance.setFormId(formBean.getId());
@@ -767,9 +767,9 @@ public class SurveyExecuteAction extends DispatchAction {
         		String questionId = parsed[2];              
       
         		OscarFormDataTmpsave dataItem = new OscarFormDataTmpsave();
-        		dataItem.setPageNumber(Long.parseLong(pageNumber));
-        		dataItem.setSectionId(Long.parseLong(sectionId));
-        		dataItem.setQuestionId(Long.parseLong(questionId));
+        		dataItem.setPageNumber(Integer.parseInt(pageNumber));
+        		dataItem.setSectionId(Integer.parseInt(sectionId));
+        		dataItem.setQuestionId(Integer.parseInt(questionId));
         		dataItem.setValue((String) data.getValue(key));
         		dataItem.setKey(key);
         		instance.getData().add(dataItem);

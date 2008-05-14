@@ -33,7 +33,7 @@ public class AgencyDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(AgencyDao.class);
 
-    public Agency getAgency(Long agencyId) {
+    public Agency getAgency(Integer agencyId) {
         if (agencyId == null || agencyId.longValue() < 0) {
             throw new IllegalArgumentException();
         }

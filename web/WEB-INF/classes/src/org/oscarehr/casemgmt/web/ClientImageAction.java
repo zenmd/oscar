@@ -85,7 +85,7 @@ public class ClientImageAction extends DispatchAction {
 					imageData2[x] = new Byte(imageData[x]);
 				}
 				ClientImage clientImage = new ClientImage();
-				clientImage.setDemographic_no(Long.valueOf(id).longValue());
+				clientImage.setDemographic_no(Integer.valueOf(id));
 				clientImage.setImage_data(imageData);
 				clientImage.setImage_type(type);
 				

@@ -27,7 +27,7 @@ import java.util.Date;
 import org.caisi.model.BaseObject;
 
 public class Drug extends BaseObject {
-	private Long id;
+	private Integer id;
 	private String provider_no;
 	private String demographic_no;
 	private Date rx_date;
@@ -36,7 +36,7 @@ public class Drug extends BaseObject {
 	private Integer GCN_SEQNO;
 	private String customName;
 	private String special;
-	private Long script_no;
+	private Integer script_no;
 	private Date create_date;
 	private Boolean archived;
 	
@@ -59,10 +59,10 @@ public class Drug extends BaseObject {
 	public void setEnd_date(Date end_date) {
 		this.end_date = end_date;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getProvider_no() {
@@ -83,11 +83,11 @@ public class Drug extends BaseObject {
 	public void setSpecial(String special) {
 		this.special = special;
 	}
-	public Long getScript_no()
+	public Integer getScript_no()
 	{
 		return script_no;
 	}
-	public void setScript_no(Long script_no)
+	public void setScript_no(Integer script_no)
 	{
 		this.script_no = script_no;
 	}

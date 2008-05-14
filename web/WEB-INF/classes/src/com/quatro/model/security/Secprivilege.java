@@ -10,7 +10,7 @@ public class Secprivilege implements java.io.Serializable {
 
 	// Fields
 
-	private Long id;
+	private Integer id;
 	private String privilege;
 	private String description;
 
@@ -21,13 +21,13 @@ public class Secprivilege implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Secprivilege(Long id, String privilege) {
+	public Secprivilege(Integer id, String privilege) {
 		this.id = id;
 		this.privilege = privilege;
 	}
 
 	/** full constructor */
-	public Secprivilege(Long id, String privilege, String description) {
+	public Secprivilege(Integer id, String privilege, String description) {
 		this.id = id;
 		this.privilege = privilege;
 		this.description = description;
@@ -35,11 +35,11 @@ public class Secprivilege implements java.io.Serializable {
 
 	// Property accessors
 
-	public Long getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

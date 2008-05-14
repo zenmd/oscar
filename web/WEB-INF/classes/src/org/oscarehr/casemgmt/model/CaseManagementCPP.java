@@ -29,7 +29,7 @@ import java.util.Date;
 import org.caisi.model.BaseObject;
 
 public class CaseManagementCPP extends BaseObject {
-	private Long id;
+	private Integer id;
 	private String demographic_no;
         private String provider_no;
 	private String socialHistory="";
@@ -75,10 +75,10 @@ public class CaseManagementCPP extends BaseObject {
 	public void setFamilyHistory(String familyHistory) {
 		this.familyHistory = familyHistory;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getMedicalHistory() {

@@ -93,7 +93,7 @@ public class SurveyTestAction extends AbstractSurveyAction {
 				return mapping.findForward("manager");
 			}
 		}
-		formBean.setId(Long.parseLong(surveyId));
+		formBean.setId(Integer.parseInt(surveyId));
 		
 		org.oscarehr.survey.model.Survey surveyObj = surveyManager.getSurvey(String.valueOf(formBean.getId()));
 		String descr = surveyObj.getDescription();
@@ -275,9 +275,9 @@ public class SurveyTestAction extends AbstractSurveyAction {
 	    	String questionId = parsed[2];
 	    	
 			SurveyTestData dataItem = new SurveyTestData();
-			dataItem.setPageNumber(Long.parseLong(pageNumber));
-			dataItem.setSectionId(Long.parseLong(sectionId));
-			dataItem.setQuestionId(Long.parseLong(questionId));
+			dataItem.setPageNumber(Integer.parseInt(pageNumber));
+			dataItem.setSectionId(Integer.parseInt(sectionId));
+			dataItem.setQuestionId(Integer.parseInt(questionId));
 			dataItem.setValue((String)data.getValue(key));
 			dataItem.setKey(key);
 			instance.getData().add(dataItem);

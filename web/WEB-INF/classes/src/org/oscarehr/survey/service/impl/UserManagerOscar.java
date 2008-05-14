@@ -28,9 +28,9 @@ import org.oscarehr.survey.service.UserManager;
 
 public class UserManagerOscar implements UserManager {
 
-	public long getUserId(HttpServletRequest request) {
+	public Integer getUserId(HttpServletRequest request) {
 		String value = (String)request.getSession().getAttribute("user");
-		return Long.parseLong(value);
+		return Integer.parseInt(value);
 	}
 
 	public String getUsername(HttpServletRequest request) {

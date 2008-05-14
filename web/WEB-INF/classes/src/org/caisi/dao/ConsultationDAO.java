@@ -38,7 +38,7 @@ public class ConsultationDAO extends HibernateDaoSupport {
         return this.getHibernateTemplate().find("from Consultation c where c.demographic_no = ? and c.status = ?", new Object[] {demographic_no, status});
     }
 
-    public Consultation getConsultation(Long requestId) {
+    public Consultation getConsultation(Integer requestId) {
         return (Consultation)this.getHibernateTemplate().get(Consultation.class, requestId);
     }
 }

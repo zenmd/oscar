@@ -27,11 +27,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SurveyTestInstance extends BaseObject {
-	private Long id;
-	private long surveyId;
+	private Integer id;
+	private Integer surveyId;
 	private Date dateCreated;
-	private long userId;
-	private long clientId;
+	private Integer userId;
+	private Integer clientId;
 	private Set data = new HashSet();
 	
 	public Set getData() {
@@ -40,10 +40,10 @@ public class SurveyTestInstance extends BaseObject {
 	public void setData(Set data) {
 		this.data = data;
 	}
-	public long getClientId() {
+	public Integer getClientId() {
 		return clientId;
 	}
-	public void setClientId(long clientId) {
+	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
 	public Date getDateCreated() {
@@ -52,22 +52,22 @@ public class SurveyTestInstance extends BaseObject {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public long getSurveyId() {
 		return surveyId;
 	}
-	public void setSurveyId(long surveyId) {
+	public void setSurveyId(Integer surveyId) {
 		this.surveyId = surveyId;
 	}
 	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 }

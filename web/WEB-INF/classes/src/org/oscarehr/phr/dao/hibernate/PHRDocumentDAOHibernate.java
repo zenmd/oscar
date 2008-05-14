@@ -56,7 +56,7 @@ public class PHRDocumentDAOHibernate extends HibernateDaoSupport
         
         public boolean hasIndex(String idx){
             final String index = idx;
-            Long num =  (Long) getHibernateTemplate().execute(new HibernateCallback() {
+            Integer num =  (Integer) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session)
                     throws HibernateException, SQLException {
                 Query q = session.createQuery("select count(*) from PHRDocument p where p.phrIndex= '"+index+"'");

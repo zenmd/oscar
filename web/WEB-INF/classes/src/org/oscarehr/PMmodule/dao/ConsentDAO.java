@@ -44,7 +44,7 @@ public class ConsentDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public Consent getConsent(Long id) {
+    public Consent getConsent(Integer id) {
 
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
@@ -58,7 +58,7 @@ public class ConsentDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public Consent getConsentByDemographic(Long demographicNo) {
+    public Consent getConsentByDemographic(Integer demographicNo) {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -87,7 +87,7 @@ public class ConsentDAO extends HibernateDaoSupport {
         }
     }
 
-    public Consent getMostRecentConsent(Long demographicNo) {
+    public Consent getMostRecentConsent(Integer demographicNo) {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -127,7 +127,7 @@ public class ConsentDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public ConsentInterview getConsentInterview(Long id) {
+    public ConsentInterview getConsentInterview(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -141,7 +141,7 @@ public class ConsentDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public ConsentInterview getConsentInterviewByDemographicNo(Long demographicNo) {
+    public ConsentInterview getConsentInterviewByDemographicNo(Integer demographicNo) {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

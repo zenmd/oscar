@@ -47,9 +47,9 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public List getReferrals(Long clientId) {
+    public List getReferrals(Integer clientId) {
 
-        if (clientId == null || clientId.longValue() <= 0) {
+        if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -66,9 +66,9 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public List getReferralsByFacility(Long clientId, Integer facilityId) {
+    public List getReferralsByFacility(Integer clientId, Integer facilityId) {
 
-        if (clientId == null || clientId.longValue() <= 0) {
+        if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
         if (facilityId == null || facilityId.intValue() < 0) {
@@ -161,8 +161,8 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     }
     // end of change
 
-    public List<ClientReferral> getActiveReferrals(Long clientId, Integer facilityId) {
-        if (clientId == null || clientId.longValue() <= 0) {
+    public List<ClientReferral> getActiveReferrals(Integer clientId, Integer facilityId) {
+        if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 

@@ -218,9 +218,9 @@ public class UserManagerAction extends BaseAction {
 
 		if (user == null) {
 			user = new Security();
-			user.setBLocallockset(new Long(1));
-			user.setBRemotelockset(new Long(1));
-			user.setBExpireset(new Long(1));
+			user.setBLocallockset(new Integer(1));
+			user.setBRemotelockset(new Integer(1));
+			user.setBExpireset(new Integer(1));
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				java.util.Date aDate = sdf.parse("01/01/2999");
@@ -424,7 +424,7 @@ public class UserManagerAction extends BaseAction {
 					objNew.setRoleName_desc(role_description[0]);
 				
 				objNew.setProviderNo(providerNo);
-				objNew.setActiveyn(new Long("1"));
+				objNew.setActiveyn(new Integer("1"));
 		
 				secUserRoleLst.add(objNew);
 			}

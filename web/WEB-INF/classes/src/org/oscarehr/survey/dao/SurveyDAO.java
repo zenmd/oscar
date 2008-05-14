@@ -28,8 +28,8 @@ import org.oscarehr.survey.model.Survey;
 
 public interface SurveyDAO {
 	public void saveSurvey(Survey survey);
-	public Survey getSurvey(Long id);
+	public Survey getSurvey(Integer id);
 	public List getSurveys();
-	public void deleteSurvey(Long id);
+	public void deleteSurvey(Integer id);
 	public Survey getSurveyByName(String name);
 }

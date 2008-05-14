@@ -28,20 +28,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class OscarFormInstance implements Serializable {
-	private Long id;
-	private long formId;
+	private Integer id;
+	private Integer formId;
 	private String description;
 	private Date dateCreated;
-	private long userId;
+	private Integer userId;
 	private String username;
-	private long clientId;
+	private Integer clientId;
 	private Set data = new HashSet();
 	private Integer programId=null;
 	
-	public long getClientId() {
+	public Integer getClientId() {
 		return clientId;
 	}
-	public void setClientId(long clientId) {
+	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
 	public Set getData() {
@@ -56,22 +56,22 @@ public class OscarFormInstance implements Serializable {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public long getFormId() {
 		return formId;
 	}
-	public void setFormId(long formId) {
+	public void setFormId(Integer formId) {
 		this.formId = formId;
 	}
 	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getDescription() {

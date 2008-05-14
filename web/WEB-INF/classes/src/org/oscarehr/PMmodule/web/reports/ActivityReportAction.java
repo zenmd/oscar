@@ -104,7 +104,7 @@ public class ActivityReportAction extends DispatchAction {
 			List referrals = clientManager.searchReferrals(cr);
 			int totalReferrals = referrals.size();
 			
-			Long[] values = {new Long(totalAdmissions),new Long(totalReferrals)};
+			Integer[] values = {new Integer(totalAdmissions),new Integer(totalReferrals)};
 			summaryMap.put(p.getName(), values);
 		}
 		request.setAttribute("summary", summaryMap);

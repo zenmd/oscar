@@ -233,10 +233,10 @@ public class StaffManagerAction extends BaseAction {
 		existingPP = programManager.getProgramProvider(provider.getProviderNo(),String.valueOf(pp.getProgramId()));
 		String teamId = request.getParameter("teamId");
 		if (existingPP != null && teamId != null && teamId.length() > 0) {
-			long team_id = Long.valueOf(teamId);
+			Integer team_id = Integer.valueOf(teamId);
 			for (Iterator iter = existingPP.getTeams().iterator(); iter.hasNext();) {
 				ProgramTeam temp = (ProgramTeam) iter.next();
-				if (temp.getId() == team_id) {
+				if (temp.getId().intValue() == team_id.intValue()) {
 					existingPP.getTeams().remove(temp);
 					break;
 				}
@@ -256,7 +256,7 @@ public class StaffManagerAction extends BaseAction {
 		ProgramProvider existingPP = null;
 		
 		if( (existingPP = programManager.getProgramProvider(provider.getProviderNo(),String.valueOf(pp.getProgramId())) ) != null) {
-			if(pp.getRoleId().longValue() == 0) {
+			if(pp.getRoleId().intValue() == 0) {
 				programManager.deleteProgramProvider(String.valueOf(existingPP.getId()));
 			} else {
 				existingPP.setRoleId(pp.getRoleId());

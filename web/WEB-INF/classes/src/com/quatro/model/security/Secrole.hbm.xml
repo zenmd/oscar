@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
     <class name="com.quatro.model.security.Secrole" table="SECROLE">
-        <id name="roleNo" type="java.lang.Long">
+        <id name="roleNo" type="java.lang.Integer">
             <column name="ROLE_NO" precision="10" scale="0" />
             <generator class="native" />
         </id>

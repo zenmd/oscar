@@ -38,7 +38,7 @@ public class HealthSafetyAction extends DispatchAction {
 		
 		String id = request.getParameter("clientId");
 				
-		HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Long.valueOf(id));
+		HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(id));
 		if(healthsafety != null) {
 			healthSafetyForm.set("healthsafety", healthsafety);
             request.setAttribute("healthsafety", healthsafety);
@@ -46,7 +46,7 @@ public class HealthSafetyAction extends DispatchAction {
 			healthsafety= new HealthSafety();
 			Provider provider=(Provider) request.getSession().getAttribute("provider");
 			healthsafety.setUserName(provider.getFormattedName());
-			healthsafety.setDemographicNo(Long.valueOf(id));
+			healthsafety.setDemographicNo(Integer.valueOf(id));
 			healthSafetyForm.set("healthsafety", healthsafety);
             request.setAttribute("healthsafety", healthsafety);
 		}

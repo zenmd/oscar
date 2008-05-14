@@ -5,11 +5,11 @@ public class Secuserrole implements java.io.Serializable {
 
 	// Fields
 
-	private Long id;
+	private Integer id;
 	private String providerNo;
 	private String roleName;
 	private String orgcd;
-	private Long activeyn;
+	private Integer activeyn;
 	// added extra 
 	private String roleName_desc;
 	private String orgcd_desc;
@@ -43,7 +43,7 @@ public class Secuserrole implements java.io.Serializable {
 
 	/** full constructor */
 	public Secuserrole(String providerNo, String roleName, String orgcd,
-			Long activeyn) {
+			Integer activeyn) {
 		this.providerNo = providerNo;
 		this.roleName = roleName;
 		this.orgcd = orgcd;
@@ -52,11 +52,11 @@ public class Secuserrole implements java.io.Serializable {
 
 	// Property accessors
 
-	public Long getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -84,11 +84,11 @@ public class Secuserrole implements java.io.Serializable {
 		this.orgcd = orgcd;
 	}
 
-	public Long getActiveyn() {
+	public Integer getActiveyn() {
 		return this.activeyn;
 	}
 
-	public void setActiveyn(Long activeyn) {
+	public void setActiveyn(Integer activeyn) {
 		this.activeyn = activeyn;
 	}
 

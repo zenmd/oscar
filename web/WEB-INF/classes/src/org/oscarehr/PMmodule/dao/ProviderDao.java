@@ -44,7 +44,7 @@ public class ProviderDao extends HibernateDaoSupport {
 	private static Log log = LogFactory.getLog(ProviderDao.class);
 	
 	public boolean providerExists(String providerNo) {
-		boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from Provider p where p.ProviderNo = " + providerNo).next()) == 1);
+		boolean exists = (((Integer) getHibernateTemplate().iterate("select count(*) from Provider p where p.ProviderNo = " + providerNo).next()) == 1);
 		log.debug("providerExists: " + exists);
 
 		return exists;
@@ -105,7 +105,7 @@ public class ProviderDao extends HibernateDaoSupport {
     	if(programId!=null && "0".equals(programId)==false){
     	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
                "(select c.providerNo from Secuserrole c where c.orgcd ='P' || ?) ORDER BY p.LastName";
-	      paramList.add(Long.valueOf(programId));
+	      paramList.add(Integer.valueOf(programId));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      rs =  getHibernateTemplate().find(sSQL ,params);
     	}else if(facilityId!=null && "0".equals(facilityId)==false){

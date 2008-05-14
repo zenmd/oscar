@@ -30,7 +30,7 @@ import java.util.Date;
  *
  */
 public class Consultation extends BaseObject {
-	private Long requestId;
+	private Integer requestId;
 	private Date referalDate;
 	private String reason;
 	private String demographic_no;
@@ -58,10 +58,10 @@ public class Consultation extends BaseObject {
 	public void setReferalDate(Date referalDate) {
 		this.referalDate = referalDate;
 	}
-	public Long getRequestId() {
+	public Integer getRequestId() {
 		return requestId;
 	}
-	public void setRequestId(Long requestId) {
+	public void setRequestId(Integer requestId) {
 		this.requestId = requestId;
 	}
 	public String getDemographic_no() {

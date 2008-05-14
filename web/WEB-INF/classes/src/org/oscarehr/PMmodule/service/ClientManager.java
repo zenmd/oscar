@@ -99,15 +99,15 @@ public class ClientManager {
     }
 
     public List getReferrals(String clientId) {
-        return referralDAO.getReferrals(Long.valueOf(clientId));
+        return referralDAO.getReferrals(Integer.valueOf(clientId));
     }
 
     public List getReferralsByFacility(String clientId, Integer facilityId) {
-        return referralDAO.getReferralsByFacility(Long.valueOf(clientId), facilityId);
+        return referralDAO.getReferralsByFacility(Integer.valueOf(clientId), facilityId);
     }
 
     public List<ClientReferral> getActiveReferrals(String clientId, String sourceFacilityId) {
-        List<ClientReferral> results = referralDAO.getActiveReferrals(Long.valueOf(clientId), Integer.valueOf(sourceFacilityId));
+        List<ClientReferral> results = referralDAO.getActiveReferrals(Integer.valueOf(clientId), Integer.valueOf(sourceFacilityId));
 
         return results;
     }

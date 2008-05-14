@@ -20,15 +20,15 @@ public class OscarFormManagerImpl implements OscarFormManager {
 		return dao.getOscarForms();
 	}
 	
-	public void generateCSV(Long formId, OutputStream out) {
+	public void generateCSV(Integer formId, OutputStream out) {
 		dao.generateCSV(formId, out);
 	}
 
-	public void convertFormXMLToDb(Long formId) {
+	public void convertFormXMLToDb(Integer formId) {
 		dao.convertFormXMLToDb(formId);
 	}
 	
-	public Map<String[],String> getFormReport(Long formId, Date startDate, Date endDate) {
+	public Map<String[],String> getFormReport(Integer formId, Date startDate, Date endDate) {
 		return dao.getFormReport(formId, startDate, endDate);
 	}
 }

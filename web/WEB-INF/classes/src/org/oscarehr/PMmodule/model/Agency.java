@@ -70,7 +70,7 @@ public class Agency implements Serializable {
 		agencyMap = map;
 	}
 
-	public static String getAgencyName(Long agencyId) {
+	public static String getAgencyName(Integer agencyId) {
 		if (agencyMap != null) {
 			Agency agency = (Agency) agencyMap.get(agencyId);
 

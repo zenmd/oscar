@@ -42,7 +42,7 @@ public class RoleDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public Role getRole(Long id) {
+    public Role getRole(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

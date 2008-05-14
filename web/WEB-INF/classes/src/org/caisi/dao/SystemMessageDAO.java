@@ -33,7 +33,7 @@ public class SystemMessageDAO extends HibernateDaoSupport  {
 
 	private static Log log = LogFactory.getLog(SystemMessageDAO.class);
 	
-	public SystemMessage getMessage(Long id) {
+	public SystemMessage getMessage(Integer id) {
 		return (SystemMessage)this.getHibernateTemplate().get(SystemMessage.class,id);
 	}
 	
@@ -52,7 +52,7 @@ public class SystemMessageDAO extends HibernateDaoSupport  {
 	public int getActiveMessageCount()
 	{
         String query = "select count(*) from system_message t where where sm.expiry_date >= now()";
-        Long count = (Long) getHibernateTemplate().find(query).get(0);
+        Integer count = (Integer) getHibernateTemplate().find(query).get(0);
         return count.intValue();
 	}
 }

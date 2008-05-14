@@ -36,7 +36,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class SurveyDAO extends HibernateDaoSupport {
 
-    public OscarForm getForm(Long formId) {
+    public OscarForm getForm(Integer formId) {
         return (OscarForm)this.getHibernateTemplate().get(OscarForm.class, formId);
     }
 
@@ -48,7 +48,7 @@ public class SurveyDAO extends HibernateDaoSupport {
         this.getHibernateTemplate().saveOrUpdate(instance);
     }
 
-    public OscarFormInstance getLatestForm(Long formId, Long clientId) {
+    public OscarFormInstance getLatestForm(Integer formId, Integer clientId) {
         List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.formId = ? and f.clientId = ? order by f.dateCreated DESC", new Object[] {formId, clientId});
         if (result.size() > 0) {
             return (OscarFormInstance)result.get(0);
@@ -56,12 +56,12 @@ public class SurveyDAO extends HibernateDaoSupport {
         return null;
     }
 
-    public List getForms(Long clientId) {
+    public List getForms(Integer clientId) {
         List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.clientId = ? order by f.dateCreated DESC", clientId);
         return result;
     }
-
-    public List getForms(Long clientId, Integer facilityId) {
+/*
+    public List getForms(Integer clientId, Integer facilityId) {
         ArrayList paramList = new ArrayList();
         String sSQL="from OscarFormInstance f where f.clientId = ? and f.formId in " +
         	"(select s.formId from OscarForm s where s.facilityId =?) order by f.dateCreated DESC";  
@@ -72,24 +72,24 @@ public class SurveyDAO extends HibernateDaoSupport {
         return result;
 //    	List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.clientId = ? order by f.dateCreated DESC", clientId);
     }
-
-    public List getForms(Long formId, Long clientId) {
+*/
+    public List getForms(Integer formId, Integer clientId) {
         List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.formId = ? and f.clientId = ? order by f.dateCreated DESC", new Object[] {formId, clientId});
         return result;
     }
-    public OscarFormInstance getCurrentFormById(Long formInstanceId) {
+    public OscarFormInstance getCurrentFormById(Integer formInstanceId) {
     	List result = this.getHibernateTemplate().find("from OscarFormInstance f where f.id = ?", new Object[] {formInstanceId});
     	if(result.size()>0) {
     		return (OscarFormInstance)result.get(0);
     	}    	
     	return null;
     }
-    public List getTmpForms(Long instanceId,Long formId, Long clientId, Long providerId) {
+    public List getTmpForms(Integer instanceId,Integer formId, Integer clientId, Integer providerId) {
         List result = this.getHibernateTemplate().find("from OscarFormInstanceTmpsave f where f.instanceId = ? and f.formId = ? and f.clientId = ? and f.userId = ? order by f.dateCreated DESC", new Object[] {instanceId, formId, clientId, providerId});
         return result;
     }
     
-    public List getTmpFormData(Long tmpInstanceId) {
+    public List getTmpFormData(Integer tmpInstanceId) {
         List result = this.getHibernateTemplate().find("from OscarFormDataTmpsave f where f.tmpInstanceId = ? ", new Object[] {tmpInstanceId});
         return result;
     }
@@ -115,7 +115,7 @@ public class SurveyDAO extends HibernateDaoSupport {
 
         for (Iterator iter = clients.iterator(); iter.hasNext();) {
             Demographic client = (Demographic)iter.next();
-            OscarFormInstance ofi = getLatestForm(new Long(formId), new Long(client.getDemographicNo().longValue()));
+            OscarFormInstance ofi = getLatestForm(new Integer(formId),client.getDemographicNo());
             results.add(ofi);
         }
 

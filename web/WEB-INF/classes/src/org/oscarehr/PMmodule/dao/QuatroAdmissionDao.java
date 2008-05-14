@@ -24,10 +24,10 @@ public class QuatroAdmissionDao extends HibernateDaoSupport {
         getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
                 KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?", intakeId);
         
-        getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?", new Long(queueId.longValue()));
+        getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queueId);
 
         getHibernateTemplate().bulkUpdate("update ClientReferral c set c.Status='" +
-                KeyConstants.INTAKE_STATUS_ADMITTED + "' where c.Id=?", new Long(referralId.longValue()));
+                KeyConstants.INTAKE_STATUS_ADMITTED + "' where c.Id=?", referralId);
     }
 
     public void updateAdmission(QuatroAdmission admission) {

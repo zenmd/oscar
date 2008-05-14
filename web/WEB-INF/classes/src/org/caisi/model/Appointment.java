@@ -25,7 +25,7 @@ package org.caisi.model;
 import java.util.Date;
 
 public class Appointment extends BaseObject {
-	private Long id;
+	private Integer id;
 	private Date apptDate;
 	private int demographicNo;
 	private String providerNo;
@@ -45,10 +45,10 @@ public class Appointment extends BaseObject {
 	public void setDemographicNo(int demographicNo) {
 		this.demographicNo = demographicNo;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long apptId) {
+	public void setId(Integer apptId) {
 		id = apptId;
 	}
         public String getProviderNo() {

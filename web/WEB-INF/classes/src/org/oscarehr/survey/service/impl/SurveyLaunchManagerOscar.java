@@ -39,7 +39,7 @@ public class SurveyLaunchManagerOscar implements SurveyLaunchManager {
 		this.oscarFormDAO = dao;
 	}
 	
-	public long launch(Survey survey) {
+	public Integer launch(Survey survey) {
 		OscarForm form = new OscarForm();
 		form.setDescription(survey.getDescription());
 		form.setSurveyData(survey.getSurveyData());
@@ -48,14 +48,14 @@ public class SurveyLaunchManagerOscar implements SurveyLaunchManager {
 		
 		oscarFormDAO.saveOscarForm(form);
 		
-		return form.getFormId().longValue();
+		return form.getFormId();
 	}
 	
-	public void close(long formId) {
-		this.oscarFormDAO.updateStatus(new Long(formId),new Short(OscarForm.STATUS_INACTIVE));
+	public void close(Integer formId) {
+		this.oscarFormDAO.updateStatus(formId,new Short(OscarForm.STATUS_INACTIVE));
 	}
 
-	public void reopen(long formId) {
-		this.oscarFormDAO.updateStatus(new Long(formId),new Short(OscarForm.STATUS_ACTIVE));
+	public void reopen(Integer formId) {
+		this.oscarFormDAO.updateStatus(formId,new Short(OscarForm.STATUS_ACTIVE));
 	}
 }

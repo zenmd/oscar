@@ -35,7 +35,7 @@ import org.oscarehr.PMmodule.model.Provider;
 
 
 public class CaseManagementNote extends BaseObject {
-    private Long id;
+    private Integer id;
     private Date update_date;
     private Date create_date;
     private Date observation_date;
@@ -117,11 +117,11 @@ public class CaseManagementNote extends BaseObject {
         this.encounter_type = encounter_type;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
