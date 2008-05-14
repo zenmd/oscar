@@ -85,8 +85,7 @@
 						</tr>
 						<logic-el:iterate id="discharge" collection="${quatroDischarge}">
 							<tr>								
-								<td>
-									<fmt:formatDate pattern="yyyy/MM/dd" value="${discharge.admissionDate}" />
+								<td><c:out value="${discharge.admissionDateStr}" />
 								</td>
 								<td><c:out value="${sessionScope.provider.formattedName}" /></td>
 								<td><c:out value="${discharge.admissionStatus}" /></td>
