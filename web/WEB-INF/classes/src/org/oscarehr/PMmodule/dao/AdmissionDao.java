@@ -289,9 +289,13 @@ public class AdmissionDao extends HibernateDaoSupport {
         return null;
     }
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
-    	List results = getHibernateTemplate().find("from Admission i where i.clientId = ? and i.programId in " +
-			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
-			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.admissionDate desc",
+
+    	String progSQL = "(select p.id from Program p where facilityId =? and 'P' || i.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+    			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
+    	
+    	
+    	List results = getHibernateTemplate().find("from Admission i where i.clientId = ? and i.programId in " + progSQL +
+			" order by i.admissionDate desc",
 			new Object[] {clientId, facilityId, providerNo });
 
 		return results;
