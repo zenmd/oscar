@@ -51,8 +51,6 @@
 		<many-to-one name="client"
 			class="org.oscarehr.PMmodule.model.Demographic" column="client_id"
 			update="false" insert="false" lazy="false" />
-		<property column="temporary_admission_flag"
-			name="TemporaryAdmission" not-null="false" type="boolean" />
 		<property name="programName" type="string"
 			formula="(select p.name from program p where p.program_id = program_id)" />
 		<property name="programType" type="string"

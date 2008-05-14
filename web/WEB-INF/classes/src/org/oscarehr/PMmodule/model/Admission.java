@@ -210,7 +210,7 @@ public class Admission implements Serializable,Cloneable {
      * Return the value associated with the column: temporary_admission_flag
      */
     public boolean isTemporaryAdmission() {
-    	return temporaryAdmission;
+    	return false; //temporaryAdmission;
     }
 
 	/**
