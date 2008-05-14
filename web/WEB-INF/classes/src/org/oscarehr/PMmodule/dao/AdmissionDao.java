@@ -290,7 +290,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
 
-    	String progSQL = "(select p.id from Program p where facilityId =? and 'P' || i.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+    	String progSQL = "(select p.id from Program p where facilityId =? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
     			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
     	
     	
