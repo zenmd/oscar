@@ -64,7 +64,28 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
    private ClientRestrictionManager clientRestrictionManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       return edit(mapping, form, request, response);
+       return list(mapping, form, request, response);
+   }
+
+   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+       
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       request.setAttribute("clientId", demographicNo);
+
+       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+       List lstAdmission = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
+       request.setAttribute("quatroAdmission", lstAdmission);
+
+       return mapping.findForward("list");
    }
 
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

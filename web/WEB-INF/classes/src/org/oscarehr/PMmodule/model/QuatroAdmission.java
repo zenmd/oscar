@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import oscar.MyDateFormat;
 
 public class QuatroAdmission implements Serializable {
 
@@ -40,6 +41,9 @@ public class QuatroAdmission implements Serializable {
 
     public java.util.Calendar getAdmissionDate() {
 		return admissionDate;
+	}
+    public String getAdmissionDateStr() {
+		return MyDateFormat.getStandardDate(admissionDate);
 	}
 	public void setAdmissionDate(java.util.Calendar admissionDate) {
 		this.admissionDate = admissionDate;
@@ -199,6 +203,6 @@ public class QuatroAdmission implements Serializable {
 	}
 	public void setDischargeNotes(String dischargeNotes) {
 		this.dischargeNotes = dischargeNotes;
-	}	
+	}
 
 }

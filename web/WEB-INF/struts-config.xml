@@ -1635,13 +1635,7 @@
         </action>
         <action path="/PMmodule/QuatroAdmission" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientAdmissionForm" scope="request">
             <forward name="edit" path="page.quatro.pmm.admission" />
-            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
-            <forward name="consent" path="page.pmm.erconsent" />
-            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
-            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
-            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
-            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
-            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+            <forward name="list" path="page.quatro.pmm.admissionlist" />
         </action>
         <action path="/PMmodule/QuatroProgramSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programSearchForm" scope="request">
         	<forward name="view" path="/PMmodule/QuatroProgramSearch.jsp" />
