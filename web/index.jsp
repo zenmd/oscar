@@ -142,10 +142,18 @@ if (props.getProperty("logintitle", "").equals("")) {
 		Toronto</font>
 		</td>
 	</tr>
+	<tr height="50">
+		<td>
+		<br>
+		<p align="center"><img border="0"
+			src="images/SMIS-Logo.gif"   height="30"></p>
+		</td>
+	</tr>
 	<tr height="140px">
 		<td valign="bottom" align="center">
 		<font size="4" face="Arial">Welcome to
-		QuatroShelter, please Login ...</font><br><br>
+		QuatroShelter.</font><br><br>
+		<font size="4" face="Arial">Please log in.</font><br><br>
 		</td></tr>
 		
 		<tr>
@@ -153,7 +161,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 			<table width="100%" align="center"><tr><td>
 			<table align="center" background="images/Silver-background-dark.gif" height="121" width="60%">
 				<tr>
-					<td width="40%" height="36" valign="middle" align="right"><br><font
+					<td width="40%"  align="right"><br><font
 						size="3" face="Arial"> <b><bean:message
 						key="loginApplication.formUserName" /> 
 					<%
@@ -166,15 +174,15 @@ if (props.getProperty("logintitle", "").equals("")) {
  					}
  					%>
 					</b></font></td>
-					<td valign="middle"><font size="3"
+					<td ><font size="3"
 						face="Arial"><b><input type="text" name="username"
 						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
-					<td width="40%"  valign="middle" align="right"><font
+					<td width="40%"  align="right"><font
 						size="3" face="Arial"><b><bean:message
 						key="loginApplication.formPwd" /></b></font></td>
-					<td  height="27" valign="middle"><font size="3"
+					<td ><font size="3"
 						face="Arial"><b><input type="password" name="password"
 						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
@@ -184,7 +192,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 						size="3"><input type="submit"
 						value="<bean:message key="index.btnSignIn"/>" />&nbsp; </font><input
 						type="reset" value="Reset">&nbsp; <input type="button"
-						value="Change PW" name="B2"></td>
+						value="Change Password" name="B2"></td>
 				</tr>
 			</table>
 			</td></tr></table>
