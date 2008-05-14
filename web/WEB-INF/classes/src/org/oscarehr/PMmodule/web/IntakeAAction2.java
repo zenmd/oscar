@@ -111,7 +111,7 @@ public class IntakeAAction2 extends BaseAction {
         }
 
         if (update) {
-            intakeAForm.setDemographicNo(Long.valueOf(demographicNo));
+            intakeAForm.setDemographicNo(Integer.valueOf(demographicNo));
 
             if (client == null) {
                 ActionMessages messages = new ActionMessages();
@@ -124,7 +124,7 @@ public class IntakeAAction2 extends BaseAction {
             intakeAForm.setAssessDate(formatter.format(new Date()));
             //set client name
             if (client != null) {
-                intakeAForm.setDemographicNo(Long.valueOf(demographicNo));
+                intakeAForm.setDemographicNo(Integer.valueOf(demographicNo));
                 intakeAForm.setClientFirstName(client.getFirstName());
                 intakeAForm.setClientSurname(client.getLastName());
                 this.updateForm(intakeAForm, client);
@@ -164,7 +164,7 @@ public class IntakeAAction2 extends BaseAction {
             }
         }
 
-        intakeAForm.setProviderNo(Long.valueOf(getProviderNo(request)));
+        intakeAForm.setProviderNo(Integer.valueOf(getProviderNo(request)));
         intakeForm.set("intake", intakeAForm);
 
         List origProgramDomain = providerManager.getProgramDomain(getProviderNo(request));
@@ -191,7 +191,7 @@ public class IntakeAAction2 extends BaseAction {
             update = true;
         }
 
-        intakea.setProviderNo(Long.valueOf(this.getProviderNo(request)));
+        intakea.setProviderNo(Integer.valueOf(this.getProviderNo(request)));
         intakeAManager.saveNewIntake(intakea);
 
         if (update) {
@@ -288,7 +288,7 @@ public class IntakeAAction2 extends BaseAction {
         if (intakea.getId() != null && intakea.getId().longValue() > 0) {
             update = true;
         }
-        Long demographicNo = intakea.getDemographicNo();
+        Integer demographicNo = intakea.getDemographicNo();
         request.setAttribute("demographicNo", demographicNo);
         intakeForm.reset(mapping, request);
         if (update) {

@@ -42,7 +42,7 @@ public class AgencyManager {
 
 		if (agency == null) {
 			log.warn("No local agency has been saved.");
-			return new Agency(new Long(0));
+			return new Agency(new Integer(0));
 		}
 		
 		return agency;

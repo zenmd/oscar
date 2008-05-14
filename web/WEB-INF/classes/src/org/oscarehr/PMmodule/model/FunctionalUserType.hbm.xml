@@ -18,7 +18,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="FunctionalUserType" table="functional_user_type">
-		<id column="id" name="Id" type="java.lang.Long">
+		<id column="id" name="Id" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
 		<property column="name" name="Name" not-null="false" type="string" />

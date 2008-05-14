@@ -142,7 +142,7 @@ public class AdmissionManager {
 		 dao.saveAdmission(admission);
 		 if(isReferral){
 	    	ClientReferral referral = new ClientReferral();
-	        referral.setClientId(admission.getClientId().longValue());
+	        referral.setClientId(admission.getClientId());
 	        referral.setNotes("Discharge Automated referral");
 	        referral.setProgramId(admission.getBedProgramId().intValue());
 	        referral.setProviderNo(admission.getProviderNo());
@@ -154,7 +154,7 @@ public class AdmissionManager {
 	          queue.setClientId(referral.getClientId());
 	          queue.setNotes(referral.getNotes());
 	          queue.setProgramId(referral.getProgramId());
-	          queue.setProviderNo(Long.parseLong(referral.getProviderNo()));
+	          queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
 	          queue.setReferralDate(referral.getReferralDate());
 	          queue.setStatus(ProgramQueue.STATUS_ACTIVE);
 	          queue.setReferralId(referral.getId());
@@ -166,14 +166,14 @@ public class AdmissionManager {
 	          QuatroIntake intake=intakeDao.getQuatroIntake(admission.getIntakeId());
 			    if(intake.getReferralId() != null &&  intake.getReferralId().intValue()>0){
 			      ClientReferral referralOld = new ClientReferral(Integer.valueOf(intake.getReferralId().intValue()));
-			      referralOld.setClientId(Long.valueOf(intake.getClientId().longValue()));
+			      referralOld.setClientId(intake.getClientId());
 			      referralOld.setProgramId(Integer.valueOf(intake.getProgramId().intValue()));
 			      clientReferralDAO.delete(referralOld);
 	            }  
 	            if(intake.getQueueId() != null && intake.getQueueId().intValue()>0){
 			      ProgramQueue queueOld = new ProgramQueue(Integer.valueOf(intake.getQueueId().intValue()));
-			      queueOld.setClientId(Long.valueOf(intake.getClientId().longValue()));
-			      queueOld.setProviderNo(Long.valueOf(intake.getStaffId()));
+			      queueOld.setClientId(intake.getClientId());
+			      queueOld.setProviderNo(Integer.valueOf(intake.getStaffId()));
 			      queueOld.setProgramId(Integer.valueOf(intake.getProgramId().intValue()));
 			      programQueueDao.delete(queueOld);
 	            }
@@ -198,7 +198,7 @@ public class AdmissionManager {
 		processAdmission(demographicNo, providerNo, program, dischargeNotes, admissionNotes, tempAdmission, null, false,null);
 	}
 
-        public void processAdmission(Integer demographicNo, String providerNo, Program program, String dischargeNotes, String admissionNotes, boolean tempAdmission,List<Long> dependents) throws ProgramFullException, AdmissionException, ServiceRestrictionException {
+        public void processAdmission(Integer demographicNo, String providerNo, Program program, String dischargeNotes, String admissionNotes, boolean tempAdmission,List<Integer> dependents) throws ProgramFullException, AdmissionException, ServiceRestrictionException {
 		processAdmission(demographicNo, providerNo, program, dischargeNotes, admissionNotes, tempAdmission, null, false,dependents);
 	}
         
@@ -210,7 +210,7 @@ public class AdmissionManager {
 		processAdmission(demographicNo, providerNo, program, dischargeNotes, admissionNotes, false, admissionDate, false,null);
 	}
 
-	public void processAdmission(Integer demographicNo, String providerNo, Program program, String dischargeNotes, String admissionNotes, boolean tempAdmission, Date admissionDate, boolean overrideRestriction, List<Long> dependents) throws ProgramFullException, AdmissionException, ServiceRestrictionException {
+	public void processAdmission(Integer demographicNo, String providerNo, Program program, String dischargeNotes, String admissionNotes, boolean tempAdmission, Date admissionDate, boolean overrideRestriction, List<Integer> dependents) throws ProgramFullException, AdmissionException, ServiceRestrictionException {
 		// see if there's room first
 		if (program.getNumOfMembers().intValue() >= program.getMaxAllowed().intValue()) {
 			throw new ProgramFullException();
@@ -287,13 +287,13 @@ public class AdmissionManager {
 		saveAdmission(newAdmission);
 
 		// Clear them from the queue, Update their referral
-		ProgramQueue pq = programQueueDao.getActiveProgramQueue(program.getId().intValue(), (long) demographicNo);
+		ProgramQueue pq = programQueueDao.getActiveProgramQueue(program.getId(), demographicNo);
 		if (pq != null) {
 			pq.setStatus(ProgramQueue.STATUS_ADMITTED);
 			programQueueDao.saveProgramQueue(pq);
 
 			// is there a referral
-			if (pq.getReferralId() != null && pq.getReferralId().longValue() > 0) {
+			if (pq.getReferralId() != null && pq.getReferralId().intValue() > 0) {
 				ClientReferral referral = clientReferralDAO.getClientReferral(pq.getReferralId());
 				referral.setStatus(ClientReferral.STATUS_CURRENT);
 				referral.setCompletionDate(new Date());
@@ -315,7 +315,7 @@ public class AdmissionManager {
                 
                 //For the clients dependents
                 if (dependents != null){
-                   for(Long l : dependents){  
+                   for(Integer l : dependents){  
                       processAdmission(new Integer(l.intValue()), providerNo,program,dischargeNotes,admissionNotes,tempAdmission,newAdmission.getAdmissionDate(),true,null);
                    }
                 }
@@ -415,7 +415,7 @@ public class AdmissionManager {
         processDischarge(programId, demographicNo, dischargeNotes, radioDischargeReason,null, false, false);
     }    
     
-    public void processDischarge(Integer programId, Integer demographicNo, String dischargeNotes, String radioDischargeReason,List<Long> dependents, boolean fromTransfer, boolean automaticDischarge) throws AdmissionException {
+    public void processDischarge(Integer programId, Integer demographicNo, String dischargeNotes, String radioDischargeReason,List<Integer> dependents, boolean fromTransfer, boolean automaticDischarge) throws AdmissionException {
 	
 		Admission fullAdmission = getCurrentAdmission(String.valueOf(programId), demographicNo);
 	
@@ -455,7 +455,7 @@ public class AdmissionManager {
 		}
 		
         if (dependents != null){
-            for(Long l:dependents){
+            for(Integer l:dependents){
                 processDischarge(programId,new Integer(l.intValue()),dischargeNotes,radioDischargeReason,null, fromTransfer, automaticDischarge);
             }
         }
@@ -465,7 +465,7 @@ public class AdmissionManager {
             processDischargeToCommunity(communityProgramId,demographicNo,providerNo,notes,radioDischargeReason,null);
     }
         
-	public void processDischargeToCommunity(Integer communityProgramId, Integer demographicNo, String providerNo, String notes, String radioDischargeReason,List<Long> dependents) throws AdmissionException {
+	public void processDischargeToCommunity(Integer communityProgramId, Integer demographicNo, String providerNo, String notes, String radioDischargeReason,List<Integer> dependents) throws AdmissionException {
 		Admission currentBedAdmission = getCurrentBedProgramAdmission(demographicNo);
 
         Program program=programDao.getProgram(communityProgramId);
@@ -503,7 +503,7 @@ public class AdmissionManager {
 		saveAdmission(admission);
                 
                 if (dependents != null){
-                    for(Long l:dependents){
+                    for(Integer l:dependents){
                         processDischargeToCommunity(communityProgramId,new Integer(l.intValue()),providerNo, notes, radioDischargeReason,null);
                     }
                 }

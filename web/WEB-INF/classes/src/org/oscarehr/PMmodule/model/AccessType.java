@@ -34,7 +34,7 @@ public class AccessType implements Serializable {
     public static String PROP_NAME = "Name";
     public static String PROP_ID = "Id";
     private int hashCode = Integer.MIN_VALUE;// primary key
-    private Long _id;// fields
+    private Integer _id;// fields
     private String _name;
     private String _type;
 
@@ -46,7 +46,7 @@ public class AccessType implements Serializable {
     /**
      * Constructor for primary key
      */
-    public AccessType (Long _id) {
+    public AccessType (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -61,7 +61,7 @@ public class AccessType implements Serializable {
      *  generator-class="native"
      *  column="access_id"
      */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -69,7 +69,7 @@ public class AccessType implements Serializable {
      * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }

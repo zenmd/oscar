@@ -333,11 +333,11 @@ public class CaseManagementManager {
     
     
     public Issue getIssue(String issue_id) {
-        return this.issueDAO.getIssue(Long.valueOf(issue_id));
+        return this.issueDAO.getIssue(Integer.valueOf(issue_id));
     }
 
     public CaseManagementNote getNote(String note_id) {
-        return this.caseManagementNoteDAO.getNote(Long.valueOf(note_id));
+        return this.caseManagementNoteDAO.getNote(Integer.valueOf(note_id));
 
     }
 
@@ -385,7 +385,7 @@ public class CaseManagementManager {
         caseManagementIssueDAO.saveIssue(issue);
     }
 
-    public Issue getIssueInfo(Long l) {
+    public Issue getIssueInfo(Integer l) {
         return issueDAO.getIssue(l);
     }
 
@@ -556,7 +556,7 @@ public class CaseManagementManager {
         return filteredNotes;
     }
 
-    public boolean haveIssue(Long issid, String demoNo) {
+    public boolean haveIssue(Integer issid, String demoNo) {
         List allNotes = caseManagementNoteDAO.getNotesByDemographic(demoNo);
         Iterator itr = allNotes.iterator();
         while (itr.hasNext()) {
@@ -664,7 +664,7 @@ public class CaseManagementManager {
 
     public boolean hasAccessRight(String accessName, String accessType, String providerNo, String demoNo, String pId) {
         if (accessName == null || accessType == null || pId == null || pId.equals("")) return false;
-        if (new Long(pId).intValue() == 0) pId = null;
+        if (new Integer(pId).intValue() == 0) pId = null;
         List arList = getAccessRight(providerNo, demoNo, pId);
         for (int i = 0; i < arList.size(); i++) {
             AccessType at = (AccessType)arList.get(i);
@@ -748,12 +748,12 @@ public class CaseManagementManager {
     public void tmpSave(String providerNo, String demographicNo, String programId, String noteId, String note) {
             CaseManagementTmpSave tmp = new CaseManagementTmpSave();
             tmp.setProviderNo(providerNo);
-            tmp.setDemographicNo(new Long(demographicNo).longValue());
-            tmp.setProgramId(new Long(programId).longValue());
+            tmp.setDemographicNo(new Integer(demographicNo));
+            tmp.setProgramId(new Integer(programId));
             if(noteId==null || "".equals(noteId)) {
             	noteId="0";
             }
-            tmp.setNote_id(Long.parseLong(noteId));
+            tmp.setNote_id(Integer.parseInt(noteId));
             tmp.setNote(note);
             tmp.setUpdate_date(new Date());
             caseManagementTmpSaveDAO.save(tmp);
@@ -761,22 +761,22 @@ public class CaseManagementManager {
    
 
     public void deleteTmpSave(String providerNo, String demographicNo, String programId) {
-        caseManagementTmpSaveDAO.delete(providerNo, new Long(demographicNo), new Integer(programId));
+        caseManagementTmpSaveDAO.delete(providerNo, new Integer(demographicNo), new Integer(programId));
     }
 
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId) {
-        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Long(demographicNo), new Integer(programId));
+        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Integer(demographicNo), new Integer(programId));
         return obj;
     }
     
     //we want to load a temp saved note only if it's more recent than date
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId, Date date) {
-        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Long(demographicNo), new Integer(programId), date);
+        CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, new Integer(demographicNo), new Integer(programId), date);
         return obj;
     }
     
     public List getHistory(String note_id) {
-            CaseManagementNote note = caseManagementNoteDAO.getNote(Long.valueOf(note_id));
+            CaseManagementNote note = caseManagementNoteDAO.getNote(Integer.valueOf(note_id));
             return this.caseManagementNoteDAO.getHistory(note);
     }
 
@@ -871,7 +871,7 @@ public class CaseManagementManager {
                 }
             }
             else {
-                if (new Long(noteRole).intValue() == role.getId().intValue()) {
+                if (new Integer(noteRole).intValue() == role.getId().intValue()) {
                     //default
                     add = true;
                 }
@@ -879,7 +879,7 @@ public class CaseManagementManager {
 
             //apply defaults
             if (!add) {
-                if (new Long(noteRole).intValue() == role.getId().intValue()) {
+                if (new Integer(noteRole).intValue() == role.getId().intValue()) {
                     //cmNote.setWriteAccess(true);
                     add = true;
                 }
@@ -1129,7 +1129,7 @@ public class CaseManagementManager {
     }
 
     public boolean unlockNote(int noteId, String password) {
-        CaseManagementNote note = this.caseManagementNoteDAO.getNote(new Long(noteId));
+        CaseManagementNote note = this.caseManagementNoteDAO.getNote(new Integer(noteId));
         if (note != null) {
             if (note.isLocked() && note.getPassword().equals(password)) {
                 return true;
@@ -1138,12 +1138,12 @@ public class CaseManagementManager {
         return false;
     }
 
-    public void updateIssue(String demographicNo, Long originalIssueId, Long newIssueId) {
+    public void updateIssue(String demographicNo, Integer originalIssueId, Integer newIssueId) {
         List<CaseManagementIssue> issues = this.caseManagementIssueDAO.getIssuesByDemographic(demographicNo);
         for (CaseManagementIssue issue : issues) {
             boolean save = false;
-            if (issue.getIssue_id() == originalIssueId.longValue()) {
-                issue.setIssue_id(newIssueId.longValue());
+            if (issue.getIssue_id().intValue() == originalIssueId.intValue()) {
+                issue.setIssue_id(newIssueId);
                 issue.setIssue(null);
                 save = true;
             }

@@ -62,7 +62,7 @@ public class JointAdmissionDAO extends HibernateDaoSupport {
         }
     }
      
-    public List<JointAdmission> getSpouseAndDependents(Long clientId){
+    public List<JointAdmission> getSpouseAndDependents(Integer clientId){
        
         String queryStr = "FROM JointAdmission a where Archived = 0 and HeadClientId ="+clientId;
         List rs = getHibernateTemplate().find(queryStr);
@@ -74,7 +74,7 @@ public class JointAdmissionDAO extends HibernateDaoSupport {
         return rs;
     }
     
-    public JointAdmission getJointAdmission(Long clientId){
+    public JointAdmission getJointAdmission(Integer clientId){
        
         String queryStr = "FROM JointAdmission a where Archived = 0 and ClientId ="+clientId;
         List<JointAdmission> rs = getHibernateTemplate().find(queryStr);
@@ -91,7 +91,7 @@ public class JointAdmissionDAO extends HibernateDaoSupport {
         }
     }
     
-    public void removeJointAdmission(Long clientId,String providerNo){
+    public void removeJointAdmission(Integer clientId,String providerNo){
         JointAdmission jadm = getJointAdmission(clientId);
         jadm.setArchivingProviderNo(providerNo);
         removeJointAdmission(jadm);

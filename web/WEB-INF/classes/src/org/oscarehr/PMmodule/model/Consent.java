@@ -50,8 +50,8 @@ public class Consent  implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
-    private Long _id;// fields
-    private Long _demographicNo;
+    private Integer _id;// fields
+    private Integer _demographicNo;
     private String _providerNo;
     private String _providerName;
     private java.util.Date _dateSigned;
@@ -78,7 +78,7 @@ public class Consent  implements Serializable {
     /**
      * Constructor for primary key
      */
-    public Consent (Long _id) {
+    public Consent (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -87,8 +87,8 @@ public class Consent  implements Serializable {
      * Constructor for required fields
      */
     public Consent (
-            Long _id,
-            Long _demographicNo,
+    		Integer _id,
+    		Integer _demographicNo,
             String _providerNo) {
 
         this.setId(_id);
@@ -124,7 +124,7 @@ public class Consent  implements Serializable {
      *  generator-class="native"
      *  column="id"
      */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -132,7 +132,7 @@ public class Consent  implements Serializable {
      * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -140,7 +140,7 @@ public class Consent  implements Serializable {
     /**
      * Return the value associated with the column: demographic_no
      */
-    public Long getDemographicNo () {
+    public Integer getDemographicNo () {
         return _demographicNo;
     }
 
@@ -148,7 +148,7 @@ public class Consent  implements Serializable {
      * Set the value related to the column: demographic_no
      * @param _demographicNo the demographic_no value
      */
-    public void setDemographicNo (Long _demographicNo) {
+    public void setDemographicNo (Integer _demographicNo) {
         this._demographicNo = _demographicNo;
     }
 

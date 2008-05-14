@@ -444,7 +444,7 @@
 		
 		<!-- Admin Start -->
 		<form-bean name="secroleForm" type="org.apache.struts.validator.DynaValidatorForm">
-			<form-property name="roleNo" type="java.lang.Long" />
+			<form-property name="roleNo" type="java.lang.Integer" />
             <form-property name="roleName" type="java.lang.String"></form-property>
             <form-property name="description" type="java.lang.String"></form-property>
             <form-property name="functions" type="com.quatro.model.LookupCodeValue"></form-property>
@@ -460,7 +460,7 @@
         </form-bean>
        
         <form-bean name="secuserForm" type="org.apache.struts.validator.DynaValidatorForm">
-			<form-property name="securityNo" type="java.lang.Long"></form-property>
+			<form-property name="securityNo" type="java.lang.Integer"></form-property>
 			<form-property name="userName" type="java.lang.String"></form-property>
             <form-property name="password" type="java.lang.String"></form-property>
             <form-property name="confirmPassword" type="java.lang.String"></form-property>

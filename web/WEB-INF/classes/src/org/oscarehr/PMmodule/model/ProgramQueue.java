@@ -38,9 +38,9 @@ public class ProgramQueue implements Serializable {
     private int hashCode = Integer.MIN_VALUE;// primary key
 
     private Integer _id;// fields
-    private Long _clientId;
+    private Integer _clientId;
     private java.util.Date _referralDate;
-    private Long _providerNo;
+    private Integer _providerNo;
     private String _notes;
     private Integer _programId;
     private String _status;
@@ -52,7 +52,7 @@ public class ProgramQueue implements Serializable {
     private String _clientLastName;
     private String _clientFirstName;
     private String presentProblems;
-    private Long headClientId = null;
+    private Integer headClientId = null;
 
 
     // constructors
@@ -73,8 +73,8 @@ public class ProgramQueue implements Serializable {
      */
     public ProgramQueue (
             Integer _id,
-            Long _clientId,
-            Long _providerNo,
+            Integer _clientId,
+            Integer _providerNo,
             Integer _programId) {
 
         this.setId(_id);
@@ -116,7 +116,7 @@ public class ProgramQueue implements Serializable {
     /**
      * Return the value associated with the column: client_id
      */
-    public Long getClientId () {
+    public Integer getClientId () {
         return _clientId;
     }
 
@@ -124,7 +124,7 @@ public class ProgramQueue implements Serializable {
      * Set the value related to the column: client_id
      * @param _clientId the client_id value
      */
-    public void setClientId (Long _clientId) {
+    public void setClientId (Integer _clientId) {
         this._clientId = _clientId;
     }
 
@@ -146,7 +146,7 @@ public class ProgramQueue implements Serializable {
     /**
      * Return the value associated with the column: provider_no
      */
-    public Long getProviderNo () {
+    public Integer getProviderNo () {
         return _providerNo;
     }
 
@@ -154,7 +154,7 @@ public class ProgramQueue implements Serializable {
      * Set the value related to the column: provider_no
      * @param _providerNo the provider_no value
      */
-    public void setProviderNo (Long _providerNo) {
+    public void setProviderNo (Integer _providerNo) {
         this._providerNo = _providerNo;
     }
 
@@ -341,16 +341,16 @@ public class ProgramQueue implements Serializable {
         return super.toString();
     }
 
-    public Long getHeadClientId() {
+    public Integer getHeadClientId() {
         return headClientId;
     }
 
-    public void setHeadClientId(Long headClientId) {
+    public void setHeadClientId(Integer headClientId) {
         System.out.println("Set HEAD CLIENT ID getting called "+headClientId);
         this.headClientId = headClientId;
     }
     
-    public Long getHeadRecord(){
+    public Integer getHeadRecord(){
         if ( headClientId != null)
             return headClientId;
         return _clientId;

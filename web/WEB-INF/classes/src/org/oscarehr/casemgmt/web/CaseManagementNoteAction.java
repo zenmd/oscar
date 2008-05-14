@@ -537,7 +537,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String[] iss=cform.getTxtIssueKey().split(":");
         for(int i=0;i<iss.length;i++){
         	CaseManagementIssue cmIss= new CaseManagementIssue();
-        	Long issId = Long.parseLong(iss[i]);
+        	Integer issId = Integer.parseInt(iss[i]);
         	cmIss.setIssue_id(issId);  
         	cmIss.setDemographic_no(demo);
         	cmIss.setUpdate_date(now);
@@ -1181,7 +1181,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                     Issue iss = caseManagementMgr.getIssue(String.valueOf(substitution.getIssue().getId().longValue()));
                     origIssue = new CaseManagementIssue(oldList[x].getIssue());
                     oldList[x].getIssue().setIssue(iss);
-                    oldList[x].getIssue().setIssue_id(substitution.getIssue().getId().longValue());
+                    oldList[x].getIssue().setIssue_id(substitution.getIssue().getId());
                     newIssue = oldList[x].getIssue();
                     caseManagementMgr.saveCaseIssue(oldList[x].getIssue());
                 }

@@ -35,7 +35,7 @@ public class Agency implements Serializable {
 
 	private int hashCode = Integer.MIN_VALUE;// primary key
 
-	private Long id;// fields
+	private Integer id;// fields
 	private Integer intakeQuick;
 	private String intakeQuickState;
 	private Integer intakeIndepth;
@@ -90,14 +90,14 @@ public class Agency implements Serializable {
 	/**
 	 * Constructor for primary key
 	 */
-	public Agency(Long id) {
+	public Agency(Integer id) {
 		this.setId(id);
 	}
 
 	/**
 	 * Constructor for required fields
 	 */
-	public Agency(Long id, Integer intakeQuick, String intakeQuickState, String intakeIndepthState, String name, boolean local, boolean integratorEnabled) {
+	public Agency(Integer id, Integer intakeQuick, String intakeQuickState, String intakeIndepthState, String name, boolean local, boolean integratorEnabled) {
 
 		this.setId(id);
 		this.setIntakeQuick(intakeQuick);
@@ -152,7 +152,7 @@ public class Agency implements Serializable {
 	/**
 	 * Return the unique identifier of this class generator-class="native" column="id"
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -162,7 +162,7 @@ public class Agency implements Serializable {
 	 * @param id
 	 *            the new ID
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 		this.hashCode = Integer.MIN_VALUE;
 	}

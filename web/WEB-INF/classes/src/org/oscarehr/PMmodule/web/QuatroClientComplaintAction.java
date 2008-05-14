@@ -51,7 +51,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		request.setAttribute("clientId", tmp);
 
 		// String tmp = request.getParameter("id");
-		Long clientId = Long.valueOf(tmp);
+		Integer clientId = Integer.valueOf(tmp);
 
 		List complaints = complaintManager.getComplaintsByClientId(clientId);
 
@@ -88,7 +88,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 			complaintForm.setIsStandards("1");
 		} else {
 			complaint = complaintManager
-					.getComplaint(Long.valueOf(complaintId));
+					.getComplaint(Integer.valueOf(complaintId));
 		}
 		if (complaint.getCompletedDate() != null)
 			complaint.setCompletedDatex(MyDateFormat.getStandardDate(complaint
@@ -191,7 +191,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		if (complaint.getId() == null || complaint.getId() == 0) {
 			complaint.setId(null);
 			complaint.setCreatedDate(Calendar.getInstance());
-			complaint.setClientId(Long.valueOf(tmp));
+			complaint.setClientId(Integer.valueOf(tmp));
 		} else {
 			String str = complaint.getCreatedDatexFromPage();
 			Calendar c = MyDateFormat.getCalendar(str);

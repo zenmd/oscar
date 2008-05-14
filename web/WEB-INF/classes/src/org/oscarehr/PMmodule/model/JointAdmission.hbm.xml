@@ -23,7 +23,7 @@
 		<id
 			column="id"
 			name="Id"
-			type="java.lang.Long">
+			type="java.lang.Integer">
 			<generator class="native" />
 		</id>
                 
@@ -32,21 +32,21 @@
 			length="11"
 			name="ClientId"
 			not-null="true"
-			type="java.lang.Long" />
+			type="java.lang.Integer" />
                 
                 <property
 			column="type_id"
 			length="11"
 			name="TypeId"
 			not-null="true"
-			type="java.lang.Long" />
+			type="java.lang.Integer" />
   
                 <property
 			column="head_client_id"
 			length="11"
 			name="HeadClientId"
 			not-null="true"
-			type="java.lang.Long" />
+			type="java.lang.Integer" />
   
                         
                 <property

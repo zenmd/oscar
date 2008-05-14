@@ -562,8 +562,8 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
 		Integer[] dependentIds = null;
 
 		if(clientManager != null  &&  clientId != null){
-			dependentList = clientManager.getDependents(Long.valueOf(clientId));
-			clientsJadm = clientManager.getJointAdmission(Long.valueOf(clientId));
+			dependentList = clientManager.getDependents(clientId);
+			clientsJadm = clientManager.getJointAdmission(clientId);
 		}
 		if (clientsJadm != null  &&  clientsJadm.getHeadClientId() != null) {
 			isFamilyDependent = true;

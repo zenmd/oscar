@@ -110,12 +110,12 @@ public class FollowUpAction extends DispatchAction {
 				saveMessages(request,messages);			
 				return mapping.findForward("error");
 			}  
-			theForm.setDemographicNo(Long.valueOf(demographicNo));
+			theForm.setDemographicNo(Integer.valueOf(demographicNo));
 		} else {
 			theForm = new FormFollowUp();
 			//set basic client info
 			if(client != null) {
-				theForm.setDemographicNo(Long.valueOf(demographicNo));
+				theForm.setDemographicNo(Integer.valueOf(demographicNo));
 				theForm.setClientFirstName(client.getFirstName());
 				theForm.setClientSurname(client.getLastName());
 				theForm.setYear(client.getYearOfBirth());
@@ -125,7 +125,7 @@ public class FollowUpAction extends DispatchAction {
 		}
 		theForm.setDateAssessment(formatter.format(new Date()));
 		theForm.setAssessStartTime(timeFormatter.format(new Date()));
-		theForm.setProviderNo(Long.valueOf(getProviderNo(request)));		
+		theForm.setProviderNo(Integer.valueOf(getProviderNo(request)));		
 		inputForm.set("intake",theForm);
 
 		logManager.log("read","followupform",demographicNo,request);
@@ -142,7 +142,7 @@ public class FollowUpAction extends DispatchAction {
 			update = true;
 		}
 		
-		theForm.setProviderNo(Long.valueOf(this.getProviderNo(request)));
+		theForm.setProviderNo(Integer.valueOf(this.getProviderNo(request)));
 		theForm.setFormEdited(new Date());
 		formsManager.saveForm(theForm);
 		
@@ -156,7 +156,7 @@ public class FollowUpAction extends DispatchAction {
 		DynaActionForm inputForm = (DynaActionForm)form;
 		FormFollowUp theForm = (FormFollowUp)inputForm.get("intake");
 		
-		Long demographicNo = theForm.getDemographicNo();
+		Integer demographicNo = theForm.getDemographicNo();
 		request.setAttribute("demographicNo",demographicNo);
 		inputForm.reset(mapping,request);
 		

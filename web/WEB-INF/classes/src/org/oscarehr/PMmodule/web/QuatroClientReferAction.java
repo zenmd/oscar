@@ -85,7 +85,7 @@ public class QuatroClientReferAction  extends DispatchAction {
        
        setEditAttributes(form, request);
 
-       long programId = p.getId();
+       Integer programId = p.getId();
        Program program = programManager.getProgram(programId);
        p.setName(program.getName());
        request.setAttribute("program", program);

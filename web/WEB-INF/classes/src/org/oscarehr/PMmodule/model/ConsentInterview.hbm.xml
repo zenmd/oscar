@@ -18,11 +18,11 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ConsentInterview" table="consent_interview">
-		<id column="id" length="11" name="Id" type="java.lang.Long" unsaved-value="0">
+		<id column="id" length="11" name="Id" type="java.lang.Integer" unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<property column="consent_id" name="consentId" not-null="true" type="long" />
-		<property column="demographic_no" length="11" name="demographicNo" not-null="true" type="java.lang.Long" />
+		<property column="consent_id" name="consentId" not-null="true" type="integer" />
+		<property column="demographic_no" length="11" name="demographicNo" not-null="true" type="java.lang.Integer" />
 		<property column="provider_no" name="ProviderNo" not-null="true" type="java.lang.String" />
 		<property column="form_name" name="formName" not-null="false" type="java.lang.String" />
 		<property column="form_version" name="formVersion" not-null="false" type="java.lang.String" />

@@ -90,7 +90,7 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			throw re;
 		}
 	}
-	public Secuserrole findById(java.lang.Long id) {
+	public Secuserrole findById(java.lang.Integer id) {
 		log.debug("getting Secuserrole instance with id: " + id);
 		try {
 			Secuserrole instance = (Secuserrole) getSession().get(

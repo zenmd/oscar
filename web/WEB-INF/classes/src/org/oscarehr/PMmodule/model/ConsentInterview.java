@@ -55,9 +55,9 @@ public class ConsentInterview implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
-    private Long _id;// fields
-    private long _consentId;
-    private Long _demographicNo;
+    private Integer _id;// fields
+    private Integer _consentId;
+    private Integer _demographicNo;
     private String _providerNo;
     private String _formName;
     private String _formVersion;
@@ -85,7 +85,7 @@ public class ConsentInterview implements Serializable {
     /**
      * Constructor for primary key
      */
-    public ConsentInterview (Long _id) {
+    public ConsentInterview (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -94,9 +94,9 @@ public class ConsentInterview implements Serializable {
      * Constructor for required fields
      */
     public ConsentInterview (
-            Long _id,
-            long _consentId,
-            Long _demographicNo,
+    		Integer _id,
+    		Integer _consentId,
+    		Integer _demographicNo,
             String _providerNo) {
 
         this.setId(_id);
@@ -114,7 +114,7 @@ public class ConsentInterview implements Serializable {
      *  generator-class="native"
      *  column="id"
      */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -122,7 +122,7 @@ public class ConsentInterview implements Serializable {
      * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -130,7 +130,7 @@ public class ConsentInterview implements Serializable {
     /**
      * Return the value associated with the column: consent_id
      */
-    public long getConsentId () {
+    public Integer getConsentId () {
         return _consentId;
     }
 
@@ -138,14 +138,14 @@ public class ConsentInterview implements Serializable {
      * Set the value related to the column: consent_id
      * @param _consentId the consent_id value
      */
-    public void setConsentId (long _consentId) {
+    public void setConsentId (Integer _consentId) {
         this._consentId = _consentId;
     }
 
     /**
      * Return the value associated with the column: demographic_no
      */
-    public Long getDemographicNo () {
+    public Integer getDemographicNo () {
         return _demographicNo;
     }
 
@@ -153,7 +153,7 @@ public class ConsentInterview implements Serializable {
      * Set the value related to the column: demographic_no
      * @param _demographicNo the demographic_no value
      */
-    public void setDemographicNo (Long _demographicNo) {
+    public void setDemographicNo (Integer _demographicNo) {
         this._demographicNo = _demographicNo;
     }
 

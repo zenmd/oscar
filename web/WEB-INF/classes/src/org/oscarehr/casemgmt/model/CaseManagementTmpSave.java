@@ -36,12 +36,12 @@ public class CaseManagementTmpSave implements Serializable {
     public static String PROP_NOTE = "note";
     public static String PROP_ID = "id";
     private int hashCode = Integer.MIN_VALUE;// primary key
-    private Long _id;// fields
-    private long _demographicNo;
+    private Integer _id;// fields
+    private Integer _demographicNo;
     private String _providerNo;
-    private long _programId;
+    private Integer _programId;
     private String _note;
-    private long _note_id;
+    private Integer _note_id;
     private java.util.Date _update_date;
 
     // constructors
@@ -52,7 +52,7 @@ public class CaseManagementTmpSave implements Serializable {
 	/**
 	 * Constructor for primary key
 	 */
-	public CaseManagementTmpSave (java.lang.Long _id) {
+	public CaseManagementTmpSave (java.lang.Integer _id) {
 		this.setId(_id);
 		initialize();
 	}
@@ -66,7 +66,7 @@ protected void initialize () {}
 *  generator-class="native"
 *  column="id"
 */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -74,7 +74,7 @@ protected void initialize () {}
 	 * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -90,7 +90,7 @@ protected void initialize () {}
 	 * Set the value related to the column: demographic_no
      * @param _demographicNo the demographic_no value
      */
-    public void setDemographicNo (long _demographicNo) {
+    public void setDemographicNo (Integer _demographicNo) {
         this._demographicNo = _demographicNo;
     }
 
@@ -120,7 +120,7 @@ protected void initialize () {}
 	 * Set the value related to the column: program_id
      * @param _programId the program_id value
      */
-    public void setProgramId (long _programId) {
+    public void setProgramId (Integer _programId) {
         this._programId = _programId;
     }
 
@@ -143,7 +143,7 @@ protected void initialize () {}
         return _note_id;
     }
     
-    public void setNote_id( long note_id ) {
+    public void setNote_id( Integer note_id ) {
     	/*String tmpId = Long.toString(note_id);
     	if("".equals(tmpId)|| tmpId==null) {
     		note_id = 0;

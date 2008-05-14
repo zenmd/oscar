@@ -272,7 +272,7 @@ public class Formintakec implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
-    private Long _id;// fields
+    private Integer _id;// fields
     private String _cboxReferralByPolice;
     private String _radioGender;
     private String _cboxSocialServiceIssueOther;
@@ -472,7 +472,7 @@ public class Formintakec implements Serializable {
     private String _cboxBaseUseShelterClinic;
     private String _cboxCurrAccessHealthCareUnknown;
     private String _cbox2ndIncomePension;
-    private Long _providerNo;
+    private Integer _providerNo;
     private String _cboxCurrDoNotAccessHealthCare;
     private String _cboxCurrUseHealthBus;
     private String _cboxBaseLivingWithParents;
@@ -490,7 +490,7 @@ public class Formintakec implements Serializable {
     private String _monthlyProgressReport;
     private String _cboxOtherAnxietyDisorder;
     private String _cboxBaseIncomeMgmentHasTrustee;
-    private Long _demographicNo;
+    private Integer _demographicNo;
     private String _cboxBaseIncomeMgmentNeedsTrustee;
     private String _radioRaceCaucasian;
     private String _cboxMentalIssue;
@@ -521,7 +521,7 @@ public class Formintakec implements Serializable {
     /**
      * Constructor for primary key
      */
-    public Formintakec (Long _id) {
+    public Formintakec (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -530,8 +530,8 @@ public class Formintakec implements Serializable {
      * Constructor for required fields
      */
     public Formintakec (
-            Long _id,
-            Long _demographicNo) {
+    		Integer _id,
+    		Integer _demographicNo) {
 
         this.setId(_id);
         this.setDemographicNo(_demographicNo);
@@ -547,7 +547,7 @@ public class Formintakec implements Serializable {
      *  generator-class="native"
      *  column="ID"
      */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -555,7 +555,7 @@ public class Formintakec implements Serializable {
      * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -3635,7 +3635,7 @@ public class Formintakec implements Serializable {
     /**
      * Return the value associated with the column: provider_no
      */
-    public Long getProviderNo () {
+    public Integer getProviderNo () {
         return _providerNo;
     }
 
@@ -3643,7 +3643,7 @@ public class Formintakec implements Serializable {
      * Set the value related to the column: provider_no
      * @param _providerNo the provider_no value
      */
-    public void setProviderNo (Long _providerNo) {
+    public void setProviderNo (Integer _providerNo) {
         this._providerNo = _providerNo;
     }
 
@@ -3916,7 +3916,7 @@ public class Formintakec implements Serializable {
     /**
      * Return the value associated with the column: demographic_no
      */
-    public Long getDemographicNo () {
+    public Integer getDemographicNo () {
         return _demographicNo;
     }
 
@@ -3924,7 +3924,7 @@ public class Formintakec implements Serializable {
      * Set the value related to the column: demographic_no
      * @param _demographicNo the demographic_no value
      */
-    public void setDemographicNo (Long _demographicNo) {
+    public void setDemographicNo (Integer _demographicNo) {
         this._demographicNo = _demographicNo;
     }
 

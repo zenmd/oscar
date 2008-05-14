@@ -44,7 +44,7 @@ public class SecroleDao extends HibernateDaoSupport {
         return results;
     }
 
-    public Secrole getRole(Long id) {
+    public Secrole getRole(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

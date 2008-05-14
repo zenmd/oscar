@@ -87,7 +87,7 @@ public class IntakeAUtils {
 				return null;
 			}
 	 
-			intakeA.setProviderNo( Long.valueOf(Utility.convertToRelacementStrIfNull((String)dynaForm.get("provider_no"), "-1")));
+			intakeA.setProviderNo( Integer.valueOf(Utility.convertToRelacementStrIfNull((String)dynaForm.get("provider_no"), "-1")));
 
 			java.util.Date formCreated = Calendar.getInstance().getTime();
 			

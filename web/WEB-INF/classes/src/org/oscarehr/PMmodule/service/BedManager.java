@@ -436,7 +436,7 @@ public class BedManager {
 	    		bd = bedDemographicManager.getBedDemographicByBed(beds[i].getId());
 	    		if(bd != null){
 	    			bedClientIds[i] = bd.getId().getDemographicNo();
-	    			clientsJadmFamily = clientManager.getJointAdmission(Long.valueOf(bedClientIds[i].toString()));
+	    			clientsJadmFamily = clientManager.getJointAdmission(Integer.valueOf(bedClientIds[i].toString()));
 	    			isFamilyHead = clientManager.isClientFamilyHead(bedClientIds[i]);
 	    			if(clientsJadmFamily != null){
 	    				headRecord = Integer.valueOf(clientsJadmFamily.getHeadClientId().toString());

@@ -138,8 +138,8 @@ public class ProgramManagerViewAction extends BaseAction {
         List<ProgramQueue> queue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId));
         request.setAttribute("queue", queue);
 
-        HashSet<Long> genderConflict = new HashSet<Long>();
-        HashSet<Long> ageConflict = new HashSet<Long>();
+        HashSet<Integer> genderConflict = new HashSet<Integer>();
+        HashSet<Integer> ageConflict = new HashSet<Integer>();
         for (ProgramQueue programQueue : queue) {
             Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
             Program program=programManager.getProgram(programQueue.getProgramId());
@@ -283,7 +283,7 @@ public class ProgramManagerViewAction extends BaseAction {
 	    		if(clientManager != null  &&  bedClientIds != null  &&  bedClientIds.length > 0){
 	    			isFamilyDependents = new Boolean[beds.length];
 	    			for(int i=0; i < bedClientIds.length; i++){
-	    				clientsJadm = clientManager.getJointAdmission(Long.valueOf(bedClientIds[i].toString()));
+	    				clientsJadm = clientManager.getJointAdmission(Integer.valueOf(bedClientIds[i].toString()));
 	    				
 	    	    		if(clientsJadm != null  &&  clientsJadm.getHeadClientId() != null) {
 	    	    			isFamilyDependents[i] = new Boolean(true);
@@ -397,7 +397,7 @@ public class ProgramManagerViewAction extends BaseAction {
         Program fullProgram = programManager.getProgram(String.valueOf(programId));
         String dischargeNotes = request.getParameter("admission.dischargeNotes");
         String admissionNotes = request.getParameter("admission.admissionNotes");
-        List<Long>  dependents = clientManager.getDependentsList(new Long(clientId));
+        List<Integer>  dependents = clientManager.getDependentsList(new Integer(clientId));
         
         
 
@@ -635,7 +635,7 @@ public class ProgramManagerViewAction extends BaseAction {
         String clientId = request.getParameter("clientId");
         String rejectionReason = request.getParameter("radioRejectionReason");
 
-        List<Long>  dependents = clientManager.getDependentsList(new Long(clientId));
+        List<Integer>  dependents = clientManager.getDependentsList(new Integer(clientId));
         
         
         log.debug("rejecting from queue: program_id=" + programId + ",clientId=" + clientId);
@@ -643,7 +643,7 @@ public class ProgramManagerViewAction extends BaseAction {
         programQueueManager.rejectQueue(programId, clientId, notes, rejectionReason);
         
         if (dependents != null){
-            for (Long l: dependents){
+            for (Integer l: dependents){
                 log.debug("rejecting from queue: program_id=" + programId + ",clientId=" + l.intValue());
                 programQueueManager.rejectQueue(programId, l.toString(), notes, rejectionReason);
             }
@@ -662,7 +662,7 @@ public class ProgramManagerViewAction extends BaseAction {
 
         int numMembers = program.getNumOfMembers().intValue();
         int maxMem     = program.getMaxAllowed().intValue();
-        int familySize = clientManager.getDependents(new Long(clientId)).size();
+        int familySize = clientManager.getDependents(Integer.getInteger(clientId)).size();
         //TODO: add warning if this admission ( w/ dependents) will exceed the maxMem 
         
         /*
@@ -729,7 +729,7 @@ public class ProgramManagerViewAction extends BaseAction {
                 		
                 		if(isClientFamilyHead){
                 			familyList.clear();
-                			List<JointAdmission> dependentList = clientManager.getDependents(Long.valueOf(clientId.toString()));
+                			List<JointAdmission> dependentList = clientManager.getDependents(clientId);
 							familyList.add(clientId);
 							for(int j=0; dependentList != null  &&  j < dependentList.size(); j++){
 								familyList.add(Integer.valueOf( dependentList.get(j).getClientId().toString()));

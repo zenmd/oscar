@@ -244,7 +244,7 @@ public class ClientManagerAction extends BaseAction {
         Admission admission = (Admission) clientForm.get("admission");
         Program p = (Program) clientForm.get("program");
         String id = request.getParameter("id");
-        List<Long> dependents = clientManager.getDependentsList(new Long(id));
+        List<Integer> dependents = clientManager.getDependentsList(new Integer(id));
 
         boolean success = true;
 
@@ -277,7 +277,7 @@ public class ClientManagerAction extends BaseAction {
         Admission admission = (Admission) clientForm.get("admission");
         Program program = (Program) clientForm.get("program");
         String clientId = request.getParameter("id");
-        List<Long> dependents = clientManager.getDependentsList(new Long(clientId));
+        List<Integer> dependents = clientManager.getDependentsList(new Integer(clientId));
 
         ActionMessages messages = new ActionMessages();
 
@@ -404,7 +404,7 @@ public class ClientManagerAction extends BaseAction {
         ClientReferral referral = (ClientReferral) clientForm.get("referral");
         Program p = (Program) clientForm.get("program");
 
-        long clientId = Long.parseLong(request.getParameter("id"));
+        Integer clientId = Integer.parseInt(request.getParameter("id"));
         int programId = p.getId();
         String providerId =getProviderNo(request);
 
@@ -481,7 +481,7 @@ public class ClientManagerAction extends BaseAction {
         String id = request.getParameter("id");
         setEditAttributes(form, request, id);
 
-        long programId = p.getId();
+        Integer programId = p.getId();
         Program program = programManager.getProgram(programId);
         p.setName(program.getName());
         request.setAttribute("program", program);
@@ -680,8 +680,8 @@ public class ClientManagerAction extends BaseAction {
 		}
 		
 		//get dependents to be saved, removed from  'room_demographic'  &  'bed_demographic'  tables.
-		List<JointAdmission> dependentList = clientManager.getDependents(new Long(demographicNo));
-		JointAdmission clientsJadm = clientManager.getJointAdmission(new Long(demographicNo));
+		List<JointAdmission> dependentList = clientManager.getDependents(new Integer(demographicNo));
+		JointAdmission clientsJadm = clientManager.getJointAdmission(new Integer(demographicNo));
 		
 		if(dependentList != null  &&  dependentList.size() > 0){
 			//condition met then demographicNo must be familyHead
@@ -1019,8 +1019,8 @@ public class ClientManagerAction extends BaseAction {
         String headClientId = request.getParameter("headClientId");
         String clientId = request.getParameter("dependentClientId");
         String type = request.getParameter("type");
-        Long headInteger = new Long(headClientId);
-        Long clientInteger = new Long(clientId);
+        Integer headInteger = new Integer(headClientId);
+        Integer clientInteger = new Integer(clientId);
 
         System.out.println("headClientId " + headClientId + " clientId " + clientId);
 
@@ -1029,7 +1029,7 @@ public class ClientManagerAction extends BaseAction {
         jadmission.setArchived(false);
         jadmission.setClientId(clientInteger);
         jadmission.setProviderNo((String) request.getSession().getAttribute("user"));
-        jadmission.setTypeId(new Long(type));
+        jadmission.setTypeId(new Integer(type));
         System.out.println(jadmission.toString());
         clientManager.saveJointAdmission(jadmission);
         setEditAttributes(form, request, (String) request.getParameter("clientId"));
@@ -1039,7 +1039,7 @@ public class ClientManagerAction extends BaseAction {
 
     public ActionForward remove_joint_admission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String clientId = request.getParameter("dependentClientId");
-        clientManager.removeJointAdmission(new Long(clientId), (String) request.getSession().getAttribute("user"));
+        clientManager.removeJointAdmission(new Integer(clientId), (String) request.getSession().getAttribute("user"));
         setEditAttributes(form, request, (String) request.getParameter("clientId"));
         return mapping.findForward("edit");
     }
@@ -1080,7 +1080,7 @@ public class ClientManagerAction extends BaseAction {
             ProgramProvider program = (ProgramProvider) programDomain.get(0);
             // refer/admin client to service program associated with this user
             ClientReferral referral = new ClientReferral();
-            referral.setClientId(new Long(demographicNo));
+            referral.setClientId(new Integer(demographicNo));
             referral.setNotes("ER Automated referral\nConsent Type: " + consentFormBean.getConsentType() + "\nReason: " + consentFormBean.getConsentReason());
             referral.setProgramId(program.getProgramId().intValue());
             referral.setProviderNo(getProviderNo(request));
@@ -1493,8 +1493,8 @@ public class ClientManagerAction extends BaseAction {
         /* Relations */
         DemographicRelationship demoRelation = new DemographicRelationship();
         ArrayList<Hashtable> relList = demoRelation.getDemographicRelationshipsWithNamePhone(demographicNo, facilityId);
-        List<JointAdmission> list = clientManager.getDependents(new Long(demographicNo));
-        JointAdmission clientsJadm = clientManager.getJointAdmission(new Long(demographicNo));
+        List<JointAdmission> list = clientManager.getDependents(new Integer(demographicNo));
+        JointAdmission clientsJadm = clientManager.getJointAdmission(new Integer(demographicNo));
         int familySize = list.size() + 1;
         if (familySize > 1) {
             request.setAttribute("groupHead", "yes");
@@ -1510,7 +1510,7 @@ public class ClientManagerAction extends BaseAction {
         if (relList != null && relList.size() > 0) {
             for (Hashtable h : relList) {
                 String demographic = (String) h.get("demographicNo");
-                Long demoLong = new Long(demographic);
+                Integer demoLong = new Integer(demographic);
                 JointAdmission demoJadm = clientManager.getJointAdmission(demoLong);
                 System.out.println("DEMO JADM: " + demoJadm);
 

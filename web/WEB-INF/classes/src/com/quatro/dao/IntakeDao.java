@@ -560,7 +560,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		
         ClientReferral referral = new ClientReferral();
         if(!bFamilyMember){
-          if(intake.getClientId()!=null) referral.setClientId(intake.getClientId().longValue());
+          if(intake.getClientId()!=null) referral.setClientId(intake.getClientId());
           referral.setNotes("Intake Automated referral");
           if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().intValue());
           referral.setProviderNo(intake.getStaffId());
@@ -573,7 +573,7 @@ public class IntakeDao extends HibernateDaoSupport {
           queue.setClientId(referral.getClientId());
           queue.setNotes(referral.getNotes());
           queue.setProgramId(referral.getProgramId());
-          queue.setProviderNo(Long.parseLong(referral.getProviderNo()));
+          queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
           queue.setReferralDate(referral.getReferralDate());
           queue.setStatus(ProgramQueue.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
@@ -587,14 +587,14 @@ public class IntakeDao extends HibernateDaoSupport {
             //delete old referral and queue records linked to this intake
 		    if(intakeDb.getReferralId() != null &&  intakeDb.getReferralId().intValue()>0){
 		      ClientReferral referralOld = new ClientReferral(Integer.valueOf(intakeDb.getReferralId().intValue()));
-		      referralOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
+		      referralOld.setClientId(intakeDb.getClientId());
 		      referralOld.setProgramId(Integer.valueOf(intakeDb.getProgramId().intValue()));
 		      getHibernateTemplate().delete(referralOld);
             }  
             if(intakeDb.getQueueId() != null && intakeDb.getQueueId().intValue()>0){
 		      ProgramQueue queueOld = new ProgramQueue(Integer.valueOf(intakeDb.getQueueId().intValue()));
-		      queueOld.setClientId(Long.valueOf(intakeDb.getClientId().longValue()));
-		      queueOld.setProviderNo(Long.valueOf(intakeDb.getStaffId()));
+		      queueOld.setClientId(intakeDb.getClientId());
+		      queueOld.setProviderNo(Integer.getInteger(intakeDb.getStaffId()));
 		      queueOld.setProgramId(Integer.valueOf(intakeDb.getProgramId().intValue()));
 		      getHibernateTemplate().delete(queueOld);
             }

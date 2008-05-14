@@ -35,7 +35,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(ProgramProviderDAO.class);
 
-    public List getProgramProviders(Long programId) {
+    public List getProgramProviders(Integer programId) {
         if (programId == null || programId.intValue() < 0) {
             throw new IllegalArgumentException();
         }
@@ -76,7 +76,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return results;
     }
     
-    public ProgramProvider getProgramProvider(Long id) {
+    public ProgramProvider getProgramProvider(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -90,7 +90,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public ProgramProvider getProgramProvider(String providerNo, Long programId) {
+    public ProgramProvider getProgramProvider(String providerNo, Integer programId) {
         if (providerNo == null || Integer.parseInt(providerNo) <= 0) {
             throw new IllegalArgumentException();
         }
@@ -124,7 +124,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
 
     }
 
-    public void deleteProgramProvider(Long id) {
+    public void deleteProgramProvider(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -139,7 +139,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         }
     }
 
-    public void deleteProgramProviderByProgramId(Long programId) {
+    public void deleteProgramProviderByProgramId(Integer programId) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -165,7 +165,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         if (teamId == null || teamId <= 0) {
             throw new IllegalArgumentException();
         }
-        Long pId = programId.longValue();
+        Integer pId = programId;
 
         List results = this.getHibernateTemplate().find("select pp from ProgramProvider pp left join pp.teams as team where pp.ProgramId = ? and team.id = ?", new Object[] {pId, teamId});
 

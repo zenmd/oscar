@@ -34,7 +34,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
 
     private static Log log = LogFactory.getLog(ProgramAccessDAO.class);
 
-    public List getProgramAccesses(Long programId) {
+    public List getProgramAccesses(Integer programId) {
 
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
@@ -49,7 +49,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public ProgramAccess getProgramAccess(Long id) {
+    public ProgramAccess getProgramAccess(Integer id) {
 
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
@@ -63,7 +63,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public ProgramAccess getProgramAccess(Long programId, Long accessTypeId) {
+    public ProgramAccess getProgramAccess(Integer programId, Integer accessTypeId) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -96,7 +96,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         }
     }
 
-    public void deleteProgramAccess(Long id) {
+    public void deleteProgramAccess(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -118,7 +118,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public AccessType getAccessType(Long id) {
+    public AccessType getAccessType(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

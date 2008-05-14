@@ -294,7 +294,7 @@ public class ProgramManagerAction extends BaseAction {
         }
 
         programManager.removeProgram(id);
-        programManager.deleteProgramProviderByProgramId(Long.valueOf(id));
+        programManager.deleteProgramProviderByProgramId(Integer.valueOf(id));
 
         ActionMessages messages = new ActionMessages();
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.deleted", name));
@@ -782,11 +782,11 @@ public class ProgramManagerAction extends BaseAction {
         if (this.isCancelled(request)) {
             return list(mapping, form, request, response);
         }
-        function.setProgramId(program.getId().longValue());
+        function.setProgramId(program.getId());
 
-        Long pid = programManager.getFunctionalUserByUserType(program.getId().longValue(), function.getUserTypeId());
+        Integer pid = programManager.getFunctionalUserByUserType(program.getId(), function.getUserTypeId());
 
-        if (pid != null && function.getId().longValue() != pid.longValue()) {
+        if (pid != null && function.getId().intValue() != pid.intValue()) {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.duplicate", program.getName()));
             saveMessages(request, messages);

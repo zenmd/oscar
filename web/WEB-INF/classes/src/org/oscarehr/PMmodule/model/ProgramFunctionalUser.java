@@ -39,10 +39,10 @@ public class ProgramFunctionalUser implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
-    private Long _id;// fields
-    private Long _programId;
-    private long _userTypeId;
-    private Long _providerNo;// many to one
+    private Integer _id;// fields
+    private Integer _programId;
+    private Integer _userTypeId;
+    private Integer _providerNo;// many to one
     private FunctionalUserType _userType;
     private Provider _provider;
 
@@ -54,7 +54,7 @@ public class ProgramFunctionalUser implements Serializable {
 	/**
 	 * Constructor for primary key
 	 */
-	public ProgramFunctionalUser (Long _id) {
+	public ProgramFunctionalUser (Integer _id) {
 		this.setId(_id);
 		initialize();
 	}
@@ -67,7 +67,7 @@ public class ProgramFunctionalUser implements Serializable {
 *  generator-class="native"
 *  column="id"
 */
-    public Long getId () {
+    public Integer getId () {
         return _id;
     }
 
@@ -75,7 +75,7 @@ public class ProgramFunctionalUser implements Serializable {
 	 * Set the unique identifier of this class
      * @param _id the new ID
      */
-    public void setId (Long _id) {
+    public void setId (Integer _id) {
         this._id = _id;
         this.hashCode = Integer.MIN_VALUE;
     }
@@ -83,7 +83,7 @@ public class ProgramFunctionalUser implements Serializable {
     /**
 	 * Return the value associated with the column: program_id
      */
-    public Long getProgramId () {
+    public Integer getProgramId () {
         return _programId;
     }
 
@@ -91,14 +91,14 @@ public class ProgramFunctionalUser implements Serializable {
 	 * Set the value related to the column: program_id
      * @param _programId the program_id value
      */
-    public void setProgramId (Long _programId) {
+    public void setProgramId (Integer _programId) {
         this._programId = _programId;
     }
 
     /**
 	 * Return the value associated with the column: user_type_id
      */
-    public long getUserTypeId () {
+    public Integer getUserTypeId () {
         return _userTypeId;
     }
 
@@ -106,14 +106,14 @@ public class ProgramFunctionalUser implements Serializable {
 	 * Set the value related to the column: user_type_id
      * @param _userTypeId the user_type_id value
      */
-    public void setUserTypeId (long _userTypeId) {
+    public void setUserTypeId (Integer _userTypeId) {
         this._userTypeId = _userTypeId;
     }
 
     /**
 	 * Return the value associated with the column: provider_no
      */
-    public Long getProviderNo () {
+    public Integer getProviderNo () {
         return _providerNo;
     }
 
@@ -121,7 +121,7 @@ public class ProgramFunctionalUser implements Serializable {
 	 * Set the value related to the column: provider_no
      * @param _providerNo the provider_no value
      */
-    public void setProviderNo (Long _providerNo) {
+    public void setProviderNo (Integer _providerNo) {
         this._providerNo = _providerNo;
     }
 

@@ -1822,7 +1822,7 @@ public class IntakeCMentalHealthReportAction extends BaseAction {
         int maxAge = -1;
         int size = 0;
 
-        Long tempDemographicNo = new Long(-1);
+        Integer tempDemographicNo = new Integer(-1);
 
         for (int idx = 0; idx < rsList.size(); idx++) {
             Formintakec formintakec = new Formintakec();
@@ -3732,7 +3732,7 @@ public class IntakeCMentalHealthReportAction extends BaseAction {
 
             out.println();
 
-            Long tempDemographicNo = new Long(-1);
+            Integer tempDemographicNo = new Integer(-1);
 
             for (Iterator iter = rsList.iterator(); iter.hasNext();) {
                 Object[] cohortObj = (Object[]) iter.next();

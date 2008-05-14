@@ -121,7 +121,7 @@ public class IntakeCManagerImpl extends BaseIntakeManager implements IntakeCMana
 
 			clientDao.saveClient(client);
 			
-			form.setDemographicNo(client.getDemographicNo().longValue());
+			form.setDemographicNo(client.getDemographicNo());
 		}
 		
 		form.setFormEdited(new Date());

@@ -5,7 +5,7 @@ import java.util.Date;
 import org.caisi.model.BaseObject;
 
 public class ScratchPad extends BaseObject {
-	private Long id;
+	private Integer id;
 	private String provider_no;
 	private Date date_time;
 	private String scratch_text;
@@ -22,11 +22,11 @@ public class ScratchPad extends BaseObject {
 		this.date_time = date_time;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

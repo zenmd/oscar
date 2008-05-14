@@ -29,7 +29,7 @@ public class Issue extends BaseObject {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private Integer id;
 	private String code;
 	private String description;
 	private String role;
@@ -40,11 +40,11 @@ public class Issue extends BaseObject {
 		update_date = new Date();
 	}
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

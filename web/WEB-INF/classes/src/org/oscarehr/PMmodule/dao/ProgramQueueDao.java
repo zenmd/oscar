@@ -68,7 +68,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        List results = this.getHibernateTemplate().find("from ProgramQueue pq where pq.ProgramId = ? and pq.Status = 'active' order by pq.ReferralDate", Long.valueOf(programId));
+        List results = this.getHibernateTemplate().find("from ProgramQueue pq where pq.ProgramId = ? and pq.Status = 'active' order by pq.ReferralDate", programId);
 
         if (log.isDebugEnabled()) {
             log.debug("getActiveProgramQueuesByProgramId: programId=" + programId + ",# of results=" + results.size());
@@ -94,7 +94,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
     	getHibernateTemplate().delete(pqObj);
     }
 
-    public ProgramQueue getQueue(Integer programId, Long clientId) {
+    public ProgramQueue getQueue(Integer programId, Integer clientId) {
         if (programId == null) {
             throw new IllegalArgumentException();
         }
@@ -104,7 +104,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
 
         ProgramQueue result = null;
         List results = this.getHibernateTemplate().find("from ProgramQueue pq where pq.ProgramId = ? and pq.ClientId = ?",
-                new Object[]{Long.valueOf(programId), Long.valueOf(clientId)});
+                new Object[]{programId, clientId});
 
         if (!results.isEmpty()) {
             result = (ProgramQueue) results.get(0);
@@ -117,7 +117,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return result;
     }
 
-    public ProgramQueue getActiveProgramQueue(Integer programId, Long demographicNo) {
+    public ProgramQueue getActiveProgramQueue(Integer programId,Integer demographicNo) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }

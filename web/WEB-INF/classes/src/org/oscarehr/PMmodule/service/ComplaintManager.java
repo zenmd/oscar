@@ -66,11 +66,11 @@ public class ComplaintManager {
 	private ComplaintDao complaintDao;
 
 	
-	public List getComplaintsByClientId(Long clientId) {
+	public List getComplaintsByClientId(Integer clientId) {
 		return complaintDao.findByClientId(clientId);
 	}
 
-	public Complaint getComplaint(Long id) {
+	public Complaint getComplaint(Integer id) {
 
 		return complaintDao.findById(id);
 	}

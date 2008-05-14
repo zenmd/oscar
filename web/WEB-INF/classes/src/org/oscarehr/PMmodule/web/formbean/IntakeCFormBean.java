@@ -29,7 +29,7 @@ public class IntakeCFormBean {
 	private int numPastAddresses;
 	private int numContacts;
 	private int numIdentification;
-	private long admissionProgram;
+	private Integer admissionProgram;
 	private int numHospitalization;
 	private final String version = "1.1.0";
 	
@@ -74,10 +74,10 @@ public class IntakeCFormBean {
 	public static String[] getTabDescr() {
 		return tabDescr;
 	}
-	public long getAdmissionProgram() {
+	public Integer getAdmissionProgram() {
 		return admissionProgram;
 	}
-	public void setAdmissionProgram(long admissionProgram) {
+	public void setAdmissionProgram(Integer admissionProgram) {
 		this.admissionProgram = admissionProgram;
 	}
 	public int getNumHospitalization() {

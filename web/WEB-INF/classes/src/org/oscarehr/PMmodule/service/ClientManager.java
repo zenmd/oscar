@@ -128,7 +128,7 @@ public class ClientManager {
             queue.setClientId(referral.getClientId());
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
-            queue.setProviderNo(Long.parseLong(referral.getProviderNo()));
+            queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
             queue.setReferralDate(referral.getReferralDate());
             queue.setStatus(ProgramQueue.STATUS_ACTIVE);
             queue.setReferralId(referral.getId());
@@ -153,12 +153,12 @@ public class ClientManager {
         jointAdmissionDAO.saveJointAdmission(admission);
     }
 
-    public List<JointAdmission> getDependents(Long clientId) {
+    public List<JointAdmission> getDependents(Integer clientId) {
         return jointAdmissionDAO.getSpouseAndDependents(clientId);
     }
 
-    public List<Long> getDependentsList(Long clientId) {
-        List<Long> list = new ArrayList();
+    public List<Integer> getDependentsList(Integer clientId) {
+        List<Integer> list = new ArrayList();
         List<JointAdmission> jadms = jointAdmissionDAO.getSpouseAndDependents(clientId);
         for (JointAdmission jadm : jadms) {
             list.add(jadm.getClientId());
@@ -166,7 +166,7 @@ public class ClientManager {
         return list;
     }
 
-    public JointAdmission getJointAdmission(Long clientId) {
+    public JointAdmission getJointAdmission(Integer clientId) {
         return jointAdmissionDAO.getJointAdmission(clientId);
     }
 
@@ -174,7 +174,7 @@ public class ClientManager {
 		
 		JointAdmission clientsJadm = null;
 		if(clientId != null){
-			clientsJadm = getJointAdmission(Long.valueOf(clientId.toString()));
+			clientsJadm = getJointAdmission(clientId);
 		}
 		if (clientsJadm != null  &&  clientsJadm.getHeadClientId() != null) {
 			return true;
@@ -185,14 +185,14 @@ public class ClientManager {
     
     public boolean isClientFamilyHead(Integer clientId){
 		
-		List<JointAdmission> dependentList = getDependents(Long.valueOf(clientId.toString()));
+		List<JointAdmission> dependentList = getDependents(clientId);
 		if(dependentList != null  &&  dependentList.size() > 0){
 			return true;
 		}
 		return false;
     }
     
-    public void removeJointAdmission(Long clientId, String providerNo) {
+    public void removeJointAdmission(Integer clientId, String providerNo) {
         jointAdmissionDAO.removeJointAdmission(clientId, providerNo);
     }
 

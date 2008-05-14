@@ -166,7 +166,7 @@ public class IntakeCAction2 extends BaseAction {
 				saveMessages(request, messages);
 				return mapping.findForward("success");
 			}
-			intakeCForm.setDemographicNo(Long.valueOf(demographicNo));
+			intakeCForm.setDemographicNo(Integer.valueOf(demographicNo));
 
 			// get past addresses - have to parse out field
 			String pastAddresses = intakeCForm.getPastAddresses();
@@ -251,7 +251,7 @@ public class IntakeCAction2 extends BaseAction {
 			intakeCForm.setAdmissionDate(DATE_FORMAT.format(new Date()));
 			// set client name
 			if (client != null) {
-				intakeCForm.setDemographicNo(Long.valueOf(demographicNo));
+				intakeCForm.setDemographicNo(Integer.valueOf(demographicNo));
 				intakeCForm.setClientFirstName(client.getFirstName());
 				intakeCForm.setClientSurname(client.getLastName());
 				this.updateForm(intakeCForm, client);
@@ -381,10 +381,10 @@ public class IntakeCAction2 extends BaseAction {
 		DynaActionForm intakeForm = (DynaActionForm) form;
 		Formintakec intakec = (Formintakec) intakeForm.get("intake");
 		boolean update = false;
-		if (intakec.getId() != null && intakec.getId().longValue() > 0) {
+		if (intakec.getId() != null && intakec.getId().intValue() > 0) {
 			update = true;
 		}
-		Long demographicNo = intakec.getDemographicNo();
+		Integer demographicNo = intakec.getDemographicNo();
 		request.setAttribute("demographicNo", demographicNo);
 		intakeForm.reset(mapping, request);
 		if (update) {
@@ -541,7 +541,7 @@ public class IntakeCAction2 extends BaseAction {
 		
 		String providerNo = getProviderNo(request);
 		
-		intakec.setProviderNo(Long.valueOf(providerNo));
+		intakec.setProviderNo(Integer.valueOf(providerNo));
 		intakec.setStaffName(providerManager.getProviderName(providerNo));
 
 		intakeCManager.saveNewIntake(intakec);
@@ -560,7 +560,7 @@ public class IntakeCAction2 extends BaseAction {
 			log.warn(e);
 		}
 
-		long admissionProgramId = formBean.getAdmissionProgram();
+		Integer admissionProgramId = formBean.getAdmissionProgram();
 		log.debug(admissionProgramId);
 		
 		if (!update) {

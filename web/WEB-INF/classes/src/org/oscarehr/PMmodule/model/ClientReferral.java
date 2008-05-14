@@ -37,7 +37,7 @@ public class ClientReferral implements Serializable {
     private int hashCode = Integer.MIN_VALUE;// primary key
 
     private Integer id;// fields
-    private Long clientId;
+    private Integer clientId;
     private java.util.Date referralDate;
     private String providerNo;
     private Integer facilityId;
@@ -70,7 +70,7 @@ public class ClientReferral implements Serializable {
     /**
      * Constructor for required fields
      */
-    public ClientReferral(Integer _id, Long _clientId, String _providerNo, Integer _programId) {
+    public ClientReferral(Integer _id, Integer _clientId, String _providerNo, Integer _programId) {
 
         this.setId(_id);
         this.setClientId(_clientId);
@@ -109,7 +109,7 @@ public class ClientReferral implements Serializable {
     /**
      * Return the value associated with the column: client_id
      */
-    public Long getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
@@ -119,7 +119,7 @@ public class ClientReferral implements Serializable {
      * @param _clientId
      *            the client_id value
      */
-    public void setClientId(Long _clientId) {
+    public void setClientId(Integer _clientId) {
         this.clientId = _clientId;
     }
 

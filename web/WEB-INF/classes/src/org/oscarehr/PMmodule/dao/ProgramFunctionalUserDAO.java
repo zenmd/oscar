@@ -44,7 +44,7 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public FunctionalUserType getFunctionalUserType(Long id) {
+    public FunctionalUserType getFunctionalUserType(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -70,7 +70,7 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         }
     }
 
-    public void deleteFunctionalUserType(Long id) {
+    public void deleteFunctionalUserType(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -82,7 +82,7 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         }
     }
 
-    public List getFunctionalUsers(Long programId) {
+    public List getFunctionalUsers(Integer programId) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -95,7 +95,7 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public ProgramFunctionalUser getFunctionalUser(Long id) {
+    public ProgramFunctionalUser getFunctionalUser(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -121,7 +121,7 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         }
     }
 
-    public void deleteFunctionalUser(Long id) {
+    public void deleteFunctionalUser(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -133,7 +133,7 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         }
     }
 
-    public Long getFunctionalUserByUserType(Long programId, Long userTypeId) {
+    public Integer getFunctionalUserByUserType(Integer programId, Integer userTypeId) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -141,14 +141,14 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        Long result = null;
+        Integer result = null;
 
         Query q = getSession().createQuery("select pfu.ProgramId from ProgramFunctionalUser pfu where pfu.ProgramId = ? and pfu.UserTypeId = ?");
-        q.setLong(0, programId.longValue());
-        q.setLong(1, userTypeId.longValue());
+        q.setInteger(0, programId);
+        q.setInteger(1, userTypeId);
         List results = q.list();
         if (results.size() > 0) {
-            result = (Long)results.get(0);
+            result = (Integer)results.get(0);
         }
 
         if (log.isDebugEnabled()) {

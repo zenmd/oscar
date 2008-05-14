@@ -131,10 +131,6 @@ public class ProgramManager {
         return programDao.getProgram(programId);
     }
 
-    public Program getProgram(Long programId) {
-        return programDao.getProgram(new Integer(programId.intValue()));
-    }
-
     public String getProgramName(String programId) {
         return programDao.getProgramName(Integer.valueOf(programId));
     }
@@ -230,11 +226,11 @@ public class ProgramManager {
 
     // TODO: Implement this method for real
     public Agency getAgencyByProgram(String programId) {
-        return new Agency(new Long(0), 1, "HS", "HS", "", true, false);
+        return new Agency(new Integer(0), 1, "HS", "HS", "", true, false);
     }
 
     public List getProgramProviders(String programId) {
-        return programProviderDAO.getProgramProviders(Long.valueOf(programId));
+        return programProviderDAO.getProgramProviders(Integer.valueOf(programId));
     }
 
     public List getProgramProvidersByProvider(String providerNo) {
@@ -242,11 +238,11 @@ public class ProgramManager {
     }
 
     public ProgramProvider getProgramProvider(String id) {
-        return programProviderDAO.getProgramProvider(Long.valueOf(id));
+        return programProviderDAO.getProgramProvider(Integer.valueOf(id));
     }
 
     public ProgramProvider getProgramProvider(String providerNo, String programId) {
-        return programProviderDAO.getProgramProvider(providerNo, Long.valueOf(programId));
+        return programProviderDAO.getProgramProvider(providerNo, Integer.valueOf(programId));
     }
 
     public void saveProgramProvider(ProgramProvider pp) {
@@ -254,10 +250,10 @@ public class ProgramManager {
     }
 
     public void deleteProgramProvider(String id) {
-        programProviderDAO.deleteProgramProvider(Long.valueOf(id));
+        programProviderDAO.deleteProgramProvider(Integer.valueOf(id));
     }
 
-    public void deleteProgramProviderByProgramId(Long programId) {
+    public void deleteProgramProviderByProgramId(Integer programId) {
         programProviderDAO.deleteProgramProviderByProgramId(programId);
     }
 
@@ -266,7 +262,7 @@ public class ProgramManager {
     }
 
     public FunctionalUserType getFunctionalUserType(String id) {
-        return programFunctionalUserDAO.getFunctionalUserType(Long.valueOf(id));
+        return programFunctionalUserDAO.getFunctionalUserType(Integer.valueOf(id));
     }
 
     public void saveFunctionalUserType(FunctionalUserType fut) {
@@ -274,15 +270,15 @@ public class ProgramManager {
     }
 
     public void deleteFunctionalUserType(String id) {
-        programFunctionalUserDAO.deleteFunctionalUserType(Long.valueOf(id));
+        programFunctionalUserDAO.deleteFunctionalUserType(Integer.valueOf(id));
     }
 
     public List getFunctionalUsers(String programId) {
-        return programFunctionalUserDAO.getFunctionalUsers(Long.valueOf(programId));
+        return programFunctionalUserDAO.getFunctionalUsers(Integer.valueOf(programId));
     }
 
     public ProgramFunctionalUser getFunctionalUser(String id) {
-        return programFunctionalUserDAO.getFunctionalUser(Long.valueOf(id));
+        return programFunctionalUserDAO.getFunctionalUser(Integer.valueOf(id));
     }
 
     public void saveFunctionalUser(ProgramFunctionalUser pfu) {
@@ -290,10 +286,10 @@ public class ProgramManager {
     }
 
     public void deleteFunctionalUser(String id) {
-        programFunctionalUserDAO.deleteFunctionalUser(Long.valueOf(id));
+        programFunctionalUserDAO.deleteFunctionalUser(Integer.valueOf(id));
     }
 
-    public Long getFunctionalUserByUserType(Long programId, Long userTypeId) {
+    public Integer getFunctionalUserByUserType(Integer programId, Integer userTypeId) {
         return programFunctionalUserDAO.getFunctionalUserByUserType(programId, userTypeId);
     }
 
@@ -318,11 +314,11 @@ public class ProgramManager {
     }
 
     public List getProgramAccesses(String programId) {
-        return programAccessDAO.getProgramAccesses(Long.valueOf(programId));
+        return programAccessDAO.getProgramAccesses(Integer.valueOf(programId));
     }
 
     public ProgramAccess getProgramAccess(String id) {
-        return programAccessDAO.getProgramAccess(Long.valueOf(id));
+        return programAccessDAO.getProgramAccess(Integer.valueOf(id));
     }
 
     public void saveProgramAccess(ProgramAccess pa) {
@@ -330,14 +326,14 @@ public class ProgramManager {
     }
 
     public void deleteProgramAccess(String id) {
-        programAccessDAO.deleteProgramAccess(Long.valueOf(id));
+        programAccessDAO.deleteProgramAccess(Integer.valueOf(id));
     }
 
     public List getAccessTypes() {
         return programAccessDAO.getAccessTypes();
     }
 
-    public AccessType getAccessType(Long id) {
+    public AccessType getAccessType(Integer id) {
         return programAccessDAO.getAccessType(id);
     }
 
@@ -362,7 +358,7 @@ public class ProgramManager {
     }
 
     public ProgramAccess getProgramAccess(String programId, String accessTypeId) {
-        return this.programAccessDAO.getProgramAccess(Long.valueOf(programId), Long.valueOf(accessTypeId));
+        return this.programAccessDAO.getProgramAccess(Integer.valueOf(programId), Integer.valueOf(accessTypeId));
     }
 
     public List<Program> getProgramDomain(String providerNo) {
@@ -412,7 +408,7 @@ public class ProgramManager {
     }
 
     public DefaultRoleAccess getDefaultRoleAccess(String id) {
-        return defaultRoleAccessDAO.getDefaultRoleAccess(Long.valueOf(id));
+        return defaultRoleAccessDAO.getDefaultRoleAccess(Integer.valueOf(id));
     }
 
     public void saveDefaultRoleAccess(DefaultRoleAccess dra) {
@@ -420,11 +416,11 @@ public class ProgramManager {
     }
 
     public void deleteDefaultRoleAccess(String id) {
-        defaultRoleAccessDAO.deleteDefaultRoleAccess(Long.valueOf(id));
+        defaultRoleAccessDAO.deleteDefaultRoleAccess(Integer.valueOf(id));
     }
 
-    public DefaultRoleAccess findDefaultRoleAccess(long roleId, long accessTypeId) {
-        return defaultRoleAccessDAO.find(new Long(roleId), new Long(accessTypeId));
+    public DefaultRoleAccess findDefaultRoleAccess(Integer roleId, Integer accessTypeId) {
+        return defaultRoleAccessDAO.find(roleId,accessTypeId);
     }
 
     public List<ProgramClientStatus> getProgramClientStatuses(Integer programId) {

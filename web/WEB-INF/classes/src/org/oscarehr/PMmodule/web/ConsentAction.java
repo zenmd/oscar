@@ -106,7 +106,7 @@ public class ConsentAction extends BaseAction {
 		Consent consent= (Consent)consentForm.get("consent");
 		
 		String id = (String)request.getParameter("id");
-		consent.setDemographicNo(Long.valueOf(id));
+		consent.setDemographicNo(Integer.valueOf(id));
 		
 		Provider p =  (Provider)request.getSession().getAttribute("provider");
 		consent.setProviderNo(p.getProviderNo());
@@ -142,7 +142,7 @@ public class ConsentAction extends BaseAction {
 		Consent consent= (Consent)consentForm.get("consent");
 		ConsentInterview interview = (ConsentInterview)consentForm.get("interview");
 		
-		interview.setConsentId(consent.getId().longValue());
+		interview.setConsentId(consent.getId());
 		interview.setDemographicNo(consent.getDemographicNo());
 		interview.setProviderNo(consent.getProviderNo());
 		interview.setFormName(consent.getFormName());

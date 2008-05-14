@@ -59,7 +59,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
             return this.getHibernateTemplate().find("from CaseManagementNote cmn where cmn.uuid = ? order by cmn.update_date asc", uuid);
         }
 
-	public CaseManagementNote getNote(Long id) {
+	public CaseManagementNote getNote(Integer id) {
 		CaseManagementNote note = (CaseManagementNote)this.getHibernateTemplate().get(CaseManagementNote.class,id);
 		getHibernateTemplate().initialize(note.getIssues());
 		return note;

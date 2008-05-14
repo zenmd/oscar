@@ -148,7 +148,7 @@ public class ComplaintDao extends HibernateDaoSupport {
 		}
 	}
 
-	public Complaint findById(java.lang.Long id) {
+	public Complaint findById(java.lang.Integer id) {
 		log.debug("getting Complaint instance with id: " + id);
 		try {
 			Complaint instance = (Complaint) getSession().get(

@@ -255,7 +255,7 @@ public class IntakeADao extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        intakeA.setDemographicNo(Long.valueOf(newDemographicNo));
+        intakeA.setDemographicNo(Integer.valueOf(newDemographicNo));
 
         try {
             getHibernateTemplate().save(intakeA);

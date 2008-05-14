@@ -2,7 +2,10 @@
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%@page import="org.oscarehr.util.SpringUtils"%>
-
+<head>
+<title>Program Search</title>
+<meta http-equiv="Cache-Control" content="no-cache">
+<link rel="stylesheet" href="../css/core.css" / >
 <script language="javascript" type="text/javascript">
 	function resetSearchFields() {
 		var form = document.programSearchForm;
@@ -76,10 +79,9 @@
 	}
 	
 </script>
-
+</head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
-	<input type="hidden" name="method" value="search" />
-	<%String a="12"; %>
+	<input type="hidden" name="method" value="search" />	
 	<table>
 	<tr>
 			<th class="pageTitle">Program Search</th>
@@ -99,6 +101,7 @@
 		<tr><td>
 		</table>
 		<html:hidden property="program.id" />
+		<%String a="12"; %>
 		<table class="simple" cellspacing="2" cellpadding="3">
 		  <tr><td width="30%">Program Name</td>
   				<td width="70%"><html:text property="program.name" /></td></tr>
@@ -110,11 +113,7 @@
 				</html:select>
 			</td>
 		</tr>
-		<tr><td>Facility</td>
-			<td><html:select property="program.facilityId">
-				<html:option value="">&nbsp;</html:option>
-				<html:options collection="lstFacility" labelName="description" labelProperty="code" />
-			</html:select>  </td>
+		
   		<tr><td>Gender</td>
   			<td><html:select property="program.manOrWoman">
 				<html:option value="T">&nbsp;</html:option>				

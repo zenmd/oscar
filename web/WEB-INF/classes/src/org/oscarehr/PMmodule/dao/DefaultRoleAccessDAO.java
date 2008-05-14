@@ -29,11 +29,11 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class DefaultRoleAccessDAO extends HibernateDaoSupport {
 
-    public void deleteDefaultRoleAccess(Long id) {
+    public void deleteDefaultRoleAccess(Integer id) {
         this.getHibernateTemplate().delete(getDefaultRoleAccess(id));
     }
 
-    public DefaultRoleAccess getDefaultRoleAccess(Long id) {
+    public DefaultRoleAccess getDefaultRoleAccess(Integer id) {
         return (DefaultRoleAccess)this.getHibernateTemplate().get(DefaultRoleAccess.class, id);
     }
 
@@ -45,7 +45,7 @@ public class DefaultRoleAccessDAO extends HibernateDaoSupport {
         this.getHibernateTemplate().saveOrUpdate(dra);
     }
 
-    public DefaultRoleAccess find(Long roleId, Long accessTypeId) {
+    public DefaultRoleAccess find(Integer roleId, Integer accessTypeId) {
         List results = this.getHibernateTemplate().find("from DefaultRoleAccess dra where dra.roleId=? and dra.accessTypeId=?", new Object[] {roleId, accessTypeId});
 
         if (!results.isEmpty()) {

@@ -125,9 +125,9 @@ public class LabFileManagement {
            logger.severe(e.getMessage()); 
         }
                 
-        long retval = 0;
+        Integer retval = 0;
         
-        try{ retval = Long.parseLong(str); }
+        try{ retval = Integer.parseInt(str); }
         catch(Exception e2){ retval = 0; }
             
         return retval;

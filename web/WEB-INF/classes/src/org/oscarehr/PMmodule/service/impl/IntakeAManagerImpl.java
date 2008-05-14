@@ -129,7 +129,7 @@ public class IntakeAManagerImpl extends BaseIntakeManager implements IntakeAMana
 			client.setHcRenewDate(cal.getTime());
 			
 			clientDao.saveClient(client);
-			form.setDemographicNo(new Long(client.getDemographicNo().longValue()));
+			form.setDemographicNo(client.getDemographicNo());
 		}
 		form.setFormEdited(new Date());
 		dao.saveForm(form);

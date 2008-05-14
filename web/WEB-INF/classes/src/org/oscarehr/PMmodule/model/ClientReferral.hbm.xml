@@ -21,7 +21,7 @@
 		<id column="referral_id" name="Id" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
-		<property column="client_id" length="11" name="clientId" not-null="true" type="java.lang.Long" />
+		<property column="client_id" length="11" name="clientId" not-null="true" type="java.lang.Integer" />
 		<property column="referral_date" length="19" name="referralDate" not-null="false" type="timestamp" />
 		<property column="provider_no" name="providerNo" />
 		<property column="facility_id" name="facilityId" />

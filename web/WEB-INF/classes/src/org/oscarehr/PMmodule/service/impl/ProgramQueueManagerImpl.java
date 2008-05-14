@@ -71,7 +71,7 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 	}
 	
 	public ProgramQueue getActiveProgramQueue(String programId, String demographicNo) {
-		return dao.getActiveProgramQueue(Integer.valueOf(programId), Long.valueOf(demographicNo));
+		return dao.getActiveProgramQueue(Integer.valueOf(programId), Integer.valueOf(demographicNo));
 	}
 	
 	public void rejectQueue(String programId, String clientId,String notes, String rejectionReason) {

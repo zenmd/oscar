@@ -32,9 +32,9 @@ import java.util.Set;
 import org.caisi.model.BaseObject;
 
 public class CaseManagementIssue extends BaseObject {
-	private Long id;
+	private Integer id;
 	private String demographic_no;
-	private long issue_id;
+	private Integer issue_id;
 	private boolean acute;
 	//private boolean medical_diagnosis;
 	private boolean certain;
@@ -82,7 +82,7 @@ public class CaseManagementIssue extends BaseObject {
          */
         public CaseManagementIssue(CaseManagementIssue cMgmtIssue) {
             
-            this.setId(0L); //so hibernate will think it a non persisted obj
+            this.setId(0); //so hibernate will think it a non persisted obj
             this.setDemographic_no(cMgmtIssue.getDemographic_no());
             this.setIssue_id(cMgmtIssue.getIssue_id());
             this.setAcute(cMgmtIssue.isAcute());
@@ -119,10 +119,10 @@ public class CaseManagementIssue extends BaseObject {
 	public void setDemographic_no(String demographic_no) {
 		this.demographic_no = demographic_no;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Issue getIssue() {
@@ -131,10 +131,10 @@ public class CaseManagementIssue extends BaseObject {
 	public void setIssue(Issue issue) {
 		this.issue = issue;
 	}
-	public long getIssue_id() {
+	public Integer getIssue_id() {
 		return issue_id;
 	}
-	public void setIssue_id(long issue_id) {
+	public void setIssue_id(Integer issue_id) {
 		this.issue_id = issue_id;
 	}
 	

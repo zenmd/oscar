@@ -58,40 +58,40 @@ public class JointAdmission {
     public JointAdmission() {
     }
 
-    private Long id = null;
-    private Long clientId = null;
-    private Long typeId = null;
+    private Integer id = null;
+    private Integer clientId = null;
+    private Integer typeId = null;
     private String providerNo = null;
     private String archivingProviderNo = null;
     private Date admissionDate = null;
-    private Long headClientId = null;
+    private Integer headClientId = null;
     
     private boolean archived = false;
 
     
     
     
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(Long clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
-    public Long getTypeId() {
+    public Integer getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(Long typeId) {
+    public void setTypeId(Integer typeId) {
         this.typeId = typeId;
     }
 
@@ -119,11 +119,11 @@ public class JointAdmission {
         this.admissionDate = admissionDate;
     }
 
-    public Long getHeadClientId() {
+    public Integer getHeadClientId() {
         return headClientId;
     }
 
-    public void setHeadClientId(Long headClientId) {
+    public void setHeadClientId(Integer headClientId) {
         this.headClientId = headClientId;
     }
 

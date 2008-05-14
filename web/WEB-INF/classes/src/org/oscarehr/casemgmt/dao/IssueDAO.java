@@ -33,7 +33,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class IssueDAO extends HibernateDaoSupport {
 
-    public Issue getIssue(Long id) {
+    public Issue getIssue(Integer id) {
         return (Issue)this.getHibernateTemplate().get(Issue.class, id);
     }
 
