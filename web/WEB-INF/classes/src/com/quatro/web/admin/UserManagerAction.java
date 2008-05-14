@@ -38,6 +38,8 @@ public class UserManagerAction extends BaseAction {
 	private ORGManager orgManager;
 
 	private MessageDigest md;
+	private String PWD = "**********";
+	private String PIN = "****";
 
 	public void setLogManager(LogManager mgr) {
 		this.logManager = mgr;
@@ -159,9 +161,14 @@ public class UserManagerAction extends BaseAction {
 				secuserForm.set("title", provider.getTitle());
 				secuserForm.set("jobTitle", provider.getJobTitle());
 				secuserForm.set("email", provider.getEmail());
-
+				secuserForm.set("password", PWD);
+				secuserForm.set("confirmPassword", PWD);
+				secuserForm.set("pin", PIN);
+				secuserForm.set("confirmPin", PIN);
+				
+				
 				String isChecked = provider.getStatus();
-				if (isChecked != null)
+				if (isChecked != null && isChecked.equals("1"))
 					secuserForm.set("status", "on");
 
 				request.setAttribute("userForEdit", provider);
@@ -215,6 +222,8 @@ public class UserManagerAction extends BaseAction {
 		String[] isChecked = (String[]) map.get("status");
 		if (isChecked != null)
 			provider.setStatus("1");
+		else
+			provider.setStatus("0");
 
 		if (user == null) {
 			user = new Security();
@@ -238,7 +247,7 @@ public class UserManagerAction extends BaseAction {
 		String cpin = (String) secuserForm.get("confirmPin");
 
 		if (password.equals(cpass) && pin.equals(cpin)) {
-			if (password != null && password.length() > 0) {
+			if (!password.equals(PWD)) {
 				StringBuffer sbTemp = new StringBuffer();
 				byte[] pwd = password.getBytes();
 				try {
@@ -254,7 +263,7 @@ public class UserManagerAction extends BaseAction {
 				password = sbTemp.toString();
 				user.setPassword(password);
 			}
-			if (pin != null && pin.length() > 0)
+			if (!pin.equals(PIN))
 				user.setPin(oscar.Misc.encryptPIN(pin));
 		} else {
 			messages
@@ -267,6 +276,9 @@ public class UserManagerAction extends BaseAction {
 
 		try {
 			usersManager.save(provider, user);
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.save.success", request.getContextPath()));
+			saveMessages(request, messages);
 		} catch (Exception e) {
 			String msg = e.getMessage();
 			int i = msg
