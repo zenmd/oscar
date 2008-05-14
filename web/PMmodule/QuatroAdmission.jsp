@@ -23,15 +23,15 @@
 		<th class="pageTitle" align="center">Client Management - Admission</th>
 	</tr>
 	<tr>
-		<td align="left" valign="middle" class="buttonBar2">
-		&nbsp;<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/ClientHistory.do" name="actionParam" style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+		<td align="left" valign="middle" class="buttonBar3">
+		&nbsp;Summary&nbsp;&nbsp;|&nbsp;&nbsp;
+		History&nbsp;&nbsp;|&nbsp;&nbsp;
+		Intake&nbsp;&nbsp;|&nbsp;&nbsp;
 		<b>Admission</b>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;">Refer</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroDischarge.do" name="actionParam" style="color:Navy;text-decoration:none;">Discharge</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints</html:link>
+		Refer&nbsp;&nbsp;|&nbsp;&nbsp;
+		Discharge&nbsp;&nbsp;|&nbsp;&nbsp;
+		Service Restriction&nbsp;&nbsp;|&nbsp;&nbsp;
+		Complaints
 		</td>
 	</tr>
 	<tr>
@@ -42,7 +42,7 @@
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		<a href='javascript:submitForm("preview");'style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview&nbsp;&nbsp;</a>|
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">

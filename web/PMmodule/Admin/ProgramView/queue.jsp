@@ -123,10 +123,7 @@
    		</caisi:isModuleLoad>
 		
 		<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">		
-			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
-<!-- 			 <input type="button" value="Admit" 
-               onclick="select_client('<c:out value="${queue_entry.clientId}"/>','<%=action %>','<c:out value="${queue_entry.id}"/>')" />
- -->               
+			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
    		</caisi:isModuleLoad>
    		
 	</display:column>
