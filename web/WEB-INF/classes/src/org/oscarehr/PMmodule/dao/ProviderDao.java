@@ -104,7 +104,7 @@ public class ProviderDao extends HibernateDaoSupport {
     	List<Provider> rs;
     	if(programId!=null && "0".equals(programId)==false){
     	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
-               "(select c.ProviderNo from Secuserrole c where c.orgCd ='P' || ?) ORDER BY p.LastName";
+               "(select c.providerNo from Secuserrole c where c.orgcd ='P' || ?) ORDER BY p.LastName";
 	      paramList.add(Long.valueOf(programId));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      rs =  getHibernateTemplate().find(sSQL ,params);

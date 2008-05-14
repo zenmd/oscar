@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Calendar;
 import com.quatro.common.KeyConstants;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.mapping.Constraint;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.QuatroAdmission;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -56,14 +61,20 @@ public class QuatroAdmissionDao extends HibernateDaoSupport {
 	}
 
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
-    	List results = getHibernateTemplate().find("from Admission i where i.clientId = ? and i.programId in " +
-    			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
-    			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.admissionDate desc",
-    			new Object[] {clientId, facilityId, providerNo });
 
-    	return results;
+    	String progSQL = "program_id in (select p.program_id from program p where p.facility_id =" +
+    		facilityId.toString() + " and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+    			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";
+    	
+    	Criteria criteria = getSession().createCriteria(QuatroAdmission.class);
+    	criteria.add(Restrictions.sqlRestriction(progSQL));
+    	criteria.add(Expression.eq("clientId",clientId));
+    	criteria.addOrder(Order.desc("admissionDate"));
+    	List results = criteria.list();
+
+		return results;
 	}
-
+    
     public QuatroAdmission getAdmission(Integer intakeId){
     	String queryStr = "FROM QuatroAdmission a WHERE a.intakeId=?";
         List  lst= getHibernateTemplate().find(queryStr, new Object[] { intakeId});
