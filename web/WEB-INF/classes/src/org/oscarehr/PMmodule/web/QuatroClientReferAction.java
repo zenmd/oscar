@@ -65,7 +65,13 @@ public class QuatroClientReferAction  extends DispatchAction {
    private BedManager bedManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       return edit(mapping, form, request, response);
+    
+	   setListAttributes(form, request);
+       return list(mapping, form, request, response);
+   }
+   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   setListAttributes(form, request);
+	   return mapping.findForward("list");
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -91,6 +97,25 @@ public class QuatroClientReferAction  extends DispatchAction {
 
        return mapping.findForward("edit");
    }
+   private void setListAttributes(ActionForm form, HttpServletRequest request) {
+       DynaActionForm clientForm = (DynaActionForm) form;
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+       
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+
+       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
+       List lstRefers = clientManager.getReferrals(demographicNo);
+       request.setAttribute("lstRefers", lstRefers);
+   }
 
    public ActionForward search_programs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        DynaActionForm clientForm = (DynaActionForm) form;
@@ -107,7 +132,7 @@ public class QuatroClientReferAction  extends DispatchAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
        request.setAttribute("clientId", demographicNo);
-
+       clientForm.set("clientId", demographicNo);
        ProgramUtils.addProgramRestrictions(request);
 
        return mapping.findForward("search_programs");
@@ -125,9 +150,9 @@ public class QuatroClientReferAction  extends DispatchAction {
        String demographicNo= (String)actionParam.get("clientId");
        
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       
+       clientForm.set("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
+       
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 
        request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
