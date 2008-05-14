@@ -409,7 +409,7 @@ public class ClientManagerAction extends BaseAction {
         String providerId =getProviderNo(request);
 
         referral.setClientId(clientId);
-        referral.setProgramId((long) programId);
+        referral.setProgramId(programId);
         referral.setProviderNo(providerId);
 
         Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
@@ -1082,7 +1082,7 @@ public class ClientManagerAction extends BaseAction {
             ClientReferral referral = new ClientReferral();
             referral.setClientId(new Long(demographicNo));
             referral.setNotes("ER Automated referral\nConsent Type: " + consentFormBean.getConsentType() + "\nReason: " + consentFormBean.getConsentReason());
-            referral.setProgramId(program.getProgramId().longValue());
+            referral.setProgramId(program.getProgramId().intValue());
             referral.setProviderNo(getProviderNo(request));
             referral.setReferralDate(new Date());
             referral.setStatus(ClientReferral.STATUS_ACTIVE);
@@ -1175,7 +1175,7 @@ public class ClientManagerAction extends BaseAction {
 
     public ActionForward view_admission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String admissionId = request.getParameter("admissionId");
-        Admission admission = admissionManager.getAdmission(Long.valueOf(admissionId));
+        Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
         Demographic client = clientManager.getClientByDemographicNo("" + admission.getClientId());
         String providerNo = admission.getProviderNo();
         Provider provider = providerManager.getProvider(providerNo);
@@ -1212,11 +1212,11 @@ public class ClientManagerAction extends BaseAction {
         return(unspecified(mapping, form, request, response));
     }
 
-    private boolean isInDomain(long programId, List<?> programDomain) {
+    private boolean isInDomain(int programId, List<?> programDomain) {
         for (int x = 0; x < programDomain.size(); x++) {
             ProgramProvider p = (ProgramProvider) programDomain.get(x);
 
-            if (p.getProgramId().longValue() == programId) {
+            if (p.getProgramId().intValue()== programId) {
                 return true;
             }
         }
@@ -1349,7 +1349,7 @@ public class ClientManagerAction extends BaseAction {
         for (int x = 0; x < currentAdmissions.size(); x++) {
             Admission admission = (Admission) currentAdmissions.get(x);
 
-            if (isInDomain(admission.getProgramId().longValue(), providerManager.getProgramDomain(providerNo))) {
+            if (isInDomain(admission.getProgramId().intValue(), providerManager.getProgramDomain(providerNo))) {
                 request.setAttribute("isInProgramDomain", Boolean.TRUE);
                 break;
             }

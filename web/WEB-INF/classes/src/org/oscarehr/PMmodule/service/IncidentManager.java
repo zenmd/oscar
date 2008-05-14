@@ -55,7 +55,7 @@ public class IncidentManager {
 		if( incidentId == null || incidentId.equals("0"))
 			incident = new IncidentValue();
 		else{
-			incident = incidentDao.findById(Long.valueOf(incidentId));
+			incident = incidentDao.findById(Integer.valueOf(incidentId));
 			
 			String clients = incident.getClients();
 			if(clients != null && clients.length() > 1){
@@ -83,7 +83,7 @@ public class IncidentManager {
 				}
 				incidentForm.setStaffSelectionList(staffSelectionList);
 			}
-			
+	
 			String incidentTime = incident.getIncidentTime();
 			
 			String	hour = incidentTime.substring(0,2);
@@ -97,6 +97,7 @@ public class IncidentManager {
 			incidentForm.setHour(hour);
 			incidentForm.setMinute(minute);
 			incidentForm.setAmpm(ampm);
+		
 		}
 
 		String others = incident.getOtherInvolved();
@@ -216,15 +217,16 @@ public class IncidentManager {
 	public void setIncidentDao(IncidentDao incidentDao) {
 		this.incidentDao = incidentDao;
 	}
+	
 	public List search(IncidentForm incidentForm) {
 		return incidentDao.search(incidentForm);
 	}
 	
-	public List getIncidentsByProgramId(Long programId) {
+	public List getIncidentsByProgramId(Integer programId) {
 		return incidentDao.findByProgramId(programId);
 	}
 
-	public IncidentValue getIncidentsById(Long incidentId) {
+	public IncidentValue getIncidentsById(Integer incidentId) {
 		return incidentDao.findById(incidentId);
 	}
 
@@ -240,5 +242,4 @@ public class IncidentManager {
 	public SecProvider findProviderById(String providerNo){
 		return secProviderDao.findById(providerNo);
 	}
-
 }

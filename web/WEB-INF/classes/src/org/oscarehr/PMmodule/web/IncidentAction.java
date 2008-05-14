@@ -49,7 +49,7 @@ public class IncidentAction extends DispatchAction {
 
 		
 		// TODO:
-		Long programId =Long.valueOf("200011");
+		Integer programId =Integer.valueOf("200011");
 			
 		List incidents = incidentManager.getIncidentsByProgramId(programId);
 
@@ -86,7 +86,7 @@ public class IncidentAction extends DispatchAction {
 		if (incidentId == null || "0".equals(incidentId)) {
 			incident = new IncidentValue();
 		} else {
-			incident = incidentManager.getIncidentsById(Long.valueOf(incidentId));
+			incident = incidentManager.getIncidentsById(Integer.valueOf(incidentId));
 		}
 		
 
@@ -162,8 +162,8 @@ public class IncidentAction extends DispatchAction {
 		incident.setIncidentDate(MyDateFormat.getCalendar(incidentForm.getIncidentDateStr()));
 		incident.setInvestigationDate(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()));
 
-		//todo
-		Long programId =Long.valueOf("200011");
+		// TODO:
+		Integer programId =Integer.valueOf("200011");
 		
 		if (incident.getId() == null || incident.getId() == 0) {
 			incident.setId(null);

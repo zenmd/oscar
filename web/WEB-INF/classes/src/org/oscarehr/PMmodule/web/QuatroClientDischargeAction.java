@@ -87,9 +87,8 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
-	   Admission admObj =(Admission)clientForm.get("admission");	   
-	   Long aId =(Long) request.getSession(true).getAttribute("admissionId");
-	   Admission admOld= admissionManager.getAdmission(aId);
+	   Admission admObj =(Admission)clientForm.get("admission");	  
+	   Admission admOld= (Admission) request.getAttribute("admission");
 	   String comProgram=admObj.getCommunityProgramCode();
 	   Integer bedProg =admObj.getBedProgramId();
 	   String rReason = admObj.getRadioDischargeReason();
@@ -144,8 +143,8 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        DynaActionForm clientForm = (DynaActionForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       Long aId = new Long(request.getParameter("admissionId"));
-       request.getSession(true).setAttribute("admissionId", aId);
+       Integer aId = new Integer(request.getParameter("admissionId"));
+       
        if(actionParam==null){
     	  actionParam = new HashMap();
           actionParam.put("clientId", request.getParameter("clientId")); 
@@ -171,7 +170,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        request.setAttribute("lstTransType", lstTransType);     
        Program[]  lstBed=programManager.getBedPrograms(facilityId);
        request.setAttribute("lstBedProgram",lstBed);
-       
+       request.setAttribute("admission", admsObj);
    }
 
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
