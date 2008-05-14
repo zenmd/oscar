@@ -68,7 +68,7 @@
 
 		<table width="100%" class="edit">
 			<tr>
-				<td width="25%" >Discharge To</td>
+				<td width="25%" >Discharge To Community Program</td>
 				<td width="75%">
 					<html:select	property="admission.communityProgramCode">
 					<html:option value=""></html:option>
@@ -77,7 +77,7 @@
 				</html:select></td>
 			</tr>
 			<tr>
-				<td width="25%">&nbsp;</td>
+				<td width="25%">Discharge To Temporary Program/td>
 				<td width="75%">
 				<html:select property="admission.bedProgramId">
 					<html:option value=""></html:option>

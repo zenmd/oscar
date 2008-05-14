@@ -14,7 +14,9 @@
 		document.forms(0).method.value = methodVal;
 		document.forms(0).submit();
 	}
-	function resetClientFields() {
+</script>
+<script lang="javascript">
+    function resetClientFields() {
         var form = document.clientManagerForm;
         form.elements['program.name'].value='';
     }
@@ -57,23 +59,24 @@
     {
     	if (confirm('Do you wish to terminate this service restriction?'))
     	{
-	        var form = document.clientManagerForm;
-	        form.method.value='terminate_early';
-	        form.restrictionId.value=restrictionId;
-	        form.submit();
+	          /* var form = document.quatroClientServiceRestrictionForm; */
+	        
+	        var form =document.forms(0);
+	        form.method.value='terminate_early'; 
+	        form.recordId.value=restrictionId;
+	        form.submit('terminate_early');
     	}
     }
-	
 </script>
  
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="restrictionId" value="" />
 <html:hidden property="program.id" />
+<html:hidden property="recordId" styleId="recordId"/>
 
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center">Client Management - Service Restriction</th>
+		<th class="pageTitle" align="center">Client Management - Service Restriction List</th>
 	</tr>
 	<tr>
 		<td align="left" valign="middle" class="buttonBar2">
@@ -89,7 +92,7 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
-		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=save"	style="color:Navy;text-decoration:none;">
+		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0"	style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Service Restriction&nbsp;&nbsp;|
 		</html:link>
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
@@ -101,47 +104,56 @@
         </html:messages> 
       </logic:messagesPresent>
 	</td></tr>
+	<tr><td><br><div class="tabs">
+		<table cellpadding="3" cellspacing="0" border="0">
+			<tr><th>Service Restrictions</th></tr>
+		</table></div>
+	</td></tr>	
 	<tr>
-		<td>
+		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 
-			<!--  start of page content -->
+		<!--  start of page content -->
 			<table width="100%" class="edit">
-			<tr><td><br><div class="tabs">
-			<table cellpadding="3" cellspacing="0" border="0">
-			<tr><th>Service Restrictions</th></tr>
-			</table></div></td></tr>
-			
-			<tr><td>
-			
-			<table wdith="100%" class="simple">
-			  <tr><th style="color:black">Program Name</th>
-			  <th style="color:black">Type</th>
-			  <th style="color:black">Participation</th>
-			  <th style="color:black">Phone</th>
-			  <th style="color:black">Email</th></tr>
-			  <tr><td><c:out value="${program.name }" /></td>
-			  <td><c:out value="${program.type }" /></td>
-			  <td><c:out value="${program.phone }" /></td>
-			  <td><c:out value="${program.email }" /></td></tr>
+				<tr><td>
+				<display:table class="simple" cellspacing="2" cellpadding="3" id="service_restriction" name="serviceRestrictions" export="false" pagesize="0" requestURI="/PMmodule/QuatroServiceRestriction.do">
+				<%
+					boolean allowTerminateEarly=false;
+					ProgramClientRestriction temp=null;
+					ProviderDao providerDao=(ProviderDao)SpringUtils.getBean("providerDao");
+				%>
+				  <display:setProperty name="paging.banner.placement" value="bottom" />
+				  <display:column property="programDesc" sortable="true" title="Program Name" />
+				  <display:column property="providerFormattedName" sortable="true" title="Restricted By"/>
+				  <display:column property="comments" sortable="true" title="Comments" />
+				  <display:column property="startDate" sortable="true" title="Start date" />
+				  <display:column property="endDate" sortable="true" title="End date" />
+				  <display:column sortable="true" title="Status">
+					<%
+						temp=(ProgramClientRestriction)service_restriction;
+						String status="";
+						allowTerminateEarly=false;
+						if (temp.getEarlyTerminationProvider()!=null){
+							Provider providerTermination=providerDao.getProvider(temp.getEarlyTerminationProvider());
+							status="terminated early by "+providerTermination.getFormattedName();
+						}else if (temp.getEndDate().getTime()<System.currentTimeMillis()){
+						    status="completed";
+						}else if (temp.getStartDate().getTime()<=System.currentTimeMillis() && temp.getEndDate().getTime()>=System.currentTimeMillis()){
+							status="in progress";
+							allowTerminateEarly=true;
+						}
+					%>
+					   	<%=status%>
+ 				  </display:column>
+				  <display:column sortable="true" title="">
+  					<input type="button" <%=allowTerminateEarly?"":"disabled=\"disabled\""%> value="Terminate Early" onclick="terminateEarly(<%=temp.getId()%>)" />
+  					</display:column>			  
+				</display:table>
+				</td></tr>
 			</table>
-			<table wdith="100%" class="simple">
-			   <tr><td width="20%">Reason for service restriction:</td>
-			    <td><html:select property="serviceRestriction.commentId">
-				   <c:forEach var="restriction" items="${serviceRestrictionList}">
-					 <html-el:option value="${restriction.code}"><c:out value="${restriction.description}"/></html-el:option>
-				   </c:forEach>
-				   </html:select>
-			     </td>
-			    </tr>
-			    <tr><td>Start Date</td>
-			    <td><quatro:datePickerTag property="serviceRestriction.startDate" width="120px" openerForm="quatroClientServiceRestrictionForm"></quatro:datePickerTag></td></tr> 
-			     <tr><td>Length of restriction (in days)</td>
-			        <td><html:text size="4" property="serviceRestrictionLength" /></td></tr>
-             </table>
-<!--  end of page content -->
+		<!--  end of page content -->
 		</div>
 		</td>
 	</tr>

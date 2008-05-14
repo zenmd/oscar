@@ -1,52 +1,13 @@
 <%@ include file="/taglibs.jsp"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
+<%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%@page import="org.oscarehr.util.SpringUtils"%>
-<html:html locale="true">
-	<head>
-		<title>Program Search</title>
-		<link href="<html:rewrite page='/css/tigris.css'/>" rel="stylesheet" type="text/css" />
-		<link href="<html:rewrite page='/css/displaytag.css'/>" rel="stylesheet" type="text/css" />
-	</head>
-	
-	<script type="text/javascript">
-		var gender='<%=request.getSession().getAttribute("clientGender")%>';
-		var age=<%=request.getSession().getAttribute("clientAge")%>;
-		
-		var programMaleOnly=<%=session.getAttribute("programMaleOnly")%>;
-        var programFemaleOnly=<%=session.getAttribute("programFemaleOnly")%>;
-        var programTransgenderOnly=<%=session.getAttribute("programTransgenderOnly")%>;
 
-		<%=session.getAttribute("programAgeValidationMethod")%>
-
-		function error(msg) {
-			alert(msg);
-			return false;
-		}
-
-if (!Array.prototype.indexOf)
-{
-  Array.prototype.indexOf = function(elt /*, from*/)
-  {
-    var len = this.length;
-
-    var from = Number(arguments[1]) || 0;
-    from = (from < 0)
-         ? Math.ceil(from)
-         : Math.floor(from);
-    if (from < 0)
-      from += len;
-
-    for (; from < len; from++)
-    {
-      if (from in this &&
-          this[from] === elt)
-        return from;
-    }
-    return -1;
-  };
-}
-
-
+<script language="javascript" type="text/javascript">
+	function resetSearchFields() {
+		var form = document.programSearchForm;
+		form.elements['criteria.demographicNo'].value='';		
+	}
 		function selectProgram(clientId,id,type) {
 			var programId=Number(id);
 			if (gender == 'M')
@@ -85,21 +46,91 @@ if (!Array.prototype.indexOf)
 			
 			self.close();
 		}
+		function search_programs() {
+		var form = document.programSearchForm;
 		
+		form.method.value='refer_select_program';
+		var programName = form.elements['program.name'].value;
+		var typeEl = form.elements['program.type'];
+		var programType = typeEl.options[typeEl.selectedIndex].value;
+		var manOrWomanEl = form.elements['program.manOrWoman'];
+		var manOrWoman = manOrWomanEl.options[manOrWomanEl.selectedIndex].value;
+ 		var transgender = form.elements['program.transgender'].checked;
+ 		var firstNation = form.elements['program.firstNation'].checked;
+ 		var bedProgramAffiliated = form.elements['program.bedProgramAffiliated'].checked;
+ 		var alcohol = form.elements['program.alcohol'].checked;
+ 		var abstinenceSupportEl = form.elements['program.abstinenceSupport'];
+ 		var abstinenceSupport = abstinenceSupportEl.options[abstinenceSupportEl.selectedIndex].value;
+ 		var physicalHealth = form.elements['program.physicalHealth'].checked;
+ 		var mentalHealth = form.elements['program.mentalHealth'].checked;
+ 		var housing = form.elements['program.housing'].checked;		
+ 		var id = form.elements['id'].value;		
 		
-	</script>
+		var url = '<html:rewrite action="/PMmodule/QuatroRefer.do"/>';
+		url += '?method=search_programs&program.name=' + programName + '&program.type=' + programType;
+		url += '&program.manOrWoman='+manOrWoman+'&program.transgender='+transgender+'&program.firstNation='+firstNation+'&program.bedProgramAffiliated='+bedProgramAffiliated+'&program.alcohol='+alcohol+'&program.abstinenceSupport='+abstinenceSupport+'&program.physicalHealth='+physicalHealth+'&program.mentalHealth='+mentalHealth+'&program.housing='+housing;
+		url += '&formName=quatroClientReferForm&formElementName=program.name&formElementId=program.id&formElementType=program.type&submit=true';
+		url += '&id=' + id;
+		
+		window.open(url, "program_search", "width=800, height=600, scrollbars=1,location=1,status=1");
+	}
 	
-	<body marginwidth="0" marginheight="0">
-		<%@ include file="/common/messages.jsp"%>
-		<div class="tabs" id="tabs">
-			<table cellpadding="3" cellspacing="0" border="0">
-				<tr>
-					<th title="Programs">Search Results</th>
-				</tr>
-			</table>
-		</div>
+</script>
+
+<html:form action="/PMmodule/QuatroProgramSearch.do">
+	<input type="hidden" name="method" value="search" />
+	<%String a="12"; %>
+	<table>
+	<tr>
+			<th class="pageTitle">Program Search</th>
+		</tr>
+		<tr>
+		<td class="buttonBar" align="left" height="18px">		
+		<a href="javascript:submitForm()" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
+		<a style="color:Navy;text-decoration:none;" href="javascript:resetSearchFields();">
+		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>
+		<br>		
+		</td>
+		</tr>
+<!--  start of page content -->
 		
-		<display:table class="simple" cellspacing="2" cellpadding="3" id="program" name="programs" pagesize="200" requestURI="/PMmodule/QuatroRefer.do">
+		<tr><th title="LookupTableList">Search Program</th></tr>
+		<tr><td>
+		</table>
+		<html:hidden property="program.id" />
+		<table class="simple" cellspacing="2" cellpadding="3">
+		  <tr><td width="30%">Program Name</td>
+  				<td width="70%"><html:text property="program.name" /></td></tr>
+  		 <tr><td>Program Type</td>
+  			<td><html:select property="program.type">
+					<html:option value="">&nbsp;</html:option>
+					<html:option value="Bed">Bed</html:option>
+					<html:option value="Service">Service</html:option>
+				</html:select>
+			</td>
+		</tr>
+		<tr><td>Facility</td>
+			<td><html:select property="program.facilityId">
+				<html:option value="">&nbsp;</html:option>
+				<html:options collection="lstFacility" labelName="description" labelProperty="code" />
+			</html:select>  </td>
+  		<tr><td>Gender</td>
+  			<td><html:select property="program.manOrWoman">
+				<html:option value="T">&nbsp;</html:option>				
+				<html:option value="M">Man</html:option>
+				<html:option value="W">Woman</html:option>
+				</html:select>
+			</td></tr>
+  		<tr><td>Minimun Age (inclusive)</td>
+  				<td><html:text property="program.ageMin" /></td></tr>
+  		<tr><td>Maximum Age (inclusive)</td>
+  			<td><html:text property="program.ageMax" /></td></tr>
+  		<tr><td><input type="button" value="search" onclick="search_programs()" />&nbsp;&nbsp;<input type="button" name="reset" value="reset" onclick="javascript:resetClientFields();" /></td></tr>
+ 	</table>
+	</html:form>
+		
+		<display:table class="simple" cellspacing="2" cellpadding="3" id="program" name="programs" pagesize="200" requestURI="/PMmodule/QuatroProgramSearch.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:column sortable="true" title="Name">
 				<a href="#javascript:void(0);" onclick="selectProgram('<c:out value="${id}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />');"><c:out value="${program.name}" /></a>
@@ -109,7 +140,5 @@ if (!Array.prototype.indexOf)
 				<c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)
 			</display:column>
 			<display:column property="descr" sortable="false" title="Description"></display:column>
-		</display:table>
+		</display:table>	
 
-	</body>
-</html:html>
