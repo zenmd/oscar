@@ -71,8 +71,17 @@ function updateQuatroAdmission(clientId, intakeId) {
     <td><c:out value="${admission.admissionDateStr}" /></td>
     <td><c:out value="${sessionScope.provider.formattedName}" /></td>
     <td><c:out value="${admission.admissionStatus}"/></td>
-    <td><input type="button" value="Update" 
-      onclick="updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')" /></td></tr>
+	<td>
+	<c:choose>								
+	<c:when test="${admission.admissionStatus == 'admitted'}">
+     <input type="button" value="Update" 
+      onclick="updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')" />
+	</c:when>
+	<c:otherwise>
+     <input type="button" value="View" />
+	</c:otherwise>
+	</c:choose>
+    </td></tr>
   </logic-el:iterate>						
 </table>
 </td></tr>

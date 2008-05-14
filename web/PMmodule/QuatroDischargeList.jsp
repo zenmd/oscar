@@ -91,7 +91,7 @@
 								<td><c:out value="${discharge.admissionStatus}" /></td>
 								<td> 
 								<c:choose>								
-								<c:when test="${discharge.admissionStatus eq 'admitted'}">
+								<c:when test="${discharge.admissionStatus == 'admitted'}">
 								<input type="button" value="Update"
 										onclick="updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" />
 								</c:when>
