@@ -128,82 +128,82 @@ if (props.getProperty("logintitle", "").equals("")) {
 
 
 <div align="center">
-
-<table border="0" width="766" height="495">
-	<tr>
-		<td width="766" height="141" colspan="2">
+<html:form action="login">
+<input
+						type="hidden" name="pin" size="15" maxlength="15"
+						autocomplete="off" value="1117"/>
+<table align="center" border="0" width="100%" height="100%">
+	<tr height="141">
+		<td>
+		<br>
 		<p align="center"><img border="0"
 			src="images/QuatroShelter-Logo.gif" width="500" height="100"></p>
 		<p align="center"><font size="4" face="Arial">City of
 		Toronto</font>
 		</td>
 	</tr>
-	<tr>
-		<td width="750" height="60" valign="top" colspan="2">
-		<p align="center"><font size="4" face="Arial">Welcome to
-		QuatroShelter, please Login ...</font></p>
-		<p align="center">&nbsp;</p>
-	<tr>
-		<td height="183"><html:form action="login">
-
-			<table background="images/Silver-background-dark.gif" height="141">
+	<tr height="140px">
+		<td valign="bottom" align="center">
+		<font size="4" face="Arial">Welcome to
+		QuatroShelter, please Login ...</font><br><br>
+		</td></tr>
+		
+		<tr>
+		<td  valign="top">
+			<table width="100%" align="center"><tr><td>
+			<table align="center" background="images/Silver-background-dark.gif" height="121" width="60%">
 				<tr>
-					<td width="334" height="36" valign="middle" align="right"><font
+					<td width="40%" height="36" valign="middle" align="right"><br><font
 						size="3" face="Arial"> <b><bean:message
-						key="loginApplication.formUserName" /> <%
- 			if (oscar.oscarSecurity.CRHelper.isCRFrameworkEnabled()
- 			&& !net.sf.cookierevolver.CRFactory.getManager()
- 			.isMachineIdentified(request)) {
- %> <img
+						key="loginApplication.formUserName" /> 
+					<%
+ 						if (oscar.oscarSecurity.CRHelper.isCRFrameworkEnabled()
+ 						&& !net.sf.cookierevolver.CRFactory.getManager()
+ 							.isMachineIdentified(request)) {
+ 					%> <img
 						src="gatekeeper/appid/?act=image&/empty<%=System.currentTimeMillis() %>.gif"
 						width='1' height='1'> <%
- }
- %>
+ 					}
+ 					%>
 					</b></font></td>
-					<td width="416" height="25%" valign="middle"><font size="3"
+					<td valign="middle"><font size="3"
 						face="Arial"><b><input type="text" name="username"
-						size="15" maxlength="15" autocomplete="off" /></b></font></td>
+						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
-					<td width="334" height="25%" valign="middle" align="right"><font
+					<td width="40%"  valign="middle" align="right"><font
 						size="3" face="Arial"><b><bean:message
 						key="loginApplication.formPwd" /></b></font></td>
-					<td width="416" height="27" valign="middle"><font size="3"
+					<td  height="27" valign="middle"><font size="3"
 						face="Arial"><b><input type="password" name="password"
-						size="15" maxlength="15" autocomplete="off" /></b></font></td>
+						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
-					<td width="334" height="25%" valign="middle" align="right"><b><font
-						size="3" face="Arial"><bean:message key="index.formPIN" /></font></b></td>
-					<td width="416" height="34" valign="middle"><b><input
-						type="password" name="pin" size="15" maxlength="15"
-						autocomplete="off" /></b></td>
-				</tr>
-				<tr>
-					
-					<td colspan="2" width="750" height="25%" valign="mid" align="center"><font face="Arial"
+					<td>&nbsp;</td>
+					<td valign="mid" align="left"><font face="Arial"
 						size="3"><input type="submit"
 						value="<bean:message key="index.btnSignIn"/>" />&nbsp; </font><input
 						type="reset" value="Reset">&nbsp; <input type="button"
 						value="Change PW" name="B2"></td>
 				</tr>
 			</table>
-
-		</html:form></td>
+			</td></tr></table>
+		</td>
+	</tr>
 	<tr>
-		<td width="766" height="41" colspan="2"><img border="0"
+		<td  height="41" align="center"><img border="0"
 			src="images/QuatroGroup-Logo.gif" width="174" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<img border="0" src="images/SMIS-Logo.gif" width="189" height="26">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<img border="0" src="images/Caisi-Logo.gif" width="160" height="36">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<img border="0" src="images/OSCAR-LOGO.gif" width="70" height="40"></td>
 	</tr>
 	<tr>
-		<td width="766" height="40" colspan="2">
+		<td height="20" align="center">
 		<p align="center"><font face="Arial" size="2">Quatro Group
 		Software System Inc. Support at: <a href="http://www.QuatroGroup.com">http://www.QuatroGroup.com</a></font>
 		</td>
 	</tr>
 </table>
+</html:form>
 </div>
 
 </body>
