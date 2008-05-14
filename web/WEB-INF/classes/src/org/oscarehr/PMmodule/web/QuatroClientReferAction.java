@@ -50,7 +50,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
-
+import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 
 public class QuatroClientReferAction  extends DispatchAction {
@@ -101,9 +101,14 @@ public class QuatroClientReferAction  extends DispatchAction {
        DynaActionForm clientForm = (DynaActionForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       String cId =request.getParameter("clientId");
+       if(Utility.IsEmpty(cId)) {
+    	  cId =(String)request.getAttribute("clientId");
+    	  // cId=request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
+       }
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
+          actionParam.put("clientId", cId); 
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");

@@ -52,12 +52,13 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
+		<%String a="1"; %>
 		<a href="javaScript:popupProgramSearch('<c:out value="${clientId}"/>');" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;|</a>
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|		
+		<a href='javascript:submitForm("list");' style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Return to List&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">

@@ -43,7 +43,7 @@ public class QuatroProgramSearchAction  extends DispatchAction {
 	       Program criteria = (Program) clientForm.get("program");
 	       
 	       request.setAttribute("programs", programManager.search(criteria));
-	       String cId = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);
+	       Integer cId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();

@@ -5,11 +5,21 @@
 <head>
 <title>Program Search</title>
 <meta http-equiv="Cache-Control" content="no-cache">
-<link rel="stylesheet" href="../css/core.css" / >
+<link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
+<link rel="stylesheet" type="text/css" href='<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />' />
+<link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 <script language="javascript" type="text/javascript">
 	function resetSearchFields() {
 		var form = document.programSearchForm;
-		form.elements['criteria.demographicNo'].value='';		
+		form.elements['program.name'].value='';	
+		form.elements['program.facilityId'].value='';
+		var typeEl = form.elements['program.type'];
+		typeEl.options[typeEl.selectedIndex].value='T';
+		var manOrWomanEl = form.elements['program.manOrWoman'];
+		manOrWomanEl.options[manOrWomanEl.selectedIndex].value='';
+ 		form.elements['program.ageMin'].value='1';
+ 		form.elements['program.ageMax'].value='200'; 		
+			
 	}
 		function selectProgram(clientId,id,type) {
 			var programId=Number(id);
@@ -54,55 +64,51 @@
 		
 		form.method.value='refer_select_program';
 		var programName = form.elements['program.name'].value;
+		var facilityId =form.elements['program.facilityId'].value;
 		var typeEl = form.elements['program.type'];
 		var programType = typeEl.options[typeEl.selectedIndex].value;
 		var manOrWomanEl = form.elements['program.manOrWoman'];
 		var manOrWoman = manOrWomanEl.options[manOrWomanEl.selectedIndex].value;
- 		var transgender = form.elements['program.transgender'].checked;
- 		var firstNation = form.elements['program.firstNation'].checked;
- 		var bedProgramAffiliated = form.elements['program.bedProgramAffiliated'].checked;
- 		var alcohol = form.elements['program.alcohol'].checked;
- 		var abstinenceSupportEl = form.elements['program.abstinenceSupport'];
- 		var abstinenceSupport = abstinenceSupportEl.options[abstinenceSupportEl.selectedIndex].value;
- 		var physicalHealth = form.elements['program.physicalHealth'].checked;
- 		var mentalHealth = form.elements['program.mentalHealth'].checked;
- 		var housing = form.elements['program.housing'].checked;		
+ 		var ageMin = form.elements['program.ageMin'].value;
+ 		var ageMax = form.elements['program.ageMax'].value;
  		var id = form.elements['id'].value;		
 		
-		var url = '<html:rewrite action="/PMmodule/QuatroRefer.do"/>';
+		var url = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do"/>';
 		url += '?method=search_programs&program.name=' + programName + '&program.type=' + programType;
-		url += '&program.manOrWoman='+manOrWoman+'&program.transgender='+transgender+'&program.firstNation='+firstNation+'&program.bedProgramAffiliated='+bedProgramAffiliated+'&program.alcohol='+alcohol+'&program.abstinenceSupport='+abstinenceSupport+'&program.physicalHealth='+physicalHealth+'&program.mentalHealth='+mentalHealth+'&program.housing='+housing;
-		url += '&formName=quatroClientReferForm&formElementName=program.name&formElementId=program.id&formElementType=program.type&submit=true';
+		url += '&program.manOrWoman='+manOrWoman+'&program.ageMin='+ageMin+'&program.ageMax='+ageMax;
+		url += '&formName=programSearchForm&formElementName=program.name&formElementId=program.id&formElementType=program.type&submit=true';
 		url += '&id=' + id;
 		
 		window.open(url, "program_search", "width=800, height=600, scrollbars=1,location=1,status=1");
+	}
+	function submitForm(methodVal) {
+		document.forms(0).method.value = methodVal;
+		document.forms(0).submit();
 	}
 	
 </script>
 </head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
 	<input type="hidden" name="method" value="search" />	
-	<table>
+	<table width="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 			<th class="pageTitle">Program Search</th>
 		</tr>
 		<tr>
 		<td class="buttonBar" align="left" height="18px">		
-		<a href="javascript:submitForm()" style="color:Navy;text-decoration:none;">
+		<a href="javascript:submitForm('search_programs')" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
 		<a style="color:Navy;text-decoration:none;" href="javascript:resetSearchFields();">
 		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>
 		<br>		
 		</td>
 		</tr>
-<!--  start of page content -->
-		
-		<tr><th title="LookupTableList">Search Program</th></tr>
+<!--  start of page content -->		
 		<tr><td>
 		</table>
 		<html:hidden property="program.id" />
 		<%String a="12"; %>
-		<table class="simple" cellspacing="2" cellpadding="3">
+		<table class="simple" width="100%" cellspacing="2" cellpadding="3">
 		  <tr><td width="30%">Program Name</td>
   				<td width="70%"><html:text property="program.name" /></td></tr>
   		 <tr><td>Program Type</td>
