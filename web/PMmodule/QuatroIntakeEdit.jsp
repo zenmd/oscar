@@ -248,7 +248,7 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 <html-el:optionsCollection property="optionList.statusInCanada" value="value" label="label"/>
 </html-el:select></td>
 <td></td><td></td></tr>
-<tr><td>Coutry of origin</td>
+<tr><td>Country of origin</td>
 <td><quatro:lookupTag name="originalCountry" tableName="CNT" formProperty="quatroIntakeEditForm" 
    codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" showCode="false" /></td>
 <td></td><td></td></tr>
