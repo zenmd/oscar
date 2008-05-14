@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -57,6 +58,8 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
 import org.oscarehr.PMmodule.web.BaseAction;
 import org.springframework.beans.factory.annotation.Required;
+
+import oscar.MyDateFormat;
 
 public class ProgramManagerAction extends BaseAction {
 
@@ -170,7 +173,7 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         programForm.set("program", new Program());
-
+        
         setEditAttributes(request, null);
 
         return mapping.findForward("edit");
@@ -873,7 +876,7 @@ public class ProgramManagerAction extends BaseAction {
     }
 
     private void setEditAttributes(HttpServletRequest request, String programId) {
-        if (programId!=null)
+        if (programId != null)
         {
             request.setAttribute("id", programId);
             request.setAttribute("programName", programManager.getProgram(programId).getName());
@@ -897,13 +900,21 @@ public class ProgramManagerAction extends BaseAction {
             request.setAttribute("queue", programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId)));
             request.setAttribute("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(programId)));
         }
-
-        request.setAttribute("roles", roleManager.getRoles());
-        request.setAttribute("functionalUserTypes", programManager.getFunctionalUserTypes());
-
-
-        request.setAttribute("accessTypes", programManager.getAccessTypes());
-        request.setAttribute("bed_programs",programManager.getBedPrograms());
+        // signature part
+        HttpSession se=request.getSession();
+        String providerNo = (String)se.getAttribute("user");
+        ProgramSignature ps = new ProgramSignature();
+        ps.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
+        ps.setUpdateDate(MyDateFormat.getCurrentDate());
+        request.setAttribute("programFirstSignature", ps);
+        
+//
+//        request.setAttribute("roles", roleManager.getRoles());
+//        request.setAttribute("functionalUserTypes", programManager.getFunctionalUserTypes());
+//
+//
+//        request.setAttribute("accessTypes", programManager.getAccessTypes());
+//        request.setAttribute("bed_programs",programManager.getBedPrograms());
 
         request.setAttribute("facilities",facilityDAO.getActiveFacilities());
     }

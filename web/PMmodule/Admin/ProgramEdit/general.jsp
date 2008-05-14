@@ -22,7 +22,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 			<html:link
-			href="javascript:save();"
+			href="javascript:void(0);"
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 			
@@ -135,13 +135,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		<td width="20%">Maximum Age (inclusive):</td>
 		<td><html:text property="program.ageMax" size="8" maxlength="8"/></td>
 	</tr>
-	
-	<tr>
-		<td colspan="2">
-			<input type="button" value="Save" onclick="return save()" />
-			<html:cancel />
-		</td>
-	</tr>
+		
 </table>
 
  </br>
