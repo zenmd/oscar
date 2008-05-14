@@ -78,7 +78,26 @@ public class Program implements Serializable {
     private Integer facilityId;
     private String facilityDesc;
     private String orgCd;
-    // constructors
+    private Integer capacity_funding;
+    private Integer capacity_space;
+    
+    public Integer getCapacity_funding() {
+		return capacity_funding;
+	}
+
+	public void setCapacity_funding(Integer capacity_funding) {
+		this.capacity_funding = capacity_funding;
+	}
+
+	public Integer getCapacity_space() {
+		return capacity_space;
+	}
+
+	public void setCapacity_space(Integer capacity_space) {
+		this.capacity_space = capacity_space;
+	}
+
+	// constructors
     public Program() {
         // no arg constructor for JPA
     }

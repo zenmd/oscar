@@ -42,13 +42,13 @@
 						if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase(selectedTab)) {
 				%>
 					
-						<a href="javascript:void(0)" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><b><%=ProgramManagerViewFormBean.tabs[i]%></b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+						<a href="javascript:void(0)" style="color:Navy;text-decoration:none;" ><b><%=ProgramManagerViewFormBean.tabs[i]%></b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 					
 				<%
 						} else {
 				%>
 					
-						<a href="javascript:void(0)" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+						<a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 					
 				<%
 						}

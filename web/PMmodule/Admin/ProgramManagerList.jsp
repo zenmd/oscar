@@ -1,3 +1,10 @@
+<!-- 
+
+Source:web/PMmodule/Admin/ProgramManagerList.jsp 
+
+-->
+
+
 <%@ include file="/taglibs.jsp"%>
 <script>
 	function ConfirmDelete(name)
@@ -13,7 +20,79 @@
 		document.programManagerForm.submit()
 	}
 </script>
+
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<th class="pageTitle" align="center">Program Management - Program Search</th>
+	</tr>
+	<tr>
+		<td align="left" class="buttonBar">
+			<html:link
+			href="javascript:submitForm('add');"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+			<html:link
+			href="javascript:submitForm('list');"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
+			
+		</td>
+	</tr>
+</table>
+
 <%@ include file="/common/messages.jsp"%>
+			
+<div class="h4">
+	<h4>Search program by select criteria below</h4>
+</div>
+
+<br />
+
+<html:form action="/PMmodule/ProgramManager.do">
+<html:hidden property="method"/>
+<div class="axial">
+	<table border="0" cellspacing="2" cellpadding="3">
+		<tr>
+			<th>Status:</th>
+			<td><html:select property="searchStatus">
+					<html:option value="Any" />
+					<html:option value="active" />
+					<html:option value="inactive" />
+				</html:select>
+			</td>
+		</tr>
+		<tr>
+			<th>Type:</th>
+			<td>
+				<html:select property="searchType">
+					<html:option value="Any" />
+					<html:option value="Bed" />
+					<html:option value="Service" />
+					<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
+					<html:option value="External"/>
+					<html:option value="community">Community</html:option>
+					</caisi:isModuleLoad>
+				</html:select>
+			</td>
+		</tr>
+		<tr>
+			<th>Facility:</th>
+			<td>
+				<html-el:select property="searchFacilityId">
+					<html-el:option value="0">Any</html-el:option>
+					<c:forEach var="facility" items="${facilities}">
+						<html-el:option value="${facility.id}"><c:out value="${facility.name}"/></html-el:option>
+					</c:forEach>
+				</html-el:select>
+			</td>
+		</tr>
+	
+	</table>
+</div>
+</html:form>
+<br />
+
 <div class="tabs" id="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
 		<tr>
@@ -21,52 +100,8 @@
 		</tr>
 	</table>
 </div>
-<html:form action="/PMmodule/ProgramManager.do">
-<table class="simple" cellspacing="2" cellpadding="3" width="100%">
-<thead>
-<tr>
-	<th>Status</th>
-	<th>Type</th>
-	<th>Facility</th>
-	<th>&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td>
-			<html:select property="searchStatus">
-				<html:option value="Any" />
-				<html:option value="active" />
-				<html:option value="inactive" />
-			</html:select>
-	</td>
-	<td>
-			<html:select property="searchType">
-				<html:option value="Any" />
-				<html:option value="Bed" />
-				<html:option value="Service" />
-				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
-				<html:option value="External"/>
-				<html:option value="community">Community</html:option>
-				</caisi:isModuleLoad>
-			</html:select>
-	</td>
-	<td>
-			<html-el:select property="searchFacilityId">
-				<html-el:option value="0">Any</html-el:option>
-				<c:forEach var="facility" items="${facilities}">
-					<html-el:option value="${facility.id}"><c:out value="${facility.name}"/></html-el:option>
-				</c:forEach>
-			</html-el:select>
-	</td>
-	<td>
-		<input type="button"  name="search" value="Search" onclick="javascript:submitForm('list')"; />
-	</td>
-</tr>
-<tr><td colspan="4">&nbsp;</td></tr>
-</tbody>
-</table>
-</html:form>
+
+
 <display:table class="simple" cellspacing="2" cellpadding="3" id="program" name="programs" export="false" pagesize="0" requestURI="/PMmodule/ProgramManager.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="paging.banner.item_name" value="program" />
@@ -97,7 +132,17 @@
 	<display:column property="type" sortable="true" title="Type" />
 	<display:column property="programStatus" sortable="true" title="Status" />
 	<display:column property="location" sortable="true" title="Location" />
-	<display:column sortable="true" title="Participation">
-		<c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)
+	<display:column sortable="true" title="Occupancy">
+		<c:out value="${program.numOfMembers}" />
 	</display:column>
+	<display:column sortable="true" title="Queue">
+		<c:out value="${program.queueSize}" />
+	</display:column>
+	<display:column sortable="true" title="Capacity (funding)">
+		
+	</display:column>
+	<display:column sortable="true" title="Capacity (actual)">
+		
+	</display:column>
+
 </display:table>

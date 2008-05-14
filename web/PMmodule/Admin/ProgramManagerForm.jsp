@@ -12,6 +12,8 @@
 	<input type="hidden" name="method" value="edit" />
 	<html:hidden property="program.id" />
 	
+	
+	
 	<c:choose>
 		<c:when test="${id != null && id gt 0}">
 			<script>
@@ -129,7 +131,6 @@
 			<%} %>
 		</c:when>
 		<c:otherwise>
-			<%@ include file="/common/messages.jsp"%>
 			<jsp:include page="/PMmodule/Admin/ProgramEdit/general.jsp" />
 		</c:otherwise>
 	</c:choose>

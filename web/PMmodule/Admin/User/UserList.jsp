@@ -1,3 +1,5 @@
+<!-- Source:web/PMmodule/Admin/User/UserList.jsp -->
+
 <%@ include file="/taglibs.jsp"%>
 
 
@@ -110,12 +112,6 @@
 					<a
 						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
 					Edit User Information</a>
-				</display:column>
-
-				<display:column title="">
-					<a
-						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=addRole&providerNo=<c:out value="${user.providerNo}" />">
-					Assign ORG/Role </a>
 				</display:column>
 
 			</display:table></div>
