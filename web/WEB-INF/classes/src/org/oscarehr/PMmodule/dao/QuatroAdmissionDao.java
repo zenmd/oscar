@@ -61,11 +61,18 @@ public class QuatroAdmissionDao extends HibernateDaoSupport {
 	}
 
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
-
-    	String progSQL = "program_id in (select p.program_id from program p where p.facility_id =" +
+    	String progSQL = "";
+    	if (facilityId ==0 ) {
+    		progSQL = "program_id in (select p.program_id from program p where 'P' || p.program_id in " +
+    				"(select a.code from lst_orgcd a, secuserrole b " +
+    			    " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";
+    	}
+    	else
+    	{
+        	progSQL = "program_id in (select p.program_id from program p where p.facility_id =" +
     		facilityId.toString() + " and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
     			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";
-    	
+    	}
     	Criteria criteria = getSession().createCriteria(QuatroAdmission.class);
     	criteria.add(Restrictions.sqlRestriction(progSQL));
     	criteria.add(Expression.eq("clientId",clientId));

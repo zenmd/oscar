@@ -72,7 +72,6 @@ public class EctDisplayIssuesAction extends EctDisplayAction {
         issues = caseManagementMgr.getIssues(bean.providerNo,bean.getDemographicNo());             
         String programId = (String)request.getSession().getAttribute("case_program_id");
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        issues = caseManagementMgr.filterIssues(issues,bean.providerNo,programId,currentFacilityId);
 
         for(int idx = 0; idx < issues.size(); ++idx ) {
             NavBarDisplayDAO.Item item = Dao.Item();                                    

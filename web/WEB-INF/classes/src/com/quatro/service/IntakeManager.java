@@ -17,6 +17,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import org.oscarehr.PMmodule.model.Program;
@@ -28,6 +29,7 @@ public class IntakeManager {
     private LookupDao lookupDao;
     private ClientDao clientDao;
     private ProgramDao programDao;
+    private ClientHistoryDao historyDao;
 
 	public IntakeDao getIntakeDao() {
 		return intakeDao;
@@ -35,6 +37,9 @@ public class IntakeManager {
 
 	public void setIntakeDao(IntakeDao intakeDao) {
 		this.intakeDao = intakeDao;
+	}
+	public void setClientHistoryDao(ClientHistoryDao historyDao) {
+		this.historyDao = historyDao;
 	}
 
     public Demographic getClientByDemographicNo(String demographicNo) {

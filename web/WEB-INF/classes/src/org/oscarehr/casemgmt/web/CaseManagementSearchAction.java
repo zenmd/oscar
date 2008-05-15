@@ -63,6 +63,7 @@ import org.oscarehr.util.SessionConstants;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.util.*;
+import com.quatro.service.security.SecurityManager;
 
 import oscar.oscarRx.data.RxPatientData;
 import oscar.oscarRx.pageUtil.RxSessionBean;
@@ -368,7 +369,9 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         se.setAttribute("casemgmt_msgBeans", this.caseManagementMgr.getMsgBeans(new Integer(getDemographicNo(request))));
 
         // readonly access to define creat a new note button in jsp.
-        se.setAttribute("readonly", new Boolean(this.caseManagementMgr.hasAccessRight("note-read-only", "access", providerNo, demoNo, (String) se.getAttribute("case_program_id"))));
+        SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        Boolean readonly = sec.GetAccess("_pmm.caseManagement","P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
+        se.setAttribute("readonly", readonly);
 
         // if we have just saved a note, remove saveNote flag
         Boolean saved = (Boolean) se.getAttribute("saveNote");
@@ -426,9 +429,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             programId = "0";
         }
          
-        Integer currentFacilityId= request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID) != null ? (Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID):0; 
-        
-        notes = caseManagementMgr.filterNotes(notes, providerNo, programId, currentFacilityId);
         this.caseManagementMgr.getEditors(notes);
                 
         oscar.OscarProperties p = oscar.OscarProperties.getInstance();

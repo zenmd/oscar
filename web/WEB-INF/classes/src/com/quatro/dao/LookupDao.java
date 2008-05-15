@@ -62,8 +62,15 @@ public class LookupDao extends HibernateDaoSupport {
 				FieldDefValue fdef = (FieldDefValue)fields.get(j);
 				if (fdef.getGenericIdx()== i)
 				{
-					sSQL += "s." + fdef.getFieldSQL() + ",";
-					fieldNames[i-1]=fdef.getFieldSQL();
+					if (fdef.getFieldSQL().indexOf('(') >= 0) {
+						sSQL += fdef.getFieldSQL() + " " + fdef.getFieldName()+ ",";
+						fieldNames[i-1]=fdef.getFieldName();
+					}
+					else
+					{
+						sSQL += "s." + fdef.getFieldSQL() + ",";
+						fieldNames[i-1]=fdef.getFieldSQL();
+					}
 					ok = true;
 					break;
 				}
@@ -185,7 +192,7 @@ public class LookupDao extends HibernateDaoSupport {
 				sql += "," + fdv.getFieldSQL();
 			}
 		}
-		sql += " from " + tableName;
+		sql += " from " + tableName + " s";
 		sql += " where " + idFieldName + "='" + code + "'"; 
 		try {
 			DBPreparedHandler db = new DBPreparedHandler();

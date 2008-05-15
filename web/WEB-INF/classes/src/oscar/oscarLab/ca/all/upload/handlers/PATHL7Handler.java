@@ -46,7 +46,7 @@ public class PATHL7Handler implements MessageHandler  {
                 NodeList messages = messageSpec.getChildNodes();
                 for (i=0; i<messages.getLength(); i++){
                     
-                    String hl7Body = messages.item(i).getFirstChild().getTextContent();
+                    String hl7Body = null; //messages.item(i).getFirstChild().getTextContent();
                     uploader.routeReport("PATHL7", hl7Body,fileId);
                     
                 }

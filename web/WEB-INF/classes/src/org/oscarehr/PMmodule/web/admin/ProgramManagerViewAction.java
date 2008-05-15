@@ -72,7 +72,9 @@ import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.security.SecProvider;
+import com.quatro.service.security.SecurityManager;
 
 public class ProgramManagerViewAction extends BaseAction {
 
@@ -132,7 +134,7 @@ public class ProgramManagerViewAction extends BaseAction {
         // check role permission
         HttpSession se=request.getSession();
         String providerNo = (String)se.getAttribute("user");
-        se.setAttribute("performAdmissions",new Boolean(caseManagementManager.hasAccessRight("perform admissions","access",providerNo,"",programId)));
+        se.setAttribute("performAdmissions",hasAccess(request, Integer.valueOf(programId), "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
 		        
         // need the queue to determine which tab to go to first
         List<ProgramQueue> queue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId));
@@ -437,8 +439,7 @@ public class ProgramManagerViewAction extends BaseAction {
 
             request.setAttribute("id", programId);
 
-            request.setAttribute("hasOverridePermission", caseManagementManager.hasAccessRight("Service restriction override on admission", "access",
-                    getProviderNo(request), clientId, programId));
+            request.setAttribute("hasOverridePermission", hasAccess(request, Integer.valueOf(programId),"_pmm_editProgram.serviceRestrictions", SecurityManager.ACCESS_ALL));
 
             return mapping.findForward("service_restriction_error");
         }
@@ -459,7 +460,7 @@ public class ProgramManagerViewAction extends BaseAction {
         request.setAttribute("id", programId);
 
         if (isCancelled(request)
-                || !caseManagementManager.hasAccessRight("Service restriction override on referral", "access", getProviderNo(request), clientId, programId)) {
+                || !hasAccess(request, Integer.valueOf(programId),"_pmm_editProgram.serviceRestrictions",SecurityManager.ACCESS_ALL)) {
             return view(mapping, form, request, response);
         }
 
@@ -1025,4 +1026,11 @@ public class ProgramManagerViewAction extends BaseAction {
 	public void setIncidentManager(IncidentManager incidentManager) {
 		this.incidentManager = incidentManager;
 	}
+	private Boolean hasAccess(HttpServletRequest request, Integer programId, String function, String right)
+	{
+	    SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+	    String orgCd = "P" + programId.toString();
+	    return sec.GetAccess(function,orgCd).compareTo(right) >= 0;
+	}
+
 }

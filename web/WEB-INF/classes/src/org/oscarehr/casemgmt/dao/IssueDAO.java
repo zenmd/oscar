@@ -65,26 +65,14 @@ public class IssueDAO extends HibernateDaoSupport {
         return this.getHibernateTemplate().find(sql, new Object[] {search, search});
     }
 
-    public List search(String search, List roles) {
-        if (roles.size() == 0) {
-            return new ArrayList();
-        }
+    public List search(String search,String providerNo, String programId) {
 
         StringBuffer buf = new StringBuffer();
-        for (int x = 0; x < roles.size(); x++) {
-            if (x != 0) {
-                buf.append(",");
-            }
-            buf.append("\'" + StringEscapeUtils.escapeSql(((Role)roles.get(x)).getName()) + "\'");
-        }
-        String roleList = buf.toString();
 
         search = "%" + search + "%";
         search = search.toLowerCase();
-        String sql = "from Issue i where (lower(i.code) like ? or lower(i.description) like ?) and i.role in (" + roleList + ")";
-        System.out.println(sql);
+        String sql = "from Issue i where (lower(i.code) like ? or lower(i.description) like ?)";
         return this.getHibernateTemplate().find(sql, new Object[] {search, search});
-
     }
 
     public List searchNoRolesConcerned(String search) {

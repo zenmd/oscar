@@ -167,30 +167,6 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 		}
 		return null;
 	}
-	
-	public List notesOrderByDate(List notes,String providerNo,String demoNo)
-	{
-		List rtNotes=new ArrayList();
-		int noteSize=notes.size();
-		for (int i=0; i<noteSize; i++){
-			Iterator itr=notes.iterator();
-			CaseManagementNote inote=(CaseManagementNote) itr.next();
-
-			// check note access here.
-			if(inote.getProgram_no() == null || inote.getProgram_no().length()==0) {
-				//didn't save this data at this time - older note
-				rtNotes.add(inote);		
-			} else {
-				if(caseManagementMgr.hasAccessRight(removeFirstSpace(caseManagementMgr.getCaisiRoleById(inote.getReporter_caisi_role()))+"notes","access",providerNo,demoNo,inote.getProgram_no())){				
-					rtNotes.add(inote);					
-				}
-			}
-			
-			notes.remove(inote);
-			
-		}
-		return rtNotes;
-	}
 
 	String removeFirstSpace(String withSpaces) {
         int spaceIndex = withSpaces.indexOf(' '); //use lastIndexOf to remove last space

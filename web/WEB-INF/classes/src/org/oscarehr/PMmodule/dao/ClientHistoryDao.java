@@ -32,6 +32,9 @@ import org.indivo.xml.phr.dischargesummary.DischargeSummary;
 import org.oscarehr.PMmodule.model.ClientHistory;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.Admission;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.Calendar;
 public class ClientHistoryDao extends HibernateDaoSupport {
@@ -41,7 +44,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
     public List getClientHistories(Integer clientId, String providerNo) {
     	
         Criteria criteria = getSession().createCriteria(ClientHistory.class);
-        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like b.orgcd || '%' and b.provider_no='" + providerNo + "')";
+        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.eq("ClientId", clientId));
 
@@ -72,7 +75,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         }
         ClientHistory history = new ClientHistory();
         history.setClientId(Integer.valueOf(referral.getClientId().toString()));
-        history.setAction("REFERRAL");
+        history.setAction("Referral");
         history.setActionDate(referral.getReferralDate());
         history.setHistoryDate(Calendar.getInstance().getTime());
         history.setNotes(referral.getNotes());
@@ -85,5 +88,55 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             log.debug("saveClientReferral: id=" + history.getId());
         }
 
+    }
+    
+    public void saveClientHistory(QuatroIntake intake) {
+        if (intake == null) {
+            return;
+        }
+        ClientHistory history = new ClientHistory();
+        history.setClientId(intake.getClientId());
+        history.setAction("Intake");
+        history.setActionDate(intake.getCreatedOn().getTime());
+        history.setHistoryDate(Calendar.getInstance().getTime());
+        history.setNotes(intake.getReferredBy());
+        history.setProgramId(intake.getProgramId());
+        history.setProviderNo(intake.getStaffId());
+       
+        this.getHibernateTemplate().saveOrUpdate(history);
+
+        if (log.isDebugEnabled()) {
+            log.debug("saveClientReferral: id=" + history.getId());
+        }
+    }
+    
+    public void saveClientHistory( Admission admission) {
+        if (admission == null) {
+            return;
+        }
+        ClientHistory history = new ClientHistory();
+        history.setClientId(Integer.valueOf(admission.getClientId().toString()));
+        if ("admitted".equals(admission.getAdmissionStatus())) {
+        	history.setAction("Admission");
+        	history.setActionDate(admission.getAdmissionDate());
+        	history.setHistoryDate(Calendar.getInstance().getTime());
+        	history.setNotes(admission.getProviderNo());
+        	history.setProgramId(admission.getProgramId());
+        	history.setProviderNo(admission.getProviderNo());
+        }
+        else if("discharged".equals(admission.getAdmissionStatus()))
+        {
+            history.setAction("Discharge");
+            history.setActionDate(admission.getDischargeDate());
+            history.setHistoryDate(Calendar.getInstance().getTime());
+            history.setNotes(admission.getProviderNo());
+            history.setProgramId(admission.getProgramId());
+            history.setProviderNo(admission.getProviderNo());
+        }
+        this.getHibernateTemplate().saveOrUpdate(history);
+
+        if (log.isDebugEnabled()) {
+            log.debug("saveClientReferral: id=" + history.getId());
+        }
     }
 }

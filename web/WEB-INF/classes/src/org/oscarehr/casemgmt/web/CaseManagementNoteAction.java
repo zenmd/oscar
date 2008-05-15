@@ -232,7 +232,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 this.insertReason(request, note);
             }
         }
-        List issues = caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono), providerNo, programId,currentFacilityId);
+        List issues = caseManagementMgr.getIssues(providerNo, demono);
 
         Iterator itr1 = note.getIssues().iterator();
         ArrayList lstIssueSelection = new ArrayList();
@@ -430,14 +430,13 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             
             /* save note including add signature */	
             String lastSavedNoteString = (String) request.getSession().getAttribute("lastSavedNoteString");
-            String roleName=caseManagementMgr.getRoleName(providerNo,note.getProgram_no());
             CaseManagementCPP cpp = this.caseManagementMgr.getCPP(demo);
             if( cpp == null ) {
                 cpp = new CaseManagementCPP();
                 cpp.setDemographic_no(demo);
             }
             cpp = copyNote2cpp(cpp,note);
-            String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString, roleName);
+            String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString);
             caseManagementMgr.saveCPP(cpp, providerNo);
             /* remember the str written into echart */
             request.getSession().setAttribute("lastSavedNoteString", savedStr);
@@ -614,18 +613,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             //if (sessionBean.appointmentNo != null && !sessionBean.appointmentNo.equals("")) caseManagementMgr.updateAppointment(sessionBean.appointmentNo, sessionBean.status, "sign");
         }
 
-        String roleName = caseManagementMgr.getRoleName(providerNo, note.getProgram_no());
-        /*
-         * if provider is a doctor or nurse,get all major and resolved medical issue for demograhhic and append them to CPP medical history
-         */
-        if (inCaisi) {
-            /* get access right */
-            List accessRight = caseManagementMgr.getAccessRight(providerNo, getDemographicNo(request), (String) request.getSession().getAttribute("case_program_id"));
-            setCPPMedicalHistory(cpp, providerNo, accessRight);
-            cpp.setUpdate_date(now);
-            caseManagementMgr.saveCPP(cpp, providerNo);
-        }
-
         if (note.getPassword() != null && note.getPassword().length() > 0) {
             note.setLocked(true);
         }
@@ -658,7 +645,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if (note.getCreate_date() == null) note.setCreate_date(now);
 
         /* save note including add signature */
-        String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString, roleName);
+        String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString);
         /* remember the str written into echart */
         request.getSession().setAttribute("lastSavedNoteString", savedStr);
         caseManagementMgr.getEditors(note);
@@ -946,7 +933,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         // remove issues which we already have - we don't want duplicates
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        List existingIssues= caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono), providerNo, programId,currentFacilityId);
+        List existingIssues= caseManagementMgr.getIssues(providerNo, demono);//, providerNo, programId,currentFacilityId);
 
         Map existingIssuesMap = convertIssueListToMap(existingIssues);
         for (Iterator iter = searchResults.iterator(); iter.hasNext();) {
@@ -1000,7 +987,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         // remove issues which we already have - we don't want duplicates
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        List existingIssues= caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono), providerNo, programId, currentFacilityId);
+        List existingIssues= caseManagementMgr.getIssues(providerNo, demono); // providerNo, programId, currentFacilityId);
         /*
          * if(request.getSession().getAttribute("archiveView")!="true") existingIssues = caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono),providerNo,programId); else existingIssues = caseManagementMgr.getIssues(providerNo,
          * demono);
@@ -1326,12 +1313,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if (inCaisi != null && inCaisi.equalsIgnoreCase("true")) {
             String providerNo = this.getProviderNo(request);
 
-            // get access right
-            List accessRight = caseManagementMgr.getAccessRight(providerNo, demono, (String) request.getSession().getAttribute("case_program_id"));
-
             // add medical history to CPP
             CaseManagementCPP cpp = this.caseManagementMgr.getCPP(getDemographicNo(request));
-            setCPPMedicalHistory(cpp, providerNo, accessRight);
+            setCPPMedicalHistory(cpp, providerNo,null);
             cpp.setUpdate_date(new Date());
             caseManagementMgr.saveCPP(cpp, providerNo);
         }
@@ -1482,9 +1466,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if (programId == null || programId.length() == 0) {
             programId = "0";
         }
-
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
 
         for (int idx = notes.size() - 1; idx >= 0; --idx) {
             CaseManagementNote n = (CaseManagementNote) notes.get(idx);

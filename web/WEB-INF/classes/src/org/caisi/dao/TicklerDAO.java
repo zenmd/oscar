@@ -87,8 +87,9 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
 
     
-    public List<Tickler> getTicklers(CustomFilter filter) {
-        String tickler_date_order = filter.getSort_order();
+    public List<Tickler> getTicklers(CustomFilter filter, Integer facilityId, String providerNo, String programId) {
+    //TODO:Add user access filter
+    	String tickler_date_order = filter.getSort_order();
         String query = "from Tickler t where t.service_date >= ? and t.service_date <= ? ";
         ArrayList paramList = new ArrayList();
         query = getTicklerQueryString(query,  paramList,  filter);

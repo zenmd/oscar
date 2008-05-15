@@ -37,7 +37,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import com.quatro.service.security.SecurityManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,7 +57,7 @@ import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementViewFormBean;
 import org.oscarehr.common.model.UserProperty;
 import org.oscarehr.util.SessionConstants;
-
+import com.quatro.common.*;
 
 import oscar.oscarRx.data.RxPatientData;
 import oscar.oscarRx.pageUtil.RxSessionBean;
@@ -223,7 +223,6 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
             current = System.currentTimeMillis();
             log.debug("GET ISSUES " + String.valueOf(current - start));
             start = current;
-            issues=caseManagementMgr.filterIssues(issues, providerNo, programId,currentFacilityId);
             current = System.currentTimeMillis();
             log.debug("FILTER ISSUES " + String.valueOf(current - start));
             start = current;
@@ -254,7 +253,6 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
             current = System.currentTimeMillis();
             log.debug("GET NOTES " + String.valueOf(current - start));
             start = current;
-            notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
             current = System.currentTimeMillis();
             log.debug("FILTER NOTES " + String.valueOf(current - start));
             start = current;
@@ -358,7 +356,10 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
         se.setAttribute("casemgmt_msgBeans", this.caseManagementMgr.getMsgBeans(new Integer(getDemographicNo(request))));
 
         // readonly access to define creat a new note button in jsp.
-        se.setAttribute("readonly", new Boolean(this.caseManagementMgr.hasAccessRight("note-read-only", "access", providerNo, demoNo, (String) se.getAttribute("case_program_id"))));
+        SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        String orgCd = "P" + (String) se.getAttribute("case_program_id");
+        Boolean readonly = sec.GetAccess("_pmm.caseManagement",orgCd).equals(SecurityManager.ACCESS_READ);
+        se.setAttribute("readonly", readonly);
 
         // if we have just saved a note, remove saveNote flag
         Boolean saved = (Boolean) se.getAttribute("saveNote");
@@ -416,7 +417,6 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
          
         Integer currentFacilityId= request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID) != null ? (Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID):0; 
         
-        notes = caseManagementMgr.filterNotes(notes, providerNo, programId, currentFacilityId);
         this.caseManagementMgr.getEditors(notes);
                 
         oscar.OscarProperties p = oscar.OscarProperties.getInstance();
@@ -440,9 +440,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
         searchBean.setSearchStartDate(caseForm.getSearchStartDate());
         searchBean.setSearchText(caseForm.getSearchText());
         List results = this.caseManagementMgr.search(searchBean);
-        List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
+        List filteredResults = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
 
         List sortedResults = this.sort_notes(filteredResults, caseForm.getNote_sort());
         request.setAttribute("search_results", sortedResults);

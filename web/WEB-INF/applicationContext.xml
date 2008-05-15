@@ -347,7 +347,7 @@
         <property name="providerDAO" ref="providerDao"/>
         <property name="intakeDAO" ref="intakeDao"/>
         <property name="demographicDAO" ref="clientDao"/>
-        <property name="roleProgramAccessDAO" ref="RoleProgramAccessDAO"/>
+        <property name="secroleDao" ref="secroleDao"/>
         <property name="clientImageDAO" ref="ClientImageDAO"/>
         <property name="hashAuditDAO" ref="HashAuditDAO"/>
         <property name="ectWindowDAO" ref="EncounterWindowDAO"/>

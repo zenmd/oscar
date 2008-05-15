@@ -41,7 +41,7 @@ public class DefaultHandler implements MessageHandler {
             try{
                 NodeList allNodes = xmlDoc.getElementsByTagNameNS("*","*");
                 for (int i=1; i<allNodes.getLength(); i++){
-                    hl7Body = allNodes.item(i).getFirstChild().getTextContent();
+                    hl7Body = null; //allNodes.item(i).getFirstChild().getTextContent();
                     
                     if (hl7Body != null && hl7Body.indexOf("\nPID|") > 0){
                         msgCount++;

@@ -53,8 +53,10 @@ import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean;
 import org.oscarehr.util.SessionConstants;
 
-import oscar.OscarProperties;
+import com.quatro.common.KeyConstants;
 
+import oscar.OscarProperties;
+import com.quatro.service.security.SecurityManager;
 public class GenericIntakeEditAction extends BaseGenericIntakeAction {
 
     private static Log LOG = LogFactory.getLog(GenericIntakeEditAction.class);
@@ -388,22 +390,10 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
         return activeProviderPrograms;
     }
 
-    private List<Program> getBedPrograms(Set<Program> providerPrograms, String providerNo) {
-        List<Program> bedPrograms = new ArrayList<Program>();
-
-        for (Program program : programManager.getBedPrograms()) {
-            if (providerPrograms.contains(program)) {
-                if (OscarProperties.getInstance().isTorontoRFQ()) {
-                    if (caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, "", String.valueOf(program.getId()))) {
-                        bedPrograms.add(program);
-                    }
-                }
-                else {
-                    bedPrograms.add(program);
-                }
-            }
-        }
-
+    private List<Program> getBedPrograms(Set<Program> providerPrograms, String providerNo, Integer facilityId) {
+//TODO add type of program in programManager.getProgramDomainInFacility
+    	
+    	List<Program> bedPrograms = programManager.getProgramDomainInFacility(providerNo, facilityId);
         return bedPrograms;
     }
 
@@ -418,23 +408,7 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
     }
 
     private List<Program> getServicePrograms(Set<Program> providerPrograms, String providerNo) {
-        List<Program> servicePrograms = new ArrayList<Program>();
-
-        for (Object o : programManager.getServicePrograms()) {
-            Program program = (Program) o;
-
-            if (providerPrograms.contains(program)) {
-                if (OscarProperties.getInstance().isTorontoRFQ()) {
-                    if (caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, "", String.valueOf(program.getId()))) {
-                        servicePrograms.add(program);
-                    }
-                }
-                else {
-                    servicePrograms.add(program);
-                }
-            }
-        }
-
+        List<Program> servicePrograms = programManager.getServicePrograms();
         return servicePrograms;
     }
 
@@ -705,11 +679,6 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
         	} else {
         		providerPrograms = getActiveProviderPrograms(providerNo);
         	}
-        	
-            if (bedCommunityProgramsVisible) {
-                formBean.setBedCommunityPrograms(getBedPrograms(providerPrograms, providerNo), getCommunityPrograms());
-                formBean.setSelectedBedCommunityProgramId(currentBedCommunityProgramId);
-            }
 
             if (serviceProgramsVisible) {
                 formBean.setServicePrograms(getServicePrograms(providerPrograms, providerNo));
@@ -733,7 +702,6 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
             	formBean.setSelectedProgramInDomainId(Integer.valueOf(intakeLocation));
             }            
         }
-       
     }
 
 }

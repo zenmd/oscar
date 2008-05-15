@@ -100,6 +100,7 @@ import oscar.oscarDemographic.data.DemographicRelationship;
 
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
+import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
 
 public class ClientManagerAction extends BaseAction {
@@ -460,7 +461,7 @@ public class ClientManagerAction extends BaseAction {
             clientForm.set("referral", referral);
 
             // store permission
-            request.setAttribute("hasOverridePermission", caseManagementManager.hasAccessRight("Service restriction override on referral", "access", getProviderNo(request), String.valueOf(referral.getClientId()), "" + program.getId()));
+            request.setAttribute("hasOverridePermission", hasOverridePermission(request,program.getId()));
 
             // jump to service restriction error page to allow overrides, etc.
             // return mapping.findForward("service_restriction_error");
@@ -475,6 +476,19 @@ public class ClientManagerAction extends BaseAction {
         logManager.log("write", "referral", String.valueOf(referral.getClientId()), request);
     }
 
+    private Boolean hasOverridePermission(HttpServletRequest request, Integer programId)
+    {
+        SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        String orgCd = "P" + programId.toString();
+        return sec.GetAccess("_pmm_editProgram.serviceRestrictions",orgCd).equals(SecurityManager.ACCESS_ALL);
+    }
+    private Boolean hasAccess(HttpServletRequest request, Integer programId, String function, String right)
+    {
+        SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        String orgCd = "P" + programId.toString();
+        return sec.GetAccess(function,orgCd).compareTo(right) >= 0;
+    }
+    
     public ActionForward refer_select_program(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm clientForm = (DynaActionForm) form;
         Program p = (Program) clientForm.get("program");
@@ -557,7 +571,7 @@ public class ClientManagerAction extends BaseAction {
         p.setName(program.getName());
 
         request.setAttribute("do_restrict", true);
-        request.setAttribute("can_restrict", caseManagementManager.hasAccessRight("Create service restriction", "access", getProviderNo(request), id, "" + p.getId()));
+        request.setAttribute("can_restrict", hasAccess(request,p.getId(),"_pmm_editProgram.serviceRestrictions", SecurityManager.ACCESS_UPDATE));
         request.setAttribute("program", program);
 
         return mapping.findForward("edit");
@@ -578,7 +592,8 @@ public class ClientManagerAction extends BaseAction {
 
         ClientReferral referral = (ClientReferral) clientForm.get("referral");
 
-        if (isCancelled(request) || !caseManagementManager.hasAccessRight("Service restriction override on referral", "access", getProviderNo(request), "" + restriction.getDemographicNo(), "" + restriction.getProgramId())) {
+        if (isCancelled(request) || !hasOverridePermission(request, restriction.getProgramId())) 
+        {
             clientForm.set("referral", new ClientReferral());
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("refer.cancelled"));
@@ -1265,18 +1280,17 @@ public class ClientManagerAction extends BaseAction {
         List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
         for (Iterator it = admissions.iterator(); it.hasNext();) {
             Admission admission = (Admission) it.next();
-            String inProgramId = String.valueOf(admission.getProgramId());
+            Integer inProgramId = admission.getProgramId();
             String inProgramType = admission.getProgramType();
             if ("service".equalsIgnoreCase(inProgramType)) {
-                se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-                se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
+                se.setAttribute("performDischargeService", hasAccess(request, inProgramId,"_pmm_clientDischarge", SecurityManager.ACCESS_UPDATE));
+                se.setAttribute("performAdmissionService", hasAccess(request, inProgramId,"_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
 
             }
             else if ("bed".equalsIgnoreCase(inProgramType)) {
-                se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-                se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-                se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
+                se.setAttribute("performDischargeBed", hasAccess(request, inProgramId,"_pmm_clientDischarge", SecurityManager.ACCESS_UPDATE));
+                se.setAttribute("performAdmissionBed", hasAccess(request, inProgramId,"_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
+                se.setAttribute("performBedAssignments", hasAccess(request, inProgramId,"_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
             }
         }
 

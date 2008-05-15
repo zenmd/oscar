@@ -1,4 +1,4 @@
-<!-- Source:web/PMmodule/Admin/Home.jsp -->
+<!-- /PMmodule/Admin/Home.jsp -->
 
 <%
 String _appPath = request.getContextPath();
@@ -83,8 +83,6 @@ String _appPath = request.getContextPath();
 				<th></th>
 			</tr>
 
-
-
 			<tr>
 				<th></th>
 
@@ -116,15 +114,12 @@ String _appPath = request.getContextPath();
 						<th align="left" valign="top" class="clsHomePageLabels"><a
 							id="orgAdd"
 							href="<c:out value='${ctx}'/>/PMmodule/Admin/ShowORGTree.do?tableId=ORG">
-						Organization Management</a></th>
+						SMIS Organization Chart</a></th>
 					</tr>
 				</table>
 				</th>
-
 				<th></th>
 			</tr>
-
-
 		</table>
 		</div>
 		</td>

@@ -371,14 +371,25 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 		
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
-//		select * from Intake i where i.client_id = 200492 and i.program_id in 
-//		(select p.program_id from program p, program_provider q where p.facility_id =200058 
-//and p.program_id=q.program_id and q.provider_no=999998) order by i.creation_date desc
-		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
-			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
-			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.createdOn desc",
-			new Object[] {clientId, facilityId, providerNo });
 
+		List results = null;
+		if (facilityId == 0) {
+			String progSQL = "(select p.id from Program p where  'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+    			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
+
+			results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " + progSQL +
+			"  order by i.createdOn desc",
+			new Object[] {clientId, providerNo });
+		}
+		else
+		{
+	    	String progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
+
+	    	results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " + progSQL +
+	    		"  order by i.createdOn desc",
+	    		new Object[] {clientId, facilityId, providerNo });
+		}
 		return results;
 	}
 	

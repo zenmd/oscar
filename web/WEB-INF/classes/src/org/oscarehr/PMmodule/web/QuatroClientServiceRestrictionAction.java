@@ -57,6 +57,7 @@ import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+import com.quatro.service.security.SecurityManager;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
 
@@ -173,18 +174,17 @@ public class QuatroClientServiceRestrictionAction  extends DispatchAction {
        List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
        for (Iterator it = admissions.iterator(); it.hasNext();) {
            Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
+           Integer inProgramId = admission.getProgramId();
            String inProgramType = admission.getProgramType();
            if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
+               se.setAttribute("performDischargeService", hasAccess(request, inProgramId, "_pmm_clientDischarge", SecurityManager.ACCESS_UPDATE));
+               se.setAttribute("performAdmissionService", hasAccess(request, inProgramId,"_pmm_clientAdmission", SecurityManager.ACCESS_UPDATE));
 
            }
            else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
+               se.setAttribute("performDischargeBed", hasAccess(request, inProgramId,"_pmm_clientDischarge", SecurityManager.ACCESS_UPDATE));
+               se.setAttribute("performAdmissionBed", hasAccess(request, inProgramId,"_pmm_clientAdmission", SecurityManager.ACCESS_UPDATE));
+               se.setAttribute("performBedAssignments",hasAccess(request, inProgramId,"_pmm_clientAdmission", SecurityManager.ACCESS_UPDATE));
            }
        }
 
@@ -247,18 +247,17 @@ public class QuatroClientServiceRestrictionAction  extends DispatchAction {
        List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
        for (Iterator it = admissions.iterator(); it.hasNext();) {
            Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
+           Integer inProgramId = admission.getProgramId();
            String inProgramType = admission.getProgramType();
            if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
+               se.setAttribute("performDischargeService", hasAccess(request, inProgramId, "_pmm_clientDischarge", SecurityManager.ACCESS_UPDATE));
+               se.setAttribute("performAdmissionService", hasAccess(request, inProgramId,"_pmm_clientAdmission", SecurityManager.ACCESS_UPDATE));
 
            }
            else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
+               se.setAttribute("performDischargeBed", hasAccess(request, inProgramId,"_pmm_clientDischarge", SecurityManager.ACCESS_UPDATE));
+               se.setAttribute("performAdmissionBed", hasAccess(request, inProgramId,"_pmm_clientAdmission", SecurityManager.ACCESS_UPDATE));
+               se.setAttribute("performBedAssignments",hasAccess(request, inProgramId,"_pmm_clientAdmission", SecurityManager.ACCESS_UPDATE));
            }
        }
 
@@ -337,5 +336,11 @@ public void setClientRestrictionManager(
 public void setLookupManager(LookupManager lookupManager) {
 	this.lookupManager = lookupManager;
 }
-   
+private Boolean hasAccess(HttpServletRequest request, Integer programId, String function, String right)
+{
+    SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+    String orgCd = "P" + programId.toString();
+    return sec.GetAccess(function,orgCd).compareTo(right) >= 0;
+}
+
 }
