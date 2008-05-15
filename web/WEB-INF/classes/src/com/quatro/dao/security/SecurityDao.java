@@ -100,7 +100,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				userName = bean.getUserName();
 				userName = StringEscapeUtils.escapeSql(userName);
 				userName = userName.toLowerCase();
-				sql0 = "lower(p.firstName) like '%" + userName + "%'";
+				sql0 = "lower(s.userName) like '%" + userName + "%'";
 				
 			}
 			
