@@ -125,7 +125,7 @@ function submitForm(methodVal) {
 <td cospan="2"><html-el:select property="intake.curSleepArrangement">
 <html-el:optionsCollection property="optionList.curSleepArrangement" value="value" label="label"/>
 </html-el:select></td><td></td></tr>
-<tr><td>Have you stayed in a shelter Before?</td>
+<tr><td>Have you stayed in a shelter before?</td>
 <td><html-el:select property="intake.inShelterBefore">
    <html-el:option value="Yes" key="1" />
    <html-el:option value="No" key="0" />

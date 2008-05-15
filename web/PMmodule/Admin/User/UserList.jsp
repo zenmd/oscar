@@ -117,7 +117,7 @@
 			</display:table></div>
 		</logic:notEmpty>
 		<logic:empty name="secuserroles">
-		<br />No recoed found! Please try again.
+		<br />No record found! Please try again.
 		</logic:empty>
 		</logic:present>
 		</td>
