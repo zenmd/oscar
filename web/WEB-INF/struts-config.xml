@@ -218,6 +218,8 @@
             <form-property name="providerNo" type="java.lang.String" />
         </form-bean>
         <form-bean name="clientSearchForm" type="org.apache.struts.validator.LazyValidatorForm" />
+
+<!-- 
         <form-bean name="intakeAForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="intake" type="org.oscarehr.PMmodule.model.Formintakea" />
             <form-property name="view2" type="org.oscarehr.PMmodule.web.formbean.IntakeAFormBean" />
@@ -235,6 +237,8 @@
             <form-property name="hospitalization" type="org.oscarehr.PMmodule.web.formbean.IntakeCHospitalization[]" size="20" />
             <form-property name="bean" type="org.oscarehr.PMmodule.web.formbean.IntakeFormBean" />
         </form-bean>
+ -->
+         
         <form-bean name="healthSafetyForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="healthsafety" type="org.oscarehr.PMmodule.model.HealthSafety" />
         </form-bean>
@@ -376,9 +380,11 @@
             <form-property name="facilityId" type="java.lang.String" />
             <form-property name="programId" type="java.lang.String" />
         </form-bean>
+<!-- 
         <form-bean name="preIntakeForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="form" type="org.oscarehr.PMmodule.web.formbean.PreIntakeForm" />
         </form-bean>
+ -->        
         <form-bean name="followUpForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="intake" type="org.oscarehr.PMmodule.model.FormFollowUp" />
         </form-bean>
@@ -427,10 +433,14 @@
           <form-property name="attachmentValue" type="com.quatro.model.Attachment"></form-property>
           <form-property name="attachmentText" type="com.quatro.model.AttachmentText"></form-property>
         </form-bean>
+
         <!-- Generic Intake -->
+<!-- 
         <form-bean name="genericIntakeSearchForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeSearchFormBean" />
         <form-bean name="genericIntakeEditForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean" />
+-->        
         <form-bean name="quatroIntakeEditForm" type="org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm" />
+
         <!-- Generic Intake -->
 
         <form-bean name="imageDataForm" type="org.apache.struts.action.DynaActionForm">
@@ -632,6 +642,8 @@
         <action input="/oscarMessenger/ViewMessage.jsp" path="/oscarMessenger/WriteToEncounter" scope="request" type="oscar.oscarMessenger.pageUtil.MsgWriteToEncounterAction">
             <forward name="success" path="/oscarEncounter/IncomingEncounter.do" />
         </action>
+ 
+ <!-- 
         <action name="RxChoosePatientForm" path="/oscarRx/choosePatient" scope="request" type="oscar.oscarRx.pageUtil.RxChoosePatientAction">
             <forward name="success" path="/oscarRx/SearchDrug.jsp" />
         </action>
@@ -757,7 +769,9 @@
             <forward name="failure" path="/errorpage.jsp" />
             <forward name="success" path="/oscarMDS/ForwardingRules.jsp" />
         </action>
-        
+ -->
+ 
+<!-- 
         <action input="/labforwardingrules.jsp" path="/admin/ForwardingRules" scope="request" type="oscar.oscarLab.pageUtil.ForwardingRulesAction">
             <forward name="failure" path="/errorpage.jsp" />
             <forward name="success" path="/admin/labforwardingrules.jsp" />
@@ -789,6 +803,9 @@
         <action name="inputForm" path="/admin/RecommitHSFO" parameter="method" scope="request" type="oscar.form.study.HSFO.pageUtil.RecommitHSFOAction" >
             <forward name="schedulePage" path="/admin/recommitschedule.jsp" />
         </action>
+ -->        
+ 
+<!-- 
         <action name="FrmForm" path="/form/HSFOform" scope="request" type="oscar.form.study.HSFO.pageUtil.ManageHSFOAction" >
             <forward name="registration" path="/form/HSFORegistrationFrm.jsp" />
             <forward name="flowsheet" path="/form/HSFOFlowsheet.jsp" />
@@ -805,6 +822,9 @@
         </action>    
         <action name="FrmFormForm" path="/form/SetupForm" scope="request" type="oscar.form.pageUtil.FrmSetupFormAction" />
         <action name="FrmFormForm" path="/form/SubmitForm" scope="request" type="oscar.form.pageUtil.FrmFormAction" />
+ -->
+ 
+ <!-- 
         <action input="/StartCookie.jsp" path="/oscarEncounter/IncomingEncounter" scope="request" type="oscar.oscarEncounter.pageUtil.EctIncomingEncounterAction">
             <forward name="failure" path="/oscarEncounter/error.jsp" />
             <forward name="success" path="/oscarEncounter/Index.jsp" />
@@ -893,9 +913,13 @@
         <action input="/search/DemographicSearch.jsp" name="EctDemographicSearchForm" path="/oscarEncounter/SearchDemographic" scope="request" type="oscar.oscarEncounter.search.pageUtil.EctDemographicSearchAction">
             <forward name="success" path="/oscarEncounter/search/DemographicSearch.jsp" />
         </action>
+ 
         <action input="/search/DemographicSearch.jsp" name="ProceedForm" path="/Proceed" scope="request" type="oscar.oscarEncounter.search.pageUtil.EctProceedAction">
             <forward name="success" path="/search/PatientOptions.jsp" />
         </action>
+ -->
+
+<!-- 
         <action input="/search/PatientOptions.jsp" name="PatientOptionsForm" path="/PatientOption" scope="request" type="oscar.oscarEncounter.search.pageUtil.EctPatientOptionsAction">
             <forward name="consult" path="/oscarConsultationRequest/ConsultationFormRequest.jsp" />
             <forward name="viewAllConsult" path="/oscarConsultationRequest/DisplayDemographicConsultationRequests.jsp" />
@@ -914,6 +938,9 @@
         <action input="/immunizationConfig/ImmunizationSetDisplay.jsp" name="ImmunizationSetDisplayForm" path="/ImmunizationSetDisplay" scope="request" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmImmunizationSetDisplayAction">
             <forward name="success" path="/immunizationConfig/ImmunizationSetDisplay.jsp" />
         </action>
+ -->
+ 
+<!-- 
         <action name="EctImmPassThruForm" path="/oscarEncounter/immunization/deleteSchedule" scope="request" type="oscar.oscarEncounter.immunization.pageUtil.EctImmDeleteImmScheduleAction">
             <forward name="success" path="/oscarEncounter/immunization/Schedule.jsp" />
         </action>
@@ -1069,6 +1096,8 @@
         <action input="/oscarReport/RptByExample.jsp" name="RptByExampleForm" path="/oscarReport/RptByExample" scope="request" type="oscar.oscarReport.pageUtil.RptByExampleAction">
             <forward name="success" path="/oscarReport/RptByExample.jsp" />
         </action>
+-->        
+        
         <action input="/admin/gstControl.jsp" name="GstControlForm" path="/admin/GstControl" scope="request" type="oscar.oscarBilling.ca.on.administration.GstControlAction"> 
             <forward name="success" path="/admin/admin.jsp" /> 
         </action>
@@ -1546,6 +1575,8 @@
             <forward name="view" path="/ticklerPlus/viewUnreadTicklers.jsp" />
             <forward name="login" path="/ticklerPlus/loginUnreadTicklers.jsp" />
         </action>
+
+<!-- 
         <action path="/PMmodule/IntakeAReport1Action" type="org.oscarehr.PMmodule.web.IntakeAReport1Action" name="intakeAReport1Form" scope="request" input="/PMmodule/IntakeAReport1.jsp">
             <forward name="success" path="/PMmodule/IntakeAReport1.jsp" />
             <forward name="error" path="/PMmodule/IntakeAReport1.jsp" />
@@ -1561,6 +1592,8 @@
             <forward name="error" path="/PMmodule/IntakeCReport1.jsp" />
             <forward name="timeout" path="/PMmodule/Timeout.jsp" />
         </action>
+ -->
+         
         <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="session">
             <forward name="list" path="page.pmm.admin.list" />
             <forward name="edit" path="page.pmm.admin.edit" />
@@ -1696,6 +1729,7 @@
         <action path="/PMmodule/ProviderInfo" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="view" path="page.pmm.provider.view" />
         </action>
+<!-- 
         <action path="/PMmodule/IntakeA" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="intakeAForm" scope="request">
             <forward name="form" path="/PMmodule/IntakeA.jsp" />
             <forward name="success" path="/PMmodule/ClientManager.do?method=edit" />
@@ -1710,6 +1744,8 @@
             <forward name="cancel-new" path="/PMmodule/ProviderInfo.do?method=view" />
             <forward name="cancel-update" path="/PMmodule/ClientManager.do?method=edit" />
         </action>
+ -->
+         
         <action path="/PMmodule/HealthSafety" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="healthSafetyForm" validate="false">
             <forward name="edit" path="/PMmodule/HealthSafety.jsp" />
             <forward name="success" path="/PMmodule/HealthSafetyExit.jsp" />
@@ -1724,16 +1760,20 @@
             <forward name="list" path="page.pmm.staff.list" />
             <forward name="edit" path="page.pmm.staff.edit" />
         </action>
+<!-- 
         <action path="/PMmodule/Intake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="action" name="preIntakeForm" scope="request">
             <forward name="pre-intake" path="page.intake.form" />
             <forward name="intakea" path="/PMmodule/IntakeA.do" />
             <forward name="intakec" path="/PMmodule/IntakeC.do" />
         </action>
+         
         <action path="/PMmodule/EditIntake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="view" path="/PMmodule/edit_intake.jsp" />
         </action>
+ -->
         
         <!-- Generic Intake -->
+<!-- 
         <action
             path="/PMmodule/GenericIntake/Search"
             type="org.springframework.web.struts.DelegatingActionProxy"
@@ -1755,6 +1795,7 @@
             <forward name="clientEdit" path="/PMmodule/ClientManager.do" redirect="true"/>            
             <forward name="providerView" path="/PMmodule/ProviderInfo.do?method=view" redirect="true" />
         </action>
+-->
 
         <action path="/PMmodule/QuatroIntakeEdit"
             type="org.springframework.web.struts.DelegatingActionProxy"
@@ -1763,10 +1804,14 @@
             <forward name="update" path="page.quatro.intake.edit" />
             <forward name="close" path="/PMmodule/QuatroIntake.do" redirect="true"></forward>
         </action>
+
         <!-- Generic Intake -->
+<!-- 
         <action path="/PMmodule/GenericIntake/Report" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/PMmodule/GenericIntake/Report.jsp" />
         </action>
+ -->
+         
         <!-- FORMS -->
         <action path="/PMmodule/Forms/FollowUp" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="followUpForm" scope="request" input="/PMmodule/forms/FollowUp.jsp">
             <forward name="form" path="/PMmodule/forms/FollowUp.jsp" />
@@ -1952,28 +1997,6 @@
             <forward name="report" path="/PMmodule/vaccine/vaccine_provider_report.jsp" />
         </action>
         
-          
-        
-        <!--
-                <action input="/indivoMessenger/DisplayIndivoMessages.jsp" name="DisplayIndivoMsgsActionForm"
-                        path="/indivoMessenger/DisplayIndivoMessages" scope="request"
-                        type="oscar.indivoMessenger.DisplayIndivoMsgsAction">
-                    <forward name="success" path="/indivoMessenger/DisplayIndivoMessages.jsp"/>
-                </action>
-                <action input="/indivoMessenger/ViewIndivoMessage.jsp" name="NewStrutsActionForm"
-                        path="/newStrutsAction" scope="request" type="oscar.indivoMessenger.NewStrutsAction">
-                        <forward name="success" path="/indivoMessenger/CreateIndivoMessage.jsp"/>
-                </action>
-                <action input="/indivoMessenger/CreateIndivoMessage.jsp" name="SendActionForm"
-                        path="/indivoMessenger/Send" scope="request" type="oscar.indivoMessenger.SendAction">
-                        <forward name="success" path="/indivoMessenger/SentIndivoMessage.jsp"/>
-                </action>
-                <action input="/indivoMessenger/ViewIndivoMessage.jsp" name="CreateIndivoMessageActionForm"
-                    path="/indivoMessenger/CreateIndivoMessage" scope="request"
-                    type="oscar.indivoMessenger.CreateIndivoMessageAction"/>
-                    -->
-
-
                
         <!-- Population Report -->
         <action path="/PopulationReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
