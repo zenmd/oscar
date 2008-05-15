@@ -257,7 +257,7 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 <html-el:optionsCollection property="optionList.referredTo" value="value" label="label"/>
 </html-el:select></td>
 <td></td><td></td></tr>
-<tr><td>Reason for Non-Admittance</td>
+<tr><td>Reason for non-admittance</td>
 <td><html-el:select property="intake.reasonNoAdmit">
 <html-el:optionsCollection property="optionList.reasonNoAdmit" value="value" label="label"/>
 </html-el:select></td>
