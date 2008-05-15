@@ -72,7 +72,7 @@ function submitForm(methodVal) {
    <html-el:optionsCollection property="optionList.gender" value="value" label="label"/>
 </html-el:select></td></tr>
 <tr><td>Last name*</td><td><html-el:text property="client.lastName" size="20" maxlength="30" /></td>
-<td>Date of birth<br>(yyyy/mm/dd)</td><td>
+<td>Date of birth*<br>(yyyy/mm/dd)</td><td>
 <quatro:datePickerTag property="dob" width="65%" openerForm="quatroIntakeEditForm">
 </quatro:datePickerTag>
 </td></tr>
