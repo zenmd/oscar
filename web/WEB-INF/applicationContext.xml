@@ -143,7 +143,7 @@
     <bean id="ApptDAO" class="org.oscarehr.casemgmt.dao.ApptDAO" autowire="byName"/>
     <bean id="MessagetblDAO" class="org.oscarehr.casemgmt.dao.MessagetblDAO" autowire="byName"/>
     <bean id="ProviderSignitureDao" class="org.oscarehr.casemgmt.dao.ProviderSignitureDao" autowire="byName"/>
-    <bean id="RoleProgramAccessDAO" class="org.oscarehr.casemgmt.dao.RoleProgramAccessDAO" autowire="byName"/>
+    <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName"/>
     <bean id="ClientImageDAO" class="org.oscarehr.casemgmt.dao.ClientImageDAO" autowire="byName"/>
     <bean id="roleDAO" class="org.oscarehr.PMmodule.dao.RoleDAO" autowire="byName" />
     <bean id="CaseManagementTmpSaveDAO" class="org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO" autowire="byName"/>
@@ -461,7 +461,6 @@
         <property name="customFilterDAO" ref="customFilterDAOT"/>
         <property name="programManager" ref="programManager"/>
         <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="roleProgramAccessDAO" ref="RoleProgramAccessDAO"/>
     </bean>
 
     <bean id="demographicManagerT" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
@@ -531,7 +530,6 @@
     <!-- Admin Start -->
 
     <bean id="orgDao" class="com.quatro.dao.ORGDao" autowire="byName" />
-    <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName" />
     <bean id="secobjprivilegeDao" class="com.quatro.dao.security.SecobjprivilegeDao" autowire="byName" />
     <bean id="securityDao" class="com.quatro.dao.security.SecurityDao" autowire="byName" />
     <bean id="secProviderDao" class="com.quatro.dao.security.SecProviderDao" autowire="byName" />

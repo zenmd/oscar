@@ -949,7 +949,7 @@ public class CaseManagementManager {
     public void setUserPropertyDAO( UserPropertyDAO dao) {
         this.userPropertyDAO = dao;
     }
-    public void setSecroleDAO( SecroleDao dao) {
+    public void setSecroleDao( SecroleDao dao) {
         this.secroleDao = dao;
     }
 }
