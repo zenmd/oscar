@@ -38,6 +38,7 @@ public class UserSearchAction extends BaseAction {
 
 	private MessageDigest md;
 
+	
 	public void setLogManager(LogManager mgr) {
 		this.logManager = mgr;
 	}
@@ -62,7 +63,7 @@ public class UserSearchAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		ArrayList roleList = (ArrayList)rolesManager.getRoles();	
 		request.getSession().setAttribute("roles", roleList);
-		
+		request.setAttribute("secuserroles",request.getSession().getAttribute("secuserroles"));
 		return mapping.findForward("list");
 
 	}
@@ -100,7 +101,7 @@ public class UserSearchAction extends BaseAction {
 			}
 
 		}
-
+		request.getSession().setAttribute("secuserroles", surlist); //session the list
 		request.setAttribute("secuserroles", surlist);
 		logManager.log("read", "full secuserroles list", "", request);
 

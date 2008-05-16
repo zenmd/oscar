@@ -24,9 +24,12 @@ import org.oscarehr.PMmodule.web.BaseAction;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Security;
 import com.quatro.model.security.Secuserrole;
+import com.quatro.service.LookupManager;
 import com.quatro.service.ORGManager;
 import com.quatro.service.security.RolesManager;
 import com.quatro.service.security.UsersManager;
+import com.quatro.model.LookupCodeValue;
+import com.quatro.service.LookupManager;
 
 public class UserManagerAction extends BaseAction {
 
@@ -36,6 +39,7 @@ public class UserManagerAction extends BaseAction {
 
 	private UsersManager usersManager;
 	private ORGManager orgManager;
+	private LookupManager lookupManager;
 
 	private MessageDigest md;
 	private String PWD = "**********";
@@ -51,6 +55,9 @@ public class UserManagerAction extends BaseAction {
 
 	public void setUsersManager(UsersManager usersManager) {
 		this.usersManager = usersManager;
+	}
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
 	}
 
 	@Override
@@ -118,6 +125,10 @@ public class UserManagerAction extends BaseAction {
 
 	}
 
+	private void setLookupLists(HttpServletRequest request)
+	{
+		
+	}
 
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -276,9 +287,12 @@ public class UserManagerAction extends BaseAction {
 
 		try {
 			usersManager.save(provider, user);
+			request.setAttribute("userForEdit", user);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.save.success", request.getContextPath()));
 			saveMessages(request, messages);
+			//return addRole(mapping, form, request, response);
+			return mapping.findForward("edit");
 		} catch (Exception e) {
 			String msg = e.getMessage();
 			int i = msg
@@ -296,9 +310,6 @@ public class UserManagerAction extends BaseAction {
 			}
 			return mapping.findForward("edit");
 		}
-
-		//return addRole(mapping, form, request, response);
-		return mapping.findForward("edit");
 	}
 
 	public ActionForward addRole(ActionMapping mapping, ActionForm form,
