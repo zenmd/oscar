@@ -70,11 +70,8 @@ public class ClientSearchAction2 extends BaseAction {
 		setLookupLists(request);
 		DynaActionForm searchForm = (DynaActionForm)form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean)searchForm.get("criteria");
-		request.setAttribute("moduleName", " - Client Management");
 		if("cv".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
-			request.setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
 			formBean.setBedProgramId("MyP");
-			request.setAttribute("moduleName", " - Case Management");
 		}
 		if(null!=request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
 			String cId =request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
@@ -138,6 +135,11 @@ public class ClientSearchAction2 extends BaseAction {
 		List<Provider> allProviders = getProviderManager().getActiveProviders(facilityId.toString(),null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders",lookupManager.LoadCodeList("GEN", true, null, null));
+		request.setAttribute("moduleName", " - Client Management");
+		if("cv".equals(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION))){
+			request.setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
+			request.setAttribute("moduleName", " - Case Management");
+		}
 	}
 
     public void setLookupManager(LookupManager lookupManager) {
