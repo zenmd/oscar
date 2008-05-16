@@ -30,6 +30,12 @@ public class QuatroIntakeFamily implements Serializable{
     private String dob;
     private String select;
     private boolean bServiceRestriction;
+    
+    private String statusMsg;
+    //hidden field in family intake page, to be compatible with single person intake.
+
+    //a flag in each line of family intake page. 
+    private String newClientChecked;
 
     public QuatroIntakeFamily(){
     	this.select="sel";
@@ -238,6 +244,22 @@ public class QuatroIntakeFamily implements Serializable{
 
 	public void setRelationshipDesc(String relationshipDesc) {
 		this.relationshipDesc = relationshipDesc;
+	}
+
+	public String getStatusMsg() {
+		return statusMsg;
+	}
+
+	public void setStatusMsg(String statusMsg) {
+		this.statusMsg = statusMsg;
+	}
+
+	public String getNewClientChecked() {
+		return newClientChecked;
+	}
+
+	public void setNewClientChecked(String newClientChecked) {
+		this.newClientChecked = newClientChecked;
 	}
 	
 }

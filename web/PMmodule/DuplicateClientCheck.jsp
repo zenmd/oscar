@@ -9,7 +9,7 @@
 function selectDuplicateClient(form_name, firstName, firstNameValue, 
    lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
    clientNo, clientNoValue, statusMsg, statusMsgValue, 
-   newClientChecked,newClientCheckedValue) {
+   newClientChecked,newClientCheckedValue, shortFlag) {
    var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
    eval(myexpr);
    myexpr = "opener.document." + form_name + ".elements['" + lastName +"'].value='" + lastNameValue + "'";
@@ -30,7 +30,16 @@ function selectDuplicateClient(form_name, firstName, firstNameValue,
    eval(myexpr);
    myexpr = "opener.document." + form_name + ".elements['" + clientNo +"'].value='" + clientNoValue + "'";
    eval(myexpr);
-   myexpr = "opener.document." + form_name + ".elements['" + statusMsg +"'].value='" + statusMsgValue + "'";
+
+   var statusMsgValue2=statusMsgValue;
+   if(shortFlag=="Y"){
+     if(statusMsgValue=="(Existing Client)"){
+       statusMsgValue2="#";
+     }else{
+       statusMsgValue2="";
+     } 
+   }
+   myexpr = "opener.document." + form_name + ".elements['" + statusMsg +"'].value='" + statusMsgValue2 + "'";
    eval(myexpr);
 
    myexpr = "opener.document." + form_name + ".elements['" + newClientChecked +"'].value='" + newClientCheckedValue + "'";
@@ -39,7 +48,7 @@ function selectDuplicateClient(form_name, firstName, firstNameValue,
    self.close();
 }
 
-function checkExistClients(){
+function checkExistClients(shortFlagValue){
    var lastName = document.getElementsByName("client.lastName")[0];
    var firstName = document.getElementsByName("client.firstName")[0];
    var dob = document.getElementsByName("client.dob")[0];
@@ -49,7 +58,7 @@ function checkExistClients(){
      "var=" + "<c:out value="${var}"/>" + 
      "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
      "&dob=" + dob.value + "&sex=" + sex.value +
-     "&alias=" + alias.value;
+     "&alias=" + alias.value + "&shortFlag=" + shortFlagValue;
    window.location =url;
 }
 
@@ -58,6 +67,7 @@ function checkExistClients(){
 <body>
 <html:form action="/PMmodule/DuplicateClientCheck.do">
 <input type="hidden" name="var" value="<c:out value="${var}"/>" />
+<input type="hidden" name="shortFlag" value="<c:out value="${shortFlag}"/>"/>
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
@@ -98,7 +108,7 @@ function checkExistClients(){
         '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
         '<c:out value="${clientNo}"/>','0',
         '<c:out value="${statusMsg}"/>', '(New Client)',
-        '<c:out value="${newClientChecked}"/>', 'Y');">
+        '<c:out value="${newClientChecked}"/>', 'Y', '<c:out value="${shortFlag}"/>');">
         New Client</a>
       </c:when>
       <c:otherwise>
@@ -110,7 +120,7 @@ function checkExistClients(){
         '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
         '<c:out value="${clientNo}"/>','<c:out value="${client.demographicNo}"/>',
         '<c:out value="${statusMsg}"/>', '(Existing Client)',
-        '<c:out value="${newClientChecked}"/>', 'N');">
+        '<c:out value="${newClientChecked}"/>', 'N', '<c:out value="${shortFlag}"/>');">
           <c:out value="${client.demographicNo}" /></a>
       </c:otherwise>
     </c:choose>
@@ -126,7 +136,7 @@ function checkExistClients(){
         '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
         '<c:out value="${clientNo}"/>','0',
         '<c:out value="${statusMsg}"/>', '(New Client)',
-        '<c:out value="${newClientChecked}"/>', 'Y');">
+        '<c:out value="${newClientChecked}"/>', 'Y', '<c:out value="${shortFlag}"/>');">
         <c:out value="${client.formattedName}" /></a>
       </c:when>
       <c:otherwise>
@@ -138,14 +148,14 @@ function checkExistClients(){
         '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
         '<c:out value="${clientNo}"/>','<c:out value="${client.demographicNo}"/>',
         '<c:out value="${statusMsg}"/>', '(Existing Client)',
-        '<c:out value="${newClientChecked}"/>', 'N');">
+        '<c:out value="${newClientChecked}"/>', 'N', '<c:out value="${shortFlag}"/>');">
            <c:out value="${client.formattedName}" /></a>
       </c:otherwise>
     </c:choose>
   </display:column>
   <display:column sortable="false" title="Date of Birth">
     <c:if test="${client.yearOfBirth!=null}">
-	  <c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />
+	  <c:out value="${client.dob}" />
     </c:if>
   </display:column>
   <display:column sortable="false" title="Gender"><c:out value="${client.sexDesc}" /></display:column>                        

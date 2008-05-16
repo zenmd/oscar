@@ -44,8 +44,6 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
    private ClientManager clientManager;
    private ClientRestrictionManager clientRestrictionManager;
    
-   public static final String ID = "id";
-   
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return edit(mapping, form, request, response);
    }
@@ -66,6 +64,10 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
+       LookupCodeValue obj2= new LookupCodeValue();
+       obj2.setCode("");
+       obj2.setDescription("");
+       genders.add(0,obj2);
        clientForm.setGenders(genders);
 
        List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
@@ -82,8 +84,12 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	   
        List dependent = intakeManager.getClientFamilyByIntakeId(intakeId);
        if(dependent==null) dependent = new ArrayList(); 
-       for(Object element: dependent){
-    	  QuatroIntakeFamily obj= (QuatroIntakeFamily)element;
+       for(int i=0;i<dependent.size();i++){
+     	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependent.get(i);
+     	  obj.setStatusMsg("#");
+       }
+       for(int i=0;i<dependent.size();i++){
+    	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependent.get(i);
     	  if(obj.getIntakeHeadId().equals(obj.getIntakeId())){
     		 dependent.remove(obj);
     		 break;
@@ -114,6 +120,10 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
+       LookupCodeValue obj3= new LookupCodeValue();
+       obj3.setCode("");
+       obj3.setDescription("");
+       genders.add(0,obj3);
        clientForm.setGenders(genders);
 
        List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
@@ -146,6 +156,11 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 		  obj.setSelect(request.getParameter("dependent[" + i +"].select"));
 		  obj.setDupliDemographicNo(Integer.valueOf(request.getParameter("dependent[" + i +"].dupliDemographicNo")));
 		  obj.setNewClientCheck(request.getParameter("dependent[" + i +"].newClientCheck"));
+		  if(obj.getClientId().intValue()>0){
+		     obj.setStatusMsg("#");
+		  }else{
+			obj.setStatusMsg("");
+		  }
 		  dependents.add(obj);
 	    }
        
@@ -176,6 +191,10 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
+       LookupCodeValue obj2= new LookupCodeValue();
+       obj2.setCode("");
+       obj2.setDescription("");
+       genders.add(0,obj2);
        clientForm.setGenders(genders);
 
        List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
@@ -196,20 +215,25 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 
 	   for(int i=0;i<dependentsSize;i++){
 	      if(request.getParameter("dependent[" + i +"].select")==null){
-		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
-		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		  obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
-		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
-		  obj.setDob(request.getParameter("dependent[" + i +"].dob"));
-		  obj.setSex(request.getParameter("dependent[" + i +"].sex"));
-		  obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
-		  obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
-		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		  obj.setSelect(request.getParameter("dependent[" + i +"].select"));
-		  obj.setDupliDemographicNo(Integer.valueOf(request.getParameter("dependent[" + i +"].dupliDemographicNo")));
-		  obj.setNewClientCheck(request.getParameter("dependent[" + i +"].newClientCheck"));
-		  dependents.add(obj);
+		    QuatroIntakeFamily obj = new QuatroIntakeFamily();	
+		    obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
+		    obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
+		    obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
+		    obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
+		    obj.setDob(request.getParameter("dependent[" + i +"].dob"));
+		    obj.setSex(request.getParameter("dependent[" + i +"].sex"));
+		    obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
+		    obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
+		    obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
+		    obj.setSelect(request.getParameter("dependent[" + i +"].select"));
+		    obj.setDupliDemographicNo(Integer.valueOf(request.getParameter("dependent[" + i +"].dupliDemographicNo")));
+		    obj.setNewClientCheck(request.getParameter("dependent[" + i +"].newClientCheck"));
+		    if(obj.getClientId().intValue()>0){
+			  obj.setStatusMsg("#");
+		    }else{
+			  obj.setStatusMsg("");
+		    }
+		    dependents.add(obj);
 	      }
 	    }
 
@@ -239,6 +263,10 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        request.setAttribute("clientId", demographicNo);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
+       LookupCodeValue obj4= new LookupCodeValue();
+       obj4.setCode("");
+       obj4.setDescription("");
+       genders.add(0,obj4);
        clientForm.setGenders(genders);
 
        List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
@@ -297,6 +325,13 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
   	          obj.setClientId(0);
 	        }
 		  }
+
+		  if(obj.getClientId().intValue()>0){
+			obj.setStatusMsg("#");
+		  }else{
+			obj.setStatusMsg("");
+		  }
+		  
 	      dependents.add(obj);
 	   }
 	   

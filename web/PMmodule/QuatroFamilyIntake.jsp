@@ -13,6 +13,27 @@ function submitForm(methodVal) {
 	document.forms(0).method.value = methodVal;
 	document.forms(0).submit();
 }
+
+function checkExistClients(i){
+   var varStr="quatroClientFamilyIntakeForm," + "dependent[" + i + "].firstName," +
+        "dependent[" + i + "].lastName," + "dependent[" + i + "].sex," +
+        "dependent[" + i + "].dob," + "dependent[" + i + "].alias," +
+        "dependent[" + i + "].clientId," + "dependent[" + i + "].statusMsg," +
+        "dependent[" + i + "].newClientChecked";
+
+   var lastName = document.getElementsByName("dependent[" + i + "].lastName")[0];
+   var firstName = document.getElementsByName("dependent[" + i + "].firstName")[0];
+   var dob = document.getElementsByName("dependent[" + i + "].dob")[0];
+   var sex = document.getElementsByName("dependent[" + i + "].sex")[0];
+   var alias = document.getElementsByName("dependent[" + i + "].alias")[0];
+   var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?' +
+     "var=" + varStr + 
+     "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
+     "&dob=" + dob.value + "&sex=" + sex.value +
+     "&alias=" + alias.value + "&shortFlag=Y";
+   top.childWin = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
+   top.childWin.focus();
+}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Family Intake</th></tr>
@@ -55,13 +76,15 @@ function submitForm(methodVal) {
 <tr><td>
 <table class="simple" cellpadding="3" cellspacing="0" border="0">
 <tr><td width="3%"></td>
-<td width="17%">Last Name</td>
-<td width="17%">First Name</td>
-<td width="17%">DOB</td>
-<td width="13%">Gender</td>
-<td width="17%">Alias(es)</td>
-<td width="17%"></td></tr>
+<td width="6%"></td>
+<td width="15%">Last Name*</td>
+<td width="15%">First Name*</td>
+<td width="16%">DOB</td>
+<td width="14%">Gender*</td>
+<td width="14%">Alias(es)</td>
+<td width="18%"></td></tr>
 <tr><td></td>
+<td></td>
 <td><c:out value="${quatroClientFamilyIntakeForm.familyHead.lastName}" />
 <html:hidden property="familyHead.demographicNo"  />
 <html:hidden property="familyHead.lastName" /></td>
@@ -89,18 +112,26 @@ function submitForm(methodVal) {
 <tr><td>
 <table class="simple" cellpadding="3" cellspacing="0" border="0">
 <tr><td width="3%"></td>
-<td width="17%">Last Name</td>
-<td width="17%">First Name</td>
+<td width="6%"></td>
+<td width="15%">Last Name*</td>
+<td width="15%">First Name*</td>
 <td width="16%">DOB</td>
-<td width="13%">Gender</td>
-<td width="17%">Alias(es)</td>
-<td width="17%">Relationship</td></tr>
+<td width="14%">Gender*</td>
+<td width="14%">Alias(es)</td>
+<td width="18%">Relationship</td></tr>
 
 <logic:iterate id="dependent" name="quatroClientFamilyIntakeForm" property="dependents" indexId="rIndex">
     <tr><td>
      <html:checkbox name="dependent" property="select" indexed="true" />
      <html:hidden name="dependent" property="intakeId" indexed="true" />
      <html:hidden name="dependent" property="clientId" indexed="true" />
+     <html:hidden name="dependent" property="newClientChecked" indexed="true" />
+    </td>
+    <td>
+      <a href="javascript:checkExistClients(<%=rIndex%>);" style="color:Navy;text-decoration:none;">
+       <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />
+       </a>
+       <html:text name="dependent" property="statusMsg" indexed="true" readonly="readonly" style="border: 0px;width: 20px"/>
     </td>
     <td><html:text name="dependent" property="lastName" indexed="true" style="width:90%" /></td>
     <td><html:text name="dependent" property="firstName" indexed="true" style="width:90%" /></td>
@@ -109,7 +140,7 @@ function submitForm(methodVal) {
        <html:optionsCollection property="genders" value="code" label="description"/>
       </html:select>
     </td>
-    <td><html:text name="dependent" property="alias" indexed="true" style="width:90%" /></td>
+    <td><html:text name="dependent" property="alias" indexed="true" style="width:95%" /></td>
     <td><html:select name="dependent" property="relationship" indexed="true" style="width:90%">
        <html:optionsCollection property="relationships" value="code" label="description"/>
       </html:select>
@@ -138,6 +169,9 @@ function submitForm(methodVal) {
 &nbsp;<a href='javascript:submitForm("add");'style="color:Navy;text-decoration:underline;">Add Dependent</a>
 &nbsp;|&nbsp;<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Delete Dependent</a></td>
 </tr>
+
+<tr><td colspan="8" class="buttonBar4">#&nbsp; existing client
+</td></tr>
 </table>
 </td></tr>
 

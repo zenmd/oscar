@@ -15,6 +15,7 @@ import com.quatro.service.LookupManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.model.Demographic;
 import com.quatro.model.LookupCodeValue;
+import oscar.MyDateFormat;
 
 public class DuplicateClientCheckAction extends DispatchAction {
    private ClientManager clientManager;
@@ -37,7 +38,9 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   obj.setFirstName(request.getParameter("firstName"));
 	   obj.setLastName(request.getParameter("lastName"));
 	   if(!request.getParameter("dob").equals("")){
-	     obj.setDateOfBirth(request.getParameter("dob"));
+	     obj.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(request.getParameter("dob"))));
+	     obj.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(request.getParameter("dob"))));
+	     obj.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(request.getParameter("dob"))));
 	   }
 	   if(!request.getParameter("sex").equals("")){
 	     obj.setSex(request.getParameter("sex"));
@@ -54,6 +57,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   request.setAttribute("clients", lst);
 	   
 	   request.setAttribute("var", request.getParameter("var"));
+	   request.setAttribute("shortFlag", request.getParameter("shortFlag"));
 	   
 	   String[] split= request.getParameter("var").split(",");
 	   request.setAttribute("formName", split[0]);

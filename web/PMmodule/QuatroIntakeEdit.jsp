@@ -32,7 +32,7 @@ function checkExistClients(){
      "var=quatroIntakeEditForm,client.firstName,client.lastName,client.sex,dob,client.alias,intake.clientId,statusMsg,newClientChecked" + 
      "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
      "&dob=" + dob.value + "&sex=" + sex.value +
-     "&alias=" + alias.value;
+     "&alias=" + alias.value + "&shortFlag=N";
    top.childWin = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
    top.childWin.focus();
 }
