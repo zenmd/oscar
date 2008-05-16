@@ -210,6 +210,8 @@ public class QuatroClientComplaintAction extends DispatchAction {
 			
 			complaint.setStandards(sb.toString());
 			
+		}else{
+			complaint.setStandards("");
 		}
 		
 		Map map = request.getParameterMap();
