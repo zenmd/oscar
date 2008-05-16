@@ -200,7 +200,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		
 		// checkboxes
 		String isChecked = complaintForm.getIsStandards();
-		if(isChecked.equals("1")){
+		if(isChecked != null && isChecked.equals("1")){
 			
 			String[] standards1 = complaint.getStandards1();
 			StringBuilder sb = new StringBuilder();
@@ -219,7 +219,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 			complaintManager.save(complaint);
 
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"error.saveComplaint.success", request.getContextPath()));
+					"message.save.success", request.getContextPath()));
 			saveMessages(request, messages);
 			complaintForm.setComplaint(complaint);
 
