@@ -7,6 +7,10 @@
 <%
     if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.jsp");
     String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
+    String url = "/CaseManagementView2.do";
+    if(!"cv".equals(session.getAttribute(com.quatro.common.KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
+    	url ="/PMmodule/QuatroClientSummary.do";
+    }
 %>
 
 <script>
@@ -171,10 +175,10 @@
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
 			<display:column sortable="true" title="Client No">
-                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
             </display:column>
 			<display:column sortable="true" title="Name">
-                 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.formattedName}" /></a>
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.formattedName}" /></a>
 			</display:column>
 			<display:column sortable="true" title="Date of Birth">
 				<c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />
