@@ -6,7 +6,7 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">User Management</span></th>
+			id="lblTitle" align="left">User Management</span></th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link
@@ -49,7 +49,7 @@
 				</tr>
 				<tr>
 					<td>Name:</td>
-					<td><c:out value="${lastName}"></c:out>,&nbsp;<c:out value="${firstName}"></c:out></td>
+					<td><c:out value="${secuserForm.lastName}"></c:out>,&nbsp;<c:out value="${secuserForm.firstName}"></c:out></td>
 				<tr>
 					<td colspan="2">Role/Org Profile:</td>
 				</tr>

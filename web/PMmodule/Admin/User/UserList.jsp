@@ -3,12 +3,12 @@
 <%@ include file="/taglibs.jsp"%>
 
 
-<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px" border="1" bordercolor="red">
 	<tr>
 		<th class="pageTitle" align="center"><span
 			id="_ctl0_phBody_lblTitle" align="left">User Management</span></th>
 	</tr>
-	<tr>
+	<tr height="18px">
 		<td align="left" class="buttonBar"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
@@ -29,12 +29,8 @@
 		<td align="left"></td>
 	</tr>
 	<tr>
-		<td height="100%"><html:form action="/PMmodule/Admin/UserSearch">
+		<td><html:form action="/PMmodule/Admin/UserSearch">
 			<input type="hidden" name="method" value="search" />
-
-			<div class="h4">
-			<h4>Search user by entering search criteria below</h4>
-			</div>
 			<div class="axial">
 			<table border="0" cellspacing="2" cellpadding="3">
 				<tr>
@@ -79,47 +75,29 @@
 			</div>
 
 		</html:form> 
-		
-		<logic:present name="secuserroles">
-		<logic:notEmpty name="secuserroles">
+		</td>
+		</tr>
+		<tr style="height: 100%"><td>
 			<div
 				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
-
-			<table width="100%" cellpadding="0" cellspacing="0" border="10">
-				<tr>
-					<td align="left" class="clsHomePageHeader">
-					<h2>User List</h2>
-					</td>
-				</tr>
-
-			</table>
-
 			<display:table class="simple" cellspacing="2" cellpadding="3"
-				id="user" name="secuserroles" export="false" pagesize="0"
+				id="user" name="secuserroles" export="false" pagesize="100"
 				requestURI="/PMmodule/Admin/UserSearch.do">
-
-
+				<display:setProperty name="basic.msg.empty_list" value="Please enter a filter and click search." />
+				
 				<display:column sortable="true" title="User ID">
 					<a
-						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=profile&providerNo=<c:out value="${user.providerNo}" />">
+						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
 					<c:out value="${user.userName}" /> </a>
 				</display:column>
 
-				<display:column property="fullName" sortable="true" title="Name" />
-
-				<display:column title="">
+				<display:column sortable="true" title="Name">
 					<a
 						href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
-					Edit User Information</a>
+					<c:out value="${user.fullName}" /> </a>
 				</display:column>
-
 			</display:table></div>
-		</logic:notEmpty>
-		<logic:empty name="secuserroles">
-		<br />No record found! Please try again.
-		</logic:empty>
-		</logic:present>
 		</td>
 	</tr>
 </table>
@@ -144,9 +122,12 @@ function submitForm(mthd){
 }
 
 function resetForm(){
-
-	document.forms[0].reset();
-
+		var form = document.forms[0];
+		form.elements['criteria.userName'].value='';
+		form.elements['criteria.firstName'].value='';
+		form.elements['criteria.lastName'].value='';
+		form.elements['criteria.active'].selectedIndex = 0;
+		form.elements['criteria.roleName'].selectedIndex = 0;
 }
 
 

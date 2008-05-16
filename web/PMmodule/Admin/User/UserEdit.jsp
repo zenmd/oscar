@@ -12,21 +12,21 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 		<th class="pageTitle" align="center"><span
 			id="_ctl0_phBody_lblTitle" align="left">User Management</span></th>
 	</tr>
-	<tr>
+	<tr height="18px">
 		<td align="left" class="buttonBar"><html:link
-			action="/PMmodule/Admin/UserManager.do"
+			action="/PMmodule/Admin/UserSearch.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User List&nbsp;&nbsp;|</html:link>
 			<logic:present	name="userForEdit">
-				<html:link href="javascript:submitForm('edit');"
+				<html:link href="javascript:submitForm('saveEdit');"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-				<html:link href="javascript:submitForm('addRoles');"
+				<html:link href="javascript:submitForm('profile');"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Profiles&nbsp;&nbsp;|</html:link>
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
-				<html:link href="javascript:submitForm('new');"
+				<html:link href="javascript:submitForm('saveNew');"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 			</logic:notPresent>
@@ -122,7 +122,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 <!--
 
 function submitForm(func){
-	document.forms[0].method.value='save';
+	document.forms[0].method.value=func;
 	
 	var fld_userName = document.getElementsByName('userName')[0];
 	var fld_password = document.getElementsByName('password')[0];
@@ -130,8 +130,8 @@ function submitForm(func){
 	var fld_pin = document.getElementsByName('pin')[0];
 	var fld_cPin = document.getElementsByName('confirmPin')[0];
 	
-	if(func == 'new'){
-	
+	if(func == 'saveNew'){
+		document.forms[0].method.value="save";
 		if(validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3) &&
 			validateRequired(fld_password, "Password")&& validateLength(fld_password, "Password", 20, 4)&&
 			validateRequired(fld_cPassword, "Confirm Password")&& validateLength(fld_cPassword, "Confirm Password", 20, 4)&&
@@ -140,7 +140,8 @@ function submitForm(func){
 			
 			document.forms[0].submit();
 	}
-	if(func == 'edit'){
+	else if(func == 'saveEdit'){
+		document.forms[0].method.value="save";
 		var v1 = false;
 		var v2 = false;
 		var v3 = false;
@@ -169,7 +170,10 @@ function submitForm(func){
 				
 		if(v1 && v2 && v3 && v4 && v5)
 			document.forms[0].submit();
-	
+	}
+	else
+	{
+			document.forms[0].submit();
 	}
 }
 
