@@ -127,7 +127,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
-		String demono= request.getParameter("id");
+		String demono= request.getParameter("clientId");
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String nView=(String)request.getParameter("note_view");
 		
@@ -143,6 +143,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 			}
 			else
 			{
+				request.getSession().setAttribute("casemgmt_DemoNo",demono);
 				return view(mapping,form,request, response);
 			}
 		}
