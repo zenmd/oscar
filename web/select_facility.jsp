@@ -7,7 +7,7 @@
 		<th class="pageTitle">Facility Selection</th>
 	</tr>
 	<tr> <td>
-	<h>Please select which facility you would like to currently work in</h> 
+	<h>Which facility you are currently working in?</h> 
 	<%
 		List<LookupCodeValue> facilities = (List<LookupCodeValue>) request.getAttribute("facilities");
 	%>
