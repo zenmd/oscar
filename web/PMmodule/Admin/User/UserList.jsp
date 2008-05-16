@@ -38,16 +38,14 @@
 					<td><html:text property="criteria.userName" size="20" /></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="UserSearch.firstName" bundle="pmm" /></th>
-					<td><html:text property="criteria.firstName" size="20" /></td>
-				</tr>
-
-				<tr>
 					<th><bean-el:message key="UserSearch.lastName" bundle="pmm" />
 					</th>
 					<td><html:text property="criteria.lastName" size="20" /></td>
 				</tr>
-
+				<tr>
+					<th><bean-el:message key="UserSearch.firstName" bundle="pmm" /></th>
+					<td><html:text property="criteria.firstName" size="20" /></td>
+				</tr>
 				<tr>
 					<th><bean-el:message key="UserSearch.active" bundle="pmm" /></th>
 					<td><html:select property="criteria.active">

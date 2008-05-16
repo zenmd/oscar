@@ -10,9 +10,9 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link
-			action="/PMmodule/Admin/UserManager.do"
+			href="javascript:submitForm('edit');"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User List&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User Profile&nbsp;&nbsp;|</html:link>
 		<html:link href="javascript:submitForm('saveRoles');"
 			onclick="javascript:getFunctionsList();"
 			style="color:Navy;text-decoration:none;">
@@ -44,23 +44,19 @@
 			<table>
 				<tr>
 					<td>User ID:</td>
-					<td><html:text property="userName" readonly="true"
-						style="border: none" /></td>
+					<td><html:text property="userName" readonly="true" /></td>
 				</tr>
 				<tr>
-					<td>Name:</td>
-					<td><c:out value="${secuserForm.lastName}"></c:out>,&nbsp;<c:out value="${secuserForm.firstName}"></c:out></td>
+					<td>Last Name:</td>
+					<td><html:text property="lastName" readonly="true" maxlength="30"/>First Name:<html:text property="firstName" readonly="true" maxlength="30"/></td>
 				<tr>
-					<td colspan="2">Role/Org Profile:</td>
+					<td colspan="2">Org/Role Profile:</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td width="650px">
-					
 					<br />
 					<TABLE align="center" class="simple" width="100%">
-
-
 						<thead>
 							<TR>
 								<th align="center"><b>Select</b></th>
@@ -77,17 +73,14 @@
 									type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /></TD>
 
 								<TD width="350px">
-
-
-
 									<table cellpadding="0" style="border:0px;" cellspacing="0"
 										width="100%">
 										<tr>
-											<td style="border:0px;" width="1px"><input 
+											<td style="border:0px;" width="40%"><input 
 												style="width:100%;" type="text"
 												name="org_code<%=String.valueOf(rIndex)%>"
 												value='<c:out value="${secUserRole.orgcd}"/>'></td>
-											<td style="border:0px;" width="100%"><input id="ORGfld<%=String.valueOf(rIndex)%>" 
+											<td style="border:0px;"><input id="ORGfld<%=String.valueOf(rIndex)%>" 
 												style="width:100%;" type="text"  
 												name="org_description<%=String.valueOf(rIndex)%>"
 												value='<c:out value="${secUserRole.orgcd_desc}"/>'
@@ -99,8 +92,6 @@
 									</table>
 								</TD>
 								<TD width="250px">
-
-
 									<table cellpadding="0" style="border:0px;" cellspacing="0"
 										width="100%">
 										<tr>
@@ -118,16 +109,10 @@
 												src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 										</tr>
 									</table>
-
-
 								</TD>
-
 							</TR>
-
 						</logic:iterate>
 					</TABLE>
-
-
 					<table width="100%">
 						<tr>
 							<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
@@ -136,27 +121,9 @@
 							</td>
 						</tr>
 					</table>
-
-
-
 					</td>
 				</tr>
-
-
 			</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
 		</html:form></div>
 		</td>
 	</tr>

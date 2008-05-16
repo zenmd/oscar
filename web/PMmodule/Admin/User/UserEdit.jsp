@@ -10,7 +10,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">User Management</span></th>
+			id="_ctl0_phBody_lblTitle" align="left">User Profile</span></th>
 	</tr>
 	<tr height="18px">
 		<td align="left" class="buttonBar"><html:link
@@ -23,7 +23,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 				<html:link href="javascript:submitForm('profile');"
 				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Profiles&nbsp;&nbsp;|</html:link>
+				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
 				<html:link href="javascript:submitForm('saveNew');"
