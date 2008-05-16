@@ -98,9 +98,11 @@ function checkExistClients(){
 <tr><td>Alias</td>
 <td><html-el:text size="30" maxlength="70" property="client.alias"/></td>
 <td>
+<c:if test="${newClientFlag=='true'}">
 <html:link href="javascript:checkExistClients();" style="color:Navy;text-decoration:none;">
 <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
 </html:link>
+</c:if>
 </td>
 <td>
 <c:choose>

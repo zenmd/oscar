@@ -46,6 +46,90 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	return update(mapping,form,request,response);
 	}
 
+    public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
+
+    	String clientId = qform.getClientId();
+        Integer intakeId = Integer.valueOf(qform.getIntakeId());
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("clientId", clientId); 
+           actionParam.put("intakeId", intakeId.toString()); 
+        }
+        request.setAttribute("actionParam", actionParam);
+
+        Demographic client;
+        if(Integer.parseInt(clientId)>0){
+		  client= clientManager.getClientByDemographicNo(clientId);
+		  qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
+        }else{
+          client= new Demographic();
+  		  qform.setDob("");
+        } 	
+		qform.setClient(client);
+        
+		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
+  		qform.setOptionList(optionValues);
+
+        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+        ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
+        		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
+        ArrayList<LabelValueBean> lst3 = new ArrayList<LabelValueBean>();
+        for(int i=0;i<lst.size();i++){
+           Object[] obj = (Object[])lst.get(i);
+           lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
+           lst3.add(new LabelValueBean((String)obj[2], ((Integer)obj[0]).toString()));
+        }
+        qform.setProgramList(lst2);
+        qform.setProgramTypeList(lst3);
+
+        QuatroIntake obj;
+        if(intakeId.intValue()!=0){
+            obj=intakeManager.getQuatroIntake(intakeId);
+        }else{
+        	obj= new QuatroIntake();
+        	obj.setCreatedOn(Calendar.getInstance());
+            obj.setId(0);
+            obj.setClientId(Integer.valueOf(qform.getClientId()));
+            obj.setReferralId(0);
+            obj.setQueueId(0);
+            obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+    		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+    		obj.setYouth(KeyConstants.CONSTANT_NO);
+    		obj.setVAW(KeyConstants.CONSTANT_NO);
+        }
+
+        obj.setCurrentProgramId(obj.getProgramId());
+		qform.setIntake(obj);
+
+        LookupCodeValue language;
+        LookupCodeValue originalCountry;
+        if(intakeId.intValue()!=0){
+          if(obj.getLanguage()!=null){
+        	language = lookupManager.GetLookupCode("LNG", obj.getLanguage());
+          }else{
+          	language = new LookupCodeValue();
+          }
+          if(obj.getOriginalCountry()!=null){
+            originalCountry = lookupManager.GetLookupCode("CNT", obj.getOriginalCountry());
+          }else{
+        	originalCountry = new LookupCodeValue();
+          }
+        }else{
+            language = new LookupCodeValue();
+            originalCountry = new LookupCodeValue();
+        }
+        
+        qform.setLanguage(language);
+        qform.setOriginalCountry(originalCountry);
+
+        request.setAttribute("newClientFlag", "true");
+        
+		return mapping.findForward("edit");
+    }
+    
     public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
