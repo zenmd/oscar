@@ -143,7 +143,7 @@
 		<td><html:checkbox property="program.transgender" /></td>
 	</tr>
 	<tr class="b">
-		<td width="20%">First Nation:</td>
+		<td width="20%">Aboriginal:</td>
 		<td><html:checkbox property="program.firstNation" /></td>
 	</tr>
 	<tr class="b">
