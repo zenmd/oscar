@@ -30,7 +30,6 @@ public class DuplicateClientCheckAction extends DispatchAction {
        criteria.setFirstName(request.getParameter("firstName"));
        criteria.setDob(request.getParameter("dob"));
        criteria.setGender(request.getParameter("sex"));
-       criteria.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
 	   List lst = clientManager.search(criteria, false);
 
 	   Demographic obj= new Demographic();
@@ -54,6 +53,8 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   
 	   request.setAttribute("clients", lst);
 	   
+	   request.setAttribute("var", request.getParameter("var"));
+	   
 	   String[] split= request.getParameter("var").split(",");
 	   request.setAttribute("formName", split[0]);
 	   request.setAttribute("firstName", split[1]);
@@ -63,6 +64,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   request.setAttribute("alias", split[5]);
 	   request.setAttribute("clientNo", split[6]);
 	   request.setAttribute("statusMsg", split[7]);
+	   request.setAttribute("newClientChecked", split[8]);
 	   
 	   List genders = lookupManager.LoadCodeList("GEN", true, null, null);
 	   LookupCodeValue obj3= new LookupCodeValue();
@@ -80,8 +82,8 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	 this.clientManager = clientManager;
    }
 
-public void setLookupManager(LookupManager lookupManager) {
-	this.lookupManager = lookupManager;
-}
+   public void setLookupManager(LookupManager lookupManager) {
+	 this.lookupManager = lookupManager;
+  }
 
 }

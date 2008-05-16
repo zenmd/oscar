@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.web;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.apache.struts.action.ActionMessage;
 
 import org.apache.struts.util.LabelValueBean;
 
+import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm;
 import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
 import org.oscarehr.PMmodule.model.Demographic;
@@ -46,6 +48,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	return update(mapping,form,request,response);
 	}
 
+    //for new client
     public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
@@ -130,6 +133,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		return mapping.findForward("edit");
     }
     
+    //for existing client
     public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
@@ -212,9 +216,9 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		return mapping.findForward("edit");
 	}
 
-    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	return update(mapping,form,request,response);
-	}
+//    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//    	return update(mapping,form,request,response);
+//	}
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ActionMessages messages = new ActionMessages();
@@ -225,6 +229,32 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	String clientId = qform.getClientId();
     	
     	Demographic client= qform.getClient();
+    	QuatroIntake obj= qform.getIntake();
+    	
+    	//check for new client duplication
+    	if(obj.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N")){
+    	   ClientSearchFormBean criteria = new ClientSearchFormBean();
+    	   criteria.setActive("");
+    	   criteria.setAssignedToProviderNo("");
+    	   criteria.setLastName(request.getParameter("client.lastName"));
+    	   criteria.setFirstName(request.getParameter("client.firstName"));
+    	   criteria.setDob(request.getParameter("dob"));
+    	   criteria.setGender(request.getParameter("client.sex"));
+    	   List lst = clientManager.search(criteria, false);
+ 		   if(lst.size()>0){
+    	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_client",
+          			request.getContextPath()));
+             isError = true;
+             saveMessages(request,messages);
+             request.setAttribute("newClientFlag", "true");
+       	     HashMap actionParam2 = new HashMap();
+    	     actionParam2.put("clientId", obj.getClientId()); 
+             actionParam2.put("intakeId", obj.getId().toString()); 
+             request.setAttribute("actionParam", actionParam2);
+		     return mapping.findForward("edit");
+ 		   }  
+		}
+    	
     	String[] split = qform.getDob().split("/");
 		client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
 		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
@@ -232,8 +262,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	clientManager.saveClient(client);
 
     	HashMap actionParam = new HashMap();
-    	QuatroIntake obj= qform.getIntake();
-
     	actionParam.put("clientId", client.getDemographicNo()); 
         actionParam.put("intakeId", obj.getId().toString()); 
         request.setAttribute("actionParam", actionParam);
@@ -338,7 +366,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
 			qform.setIntake(obj);
 		}
 		
-		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.saved", request.getContextPath()));
+		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
 		
 		return mapping.findForward("edit");

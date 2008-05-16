@@ -170,7 +170,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
           admissionManager.updateAdmission(admission);
        }
        
-	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.admission.saved", request.getContextPath()));
+	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);
 
  	   clientForm.setAdmissionId(admission.getId());

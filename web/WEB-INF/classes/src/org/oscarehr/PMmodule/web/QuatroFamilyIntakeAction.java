@@ -301,7 +301,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	   }
 	   
        if(!bDupliDemographicNoApproved){
-		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_client",
+		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.duplicated_client",
           			request.getContextPath()));
          isError = true;
          clientForm.setDependents(dependents);
@@ -377,7 +377,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setDependents(dependents);
        clientForm.setDependentsSize(dependents.size());
 	   
-       if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.saved", request.getContextPath()));
+       if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);
 	   
 	   return mapping.findForward("edit");

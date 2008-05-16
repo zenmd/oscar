@@ -87,7 +87,7 @@ public class ClientSearchAction2 extends BaseAction {
 		DynaActionForm searchForm = (DynaActionForm)form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean)searchForm.get("criteria");
 		
-		formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
+//		formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
 		boolean allowOnlyOptins=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);		
 		if("MyP".equals(formBean.getBedProgramId()))
 		{
