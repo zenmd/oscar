@@ -107,8 +107,16 @@ public class QuatroIntakeEditAction extends DispatchAction {
         LookupCodeValue language;
         LookupCodeValue originalCountry;
         if(intakeId.intValue()!=0){
-          language = lookupManager.GetLookupCode("LNG", obj.getLanguage());
-          originalCountry = lookupManager.GetLookupCode("CNT", obj.getOriginalCountry());
+          if(obj.getLanguage()!=null){
+        	language = lookupManager.GetLookupCode("LNG", obj.getLanguage());
+          }else{
+          	language = new LookupCodeValue();
+          }
+          if(obj.getOriginalCountry()!=null){
+            originalCountry = lookupManager.GetLookupCode("CNT", obj.getOriginalCountry());
+          }else{
+        	originalCountry = new LookupCodeValue();
+          }
         }else{
             language = new LookupCodeValue();
             originalCountry = new LookupCodeValue();
