@@ -41,12 +41,17 @@ public class DBPreparedHandler {
     ResultSet rs = null;
     Statement stmt = null;
     PreparedStatement preparedStmt = null;
+    Connection connection;
 
     public DBPreparedHandler() {
     }
     
-    public static Connection getConnection() throws SQLException {
-        return DbConnectionFilter.getThreadLocalDbConnection();
+    public Connection getConnection() throws SQLException {
+    	if (connection == null || connection.isClosed())
+    	{
+    		connection = DbConnectionFilter.getThreadLocalDbConnection();
+    	}
+    	return connection;
     }
 
     public void init(String dbDriver, String dbUrl, String dbUser, String dbPwd) throws Exception, SQLException {
@@ -344,7 +349,18 @@ public class DBPreparedHandler {
         }
     }
 
-    public void closeConn() throws SQLException {
+    public void closeConn() {
+    	try {
+    		if (connection == null || connection.isClosed())
+    		{
+    			return;
+    		}
+    		connection.close();
+    	}
+    	catch(Exception ex)
+    	{
+    		;
+    	}
     }
     
     public String getString(ResultSet rs, String columnName) throws SQLException
