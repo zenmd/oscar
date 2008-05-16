@@ -15,6 +15,7 @@
 <html:hidden property="intake.id"/>
 <html:hidden property="intake.createdOnTxt" />
 <input type="hidden" name="method"/>
+<input type="hidden" name="newClientChecked" value="N"/>
 <script lang="javascript">
 function submitForm(methodVal) {
 	document.forms(0).method.value = methodVal;
@@ -22,18 +23,18 @@ function submitForm(methodVal) {
 }
 
 function checkExistClients(){
-  var lastName = document.getElementsByName("client.lastName")[0];
-  var firstName = document.getElementsByName("client.firstName")[0];
-  var dob = document.getElementsByName("dob")[0];
-  var sex = document.getElementsByName("client.sex")[0];
-  var alias = document.getElementsByName("client.alias")[0];
-  var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?' +
-  "var=quatroIntakeEditForm,client.firstName,client.lastName,client.sex,dob,client.alias,intake.clientId,statusMsg" + 
-  "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
-  "&dob=" + dob.value + "&sex=" + sex.value +
-  "&alias=" + alias.value;
-  top.childWin = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
-  top.childWin.focus();
+   var lastName = document.getElementsByName("client.lastName")[0];
+   var firstName = document.getElementsByName("client.firstName")[0];
+   var dob = document.getElementsByName("dob")[0];
+   var sex = document.getElementsByName("client.sex")[0];
+   var alias = document.getElementsByName("client.alias")[0];
+   var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?' +
+     "var=quatroIntakeEditForm,client.firstName,client.lastName,client.sex,dob,client.alias,intake.clientId,statusMsg,newClientChecked" + 
+     "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
+     "&dob=" + dob.value + "&sex=" + sex.value +
+     "&alias=" + alias.value;
+   top.childWin = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
+   top.childWin.focus();
 }
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
