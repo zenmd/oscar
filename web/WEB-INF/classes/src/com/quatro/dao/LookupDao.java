@@ -36,6 +36,7 @@ public class LookupDao extends HibernateDaoSupport {
 	
 	public LookupCodeValue GetCode(String tableId,String code)
 	{
+		if (code == null || "".equals(code)) return null;
 		List lst = LoadCodeList(tableId, false, code, "");
 		LookupCodeValue lkv = null;
 		if (lst.size()>0) 
@@ -149,6 +150,10 @@ public class LookupDao extends HibernateDaoSupport {
 	   {
 		  e.printStackTrace();
 	   }
+	   finally
+	   {
+		   db.closeConn();
+	   }
 	   return list;
 	}
 
@@ -194,8 +199,8 @@ public class LookupDao extends HibernateDaoSupport {
 		}
 		sql += " from " + tableName + " s";
 		sql += " where " + idFieldName + "='" + code + "'"; 
+		DBPreparedHandler db = new DBPreparedHandler();
 		try {
-			DBPreparedHandler db = new DBPreparedHandler();
 			ResultSet rs = db.queryResults(sql);
 			if (rs.next()) {
 				for(int i=0; i< fs.size(); i++) 
@@ -216,6 +221,10 @@ public class LookupDao extends HibernateDaoSupport {
 		{
 			e.printStackTrace();
 		}
+		finally
+		{
+			db.closeConn();
+		}
 		return fs;
 	}
 	public List GetCodeFieldValues(LookupTableDefValue tableDef)
@@ -235,8 +244,8 @@ public class LookupDao extends HibernateDaoSupport {
 			}
 		}
 		sql += " from " + tableName;
+		DBPreparedHandler db = new DBPreparedHandler();
 		try {
-			DBPreparedHandler db = new DBPreparedHandler();
 			ResultSet rs = db.queryResults(sql);
 			while (rs.next()) {
 				for(int i=0; i< fs.size(); i++) 
@@ -257,6 +266,10 @@ public class LookupDao extends HibernateDaoSupport {
 		catch(SQLException e)
 		{
 			System.out.println(e.getStackTrace());
+		}
+		finally
+		{
+			db.closeConn();
 		}
 		return codes;
 	}
@@ -379,7 +392,13 @@ public class LookupDao extends HibernateDaoSupport {
 			throw new SQLException("The Code Already Exist");
 		}
 		DBPreparedHandler db = new DBPreparedHandler();
-		db.queryExecuteUpdate(sql, params);
+		try{
+			db.queryExecuteUpdate(sql, params);
+		}
+		finally
+		{
+			db.closeConn();
+		}
 		return idFieldVal;
 	}
 	private String UpdateCodeValue(LookupTableDefValue tableDef, List fieldDefList) throws SQLException
@@ -415,7 +434,13 @@ public class LookupDao extends HibernateDaoSupport {
 		sql += " where " + idFieldName + "=?";
 		params[fieldDefList.size()] = params[0];
 		DBPreparedHandler db = new DBPreparedHandler();
-		db.queryExecuteUpdate(sql, params);
+		try {
+			db.queryExecuteUpdate(sql, params);
+		}
+		finally
+		{
+			db.closeConn();
+		}
 		return idFieldVal;
 	}
 	public void SaveAsOrgCode(Program program) throws SQLException
