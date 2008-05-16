@@ -57,13 +57,19 @@ public class QuatroClientIntakeAction  extends DispatchAction {
    private AdmissionManager admissionManager;
    private IntakeManager intakeManager;
 
-   public static final String ID = "id";
-
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return edit(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       //On newclient intake page, if save button not clicked before close button clicked, goto client search page. 
+	   if(request.getParameter("clientId")!=null){
+	     String demographicNo= request.getParameter("clientId");
+	     if(demographicNo.equals("0")) return mapping.findForward("close");
+       }else{
+    	 return mapping.findForward("close");
+       }
+
        setEditAttributes(form, request);
        return mapping.findForward("edit");
    }
@@ -78,26 +84,15 @@ public class QuatroClientIntakeAction  extends DispatchAction {
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
-       
 
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-
-           String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-           List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo);
-/*
-           List lstIntake2 = new ArrayList();
-           for(Object element : lstIntake){
-        	   QuatroIntakeHeader obj = (QuatroIntakeHeader)element;
-        	   if(obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE)) lstIntake2.add(obj);
-           }
-*/           
-           request.setAttribute("quatroIntake", lstIntake);
-
-
+       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+       List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo);
+       request.setAttribute("quatroIntake", lstIntake);
    }
 
    public void setAdmissionManager(AdmissionManager admissionManager) {

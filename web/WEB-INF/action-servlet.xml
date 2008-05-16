@@ -52,6 +52,7 @@
         <property name="lookupManager" ref="lookupManager"/>       
         <property name="intakeManager" ref="intakeManager"/>       
     </bean>
+    <bean name="/PMmodule/DuplicateClientCheck" class="org.oscarehr.PMmodule.web.DuplicateClientCheckAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroFamilyIntake" class="org.oscarehr.PMmodule.web.QuatroFamilyIntakeAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroHealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroClientSummary" class="org.oscarehr.PMmodule.web.QuatroClientSummaryAction" singleton="false" autowire="byName">

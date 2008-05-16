@@ -299,6 +299,10 @@
             <form-property name="serviceRestriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction" />
             <form-property name="serviceRestrictionLength" type="java.lang.Integer" />
         </form-bean>
+        <form-bean name="duplicateClientCheckForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="genders" type="java.util.List" />
+        </form-bean>
         <form-bean name="quatroClientSummaryForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientSummaryForm">
         </form-bean>
         <form-bean name="clientHistoryForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -1108,6 +1112,8 @@
             <forward name="failureUnMerge" path="/admin/demographicmergerecord.jsp?outcome=failureUnMerge" />
             <forward name="caisiSearch" path="/PMmodule/ClientSearch2.do"/>
         </action>
+
+<!-- 
         <action input="/oscarReport/RptViewAllQueryByExamples.jsp" name="RptViewAllQueryByExamplesForm" path="/oscarReport/RptViewAllQueryByExamples" scope="request" type="oscar.oscarReport.pageUtil.RptViewAllQueryByExamplesAction">
             <forward name="success" path="/oscarReport/RptViewAllQueryByExamples.jsp" />
         </action>
@@ -1161,6 +1167,8 @@
         <action input="/provider/editSignature.jsp" name="ProEditSignatureForm" path="/EnterSignature" scope="request" type="oscar.oscarProvider.pageUtil.ProEditSignatureAction">
             <forward name="success" path="/provider/providerSignature.jsp" />
         </action>
+-->
+        
         <action input="/provider/providerFax.jsp" name="editProviderFaxForm" path="/EditFaxNum" scope="request" type="oscar.oscarProvider.pageUtil.ProEditFaxNumAction">
             <forward name="success" path="/provider/providerFax.jsp" />
             <forward name="error" path="/provider/providerFaxErr.jsp" />
@@ -1175,6 +1183,8 @@
             <forward name="success" path="/provider/setNoteStaleDate.jsp" />
             <forward name="gen"     path="/provider/setGenProperty.jsp"/>
         </action>
+
+<!-- 
         <action input="/provider/providerIndivoIdSetter.jsp" name="setMyOscarIdForm" path="/setMyOscarId" scope="request" type="oscar.oscarProvider.pageUtil.ProEditMyOscarIdAction">
             <forward name="success" path="/provider/providerIndivoIdSetter.jsp" />
             <forward name="failure" path="/provider/providerIndivoIdSetter.jsp" />
@@ -1346,7 +1356,9 @@
         <action path="/oscarPrevention/printPrevention" scope="request" type="oscar.oscarPrevention.pageUtil.PreventionPrintAction">
             <forward name="error" path="/oscarPrevention/index.jsp" />
         </action>
+ -->     
         
+<!-- 
         <action input="/demographic/AddAlternateContact.jsp" name="FrmForm" path="/demographic/AddRelation" scope="request" type="oscar.oscarDemographic.pageUtil.AddDemographicRelationshipAction">
             <forward name="success" path="/demographic/AddAlternateContact.jsp" />
             <forward name="pmmClient" path="/PMmodule/ClientManager.do" />
@@ -1501,9 +1513,13 @@
         <action input="/dms/documentReport.jsp" name="FrmForm" path="/dms/SendDocToPhr" parameter="method" scope="request" type="org.springframework.web.struts.DelegatingActionProxy">
             <forward name="finished" path="/phr/response.jsp"></forward>
         </action>
+-->
+        
         <action input="/scratch/index.jsp" name="FrmForm" path="/Scratch" scope="request" type="oscar.scratch.ScratchAction">
             <forward name="success" path="/scratch/index.jsp" />
         </action>
+        
+<!-- 
         <action input="/oscarReport/ManageDemographicQueryFavourites.jsp" name="FrmForm" path="/report/DeleteDemographicReport" scope="request" type="oscar.oscarReport.pageUtil.RptDemographQueryFavouriteDeleteAction">
             <forward name="success" path="/oscarReport/ReportDemographicReport.jsp" />
         </action>
@@ -1558,7 +1574,7 @@
             <forward name="remit" path="/billing/CA/BC/ProcessRemittance.do" />
         </action>
         <action path="/billing/CA/BC/DownloadBilling"   type="oscar.oscarBilling.ca.bc.pageUtil.DownloadFileAction" />
-        
+-->        
         
         <action path="/Tickler" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="ticklerForm" input="/ticklerPlus/ticklerForm.jsp" validate="false">
             <forward name="list" path="page.tickler.list" />
@@ -1641,6 +1657,10 @@
             <forward name="service_restriction_error" path="page.pmm.client.service_restriction_error"/>
             <forward name="case" path="/CaseManagementView2.do" />
         </action>
+
+        <action path="/PMmodule/DuplicateClientCheck" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="duplicateClientCheckForm" validate="false">
+            <forward name="edit" path="/PMmodule/duplicateClientCheck.jsp" />
+        </action>
         <action path="/PMmodule/QuatroFamilyIntake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="quatroClientFamilyIntakeForm" validate="false">
             <forward name="edit" path="page.quatro.pmm.familyintake" />
         </action>
@@ -1665,7 +1685,7 @@
         <action path="/PMmodule/QuatroIntake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientIntakeForm" scope="request">
             <forward name="edit" path="page.quatro.pmm.intake" />
             <forward name="update" path="page.quatro.pmm.intake" />
-            <forward name="close" path="/PMmodule/QuatroIntake.do" redirect="true"></forward>
+            <forward name="close" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
         </action>
         <action path="/PMmodule/QuatroAdmission" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientAdmissionForm" scope="request">
             <forward name="edit" path="page.quatro.pmm.admission" />
@@ -1972,7 +1992,9 @@
         <action path="/ClientImage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="clientImageForm">
             <forward name="success" path="/casemgmt/uploadimage.jsp" />
         </action>
+
         <!-- OSCAR Report By Template -->
+<!-- 
         <action input="/oscarReport/reportByTemplate/reportConfiguration.jsp" name="FrmForm" path="/oscarReport/reportByTemplate/GenerateReportAction" scope="request" type="oscar.oscarReport.reportByTemplate.actions.GenerateReportAction">
             <forward name="success" path="/oscarReport/reportByTemplate/resultReport.jsp" />
             <forward name="fail" path="/oscarReport/reportByTemplate/reportConfiguration.jsp" />
@@ -1988,7 +2010,8 @@
         <action input="/oscarReport/reportByTemplate/addEditTemplate.jsp" name="FrmForm" path="/oscarReport/reportByTemplate/uploadTemplates" scope="request" type="oscar.oscarReport.reportByTemplate.actions.UploadTemplates">
             <forward name="success" path="/oscarReport/reportByTemplate/addEditTemplate.jsp"></forward>
         </action>
-        <!-- END OSCAR Report By Template -->
+ -->
+         <!-- END OSCAR Report By Template -->
                 
         <action path="/ArchiveView" type="org.springframework.web.struts.DelegatingActionProxy" scope="request" parameter="method">
             <forward name="view" path="/provider/providercontrol.jsp" redirect="true" />
@@ -2004,7 +2027,7 @@
         </action>
         <!-- Population Report -->
         <!-- PHR -->
-        
+ <!-- 
         <action path="/PhrRetrieve" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/PMmodule/vaccine/vaccine_provider_report.jsp" />
         </action>
@@ -2021,7 +2044,8 @@
         </action>
         <action path="/phrExchange" name="FrmForm" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
         </action>
-        
+ -->       
+         
         <!-- admin Start -->
         <action path="/PMmodule/Admin/SysAdmin" type="org.apache.struts.actions.ForwardAction" parameter="page.admin.home" scope="request" validate="false" />
 		<action path="/PMmodule/Admin/ShowORGTree" type="org.springframework.web.struts.DelegatingActionProxy"

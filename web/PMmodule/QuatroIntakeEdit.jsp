@@ -20,6 +20,21 @@ function submitForm(methodVal) {
 	document.forms(0).method.value = methodVal;
 	document.forms(0).submit();
 }
+
+function checkExistClients(){
+  var lastName = document.getElementsByName("client.lastName")[0];
+  var firstName = document.getElementsByName("client.firstName")[0];
+  var dob = document.getElementsByName("dob")[0];
+  var sex = document.getElementsByName("client.sex")[0];
+  var alias = document.getElementsByName("client.alias")[0];
+  var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?' +
+  "var=quatroIntakeEditForm,client.firstName,client.lastName,client.sex,dob,client.alias,intake.clientId,statusMsg" + 
+  "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
+  "&dob=" + dob.value + "&sex=" + sex.value +
+  "&alias=" + alias.value;
+  top.childWin = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
+  top.childWin.focus();
+}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Add/Edit Intake</th></tr>
@@ -60,11 +75,15 @@ function submitForm(methodVal) {
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 <!--  start of page content -->
-<table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs">
+<table width="100%">
+
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Personal information</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="15%">First name*</td>
 <td width="35%"><html-el:text property="client.firstName" size="20" maxlength="30" /></td>
 <td width="19%">Gender*</td>
@@ -78,13 +97,31 @@ function submitForm(methodVal) {
 </td></tr>
 <tr><td>Alias</td>
 <td><html-el:text size="30" maxlength="70" property="client.alias"/></td>
-<td></td><td></td></tr>
+<td>
+<html:link href="javascript:checkExistClients();" style="color:Navy;text-decoration:none;">
+<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
+</html:link>
+</td>
+<td>
+<c:choose>
+<c:when test="${quatroIntakeEditForm.client.demographicNo>0}">
+<input type="text" name="statusMsg" value="(existing client)" readonly="readonly" style="border: 0px">
+</c:when>
+<c:otherwise>
+<input type="text" name="statusMsg" readonly="readonly" value="(new client)" style="border: 0px">
+</c:otherwise>
+</c:choose>
+</td></tr>
 </table>
-<table width="100%" class="edit">
-<tr><td colspan="2"><br><div class="tabs">
+</td></tr>
+
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Referred by</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="20%">Referred by</td>
 <td width="80%"><html-el:select property="intake.referredBy">
 <html-el:optionsCollection property="optionList.referredBy" value="value" label="label"/>
@@ -96,12 +133,15 @@ function submitForm(methodVal) {
 <tr><td>Contact email</td>
 <td><html-el:text property="intake.contactEmail" /></td></tr>
 </table>
+</td></tr>
 
-<table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs">
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Other information</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="22%">Language</td>
 <td width="32%"><quatro:lookupTag name="language" tableName="LNG" formProperty="quatroIntakeEditForm" 
    codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" showCode="false" /></td>
@@ -139,12 +179,15 @@ function submitForm(methodVal) {
 <html-el:optionsCollection property="optionList.reasonForHomeless" value="value" label="label"/>
 </html-el:select></td><td></td></tr>
 </table>
+</td></tr>
 
-<table width="100%" class="edit">
-<tr><td colspan="5"><br><div class="tabs">
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Presenting issues</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="15%">Pregnant</td>
 <td width="20%"></td>
 <td width="15%"><html-el:checkbox property="intake.pregnant" /></td>
@@ -166,12 +209,15 @@ function submitForm(methodVal) {
 <td>Observed alcohol abuse</td>
 <td><html-el:checkbox property="intake.observedAlcoholAbuse" /></td></tr>
 </table>
+</td></tr>
 
-<table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs">
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Identification</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="30%">Birth Certificate</td>
 <td width="50%"><html-el:text property="intake.birthCertificate" size="20" maxlength="30" /></td>
 <td width="12%">On file?</td>
@@ -212,12 +258,15 @@ function submitForm(methodVal) {
 <td><html-el:text property="intake.idOther" size="20" maxlength="30" /></td>
 <td></td><td></td></tr>
 </table>
+</td></tr>
 
-<table width="100%" class="edit">
-<tr><td colspan="4"><br><div class="tabs">
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Additional information</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="20%">Source of income</td>
 <td width="35%"><html-el:select property="intake.sourceIncome">
 <html-el:optionsCollection property="optionList.sourceIncome" value="value" label="label"/>
@@ -263,27 +312,35 @@ Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30
 </html-el:select></td>
 <td></td><td></td></tr>
 </table>
+</td></tr>
 
-<table width="100%" class="edit">
-<tr><td colspan="2"><br><div class="tabs">
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Program</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="15%">Program</td>
 <td width="85%"><html-el:hidden property="intake.currentProgramId" />
 <html-el:select property="intake.programId">
 <html-el:optionsCollection property="programList" value="value" label="label" />
 </html-el:select></td></tr>
 </table>
+</td></tr>
 
-<table width="100%" class="edit">
-<tr><td colspan="2"><br><div class="tabs">
+<tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Comments/Details</th></tr>
 </table></div></td></tr>
+
+<tr><td>
+<table width="100%" class="simple">
 <tr><td width="15%">Comments/Details</td>
 <td width="85%"><html-el:textarea property="intake.comments" rows="6" style="width:90%" /></td></tr>
-<tr><td></td><td align="center">&nbsp;</td></tr>
+</table>
+</td></tr>
+
 </table>
 <!--  end of page content -->
 </div>

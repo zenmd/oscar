@@ -27,6 +27,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.PMmodule.utility.Utility;
+import oscar.MyDateFormat;
 
 /**
  * This is the object class that relates to the demographic table. Any customizations belong here.
@@ -41,9 +42,9 @@ public class Demographic implements Serializable {
     private static final String DEFAULT_SEX = "M";
     private static final String DEFAULT_PATIENT_STATUS = PatientStatus.AC.name();
     private static final String DEFAULT_HEATH_CARD_TYPE = "ON";
-    private static final String DEFAULT_FUTURE_DATE = "2100-01-01";
+    private static final String DEFAULT_FUTURE_DATE = "2100/01/01";
 
-    private static final String SEPERATOR = "-";
+    private static final String SEPERATOR = "/";
 
     public static final String CONSENT_GIVEN_KEY="CONSENT_GIVEN";
     public static final String METHOD_OBTAINED_KEY="METHOD_OBTAINED";
@@ -709,9 +710,20 @@ public class Demographic implements Serializable {
     }
 
     public String getFormattedDob() {
-        return this.getYearOfBirth() + SEPERATOR + this.getMonthOfBirth() + SEPERATOR + this.getDateOfBirth();
+        return this.getYearOfBirth() + SEPERATOR + MyDateFormat.formatMonthOrDay(this.getMonthOfBirth()) + 
+          SEPERATOR + MyDateFormat.formatMonthOrDay(this.getDateOfBirth());
     }
 
+    public String getDob() {
+        if(this.getYearOfBirth()==null || this.getMonthOfBirth()==null 
+         || this.getDateOfBirth()==null){
+           return "";	
+        }else{
+    	  return this.getYearOfBirth() + SEPERATOR + MyDateFormat.formatMonthOrDay(this.getMonthOfBirth()) + 
+            SEPERATOR + MyDateFormat.formatMonthOrDay(this.getDateOfBirth());
+        }  
+    }
+    
     public String getFormattedDob(String format) {
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         Calendar cal = Calendar.getInstance();
