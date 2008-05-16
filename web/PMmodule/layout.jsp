@@ -17,7 +17,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
 	<head>
-		<title>Program Management Module</title>
+		<title>QuatroShelter</title>
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/tigris.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />' />
