@@ -39,7 +39,7 @@ public class SecurityDao extends HibernateDaoSupport {
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
 			
-			String queryString =  "select sur.providerNo, sur.roleName, org.description, s.userName"
+			String queryString =  "select sur.providerNo, sur.roleName, org.description, s.userName, sur.orgcd"
 				+ " from Secuserrole sur, Security s, LstOrgcd org"
 				+ " where sur.providerNo = '" + providerNo + "'"
 				+ " and s.providerNo = sur.providerNo"

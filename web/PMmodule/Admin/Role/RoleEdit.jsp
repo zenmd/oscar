@@ -39,12 +39,16 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 	</tr>
 
 	<tr>
-		<td align="left" class="message"><logic:messagesPresent
+		<td align="left" class="message">
+		<br />
+		<logic:messagesPresent
 			message="true">
 			<html:messages id="message" message="true" bundle="pmm">
 				<c:out escapeXml="false" value="${message}" />
 			</html:messages>
-		</logic:messagesPresent></td>
+		</logic:messagesPresent>
+		<br />
+		</td>
 	</tr>
 
 
@@ -110,18 +114,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				<tr>
 					<td>Functions:</td>
 					<td width="650px">
-					<table>
-
-						<tr>
-							<td align="left" class="message"><logic:messagesPresent
-								message="true">
-								<html:messages id="message" message="true" bundle="pmm">
-									<c:out escapeXml="false" value="${message}" />
-								</html:messages>
-							</logic:messagesPresent></td>
-						</tr>
-					</table>
-					<br />
+					
 					<TABLE align="center" class="simple" width="100%">
 
 

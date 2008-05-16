@@ -341,9 +341,9 @@ public class RoleManagerAction extends BaseAction {
 
 		}
 		myForm.set("secobjprivilegeLst", secobjprivilegeLst);
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.function.add",
-       			request.getContextPath()));
-		saveMessages(request,messages);
+//		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.function.add",
+//       			request.getContextPath()));
+//		saveMessages(request,messages);
 		
 		
 

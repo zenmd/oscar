@@ -111,6 +111,7 @@ public class UserManagerAction extends BaseAction {
 					sur.setRoleName((String) tmp[1]);
 					sur.setOrgcd_desc((String) tmp[2]);
 					sur.setUserName((String) tmp[3]);
+					sur.setOrgcd((String) tmp[4]);
 					profilelist.add(sur);
 				}
 
