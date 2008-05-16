@@ -25,7 +25,7 @@
 		<property name="userDefined" column="userDefined" type="boolean" length="1" />
 		<property name="numOfMembers" type="integer" formula="(select count(*) from admission a where a.program_id = program_id and a.admission_status = 'current')" />
 		<property name="queueSize" type="integer" formula="(select count(*) from program_queue a where a.program_id = program_id and a.status = 'active')" />
-		<property name="maxAllowed" column="max_allowed" type="integer" not-null="true" length="6" />
+		<property name="maxAllowed" column="max_allowed" type="integer" not-null="false" length="6" />
 		<property name="type" column="type" type="string" not-null="false" length="50" />
 		<property name="descr" column="descr" type="string" not-null="false" length="255" />
 		<property name="address" column="address" type="string" not-null="false" length="255" />
@@ -36,7 +36,7 @@
 		<property name="emergencyNumber" column="emergency_number" type="string" not-null="false" length="255" />
 		<property name="location" column="location" type="string" not-null="false" length="70" />
 		<property name="name" column="name" type="string" not-null="true" length="70" />
-		<property name="holdingTank" column="holding_tank" type="boolean" not-null="true" length="1" />
+		<property name="holdingTank" column="holding_tank" type="boolean" not-null="false" length="1" />
 		<property name="allowBatchAdmission" column="allow_batch_admission" type="boolean" not-null="false" length="1" />
 		<property name="allowBatchDischarge" column="allow_batch_discharge" type="boolean" not-null="false" length="1" />
 		<property name="hic" column="hic" type="boolean" not-null="false" length="1" />
@@ -55,11 +55,13 @@
 		<property name="exclusiveView" column="exclusive_view" type="string" not-null="false" length="20"/>
 		<property name="ageMin" column="ageMin" type="integer" not-null="true" length="10" />
 		<property name="ageMax" column="ageMax" type="integer" not-null="true" length="10" />
-		<property name="capacity_funding" column="capacity_funding" type="integer" not-null="true" length="10" />
-		<property name="capacity_space" column="capacity_space" type="integer" not-null="true" length="10" />
+		<property name="capacity_funding" column="capacity_funding" type="integer" not-null="false" length="10" />
+		<property name="capacity_space" column="capacity_space" type="integer" not-null="false" length="10" />
         <property name="maximumServiceRestrictionDays" column="maximum_restriction_days" type="integer" not-null="false" length="11"/>
-        <property name="defaultServiceRestrictionDays" column="default_restriction_days" type="integer" not-null="true" length="11"/>
+        <property name="defaultServiceRestrictionDays" column="default_restriction_days" type="integer" not-null="false" length="11"/>
 		<property name="orgCd" formula="(select a.codetree from lst_orgcd a where a.code='P'||program_id)" update="false"/>
 		<property name="facilityDesc" formula="(select a.name from facility a where a.id=facility_id)"></property>
+		
+		<property name="capacity_actual" type="integer" formula="(select count(b.bed_id) from Bed b, Room r where b.room_id = r.room_id and r.program_id = program_id and b.facility_id = facility_id)" />
     </class>
 </hibernate-mapping>

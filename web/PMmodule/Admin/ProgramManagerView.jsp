@@ -42,7 +42,7 @@
 						if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase(selectedTab)) {
 				%>
 					
-						<a href="javascript:void(0)" style="color:Navy;text-decoration:none;" ><b><%=ProgramManagerViewFormBean.tabs[i]%></b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+						<b><%=ProgramManagerViewFormBean.tabs[i]%></b>&nbsp;&nbsp;|&nbsp;&nbsp;
 					
 				<%
 						} else {

@@ -206,10 +206,10 @@ public class ProgramManager {
     }
 
     public void saveProgram(Program program) {
-        if (program.getHoldingTank()) {
-            programDao.resetHoldingTank();
-        }
-        boolean isNew = (program.getId() == 0);
+//        if (program.getHoldingTank()) {
+//            programDao.resetHoldingTank();
+//        }
+//        boolean isNew = (program.getId() == 0);
         programDao.saveProgram(program);
         try {
         	lookupDao.SaveAsOrgCode(program);
@@ -222,6 +222,8 @@ public class ProgramManager {
 
     public void removeProgram(String programId) {
         programDao.removeProgram(Integer.valueOf(programId));
+        programSignatureDao.removeProgramSignature(Integer.valueOf(programId));
+        
     }
 
     // TODO: Implement this method for real

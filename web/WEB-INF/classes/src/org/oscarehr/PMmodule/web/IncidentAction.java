@@ -211,7 +211,7 @@ public class IncidentAction extends DispatchAction {
 			incidentManager.save(incident);
 
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"error.saveIncident.success", request.getContextPath()));
+					"message.save.success", request.getContextPath()));
 			saveMessages(request, messages);
 			incidentForm.setIncident(incident);
 

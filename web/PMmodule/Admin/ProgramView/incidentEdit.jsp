@@ -3,10 +3,16 @@
 <%@ include file="/taglibs.jsp"%>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
-		<td align="left" class="buttonBar"><html:link
+		<td align="left" class="buttonBar">
+		
+		<html:link
+			href="javascript:clickTab('Incidents');"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+		<html:link
 			href="javascript:editIncident('0','new');"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
+			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
 		<html:link href="javascript:editIncident('0','save');"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;save&nbsp;&nbsp;</html:link>

@@ -96,12 +96,14 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		</tr>
 		<tr>
 			<td align="left" class="message">
+			<br />
 			<logic:messagesPresent
 				message="true">
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
-			</logic:messagesPresent></td>
+			</logic:messagesPresent>
+			<br /></td>
 		</tr>
 		<tr>
 			<td height="100%">
@@ -113,7 +115,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 
 			<table width="100%" class="edit">
 				<tr>
-					<td><br>
+					<td>
 					<div class="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
 						<tr>

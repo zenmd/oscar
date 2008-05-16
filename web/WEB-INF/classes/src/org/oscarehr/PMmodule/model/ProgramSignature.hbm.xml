@@ -18,14 +18,14 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ProgramSignature" table="programSignature">
-		<id column="id" name="id" type="integer" unsaved-value="0">
+		<id column="id" name="id" type="java.lang.Integer" unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<property name="programId" type="integer" not-null="true" length="10" />
-		<property name="programName" type="string" not-null="true" length="70" />		
-		<property name="providerId" type="string" not-null="true" length="6" />
-		<property name="providerName" type="string" not-null="true" length="60" />
-		<property name="caisiRoleName" type="string" not-null="false" length="255" />
-		<property name="updateDate" type="timestamp" not-null="false" length="19" />
+		<property name="programId" type="java.lang.Integer" not-null="true" length="10" />
+		<property name="programName" type="java.lang.String" not-null="true" length="70" />		
+		<property name="providerId" type="java.lang.String" not-null="true" length="6" />
+		<property name="providerName" type="java.lang.String" not-null="true" length="60" />
+		<property name="caisiRoleName" type="java.lang.String" not-null="false" length="255" />
+		<property name="updateDate" type="java.util.Calendar" not-null="false" length="19" />
 	</class>
 </hibernate-mapping>

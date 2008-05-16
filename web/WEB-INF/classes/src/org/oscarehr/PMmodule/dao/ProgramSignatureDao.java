@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -65,7 +66,20 @@ public class ProgramSignatureDao extends HibernateDaoSupport {
         return rs;
 
     }
+    
+    public void removeProgramSignature(	Integer programId) {
+            if (programId == null || programId <= 0) {
+                throw new IllegalArgumentException();
+            }
+            String sql = "from ProgramSignature where programId = " + programId;
+            List lst = getHibernateTemplate().find(sql);
+            getHibernateTemplate().deleteAll(lst);
 
+            if (log.isDebugEnabled()) {
+                log.debug("deleteProgramSignature: programId = " + programId);
+            }
+    	   	
+    }
     public void saveProgramSignature(ProgramSignature programSignature) {
         if (programSignature == null) {
             throw new IllegalArgumentException();

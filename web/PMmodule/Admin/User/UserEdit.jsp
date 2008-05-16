@@ -36,12 +36,15 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 	</tr>
 
 	<tr>
-		<td align="left" class="message"><logic:messagesPresent
+		<td align="left" class="message">
+			<br />
+			<logic:messagesPresent
 			message="true">
 			<html:messages id="message" message="true" bundle="pmm">
 				<c:out escapeXml="false" value="${message}" />
 			</html:messages>
-		</logic:messagesPresent></td>
+		</logic:messagesPresent>
+		<br /></td>
 	</tr>
 
 
@@ -60,6 +63,15 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			<html:hidden property="method" value="" />
 			<html:hidden property="securityNo" />
 			<html:hidden property="providerNo" />
+			
+			<div class="tabs">
+			<table cellpadding="3" cellspacing="0" border="0">
+				<tr>
+					<th title="sinatures">User Information</th>
+				</tr>
+			</table>
+			</div>
+			
 			<table>
 
 				<tr>
@@ -82,12 +94,14 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 					<td><html:text property="lastName" tabindex="3" /></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Title:</td>
-					<td><html:select property="title" tabindex="8" >
-							<html:option value="">Select Title</html:option>
-							<html:option value="title1" />
-							<html:option value="title2" />
-						</html:select></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					
+					<td><html-el:select property="title" tabindex="8">
+						<c:forEach var="title" items="${titleLst}">
+							<html-el:option value="${title.code}">
+								<c:out value="${title.description}" />
+							</html-el:option>
+						</c:forEach>
+					</html-el:select>
+					</td>
 				</tr>
 				<tr>
 					<td>Password:</td>
@@ -129,10 +143,14 @@ function submitForm(func){
 	var fld_cPassword = document.getElementsByName('confirmPassword')[0];
 	var fld_pin = document.getElementsByName('pin')[0];
 	var fld_cPin = document.getElementsByName('confirmPin')[0];
+	var fld_firstName = document.getElementsByName('firstName')[0];
+	var fld_lastName = document.getElementsByName('lastName')[0];
 	
 	if(func == 'saveNew'){
 		document.forms[0].method.value="save";
 		if(validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3) &&
+			validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2) &&
+			validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2) &&
 			validateRequired(fld_password, "Password")&& validateLength(fld_password, "Password", 20, 4)&&
 			validateRequired(fld_cPassword, "Confirm Password")&& validateLength(fld_cPassword, "Confirm Password", 20, 4)&&
 			validateRequired(fld_pin, "PIN")&& validateLength(fld_pin, "PIN", 4, 4)&&
@@ -147,28 +165,42 @@ function submitForm(func){
 		var v3 = false;
 		var v4 = false;
 		var v5 = false;	
+		var v6 = false;
+		var v7 = false;
 				
-		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3))
+		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3)){
 			v1 = true;
-
-		if ( validateRequired(fld_password, "Password") && validateLength(fld_password, "Password", 20, 4))
+		}
+		
+		if ( validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2))
 		{
 			v2 = true;
 		}
-		if ( validateRequired(fld_cPassword, "Confirm Password") && validateLength(fld_cPassword, "Confirm Password", 20, 4))
+		if ( validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2))
 		{
 			v3 = true;
-		}
-		if ( validateRequired(fld_pin, "PIN") && validateLength(fld_pin, "PIN", 4, 4))
+		}	
+		if ( validateRequired(fld_password, "Password") && validateLength(fld_password, "Password", 20, 4))
 		{
 			v4 = true;
 		}
-		if ( validateRequired(fld_cPin, "Confirm PIN") && validateLength(fld_cPin, "Confirm PIN", 4, 4))
+		if ( validateRequired(fld_cPassword, "Confirm Password") && validateLength(fld_cPassword, "Confirm Password", 20, 4))
 		{
 			v5 = true;
+		}
+		if ( validateRequired(fld_pin, "PIN") && validateLength(fld_pin, "PIN", 4, 4))
+		{
+			v6 = true;
+		}
+		if ( validateRequired(fld_cPin, "Confirm PIN") && validateLength(fld_cPin, "Confirm PIN", 4, 4))
+		{
+			v7 = true;
 		}	
+		
+			
+			
 				
-		if(v1 && v2 && v3 && v4 && v5)
+		if(v1 && v2 && v3 && v4 && v5 && v6 && v7)
 			document.forms[0].submit();
 	}
 	else

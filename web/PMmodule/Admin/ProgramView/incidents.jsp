@@ -38,7 +38,10 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 <!--
 	function resetForm(){
 
-		document.forms[0].reset();
+		//document.forms[0].reset();
+		document.getElementsByName("incidentForm.clientId")[0].value = ""; 
+		document.getElementsByName("incidentForm.clientName")[0].value = "";
+		document.getElementsByName("incidentForm.incDateStr")[0].value = "";
 
 	}
 	

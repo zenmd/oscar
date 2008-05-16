@@ -1,4 +1,8 @@
-<!-- Source:web/PMmodule/Admin/Role/RoleEdit.jsp -->
+<!-- 
+
+Source:web/PMmodule/Admin/Role/RoleEdit.jsp
+
+-->
 
 <%@ include file="/taglibs.jsp"%>
 
@@ -6,7 +10,15 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Role Management</span></th>
+			id="_ctl0_phBody_lblTitle" align="left">Role Management -
+				<logic:present name="secroleForEdit">
+						Edit Role
+				</logic:present> 
+				<logic:notPresent name="secroleForEdit">
+						Add Role
+				</logic:notPresent>
+			
+			</span></th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link
@@ -45,22 +57,26 @@
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 
-		<table width="100%" cellpadding="0" cellspacing="0">
-			<tr>
-				<td align="left" class="clsHomePageHeader" colspan="5"><logic:present
-					name="secroleForEdit">
-					<h2>Edit Role</h2>
-				</logic:present> <logic:notPresent name="secroleForEdit">
-					<h2>Add Role</h2>
-				</logic:notPresent></td>
-			</tr>
-
-
-
-		</table>
+			<div class="tabs" id="tabs">
+				<table cellpadding="3" cellspacing="0" border="0">
+					<tr>
+						<th title="Programs">
+							<logic:present
+								name="secroleForEdit">
+								Edit Role
+							</logic:present> <logic:notPresent name="secroleForEdit">
+								Add Role
+							</logic:notPresent>
+						</th>
+					</tr>
+				</table>
+			</div>		
 
 		<html:form action="/PMmodule/Admin/RoleManager" method="post">
 			<html:hidden property="method" value="save" />
+			
+			
+			
 			<table>
 				<logic:present name="secroleForEdit">
 					<tr>

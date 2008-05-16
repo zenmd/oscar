@@ -71,17 +71,26 @@ public class Program implements Serializable {
     private boolean mentalHealth;
     private boolean housing;
     private String exclusiveView;
-    private int ageMin=1;
-    private int ageMax=200;
+    private Integer ageMin=0;
+    private Integer ageMax=200;
     private Integer maximumServiceRestrictionDays;
     private int defaultServiceRestrictionDays;
     private Integer facilityId;
     private String facilityDesc;
     private String orgCd;
-    private Integer capacity_funding;
-    private Integer capacity_space;
+    private Integer capacity_funding = 0;
+    private Integer capacity_space = 0;
+    private Integer capacity_actual = 0;
     
-    public Integer getCapacity_funding() {
+    public Integer getCapacity_actual() {
+		return capacity_actual;
+	}
+
+	public void setCapacity_actual(Integer capacity_actual) {
+		this.capacity_actual = capacity_actual;
+	}
+
+	public Integer getCapacity_funding() {
 		return capacity_funding;
 	}
 
@@ -632,19 +641,19 @@ public class Program implements Serializable {
     }
 
 
-    public int getAgeMin() {
+    public Integer getAgeMin() {
         return ageMin;
     }
 
-    public void setAgeMin(int ageMin) {
+    public void setAgeMin(Integer ageMin) {
         this.ageMin = ageMin;
     }
 
-    public int getAgeMax() {
+    public Integer getAgeMax() {
         return ageMax;
     }
 
-    public void setAgeMax(int ageMax) {
+    public void setAgeMax(Integer ageMax) {
         this.ageMax = ageMax;
     }
 

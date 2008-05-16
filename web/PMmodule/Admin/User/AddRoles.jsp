@@ -1,4 +1,8 @@
-<!-- Source:web/PMmodule/Admin/User/AddRoles.jsp -->
+<!-- 
+
+Source:web/PMmodule/Admin/User/AddRoles.jsp 
+
+-->
 
 <%@ include file="/taglibs.jsp"%>
 
@@ -6,7 +10,7 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="lblTitle" align="left">User Management</span></th>
+			id="lblTitle" align="left">User Management - Role/Org Security </span></th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link
@@ -31,30 +35,46 @@
 
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr><td align="left" class="message">
+			<br />
 		      <logic:messagesPresent message="true">
 		        <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
 		        </html:messages> 
 		      </logic:messagesPresent>
+		      <br /><br />
 			</td></tr>
 		</table>
 
 		<html:form action="/PMmodule/Admin/UserManager" method="post">
 			<html:hidden property="method" value="save" />
 			<html:hidden property="providerNo" />
-			<table>
-				<tr>
+			
+			
+			<div class="tabs" id="tabs">
+				<table cellpadding="3" cellspacing="0" border="0">
+					<tr>
+						<th title="Programs">Role/Org Security</th>
+					</tr>
+				</table>
+			</div>
+
+			
+			<table width="100%" border="1" cellspacing="2" cellpadding="3">
+				<tr class="b">
 					<td>User ID:</td>
-					<td><html:text property="userName" readonly="true" /></td>
+					<td><html:text property="userName" readonly="true" style="border: none" /></td>
 				</tr>
-				<tr>
+				<tr class="b">
 					<td>Last Name:</td>
-					<td><html:text property="lastName" readonly="true" maxlength="30"/>First Name:<html:text property="firstName" readonly="true" maxlength="30"/></td>
-				<tr>
+					<td><html:text property="lastName" readonly="true" style="border: none" /></td>
+				<tr class="b">
+					<td>First Name:</td>
+					<td><html:text property="firstName" readonly="true" style="border: none" /></td>
+				<tr class="b">
 					<td colspan="2">Org/Role Profile:</td>
 				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td width="650px">
+				<tr >
+					<td width="150px">&nbsp;</td>
+					<td>
 					<br />
 					<TABLE align="center" class="simple" width="100%">
 						<thead>

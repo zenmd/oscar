@@ -23,6 +23,8 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ProgramSignature implements Serializable {
 	public Integer id;
@@ -31,7 +33,9 @@ public class ProgramSignature implements Serializable {
 	public String providerId;
 	public String providerName;
 	public String caisiRoleName;
-	public java.util.Date updateDate;
+	public java.util.Calendar updateDate;
+	public String updateDateStr;
+	
 	private int hashCode = Integer.MIN_VALUE;
 	
 	public ProgramSignature() {
@@ -74,10 +78,10 @@ public class ProgramSignature implements Serializable {
 	public void setProviderName(String providerName) {
 		this.providerName = providerName;
 	}
-	public java.util.Date getUpdateDate() {
+	public java.util.Calendar getUpdateDate() {
 		return updateDate;
 	}
-	public void setUpdateDate(java.util.Date updateDate) {
+	public void setUpdateDate(java.util.Calendar updateDate) {
 		this.updateDate = updateDate;
 	}	
 	
@@ -106,5 +110,13 @@ public class ProgramSignature implements Serializable {
 
 	public String toString () {
 		return super.toString();
+	}
+	
+	public String getUpdateDateStr() {
+		if(updateDate != null){
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			updateDateStr = formatter.format(updateDate.getTime());
+		}
+		return updateDateStr;
 	}
 }

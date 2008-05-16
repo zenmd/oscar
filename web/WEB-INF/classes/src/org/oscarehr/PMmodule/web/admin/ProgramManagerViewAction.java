@@ -307,61 +307,62 @@ public class ProgramManagerViewAction extends BaseAction {
         }
         
         if (formBean.getTab().equals("Incidents")) {
-        	String incidentId = request.getParameter("incidentId");
-        	String mthd = request.getParameter("mthd");
-        	Integer pid = Integer.valueOf(programId);
-        	
-        	IncidentForm incidentForm = null;
-        	if(incidentId == null){
-        		// incident list
-        		List lst = new ArrayList();
-        		if(mthd != null && mthd.equals("search")){
-        			incidentForm = formBean.getIncidentForm();
-        			incidentForm.setProgramId(programId);
-        			lst = incidentManager.search(incidentForm);
-        		}else{
-        			incidentForm = new IncidentForm();
-        			formBean.setIncidentForm(incidentForm);
-        			//lst = incidentManager.getIncidentsByProgramId(pid);
-        		}
-        		
-        		request.setAttribute("incidents", lst);
-        	}else {
-        		// new/edit incident
-        		
-        		if(mthd.equals("save")){
-        			incidentForm = formBean.getIncidentForm();
-        			incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
-        			incidentForm.getIncident().setProviderNo(providerNo);
-        			
-        			Map map = request.getParameterMap();
-        			ActionMessages messages = new ActionMessages();
-
-        			try {
-        				incidentId = incidentManager.saveIncident(incidentForm);
-           			
-        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-        						"error.saveIncident.success", request.getContextPath()));
-        				saveMessages(request, messages);
-        				
-        			} catch (Exception e) {
-        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-        						"error.saveIncident.failed", request.getContextPath()));
-        				saveMessages(request, messages);
-
-        			}
-        			
-        		}
-        		
-        		incidentForm = incidentManager.getIncidentForm(incidentId);
-        		incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
-        		if(mthd.equals("new")){
-        			incidentForm.getIncident().setProviderNo(providerNo);
-        			SecProvider provider = incidentManager.findProviderById(providerNo);
-        			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
-        		}
-        		formBean.setIncidentForm(incidentForm);
-        	}
+        	processIncident( request, programId, formBean);
+//        	String incidentId = request.getParameter("incidentId");
+//        	String mthd = request.getParameter("mthd");
+//        	Integer pid = Integer.valueOf(programId);
+//        	
+//        	IncidentForm incidentForm = null;
+//        	if(incidentId == null){
+//        		// incident list
+//        		List lst = new ArrayList();
+//        		if(mthd != null && mthd.equals("search")){
+//        			incidentForm = formBean.getIncidentForm();
+//        			incidentForm.setProgramId(programId);
+//        			lst = incidentManager.search(incidentForm);
+//        		}else{
+//        			incidentForm = new IncidentForm();
+//        			formBean.setIncidentForm(incidentForm);
+//        			//lst = incidentManager.getIncidentsByProgramId(pid);
+//        		}
+//        		
+//        		request.setAttribute("incidents", lst);
+//        	}else {
+//        		// new/edit incident
+//        		
+//        		if(mthd.equals("save")){
+//        			incidentForm = formBean.getIncidentForm();
+//        			incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
+//        			incidentForm.getIncident().setProviderNo(providerNo);
+//        			
+//        			Map map = request.getParameterMap();
+//        			ActionMessages messages = new ActionMessages();
+//
+//        			try {
+//        				incidentId = incidentManager.saveIncident(incidentForm);
+//           			
+//        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+//        						"message.save.success", request.getContextPath()));
+//        				saveMessages(request, messages);
+//        				
+//        			} catch (Exception e) {
+//        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+//        						"error.saveIncident.failed", request.getContextPath()));
+//        				saveMessages(request, messages);
+//
+//        			}
+//        			
+//        		}
+//        		
+//        		incidentForm = incidentManager.getIncidentForm(incidentId);
+//        		incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
+//        		if(mthd.equals("new")){
+//        			incidentForm.getIncident().setProviderNo(providerNo);
+//        			SecProvider provider = incidentManager.findProviderById(providerNo);
+//        			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
+//        		}
+//        		formBean.setIncidentForm(incidentForm);
+//        	}
         }
 
         logManager.log("view", "program", programId, request);
@@ -369,6 +370,67 @@ public class ProgramManagerViewAction extends BaseAction {
         request.setAttribute("id", programId);
 
         return mapping.findForward("view");
+    }
+    
+    private void processIncident(HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
+    	String incidentId = request.getParameter("incidentId");
+    	String mthd = request.getParameter("mthd");
+    	Integer pid = Integer.valueOf(programId);
+    	
+    	HttpSession se=request.getSession();
+        String providerNo = (String)se.getAttribute("user");
+        
+    	IncidentForm incidentForm = null;
+    	if(incidentId == null){
+    		// incident list
+    		List lst = new ArrayList();
+    		if(mthd != null && mthd.equals("search")){
+    			incidentForm = formBean.getIncidentForm();
+    			incidentForm.setProgramId(programId);
+    			lst = incidentManager.search(incidentForm);
+    		}else{
+    			incidentForm = new IncidentForm();
+    			formBean.setIncidentForm(incidentForm);
+    			//lst = incidentManager.getIncidentsByProgramId(pid);
+    		}
+    		
+    		request.setAttribute("incidents", lst);
+    	}else {
+    		// new/edit incident
+    		
+    		if(mthd.equals("save")){
+    			incidentForm = formBean.getIncidentForm();
+    			incidentForm.getIncident().setProgramId(pid);
+    			incidentForm.getIncident().setProviderNo(providerNo);
+    			
+    			Map map = request.getParameterMap();
+    			ActionMessages messages = new ActionMessages();
+
+    			try {
+    				incidentId = incidentManager.saveIncident(incidentForm);
+       			
+    				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+    						"message.save.success", request.getContextPath()));
+    				saveMessages(request, messages);
+    				
+    			} catch (Exception e) {
+    				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+    						"error.saveIncident.failed", request.getContextPath()));
+    				saveMessages(request, messages);
+
+    			}
+    			
+    		}
+    		
+    		incidentForm = incidentManager.getIncidentForm(incidentId);
+    		incidentForm.getIncident().setProgramId(pid);
+    		if(mthd.equals("new")){
+    			incidentForm.getIncident().setProviderNo(providerNo);
+    			SecProvider provider = incidentManager.findProviderById(providerNo);
+    			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
+    		}
+    		formBean.setIncidentForm(incidentForm);
+    	}
     }
 
     public ActionForward viewBedReservationChangeReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

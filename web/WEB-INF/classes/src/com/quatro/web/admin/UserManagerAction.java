@@ -142,7 +142,10 @@ public class UserManagerAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println("=========== preNew ========= in UserManagerAction");
-
+		
+		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
+        request.setAttribute("titleLst", titleLst);
+        
 		return mapping.findForward("edit");
 
 	}
@@ -199,7 +202,10 @@ public class UserManagerAction extends BaseAction {
 		} else {
 			return list(mapping, form, request, response);
 		}
-
+		
+		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
+        request.setAttribute("titleLst", titleLst);
+        
 		return mapping.findForward("edit");
 
 	}
@@ -378,7 +384,7 @@ public class UserManagerAction extends BaseAction {
 	public void changeRoleLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
 		
-		ActionMessages messages = new ActionMessages();
+//		ActionMessages messages = new ActionMessages();
 		
 		ArrayList<Secuserrole> secUserRoleLst = new ArrayList<Secuserrole>();
 
@@ -401,9 +407,9 @@ public class UserManagerAction extends BaseAction {
 		}
 		myForm.set("secUserRoleLst", secUserRoleLst);
 		
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.user.addRole",
-       			request.getContextPath()));
-		saveMessages(request,messages);
+//		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+//       			request.getContextPath()));
+//		saveMessages(request,messages);
 		
 		request.getSession().setAttribute("secUserRoleLst",	secUserRoleLst);
 
@@ -460,7 +466,7 @@ public class UserManagerAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println("=========== saveRoles ========= in UserManagerAction");
-		
+		ActionMessages messages = new ActionMessages();
 		List secUserRoleLst = getRowList(request, form, 0);
 		ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
 		
@@ -472,7 +478,16 @@ public class UserManagerAction extends BaseAction {
 			
 		}
 		
-		usersManager.saveRolesToUser(LstforSave);
+		try{
+			usersManager.saveRolesToUser(LstforSave);
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+			request.getContextPath()));
+			saveMessages(request,messages);			
+		}catch(Exception e){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
+			request.getContextPath()));
+			saveMessages(request,messages);				
+		}
 		
 		return profile(mapping,form,request,response);
 

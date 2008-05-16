@@ -22,6 +22,8 @@
 
 package org.oscarehr.PMmodule.web.admin;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -59,6 +61,9 @@ import org.oscarehr.PMmodule.service.RoleManager;
 import org.oscarehr.PMmodule.web.BaseAction;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.quatro.model.LookupCodeValue;
+import com.quatro.service.LookupManager;
+
 import oscar.MyDateFormat;
 
 public class ProgramManagerAction extends BaseAction {
@@ -72,6 +77,7 @@ public class ProgramManagerAction extends BaseAction {
     private ProviderManager providerManager;
     private ProgramQueueManager programQueueManager;
     private RoleManager roleManager;
+    private LookupManager lookupManager;
         
     public void setFacilityDAO(FacilityDAO facilityDAO) {
         this.facilityDAO = facilityDAO;
@@ -297,6 +303,8 @@ public class ProgramManagerAction extends BaseAction {
         }
 
         programManager.removeProgram(id);
+        // TODO remove signature
+        
         programManager.deleteProgramProviderByProgramId(Integer.valueOf(id));
 
         ActionMessages messages = new ActionMessages();
@@ -580,8 +588,9 @@ public class ProgramManagerAction extends BaseAction {
         programSignature.setProviderId(providerNo);
         programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
         programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
-        Date now = new Date();
-        programSignature.setUpdateDate(now);
+        //Date now = new Date();
+        //programSignature.setUpdateDate(now);
+        programSignature.setUpdateDate(Calendar.getInstance());
         programManager.saveProgramSignature(programSignature);
 
         ActionMessages messages = new ActionMessages();
@@ -620,24 +629,26 @@ public class ProgramManagerAction extends BaseAction {
         if (request.getParameter("program.hic") == null) {
             program.setHic(false);
         }
-        if (request.getParameter("program.holdingTank") == null) {
-            program.setHoldingTank(false);
-        }
-        if(request.getParameter("program.transgender") == null)
-            program.setTransgender(false);
-        if(request.getParameter("program.firstNation") == null)
-            program.setFirstNation(false);
+//        if (request.getParameter("program.holdingTank") == null) {
+//            program.setHoldingTank(false);
+//        }
+//        if(request.getParameter("program.transgender") == null)
+//            program.setTransgender(false);
+//        if(request.getParameter("program.firstNation") == null)
+//            program.setFirstNation(false);
         if(request.getParameter("program.bedProgramAffiliated") == null)
             program.setBedProgramAffiliated(false);
-        if(request.getParameter("program.alcohol") == null)
-            program.setAlcohol(false);
-        if(request.getParameter("program.physicalHealth") == null)
-            program.setPhysicalHealth(false);
-        if(request.getParameter("program.mentalHealth") == null)
-            program.setMentalHealth(false);
-        if(request.getParameter("program.housing") == null)
-            program.setHousing(false);
-
+//        if(request.getParameter("program.alcohol") == null)
+//            program.setAlcohol(false);
+//        if(request.getParameter("program.physicalHealth") == null)
+//            program.setPhysicalHealth(false);
+//        if(request.getParameter("program.mentalHealth") == null)
+//            program.setMentalHealth(false);
+//        if(request.getParameter("program.housing") == null)
+//            program.setHousing(false);
+        if (request.getParameter("program.hic") == null) {
+            program.setHic(false);
+        }
         request.setAttribute("oldProgram",program);
 
         //if a program has a client in it, you cannot make it inactive
@@ -675,7 +686,7 @@ public class ProgramManagerAction extends BaseAction {
         saveProgram(request, program);
 
         ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request, messages);
 
         logManager.log("write", "edit program", String.valueOf(program.getId()), request);
@@ -686,41 +697,66 @@ public class ProgramManagerAction extends BaseAction {
     }
 
     private void saveProgram(HttpServletRequest request, Program program) {
-        programManager.saveProgram(program);
+        //programManager.saveProgram(program);
 
         //if there were some changes happened to the program, then save the signature of this program
         Program oldProgram = new Program();
-        oldProgram.setMaxAllowed(Integer.valueOf(request.getParameter("old_maxAllowed")));
-        oldProgram.setName(request.getParameter("old_name"));
-        oldProgram.setDescr(request.getParameter("old_descr"));
-        oldProgram.setType(request.getParameter("old_type"));
-        oldProgram.setAddress(request.getParameter("old_address"));
-        oldProgram.setPhone(request.getParameter("old_phone"));
-        oldProgram.setFax(request.getParameter("old_fax"));
-        oldProgram.setUrl(request.getParameter("old_url"));
-        oldProgram.setEmail(request.getParameter("old_email"));
-        oldProgram.setEmergencyNumber(request.getParameter("old_emergencyNumber"));
-        oldProgram.setLocation(request.getParameter("old_location"));
-        oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
-        oldProgram.setBedProgramLinkId(Integer.valueOf(request.getParameter("old_bedProgramLinkId")));
-        oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
-        oldProgram.setAbstinenceSupport(request.getParameter("old_abstinenceSupport"));
-        oldProgram.setExclusiveView(request.getParameter("old_exclusiveView"));
+        
+//        oldProgram.setMaxAllowed(Integer.valueOf(request.getParameter("old_maxAllowed")));
+//        oldProgram.setName(request.getParameter("old_name"));
+//        oldProgram.setDescr(request.getParameter("old_descr"));
+//        oldProgram.setType(request.getParameter("old_type"));
+//        oldProgram.setAddress(request.getParameter("old_address"));
+//        oldProgram.setPhone(request.getParameter("old_phone"));
+//        oldProgram.setFax(request.getParameter("old_fax"));
+//        oldProgram.setUrl(request.getParameter("old_url"));
+//        oldProgram.setEmail(request.getParameter("old_email"));
+//        oldProgram.setEmergencyNumber(request.getParameter("old_emergencyNumber"));
+//        oldProgram.setLocation(request.getParameter("old_location"));
+//        oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
+//        oldProgram.setBedProgramLinkId(Integer.valueOf(request.getParameter("old_bedProgramLinkId")));
+//        oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
+//        oldProgram.setAbstinenceSupport(request.getParameter("old_abstinenceSupport"));
+//        oldProgram.setExclusiveView(request.getParameter("old_exclusiveView"));
+//
+//        oldProgram.setHoldingTank(Boolean.valueOf(request.getParameter("old_holdingTank")));
+//        oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")));
+//        oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")));
+//        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")));
+//        oldProgram.setTransgender(Boolean.valueOf(request.getParameter("old_transgender")));
+//        oldProgram.setFirstNation(Boolean.valueOf(request.getParameter("old_firstNation")));
+//        oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")));
+//        oldProgram.setAlcohol(Boolean.valueOf(request.getParameter("old_alcohol")));
+//        oldProgram.setPhysicalHealth(Boolean.valueOf(request.getParameter("old_physicalHealth")));
+//        oldProgram.setMentalHealth(Boolean.valueOf(request.getParameter("old_mentalHealth")));
+//        oldProgram.setHousing(Boolean.valueOf(request.getParameter("old_housing")));
+//        oldProgram.setHousing(Boolean.valueOf(request.getParameter("old_facility_id")));
 
-        oldProgram.setHoldingTank(Boolean.valueOf(request.getParameter("old_holdingTank")));
+
+        
+        oldProgram.setName(request.getParameter("old_name"));
+        oldProgram.setFacilityId(Integer.getInteger(request.getParameter("old_facility_id")));
+        oldProgram.setDescr(request.getParameter("old_descr"));
+        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")));
+        oldProgram.setType(request.getParameter("old_type"));
+        oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
+        if(request.getParameter("old_capacity_space")!=null && request.getParameter("old_capacity_space").length()>0)
+        	oldProgram.setCapacity_space(Integer.getInteger(request.getParameter("old_capacity_space")));
+        if(request.getParameter("old_capacity_funding")!=null && request.getParameter("old_capacity_funding").length()>0)
+        	oldProgram.setCapacity_funding(Integer.getInteger(request.getParameter("old_capacity_funding")));
         oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")));
         oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")));
-        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")));
-        oldProgram.setTransgender(Boolean.valueOf(request.getParameter("old_transgender")));
-        oldProgram.setFirstNation(Boolean.valueOf(request.getParameter("old_firstNation")));
+        oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
         oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")));
-        oldProgram.setAlcohol(Boolean.valueOf(request.getParameter("old_alcohol")));
-        oldProgram.setPhysicalHealth(Boolean.valueOf(request.getParameter("old_physicalHealth")));
-        oldProgram.setMentalHealth(Boolean.valueOf(request.getParameter("old_mentalHealth")));
-        oldProgram.setHousing(Boolean.valueOf(request.getParameter("old_housing")));
-        oldProgram.setHousing(Boolean.valueOf(request.getParameter("old_facility_id")));
+        if(request.getParameter("old_ageMax")!=null && request.getParameter("old_ageMax").length()>0)
+        	oldProgram.setAgeMax(Integer.getInteger(request.getParameter("old_ageMax")));
+        if(request.getParameter("old_ageMin")!=null && request.getParameter("old_ageMin").length()>0)
+        	oldProgram.setAgeMin(Integer.getInteger(request.getParameter("old_ageMin")));
+        
 
         if (isChanged(program,oldProgram)) {
+        	programManager.saveProgram(program);
+        	
             ProgramSignature programSignature = new ProgramSignature();
             programSignature.setProgramId(program.getId());
             programSignature.setProgramName(program.getName());
@@ -728,8 +764,8 @@ public class ProgramManagerAction extends BaseAction {
             programSignature.setProviderId(providerNo);
             programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
             programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
-            Date now = new Date();
-            programSignature.setUpdateDate(now);
+            //Date now = new Date();
+            programSignature.setUpdateDate(Calendar.getInstance());
 
             programManager.saveProgramSignature(programSignature);
         }
@@ -876,8 +912,8 @@ public class ProgramManagerAction extends BaseAction {
     }
 
     private void setEditAttributes(HttpServletRequest request, String programId) {
-        if (programId != null)
-        {
+    	ArrayList programSignatureLst = new ArrayList();
+        if (programId != null) {
             request.setAttribute("id", programId);
             request.setAttribute("programName", programManager.getProgram(programId).getName());
             request.setAttribute("providers", programManager.getProgramProviders(programId));
@@ -899,14 +935,25 @@ public class ProgramManagerAction extends BaseAction {
             request.setAttribute("accesses", programManager.getProgramAccesses(programId));
             request.setAttribute("queue", programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId)));
             request.setAttribute("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(programId)));
+            programSignatureLst = (ArrayList)programManager.getProgramSignatures(Integer.valueOf(programId));
+            
+        }else{
+	        // signature part
+	        HttpSession se=request.getSession();
+	        String providerNo = (String)se.getAttribute("user");
+	        ProgramSignature ps = new ProgramSignature();
+	        ps.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
+	        ps.setProviderId(providerNo);
+	        ps.setUpdateDate(Calendar.getInstance());
+	        programSignatureLst.add(ps);
         }
-        // signature part
-        HttpSession se=request.getSession();
-        String providerNo = (String)se.getAttribute("user");
-        ProgramSignature ps = new ProgramSignature();
-        ps.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
-        ps.setUpdateDate(MyDateFormat.getCurrentDate());
-        request.setAttribute("programFirstSignature", ps);
+        
+        request.setAttribute("programSignatureLst", programSignatureLst);
+        
+        List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
+        request.setAttribute("programTypeLst", programTypeLst);
+        List genderLst = lookupManager.LoadCodeList("GEN", true, null, null);
+        request.setAttribute("genderLst", genderLst);
         
 //
 //        request.setAttribute("roles", roleManager.getRoles());
@@ -1043,37 +1090,56 @@ public class ProgramManagerAction extends BaseAction {
     private boolean isChanged(Program program1, Program program2) {
         boolean changed = false;
 
-        if( program1.getMaxAllowed().intValue() != program2.getMaxAllowed().intValue() ||
+        if( 
                 !program1.getName().equals(program2.getName()) ||
                 !program1.getType().equals(program2.getType()) ||
                 !program1.getDescr().equals(program2.getDescr()) ||
-                !program1.getAddress().equals(program2.getAddress()) ||
-                !program1.getPhone().equals(program2.getPhone()) ||
-                !program1.getFax().equals(program2.getFax()) ||
-                !program1.getUrl().equals(program2.getUrl()) ||
-                !program1.getEmail().equals(program2.getEmail()) ||
-                !program1.getEmergencyNumber().equals(program2.getEmergencyNumber()) ||
-                !program1.getLocation().equals(program2.getLocation()) ||
                 !program1.getProgramStatus().equals(program2.getProgramStatus()) ||
-                !program1.getBedProgramLinkId().equals(program2.getBedProgramLinkId()) ||
                 !program1.getManOrWoman().equals(program2.getManOrWoman()) ||
-                !program1.getAbstinenceSupport().equals(program2.getAbstinenceSupport()) ||
-                !program1.getExclusiveView().equals(program2.getExclusiveView()) ||
-                (program1.isHoldingTank() ^ program2.isHoldingTank()) ||
                 (program1.isAllowBatchAdmission() ^ program2.isAllowBatchAdmission()) ||
                 (program1.isAllowBatchDischarge() ^ program2.isAllowBatchDischarge()) ||
                 (program1.isHic() ^ program2.isHic()) ||
-                (program1.isTransgender() ^ program2.isTransgender()) ||
-                (program1.isFirstNation() ^ program2.isFirstNation()) ||
                 (program1.isBedProgramAffiliated() ^ program2.isBedProgramAffiliated()) ||
-                (program1.isAlcohol() ^ program2.isAlcohol()) ||
-                (program1.isPhysicalHealth() ^ program2.isPhysicalHealth()) ||
-                (program1.isMentalHealth() ^ program2.isMentalHealth()) ||
                 (program1.getFacilityId() != program2.getFacilityId()) ||
-                (program1.isHousing() ^ program2.isHousing())
+                (program1.getCapacity_funding() != program2.getCapacity_funding()) ||
+                (program1.getCapacity_space() != program2.getCapacity_space()) ||
+                (program1.getAgeMax() != program2.getAgeMax()) ||
+                (program1.getAgeMin() != program2.getAgeMin())
                 )
 
             changed = true;
+        
+//        if( program1.getMaxAllowed().intValue() != program2.getMaxAllowed().intValue() ||
+//                !program1.getName().equals(program2.getName()) ||
+//                !program1.getType().equals(program2.getType()) ||
+//                !program1.getDescr().equals(program2.getDescr()) ||
+//                !program1.getAddress().equals(program2.getAddress()) ||
+//                !program1.getPhone().equals(program2.getPhone()) ||
+//                !program1.getFax().equals(program2.getFax()) ||
+//                !program1.getUrl().equals(program2.getUrl()) ||
+//                !program1.getEmail().equals(program2.getEmail()) ||
+//                !program1.getEmergencyNumber().equals(program2.getEmergencyNumber()) ||
+//                !program1.getLocation().equals(program2.getLocation()) ||
+//                !program1.getProgramStatus().equals(program2.getProgramStatus()) ||
+//                !program1.getBedProgramLinkId().equals(program2.getBedProgramLinkId()) ||
+//                !program1.getManOrWoman().equals(program2.getManOrWoman()) ||
+//                !program1.getAbstinenceSupport().equals(program2.getAbstinenceSupport()) ||
+//                !program1.getExclusiveView().equals(program2.getExclusiveView()) ||
+//                (program1.isHoldingTank() ^ program2.isHoldingTank()) ||
+//                (program1.isAllowBatchAdmission() ^ program2.isAllowBatchAdmission()) ||
+//                (program1.isAllowBatchDischarge() ^ program2.isAllowBatchDischarge()) ||
+//                (program1.isHic() ^ program2.isHic()) ||
+//                (program1.isTransgender() ^ program2.isTransgender()) ||
+//                (program1.isFirstNation() ^ program2.isFirstNation()) ||
+//                (program1.isBedProgramAffiliated() ^ program2.isBedProgramAffiliated()) ||
+//                (program1.isAlcohol() ^ program2.isAlcohol()) ||
+//                (program1.isPhysicalHealth() ^ program2.isPhysicalHealth()) ||
+//                (program1.isMentalHealth() ^ program2.isMentalHealth()) ||
+//                (program1.getFacilityId() != program2.getFacilityId()) ||
+//                (program1.isHousing() ^ program2.isHousing())
+//                )
+//
+//            changed = true;
 
         return changed;
     }
@@ -1110,5 +1176,9 @@ public class ProgramManagerAction extends BaseAction {
     public void setRoleManager(RoleManager mgr) {
     	this.roleManager = mgr;
     }
+
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
+	}
 
 }

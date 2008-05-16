@@ -24,11 +24,11 @@
 <%@ include file="/taglibs.jsp"%>
 <jsp:include page="/common/messages.jsp" />
 <div class="tabs" id="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-	<tr>
-		<th title="Programs">General Information</th>
-	</tr>
-</table>
+	<table cellpadding="3" cellspacing="0" border="0">
+		<tr>
+			<th title="Programs">General Information</th>
+		</tr>
+	</table>
 </div>
 <table width="100%" border="1" cellspacing="2" cellpadding="3">
 	<tr class="b">
