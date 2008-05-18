@@ -5,9 +5,15 @@ Source:web/PMmodule/Admin/ProgramView/incidentList.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
+
+
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
 		<td align="left" class="buttonBar">
+			<html:link
+			action="/PMmodule/ProgramManager.do"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 			<html:link
 			href="javascript:editIncident('0','new');"
 			style="color:Navy;text-decoration:none;">
@@ -18,7 +24,7 @@ Source:web/PMmodule/Admin/ProgramView/incidentList.jsp
 			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
 			<html:link href="javascript:resetForm()"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
 
@@ -43,11 +49,11 @@ Source:web/PMmodule/Admin/ProgramView/incidentList.jsp
 	<table border="0" cellspacing="2" cellpadding="3">
 		<tr>
 			<th>Client ID:</th>
-			<td><html:text property="incidentForm.clientId" size="20" />And</td>
+			<td><html:text property="incidentForm.clientId" size="20" /></td>
 		</tr>
 		<tr>
 			<th>First or Last Name:</th>
-			<td><html:text property="incidentForm.clientName" size="20" />And</td>
+			<td><html:text property="incidentForm.clientName" size="20" /></td>
 		</tr>
 		<tr>
 			<th>Incident Date:</th>

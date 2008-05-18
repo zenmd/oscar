@@ -162,7 +162,7 @@ public class ProgramManagerViewAction extends BaseAction {
                 }
             }
             
-            if (demographic.getAge()!=null)
+            if (demographic != null && demographic.getAge()!=null)
             {
                 int age=Integer.parseInt(demographic.getAge());
                 if (age<program.getAgeMin() || age>program.getAgeMax()) ageConflict.add(programQueue.getClientId());

@@ -129,14 +129,15 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 	
 	<tr>
 		<td align="left" class="message">
-			<br />
-			<logic:messagesPresent
-				message="true">
+			
+			<logic:messagesPresent message="true">
+				<br />
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
+				<br />
 			</logic:messagesPresent>
-			<br />
+			
 		</td>
 	</tr>
 	<tr>

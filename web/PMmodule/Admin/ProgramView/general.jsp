@@ -22,7 +22,19 @@
 */
  -->
 <%@ include file="/taglibs.jsp"%>
+<table width="100%" cellpadding="0px" cellspacing="0px" border="0">
+	<tr>
+		<td align="left" class="buttonBar">
+		<html:link
+			action="/PMmodule/ProgramManager.do"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+		</td>
+	</tr>
+</table>
+
 <jsp:include page="/common/messages.jsp" />
+
 <div class="tabs" id="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
 		<tr>
@@ -52,17 +64,23 @@
 		<td><c:out value="${program.type}" /></td>
 	</tr>
 	<tr class="b">
-		<td width="20%">Location:</td>
-		<td><c:out value="${program.location}" /></td>
+		<td width="20%">Status:</td>
+		<td><c:out value="${program.programStatus}" /></td>
+		
+	</tr>
+	
+	<tr class="b">
+		<td width="20%">Space Capacity:</td>
+		<td><c:out value="${program.capacity_space}" /></td>
+		
 	</tr>
 	<tr class="b">
-		<td width="20%">Client Participation:</td>
-		<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)</td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Holding Tank:</td>
-		<td><c:out value="${program.holdingTank}" /></td>
-	</tr>
+		<td width="20%">Funding Capacity:</td>
+		<td><c:out value="${program.capacity_funding}" /></td>
+		
+	</tr>	
+
+
 	<tr class="b">
 		<td width="20%">Allow Batch Admissions:</td>
 		<td><c:out value="${program.allowBatchAdmission}" /></td>
@@ -76,6 +94,32 @@
 		<td><c:out value="${program.manOrWoman}" /></td>
 	</tr>
 	<tr class="b">
+		<td width="20%">Bed Program Affiliated:</td>
+		<td><c:out value="${program.bedProgramAffiliated}" /></td>
+	</tr>
+	<tr class="b">
+		<td width="20%">Minimum Age:</td>
+		<td><c:out value="${program.ageMin}" /></td>
+	</tr>
+	<tr class="b">
+		<td width="20%">Maximum Age:</td>
+		<td><c:out value="${program.ageMax}" /></td>
+	</tr>
+	
+	<!-- 
+	<tr class="b">
+		<td width="20%">Location:</td>
+		<td><c:out value="${program.location}" /></td>
+	</tr>
+	<tr class="b">
+		<td width="20%">Client Participation:</td>
+		<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)</td>
+	</tr>
+	<tr class="b">
+		<td width="20%">Holding Tank:</td>
+		<td><c:out value="${program.holdingTank}" /></td>
+	</tr>
+	<tr class="b">
 		<td width="20%">Transgender:</td>
 		<td><c:out value="${program.transgender}" /></td>
 	</tr>
@@ -83,10 +127,7 @@
 		<td width="20%">First Nation:</td>
 		<td><c:out value="${program.firstNation}" /></td>
 	</tr>
-	<tr class="b">
-		<td width="20%">Bed Program Affiliated:</td>
-		<td><c:out value="${program.bedProgramAffiliated}" /></td>
-	</tr>
+	
 	<tr class="b">
 		<td width="20%">Alcohol:</td>
 		<td><c:out value="${program.alcohol}" /></td>
@@ -111,12 +152,7 @@
 		<td width="20%">Exclusive View:</td>
 		<td><c:out value="${program.exclusiveView}" /></td>
 	</tr>
-	<tr class="b">
-		<td width="20%">Minimum Age:</td>
-		<td><c:out value="${program.ageMin}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Maximum Age:</td>
-		<td><c:out value="${program.ageMax}" /></td>
-	</tr>
+	 -->
+	
+	
 </table>

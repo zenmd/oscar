@@ -18,23 +18,24 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		<td align="left" class="buttonBar"><html:link
 			href="javascript:submitForm('add');"
 			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+			<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;&nbsp;</html:link>
 		<html:link href="javascript:submitForm('list');"
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
-
+		<html:link href="javascript:resetForm();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<br />
-			<logic:messagesPresent
-				message="true">
+			<logic:messagesPresent message="true">
+				<br />
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
+					<br />
 			</logic:messagesPresent>
-			<br />
 		</td>
 	</tr>
 	<tr>
@@ -175,6 +176,13 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 	function submitForm(method)
 	{
 		document.programManagerForm.method.value=method;
+		document.programManagerForm.submit()
+	}
+	function resetForm()
+	{
+		document.getElementsByName("searchStatus")[0].value="Any";
+		document.getElementsByName("searchType")[0].value="Any";
+		document.getElementsByName("searchFacilityId")[0].value="0";
 		document.programManagerForm.submit()
 	}
 </script> 
