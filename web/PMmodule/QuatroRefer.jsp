@@ -12,10 +12,11 @@
 	}
 
 	 function popupProgramSearch(clientId) {
-        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do&clientId=" />';
+        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do?clientId=" />'+clientId;       
         var windowprops = "height=600,width=800,location=no,"
                 + "scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=0";
-        var popup = window.open(page+clientId, "_blank", windowprops);
+        // alert("page name" +page);
+        var popup = window.open(page, "_blank", windowprops);
         if (popup != null) {
             if (popup.opener == null) {
                 popup.opener = self;
@@ -32,8 +33,6 @@
  
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="method"/>
-<html:hidden property="clientId"/>
-
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Refer</th>
@@ -47,13 +46,14 @@
 		<b>Refer</b>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html:link action="/PMmodule/QuatroDischarge.do" name="actionParam" style="color:Navy;text-decoration:none;">Discharge</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints</html:link>
+		<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+		<html:link action="/PMmodule/QuatroConsent.do" name="actionParam" style="color:Navy;text-decoration:none;">Consent</html:link>
 		</td>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
 		<%String a="1"; %>
-		<a href="javaScript:popupProgramSearch('<c:out value="${clientId}"/>');" style="color:Navy;text-decoration:none;">
+		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;|</a>
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|		

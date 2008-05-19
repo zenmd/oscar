@@ -89,7 +89,7 @@
 </script>
 </head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
-	<input type="hidden" name="method" value="search" />	
+	<input type="hidden" name="method" />	
 	<table width="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 			<th class="pageTitle">Program Search</th>
@@ -131,7 +131,7 @@
   				<td><html:text property="program.ageMin" /></td></tr>
   		<tr><td>Maximum Age (inclusive)</td>
   			<td><html:text property="program.ageMax" /></td></tr>
-  		<tr><td><input type="button" value="search" onclick="search_programs()" />&nbsp;&nbsp;<input type="button" name="reset" value="reset" onclick="javascript:resetClientFields();" /></td></tr>
+  		<tr><td><input type="button" value="search" onclick="javaScript:submitForm('search_programs')" />&nbsp;&nbsp;<input type="button" name="reset" value="reset" onclick="javascript:resetClientFields();" /></td></tr>
  	</table>
 	</html:form>
 		

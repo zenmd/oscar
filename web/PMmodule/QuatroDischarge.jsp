@@ -36,7 +36,9 @@
 				action="/PMmodule/QuatroServiceRestriction.do" name="actionParam"
 				style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
 			<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Complaints</html:link></td>
+				style="color:Navy;text-decoration:none;">Complaints</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+		<html:link action="/PMmodule/QuatroConsent.do" name="actionParam" style="color:Navy;text-decoration:none;">Consent</html:link>
+				</td>
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar"><a
