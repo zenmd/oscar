@@ -246,6 +246,10 @@
             <form-property name="consent" type="org.oscarehr.PMmodule.model.Consent" />
             <form-property name="interview" type="org.oscarehr.PMmodule.model.ConsentInterview" />
         </form-bean>
+        <form-bean name="consentDetailForm" type="org.apache.struts.validator.DynaValidatorForm">
+        	<form-property name="consent" type="org.oscarehr.PMmodule.model.ConsentDetail"></form-property>
+        	<form-property name="clientId" type="java.lang.Integer"></form-property>
+        </form-bean>
         <form-bean name="programManagerViewForm" type="org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean" />
         <form-bean name="programManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean" />
@@ -1657,7 +1661,10 @@
             <forward name="service_restriction_error" path="page.pmm.client.service_restriction_error"/>
             <forward name="case" path="/CaseManagementView2.do" />
         </action>
-
+		<action path="/PMmodule/QuatroConsent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="consentDetailForm" scope="request">
+			<forward name="list" path="page.pmm.consent.list"></forward>
+			<forward name="edit" path="page.pmm.consent.edit"></forward>
+		</action>
         <action path="/PMmodule/DuplicateClientCheck" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="duplicateClientCheckForm" validate="false">
             <forward name="edit" path="/PMmodule/DuplicateClientCheck.jsp" />
         </action>
@@ -1697,7 +1704,7 @@
         <action path="/PMmodule/QuatroRefer" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientReferForm" scope="request">
             <forward name="list" path="page.quatro.pmm.refer.list" />
             <forward name="edit" path="page.quatro.pmm.refer" />
-            <forward name="search_programs" path="/PMmodule/QuatroProgramSearch.jsp" />
+            <forward name="search_programs" path="/PMmodule/QuatroProgramSearch.do" />
             <forward name="consent" path="page.pmm.erconsent" />
             <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
             <forward name="links" path="/PMmodule/ClientManager/links.jsp" />

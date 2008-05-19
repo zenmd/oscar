@@ -67,6 +67,10 @@
         <property name="roomDemographicManager" ref="roomDemographicManager" />
         <property name="roomManager" ref="roomManager" />
     </bean>
+    <bean name="/PMmodule/QuatroConsent" class="org.oscarehr.PMmodule.web.QuatroConsentAction" singleton="false" autowire="byName">
+    	 <property name="clientManager" ref="clientManager" />
+    	 <property name="consentManager" ref="consentManager"></property>
+    </bean>
     <bean name="/PMmodule/ClientHistory" class="org.oscarehr.PMmodule.web.ClientHistoryAction" singleton="false" autowire="byName">
         <property name="clientHistoryManager" ref="clientHistoryManager" />
     </bean>
