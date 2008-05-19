@@ -4,7 +4,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 -->
 
-
+<%@page import="org.oscarehr.PMmodule.model.Program"%>
 
 
 <script type="text/javascript">
@@ -104,17 +104,11 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 <%@ page import="org.oscarehr.PMmodule.model.ProgramSignature"%>
 
 
-<%@ page import="org.oscarehr.PMmodule.web.formbean.*"%>
-<%@ page import="org.oscarehr.PMmodule.model.Program"%>
-<%@ page import="org.apache.struts.validator.DynaValidatorForm"%>
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 
-<table width="100%" height="100%" cellpadding="0px" cellspacing="0px"
+
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
-	<tr>
-		<th class="pageTitle" align="center">Program Management - Program
-		New</th>
-	</tr>
+	<!-- submenu -->
 	<tr>
 		<td align="left" class="buttonBar"><html:link
 			action="/PMmodule/ProgramManager.do"
@@ -126,10 +120,10 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 		</td>
 	</tr>
-	
+
+	<!-- messages -->
 	<tr>
 		<td align="left" class="message">
-			
 			<logic:messagesPresent message="true">
 				<br />
 				<html:messages id="message" message="true" bundle="pmm">
@@ -137,9 +131,9 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</html:messages>
 				<br />
 			</logic:messagesPresent>
-			
 		</td>
 	</tr>
+	
 	<tr>
 		<td height="100%">
 		<div
@@ -148,23 +142,12 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 		<!-- Page Content Start --> 
 		
-		<html:form	action="/PMmodule/ProgramManager">
-
-			<input type="hidden" name="id"
-				value="<c:out value="${requestScope.id}"/>" />
-			<input type="hidden" name="method" value="edit" />
-			<html:hidden property="program.id" />
-			<html:hidden property="program.numOfMembers" />
-
-
-
-
 			<div class="tabs">
-			<table cellpadding="3" cellspacing="0" border="0">
-				<tr>
-					<th title="sinatures">General Information</th>
-				</tr>
-			</table>
+				<table cellpadding="3" cellspacing="0" border="0">
+					<tr>
+						<th title="sinatures">General Information</th>
+					</tr>
+				</table>
 			</div>
 
 			<table width="100%" border="1" cellspacing="2" cellpadding="3">
@@ -261,11 +244,11 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 
 			<div class="tabs">
-			<table cellpadding="3" cellspacing="0" border="0">
-				<tr>
-					<th title="sinatures">Signature</th>
-				</tr>
-			</table>
+				<table cellpadding="3" cellspacing="0" border="0">
+					<tr>
+						<th title="sinatures">Signature</th>
+					</tr>
+				</table>
 			</div>
 
 
@@ -283,7 +266,9 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					</tr>
 				</logic:iterate>
 
-			</table></div>
+			</table>
+		
+		</div>
 
 
 
@@ -355,7 +340,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			type="hidden" name="old_capacity_space" value=<%if(p!=null) { %>
 			"<%=p.getCapacity_space() %>" <%}else{ %> "" <%} %> /> 
 			
-			</html:form> 
+		
 			
 			
 			

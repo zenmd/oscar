@@ -8,6 +8,7 @@ Source:web/PMmodule/Admin/ProgramView/incidentList.jsp
 
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<!-- submenu -->
 	<tr>
 		<td align="left" class="buttonBar">
 			<html:link
@@ -27,16 +28,20 @@ Source:web/PMmodule/Admin/ProgramView/incidentList.jsp
 			<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
-
+	
+	<!-- messages -->
 	<tr>
 		<td align="left" class="message">
-		<logic:messagesPresent
-			message="true">
-			<html:messages id="message" message="true" bundle="pmm">
-				<c:out escapeXml="false" value="${message}" />
-			</html:messages>
-		</logic:messagesPresent></td>
+			<logic:messagesPresent message="true">
+				<br />
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+				<br />
+			</logic:messagesPresent>
+		</td>
 	</tr>
+
 </table>
 			
 <div class="h4">

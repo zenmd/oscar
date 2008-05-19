@@ -30,8 +30,8 @@ public class ProgramManagerViewFormBean extends ActionForm {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String[] tabs = { "General", "Staff", "Function User", "Clients", "Queue", "Access", "Bed Check" , "Client Status", "Service Restrictions", "Incidents"};
-
+	//public static final String[] tabs = { "General", "Staff", "Function User", "Clients", "Queue", "Access", "Bed Check" , "Client Status", "Service Restrictions", "Incidents"};
+	public static final String[] tabs = { "General", "Queue", "Staff", "Client Status", "Incidents", "Service Restrictions"};
 	private String tab;
 	private String clientId;
 	private String queueId;

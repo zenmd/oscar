@@ -47,7 +47,7 @@
 	<definition name="page.pmm.admin.edit"
 		path="/PMmodule/layout.jsp">
 		
-		<put name="body" value="/PMmodule/Admin/ProgramEdit/general.jsp" />
+		<put name="body" value="/PMmodule/Admin/ProgramManagerForm.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.agency.view"
 		path="/PMmodule/layout.jsp">

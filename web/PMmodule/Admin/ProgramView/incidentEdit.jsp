@@ -18,20 +18,20 @@
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;save&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
-</table>
-<br />
-<table>
+
 	<tr>
 		<td align="left" class="message">
-		<logic:messagesPresent
-			message="true">
-			<html:messages id="message" message="true" bundle="pmm">
-				<c:out escapeXml="false" value="${message}" />
-			</html:messages>
-		</logic:messagesPresent></td>
+			<logic:messagesPresent message="true">
+				<br />
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+				<br />
+			</logic:messagesPresent>
+		</td>
 	</tr>
 </table>
-<br />
+
 <div class="tabs" id="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 	<tr>

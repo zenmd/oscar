@@ -25,10 +25,10 @@
 			}
 		%>
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
-		<tr>
-			<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
-			
-		</tr>
+			<tr>
+				<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
+				
+			</tr>
 			<tr height="18px"><td  class="buttonBar2">
 				<%
 					Program program = (Program) request.getAttribute("program");

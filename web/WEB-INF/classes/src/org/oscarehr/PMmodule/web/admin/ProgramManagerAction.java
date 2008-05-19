@@ -308,7 +308,7 @@ public class ProgramManagerAction extends BaseAction {
         programManager.deleteProgramProviderByProgramId(Integer.valueOf(id));
 
         ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.deleted", name));
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.deleted", request.getContextPath(), name));
         saveMessages(request, messages);
 
         logManager.log("write", "delete program", String.valueOf(program.getId()), request);
