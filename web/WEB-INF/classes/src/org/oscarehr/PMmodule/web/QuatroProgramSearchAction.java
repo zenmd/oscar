@@ -43,15 +43,15 @@ public class QuatroProgramSearchAction  extends DispatchAction {
 	       Program criteria = (Program) clientForm.get("program");
 	       
 	       request.setAttribute("programs", programManager.search(criteria));
-	       Integer cId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);
+	       String cId = request.getParameter("clientId");
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
 	          actionParam.put("clientId", cId); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
-	       request.setAttribute("clientId", demographicNo);
+	       
+	       request.setAttribute("clientId", cId);
 	       List lstFacility=this.lookupManager.LoadCodeList("FAC", true, null, null);
 	       request.setAttribute("lstFacility", lstFacility);
 	       ProgramUtils.addProgramRestrictions(request);

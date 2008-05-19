@@ -54,7 +54,7 @@ public class dbBillingData {
     this.oscarVariables=variables;
 
   }
-  public String[] ejbLoad() {
+  public String[] ejbLoad() throws Exception {
     getService_code();
     System.out.println("Service Code from db=" + db_service_code);
     if(db_service_code==null) return null; // the user is not in security table
@@ -71,9 +71,9 @@ public class dbBillingData {
     }
   }
 
-  private void getService_code() { //if failed, username will be null
+  private void getService_code() throws Exception { //if failed, username will be null
   	String [] temp=new String[4];
-    try {
+   // try {
       accessDB = new DBPreparedHandler();
       String strSQL="select service_code, description, value, percentage from billingservice where service_code = '" + service_code +"'";
     //   System.out.println("SQL=" + strSQL);
@@ -91,7 +91,7 @@ public class dbBillingData {
       }
 
         accessDB.closeConn();
-    }catch (SQLException e) {return;}
+   // }catch (SQLException e){}
   }
 
   private String[] searchDB(String dbSQL, String str1, String str2, String str3, String str4) {

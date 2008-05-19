@@ -32,6 +32,7 @@ import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ConsentDAO;
 import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Consent;
+import org.oscarehr.PMmodule.model.ConsentDetail;
 import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.oscarehr.PMmodule.model.Demographic;
 
@@ -51,7 +52,16 @@ public class ConsentManager {
     public Consent getConsentByDemographic(Integer demographicNo) {
         return dao.getConsentByDemographic(demographicNo);
     }
-
+    
+    public List getConsentDetailByClient(Integer clientNo,String providerNo){
+    	return dao.getConsentsDetailList(clientNo,providerNo);
+    }
+    public ConsentDetail getConsentDetail(Integer rId){
+    	return dao.getConsentDetail(rId);
+    }
+    public void saveConsentDetail(ConsentDetail conObj){
+    	dao.saveConsentDetail(conObj);
+    }
     public void saveConsent(Consent consent) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 

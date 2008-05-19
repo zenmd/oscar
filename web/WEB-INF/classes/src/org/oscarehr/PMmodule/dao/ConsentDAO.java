@@ -29,10 +29,31 @@ import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.Consent;
 import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.oscarehr.PMmodule.model.ConsentDetail;
 
 public class ConsentDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(ConsentDAO.class);
+
+
+    public List getConsentsDetailList(Integer clientNo,String providerNo){
+    	List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo=? and a.providerNo=?",new Object[]{clientNo,providerNo});
+    	return results;
+    }
+    public ConsentDetail getConsentDetail(Integer rId){
+    	return (ConsentDetail)this.getHibernateTemplate().get(ConsentDetail.class,rId);
+    }
+    public void saveConsentDetail(ConsentDetail consent) {
+        if (consent == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.getHibernateTemplate().saveOrUpdate(consent);
+
+        if (log.isDebugEnabled()) {
+            log.debug("saveConsentDetail:id=" + consent.getId());
+        }
+    }
 
     public List getConsents() {
         List results = this.getHibernateTemplate().find("from Consent");

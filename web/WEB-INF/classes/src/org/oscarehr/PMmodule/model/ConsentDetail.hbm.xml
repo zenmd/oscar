@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.oscarehr.PMmodule.model">
+	<class name="ConsentDetail" table="consent_detail">
+		<id column="id" length="10" name="id" type="java.lang.Integer" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<property column="demographic_no" length="10" name="demographicNo" not-null="true" type="java.lang.Integer" />
+		<property name="clientFirstName" formula="(select p.first_name from demographic p where p.demographic_no = demographic_no)"></property>
+		<property name="clientLastName" formula="(select p.last_name from demographic p where p.demographic_no = demographic_no)"/>
+		<property column="provider_no" name="providerNo" not-null="true" type="java.lang.String" />		
+		<property name="providerFirstName"  formula="(select p.first_name from provider p where p.provider_no = provider_no)" />
+		<property name="providerLastName"  formula="(select p.last_name from provider p where p.provider_no = provider_no)" />
+		<property column="date_signed" name="dateSigned" not-null="false"  />
+		<property column="notes" name="notes" not-null="false" type="java.lang.String" />
+		<property column="agencyname" name="agencyName" not-null="false" type="java.lang.String" />
+		<property column="contactname" name="contactName" not-null="false" type="java.lang.String" />
+		<property column="contacttitle" name="contactTitle" not-null="false" type="java.lang.String" />
+		<property column="contactphone" name="contactPhone" not-null="false" type="java.lang.String" />
+		<property column="hardcopy" name="hardCopy" not-null="false" type="boolean" />	
+		<property column="form_name" name="formName" not-null="false" type="java.lang.String" />
+		<property column="form_version" name="formVersion" not-null="false" type="java.lang.String" />
+		<property column="statepurpose" name="statePurpose" not-null="false" type="java.lang.String" />
+		<property column="startdate" name="startDate" not-null="false"  />
+		<property column="enddate" name="endDate" not-null="false"  />
+		<property column="status" name="status"></property>
+		
+	</class>
+</hibernate-mapping>
+
+		

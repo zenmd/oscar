@@ -135,8 +135,7 @@ public class QuatroClientReferAction  extends DispatchAction {
           actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("clientId", demographicNo);
+       String demographicNo= (String)actionParam.get("clientId");      
        clientForm.set("clientId", demographicNo);
        ProgramUtils.addProgramRestrictions(request);
 
