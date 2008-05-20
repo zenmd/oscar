@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ComplaintManager;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm;
 
@@ -28,7 +29,11 @@ public class QuatroClientComplaintAction extends DispatchAction {
 	private ComplaintManager complaintManager;
 
 	private LookupManager lookupManager;
-
+	private ClientManager clientManager;
+	
+	public void setClientManager(ClientManager clientManager) {
+		this.clientManager = clientManager;
+	}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -56,7 +61,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 		List complaints = complaintManager.getComplaintsByClientId(clientId);
 
 		request.setAttribute("complaints", complaints);
-
+		request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));
 		return mapping.findForward("list");
 	}
 
@@ -74,7 +79,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 
 		String tmp = (String) actionParam.get("clientId");
 		request.setAttribute("clientId", tmp);
-
+		request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));
 		QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 
 		String complaintId = request.getParameter("complaintId");

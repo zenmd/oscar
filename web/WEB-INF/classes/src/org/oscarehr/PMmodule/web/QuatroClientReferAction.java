@@ -169,7 +169,7 @@ public class QuatroClientReferAction  extends DispatchAction {
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 
        request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
-
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
    }
 
    public void setAdmissionManager(AdmissionManager admissionManager) {

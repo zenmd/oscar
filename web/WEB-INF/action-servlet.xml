@@ -73,6 +73,7 @@
     </bean>
     <bean name="/PMmodule/ClientHistory" class="org.oscarehr.PMmodule.web.ClientHistoryAction" singleton="false" autowire="byName">
         <property name="clientHistoryManager" ref="clientHistoryManager" />
+        <property name="clientManager" ref="clientManager"></property>
     </bean>
     <bean name="/PMmodule/QuatroIntake" class="org.oscarehr.PMmodule.web.QuatroClientIntakeAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
@@ -349,6 +350,7 @@
 	<bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
     	<property name="complaintManager" ref="complaintManager"/>
     	<property name="lookupManager" ref="lookupManager"/>
+    	<property name="clientManager" ref="clientManager"></property>
     </bean>
     <bean name="/PMmodule/Incident" class="org.oscarehr.PMmodule.web.IncidentAction" singleton="false" autowire="byName">
     	<property name="incidentManager" ref="incidentManager"/>

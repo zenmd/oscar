@@ -15,6 +15,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ClientHistoryManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ComplaintManager;
 import org.oscarehr.PMmodule.service.IncidentManager;
 import org.oscarehr.PMmodule.web.formbean.IncidentForm;
@@ -30,6 +31,11 @@ import com.quatro.common.KeyConstants;
 public class ClientHistoryAction extends DispatchAction {
 
 	private ClientHistoryManager historyManager;
+	private ClientManager clientManager;
+	public void setClientManager(ClientManager clientManager) {
+		this.clientManager = clientManager;
+	}
+
 	public void setClientHistoryManager(ClientHistoryManager historyManager)
 	{
 		this.historyManager = historyManager;
@@ -65,7 +71,7 @@ public class ClientHistoryAction extends DispatchAction {
 		List histories = historyManager.getClientHistory(clientId, providerNo);
 
 		request.setAttribute("histories", histories);
-
+		request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
 		return mapping.findForward("list");
 	}
 

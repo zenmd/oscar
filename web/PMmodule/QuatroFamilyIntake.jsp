@@ -38,6 +38,21 @@ function checkExistClients(i){
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Family Intake</th></tr>
 	<tr>
+	<td>
+		<table width="100%" class="simple">
+			<tr>
+			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><c:out value="${client.demographicNo}" /></td>
+			</tr>
+			<tr>
+				<td style="width: 15%"<font><b>Name</b></font></td>
+				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
+				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
+				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
+			</tr>
+		</table>
+	</td>
+	</tr>
+	<tr>
 		<td align="left" valign="middle" class="buttonBar3">
 		&nbsp;Summary&nbsp;&nbsp;|&nbsp;&nbsp;
 		History&nbsp;&nbsp;|&nbsp;&nbsp;

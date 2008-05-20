@@ -79,6 +79,21 @@
 		<th class="pageTitle" align="center">Client Management - Service Restriction List</th>
 	</tr>
 	<tr>
+	<td>
+		<table width="100%" class="simple">
+			<tr>
+			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><c:out value="${client.demographicNo}" /></td>
+			</tr>
+			<tr>
+				<td style="width: 15%"<font><b>Name</b></font></td>
+				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
+				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
+				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
+			</tr>
+		</table>
+	</td>
+	</tr>
+	<tr>
 		<td align="left" valign="middle" class="buttonBar2">
 		&nbsp;<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
 		<html:link action="/PMmodule/ClientHistory.do" name="actionParam" style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;

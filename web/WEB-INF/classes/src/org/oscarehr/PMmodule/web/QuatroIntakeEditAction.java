@@ -166,7 +166,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
   		  qform.setDob("");
         } 	
 		qform.setClient(client);
-        
+		request.setAttribute("client", client);
 		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
   		qform.setOptionList(optionValues);
 
@@ -272,7 +272,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
           request.setAttribute("clientId", client.getDemographicNo()); 
         }
         request.setAttribute("actionParam", actionParam);
-    	
+        request.setAttribute("client", client);
     	obj.setClientId(client.getDemographicNo());
 		
 		//get program type

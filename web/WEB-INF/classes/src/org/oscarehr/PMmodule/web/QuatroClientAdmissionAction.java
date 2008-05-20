@@ -80,7 +80,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        request.setAttribute("clientId", demographicNo);
-
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        List lstAdmission = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
        request.setAttribute("quatroAdmission", lstAdmission);
@@ -104,7 +104,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        Integer programId = clientForm.getProgramId();
        Integer admissionId = clientForm.getAdmissionId();
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-
+       request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
          //service restriction check

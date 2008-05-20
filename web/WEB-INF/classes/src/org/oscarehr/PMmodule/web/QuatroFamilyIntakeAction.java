@@ -62,7 +62,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        
        String demographicNo= (String)actionParam.get("clientId");
        request.setAttribute("clientId", demographicNo);
-
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");
@@ -281,7 +281,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 
        String demographicNo= (String)actionParam.get("clientId");
        request.setAttribute("clientId", demographicNo);
-
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj4= new LookupCodeValue();
        obj4.setCode("");
