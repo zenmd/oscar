@@ -202,23 +202,14 @@ public class QuatroIntakeEditAction extends DispatchAction {
         obj.setCurrentProgramId(obj.getProgramId());
 		qform.setIntake(obj);
 		
-        LookupCodeValue language;
-        LookupCodeValue originalCountry;
+        LookupCodeValue language = null;
+        LookupCodeValue originalCountry = null;
         if(intakeId.intValue()!=0){
-          if(obj.getLanguage()!=null){
         	language = lookupManager.GetLookupCode("LNG", obj.getLanguage());
-          }else{
-          	language = new LookupCodeValue();
-          }
-          if(obj.getOriginalCountry()!=null){
             originalCountry = lookupManager.GetLookupCode("CNT", obj.getOriginalCountry());
-          }else{
-        	originalCountry = new LookupCodeValue();
-          }
-        }else{
-            language = new LookupCodeValue();
-            originalCountry = new LookupCodeValue();
         }
+        if (language == null) language = new LookupCodeValue();
+        if (originalCountry == null) originalCountry = new LookupCodeValue();
         
         qform.setLanguage(language);
         qform.setOriginalCountry(originalCountry);
