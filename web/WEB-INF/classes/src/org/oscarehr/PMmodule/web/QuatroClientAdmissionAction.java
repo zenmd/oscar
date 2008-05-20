@@ -88,7 +88,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        return mapping.findForward("list");
    }
 
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
        return mapping.findForward("edit");
    }
@@ -99,10 +99,11 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        boolean isWarning = false;
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
-       Integer clientId = clientForm.getClientId();
-       Integer intakeId = clientForm.getIntakeId();
-       Integer programId = clientForm.getProgramId();
-       Integer admissionId = clientForm.getAdmissionId();
+       QuatroAdmission admission = clientForm.getAdmission();
+       Integer clientId = admission.getClientId();
+       Integer intakeId = admission.getIntakeId();
+       Integer programId = admission.getProgramId();
+       Integer admissionId = admission.getId();
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
        //don't check these if intake admitted.
@@ -137,31 +138,31 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        }
        
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       QuatroAdmission admission = new QuatroAdmission();
-       admission.setId(admissionId);
-       admission.setClientId(clientId);
-       admission.setProgramId(programId);
-       admission.setProviderNo(providerNo);
-       admission.setAdmissionDate(Calendar.getInstance());
-       admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
-       admission.setIntakeId(intakeId);
+//       QuatroAdmission admission = new QuatroAdmission();
+//       admission.setId(admissionId);
+//       admission.setClientId(clientId);
+//       admission.setProgramId(programId);
+//       admission.setProviderNo(providerNo);
+       admission.setAdmissionDate(MyDateFormat.getCalendar(admission.getAdmissionDateTxt()));
+//       admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+//       admission.setIntakeId(intakeId);
        admission.setFacilityId(facilityId);
-       admission.setResidentStatus(clientForm.getResidentStatus());
-       admission.setPrimaryWorker(clientForm.getPrimaryWorker());
-       admission.setLockerNo(clientForm.getLockerNo());
-       admission.setNoOfBags(clientForm.getNoOfBags());
-       admission.setNextKinName(clientForm.getNextKinName());
+//       admission.setResidentStatus(clientForm.getResidentStatus());
+//       admission.setPrimaryWorker(clientForm.getPrimaryWorker());
+//       admission.setLockerNo(clientForm.getLockerNo());
+//       admission.setNoOfBags(clientForm.getNoOfBags());
+//       admission.setNextKinName(clientForm.getNextKinName());
 
-       admission.setNextKinRelationship(clientForm.getNextKinRelationship());
-       admission.setNextKinTelephone(clientForm.getNextKinTelephone());
-       admission.setNextKinNumber(clientForm.getNextKinNumber());
-       admission.setNextKinStreet(clientForm.getNextKinStreet());
-       admission.setNextKinCity(clientForm.getNextKinCity());
-       admission.setNextKinProvince(clientForm.getNextKinProvince());
-       admission.setNextKinPostal(clientForm.getNextKinPostal());
-       admission.setOvPassStartDate(MyDateFormat.getCalendar(clientForm.getOvPassStartDate()));
-       admission.setOvPassEndDate(MyDateFormat.getCalendar(clientForm.getOvPassEndDate()));
-       admission.setNotSignReason(clientForm.getNotSignReason());
+//       admission.setNextKinRelationship(clientForm.getNextKinRelationship());
+//       admission.setNextKinTelephone(clientForm.getNextKinTelephone());
+//       admission.setNextKinNumber(clientForm.getNextKinNumber());
+//       admission.setNextKinStreet(clientForm.getNextKinStreet());
+//       admission.setNextKinCity(clientForm.getNextKinCity());
+//       admission.setNextKinProvince(clientForm.getNextKinProvince());
+//       admission.setNextKinPostal(clientForm.getNextKinPostal());
+       admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
+       admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
+//       admission.setNotSignReason(clientForm.getNotSignReason());
        
        if(admission.getId().intValue()==0){
     	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId); 
@@ -173,7 +174,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);
 
- 	   clientForm.setAdmissionId(admission.getId());
+ 	   clientForm.setAdmission(admission);
        setEditAttributes(form, request);
        
        return mapping.findForward("edit");
@@ -189,15 +190,16 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
 
        Integer programId=null;
        Integer intakeId = null;
+       Integer admissionId =null;
        String clientId = null;
        
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-    	  clientId=clientForm.getClientId().toString();
-          actionParam.put("clientId", clientId);
           //from program queue list page
-          if(clientForm.getIntakeId()==null){
+          if(request.getParameter("queueId")!=null){
+        	  clientId=request.getParameter("clientId");
+              actionParam.put("clientId", clientId);
         	  Integer queueId=Integer.valueOf(request.getParameter("queueId"));
               QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByQueueId(queueId);
               if(intakeDB!=null){
@@ -209,31 +211,30 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
                 actionParam.put("intakeId", 0);
                 programId = 0;
               }
-              clientForm.setProgramId(programId);
-              clientForm.setIntakeId(intakeId);
+              QuatroAdmission admission = new QuatroAdmission(); 
+              admission.setProgramId(programId);
+              admission.setIntakeId(intakeId);
+              admission.setClientId(Integer.valueOf(clientId));
+              admission.setAdmissionDate(Calendar.getInstance());
+              admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+              admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+              clientForm.setAdmission(admission);
+              
           //from pages under client mamagement
           }else{
-             intakeId=clientForm.getIntakeId();
-        	 actionParam.put("intakeId", intakeId);
-             if(clientForm.getProgramId()!=null){
-                programId = clientForm.getProgramId();
-              }else{
-                QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByIntakeId(intakeId);
-                programId= intakeDB.getProgramId();
-                clientForm.setProgramId(programId);
-              }
+        	 admissionId = Integer.valueOf(request.getParameter("admissionId"));
+        	 QuatroAdmission admission = admissionManager.getAdmissionByAdmissionId(admissionId);
+       	     clientId=admission.getClientId().toString();
+             programId = admission.getProgramId();
+       	     admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+       	     admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
+       	     admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
+             actionParam.put("clientId", clientId);
+             clientForm.setAdmission(admission);
+        	 actionParam.put("intakeId", admission.getIntakeId());
           }
        }
        request.setAttribute("actionParam", actionParam);
-       
-       if(clientForm.getAdmissionId()==null){
-          QuatroAdmission admission = admissionManager.getAdmission(intakeId);
-          if(admission != null){
-        	  clientForm.setAdmissionId(admission.getId());
-          }else{
-        	  clientForm.setAdmissionId(0);
-          }
-       }
        
        Integer facilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
        

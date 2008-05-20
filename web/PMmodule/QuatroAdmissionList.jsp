@@ -13,7 +13,7 @@ function submitForm(methodVal) {
 		document.forms(0).submit();
 }
 	
-function updateQuatroAdmission(clientId, intakeId) {
+function updateQuatroAdmission(clientId, admissionId) {
 	location.href = '<html:rewrite action="/PMmodule/QuatroAdmission.do"/>' + "?method=update&admissionId=" + admissionId + "&clientId=" + clientId;
 }
 	

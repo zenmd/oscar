@@ -82,7 +82,7 @@ public class QuatroAdmissionDao extends HibernateDaoSupport {
 		return results;
 	}
     
-    public QuatroAdmission getAdmission(Integer intakeId){
+    public QuatroAdmission getAdmissionByIntakeId(Integer intakeId){
     	String queryStr = "FROM QuatroAdmission a WHERE a.intakeId=?";
         List  lst= getHibernateTemplate().find(queryStr, new Object[] { intakeId});
         if(lst.size()==0)
@@ -90,7 +90,16 @@ public class QuatroAdmissionDao extends HibernateDaoSupport {
         else
           return (QuatroAdmission) lst.get(0);
     }
-    
+
+    public QuatroAdmission getAdmissionByAdmissionId(Integer admissionId){
+    	String queryStr = "FROM QuatroAdmission a WHERE a.id=?";
+        List  lst= getHibernateTemplate().find(queryStr, new Object[] {admissionId});
+        if(lst.size()==0)
+          return null;
+        else
+          return (QuatroAdmission) lst.get(0);
+    }
+
     public List<QuatroAdmission> getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
         if (demographicNo == null || demographicNo <= 0) {
             throw new IllegalArgumentException();

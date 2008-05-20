@@ -8,10 +8,12 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
-<html:hidden property="clientId"/>
-<html:hidden property="intakeId"/>
-<html:hidden property="admissionId"/>
-<html:hidden property="programId"/>
+<html:hidden property="admission.clientId"/>
+<html:hidden property="admission.intakeId"/>
+<html:hidden property="admission.id"/>
+<html:hidden property="admission.programId"/>
+<html:hidden property="admission.admissionDateTxt"/>
+<html:hidden property="admission.admissionStatus"/>
 <script lang="javascript">
 	function submitForm(methodVal) {
 		document.forms(0).method.value = methodVal;
@@ -82,13 +84,13 @@
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="25%">Ontario Resident Status</td>
-<td width="25%"><html:text property="residentStatus" /></td>
+<td width="25%"><html:text property="admission.residentStatus" /></td>
 <td width="20%">Primary Worker</td>
-<td width="30%"><html:text property="primaryWorker" /></td></tr>
+<td width="30%"><html:text property="admission.primaryWorker" /></td></tr>
 <tr><td>Locker#</td>
-<td><html:text property="lockerNo" /></td>
+<td><html:text property="admission.lockerNo" /></td>
 <td># of Bags</td>
-<td><html:text property="noOfBags" /></td></tr>
+<td><html:text property="admission.noOfBags" /></td></tr>
 </table>
 </td></tr>
 
@@ -100,23 +102,23 @@
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="10%">Name</td>
-<td width="25%"><html:text property="nextKinName" /></td>
+<td width="25%"><html:text property="admission.nextKinName" /></td>
 <td width="10%">Relationship</td>
-<td width="20%"><html:text property="nextKinRelationship" /></td>
+<td width="20%"><html:text property="admission.nextKinRelationship" /></td>
 <td width="10%">Telephone</td>
-<td width="25%"><html:text property="nextKinTelephone" style="width: 70%" /></td></tr>
+<td width="25%"><html:text property="admission.nextKinTelephone" style="width: 70%" /></td></tr>
 <tr><td>Number</td>
-<td><html:text property="nextKinNumber" /></td>
+<td><html:text property="admission.nextKinNumber" /></td>
 <td>Street</td>
-<td colspan="3"><html:text property="nextKinStreet" style="width: 80%" /></td></tr>
+<td colspan="3"><html:text property="admission.nextKinStreet" style="width: 80%" /></td></tr>
 <tr><td>City</td>
-<td><html:text property="nextKinCity" /></td>
+<td><html:text property="admission.nextKinCity" /></td>
 <td>Province</td>
-<td><html:select property="nextKinProvince">
+<td><html:select property="admission.nextKinProvince">
 <html-el:optionsCollection property="provinceList" value="code" label="description"/>
 </html:select></td>
 <td>Postal</td>
-<td><html:text property="nextKinPostal" style="width: 70%" /></td></tr>
+<td><html:text property="admission.nextKinPostal" style="width: 70%" /></td></tr>
 </table>
 </td></tr>
 
@@ -131,11 +133,11 @@
 <td>Issued By</td></tr>
 <tr><td width="5%">Start</td>
 <td width="20%">
-<quatro:datePickerTag property="ovPassStartDate" width="70%" openerForm="quatroClientAdmissionForm" />
+<quatro:datePickerTag property="admission.ovPassStartDateTxt" width="70%" openerForm="quatroClientAdmissionForm" />
 </td>
 <td width="5%">End</td>
 <td width="20%">
-<quatro:datePickerTag property="ovPassEndDate" width="70%" openerForm="quatroClientAdmissionForm" />
+<quatro:datePickerTag property="admission.ovPassEndDateTxt" width="70%" openerForm="quatroClientAdmissionForm" />
 </td>
 <td width="50%"><c:out value="${issuedBy}" /></td></tr>
 </table>
@@ -166,7 +168,7 @@
 </td></tr>
 
 <tr><td align="center">Reason for not signing&nbsp;
-<html-el:select property="notSignReason">
+<html-el:select property="admission.notSignReason">
       <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
 </td></tr>

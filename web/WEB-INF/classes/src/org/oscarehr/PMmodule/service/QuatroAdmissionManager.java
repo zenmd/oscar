@@ -36,10 +36,14 @@ public class QuatroAdmissionManager {
 		return quatroAdmissionDao.getAdmissionList(clientId, facilityId, providerNo);
 	}
 
-    public QuatroAdmission getAdmission(Integer intakeId){
-		return quatroAdmissionDao.getAdmission(intakeId);
+    public QuatroAdmission getAdmissionByIntakeId(Integer intakeId){
+		return quatroAdmissionDao.getAdmissionByIntakeId(intakeId);
     }
 
+    public QuatroAdmission getAdmissionByAdmissionId(Integer admissionId){
+		return quatroAdmissionDao.getAdmissionByAdmissionId(admissionId);
+    }
+    
     public List<QuatroAdmission> getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
 		return quatroAdmissionDao.getCurrentAdmissionsByFacility(demographicNo, facilityId);
     }

@@ -14,6 +14,7 @@ public class QuatroAdmission implements Serializable {
 	private Integer programId;
 	private String providerNo;
 	private java.util.Calendar admissionDate;
+	private String admissionDateTxt;
 	private String admissionStatus;
 	private String dischargeNotes;
 	private Calendar dischargeDate;
@@ -36,14 +37,22 @@ public class QuatroAdmission implements Serializable {
 	private String nextKinProvince;
 	private String nextKinPostal;
 	private Calendar ovPassStartDate;
+	private String ovPassStartDateTxt;
 	private Calendar ovPassEndDate;
+	private String ovPassEndDateTxt;
     private String notSignReason;
 
-    public java.util.Calendar getAdmissionDate() {
-		return admissionDate;
-	}
     public String getAdmissionDateStr() {
 		return MyDateFormat.getStandardDate(admissionDate);
+	}
+    public String getAdmissionDateTxt() {
+		return admissionDateTxt;
+	}
+    public void setAdmissionDateTxt(String admissionDateTxt) {
+    	this.admissionDateTxt=admissionDateTxt;
+    }
+    public java.util.Calendar getAdmissionDate() {
+		return admissionDate;
 	}
 	public void setAdmissionDate(java.util.Calendar admissionDate) {
 		this.admissionDate = admissionDate;
@@ -203,6 +212,18 @@ public class QuatroAdmission implements Serializable {
 	}
 	public void setDischargeNotes(String dischargeNotes) {
 		this.dischargeNotes = dischargeNotes;
+	}
+	public String getOvPassEndDateTxt() {
+		return ovPassEndDateTxt;
+	}
+	public void setOvPassEndDateTxt(String ovPassEndDateTxt) {
+		this.ovPassEndDateTxt = ovPassEndDateTxt;
+	}
+	public String getOvPassStartDateTxt() {
+		return ovPassStartDateTxt;
+	}
+	public void setOvPassStartDateTxt(String ovPassStartDateTxt) {
+		this.ovPassStartDateTxt = ovPassStartDateTxt;
 	}
 
 }
