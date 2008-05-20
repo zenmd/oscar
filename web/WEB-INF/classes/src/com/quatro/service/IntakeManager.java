@@ -42,6 +42,11 @@ public class IntakeManager {
 		this.historyDao = historyDao;
 	}
 
+    public String getIntakeType(Integer intakeId) {
+        if (intakeId == null) return null;
+        return intakeDao.getIntakeType(intakeId);
+    }
+	
     public Demographic getClientByDemographicNo(String demographicNo) {
         if (demographicNo == null || demographicNo.length() == 0) {
             return null;
@@ -49,12 +54,18 @@ public class IntakeManager {
         return clientDao.getClientByDemographicNo(Integer.valueOf(demographicNo));
     }
 
+    //for single person intake check
     public List checkExistBedIntakeByFacility(Integer clientId, Integer facilityId){
     	Program[] programs =programDao.getBedPrograms(facilityId);
     	if(programs==null || programs.length==0) return new ArrayList();
     	return intakeDao.checkExistBedIntakeByPrograms(clientId, programs);
     }
     
+    //for family member intake check
+	public Integer findQuatroIntake(Integer clientId, Integer programId){
+    	return intakeDao.findQuatroIntake(clientId, programId);
+    }
+
     public List getClientFamilyByIntakeId(String intakeId) {
         if (intakeId == null || intakeId.length() == 0) {
             return null;
@@ -68,6 +79,7 @@ public class IntakeManager {
         List relationships = lookupDao.LoadCodeList("FRA",true, null, null);
         for(Object element : lst) {
        	  QuatroIntakeFamily obj=(QuatroIntakeFamily)element;
+       	  obj.setJoinFamilyDateTxt(MyDateFormat.getStandardDate(obj.getJoinFamilyDate()));
           for(Object element2 : relationships) {
         	LookupCodeValue obj2= (LookupCodeValue)element2;  
        	    if(obj2.getCode().equals(obj.getRelationship())){
@@ -98,7 +110,7 @@ public class IntakeManager {
        	      obj.setDateOfBirth(dmg.getDateOfBirth());
        	      obj.setAlias(dmg.getAlias());
       		  obj.setDob(obj.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(obj.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(obj.getDateOfBirth()));
-      		  obj.setDupliDemographicNo(0);
+      		  obj.setEffDate(MyDateFormat.getSysDateString(dmg.getEffDate()));
     		  break;
     		}  
           }
@@ -191,19 +203,10 @@ public class IntakeManager {
 	public ArrayList saveQuatroIntakeFamily(Demographic client, QuatroIntake intake, QuatroIntakeFamily intakeFamily) {
 		ArrayList lst = new ArrayList();
 		clientDao.saveClient(client);
+		intake.setClientId(client.getDemographicNo());
 		if(intake.getId().intValue()==0){
-		  Integer intekeId=intakeDao.findQuatroIntake(client.getDemographicNo(), intake.getProgramId());
-		  if(intekeId.intValue()==0){
-		    intake.setId(intekeId);
-		    intake.setClientId(client.getDemographicNo());
-		    intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
-		    intake.setCreatedOn(Calendar.getInstance());
 		    List lst2 = intakeDao.saveQuatroIntake(intake, true);
 		    intakeFamily.setIntakeId((Integer)lst2.get(0));
-		  }else{
-		    //find existing active intake with same clientId and program Id.
-		    intakeFamily.setIntakeId(intekeId);
-		  }
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 		lst.add(intakeFamily.getIntakeHeadId());

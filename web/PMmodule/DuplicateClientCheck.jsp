@@ -32,6 +32,8 @@ function selectDuplicateClient(form_name, firstName, firstNameValue,
    eval(myexpr);
 
    var statusMsgValue2=statusMsgValue;
+   alert(shortFlag);
+   alert(statusMsgValue);
    if(shortFlag=="Y"){
      if(statusMsgValue=="(Existing Client)"){
        statusMsgValue2="#";
@@ -54,11 +56,12 @@ function checkExistClients(shortFlagValue){
    var dob = document.getElementsByName("client.dob")[0];
    var sex = document.getElementsByName("client.sex")[0];
    var alias = document.getElementsByName("client.alias")[0];
+   var shortFlag = document.getElementsByName("shortFlag")[0];
    var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?' +
      "var=" + "<c:out value="${var}"/>" + 
      "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
      "&dob=" + dob.value + "&sex=" + sex.value +
-     "&alias=" + alias.value + "&shortFlag=" + shortFlagValue;
+     "&alias=" + alias.value + "&shortFlag=" + shortFlag.value;
    window.location =url;
 }
 

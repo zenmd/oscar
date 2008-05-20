@@ -64,8 +64,7 @@ function checkExistClients(i){
 	</td></tr>
 	<tr>
 		<td height="100%">
-		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+		<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 <!--  start of page content -->
 <table width="100%" class="edit">
@@ -125,7 +124,11 @@ function checkExistClients(i){
      <html:checkbox name="dependent" property="select" indexed="true" />
      <html:hidden name="dependent" property="intakeId" indexed="true" />
      <html:hidden name="dependent" property="clientId" indexed="true" />
+     <html:hidden name="dependent" property="effDate" indexed="true" />
+     <html:hidden name="dependent" property="joinFamilyDateTxt" indexed="true" />
      <html:hidden name="dependent" property="newClientChecked" indexed="true" />
+     <html:hidden name="dependent" property="duplicateClient" indexed="true" />
+     <html:hidden name="dependent" property="serviceRestriction" indexed="true" />
     </td>
     <td>
       <a href="javascript:checkExistClients(<%=rIndex%>);" style="color:Navy;text-decoration:none;">
@@ -146,20 +149,15 @@ function checkExistClients(i){
       </html:select>
     </td></tr>
     <tr><td></td><td colspan="6">
-    <logic:equal name="dependent" property="dupliDemographicNo" value="0">
-       <html:hidden name="dependent" property="dupliDemographicNo" value="0" indexed="true" />
-      <html:hidden name="dependent" property="newClientCheck" value="N" indexed="true"/>
+    <logic:equal name="dependent" property="clientId" value="0">
+       <logic:equal name="dependent" property="duplicateClient" value="Y">
+       <font color="#ff0000">This new client may be an existing client.</font>
+       </logic:equal>
     </logic:equal>
-    <logic:notEqual name="dependent" property="dupliDemographicNo" value="0">
-       <logic:equal name="dependent" property="bServiceRestriction" value="true">
+    <logic:notEqual name="dependent" property="clientId" value="0">
+       <logic:equal name="dependent" property="serviceRestriction" value="Y">
        <font color="#ff0000">Service Restriction applied.<br></font>
        </logic:equal>
-       <logic:equal name="dependent" property="needCheck" value="true">
-       <font color="#ff0000">Check potential duplicated client: &nbsp;</font>
-       </logic:equal>
-       Pick up existing client: <html:checkbox name="dependent" property="useDupliDemographicNo" indexed="true"> ClientNo: <c:out value="${dependent.dupliDemographicNo}" /></html:checkbox>
-       <html:hidden name="dependent" property="dupliDemographicNo" indexed="true" />
-       <html:hidden name="dependent" property="newClientCheck" value="Y" indexed="true"/>
     </logic:notEqual>
     </td></tr>
 </logic:iterate>
@@ -167,11 +165,22 @@ function checkExistClients(i){
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
 &nbsp;<a href='javascript:submitForm("add");'style="color:Navy;text-decoration:underline;">Add Dependent</a>
-&nbsp;|&nbsp;<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Delete Dependent</a></td>
+&nbsp;|&nbsp;<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Delete Dependent</a>
+<c:choose>
+<c:when test="${bDupliDemographicNoApproved==false}">
+<input type=checkbox name="newClientConfirmed" value="Y">Confirm all new clients.
+</c:when>
+<c:when test="${bDupliDemographicNoApproved==true}">
+<input type="hidden" name="newClientConfirmed" value="Y">
+</c:when>
+<c:otherwise>
+<input type="hidden" name="newClientConfirmed" value="N">
+</c:otherwise>
+</c:choose>
+</td>
 </tr>
 
-<tr><td colspan="8" class="buttonBar4">#&nbsp; existing client
-</td></tr>
+<tr><td colspan="8" class="buttonBar4">#&nbsp; existing client</td></tr>
 </table>
 </td></tr>
 

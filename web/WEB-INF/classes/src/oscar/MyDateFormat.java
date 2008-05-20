@@ -139,9 +139,9 @@ public class MyDateFormat {
 		return temp;
 	}
 
-	// Convert date to yyyy-mm-dd, used to display screen values
+	// Convert date to yyyy/mm/dd, used to display screen values
     public static String getSysDateString(java.util.Date pDate){
-	   SimpleDateFormat formatter =  new SimpleDateFormat("yyyy-MM-dd");
+	   SimpleDateFormat formatter =  new SimpleDateFormat("yyyy/MM/dd");
 	   return formatter.format(pDate);
     }
 

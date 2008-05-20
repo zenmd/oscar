@@ -129,6 +129,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         qform.setOriginalCountry(originalCountry);
 
         request.setAttribute("newClientFlag", "true");
+        request.setAttribute("intakeType", KeyConstants.INTAKE_TYPE_SIGNLE);
         
 		return mapping.findForward("edit");
     }
@@ -191,6 +192,13 @@ public class QuatroIntakeEditAction extends DispatchAction {
 
         obj.setCurrentProgramId(obj.getProgramId());
 		qform.setIntake(obj);
+		
+		//set intakeType value
+		if(obj.getId().intValue()>0){
+	       request.setAttribute("intakeType", intakeManager.getIntakeType(obj.getId()));
+		}else{
+	       request.setAttribute("intakeType", KeyConstants.INTAKE_TYPE_SIGNLE);
+		}
 
         LookupCodeValue language;
         LookupCodeValue originalCountry;
@@ -215,10 +223,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
         
         return mapping.findForward("edit");
 	}
-
-//    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//    	return update(mapping,form,request,response);
-//	}
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ActionMessages messages = new ActionMessages();
@@ -368,7 +372,14 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
-		
+
+        //set intakeType value
+		if(obj.getId().intValue()>0){
+	       request.setAttribute("intakeType", intakeManager.getIntakeType(obj.getId()));
+		}else{
+	       request.setAttribute("intakeType", KeyConstants.INTAKE_TYPE_SIGNLE);
+		}
+        
         return mapping.findForward("edit");
 	}
 	

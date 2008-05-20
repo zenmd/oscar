@@ -13,6 +13,7 @@ public class QuatroIntakeFamily implements Serializable{
     private String relationship;
     private String relationshipDesc;
     private Calendar joinFamilyDate;
+    private String joinFamilyDateTxt;
     private Calendar leaveFamilyDate;
     private String dateOfBirth;
     private String monthOfBirth;
@@ -22,32 +23,33 @@ public class QuatroIntakeFamily implements Serializable{
     private String sex;
     private String sexDesc;
     private String alias;    
-    private Integer dupliDemographicNo;
-    private Integer useDupliDemographicNo;
-    private boolean needCheck;
-    private String newClientCheck;    
+
     private Integer clientId;
     private String dob;
     private String select;
-    private boolean bServiceRestriction;
     
     private String statusMsg;
     //hidden field in family intake page, to be compatible with single person intake.
 
     //a flag in each line of family intake page. 
     private String newClientChecked;
+    private String duplicateClient;
+    private String serviceRestriction;
 
+    private String effDate;
+    
     public QuatroIntakeFamily(){
     	this.select="sel";
     }
 
     public QuatroIntakeFamily(Integer clientId, Integer intakeHeadId, 
-    		Integer intakeId, String relationship, Calendar leaveFamilyDate)
+    		Integer intakeId, String relationship, Calendar joinFamilyDate)
     {
        this.clientId = clientId;
        this.intakeHeadId = intakeHeadId;
        this.intakeId = intakeId;
-       this.relationship = relationship; 
+       this.relationship = relationship;
+       this.joinFamilyDate=joinFamilyDate;
    	   this.select="sel";
     }
     
@@ -198,44 +200,12 @@ public class QuatroIntakeFamily implements Serializable{
 		this.sexDesc = sexDesc;
 	}
 
-	public Integer getDupliDemographicNo() {
-		return dupliDemographicNo;
+	public String getServiceRestriction() {
+		return serviceRestriction;
 	}
 
-	public void setDupliDemographicNo(Integer dupliDemographicNo) {
-		this.dupliDemographicNo = dupliDemographicNo;
-	}
-
-	public String getNewClientCheck() {
-		return newClientCheck;
-	}
-
-	public void setNewClientCheck(String newClientCheck) {
-		this.newClientCheck = newClientCheck;
-	}
-
-	public Integer getUseDupliDemographicNo() {
-		return useDupliDemographicNo;
-	}
-
-	public void setUseDupliDemographicNo(Integer useDupliDemographicNo) {
-		this.useDupliDemographicNo = useDupliDemographicNo;
-	}
-
-	public boolean isNeedCheck() {
-		return needCheck;
-	}
-
-	public void setNeedCheck(boolean needCheck) {
-		this.needCheck = needCheck;
-	}
-
-	public boolean isBServiceRestriction() {
-		return bServiceRestriction;
-	}
-
-	public void setBServiceRestriction(boolean serviceRestriction) {
-		bServiceRestriction = serviceRestriction;
+	public void setServiceRestriction(String serviceRestriction) {
+		this.serviceRestriction = serviceRestriction;
 	}
 
 	public String getRelationshipDesc() {
@@ -261,5 +231,28 @@ public class QuatroIntakeFamily implements Serializable{
 	public void setNewClientChecked(String newClientChecked) {
 		this.newClientChecked = newClientChecked;
 	}
-	
+
+	public String getDuplicateClient() {
+		return this.duplicateClient;
+	}
+
+	public void setDuplicateClient(String duplicateClient) {
+		this.duplicateClient = duplicateClient;
+	}
+
+	public String getEffDate() {
+		return effDate;
+	}
+
+	public void setEffDate(String effDate) {
+		this.effDate = effDate;
+	}
+
+	public String getJoinFamilyDateTxt() {
+		return joinFamilyDateTxt;
+	}
+	public void setJoinFamilyDateTxt(String joinFamilyDateTxt) {
+		this.joinFamilyDateTxt = joinFamilyDateTxt;
+	}
+
 }

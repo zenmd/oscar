@@ -26,11 +26,25 @@ import oscar.MyDateFormat;
 
 
 public class IntakeDao extends HibernateDaoSupport {
+    public String getIntakeType(Integer intakeId) {
+		String sSQL="from QuatroIntakeFamily a " +
+		  " WHERE a.intakeId = ? and a.memberStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "'";
+        List lst = getHibernateTemplate().find(sSQL, new Object[] {intakeId});
+        if(lst.size()==0){
+          return KeyConstants.INTAKE_TYPE_SIGNLE;
+        }else{
+            QuatroIntakeFamily obj = (QuatroIntakeFamily)lst.get(0);
+            if(obj.getIntakeHeadId().equals(obj.getIntakeId()))
+              return KeyConstants.INTAKE_TYPE_FAMILY_HEAD;
+            else
+              return KeyConstants.INTAKE_TYPE_FAMILY_MEMBER;
+        }
+    }
 
 	public List LoadOptionsList() {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
         return getHibernateTemplate().find(sSQL);
-		}
+	}
 
     public List checkExistBedIntakeByPrograms(Integer clientId, Program[] programs){
         StringBuilder sb = new StringBuilder();
@@ -331,9 +345,9 @@ public class IntakeDao extends HibernateDaoSupport {
 			         break;
 
 	        	   //Program
-	        	   case IntakeConstant.PROGRAM:
-			         intake.setProgramId(Integer.valueOf(obj.getValue()));  
-			         break;
+//	        	   case IntakeConstant.PROGRAM:
+//			         intake.setProgramId(Integer.valueOf(obj.getValue()));  
+//			         break;
 			         
 			       //Comments
 	        	   case IntakeConstant.COMMENTS:
@@ -541,6 +555,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		      obj2.setValue(hData.get(obj2.getIntakeNodeId()));
 		      if (i==0){
 		    	intakeDb = obj2.getIntake2();
+			    intakeDb.setProgramId(intake.getProgramId());
 			    intakeDb.setProgramType(intake.getProgramType());
 		      }
 		      obj.add(obj2);
@@ -594,6 +609,7 @@ public class IntakeDao extends HibernateDaoSupport {
 
         if(intakeDb.getId().intValue()>0){
 		  getHibernateTemplate().update(intakeDb);
+/*		  
 	      if(!bFamilyMember){
             //delete old referral and queue records linked to this intake
 		    if(intakeDb.getReferralId() != null &&  intakeDb.getReferralId().intValue()>0){
@@ -617,6 +633,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	          getHibernateTemplate().save(queue);
 		    }
 	      }
+*/	      
 		}else{
 		  getHibernateTemplate().save(intakeDb);
 	      if(!bFamilyMember){
