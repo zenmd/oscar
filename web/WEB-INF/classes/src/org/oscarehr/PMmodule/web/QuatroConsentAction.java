@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +25,8 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.util.SessionConstants;
+
+import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
 
@@ -92,6 +95,7 @@ public class QuatroConsentAction extends BaseAction {
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consent");
 	       if(rId!=null && rId!="0") consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
+	       else consentObj.setDemographicNo(Integer.valueOf(demographicNo));
 	       dForm.set("consent", consentObj);
 	      // request.setAttribute("consent", consentObj);
 	   }
@@ -146,16 +150,22 @@ public class QuatroConsentAction extends BaseAction {
 	     boolean isWarning = false;
 		DynaActionForm consentForm = (DynaActionForm)form;
 		
-		ConsentDetail consent= (ConsentDetail)consentForm.get("consentDetail");
-		
-		String id = (String)request.getParameter("clientId");
-		consent.setDemographicNo(Integer.valueOf(id));
-		
+		ConsentDetail consent= (ConsentDetail)consentForm.get("consent");
+		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", consent.getDemographicNo().toString()); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	       request.setAttribute("clientId", consent.getDemographicNo().toString());
+	       
 		Provider p =  (Provider)request.getSession().getAttribute("provider");
 		consent.setProviderNo(p.getProviderNo());
 		//consent.setProviderName(p.getFormattedName());		
 		
-		consent.setDateSigned(new Date(System.currentTimeMillis()));
+		consent.setDateSigned(new GregorianCalendar());
+		consent.setStartDate(MyDateFormat.getCalendar(consent.getStartDateStr()));
+		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consent.setHardCopy(true);
 		
 		
@@ -185,7 +195,7 @@ public class QuatroConsentAction extends BaseAction {
 		consent.setProviderNo(p.getProviderNo());
 		//consent.setProviderName(p.getFormattedName());		
 		
-		consent.setDateSigned(new Date(System.currentTimeMillis()));
+		consent.setDateSigned(new GregorianCalendar());
 		consent.setHardCopy(true);
 		
 		

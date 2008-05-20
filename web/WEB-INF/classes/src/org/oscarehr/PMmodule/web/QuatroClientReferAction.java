@@ -98,7 +98,10 @@ public class QuatroClientReferAction  extends DispatchAction {
        return mapping.findForward("edit");
    }
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
-       DynaActionForm clientForm = (DynaActionForm) form;
+	   ActionMessages messages = new ActionMessages();
+		 boolean isError = false;
+	     boolean isWarning = false;
+	   DynaActionForm clientForm = (DynaActionForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        String cId =request.getParameter("clientId");
@@ -120,9 +123,11 @@ public class QuatroClientReferAction  extends DispatchAction {
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        try{
        List lstRefers = clientManager.getReferrals(demographicNo);
-       request.setAttribute("lstRefers", lstRefers);
-       }catch(Exception e){
-    	   
+       request.setAttribute("lstRefers", lstRefers);      
+       } catch (Exception e) {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.listRefer.failed", request.getContextPath()));
+			saveMessages(request, messages);
        }
    }
 

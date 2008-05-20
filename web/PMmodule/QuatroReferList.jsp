@@ -40,13 +40,22 @@
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
+	<tr height="18px">
+			<td align="left" class="message">			
+			<logic:messagesPresent
+				message="true">
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+			</logic:messagesPresent>
+			<br /></td>
+		</tr>
 	<tr>
-		<td>
-			<br>
+		<td>			
 				<div class="tabs">
-					<table cellpadding="3" cellspacing="0" border="0">
+					<table cellpadding="0" cellspacing="0" border="0">
 							<tr>
-								<th>Referrals</th>
+								<th>Referral</th>
 							</tr>
 						</table>
 					</div>

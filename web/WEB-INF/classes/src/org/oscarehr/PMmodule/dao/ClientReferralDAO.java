@@ -114,9 +114,11 @@ public class ClientReferralDAO extends HibernateDaoSupport {
             	// get program from table admission
         		System.out.println("--" + cr.getClientId());
             	List lr = getAdmissions(Integer.parseInt(cr.getClientId().toString()));
+            	if(lr!=null && lr.iterator().hasNext()){
             	Admission admission = (Admission) lr.get(lr.size() - 1);
             	completionNotes = admission.getProgramName(); 
             	notes = isExternalProgram(Integer.parseInt(admission.getProgramId().toString())) ? "Yes" : "No";
+            	}
             }
             
             // set the values for added report fields

@@ -13,7 +13,7 @@
 		<property column="provider_no" name="providerNo" not-null="true" type="java.lang.String" />		
 		<property name="providerFirstName"  formula="(select p.first_name from provider p where p.provider_no = provider_no)" />
 		<property name="providerLastName"  formula="(select p.last_name from provider p where p.provider_no = provider_no)" />
-		<property column="date_signed" name="dateSigned" not-null="false"  />
+		<property column="date_signed" name="dateSigned" not-null="false" type="java.util.Calendar" />
 		<property column="notes" name="notes" not-null="false" type="java.lang.String" />
 		<property column="agencyname" name="agencyName" not-null="false" type="java.lang.String" />
 		<property column="contactname" name="contactName" not-null="false" type="java.lang.String" />
@@ -23,8 +23,8 @@
 		<property column="form_name" name="formName" not-null="false" type="java.lang.String" />
 		<property column="form_version" name="formVersion" not-null="false" type="java.lang.String" />
 		<property column="statepurpose" name="statePurpose" not-null="false" type="java.lang.String" />
-		<property column="startdate" name="startDate" not-null="false"  />
-		<property column="enddate" name="endDate" not-null="false"  />
+		<property column="startdate" name="startDate" not-null="false" type="java.util.Calendar" />
+		<property column="enddate" name="endDate" not-null="false"  type="java.util.Calendar"/>
 		<property column="status" name="status"></property>
 		
 	</class>

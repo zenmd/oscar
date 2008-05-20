@@ -10,6 +10,39 @@
 		document.forms(0).method.value = methodVal;
 		document.forms(0).submit();
 	}
+	function validateStateLength(){
+	    var fieldValue = document.consentDetailForm.elements["consent.statePurpose"].value;
+		if (fieldValue.length>512)
+		{
+			alert("State Purpose input length is over 512!!!");
+			return false;
+		}else{
+		 	return true;
+		}	
+	}
+	function validateNotesLength(){
+	    var fieldValue = document.consentDetailForm.elements["consent.notes"].value;
+		if (fieldValue.length>512)
+		{
+			return false;
+		}else{
+		 	return true;
+		}	
+	}
+	function validateSave(){
+	
+		var str1="State Purpose input length is over 512!!!" ;
+		var str2="Notes input length is over 512!!!" ;
+		
+		if (!validateStateLength()){
+			alert(str1); return false;
+		}
+		if (!validateNotesLength()){
+			alert(str2); return false;
+		}
+			return true;
+	}
+	
 </script>
 
 <html-el:form action="/PMmodule/QuatroConsent.do">
@@ -48,7 +81,7 @@
 				action="/PMmodule/QuatroConsent.do?method=list" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
-			<a href='javaScript:submitForm("update");'
+			<a href='javaScript:submitForm("update");' onclick="return validateSave();"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 		</tr>
@@ -87,22 +120,22 @@
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
 								<td colspan="2">I	
-								<bean:write name"consentDetailForm" property="consent.clientFormattedName"/>						
+								<bean:write name="consentDetailForm" property="consent.clientFormattedName"/>						
 								  consent to the release and exchange of the following information:
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2" width="90%" ><html:textarea  rows="3" property="consent.notes" cols="150"  /> </td>
+								<td colspan="2" width="90%" ><html:textarea  rows="3" property="consent.notes" cols="120"  /> </td>
 							</tr>
 						</table>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr><td colspan="2">Between an authorized representative of {shelter name} and the agency/organization named below:</td></tr>
-							<tr><td>Agency Name:</td><td ><html-el:text property="consent.agencyName" /></td></tr>
-							<tr><td >Contact Person Name:</td><td><html-el:text property="consent.contactName" /></td></tr>
-							<tr><td>Contact Person Title:</td><td><html-el:text property="consent.contactTitle" /></td></tr>
-							<tr><td>Contact Person Phone:</td><td><html-el:text property="consent.contactPhone" /></td></tr>							
+							<tr><td>Agency Name:</td><td ><html-el:text property="consent.agencyName" maxlength="60" /></td></tr>
+							<tr><td >Contact Person Name:</td><td><html-el:text property="consent.contactName" maxlength="60" /></td></tr>
+							<tr><td>Contact Person Title:</td><td><html-el:text property="consent.contactTitle" maxlength="30" /></td></tr>
+							<tr><td>Contact Person Phone:</td><td><html-el:text property="consent.contactPhone" maxlength="15" /></td></tr>							
 							<tr><td colspan="2">For the following Stated purpose(s):</td></tr>
-							<tr><td colspan="2"><html-el:textarea property="consent.statePurpose" cols="150"  rows="3"/></td></tr>
+							<tr><td colspan="2"><html-el:textarea property="consent.statePurpose" cols="120"  rows="3" /></td></tr>
 					  </table>
 							<table  class="simple" cellspacing="2" cellpadding="3">
 							<tr>
@@ -112,9 +145,9 @@
 							</tr>
 							<tr>
 								<td>
-									 Today's Date<quatro:datePickerTag property="consent.startDate" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag>
+									 Today's Date<quatro:datePickerTag property="consent.startDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag>
 								</td>
-								<td > To <quatro:datePickerTag property="consent.endDate" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
+								<td > To <quatro:datePickerTag property="consent.endDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
 							</tr>
 							<tr><td >Dated this Today's Date</td><td>
 							<jsp:useBean id="now" class="java.util.Date" />

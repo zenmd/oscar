@@ -469,11 +469,12 @@ public class ProgramManager {
      */
     public boolean hasAccessBasedOnFacility(Integer currentFacilityId, Integer programId) {
         // if no program restrictions are defined.
+    	boolean hasAccess = false;
         if (programId == null) return(true);
         if (currentFacilityId == null && programId == null) return(true);
 
         // check the providers facilities against the programs facilities
-        Program program = getProgram(programId);
+        Program program = getProgram(programId);        
         return(program.getFacilityId() == currentFacilityId.intValue());
     }
 }

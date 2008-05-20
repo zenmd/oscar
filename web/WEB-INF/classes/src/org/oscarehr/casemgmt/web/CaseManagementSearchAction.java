@@ -199,7 +199,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if (Utility.IsEmpty(programId)) {
             Admission curAdmission =this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demoNo)); 
         	if (curAdmission == null) {
-                return mapping.findForward("domain-error");
+                return mapping.findForward("domain-error");             
         	}
         	else
         	{

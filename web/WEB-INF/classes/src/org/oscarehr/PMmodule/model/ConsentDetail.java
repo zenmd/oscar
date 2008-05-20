@@ -1,249 +1,315 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Calendar;
+
+import oscar.MyDateFormat;
 
 public class ConsentDetail implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private int hashCode = Integer.MIN_VALUE;// primary key
+
+	private Integer id;// fields
+
+	private Integer demographicNo;
+
+	private String clientFirstName;
+
+	private String clientLastName;
+
+	private String providerNo;
+
+	private String providerFirstName;
+
+	private String providerLastName;
+
+	private Calendar dateSigned;
+
+	private String notes;
+
+	private String agencyName;
+
+	private String contactName;
+
+	private String contactTitle;
+
+	private String contactPhone;
+
+	private String statePurpose;
+
+	private Calendar startDate;
+
+	private Calendar endDate;
+
+	private String status;
+
+	private boolean hardCopy;
+
+	private String formName;
+
+	private String formVersion;
+
+	private String startDateStr;
+
+	private String endDateStr;
 	
-	 private static final long serialVersionUID = 1L;
+	private String dateSignedStr;
+	
 
-	    
-	    private int hashCode = Integer.MIN_VALUE;// primary key
+	public String getEndDateStr() {
+		String str = "Unknown";
+		if (endDate != null)
+			str = MyDateFormat.getStandardDate(endDate);
+		return str;
+	}
 
-	    private Integer id;// fields
-	    private Integer demographicNo;
-	    private String clientFirstName;
-	    private String clientLastName;
-	    private String providerNo;
-	    private String providerFirstName;
-	    private String providerLastName;	 
-	    private Date dateSigned;
-	    private String notes;
-	    private String agencyName;
-	    private String contactName;
-	    private String contactTitle;
-	    private String contactPhone;
-	    private String statePurpose;
-	    private Date startDate;
-	    private Date endDate;
-	    private String status;
-	    private boolean hardCopy;	   
-	    private String formName;
-	    private String formVersion;
-	        
-	    // constructors
-	    public ConsentDetail () {
-	        
-	    }
+	public void setEndDateStr(String endDateStr) {
+		this.endDateStr = endDateStr;
+	}
 
-	    /**
-	     * Constructor for primary key
-	     */
-	    public ConsentDetail (Integer _id) {
-	        
-	       this.id =_id;
-	    }
+	public String getStartDateStr() {
+		String str = "Unknown";
+		if (startDate != null)
+			str = MyDateFormat.getStandardDate(startDate);
+		return str;
+	}
 
-	    /**
-	     * Constructor for required fields
-	     */
-	    public ConsentDetail (
-	    		Integer _id,
-	    		Integer _demographicNo,
-	            String _providerNo) {
+	public void setStartDateStr(String startDateStr) {
+		this.startDateStr = startDateStr;
+	}
 
-	        this.id=_id;
-	        this.demographicNo =_demographicNo;
-	        this.providerNo=_providerNo;     
-	    }
+	// constructors
+	public ConsentDetail() {
 
-	  	    public boolean equals (Object obj) {
-	        if (null == obj) return false;
-	        if (!(obj instanceof ConsentDetail)) return false;
-	        else {
-	            ConsentDetail mObj = (ConsentDetail) obj;
-	            if (null == this.getId() || null == mObj.getId()) return false;
-	            else return (this.getId().equals(mObj.getId()));
-	        }
-	    }
+	}
 
-	    public int hashCode () {
-	        if (Integer.MIN_VALUE == this.hashCode) {
-	            if (null == this.getId()) return super.hashCode();
-	            else {
-	                String hashStr = this.getClass().getName() + ":" + this.getId().hashCode();
-	                this.hashCode = hashStr.hashCode();
-	            }
-	        }
-	        return this.hashCode;
-	    }
-	    public String getClientFormattedName() {
-			return getClientLastName() + ", " + getClientFirstName();
+	/**
+	 * Constructor for primary key
+	 */
+	public ConsentDetail(Integer _id) {
+
+		this.id = _id;
+	}
+
+	/**
+	 * Constructor for required fields
+	 */
+	public ConsentDetail(Integer _id, Integer _demographicNo, String _providerNo) {
+
+		this.id = _id;
+		this.demographicNo = _demographicNo;
+		this.providerNo = _providerNo;
+	}
+
+	public boolean equals(Object obj) {
+		if (null == obj)
+			return false;
+		if (!(obj instanceof ConsentDetail))
+			return false;
+		else {
+			ConsentDetail mObj = (ConsentDetail) obj;
+			if (null == this.getId() || null == mObj.getId())
+				return false;
+			else
+				return (this.getId().equals(mObj.getId()));
 		}
-	    public String getProviderFormattedName(){
-	    	return getProviderLastName()+", "+getProviderFirstName(); 
-	    }
-	    public String toString () {
-	        return super.toString();
-	    }
+	}
 
-		public String getAgencyName() {
-			return agencyName;
+	public int hashCode() {
+		if (Integer.MIN_VALUE == this.hashCode) {
+			if (null == this.getId())
+				return super.hashCode();
+			else {
+				String hashStr = this.getClass().getName() + ":"
+						+ this.getId().hashCode();
+				this.hashCode = hashStr.hashCode();
+			}
 		}
+		return this.hashCode;
+	}
 
-		public void setAgencyName(String agencyName) {
-			this.agencyName = agencyName;
-		}
+	public String getClientFormattedName() {
+		return getClientLastName() + ", " + getClientFirstName();
+	}
 
-		public String getContactName() {
-			return contactName;
-		}
+	public String getProviderFormattedName() {
+		return getProviderLastName() + ", " + getProviderFirstName();
+	}
 
-		public void setContactName(String contactName) {
-			this.contactName = contactName;
-		}
+	public String toString() {
+		return super.toString();
+	}
 
-		public String getContactPhone() {
-			return contactPhone;
-		}
+	public String getAgencyName() {
+		return agencyName;
+	}
 
-		public void setContactPhone(String contactPhone) {
-			this.contactPhone = contactPhone;
-		}
+	public void setAgencyName(String agencyName) {
+		this.agencyName = agencyName;
+	}
 
-		public String getContactTitle() {
-			return contactTitle;
-		}
+	public String getContactName() {
+		return contactName;
+	}
 
-		public void setContactTitle(String contactTitle) {
-			this.contactTitle = contactTitle;
-		}
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
 
-		public Date getDateSigned() {
-			return dateSigned;
-		}
+	public String getContactPhone() {
+		return contactPhone;
+	}
 
-		public void setDateSigned(Date dateSigned) {
-			this.dateSigned = dateSigned;
-		}
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
 
-		public Integer getDemographicNo() {
-			return demographicNo;
-		}
+	public String getContactTitle() {
+		return contactTitle;
+	}
 
-		public void setDemographicNo(Integer demographicNo) {
-			this.demographicNo = demographicNo;
-		}
+	public void setContactTitle(String contactTitle) {
+		this.contactTitle = contactTitle;
+	}
 
-		public Date getEndDate() {
-			return endDate;
-		}
+	public Calendar getDateSigned() {
+		return dateSigned;
+	}
 
-		public void setEndDate(Date endDate) {
-			this.endDate = endDate;
-		}
+	public void setDateSigned(Calendar dateSigned) {
+		this.dateSigned = dateSigned;
+	}
 
-		public String getFormName() {
-			return formName;
-		}
+	public Integer getDemographicNo() {
+		return demographicNo;
+	}
 
-		public void setFormName(String formName) {
-			this.formName = formName;
-		}
+	public void setDemographicNo(Integer demographicNo) {
+		this.demographicNo = demographicNo;
+	}
 
-		public String getFormVersion() {
-			return formVersion;
-		}
+	public Calendar getEndDate() {
+		return endDate;
+	}
 
-		public void setFormVersion(String formVersion) {
-			this.formVersion = formVersion;
-		}
+	public void setEndDate(Calendar endDate) {
+		this.endDate = endDate;
+	}
 
-		public boolean isHardCopy() {
-			return hardCopy;
-		}
+	public String getFormName() {
+		return formName;
+	}
 
-		public void setHardCopy(boolean hardcopy) {
-			this.hardCopy = hardcopy;
-		}
+	public void setFormName(String formName) {
+		this.formName = formName;
+	}
 
-		public Integer getId() {
-			return id;
-		}
+	public String getFormVersion() {
+		return formVersion;
+	}
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	public void setFormVersion(String formVersion) {
+		this.formVersion = formVersion;
+	}
 
-		public String getNotes() {
-			return notes;
-		}
+	public boolean isHardCopy() {
+		return hardCopy;
+	}
 
-		public void setNotes(String notes) {
-			this.notes = notes;
-		}
-		
-		public String getProviderNo() {
-			return providerNo;
-		}
+	public void setHardCopy(boolean hardcopy) {
+		this.hardCopy = hardcopy;
+	}
 
-		public void setProviderNo(String providerNo) {
-			this.providerNo = providerNo;
-		}
+	public Integer getId() {
+		return id;
+	}
 
-		public Date getStartDate() {
-			return startDate;
-		}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-		public void setStartDate(Date startDate) {
-			this.startDate = startDate;
-		}
+	public String getNotes() {
+		return notes;
+	}
 
-		public String getStatePurpose() {
-			return statePurpose;
-		}
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 
-		public void setStatePurpose(String statePurpose) {
-			this.statePurpose = statePurpose;
-		}
+	public String getProviderNo() {
+		return providerNo;
+	}
 
-		public String getStatus() {
-			return status;
-		}
+	public void setProviderNo(String providerNo) {
+		this.providerNo = providerNo;
+	}
 
-		public void setStatus(String status) {
-			this.status = status;
-		}
+	public Calendar getStartDate() {
+		return startDate;
+	}
 
-		public String getClientFirstName() {
-			return clientFirstName;
-		}
+	public void setStartDate(Calendar startDate) {
+		this.startDate = startDate;
+	}
 
-		public void setClientFirstName(String clientFirstName) {
-			this.clientFirstName = clientFirstName;
-		}
+	public String getStatePurpose() {
+		return statePurpose;
+	}
 
-		public String getClientLastName() {
-			return clientLastName;
-		}
+	public void setStatePurpose(String statePurpose) {
+		this.statePurpose = statePurpose;
+	}
 
-		public void setClientLastName(String clientLastName) {
-			this.clientLastName = clientLastName;
-		}
+	public String getStatus() {
+		return status;
+	}
 
-		public String getProviderFirstName() {
-			return providerFirstName;
-		}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-		public void setProviderFirstName(String providerFirstName) {
-			this.providerFirstName = providerFirstName;
-		}
+	public String getClientFirstName() {
+		return clientFirstName;
+	}
 
-		public String getProviderLastName() {
-			return providerLastName;
-		}
+	public void setClientFirstName(String clientFirstName) {
+		this.clientFirstName = clientFirstName;
+	}
 
-		public void setProviderLastName(String providerLastName) {
-			this.providerLastName = providerLastName;
-		}
+	public String getClientLastName() {
+		return clientLastName;
+	}
+
+	public void setClientLastName(String clientLastName) {
+		this.clientLastName = clientLastName;
+	}
+
+	public String getProviderFirstName() {
+		return providerFirstName;
+	}
+
+	public void setProviderFirstName(String providerFirstName) {
+		this.providerFirstName = providerFirstName;
+	}
+
+	public String getProviderLastName() {
+		return providerLastName;
+	}
+
+	public void setProviderLastName(String providerLastName) {
+		this.providerLastName = providerLastName;
+	}
+
+	public String getDateSignedStr() {
+		String str = "Unknown";
+		if (dateSigned != null)
+			str = MyDateFormat.getStandardDate(dateSigned);
+		return str;
+	}
+
+	public void setDateSignedStr(String dateSignedStr) {
+		this.dateSignedStr = dateSignedStr;
+	}
 }

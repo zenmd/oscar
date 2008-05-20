@@ -41,10 +41,9 @@
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr>
-		<td>
-			<br>
+		<td>		
 				<div class="tabs">
-					<table cellpadding="3" cellspacing="0" border="0">
+					<table cellpadding="0" cellspacing="0" border="0">
 							<tr>
 								<th>Consent</th>
 							</tr>
@@ -69,9 +68,9 @@
 					<logic-el:iterate id="consent" collection="${lstConsents}">
 					<tr>				
 						<td><c:out value="${consent.providerFormattedName}"></c:out>	</td>				
-						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${consent.dateSigned}" /></td>
-						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${consent.startDate}" /></td>
-						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${consent.endDate}" /></td>				
+						<td><c:out value="${consent.dateSignedStr}" /></td>
+						<td><c:out value="${consent.startDateStr}" /></td>
+						<td><c:out value="${consent.endDateStr}" /></td>				
 						<td> 						
 						<c:choose>
 							<c:when test="${consent.status eq 'active'}">

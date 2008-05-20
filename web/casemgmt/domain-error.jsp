@@ -33,11 +33,5 @@
 
 <p>
 You cannot access this client's Encounters because he/she is not in admitted in your
-program domain. What this means is that this client is currently not, and
-has never been a particpant in any program you have rights to. 
+program. Please go Cleint Admission and add Admission first. 
 </p>
-
-<p>
-Please talk to your administrator about getting the proper access.
-</p>
-
