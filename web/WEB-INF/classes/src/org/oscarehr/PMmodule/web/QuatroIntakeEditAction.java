@@ -223,6 +223,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         qform.setLanguage(language);
         qform.setOriginalCountry(originalCountry);
         
+        request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
         return mapping.findForward("edit");
 	}
 
@@ -384,6 +385,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
 
+        request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
         return mapping.findForward("edit");
 	}
 	
