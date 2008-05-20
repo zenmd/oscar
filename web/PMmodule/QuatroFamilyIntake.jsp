@@ -31,8 +31,8 @@ function checkExistClients(i){
      "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
      "&dob=" + dob.value + "&sex=" + sex.value +
      "&alias=" + alias.value + "&shortFlag=Y";
-   top.childWin = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
-   top.childWin.focus();
+   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
+   win.focus();
 }
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">

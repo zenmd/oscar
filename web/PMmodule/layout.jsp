@@ -40,11 +40,17 @@
 		<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
 				
 		<script type="text/javascript">
+		    var win=null;
+		
 			var djConfig = {
 				isDebug: false,
 				parseWidgets: false,
 				searchIds: ["addPopupTimePicker"]
 			};
+			
+			function unloadMe(){
+			  if(win!=null) win.close();
+			}
 		</script>
 	    
 		<script type="text/javascript" src="<html:rewrite page="/dojoAjax/dojo.js" />">
@@ -60,7 +66,7 @@
 		
 		<html:base />
 	</head>
-	<body>
+	<body onunload="unloadMe()">
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr height="60px">
 				<td>
