@@ -118,8 +118,12 @@ public class QuatroClientReferAction  extends DispatchAction {
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
+       try{
        List lstRefers = clientManager.getReferrals(demographicNo);
        request.setAttribute("lstRefers", lstRefers);
+       }catch(Exception e){
+    	   
+       }
    }
 
    public ActionForward search_programs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
