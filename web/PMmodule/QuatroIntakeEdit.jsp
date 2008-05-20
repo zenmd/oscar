@@ -15,7 +15,6 @@
 <html:hidden property="intake.id"/>
 <html:hidden property="intake.createdOnTxt" />
 <input type="hidden" name="method"/>
-<input type="hidden" name="intakeType" value="<c:out value="${intakeType}"/>">
 <input type="hidden" name="newClientChecked" value="N"/>
 <script lang="javascript">
 function submitForm(methodVal) {
@@ -60,8 +59,8 @@ function checkExistClients(){
             <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
           <c:if test="${quatroIntakeEditForm.intake.id!=0}">
             |
-            <html:link action="/PMmodule/QuatroFamilyIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
-            <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</html:link>
+            <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${intakeHeadId}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
+            <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
           </c:if>    
             </td>
 	</tr>

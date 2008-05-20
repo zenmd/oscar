@@ -33,6 +33,7 @@ import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import com.quatro.model.LookupCodeValue;
 import oscar.MyDateFormat;
 import java.util.Calendar;
@@ -129,7 +130,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
         qform.setOriginalCountry(originalCountry);
 
         request.setAttribute("newClientFlag", "true");
-        request.setAttribute("intakeType", KeyConstants.INTAKE_TYPE_SIGNLE);
         
 		return mapping.findForward("edit");
     }
@@ -143,10 +143,19 @@ public class QuatroIntakeEditAction extends DispatchAction {
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
      	  actionParam = new HashMap();
-           actionParam.put("clientId", clientId); 
-           actionParam.put("intakeId", intakeId.toString()); 
+          actionParam.put("clientId", clientId);
+          actionParam.put("intakeId", intakeId.toString()); 
         }
         request.setAttribute("actionParam", actionParam);
+        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
+        if(intakeHeadId!=null){
+          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
+          Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
+          request.setAttribute("clientId", intakeHeadClientId); 
+        }else{
+          request.setAttribute("intakeHeadId", intakeId.toString()); 
+          request.setAttribute("clientId", clientId); 
+        }
 
         Demographic client;
         if(Integer.parseInt(clientId)>0){
@@ -193,13 +202,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
         obj.setCurrentProgramId(obj.getProgramId());
 		qform.setIntake(obj);
 		
-		//set intakeType value
-		if(obj.getId().intValue()>0){
-	       request.setAttribute("intakeType", intakeManager.getIntakeType(obj.getId()));
-		}else{
-	       request.setAttribute("intakeType", KeyConstants.INTAKE_TYPE_SIGNLE);
-		}
-
         LookupCodeValue language;
         LookupCodeValue originalCountry;
         if(intakeId.intValue()!=0){
@@ -268,6 +270,15 @@ public class QuatroIntakeEditAction extends DispatchAction {
     	HashMap actionParam = new HashMap();
     	actionParam.put("clientId", client.getDemographicNo()); 
         actionParam.put("intakeId", obj.getId().toString()); 
+        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(obj.getId().toString());
+        if(intakeHeadId!=null){
+          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
+          Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
+          request.setAttribute("clientId", intakeHeadClientId); 
+        }else{
+          request.setAttribute("intakeHeadId", obj.getId().toString()); 
+          request.setAttribute("clientId", client.getDemographicNo()); 
+        }
         request.setAttribute("actionParam", actionParam);
     	
     	obj.setClientId(client.getDemographicNo());
@@ -373,13 +384,6 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
 
-        //set intakeType value
-		if(obj.getId().intValue()>0){
-	       request.setAttribute("intakeType", intakeManager.getIntakeType(obj.getId()));
-		}else{
-	       request.setAttribute("intakeType", KeyConstants.INTAKE_TYPE_SIGNLE);
-		}
-        
         return mapping.findForward("edit");
 	}
 	

@@ -38,9 +38,5 @@ public class KeyConstants {
   public static final String INTAKE_STATUS_REJECTED = "rejected";
   public static final String INTAKE_STATUS_DISCHARGED = "discharged";
   public static final String FAMILY_HEAD_CODE = "AA";
-  
-  public static final String INTAKE_TYPE_SIGNLE = "single";
-  public static final String INTAKE_TYPE_FAMILY_HEAD = "familyHead";
-  public static final String INTAKE_TYPE_FAMILY_MEMBER = "familyMember";
 
 }

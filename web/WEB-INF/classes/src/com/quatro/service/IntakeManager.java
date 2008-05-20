@@ -42,11 +42,6 @@ public class IntakeManager {
 		this.historyDao = historyDao;
 	}
 
-    public String getIntakeType(Integer intakeId) {
-        if (intakeId == null) return null;
-        return intakeDao.getIntakeType(intakeId);
-    }
-	
     public Demographic getClientByDemographicNo(String demographicNo) {
         if (demographicNo == null || demographicNo.length() == 0) {
             return null;
@@ -66,7 +61,11 @@ public class IntakeManager {
     	return intakeDao.findQuatroIntake(clientId, programId);
     }
 
-    public List getClientFamilyByIntakeId(String intakeId) {
+	public Integer getIntakeFamilyHeadId(String intakeId){
+		return intakeDao.getIntakeFamilyHeadId(intakeId);
+	}
+	
+	public List getClientFamilyByIntakeId(String intakeId) {
         if (intakeId == null || intakeId.length() == 0) {
             return null;
         }

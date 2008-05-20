@@ -26,20 +26,6 @@ import oscar.MyDateFormat;
 
 
 public class IntakeDao extends HibernateDaoSupport {
-    public String getIntakeType(Integer intakeId) {
-		String sSQL="from QuatroIntakeFamily a " +
-		  " WHERE a.intakeId = ? and a.memberStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "'";
-        List lst = getHibernateTemplate().find(sSQL, new Object[] {intakeId});
-        if(lst.size()==0){
-          return KeyConstants.INTAKE_TYPE_SIGNLE;
-        }else{
-            QuatroIntakeFamily obj = (QuatroIntakeFamily)lst.get(0);
-            if(obj.getIntakeHeadId().equals(obj.getIntakeId()))
-              return KeyConstants.INTAKE_TYPE_FAMILY_HEAD;
-            else
-              return KeyConstants.INTAKE_TYPE_FAMILY_MEMBER;
-        }
-    }
 
 	public List LoadOptionsList() {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
@@ -405,6 +391,17 @@ public class IntakeDao extends HibernateDaoSupport {
 	    		new Object[] {clientId, facilityId, providerNo });
 		}
 		return results;
+	}
+	
+	public Integer getIntakeFamilyHeadId(String intakeId){
+		String sSQL="select a.intakeHeadId from QuatroIntakeFamily a " +
+		  " WHERE a.intakeId = ? and a.memberStatus='" + 
+		  KeyConstants.INTAKE_STATUS_ACTIVE + "'";
+		
+		List lst = getHibernateTemplate().find(sSQL, new Object[] {Integer.valueOf(intakeId)});
+		if(lst.size()==0) return null;
+		
+		return (Integer)lst.get(0);
 	}
 	
 	public List getClientIntakeFamily(String intakeId){
