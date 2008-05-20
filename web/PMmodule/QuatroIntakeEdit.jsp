@@ -145,11 +145,11 @@ function checkExistClients(){
 <html-el:optionsCollection property="optionList.referredBy" value="value" label="label"/>
 </html-el:select></td></tr>
 <tr><td>Contact name</td>
-<td><html-el:text property="intake.contactName" /></td></tr>
+<td><html-el:text style="width: 50%" property="intake.contactName" /></td></tr>
 <tr><td>Contact number</td>
-<td><html-el:text property="intake.contactNumber" /></td></tr>
+<td><html-el:text style="width: 35%" property="intake.contactNumber"  /></td></tr>
 <tr><td>Contact email</td>
-<td><html-el:text property="intake.contactEmail" /></td></tr>
+<td><html-el:text style="width: 50%" property="intake.contactEmail" /></td></tr>
 </table>
 </td></tr>
 
