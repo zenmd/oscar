@@ -82,7 +82,7 @@
 	<td>
 		<table width="100%" class="simple">
 			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><c:out value="${client.demographicNo}" /></td>
+			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
 			</tr>
 			<tr>
 				<td style="width: 15%"<font><b>Name</b></font></td>
