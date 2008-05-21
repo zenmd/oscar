@@ -172,7 +172,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         
         String providerNo = getProviderNo(request);
         String demoNo = getDemographicNo(request);
-        
         //if client id is null, it should start from client search page 
         if(providerNo==null || demoNo ==null) {
          request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
@@ -197,12 +196,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         String programId = (String) request.getSession().getAttribute("case_program_id");
 
         if (Utility.IsEmpty(programId)) {
-            Admission curAdmission =this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demoNo)); 
-        	if (curAdmission == null) {
+        	List admissions = this.admissionMgr.getAdmissionsByFacility(new Integer(demoNo), currentFacilityId);
+        	if (admissions.size() == 0) {
                 return mapping.findForward("domain-error");             
         	}
         	else
         	{
+                Admission curAdmission = (Admission) admissions.get(0);
         		programId = curAdmission.getProgramId().toString();
             	request.setAttribute("case_program_id", programId);
         	}

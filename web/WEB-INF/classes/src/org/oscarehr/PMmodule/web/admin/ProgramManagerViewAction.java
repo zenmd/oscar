@@ -436,7 +436,6 @@ public class ProgramManagerViewAction extends BaseAction {
     public ActionForward viewBedReservationChangeReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         Integer reservedBedId = Integer.valueOf(request.getParameter("reservedBedId"));
         System.err.println(reservedBedId);
-
         // BedDemographicChange[] bedDemographicChanges = bedDemographicManager.getBedDemographicChanges(reservedBedId)
         request.setAttribute("bedReservationChanges", null);
 
