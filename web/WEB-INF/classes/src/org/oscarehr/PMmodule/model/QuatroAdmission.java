@@ -41,10 +41,12 @@ public class QuatroAdmission implements Serializable {
 	private Calendar ovPassEndDate;
 	private String ovPassEndDateTxt;
     private String notSignReason;
-
+    
+    
     public String getAdmissionDateStr() {
 		return MyDateFormat.getStandardDate(admissionDate);
 	}
+
     public String getAdmissionDateTxt() {
 		return admissionDateTxt;
 	}

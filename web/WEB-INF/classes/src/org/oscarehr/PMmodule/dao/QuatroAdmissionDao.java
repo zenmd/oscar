@@ -52,10 +52,10 @@ public class QuatroAdmissionDao extends HibernateDaoSupport {
     }
     
     //for admission auto-discharge purpose
-    public List getAdmissionList(Integer clientId, Integer facilityId) {
-    	List results = getHibernateTemplate().find("from QuatroAdmission i where i.clientId = ? and i.programId in " +
-			"(select p.id from Program p where p.facilityId =?) order by i.admissionDate desc",
-			new Object[] {clientId, facilityId});
+    public List getIntakeAdmissionList(Integer clientId) {
+    	List results = getHibernateTemplate().find("from QuatroAdmission i where i.clientId = ? and " +
+  			"i.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'",
+			new Object[] {clientId});
 
 		return results;
 	}

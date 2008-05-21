@@ -106,7 +106,12 @@ public class Provider implements Serializable {
 	}
 
 	public String getFormattedName() {
-		return getLastName() + ", " + getFirstName();
+		String sRet=getLastName() + ", " + getFirstName();
+		if(sRet.equals("null, null")){
+		   return "";
+		}else{
+		   return sRet;
+		}
 	}
 	
 	public String getFullName() {

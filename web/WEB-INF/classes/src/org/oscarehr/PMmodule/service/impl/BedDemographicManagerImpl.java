@@ -207,9 +207,14 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 
 	void setAttributes(BedDemographic bedDemographic) {
 		Integer bedDemographicStatusId = bedDemographic.getBedDemographicStatusId();
-		BedDemographicStatus bedDemographicStatus = bedDemographicDAO.getBedDemographicStatus(bedDemographicStatusId);
+		BedDemographicStatus bedDemographicStatus;
+		if(bedDemographicStatusId!=null){
+		  bedDemographicStatus = bedDemographicDAO.getBedDemographicStatus(bedDemographicStatusId);
+	    }else{
+	      bedDemographicStatus=null;
+	    }
 		bedDemographic.setBedDemographicStatus(bedDemographicStatus);
-
+		
 		Integer duration = (bedDemographicStatus != null) ? bedDemographicStatus.getDuration() : 0;
 		bedDemographic.setReservationEnd(duration);
 

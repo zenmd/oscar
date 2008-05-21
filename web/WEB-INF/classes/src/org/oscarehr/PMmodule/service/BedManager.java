@@ -286,6 +286,19 @@ public class BedManager {
         }
         return beds;
     }
+    public Bed[] getAvailableBedsByRoom(Integer roomId) {
+        Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
+        for (Bed bed : beds) {
+            setAttributes(bed);
+        }
+        ArrayList lst = new ArrayList();
+        for(int i=0;i<beds.length;i++){
+          BedDemographic bdm = beds[i].getBedDemographic();
+          if(bdm==null) lst.add(beds[i]);
+        }
+        return (Bed[]) lst.toArray(new Bed[lst.size()]);
+    }
+
     public Bed[] getBedsForDeleteByRoom(Integer roomId) {
         Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
         return beds;

@@ -4,59 +4,28 @@ import org.apache.struts.validator.ValidatorForm;
 import java.util.List;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.BedDemographicStatus;
+import org.oscarehr.PMmodule.model.BedDemographicPK;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.QuatroAdmission;
+import org.oscarehr.PMmodule.model.RoomDemographic;
+import org.oscarehr.PMmodule.model.RoomDemographicPK;
 
-import java.util.Calendar;
 
 public class QuatroClientAdmissionForm extends ValidatorForm{
-//    private Integer clientId;
-//    private Integer intakeId;
-//    private Integer programId;
 
-    private QuatroAdmission admission;
+    private QuatroAdmission admission = new QuatroAdmission();
 
+    private List providerList;
     private List provinceList;
     private List notSignReasonList;
     private Room[] availableRooms;
     private Bed[] availableBeds;
 
-    //will be replaced by RoomDemographic and BedDemographic
-    private Integer roomId;
-    private Integer bedId;
+    private RoomDemographic roomDemographic = new RoomDemographic(new RoomDemographicPK());
+    private BedDemographic bedDemographic = new BedDemographic(new BedDemographicPK());
     
-/*    
-    private Integer admissionId;
-    private Calendar admissionDate;
     
-    private Integer roomId;
-    private Integer bedId;
-
-    private Room[] availableRooms;
-    private Bed[] availableBeds;
-
-    private String residentStatus;
-    private String primaryWorker;
-    private String lockerNo;
-    private String noOfBags;
-    private String nextKinName;
-    private String nextKinRelationship;
-    private String nextKinTelephone;
-    private String nextKinNumber;
-    private String nextKinStreet;
-    private String nextKinCity;
-    private String nextKinProvince;
-    private List provinceList;
-    private String nextKinPostal;
-    private String ovPassStartDate;
-    private String ovPassEndDate;
-    private String issuedBy;
-    private String notSignReason;
-    private List notSignReasonList;
-*/
-
 	public QuatroAdmission getAdmission() {
 		return admission;
 	}
@@ -66,6 +35,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	}
 
 	public Bed[] getAvailableBeds() {
+		if(availableBeds==null) return new Bed[0];
 		return availableBeds;
 	}
 
@@ -74,6 +44,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	}
 
 	public Room[] getAvailableRooms() {
+		if(availableRooms==null) return new Room[0];
 		return availableRooms;
 	}
 
@@ -97,20 +68,28 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 		this.provinceList = provinceList;
 	}
 
-	public Integer getBedId() {
-		return bedId;
+	public List getProviderList() {
+		return providerList;
 	}
 
-	public void setBedId(Integer bedId) {
-		this.bedId = bedId;
+	public void setProviderList(List providerList) {
+		this.providerList = providerList;
 	}
 
-	public Integer getRoomId() {
-		return roomId;
+	public BedDemographic getBedDemographic() {
+		return bedDemographic;
 	}
 
-	public void setRoomId(Integer roomId) {
-		this.roomId = roomId;
+	public void setBedDemographic(BedDemographic bedDemographic) {
+		this.bedDemographic = bedDemographic;
+	}
+
+	public RoomDemographic getRoomDemographic() {
+		return roomDemographic;
+	}
+
+	public void setRoomDemographic(RoomDemographic roomDemographic) {
+		this.roomDemographic = roomDemographic;
 	}
 	
 }

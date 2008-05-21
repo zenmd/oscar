@@ -174,12 +174,6 @@ function openHealthSafety(){
 	  <td><c:out value="${bedDemographic.roomName}" /> (<c:out value="${bedDemographic.programName}" />)</td></tr>
 	  <tr><th width="20%">Assigned Bed:</th>
 	  <td><c:out value="${bedDemographic.bedName}" /> (<c:out value="${bedDemographic.programName}" />)</td></tr>
-	  <tr><th width="20%">Status</th>
-	  <td><c:out value="${bedDemographic.statusName}" /></td></tr>
-	  <tr><th width="20%">Late Pass</th>
-	  <td><c:out value="${bedDemographic.latePass}" /></td></tr>
-	  <tr><th width="20%">Until</th>
-	  <td><fmt:formatDate value="${bedDemographic.reservationEnd}" pattern="yyyy/MM/dd" /></td></tr>
 	</c:when>
 	<c:otherwise>		
 	</c:otherwise>

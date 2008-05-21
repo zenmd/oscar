@@ -1,7 +1,9 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<%@page import="org.oscarehr.PMmodule.model.Admission"%>
+<%@page import="org.oscarehr.PMmodule.model.QuatroAdmission"%>
 <%@page import="java.util.Date"%>
+<%@page import="org.oscarehr.PMmodule.model.Bed"%>
+<%@page import="org.oscarehr.PMmodule.model.Room"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
@@ -86,7 +88,11 @@
 <tr><td width="25%">Ontario Resident Status</td>
 <td width="25%"><html:text property="admission.residentStatus" /></td>
 <td width="20%">Primary Worker</td>
-<td width="30%"><html:text property="admission.primaryWorker" /></td></tr>
+<td width="30%">
+<html:select property="admission.primaryWorker">
+<html-el:optionsCollection property="providerList" value="providerNo" label="formattedName"/>
+</html:select>
+</td></tr>
 <tr><td>Locker#</td>
 <td><html:text property="admission.lockerNo" /></td>
 <td># of Bags</td>
@@ -153,14 +159,14 @@
 <!-- Begin of Assign Room -------------------------------------------------------------->
 	<tr><th width="20%">Assign Room</th>
 	<td>
-	      <html:select property="roomId" onchange="quatroClientAdmissionForm.method.value='edit';quatroClientAdmissionForm.submit();">
+	      <html:select property="roomDemographic.id.roomId" onchange="quatroClientAdmissionForm.method.value='edit';quatroClientAdmissionForm.submit();">
 	       <option value="0"></option>
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
 	</td></tr>
 <!-- End of Assign Room -------------------------------------------------------------->
 	<tr><th width="20%">Assign Bed</th>
-	<td><html:select property="bedId">
+	<td><html:select property="bedDemographic.id.bedId">
             <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	  </html:select>
 	</td></tr>
@@ -171,6 +177,16 @@
 <html-el:select property="admission.notSignReason">
       <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
+</td></tr>
+<tr><td>
+<b>Notice with Regard to the Collection of Personal Information:</b><br>
+Personal information is collected under the legal authority of the City of Toronto Act, 1997, 
+Municipal Act, 2001, Chapter 169, Article VII, By-law 112-2005 and Ontario Works Act, 1997, 
+for the purposes of  administering Government of Ontario social assistance programs, 
+providing shelter services and sharing information between shelter providers when 
+specific consent is obtained.  Questions about this collection can be directed to the 
+Administrative Supervisor, Shelter, Support and Housing Administration Division, 
+Telephone no. 416-392-8741, Metro Hall, 55 John St. 6th Floor, Toronto, Ontario M5V 3C6.
 </td></tr>
 
 </table>

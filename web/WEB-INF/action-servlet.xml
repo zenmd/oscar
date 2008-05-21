@@ -89,16 +89,18 @@
         <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
     </bean>
     <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
-        <property name="clientManager" ref="clientManager" />
-        <property name="lookupManager" ref="lookupManager" />
-        <property name="programManager" ref="programManager"/>       
-        <property name="admissionManager" ref="quatroAdmissionManager" />
-        <property name="admissionManager2" ref="admissionManager" />
-        <property name="caseManagementManager" ref="caseManagementManager" />
-        <property name="bedDemographicManager" ref="bedDemographicManager" />
-        <property name="roomDemographicManager" ref="roomDemographicManager" />
-        <property name="roomManager" ref="roomManager" />
-        <property name="bedManager" ref="bedManager" />
+        <property name="clientManager" ref="clientManager"/>
+        <property name="lookupManager" ref="lookupManager"/>
+        <property name="programManager" ref="programManager"/>
+        <property name="quatroAdmissionManager" ref="quatroAdmissionManager"/>
+        <property name="caseManagementManager" ref="caseManagementManager"/>
+        <property name="bedDemographicManager" ref="bedDemographicManager"/>
+        <property name="roomDemographicManager" ref="roomDemographicManager"/>
+        <property name="roomManager" ref="roomManager"/>
+        <property name="bedManager" ref="bedManager"/>
+        <property name="intakeManager" ref="intakeManager"/>
+        <property name="providerManager" ref="providerManager"/>
+        <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
     </bean>
     <bean name="/PMmodule/QuatroRefer" class="org.oscarehr.PMmodule.web.QuatroClientReferAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
