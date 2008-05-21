@@ -311,7 +311,15 @@ public class AdmissionDao extends HibernateDaoSupport {
 		return results;
 	}
 
-    
+    public Admission getRecentAdmissionByFacility(Integer clientId, Integer facilityId){
+    	List admissions =this.getAdmissionsByFacility(clientId, facilityId);
+    	Admission admObj=null;
+    	if(!admissions.isEmpty()){
+    		admObj=(Admission)admissions.get(0);
+    	}
+    	else admObj= new Admission();
+    	return admObj;
+    }
     // TODO: rewrite
     public Admission getCurrentBedProgramAdmission(ProgramDao programDAO, Integer demographicNo) {
         if (programDAO == null) {

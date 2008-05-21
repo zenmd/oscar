@@ -72,9 +72,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String providerNo = getProviderNo(request);
         Boolean restore = (Boolean) request.getAttribute("restore");
         String programId = (String) request.getSession().getAttribute("case_program_id");
-        if(Utility.IsEmpty(programId)){
-        	Integer demoInt = new Integer(demono);
-        	programId = this.admissionMgr.getCurrentBedProgramAdmission(demoInt).getProgramId().toString();
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        if(Utility.IsEmpty(programId)){ 
+        	Integer demoInt = Integer.valueOf(demono);
+        	programId = this.admissionMgr.getRecentAdmissionByFacility(demoInt,currentFacilityId).getProgramId().toString();
         }
 
         request.setAttribute("demoName", getDemoName(demono));
@@ -141,7 +142,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         /* remove the remembered echart string */
         request.getSession().setAttribute("lastSavedNoteString", null);
 
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
+               
        
        
         

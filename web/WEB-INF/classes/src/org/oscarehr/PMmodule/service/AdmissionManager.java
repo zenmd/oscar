@@ -113,7 +113,9 @@ public class AdmissionManager {
 	public Admission getCurrentBedProgramAdmission(Integer demographicNo) {
 		return dao.getCurrentBedProgramAdmission(programDao, demographicNo);
 	}
-
+	public Admission getRecentAdmissionByFacility(Integer clientId,Integer facilityId){
+		return dao.getRecentAdmissionByFacility(clientId, facilityId);
+	}
 	public List getCurrentServiceProgramAdmission(Integer demographicNo) {
 		return dao.getCurrentServiceProgramAdmission(programDao, demographicNo);
 	}
