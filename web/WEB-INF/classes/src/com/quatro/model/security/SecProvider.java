@@ -39,6 +39,9 @@ public class SecProvider implements java.io.Serializable {
 	private String jobTitle;
 	private String email;
 
+	private String formattedName;
+	private String fullName;
+	
 	// Constructors
 
 	/** default constructor */
@@ -247,6 +250,12 @@ public class SecProvider implements java.io.Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	public String getFormattedName() {
+		return getLastName() + ", " + getFirstName();
+	}
+	
+	public String getFullName() {
+		return getFirstName() + " " + getLastName();
+	}
 
 }

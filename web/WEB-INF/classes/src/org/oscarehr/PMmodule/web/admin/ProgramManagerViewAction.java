@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +75,9 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.SecProvider;
+import com.quatro.model.security.Secuserrole;
 import com.quatro.service.security.SecurityManager;
+import com.quatro.service.security.UsersManager;
 
 public class ProgramManagerViewAction extends BaseAction {
 
@@ -103,6 +106,8 @@ public class ProgramManagerViewAction extends BaseAction {
     private ProgramQueueManager programQueueManager;
     
     private IncidentManager incidentManager;
+    
+    private UsersManager usersManager;
 
     public void setFacilityDAO(FacilityDAO facilityDAO) {
         this.facilityDAO = facilityDAO;
@@ -194,7 +199,7 @@ public class ProgramManagerViewAction extends BaseAction {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(Integer.valueOf(programId), new Date()));
         }
         if (formBean.getTab().equals("Staff")) {
-            request.setAttribute("providers", programManager.getProgramProviders(programId));
+            request.setAttribute("providers", programManager.getProgramProviders("P" + programId));
         }
 
         if (formBean.getTab().equals("Function User")) {
@@ -308,61 +313,7 @@ public class ProgramManagerViewAction extends BaseAction {
         
         if (formBean.getTab().equals("Incidents")) {
         	processIncident( request, programId, formBean);
-//        	String incidentId = request.getParameter("incidentId");
-//        	String mthd = request.getParameter("mthd");
-//        	Integer pid = Integer.valueOf(programId);
-//        	
-//        	IncidentForm incidentForm = null;
-//        	if(incidentId == null){
-//        		// incident list
-//        		List lst = new ArrayList();
-//        		if(mthd != null && mthd.equals("search")){
-//        			incidentForm = formBean.getIncidentForm();
-//        			incidentForm.setProgramId(programId);
-//        			lst = incidentManager.search(incidentForm);
-//        		}else{
-//        			incidentForm = new IncidentForm();
-//        			formBean.setIncidentForm(incidentForm);
-//        			//lst = incidentManager.getIncidentsByProgramId(pid);
-//        		}
-//        		
-//        		request.setAttribute("incidents", lst);
-//        	}else {
-//        		// new/edit incident
-//        		
-//        		if(mthd.equals("save")){
-//        			incidentForm = formBean.getIncidentForm();
-//        			incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
-//        			incidentForm.getIncident().setProviderNo(providerNo);
-//        			
-//        			Map map = request.getParameterMap();
-//        			ActionMessages messages = new ActionMessages();
-//
-//        			try {
-//        				incidentId = incidentManager.saveIncident(incidentForm);
-//           			
-//        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-//        						"message.save.success", request.getContextPath()));
-//        				saveMessages(request, messages);
-//        				
-//        			} catch (Exception e) {
-//        				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-//        						"error.saveIncident.failed", request.getContextPath()));
-//        				saveMessages(request, messages);
-//
-//        			}
-//        			
-//        		}
-//        		
-//        		incidentForm = incidentManager.getIncidentForm(incidentId);
-//        		incidentForm.getIncident().setProgramId(Integer.valueOf(programId));
-//        		if(mthd.equals("new")){
-//        			incidentForm.getIncident().setProviderNo(providerNo);
-//        			SecProvider provider = incidentManager.findProviderById(providerNo);
-//        			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
-//        		}
-//        		formBean.setIncidentForm(incidentForm);
-//        	}
+
         }
 
         logManager.log("view", "program", programId, request);
@@ -432,7 +383,168 @@ public class ProgramManagerViewAction extends BaseAction {
     		formBean.setIncidentForm(incidentForm);
     	}
     }
+    
 
+    public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	System.out.println("========== add Staff ==========");
+    	 
+    	String programId = request.getParameter("id");
+
+        if (programId == null) {
+            programId = (String) request.getAttribute("id");
+        }
+        request.setAttribute("id", programId);
+       
+        //ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean)form;
+        
+        if (isCancelled(request)) {
+			return view(mapping, form, request, response);
+		}
+      
+		
+		changeLstTable(2, form, request);
+        
+        
+
+        return mapping.findForward("view");
+    }
+    
+    public ActionForward removeStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        
+        System.out.println("========== remove Staff ==========");
+        String programId = request.getParameter("id");
+
+        if (programId == null) {
+            programId = (String) request.getAttribute("id");
+        }
+        request.setAttribute("id", programId);
+        
+        changeLstTable(1, form, request);
+
+       
+
+        return mapping.findForward("view");
+    }
+    
+
+	public void changeLstTable(int operationType, ActionForm myForm,
+			HttpServletRequest request) {
+		
+//		ActionMessages messages = new ActionMessages();
+		
+		ArrayList providerLst = new ArrayList();
+
+		
+		switch (operationType) {
+		
+		case 1: // remove
+			providerLst = (ArrayList)getRowList(request, myForm, 1);
+			break;
+			
+		case 2: // add
+			providerLst = (ArrayList)getRowList(request, myForm, 2);
+			
+			// add one more
+			providerLst.add(new Secuserrole());
+			
+			break;
+
+		}
+		
+		
+		request.setAttribute("providers", providerLst);
+
+	}
+
+	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
+		
+		ArrayList providerLst = new ArrayList();
+		
+		//ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean) form;
+		//String providerNo = (String) secuserForm.get("providerNo");
+
+		Map map = request.getParameterMap();
+		String[] arr_lineno = (String[]) map.get("lineno");
+		int lineno = 0;
+		if (arr_lineno != null)
+			lineno = arr_lineno.length;
+		
+		for (int i = 0; i < lineno; i++) {
+			
+			String[] isChecked = (String[]) map.get("p" + i);
+			if ((operationType == 1 && isChecked == null) || operationType != 1) {
+
+				Secuserrole objNew = new Secuserrole();
+				
+				String[] providerNo = (String[]) map
+						.get("providerNo" + i);
+				String[] providerName = (String[]) map
+						.get("providerName" + i);
+				String[] role_code = (String[]) map
+						.get("role_code" + i);
+				String[] role_description = (String[]) map
+						.get("role_description" + i);
+		
+				if (providerNo != null)
+					objNew.setProviderNo(providerNo[0]);
+				if (providerName != null)
+					objNew.setProviderName(providerName[0]);
+				if (role_code != null)
+					objNew.setRoleName(role_code[0]);
+				if (role_description != null)
+					objNew.setRoleName_desc(role_description[0]);
+				
+		
+				providerLst.add(objNew);
+			}
+			
+		}
+		return providerLst;
+	}
+
+	public ActionForward saveRoles(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("=========== saveRoles ========= in ProgramManagerViewAction");
+		
+		String programId = request.getParameter("id");
+        if (programId == null) {
+            programId = (String) request.getAttribute("id");
+        }
+        request.setAttribute("id", programId);
+        String orgcd = "P" + programId;
+        
+		ActionMessages messages = new ActionMessages();
+		List secUserRoleLst = getRowList(request, form, 0);
+		ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
+		
+		Iterator it = secUserRoleLst.iterator();
+		while(it.hasNext()){
+			Secuserrole tmp = (Secuserrole)it.next();
+			if(tmp.getProviderNo() != null && tmp.getProviderNo().length() > 0 && tmp.getRoleName() != null && tmp.getRoleName().length() > 0){
+				tmp.setActiveyn(1);
+				tmp.setOrgcd(orgcd);
+				LstforSave.add(tmp);
+			}
+			
+		}
+		
+		try{
+			usersManager.saveRolesToUser(LstforSave);
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+			request.getContextPath()));
+			saveMessages(request,messages);			
+		}catch(Exception e){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
+			request.getContextPath()));
+			saveMessages(request,messages);				
+		}
+		
+		return view(mapping,form,request,response);
+
+	}
+	/////////////////
+	
     public ActionForward viewBedReservationChangeReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         Integer reservedBedId = Integer.valueOf(request.getParameter("reservedBedId"));
         System.err.println(reservedBedId);
@@ -1093,5 +1205,11 @@ public class ProgramManagerViewAction extends BaseAction {
 	    String orgCd = "P" + programId.toString();
 	    return sec.GetAccess(function,orgCd).compareTo(right) >= 0;
 	}
+
+	public void setUsersManager(UsersManager usersManager) {
+		this.usersManager = usersManager;
+	}
+
+	
 
 }

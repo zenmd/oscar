@@ -142,6 +142,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 		<!-- Page Content Start --> 
 		
+			<br />
 			<div class="tabs">
 				<table cellpadding="3" cellspacing="0" border="0">
 					<tr>
@@ -242,7 +243,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 			</br>
 
-
+<!-- Signature part
 			<div class="tabs">
 				<table cellpadding="3" cellspacing="0" border="0">
 					<tr>
@@ -267,7 +268,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</logic:iterate>
 
 			</table>
-		
+ -->
+ 		
 		</div>
 
 

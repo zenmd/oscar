@@ -5,12 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import oscar.MyDateFormat;
 import oscar.oscarDB.DBPreparedHandler;
 import oscar.oscarDB.DBPreparedHandlerParam;
 
@@ -18,9 +14,6 @@ import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.util.Utility;
-
-import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.Facility;
 
 public class ORGDao extends HibernateDaoSupport {
 
@@ -146,6 +139,18 @@ public class ORGDao extends HibernateDaoSupport {
 		   System.out.println(e.getStackTrace().toString());
 	   }
 	   return list;
+	}
+	
+	public void delete(String orgcd) {
+		
+		try {
+			//getSession().delete(persistentInstance);
+			
+			getHibernateTemplate().bulkUpdate("delete LstOrgcd q where q.code=?", orgcd);
+		
+		} catch (RuntimeException re) {
+			throw re;
+		}
 	}
 
 	

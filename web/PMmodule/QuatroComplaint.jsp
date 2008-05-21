@@ -26,7 +26,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	function setStandard(obj){
 		//alert(obj.checked);
 		var boxes = document.getElementsByName("complaint.standards1");
-		for(var i = 0; i <= boxes.length; i++ ){
+		for(var i = 0; i < boxes.length; i++ ){
 			if(obj.checked == true){
 				boxes[i].disabled = false;
 			}else{
@@ -114,14 +114,16 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		</tr>
 		<tr>
 			<td align="left" class="message">
-			<br />
+			
 			<logic:messagesPresent
 				message="true">
+				<br />
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
+				<br />
 			</logic:messagesPresent>
-			<br /></td>
+			</td>
 		</tr>
 		<tr>
 			<td height="100%">
@@ -134,6 +136,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			<table width="100%" class="edit">
 				<tr>
 					<td>
+					<br />
 					<div class="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
 						<tr>

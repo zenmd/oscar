@@ -20,5 +20,11 @@
         <property name="activeyn" type="java.lang.Integer">
             <column name="ACTIVEYN" precision="1" scale="0" />
         </property>
+        <property name="roleName_desc" formula="(select r.description from Secrole r where r.role_Name=role_Name)"></property>
+	    <!-- 
+	    <property name="providerName" formula="(select concat(p.last_name, '\, ', p.first_name) from Provider p where p.provider_no=provider_no)"></property>
+	    -->
+	    <property name="providerLName" formula="(select p.last_name from Provider p where p.provider_no=provider_no)"></property> 
+	    <property name="providerFName" formula="(select p.first_name from Provider p where p.provider_no=provider_no)"></property> 
     </class>
 </hibernate-mapping>

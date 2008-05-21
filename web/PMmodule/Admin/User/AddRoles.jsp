@@ -96,10 +96,10 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 									<table cellpadding="0" style="border:0px;" cellspacing="0"
 										width="100%">
 										<tr>
-											<td style="border:0px;" width="40%"><input 
-												style="width:100%;" type="text"
+											<td style="border:0px;" width="100px"><input 
+												style="width:100px;" type="text"
 												name="org_code<%=String.valueOf(rIndex)%>"
-												value='<c:out value="${secUserRole.orgcd}"/>'></td>
+												value='<c:out value="${secUserRole.orgcd}"/>' readonly></td>
 											<td style="border:0px;"><input id="ORGfld<%=String.valueOf(rIndex)%>" 
 												style="width:100%;" type="text"  
 												name="org_description<%=String.valueOf(rIndex)%>"
@@ -116,9 +116,9 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 										width="100%">
 										<tr>
 											<td style="border:0px;" width="1px"><input type="text"
-												style="width:100%;"
+												style="width:1px;"
 												name="role_code<%=String.valueOf(rIndex)%>"
-												value='<c:out value="${secUserRole.roleName}"/>'></td>
+												value='<c:out value="${secUserRole.roleName}"/>' readonly></td>
 											<td style="border:0px;" width="100%"><input
 												style="width:100%;" type="text" 
 												name="role_description<%=String.valueOf(rIndex)%>"

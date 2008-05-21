@@ -13,43 +13,21 @@ public class Secuserrole implements java.io.Serializable {
 	// added extra 
 	private String roleName_desc;
 	private String orgcd_desc;
-	
+	private String providerName;
+	private String providerLName;
+	private String providerFName;
+		
 	// added more
 	private String fullName;
 	private String userName;
 	
 	
-	// Constructors
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	/** default constructor */
 	public Secuserrole() {
+		
 	}
 
-	/** full constructor */
-	public Secuserrole(String providerNo, String roleName, String orgcd,
-			Integer activeyn) {
-		this.providerNo = providerNo;
-		this.roleName = roleName;
-		this.orgcd = orgcd;
-		this.activeyn = activeyn;
-	}
-
+	
 	// Property accessors
 
 	public Integer getId() {
@@ -106,6 +84,51 @@ public class Secuserrole implements java.io.Serializable {
 
 	public void setRoleName_desc(String roleName_desc) {
 		this.roleName_desc = roleName_desc;
+	}
+
+	public String getProviderName() {
+		if(providerName == null || providerName.length() <= 0){
+			if(providerFName != null)
+				providerName = providerLName + ", " + providerFName;
+			else
+				providerName = providerLName;
+		}
+		return providerName;
+	}
+
+	public void setProviderName(String providerName) {
+		this.providerName = providerName;
+	}
+
+	public String getProviderFName() {
+		return providerFName;
+	}
+
+	public void setProviderFName(String providerFName) {
+		this.providerFName = providerFName;
+	}
+
+	public String getProviderLName() {
+		return providerLName;
+	}
+
+	public void setProviderLName(String providerLName) {
+		this.providerLName = providerLName;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

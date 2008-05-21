@@ -21,138 +21,177 @@
 * Toronto, Ontario, Canada 
 */
  -->
+ 
+ 
 <%@ include file="/taglibs.jsp"%>
-<table width="100%" cellpadding="0px" cellspacing="0px" border="0">
+
+
+
+
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+	border="0">
+
+	
 	<tr>
 		<td align="left" class="buttonBar">
-		<html:link
+			<html:link
 			action="/PMmodule/ProgramManager.do"
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
-</table>
+	<tr>
+		<td>
+			<logic:messagesPresent message="true">
+				<br />
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+				<br />
+			</logic:messagesPresent>
+		</td>
+	</tr>
+	
 
-<jsp:include page="/common/messages.jsp" />
 
-<div class="tabs" id="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
-		<tr>
-			<th title="Programs">General Information</th>
-		</tr>
-	</table>
-</div>
-<table width="100%" border="1" cellspacing="2" cellpadding="3">
-	<tr class="b">
-		<td width="20%">Name:</td>
-		<td><c:out value="${program.name}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Facility:</td>
-		<td><c:out value="${facilityName}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Description:</td>
-		<td><c:out value="${program.descr}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">HIC:</td>
-		<td><c:out value="${program.hic}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Type:</td>
-		<td><c:out value="${program.type}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Status:</td>
-		<td><c:out value="${program.programStatus}" /></td>
+	<tr>
+		<td height="100%">
 		
-	</tr>
-	
-	<tr class="b">
-		<td width="20%">Space Capacity:</td>
-		<td><c:out value="${program.capacity_space}" /></td>
-		
-	</tr>
-	<tr class="b">
-		<td width="20%">Funding Capacity:</td>
-		<td><c:out value="${program.capacity_funding}" /></td>
-		
-	</tr>	
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+  
 
 
-	<tr class="b">
-		<td width="20%">Allow Batch Admissions:</td>
-		<td><c:out value="${program.allowBatchAdmission}" /></td>
+
+			
+			<br />
+			<div class="tabs" id="tabs">
+				<table cellpadding="3" cellspacing="0" border="0">
+					<tr>
+						<th title="Programs">General Information</th>
+					</tr>
+				</table>
+			</div>
+			<table width="100%" border="1" cellspacing="2" cellpadding="3">
+				<tr class="b">
+					<td width="20%">Name:</td>
+					<td><c:out value="${program.name}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Facility:</td>
+					<td><c:out value="${facilityName}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Description:</td>
+					<td><c:out value="${program.descr}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">HIC:</td>
+					<td><c:out value="${program.hic}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Type:</td>
+					<td><c:out value="${program.type}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Status:</td>
+					<td><c:out value="${program.programStatus}" /></td>
+					
+				</tr>
+				
+				<tr class="b">
+					<td width="20%">Space Capacity:</td>
+					<td><c:out value="${program.capacity_space}" /></td>
+					
+				</tr>
+				<tr class="b">
+					<td width="20%">Funding Capacity:</td>
+					<td><c:out value="${program.capacity_funding}" /></td>
+					
+				</tr>	
+			
+			
+				<tr class="b">
+					<td width="20%">Allow Batch Admissions:</td>
+					<td><c:out value="${program.allowBatchAdmission}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Allow Batch Discharges:</td>
+					<td><c:out value="${program.allowBatchDischarge}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Man Or Woman:</td>
+					<td><c:out value="${program.manOrWoman}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Bed Program Affiliated:</td>
+					<td><c:out value="${program.bedProgramAffiliated}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Minimum Age:</td>
+					<td><c:out value="${program.ageMin}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Maximum Age:</td>
+					<td><c:out value="${program.ageMax}" /></td>
+				</tr>
+				
+				<!-- 
+				<tr class="b">
+					<td width="20%">Location:</td>
+					<td><c:out value="${program.location}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Client Participation:</td>
+					<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)</td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Holding Tank:</td>
+					<td><c:out value="${program.holdingTank}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Transgender:</td>
+					<td><c:out value="${program.transgender}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">First Nation:</td>
+					<td><c:out value="${program.firstNation}" /></td>
+				</tr>
+				
+				<tr class="b">
+					<td width="20%">Alcohol:</td>
+					<td><c:out value="${program.alcohol}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Abstinence Support?</td>
+					<td><c:out value="${program.abstinenceSupport}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Physical Health:</td>
+					<td><c:out value="${program.physicalHealth}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Mental Health:</td>
+					<td><c:out value="${program.mentalHealth}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Housing:</td>
+					<td><c:out value="${program.housing}" /></td>
+				</tr>
+				<tr class="b">
+					<td width="20%">Exclusive View:</td>
+					<td><c:out value="${program.exclusiveView}" /></td>
+				</tr>
+				 -->
+				
+				
+			</table>
+
+
+        
+        </div>
+ 
+		</td>
 	</tr>
-	<tr class="b">
-		<td width="20%">Allow Batch Discharges:</td>
-		<td><c:out value="${program.allowBatchDischarge}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Man Or Woman:</td>
-		<td><c:out value="${program.manOrWoman}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Bed Program Affiliated:</td>
-		<td><c:out value="${program.bedProgramAffiliated}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Minimum Age:</td>
-		<td><c:out value="${program.ageMin}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Maximum Age:</td>
-		<td><c:out value="${program.ageMax}" /></td>
-	</tr>
-	
-	<!-- 
-	<tr class="b">
-		<td width="20%">Location:</td>
-		<td><c:out value="${program.location}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Client Participation:</td>
-		<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)</td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Holding Tank:</td>
-		<td><c:out value="${program.holdingTank}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Transgender:</td>
-		<td><c:out value="${program.transgender}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">First Nation:</td>
-		<td><c:out value="${program.firstNation}" /></td>
-	</tr>
-	
-	<tr class="b">
-		<td width="20%">Alcohol:</td>
-		<td><c:out value="${program.alcohol}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Abstinence Support?</td>
-		<td><c:out value="${program.abstinenceSupport}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Physical Health:</td>
-		<td><c:out value="${program.physicalHealth}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Mental Health:</td>
-		<td><c:out value="${program.mentalHealth}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Housing:</td>
-		<td><c:out value="${program.housing}" /></td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Exclusive View:</td>
-		<td><c:out value="${program.exclusiveView}" /></td>
-	</tr>
-	 -->
-	
-	
 </table>

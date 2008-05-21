@@ -1,13 +1,14 @@
 <!-- 
 
-Source:web/PMmodule/Admin/ProgramView/incidentList.jsp 
+Source: web/PMmodule/Admin/ProgramView/incidentList.jsp 
 
 -->
 
 <%@ include file="/taglibs.jsp"%>
 
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+	border="0">
 	<!-- submenu -->
 	<tr>
 		<td align="left" class="buttonBar">
@@ -42,62 +43,88 @@ Source:web/PMmodule/Admin/ProgramView/incidentList.jsp
 		</td>
 	</tr>
 
-</table>
-			
-<div class="h4">
-	<h4>Search incident by entering search criteria below</h4>
-</div>
 
-<br />
-
-<div class="axial">
-	<table border="0" cellspacing="2" cellpadding="3">
-		<tr>
-			<th>Client ID:</th>
-			<td><html:text property="incidentForm.clientId" size="20" /></td>
-		</tr>
-		<tr>
-			<th>First or Last Name:</th>
-			<td><html:text property="incidentForm.clientName" size="20" /></td>
-		</tr>
-		<tr>
-			<th>Incident Date:</th>
-			<td><quatro:datePickerTag property="incidentForm.incDateStr"
-								width="70%" openerForm="programManagerViewForm" /></td>
-		</tr>
-	
-	</table>
-</div>
-
-<br />
-
-<div class="tabs" id="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
 	<tr>
-		<th title="Incidents">Incidents</th>
+		<td>			
+			<div class="h4">
+				<h4>Search incident by entering search criteria below</h4>
+				<br />
+			</div>
+		</td>
+	</tr>
+	
+
+	<tr>
+		<td>
+			<div class="axial">
+				<table border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<th>Client ID:</th>
+						<td><html:text property="incidentForm.clientId" size="20" /></td>
+					</tr>
+					<tr>
+						<th>First or Last Name:</th>
+						<td><html:text property="incidentForm.clientName" size="20" /></td>
+					</tr>
+					<tr>
+						<th>Incident Date:</th>
+						<td><quatro:datePickerTag property="incidentForm.incDateStr"
+											width="70%" openerForm="programManagerViewForm" /></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+			
+
+		</td>
+	</tr>
+
+
+
+	<tr>
+		<td height="100%">
+		
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+  
+			 	
+			
+			<br />
+			<div class="tabs" id="tabs">
+			<table cellpadding="3" cellspacing="0" border="0">
+				<tr>
+					<th title="Incidents">Incidents</th>
+				</tr>
+			</table>
+			</div>
+			
+			
+			<display:table class="simple" cellspacing="2" cellpadding="3"
+				id="incident" name="incidents" export="false" pagesize="0"
+				requestURI="/PMmodule/ProgramManager.do">
+				<display:setProperty name="paging.banner.placement" value="bottom" />
+				<display:setProperty name="basic.msg.empty_list"
+					value="No incidents currently in place for this program." />
+			
+				<display:column sortable="true" title="Incident ID">
+			
+			
+					<a href="javascript:void(0)"
+						onclick="javascript:editIncident('<c:out value="${incident.id}" />','edit');return false;">
+					<c:out value="${incident.id}" /></a>
+			
+				</display:column>
+				
+				<display:column property="incidentDatex" sortable="true"
+					title="Incident Date" />
+			
+			</display:table>
+
+ 
+ 		</div>
+
+		</td>
 	</tr>
 </table>
-</div>
-
-
-<display:table class="simple" cellspacing="2" cellpadding="3"
-	id="incident" name="incidents" export="false" pagesize="0"
-	requestURI="/PMmodule/ProgramManager.do">
-	<display:setProperty name="paging.banner.placement" value="bottom" />
-	<display:setProperty name="basic.msg.empty_list"
-		value="No incidents currently in place for this program." />
-
-	<display:column sortable="true" title="Incident ID">
-
-
-		<a href="javascript:void(0)"
-			onclick="javascript:editIncident('<c:out value="${incident.id}" />','edit');return false;">
-		<c:out value="${incident.id}" /></a>
-
-	</display:column>
-	
-	<display:column property="incidentDatex" sortable="true"
-		title="Incident Date" />
-
-</display:table>
-

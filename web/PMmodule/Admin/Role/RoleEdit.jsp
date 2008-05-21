@@ -140,7 +140,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 									width="100%">
 									<tr>
 										<td style="border:0px;" width="1px"><input
-											style="width:100%;" type="text"
+											style="width:1px;" type="text"
 											name="function_code<%=String.valueOf(rIndex)%>"
 											value='<c:out value="${secobjprivilege.objectname_code}"/>'></td>
 										<td style="border:0px;" width="100%"><input
@@ -169,7 +169,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 									width="100%">
 									<tr>
 										<td style="border:0px;" width="1px"><input type="text"
-											style="width:100%;"
+											style="width:1px;"
 											name="accessTypes_code<%=String.valueOf(rIndex)%>"
 											value='<c:out value="${secobjprivilege.privilege_code}"/>'></td>
 										<td style="border:0px;" width="100%"><input

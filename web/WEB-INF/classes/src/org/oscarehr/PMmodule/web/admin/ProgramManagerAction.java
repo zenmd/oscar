@@ -116,7 +116,9 @@ public class ProgramManagerAction extends BaseAction {
         }
     	request.setAttribute("programs", list);
         request.setAttribute("facilities",facilityDAO.getActiveFacilities());
-
+        List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
+        request.setAttribute("programTypeLst", programTypeLst);
+        
         programForm.set("searchStatus",searchStatus);
         programForm.set("searchType", searchType);
         programForm.set("searchFacilityId", searchFacilityId);
@@ -163,6 +165,8 @@ public class ProgramManagerAction extends BaseAction {
         request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(Integer.valueOf(id), new Date()));
         request.setAttribute("disabled_service_restrictions", clientRestrictionManager.getDisabledRestrictionsForProgram(Integer.valueOf(id), new Date()));
 
+        request.setAttribute("pageTitle","Program Management - Edit Program");
+        
         return mapping.findForward("edit");
     }
     public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -179,6 +183,8 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         programForm.set("program", new Program());
+        
+        request.setAttribute("pageTitle","Program Management - New Program");
         
         setEditAttributes(request, null);
 
@@ -303,7 +309,7 @@ public class ProgramManagerAction extends BaseAction {
         }
 
         programManager.removeProgram(id);
-        // TODO remove signature
+        
         
         programManager.deleteProgramProviderByProgramId(Integer.valueOf(id));
 

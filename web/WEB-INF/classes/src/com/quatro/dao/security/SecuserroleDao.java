@@ -80,11 +80,11 @@ public class SecuserroleDao extends HibernateDaoSupport {
 				+ " where model.providerNo ='" + instance.getProviderNo() + "'"
 				+ " and model.roleName ='" + instance.getRoleName() + "'"
 				+ " and model.orgcd ='" + instance.getOrgcd() + "'";
-			//update Supplier set name = :newName where name = :name
+			
 			Query queryObject = getSession().createQuery(queryString);
 			
 			return queryObject.executeUpdate();
-
+						
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;

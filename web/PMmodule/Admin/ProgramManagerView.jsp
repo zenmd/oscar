@@ -15,21 +15,22 @@
 		}
 	</script>
 	
-	
-	<div >
-		<%
-			String selectedTab = request.getParameter("tab");
-				
-			if (selectedTab == null || selectedTab.trim().equals("")) {
-				selectedTab = ProgramManagerViewFormBean.tabs[0];
-			}
-		%>
-		<table cellpadding="0" cellspacing="0" border="0" width="100%">
-			<tr>
-				<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
-				
-			</tr>
-			<tr height="18px"><td  class="buttonBar2">
+
+
+	<%
+		String selectedTab = request.getParameter("tab");
+			
+		if (selectedTab == null || selectedTab.trim().equals("")) {
+			selectedTab = ProgramManagerViewFormBean.tabs[0];
+		}
+	%>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+		<tr>
+			<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
+			
+		</tr>
+		<tr height="18px">
+			<td  class="buttonBar2">
 				<%
 					Program program = (Program) request.getAttribute("program");
 
@@ -54,9 +55,14 @@
 						}
 					}
 				%>
-			</td></tr>
-		</table>
-	</div>
+			</td>
+		</tr>
+		<tr>
+			<td height="100%">
+				<jsp:include page='<%="/PMmodule/Admin/ProgramView/" + selectedTab.toLowerCase().replaceAll(" ", "_") + ".jsp"%>' />
+			</td>
+		</tr>
+	</table>
 	
-	<jsp:include page='<%="/PMmodule/Admin/ProgramView/" + selectedTab.toLowerCase().replaceAll(" ", "_") + ".jsp"%>' />
+	
 </html:form>

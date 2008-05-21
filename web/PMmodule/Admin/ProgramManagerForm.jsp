@@ -18,7 +18,7 @@
 		
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
+			<th class="pageTitle" align="center"><c:out value="${pageTitle}" /></th>
 		</tr>
 
 		<!-- Functions --> 

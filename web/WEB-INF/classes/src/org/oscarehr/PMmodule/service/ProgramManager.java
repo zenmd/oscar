@@ -50,9 +50,11 @@ import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 
-import com.quatro.dao.LookupDao;
-
 import oscar.OscarProperties;
+
+import com.quatro.dao.LookupDao;
+import com.quatro.dao.ORGDao;
+import com.quatro.dao.security.SecuserroleDao;
 
 public class ProgramManager {
 
@@ -68,6 +70,8 @@ public class ProgramManager {
     private ProgramClientStatusDAO clientStatusDAO;
     private ProgramSignatureDao programSignatureDao;
     private LookupDao lookupDao;
+    private SecuserroleDao secuserroleDao;
+    private ORGDao orgDao;
 
     private boolean enabled;
 
@@ -223,7 +227,7 @@ public class ProgramManager {
     public void removeProgram(String programId) {
         programDao.removeProgram(Integer.valueOf(programId));
         programSignatureDao.removeProgramSignature(Integer.valueOf(programId));
-        
+        orgDao.delete("P"+programId);
     }
 
     // TODO: Implement this method for real
@@ -231,8 +235,9 @@ public class ProgramManager {
         return new Agency(new Integer(0), 1, "HS", "HS", "", true, false);
     }
 
-    public List getProgramProviders(String programId) {
-        return programProviderDAO.getProgramProviders(Integer.valueOf(programId));
+    public List getProgramProviders(String orgcd) {
+        //return programProviderDAO.getProgramProviders(Integer.valueOf(programId));
+        return secuserroleDao.findByOrgcd(orgcd);
     }
 
     public List getProgramProvidersByProvider(String providerNo) {
@@ -477,4 +482,12 @@ public class ProgramManager {
         Program program = getProgram(programId);        
         return(program.getFacilityId() == currentFacilityId.intValue());
     }
+
+	public void setSecuserroleDao(SecuserroleDao secuserroleDao) {
+		this.secuserroleDao = secuserroleDao;
+	}
+
+	public void setOrgDao(ORGDao orgDao) {
+		this.orgDao = orgDao;
+	}
 }
