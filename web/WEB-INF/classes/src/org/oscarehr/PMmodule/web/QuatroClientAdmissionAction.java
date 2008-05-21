@@ -199,6 +199,8 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        String clientId = null;
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
+       RoomDemographic rdm=null;
+       BedDemographic bdm=null;
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -240,8 +242,8 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        	     admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
        	     admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
              clientForm.setAdmission(admission);
-         	 RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), facilityId);
-        	 BedDemographic bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
+         	 rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), facilityId);
+        	 bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
         	 if(rdm!=null) clientForm.setRoomDemographic(rdm);
         	 if(bdm!=null) clientForm.setBedDemographic(bdm);
              actionParam.put("clientId", clientId);
@@ -293,8 +295,20 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        
        //service programs don't need admission and queue, intake is enough. 
        Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
-       clientForm.setAvailableRooms(availableRooms);
-
+       if(rdm!=null){
+    	  Room current_room= roomManager.getRoom(rdm.getRoomId());
+    	  ArrayList availableRoomLst = new ArrayList();
+    	  availableRoomLst.add(current_room);
+    	  for(int i=0;i<availableRooms.length;i++){
+    		if(current_room.equals(availableRooms[i])) continue; 
+        	availableRoomLst.add(availableRooms[i]);
+    	  }
+    	  Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
+          clientForm.setAvailableRooms(availableRooms2);
+       }else{
+         clientForm.setAvailableRooms(availableRooms);
+       }
+       
        Bed[] availableBeds=new Bed[1];
        availableBeds[0] = new Bed();
        availableBeds[0].setId(0);
@@ -302,7 +316,18 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        if(clientForm.getRoomDemographic()!=null && clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
          availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
        }
-       clientForm.setAvailableBeds(availableBeds);
+       if(bdm!=null){
+     	  Bed current_bed= bedManager.getBed(bdm.getBedId());
+     	  ArrayList availableBedLst = new ArrayList();
+     	  availableBedLst.add(current_bed);
+     	  for(int i=0;i<availableBeds.length;i++){
+         	availableBedLst.add(availableBeds[i]);
+     	  }
+     	  Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
+          clientForm.setAvailableBeds(availableBeds2);
+        }else{
+          clientForm.setAvailableBeds(availableBeds);
+        }
 
    }
 

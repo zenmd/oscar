@@ -55,12 +55,16 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
-		<a href='javascript:submitForm("sign");' style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-		<a href='javascript:submitForm("preview");'style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview&nbsp;&nbsp;</a>|
+
+		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
+		  <a href='javascript:submitForm("sign");' style="color:Navy;text-decoration:none;">
+		  <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
+		  <a href='javascript:submitForm("preview");'style="color:Navy;text-decoration:none;">
+		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview&nbsp;&nbsp;</a>|
+        </logic:greaterThan>
+		  
 		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
@@ -178,7 +182,7 @@
       <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
 </td></tr>
-<tr><td>
+<tr><td><br>
 <b>Notice with Regard to the Collection of Personal Information:</b><br>
 Personal information is collected under the legal authority of the City of Toronto Act, 1997, 
 Municipal Act, 2001, Chapter 169, Article VII, By-law 112-2005 and Ontario Works Act, 1997, 
