@@ -33,6 +33,9 @@ response.setHeader("Cache-Control", "no-cache");
 			<th class="pageTitle" width="100%">Attachment List</th>
 		</tr>
 		<tr>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
+		</tr>
+		<tr>
 			<td align="left" class="buttonBar">
 				<html:link	action="/PMmodule/UploadFile.do?method=addNew"	style="color:Navy;text-decoration:none;">
 					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Add&nbsp;&nbsp;|

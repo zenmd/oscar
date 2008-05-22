@@ -37,7 +37,7 @@
 	}
 	function submitForm()
 	{
-		document.forms(0).submit();
+		document.forms[0].submit();
 	}
 </script>
 <html:form action="/PMmodule/ClientSearch2">

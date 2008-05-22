@@ -86,11 +86,14 @@ response.setHeader("Cache-Control", "no-cache");
 			<th class="pageTitle" width="100%">Case Management Encounter</th>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar">
+			<td class="simple" style="background: lavender"><%@ include file="/PMmodule/ClientInfo.jsp" %></td>
+		</tr>
+		<tr>
+			<td align="left" class="buttonBar2">
 			<html:link	action="/CaseManagementView2.do?note_view=summary"	style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Summary&nbsp;&nbsp;|
+				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Case Summary&nbsp;&nbsp;|
 			</html:link> 
-			<html:link action="/CaseManagementView2.do?note_view=detailed"	style="color:Navy;text-decoration:none;">&nbsp;Detailed&nbsp;&nbsp;|
+			<html:link action="/CaseManagementView2.do?note_view=detailed"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;&nbsp;|
 			</html:link> 
 			<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt"	style="color:Navy;text-decoration:none;">
 				 New&nbsp;Note&nbsp;&nbsp;|

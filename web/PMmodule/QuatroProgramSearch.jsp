@@ -5,91 +5,97 @@
 <head>
 <title>Program Search</title>
 <meta http-equiv="Cache-Control" content="no-cache">
-<link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
-<link rel="stylesheet" type="text/css" href='<html:rewrite page="/jsCalendar/skins/aqua/theme.css" />' />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
-<script language="javascript" type="text/javascript">
+<script language="javascript" type="text/javascript">	
+	/* var gender='<%=request.getSession().getAttribute("clientGender")%>'; */
+	var age=<%=request.getAttribute("age")%>;
+		
+	var programMaleOnly=<%=session.getAttribute("programMaleOnly")%>;
+    var programFemaleOnly=<%=session.getAttribute("programFemaleOnly")%>;
+    var programTransgenderOnly=<%=session.getAttribute("programTransgenderOnly")%>;
+
+	<%=session.getAttribute("programAgeValidationMethod")%>
+
+	function error(msg) {
+			alert(msg);
+			return false;
+	}
+
+	if (!Array.prototype.indexOf)
+	{
+  		Array.prototype.indexOf = function(elt /*, from*/)
+  		{
+    		var len = this.length;
+    		var from = Number(arguments[1]) || 0;
+    		from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+    		if (from < 0)	 from += len;
+    		for (; from < len; from++)
+    		{
+      			if (from in this &&  this[from] === elt)
+        		return from;
+    		}
+    		return -1;
+ 		};
+	}
+		
+	
 	function resetSearchFields() {
 		var form = document.programSearchForm;
 		form.elements['program.name'].value='';	
-		form.elements['program.facilityId'].value='';
-		var typeEl = form.elements['program.type'];
-		typeEl.options[typeEl.selectedIndex].value='T';
-		var manOrWomanEl = form.elements['program.manOrWoman'];
-		manOrWomanEl.options[manOrWomanEl.selectedIndex].value='';
+		form.elements['program.facilityId'].value='';		
+		//var typeEl = form.elements['program.type'];
+		//typeEl.options[typeEl.selectedIndex].value='T';
+		//var manOrWomanEl = form.elements['program.manOrWoman'];
+		//manOrWomanEl.options[manOrWomanEl.selectedIndex].value='';
  		form.elements['program.ageMin'].value='1';
  		form.elements['program.ageMax'].value='200'; 		
 			
 	}
-		function selectProgram(clientId,id,type) {
-			var programId=Number(id);
-			if (gender == 'M')
+	function selectProgram(clientId,id,type,gender) {
+		var programId=Number(id);		
+		if (gender == 'M')
+		{
+			if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
 			{
-				if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-				{
-					return error("This gender not allowed in selected program.");
-				}
+				return error("This gender not allowed in selected program.");
 			}
-			if (gender == 'F')
-			{
-				if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-				{
-					return error("This gender not allowed in selected program.");
-				}
-			}
-			if (gender == 'T')
-			{
-				if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
-				{
-					return error("This gender not allowed in selected program.");
-				}
-			}		
-		
-			if (!validAgeRangeForProgram(programId,age))
-			{
-				return error("This client does not meet the age range requirements for this program.");
-			}
-		
-			opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
-			opener.document.<%=request.getParameter("formName")%>.elements['id'].value=clientId;
-			
-			<% if(request.getParameter("submit") != null && request.getParameter("submit").equals("true")) { %>
-				opener.document.<%=request.getParameter("formName")%>.submit();
-			<% } %>
-			
-			self.close();
 		}
-		function search_programs() {
-		var form = document.programSearchForm;
+		if (gender == 'F')
+		{
+			if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+			{
+				return error("This gender not allowed in selected program.");
+			}
+		}
+		if (gender == 'T')
+		{
+			if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
+			{
+				return error("This gender not allowed in selected program.");
+			}
+		}		
+	
+		if (!validAgeRangeForProgram(programId,age))
+		{
+			return error("This client does not meet the age range requirements for this program.");
+		}
 		
-		form.method.value='refer_select_program';
-		var programName = form.elements['program.name'].value;
-		var facilityId =form.elements['program.facilityId'].value;
-		var typeEl = form.elements['program.type'];
-		var programType = typeEl.options[typeEl.selectedIndex].value;
-		var manOrWomanEl = form.elements['program.manOrWoman'];
-		var manOrWoman = manOrWomanEl.options[manOrWomanEl.selectedIndex].value;
- 		var ageMin = form.elements['program.ageMin'].value;
- 		var ageMax = form.elements['program.ageMax'].value;
- 		var id = form.elements['id'].value;		
-		
-		var url = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do"/>';
-		url += '?method=search_programs&program.name=' + programName + '&program.type=' + programType;
-		url += '&program.manOrWoman='+manOrWoman+'&program.ageMin='+ageMin+'&program.ageMax='+ageMax;
-		url += '&formName=programSearchForm&formElementName=program.name&formElementId=program.id&formElementType=program.type&submit=true';
-		url += '&id=' + id;
-		
-		window.open(url, "program_search", "width=800, height=600, scrollbars=1,location=1,status=1");
-	}
+		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
+		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="edit";
+		opener.document.<%=request.getParameter("formName")%>.submit();
+		self.close();
+	}		
 	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
+	alert("method");
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 	}
 	
 </script>
 </head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
 	<input type="hidden" name="method" />	
+	<%String b="1"; %>
 	<table width="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 			<th class="pageTitle">Program Search</th>
@@ -138,7 +144,10 @@
 		<display:table class="simple" cellspacing="2" cellpadding="3" id="program" name="programs" pagesize="200" requestURI="/PMmodule/QuatroProgramSearch.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:column sortable="true" title="Name">
-				<a href="#javascript:void(0);" onclick="selectProgram('<c:out value="${id}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />');"><c:out value="${program.name}" /></a>
+			<%String aa="1"; %>
+			<% String pp="2"; %>
+				<a href="#javascript:void(0);" onclick="selectProgram('<c:out value="${clientId}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />','<c:out value="${gender}" />');" >
+						<c:out value="${program.name}" /></a>
 			</display:column>
 			<display:column property="type" sortable="true" title="Type"></display:column>
 			<display:column sortable="false" title="Participation">

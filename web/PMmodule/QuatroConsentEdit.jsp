@@ -56,40 +56,7 @@
 			
 		</tr>
 		<tr>
-	<td>
-		<table width="100%" class="simple">
-			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
-			</tr>
-			<tr>
-				<td style="width: 15%"<font><b>Name</b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
-			</tr>
-		</table>
-	</td>
-	</tr>
-		<tr height="18px">
-			<td align="left" valign="middle" class="buttonBar2">&nbsp;<html:link
-				action="/PMmodule/QuatroClientSummary.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/ClientHistory.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroIntake.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Admission</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroRefer.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Refer</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroDischarge.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Discharge</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroServiceRestriction.do"
-				name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroComplain.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints
-		</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<b>Consent</b>
-		</td>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar"><html:link
@@ -135,22 +102,23 @@
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
 								<td colspan="2">I	
-								<bean:write name="consentDetailForm" property="consent.clientFormattedName"/>						
+								<bean:write name="consentDetailForm" property="consent.clientFirstName"/>&nbsp;						
+								<bean:write name="consentDetailForm" property="consent.clientLastName"/>&nbsp;
 								  consent to the release and exchange of the following information:
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2" width="90%" ><html:textarea  rows="3" property="consent.notes" cols="120"  /> </td>
+								<td colspan="2" width="90%" ><html:textarea  rows="3" property="consent.notes" cols="105"  /> </td>
 							</tr>
 						</table>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr><td colspan="2">Between an authorized representative of {shelter name} and the agency/organization named below:</td></tr>
-							<tr><td>Agency Name:</td><td ><html-el:text property="consent.agencyName" maxlength="60" /></td></tr>
-							<tr><td >Contact Person Name:</td><td><html-el:text property="consent.contactName" maxlength="60" /></td></tr>
-							<tr><td>Contact Person Title:</td><td><html-el:text property="consent.contactTitle" maxlength="30" /></td></tr>
-							<tr><td>Contact Person Phone:</td><td><html-el:text property="consent.contactPhone" maxlength="15" /></td></tr>							
+							<tr><td style="width:20%">Agency Name:</td><td ><html-el:text style="width: 60%" property="consent.agencyName" maxlength="60" /></td></tr>
+							<tr><td style="width:20%">Contact Person Name:</td><td><html-el:text style="width: 60%" property="consent.contactName" maxlength="60" /></td></tr>
+							<tr><td style="width:20%">Contact Person Title:</td><td><html-el:text style="width: 60%" property="consent.contactTitle" maxlength="30" /></td></tr>
+							<tr><td style="width:20%">Contact Person Phone:</td><td><html-el:text style="width: 60%" property="consent.contactPhone" maxlength="15" /></td></tr>							
 							<tr><td colspan="2">For the following Stated purpose(s):</td></tr>
-							<tr><td colspan="2"><html-el:textarea property="consent.statePurpose" cols="120"  rows="3" /></td></tr>
+							<tr><td colspan="2"><html-el:textarea property="consent.statePurpose" cols="105"  rows="3" /></td></tr>
 					  </table>
 							<table  class="simple" cellspacing="2" cellpadding="3">
 							<tr>

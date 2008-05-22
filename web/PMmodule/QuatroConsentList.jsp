@@ -15,41 +15,20 @@
 <html-el:form action="/PMmodule/QuatroConsent.do">
 <input type="hidden" name="method"/>
 <html:hidden property="clientId"/>
+
 <table width="100%"  cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Consent</th>
 	</tr>
 	<tr>
-	<td>
-		<table width="100%" class="simple">
-			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
-			</tr>
-			<tr>
-				<td style="width: 15%"<font><b>Name</b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
-			</tr>
-		</table>
-	</td>
-	</tr>
-	<tr>
-		<td align="left" valign="middle" class="buttonBar">
-		&nbsp;<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/ClientHistory.do" name="actionParam" style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">Admission</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;"> Refer</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroDischarge.do" name="actionParam" style="color:Navy;text-decoration:none;">Discharge</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<b>Consent</b>&nbsp;&nbsp;|&nbsp;&nbsp;
-		</td>
-	</tr>
+		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
+	</tr>	
+</table>
+
+<table width="100%">	
 	<tr>
 		<td align="left" class="buttonBar">
-		<html:link	action="/PMmodule/QuatroConsent.do?method=edit&rId=0"	style="color:Navy;text-decoration:none;">
+		<html:link	action="/PMmodule/QuatroConsent.do?method=edit&rId=0" paramId="clientId"  paramName="clientId"	style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Consent&nbsp;&nbsp;|
 		</html:link>
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">

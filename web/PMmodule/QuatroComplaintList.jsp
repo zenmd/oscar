@@ -23,43 +23,10 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management -
-			Complaints</th>
+			Complaint</th>
 		</tr>
 		<tr>
-	<td>
-		<table width="100%" class="simple">
-			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
-			</tr>
-			<tr>
-				<td style="width: 15%"<font><b>Name</b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
-			</tr>
-		</table>
-	</td>
-	</tr>
-		<tr height="18px">
-			<td align="left" valign="middle" class="buttonBar2">&nbsp;<html:link
-				action="/PMmodule/QuatroClientSummary.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/ClientHistory.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroIntake.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Admission</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroRefer.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Refer</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroDischarge.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">Discharge</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<html:link action="/PMmodule/QuatroServiceRestriction.do"
-				name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<b>Complaints</b>
-			&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroConsent.do" name="actionParam" style="color:Navy;text-decoration:none;">Consent</html:link>
-			</td>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar"><html:link

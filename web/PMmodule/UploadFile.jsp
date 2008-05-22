@@ -24,6 +24,9 @@ response.setHeader("Cache-Control", "no-cache");
 			<th class="pageTitle" width="100%">Attachment Edit</th>
 		</tr>
 		<tr>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
+		</tr>
+		<tr>
 			<td align="left" class="buttonBar">
 				<a	href="javascript:submitForm('save')"
 					style="color:Navy;text-decoration:none;">&nbsp;Upload&nbsp;&nbsp;|</a>

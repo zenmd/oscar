@@ -12,9 +12,9 @@
 	}
 
 	 function popupProgramSearch(clientId) {
-        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do?clientId=" />'+clientId;       
+        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do?formName=quatroClientReferForm&formElementId=selectedProgramId&clientId=" />'+clientId;       
         var windowprops = "height=600,width=800,location=no,"
-                + "scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=0";
+                + "scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=0,statusbar=yes";
         // alert("page name" +page);
         var popup = window.open(page, "_blank", windowprops);
         if (popup != null) {
@@ -24,6 +24,8 @@
             popup.focus();
         }
     }	
+    
+    
     function submitForm(methodVal) {
 		document.forms(0).method.value = methodVal;
 		document.forms(0).submit();
@@ -32,41 +34,17 @@
 </script>
  
 <html-el:form action="/PMmodule/QuatroRefer.do">
+<input type="hidden" name="selectedProgramId"/>
 <input type="hidden" name="method"/>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Refer</th>
 	</tr>
 	<tr>
-	<td>
-		<table width="100%" class="simple">
-			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
-			</tr>
-			<tr>
-				<td style="width: 15%"<font><b>Name</b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
-			</tr>
-		</table>
-	</td>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>
 	<tr>
-		<td align="left" valign="middle" class="buttonBar2">
-		&nbsp;<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/ClientHistory.do" name="actionParam" style="color:Navy;text-decoration:none;">History</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">Intake</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">Admission</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<b>Refer</b>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroDischarge.do" name="actionParam" style="color:Navy;text-decoration:none;">Discharge</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroComplaint.do" name="actionParam" style="color:Navy;text-decoration:none;">Complaints</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
-		<html:link action="/PMmodule/QuatroConsent.do" name="actionParam" style="color:Navy;text-decoration:none;">Consent</html:link>
-		</td>
-	</tr>
-	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 		<%String a="1"; %>
 		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;|</a>
@@ -75,7 +53,7 @@
 		<a href='javascript:submitForm("list");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Return to List&nbsp;&nbsp;</a></td>
 	</tr>
-	<tr><td align="left" class="message">
+	<tr height="18px"><td align="left" class="message">
       <logic:messagesPresent message="true">
         <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
         </html:messages> 

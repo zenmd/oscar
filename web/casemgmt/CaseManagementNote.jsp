@@ -275,7 +275,10 @@ var XMLHttpRequestObject = false;
 			<th class="pageTitle" width="100%">Case Management Note</th>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar">
+			<td class="simple" style="background: lavender"><%@ include file="/PMmodule/ClientInfo.jsp" %></td>
+		</tr>
+		<tr>
+			<td align="left" class="buttonBar2">
 			<!-- 
 			<span
 				style="text-decoration: cursor:pointer;color: blue"
