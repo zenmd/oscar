@@ -61,23 +61,25 @@
 		<html:base />
 	</head>
 	<body leftmargin="0" bottommargin="0" rightmargin="0" topmargin="0">
-			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+				<table border="0" cellspacing="0" cellpadding="0" height="100%" width="100%">
 				<tr height="60px">
 				<td colspan="3">
 					<tiles:insert  name="Header_NoLink.jsp">
 					</tiles:insert>
 				</td></tr>
-				<tr valign="top">
-					<td id="leftcol" width="200px">
-						<tiles:insert name="Messages.jsp" />
-					</td>
-					<td valign="top" width="3px">
-						<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
-					</td>
+				<tr valign="middle">
+ 					
 					<td align="left">
 						<!--  div class="body" align="left"  this is the layout-->
 							<tiles:insert attribute="body" />
 						<!--  /div -->
+					</td>
+				</tr>
+			<tr height="100%"><td>&nbsp;</td>
+			</tr>
+				<tr>
+					<td valign="bottom">
+						<tiles:insert name="Messages.jsp" />
 					</td>
 				</tr>
 			</table>
