@@ -16,8 +16,8 @@ function submitForm(form) {
    alert("message can not be empty.");
    return false;
  }  
- if(message!=null && message.length>150){
-   alert("message can not exceed 150 characters.");
+ if(message!=null && message.length>500){
+   alert("message can not exceed 500 characters.");
    return false;
  }  
 			
