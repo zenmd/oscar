@@ -7,6 +7,7 @@
 		<property name="uploadFileManager" ref="uploadFileManager"></property>
 		<property name="lookupManager" ref="lookupManager"></property>
 		<property name="admissionManager" ref="admissionManager"></property>
+		<property name="clientManager" ref="clientManager"></property>
 	</bean>
 	<bean name="/PMmodule/ShowFile" class="org.oscarehr.PMmodule.web.ShowFileAction" singleton="false">
 		<property name="uploadFileManager" ref="uploadFileManager"></property>
@@ -231,7 +232,8 @@
         <property name="programManager" ref="programManager"/>
         <property name="admissionManager" ref="admissionManager"/>
         <property name="surveyManager" ref="oscarSurveyManager"/>  
-        <property name="lookupManager" ref="lookupManager"></property>      
+        <property name="lookupManager" ref="lookupManager"></property>  
+        <property name="clientManager" ref="clientManager"></property>    
     </bean>
     <bean name="/CaseManagementEntry" class="org.oscarehr.casemgmt.web.CaseManagementEntryAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
@@ -243,6 +245,7 @@
         <property name="providerManager" ref="providerManager"/>
         <property name="admissionManager" ref="admissionManager"></property>
         <property name="lookupManager" ref="lookupManager"/>
+        <property name="clientManager" ref="clientManager"></property>
     </bean>
     <bean name="/ClientImage" class="org.oscarehr.casemgmt.web.ClientImageAction" singleton="false">
         <property name="clientImageManager" ref="ClientImageManager"/>
