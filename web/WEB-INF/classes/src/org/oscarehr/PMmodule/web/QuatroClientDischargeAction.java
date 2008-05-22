@@ -95,8 +95,11 @@ public class QuatroClientDischargeAction  extends BaseAction {
           actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
        
+       log.debug("Saving Discharge");
+		ActionMessages messages = new ActionMessages();
+		 boolean isError = false;
+	     boolean isWarning = false;
 	   Admission admObj =(Admission)clientForm.get("admission");	  
 	   Admission admOld= (Admission) request.getAttribute("admission");
 	   String comProgram=admObj.getCommunityProgramCode();
@@ -140,10 +143,11 @@ public class QuatroClientDischargeAction  extends BaseAction {
 			   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
 		   
 		   }
-		   admissionManager.saveAdmission(admObj,isReferal);
-		  
+		   admissionManager.saveAdmission(admObj,isReferal);		  
 	   }
-       return null;
+	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+       saveMessages(request,messages);	
+       return mapping.findForward("edit");
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);

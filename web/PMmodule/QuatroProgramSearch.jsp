@@ -1,11 +1,10 @@
 <%@ include file="/taglibs.jsp"%>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <head>
 <title>Program Search</title>
 <meta http-equiv="Cache-Control" content="no-cache">
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
+<link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 <script language="javascript" type="text/javascript">	
 	/* var gender='<%=request.getSession().getAttribute("clientGender")%>'; */
 	var age=<%=request.getAttribute("age")%>;
@@ -82,11 +81,12 @@
 		
 		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
 		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="edit";
+		opener.document.<%=request.getParameter("formName")%>.elements['clientId'].value=clientId;
 		opener.document.<%=request.getParameter("formName")%>.submit();
 		self.close();
 	}		
 	function submitForm(methodVal) {
-	alert("method");
+	// alert("method");
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
@@ -101,7 +101,7 @@
 			<th class="pageTitle">Program Search</th>
 		</tr>
 		<tr>
-		<td class="buttonBar" align="left" height="18px">		
+		<td class="buttonBar2" align="left" height="18px">		
 		<a href="javascript:submitForm('search_programs')" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
 		<a style="color:Navy;text-decoration:none;" href="javascript:resetSearchFields();">
@@ -117,6 +117,13 @@
 		<table class="simple" width="100%" cellspacing="2" cellpadding="3">
 		  <tr><td width="30%">Program Name</td>
   				<td width="70%"><html:text property="program.name" /></td></tr>
+  		 <tr><td>Facility</td>
+  		 	<td><html:select property="program.facilityId">
+					<html:option value="">&nbsp;</html:option>
+					<html:options collection="lstFacility" property="code" labelProperty="description" />					
+				</html:select>
+			</td>
+  		 </tr>
   		 <tr><td>Program Type</td>
   			<td><html:select property="program.type">
 					<html:option value="">&nbsp;</html:option>
@@ -136,8 +143,7 @@
   		<tr><td>Minimun Age (inclusive)</td>
   				<td><html:text property="program.ageMin" /></td></tr>
   		<tr><td>Maximum Age (inclusive)</td>
-  			<td><html:text property="program.ageMax" /></td></tr>
-  		<tr><td><input type="button" value="search" onclick="javaScript:submitForm('search_programs')" />&nbsp;&nbsp;<input type="button" name="reset" value="reset" onclick="javascript:resetClientFields();" /></td></tr>
+  			<td><html:text property="program.ageMax" /></td></tr>  		
  	</table>
 	</html:form>
 		

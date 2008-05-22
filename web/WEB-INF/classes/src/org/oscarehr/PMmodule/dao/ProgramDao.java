@@ -298,11 +298,11 @@ public class ProgramDao extends HibernateDaoSupport {
         }
 
         if (program.getAgeMin()>0) {
-            criteria.add(Expression.eq("ageMin", program.getAgeMin()));
+            criteria.add(Expression.le("ageMin", program.getAgeMin()));
         }
 
-        if (program.getAgeMax()>0) {
-            criteria.add(Expression.eq("ageMax", program.getAgeMax()));
+        if (program.getAgeMax()>=0) {
+            criteria.add(Expression.ge("ageMax", program.getAgeMax()));
         }
 
          criteria.addOrder(Order.asc("name"));

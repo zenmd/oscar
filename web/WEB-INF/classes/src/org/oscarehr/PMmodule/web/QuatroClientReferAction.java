@@ -2,6 +2,7 @@ package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Consent;
+import org.oscarehr.PMmodule.model.ConsentDetail;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.HealthSafety;
@@ -153,7 +155,30 @@ public class QuatroClientReferAction  extends BaseAction {
 
        return mapping.findForward("search_programs");
    }
-   
+   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       
+       super.setScreenMode(request, KeyConstants.TAB_REFER);
+       log.debug("Saving Refer");
+		ActionMessages messages = new ActionMessages();
+		 boolean isError = false;
+	     boolean isWarning = false;
+		DynaActionForm refForm = (DynaActionForm)form;
+		
+		ClientReferral refObj= (ClientReferral)refForm.get("referral");
+		
+		String id = (String)request.getParameter("clientId");
+		refObj.setClientId(Integer.valueOf(id));
+		
+		Provider p =  (Provider)request.getSession().getAttribute("provider");
+		refObj.setCompletionDate(new Date());
+		refObj.setProviderNo(p.getProviderNo());
+		refObj.setReferralDate(new Date());		
+		clientManager.saveClientReferral(refObj);		
+		//String gotoStr = request.getParameter("goto");			
+		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+       saveMessages(request,messages);		
+       return mapping.findForward("edit");
+   }
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
 
@@ -164,10 +189,11 @@ public class QuatroClientReferAction  extends BaseAction {
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        String rId=request.getParameter("rId");
-       Map map=request.getParameterMap();
-       String obj= (String)map.get("formElementId");       
-       
+       Object curRId =request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_RECORD);
+       if((rId==null ||"0".equals(rId)) && curRId!=null) rId =(String)curRId; 
+       String programId = request.getParameter("selectedProgramId");
        //Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        clientForm.set("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
@@ -178,8 +204,17 @@ public class QuatroClientReferAction  extends BaseAction {
     	   crObj = new ClientReferral();
     	   crObj.setClientId(Integer.valueOf(demographicNo));
        }else if(!Utility.IsEmpty(rId)){
+    	   request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_RECORD, rId);
     	   crObj = clientManager.getClientReferral(rId);
        }
+       
+       Program program =(Program)clientForm.get("program");
+       if(!Utility.IsEmpty(programId)){
+    	   program = programManager.getProgram(programId);
+    	   crObj.setProgramId(Integer.valueOf(programId));
+    	   crObj.setFacilityId(program.getFacilityId());
+    	   request.setAttribute("program", program);  
+       }          
        clientForm.set("referral", crObj);
    }
 

@@ -42,9 +42,12 @@ public class QuatroProgramSearchAction  extends DispatchAction {
 	       DynaActionForm clientForm = (DynaActionForm) form;
 
 	       Program criteria = (Program) clientForm.get("program");
-	       
-	       request.setAttribute("programs", programManager.search(criteria));
+	       List lstProgram=programManager.search(criteria);
+	       request.setAttribute("programs", lstProgram);
 	       String cId = request.getParameter("clientId");
+	       //have save client ID to session for button search purpose
+	       if(cId!=null) request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CLIENTID, cId);
+	       else cId =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
@@ -56,7 +59,7 @@ public class QuatroProgramSearchAction  extends DispatchAction {
 	       request.setAttribute("clientId", cId);
 	       request.setAttribute("gender", clientObj.getSex());
 	       request.setAttribute("age", clientObj.getAge());
-	       List lstFacility=this.lookupManager.LoadCodeList("FAC", true, null, null);
+	       List lstFacility=this.lookupManager.LoadCodeList("FAC", false, null, null);
 	       request.setAttribute("lstFacility", lstFacility);
 	       ProgramUtils.addProgramRestrictions(request);
 
