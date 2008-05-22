@@ -51,7 +51,7 @@ public class TopazSaveAction extends DispatchAction {
 //		   tobj.setProviderNo(providerNo);
 		
 		   topazManager.saveTopazValue(tobj);
-		   request.getSession().setAttribute("signatureID", tobj.getRecordId());
+//		   request.getSession().setAttribute("signatureID", tobj.getRecordId());
 	
 //		   TopazValue tv=topazManager.getTopazValue(providerNo);
 		   
