@@ -26,7 +26,7 @@ import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.Room;
-//import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
@@ -44,7 +44,6 @@ import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
 import com.quatro.common.KeyConstants;
 import org.oscarehr.PMmodule.model.Provider;
-
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroAdmission;
 import oscar.MyDateFormat;
@@ -56,7 +55,7 @@ import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.model.BedDemographicPK;
 
-public class QuatroClientAdmissionAction  extends DispatchAction {
+public class QuatroClientAdmissionAction  extends BaseAction {
    private ClientManager clientManager;
    private LookupManager lookupManager;
    private ProgramManager programManager;
@@ -76,7 +75,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
 
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
-
+       super.setScreenMode(request, KeyConstants.TAB_ADMISSION);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -94,18 +93,20 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
 
        return mapping.findForward("list");
    }
-
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return update(mapping, form, request, response);
    }
-   
+   	
    public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
+       super.setScreenMode(request, KeyConstants.TAB_ADMISSION);
        return mapping.findForward("edit");
    }
    
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        ActionMessages messages = new ActionMessages();
+       super.setScreenMode(request, KeyConstants.TAB_ADMISSION);
        boolean isError = false;
        boolean isWarning = false;
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
@@ -139,14 +140,14 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
         	StringBuilder sb = new StringBuilder();
         	sb.append("," + admission_exist.getId());
             if(sb.length()>0){
-      	      //auto-discharge from other program   
+              //auto-discharge from other program   
               quatroAdmissionManager.dischargeAdmission(sb.substring(1));
             }
          }
        }
        
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       admission.setProviderNo(providerNo);
+	   admission.setProviderNo(providerNo);
        admission.setAdmissionDate(MyDateFormat.getCalendar(admission.getAdmissionDateTxt()));
        admission.setFacilityId(facilityId);
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
@@ -230,7 +231,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
               
           //from pages under client mamagement
           }else{
-        	 if(request.getParameter("admissionId")!=null){
+        	if(request.getParameter("admissionId")!=null){
         	   admissionId = Integer.valueOf(request.getParameter("admissionId"));
         	 }else{
         		 admissionId = clientForm.getAdmission().getId();
@@ -245,14 +246,14 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
          	 rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), facilityId);
         	 bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
         	 if(rdm!=null) clientForm.setRoomDemographic(rdm);
-        	 if(bdm!=null) clientForm.setBedDemographic(bdm);
-             actionParam.put("clientId", clientId);
+        	 if(bdm!=null) clientForm.setBedDemographic(bdm);             
+             actionParam.put("clientId", clientId);            
         	 actionParam.put("intakeId", admission.getIntakeId());
           }
        }
        request.setAttribute("actionParam", actionParam);
        
-  	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+       List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
@@ -260,8 +261,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        
        clientId = (String)actionParam.get("clientId");
        request.setAttribute("clientId", clientId);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
-
+	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 
 //create exception when save new admission, ask for temporary_admission value that we don't use at all.       
@@ -295,7 +295,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        
        //service programs don't need admission and queue, intake is enough. 
        Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
-       if(rdm!=null){
+              if(rdm!=null){
     	  Room current_room= roomManager.getRoom(rdm.getRoomId());
     	  ArrayList availableRoomLst = new ArrayList();
     	  availableRoomLst.add(current_room);
@@ -308,7 +308,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
        }else{
          clientForm.setAvailableRooms(availableRooms);
        }
-       
+
        Bed[] availableBeds=new Bed[1];
        availableBeds[0] = new Bed();
        availableBeds[0].setId(0);
@@ -330,7 +330,6 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
         }
 
    }
-
 /*
    public void setAdmissionManager2(AdmissionManager admissionManager2) {
 		 this.admissionManager2 = admissionManager2;
@@ -375,7 +374,7 @@ public class QuatroClientAdmissionAction  extends DispatchAction {
    public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
 	 this.clientRestrictionManager = clientRestrictionManager;
    }
-
+   
    public void setProviderManager(ProviderManager providerManager) {
 	 this.providerManager = providerManager;
   }
