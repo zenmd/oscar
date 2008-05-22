@@ -187,7 +187,7 @@ public class RoleManagerAction extends BaseAction {
 
 		System.out
 				.println("=========== SAVE Change ========= in RoleManagerAction");
-
+		ActionMessages messages = new ActionMessages();
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		Secrole secrole = new Secrole();
@@ -195,16 +195,23 @@ public class RoleManagerAction extends BaseAction {
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
-
-		rolesManager.save(secrole);
-		saveFunctions(mapping, form, request, response);
-		
+		try{
+			rolesManager.save(secrole);
+			saveFunctions(mapping, form, request, response);
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+			request.getContextPath()));
+			saveMessages(request,messages);			
+		}catch(Exception e){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
+			request.getContextPath()));
+			saveMessages(request,messages);				
+		}
 		secroleForm.set("roleNo", secrole.getRoleNo());
 
 		LookupCodeValue functions = new LookupCodeValue();
 		secroleForm.set("functions", functions);
 
-		return list(mapping, form, request, response);
+		return edit(mapping, form, request, response);
 
 	}
 
@@ -372,7 +379,7 @@ public class RoleManagerAction extends BaseAction {
 		int lineno = 0;
 		if (arr_lineno != null)
 			lineno = arr_lineno.length;
-
+		ArrayList listForSave = new ArrayList();
 		for (int i = 0; i < lineno; i++) {
 			String[] function_code = (String[]) map.get("function_code" + i);
 			if (function_code != null && function_code[0].length() > 0) {
@@ -388,9 +395,11 @@ public class RoleManagerAction extends BaseAction {
 				objNew.setProviderNo(providerNo);
 				objNew.setPriority(new Integer("0"));
 
-				rolesManager.saveFunction(objNew);
+				//rolesManager.saveFunction(objNew);
+				listForSave.add(objNew);
 			}
 		}
+		rolesManager.saveFunctions(listForSave, roleName);
 
 		
 	}

@@ -40,14 +40,16 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 
 	<tr>
 		<td align="left" class="message">
-		<br />
+		
 		<logic:messagesPresent
 			message="true">
+			<br />
 			<html:messages id="message" message="true" bundle="pmm">
 				<c:out escapeXml="false" value="${message}" />
 			</html:messages>
+			<br />
 		</logic:messagesPresent>
-		<br />
+		
 		</td>
 	</tr>
 
@@ -61,6 +63,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 
+			<br />
 			<div class="tabs" id="tabs">
 				<table cellpadding="3" cellspacing="0" border="0">
 					<tr>

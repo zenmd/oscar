@@ -22,7 +22,7 @@
 
 package com.quatro.service.security;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.quatro.dao.security.SecProviderDao;
@@ -32,6 +32,7 @@ import com.quatro.dao.security.SecuserroleDao;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Secrole;
 import com.quatro.model.security.Security;
+import com.quatro.model.security.Secuserrole;
 import com.quatro.web.admin.UserSearchFormBean;
 
 
@@ -75,8 +76,51 @@ public class UsersManager {
 	public void save(Secrole secrole) {
 		secroleDao.save(secrole);
 	}
-	public void saveRolesToUser(List list) {
-		secuserroleDao.saveAll(list);
+	public void saveRolesToUser(List list, String providerNo) {
+		List existLst = secuserroleDao.findByProviderNo(providerNo);
+		saveAll(list, existLst);
+	}
+	
+	public void saveStaffToProgram(List list, String orgcd) {
+		List existLst = secuserroleDao.findByOrgcd(orgcd);
+		saveAll(list, existLst);
+		
+	}
+	public void saveAll(List newLst, List existLst) {
+		ArrayList lstForDelete = new ArrayList();
+		if(existLst.size()>0){
+			
+			for(int i = 0; i < existLst.size(); i++){
+				boolean keepIt = false;
+				Secuserrole sur1 = (Secuserrole)existLst.get(i);
+				for(int j = 0; j < newLst.size(); j++){
+					Secuserrole sur2 = (Secuserrole)newLst.get(j);
+					if(compare(sur1, sur2)){
+						keepIt = true;
+						break;
+					}
+				}
+				if(!keepIt){
+					lstForDelete.add(sur1);
+				}
+				
+			}
+			for( int i = 0; i < lstForDelete.size(); i++){
+				secuserroleDao.delete((Secuserrole)lstForDelete.get(i));				
+			}
+			
+		}
+		
+		secuserroleDao.saveAll(newLst);
+	}
+	
+	public boolean compare(Secuserrole sur1, Secuserrole sur2){
+		boolean isSame = false;
+		if(sur1.getOrgcd().equals(sur2.getOrgcd()) && 
+				sur1.getProviderNo().equals(sur2.getProviderNo()) && 
+				sur1.getRoleName().equals(sur2.getRoleName()))
+			isSame = true;
+		return isSame;
 	}
 	public List getSecUserRoles(String providerNo) {
 		return secuserroleDao.findByProviderNo(providerNo);

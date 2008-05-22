@@ -73,8 +73,31 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	public int deleteByOrgcd(String orgcd) {
+		log.debug("deleting Secuserrole by orgcd");
+		try {
+			
+			return getHibernateTemplate().bulkUpdate("delete Secuserrole as model where model.orgcd =?", orgcd);
+			
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+	public int deleteByProviderNo(String providerNo) {
+		log.debug("deleting Secuserrole by providerNo");
+		try {
+			
+			return getHibernateTemplate().bulkUpdate("delete Secuserrole as model where model.providerNo =?", providerNo);
+			
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+	
 	public int update(Secuserrole instance) {
-		log.debug("finding Secuserrole instance with property: ");
+		log.debug("Update Secuserrole instance");
 		try {
 			String queryString = "update Secuserrole as model set model.activeyn ='" + instance.getActiveyn() + "'"
 				+ " where model.providerNo ='" + instance.getProviderNo() + "'"
@@ -86,7 +109,7 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			return queryObject.executeUpdate();
 						
 		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
+			log.error("Update failed", re);
 			throw re;
 		}
 	}

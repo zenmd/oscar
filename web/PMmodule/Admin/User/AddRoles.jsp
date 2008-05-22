@@ -35,12 +35,14 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr><td align="left" class="message">
-			<br />
+			
 		      <logic:messagesPresent message="true">
+		      	<br />
 		        <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
 		        </html:messages> 
+		        <br />
 		      </logic:messagesPresent>
-		      <br /><br />
+		      
 			</td></tr>
 		</table>
 
@@ -48,7 +50,7 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 			<html:hidden property="method" value="save" />
 			<html:hidden property="providerNo" />
 			
-			
+			<br />
 			<div class="tabs" id="tabs">
 				<table cellpadding="3" cellspacing="0" border="0">
 					<tr>

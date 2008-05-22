@@ -22,12 +22,14 @@
 
 package com.quatro.service.security;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.quatro.dao.security.SecobjprivilegeDao;
 import com.quatro.dao.security.SecroleDao;
 import com.quatro.model.security.Secobjprivilege;
 import com.quatro.model.security.Secrole;
+import com.quatro.model.security.Secuserrole;
 
 
 
@@ -55,6 +57,54 @@ public class RolesManager {
 	public void saveFunction(Secobjprivilege secobjprivilege) {
 		secobjprivilegeDao.save(secobjprivilege);
 	}
+//	public void saveFunctions(List list, String roleName) {
+//		secobjprivilegeDao.deleteByRoleName(roleName);
+//		secobjprivilegeDao.saveAll(list);
+//	}
+	public void saveFunctions(List list, String roleName) {
+		List existLst = secobjprivilegeDao.getFunctions(roleName);
+		saveAll(list, existLst);
+	}
+	public void saveAll(List newLst, List existLst) {
+		ArrayList lstForDelete = new ArrayList();
+		if(existLst.size()>0){
+			
+			for(int i = 0; i < existLst.size(); i++){
+				boolean keepIt = false;
+				Secobjprivilege sur1 = (Secobjprivilege)existLst.get(i);
+				for(int j = 0; j < newLst.size(); j++){
+					Secobjprivilege sur2 = (Secobjprivilege)newLst.get(j);
+					if(compare(sur1, sur2)){
+						keepIt = true;
+						break;
+					}
+				}
+				if(!keepIt){
+					lstForDelete.add(sur1);
+				}
+				
+			}
+			for( int i = 0; i < lstForDelete.size(); i++){
+				secobjprivilegeDao.delete((Secobjprivilege)lstForDelete.get(i));				
+			}
+			
+		}
+		
+		secobjprivilegeDao.saveAll(newLst);
+	}
+	
+	public boolean compare(Secobjprivilege sur1, Secobjprivilege sur2){
+		boolean isSame = false;
+		if(sur1.getObjectname().equals(sur2.getObjectname()) && 
+				sur1.getPrivilege().equals(sur2.getPrivilege()) && 
+				sur1.getRoleusergroup().equals(sur2.getRoleusergroup()))
+			isSame = true;
+		return isSame;
+	}
+	
+	
+	
+	
 	
 	public List getFunctions(String roleName) {
 		return secobjprivilegeDao.getFunctions(roleName);

@@ -467,6 +467,8 @@ public class UserManagerAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println("=========== saveRoles ========= in UserManagerAction");
+		DynaActionForm secuserForm = (DynaActionForm) form;
+		String providerNo = (String) secuserForm.get("providerNo");
 		ActionMessages messages = new ActionMessages();
 		List secUserRoleLst = getRowList(request, form, 0);
 		ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
@@ -480,7 +482,7 @@ public class UserManagerAction extends BaseAction {
 		}
 		
 		try{
-			usersManager.saveRolesToUser(LstforSave);
+			usersManager.saveRolesToUser(LstforSave, providerNo);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 			request.getContextPath()));
 			saveMessages(request,messages);			

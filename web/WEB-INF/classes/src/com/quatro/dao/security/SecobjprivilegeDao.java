@@ -47,7 +47,65 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
             log.debug("SecobjprivilegeDao : save: " + secobjprivilege.getRoleusergroup() + ":" + secobjprivilege.getObjectname());
         }
     }
-    
+    public void saveAll(List list) {
+		log.debug("saving ALL Secobjprivilege instances");
+		try {
+			for(int i =0; i< list.size(); i++){
+				Secobjprivilege obj = (Secobjprivilege)list.get(i);
+				
+				int rowcount = update(obj);
+				
+				if(rowcount <= 0){
+					save(obj);
+				}
+				
+			}
+						
+			log.debug("save ALL successful");
+		} catch (RuntimeException re) {
+			log.error("save ALL failed", re);
+			throw re;
+		}
+	}
+    public int update(Secobjprivilege instance) {
+		log.debug("update Secobjprivilege instance");
+		try {
+			String queryString = "update Secobjprivilege as model set model.providerNo ='" + instance.getProviderNo() + "'"
+				+ " where model.objectname ='" + instance.getObjectname() + "'"
+				+ " and model.privilege ='" + instance.getPrivilege() + "'"
+				+ " and model.roleusergroup ='" + instance.getRoleusergroup() + "'";
+			
+			Query queryObject = getSession().createQuery(queryString);
+			
+			return queryObject.executeUpdate();
+						
+		} catch (RuntimeException re) {
+			log.error("Update failed", re);
+			throw re;
+		}
+	}
+    public int deleteByRoleName(String roleName) {
+		log.debug("deleting Secobjprivilege by roleName");
+		try {
+			
+			return getHibernateTemplate().bulkUpdate("delete Secobjprivilege as model where model.roleusergroup =?", roleName);
+			
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+    public void delete(Secobjprivilege persistentInstance) {
+		log.debug("deleting Secobjprivilege instance");
+		try {
+			//getSession().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
     public String getFunctionDesc(String function_code) {
 		try {
 			String queryString = "select description from Secobjectname obj where obj.objectname='" + function_code+"'";

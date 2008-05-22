@@ -394,6 +394,8 @@ public class ProgramManagerViewAction extends BaseAction {
             programId = (String) request.getAttribute("id");
         }
         request.setAttribute("id", programId);
+        Program program = programManager.getProgram(programId);
+        request.setAttribute("program", program);
        
         //ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean)form;
         
@@ -418,6 +420,8 @@ public class ProgramManagerViewAction extends BaseAction {
             programId = (String) request.getAttribute("id");
         }
         request.setAttribute("id", programId);
+        Program program = programManager.getProgram(programId);
+        request.setAttribute("program", program);
         
         changeLstTable(1, form, request);
 
@@ -530,7 +534,8 @@ public class ProgramManagerViewAction extends BaseAction {
 		}
 		
 		try{
-			usersManager.saveRolesToUser(LstforSave);
+			//usersManager.saveRolesToUser(LstforSave);
+			usersManager.saveStaffToProgram(LstforSave, orgcd);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 			request.getContextPath()));
 			saveMessages(request,messages);			
