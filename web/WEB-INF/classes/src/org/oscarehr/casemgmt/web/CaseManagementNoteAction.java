@@ -67,8 +67,14 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         request.setAttribute("change_flag", "false");
         request.setAttribute("from", "casemgmt");
-
-        String demono = getDemographicNo(request);
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);     
+ 	
+        String demono = (String)actionParam.get("clientId");
         String providerNo = getProviderNo(request);
         Boolean restore = (Boolean) request.getAttribute("restore");
         String programId = (String) request.getSession().getAttribute("case_program_id");

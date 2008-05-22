@@ -126,8 +126,15 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
 
     public ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
-		String demono= request.getParameter("clientId");
+       // request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
+		
+    	 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);	      
+    	String demono= (String)actionParam.get("clientId");
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String nView=(String)request.getParameter("note_view");
 		
@@ -159,19 +166,19 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         long current = 0;
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        // remove tab function
-        /*
-        String tab = request.getParameter("tab");
-        if (tab == null) {
-            tab = CaseManagementViewFormBean.tabs[0];
-        }
-        */
+        
         HttpSession se = request.getSession();
         if (se.getAttribute("userrole") == null) return mapping.findForward("expired");
-
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);	      
+	       String demoNo= (String)actionParam.get("clientId");
         
         String providerNo = getProviderNo(request);
-        String demoNo = getDemographicNo(request);
+        //String demoNo = getDemographicNo(request);
         //if client id is null, it should start from client search page 
         if(providerNo==null || demoNo ==null) {
          request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
@@ -393,7 +400,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     
     public ActionForward listNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String providerNo = getProviderNo(request);
-        String demoNo = getDemographicNo(request);
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);	      
+	       String demoNo= (String)actionParam.get("clientId");
         List notes = null;
 
         //set save url to be used by ajax editor
