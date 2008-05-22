@@ -340,6 +340,8 @@
             <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
+            <form-property name="formName" type="java.lang.String" />
+            <form-property name="formElementId" type="java.lang.String"></form-property>
         </form-bean>
         <form-bean name="programSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
