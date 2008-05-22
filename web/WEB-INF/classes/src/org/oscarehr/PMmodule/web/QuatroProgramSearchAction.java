@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 
@@ -49,9 +50,12 @@ public class QuatroProgramSearchAction  extends DispatchAction {
 	    	  actionParam = new HashMap();
 	          actionParam.put("clientId", cId); 
 	       }
+	      
 	       request.setAttribute("actionParam", actionParam);
-	       
+	       Demographic clientObj =clientManager.getClientByDemographicNo(cId);
 	       request.setAttribute("clientId", cId);
+	       request.setAttribute("gender", clientObj.getSex());
+	       request.setAttribute("age", clientObj.getAge());
 	       List lstFacility=this.lookupManager.LoadCodeList("FAC", true, null, null);
 	       request.setAttribute("lstFacility", lstFacility);
 	       ProgramUtils.addProgramRestrictions(request);

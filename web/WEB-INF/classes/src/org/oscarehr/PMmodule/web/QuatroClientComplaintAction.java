@@ -20,11 +20,12 @@ import org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm;
 
 import oscar.MyDateFormat;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.Complaint;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 
-public class QuatroClientComplaintAction extends DispatchAction {
+public class QuatroClientComplaintAction extends BaseAction {
 
 	private ComplaintManager complaintManager;
 
@@ -45,6 +46,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 
 		System.out
 				.println("=========== list ========= in QuatroClientComplaintAction");
+		super.setScreenMode(request, KeyConstants.TAB_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
@@ -70,6 +72,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 
 		System.out
 				.println("=========== edit ========= in QuatroClientComplaintAction");
+		super.setScreenMode(request, KeyConstants.TAB_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
@@ -167,7 +170,7 @@ public class QuatroClientComplaintAction extends DispatchAction {
 				.println("=========== save ========= in QuatroClientComplaintAction");
 
 		
-		
+		super.setScreenMode(request, KeyConstants.TAB_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();

@@ -61,7 +61,7 @@ import com.quatro.service.security.SecurityManager;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
 
-public class QuatroClientServiceRestrictionAction  extends DispatchAction {
+public class QuatroClientServiceRestrictionAction  extends BaseAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -85,17 +85,19 @@ public class QuatroClientServiceRestrictionAction  extends DispatchAction {
    }
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
+       super.setScreenMode(request, KeyConstants.TAB_RESTRICTION);
        return mapping.findForward("edit");
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   setListAttributes(form, request);
+	   super.setScreenMode(request, KeyConstants.TAB_RESTRICTION);
        return mapping.findForward("list");
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
        ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
        Integer days = (Integer) clientForm.get("serviceRestrictionLength");
-
+       super.setScreenMode(request, KeyConstants.TAB_RESTRICTION);
        Program p = (Program) clientForm.get("program");
        restriction.setProgramId(p.getId());
        Integer cId =(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);

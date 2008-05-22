@@ -20,6 +20,7 @@ import com.quatro.service.LookupManager;
 import com.quatro.service.UploadFileManager;
 import com.quatro.util.Utility;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.GregorianCalendar;
 import com.quatro.model.Attachment;
@@ -48,12 +49,21 @@ public class UploadFileAction extends BaseAction {
 	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
 		 List<Attachment> atts=null;
+		 super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
+		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	       String demographicNo= (String)actionParam.get("clientId");
 		    try {
-		    Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-		    String refNo = request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
-		    Integer programId =new Integer((String)request.getSession().getAttribute("case_program_id"));
-			atts=uploadFileManager.getAttachment(moduleId, refNo,programId);
-		    request.setAttribute("att_files", atts);
+		    	// attachment only for client 
+			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
+			    String refNo = demographicNo;
+			    Integer programId =new Integer((String)request.getSession().getAttribute("case_program_id"));
+				atts=uploadFileManager.getAttachment(moduleId, refNo,programId);
+			    request.setAttribute("att_files", atts);
 		    }catch(Exception ex){
 		    	request.setAttribute("att_files", atts);
 		    }
@@ -61,7 +71,7 @@ public class UploadFileAction extends BaseAction {
 		}
 	 public ActionForward addNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
-		
+		 super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
 		 ActionMessages messages= new ActionMessages();
@@ -76,6 +86,7 @@ public class UploadFileAction extends BaseAction {
 	 public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
 		 Attachment attObj = null;
+		 super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
 		 ActionMessages messages= new ActionMessages();
 		 
 		 Integer cId=(Integer)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID));    

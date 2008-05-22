@@ -36,16 +36,18 @@ public class QuatroConsentAction extends BaseAction {
     private ConsentManager consentManager;
 
 
-	public ActionForward unspecified(ActionMapping mapping,	ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward unspecified(ActionMapping mapping,	ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
 		return list(mapping,form,request,response);
 	}
 	
 	public ActionForward list(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
 		setListAttributes(form,request);
+		super.setScreenMode(request, KeyConstants.TAB_CONSENT);
 		return mapping.findForward("list");
 	}
 	public ActionForward edit(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
 		setEditAttributes(form,request);
+		super.setScreenMode(request, KeyConstants.TAB_CONSENT);
 		return mapping.findForward("edit");
 	}
 	 private void setListAttributes(ActionForm form, HttpServletRequest request) {
@@ -94,8 +96,13 @@ public class QuatroConsentAction extends BaseAction {
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consent");
-	       if(rId!=null && rId!="0") consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
-	       else consentObj.setDemographicNo(Integer.valueOf(demographicNo));
+	       
+	       if("0".equals(rId))
+	       {
+	    	   consentObj = new ConsentDetail();
+	    	   consentObj.setDemographicNo(Integer.valueOf(demographicNo));	       
+	       }
+	       else if(rId!=null && rId!="0") consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
 	       dForm.set("consent", consentObj);
 	      // request.setAttribute("consent", consentObj);
 	   }
@@ -105,7 +112,7 @@ public class QuatroConsentAction extends BaseAction {
 		String id = request.getParameter("id");
 		String formName = request.getParameter("formName");
 		String formMapping = getRandomForm();
-		
+		super.setScreenMode(request, KeyConstants.TAB_CONSENT);
 		String gotoStr = request.getParameter("goto");
 		
 		if(id == null) {
@@ -149,7 +156,7 @@ public class QuatroConsentAction extends BaseAction {
 		 boolean isError = false;
 	     boolean isWarning = false;
 		DynaActionForm consentForm = (DynaActionForm)form;
-		
+		super.setScreenMode(request, KeyConstants.TAB_CONSENT);
 		ConsentDetail consent= (ConsentDetail)consentForm.get("consent");
 		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -179,7 +186,7 @@ public class QuatroConsentAction extends BaseAction {
 
 	}
 	public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		
+		super.setScreenMode(request, KeyConstants.TAB_CONSENT);
 		log.debug("Saving Consent");
 		ActionMessages messages = new ActionMessages();
 		 boolean isError = false;
@@ -207,7 +214,6 @@ public class QuatroConsentAction extends BaseAction {
         saveMessages(request,messages);
 		return mapping.findForward("edit");	
 	}
-
 	
 	private String getRandomForm() {
 		int d = (int)(Math.random()*2);

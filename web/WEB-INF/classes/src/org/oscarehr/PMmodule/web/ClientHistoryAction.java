@@ -28,7 +28,7 @@ import com.quatro.model.IncidentValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.common.KeyConstants;
-public class ClientHistoryAction extends DispatchAction {
+public class ClientHistoryAction extends BaseAction {
 
 	private ClientHistoryManager historyManager;
 	private ClientManager clientManager;
@@ -60,7 +60,7 @@ public class ClientHistoryAction extends DispatchAction {
 			actionParam.put("clientId", request.getParameter("clientId"));
 		}
 		request.setAttribute("actionParam", actionParam);
-
+		super.setScreenMode(request, KeyConstants.TAB_HISTORY);
 		String tmp = (String) actionParam.get("clientId");
 		request.setAttribute("clientId", tmp);
 

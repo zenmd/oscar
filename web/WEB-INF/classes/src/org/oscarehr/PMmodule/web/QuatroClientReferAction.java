@@ -23,6 +23,7 @@ import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
+import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Consent;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
@@ -53,7 +54,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 
-public class QuatroClientReferAction  extends DispatchAction {
+public class QuatroClientReferAction  extends BaseAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -71,18 +72,20 @@ public class QuatroClientReferAction  extends DispatchAction {
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   setListAttributes(form, request);
+	   super.setScreenMode(request, KeyConstants.TAB_REFER);
 	   return mapping.findForward("list");
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
+       super.setScreenMode(request, KeyConstants.TAB_REFER);
        return mapping.findForward("edit");
    }
    
    public ActionForward refer_select_program(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        DynaActionForm clientForm = (DynaActionForm) form;
        Program p = (Program) clientForm.get("program");
-       
+       super.setScreenMode(request, KeyConstants.TAB_REFER);
        setEditAttributes(form, request);
 
        Integer programId = p.getId();
@@ -133,7 +136,7 @@ public class QuatroClientReferAction  extends DispatchAction {
 
    public ActionForward search_programs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        DynaActionForm clientForm = (DynaActionForm) form;
-
+       super.setScreenMode(request, KeyConstants.TAB_REFER);
        Program criteria = (Program) clientForm.get("program");
 
        request.setAttribute("programs", programManager.search(criteria));
@@ -161,15 +164,25 @@ public class QuatroClientReferAction  extends DispatchAction {
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
+       String rId=request.getParameter("rId");
+       Map map=request.getParameterMap();
+       String obj= (String)map.get("formElementId");
+       String obj2= map.get("selectedProgramId").toString();
+       String programId = request.getParameter("formElementId");
        
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       //Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        clientForm.set("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-
-       request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       ClientReferral crObj = (ClientReferral)clientForm.get("referral");
+       if("0".equals(rId)){
+    	   crObj = new ClientReferral();
+    	   crObj.setClientId(Integer.valueOf(demographicNo));
+       }else if(!Utility.IsEmpty(rId)){
+    	   crObj = clientManager.getClientReferral(rId);
+       }
+       clientForm.set("referral", crObj);
    }
 
    public void setAdmissionManager(AdmissionManager admissionManager) {

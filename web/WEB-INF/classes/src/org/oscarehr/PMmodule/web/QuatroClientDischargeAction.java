@@ -59,7 +59,7 @@ import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 
-public class QuatroClientDischargeAction  extends DispatchAction {
+public class QuatroClientDischargeAction  extends BaseAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -83,10 +83,20 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
        
+       super.setScreenMode(request, KeyConstants.TAB_DISCHARGE);
        return mapping.findForward("edit");
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
+	   super.setScreenMode(request, KeyConstants.TAB_DISCHARGE);
+	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+       
 	   Admission admObj =(Admission)clientForm.get("admission");	  
 	   Admission admOld= (Admission) request.getAttribute("admission");
 	   String comProgram=admObj.getCommunityProgramCode();
@@ -137,6 +147,7 @@ public class QuatroClientDischargeAction  extends DispatchAction {
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);
+       super.setScreenMode(request, KeyConstants.TAB_DISCHARGE);
        return mapping.findForward("list");
    }
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
@@ -184,8 +195,6 @@ public class QuatroClientDischargeAction  extends DispatchAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
        
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
        request.setAttribute("clientId", demographicNo);

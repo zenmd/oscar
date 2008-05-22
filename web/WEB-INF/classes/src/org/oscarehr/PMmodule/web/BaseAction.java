@@ -1,24 +1,24 @@
 /*
-* 
-* Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
-* This software is published under the GPL GNU General Public License. 
-* This program is free software; you can redistribute it and/or 
-* modify it under the terms of the GNU General Public License 
-* as published by the Free Software Foundation; either version 2 
-* of the License, or (at your option) any later version. * 
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
-* along with this program; if not, write to the Free Software 
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
-* 
-* <OSCAR TEAM>
-* 
-* This software was written for 
-* Centre for Research on Inner City Health, St. Michael's Hospital, 
-* Toronto, Ontario, Canada 
-*/
+ * 
+ * Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
+ * This software is published under the GPL GNU General Public License. 
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 
+ * of the License, or (at your option) any later version. * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
+ * along with this program; if not, write to the Free Software 
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
+ * 
+ * <OSCAR TEAM>
+ * 
+ * This software was written for 
+ * Centre for Research on Inner City Health, St. Michael's Hospital, 
+ * Toronto, Ontario, Canada 
+ */
 
 package org.oscarehr.PMmodule.web;
 
@@ -46,23 +46,30 @@ import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.service.security.*;
+import com.quatro.service.security.SecurityManager;
 
 public abstract class BaseAction extends DispatchAction {
-	
+
 	protected static final String PARAM_START = "?";
+
 	protected static final String PARAM_EQUALS = "=";
+
 	protected static final String PARAM_AND = "&";
-	
+
 	public void addError(HttpServletRequest req, String message) {
 		ActionMessages msgs = getErrors(req);
-		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail", message));
+		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+				"errors.detail", message));
 		addErrors(req, msgs);
 	}
 
 	public void addMessage(HttpServletRequest req, String message) {
 		ActionMessages msgs = getMessages(req);
-		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail", message));
+		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+				"errors.detail", message));
 		addMessages(req, msgs);
 	}
 
@@ -73,11 +80,13 @@ public abstract class BaseAction extends DispatchAction {
 	}
 
 	public ApplicationContext getAppContext() {
-		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
+		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
+				.getServletContext());
 	}
 
 	public CaseManagementManager getCaseManagementManager() {
-		return (CaseManagementManager)getAppContext().getBean("caseManagementManager");
+		return (CaseManagementManager) getAppContext().getBean(
+				"caseManagementManager");
 	}
 
 	public AdmissionManager getAdmissionManager() {
@@ -95,7 +104,6 @@ public abstract class BaseAction extends DispatchAction {
 	public IntakeAManager getIntakeAManager() {
 		return (IntakeAManager) getAppContext().getBean("intakeAManager");
 	}
-	
 
 	public IntakeCManager getIntakeCManager() {
 		return (IntakeCManager) getAppContext().getBean("intakeCManager");
@@ -104,24 +112,28 @@ public abstract class BaseAction extends DispatchAction {
 	public ProgramManager getProgramManager() {
 		return (ProgramManager) getAppContext().getBean("programManager");
 	}
+
 	public UserAccessManager getUserAccessManager() {
 		return (UserAccessManager) getAppContext().getBean("userAccessManager");
 	}
 
 	public ProgramQueueManager getProgramQueueManager() {
-		return (ProgramQueueManager) getAppContext().getBean("programQueueManager");
+		return (ProgramQueueManager) getAppContext().getBean(
+				"programQueueManager");
 	}
 
 	public RoomManager getRoomManager() {
 		return (RoomManager) getAppContext().getBean("roomManager");
 	}
-	
+
 	public RoomDemographicManager getRoomDemographicManager() {
-		return (RoomDemographicManager) getAppContext().getBean("roomDemographicManager");
+		return (RoomDemographicManager) getAppContext().getBean(
+				"roomDemographicManager");
 	}
-	
+
 	public BedDemographicManager getBedDemographicManager() {
-		return (BedDemographicManager) getAppContext().getBean("bedDemographicManager");
+		return (BedDemographicManager) getAppContext().getBean(
+				"bedDemographicManager");
 	}
 
 	public ProviderManager getProviderManager() {
@@ -133,32 +145,106 @@ public abstract class BaseAction extends DispatchAction {
 	}
 
 	protected String getProviderNo(HttpServletRequest request) {
-		return ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
+		return ((Provider) request.getSession().getAttribute("provider"))
+				.getProviderNo();
 	}
 
-    protected Provider getProvider(HttpServletRequest request) {
-        return ((Provider) request.getSession().getAttribute("provider"));
-    }
+	protected Provider getProvider(HttpServletRequest request) {
+		return ((Provider) request.getSession().getAttribute("provider"));
+	}
 
-	protected String getParameter(HttpServletRequest request, String parameterName) {
+	protected String getParameter(HttpServletRequest request,
+			String parameterName) {
 		return request.getParameter(parameterName);
 	}
-	
-	protected Object getSessionAttribute(HttpServletRequest request, String attributeName) {
+
+	protected Object getSessionAttribute(HttpServletRequest request,
+			String attributeName) {
 		Object attribute = request.getSession().getAttribute(attributeName);
-		
+
 		if (attribute != null) {
 			request.getSession().removeAttribute(attributeName);
 		}
-		
+
 		return attribute;
 	}
-	
-	protected ActionForward createRedirectForward(ActionMapping mapping, String forwardName, StringBuilder parameters) {
+
+	protected void setScreenMode(HttpServletRequest request, String currentTab) {
+		SecurityManager sec = (SecurityManager) request.getSession()
+				.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+		//summary
+		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_SUMMARY, KeyConstants.ACCESS_VIEW);
+			if (currentTab.equals(KeyConstants.TAB_SUMMARY))request.setAttribute(KeyConstants.TAB_SUMMARY, KeyConstants.ACCESS_CURRENT);
+		} else
+			request.setAttribute(KeyConstants.TAB_SUMMARY, KeyConstants.ACCESS_NULL);
+		//discharge
+		if (sec.GetAccess("_pmm_clientDischarge", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_DISCHARGE, KeyConstants.ACCESS_VIEW);
+			if (currentTab.equals(KeyConstants.TAB_DISCHARGE))	request.setAttribute(KeyConstants.TAB_DISCHARGE, KeyConstants.ACCESS_CURRENT);
+		}else request.setAttribute(KeyConstants.TAB_DISCHARGE, KeyConstants.ACCESS_NULL);
+		//admission
+		if (sec.GetAccess("_pmm_clientAdmission", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_ADMISSION, KeyConstants.ACCESS_VIEW);
+			if(currentTab.equals(KeyConstants.TAB_ADMISSION))request.setAttribute(KeyConstants.TAB_ADMISSION, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_ADMISSION, KeyConstants.ACCESS_NULL);
+		//consent
+		if (sec.GetAccess("_pmm_clientConsent", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_CONSENT, KeyConstants.ACCESS_VIEW);
+			if(currentTab.equals(KeyConstants.TAB_CONSENT))request.setAttribute(KeyConstants.TAB_CONSENT, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_CONSENT, KeyConstants.ACCESS_NULL);
+		//history
+		if (sec.GetAccess("_pmm_clientHistory", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_HISTORY, KeyConstants.ACCESS_VIEW);
+			if (currentTab.equals(KeyConstants.TAB_HISTORY))request.setAttribute(KeyConstants.TAB_HISTORY, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_HISTORY, KeyConstants.ACCESS_NULL);
+		//intake
+		if (sec.GetAccess("_pmm_clientIntake", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_INTAKE, KeyConstants.ACCESS_VIEW);
+			if(currentTab.equals(KeyConstants.TAB_INTAKE))request.setAttribute(KeyConstants.TAB_INTAKE, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_INTAKE, KeyConstants.ACCESS_NULL);
+		//refer
+		if (sec.GetAccess("_pmm_clientRefer", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_REFER, KeyConstants.ACCESS_VIEW);
+			if(currentTab.equals(KeyConstants.TAB_REFER))request.setAttribute(KeyConstants.TAB_REFER, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_REFER, KeyConstants.ACCESS_NULL);
+		//restriction
+		if (sec.GetAccess("_pmm_clientRestriction", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_RESTRICTION, KeyConstants.ACCESS_VIEW);
+			if(currentTab.equals(KeyConstants.TAB_RESTRICTION))request.setAttribute(KeyConstants.TAB_RESTRICTION, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_RESTRICTION, KeyConstants.ACCESS_NULL);
+		//complaint
+		if (sec.GetAccess("_pmm_clientComplaint", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_COMPLAINT, KeyConstants.ACCESS_VIEW);
+			if(currentTab.equals(KeyConstants.TAB_COMPLAINT))request.setAttribute(KeyConstants.TAB_COMPLAINT, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_COMPLAINT, KeyConstants.ACCESS_NULL);
+		//case
+		if (sec.GetAccess("_pmm_clientCase", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_CASE, KeyConstants.ACCESS_VIEW);
+			if (currentTab.equals(KeyConstants.TAB_CASE))request.setAttribute(KeyConstants.TAB_CASE, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_CASE, KeyConstants.ACCESS_NULL);
+		//attachment
+		if (sec.GetAccess("_pmm.document", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_ATTCHMENT, KeyConstants.ACCESS_VIEW);
+			if (currentTab.equals(KeyConstants.TAB_ATTCHMENT))request.setAttribute(KeyConstants.TAB_ATTCHMENT, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_ATTCHMENT, KeyConstants.ACCESS_NULL);
+	}
+
+	protected ActionForward createRedirectForward(ActionMapping mapping,
+			String forwardName, StringBuilder parameters) {
 		ActionForward forward = mapping.findForward(forwardName);
 		StringBuilder path = new StringBuilder(forward.getPath());
 		path.append(parameters);
-		
+
 		return new RedirectingActionForward(path.toString());
 	}
 
