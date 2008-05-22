@@ -166,9 +166,7 @@ public class QuatroClientReferAction  extends BaseAction {
        String demographicNo= (String)actionParam.get("clientId");
        String rId=request.getParameter("rId");
        Map map=request.getParameterMap();
-       String obj= (String)map.get("formElementId");
-       String obj2= map.get("selectedProgramId").toString();
-       String programId = request.getParameter("formElementId");
+       String obj= (String)map.get("formElementId");       
        
        //Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        clientForm.set("clientId", demographicNo);

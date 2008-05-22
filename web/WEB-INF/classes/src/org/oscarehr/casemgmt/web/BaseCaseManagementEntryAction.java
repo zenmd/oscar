@@ -38,6 +38,7 @@ import org.apache.struts.actions.DispatchAction;
 import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
@@ -52,8 +53,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.service.LookupManager;
 import com.quatro.util.*;
+import org.oscarehr.PMmodule.web.BaseAction;
 
-public class BaseCaseManagementEntryAction extends DispatchAction {
+public class BaseCaseManagementEntryAction extends BaseAction {
 
 	protected String relateIssueString = "Issues related to this note:";
 
@@ -61,7 +63,12 @@ public class BaseCaseManagementEntryAction extends DispatchAction {
 	protected CaseManagementManager caseManagementMgr;
 	protected AdmissionManager admissionMgr;	
 	protected LookupManager lookupMgr;
+	protected ClientManager clientManager;
 	
+	public void setClientManager(ClientManager clientManager) {
+		this.clientManager = clientManager;
+	}
+
 	public void setLookupManager(LookupManager lookupMgr) {
 		this.lookupMgr = lookupMgr;
 	}

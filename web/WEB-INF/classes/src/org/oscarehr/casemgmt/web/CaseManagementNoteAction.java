@@ -64,7 +64,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
 
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
-
+        
         request.setAttribute("change_flag", "false");
         request.setAttribute("from", "casemgmt");
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -75,6 +75,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 	       request.setAttribute("actionParam", actionParam);     
  	
         String demono = (String)actionParam.get("clientId");
+        request.setAttribute("client", clientManager.getClientByDemographicNo(demono));
         String providerNo = getProviderNo(request);
         Boolean restore = (Boolean) request.getAttribute("restore");
         String programId = (String) request.getSession().getAttribute("case_program_id");

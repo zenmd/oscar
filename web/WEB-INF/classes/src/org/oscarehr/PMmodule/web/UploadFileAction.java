@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
 import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
@@ -32,8 +33,12 @@ public class UploadFileAction extends BaseAction {
 	 private static Log log = LogFactory.getLog(UploadFileAction.class);
 	 private UploadFileManager uploadFileManager;
 	 private LookupManager lookupManager;
-	 protected AdmissionManager admissionManager;		
+	 protected AdmissionManager admissionManager;	
+	 protected ClientManager clientManager;
 
+		public void setClientManager(ClientManager clientManager) {
+		this.clientManager = clientManager;
+	}
 		public void setAdmissionManager(AdmissionManager admMgr){
 			this.admissionManager = admMgr;
 		}
@@ -57,7 +62,9 @@ public class UploadFileAction extends BaseAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
-		    try {
+	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+		   super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
+	       try {
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			    String refNo = demographicNo;

@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
@@ -47,9 +48,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+import org.oscarehr.PMmodule.web.BaseAction;
 import com.quatro.util.*;
 
-public class BaseCaseManagementViewAction extends DispatchAction {
+public class BaseCaseManagementViewAction extends BaseAction {
 	
 	protected CaseManagementManager caseManagementMgr;
 	protected TicklerManager ticklerManager;
@@ -60,6 +62,7 @@ public class BaseCaseManagementViewAction extends DispatchAction {
 	protected SurveyManager surveyMgr;
 	protected LookupManager lookupMgr;
 	protected IssueAdminManager issAdmManager;
+	protected ClientManager clientManager;
 	
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
@@ -180,11 +183,15 @@ public class BaseCaseManagementViewAction extends DispatchAction {
         return withSpaces.substring(0, spaceIndex)
             + withSpaces.substring(spaceIndex+1, withSpaces.length());
     }
-	
+	/*
 	protected void addMessage(HttpServletRequest request, String key) {
 		ActionMessages messages = new ActionMessages();
 		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(key));
 		saveMessages(request, messages);
+	}
+ */
+	public void setClientManager(ClientManager clientManager) {
+		this.clientManager = clientManager;
 	}
 	
 }
