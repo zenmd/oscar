@@ -149,11 +149,11 @@ public class QuatroIntakeEditAction extends DispatchAction {
         request.setAttribute("actionParam", actionParam);
         Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
         if(intakeHeadId!=null){
-          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
+//          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
         }else{
-          request.setAttribute("intakeHeadId", intakeId.toString()); 
+//          request.setAttribute("intakeHeadId", intakeId.toString()); 
           request.setAttribute("clientId", clientId); 
         }
 
@@ -264,11 +264,11 @@ public class QuatroIntakeEditAction extends DispatchAction {
         actionParam.put("intakeId", obj.getId().toString()); 
         Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(obj.getId().toString());
         if(intakeHeadId!=null){
-          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
+//          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
         }else{
-          request.setAttribute("intakeHeadId", obj.getId().toString()); 
+//          request.setAttribute("intakeHeadId", obj.getId().toString()); 
           request.setAttribute("clientId", client.getDemographicNo()); 
         }
         request.setAttribute("actionParam", actionParam);
@@ -371,6 +371,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
 			obj.setQueueId(queueId);
 	        obj.setCurrentProgramId(obj.getProgramId());
 			qform.setIntake(obj);
+//            request.setAttribute("intakeHeadId", intakeId.toString()); 
 		}
 		
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));

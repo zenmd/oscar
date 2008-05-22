@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.service;
 import java.util.Date;
 import java.util.List;
 
+import com.quatro.dao.IntakeDao;
 import org.oscarehr.PMmodule.dao.QuatroAdmissionDao;
 import org.oscarehr.PMmodule.dao.RoomDemographicDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicDAO;
@@ -18,13 +19,15 @@ import org.oscarehr.PMmodule.model.BedDemographicPK;
 import com.quatro.common.KeyConstants;
 
 public class QuatroAdmissionManager {
+	private IntakeDao intakeDao;
 	private QuatroAdmissionDao quatroAdmissionDao;
 	private RoomDemographicDAO roomDemographicDAO;
 	private BedDemographicDAO bedDemographicDAO;
 
 	public void saveAdmission(QuatroAdmission admission, Integer intakeId, Integer queueId, 
     		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
-    	quatroAdmissionDao.saveAdmission(admission, intakeId, queueId, referralId);
+    	intakeDao.setIntakeStatusAdmitted(intakeId);
+		quatroAdmissionDao.saveAdmission(admission, intakeId, queueId, referralId);
     	
     	//remove old room/bed assignment
     	RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo());
@@ -110,6 +113,10 @@ public class QuatroAdmissionManager {
 
 	public void setRoomDemographicDAO(RoomDemographicDAO roomDemographicDao) {
 		this.roomDemographicDAO = roomDemographicDao;
+	}
+
+	public void setIntakeDao(IntakeDao intakeDao) {
+		this.intakeDao = intakeDao;
 	}
 
 }

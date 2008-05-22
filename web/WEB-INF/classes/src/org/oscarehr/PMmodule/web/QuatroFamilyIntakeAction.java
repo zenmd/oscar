@@ -308,12 +308,16 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	   boolean bDupliDemographicNoApproved=true;
 	   String newClientConfirmed= request.getParameter("newClientConfirmed");
 	   
+       StringBuilder sb = new StringBuilder();
        for(int i=0;i<dependentsSize;i++){
 		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
 		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
 		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("clientId")));
           obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		  obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
+		  if(obj.getIntakeId().intValue()>0){
+			sb.append("," + obj.getIntakeId().toString());
+		  }
+          obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
 		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
 		  obj.setDob(request.getParameter("dependent[" + i +"].dob"));
 		  obj.setSex(request.getParameter("dependent[" + i +"].sex"));
@@ -400,6 +404,11 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        intakeFamilyHead.setRelationship(KeyConstants.FAMILY_HEAD_CODE);
        intakeFamilyHead.setJoinFamilyDate(headIntake.getCreatedOn());
        intakeManager.saveQuatroIntakeFamilyHead(intakeFamilyHead);
+
+       //delete removed family memeber from family intake.
+       if(sb.length()>0){
+         intakeManager.removeInactiveIntakeFamilyMember(sb.substring(1), headIntake.getId());
+       }
 
        for(int i=0;i<dependentsSize;i++){
        	 Demographic client = new Demographic();

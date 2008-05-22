@@ -74,7 +74,7 @@ function checkExistClients(){
             <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
           <c:if test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
             |
-            <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${intakeHeadId}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
+            <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
             <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
           </c:if>    
             </td>

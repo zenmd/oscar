@@ -73,6 +73,23 @@ public class IntakeDao extends HibernateDaoSupport {
 		  return null;
 		
 	}
+    
+    public List getQuatroIntakeDBByIntakeIds(String intakeIds) {
+        String[] split= intakeIds.split(",");
+        StringBuilder sb = new StringBuilder();
+        Object[] obj= new Integer[split.length];
+        for(int i=0;i<split.length;i++){
+           sb.append(",?");
+           obj[i]=Integer.valueOf(split[i]);
+        }
+
+        List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id in (" +
+				      sb.substring(1) + ")", obj);
+
+		return result;
+		
+	}
+
     public QuatroIntakeDB getQuatroIntakeDBByIntakeId(Integer intakeId) {
 		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?" +
 					" and i.intakeStatus='" + 
@@ -395,9 +412,8 @@ public class IntakeDao extends HibernateDaoSupport {
 	
 	public Integer getIntakeFamilyHeadId(String intakeId){
 		String sSQL="select a.intakeHeadId from QuatroIntakeFamily a " +
-		  " WHERE a.intakeId = ? and a.memberStatus='" + 
-		  KeyConstants.INTAKE_STATUS_ACTIVE + "'";
-		
+		  " WHERE a.intakeId = ?";
+
 		List lst = getHibernateTemplate().find(sSQL, new Object[] {Integer.valueOf(intakeId)});
 		if(lst.size()==0) return null;
 		
@@ -406,9 +422,8 @@ public class IntakeDao extends HibernateDaoSupport {
 	
 	public List getClientIntakeFamily(String intakeId){
 		String sSQL="select a.intakeHeadId from QuatroIntakeFamily a " +
-		  " WHERE a.intakeId = ? and a.memberStatus='" + 
-		  KeyConstants.INTAKE_STATUS_ACTIVE + "'";
-		
+		  " WHERE a.intakeId = ?";
+
 		List lst = getHibernateTemplate().find(sSQL, new Object[] {Integer.valueOf(intakeId)});
 		if(lst.size()==0) return null;
 		
@@ -418,47 +433,13 @@ public class IntakeDao extends HibernateDaoSupport {
 		  " b.clientId, a.intakeHeadId, a.intakeId, a.relationship," +
 		  "a.joinFamilyDate) " +
 		  " from QuatroIntakeFamily a, QuatroIntakeHeader b "+
-		  " WHERE a.intakeHeadId = ? and a.intakeId = b.id and a.memberStatus='" + 
-		  KeyConstants.INTAKE_STATUS_ACTIVE + "' order by a.relationship";
-		
+		  " WHERE a.intakeHeadId = ? and a.intakeId = b.id order by a.relationship";
+
 		List result = getHibernateTemplate().find(sSQL2, new Object[] {Integer.valueOf(intakeHeadId)});
 		return result;
 	}
 	
-	public QuatroIntakeDB getQuatroIntakeDB (Integer intakeId){
-		QuatroIntakeDB intakeDb =null;
-		QuatroIntake intake = this.getQuatroIntake(intakeId);
-		 if(intake.getId().intValue()>0){
-			  List result = getHibernateTemplate().find("from QuatroIntakeAnswer i where i.intake2.id = ?",
-					  new Object[] {intake.getId()});
-			  
-			  for(int i=0;i<result.size();i++){
-				  QuatroIntakeAnswer obj2=(QuatroIntakeAnswer)result.get(i);			      
-			      if (i==0){
-			    	intakeDb = obj2.getIntake2();	
-			    	intakeDb.setProgramType(intake.getProgramType());
-			      }	      
-		      }
-		 }else{
-			 	intakeDb = new QuatroIntakeDB();
-			    intakeDb.setId(intake.getId());
-			    
-			    intakeDb.setClientId(intake.getClientId());
-			    intakeDb.setCreatedOn(intake.getCreatedOn());
-			    intakeDb.setProgramId(intake.getProgramId());
-			    intakeDb.setStaffId(intake.getStaffId());
-
-			    intakeDb.setProgramType(intake.getProgramType());
-
-			    //intake for bed program, add/update referral and queue records.
-			    intakeDb.setReferralId(intake.getReferralId());
-			    intakeDb.setQueueId(intake.getQueueId());
-		}
-
-		return intakeDb;
-	}
-	
-		//bFamilyMember=true for family member intake
+	//bFamilyMember=true for family member intake
 	//bFamilyMember=false for individual person or family head intake
 	public ArrayList saveQuatroIntake(QuatroIntake intake, boolean bFamilyMember){
 	    QuatroIntakeDB intakeDb= null;
@@ -600,8 +581,8 @@ public class IntakeDao extends HibernateDaoSupport {
           queue.setReferralDate(referral.getReferralDate());
           queue.setStatus(ProgramQueue.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
-          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
-          queue.setPresentProblems(referral.getPresentProblems());
+//          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
+//          queue.setPresentProblems(referral.getPresentProblems());
         }
 
         if(intakeDb.getId().intValue()>0){
@@ -661,6 +642,30 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	public void saveQuatroIntakeFamilyRelation(QuatroIntakeFamily intakeFamily){
         getHibernateTemplate().saveOrUpdate(intakeFamily);
+	}
+
+	//used for family intake add/remove family member
+	public void updateReferralIdQueueId(QuatroIntakeDB intake, Integer referralId, Integer queueId){
+        String sSQL="update QuatroIntakeDB q set q.referralId=?, q.queueId=? where q.id=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, queueId, intake.getId()});
+	}
+	
+	public void removeInactiveIntakeFamilyMember(String sInactiveDependents){
+        String[] split= sInactiveDependents.split(",");
+        StringBuilder sb = new StringBuilder();
+        Object[] obj= new Integer[split.length];
+        for(int i=0;i<split.length;i++){
+           sb.append(",?");
+           obj[i]=Integer.valueOf(split[i]);
+        }
+        String sSQL="delete QuatroIntakeFamily p where p.intakeId in (" + sb.substring(1) + ")";
+		getHibernateTemplate().bulkUpdate(sSQL, obj);
+	}
+
+	public void setIntakeStatusAdmitted(Integer intakeId){
+        String sSQL="update QuatroIntakeDB q set q.intakeStatus='" + 
+        KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.intakeId=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{intakeId});
 	}
 	
 }

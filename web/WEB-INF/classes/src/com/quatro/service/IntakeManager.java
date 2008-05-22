@@ -1,5 +1,6 @@
 package com.quatro.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import com.quatro.web.intake.OptionList;
 import com.quatro.model.QuatroIntakeOptionValue;
 import com.quatro.web.intake.IntakeConstant;
 import org.apache.struts.util.LabelValueBean;
+import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
@@ -22,10 +25,17 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import org.oscarehr.PMmodule.model.Program;
 
+import org.oscarehr.PMmodule.dao.ClientReferralDAO;
+import org.oscarehr.PMmodule.dao.ProgramQueueDao;
+
+
 import oscar.MyDateFormat;
 
 public class IntakeManager {
     private IntakeDao intakeDao;
+    private ClientReferralDAO clientReferralDAO;
+    private ProgramQueueDao programQueueDao;
+
     private LookupDao lookupDao;
     private ClientDao clientDao;
     private ProgramDao programDao;
@@ -42,7 +52,75 @@ public class IntakeManager {
 		this.historyDao = historyDao;
 	}
 
-    public Demographic getClientByDemographicNo(String demographicNo) {
+    public void removeInactiveIntakeFamilyMember(String sDependentInakeIds, Integer intakeHeadId){
+    	if(sDependentInakeIds==null) return;
+    	
+    	List lst = intakeDao.getClientIntakeFamily(intakeHeadId.toString());
+    	if(lst.size()==0) return;
+    	
+    	StringBuilder sb = new StringBuilder();
+    	if(sDependentInakeIds.equals("")){
+          for(int i=0;i<lst.size();i++){
+        	QuatroIntakeFamily obj= (QuatroIntakeFamily)lst.get(i);
+        	if(obj.getIntakeHeadId().equals(obj.getIntakeId())) continue;  //skip family head
+        	sb.append("," + obj.getIntakeId().toString());
+          }
+    	}else{
+    	  String[] split = sDependentInakeIds.split(","); 
+          for(int i=0;i<lst.size();i++){
+      	    int j=0;
+      	    QuatroIntakeFamily obj= (QuatroIntakeFamily)lst.get(i);
+        	if(obj.getIntakeHeadId().equals(obj.getIntakeId())) continue;  //skip family head
+   	        for(j=0;j<split.length;j++){
+    		  if(obj.getIntakeId().toString().equals(split[j])){
+                break;    			
+    		  }
+    	    }
+      	    if(j==split.length) sb.append("," + obj.getIntakeId().toString());
+          }
+    	}
+
+        if(sb.length()==0) return;
+    	
+  	    //remove inactive family memeber from family intake, 
+    	//and update their referal and queue#
+    	String sRemovedDependentIds=sb.substring(1);
+    	intakeDao.removeInactiveIntakeFamilyMember(sRemovedDependentIds);
+    	
+    	String[] split2 = sRemovedDependentIds.split(",");
+    	
+  	    List lst2 = intakeDao.getQuatroIntakeDBByIntakeIds(sRemovedDependentIds);
+    	for(int i=0;i<split2.length;i++){
+    	  QuatroIntakeDB intake = (QuatroIntakeDB) lst2.get(i);	
+
+    	  //create new referral#
+    	  ClientReferral referral = new ClientReferral();
+          if(intake.getClientId()!=null) referral.setClientId(intake.getClientId());
+          referral.setNotes("Intake Automated referral");
+          if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().intValue());
+          referral.setProviderNo(intake.getStaffId());
+          referral.setReferralDate(new Date());
+          referral.setStatus(ClientReferral.STATUS_ACTIVE);
+          clientReferralDAO.saveClientReferral(referral);
+          
+          //create new queue# 
+          ProgramQueue queue = new ProgramQueue();
+          queue.setClientId(referral.getClientId());
+          queue.setNotes(referral.getNotes());
+          queue.setProgramId(referral.getProgramId());
+          queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+          queue.setReferralDate(referral.getReferralDate());
+          queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+          queue.setReferralId(referral.getId());
+          programQueueDao.saveProgramQueue(queue);
+          
+          //modify referral# and queue# in intake
+          intakeDao.updateReferralIdQueueId(intake, referral.getId(), queue.getId());
+    	}
+  	    
+    }
+    
+	public Demographic getClientByDemographicNo(String demographicNo) {
         if (demographicNo == null || demographicNo.length() == 0) {
             return null;
         }
@@ -232,6 +310,14 @@ public class IntakeManager {
 
 	public void setLookupDao(LookupDao lookupDao) {
 		this.lookupDao = lookupDao;
+	}
+
+	public void setClientReferralDAO(ClientReferralDAO clientReferralDAO) {
+		this.clientReferralDAO = clientReferralDAO;
+	}
+
+	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
+		this.programQueueDao = programQueueDao;
 	}
 
 }

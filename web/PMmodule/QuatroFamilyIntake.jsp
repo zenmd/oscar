@@ -111,7 +111,7 @@ function checkExistClients(i){
 <td><c:out value="${quatroClientFamilyIntakeForm.familyHead.alias}" />
 <html:hidden property="familyHead.alias" /></td>
 <td>
-<a href='javascript:submitForm("view");'style="color:Navy;text-decoration:underline;">View Family Head Intake</a>
+<a href="<c:out value="${ctx}"/>/PMmodule/QuatroIntakeEdit.do?method=update&intakeId=<c:out value="${quatroClientFamilyIntakeForm.intakeId}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:underline;">View Family Head Intake</a>
 </td></tr>
 </table>
 </td></tr>
