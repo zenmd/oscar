@@ -5,9 +5,9 @@
 <hibernate-mapping>
 	<class name="com.quatro.model.TopazValue" table="signature" mutable="true">
 		<id name="recordId" column="record_id">
-		  <generator class="native" />
+		  <generator class="assigned" />
 		</id>
-        <property name="clientNo" column="client_no"/> 
+        <property name="moduleName" column="MODUEL_NAME"/> 
 		<property name="signatureBlob" type="blob" column="signature" />
 	</class>
 </hibernate-mapping>

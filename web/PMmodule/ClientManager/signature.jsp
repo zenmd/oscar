@@ -17,6 +17,8 @@
     <PARAM NAME="code" VALUE="com.quatro.SigPlusAppDemo.class">
     <PARAM NAME="archive" VALUE="topazJava_secured.jar, SigPlus2_51_secured.jar, comm_secured.jar">
     <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.4">
+    <PARAM NAME="rid" VALUE="<%=request.getParameter("rid")%>">
+    <PARAM NAME="moduleName" VALUE="<%=request.getParameter("moduleName")%>">
     <COMMENT>
         <EMBED type="application/x-java-applet;jpi-version=1.4" width="500"
            height="200" align="baseline" code="com.quatro.SigPlusAppDemo.class" 

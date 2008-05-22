@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.Date;
 
+import javax.servlet.ServletOutputStream; 
 import javax.servlet.ServletInputStream;
+
 import org.apache.struts.action.DynaActionForm;
 
 import org.apache.struts.actions.DispatchAction;
@@ -37,12 +39,15 @@ public class TopazGetImageAction extends DispatchAction{
        
 	   Integer recordId = Integer.parseInt((String)request.getParameter("rid"));
 	   TopazValue tv= topazManager.getTopazValue(recordId);
-       
-	    response.setContentType("image/gif");
-	    OutputStream o = response.getOutputStream();
-	    o.write(tv.getSignature());
-	    o.flush(); 
-	    o.close();
-	    return null;
+       if(tv!=null){
+	     response.setContentType("image/gif");
+	     OutputStream o = response.getOutputStream();
+	     o.write(tv.getSignature());
+	     o.flush(); 
+	     o.close();
+       }else{
+         response.getOutputStream().print("<font color='#ff0000'>No signature found.</font>");    	   
+       }
+	   return null;
     }    
 }

@@ -17,10 +17,26 @@
 <html:hidden property="admission.admissionDateTxt"/>
 <html:hidden property="admission.admissionStatus"/>
 <script lang="javascript">
-	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
-	}
+function submitForm(methodVal) {
+	document.forms(0).method.value = methodVal;
+	document.forms(0).submit();
+}
+
+function signSignature(){
+   var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
+     "rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />" + 
+     "&moduleName=admission";
+
+   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
+   win.focus();
+}
+function viewSignature(){
+   var url='<c:out value="${ctx}" />/topazGetImage.do?' +
+     "rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />";
+
+   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
+   win.focus();
+}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
@@ -59,10 +75,10 @@
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
-		  <a href='javascript:submitForm("sign");' style="color:Navy;text-decoration:none;">
+		  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
 		  <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
-		  <a href='javascript:submitForm("preview");'style="color:Navy;text-decoration:none;">
-		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview&nbsp;&nbsp;</a>|
+		  <a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
+		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
         </logic:greaterThan>
 		  
 		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
@@ -179,7 +195,8 @@
 
 <tr><td align="center">Reason for not signing&nbsp;
 <html-el:select property="admission.notSignReason">
-      <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
+  <option value="0"></option>
+  <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
 </td></tr>
 <tr><td><br>

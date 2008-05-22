@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import org.hibernate.Hibernate;
 
 public class TopazValue implements Serializable{
-	  Integer clientNo;
+	  String moduleName;
 	  Integer recordId;
 	  byte[] signature;
 	  
@@ -71,12 +71,12 @@ public class TopazValue implements Serializable{
 	     return baos.toByteArray();
 	  }
 
-	public Integer getClientNo() {
-		return clientNo;
+	public String getModuleName() {
+		return moduleName;
 	}
 
-	public void setClientNo(Integer clientNo) {
-		this.clientNo = clientNo;
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 
 	public Integer getRecordId() {

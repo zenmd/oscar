@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="GENERATOR" content="Rational Application Developer">
 </head>
-<body>
+<body bgcolor="#000000" >
 <table width="100%">
 <tr><td>This is your signature</td></tr>
 <tr><td><img src="<%=request.getContextPath()%>/topazGetImage.do?rid=<%=request.getParameter("rid")%>" width="150px" height="45px"></td></tr>
