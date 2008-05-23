@@ -44,6 +44,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.IssueAdmin;
 import org.oscarehr.PMmodule.model.Admission;
@@ -120,7 +122,11 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         cpp.setUpdate_date(new Date());
         String providerNo = getProviderNo(request);
         caseManagementMgr.saveCPP(cpp, providerNo);
-        addMessage(request, "cpp.saved");
+
+        ActionMessages messages = new ActionMessages();
+	    messages.add(ActionMessages.GLOBAL_MESSAGE,	new ActionMessage("cpp.saved",
+         			request.getContextPath()));
+        saveMessages(request,messages);
 
         return view(mapping, form, request, response);
     }
@@ -426,9 +432,10 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             issueIds[idx] = String.valueOf(issue.getId());
         }                
         
-        //set save Url        
-        String addUrl = request.getContextPath() + "/CaseManagementEntry.do?method=issueNoteSave&providerNo=" + providerNo + "&demographicNo=" + demoNo + checked_issues.toString() + "&noteId=";                
-        request.setAttribute("addUrl", addUrl);
+        //set save Url 
+//commented by dawson on adssion javanbean merge, May 23, 2008         
+//        String addUrl = request.getContextPath() + "/CaseManagementEntry.do?method=issueNoteSave&providerNo=" + providerNo + "&demographicNo=" + demoNo + checked_issues.toString() + "&noteId=";                
+//        request.setAttribute("addUrl", addUrl);
         
         // need to apply issue filter        
         notes = caseManagementMgr.getNotes(demoNo, issueIds, userProp);

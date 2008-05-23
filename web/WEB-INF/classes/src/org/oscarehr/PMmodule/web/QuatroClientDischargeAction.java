@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,6 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Intake;
-//import org.oscarehr.PMmodule.model.JointAdmission;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
@@ -57,14 +57,13 @@ import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
-import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
+import org.oscarehr.PMmodule.service.AdmissionManager;
 
 public class QuatroClientDischargeAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
-   private QuatroAdmissionManager quatroAdmissionManager;
    private CaseManagementManager caseManagementManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
@@ -96,43 +95,42 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        }
        request.setAttribute("actionParam", actionParam);
        
-       log.debug("Saving Discharge");
-		ActionMessages messages = new ActionMessages();
-		 boolean isError = false;
-	     boolean isWarning = false;
-	   Admission admObj =(Admission)clientForm.get("admission");	  
+	   ActionMessages messages = new ActionMessages();
+	   boolean isError = false;
+	   boolean isWarning = false;
+	   Admission admObj =(Admission)clientForm.get("admission");
+	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+	   admObj.setDischargeDate(Calendar.getInstance());
+
+/*	   
 	   Admission admOld= (Admission) request.getAttribute("admission");
 	   String comProgram=admObj.getCommunityProgramCode();
 	   Integer bedProg =admObj.getBedProgramId();
-	   String rReason = admObj.getRadioDischargeReason();
+	   String rReason = admObj.getDischargeReason();
 	   String transType=admObj.getTransportationType();
 	   String disNotes=admObj.getDischargeNotes();
-	   admObj =(Admission)admOld.clone();
+//	   admObj =(Admission)admOld.clone();
 	   admObj.setCommunityProgramCode(comProgram);
-	   admObj.setBedProgramId(bedProg);
-	   admObj.setRadioDischargeReason(rReason);
+	   admObj.setProgramId(bedProg);
+	   admObj.setDischargeReason(rReason);
 	   admObj.setTransportationType(transType);
 	   admObj.setDischargeNotes(disNotes);
-	   List<Admission> admLst = new ArrayList<Admission>();
-	   admLst.add(admObj);
+*/	   
+//	   List<Admission> admLst = new ArrayList<Admission>();
+//	   admLst.add(admObj);
 	   // 
 	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
 	   if(!lstFamily.isEmpty()){
-		   admissionManager.saveAdmission(admObj);
+		   admissionManager.updateDischargeInfo(admObj);
 		   Iterator item = lstFamily.iterator();
 			while(item.hasNext()){
 				QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
-				List<Admission> lst =admissionManager.getAdmissionList(qifTmp.getIntakeId(),KeyConstants.INTAKE_STATUS_ADMITTED);
-				Iterator admItem =lst.iterator();
-				while (admItem.hasNext()){
-					Admission admLoc=(Admission)admItem.next();
-					if(admLoc.getId().intValue()!=admObj.getId().intValue()){ 
-						admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
-						admLoc.setDischargeDate(new Date());
-					  	admLoc.setDischargeNotes(admObj.getDischargeNotes());	
-					  	admissionManager.saveAdmission(admLoc);
-					  	// admLst.add(admLoc);
-					}
+				Admission admLoc =admissionManager.getAdmissionByIntakeId(qifTmp.getIntakeId());
+				if(admLoc.getId().intValue()!=admObj.getId().intValue()){ 
+					admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+					admLoc.setDischargeDate(Calendar.getInstance());
+				  	admLoc.setDischargeNotes(admObj.getDischargeNotes());	
+				  	admissionManager.updateDischargeInfo(admLoc);
 				}
 			}
 			
@@ -143,8 +141,9 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 			   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
 		   
 		   }
-		   admissionManager.saveAdmission(admObj,isReferal);		  
+		   admissionManager.updateDischargeInfo(admObj);		  
 	   }
+	   
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);	
        return mapping.findForward("edit");
@@ -207,7 +206,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
-       List lstDischarge = quatroAdmissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
+       List lstDischarge = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
        //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
        request.setAttribute("quatroDischarge", lstDischarge);
    }
@@ -251,13 +250,9 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	 this.bedManager = bedManager;
    }
 
-public void setLookupManager(LookupManager lookupManager) {
-	this.lookupManager = lookupManager;
-}
+   public void setLookupManager(LookupManager lookupManager) {
+	 this.lookupManager = lookupManager;
+   }
 
-public void setQuatroAdmissionManager(
-		QuatroAdmissionManager quatroAdmissionManager) {
-	this.quatroAdmissionManager = quatroAdmissionManager;
-}
    
 }

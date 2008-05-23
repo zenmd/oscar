@@ -51,20 +51,8 @@ import com.quatro.common.KeyConstants;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 
-public abstract class BaseClientAction extends BaseAction {
+public abstract class BaseClientAction extends DispatchAction {
 
-	public CaseManagementManager getCaseManagementManager() {
-		return (CaseManagementManager) getAppContext().getBean(
-				"caseManagementManager");
-	}
-
-	public AdmissionManager getAdmissionManager() {
-		return (AdmissionManager) getAppContext().getBean("admissionManager");
-	}
-
-	public IntakeCManager getIntakeCManager() {
-		return (IntakeCManager) getAppContext().getBean("intakeCManager");
-	}
 	protected void setScreenMode(HttpServletRequest request, String currentTab) {
 		SecurityManager sec = (SecurityManager) request.getSession()
 				.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);

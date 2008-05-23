@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Security;
@@ -31,7 +31,7 @@ import com.quatro.service.security.UsersManager;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 
-public class UserManagerAction extends BaseAction {
+public class UserManagerAction extends DispatchAction {
 
 	private LogManager logManager;
 

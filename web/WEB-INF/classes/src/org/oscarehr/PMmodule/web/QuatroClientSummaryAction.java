@@ -24,16 +24,13 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-//import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 
 
-//import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.QuatroAdmission;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Consent;
@@ -62,12 +59,8 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 
    private HealthSafetyManager healthSafetyManager;
    private ClientManager clientManager;
-   private ProviderManager providerManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
-   private QuatroAdmissionManager quatroAdmissionManager;
-   private CaseManagementManager caseManagementManager;
-//   private ConsentManager consentManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
@@ -78,7 +71,6 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    }
 
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//       DynaActionForm clientForm = (DynaActionForm) form;
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_SUMMARY);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
@@ -148,10 +140,10 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 */
 
            // only allow bed/service programs show up.(not external program)
-           List currentAdmissionList = quatroAdmissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
+           List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
            List bedServiceList = new ArrayList();
            for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-               QuatroAdmission admission1 = (QuatroAdmission) ad.next();
+               Admission admission1 = (Admission) ad.next();
                if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
                    continue;
                }
@@ -201,20 +193,12 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	 this.bedDemographicManager = bedDemographicManager;
    }
 
-   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-	 this.caseManagementManager = caseManagementManager;
-   }
-
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
    }
 
    public void setProgramManager(ProgramManager programManager) {
 	 this.programManager = programManager;
-   }
-
-   public void setProviderManager(ProviderManager providerManager) {
-	 this.providerManager = providerManager;
    }
 
    public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
@@ -229,9 +213,5 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	 this.intakeManager = intakeManager;
    }
 
-public void setQuatroAdmissionManager(
-		QuatroAdmissionManager quatroAdmissionManager) {
-	this.quatroAdmissionManager = quatroAdmissionManager;
-}
    
 }

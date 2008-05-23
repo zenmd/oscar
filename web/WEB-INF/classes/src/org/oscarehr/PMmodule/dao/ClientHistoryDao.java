@@ -118,7 +118,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setClientId(Integer.valueOf(admission.getClientId().toString()));
         if ("admitted".equals(admission.getAdmissionStatus())) {
         	history.setAction("Admission");
-        	history.setActionDate(admission.getAdmissionDate());
+        	history.setActionDate(admission.getAdmissionDate().getTime());
         	history.setHistoryDate(Calendar.getInstance().getTime());
         	history.setNotes(admission.getProviderNo());
         	history.setProgramId(admission.getProgramId());
@@ -127,7 +127,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         else if("discharged".equals(admission.getAdmissionStatus()))
         {
             history.setAction("Discharge");
-            history.setActionDate(admission.getDischargeDate());
+            history.setActionDate(admission.getDischargeDate().getTime());
             history.setHistoryDate(Calendar.getInstance().getTime());
             history.setNotes(admission.getProviderNo());
             history.setProgramId(admission.getProgramId());

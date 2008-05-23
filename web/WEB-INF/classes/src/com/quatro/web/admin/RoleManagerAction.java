@@ -14,7 +14,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 
 import com.quatro.model.DataViews;
 import com.quatro.model.LookupCodeValue;
@@ -27,7 +27,7 @@ import com.quatro.model.security.Secrole;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.RolesManager;
 
-public class RoleManagerAction extends BaseAction {
+public class RoleManagerAction extends DispatchAction {
 
 	private LogManager logManager;
 

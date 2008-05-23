@@ -52,105 +52,10 @@ import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 
 public abstract class BaseAction extends DispatchAction {
-
-	protected static final String PARAM_START = "?";
-
-	protected static final String PARAM_EQUALS = "=";
-
-	protected static final String PARAM_AND = "&";
-
-	public void addError(HttpServletRequest req, String message) {
-		ActionMessages msgs = getErrors(req);
-		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-				"errors.detail", message));
-		addErrors(req, msgs);
-	}
-
-	public void addMessage(HttpServletRequest req, String message) {
-		ActionMessages msgs = getMessages(req);
-		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-				"errors.detail", message));
-		addMessages(req, msgs);
-	}
-
-	public void addMessage(HttpServletRequest req, String key, String val) {
-		ActionMessages msgs = getMessages(req);
-		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(key, val));
-		addMessages(req, msgs);
-	}
-
+/*
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
 				.getServletContext());
-	}
-
-	public CaseManagementManager getCaseManagementManager() {
-		return (CaseManagementManager) getAppContext().getBean(
-				"caseManagementManager");
-	}
-
-	public AdmissionManager getAdmissionManager() {
-		return (AdmissionManager) getAppContext().getBean("admissionManager");
-	}
-
-	public AgencyManager getAgencyManager() {
-		return (AgencyManager) getAppContext().getBean("agencyManager");
-	}
-
-	public ClientManager getClientManager() {
-		return (ClientManager) getAppContext().getBean("clientManager");
-	}
-
-	public IntakeAManager getIntakeAManager() {
-		return (IntakeAManager) getAppContext().getBean("intakeAManager");
-	}
-
-	public IntakeCManager getIntakeCManager() {
-		return (IntakeCManager) getAppContext().getBean("intakeCManager");
-	}
-
-	public ProgramManager getProgramManager() {
-		return (ProgramManager) getAppContext().getBean("programManager");
-	}
-
-	public UserAccessManager getUserAccessManager() {
-		return (UserAccessManager) getAppContext().getBean("userAccessManager");
-	}
-
-	public ProgramQueueManager getProgramQueueManager() {
-		return (ProgramQueueManager) getAppContext().getBean(
-				"programQueueManager");
-	}
-
-	public RoomManager getRoomManager() {
-		return (RoomManager) getAppContext().getBean("roomManager");
-	}
-
-	public RoomDemographicManager getRoomDemographicManager() {
-		return (RoomDemographicManager) getAppContext().getBean(
-				"roomDemographicManager");
-	}
-
-	public BedDemographicManager getBedDemographicManager() {
-		return (BedDemographicManager) getAppContext().getBean(
-				"bedDemographicManager");
-	}
-
-	public ProviderManager getProviderManager() {
-		return (ProviderManager) getAppContext().getBean("providerManager");
-	}
-
-	public RatePageManager getRateManager() {
-		return (RatePageManager) getAppContext().getBean("ratePageManager");
-	}
-
-	protected String getProviderNo(HttpServletRequest request) {
-		return ((Provider) request.getSession().getAttribute("provider"))
-				.getProviderNo();
-	}
-
-	protected Provider getProvider(HttpServletRequest request) {
-		return ((Provider) request.getSession().getAttribute("provider"));
 	}
 
 	protected SecurityManager getSecurityManager(HttpServletRequest request)
@@ -158,24 +63,11 @@ public abstract class BaseAction extends DispatchAction {
 		return (SecurityManager) request.getSession()
 		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 	}
-	protected String getParameter(HttpServletRequest request,
-			String parameterName) {
-		return request.getParameter(parameterName);
-	}
+*/
 
-	protected Object getSessionAttribute(HttpServletRequest request,
-			String attributeName) {
-		Object attribute = request.getSession().getAttribute(attributeName);
-
-		if (attribute != null) {
-			request.getSession().removeAttribute(attributeName);
-		}
-
-		return attribute;
-	}
-
-	protected void setMenu(HttpServletRequest request, String currentMenu) {
-		SecurityManager sec = getSecurityManager(request);
+/*	
+	protected void setMenu(HttpServletRequest request, String currentMenu, SecurityManager sec) {
+//		SecurityManager sec = getSecurityManager(request);
 		
 		//Client Management
 		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
@@ -213,15 +105,5 @@ public abstract class BaseAction extends DispatchAction {
 			request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
 	
 	}
-
-	
-	protected ActionForward createRedirectForward(ActionMapping mapping,
-			String forwardName, StringBuilder parameters) {
-		ActionForward forward = mapping.findForward(forwardName);
-		StringBuilder path = new StringBuilder(forward.getPath());
-		path.append(parameters);
-
-		return new RedirectingActionForward(path.toString());
-	}
-
+*/
 }

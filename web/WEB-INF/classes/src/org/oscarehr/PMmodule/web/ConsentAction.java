@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.actions.DispatchAction;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
@@ -41,7 +42,7 @@ import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 
-public class ConsentAction extends BaseAction {
+public class ConsentAction extends DispatchAction {
 	private static Log log = LogFactory.getLog(ConsentAction.class);
     private ClientManager clientManager;
     private ConsentManager consentManager;

@@ -21,14 +21,12 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
-//import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
-import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
@@ -45,7 +43,7 @@ import com.quatro.service.IntakeManager;
 import com.quatro.common.KeyConstants;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
-import org.oscarehr.PMmodule.model.QuatroAdmission;
+import org.oscarehr.PMmodule.model.Admission;
 import oscar.MyDateFormat;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm;
 import org.oscarehr.PMmodule.model.QuatroIntake;
@@ -59,7 +57,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    private ClientManager clientManager;
    private LookupManager lookupManager;
    private ProgramManager programManager;
-   private QuatroAdmissionManager quatroAdmissionManager;
+   private AdmissionManager admissionManager;
    private CaseManagementManager caseManagementManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
@@ -88,8 +86,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       List lstAdmission = quatroAdmissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
-       request.setAttribute("quatroAdmission", lstAdmission);
+       List lstAdmission = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
+       request.setAttribute("admission", lstAdmission);
 
        return mapping.findForward("list");
    }
@@ -111,7 +109,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        boolean isWarning = false;
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
-       QuatroAdmission admission = clientForm.getAdmission();
+       Admission admission = clientForm.getAdmission();
        Integer clientId = admission.getClientId();
        Integer intakeId = admission.getIntakeId();
        Integer programId = admission.getProgramId();
@@ -134,14 +132,14 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	     }
 
          //check client active in other program
-         List lst=quatroAdmissionManager.getIntakeAdmissionList(clientId);
+         List lst=admissionManager.getIntakeAdmissionList(clientId);
          for(int i=0;i<lst.size();i++){
-        	QuatroAdmission admission_exist = (QuatroAdmission)lst.get(0);
+        	Admission admission_exist = (Admission)lst.get(0);
         	StringBuilder sb = new StringBuilder();
         	sb.append("," + admission_exist.getId());
             if(sb.length()>0){
               //auto-discharge from other program   
-              quatroAdmissionManager.dischargeAdmission(sb.substring(1));
+              admissionManager.dischargeAdmission(sb.substring(1));
             }
          }
        }
@@ -169,10 +167,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        if(admission.getId().intValue()==0){
     	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId); 
-    	  quatroAdmissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
+    	  admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
    			  intake.getReferralId(),roomDemographic,bedDemographic, false);
        }else{
-    	  quatroAdmissionManager.updateAdmission(admission, roomDemographic,bedDemographic, false);
+    	  admissionManager.updateAdmission(admission, roomDemographic,bedDemographic, false);
        }
        
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
@@ -220,7 +218,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
                 actionParam.put("intakeId", 0);
                 programId = 0;
               }
-              QuatroAdmission admission = new QuatroAdmission(); 
+              Admission admission = new Admission(); 
               admission.setProgramId(programId);
               admission.setIntakeId(intakeId);
               admission.setClientId(Integer.valueOf(clientId));
@@ -236,7 +234,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
         	 }else{
         		 admissionId = clientForm.getAdmission().getId();
         	 }
-        	 QuatroAdmission admission = quatroAdmissionManager.getAdmissionByAdmissionId(admissionId);
+        	 Admission admission = admissionManager.getAdmissionByAdmissionId(admissionId);
        	     clientId=admission.getClientId().toString();
              programId = admission.getProgramId();
        	     admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
@@ -379,8 +377,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	 this.providerManager = providerManager;
   }
 
-   public void setQuatroAdmissionManager(QuatroAdmissionManager quatroAdmissionManager) {
-	 this.quatroAdmissionManager = quatroAdmissionManager;
+   public void setAdmissionManager(AdmissionManager admissionManager) {
+	 this.admissionManager = admissionManager;
   }
    
 }

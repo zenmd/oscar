@@ -343,15 +343,17 @@ public class ProgramManager {
     public AccessType getAccessType(Integer id) {
         return programAccessDAO.getAccessType(id);
     }
-
+    
+/*
     public List getAllProvidersInTeam(Integer programId, Integer teamId) {
         return this.programProviderDAO.getProgramProvidersInTeam(programId, teamId);
     }
-
+*/    
+/*
     public List getAllClientsInTeam(Integer programId, Integer teamId) {
         return admissionDao.getAdmissionsInTeam(programId, teamId);
     }
-
+*/
     public List search(Program criteria) {
         return this.programDao.search(criteria);
     }

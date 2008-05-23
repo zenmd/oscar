@@ -45,9 +45,10 @@ import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
+import org.apache.struts.actions.DispatchAction;
 
 
-public class ClientSearchAction2 extends BaseAction {
+public class ClientSearchAction2 extends DispatchAction {
 	
 	private LookupManager lookupManager;
     private ClientManager clientManager;

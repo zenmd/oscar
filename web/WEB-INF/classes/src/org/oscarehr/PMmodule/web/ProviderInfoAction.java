@@ -37,8 +37,11 @@ import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
+import org.apache.struts.actions.DispatchAction;
 
-public class ProviderInfoAction extends BaseAction {
+import com.quatro.common.KeyConstants;
+
+public class ProviderInfoAction extends DispatchAction {
 
     private FacilityDAO facilityDAO=null;
     private ProgramManager programManager;
@@ -60,7 +63,7 @@ public class ProviderInfoAction extends BaseAction {
         String providerNo = null;
         providerNo = (String)request.getSession().getAttribute("user");
         if(providerNo == null || "".equals(providerNo) ) {
-            providerNo = getProviderNo(request);
+            providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         }
 
         request.setAttribute("provider", providerManager.getProvider(providerNo));

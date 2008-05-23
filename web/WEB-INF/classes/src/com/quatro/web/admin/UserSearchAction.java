@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 
 import com.quatro.model.security.SecProvider;
@@ -28,7 +28,7 @@ import com.quatro.model.security.Secuserrole;
 import com.quatro.service.security.RolesManager;
 import com.quatro.service.security.UsersManager;
 
-public class UserSearchAction extends BaseAction {
+public class UserSearchAction extends DispatchAction {
 
 	private LogManager logManager;
 
