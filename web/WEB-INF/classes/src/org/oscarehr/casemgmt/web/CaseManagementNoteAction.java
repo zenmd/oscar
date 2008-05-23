@@ -333,7 +333,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.warn(e);
         }
     }
-    
+
+//commented out by dawson on admission javabean merge, May 23, 2008    
+/*    
      public ActionForward issueNoteSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {            
             String strNote = request.getParameter("value");
             log.info("Saving: " + strNote);
@@ -436,7 +438,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             if( note.getCreate_date() == null )
                 note.setCreate_date(now);
             
-            /* save note including add signature */	
+            // save note including add signature	
             String lastSavedNoteString = (String) request.getSession().getAttribute("lastSavedNoteString");
             CaseManagementCPP cpp = this.caseManagementMgr.getCPP(demo);
             if( cpp == null ) {
@@ -446,7 +448,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             cpp = copyNote2cpp(cpp,note);
             String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString);
             caseManagementMgr.saveCPP(cpp, providerNo);
-            /* remember the str written into echart */
+            // remember the str written into echart
             request.getSession().setAttribute("lastSavedNoteString", savedStr);
             
             caseManagementMgr.getEditors(note);
@@ -457,7 +459,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             path.append("?" + reloadQuery);
             return new ActionForward(path.toString());
         }
-
+*/
+    
     public long noteSave(CaseManagementEntryFormBean cform, HttpServletRequest request) throws Exception {
 
         // we don't want to save empty notes!
@@ -528,7 +531,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
          * if(request.getSession().getAttribute("archiveView")!="true") note.setReporter_caisi_role(role); else note.setReporter_caisi_role("1");
          */
         note.setReporter_caisi_role(role);
-
+        
+//commented out by dawosn on admission javabean merge, May 23,2008        
+/*
         try {
             team = String.valueOf((admissionManager.getAdmission(note.getProgram_no(), Integer.valueOf(note.getDemographic_no()))).getTeamId());
         }
@@ -537,7 +542,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             team = "0";
         }
         note.setReporter_program_team(team);
-
+*/
+        
         Set issueset = new HashSet();
         Set noteSet = new HashSet();
         String ongoing = "";
@@ -757,6 +763,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         
         note.setReporter_caisi_role(role);
 
+//commented out by dawson on admission javabean merge, May 23, 2008        
+/*        
         String team = null;
         try {
             team = String.valueOf((admissionManager.getAdmission(note.getProgram_no(), Integer.valueOf(note.getDemographic_no()))).getTeamId());
@@ -767,7 +775,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         
         note.setReporter_program_team(team);
-        
+*/        
         
         List issuelist = new ArrayList();
         Set issueset = new HashSet();

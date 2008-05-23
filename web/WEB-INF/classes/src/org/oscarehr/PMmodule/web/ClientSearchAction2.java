@@ -39,6 +39,7 @@ import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import com.quatro.common.KeyConstants;
@@ -52,6 +53,7 @@ public class ClientSearchAction2 extends BaseAction {
     private ClientManager clientManager;
     private LogManager logManager;
     private ProgramManager programManager;
+    private ProviderManager providerManager;
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	if(!Utility.IsEmpty(request.getParameter("client"))) {
@@ -132,7 +134,7 @@ public class ClientSearchAction2 extends BaseAction {
 		request.setAttribute("allBedPrograms", allBedPrograms);
 		
 		request.setAttribute("allBedPrograms", allBedPrograms);
-		List<Provider> allProviders = getProviderManager().getActiveProviders(facilityId.toString(),null);
+		List<Provider> allProviders = providerManager.getActiveProviders(facilityId.toString(),null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders",lookupManager.LoadCodeList("GEN", true, null, null));
 		request.setAttribute("moduleName", " - Client Management");
@@ -157,5 +159,10 @@ public class ClientSearchAction2 extends BaseAction {
     public void setProgramManager(ProgramManager mgr) {
     	this.programManager = mgr;
     }
+
+
+	public void setProviderManager(ProviderManager providerManager) {
+		this.providerManager = providerManager;
+	}
 	
 }
