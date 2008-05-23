@@ -34,6 +34,7 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 
 import oscar.MyDateFormat;
 
@@ -52,6 +53,11 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
+       if(clientForm.getIntakeStatus()==null){
+         QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
+         clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
+       }  
+       
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -428,10 +434,10 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
          client.setEffDate(MyDateFormat.getCalendar(intakeFamily.getEffDate()).getTime());
          
      	 //check if this client has any existing active intake with same program before create new intake
-         Integer newClient_intakeIdExist =0;
+         QuatroIntakeDB newClient_intakeDBExist = null;
      	 if(intakeFamily.getIntakeId().intValue()==0){
-     		newClient_intakeIdExist = intakeManager.findQuatroIntake(intakeFamily.getClientId(), headIntake.getProgramId());
-      	    intakeFamily.setIntakeId(newClient_intakeIdExist);
+     		newClient_intakeDBExist = intakeManager.findQuatroIntakeDB(intakeFamily.getClientId(), headIntake.getProgramId());
+      	    if(newClient_intakeDBExist!=null) intakeFamily.setIntakeId(newClient_intakeDBExist.getId());
      	 }
   		 
   		 QuatroIntake intake = new QuatroIntake();
@@ -464,7 +470,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
      	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
      	 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
      	 intakeFamily.setIntakeHeadId(headIntake.getId());
-     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, intake, intakeFamily);
+     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, intake, newClient_intakeDBExist, intakeFamily);
      	 intakeFamily.setIntakeId((Integer)lst2.get(1));
      	 intakeFamily.setClientId((Integer)lst2.get(2));
   	   }

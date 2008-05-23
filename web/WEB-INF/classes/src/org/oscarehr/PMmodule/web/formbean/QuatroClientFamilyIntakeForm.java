@@ -11,6 +11,7 @@ public class QuatroClientFamilyIntakeForm extends ValidatorForm{
 	Demographic familyHead;
     List dependents;
     String intakeId;
+    String intakeStatus;
     String dob;
     int dependentsSize;
     List genders;
@@ -67,6 +68,12 @@ public class QuatroClientFamilyIntakeForm extends ValidatorForm{
 	}
 	public void setRelationships(List relationships) {
 		this.relationships = relationships;
+	}
+	public String getIntakeStatus() {
+		return intakeStatus;
+	}
+	public void setIntakeStatus(String intakeStatus) {
+		this.intakeStatus = intakeStatus;
 	}
 
 }

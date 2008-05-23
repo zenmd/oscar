@@ -135,8 +135,8 @@ public class IntakeManager {
     }
     
     //for family member intake check
-	public Integer findQuatroIntake(Integer clientId, Integer programId){
-    	return intakeDao.findQuatroIntake(clientId, programId);
+	public QuatroIntakeDB findQuatroIntakeDB(Integer clientId, Integer programId){
+    	return intakeDao.findQuatroIntakeDB(clientId, programId);
     }
 
 	public Integer getIntakeFamilyHeadId(String intakeId){
@@ -277,7 +277,7 @@ public class IntakeManager {
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 	}
 
-	public ArrayList saveQuatroIntakeFamily(Demographic client, QuatroIntake intake, QuatroIntakeFamily intakeFamily) {
+	public ArrayList saveQuatroIntakeFamily(Demographic client, QuatroIntake intake, QuatroIntakeDB exist_intakeDB, QuatroIntakeFamily intakeFamily) {
 		ArrayList lst = new ArrayList();
 		clientDao.saveClient(client);
 		intake.setClientId(client.getDemographicNo());
@@ -286,6 +286,11 @@ public class IntakeManager {
 		    intakeFamily.setIntakeId((Integer)lst2.get(0));
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
+		
+		//remove referral# and queue# from old active intake.
+		if(exist_intakeDB!=null)
+		  intakeDao.deleteReferralIdQueueId(exist_intakeDB.getReferralId(), exist_intakeDB.getQueueId());
+		
 		lst.add(intakeFamily.getIntakeHeadId());
 		lst.add(intakeFamily.getIntakeId());
 		lst.add(client.getDemographicNo());

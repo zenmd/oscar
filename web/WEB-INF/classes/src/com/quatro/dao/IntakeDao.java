@@ -49,16 +49,15 @@ public class IntakeDao extends HibernateDaoSupport {
 	    return result;
     }
 		
-	public Integer findQuatroIntake(Integer clientId, Integer programId) {
-		List result = getHibernateTemplate().find("select i.id" +
-					" from QuatroIntakeDB i where i.clientId = ?" +
+	public QuatroIntakeDB findQuatroIntakeDB(Integer clientId, Integer programId) {
+		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.clientId = ?" +
 					" and i.programId=? and i.intakeStatus='" + 
 					KeyConstants.INTAKE_STATUS_ACTIVE + "'", 
 					new Object[] {clientId, programId});
 		if(result.size()>0)
-		  return (Integer)result.get(0);
+		  return (QuatroIntakeDB)result.get(0);
 		else
-		  return 0;
+		  return null;
 		
 	}
 
@@ -648,6 +647,12 @@ public class IntakeDao extends HibernateDaoSupport {
 	public void updateReferralIdQueueId(QuatroIntakeDB intake, Integer referralId, Integer queueId){
         String sSQL="update QuatroIntakeDB q set q.referralId=?, q.queueId=? where q.id=?";
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, queueId, intake.getId()});
+	}
+	public void deleteReferralIdQueueId(Integer referralId, Integer queueId){
+        String sSQL="delete ClientReferral r where r.Id=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId});
+        sSQL="delete ProgramQueue q where q.Id=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{queueId});
 	}
 	
 	public void removeInactiveIntakeFamilyMember(String sInactiveDependents){

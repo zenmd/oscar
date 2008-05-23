@@ -7,6 +7,7 @@
 <html-el:form action="/PMmodule/QuatroFamilyIntake.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
+<html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
 <script lang="javascript">
 function submitForm(methodVal) {
@@ -179,8 +180,12 @@ function checkExistClients(i){
 
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
+<c:if test="${quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
 &nbsp;<a href='javascript:submitForm("add");'style="color:Navy;text-decoration:underline;">Add Dependent</a>
-&nbsp;|&nbsp;<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Delete Dependent</a>
+</c:if>
+&nbsp;|&nbsp;
+<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Delete Dependent</a>
+
 <c:choose>
 <c:when test="${bDupliDemographicNoApproved==false}">
 <input type=checkbox name="newClientConfirmed" value="Y">Confirm all new clients.
@@ -206,5 +211,4 @@ function checkExistClients(i){
 </td>
 </tr>
 </table>
-<c:out value="${saveOK}" />
 </html-el:form>
