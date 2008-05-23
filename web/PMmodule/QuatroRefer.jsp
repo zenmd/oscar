@@ -27,8 +27,8 @@
     
     
     function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 	}
     
 </script>
@@ -90,11 +90,11 @@
 </td></tr>
 
 <tr><td>
-  <table class="simple" cellspacing="2" cellpadding="3">
+  <table class="edit" cellspacing="2" cellpadding="3">
 	<tr><td width="20%">Reason for referral</td>
-	<td><html:textarea cols="50" rows="7" property="referral.notes" /></td></tr>
-	<tr><td width="20%">Presenting Problems:</td>
-	<td><html:textarea cols="50" rows="7" property="referral.presentProblems" /></td></tr>
+	<td><html:textarea cols="60" rows="7" property="referral.notes" /></td></tr>
+	<tr><td width="20%">Presenting Problems</td>
+	<td><html:textarea cols="60" rows="7" property="referral.presentProblems" /></td></tr>
 	<c:if test="${program.type eq 'Bed' }">
 	  <caisi:isModuleLoad moduleName="pmm.refer.temporaryAdmission.enabled">
 		<tr><td width="20%">Request Temporary Admission</td>

@@ -31,7 +31,7 @@
 		<html:link	action="/PMmodule/QuatroConsent.do?method=edit&rId=0" paramId="clientId"  paramName="clientId"	style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Consent&nbsp;&nbsp;|
 		</html:link>
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr>

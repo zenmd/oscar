@@ -8,9 +8,34 @@
 
 <script lang="javascript">
 	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 	}
+	
+	function validateProgram()
+	{
+		if(
+			(document.quatroClientDischargeForm.admission.communityProgramCode==null || 
+				document.quatroClientDischargeForm.admission.communityProgramCode=="") && 
+			(document.quatroClientDischargeForm.admission.bedProgramId==null || 
+				document.quatroClientDischargeForm.admission.bedProgramId=="")
+		    )	
+			return false;		
+		else if((document.quatroClientDischargeForm.admission.communityProgramCode!="") && 
+			(document.quatroClientDischargeForm.admission.bedProgramId!="")) 
+			return false;
+		else return true;	
+	}
+	function validateSave(){
+	
+		var str1=" Please select Community Program or Temporary Program before save." ;
+		
+		if (!validateProgram()){
+			alert(str1); return false;
+		}
+		return true;
+	}
+	
 </script>
 
 <html-el:form action="/PMmodule/QuatroDischarge.do">
@@ -24,13 +49,11 @@
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar"><a
-				href='javascript:submitForm("save");'
-				style="color:Navy;text-decoration:none;"> <img border=0
-				src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-			<html:link action="/PMmodule/ClientSearch2.do"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+			<td align="left" class="buttonBar">
+				<a onclick='return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
+					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a></td>
 		</tr>
 		<tr>
 			<td align="left" class="message"><logic:messagesPresent
@@ -88,10 +111,9 @@
 			</tr>
 			<tr>
 				<td width="25%">Discharge Notes</td>
-				<td><html:textarea cols="50" rows="7"
+				<td><html:textarea cols="60" rows="7"
 					property="admission.dischargeNotes" /></td>
 			</tr>
-
 		</table>
 	
 </html-el:form>

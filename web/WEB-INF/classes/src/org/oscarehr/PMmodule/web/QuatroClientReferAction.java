@@ -124,7 +124,7 @@ public class QuatroClientReferAction  extends BaseAction {
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
+       request.setAttribute("clientId", cId);
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        try{
        List lstRefers = clientManager.getReferrals(demographicNo);
@@ -197,7 +197,7 @@ public class QuatroClientReferAction  extends BaseAction {
        //Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        clientForm.set("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-       
+       request.setAttribute("clientId", demographicNo);
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        ClientReferral crObj = (ClientReferral)clientForm.get("referral");
        if("0".equals(rId)){
