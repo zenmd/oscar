@@ -41,15 +41,26 @@ public class KeyConstants {
   public static final String ACCESS_VIEW="V";
   public static final String ACCESS_NULL="N";
   public static final String ACCESS_CURRENT="C";
-  public static final String TAB_SUMMARY="summary";
-  public static final String TAB_DISCHARGE="discharge";
-  public static final String TAB_ADMISSION="admission";
-  public static final String TAB_CONSENT="consent";
-  public static final String TAB_HISTORY="history";
-  public static final String TAB_INTAKE="intake";
-  public static final String TAB_REFER="refer";
-  public static final String TAB_RESTRICTION="restriction";
-  public static final String TAB_COMPLAINT="complaint";
-  public static final String TAB_CASE="case";
-  public static final String TAB_ATTCHMENT="attachment";
+
+  public static final String MENU_CLIENT="client";
+  public static final String MENU_PROGRAM="prog";
+  public static final String MENU_FACILITY="facility";
+  public static final String MENU_REPORT="report";
+  public static final String MENU_TASK="task";
+  public static final String MENU_ADMIN="admin";
+  public static final String MENU_HOME="home";
+  
+  public static final String TAB_CLIENT_SUMMARY="summary";
+  public static final String TAB_CLIENT_DISCHARGE="discharge";
+  public static final String TAB_CLIENT_ADMISSION="admission";
+  public static final String TAB_CLIENT_CONSENT="consent";
+  public static final String TAB_CLIENT_HISTORY="history";
+  public static final String TAB_CLIENT_INTAKE="intake";
+  public static final String TAB_CLIENT_REFER="refer";
+  public static final String TAB_CLIENT_RESTRICTION="restriction";
+  public static final String TAB_CLIENT_COMPLAINT="complaint";
+  public static final String TAB_CLIENT_CASE="case";
+  public static final String TAB_CLIENT_ATTCHMENT="attachment";
+
+
 }
