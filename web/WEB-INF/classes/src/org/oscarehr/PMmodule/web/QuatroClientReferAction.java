@@ -56,7 +56,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 
-public class QuatroClientReferAction  extends BaseAction {
+public class QuatroClientReferAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -74,20 +74,20 @@ public class QuatroClientReferAction  extends BaseAction {
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   setListAttributes(form, request);
-	   super.setScreenMode(request, KeyConstants.TAB_REFER);
+	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 	   return mapping.findForward("list");
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
-       super.setScreenMode(request, KeyConstants.TAB_REFER);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
        return mapping.findForward("edit");
    }
    
    public ActionForward refer_select_program(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        DynaActionForm clientForm = (DynaActionForm) form;
        Program p = (Program) clientForm.get("program");
-       super.setScreenMode(request, KeyConstants.TAB_REFER);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
        setEditAttributes(form, request);
 
        Integer programId = p.getId();
@@ -138,7 +138,7 @@ public class QuatroClientReferAction  extends BaseAction {
 
    public ActionForward search_programs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        DynaActionForm clientForm = (DynaActionForm) form;
-       super.setScreenMode(request, KeyConstants.TAB_REFER);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
        Program criteria = (Program) clientForm.get("program");
 
        request.setAttribute("programs", programManager.search(criteria));
@@ -157,7 +157,7 @@ public class QuatroClientReferAction  extends BaseAction {
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        
-       super.setScreenMode(request, KeyConstants.TAB_REFER);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
        log.debug("Saving Refer");
 		ActionMessages messages = new ActionMessages();
 		 boolean isError = false;

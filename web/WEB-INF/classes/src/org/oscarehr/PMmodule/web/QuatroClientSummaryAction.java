@@ -58,7 +58,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 
-public class QuatroClientSummaryAction extends BaseAction {
+public class QuatroClientSummaryAction extends BaseClientAction {
 
    private HealthSafetyManager healthSafetyManager;
    private ClientManager clientManager;
@@ -79,7 +79,7 @@ public class QuatroClientSummaryAction extends BaseAction {
 
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 //       DynaActionForm clientForm = (DynaActionForm) form;
-       super.setScreenMode(request, KeyConstants.TAB_SUMMARY);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_SUMMARY);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();

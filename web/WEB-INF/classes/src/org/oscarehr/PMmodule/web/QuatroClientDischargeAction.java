@@ -59,7 +59,7 @@ import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 import org.oscarehr.PMmodule.service.QuatroAdmissionManager;
 
-public class QuatroClientDischargeAction  extends BaseAction {
+public class QuatroClientDischargeAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -83,12 +83,12 @@ public class QuatroClientDischargeAction  extends BaseAction {
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
        
-       super.setScreenMode(request, KeyConstants.TAB_DISCHARGE);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
        return mapping.findForward("edit");
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
-	   super.setScreenMode(request, KeyConstants.TAB_DISCHARGE);
+	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
 	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -151,7 +151,7 @@ public class QuatroClientDischargeAction  extends BaseAction {
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);
-       super.setScreenMode(request, KeyConstants.TAB_DISCHARGE);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
        return mapping.findForward("list");
    }
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {

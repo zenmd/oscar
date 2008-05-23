@@ -28,7 +28,7 @@ import com.quatro.model.Attachment;
 import com.quatro.model.AttachmentText;
 import com.quatro.model.LookupCodeValue;
 
-public class UploadFileAction extends BaseAction {
+public class UploadFileAction extends BaseClientAction {
 	
 	 private static Log log = LogFactory.getLog(UploadFileAction.class);
 	 private UploadFileManager uploadFileManager;
@@ -54,7 +54,7 @@ public class UploadFileAction extends BaseAction {
 	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
 		 List<Attachment> atts=null;
-		 super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
+		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
@@ -78,7 +78,7 @@ public class UploadFileAction extends BaseAction {
 		}
 	 public ActionForward addNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
-		 super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
+		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
 		 ActionMessages messages= new ActionMessages();
@@ -93,7 +93,7 @@ public class UploadFileAction extends BaseAction {
 	 public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
 		 Attachment attObj = null;
-		 super.setScreenMode(request, KeyConstants.TAB_ATTCHMENT);
+		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		 ActionMessages messages= new ActionMessages();
 		 
 		 Integer cId=(Integer)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID));    

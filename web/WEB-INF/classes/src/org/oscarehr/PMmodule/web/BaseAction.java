@@ -153,6 +153,11 @@ public abstract class BaseAction extends DispatchAction {
 		return ((Provider) request.getSession().getAttribute("provider"));
 	}
 
+	protected SecurityManager getSecurityManager(HttpServletRequest request)
+	{
+		return (SecurityManager) request.getSession()
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+	}
 	protected String getParameter(HttpServletRequest request,
 			String parameterName) {
 		return request.getParameter(parameterName);
@@ -169,76 +174,47 @@ public abstract class BaseAction extends DispatchAction {
 		return attribute;
 	}
 
-	protected void setScreenMode(HttpServletRequest request, String currentTab) {
-		SecurityManager sec = (SecurityManager) request.getSession()
-				.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
-		//summary
+	protected void setMenu(HttpServletRequest request, String currentMenu) {
+		SecurityManager sec = getSecurityManager(request);
+		
+		//Client Management
 		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_SUMMARY, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_SUMMARY))request.setAttribute(KeyConstants.TAB_SUMMARY, KeyConstants.ACCESS_CURRENT);
+			request.setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
+			if (currentMenu.equals(KeyConstants.MENU_CLIENT))request.setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_CURRENT);
 		} else
-			request.setAttribute(KeyConstants.TAB_SUMMARY, KeyConstants.ACCESS_NULL);
-		//discharge
-		if (sec.GetAccess("_pmm_clientDischarge", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_DISCHARGE, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_DISCHARGE))	request.setAttribute(KeyConstants.TAB_DISCHARGE, KeyConstants.ACCESS_CURRENT);
-		}else request.setAttribute(KeyConstants.TAB_DISCHARGE, KeyConstants.ACCESS_NULL);
-		//admission
-		if (sec.GetAccess("_pmm_clientAdmission", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_ADMISSION, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_ADMISSION))request.setAttribute(KeyConstants.TAB_ADMISSION, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_ADMISSION, KeyConstants.ACCESS_NULL);
-		//consent
-		if (sec.GetAccess("_pmm_clientConsent", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CONSENT, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CONSENT))request.setAttribute(KeyConstants.TAB_CONSENT, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CONSENT, KeyConstants.ACCESS_NULL);
-		//history
-		if (sec.GetAccess("_pmm_clientHistory", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_HISTORY, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_HISTORY))request.setAttribute(KeyConstants.TAB_HISTORY, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_HISTORY, KeyConstants.ACCESS_NULL);
-		//intake
-		if (sec.GetAccess("_pmm_clientIntake", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_INTAKE, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_INTAKE))request.setAttribute(KeyConstants.TAB_INTAKE, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_INTAKE, KeyConstants.ACCESS_NULL);
-		//refer
-		if (sec.GetAccess("_pmm_clientRefer", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_REFER, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_REFER))request.setAttribute(KeyConstants.TAB_REFER, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_REFER, KeyConstants.ACCESS_NULL);
-		//restriction
-		if (sec.GetAccess("_pmm_clientRestriction", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_RESTRICTION, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_RESTRICTION))request.setAttribute(KeyConstants.TAB_RESTRICTION, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_RESTRICTION, KeyConstants.ACCESS_NULL);
-		//complaint
-		if (sec.GetAccess("_pmm_clientComplaint", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_COMPLAINT, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_COMPLAINT))request.setAttribute(KeyConstants.TAB_COMPLAINT, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_COMPLAINT, KeyConstants.ACCESS_NULL);
-		//case
-		if (sec.GetAccess("_pmm_clientCase", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CASE, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CASE))request.setAttribute(KeyConstants.TAB_CASE, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CASE, KeyConstants.ACCESS_NULL);
-		//attachment
-		if (sec.GetAccess("_pmm.document", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_ATTCHMENT, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_ATTCHMENT))request.setAttribute(KeyConstants.TAB_ATTCHMENT, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_ATTCHMENT, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
+	
+		//Program
+		if (sec.GetAccess("_pmm.programList", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
+			if (currentMenu.equals(KeyConstants.MENU_PROGRAM))request.setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_CURRENT);
+		} else
+			request.setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
+
+		//Facility Management
+		if (sec.GetAccess("_pmm.facilityList", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
+			if (currentMenu.equals(KeyConstants.MENU_FACILITY))request.setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_CURRENT);
+		} else
+			request.setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
+
+		//Report Runner
+		if (sec.GetAccess("_reportRunner", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
+			if (currentMenu.equals(KeyConstants.MENU_REPORT))request.setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_CURRENT);
+		} else
+			request.setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
+
+		//System Admin
+		if (sec.GetAccess("_admin", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
+			if (currentMenu.equals(KeyConstants.MENU_ADMIN))request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_CURRENT);
+		} else
+			request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
+	
 	}
 
+	
 	protected ActionForward createRedirectForward(ActionMapping mapping,
 			String forwardName, StringBuilder parameters) {
 		ActionForward forward = mapping.findForward(forwardName);

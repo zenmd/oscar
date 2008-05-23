@@ -55,7 +55,7 @@ import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.model.BedDemographicPK;
 
-public class QuatroClientAdmissionAction  extends BaseAction {
+public class QuatroClientAdmissionAction  extends BaseClientAction {
    private ClientManager clientManager;
    private LookupManager lookupManager;
    private ProgramManager programManager;
@@ -75,7 +75,7 @@ public class QuatroClientAdmissionAction  extends BaseAction {
 
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
-       super.setScreenMode(request, KeyConstants.TAB_ADMISSION);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -100,13 +100,13 @@ public class QuatroClientAdmissionAction  extends BaseAction {
    	
    public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
-       super.setScreenMode(request, KeyConstants.TAB_ADMISSION);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
    }
    
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        ActionMessages messages = new ActionMessages();
-       super.setScreenMode(request, KeyConstants.TAB_ADMISSION);
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        boolean isError = false;
        boolean isWarning = false;
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;

@@ -25,7 +25,7 @@ import com.quatro.model.Complaint;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 
-public class QuatroClientComplaintAction extends BaseAction {
+public class QuatroClientComplaintAction extends BaseClientAction {
 
 	private ComplaintManager complaintManager;
 
@@ -46,7 +46,7 @@ public class QuatroClientComplaintAction extends BaseAction {
 
 		System.out
 				.println("=========== list ========= in QuatroClientComplaintAction");
-		super.setScreenMode(request, KeyConstants.TAB_COMPLAINT);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
@@ -72,7 +72,7 @@ public class QuatroClientComplaintAction extends BaseAction {
 
 		System.out
 				.println("=========== edit ========= in QuatroClientComplaintAction");
-		super.setScreenMode(request, KeyConstants.TAB_COMPLAINT);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
@@ -170,7 +170,7 @@ public class QuatroClientComplaintAction extends BaseAction {
 				.println("=========== save ========= in QuatroClientComplaintAction");
 
 		
-		super.setScreenMode(request, KeyConstants.TAB_COMPLAINT);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();

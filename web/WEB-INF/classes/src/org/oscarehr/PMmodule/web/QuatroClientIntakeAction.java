@@ -51,7 +51,7 @@ import org.oscarehr.util.SessionConstants;
 
 import oscar.oscarDemographic.data.DemographicRelationship;
 
-public class QuatroClientIntakeAction  extends BaseAction {
+public class QuatroClientIntakeAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
@@ -69,7 +69,7 @@ public class QuatroClientIntakeAction  extends BaseAction {
        }else{
     	 return mapping.findForward("close");
        }
-	   super.setScreenMode(request, KeyConstants.TAB_INTAKE);
+	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
        setEditAttributes(form, request);
        return mapping.findForward("edit");
    }
