@@ -34,11 +34,11 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.service.AgencyManager;
 import org.oscarehr.PMmodule.service.LogManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.util.SpringUtils;
 import org.springframework.scheduling.timer.ScheduledTimerTask;
 
-public class AgencyManagerAction extends BaseAction {
+public class AgencyManagerAction extends DispatchAction {
 
     private static final String FORWARD_EDIT = "edit";
     private static final String FORWARD_VIEW = "view";

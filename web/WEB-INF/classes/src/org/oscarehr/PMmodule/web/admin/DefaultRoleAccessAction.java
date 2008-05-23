@@ -28,13 +28,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.DefaultRoleAccess;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoleManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 
-public class DefaultRoleAccessAction extends  BaseAction {
+public class DefaultRoleAccessAction extends  DispatchAction {
     private ProgramManager programManager;
     private RoleManager roleManager;
 	
@@ -82,7 +84,13 @@ public class DefaultRoleAccessAction extends  BaseAction {
 		if(programManager.findDefaultRoleAccess(dra.getRoleId(), dra.getAccessTypeId()) == null) {		
 			programManager.saveDefaultRoleAccess(dra);
 		}
-		this.addMessage(request,"message","Saved Access");
+
+        ActionMessages messages = new ActionMessages();
+		messages.add(ActionMessages.GLOBAL_MESSAGE,
+				new ActionMessage("message.save.success",
+       			request.getContextPath()));
+	    saveMessages(request,messages);
+		
 		
 		return mapping.findForward("rlist");
 	}		
@@ -94,7 +102,12 @@ public class DefaultRoleAccessAction extends  BaseAction {
 			programManager.deleteDefaultRoleAccess(id);
 		}
 		
-		this.addMessage(request,"message","Removed Access");
+//		this.addMessage(request,"message","Removed Access");
+        ActionMessages messages = new ActionMessages();
+		messages.add(ActionMessages.GLOBAL_MESSAGE,
+				new ActionMessage("message.role.removed",
+       			request.getContextPath()));
+	    saveMessages(request,messages);
 		
 		return mapping.findForward("rlist");
 	}

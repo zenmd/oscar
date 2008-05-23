@@ -95,7 +95,7 @@
 			</tr>
 			<tr>
 				<td width="25%">Discharge Reason</td>
-				<td><html:select property="admission.radioDischargeReason">
+				<td><html:select property="admission.dischargeReason">
 					<html:option value=""></html:option>
 					<html:options collection="lstDischargeReason" property="code"
 						labelProperty="description"></html:options>

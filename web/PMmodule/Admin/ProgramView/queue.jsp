@@ -5,29 +5,6 @@
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <%@page import="org.oscarehr.PMmodule.model.Demographic"%>
 
-<!--
-/*
-*
-* Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
-* This software is published under the GPL GNU General Public License.
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version. *
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details. * * You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *
-*
-* <OSCAR TEAM>
-*
-* This software was written for
-* Centre for Research on Inner City Health, St. Michael's Hospital,
-* Toronto, Ontario, Canada
-*/
--->
 
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
@@ -59,35 +36,6 @@
             form.method.value='quatroAdmit';
         }
     }
-     
-    function select_client(client_id,action,queue_id) {
-        var form = document.programManagerViewForm;
-        form.elements['clientId'].value=client_id;
-        form.elements['queueId'].value=queue_id;
-        if(action == 'admit') {
-            form.method.value='select_client_for_admit';
-        }
-        if(action == 'reject') {
-            if(!confirm('Are you sure you would like to reject admission for this client?')) {
-                return;
-            }
-            form.method.value='select_client_for_reject';
-			//form.method.value='reject_from_queue';
-        }
-        if(action == 'genderConflict') {
-	    	alert("This gender not allowed in selected program.");
-	    	return(false);
-		}        
-        if(action == 'ageConflict') {
-	    	alert("A person of this age not allowed in selected program.");
-	    	return(false);
-		}        
-        
-        
-        form.submit();
-
-    }
-
 
     function popup(title, url) {
         window.open(url, title, 'width=800, height=800,resizable=yes, scrollbars=yes');
@@ -116,15 +64,8 @@
     		if (genderConflict.contains(clientId)) action="genderConflict";	
     		if (ageConflict.contains(clientId)) action="ageConflict";	
     	%>
-    	<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
-        <input type="button" value="Admit" 
-               <c:if test="${queue_entry.headClientId != null}">disabled</c:if>
-               onclick="select_client('<c:out value="${queue_entry.clientId}"/>','<%=action %>','<c:out value="${queue_entry.id}"/>')" />
-   		</caisi:isModuleLoad>
 		
-		<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">		
 			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
-   		</caisi:isModuleLoad>
    		
 	</display:column>
     <display:column sortable="false">

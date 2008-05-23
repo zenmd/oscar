@@ -202,7 +202,9 @@
             </bean>
         </property>
     </bean>
+
     <!-- ========================= SCHEDULED JOBS ========================= -->
+<!-- 
     <bean id="scheduledIntegratorUpdateTask" class="org.springframework.scheduling.timer.ScheduledTimerTask"
           lazy-init="default"  dependency-check="default">
         <property name="timerTask">
@@ -210,11 +212,8 @@
         </property>
         <property name="delay" value="30000"/>
         <property name="period" value="43200000"/>
-        <!-- 
-        <property name="period" value="60000"/>
-         -->
     </bean>
-    
+
     <bean id="scheduledBedProgramDischargeTask" class="org.springframework.scheduling.timer.ScheduledTimerTask"
           lazy-init="default"  dependency-check="default">
         <property name="timerTask">
@@ -247,31 +246,19 @@
                   dependency-check="default"/>
         </property>
         <property name="delay" value="240000"/>
-        <!-- run every 60 mins -->
         <property name="period" value="3600000"/>
     </bean>
     <bean id="scheduler" class="org.springframework.scheduling.timer.TimerFactoryBean" lazy-init="default"
            dependency-check="default">
         <property name="scheduledTimerTasks">
             <list>
-<!--
-                <ref bean="scheduledIntegratorUpdateTask"/>
-                <ref bean="scheduledBedProgramDischargeTask"/>
-                <ref bean="scheduledErProgramDischargeTask"/>
-                <ref bean="scheduledPopulationReportTask"/>
--->
             </list>
         </property>
     </bean>
+ -->    
+
     <bean id="QuestionTypes" class="org.oscarehr.survey.model.QuestionTypes" scope="singleton" lazy-init="default"
            dependency-check="default"/>
-<!--
-        <bean id="UCRConfigurationManager" class="org.oscarehr.PMmodule.web.reports.custom.UCRConfigurationManager">
-                <property name="filename">
-                        <value>org/oscarehr/PMmodule/web/reports/custom/test.xml</value>
-                </property>
-        </bean>
--->
 
 
 <!--   from Quatro start -->

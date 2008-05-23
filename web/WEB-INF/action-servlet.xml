@@ -59,14 +59,12 @@
     <bean name="/PMmodule/QuatroClientSummary" class="org.oscarehr.PMmodule.web.QuatroClientSummaryAction" singleton="false" autowire="byName">
         <property name="healthSafetyManager" ref="healthSafetyManager"/>
         <property name="clientManager" ref="clientManager" />
-        <property name="providerManager" ref="providerManager" />
         <property name="programManager" ref="programManager"/>       
         <property name="admissionManager" ref="admissionManager" />
-        <property name="quatroAdmissionManager" ref="quatroAdmissionManager" />
-        <property name="caseManagementManager" ref="caseManagementManager" />
         <property name="bedDemographicManager" ref="bedDemographicManager" />
         <property name="roomDemographicManager" ref="roomDemographicManager" />
         <property name="roomManager" ref="roomManager" />
+        <property name="intakeManager" ref="intakeManager" />
     </bean>
     <bean name="/PMmodule/QuatroConsent" class="org.oscarehr.PMmodule.web.QuatroConsentAction" singleton="false" autowire="byName">
     	 <property name="clientManager" ref="clientManager" />
@@ -79,7 +77,6 @@
     <bean name="/PMmodule/QuatroIntake" class="org.oscarehr.PMmodule.web.QuatroClientIntakeAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
         <property name="programManager" ref="programManager"/>       
-        <property name="admissionManager" ref="admissionManager" />
         <property name="intakeManager" ref="intakeManager"/>   
     </bean>
     <bean name="/PMmodule/QuatroIntakeEdit" class="org.oscarehr.PMmodule.web.QuatroIntakeEditAction" singleton="false">
@@ -93,7 +90,7 @@
         <property name="clientManager" ref="clientManager"/>
         <property name="lookupManager" ref="lookupManager"/>
         <property name="programManager" ref="programManager"/>
-        <property name="quatroAdmissionManager" ref="quatroAdmissionManager"/>
+        <property name="admissionManager" ref="admissionManager"/>
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="bedDemographicManager" ref="bedDemographicManager"/>
         <property name="roomDemographicManager" ref="roomDemographicManager"/>
@@ -215,6 +212,7 @@
         <property name="providerManager" ref="providerManager"/>
     </bean>
     <!--  CASE MANAGEMENT -->
+<!-- 
     <bean name="/CaseManagementView" class="org.oscarehr.casemgmt.web.CaseManagementViewAction" singleton="false" autowire="byName">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="ticklerManager" ref="ticklerManager"/>
@@ -224,6 +222,7 @@
         <property name="admissionManager" ref="admissionManager"/>
         <property name="surveyManager" ref="oscarSurveyManager"/>        
     </bean>
+ -->        
     <bean name="/CaseManagementView2" class="org.oscarehr.casemgmt.web.CaseManagementSearchAction" singleton="false" autowire="byName">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="ticklerManager" ref="ticklerManager"/>
@@ -235,11 +234,13 @@
         <property name="lookupManager" ref="lookupManager"></property>  
         <property name="clientManager" ref="clientManager"></property>    
     </bean>
+<!-- 
     <bean name="/CaseManagementEntry" class="org.oscarehr.casemgmt.web.CaseManagementEntryAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="providerManager" ref="providerManager"/>
         <property name="admissionManager" ref="admissionManager"></property>
     </bean>
+ -->    
     <bean name="/CaseManagementEntry2" class="org.oscarehr.casemgmt.web.CaseManagementNoteAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="providerManager" ref="providerManager"/>

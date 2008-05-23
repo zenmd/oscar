@@ -1,6 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<%@page import="org.oscarehr.PMmodule.model.QuatroAdmission"%>
+<%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
@@ -57,7 +57,7 @@ function updateQuatroAdmission(clientId, admissionId) {
   <td>Status</td>
   <td>Actions</td></tr>
 
-  <logic-el:iterate id="admission" collection="${quatroAdmission}">
+  <logic-el:iterate id="admission" collection="${admission}">
     <tr><td width="20%"><c:out value="${admission.programType}" /></td>
     <td><c:out value="${admission.admissionDateStr}" /></td>
     <td><c:out value="${sessionScope.provider.formattedName}" /></td>

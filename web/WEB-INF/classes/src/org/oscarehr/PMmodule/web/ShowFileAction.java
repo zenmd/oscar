@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.actions.DispatchAction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +21,7 @@ import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.service.UploadFileManager;
 
-public class ShowFileAction extends BaseAction {
+public class ShowFileAction extends DispatchAction {
 	private static Log log = LogFactory.getLog(UploadFileAction.class);
 
 	private UploadFileManager uploadFileManager;

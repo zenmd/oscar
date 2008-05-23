@@ -1,7 +1,7 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
-<%@page import="org.oscarehr.PMmodule.model.QuatroAdmission"%>
+<%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
 <%@page import="oscar.MyDateFormat"%>
 <%@page import="org.oscarehr.PMmodule.model.ClientReferral"%>
@@ -171,14 +171,14 @@ function openHealthSafety(){
 	<display:column property="programType" sortable="true" title="Program Type" />
     <display:column sortable="true" title="Admission Date">
     <%
-	   QuatroAdmission tempAdmission = (QuatroAdmission) pageContext.getAttribute("admission");
+	   Admission tempAdmission = (Admission) pageContext.getAttribute("admission");
        String admissiondate=MyDateFormat.getStandardDate(tempAdmission.getAdmissionDate());
     %>
     <%= admissiondate%>
     </display:column>
 	<display:column sortable="true" title="Days in Program">
 	<%
-	    QuatroAdmission tempAdmission = (QuatroAdmission) pageContext.getAttribute("admission");
+	    Admission tempAdmission = (Admission) pageContext.getAttribute("admission");
 		Date admissionDate = tempAdmission.getAdmissionDate().getTime();
 		Date dischargeDate = tempAdmission.getDischargeDate() != null ? tempAdmission.getDischargeDate().getTime() : new Date();
 			

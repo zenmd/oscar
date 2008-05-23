@@ -58,7 +58,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.quatro.model.LookupCodeValue;
@@ -66,7 +66,7 @@ import com.quatro.service.LookupManager;
 
 import oscar.MyDateFormat;
 
-public class ProgramManagerAction extends BaseAction {
+public class ProgramManagerAction extends DispatchAction {
 
     private ClientRestrictionManager clientRestrictionManager;
     private FacilityDAO facilityDAO=null;
@@ -250,7 +250,8 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+    
+/*
     public ActionForward assign_team_client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -272,7 +273,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+*/
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -378,6 +379,7 @@ public class ProgramManagerAction extends BaseAction {
         return edit(mapping, form, request, response);
     }
 
+/*    
     public ActionForward delete_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -404,7 +406,8 @@ public class ProgramManagerAction extends BaseAction {
 
         return edit(mapping, form, request, response);
     }
-
+*/
+    
     public ActionForward edit_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -925,6 +928,7 @@ public class ProgramManagerAction extends BaseAction {
             request.setAttribute("providers", programManager.getProgramProviders(programId));
             request.setAttribute("functional_users", programManager.getFunctionalUsers(programId));
 
+/*            
             List teams = programManager.getProgramTeams(programId);
 
             for (Object team1 : teams) {
@@ -935,6 +939,8 @@ public class ProgramManagerAction extends BaseAction {
             }
 
             request.setAttribute("teams", teams);
+*/
+            
             request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
 
             request.setAttribute("admissions", admissionManager.getCurrentAdmissionsByProgramId(programId));
@@ -1053,16 +1059,17 @@ public class ProgramManagerAction extends BaseAction {
         return mapping.findForward("edit");
     }
 
+    
     public ActionForward assign_status_client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
         Admission admission = (Admission) programForm.get("admission");
 
-        Admission ad = admissionManager.getAdmission(admission.getId());
+//        Admission ad = admissionManager.getAdmission(admission.getId());
 
-        ad.setClientStatusId(admission.getClientStatusId());
+//        ad.setClientStatusId(admission.getClientStatusId());
 
-        admissionManager.saveAdmission(ad);
+//        admissionManager.saveAdmission(ad);
 
         ActionMessages messages = new ActionMessages();
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
@@ -1075,6 +1082,7 @@ public class ProgramManagerAction extends BaseAction {
         return mapping.findForward("edit");
     }
 
+    
     public ActionForward disable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
 

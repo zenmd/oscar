@@ -1,6 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<%@page import="org.oscarehr.PMmodule.model.QuatroAdmission"%>
+<%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.oscarehr.PMmodule.model.Bed"%>
 <%@page import="org.oscarehr.PMmodule.model.Room"%>

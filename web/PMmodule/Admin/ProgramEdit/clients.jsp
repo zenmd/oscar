@@ -26,11 +26,13 @@
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <script>
 function assignTeam(id,selectBox) {
+/*
 	var team_id = selectBox.options[selectBox.selectedIndex].value;
 	document.programManagerForm.elements['admission.teamId'].value=team_id;
 	document.programManagerForm.elements['admission.id'].value=id;
 	document.programManagerForm.method.value='assign_team_client';
 	document.programManagerForm.submit();
+*/	
 }
 
 function assignStatus(id,selectBox) {

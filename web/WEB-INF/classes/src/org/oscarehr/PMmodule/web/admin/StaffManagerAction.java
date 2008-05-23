@@ -50,12 +50,12 @@ import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.web.formbean.StaffEditProgramContainer;
 import org.oscarehr.PMmodule.web.formbean.StaffManagerViewFormBean;
 import org.oscarehr.util.SessionConstants;
 
-public class StaffManagerAction extends BaseAction {
+public class StaffManagerAction extends DispatchAction {
 	private static Log log = LogFactory.getLog(StaffManagerAction.class);
 	
 	private FacilityDAO facilityDAO=null;

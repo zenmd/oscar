@@ -119,7 +119,6 @@
     <bean id="clientHistoryDao" class="org.oscarehr.PMmodule.dao.ClientHistoryDao" autowire="byName"/>
     <bean id="agencyDao" class="org.oscarehr.PMmodule.dao.AgencyDao" autowire="byName"/>
     <bean id="admissionDao" class="org.oscarehr.PMmodule.dao.AdmissionDao" autowire="byName" />
-    <bean id="quatroAdmissionDao" class="org.oscarehr.PMmodule.dao.QuatroAdmissionDao" autowire="byName" />
     <bean id="jointAdmissionDAO" class="org.oscarehr.PMmodule.dao.JointAdmissionDAO" autowire="byName" />
     <bean id="bedDemographicDAO" class="org.oscarehr.PMmodule.dao.BedDemographicDAO" autowire="byName"/>
     <bean id="roomDemographicDAO" class="org.oscarehr.PMmodule.dao.RoomDemographicDAO" autowire="byName"/>
@@ -279,6 +278,7 @@
             
         </property>
     </bean>
+<!-- 
     <bean id="admissionManager" parent="baseTransactionProxy" autowire="byName">
         <property name="target">
             <bean class="org.oscarehr.PMmodule.service.AdmissionManager" autowire="byName">
@@ -288,9 +288,10 @@
             </bean>
         </property>
     </bean>
-    <bean id="quatroAdmissionManager" parent="baseTransactionProxy" autowire="byName">
+ -->    
+    <bean id="admissionManager" parent="baseTransactionProxy" autowire="byName">
         <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.QuatroAdmissionManager" autowire="byName">
+            <bean class="org.oscarehr.PMmodule.service.AdmissionManager" autowire="byName">
             </bean>
         </property>
     </bean>

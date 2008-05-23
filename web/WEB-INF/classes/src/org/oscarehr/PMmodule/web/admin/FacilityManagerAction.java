@@ -27,7 +27,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.web.FacilityDischargedClients;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -35,7 +35,7 @@ import com.quatro.service.LookupManager;
 
 /**
  */
-public class FacilityManagerAction extends BaseAction {
+public class FacilityManagerAction extends DispatchAction {
     private static final Log log = LogFactory.getLog(FacilityManagerAction.class);
 
     private FacilityManager facilityManager;
@@ -104,7 +104,7 @@ public class FacilityManagerAction extends BaseAction {
                         String name = client.getFirstName() + " " + client.getLastName();
                         String dob = client.getYearOfBirth() + "/" + client.getMonthOfBirth() + "/" + client.getDateOfBirth();
                         String pName = program.getName();
-                        Date dischargeDate = admission.getDischargeDate();
+                        Date dischargeDate = admission.getDischargeDate().getTime();
                         String dDate = dischargeDate.toString();
 
                         // today's date

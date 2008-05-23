@@ -7,14 +7,14 @@ import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicPK;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.Room;
-import org.oscarehr.PMmodule.model.QuatroAdmission;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 
 
 public class QuatroClientAdmissionForm extends ValidatorForm{
 
-    private QuatroAdmission admission = new QuatroAdmission();
+    private Admission admission = new Admission();
 
     private List providerList;
     private List provinceList;
@@ -26,11 +26,11 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
     private BedDemographic bedDemographic = new BedDemographic(new BedDemographicPK());
     
     
-	public QuatroAdmission getAdmission() {
+	public Admission getAdmission() {
 		return admission;
 	}
 
-	public void setAdmission(QuatroAdmission admission) {
+	public void setAdmission(Admission admission) {
 		this.admission = admission;
 	}
 

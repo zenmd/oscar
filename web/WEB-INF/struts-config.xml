@@ -3,8 +3,6 @@
 <struts-config>
 <form-beans>
         <!-- caisi core -->
-        <form-bean name="dawsonForm" type="com.quatro.web.DawsonForm"></form-bean>
-        
         <form-bean name="systemMessageForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="system_message" type="org.caisi.model.SystemMessage" />
         </form-bean>

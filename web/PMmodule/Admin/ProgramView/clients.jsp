@@ -27,11 +27,13 @@
 <jsp:include page="/common/messages.jsp" />
 <script>
 function assignTeam(id,selectBox) {
+/*
 	var team_id = selectBox.options[selectBox.selectedIndex].value;
 	document.programManagerViewForm.elements['teamId'].value=team_id;
 	document.programManagerViewForm.elements['admissionId'].value=id;
 	document.programManagerViewForm.method.value='assign_team_client';
 	document.programManagerViewForm.submit();
+*/	
 }
 
 function assignStatus(id,selectBox) {

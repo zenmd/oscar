@@ -26,23 +26,24 @@ import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.apache.struts.actions.DispatchAction;
 import org.springframework.beans.factory.annotation.Required;
+import org.oscarehr.PMmodule.service.RoomDemographicManager;
+import org.oscarehr.PMmodule.service.BedDemographicManager;
 
 /**
  * Responsible for managing beds
  */
-public class BedManagerAction extends BaseAction {
+public class BedManagerAction extends DispatchAction {
 
     private static final String FORWARD_MANAGE = "manage";
 
     private FacilityManager facilityManager;
-
     private BedManager bedManager;
-
     private ProgramManager programManager;
-
     private RoomManager roomManager;
+    private RoomDemographicManager roomDemographicManager;
+    private BedDemographicManager bedDemographicManager;
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // dispatch to correct method based on which button was selected
@@ -161,7 +162,7 @@ public class BedManagerAction extends BaseAction {
         // if some bed assigned, retrieve all beds assigned to this room -> delete them all <-- ???
         // (3)then delete this room ('room' table)
         try {
-            List<RoomDemographic> roomDemographicList = getRoomDemographicManager().getRoomDemographicByRoom(roomId);
+            List<RoomDemographic> roomDemographicList = roomDemographicManager.getRoomDemographicByRoom(roomId);
 
             if (roomDemographicList != null && !roomDemographicList.isEmpty()) {
                 throw new RoomHasActiveBedsException("The room has client(s) assigned to it and cannot be removed.");
@@ -234,7 +235,7 @@ public class BedManagerAction extends BaseAction {
 
         try {
 
-            BedDemographic bedDemographic = getBedDemographicManager().getBedDemographicByBed(bedId);
+            BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByBed(bedId);
 
             if (bedDemographic != null) {
                 throw new BedReservedException("The bed has client assigned to it and cannot be removed.");
@@ -403,4 +404,13 @@ public class BedManagerAction extends BaseAction {
     public void setRoomManager(RoomManager roomManager) {
         this.roomManager = roomManager;
     }
+
+	public void setRoomDemographicManager(
+			RoomDemographicManager roomDemographicManager) {
+		this.roomDemographicManager = roomDemographicManager;
+	}
+
+	public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
+		this.bedDemographicManager = bedDemographicManager;
+	}
 }
