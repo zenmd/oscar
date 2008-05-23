@@ -76,7 +76,7 @@
 				<tr valign="top" height="100%">
 					<td><table width="100%" height="100%"><tr>
 						<td id="leftcol" width="200px">
-							<tiles:insert name="navigation.jsp" />
+							<tiles:insert  attribute="leftNav"/>
 						</td>
 						<td valign="top" width="3px">
 							<img src='<html:rewrite page="/images/1x1.gif" />' width="3px" />
