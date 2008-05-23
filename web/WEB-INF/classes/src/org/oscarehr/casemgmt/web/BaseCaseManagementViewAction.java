@@ -48,10 +48,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.BaseClientAction;
 import com.quatro.util.*;
 
-public class BaseCaseManagementViewAction extends BaseAction {
+public class BaseCaseManagementViewAction extends BaseClientAction {
 	
 	protected CaseManagementManager caseManagementMgr;
 	protected TicklerManager ticklerManager;

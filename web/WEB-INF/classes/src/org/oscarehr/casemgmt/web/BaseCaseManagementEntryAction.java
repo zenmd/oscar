@@ -53,9 +53,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.service.LookupManager;
 import com.quatro.util.*;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.BaseClientAction;
 
-public class BaseCaseManagementEntryAction extends BaseAction {
+public class BaseCaseManagementEntryAction extends BaseClientAction {
 
 	protected String relateIssueString = "Issues related to this note:";
 

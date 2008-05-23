@@ -166,7 +166,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         long current = 0;
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        super.setScreenMode(request, KeyConstants.TAB_CASE);
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         HttpSession se = request.getSession();
         if (se.getAttribute("userrole") == null) return mapping.findForward("expired");
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
