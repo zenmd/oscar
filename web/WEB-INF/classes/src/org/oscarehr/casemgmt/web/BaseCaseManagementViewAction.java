@@ -190,6 +190,8 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		saveMessages(request, messages);
 	}
  */
+	
+	
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
 	}

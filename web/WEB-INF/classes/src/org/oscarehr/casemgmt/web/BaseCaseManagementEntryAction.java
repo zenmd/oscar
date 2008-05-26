@@ -69,6 +69,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		this.clientManager = clientManager;
 	}
 
+	
 	public void setLookupManager(LookupManager lookupMgr) {
 		this.lookupMgr = lookupMgr;
 	}

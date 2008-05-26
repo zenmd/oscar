@@ -44,6 +44,7 @@ import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.springframework.beans.factory.annotation.Required;
+import com.quatro.common.KeyConstants;
 
 public class ClientManager {
 
@@ -123,14 +124,14 @@ public class ClientManager {
 
         referralDAO.saveClientReferral(referral);
 
-        if (referral.getStatus().equalsIgnoreCase(ClientReferral.STATUS_ACTIVE)) {
+        if (referral.getStatus().equalsIgnoreCase(KeyConstants.STATUS_ACTIVE)) {
             ProgramQueue queue = new ProgramQueue();
             queue.setClientId(referral.getClientId());
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
             queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
             queue.setReferralDate(referral.getReferralDate());
-            queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+            queue.setStatus(KeyConstants.STATUS_ACTIVE);
             queue.setReferralId(referral.getId());
             queue.setTemporaryAdmission(referral.isTemporaryAdmission());
             queue.setPresentProblems(referral.getPresentProblems());
@@ -215,7 +216,7 @@ public class ClientManager {
 
         Admission currentAdmission = admissionManager.getCurrentAdmission(String.valueOf(referral.getProgramId()), referral.getClientId().intValue());
         if (currentAdmission != null) {
-            referral.setStatus(ClientReferral.STATUS_REJECTED);
+            referral.setStatus(KeyConstants.STATUS_REJECTED);
             referral.setCompletionNotes("Client currently admitted");
             referral.setCompletionDate(new Date());
 
@@ -225,7 +226,7 @@ public class ClientManager {
 
         ProgramQueue queue = queueManager.getActiveProgramQueue(String.valueOf(referral.getProgramId()), String.valueOf(referral.getClientId()));
         if (queue != null) {
-            referral.setStatus(ClientReferral.STATUS_REJECTED);
+            referral.setStatus(KeyConstants.STATUS_REJECTED);
             referral.setCompletionNotes("Client already in queue");
             referral.setCompletionDate(new Date());
 
