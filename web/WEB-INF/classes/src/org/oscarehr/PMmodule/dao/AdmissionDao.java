@@ -270,5 +270,42 @@ public class AdmissionDao extends HibernateDaoSupport {
 				admission.getDischargeNotes(), admission.getId()});
     }
     
+    public Admission getCurrentAdmission(Integer demographicNo) {
+        Admission admission = null;
+
+        if (demographicNo == null || demographicNo <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        String queryStr = "FROM Admission a WHERE a.clientId=? AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr, new Object[] {demographicNo });
+
+        if (!rs.isEmpty()) {
+            admission = ((Admission) rs.get(0));
+        }
+
+        return admission;
+    }
+
+    public Admission getCurrentAdmission(Integer programId, Integer demographicNo) {
+        Admission admission = null;
+
+        if (demographicNo == null || demographicNo <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (programId == null || programId <= 0) {
+            return getCurrentAdmission(demographicNo);
+        }
+
+        String queryStr = "FROM Admission a WHERE a.programId=? AND a.clientId=? AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr, new Object[] { programId, demographicNo });
+
+        if (!rs.isEmpty()) {
+            admission = ((Admission) rs.get(0));
+        }
+
+        return admission;
+    }
+    
 }
 

@@ -270,4 +270,8 @@ public class AdmissionManager {
 	  this.programQueueDao = programQueueDao;
     }
   
+	public Admission getCurrentAdmission(String programId, Integer demographicNo) {
+		return admissionDao.getCurrentAdmission(Integer.valueOf(programId), demographicNo);
+	}
+    
 }
