@@ -224,7 +224,7 @@ public class AdmissionManager {
 	        referral.setProgramId(admission.getBedProgramId().intValue());
 	        referral.setProviderNo(admission.getProviderNo());
 	        referral.setReferralDate(new Date());
-	        referral.setStatus(ClientReferral.STATUS_ACTIVE);	        
+	        referral.setStatus(KeyConstants.STATUS_ACTIVE);	        
 	        
 	        ProgramQueue queue = new ProgramQueue();
 	        
@@ -233,7 +233,7 @@ public class AdmissionManager {
 	          queue.setProgramId(referral.getProgramId());
 	          queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
 	          queue.setReferralDate(referral.getReferralDate());
-	          queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+	          queue.setStatus(KeyConstants.STATUS_ACTIVE);
 	          queue.setReferralId(referral.getId());
 	          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
 	          queue.setPresentProblems(referral.getPresentProblems());

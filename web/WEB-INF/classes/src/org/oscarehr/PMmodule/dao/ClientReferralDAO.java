@@ -32,6 +32,7 @@ import org.hibernate.criterion.Expression;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import com.quatro.common.KeyConstants;
 
 public class ClientReferralDAO extends HibernateDaoSupport {
 
@@ -171,11 +172,11 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         @SuppressWarnings("unchecked")
         List<ClientReferral> results;
         if(facilityId==null){
-          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ? and (cr.status = '"+ClientReferral.STATUS_ACTIVE+"' or cr.status = '"+ClientReferral.STATUS_PENDING+"' or cr.status = '"+ClientReferral.STATUS_UNKNOWN+"')", clientId);
+          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ? and (cr.status = '"+KeyConstants.STATUS_ACTIVE+"' or cr.status = '"+KeyConstants.STATUS_PENDING+"' or cr.status = '"+KeyConstants.STATUS_UNKNOWN+"')", clientId);
         }else{
           ArrayList paramList = new ArrayList();
-          String sSQL="from ClientReferral cr where cr.clientId = ? and (cr.status = '" + ClientReferral.STATUS_ACTIVE+"' or cr.status = '" + 
-            ClientReferral.STATUS_PENDING + "' or cr.status = '" + ClientReferral.STATUS_UNKNOWN + "')" + 
+          String sSQL="from ClientReferral cr where cr.clientId = ? and (cr.status = '" + KeyConstants.STATUS_ACTIVE+"' or cr.status = '" + 
+          KeyConstants.STATUS_PENDING + "' or cr.status = '" + KeyConstants.STATUS_UNKNOWN + "')" + 
             " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=?)))";
           paramList.add(clientId);
           paramList.add(facilityId);
