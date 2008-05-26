@@ -63,6 +63,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
+import com.quatro.common.KeyConstants;
 
 import oscar.MyDateFormat;
 
@@ -510,7 +511,7 @@ public class ProgramManagerAction extends DispatchAction {
         ProgramQueue queue = (ProgramQueue) programForm.get("queue");
 
         ProgramQueue fullQueue = programQueueManager.getProgramQueue(String.valueOf(queue.getId()));
-        fullQueue.setStatus(ProgramQueue.STATUS_REMOVED);
+        fullQueue.setStatus(KeyConstants.STATUS_REMOVED);
         programQueueManager.saveProgramQueue(fullQueue);
 
         logManager.log("write", "edit program - queue removal", String.valueOf(program.getId()), request);
