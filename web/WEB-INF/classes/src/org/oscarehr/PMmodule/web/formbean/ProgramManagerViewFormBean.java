@@ -31,7 +31,7 @@ public class ProgramManagerViewFormBean extends ActionForm {
 	private static final long serialVersionUID = 1L;
 
 	//public static final String[] tabs = { "General", "Staff", "Function User", "Clients", "Queue", "Access", "Bed Check" , "Client Status", "Service Restrictions", "Incidents"};
-	public static final String[] tabs = { "General", "Queue", "Staff", "Client Status", "Incidents", "Service Restrictions"};
+	public static final String[] tabs = { "General", "Queue", "Staff", "Clients", "Incidents", "Service Restrictions"};
 	private String tab;
 	private String clientId;
 	private String queueId;
@@ -44,6 +44,10 @@ public class ProgramManagerViewFormBean extends ActionForm {
     private ProgramClientRestriction serviceRestriction;
 
     private IncidentForm incidentForm;
+    
+    private StaffForm staffForm;
+    
+    
     
     public IncidentForm getIncidentForm() {
 		return incidentForm;
@@ -136,5 +140,13 @@ public class ProgramManagerViewFormBean extends ActionForm {
 
 	public void setSwitchBed2(String switchBed2) {
 		this.switchBed2 = switchBed2;
+	}
+
+	public StaffForm getStaffForm() {
+		return staffForm;
+	}
+
+	public void setStaffForm(StaffForm staffForm) {
+		this.staffForm = staffForm;
 	}
 }

@@ -87,29 +87,30 @@ public class UsersManager {
 		
 	}
 	public void saveAll(List newLst, List existLst) {
-		ArrayList lstForDelete = new ArrayList();
-		if(existLst.size()>0){
-			
-			for(int i = 0; i < existLst.size(); i++){
-				boolean keepIt = false;
-				Secuserrole sur1 = (Secuserrole)existLst.get(i);
-				for(int j = 0; j < newLst.size(); j++){
-					Secuserrole sur2 = (Secuserrole)newLst.get(j);
-					if(compare(sur1, sur2)){
-						keepIt = true;
-						break;
-					}
-				}
-				if(!keepIt){
-					lstForDelete.add(sur1);
-				}
-				
-			}
-			for( int i = 0; i < lstForDelete.size(); i++){
-				secuserroleDao.delete((Secuserrole)lstForDelete.get(i));				
-			}
-			
-		}
+		
+//		ArrayList lstForDelete = new ArrayList();
+//		if(existLst.size()>0){
+//			
+//			for(int i = 0; i < existLst.size(); i++){
+//				boolean keepIt = false;
+//				Secuserrole sur1 = (Secuserrole)existLst.get(i);
+//				for(int j = 0; j < newLst.size(); j++){
+//					Secuserrole sur2 = (Secuserrole)newLst.get(j);
+//					if(compare(sur1, sur2)){
+//						keepIt = true;
+//						break;
+//					}
+//				}
+//				if(!keepIt){
+//					lstForDelete.add(sur1);
+//				}
+//				
+//			}
+//			for( int i = 0; i < lstForDelete.size(); i++){
+//				secuserroleDao.delete((Secuserrole)lstForDelete.get(i));				
+//			}
+//			
+//		}
 		
 		secuserroleDao.saveAll(newLst);
 	}

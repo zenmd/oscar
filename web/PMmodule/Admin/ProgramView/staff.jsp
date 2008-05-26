@@ -43,10 +43,19 @@
 			action="/PMmodule/ProgramManager.do"
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
-			<html:link
-				href="javascript:submitForm('saveRoles');"
+<!-- 			<html:link
+				href="javascript:submitForm('saveStaff');"
 				style="color:Navy;text-decoration:none;">
 				<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
+ -->
+ 			<html:link
+			href="javascript:searchStaff();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
+			<html:link
+			href="javascript:resetForm();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
 	<tr>
@@ -61,7 +70,37 @@
 		</td>
 	</tr>
 	
+	<tr>
+		<td>			
+			<div class="h4">
+				<h4>Search Staff by entering search criteria below</h4>
+				<br />
+			</div>
+		</td>
+	</tr>
+	
 
+	<tr>
+		<td>
+			<div class="axial">
+				<table border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<th>First Name:</th>
+						<td><html:text property="staffForm.firstName" size="20" /></td>
+					</tr>
+					<tr>
+						<th>Last Name:</th>
+						<td><html:text property="staffForm.lastName" size="20" /></td>
+					</tr>
+					
+				
+				</table>
+			</div>
+			
+			
+
+		</td>
+	</tr>
 
 	<tr>
 		<td height="100%">
@@ -80,73 +119,162 @@
 			</table>
 			</div> 
 			  
-			<TABLE align="center" class="simple" width="100%">
+			<table align="center" class="simple" width="100%">
 				<thead>
-					<TR>
+					<tr>
 						<th align="center"><b>Select</b></th>
 						<th align="center"><b>Name</b></th>
 						<th align="center"><b>Role</b></th>
-					</TR>
+					</tr>
 				</thead>
 				
-				<logic:iterate id="pp" name="providers" indexId="rIndex">
-					<TR>
-						<TD align="center" width="50px"><input type="checkbox"
-							name="p<%=String.valueOf(rIndex)%>" value="" /> <input
-							type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /></TD>
+				<logic:iterate id="pp" name="existStaffLst" indexId="rIndex">
+					<tr>
+						<td align="center" width="50px"><input type="checkbox"
+							name="p2<%=String.valueOf(rIndex)%>" value='<c:out value="${pp.id}"/>' /> 
+							<input type="hidden" name="lineno2" value="<%=String.valueOf(rIndex)%>" />
+							<input type="hidden" name="id<%=String.valueOf(rIndex)%>" value='<c:out value="${pp.id}"/>' />
+						</td>
 				
-						<TD width="350px">
+						<td width="350px">
 							<table cellpadding="0" style="border:0px;" cellspacing="0"
 								width="100%">
 								<tr>
 									<td style="border:0px;" width="100px">
-										<input style="width:100px;" type="text"
-										name="providerNo<%=String.valueOf(rIndex)%>"
+										<input style="width:100px; border: none" type="text"
+										name="providerNo2<%=String.valueOf(rIndex)%>"
 										value='<c:out value="${pp.providerNo}"/>' readonly></td>
 									<td style="border:0px;" width="100%">
 										<input id="ORGfld<%=String.valueOf(rIndex)%>" 
-										style="width:100%;" type="text"  
-										name="providerName<%=String.valueOf(rIndex)%>"
+										style="width:100%; border: none" type="text"  
+										name="providerName2<%=String.valueOf(rIndex)%>"
 										value='<c:out value="${pp.providerName}"/>'
 										readonly></td>
-									<td style="border:0px;" width="35px">
-										<a	onclick="showLookup('USR', '', '', 'programManagerViewForm','providerNo<%=String.valueOf(rIndex)%>','providerName<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-										src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
+									<td style="border:0px;" width="35px"></td>
 								</tr>
 							</table>
-						</TD>
-						<TD width="250px">
+						</td>
+						<td width="250px">
 							<table cellpadding="0" style="border:0px;" cellspacing="0"
 								width="100%">
 								<tr>
 									<td style="border:0px;" width="1px"><input type="text"
-										style="width:1px;"
-										name="role_code<%=String.valueOf(rIndex)%>"
+										style="width:1px; border: none"
+										name="role_code2<%=String.valueOf(rIndex)%>"
 										value='<c:out value="${pp.roleName}"/>' readonly></td>
 									<td style="border:0px;" width="100%"><input
-										style="width:100%;" type="text" 
-										name="role_description<%=String.valueOf(rIndex)%>"
+										style="width:100%; border: none" type="text" 
+										name="role_description2<%=String.valueOf(rIndex)%>"
 										value='<c:out value="${pp.roleName_desc}"/>'
 										readonly></td>
-									<td style="border:0px;" width="35px"><a  
-										onclick="showLookup('ROL', '', '', 'programManagerViewForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-										src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
+									<td style="border:0px;" width="35px"></td>
 								</tr>
 							</table>
-						</TD>
-					</TR>
+						</td>
+					</tr>
 				</logic:iterate>
-			</TABLE>
-			
-			<table width="100%">
-				<tr>
-					<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
-						href="javascript:submitForm('addStaff');">Add</a>&nbsp;&nbsp;&nbsp;|
-					&nbsp;&nbsp;<a href="javascript:submitForm('removeStaff');">Remove</a>
-					</td>
-				</tr>
 			</table>
-			        
+			<logic:empty name="existStaffLst">
+				No record to display.<br />
+			</logic:empty>
+			<logic:notEmpty name="existStaffLst">
+				<table width="100%">
+					<tr>
+						<td class="clsButtonBarText" >&nbsp;&nbsp;<a href="javascript:submitForm('addStaff');">Add</a>
+						</td>
+						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a href="javascript:submitForm('removeExistStaff');">Remove</a>
+						</td>
+					</tr>
+				</table>
+			</logic:notEmpty>
+			
+			
+			
+			<br />
+			
+			<logic:notEmpty name="newStaffLst">
+			
+				<table align="center" class="simple" width="100%">
+					<thead>
+						<tr>
+							
+							<th align="center"><b>Name</b></th>
+							<th align="center"><b>Role</b></th>
+							<th align="center"><b></b></th>
+						</tr>
+					</thead>
+					
+					<logic:iterate id="pp" name="newStaffLst" indexId="rIndex">
+						<input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" />
+						<tr>
+							<!-- 
+							<td align="center" width="50px">
+								<input type="checkbox"	name="p<%=String.valueOf(rIndex)%>" value="" /> 
+								<input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /></td>
+	 						-->
+													
+					
+							<td width="350px">
+								<table cellpadding="0" style="border:0px;" cellspacing="0"
+									width="100%">
+									<tr>
+										<td style="border:0px;" width="100px">
+											<input style="width:100px;" type="text"
+											name="providerNo<%=String.valueOf(rIndex)%>"
+											value='<c:out value="${pp.providerNo}"/>' readonly></td>
+										<td style="border:0px;" width="100%">
+											<input id="ORGfld<%=String.valueOf(rIndex)%>" 
+											style="width:100%;" type="text"  
+											name="providerName<%=String.valueOf(rIndex)%>"
+											value='<c:out value="${pp.providerName}"/>'
+											readonly></td>
+										<td style="border:0px;" width="35px">
+											<a	onclick="showLookup('USR', '', '', 'programManagerViewForm','providerNo<%=String.valueOf(rIndex)%>','providerName<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+											src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
+									</tr>
+								</table>
+							</td>
+							<td width="250px">
+								<table cellpadding="0" style="border:0px;" cellspacing="0"
+									width="100%">
+									<tr>
+										<td style="border:0px;" width="1px"><input type="text"
+											style="width:1px;"
+											name="role_code<%=String.valueOf(rIndex)%>"
+											value='<c:out value="${pp.roleName}"/>' readonly></td>
+										<td style="border:0px;" width="100%"><input
+											style="width:100%;" type="text" 
+											name="role_description<%=String.valueOf(rIndex)%>"
+											value='<c:out value="${pp.roleName_desc}"/>'
+											readonly></td>
+										<td style="border:0px;" width="35px"><a  
+											onclick="showLookup('ROL', '', '', 'programManagerViewForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+											src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
+									</tr>
+								</table>
+							</td>
+							
+							<td class="clsButtonBarText" >&nbsp;&nbsp;
+								<logic:equal value="0" name="rIndex">
+									<a href="javascript:submitForm('saveStaff');">Save</a>
+								</logic:equal>
+							</td>	
+						</tr>
+					</logic:iterate>
+				</table>
+				<!-- 
+				<table width="100%">
+					<tr>
+						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
+							href="javascript:submitForm('addStaff');">Add</a>&nbsp;&nbsp;&nbsp;|
+						&nbsp;&nbsp;<a href="javascript:submitForm('removeStaff');">Remove</a>
+						</td>
+					</tr>
+				</table>
+				 -->    
+				 
+			</logic:notEmpty>  
+			    
         
          
         </div>
@@ -157,7 +285,32 @@
 
 <script>
 	function submitForm(mthd) {
-		document.programManagerViewForm.method.value=mthd;
+		var flag = true;
+		if(mthd == "removeExistStaff"){
+			flag = confirm('Do you really want to remove these records?');
+		}
+		if(mthd == "saveStaff"){
+			document.programManagerViewForm.action = document.programManagerViewForm.action + "?mthd=search";
+		}
+			
+		if(flag){
+			document.programManagerViewForm.method.value=mthd;
+			document.programManagerViewForm.submit();
+		}
+	}
+	
+	function resetForm() {
+		document.getElementsByName("staffForm.firstName")[0].value = "";
+		document.getElementsByName("staffForm.lastName")[0].value = "";
+	}
+	
+	function searchStaff(){
+
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?mthd=search";
+		//alert(document.programManagerViewForm.action);
+		document.programManagerViewForm.tab.value = "Staff";
 		document.programManagerViewForm.submit();
+		
+	
 	}
 </script>

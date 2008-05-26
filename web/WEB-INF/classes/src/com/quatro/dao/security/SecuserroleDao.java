@@ -1,13 +1,15 @@
 package com.quatro.dao.security;
 
-import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
+import org.oscarehr.PMmodule.web.formbean.IncidentForm;
+import org.oscarehr.PMmodule.web.formbean.StaffForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.security.Secuserrole;
@@ -96,6 +98,17 @@ public class SecuserroleDao extends HibernateDaoSupport {
 		}
 	}
 	
+	public int deleteById(Integer id) {
+		log.debug("deleting Secuserrole by ID");
+		try {
+			
+			return getHibernateTemplate().bulkUpdate("delete Secuserrole as model where model.id =?", id);
+			
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
 	public int update(Secuserrole instance) {
 		log.debug("Update Secuserrole instance");
 		try {
@@ -166,7 +179,42 @@ public class SecuserroleDao extends HibernateDaoSupport {
 	public List findByOrgcd(Object orgcd) {
 		return findByProperty(ORGCD, orgcd);
 	}
-
+	public List searchByCriteria(StaffForm staffForm){
+		
+		log.debug("Search staff instance .");
+		try {
+			
+			
+			String AND = " and ";
+			//String OR = " or ";
+			
+			
+			
+			String orgcd = staffForm.getOrgcd();
+			String queryString = "from Secuserrole as model where model.orgcd = '" + orgcd + "'";
+			
+			String fname = staffForm.getFirstName();
+			String lname = staffForm.getLastName();
+			
+			if (fname != null && fname.length() > 0) {
+				fname = StringEscapeUtils.escapeSql(fname);
+				fname = fname.toLowerCase();
+				queryString = queryString + AND + "lower(model.providerFName) like '%" + fname + "%'";
+			}
+			if (lname != null && lname.length() > 0) {
+				lname = StringEscapeUtils.escapeSql(lname);
+				lname = lname.toLowerCase();
+				queryString = queryString + AND + "lower(model.providerLName) like '%" + lname + "%'";
+			}
+			
+			return this.getHibernateTemplate().find(queryString);
+			
+		} catch (RuntimeException re) {
+			log.error("Search staff failed", re);
+			throw re;
+		}
+	}
+	
 	public List findByActiveyn(Object activeyn) {
 		return findByProperty(ACTIVEYN, activeyn);
 	}

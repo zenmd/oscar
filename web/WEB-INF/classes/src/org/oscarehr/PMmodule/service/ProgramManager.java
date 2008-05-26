@@ -49,6 +49,7 @@ import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
+import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import oscar.OscarProperties;
 
@@ -259,6 +260,13 @@ public class ProgramManager {
     public void deleteProgramProvider(String id) {
         programProviderDAO.deleteProgramProvider(Integer.valueOf(id));
     }
+    
+    public void deleteProgramProvider(List lst) {
+        for(int i = 0; i < lst.size(); i++){
+        	Integer id = (Integer)lst.get(i);
+        	secuserroleDao.deleteById(id);
+        }
+    }
 
     public void deleteProgramProviderByProgramId(Integer programId) {
         programProviderDAO.deleteProgramProviderByProgramId(programId);
@@ -360,6 +368,10 @@ public class ProgramManager {
 
     public List searchByFacility(Program criteria, Integer facilityId){
         return this.programDao.searchByFacility(criteria, facilityId);
+    }
+    
+    public List searchStaff(StaffForm staffForm) {
+        return this.secuserroleDao.searchByCriteria(staffForm);
     }
     
     public Program getHoldingTankProgram() {

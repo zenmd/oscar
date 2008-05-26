@@ -71,6 +71,7 @@ import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
+import org.oscarehr.PMmodule.web.formbean.StaffForm;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -109,6 +110,10 @@ public class ProgramManagerViewAction extends DispatchAction {
     private IncidentManager incidentManager;
     
     private UsersManager usersManager;
+    
+    private static final int REMOVE = 1;
+    private static final int ADD = 2;
+    private static final int RESET = 3;
 
     public void setFacilityDAO(FacilityDAO facilityDAO) {
         this.facilityDAO = facilityDAO;
@@ -200,7 +205,8 @@ public class ProgramManagerViewAction extends DispatchAction {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(Integer.valueOf(programId), new Date()));
         }
         if (formBean.getTab().equals("Staff")) {
-            request.setAttribute("providers", programManager.getProgramProviders("P" + programId));
+        	processStaff( request, programId, formBean);
+            //request.setAttribute("providers", programManager.getProgramProviders("P" + programId));
         }
 
         if (formBean.getTab().equals("Function User")) {
@@ -328,6 +334,42 @@ public class ProgramManagerViewAction extends DispatchAction {
         return mapping.findForward("view");
     }
     
+    private void processStaff( HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
+    	
+    	changeLstTable(RESET, formBean, request);
+    	
+    	
+    	//List lst = programManager.getProgramProviders("P" + programId);
+    	
+    	//request.setAttribute("existStaffLst", lst);
+    	
+    	    	
+    	String mthd = request.getParameter("mthd");
+    	
+    	StaffForm staffForm = null;
+    	
+		List lst = new ArrayList();
+		if(mthd != null && mthd.equals("search")){
+			
+	    	String orgcd = "P" + programId;
+	    	
+			staffForm = formBean.getStaffForm();
+			staffForm.setOrgcd(orgcd);
+			lst = programManager.searchStaff(staffForm);
+			
+		}else{
+			staffForm = new StaffForm();
+			formBean.setStaffForm(staffForm);
+			lst = programManager.getProgramProviders("P" + programId);
+		}
+		
+		request.setAttribute("existStaffLst", lst);
+    	
+    	
+    	
+    	
+    }
+    
     private void processIncident(HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
     	String incidentId = request.getParameter("incidentId");
     	String mthd = request.getParameter("mthd");
@@ -402,6 +444,8 @@ public class ProgramManagerViewAction extends DispatchAction {
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
        
+        request.setAttribute("existStaffLst", getStaffList( request, form, ADD));
+        
         //ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean)form;
         
         if (isCancelled(request)) {
@@ -409,7 +453,7 @@ public class ProgramManagerViewAction extends DispatchAction {
 		}
       
 		
-		changeLstTable(2, form, request);
+		changeLstTable(ADD, form, request);
         
         
 
@@ -428,11 +472,56 @@ public class ProgramManagerViewAction extends DispatchAction {
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
         
-        changeLstTable(1, form, request);
+        request.setAttribute("existStaffLst", getStaffList( request, form, ADD));
+        
+        changeLstTable(REMOVE, form, request);
 
        
 
         return mapping.findForward("view");
+    }
+    
+    public ActionForward removeExistStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        
+        System.out.println("========== remove Existing Staff ==========");
+        String programId = request.getParameter("id");
+
+        if (programId == null) {
+            programId = (String) request.getAttribute("id");
+        }
+        request.setAttribute("id", programId);
+        Program program = programManager.getProgram(programId);
+        request.setAttribute("program", program);
+        
+        ActionMessages messages = new ActionMessages();
+        
+        ArrayList existStaffLst = (ArrayList)getStaffList( request, form, REMOVE);
+        ArrayList staffIdLstForRemove = (ArrayList)request.getAttribute("staffIdLstForRemove");
+        
+        if(staffIdLstForRemove.size() >0){
+        	try{
+				
+	        	programManager.deleteProgramProvider(staffIdLstForRemove);
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success",
+				request.getContextPath()));
+				saveMessages(request,messages);	
+				
+				
+				
+			}catch(Exception e){
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.remove.failed",
+				request.getContextPath()));
+				saveMessages(request,messages);	
+				
+				
+			}
+        }   
+        request.setAttribute("existStaffLst", existStaffLst);
+        request.setAttribute("newStaffLst", getRowList(request, form, ADD));
+       
+
+        return mapping.findForward("view");
+        
     }
     
 
@@ -441,33 +530,43 @@ public class ProgramManagerViewAction extends DispatchAction {
 		
 //		ActionMessages messages = new ActionMessages();
 		
-		ArrayList providerLst = new ArrayList();
+		ArrayList newStaffLst = new ArrayList();
+		ArrayList existStaffLst = new ArrayList();
 
 		
 		switch (operationType) {
 		
-		case 1: // remove
-			providerLst = (ArrayList)getRowList(request, myForm, 1);
+		case REMOVE: // remove
+			newStaffLst = (ArrayList)getRowList(request, myForm, REMOVE);
 			break;
 			
-		case 2: // add
-			providerLst = (ArrayList)getRowList(request, myForm, 2);
+		case ADD: // add
+			newStaffLst = (ArrayList)getRowList(request, myForm, ADD);
 			
 			// add one more
-			providerLst.add(new Secuserrole());
+			newStaffLst.add(new Secuserrole());
+			
+			break;
+			
+		case RESET: // reset
+				
+			// add one more
+			//newStaffLst.add(new Secuserrole());
 			
 			break;
 
 		}
 		
+		existStaffLst = (ArrayList)getStaffList(request, myForm, ADD);
+		request.setAttribute("existStaffLst", existStaffLst);
 		
-		request.setAttribute("providers", providerLst);
+		request.setAttribute("newStaffLst", newStaffLst);
 
 	}
 
 	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
 		
-		ArrayList providerLst = new ArrayList();
+		ArrayList newStaffLst = new ArrayList();
 		
 		//ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean) form;
 		//String providerNo = (String) secuserForm.get("providerNo");
@@ -481,7 +580,7 @@ public class ProgramManagerViewAction extends DispatchAction {
 		for (int i = 0; i < lineno; i++) {
 			
 			String[] isChecked = (String[]) map.get("p" + i);
-			if ((operationType == 1 && isChecked == null) || operationType != 1) {
+			if ((operationType == REMOVE && isChecked == null) || operationType != REMOVE) {
 
 				Secuserrole objNew = new Secuserrole();
 				
@@ -504,17 +603,78 @@ public class ProgramManagerViewAction extends DispatchAction {
 					objNew.setRoleName_desc(role_description[0]);
 				
 		
-				providerLst.add(objNew);
+				newStaffLst.add(objNew);
 			}
 			
 		}
-		return providerLst;
+		return newStaffLst;
+	}
+	
+	public List getStaffList(HttpServletRequest request, ActionForm form, int operationType){
+		
+		ArrayList newStaffLst = new ArrayList();
+		ArrayList staffIdLstForRemove = new ArrayList();
+		
+		//ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean) form;
+		//String providerNo = (String) secuserForm.get("providerNo");
+
+		Map map = request.getParameterMap();
+		String[] arr_lineno = (String[]) map.get("lineno2");
+		int lineno = 0;
+		if (arr_lineno != null)
+			lineno = arr_lineno.length;
+		
+		for (int i = 0; i < lineno; i++) {
+			
+			String[] isChecked = (String[]) map.get("p2" + i);
+			if ((operationType == REMOVE && isChecked == null) || operationType != REMOVE) {
+
+				Secuserrole objNew = new Secuserrole();
+				
+				String[] providerNo = (String[]) map
+						.get("providerNo2" + i);
+				String[] providerName = (String[]) map
+						.get("providerName2" + i);
+				String[] role_code = (String[]) map
+						.get("role_code2" + i);
+				String[] role_description = (String[]) map
+						.get("role_description2" + i);
+				String[] id = (String[]) map
+						.get("id" + i);
+		
+				if (providerNo != null)
+					objNew.setProviderNo(providerNo[0]);
+				if (providerName != null)
+					objNew.setProviderName(providerName[0]);
+				if (role_code != null)
+					objNew.setRoleName(role_code[0]);
+				if (role_description != null)
+					objNew.setRoleName_desc(role_description[0]);
+				if (id != null)
+					objNew.setId(Integer.valueOf(id[0]));
+		
+				newStaffLst.add(objNew);
+			}
+			
+			if (operationType == REMOVE && isChecked != null ) {
+
+				Integer id = Integer.valueOf(isChecked[0]);
+		
+				staffIdLstForRemove.add(id);
+			}
+			
+			
+		}
+		request.setAttribute("staffIdLstForRemove", staffIdLstForRemove);
+		
+		return newStaffLst;
 	}
 
-	public ActionForward saveRoles(ActionMapping mapping, ActionForm form,
+
+	public ActionForward saveStaff(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("=========== saveRoles ========= in ProgramManagerViewAction");
+		System.out.println("=========== saveStaff ========= in ProgramManagerViewAction");
 		
 		String programId = request.getParameter("id");
         if (programId == null) {
@@ -538,17 +698,35 @@ public class ProgramManagerViewAction extends DispatchAction {
 			
 		}
 		
-		try{
-			//usersManager.saveRolesToUser(LstforSave);
-			usersManager.saveStaffToProgram(LstforSave, orgcd);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
-			request.getContextPath()));
-			saveMessages(request,messages);			
-		}catch(Exception e){
+		
+		if(LstforSave.size() > 0){
+			try{
+				//usersManager.saveRolesToUser(LstforSave);
+				usersManager.saveStaffToProgram(LstforSave, orgcd);
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+				request.getContextPath()));
+				saveMessages(request,messages);	
+				
+			}catch(Exception e){
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
+				request.getContextPath()));
+				saveMessages(request,messages);				
+			}
+		}else{
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
 			request.getContextPath()));
-			saveMessages(request,messages);				
+			saveMessages(request,messages);	
 		}
+		
+
+
+		
+//		ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean)form;
+//		StaffForm staffForm = formBean.getStaffForm();
+//		staffForm.setOrgcd(orgcd);
+//		List lst = programManager.searchStaff(staffForm);
+//		request.setAttribute("existStaffLst", lst);
+		
 		
 		return view(mapping,form,request,response);
 
