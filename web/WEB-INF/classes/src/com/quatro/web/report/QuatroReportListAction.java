@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.*;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.service.QuatroReportManager;
-
-public class QuatroReportListAction extends DispatchAction {
+import com.quatro.common.KeyConstants;
+public class QuatroReportListAction extends BaseAction {
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		return reportlist(mapping,form,request,response);
 	}
@@ -54,6 +54,7 @@ public class QuatroReportListAction extends DispatchAction {
 		QuatroReportListForm qform = (QuatroReportListForm) form;
 		qform.setReportGroups(reports);
 		qform.setProvider(providerNo);
+		super.setMenu(request,KeyConstants.MENU_REPORT);
 		return mapping.findForward("reportlist");
 	}
 }

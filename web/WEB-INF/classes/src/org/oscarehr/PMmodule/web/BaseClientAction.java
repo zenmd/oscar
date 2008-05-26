@@ -35,8 +35,6 @@ import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.AgencyManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.ClientManager;
-import org.oscarehr.PMmodule.service.IntakeAManager;
-import org.oscarehr.PMmodule.service.IntakeCManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -51,9 +49,10 @@ import com.quatro.common.KeyConstants;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 
-public abstract class BaseClientAction extends DispatchAction {
+public abstract class BaseClientAction extends BaseAction {
 
 	protected void setScreenMode(HttpServletRequest request, String currentTab) {
+		super.setMenu(request, KeyConstants.MENU_CLIENT);
 		SecurityManager sec = (SecurityManager) request.getSession()
 				.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 		//summary

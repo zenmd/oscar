@@ -7,9 +7,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import com.quatro.common.KeyConstants;
 
-public class HomeAction extends DispatchAction {
+public class HomeAction extends BaseAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	super.setMenu(request,KeyConstants.MENU_HOME);
 		return mapping.findForward("home");
 	}
 }
