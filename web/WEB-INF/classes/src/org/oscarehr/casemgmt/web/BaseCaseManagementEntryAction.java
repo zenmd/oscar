@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.actions.DispatchAction;
 import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.SurveyManager;
@@ -61,9 +61,11 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 
 	
 	protected CaseManagementManager caseManagementMgr;
-	protected AdmissionManager admissionMgr;	
-	protected LookupManager lookupMgr;
+	protected ProgramManager programManager;	
+	protected LookupManager lookupManager;
 	protected ClientManager clientManager;
+	protected ClientImageManager clientImageManager;
+    protected ProviderManager providerManager;
 	
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
@@ -71,21 +73,19 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 
 	
 	public void setLookupManager(LookupManager lookupMgr) {
-		this.lookupMgr = lookupMgr;
+		this.lookupManager = lookupMgr;
 	}
 
-	public void setAdmissionManager(AdmissionManager admMgr){
-		this.admissionMgr = admMgr;
+	public void setProgramManager(ProgramManager pmMgr){
+		this.programManager = pmMgr;
 	}
-	protected ClientImageManager clientImageMgr;
-        protected ProviderManager providerMgr;
 	
         public void setProviderManager(ProviderManager pmgr ) {
-            this.providerMgr = pmgr;
+            this.providerManager = pmgr;
         }
         
 	public void setClientImageManager(ClientImageManager mgr) {
-		this.clientImageMgr = mgr;
+		this.clientImageManager = mgr;
 	}
 	
 	public void setCaseManagementManager(CaseManagementManager caseManagementMgr) {
@@ -144,7 +144,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
         protected Provider getProvider(HttpServletRequest request) {
 		String providerNo = getProviderNo(request);
 		if (providerNo == null)	return null;                
-		return providerMgr.getProvider(providerNo);
+		return providerManager.getProvider(providerNo);
 	}
 
 		

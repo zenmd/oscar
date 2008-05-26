@@ -40,9 +40,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.LogicalExpression;
@@ -64,7 +66,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import oscar.MyDateFormat;
 import oscar.OscarProperties;
 import oscar.util.SqlUtils;
-
+import org.oscarehr.PMmodule.model.Intake;
 public class ClientDao extends HibernateDaoSupport {
 
 	private Log log = LogFactory.getLog(ClientDao.class);
@@ -651,6 +653,23 @@ public class ClientDao extends HibernateDaoSupport {
 
 		return providerName;
 	}
+    public Integer getRecentProgramId(Integer clientId, String providerNo, Integer facilityId){
+    	String sql = "select p.programId  from QuatroIntake p ,Program c" +
+    	"where p.ProgramId = c.id and p.clientId=? and  c.facilityId=? and 'P' || p.programId in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)" +
+    			" order by createdOn desc " ;
+    	Query query = getSession().createSQLQuery(sql);
+    	((SQLQuery) query).addScalar("programId", Hibernate.INTEGER);
+    	query.setInteger(0, clientId);
+    	query.setInteger(1, facilityId);
+    	query.setString(2, providerNo);
+    	List lst=query.list();
+    	
+    	//element in lst is Object[] type
+    	if (lst.size() > 0)
+    		return (Integer) lst.get(0);
+    	else
+    		return 0;
+    }
 
 	public String getMostRecentIntakeCProvider(Integer demographicNo) {
 

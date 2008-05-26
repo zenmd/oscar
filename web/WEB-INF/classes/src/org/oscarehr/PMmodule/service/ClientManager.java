@@ -81,7 +81,11 @@ public class ClientManager {
     public java.util.Date getMostRecentIntakeADate(String demographicNo) {
         return dao.getMostRecentIntakeADate(Integer.valueOf(demographicNo));
     }
-
+    
+    public Integer getRecentProgramId(Integer clientId, String providerNo, Integer facilityId){
+    	return dao.getRecentProgramId(clientId, providerNo, facilityId);
+    }
+    
     public java.util.Date getMostRecentIntakeCDate(String demographicNo) {
         return dao.getMostRecentIntakeCDate(Integer.valueOf(demographicNo));
     }

@@ -50,8 +50,8 @@ import com.quatro.util.*;
 
 public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
-    private static Log log = LogFactory.getLog(CaseManagementEntryAction.class);
-
+    private static Log log = LogFactory.getLog(CaseManagementNoteAction.class);
+    ActionMessages messages = new ActionMessages();
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return edit(mapping, form, request, response);
     }
@@ -64,13 +64,15 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
 
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
-        
+        Object reqForm =  request.getParameter("form");
         request.setAttribute("change_flag", "false");
         request.setAttribute("from", "casemgmt");
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
+	    	  String cId=request.getParameter("clientId");
+	    	  if(Utility.IsEmpty(cId)) cId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
+	          actionParam.put("clientId",cId); 
 	       }
 	       request.setAttribute("actionParam", actionParam);     
  	
@@ -82,7 +84,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         if(Utility.IsEmpty(programId)){ 
         	Integer demoInt = Integer.valueOf(demono);
-        	programId = this.admissionMgr.getRecentAdmissionByFacility(demoInt,currentFacilityId).getProgramId().toString();
+        	programId = clientManager.getRecentProgramId(Integer.valueOf(demono), providerNo, currentFacilityId).toString();        		
         }
 
         request.setAttribute("demoName", getDemoName(demono));
@@ -250,7 +252,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         request.setAttribute("lstIssueSelection",lstIssueSelection);         
         
-        request.setAttribute("lstCaseStatus", this.lookupMgr.LoadCodeList("CST", true, null, null));
+        request.setAttribute("lstCaseStatus", super.lookupManager.LoadCodeList("CST", true, null, null));
         /*
          * do the restore if(restore != null && restore.booleanValue() == true) { String tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo,demono,programId); if(tmpsavenote != null) { note.setNote(tmpsavenote); }
          *  }
@@ -333,9 +335,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.warn(e);
         }
     }
-
-//commented out by dawson on admission javabean merge, May 23, 2008    
-/*    
+    
      public ActionForward issueNoteSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {            
             String strNote = request.getParameter("value");
             log.info("Saving: " + strNote);
@@ -381,7 +381,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             WebApplicationContext ctx = this.getSpringContext();
 
             ProgramManager programManager= (ProgramManager)ctx.getBean("programManager");
-            AdmissionManager admissionManager= (AdmissionManager)ctx.getBean("admissionManager");
+           // AdmissionManager admissionManager= (AdmissionManager)ctx.getBean("admissionManager");
             
             String role=null;
             String team=null;
@@ -392,7 +392,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 log.error(e);
                 role = "0";
             }
-            
+          /*  
             note.setReporter_caisi_role(role);
 		
             try {
@@ -402,7 +402,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 team = "0";
             }
             note.setReporter_program_team(team);
-                        
+            */            
             if( newNote ) {
                 Set issueSet = note.getIssues();
                 Set noteSet = new HashSet();;
@@ -438,7 +438,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             if( note.getCreate_date() == null )
                 note.setCreate_date(now);
             
-            // save note including add signature	
+            /* save note including add signature */	
             String lastSavedNoteString = (String) request.getSession().getAttribute("lastSavedNoteString");
             CaseManagementCPP cpp = this.caseManagementMgr.getCPP(demo);
             if( cpp == null ) {
@@ -448,7 +448,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             cpp = copyNote2cpp(cpp,note);
             String savedStr = caseManagementMgr.saveNote(cpp, note, providerNo, userName, lastSavedNoteString);
             caseManagementMgr.saveCPP(cpp, providerNo);
-            // remember the str written into echart
+            /* remember the str written into echart */
             request.getSession().setAttribute("lastSavedNoteString", savedStr);
             
             caseManagementMgr.getEditors(note);
@@ -459,11 +459,12 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             path.append("?" + reloadQuery);
             return new ActionForward(path.toString());
         }
-*/
-    
-    public long noteSave(CaseManagementEntryFormBean cform, HttpServletRequest request) throws Exception {
+
+    public long noteSave(CaseManagementEntryFormBean cform, HttpServletRequest request)	
+    	throws Exception {
 
         // we don't want to save empty notes!
+    	boolean hasError = false;
         CaseManagementNote note = (CaseManagementNote) cform.getCaseNote();
         String noteTxt = note.getNote();
         if (noteTxt == null || noteTxt.equals("")) return -1;
@@ -505,21 +506,23 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if (provider != null) note.setProvider(provider);
 
         WebApplicationContext ctx = this.getSpringContext();
-
-        ProgramManager programManager = (ProgramManager) ctx.getBean("programManager");
-        AdmissionManager admissionManager = (AdmissionManager) ctx.getBean("admissionManager");
-
         String role = null;
         String team = null;
-
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         // if this is an update, don't overwrite the program id
         if (Utility.IsEmpty(note.getProgram_no())) {
-            
-        	String programId =this.admissionMgr.getCurrentBedProgramAdmission(new Integer(demo)).getProgramId().toString(); 
+        	try{
+        	String programId =this.clientManager.getRecentProgramId(Integer.valueOf(demo), providerNo, currentFacilityId).toString(); 
         	request.getSession().setAttribute("case_program_id",programId);            
             note.setProgram_no(programId);
+        	}catch(Exception e)
+        	{        		
+        		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.case.note.program",request.getContextPath()));        		 
+        		saveMessages(request, messages); 
+                throw e;
+        	}
         }
-
+       
         try {
             role = String.valueOf((programManager.getProgramProvider(note.getProvider_no(), note.getProgram_no())).getRole().getId());
         }
@@ -529,11 +532,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         /*
          * if(request.getSession().getAttribute("archiveView")!="true") note.setReporter_caisi_role(role); else note.setReporter_caisi_role("1");
-         */
+         
         note.setReporter_caisi_role(role);
-        
-//commented out by dawosn on admission javabean merge, May 23,2008        
-/*
+
         try {
             team = String.valueOf((admissionManager.getAdmission(note.getProgram_no(), Integer.valueOf(note.getDemographic_no()))).getTeamId());
         }
@@ -542,8 +543,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             team = "0";
         }
         note.setReporter_program_team(team);
-*/
-        
+		*/
         Set issueset = new HashSet();
         Set noteSet = new HashSet();
         String ongoing = "";
@@ -691,8 +691,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         long noteId = noteSave(cform, request);
 
         /* prepare the message */
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("note.saved"));
+        if(messages.get().hasNext()){
+        	return edit(mapping, form, request, response);
+        }       
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
         saveMessages(request, messages);
 
         // are we in the new encounter and chaining actions?
@@ -762,9 +764,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         
         note.setReporter_caisi_role(role);
-
-//commented out by dawson on admission javabean merge, May 23, 2008        
-/*        
+        /*
         String team = null;
         try {
             team = String.valueOf((admissionManager.getAdmission(note.getProgram_no(), Integer.valueOf(note.getDemographic_no()))).getTeamId());
@@ -775,8 +775,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         
         note.setReporter_program_team(team);
-*/        
         
+        */
         List issuelist = new ArrayList();
         Set issueset = new HashSet();
         Set noteSet = new HashSet();
@@ -874,8 +874,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         request.setAttribute("change_flag", "false");
 
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("note.saved"));
+        //ActionMessages messages = new ActionMessages();
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
         saveMessages(request, messages);
 
         noteSave(cform, request);
