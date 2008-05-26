@@ -25,7 +25,7 @@
 		<property name="programName" type="java.lang.String" not-null="true" length="70" />		
 		<property name="providerId" type="java.lang.String" not-null="true" length="6" />
 		<property name="providerName" type="java.lang.String" not-null="true" length="60" />
-		<property name="caisiRoleName" type="java.lang.String" not-null="false" length="255" />
+
 		<property name="updateDate" type="java.util.Calendar" not-null="false" length="19" />
 	</class>
 </hibernate-mapping>

@@ -77,7 +77,7 @@ public class ProgramManagerAction extends DispatchAction {
     private ProgramManager programManager;
     private ProviderManager providerManager;
     private ProgramQueueManager programQueueManager;
-    private RoleManager roleManager;
+//    private RoleManager roleManager;
     private LookupManager lookupManager;
         
     public void setFacilityDAO(FacilityDAO facilityDAO) {
@@ -597,7 +597,7 @@ public class ProgramManagerAction extends DispatchAction {
         String providerNo = (String)request.getSession().getAttribute("user");
         programSignature.setProviderId(providerNo);
         programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
-        programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
+//        programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
         //Date now = new Date();
         //programSignature.setUpdateDate(now);
         programSignature.setUpdateDate(Calendar.getInstance());
@@ -773,14 +773,15 @@ public class ProgramManagerAction extends DispatchAction {
             String providerNo = (String)request.getSession().getAttribute("user");
             programSignature.setProviderId(providerNo);
             programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
-            programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
+//            programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
             //Date now = new Date();
             programSignature.setUpdateDate(Calendar.getInstance());
 
             programManager.saveProgramSignature(programSignature);
         }
     }
-
+    
+/*
     public ActionForward save_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -822,7 +823,8 @@ public class ProgramManagerAction extends DispatchAction {
 
         return mapping.findForward("edit");
     }
-
+*/
+    
     public ActionForward save_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -1187,11 +1189,11 @@ public class ProgramManagerAction extends DispatchAction {
     public void setProviderManager(ProviderManager mgr) {
     	this.providerManager = mgr;
     }
-
+/*
     public void setRoleManager(RoleManager mgr) {
     	this.roleManager = mgr;
     }
-
+*/
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}

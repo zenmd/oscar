@@ -301,6 +301,10 @@ public class ProgramManagerViewAction extends DispatchAction {
 	    		if(clientManager != null  &&  bedClientIds != null  &&  bedClientIds.length > 0){
 	    			isFamilyDependents = new Boolean[beds.length];
 	    			for(int i=0; i < bedClientIds.length; i++){
+
+	    			    //please write your code without JointAdmission, dawson wrote May 26, 2008  
+    	    			isFamilyDependents[i] = new Boolean(false);
+/*
 	    				clientsJadm = clientManager.getJointAdmission(Integer.valueOf(bedClientIds[i].toString()));
 	    				
 	    	    		if(clientsJadm != null  &&  clientsJadm.getHeadClientId() != null) {
@@ -308,6 +312,7 @@ public class ProgramManagerViewAction extends DispatchAction {
 	    	    		}else{
 	    	    			isFamilyDependents[i] = new Boolean(false);
 	    	    		}
+*/	    	    		
 	    			}
 	    		}
             }
@@ -1011,8 +1016,11 @@ public class ProgramManagerViewAction extends DispatchAction {
         String clientId = request.getParameter("clientId");
         String rejectionReason = request.getParameter("radioRejectionReason");
 
+        //please write your code without JointAdmission, dawson wrote May 26, 2008  
+        List<Integer>  dependents = null;
+/*        
         List<Integer>  dependents = clientManager.getDependentsList(new Integer(clientId));
-        
+*/        
         
         log.debug("rejecting from queue: program_id=" + programId + ",clientId=" + clientId);
 
@@ -1062,10 +1070,14 @@ public class ProgramManagerViewAction extends DispatchAction {
 
     public ActionForward select_client_for_reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("do_reject", Boolean.TRUE);
-
         return view(mapping, form, request, response);
     }
 
+    //please write your code without JointAdmission if you need call saveReservedBeds(), dawson wrote May 26, 2008  
+    public ActionForward saveReservedBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return view(mapping, form, request, response);
+    }
+/*    
     public ActionForward saveReservedBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
         ProgramManagerViewFormBean programManagerViewFormBean = (ProgramManagerViewFormBean) form;
@@ -1176,7 +1188,8 @@ public class ProgramManagerViewAction extends DispatchAction {
 
         return view(mapping, form, request, response);
     }
-
+*/
+    
     @SuppressWarnings("unchecked")
     public ActionForward switch_beds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         /*
@@ -1282,10 +1295,19 @@ public class ProgramManagerViewAction extends DispatchAction {
    			bedDemographicManager.saveBedDemographic(bedDemographic1);
    			bedDemographicManager.saveBedDemographic(bedDemographic2);
    		}else{//beds are from different rooms
+
+   			//please overwrite my code below. For family intake, suppose get from intakeManager. dawson May 26, 2008
+   			isFamilyHead1 = false;
+   			isFamilyHead2 = false;
+   			isFamilyDependent1 = false;
+   			isFamilyDependent2 = false;
+/*
    			isFamilyHead1 = clientManager.isClientFamilyHead(client1);
    			isFamilyHead2 = clientManager.isClientFamilyHead(client2);
    			isFamilyDependent1 = clientManager.isClientDependentOfFamily(client1);
    			isFamilyDependent2 = clientManager.isClientDependentOfFamily(client2);
+*/
+   			
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyHead1 = " + isFamilyHead1);    	
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyHead2 = " + isFamilyHead2);    	
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyDependent1 = " + isFamilyDependent1);    	

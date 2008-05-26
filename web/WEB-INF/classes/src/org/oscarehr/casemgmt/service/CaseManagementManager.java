@@ -100,7 +100,7 @@ public class CaseManagementManager {
     protected ClientDao demographicDAO;
     protected ProviderSignitureDao providerSignitureDao;
     protected ClientImageDAO clientImageDAO;
-    protected RoleManager roleManager;
+//    protected RoleManager roleManager;
     protected CaseManagementTmpSaveDAO caseManagementTmpSaveDAO;
     protected AdmissionManager admissionManager;
     protected HashAuditDAO hashAuditDAO;
@@ -627,12 +627,12 @@ public class CaseManagementManager {
         if (dg == null) return "";
         else return dg.getYearOfBirth() + "-" + dg.getMonthOfBirth() + "-" + dg.getDateOfBirth();
     }
-
+/*
     public String getCaisiRoleById(String id) {
         //return providerCaisiRoleDAO.getCaisiRoleById(id);
         return roleManager.getRole(id).getName();
     }
-
+*/
     public List search(CaseManagementSearchBean searchBean) {
         return this.caseManagementNoteDAO.search(searchBean);
     }
@@ -900,11 +900,11 @@ public class CaseManagementManager {
     public void setClientImageDAO(ClientImageDAO dao) {
         this.clientImageDAO = dao;
     }
-
+/*
     public void setRoleManager(RoleManager mgr) {
         this.roleManager = mgr;
     }
-
+*/
     public void setProviderSignitureDao(ProviderSignitureDao providerSignitureDao) {
         this.providerSignitureDao = providerSignitureDao;
     }

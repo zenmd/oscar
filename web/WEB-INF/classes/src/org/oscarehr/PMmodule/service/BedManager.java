@@ -37,7 +37,6 @@ import org.oscarehr.PMmodule.exception.DuplicateBedNameException;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedType;
-import org.oscarehr.PMmodule.model.JointAdmission;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
 
@@ -431,7 +430,12 @@ public class BedManager {
         return bedClientIds;
 
     }
-    
+
+    //please write your code without JointAdmission if you need call addFamilyIdsToBeds(), dawson wrote May 26, 2008  
+    public Bed[] addFamilyIdsToBeds(ClientManager clientManager, Bed[] beds){
+    	return null;
+    }
+/*
     public Bed[] addFamilyIdsToBeds(ClientManager clientManager, Bed[] beds){
     	
     	if(clientManager == null  ||  beds == null  ||  beds.length <= 0){
@@ -468,6 +472,8 @@ public class BedManager {
 	    }
 	    return beds;
     }
+*/
+    
     /**
      * @see org.oscarehr.PMmodule.service.BedManager#getBedTypes()
      */

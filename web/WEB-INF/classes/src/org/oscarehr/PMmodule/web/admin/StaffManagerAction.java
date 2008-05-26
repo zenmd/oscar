@@ -66,7 +66,7 @@ public class StaffManagerAction extends DispatchAction {
 
     private ProviderManager providerManager;
 
-    private RoleManager roleManager;
+//    private RoleManager roleManager;
 
 	public void setFacilityDAO(FacilityDAO facilityDAO) {
         this.facilityDAO = facilityDAO;
@@ -117,7 +117,7 @@ public class StaffManagerAction extends DispatchAction {
 			allProgramsInContainer.add(container);
 		}
 		request.setAttribute("all_programs",allProgramsInContainer);
-		request.setAttribute("roles",roleManager.getRoles());
+//		request.setAttribute("roles",roleManager.getRoles());
 		
 		List<Facility> allFacilities=facilityDAO.getActiveFacilities();
         request.setAttribute("all_facilities",allFacilities);
@@ -295,8 +295,9 @@ public class StaffManagerAction extends DispatchAction {
     public void setProviderManager(ProviderManager mgr) {
     	this.providerManager = mgr;
     }
-
+/*
     public void setRoleManager(RoleManager mgr) {
     	this.roleManager = mgr;
     }
+*/    
 }

@@ -32,7 +32,6 @@ public class ProgramSignature implements Serializable {
 	public String programName;
 	public String providerId;
 	public String providerName;
-	public String caisiRoleName;
 	public java.util.Calendar updateDate;
 	public String updateDateStr;
 	
@@ -42,12 +41,6 @@ public class ProgramSignature implements Serializable {
 		
 	}
 	
-	public String getCaisiRoleName() {
-		return caisiRoleName;
-	}
-	public void setCaisiRoleName(String caisiRoleName) {
-		this.caisiRoleName = caisiRoleName;
-	}
 	public Integer getId() {
 		return id;
 	}

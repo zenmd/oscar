@@ -38,7 +38,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class DefaultRoleAccessAction extends  DispatchAction {
     private ProgramManager programManager;
-    private RoleManager roleManager;
+//    private RoleManager roleManager;
 	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		return list(mapping,form,request,response);
@@ -67,7 +67,7 @@ public class DefaultRoleAccessAction extends  DispatchAction {
 		}
 		
 		accessForm.set("form", dra);
-		request.setAttribute("roles",roleManager.getRoles());
+//		request.setAttribute("roles",roleManager.getRoles());
 		request.setAttribute("access_types", programManager.getAccessTypes());
 		
 		return mapping.findForward("form");
@@ -115,8 +115,9 @@ public class DefaultRoleAccessAction extends  DispatchAction {
     public void setProgramManager(ProgramManager mgr) {
     	this.programManager = mgr;
     }
-
+/*
     public void setRoleManager(RoleManager mgr) {
     	this.roleManager = mgr;
     }
+*/    
 }
