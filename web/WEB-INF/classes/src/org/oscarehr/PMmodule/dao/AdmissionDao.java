@@ -239,7 +239,26 @@ public class AdmissionDao extends HibernateDaoSupport {
         return rs;
 
     }
+    public List getAdmissions(Integer demographicNo) {
+        if (demographicNo == null || demographicNo <= 0) {
+            throw new IllegalArgumentException();
+        }
 
+        String queryStr = "FROM Admission a WHERE a.clientId=? ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo });
+        return rs;
+    }
+
+    //Lillian add 2008-05-23
+    public Admission getRecentAdmission(Integer clientId){
+    	List admissions =this.getAdmissions(clientId);
+    	Admission admObj=null;
+    	if(!admissions.isEmpty()){
+    		admObj=(Admission)admissions.get(0);
+    	}
+    	else admObj= new Admission();
+    	return admObj;
+    }
     public void updateDischargeInfo(Admission admission){
         String sSQL="update Admission q set q.communityProgramCode=?, q.bedProgramId=?," + 
         "q.dischargeDate=?, q.admissionStatus=?, q.dischargeReason=?, " +
