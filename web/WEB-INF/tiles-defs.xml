@@ -188,11 +188,13 @@
 	</definition>
 
 	<!-- Generic Intake -->
+<!-- 
 	<definition name="page.genericIntake.search"
 		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
 		
 		<put name="body" value="/PMmodule/GenericIntake/Search.jsp" />
 	</definition>
+ -->	
 	<!-- Generic Intake -->
 
 	<definition name="page.pmm.provider.view"

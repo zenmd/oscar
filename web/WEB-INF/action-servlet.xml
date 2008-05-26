@@ -44,8 +44,12 @@
     <bean name="/SystemMessage" class="org.caisi.core.web.SystemMessageAction" singleton="false"  autowire="byName" />
     <bean name="/FacilityMessage" class="org.caisi.core.web.FacilityMessageAction" singleton="false"  autowire="byName" />
     <bean name="/issueAdmin" class="org.caisi.core.web.IssueAdminAction" singleton="false"  autowire="byName" />
+<!-- 
     <bean name="/CaisiEditor" class="org.caisi.core.web.CaisiEditorAction" singleton="false"  autowire="byName" />
+-->
+<!--
     <bean name="/CaisiRole" class="org.caisi.core.web.RoleAction" singleton="false"  autowire="byName" />
+ -->
     <bean name="/PMmodule/ClientSearch2" class="org.oscarehr.PMmodule.web.ClientSearchAction2" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/ClientManager" class="org.oscarehr.PMmodule.web.ClientManagerAction" singleton="false" autowire="byName">
         <property name="surveyManager" ref="oscarSurveyManager"/>        
@@ -169,7 +173,9 @@
     <bean name="/PMmodule/Reports/ExitInterviewReportDetailed" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportDetailedAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Reports/ClientListsReport" class="org.oscarehr.PMmodule.web.reports.ClientListsReportAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Admin/DefaultRoleAccess" class="org.oscarehr.PMmodule.web.admin.DefaultRoleAccessAction" singleton="false"  autowire="byName" />
+
     <!-- Generic Intake -->
+<!--
     <bean name="/PMmodule/GenericIntake/Search" class="org.oscarehr.PMmodule.web.GenericIntakeSearchAction" singleton="false">
         <property name="clientManager" ref="clientManager"/>
         <property name="genericIntakeManager" ref="genericIntakeManager"/>
@@ -189,6 +195,7 @@
     </bean>
     <bean name="/PMmodule/GenericIntake/Report" class="org.oscarehr.PMmodule.web.GenericIntakeReportAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/EditIntake" class="org.oscarehr.PMmodule.web.EditIntakeAction" singleton="false" />
+  -->    
     <!-- Generic Intake -->
     <bean name="/SurveyManager" class="org.oscarehr.survey.web.SurveyManagerAction" singleton="false">
         <property name="surveyManager" ref="surveyManager"/>
@@ -227,7 +234,9 @@
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="ticklerManager" ref="ticklerManager"/>
         <property name="clientImageManager" ref="ClientImageManager"/>
+<!-- 
         <property name="roleManager" ref="roleManager"/>
+ -->
         <property name="programManager" ref="programManager"/>
         <property name="admissionManager" ref="admissionManager"/>
         <property name="surveyManager" ref="oscarSurveyManager"/>  

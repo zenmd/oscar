@@ -31,12 +31,16 @@
 
     <!-- DAO -->    
     <bean id="issueAdminDAO" class="org.caisi.dao.IssueAdminDAO" autowire="byName" />
+<!-- 
     <bean id="caisiRoleDAO" class="org.caisi.dao.CaisiRoleDAO" autowire="byName" />
+ -->
     <bean id="accessTypeDAO" class="org.caisi.dao.AccessTypeDAO" autowire="byName"/>
     <bean id="bedCheckTimeDAO" class="org.oscarehr.PMmodule.dao.BedCheckTimeDAO" autowire="byName" />
     <bean id="ratePageDao" class="org.oscarehr.PMmodule.dao.RatePageDao" autowire="byName" />
+<!-- 
     <bean id="genericIntakeNodeDAO" class="org.oscarehr.PMmodule.dao.GenericIntakeNodeDAO" autowire="byName"/>
     <bean id="genericIntakeDAO" class="org.oscarehr.PMmodule.dao.GenericIntakeDAO" autowire="byName"/>
+ -->
     <bean id="intakeDao" class="com.quatro.dao.IntakeDao" autowire="byName"/>
 <!-- 
     <bean id="intakeADao" class="org.oscarehr.PMmodule.dao.IntakeADao" autowire="byName" />
@@ -66,6 +70,7 @@
         </property>
     </bean>
     <bean id="issueAdminManagerTarget" class="org.caisi.service.IssueAdminManager" autowire="byName"/>
+<!-- 
     <bean id="caisiRoleManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
           lazy-init="default"  dependency-check="default">
         <property name="transactionManager" ref="transactionManager"/>
@@ -78,7 +83,7 @@
         </property>
     </bean>
     <bean id="caisiRoleManagerTarget" class="org.caisi.service.CaisiRoleManager" autowire="byName"/>
-
+ -->
     
     <bean id="bedCheckTimeManager" parent="baseTransactionProxy" lazy-init="default"
           dependency-check="default">

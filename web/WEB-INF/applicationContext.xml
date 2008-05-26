@@ -119,7 +119,9 @@
     <bean id="clientHistoryDao" class="org.oscarehr.PMmodule.dao.ClientHistoryDao" autowire="byName"/>
     <bean id="agencyDao" class="org.oscarehr.PMmodule.dao.AgencyDao" autowire="byName"/>
     <bean id="admissionDao" class="org.oscarehr.PMmodule.dao.AdmissionDao" autowire="byName" />
+<!-- 
     <bean id="jointAdmissionDAO" class="org.oscarehr.PMmodule.dao.JointAdmissionDAO" autowire="byName" />
+ -->
     <bean id="bedDemographicDAO" class="org.oscarehr.PMmodule.dao.BedDemographicDAO" autowire="byName"/>
     <bean id="roomDemographicDAO" class="org.oscarehr.PMmodule.dao.RoomDemographicDAO" autowire="byName"/>
     <bean id="providerDao" class="org.oscarehr.PMmodule.dao.ProviderDao" autowire="byName" />
@@ -144,7 +146,9 @@
     <bean id="ProviderSignitureDao" class="org.oscarehr.casemgmt.dao.ProviderSignitureDao" autowire="byName"/>
     <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName"/>
     <bean id="ClientImageDAO" class="org.oscarehr.casemgmt.dao.ClientImageDAO" autowire="byName"/>
+<!-- 
     <bean id="roleDAO" class="org.oscarehr.PMmodule.dao.RoleDAO" autowire="byName" />
+ -->
     <bean id="CaseManagementTmpSaveDAO" class="org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO" autowire="byName"/>
     <bean id="ticklerDAO" class="org.oscarehr.casemgmt.dao.TicklerDAO" autowire="byName"/>
     <bean id="oscarSurveyDAO" class="org.oscarehr.PMmodule.dao.SurveyDAO" autowire="byName"/>
@@ -353,12 +357,16 @@
         <property name="hashAuditDAO" ref="HashAuditDAO"/>
         <property name="ectWindowDAO" ref="EncounterWindowDAO"/>
         <property name="userPropertyDAO" ref="UserPropertyDAO"/>
+<!-- 
         <property name="roleManager" ref="roleManager"/>
+ -->
         <property name="caseManagementTmpSaveDAO" ref="CaseManagementTmpSaveDAO"/>
         <property name="admissionManager" ref="admissionManager"/>
         <property name="enabled" value="${casemgmt.note.password.enabled}"/>
         <property name="programManager" ref="programManager"/>
     </bean>
+    
+<!-- 
     <bean id="roleManager" parent="baseTransactionProxy" >
         <property name="target">
             <bean class="org.oscarehr.PMmodule.service.impl.RoleManagerImpl">
@@ -366,6 +374,8 @@
             </bean>
         </property>
     </bean>
+ -->
+     
     <bean id="ticklerManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
         <property name="target" ref="ticklerManagerTarget"/>
@@ -410,7 +420,6 @@
             <bean class="org.oscarehr.PMmodule.service.ClientManager">
                 <property name="clientDao" ref="clientDao"/>
                 <property name="clientReferralDAO" ref="clientReferralDAO"/>
-                <property name="jointAdmissionDAO" ref="jointAdmissionDAO"/>
                 <property name="programQueueManager" ref="programQueueManager"/>
                 <property name="admissionManager" ref="admissionManager"/>
                 <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
