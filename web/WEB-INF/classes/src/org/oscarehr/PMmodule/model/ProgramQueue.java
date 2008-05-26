@@ -29,12 +29,6 @@ import java.io.Serializable;
  */
 public class ProgramQueue implements Serializable {
 
-    public static String STATUS_ADMITTED = "admitted";
-    public static String STATUS_REJECTED = "rejected";
-    public static String STATUS_REMOVED = "removed";
-    public static String STATUS_ACTIVE = "active";
-
-
     private int hashCode = Integer.MIN_VALUE;// primary key
 
     private Integer _id;// fields
