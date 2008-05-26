@@ -15,7 +15,7 @@
 </script>
 <html-el:form action="/PMmodule/QuatroDischarge.do">
 	<input type="hidden" name="method" />	
-	
+	<input type="hidden" name="demoNo"/>
 	<% String admitStr="admitted" ;%>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>

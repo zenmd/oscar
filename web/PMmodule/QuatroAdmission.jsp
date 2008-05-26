@@ -10,6 +10,7 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="demoNo"/>
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
 <html:hidden property="admission.id"/>

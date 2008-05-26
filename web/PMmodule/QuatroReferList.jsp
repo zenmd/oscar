@@ -14,6 +14,7 @@
 <% int a=1; %>
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="demoNo"/>
 <html:hidden property="clientId"/>
 <table width="100%"  cellpadding="0px" cellspacing="0px">
 	<tr>

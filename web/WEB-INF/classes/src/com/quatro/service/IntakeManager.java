@@ -100,7 +100,7 @@ public class IntakeManager {
           if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().intValue());
           referral.setProviderNo(intake.getStaffId());
           referral.setReferralDate(new Date());
-          referral.setStatus(ClientReferral.STATUS_ACTIVE);
+          referral.setStatus(KeyConstants.STATUS_ACTIVE);
           clientReferralDAO.saveClientReferral(referral);
           
           //create new queue# 
@@ -110,7 +110,7 @@ public class IntakeManager {
           queue.setProgramId(referral.getProgramId());
           queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
           queue.setReferralDate(referral.getReferralDate());
-          queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+          queue.setStatus(KeyConstants.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
           programQueueDao.saveProgramQueue(queue);
           

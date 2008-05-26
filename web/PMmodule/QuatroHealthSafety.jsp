@@ -31,6 +31,7 @@ function submitForm(form) {
 
 <html:form action="/PMmodule/QuatroHealthSafety.do">
 <input type="hidden" name="method" value="savehealthSafety" />
+<input type="hidden" name="demoNo"/>
 <input type="hidden" name="id"	value="<c:out value="${requestScope.id}"/>">
 <html:hidden property="healthsafety.userName" />
 <html:hidden property="healthsafety.demographicNo" />

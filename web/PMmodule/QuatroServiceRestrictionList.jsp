@@ -71,6 +71,7 @@
  
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="demoNo"/>
 <html:hidden property="program.id" />
 <html:hidden property="recordId" styleId="recordId"/>
 

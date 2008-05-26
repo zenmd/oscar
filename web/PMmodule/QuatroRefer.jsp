@@ -34,9 +34,13 @@
 </script>
  
 <html-el:form action="/PMmodule/QuatroRefer.do">
-<input type="hidden" name="clientId" />
+<html:hidden property="referral.clientId" />
+<html:hidden property="referral.id" />
+<html:hidden property="referral.facilityId" />
+<html:hidden property="referral.programId" />
 <input type="hidden" name="selectedProgramId"/>
 <input type="hidden" name="method" />
+
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Refer</th>

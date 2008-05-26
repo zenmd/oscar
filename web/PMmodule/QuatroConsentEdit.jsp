@@ -49,7 +49,7 @@
 	<input type="hidden" name="method" />
 	<html-el:hidden property="consent.demographicNo"  />
 	<html-el:hidden property="consent.id"  />
-
+	<input type="hidden" name="demoNo"/>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management - Consent</th>
@@ -137,9 +137,19 @@
 							<fmt:formatDate pattern="yyyy/MM/dd" value="${now}" /></td></tr>
 							<tr><td>Client Signature</td><td>User Id</td></tr>
 							<tr><td >Witness Name</td><td><bean:write name="consentDetailForm" property="consent.providerFormattedName" /></td></tr>
+							<tr><td colspan="2"><br>
+								<b>Notice with Regard to the Collection of Personal Information:</b><br>
+								Personal information is collected under the legal authority of the City of Toronto Act, 1997, 
+								Municipal Act, 2001, Chapter 169, Article VII, By-law 112-2005 and Ontario Works Act, 1997, 
+								for the purposes of  administering Government of Ontario social assistance programs, 
+								providing shelter services and sharing information between shelter providers when 
+								specific consent is obtained.  Questions about this collection can be directed to the 
+								Administrative Supervisor, Shelter, Support and Housing Administration Division, 
+								Telephone no. 416-392-8741, Metro Hall, 55 John St. 6th Floor, Toronto, Ontario M5V 3C6.
+								</td></tr>
 						</table>
 						</td>
-					</tr>
+					</tr>					
 				</table>
 
 <!--  end of page content -->

@@ -568,7 +568,7 @@ public class IntakeDao extends HibernateDaoSupport {
           if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().intValue());
           referral.setProviderNo(intake.getStaffId());
           referral.setReferralDate(new Date());
-          referral.setStatus(ClientReferral.STATUS_ACTIVE);
+          referral.setStatus(KeyConstants.STATUS_ACTIVE);
         }
         
         ProgramQueue queue = new ProgramQueue();
@@ -578,7 +578,7 @@ public class IntakeDao extends HibernateDaoSupport {
           queue.setProgramId(referral.getProgramId());
           queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
           queue.setReferralDate(referral.getReferralDate());
-          queue.setStatus(ProgramQueue.STATUS_ACTIVE);
+          queue.setStatus(KeyConstants.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
 //          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
 //          queue.setPresentProblems(referral.getPresentProblems());

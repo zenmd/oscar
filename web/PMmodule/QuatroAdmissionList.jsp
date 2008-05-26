@@ -7,6 +7,7 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="demoNo"/>
 <script lang="javascript">
 function submitForm(methodVal) {
 		document.forms(0).method.value = methodVal;

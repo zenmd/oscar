@@ -81,7 +81,7 @@
 		
 		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
 		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="edit";
-		opener.document.<%=request.getParameter("formName")%>.elements['clientId'].value=clientId;
+		opener.document.<%=request.getParameter("formName")%>.elements['demoNo'].value=clientId;
 		opener.document.<%=request.getParameter("formName")%>.submit();
 		self.close();
 	}		
@@ -95,6 +95,7 @@
 </head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
 	<input type="hidden" name="method" />	
+	<input type="hidden" name="demoNo"/>
 	<%String b="1"; %>
 	<table width="100%" cellpadding="0px" cellspacing="0px">
 	<tr>

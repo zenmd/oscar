@@ -33,6 +33,9 @@ import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 
+import com.quatro.common.KeyConstants;
+
+
 public class ProgramQueueManagerImpl implements ProgramQueueManager
 {
 	private static Log log = LogFactory.getLog(ProgramQueueManagerImpl.class);
@@ -81,13 +84,13 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 		}
 		ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
 		if(referral != null) {
-			referral.setStatus(ClientReferral.STATUS_REJECTED);
+			referral.setStatus(KeyConstants.STATUS_REJECTED);
 			referral.setCompletionDate(new Date());
 			referral.setCompletionNotes(notes);			
 			referral.setRadioRejectionReason(rejectionReason);
 			this.referralDAO.saveClientReferral(referral);
 		}
-		queue.setStatus(ProgramQueue.STATUS_REJECTED);
+		queue.setStatus(KeyConstants.STATUS_REJECTED);
 		
 		this.saveProgramQueue(queue);
 	}
