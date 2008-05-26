@@ -38,10 +38,10 @@ response.setHeader("Cache-Control", "no-cache");
 		<tr>
 			<td align="left" class="buttonBar">
 				<html:link	action="/PMmodule/UploadFile.do?method=addNew"	style="color:Navy;text-decoration:none;">
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Add&nbsp;&nbsp;|
+					<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add&nbsp;&nbsp;|
 				</html:link>
 				<html:link action="/Home.do" style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/close.png"/> />&nbsp;Close&nbsp;&nbsp;|
+				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 				</html:link> 			
 				<!-- a href="javascript:submitForm('close')" style="color:Navy;text-decoration:none;">&nbsp;&nbsp;|&nbsp;Close&nbsp;&nbsp;|</a -->
 			</td>
