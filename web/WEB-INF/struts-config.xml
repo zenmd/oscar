@@ -284,6 +284,9 @@
         <form-bean name="clientSearchForm2" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="criteria" type="org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean" />
         </form-bean>
+        <form-bean name="mergeClientForm" type="org.apache.struts.validator.DynaValidatorForm">
+        	<form-property name="criteria" type="org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean" />
+        </form-bean>
         <form-bean name="clientManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
@@ -366,16 +369,13 @@
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
             <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
-            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
-            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />          
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="serviceRestriction"  type="org.oscarehr.PMmodule.model.ProgramClientRestriction"></form-property>
             <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>
-            <form-property name="recordId" type="java.lang.Integer"></form-property>
+            <form-property name="clientId" type="java.lang.String"></form-property>
         </form-bean>
         
         <form-bean name="quatroClientComplaintForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm" />
@@ -1649,6 +1649,10 @@
         <action path="/PMmodule/ClientSearch2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientSearchForm2" scope="request">
             <forward name="form" path="page.pmm.client.searchform" />
             <forward name="search" path="page.pmm.client.searchresults" />
+            <forward name="merge" path="/PMmodule/MergeClient.do"></forward>
+        </action>
+        <action path="/PMmodule/MergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
+            <forward name="view" path="page.pmm.client.merge" />           
         </action>
         <action path="/PMmodule/ClientManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientManagerForm" scope="request">
             <forward name="edit" path="page.pmm.client" />

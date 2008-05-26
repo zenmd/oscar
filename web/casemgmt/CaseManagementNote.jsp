@@ -1,6 +1,4 @@
 <%@ include file="../taglibs.jsp"%>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
-
 <html>
 <head>
 <title>Case Management</title>
@@ -246,7 +244,7 @@ var XMLHttpRequestObject = false;
 </script>
 
 </head>
-<body onload="init()">
+<body > <!-- onload="init()" -->
 <%
 	//get programId
 	String pId = (String) session.getAttribute("case_program_id");
@@ -269,7 +267,7 @@ var XMLHttpRequestObject = false;
 	<input type="hidden" name="lineId" value="0" />
 	<input type="hidden" name="addIssue" value="null" />
 	<input type="hidden" name="deleteId" value="0" />
-	
+	<input type="hidden" name="clientId" />
 	<table width="100%">
 		<tr>
 			<th class="pageTitle" width="100%">Case Management Note</th>
@@ -437,36 +435,7 @@ var XMLHttpRequestObject = false;
 			<td class="fieldTitle" width="40%">include checked issues in note</td>
 			<td class="fieldValue"><html:checkbox property="includeIssue"
 				onchange="setChangeFlag(true);" /></td>
-		</tr>	
-			
-		<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
-			<c:if
-				test="${param.from=='casemgmt' || requestScope.from=='casemgmt'}">
-				<c:url value="${sessionScope.billing_url}" var="url" />
-				<caisirole:SecurityAccess accessName="billing" accessType="access"
-					providerNo='<%=request.getParameter("providerNo")%>'
-					demoNo='<%=request.getParameter("demographicNo")%>'
-					programId="<%=pId%>">
-					<tr>
-						<td class="fieldTitle">Billing:</td>
-
-						<td class="fieldValue"><nested:text
-							property="caseNote.billing_code" /> <input type="button"
-							value="add billing"
-							onclick="self.open('<%=(String)session.getAttribute("billing_url")%>','','scrollbars=yes,menubars=no,toolbars=no,resizable=yes');return false;"></td>
-					</tr>
-				</caisirole:SecurityAccess>
-			</c:if>
-		</caisi:isModuleLoad>
-
-		<caisi:isModuleLoad moduleName="casemgmt.note.password.enabled">
-			<tr>
-				<td class="fieldTitle">Password:</td>
-				<td class="fieldValue"><html:password
-					property="caseNote.password" /></td>
-			</tr>
-		</caisi:isModuleLoad>
-		 
+		</tr>					 
 	</table>
 	</div>
 </html:form>

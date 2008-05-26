@@ -35,13 +35,13 @@
 	function popupHelp(type) {
 		alert('not yet implemented... will show term definitions');
 	}
-	function submitForm()
-	{
-		document.forms[0].submit();
+	function submitForm(methodVal) {
+		document.forms(0).method.value = methodVal;
+		document.forms(0).submit();
 	}
 </script>
-<html:form action="/PMmodule/ClientSearch2">
-	<input type="hidden" name="method" value="search" />
+<html:form action="/PMmodule/MergeRecords">
+	<input type="hidden" name="method"  />
 	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
 		<tr>
 			<th class="pageTitle">Client Search<c:out value="${moduleName}"/></th>
@@ -51,10 +51,13 @@
 			action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;&nbsp;|</html:link>
-		<a href="javascript:submitForm()" style="color:Navy;text-decoration:none;">
+		<a href="javascript:submitForm('save')" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
 		<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">
 		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>
+		<a style="color:Navy;text-decoration:none;" href="javascript:submitForm('mergeSearch');">
+			<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Merge Client&nbsp;&nbsp;</a>
+		
 		</td>
 		</tr>
 	<tr> <td>	
@@ -226,14 +229,7 @@
 		</div>
 		</td>
 		</tr>
-		</table>
-               <security:oscarSec objectName="_merge" rights="w"  >
-                        
-                <input type="hidden" name="mergeAction" value="merge" />
-                <input type="hidden" name="provider_no" value="<%= session.getAttribute("user") %>" />
-                <input type="hidden" name="caisiSearch" value="yes"/>
-            	<input type="submit" value="Merge Selected Records"/>
-            </security:oscarSec>
+		</table>       
             </form>
             </c:if>
         

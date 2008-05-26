@@ -32,8 +32,9 @@
 	}
     
 </script>
- 
+
 <html-el:form action="/PMmodule/QuatroRefer.do">
+<input type="hidden" name="demoNo" /> 
 <html:hidden property="referral.clientId" />
 <html:hidden property="referral.id" />
 <html:hidden property="referral.facilityId" />

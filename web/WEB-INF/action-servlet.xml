@@ -51,6 +51,13 @@
     <bean name="/CaisiRole" class="org.caisi.core.web.RoleAction" singleton="false"  autowire="byName" />
  -->
     <bean name="/PMmodule/ClientSearch2" class="org.oscarehr.PMmodule.web.ClientSearchAction2" singleton="false"  autowire="byName" />
+    <bean name="/PMmodule/MergeClient" class="org.oscarehr.PMmodule.web.MergeClientAction" singleton="false"  autowire="byName">
+    	<property name="lookupManager" ref="lookupManager"/> 
+    	<property name="clientManager" ref="clientManager" /> 
+    	<property name="programManager" ref="programManager"/>
+    	<property name="providerManager" ref="providerManager" />
+    	<property name="mergeClientManager" ref="mergeClientManager"></property>
+    </bean>
     <bean name="/PMmodule/ClientManager" class="org.oscarehr.PMmodule.web.ClientManagerAction" singleton="false" autowire="byName">
         <property name="surveyManager" ref="oscarSurveyManager"/>        
         <property name="caseManagementManager" ref="caseManagementManager"/>

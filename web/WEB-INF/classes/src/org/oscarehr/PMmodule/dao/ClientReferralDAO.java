@@ -34,6 +34,8 @@ import org.oscarehr.PMmodule.model.ClientReferral;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.common.KeyConstants;
 
+import com.quatro.common.KeyConstants;
+
 public class ClientReferralDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(getClass());

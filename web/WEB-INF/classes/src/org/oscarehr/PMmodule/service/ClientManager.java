@@ -44,6 +44,8 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.springframework.beans.factory.annotation.Required;
 import com.quatro.common.KeyConstants;
 
+import com.quatro.common.KeyConstants;
+
 public class ClientManager {
 
     private static Log log = LogFactory.getLog(ClientManager.class);

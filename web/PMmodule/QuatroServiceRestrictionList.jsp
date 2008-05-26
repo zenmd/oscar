@@ -53,20 +53,8 @@
         var form = document.clientManagerForm;
         form.method.value='service_restrict';
         form.submit();
-    }
+    }    
     
-    function terminateEarly(restrictionId)
-    {
-    	if (confirm('Do you wish to terminate this service restriction?'))
-    	{
-	          /* var form = document.quatroClientServiceRestrictionForm; */
-	        
-	        var form =document.forms(0);
-	        form.method.value='terminate_early'; 
-	        form.recordId.value=restrictionId;
-	        form.submit('terminate_early');
-    	}
-    }
 </script>
  
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">

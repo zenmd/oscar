@@ -42,7 +42,20 @@
 		}
 			return true;
 	}
-	
+	function signSignature(){
+   		var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
+     	"rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />" + 
+     	"&moduleName=admission";
+
+   		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
+   		win.focus();
+	}
+	function viewSignature(){
+   		var url='<c:out value="${ctx}" />/topazGetImage.do?' +
+     	"rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />";
+   		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
+   		win.focus();
+	}
 </script>
 
 <html-el:form action="/PMmodule/QuatroConsent.do">
@@ -59,13 +72,22 @@
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar"><html:link
+			<td align="left" class="buttonBar">			
+			<a href='javaScript:submitForm("update");' onclick="return validateSave();"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+				<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
+		  			<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
+		 		 		<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
+		  			<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
+		  				<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
+        </logic:greaterThan>
+        <html:link
 				action="/PMmodule/QuatroConsent.do?method=list" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
-			<a href='javaScript:submitForm("update");' onclick="return validateSave();"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
+				
+			</td>
 		</tr>
 		<tr height="18px">
 			<td align="left" class="message">

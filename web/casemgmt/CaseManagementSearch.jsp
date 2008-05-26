@@ -74,6 +74,7 @@ response.setHeader("Cache-Control", "no-cache");
 <html:form action="/CaseManagementView2">
 	<html:hidden property="demographicNo" />
 	<html:hidden property="providerNo" />
+	<input type="hidden" name="clientId" />
 	<!--  no need for tabs 
 	 
 	<html:hidden property="tab" />
@@ -95,7 +96,7 @@ response.setHeader("Cache-Control", "no-cache");
 			</html:link> 
 			<html:link action="/CaseManagementView2.do?note_view=detailed"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;&nbsp;|
 			</html:link> 
-			<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt"	style="color:Navy;text-decoration:none;">
+			<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
 				 New&nbsp;Note&nbsp;&nbsp;|
 			</html:link> 
 			

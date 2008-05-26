@@ -143,7 +143,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     	String demono= (String)actionParam.get("clientId");
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String nView=(String)request.getParameter("note_view");
-		
+		caseForm.setDemographicNo(demono);
 		if(!Utility.IsEmpty(nView)) {
 			request.setAttribute("note_view", nView);
 			return view(mapping,form,request, response);
@@ -182,6 +182,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);	      
 	       String demoNo= (String)actionParam.get("clientId");
+	       request.setAttribute("clientId", demoNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
         String providerNo = getProviderNo(request);
         //String demoNo = getDemographicNo(request);
@@ -370,9 +371,9 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         Locale vLocale = (Locale) se.getAttribute(org.apache.struts.Globals.LOCALE_KEY);
         caseForm.setVlCountry(vLocale.getCountry());
-        caseForm.setDemographicNo(getDemographicNo(request));
+        caseForm.setDemographicNo(demoNo);
 
-        se.setAttribute("casemgmt_DemoNo", getDemographicNo(request));
+        se.setAttribute("casemgmt_DemoNo", demoNo);
         caseForm.setRootCompURL((String) se.getAttribute("casemgmt_oscar_baseurl"));
         se.setAttribute("casemgmt_VlCountry", vLocale.getCountry());
 
