@@ -669,7 +669,7 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	public void setIntakeStatusAdmitted(Integer intakeId){
         String sSQL="update QuatroIntakeDB q set q.intakeStatus='" + 
-        KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.intakeId=?";
+        KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?";
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{intakeId});
 	}
 	

@@ -65,7 +65,7 @@
     		if (ageConflict.contains(clientId)) action="ageConflict";	
     	%>
 		
-			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
    		
 	</display:column>
     <display:column sortable="false">

@@ -15,6 +15,7 @@ import org.oscarehr.PMmodule.model.RoomDemographicPK;
 public class QuatroClientAdmissionForm extends ValidatorForm{
 
     private Admission admission = new Admission();
+    private String familyIntakeType;  //Y: family Intake.
 
     private List providerList;
     private List provinceList;
@@ -25,6 +26,8 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
     private RoomDemographic roomDemographic = new RoomDemographic(new RoomDemographicPK());
     private BedDemographic bedDemographic = new BedDemographic(new BedDemographicPK());
     
+    private Integer curDB_RoomId;
+    private Integer curDB_BedId;
     
 	public Admission getAdmission() {
 		return admission;
@@ -90,6 +93,30 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 
 	public void setRoomDemographic(RoomDemographic roomDemographic) {
 		this.roomDemographic = roomDemographic;
+	}
+
+	public String getFamilyIntakeType() {
+		return familyIntakeType;
+	}
+
+	public void setFamilyIntakeType(String familyIntakeType) {
+		this.familyIntakeType = familyIntakeType;
+	}
+
+	public Integer getCurDB_BedId() {
+		return curDB_BedId;
+	}
+
+	public void setCurDB_BedId(Integer curDB_BedId) {
+		this.curDB_BedId = curDB_BedId;
+	}
+
+	public Integer getCurDB_RoomId() {
+		return curDB_RoomId;
+	}
+
+	public void setCurDB_RoomId(Integer curDB_RoomId) {
+		this.curDB_RoomId = curDB_RoomId;
 	}
 	
 }

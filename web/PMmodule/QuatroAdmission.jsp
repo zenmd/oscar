@@ -10,9 +10,9 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="demoNo"/>
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
+<html:hidden property="familyIntakeType"/>
 <html:hidden property="admission.id"/>
 <html:hidden property="admission.programId"/>
 <html:hidden property="admission.admissionDateTxt"/>
@@ -176,22 +176,35 @@ function viewSignature(){
 </table></div></td></tr>
 
 <tr><td>
+<logic:equal name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
 <table class="simple" cellspacing="2" cellpadding="3">
-<!-- Begin of Assign Room -------------------------------------------------------------->
 	<tr><th width="20%">Assign Room</th>
 	<td>
-	      <html:select property="roomDemographic.id.roomId" onchange="quatroClientAdmissionForm.method.value='edit';quatroClientAdmissionForm.submit();">
-	       <option value="0"></option>
+	      <html:select property="roomDemographic.id.roomId">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
+          <html:hidden property="curDB_RoomId"/>
 	</td></tr>
-<!-- End of Assign Room -------------------------------------------------------------->
+	</table>
+</logic:equal>
+<logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
+<table class="simple" cellspacing="2" cellpadding="3">
+	<tr><th width="20%">Assign Room</th>
+	<td>
+	      <html:select property="roomDemographic.id.roomId" onchange="quatroClientAdmissionForm.method.value='roomchange';quatroClientAdmissionForm.submit();">
+           <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
+          </html:select>
+          <html:hidden property="curDB_RoomId"/>
+	</td></tr>
+
 	<tr><th width="20%">Assign Bed</th>
 	<td><html:select property="bedDemographic.id.bedId">
             <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	  </html:select>
+      <html:hidden property="curDB_BedId"/>
 	</td></tr>
 	</table>
+</logic:notEqual>
 </td></tr>
 
 <tr><td align="center">Reason for not signing&nbsp;

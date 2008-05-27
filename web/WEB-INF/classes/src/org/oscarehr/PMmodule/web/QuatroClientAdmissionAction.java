@@ -34,7 +34,6 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-//import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
@@ -52,6 +51,9 @@ import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.model.BedDemographicPK;
+import org.oscarehr.PMmodule.exception.AdmissionException;
+import org.oscarehr.PMmodule.exception.ProgramFullException;
+import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
 
 public class QuatroClientAdmissionAction  extends BaseClientAction {
    private ClientManager clientManager;
@@ -91,13 +93,272 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        return mapping.findForward("list");
    }
+
+   //from queue page 
+   public ActionForward queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+ 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+
+       Integer programId=null;
+       Integer intakeId = null;
+       Integer admissionId =null;
+       String clientId = null;
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       
+       HashMap actionParam = new HashMap();
+       clientId=request.getParameter("clientId");
+       request.setAttribute("clientId", clientId);
+	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+
+	   actionParam.put("clientId", clientId);
+       Integer queueId=Integer.valueOf(request.getParameter("queueId"));
+       QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByQueueId(queueId);
+       intakeId = intakeDB.getId();
+       actionParam.put("intakeId", intakeId);
+       request.setAttribute("actionParam", actionParam);
+
+       programId=intakeDB.getProgramId();
+       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
+       if(intakeFamilyHeadId==null){
+         clientForm.setFamilyIntakeType("N");
+       }else{
+         clientForm.setFamilyIntakeType("Y");
+       }
+
+       Admission admission = new Admission(); 
+       admission.setId(0);
+       admission.setProgramId(programId);
+       admission.setIntakeId(intakeId);
+       admission.setClientId(Integer.valueOf(clientId));
+       admission.setAdmissionDate(Calendar.getInstance());
+       admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+       admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+       clientForm.setAdmission(admission);
+
+       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
+ 	   ArrayList availableRoomLst = new ArrayList();
+	   Room emptyRoom=new Room();
+	   emptyRoom.setId(0);
+	   emptyRoom.setName(" ---- ");
+	   availableRoomLst.add(emptyRoom);
+   	   for(int i=0;i<availableRooms.length;i++){
+   		availableRoomLst.add(availableRooms[i]);
+   	   }
+   	   Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
+       clientForm.setAvailableRooms(availableRooms2);
+       clientForm.setCurDB_RoomId(0);
+
+       if(!clientForm.getFamilyIntakeType().equals("Y")){
+           Bed[] availableBeds=new Bed[1];
+           Bed emptyBed = new Bed();
+           emptyBed.setId(0);
+           emptyBed.setName(" ---- ");
+           availableBeds[0]=emptyBed;
+           clientForm.setAvailableBeds(availableBeds);
+           clientForm.setCurDB_BedId(0);
+       }
+       
+	   //set dropdown values
+	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+  	   Provider pObj= new Provider();
+  	   pObj.setProviderNo("");
+  	   providerList.add(0, pObj);
+  	   clientForm.setProviderList(providerList);
+	   List provinceList = lookupManager.LoadCodeList("POV",true, null, null);
+	   clientForm.setProvinceList(provinceList);
+	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
+       clientForm.setNotSignReasonList(notSignReasonList);
+       
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
+       return mapping.findForward("edit");
+   }
    
-    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       return update(mapping, form, request, response);
+   //from quatroClientAdmission.jsp room change event 
+   public ActionForward roomchange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+ 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       
+       HashMap actionParam = new HashMap();
+       actionParam.put("clientId", clientForm.getAdmission().getClientId());            
+   	   actionParam.put("intakeId", clientForm.getAdmission().getIntakeId());
+   	   
+       Integer programId=clientForm.getAdmission().getProgramId();
+   	   String clientId = clientForm.getAdmission().getIntakeId().toString();
+       request.setAttribute("clientId", clientId);
+	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+       request.setAttribute("actionParam", actionParam);
+       
+       //setup rooms
+       Integer curDB_RoomId = clientForm.getCurDB_RoomId();
+       Room currentDB_room = null;
+       if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
+       ArrayList availableRoomLst = new ArrayList();
+	   Room emptyRoom=new Room();
+	   emptyRoom.setId(0);
+	   emptyRoom.setName(" ---- ");
+	   availableRoomLst.add(emptyRoom);
+       if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
+       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
+       for(int i=0;i<availableRooms.length;i++){
+     	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
+           availableRoomLst.add(availableRooms[i]);
+       }
+       Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
+       clientForm.setAvailableRooms(availableRooms2);
+
+       //setup beds
+       //family intake doesn't need assign beds, just room. 
+       if(!clientForm.getFamilyIntakeType().equals("Y")){
+         Integer curDB_BedId = clientForm.getCurDB_BedId();
+         ArrayList availableBedLst = new ArrayList();
+  	     Bed emptyBed=new Bed();
+  	     emptyBed.setId(0);
+  	     emptyBed.setName(" ---- ");
+  	     availableBedLst.add(emptyBed);
+         if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
+           Bed currentDB_bed = null;
+           if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
+        	  currentDB_bed = bedManager.getBed(curDB_BedId);
+              if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+           }
+           Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+           for(int i=0;i<availableBeds.length;i++){
+         	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
+               availableBedLst.add(availableBeds[i]);
+           }
+       	   Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
+           clientForm.setAvailableBeds(availableBeds2);
+   	     }else{
+           Bed[] availableBeds=new Bed[1];
+     	   availableBeds[0] = emptyBed;
+           clientForm.setAvailableBeds(availableBeds);
+         }
+       }
+
+	   //set dropdown values
+	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+  	   Provider pObj= new Provider();
+  	   pObj.setProviderNo("");
+  	   providerList.add(0, pObj);
+  	   clientForm.setProviderList(providerList);
+	   List provinceList = lookupManager.LoadCodeList("POV",true, null, null);
+	   clientForm.setProvinceList(provinceList);
+	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
+       clientForm.setNotSignReasonList(notSignReasonList);
+       
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
+       return mapping.findForward("edit");
    }
    	
    public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setEditAttributes(form, request);
+       QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+
+       HashMap actionParam = new HashMap();
+       actionParam.put("clientId", clientForm.getAdmission().getClientId());            
+
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+
+       Integer admissionId;
+       Admission admission;
+       if(request.getParameter("admissionId")!=null){
+          admissionId = Integer.valueOf(request.getParameter("admissionId"));
+          admission = admissionManager.getAdmissionByAdmissionId(admissionId);
+      	  admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+    	  admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
+    	  admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
+          clientForm.setAdmission(admission);
+       }else{
+          admissionId = clientForm.getAdmission().getId();
+          admission = clientForm.getAdmission();
+       }
+
+	   String clientId=admission.getClientId().toString();
+       Integer programId = admission.getProgramId();
+   	   actionParam.put("intakeId", admission.getIntakeId());
+       request.setAttribute("clientId", clientId);
+	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+       request.setAttribute("actionParam", actionParam);
+
+
+       Integer intakeId = admission.getIntakeId();
+	   Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
+       if(intakeFamilyHeadId==null){
+         clientForm.setFamilyIntakeType("N");
+       }else{
+         clientForm.setFamilyIntakeType("Y");
+       }
+       
+       if(request.getParameter("admissionId")!=null){
+         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), facilityId);
+         clientForm.setRoomDemographic(rdm);
+         clientForm.setCurDB_RoomId(rdm.getRoomId());
+
+         BedDemographic bdm =null;
+         if(!clientForm.getFamilyIntakeType().equals("Y")){
+    	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
+    	   clientForm.setBedDemographic(bdm);
+    	   clientForm.setCurDB_BedId(bdm.getBedId());
+         }
+       }
+       
+       //setup rooms
+       Integer curDB_RoomId = clientForm.getCurDB_RoomId();
+       Room currentDB_room = null;
+       if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
+       ArrayList availableRoomLst = new ArrayList();
+	   Room emptyRoom=new Room();
+	   emptyRoom.setId(0);
+	   emptyRoom.setName(" ---- ");
+	   availableRoomLst.add(emptyRoom);
+       if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
+       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
+       for(int i=0;i<availableRooms.length;i++){
+     	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
+           availableRoomLst.add(availableRooms[i]);
+       }
+       Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
+       clientForm.setAvailableRooms(availableRooms2);
+
+       //setup beds
+       //family intake doesn't need assign beds, just room. 
+       if(!clientForm.getFamilyIntakeType().equals("Y")){
+         Integer curDB_BedId = clientForm.getCurDB_BedId();
+         ArrayList availableBedLst = new ArrayList();
+  	     Bed emptyBed=new Bed();
+  	     emptyBed.setId(0);
+  	     emptyBed.setName(" ---- ");
+  	     availableBedLst.add(emptyBed);
+         if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
+           Bed currentDB_bed = null;
+           if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
+        	  currentDB_bed = bedManager.getBed(curDB_BedId);
+              if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+           }
+           Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+           for(int i=0;i<availableBeds.length;i++){
+         	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
+               availableBedLst.add(availableBeds[i]);
+           }
+       	   Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
+           clientForm.setAvailableBeds(availableBeds2);
+   	     }else{
+           Bed[] availableBeds=new Bed[1];
+     	   availableBeds[0] = emptyBed;
+           clientForm.setAvailableBeds(availableBeds);
+         }
+       }
+       
+	   //set dropdown values
+	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+  	   Provider pObj= new Provider();
+  	   pObj.setProviderNo("");
+  	   providerList.add(0, pObj);
+  	   clientForm.setProviderList(providerList);
+	   List provinceList = lookupManager.LoadCodeList("POV",true, null, null);
+	   clientForm.setProvinceList(provinceList);
+	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
+       clientForm.setNotSignReasonList(notSignReasonList);
+
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
    }
@@ -127,8 +388,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
               			request.getContextPath(), program.getName()));
            isError = true;
            saveMessages(request,messages);
-           setEditAttributes(form, request);
-           return mapping.findForward("edit");
+           return update(mapping, form, request, response);
 	     }
 
          //check client active in other program
@@ -142,6 +402,28 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
               admissionManager.dischargeAdmission(sb.substring(1));
             }
          }
+       }
+       
+       //check if roomId /bedId selected
+       RoomDemographic rdm = clientForm.getRoomDemographic();
+       if(rdm.getId().getRoomId().intValue()==0){
+	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_roomId",
+         			request.getContextPath()));
+         isError = true;
+         saveMessages(request,messages);
+         return update(mapping, form, request, response);
+       }else{
+    	  //check bedId selected for single person intake admission
+    	  if(!clientForm.getFamilyIntakeType().equals("Y")){
+    	     BedDemographic bdm = clientForm.getBedDemographic();
+    	     if(bdm.getBedId().intValue()==0){
+    	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
+      			   request.getContextPath()));
+                isError = true;
+                saveMessages(request,messages);
+                return update(mapping, form, request, response);
+    	     } 
+    	  }   
        }
        
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -166,7 +448,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   bedDemographic.setReservationStart(new Date());
 
        if(admission.getId().intValue()==0){
-    	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId); 
+    	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
+    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
     	  admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
    			  intake.getReferralId(),roomDemographic,bedDemographic, false);
        }else{
@@ -179,160 +462,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setAdmission(admission);
  	   clientForm.setRoomDemographic(roomDemographic);
  	   clientForm.setBedDemographic(bedDemographic);
-       setEditAttributes(form, request);
-       
-       return mapping.findForward("edit");
+ 	   clientForm.setCurDB_RoomId(roomDemographic.getRoomId());
+ 	   clientForm.setCurDB_BedId(bedDemographic.getBedId());
+
+       return update(mapping, form, request, response);
    }
-
-   public ActionForward sign(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setEditAttributes(form, request);
-       return mapping.findForward("edit");
-   }
-
-   private void setEditAttributes(ActionForm form, HttpServletRequest request) {
-	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
-
-       Integer programId=null;
-       Integer intakeId = null;
-       Integer admissionId =null;
-       String clientId = null;
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       
-       RoomDemographic rdm=null;
-       BedDemographic bdm=null;
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          //from program queue list page
-          if(request.getParameter("queueId")!=null){
-        	  clientId=request.getParameter("clientId");
-              actionParam.put("clientId", clientId);
-        	  Integer queueId=Integer.valueOf(request.getParameter("queueId"));
-              QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByQueueId(queueId);
-              if(intakeDB!=null){
-                intakeId = intakeDB.getId();
-                actionParam.put("intakeId", intakeId);
-                programId=intakeDB.getProgramId();
-              }else{
-                intakeId = 0;
-                actionParam.put("intakeId", 0);
-                programId = 0;
-              }
-              Admission admission = new Admission(); 
-              admission.setProgramId(programId);
-              admission.setIntakeId(intakeId);
-              admission.setClientId(Integer.valueOf(clientId));
-              admission.setAdmissionDate(Calendar.getInstance());
-              admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
-              admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
-              clientForm.setAdmission(admission);
-              
-          //from pages under client mamagement
-          }else{
-        	if(request.getParameter("admissionId")!=null){
-        	   admissionId = Integer.valueOf(request.getParameter("admissionId"));
-        	 }else{
-        		 admissionId = clientForm.getAdmission().getId();
-        	 }
-        	 Admission admission = admissionManager.getAdmissionByAdmissionId(admissionId);
-       	     clientId=admission.getClientId().toString();
-             programId = admission.getProgramId();
-       	     admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
-       	     admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
-       	     admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
-             clientForm.setAdmission(admission);
-         	 rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), facilityId);
-        	 bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
-        	 if(rdm!=null) clientForm.setRoomDemographic(rdm);
-        	 if(bdm!=null) clientForm.setBedDemographic(bdm);             
-             actionParam.put("clientId", clientId);            
-        	 actionParam.put("intakeId", admission.getIntakeId());
-          }
-       }
-       request.setAttribute("actionParam", actionParam);
-       
-       List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
-  	   Provider pObj= new Provider();
-  	   pObj.setProviderNo("");
-  	   providerList.add(0, pObj);
-  	   clientForm.setProviderList(providerList);
-       
-       clientId = (String)actionParam.get("clientId");
-       request.setAttribute("clientId", clientId);
-	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
-       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-
-//create exception when save new admission, ask for temporary_admission value that we don't use at all.       
-/*
-       // check role permission
-       HttpSession se = request.getSession();
-       List admissions = admissionManager2.getCurrentAdmissions(Integer.valueOf(clientId));
-       for (Iterator it = admissions.iterator(); it.hasNext();) {
-           Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
-           String inProgramType = admission.getProgramType();
-           if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, clientId, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, clientId, inProgramId)));
-
-           }
-           else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, clientId, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, clientId, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, clientId, inProgramId)));
-
-           }
-       }
-*/
-       
-	   List provinceList = lookupManager.LoadCodeList("POV",true, null, null);
-	   clientForm.setProvinceList(provinceList);
-
-	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
-       clientForm.setNotSignReasonList(notSignReasonList);
-       
-       //service programs don't need admission and queue, intake is enough. 
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
-              if(rdm!=null){
-    	  Room current_room= roomManager.getRoom(rdm.getRoomId());
-    	  ArrayList availableRoomLst = new ArrayList();
-    	  availableRoomLst.add(current_room);
-    	  for(int i=0;i<availableRooms.length;i++){
-    		if(current_room.equals(availableRooms[i])) continue; 
-        	availableRoomLst.add(availableRooms[i]);
-    	  }
-    	  Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
-          clientForm.setAvailableRooms(availableRooms2);
-       }else{
-         clientForm.setAvailableRooms(availableRooms);
-       }
-
-       Bed[] availableBeds=new Bed[1];
-       availableBeds[0] = new Bed();
-       availableBeds[0].setId(0);
-       availableBeds[0].setName("N/A");
-       if(clientForm.getRoomDemographic()!=null && clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
-         availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
-       }
-       if(bdm!=null){
-     	  Bed current_bed= bedManager.getBed(bdm.getBedId());
-     	  ArrayList availableBedLst = new ArrayList();
-     	  availableBedLst.add(current_bed);
-     	  for(int i=0;i<availableBeds.length;i++){
-         	availableBedLst.add(availableBeds[i]);
-     	  }
-     	  Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
-          clientForm.setAvailableBeds(availableBeds2);
-        }else{
-          clientForm.setAvailableBeds(availableBeds);
-        }
-
-   }
-/*
-   public void setAdmissionManager2(AdmissionManager admissionManager2) {
-		 this.admissionManager2 = admissionManager2;
-   }
-*/
+   
    public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
 	 this.bedDemographicManager = bedDemographicManager;
    }
