@@ -170,7 +170,7 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 </html:form>
 	<c:if test="${requestScope.clients != null}">
          <form method="post" name="clientSearchForm2" action="/PMmodule/ClientSearch2.do">
-            <tr >
+            <tr height="100%">
                 <td>
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
