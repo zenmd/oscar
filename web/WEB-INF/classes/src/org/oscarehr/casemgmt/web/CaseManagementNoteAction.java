@@ -45,6 +45,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import oscar.oscarEncounter.pageUtil.EctSessionBean;
 import oscar.util.UtilDateUtilities;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.util.*;
 
 public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
@@ -61,7 +63,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             response.sendError(response.SC_FORBIDDEN);
             return null;
         }
-
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
         Object reqForm =  request.getParameter("form");
         request.setAttribute("change_flag", "false");
@@ -342,7 +344,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 return null;
             
             strNote = strNote.trim();
-            
+            super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
             String providerNo = getProviderNo(request);
             Provider provider = getProvider(request);
             String userName = provider != null?provider.getFullName():"";
@@ -676,7 +678,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         if (session == null || session.getAttribute("userrole") == null) return mapping.findForward("expired");
-
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         String providerNo = getProviderNo(request);
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
         request.setAttribute("change_flag", "false");
@@ -693,7 +695,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if(messages.get().hasNext()){
         	return edit(mapping, form, request, response);
         }       
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.case.save.success"));
         saveMessages(request, messages);
 
         // are we in the new encounter and chaining actions?
