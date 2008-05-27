@@ -1,11 +1,11 @@
 <%@ include file="/taglibs.jsp"%>
-<%@page import="oscar.OscarProperties" %>
+<%@page import="oscar.OscarProperties"%>
 <%@page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
 
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
+<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
+<%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 <%
-    if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.jsp");
+if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.jsp");
     String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
     String url = "/CaseManagementView2.do";
     if(!"cv".equals(session.getAttribute(com.quatro.common.KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
@@ -36,13 +36,13 @@
 		alert('not yet implemented... will show term definitions');
 	}
 	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 	}
 </script>
-<html:form action="/PMmodule/MergeRecords">
+<html:form	action="/PMmodule/ClientSearch2.do">
 	<input type="hidden" name="method"  />
-	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
+	<table width="100%" height="100%"   cellpadding="1px" cellspacing="1px">
 		<tr>
 			<th class="pageTitle">Client Search<c:out value="${moduleName}"/></th>
 		</tr>
@@ -51,7 +51,7 @@
 			action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;&nbsp;|</html:link>
-		<a href="javascript:submitForm('save')" style="color:Navy;text-decoration:none;">
+		<a href="javascript:submitForm('search')" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
 		<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">
 		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>
@@ -169,8 +169,8 @@
 	</tr>
 </html:form>
 	<c:if test="${requestScope.clients != null}">
-            <form method="post" name="mergeform" action="../admin/MergeRecords.do" >
-            <tr style="height: 100%">
+         <!-- form method="post" name="mergeform" action="../admin/MergeRecords.do" -->
+            <tr >
                 <td>
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
@@ -196,42 +196,14 @@
 			<display:column sortable="true" title="H&S Alert">
 				<logic:equal value="0" property="hsAlertCount" name="client">No</logic:equal>
 				<logic:notEqual value="0" property="hsAlertCount" name="client">Yes</logic:notEqual>
-			</display:column>                        
-                        
-                        <security:oscarSec roleName="<%=roleName$%>" objectName="_merge" rights="r"  >
-                        
-                        <display:column sortable="true" title="Head Record">   
-                            <c:choose>
-                                
-                                <c:when test="${client.headRecord == null}">
-                                    <input type="radio" name="head" value="<c:out value="${client.demographicNo}" />">    
-                                </c:when>
-                                <c:otherwise>
-                                    &nbsp;
-                                </c:otherwise>
-                            </c:choose>   
-			</display:column>
-                        
-                        <display:column sortable="true" title="Include">
-                            <c:choose>
-                                <c:when test="${client.headRecord == null}">
-                                    	<input type="checkbox" name="records" value="<c:out value="${client.demographicNo}" />">
-                                </c:when>
-                                <c:otherwise>
-                                    &nbsp;
-                                </c:otherwise> 
-                                </c:choose>
-			</display:column>
-                        </security:oscarSec>
-                        
-                    
+			</display:column>                         
 		</display:table>
 		</div>
 		</td>
 		</tr>
 		</table>       
-            </form>
-            </c:if>
+        </form>
+       </c:if>
         
            
         
