@@ -169,7 +169,7 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 	</tr>
 </html:form>
 	<c:if test="${requestScope.clients != null}">
-         <!-- form method="post" name="mergeform" action="../admin/MergeRecords.do" -->
+         <form method="post" name="clientSearchForm2" action="/PMmodule/ClientSearch2.do">
             <tr >
                 <td>
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
