@@ -55,7 +55,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 
-public class QuatroClientReferAction  extends BaseClientAction {
+public class QuatroClientReferAction extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -66,191 +66,239 @@ public class QuatroClientReferAction  extends BaseClientAction {
    private RoomManager roomManager;
    private BedManager bedManager;
 
-   public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    
-	   setListAttributes(form, request);
-       return list(mapping, form, request, response);
-   }
-   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   setListAttributes(form, request);
-	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-	   return mapping.findForward("list");
-   }
-   
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setEditAttributes(form, request);
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-       return mapping.findForward("edit");
-   }
-   
-   public ActionForward refer_select_program(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       DynaActionForm clientForm = (DynaActionForm) form;
-       Program p = (Program) clientForm.get("program");
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-       setEditAttributes(form, request);
+	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
 
-       Integer programId = p.getId();
-       Program program = programManager.getProgram(programId);
-       p.setName(program.getName());
-       request.setAttribute("program", program);
+		setListAttributes(form, request);
+		return list(mapping, form, request, response);
+	}
 
-       request.setAttribute("clientId", (String)clientForm.get("clientId"));
-       
-       request.setAttribute("do_refer", true);
-       request.setAttribute("temporaryAdmission", programManager.getEnabled());
+	public ActionForward list(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		setListAttributes(form, request);
+		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		return mapping.findForward("list");
+	}
 
-       return mapping.findForward("edit");
-   }
-   private void setListAttributes(ActionForm form, HttpServletRequest request) {
-	   ActionMessages messages = new ActionMessages();
-		 boolean isError = false;
-	     boolean isWarning = false;
-	   DynaActionForm clientForm = (DynaActionForm) form;
+	public ActionForward edit(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		setEditAttributes(form, request);
+		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		return mapping.findForward("edit");
+	}
 
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       String cId =request.getParameter("clientId");
-       if(Utility.IsEmpty(cId)) {
-    	  cId =(String)request.getAttribute("clientId");
-    	  // cId=request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID).toString();
-       }
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", cId); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-       
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-       request.setAttribute("clientId", cId);
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-       try{
-       List lstRefers = clientManager.getReferrals(demographicNo);
-       request.setAttribute("lstRefers", lstRefers);      
-       } catch (Exception e) {
+	public ActionForward refer_select_program(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		DynaActionForm clientForm = (DynaActionForm) form;
+		Program p = (Program) clientForm.get("program");
+		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		setEditAttributes(form, request);
+
+		Integer programId = p.getId();
+		Program program = programManager.getProgram(programId);
+		p.setName(program.getName());
+		request.setAttribute("program", program);
+
+		request.setAttribute("clientId", (String) clientForm.get("clientId"));
+
+		request.setAttribute("do_refer", true);
+		request.setAttribute("temporaryAdmission", programManager.getEnabled());
+
+		return mapping.findForward("edit");
+	}
+
+	private void setListAttributes(ActionForm form, HttpServletRequest request) {
+		ActionMessages messages = new ActionMessages();
+		boolean isError = false;
+		boolean isWarning = false;
+		DynaActionForm clientForm = (DynaActionForm) form;
+
+		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		String cId = request.getParameter("clientId");
+		if (Utility.IsEmpty(cId)) {
+			cId = (String) request.getAttribute("clientId");
+		}
+		if (actionParam == null) {
+			actionParam = new HashMap();
+			actionParam.put("clientId", cId);
+		}
+		request.setAttribute("actionParam", actionParam);
+		String demographicNo = (String) actionParam.get("clientId");
+
+		Integer facilityId = (Integer) request.getSession().getAttribute(
+				SessionConstants.CURRENT_FACILITY_ID);
+
+		request.setAttribute("client", clientManager
+				.getClientByDemographicNo(demographicNo));
+		request.setAttribute("clientId", cId);
+		String providerNo = ((Provider) request.getSession().getAttribute(
+				"provider")).getProviderNo();
+		try {
+			List lstRefers = clientManager.getReferrals(demographicNo);
+			request.setAttribute("lstRefers", lstRefers);
+		} catch (Exception e) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.listRefer.failed", request.getContextPath()));
 			saveMessages(request, messages);
-       }
-   }
+		}
+	}
 
-   public ActionForward search_programs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       DynaActionForm clientForm = (DynaActionForm) form;
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-       Program criteria = (Program) clientForm.get("program");
+	public ActionForward search_programs(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		DynaActionForm clientForm = (DynaActionForm) form;
+		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		Program criteria = (Program) clientForm.get("program");
 
-       request.setAttribute("programs", programManager.search(criteria));
+		request.setAttribute("programs", programManager.search(criteria));
 
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");      
-       clientForm.set("clientId", demographicNo);
-       ProgramUtils.addProgramRestrictions(request);
+		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		if (actionParam == null) {
+			actionParam = new HashMap();
+			actionParam.put("clientId", request.getParameter("clientId"));
+		}
+		request.setAttribute("actionParam", actionParam);
+		String demographicNo = (String) actionParam.get("clientId");
+		clientForm.set("clientId", demographicNo);
+		ProgramUtils.addProgramRestrictions(request);
 
-       return mapping.findForward("search_programs");
-   }
-   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-       log.debug("Saving Refer");
+		return mapping.findForward("search_programs");
+	}
+
+	public ActionForward save(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		log.debug("Saving Refer");
 		ActionMessages messages = new ActionMessages();
-		 boolean isError = false;
-	     boolean isWarning = false;
-		DynaActionForm refForm = (DynaActionForm)form;
-		
-		ClientReferral refObj= (ClientReferral)refForm.get("referral");
-		
-		String id = (String)request.getParameter("clientId");
-		refObj.setClientId(Integer.valueOf(id));
-		
-		Provider p =  (Provider)request.getSession().getAttribute("provider");
+		boolean isError = false;
+		boolean isWarning = false;
+		DynaActionForm refForm = (DynaActionForm) form;
+
+		ClientReferral refObj = (ClientReferral) refForm.get("referral");
+		Provider p = (Provider) request.getSession().getAttribute("provider");
 		refObj.setCompletionDate(new Date());
 		refObj.setProviderNo(p.getProviderNo());
-		refObj.setReferralDate(new Date());		
-		clientManager.saveClientReferral(refObj);		
-		//String gotoStr = request.getParameter("goto");			
-		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-       saveMessages(request,messages);		
-       return mapping.findForward("edit");
-   }
-   private void setEditAttributes(ActionForm form, HttpServletRequest request) {
-       DynaActionForm clientForm = (DynaActionForm) form;
+		refObj.setReferralDate(new Date());
+		refObj.setStatus("active");
+		if (refObj.getProgramId() == null
+				|| refObj.getProgramId().intValue() <= 0) {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.referral.program", request.getContextPath()));
+			isError = true;
+			saveMessages(request, messages);			
+		}
+		if(refObj.getNotes()!=null && refObj.getNotes().length()>4000){
+			isError = true;			
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.referral.reason", request.getContextPath()));			
+			saveMessages(request, messages);
+		}
+		if(refObj.getPresentProblems()!=null && refObj.getPresentProblems().length()>4000){
+			isError = true;			
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.referral.problem", request.getContextPath()));			
+			saveMessages(request, messages);
+		}
+		if(isError){
+			setEditAttributes(form, request);
+			return mapping.findForward("edit");
+		}
+		clientManager.saveClientReferral(refObj);
+		// String gotoStr = request.getParameter("goto");
+		if (!(isWarning || isError))
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.save.success", request.getContextPath()));
+		saveMessages(request, messages);
+		return mapping.findForward("edit");
+	}
 
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-       String rId=request.getParameter("rId");
-       Object curRId =request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_RECORD);
-       if((rId==null ||"0".equals(rId)) && curRId!=null) rId =(String)curRId; 
-       String programId = request.getParameter("selectedProgramId");
-       //Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       clientForm.set("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-       request.setAttribute("clientId", demographicNo);
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-       ClientReferral crObj = (ClientReferral)clientForm.get("referral");
-       if("0".equals(rId)){
-    	   crObj = new ClientReferral();
-    	   crObj.setClientId(Integer.valueOf(demographicNo));
-       }else if(!Utility.IsEmpty(rId)){
-    	   request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_RECORD, rId);
-    	   crObj = clientManager.getClientReferral(rId);
-       }
-       
-       Program program =(Program)clientForm.get("program");
-       if(!Utility.IsEmpty(programId)){
-    	   program = programManager.getProgram(programId);
-    	   crObj.setProgramId(Integer.valueOf(programId));
-    	   crObj.setFacilityId(program.getFacilityId());
-    	   request.setAttribute("program", program);  
-       }          
-       clientForm.set("referral", crObj);
-   }
+	private void setEditAttributes(ActionForm form, HttpServletRequest request) {
+		DynaActionForm clientForm = (DynaActionForm) form;
+		String cId =request.getParameter("clientId");
+		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
+		if(Utility.IsEmpty(cId)&&crObj!=null){			
+			cId = crObj.getClientId().toString();
+		}
+		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		if (actionParam == null) {
+			actionParam = new HashMap();
+			actionParam.put("clientId",cId );
+		}
+		request.setAttribute("actionParam", actionParam);
+		String demographicNo = (String) actionParam.get("clientId");
+		request.setAttribute("client", clientManager
+				.getClientByDemographicNo(demographicNo));
+		String rId = request.getParameter("rId");
+		Object curRId = request.getSession().getAttribute(
+				KeyConstants.SESSION_KEY_CURRENT_RECORD);
+		if ((rId == null || "0".equals(rId)) && curRId != null)
+			rId = (String) curRId;
+		String programId = request.getParameter("selectedProgramId");
+		// Integer
+		// facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+		clientForm.set("clientId", demographicNo);
+		request.setAttribute("clientId", demographicNo);
+		String providerNo = ((Provider) request.getSession().getAttribute(
+				"provider")).getProviderNo();		
+		if ("0".equals(rId)) {
+			crObj = new ClientReferral();
+			crObj.setClientId(Integer.valueOf(demographicNo));
+			crObj.setId(0);
+		} else if (!Utility.IsEmpty(rId)) {
+			request.getSession().setAttribute(
+					KeyConstants.SESSION_KEY_CURRENT_RECORD, rId);
+			crObj = clientManager.getClientReferral(rId);
+		}
 
-   public void setAdmissionManager(AdmissionManager admissionManager) {
-	 this.admissionManager = admissionManager;
-   }
+		Program program = (Program) clientForm.get("program");
+		if (!Utility.IsEmpty(programId)) {
+			program = programManager.getProgram(programId);
+			crObj.setProgramId(Integer.valueOf(programId));
+			crObj.setFacilityId(program.getFacilityId());
+			request.setAttribute("program", program);
+		}
+		clientForm.set("referral", crObj);
+	}
 
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
-   }
+	public void setAdmissionManager(AdmissionManager admissionManager) {
+		this.admissionManager = admissionManager;
+	}
 
-   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-	 this.caseManagementManager = caseManagementManager;
-   }
+	public void setBedDemographicManager(
+			BedDemographicManager bedDemographicManager) {
+		this.bedDemographicManager = bedDemographicManager;
+	}
 
-   public void setClientManager(ClientManager clientManager) {
-	 this.clientManager = clientManager;
-   }
+	public void setCaseManagementManager(
+			CaseManagementManager caseManagementManager) {
+		this.caseManagementManager = caseManagementManager;
+	}
 
-   public void setProgramManager(ProgramManager programManager) {
-	 this.programManager = programManager;
-   }
+	public void setClientManager(ClientManager clientManager) {
+		this.clientManager = clientManager;
+	}
 
-   public void setProviderManager(ProviderManager providerManager) {
-	 this.providerManager = providerManager;
-   }
+	public void setProgramManager(ProgramManager programManager) {
+		this.programManager = programManager;
+	}
 
-   public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
-	 this.roomDemographicManager = roomDemographicManager;
-   }
+	public void setProviderManager(ProviderManager providerManager) {
+		this.providerManager = providerManager;
+	}
 
-   public void setRoomManager(RoomManager roomManager) {
-	 this.roomManager = roomManager;
-   }
+	public void setRoomDemographicManager(
+			RoomDemographicManager roomDemographicManager) {
+		this.roomDemographicManager = roomDemographicManager;
+	}
 
-   public void setBedManager(BedManager bedManager) {
-	 this.bedManager = bedManager;
-   }
-   
+	public void setRoomManager(RoomManager roomManager) {
+		this.roomManager = roomManager;
+	}
+
+	public void setBedManager(BedManager bedManager) {
+		this.bedManager = bedManager;
+	}
+
 }

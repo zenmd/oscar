@@ -15,6 +15,7 @@ import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
@@ -130,9 +131,13 @@ public class UploadFileAction extends BaseClientAction {
 			Integer cId=(Integer)(session.getAttribute(KeyConstants.SESSION_KEY_CLIENTID));    
 			Integer moduleId = (Integer)session.getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
 			String programId = (String) request.getSession().getAttribute("case_program_id");
+			 Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+			 String providerNo=(String) session.getAttribute("user");
 	        if(Utility.IsEmpty(programId)){
 	        	//Integer demoInt = new Integer(cId);
-	        	programId = this.admissionManager.getCurrentBedProgramAdmission(cId).getProgramId().toString();
+	        	try{
+	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, currentFacilityId).toString();
+	        	}catch(Exception e){;}
 	        }
 			log.info("attachment client upload id: id="  + cId);
 

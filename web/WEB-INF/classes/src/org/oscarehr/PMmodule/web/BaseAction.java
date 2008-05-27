@@ -48,6 +48,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
+import org.oscarehr.PMmodule.utility.Utility;
 
 public abstract class BaseAction extends DispatchAction {
 
@@ -76,7 +77,7 @@ public abstract class BaseAction extends DispatchAction {
 		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(key, val));
 		addMessages(req, msgs);
 	}
-
+	
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
 				.getServletContext());
@@ -216,5 +217,9 @@ public abstract class BaseAction extends DispatchAction {
 
 		return new RedirectingActionForward(path.toString());
 	}
-
+	protected String getClientId(HttpServletRequest request){
+		String clientId=request.getParameter("demoNo");
+		if(Utility.isNotNullOrEmptyStr(clientId)) clientId=request.getParameter("clientId");
+		return clientId;
+	}
 }
