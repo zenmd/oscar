@@ -57,6 +57,7 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.web.formbean.ClientListsReportFormBean;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
@@ -67,6 +68,8 @@ import oscar.MyDateFormat;
 import oscar.OscarProperties;
 import oscar.util.SqlUtils;
 import org.oscarehr.PMmodule.model.Intake;
+import com.quatro.model.LstOrgcd;
+import org.oscarehr.PMmodule.model.SecUserRole;
 public class ClientDao extends HibernateDaoSupport {
 
 	private Log log = LogFactory.getLog(ClientDao.class);
@@ -654,17 +657,11 @@ public class ClientDao extends HibernateDaoSupport {
 		return providerName;
 	}
     public Integer getRecentProgramId(Integer clientId, String providerNo, Integer facilityId){
-    	String sql = "select p.programId  from QuatroIntake p ,Program c" +
-    	"where p.ProgramId = c.id and p.clientId=? and  c.facilityId=? and 'P' || p.programId in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)" +
-    			" order by createdOn desc " ;
-    	Query query = getSession().createSQLQuery(sql);
-    	((SQLQuery) query).addScalar("programId", Hibernate.INTEGER);
-    	query.setInteger(0, clientId);
-    	query.setInteger(1, facilityId);
-    	query.setString(2, providerNo);
-    	List lst=query.list();
+    	String sql = "select p.programId  from QuatroIntakeHeader p ,Program c ";
+    	sql+=" where p.programId = c.id and p.clientId=? and  c.facilityId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
+    	sql+=" order by p.createdOn desc " ;    	
+    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, facilityId, providerNo });
     	
-    	//element in lst is Object[] type
     	if (lst.size() > 0)
     		return (Integer) lst.get(0);
     	else
@@ -828,7 +825,17 @@ public class ClientDao extends HibernateDaoSupport {
 			log.debug("removeDemographicExt: demographicNo=" + demographicNo + ",key=" + key);
 		}
 	}
+	public List getIntakeByFacility(Integer demographicNo, Integer facilityId) {
+		  if (demographicNo == null || demographicNo <= 0) {
+		    throw new IllegalArgumentException();
+		  }
 
+		  String queryStr = "FROM QuatroIntakeHeader a WHERE a.clientId=? and a.programId in " +
+		        "(select s.id from Program s where s.facilityId=? or s.facilityId is null) ORDER BY a.createdOn DESC";
+		        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo,  facilityId });
+
+		        return rs;
+		    }
 	public List getProgramIdByDemoNo(String demoNo) {
 
 		String q = "Select a.ProgramId From Admission a " + "Where a.ClientId=? and a.AdmissionDate<=? and " + "(a.DischargeDate>=? or (a.DischargeDate is null) or a.DischargeDate=?)";

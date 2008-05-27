@@ -57,8 +57,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	protected TicklerManager ticklerManager;
 	protected ClientImageManager clientImageMgr;
 	protected RoleManager roleMgr;
-	protected ProgramManager programMgr;
-	protected AdmissionManager admissionMgr;
+	protected ProgramManager programMgr;	
 	protected SurveyManager surveyMgr;
 	protected LookupManager lookupMgr;
 	protected IssueAdminManager issAdmManager;
@@ -68,13 +67,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
 	}
 
-	public AdmissionManager getAdmissionManager() {
-		return (AdmissionManager) getAppContext().getBean("admissionManager");
-	}
-
-	public void setAdmissionManager(AdmissionManager admMgr){
-		this.admissionMgr = admMgr;
-	}
+	
 	
 	public void setCaseManagementManager(CaseManagementManager caseManagementMgr) {
 		this.caseManagementMgr = caseManagementMgr;

@@ -45,6 +45,7 @@ import org.oscarehr.PMmodule.model.ProgramAccess;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoleManager;
@@ -101,13 +102,12 @@ public class CaseManagementManager {
     protected ProviderSignitureDao providerSignitureDao;
     protected ClientImageDAO clientImageDAO;
 //    protected RoleManager roleManager;
-    protected CaseManagementTmpSaveDAO caseManagementTmpSaveDAO;
-    protected AdmissionManager admissionManager;
+    protected CaseManagementTmpSaveDAO caseManagementTmpSaveDAO;    
     protected HashAuditDAO hashAuditDAO;
     protected EncounterWindowDAO ectWindowDAO;
     protected UserPropertyDAO userPropertyDAO;
     protected IntakeDao intakeDao;
-    protected SecroleDao secroleDao;
+    protected SecroleDao secroleDao;  
    
     private boolean enabled;
     
@@ -788,17 +788,17 @@ public class CaseManagementManager {
 
         List providerPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
      
-        List allAdmissions = this.admissionManager.getAdmissionsByFacility(Integer.valueOf(demographicNo),facilityId);
+        List allIntakes = this.demographicDAO.getIntakeByFacility(Integer.valueOf(demographicNo), facilityId);
 
         for (int x = 0; x < providerPrograms.size(); x++) {
             Program pp = (Program)providerPrograms.get(x);
-            long programId = pp.getId().longValue();
+            Integer programId = pp.getId();
 
-            for (int y = 0; y < allAdmissions.size(); y++) {
-            	Admission qih = (Admission)allAdmissions.get(y);
-                long admitProgramId = qih.getProgramId().longValue();
+            for (int y = 0; y < allIntakes.size(); y++) {
+            	QuatroIntakeHeader qih = (QuatroIntakeHeader)allIntakes.get(y);
+                Integer intakeProgramId = qih.getProgramId();
 
-                if (programId == admitProgramId) {
+                if (programId.intValue() == intakeProgramId.intValue()) {
                     return true;
                 }
             }
@@ -932,11 +932,7 @@ public class CaseManagementManager {
             return withSpaces;
         }
         return withSpaces.substring(0, spaceIndex) + withSpaces.substring(spaceIndex + 1, withSpaces.length());
-    }
-
-    public void setAdmissionManager(AdmissionManager mgr) {
-        this.admissionManager = mgr;
-    }
+    }   
     
     public void setHashAuditDAO(HashAuditDAO dao) {
         this.hashAuditDAO = dao;

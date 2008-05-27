@@ -31,7 +31,6 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
@@ -751,8 +750,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         note.setProgram_no(programId);
         
         WebApplicationContext ctx = this.getSpringContext();
-        ProgramManager programManager = (ProgramManager) ctx.getBean("programManager");
-        AdmissionManager admissionManager = (AdmissionManager) ctx.getBean("admissionManager");
+        ProgramManager programManager = (ProgramManager) ctx.getBean("programManager");       
 
         String role = null;
         try {
@@ -1372,7 +1370,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         CaseManagementNote note = caseManagementMgr.getNote(noteid);
 
         request.setAttribute("history", note.getHistory());
-
+        request.setAttribute("client", clientManager.getClientByDemographicNo(demono));
         cform.setCaseNote_history(note.getHistory());
         return mapping.findForward("historyview");
     }

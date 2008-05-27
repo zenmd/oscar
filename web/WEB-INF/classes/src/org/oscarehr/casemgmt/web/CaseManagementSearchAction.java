@@ -52,6 +52,8 @@ import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
@@ -210,14 +212,14 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         String programId = (String) request.getSession().getAttribute("case_program_id");
 
         if (Utility.IsEmpty(programId)) {
-        	List admissions = this.admissionMgr.getAdmissionsByFacility(new Integer(demoNo), currentFacilityId);
-        	if (admissions.size() == 0) {
+        	List intakes = this.clientManager.getIntakeByFacility(new Integer(demoNo), currentFacilityId);
+        	if (intakes.size() == 0) {
                 return mapping.findForward("domain-error");             
         	}
         	else
         	{
-                Admission curAdmission = (Admission) admissions.get(0);
-        		programId = curAdmission.getProgramId().toString();
+                QuatroIntakeHeader curIntake = (QuatroIntakeHeader) intakes.get(0);
+        		programId = curIntake.getProgramId().toString();
             	request.setAttribute("case_program_id", programId);
         	}
         }
@@ -327,12 +329,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             List<IssueAdmin> issues = this.caseManagementMgr.getAllIssueInfo();
             request.setAttribute("issues", issues);
             
-            // apply if we are filtering on role
+            // apply if we are filtering on role ----N/A Lillian comment
+            /*
             List roles = roleMgr.getRoles();
             request.setAttribute("roles", roles);
             String[] roleId = caseForm.getFilter_roles();
             if (roleId != null && roleId.length > 0) notes = applyRoleFilter(notes, roleId);
-
+             */
             this.caseManagementMgr.getEditors(notes);
 
             /*

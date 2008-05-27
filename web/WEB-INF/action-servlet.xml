@@ -244,8 +244,7 @@
 <!-- 
         <property name="roleManager" ref="roleManager"/>
  -->
-        <property name="programManager" ref="programManager"/>
-        <property name="admissionManager" ref="admissionManager"/>
+        <property name="programManager" ref="programManager"/>        
         <property name="surveyManager" ref="oscarSurveyManager"/>  
         <property name="lookupManager" ref="lookupManager"></property>  
         <property name="clientManager" ref="clientManager"></property>    
@@ -259,8 +258,7 @@
  -->    
     <bean name="/CaseManagementEntry2" class="org.oscarehr.casemgmt.web.CaseManagementNoteAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="providerManager" ref="providerManager"/>
-        <property name="admissionManager" ref="admissionManager"></property>
+        <property name="providerManager" ref="providerManager"/>      
         <property name="lookupManager" ref="lookupManager"/>
         <property name="clientManager" ref="clientManager"></property>
     </bean>

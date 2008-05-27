@@ -370,8 +370,7 @@
 		<!--
         <property name="roleManager" ref="roleManager"/>
 		-->
-        <property name="caseManagementTmpSaveDAO" ref="CaseManagementTmpSaveDAO"/>
-        <property name="admissionManager" ref="admissionManager"/>
+        <property name="caseManagementTmpSaveDAO" ref="CaseManagementTmpSaveDAO"/>     
         <property name="enabled" value="${casemgmt.note.password.enabled}"/>
         <property name="programManager" ref="programManager"/>
     </bean>

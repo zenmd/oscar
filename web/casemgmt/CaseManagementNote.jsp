@@ -287,47 +287,22 @@ var XMLHttpRequestObject = false;
 			<a onclick="return validateSave();" href='javascript:submitForm("save");'
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
-			 <html:link action="/CaseManagementView2.do"
-				style="color:Navy;text-decoration:none;">
+			 <html:link action="/CaseManagementView2.do"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 			</html:link></td>
 		</tr>
+		<tr height="18px">
+			<td align="left" class="message">
+			<br />
+			<logic:messagesPresent
+				message="true">
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+			</logic:messagesPresent>
+			<br /></td>
+		</tr>
 	</table>		
-	<table width="90%" class="simple" cellspacing="2" cellpadding="3">
-		<tr>
-			<th style="width: 40%">Client name</th>
-			<th style="width: 40%">DOB</th>
-			<th style="width: 20%">Age</th>
-		</tr>
-		<tr>	
-			<td>
-				<logic:notEmpty name="demoName" scope="request">
-					<c:out value="${requestScope.demoName}" />
-				</logic:notEmpty> 
-				<logic:empty name="demoName" scope="request">
-					<c:out value="${param.demoName}" />
-				</logic:empty>
-			</td>
-			<td>
-				<logic:notEmpty name="demoName" scope="request">
-					<c:out value="${requestScope.demoDOB}" />
-				</logic:notEmpty> 
-				<logic:empty name="demoName" scope="request">
-					<c:out value="${param.demoDOB}" />
-				</logic:empty>
-			</td>
-			<td>
-				<logic:notEmpty name="demoName" scope="request">
-					<c:out value="${requestScope.demoAge}" />
-				</logic:notEmpty> 
-				<logic:empty name="demoName" scope="request">
-					<c:out value="${param.demoAge}" />
-				</logic:empty>
-			</td>		
-		</tr>
-	</table>
-	
-	<br>
 	<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;  height: 520px; width: 100%; overflow: auto">
 	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
