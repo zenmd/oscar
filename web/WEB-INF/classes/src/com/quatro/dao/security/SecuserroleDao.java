@@ -177,7 +177,30 @@ public class SecuserroleDao extends HibernateDaoSupport {
 	}
 
 	public List findByOrgcd(Object orgcd) {
-		return findByProperty(ORGCD, orgcd);
+		//return findByProperty(ORGCD, orgcd);
+		/* SQL:
+		select * from secuserrole s,
+		(select fullcode from lst_orgcd where code = 'P200011') b
+		where b.fullcode like '%' || s.orgcd || '%'
+		and not (s.orgcd like 'R%' or s.orgcd like 'O%')
+		
+		*/
+		log.debug("Find staff instance .");
+		try {
+			
+			String queryString = "select a from Secuserrole a, LstOrgcd b"
+				+ " where b.code ='" + orgcd + "'"
+				+ " and b.fullcode like '%' || a.orgcd || '%'"
+				+ " and not (a.orgcd like 'R%' or a.orgcd like 'O%')";
+						
+						
+			return this.getHibernateTemplate().find(queryString);
+			
+		} catch (RuntimeException re) {
+			log.error("Find staff failed", re);
+			throw re;
+		}
+		
 	}
 	public List searchByCriteria(StaffForm staffForm){
 		
@@ -189,9 +212,12 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			//String OR = " or ";
 			
 			
-			
 			String orgcd = staffForm.getOrgcd();
-			String queryString = "from Secuserrole as model where model.orgcd = '" + orgcd + "'";
+			
+			String queryString = "select a from Secuserrole a, LstOrgcd b"
+				+ " where b.code ='" + orgcd + "'"
+				+ " and b.fullcode like '%' || a.orgcd || '%'"
+				+ " and not (a.orgcd like 'R%' or a.orgcd like 'O%')";
 			
 			String fname = staffForm.getFirstName();
 			String lname = staffForm.getLastName();
@@ -199,12 +225,12 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			if (fname != null && fname.length() > 0) {
 				fname = StringEscapeUtils.escapeSql(fname);
 				fname = fname.toLowerCase();
-				queryString = queryString + AND + "lower(model.providerFName) like '%" + fname + "%'";
+				queryString = queryString + AND + "lower(a.providerFName) like '%" + fname + "%'";
 			}
 			if (lname != null && lname.length() > 0) {
 				lname = StringEscapeUtils.escapeSql(lname);
 				lname = lname.toLowerCase();
-				queryString = queryString + AND + "lower(model.providerLName) like '%" + lname + "%'";
+				queryString = queryString + AND + "lower(a.providerLName) like '%" + lname + "%'";
 			}
 			
 			return this.getHibernateTemplate().find(queryString);
