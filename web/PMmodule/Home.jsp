@@ -21,8 +21,7 @@ String _appPath = request.getContextPath();
 								<tr>
 									<td width="10%">&nbsp;&nbsp;<img border="0" width="60px"
 										height="60px" src="<%=_appPath %>/images/Home.gif" alt="" /></td>
-									<td width="80%" align="left" class="clsPageHeader"
-										colspan="5">
+									<td width="80%" align="left" class="clsPageHeader" colspan="5">
 									<h2>Welcome to Quatro Shelter</h2>
 									</td>
 									<td width="10%">&nbsp;</td>
@@ -92,11 +91,9 @@ String _appPath = request.getContextPath();
 											<!-- a
 												href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>
 											Case Management</a>
-											-->
-											<html:link 	action="/CaseManagementView2.do">
+											--> <html:link action="/CaseManagementView2.do">
 										Case Management
-									</html:link>
-											</th>
+									</html:link></th>
 										</tr>
 									</table>
 									</th>
@@ -133,9 +130,10 @@ String _appPath = request.getContextPath();
 									</table>
 									</th>
 									<th></th>
-									<th valign="middle"><a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img
-										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60" border="0"
-										OnClick="lnkResource1_Click"></img></a></th>
+									<th valign="middle"><a
+										href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img
+										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60"
+										border="0" OnClick="lnkResource1_Click"></img></a></th>
 									<th align="left" valign="middle">
 									<table>
 										<tr align="left">
@@ -148,14 +146,13 @@ String _appPath = request.getContextPath();
 									</th>
 									<th>&nbsp;</th>
 								</tr>
-								
-								
+
+
 								<tr>
 									<th></th>
-									<th valign="middle"><a
-										href="<%=_appPath%>/Tickler.do"> <img
-										src="<%=_appPath%>/images/mytasks60.gif" Height="60" Width="60" border="0"
-										OnClick="lnkResource1_Click"></img></a></th>
+									<th valign="middle"><a href="<%=_appPath%>/Tickler.do">
+									<img src="<%=_appPath%>/images/mytasks60.gif" Height="60"
+										Width="60" border="0" OnClick="lnkResource1_Click"></img></a></th>
 									<th>
 									<table>
 										<tr align="left">
@@ -180,6 +177,12 @@ String _appPath = request.getContextPath();
 			</tr>
 
 		</table>
+		</td>
+	</tr>
+	<tr height="100%"> <td> &nbsp;</td></tr>
+	<tr>
+		<td valign="bottom">
+			<tiles:insert name="Messages.jsp" />
 		</td>
 	</tr>
 </table>
