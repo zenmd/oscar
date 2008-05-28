@@ -13,6 +13,7 @@
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
 <html:hidden property="familyIntakeType"/>
+<html:hidden property="familyAdmissionType"/>
 <html:hidden property="admission.id"/>
 <html:hidden property="admission.programId"/>
 <html:hidden property="admission.admissionDateTxt"/>

@@ -193,7 +193,8 @@ public class RoomManager {
 	 * 			its occupancy limit. 
 	 */
     @SuppressWarnings("unchecked")
-    public Room[] getAvailableRooms(Integer facilityId, Integer programId, Boolean active, String demographicNo) {
+    public Room[] getAvailableRooms(Integer facilityId, Integer programId, Boolean active, 
+    		String demographicNo, boolean emptyRoomRequired) {
     	//rooms of particular facilityId, programId, active=1, (assignedBed=1 or assignedBed=0) 
     	Room[] rooms = roomDAO.getAvailableRooms(facilityId, programId, active);
     	
@@ -209,20 +210,25 @@ public class RoomManager {
 				roomDemograhics = roomDemographicManager.getRoomDemographicByRoom(rooms[i].getId());
 				List<Integer> roomDemographicNumbers = new ArrayList<Integer>();
 				
-				if(roomDemograhics != null){
+				if(emptyRoomRequired){
+				  if(roomDemograhics.size() == 0) availableRooms.add(rooms[i]);
+
+				}else{
+				  if(roomDemograhics != null){
 					totalClientsInRoom = roomDemograhics.size();
 					for(int j=0; j < roomDemograhics.size(); j++){
 						roomDemographicNumbers.add(((RoomDemographic)roomDemograhics.get(j)).getId().getDemographicNo() );
 					}
-				}
-				//if client is assigned to this room, even if capacity reached, still display room in dropdown
-				if(isClientAssignedToThisRoom(Integer.valueOf(demographicNo), roomDemographicNumbers)){
+				  }
+				  //if client is assigned to this room, even if capacity reached, still display room in dropdown
+				  if(isClientAssignedToThisRoom(Integer.valueOf(demographicNo), roomDemographicNumbers)){
 					availableRooms.add(rooms[i]);
-				}else{
+				  }else{
 					//if client not in this room, only display room if capacity is not reached
 					if(rooms[i].getOccupancy().intValue() -  totalClientsInRoom > 0){
 							availableRooms.add(rooms[i]);
 					}
+				  }
 				}
     			
     	}

@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMessage;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
@@ -134,7 +135,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
        clientForm.setAdmission(admission);
 
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
+       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId, clientForm.getFamilyIntakeType().equals("Y"));
  	   ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
 	   emptyRoom.setId(0);
@@ -183,7 +184,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    	   actionParam.put("intakeId", clientForm.getAdmission().getIntakeId());
    	   
        Integer programId=clientForm.getAdmission().getProgramId();
-   	   String clientId = clientForm.getAdmission().getIntakeId().toString();
+   	   String clientId = clientForm.getAdmission().getClientId().toString();
        request.setAttribute("clientId", clientId);
 	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
        request.setAttribute("actionParam", actionParam);
@@ -198,7 +199,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
+       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, 
+    		           clientId, clientForm.getFamilyIntakeType().equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
      	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
            availableRoomLst.add(availableRooms[i]);
@@ -218,7 +220,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
            Bed currentDB_bed = null;
            if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
-        	  currentDB_bed = bedManager.getBed(curDB_BedId);
+        	  if(curDB_BedId!=null) currentDB_bed = bedManager.getBed(curDB_BedId);
               if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
            }
            Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
@@ -254,7 +256,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
        HashMap actionParam = new HashMap();
-       actionParam.put("clientId", clientForm.getAdmission().getClientId());            
 
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 
@@ -263,9 +264,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(request.getParameter("admissionId")!=null){
           admissionId = Integer.valueOf(request.getParameter("admissionId"));
           admission = admissionManager.getAdmissionByAdmissionId(admissionId);
-      	  admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
-    	  admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
-    	  admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
+          admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+    	  if(admission.getOvPassStartDate()!=null) admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
+    	  if(admission.getOvPassStartDate()!=null) admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
           clientForm.setAdmission(admission);
        }else{
           admissionId = clientForm.getAdmission().getId();
@@ -274,6 +275,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
 	   String clientId=admission.getClientId().toString();
        Integer programId = admission.getProgramId();
+       actionParam.put("clientId", admission.getClientId());            
    	   actionParam.put("intakeId", admission.getIntakeId());
        request.setAttribute("clientId", clientId);
 	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
@@ -281,11 +283,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
 
        Integer intakeId = admission.getIntakeId();
+       clientForm.setFamilyIntakeType("N");
 	   Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
        if(intakeFamilyHeadId==null){
-         clientForm.setFamilyIntakeType("N");
+         clientForm.setFamilyAdmissionType("N");
        }else{
-         clientForm.setFamilyIntakeType("Y");
+         clientForm.setFamilyAdmissionType("Y");
        }
        
        if(request.getParameter("admissionId")!=null){
@@ -296,8 +299,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          BedDemographic bdm =null;
          if(!clientForm.getFamilyIntakeType().equals("Y")){
     	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
-    	   clientForm.setBedDemographic(bdm);
-    	   clientForm.setCurDB_BedId(bdm.getBedId());
+    	   if(bdm!=null){
+    	     clientForm.setBedDemographic(bdm);
+    	     clientForm.setCurDB_BedId(bdm.getBedId());
+    	   }
          }
        }
        
@@ -311,7 +316,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId);
+       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, 
+    		   clientId, clientForm.getFamilyIntakeType().equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
      	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
            availableRoomLst.add(availableRooms[i]);
@@ -331,7 +337,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
            Bed currentDB_bed = null;
            if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
-        	  currentDB_bed = bedManager.getBed(curDB_BedId);
+        	  if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
               if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
            }
            Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
@@ -358,6 +364,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   clientForm.setProvinceList(provinceList);
 	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
        clientForm.setNotSignReasonList(notSignReasonList);
+       
+       request.setAttribute("issuedBy",providerManager.getProvider(admission.getProviderNo()).getFormattedName());
 
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
@@ -377,31 +385,70 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer admissionId = admission.getId();
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
+
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
-         //service restriction check
-	     ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-			   programId.intValue(), clientId.intValue(), new Date());
-         if (restrInPlace != null) {
-    	   Program program = programManager.getProgram(programId); 
-	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.service_restriction",
-              			request.getContextPath(), program.getName()));
-           isError = true;
-           saveMessages(request,messages);
-           return update(mapping, form, request, response);
-	     }
+    	 if(clientForm.getFamilyIntakeType().equals("Y")){  
+           //service restriction check
+           StringBuilder sb = new StringBuilder();
+    	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
+           for(int i=0;i<lstFamily.size();i++){
+             QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
+             ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
+           	     admission.getProgramId().intValue(), qif.getClientId().intValue(), new Date());
+             if(restrInPlace != null) {
+           	   sb.append(qif.getLastName() + ", " + qif.getFirstName() + "<br>");
+               isError = true;
+             }  
+           }
+    	   if(isError){
+        	   Program program = programManager.getProgram(programId); 
+    	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
+                  			request.getContextPath(), program.getName(), sb.toString()));
+               saveMessages(request,messages);
+               return update(mapping, form, request, response);
+    	   }
 
-         //check client active in other program
-         List lst=admissionManager.getIntakeAdmissionList(clientId);
-         for(int i=0;i<lst.size();i++){
-        	Admission admission_exist = (Admission)lst.get(0);
-        	StringBuilder sb = new StringBuilder();
-        	sb.append("," + admission_exist.getId());
-            if(sb.length()>0){
-              //auto-discharge from other program   
-              admissionManager.dischargeAdmission(sb.substring(1));
-            }
-         }
+    	   //check client active in other program
+           for(int i=0;i<lstFamily.size();i++){
+             QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
+             List lst=admissionManager.getIntakeAdmissionList(qif.getClientId());
+             for(int j=0;j<lst.size();j++){
+        	   Admission admission_exist = (Admission)lst.get(j);
+        	   StringBuilder sb2 = new StringBuilder();
+        	   sb2.append("," + admission_exist.getId());
+               if(sb2.length()>0){
+                 //auto-discharge from other program   
+                 admissionManager.dischargeAdmission(sb2.substring(1));
+               }
+             }
+           }
+
+    	 }else{
+           //service restriction check
+	       ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
+			   programId.intValue(), clientId.intValue(), new Date());
+           if (restrInPlace != null) {
+    	     Program program = programManager.getProgram(programId); 
+	         messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.service_restriction",
+              			request.getContextPath(), program.getName()));
+             isError = true;
+             saveMessages(request,messages);
+             return update(mapping, form, request, response);
+	       }
+
+           //check client active in other program
+           List lst=admissionManager.getIntakeAdmissionList(clientId);
+           for(int i=0;i<lst.size();i++){
+        	 Admission admission_exist = (Admission)lst.get(i);
+        	 StringBuilder sb = new StringBuilder();
+        	 sb.append("," + admission_exist.getId());
+             if(sb.length()>0){
+               //auto-discharge from other program   
+               admissionManager.dischargeAdmission(sb.substring(1));
+             }
+           }
+    	 }
        }
        
        //check if roomId /bedId selected
@@ -414,7 +461,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          return update(mapping, form, request, response);
        }else{
     	  //check bedId selected for single person intake admission
-    	  if(!clientForm.getFamilyIntakeType().equals("Y")){
+    	  //admitted family member may not necessary be assigned bed on this page.  
+    	  if(!clientForm.getFamilyIntakeType().equals("Y") && !"Y".equals(clientForm.getFamilyAdmissionType())){
     	     BedDemographic bdm = clientForm.getBedDemographic();
     	     if(bdm.getBedId().intValue()==0){
     	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
@@ -434,26 +482,31 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
        
        RoomDemographic roomDemographic = clientForm.getRoomDemographic();
-       BedDemographic bedDemographic = clientForm.getBedDemographic();
- 	   //suppose auto-discharge deleted current roomdemographic/beddemographic record already.
  	   RoomDemographicPK rdmPK= roomDemographic.getId();
  	   rdmPK.setDemographicNo(admission.getClientId());
  	   roomDemographic.setId(rdmPK);
  	   roomDemographic.setProviderNo(providerNo);
  	   roomDemographic.setAssignStart(new Date());
- 	   BedDemographicPK bdmPK= bedDemographic.getId();
- 	   bdmPK.setDemographicNo(admission.getClientId());
- 	   bedDemographic.setId(bdmPK);
- 	   bedDemographic.setProviderNo(providerNo);
- 	   bedDemographic.setReservationStart(new Date());
-
+       
+ 	   BedDemographic bedDemographic;
+ 	   if(!clientForm.getFamilyIntakeType().equals("Y") || "Y".equals(clientForm.getFamilyAdmissionType())){  
+ 	     bedDemographic = clientForm.getBedDemographic();
+ 	     BedDemographicPK bdmPK= bedDemographic.getId();
+ 	     bdmPK.setDemographicNo(admission.getClientId());
+ 	     bedDemographic.setId(bdmPK);
+ 	     bedDemographic.setProviderNo(providerNo);
+ 	     bedDemographic.setReservationStart(new Date());
+  	   }else{
+  		 bedDemographic =null;  
+  	   }
+  	   
        if(admission.getId().intValue()==0){
     	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
     	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
     	  admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
-   			  intake.getReferralId(),roomDemographic,bedDemographic, false);
+   			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
        }else{
-    	  admissionManager.updateAdmission(admission, roomDemographic,bedDemographic, false);
+    	  admissionManager.updateAdmission(admission, roomDemographic,bedDemographic);
        }
        
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
