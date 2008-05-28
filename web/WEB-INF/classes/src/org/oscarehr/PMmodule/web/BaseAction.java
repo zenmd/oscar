@@ -77,27 +77,14 @@ public abstract class BaseAction extends DispatchAction {
 		msgs.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(key, val));
 		addMessages(req, msgs);
 	}
-	
+
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
 				.getServletContext());
 	}
 
-	public CaseManagementManager getCaseManagementManager() {
-		return (CaseManagementManager) getAppContext().getBean(
-				"caseManagementManager");
-	}
-
-	public AdmissionManager getAdmissionManager() {
-		return (AdmissionManager) getAppContext().getBean("admissionManager");
-	}
-
 	public AgencyManager getAgencyManager() {
 		return (AgencyManager) getAppContext().getBean("agencyManager");
-	}
-
-	public ClientManager getClientManager() {
-		return (ClientManager) getAppContext().getBean("clientManager");
 	}
 
 	public ProgramManager getProgramManager() {
@@ -166,48 +153,56 @@ public abstract class BaseAction extends DispatchAction {
 	}
 
 	protected void setMenu(HttpServletRequest request, String currentMenu) {
+		String lastMenu = (String) request.getSession().getAttribute("currMenu");
+		if (lastMenu == null) {
+			initMenu(request);
+		}
+		else
+		{
+			request.getSession().setAttribute(lastMenu, KeyConstants.ACCESS_VIEW);
+		}
+		request.getSession().setAttribute("currMenu", currentMenu);
+		if (currentMenu.equals(KeyConstants.MENU_CLIENT))request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_CURRENT);
+		if (currentMenu.equals(KeyConstants.MENU_PROGRAM))request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_CURRENT);
+		if (currentMenu.equals(KeyConstants.MENU_FACILITY))request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_CURRENT);
+		if (currentMenu.equals(KeyConstants.MENU_REPORT))request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_CURRENT);
+		if (currentMenu.equals(KeyConstants.MENU_ADMIN))request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_CURRENT);
+		if (currentMenu.equals(KeyConstants.MENU_HOME))request.getSession().setAttribute(KeyConstants.MENU_HOME, KeyConstants.ACCESS_CURRENT);
+	}
+
+	private void initMenu(HttpServletRequest request)
+	{
 		SecurityManager sec = getSecurityManager(request);
-		
 		//Client Management
 		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
-			if (currentMenu.equals(KeyConstants.MENU_CLIENT))request.setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_CURRENT);
+			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
 		} else
-			request.setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
+			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
 	
 		//Program
 		if (sec.GetAccess("_pmm.programList", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
-			if (currentMenu.equals(KeyConstants.MENU_PROGRAM))request.setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_CURRENT);
+			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
 		} else
-			request.setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
+			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
 
 		//Facility Management
 		if (sec.GetAccess("_pmm.facilityList", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
-			if (currentMenu.equals(KeyConstants.MENU_FACILITY))request.setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_CURRENT);
+			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
 		} else
-			request.setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
+			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
 
 		//Report Runner
 		if (sec.GetAccess("_reportRunner", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
-			if (currentMenu.equals(KeyConstants.MENU_REPORT))request.setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_CURRENT);
+			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
 		} else
-			request.setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
+			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
 
 		//System Admin
 		if (sec.GetAccess("_admin", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
-			if (currentMenu.equals(KeyConstants.MENU_ADMIN))request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_CURRENT);
+			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
 		} else
-			request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
-
-		//Home
-		if (currentMenu.equals(KeyConstants.MENU_ADMIN))request.setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_CURRENT);
-		
+			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
 	}
-
 	
 	protected ActionForward createRedirectForward(ActionMapping mapping,
 			String forwardName, StringBuilder parameters) {

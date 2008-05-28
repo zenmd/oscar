@@ -1,59 +1,16 @@
-/*
- * 
- * Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
- * This software is published under the GPL GNU General Public License. 
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License 
- * as published by the Free Software Foundation; either version 2 
- * of the License, or (at your option) any later version. * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
- * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
- * along with this program; if not, write to the Free Software 
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
- * 
- * <OSCAR TEAM>
- * 
- * This software was written for 
- * Centre for Research on Inner City Health, St. Michael's Hospital, 
- * Toronto, Ontario, Canada 
- */
-
 package org.oscarehr.PMmodule.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.action.RedirectingActionForward;
-import org.apache.struts.actions.DispatchAction;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.AgencyManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
-import org.oscarehr.PMmodule.service.ClientManager;
-import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.ProgramQueueManager;
-import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.PMmodule.service.RatePageManager;
-import org.oscarehr.PMmodule.service.RoomDemographicManager;
-import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import com.quatro.common.KeyConstants;
-import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 
-public abstract class BaseClientAction extends BaseAction {
+public class BaseProgramAction extends BaseAction {
 
 	protected void setScreenMode(HttpServletRequest request, String currentTab) {
-		super.setMenu(request, KeyConstants.MENU_CLIENT);
-		SecurityManager sec = super.getSecurityManager(request);
+		super.setMenu(request, KeyConstants.MENU_PROGRAM);
+		SecurityManager sec = (SecurityManager) request.getSession()
+				.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 		//summary
 		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_VIEW);
@@ -120,24 +77,4 @@ public abstract class BaseClientAction extends BaseAction {
 		}
 		else request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_NULL);
 	}
-	
-	
-
-	public CaseManagementManager getCaseManagementManager() {
-		return (CaseManagementManager) getAppContext().getBean(
-				"caseManagementManager");
-	}
-
-	public AdmissionManager getAdmissionManager() {
-		return (AdmissionManager) getAppContext().getBean("admissionManager");
-	}
-	public ClientManager getClientManager() {
-		return (ClientManager) getAppContext().getBean("clientManager");
-	}
-
-
-	public ApplicationContext getAppContext() {
-	return WebApplicationContextUtils.getWebApplicationContext(getServlet()
-			.getServletContext());
-	}	
 }
