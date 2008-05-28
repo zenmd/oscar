@@ -55,8 +55,9 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
 		<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">
 		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>
-		<a style="color:Navy;text-decoration:none;" href="javascript:submitForm('mergeSearch');">
-			<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Merge Client&nbsp;&nbsp;</a>
+		<html:link
+			action="/PMmodule/MergeClient.do" style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Merge Client&nbsp;&nbsp;|</html:link>
 		
 		</td>
 		</tr>

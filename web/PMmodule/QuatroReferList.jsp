@@ -1,4 +1,7 @@
 <%@ include file="/taglibs.jsp" %>
+<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
+<%@page import="java.util.Date"%>
+
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
@@ -15,14 +18,13 @@
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="demoNo"/>
-<html:hidden property="clientId"/>
 <table width="100%"  cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Refer</th>
 	</tr>
 	<tr>
-		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
-	</tr>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
+	</tr>	
 	<tr>
 		<td align="left" class="buttonBar2">
 		<html:link	action="/PMmodule/QuatroRefer.do?method=edit&rId=0" paramId="clientId"  paramName="clientId" style="color:Navy;text-decoration:none;">

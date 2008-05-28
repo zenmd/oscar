@@ -55,7 +55,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 import oscar.oscarDemographic.data.DemographicRelationship;
 
-public class QuatroClientReferAction extends BaseClientAction {
+public class QuatroClientReferAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
@@ -68,22 +68,20 @@ public class QuatroClientReferAction extends BaseClientAction {
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		setListAttributes(form, request);
 		return list(mapping, form, request, response);
 	}
 
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		setListAttributes(form, request);
-		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		return mapping.findForward("list");
 	}
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		setEditAttributes(form, request);
-		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		return mapping.findForward("edit");
 	}
 
@@ -92,7 +90,7 @@ public class QuatroClientReferAction extends BaseClientAction {
 			HttpServletResponse response) {
 		DynaActionForm clientForm = (DynaActionForm) form;
 		Program p = (Program) clientForm.get("program");
-		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		setEditAttributes(form, request);
 
 		Integer programId = p.getId();
@@ -129,8 +127,7 @@ public class QuatroClientReferAction extends BaseClientAction {
 		Integer facilityId = (Integer) request.getSession().getAttribute(
 				SessionConstants.CURRENT_FACILITY_ID);
 
-		request.setAttribute("client", clientManager
-				.getClientByDemographicNo(demographicNo));
+		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
 		request.setAttribute("clientId", cId);
 		String providerNo = ((Provider) request.getSession().getAttribute(
 				"provider")).getProviderNo();
@@ -148,7 +145,7 @@ public class QuatroClientReferAction extends BaseClientAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
 		DynaActionForm clientForm = (DynaActionForm) form;
-		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		Program criteria = (Program) clientForm.get("program");
 
 		request.setAttribute("programs", programManager.search(criteria));
@@ -169,7 +166,7 @@ public class QuatroClientReferAction extends BaseClientAction {
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		super.setScreenMode(request, KeyConstants.TAB_REFER);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		log.debug("Saving Refer");
 		ActionMessages messages = new ActionMessages();
 		boolean isError = false;
@@ -261,44 +258,41 @@ public class QuatroClientReferAction extends BaseClientAction {
 		}
 		clientForm.set("referral", crObj);
 	}
+	
+   public void setAdmissionManager(AdmissionManager admissionManager) {
+	 this.admissionManager = admissionManager;
+   }
 
-	public void setAdmissionManager(AdmissionManager admissionManager) {
-		this.admissionManager = admissionManager;
-	}
+   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
+	 this.bedDemographicManager = bedDemographicManager;
+   }
 
-	public void setBedDemographicManager(
-			BedDemographicManager bedDemographicManager) {
-		this.bedDemographicManager = bedDemographicManager;
-	}
+   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
+	 this.caseManagementManager = caseManagementManager;
+   }
 
-	public void setCaseManagementManager(
-			CaseManagementManager caseManagementManager) {
-		this.caseManagementManager = caseManagementManager;
-	}
+   public void setClientManager(ClientManager clientManager) {
+	 this.clientManager = clientManager;
+   }
 
-	public void setClientManager(ClientManager clientManager) {
-		this.clientManager = clientManager;
-	}
+   public void setProgramManager(ProgramManager programManager) {
+	 this.programManager = programManager;
+   }
 
-	public void setProgramManager(ProgramManager programManager) {
-		this.programManager = programManager;
-	}
+   public void setProviderManager(ProviderManager providerManager) {
+	 this.providerManager = providerManager;
+   }
 
-	public void setProviderManager(ProviderManager providerManager) {
-		this.providerManager = providerManager;
-	}
+   public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
+	 this.roomDemographicManager = roomDemographicManager;
+   }
 
-	public void setRoomDemographicManager(
-			RoomDemographicManager roomDemographicManager) {
-		this.roomDemographicManager = roomDemographicManager;
-	}
+   public void setRoomManager(RoomManager roomManager) {
+	 this.roomManager = roomManager;
+   }
 
-	public void setRoomManager(RoomManager roomManager) {
-		this.roomManager = roomManager;
-	}
-
-	public void setBedManager(BedManager bedManager) {
-		this.bedManager = bedManager;
-	}
-
+   public void setBedManager(BedManager bedManager) {
+	 this.bedManager = bedManager;
+   }
+   
 }

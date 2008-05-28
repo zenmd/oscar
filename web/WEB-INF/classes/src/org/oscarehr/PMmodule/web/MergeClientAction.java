@@ -13,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.ClientMerge;
 import org.oscarehr.PMmodule.model.Demographic;
@@ -33,7 +35,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
-public class MergeClientAction extends BaseAction {
+public class MergeClientAction extends BaseClientAction {
 	
 	private ClientManager clientManager;
 
@@ -43,12 +45,8 @@ public class MergeClientAction extends BaseAction {
 	private LookupManager lookupManager;
 	private MergeClientManager mergeClientManager;
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		if (!Utility.IsEmpty(request.getParameter("client"))) {
-			request.getSession().setAttribute(
-					KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "client");
-		}
-		return form(mapping, form, request, response);
+			HttpServletRequest request, HttpServletResponse response) {	
+		return mergeSearch(mapping, form, request, response);
 	}
 	public ActionForward mergedSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -98,14 +96,59 @@ public class MergeClientAction extends BaseAction {
 		
 		setLookupLists(request);
 
-		return mapping.findForward("form");
+		return mapping.findForward("view");
+	}
+	public ActionForward unmerge(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		ActionMessages messages = new ActionMessages();
+		
+		if (request.getParameterValues("records") == null) {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.merge.errors.select", request.getContextPath()));
+			saveMessages(request, messages);
+			return mapping.findForward("view");
+		}
+		boolean isSuccess=true;
+		ArrayList records = new ArrayList(Arrays.asList(request.getParameterValues("records")));
+		String head = request.getParameter("head");
+		String providerNo = (String) request.getSession().getAttribute(	KeyConstants.SESSION_KEY_PROVIDERNO);
+		if (records.size() > 0) {				
+				for (int i = 0; i < records.size(); i++) {
+					String demographic_no = (String) records.get(i);
+					try {					
+						ClientMerge cmObj = new ClientMerge(); 
+						cmObj.setClientId(Integer.valueOf(demographic_no));
+						cmObj.setMergedToClientId(Integer.valueOf(head));
+						cmObj.setProviderNo(providerNo);
+						cmObj.setLastUpdateDate(new GregorianCalendar());
+						mergeClientManager.unMerge(cmObj);
+					} catch (Exception e) {
+						isSuccess=false;
+					}
+				}
+		}
+		if(!isSuccess){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.unmerge.errors", request.getContextPath()));
+			saveMessages(request, messages);
+		}else{
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.merge.success", request.getContextPath()));
+			saveMessages(request, messages);
+		}
+		return mapping.findForward("view");
+
 	}
 	public ActionForward merge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		ActionMessages messages = new ActionMessages();
 		if (request.getParameterValues("records") == null) {
-			return mapping.findForward("failure");
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.merge.errors.select", request.getContextPath()));
+			saveMessages(request, messages);
+			return mapping.findForward("view");			
 		}
-		String outcome = "success";
+		boolean isSuccess = true;
 		ArrayList records = new ArrayList(Arrays.asList(request.getParameterValues("records")));
 		String head = request.getParameter("head");
 		String action = request.getParameter("mergeAction");
@@ -113,7 +156,7 @@ public class MergeClientAction extends BaseAction {
 				KeyConstants.SESSION_KEY_PROVIDERNO);
 		DemographicMerged dmDAO = new DemographicMerged();
 
-		if (action.equals("merge") && head != null && records.size() > 1
+		if (head != null && records.size() > 1
 				&& records.contains(head)) {
 
 			for (int i = 0; i < records.size(); i++) {
@@ -126,45 +169,41 @@ public class MergeClientAction extends BaseAction {
 						cmObj.setLastUpdateDate(new GregorianCalendar());
 						mergeClientManager.merge(cmObj);
 					} catch (Exception e) {
-						outcome = "failure";
+						isSuccess = false;
 					}
 			}
 
-		} else if (action.equals("unmerge") && records.size() > 0) {
-			outcome = "successUnMerge";
-			for (int i = 0; i < records.size(); i++) {
-				String demographic_no = (String) records.get(i);
-				try {					
-					ClientMerge cmObj = new ClientMerge(); 
-					cmObj.setClientId(Integer.valueOf(demographic_no));
-					cmObj.setMergedToClientId(Integer.valueOf(head));
-					cmObj.setProviderNo(providerNo);
-					cmObj.setLastUpdateDate(new GregorianCalendar());
-					mergeClientManager.unMerge(cmObj);
-				} catch (Exception e) {
-					outcome = "failureUnMerge";
-				}
-			}
-
-		} else {
-			outcome = "failure";
+			} else {
+			isSuccess = false;
 		}
-		request.setAttribute("mergeoutcome", outcome);
-		return mapping.findForward(outcome);
+		if(!isSuccess){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.merge.errors", request.getContextPath()));
+			saveMessages(request, messages);
+		}else{
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.merge.success", request.getContextPath()));
+			saveMessages(request, messages);
+		}
+		return mapping.findForward("view");
 	}
 
-	public ActionForward form(ActionMapping mapping, ActionForm form,
+	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		setLookupLists(request);
+		setLookupLists(request);		
+		return mapping.findForward("view");
+	}
+	public ActionForward search(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response){
 		DynaActionForm searchForm = (DynaActionForm) form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
 			
 		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,UserRoleUtils.Roles.external);		
 		/* do the search */
 		request.setAttribute("clients", clientManager.search(formBean,allowOnlyOptins));
-		
-		return mapping.findForward("form");
+		setLookupLists(request);		
+		return mapping.findForward("view");
 	}
 	private void setLookupLists(HttpServletRequest request) {
 		Integer facilityId = (Integer) request.getSession().getAttribute(
@@ -182,13 +221,7 @@ public class MergeClientAction extends BaseAction {
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,
 				null, null));
-		request.setAttribute("moduleName", " - Client Management");
-		if ("cv".equals(request.getSession().getAttribute(
-				KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
-			request.setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION,
-					"cv");
-			request.setAttribute("moduleName", " - Case Management");
-		}
+		request.setAttribute("moduleName", " - Client Management");		
 	}
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;

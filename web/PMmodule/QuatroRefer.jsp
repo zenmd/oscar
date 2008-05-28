@@ -1,7 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
-<%@page import="org.oscarehr.PMmodule.model.Admission"%>
+<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="java.util.Date"%>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
