@@ -62,7 +62,7 @@
 	<input type="hidden" name="method" />
 	<html-el:hidden property="consent.demographicNo"  />
 	<html-el:hidden property="consent.id"  />
-	<input type="hidden" name="demoNo"/>
+	<input type="hidden" name="clientId"/>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management - Consent</th>

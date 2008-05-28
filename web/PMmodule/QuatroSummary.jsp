@@ -11,7 +11,7 @@
  
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
 <input type="hidden" name="method" value="edit" />
-<input type="hidden" name="demoNo" value="<c:out value="${requestScope.clientId}"/>"/>
+<input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
 <script lang="javascript">
 function submitForm(methodVal) {
 	document.forms(0).method.value = methodVal;

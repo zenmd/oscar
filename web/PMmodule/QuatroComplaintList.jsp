@@ -14,7 +14,7 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 
 <html-el:form action="/PMmodule/QuatroComplaint.do">
 	<input type="hidden" name="method" value="edit" />
-	<input type="hidden" name="demoNo"/>
+	<input type="hidden" name="clientId"/>
 	<script lang="javascript">
 	function submitForm(methodVal) {
 		document.forms(0).method.value = methodVal;

@@ -15,7 +15,6 @@
 <html:hidden property="intake.id"/>
 <html:hidden property="intake.createdOnTxt" />
 <input type="hidden" name="method"/>
-<input type="hidden" name="demoNo"/>
 <input type="hidden" name="newClientChecked" value="N"/>
 <script lang="javascript">
 function submitForm(methodVal) {

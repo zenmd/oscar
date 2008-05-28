@@ -95,7 +95,7 @@
 </head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
 	<input type="hidden" name="method" />	
-	<input type="hidden" name="demoNo"/>
+	<input type="hidden" name="clientId"/>
 	<%String b="1"; %>
 	<table width="100%" cellpadding="0px" cellspacing="0px">
 	<tr>

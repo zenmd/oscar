@@ -48,7 +48,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 
 <html-el:form action="/PMmodule/QuatroComplaint.do">
 	<input type="hidden" name="method" />
-	<input type="hidden" name="demoNo" value="<c:out value="${clientId}"/>" />
 	<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>" />
 	<html-el:hidden property="complaint.clientId"  />
 	<html-el:hidden property="complaint.id"  />

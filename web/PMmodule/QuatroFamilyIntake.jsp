@@ -8,7 +8,6 @@
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <html:hidden property="intakeStatus"/>
-<input type="hidden" name="demoNo" value="<c:out value="${clientId}" />"/>
 <html:hidden property="intakeId" />
 <script lang="javascript">
 function submitForm(methodVal) {

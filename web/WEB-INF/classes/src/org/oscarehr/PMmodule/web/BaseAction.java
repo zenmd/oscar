@@ -213,7 +213,7 @@ public abstract class BaseAction extends DispatchAction {
 		return new RedirectingActionForward(path.toString());
 	}
 	protected String getClientId(HttpServletRequest request){
-		String clientId=request.getParameter("demoNo");
+		String clientId=request.getParameter("clientId");
 		if(Utility.isNotNullOrEmptyStr(clientId)) clientId=request.getParameter("clientId");
 		return clientId;
 	}

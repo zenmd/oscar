@@ -40,7 +40,7 @@
 
 <html-el:form action="/PMmodule/QuatroDischarge.do">
 <html:hidden property="program.id" />
-<input type="hidden" name="demoNo"/>
+<input type="hidden" name="clientId"/>
 <input type="hidden" name="method" />
 		<table width="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
