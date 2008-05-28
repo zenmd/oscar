@@ -63,55 +63,55 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 		</tr>
 	<tr> <td>	
 	<div id="projecthome" class="app">
-		<div class="axial">
-			<table border="0" cellspacing="2" cellpadding="3">
+		<div >
+			<table border="1" cellspacing="1" cellpadding="4" width="100%">
 				<tr>
-					<th><bean-el:message key="ClientSearch.clientNo" bundle="pmm"/></th>
-					<td><html:text property="criteria.demographicNo" size="15" /></td>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.clientNo" bundle="pmm"/></th>
+					<th align="left" width="80%"><html:text property="criteria.demographicNo" size="15" /></th>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.firstName"  bundle="pmm"/></th>
-					<td><html:text property="criteria.firstName" size="15" /></td>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.firstName"  bundle="pmm"/></th>
+					<th align="left" width="80%"><html:text property="criteria.firstName" size="15" /></th>
 				</tr>
 		
 				<tr>
-					<th><bean-el:message key="ClientSearch.lastName"  bundle="pmm"/>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.lastName"  bundle="pmm"/>
 					</th>
-					<td><html:text property="criteria.lastName" size="15" /></td>
+					<th align="left" width="80%"><html:text property="criteria.lastName" size="15" /></th>
 				</tr>
 				
 				<tr>
-					<th><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
 					(yyyy/mm/dd)</th>
-					<td>
-					<quatro:datePickerTag property="criteria.dob" openerForm="clientSearchForm2"></quatro:datePickerTag>
-					</td>
+					<th align="left" width="80%">
+					<quatro:datePickerTag property="criteria.dob" openerForm="clientSearchForm2" width="180px"></quatro:datePickerTag>
+					</th>
 				</tr>
 				<tr>
-					<th> <bean-el:message key="ClientSearch.active" bundle="pmm"/></th>
-					<td> <html:select property="criteria.active">
+					<th width="20%" align="right"> <bean-el:message key="ClientSearch.active" bundle="pmm"/></th>
+					<th align="left"> <html:select property="criteria.active">
 							<html:option value="">Any</html:option>
 							<html:option value="1">Yes</html:option>
 							<html:option value="0">No</html:option>
 						</html:select>
-					</td>
+					</th>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.gender" bundle="pmm"/></th>
-					<td>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.gender" bundle="pmm"/></th>
+					<th align="left" >
 						<html-el:select property="criteria.gender">
 							<html-el:option value="">Any</html-el:option>
 							<c:forEach var="gen" items="${genders}">
 								<html-el:option value="${gen.code}"><c:out value="${gen.description}"/></html-el:option>
 							</c:forEach>
 						</html-el:select>
-					</td>
+					</th>
 				</tr>
 				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">			
 				<caisi:isModuleLoad moduleName="GET_OHIP_INFO" reverse="false">
 				<tr>
-					<th>Health Card Number</th>
-					<td><html:text property="criteria.healthCardNumber" size="15" /> <html:text property="criteria.healthCardVersion" size="2" /></td>
+					<th width="20%" align="right">Health Card Number</th>
+					<th align="left" ><html:text property="criteria.healthCardNumber" size="15" /> <html:text property="criteria.healthCardVersion" size="2" /></th>
 				</tr>
 				</caisi:isModuleLoad>
 
@@ -119,29 +119,29 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 				-->			
 				<tr>
 					<caisi:isModuleLoad moduleName="pmm.client.search.outside.of.domain.enabled" >
-					<th>Search all clients <a href="javascript:void(0)" onclick="popupHelp('domain')">?</a></th>
-						<td><html:checkbox property="criteria.searchOutsideDomain" /></td>
+					<th width="20%" align="right">Search all clients <a href="javascript:void(0)" onclick="popupHelp('domain')">?</a></th>
+						<th align="left" ><html:checkbox property="criteria.searchOutsideDomain" /></th>
 					</caisi:isModuleLoad>					
 				</tr>
 				
 				<tr>
-					<th>Soundex on names <a href="javascript:void(0)" onclick="popupHelp('soundex')">?</a></th>
-					<td><html:checkbox property="criteria.searchUsingSoundex" /></td>
+					<th width="20%" align="right">Soundex on names <a href="javascript:void(0)" onclick="popupHelp('soundex')">?</a></th>
+					<th align="left" ><html:checkbox property="criteria.searchUsingSoundex" /></th>
 				</tr>
 				</caisi:isModuleLoad>
 				<tr>
-					<th><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
-			          <td>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
+			          <th align="left" >
 			            <html:select property="criteria.assignedToProviderNo">
 			                <html:option value="">
 			                </html:option>
 			              	<html:options collection="allProviders" property="providerNo" labelProperty="fullName" />
 			            </html:select>
-			          </td>
+			          </th>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.program"  bundle="pmm"/> </th>
-			          <td>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.program"  bundle="pmm"/> </th>
+			          <th align="left" >
 			            <html:select property="criteria.bedProgramId">
 			                <html:option value="">
 			                </html:option>
@@ -149,18 +149,18 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 			                </html:option>
 			              	<html:options collection="allBedPrograms" property="id" labelProperty="name" />
 			            </html:select>
-			          </td>
+			          </th>
 				</tr>
 				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">			
 				<tr>
-					<th>Admission Date From<br>
+					<th width="20%" align="right">Admission Date From<br>
 						(yyyy/mm/dd)</th>
-					<td><html:text property="criteria.dateFrom" size="12" /></td>
+					<td ><html:text property="criteria.dateFrom" size="12" /></td>
 				</tr>
 				<tr>
-					<th>Admission Date To<br>
+					<th width="20%" align="right">Admission Date To<br>
 						(yyyy/mm/dd)</th>
-					<td><html:text property="criteria.dateTo" size="12" /></td>
+					<td ><html:text property="criteria.dateTo" size="12" /></td>
 				</tr>
 				</caisi:isModuleLoad>
 			</table>

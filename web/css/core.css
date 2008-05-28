@@ -14,6 +14,43 @@ TD {
 TH {
 	font-size: 11pt;
 }
+.clsMenu {
+		color:Black;
+		font-family:Tahoma,Verdana,Arial;
+		font-size:11px;
+		text-decoration:none;
+		text-align:center;
+}
+.clsMenuCell
+{
+	background-color:#F0F0F0;
+	border-color:#A8A8A8;
+	border-width:1px;
+	border-style:Solid;	
+	font-family:Tahoma,Verdana,Arial;
+	cursor:hand;
+	padding-left:8px;
+	padding-right:8px;
+	padding-top:4px;
+	padding-bottom:4px;
+}
+.clsHomePageHeader
+{
+  font-size : 20pt;
+  color : blue;
+  font-weight : normal;
+  font-style:italic;  
+  text-align:left;  
+  font-family:Arial Unicode MS;  
+}
+.clsHomePageLabels
+{
+  font-size : 12pt;
+  color : black;
+  font-weight : normal;  
+  text-align:left;  
+  font-family:Arial Unicode MS;  
+}
 
 .blueText {
 	font-size: 9pt;
