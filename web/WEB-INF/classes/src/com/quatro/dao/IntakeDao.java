@@ -61,15 +61,29 @@ public class IntakeDao extends HibernateDaoSupport {
 		
 	}
 
-    public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
+    //from queueId of family intake, you may get any family memebr's intakeId, then get family head's intakeId and return it.
+	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
 		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.queueId = ?" +
 					" and i.intakeStatus='" + 
 					KeyConstants.INTAKE_STATUS_ACTIVE + "'", 
 					new Object[] {queueId});
-		if(result.size()>0)
-		  return (QuatroIntakeDB)result.get(0);
-		else
+		if(result.size()>0){
+			QuatroIntakeDB qdb = (QuatroIntakeDB)result.get(0);
+			Integer intakeId = qdb.getId(); 
+			String sSQL="select a.intakeHeadId from QuatroIntakeFamily a WHERE a.intakeId = ?";
+			List lst = getHibernateTemplate().find(sSQL, new Object[] {intakeId});
+			
+			if(lst.size()==0){
+			   return qdb;  //not family intake
+			}else{
+			   Integer intakeHeadId=(Integer)lst.get(0);
+			   List lst2 = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?",
+						new Object[] {intakeHeadId});
+			   return (QuatroIntakeDB)lst2.get(0);
+			}
+		}else{
 		  return null;
+		}
 		
 	}
     
@@ -90,9 +104,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 
     public QuatroIntakeDB getQuatroIntakeDBByIntakeId(Integer intakeId) {
-		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?" +
-					" and i.intakeStatus='" + 
-					KeyConstants.INTAKE_STATUS_ACTIVE + "'", 
+		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?",
 					new Object[] {intakeId});
 		if(result.size()>0)
 		  return (QuatroIntakeDB)result.get(0);

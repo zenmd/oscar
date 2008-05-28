@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import oscar.MyDateFormat;
 
-public class Admission implements Serializable {
+public class Admission implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -302,6 +302,14 @@ public class Admission implements Serializable {
 		this.dischargeReason = dischargeReason;
 	}
 
+	public Object clone() {
+      try {
+          return super.clone();
+      } catch (CloneNotSupportedException e) {
+          throw new Error("This should not occur since we implement Cloneable");
+      }
+    }
+
 	public String getAdmissionNotes() {
 		return admissionNotes;
 	}
@@ -309,5 +317,5 @@ public class Admission implements Serializable {
 	public void setAdmissionNotes(String admissionNotes) {
 		this.admissionNotes = admissionNotes;
 	}
-
+	
 }

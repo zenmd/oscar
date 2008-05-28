@@ -61,9 +61,9 @@ public class AdmissionDao extends HibernateDaoSupport {
         String[] split= admissionIds.split(",");
         for(int i=0;i<split.length;i++){
     	  getHibernateTemplate().bulkUpdate("update Admission q set q.admissionStatus='" +
-        		KeyConstants.INTAKE_STATUS_DISCHARGED + "'" + 
-                " and q.dischargeNotes='auto-discharge for other intake admission'" +
-                " and q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});
+        		KeyConstants.INTAKE_STATUS_DISCHARGED + "'," + 
+                " q.dischargeNotes='auto-discharge for other intake admission'," +
+                " q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});
         }  
     }
     
