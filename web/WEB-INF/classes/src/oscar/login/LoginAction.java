@@ -59,7 +59,6 @@ public final class LoginAction extends DispatchAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String ip = request.getRemoteAddr();
-
         String nextPage=request.getParameter("nextPage");
         if (nextPage!=null) {
             // set current facility
@@ -71,7 +70,6 @@ public final class LoginAction extends DispatchAction {
             LogAction.addLog(username, LogConst.LOGIN, LogConst.CON_LOGIN, "facilityId="+facilityIdString, ip);
             return mapping.findForward(nextPage);
         }
-
         String where = "failure";
         // String userName, password, pin, propName;
         String userName = ((LoginForm) form).getUsername();
@@ -82,12 +80,6 @@ public final class LoginAction extends DispatchAction {
         }
 
         LoginCheckLogin cl = new LoginCheckLogin();
-        if (!cl.propFileFound) {
-            String newURL = mapping.findForward("error").getPath();
-            newURL = newURL + "?errormsg=Unable to open the properties file " + cl.propFileName + ".";
-            return(new ActionForward(newURL));
-        }
-
         if (cl.isBlock(ip, userName)) {
             _logger.info(LOG_PRE + " Blocked: " + userName);
             // return mapping.findForward(where); //go to block page
@@ -96,7 +88,6 @@ public final class LoginAction extends DispatchAction {
             newURL = newURL + "?errormsg=Your account is locked. Please contact your administrator to unlock.";
             return(new ActionForward(newURL));
         }
-
         String[] strAuth;
         ApplicationContext appContext = getAppContext();
         try {

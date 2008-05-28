@@ -108,7 +108,7 @@ public class LoginCheckLogin {
     		com.quatro.ldap.LdapAuthentication ldap = (com.quatro.ldap.LdapAuthentication) appContext.getBean("ldapAuthentication");
     		isOk = ldap.authenticate(user_name, password);
     	}
-    	return lb.authenticate(isOk); 
+    	return lb.authenticate(isOk,appContext); 
     }
 
     public synchronized void updateLoginList(String ip, String userName) {
