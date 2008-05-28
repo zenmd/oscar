@@ -1,20 +1,21 @@
 package org.oscarehr.PMmodule.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Calendar;
+import java.util.List;
 import java.util.ListIterator;
 
-import com.quatro.common.KeyConstants;
-
+import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.mapping.Constraint;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.common.KeyConstants;
 
 public class AdmissionDao extends HibernateDaoSupport {
 	public List getAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
@@ -96,6 +97,80 @@ public class AdmissionDao extends HibernateDaoSupport {
 
 		return results;
 	}
+    
+    public List getAdmissionListByProgram(Integer programId){
+    	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
+    		+ " c.FirstName, c.LastName, a.clientId" 
+    		+ " FROM Admission a, Demographic c" 
+    		+ " WHERE a.programId=?"
+    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " AND a.clientId = c.DemographicNo";
+        List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
+        return lst;
+    }
+    
+    public List getClientsListByProgram(Integer programId, ClientForm form){
+    	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
+    		+ " c.FirstName, c.LastName, a.clientId" 
+    		+ " FROM Admission a, Demographic c" 
+    		+ " WHERE a.programId=?"
+    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " AND a.clientId = c.DemographicNo";
+    	
+    	if(form != null){
+	    	String fname = form.getFirstName();
+	    	if(fname != null && fname.length()>0){
+	    		fname = StringEscapeUtils.escapeSql(fname);
+				fname = fname.toLowerCase();
+	    		queryStr = queryStr + " AND lower(c.FirstName) like '%" + fname + "%'";
+	    	}
+	    	String lname = form.getLastName();
+	    	if(lname != null && lname.length()>0){
+	    		lname = StringEscapeUtils.escapeSql(lname);
+	    		lname = lname.toLowerCase();
+	    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
+	    	}
+    	}
+        List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
+        
+        return lst;
+    }
+    
+    public List getClientsListByProgram2(Program program, ClientForm form){
+    	Integer programId = program.getId();
+    	Integer facilityId = program.getFacilityId();
+    	
+    	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
+    		+ " c.FirstName, c.LastName, a.clientId, rm.name, b.name" 
+    		+ " FROM Admission a, Demographic c, BedDemographic bd, Room rm, Bed b" 
+    		+ " WHERE a.programId=?"
+    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " AND a.clientId = c.DemographicNo"
+    		+ " AND "
+    		+ " AND bd.id.demographicNo = a.clientId"
+    		+ " AND bd.id.bedId = b.id"
+    		+ " AND rm.facilityId = '" + facilityId + "'"
+    		+ " AND b.roomId = rm.id";
+    	
+    	
+    	if(form != null){
+	    	String fname = form.getFirstName();
+	    	if(fname.length()>0){
+	    		fname = StringEscapeUtils.escapeSql(fname);
+				fname = fname.toLowerCase();
+	    		queryStr = queryStr + " AND lower(c.FirstName) like '%" + fname + "%'";
+	    	}
+	    	String lname = form.getLastName();
+	    	if(lname.length()>0){
+	    		lname = StringEscapeUtils.escapeSql(lname);
+	    		lname = lname.toLowerCase();
+	    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
+	    	}
+    	}
+        List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
+        
+        return lst;
+    }
     
     public Admission getAdmissionByIntakeId(Integer intakeId){
     	String queryStr = "FROM Admission a WHERE a.intakeId=?";

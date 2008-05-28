@@ -267,7 +267,10 @@ public class ProgramManager {
         	secuserroleDao.deleteById(id);
         }
     }
-
+    
+    public List getProgramByProvider(String providerNo, Integer facilityId) {
+        return programDao.getProgramByProvider(providerNo, facilityId);
+    }
     public void deleteProgramProviderByProgramId(Integer programId) {
         programProviderDAO.deleteProgramProviderByProgramId(programId);
     }

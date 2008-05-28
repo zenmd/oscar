@@ -103,7 +103,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			
 			<display:table class="simple" cellspacing="2" cellpadding="3"
 				id="incident" name="incidents" export="false" pagesize="0"
-				requestURI="/PMmodule/ProgramManager.do">
+				requestURI="/PMmodule/ProgramManagerView.do">
 				<display:setProperty name="paging.banner.placement" value="bottom" />
 				<display:setProperty name="basic.msg.empty_list"
 					value="No incidents currently in place for this program." />

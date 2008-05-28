@@ -3,7 +3,7 @@
 Source:web/PMmodule/Admin/ProgramManagerList.jsp 
 
 -->
-
+<% String a ="asdf"; %>
 
 <%@ include file="/taglibs.jsp"%>
 
@@ -116,8 +116,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					value="No programs found." />
 	
 				<display:column sortable="false" title="">
-					<a
-						onclick="return ConfirmDelete('<c:out value="${program.nameJs}"/>')"
+					<a	onclick="return ConfirmDelete('<c:out value="${program.nameJs}"/>')"
 						href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=delete&id=<c:out value="${program.id}"/>&name=<c:out value="${program.name}"/>">
 					Delete </a>
 				</display:column>
@@ -125,8 +124,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 				<c:choose>
 					<c:when test="${program.programStatus=='active'}">
 						<display:column sortable="false" title="">
-							<a
-								href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
+							<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
 							Edit </a>
 						</display:column>
 					</c:when>
@@ -161,7 +159,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 				<display:column sortable="true" title="Capacity (funding)">
 					<c:out value="${program.capacity_funding}" />
 				</display:column>
-			</display:table> 
+			</display:table>  
 			
 			<script>
 				function ConfirmDelete(name)

@@ -49,7 +49,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 <html-el:form action="/PMmodule/QuatroComplaint.do">
 	<input type="hidden" name="method" />
 	<input type="hidden" name="demoNo" value="<c:out value="${clientId}"/>" />
-
+	<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>" />
 	<html-el:hidden property="complaint.clientId"  />
 	<html-el:hidden property="complaint.id"  />
 	<html-el:hidden property="complaint.createdDatex"  />
@@ -77,8 +77,11 @@ Source:web/PMmodule/QuatroComplaint.jsp
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 			<a href="javascript:submitForm('save');"
 				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+				</td>
 		</tr>
+		
+		
 		<tr>
 			<td align="left" class="message">
 			

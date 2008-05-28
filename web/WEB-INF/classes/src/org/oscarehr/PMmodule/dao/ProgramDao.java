@@ -209,7 +209,7 @@ public class ProgramDao extends HibernateDaoSupport {
         List<Program> rs = getHibernateTemplate().find("FROM Program p WHERE p.manOrWoman = '" + genderType + "'");
         return rs;
     }
-    public List<Program> getProgramByProvider(String providerNo, Integer facilityId)
+    public List getProgramByProvider(String providerNo, Integer facilityId)
     {
         Criteria criteria = getSession().createCriteria(Program.class);
         String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";

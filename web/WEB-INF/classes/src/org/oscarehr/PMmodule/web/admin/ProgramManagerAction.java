@@ -58,6 +58,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
+import org.oscarehr.util.SessionConstants;
 import org.apache.struts.actions.DispatchAction;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -109,7 +110,8 @@ public class ProgramManagerAction extends DispatchAction {
         	if(userrole.indexOf("admin")!=-1) {
         		list = programManager.getAllPrograms();
         	} else {
-        		list = programManager.getProgramDomain(providerNo);
+        		Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        		list = programManager.getProgramByProvider(providerNo, facilityId);
         	}
         }
         else

@@ -22,6 +22,7 @@ import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicPK;
+import org.oscarehr.PMmodule.web.formbean.ClientForm;
 
 import com.quatro.common.KeyConstants;
 
@@ -108,7 +109,17 @@ public class AdmissionManager {
 	public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
 		return admissionDao.getAdmissionList(clientId, facilityId, providerNo);
 	}
-
+	
+	public List getAdmissionListByProgram(Integer programId) {
+		return admissionDao.getAdmissionListByProgram(programId);
+	}
+	public List getClientsListByProgram(Integer programId, ClientForm form) {
+		return admissionDao.getClientsListByProgram(programId, form);
+	}
+	public List getClientsListByProgram(Program program, ClientForm form) {
+		return admissionDao.getClientsListByProgram2(program, form);
+	}
+	
     public Admission getAdmissionByIntakeId(Integer intakeId){
 		return admissionDao.getAdmissionByIntakeId(intakeId);
     }

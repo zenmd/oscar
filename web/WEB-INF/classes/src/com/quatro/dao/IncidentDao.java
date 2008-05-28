@@ -100,7 +100,8 @@ public class IncidentDao extends HibernateDaoSupport {
 				+ ", value: " + value);
 		try {
 			String queryString = "from IncidentValue as model where model."
-					+ propertyName + "= ?";
+					+ propertyName + "= ?"
+					+ " order by model.id desc";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -139,7 +140,7 @@ public class IncidentDao extends HibernateDaoSupport {
 				//Calendar c = MyDateFormat.getCalendar(incDateStr);
 				queryString = queryString + AND + "model.incidentDate = to_date('" +  incDateStr + "','yyyy/mm/dd')";
 			}
-	
+			queryString = queryString + " order by model.id desc";
 			
 			return this.getHibernateTemplate().find(queryString);
 			

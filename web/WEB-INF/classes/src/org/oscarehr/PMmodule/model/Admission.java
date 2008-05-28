@@ -51,7 +51,7 @@ public class Admission implements Serializable {
 	private Calendar ovPassEndDate;
 	private String ovPassEndDateTxt;
     private String notSignReason;
-    
+    private String admissionNotes;
     
     public String getAdmissionDateStr() {
 		return MyDateFormat.getStandardDate(admissionDate);
@@ -300,6 +300,14 @@ public class Admission implements Serializable {
 
 	public void setDischargeReason(String dischargeReason) {
 		this.dischargeReason = dischargeReason;
+	}
+
+	public String getAdmissionNotes() {
+		return admissionNotes;
+	}
+
+	public void setAdmissionNotes(String admissionNotes) {
+		this.admissionNotes = admissionNotes;
 	}
 
 }

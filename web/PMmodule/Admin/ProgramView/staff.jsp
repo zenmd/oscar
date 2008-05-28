@@ -118,8 +118,7 @@
 				</tr>
 			</table>
 			</div> 
-			  
-			<table align="center" class="simple" width="100%">
+			  <table align="center" class="simple" width="100%">
 				<thead>
 					<tr>
 						<th align="center"><b>Select</b></th>
@@ -174,6 +173,9 @@
 					</tr>
 				</logic:iterate>
 			</table>
+			
+			 
+			
 			<logic:empty name="existStaffLst">
 				No record to display.<br />
 			</logic:empty>
@@ -188,7 +190,7 @@
 				</table>
 			</logic:notEmpty>
 			
-			
+
 			
 			<br />
 			

@@ -40,6 +40,8 @@
 			formula="(select p.name from program p where p.program_id = program_id)" />
 		<property name="programType" type="string"
 			formula="(select p.type from program p where p.program_id = program_id)" />
+			
+		<property name="admissionNotes" column="admission_notes" />
 		
 	</class>
 </hibernate-mapping>

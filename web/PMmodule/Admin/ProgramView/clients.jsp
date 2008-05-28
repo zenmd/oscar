@@ -23,105 +23,82 @@
  -->
 
 <%@ include file="/taglibs.jsp"%>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-<jsp:include page="/common/messages.jsp" />
+
 <script>
-function assignTeam(id,selectBox) {
-/*
-	var team_id = selectBox.options[selectBox.selectedIndex].value;
-	document.programManagerViewForm.elements['teamId'].value=team_id;
-	document.programManagerViewForm.elements['admissionId'].value=id;
-	document.programManagerViewForm.method.value='assign_team_client';
-	document.programManagerViewForm.submit();
-*/	
-}
-
-function assignStatus(id,selectBox) {
-	var status_id = selectBox.options[selectBox.selectedIndex].value;
-	document.programManagerViewForm.elements['clientStatusId'].value=status_id;
-	document.programManagerViewForm.elements['admissionId'].value=id;
-	document.programManagerViewForm.method.value='assign_status_client';
-	document.programManagerViewForm.submit();
-}
-
-function dischargeToCommunity(id,selectBox) {
-	var com = selectBox.options[selectBox.selectedIndex].value;
-	document.programManagerViewForm.community.value=com;
-	document.programManagerViewForm.elements['admissionId'].value=id;
-	document.programManagerViewForm.method.value='discharge_To_Community';
-	document.programManagerViewForm.submit();
-}
-
-function do_batch_discharge(community,bed) {
-	//get clients
-	var elements = document.programManagerViewForm.elements;
-	var admissionIds = new Array();
-	var x=0;
-	var numClients = 0;
-	for(var i=0;i<elements.length;i++) {
-		if(elements[i].type == 'checkbox' && elements[i].name.substring(0,8) == 'checked_') {
-			if(elements[i].checked == true) {
-				var admissionId = elements[i].name.substring(8);
-				admissionIds[x++] = admissionId;
-				numClients++;
-			}
-		}
+	function assignTeam(id,selectBox) {
+	/*
+		var team_id = selectBox.options[selectBox.selectedIndex].value;
+		document.programManagerViewForm.elements['teamId'].value=team_id;
+		document.programManagerViewForm.elements['admissionId'].value=id;
+		document.programManagerViewForm.method.value='assign_team_client';
+		document.programManagerViewForm.submit();
+	*/	
 	}
 	
-	//get program to admit to
-	var programBox;
-	if(community) {
-		programBox = document.programManagerViewForm.batch_discharge_community_program;
-		document.programManagerViewForm.type.value='community';		
-	} else {
-		programBox = document.programManagerViewForm.batch_discharge_program;
-		if(bed){
-			programBox = document.programManagerViewForm.batch_discharge_program;			
-			document.programManagerViewForm.type.value='Bed';
-		}
-		else {			
-			document.programManagerViewForm.type.value='Service';
-		}
-	}
-
-	if(bed == true && programBox.selectedIndex == -1) {
-		alert('No programs available. Cannot continue');
-		return;
-	}
-	
-	if(bed==true) {
-		var programId = programBox.options[programBox.selectedIndex].value;
-		var programName = programBox.options[programBox.selectedIndex].text;
-	
-		if(programId == 0) {
-			if(community) {
-				alert('Please choose a Community Bed Program from the list');
-			} else {
-				if(bed)
-				alert('Please choose a CAISI Bed Program from the list');
-				//else
-				//	alert('Please choose a CAISI Service Program from the list');
-			}
-			return;
-		}
-	}
-	//get current program
-	var currentProgramId = document.programManagerViewForm.elements['id'].value;
-	
-	var msg = 'You are about to discharge ' + numClients + ' client(s)., and admit them to ' + programName + '\n' +
-				'Are you sure you would like to continue?';
-
-	if(numClients == 0) {
-		alert('You have to select the clients');
-		return;
-	}
-
-	if(confirm(msg)) {	
-		document.programManagerViewForm.method.value='batch_discharge';
+	function assignStatus(id,selectBox) {
+		var status_id = selectBox.options[selectBox.selectedIndex].value;
+		document.programManagerViewForm.elements['clientStatusId'].value=status_id;
+		document.programManagerViewForm.elements['admissionId'].value=id;
+		document.programManagerViewForm.method.value='assign_status_client';
 		document.programManagerViewForm.submit();
 	}
-}
+	
+	function dischargeToCommunity(id,selectBox) {
+		var com = selectBox.options[selectBox.selectedIndex].value;
+		document.programManagerViewForm.community.value=com;
+		document.programManagerViewForm.elements['admissionId'].value=id;
+		document.programManagerViewForm.method.value='discharge_To_Community';
+		document.programManagerViewForm.submit();
+	}
+	
+	function do_batch_discharge() {
+	
+		//get clients
+		var elements = document.programManagerViewForm.elements;
+		var admissionIds = new Array();
+		var x=0;
+		var numClients = 0;
+		for(var i=0;i<elements.length;i++) {
+			if(elements[i].type == 'checkbox' && elements[i].name.substring(0,8) == 'checked_') {
+				if(elements[i].checked == true) {
+					var admissionId = elements[i].name.substring(8);
+					admissionIds[x++] = admissionId;
+					numClients++;
+				}
+			}
+		}
+		
+		var msg = 'You are about to discharge ' + numClients + ' client(s).' + '\n' +
+					'Are you sure you would like to continue?';
+		if(numClients == 0) {
+			alert('You have to select the clients');
+			return;
+		}
+	
+		if(confirm(msg)) {	
+			document.programManagerViewForm.method.value='batch_discharge';
+			document.programManagerViewForm.submit();
+		}
+	}
+
+	function resetForm() {
+		document.getElementsByName("clientForm.firstName")[0].value = "";
+		document.getElementsByName("clientForm.lastName")[0].value = "";
+		document.getElementsByName("clientForm.room")[0].value = "";
+		document.getElementsByName("clientForm.bed")[0].value = "";
+	}
+	
+	function searchClients(){
+
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?mthd=search";
+		//alert(document.programManagerViewForm.action);
+		document.programManagerViewForm.tab.value = "Clients";
+		document.programManagerViewForm.submit();
+		
+	
+	}
 </script>
+
 <input type="hidden" name="teamId" value="" />
 <input type="hidden" name="admissionId" value="" />
 <input type="hidden" name="community" value="" />
@@ -129,109 +106,183 @@ function do_batch_discharge(community,bed) {
 <input type="hidden" name="program_name" value="<c:out value="${program_name}"/>" />
 <input type="hidden" name="clientStatusId" />
 
-<div class="tabs" id="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
+ 	
+ 	
+ 	
+
+ 
+ 
+<%@ include file="/taglibs.jsp"%>
+
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+	border="0">
+
+	
 	<tr>
-		<th title="Programs">Clients</th>
+		<td align="left" class="buttonBar">
+			<html:link
+			action="/PMmodule/ProgramManager.do"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+ 			<html:link
+			href="javascript:searchClients();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
+			<html:link
+			href="javascript:resetForm();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<logic:messagesPresent message="true">
+				<br />
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+				<br />
+			</logic:messagesPresent>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>			
+			<div class="h4">
+				<h4>Search Clients by entering search criteria below</h4>
+				<br />
+			</div>
+		</td>
+	</tr>
+	
+
+	<tr>
+		<td>
+			<div class="axial">
+				<table border="0" cellspacing="2" cellpadding="3">
+					<tr>
+						<th>First Name:</th>
+						<td><html:text property="clientForm.firstName" size="20" /></td>
+					</tr>
+					<tr>
+						<th>Last Name:</th>
+						<td><html:text property="clientForm.lastName" size="20" /></td>
+					</tr>
+					<tr>
+						<th>Room:</th>
+						<td><html:text property="clientForm.room" size="20" /></td>
+					</tr>
+					<tr>
+						<th>Bed:</th>
+						<td><html:text property="clientForm.bed" size="20" /></td>
+					</tr>
+					
+				
+				</table>
+			</div>
+			
+			
+
+		</td>
+	</tr>
+
+	<tr>
+		<td height="100%">
+		
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+  
+			 	
+			<br /> 	
+						
+						
+			<div class="tabs" id="tabs">
+			<table cellpadding="3" cellspacing="0" border="0">
+				<tr>
+					<th title="Programs">Clients</th>
+				</tr>
+			</table>
+			</div>
+			<!--  show current clients -->
+			
+			<display:table class="simple" cellspacing="2" cellpadding="3" id="clientInfo" name="clientsLst" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
+				<display:setProperty name="paging.banner.placement" value="bottom" />
+				<display:setProperty name="basic.msg.empty_list" value="No clients currently admitted to this program." />
+			
+				<display:column >		
+					<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
+						<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>">
+					</logic:equal>
+					<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
+						<input type="checkbox" disabled="disabled" name="checked_<c:out value="${clientInfo.admissionId}"/>">
+					</logic:equal>
+				</display:column>
+			
+				<display:column property="formattedName" sortable="true" title="Name" />
+				
+				<display:column property="admissionDate" sortable="true" title="Admission Date" />
+				
+				<display:column property="admissionNote" sortable="true" title="Admission Notes" />
+				
+				<display:column property="room" sortable="true" title="Room" />
+				
+				<display:column property="bed" sortable="true" title="Bed" />
+				
+				<display:column title="Late Pass">		
+					<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
+						<input type="checkbox" disabled="disabled">
+					</logic:equal>
+					<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
+						<input type="checkbox" checked="checked" disabled="disabled">
+					</logic:equal>
+				</display:column>
+				
+			</display:table>
+			
+			
+			<logic:notEmpty name="clientsLst">
+				<br />
+				<table align="left">
+					<tr>
+						<td align="left">
+							<table class="edit">
+								
+								<tr>
+									<td width="150px">Discharge Reason</td>
+									<td><html:select property="clientForm.dischargeReason" style="width:100%">
+										<html:option value=""></html:option>
+										<html:options collection="lstDischargeReason" property="code"
+											labelProperty="description"></html:options>
+									</html:select></td>
+									
+								</tr>
+								<tr>
+									<td >Discharge To</td>
+									<td >
+										<html:select property="clientForm.communityProgramCode">
+										<html:option value=""></html:option>
+										<html:options collection="lstCommProgram" property="code"
+											labelProperty="description"></html:options>
+									</html:select></td>
+								</tr>
+								
+							</table>
+						</td>
+						<td align="left" >
+							<input type="button" value="Batch Discharge" onclick="javascript:do_batch_discharge();"/>
+						</td>
+					</tr>
+				</table>
+			</logic:notEmpty>
+						
+			
+			
+         
+        </div>
+ 
+		</td>
 	</tr>
 </table>
-</div>
-<!--  show current clients -->
-<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
-	<display:setProperty name="paging.banner.placement" value="bottom" />
-	<display:setProperty name="basic.msg.empty_list" value="No clients currently admitted to this program." />
-	<display:column>
-		<input type="checkbox" name="checked_<c:out value="${admission.id}"/>">
-	</display:column>
-	<display:column property="client.formattedName" sortable="true" title="Name" />
-	<display:column property="admissionDate" sortable="true" title="Admission Date" />
-	
-	<caisi:isModuleLoad moduleName="pmm.refer.temporaryAdmission.enabled">
-	<display:column property="temporaryAdmission" sortable="true" title="Temporary Admission" />
-	</caisi:isModuleLoad>
-	<display:column property="admissionNotes" sortable="true" title="Admission Notes" />
-
-	<display:column property="teamName" sortable="true" title="Team" />
-	
-	<display:column sortable="false" title="" >
-		<select name="x" onchange="assignTeam('<c:out value="${admission.id}"/>',this);">
-			<option value="0">&nbsp;</option>
-			<c:forEach var="team" items="${teams}">
-				<c:choose>
-					<c:when test="${team.id == admission.teamId}">
-						<option value="<c:out value="${team.id}"/>" selected><c:out value="${team.name}" /></option>
-					</c:when>
-					<c:otherwise>
-						<option value="<c:out value="${team.id}"/>"><c:out value="${team.name}" /></option>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-		</select>
-	</display:column>
-
-	<display:column sortable="false" title="Status" >
-		<select name="y" onchange="assignStatus('<c:out value="${admission.id}"/>',this);">
-			<option value="0">&nbsp;</option>
-			<c:forEach var="status" items="${client_statuses}">
-				<c:choose>
-					<c:when test="${status.id == admission.clientStatusId}">
-						<option value="<c:out value="${status.id}"/>" selected><c:out value="${status.name}" /></option>
-					</c:when>
-					<c:otherwise>
-						<option value="<c:out value="${status.id}"/>"><c:out value="${status.name}" /></option>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-		</select>
-	</display:column>	
-</display:table>
-<br />
-
-<c:if test="${requestScope.allowBatchDischarge == true and program.type eq 'Bed'}"> 
- 	<input type="button" value="Batch Discharge To CAISI Bed Program" onclick="do_batch_discharge(false,true)" />
-	<select name="batch_discharge_program">
-		<option value="0"></option>
-		<c:forEach var="program" items="${bedPrograms}">
-			<c:if test="${program.id != requestScope.id}">
-				<option value="<c:out value="${program.id}"/>"><c:out value="${program.name}" /></option>
-			</c:if>
-		</c:forEach>
-	</select>
-	<br />
-	<input type="button" value="Batch Discharge To Community Bed Program" onclick="do_batch_discharge(true,true)" />
-	<select name="batch_discharge_community_program">
-		<option value="0"></option>
-		<c:forEach var="program" items="${communityPrograms}">
-			<c:if test="${program.id != requestScope.id}">
-				<option value="<c:out value="${program.id}"/>"><c:out value="${program.name}" /></option>
-			</c:if>
-		</c:forEach>
-	</select>	
-</c:if>
-
-<c:if test="${requestScope.allowBatchDischarge == true and program.type eq 'Service'}"> 
- 	<input type="button" value="Batch Discharge" onclick="do_batch_discharge(false,false)" />
  	
- 	<!-- 
- 	<input type="button" value="Batch Discharge To CAISI Service Program" onclick="do_batch_discharge(false,false)" />
-	<select name="batch_discharge_program">
-		<option value="0"></option>
-		<c:forEach var="program" items="${servicePrograms}">
-			<c:if test="${program.id != requestScope.id}">
-				<option value="<c:out value="${program.id}"/>"><c:out value="${program.name}" /></option>
-			</c:if>
-		</c:forEach>
-	</select>
-	<br />
-	
-	<input type="button" value="Batch Discharge To Community Program" onclick="do_batch_discharge(true,false)" />
-	<select name="batch_discharge_community_program">
-		<option value="0"></option>
-		<c:forEach var="program" items="${communityPrograms}">
-			<c:if test="${program.id != requestScope.id}">
-				<option value="<c:out value="${program.id}"/>"><c:out value="${program.name}" /></option>
-			</c:if>
-		</c:forEach>
-	</select>	
-	-->
-</c:if>
+

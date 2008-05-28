@@ -180,7 +180,8 @@ public class ComplaintDao extends HibernateDaoSupport {
 				+ ", value: " + value);
 		try {
 			String queryString = "from Complaint as model where model."
-					+ propertyName + "= ?";
+					+ propertyName + "= ?"
+					+ " order by model.id desc";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();

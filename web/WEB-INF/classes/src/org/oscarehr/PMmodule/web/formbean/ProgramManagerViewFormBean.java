@@ -23,6 +23,7 @@
 package org.oscarehr.PMmodule.web.formbean;
 
 import org.apache.struts.action.ActionForm;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 
@@ -44,12 +45,11 @@ public class ProgramManagerViewFormBean extends ActionForm {
     private ProgramClientRestriction serviceRestriction;
 
     private IncidentForm incidentForm;
-    
     private StaffForm staffForm;
-    
-    
-    
-    public IncidentForm getIncidentForm() {
+    private ClientForm clientForm;
+       
+
+	public IncidentForm getIncidentForm() {
 		return incidentForm;
 	}
 
@@ -148,5 +148,13 @@ public class ProgramManagerViewFormBean extends ActionForm {
 
 	public void setStaffForm(StaffForm staffForm) {
 		this.staffForm = staffForm;
+	}
+
+	public ClientForm getClientForm() {
+		return clientForm;
+	}
+
+	public void setClientForm(ClientForm clientForm) {
+		this.clientForm = clientForm;
 	}
 }
