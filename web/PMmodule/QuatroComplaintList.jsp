@@ -30,9 +30,8 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar"><html:link
-				action="/PMmodule/ClientSearch2.do"
-				style="color:Navy;text-decoration:none;">
+			<td align="left" class="buttonBar">
+			<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 			<html:link action="/PMmodule/QuatroComplaint.do?method=edit"
 				name="actionParam" style="color:Navy;text-decoration:none;">

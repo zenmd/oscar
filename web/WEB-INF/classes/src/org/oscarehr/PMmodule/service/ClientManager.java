@@ -51,11 +51,10 @@ public class ClientManager {
     private static Log log = LogFactory.getLog(ClientManager.class);
 
     private ClientDao dao;
-    private ClientHistoryDao historyDAO;
+    private ClientHistoryDao clientHistoryDao;
     private ClientReferralDAO referralDAO;
     private ProgramQueueManager queueManager;
-    private AdmissionManager admissionManager;
-    private ClientRestrictionManager clientRestrictionManager;
+   
 
     private boolean outsideOfDomainEnabled;
 
@@ -145,7 +144,7 @@ public class ClientManager {
             queueManager.saveProgramQueue(queue);
         }
         
-        historyDAO.saveClientHistory(referral);
+        clientHistoryDao.saveClientHistory(referral);
     }
 
     public List searchReferrals(ClientReferral referral) {
@@ -243,21 +242,15 @@ public class ClientManager {
     @Required
     public void setProgramQueueManager(ProgramQueueManager mgr) {
         this.queueManager = mgr;
-    }
-
-    @Required
-    public void setAdmissionManager(AdmissionManager mgr) {
-        this.admissionManager = mgr;
-    }
-
-    @Required
-    public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
-        this.clientRestrictionManager = clientRestrictionManager;
-    }
+    }   
 
     @Required
     public void setOutsideOfDomainEnabled(boolean outsideOfDomainEnabled) {
         this.outsideOfDomainEnabled = outsideOfDomainEnabled;
     }
+
+	public void setClientHistoryDao(ClientHistoryDao clientHistoryDao) {
+		this.clientHistoryDao = clientHistoryDao;
+	}
 
 }

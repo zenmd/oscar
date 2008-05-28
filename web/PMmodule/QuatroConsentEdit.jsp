@@ -44,15 +44,15 @@
 	}
 	function signSignature(){
    		var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
-     	"rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />" + 
-     	"&moduleName=admission";
+     	"rid=<c:out value="${consentDetailForm.consent.id}" />" + 
+     	"&moduleName=consent";
 
    		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
    		win.focus();
 	}
 	function viewSignature(){
    		var url='<c:out value="${ctx}" />/topazGetImage.do?' +
-     	"rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />";
+     	"rid=<c:out value="${consentDetailForm.consent.id}" />";
    		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
    		win.focus();
 	}

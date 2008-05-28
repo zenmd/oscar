@@ -28,7 +28,7 @@ function updateQuatroAdmission(clientId, admissionId) {
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">

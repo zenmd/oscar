@@ -61,7 +61,6 @@
 <input type="hidden" name="method"/>
 <input type="hidden" name="demoNo"/>
 <html:hidden property="program.id" />
-<html:hidden property="recordId" styleId="recordId"/>
 
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
@@ -75,7 +74,7 @@
 		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0"	style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Service Restriction&nbsp;&nbsp;|
 		</html:link>
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
