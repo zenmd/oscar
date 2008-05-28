@@ -3,11 +3,12 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
        "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
 <tiles-definitions>
-	<definition name="page.home" path="/PMmodule/layout2.jsp">
+	<definition name="page.home" path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/Home.jsp" />
 	</definition>
-	<definition name="page.admin.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.admin.list"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/admin/admin.jsp" />
 	</definition>
 	<definition name="page.tickler.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
@@ -85,7 +86,8 @@
 			value="/PMmodule/Admin/Facility/ViewFacility.jsp" />
 	</definition>
 	<definition name="page.pmm.facilitySelection"
-		path="/PMmodule/layout2.jsp">
+		path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/select_facility.jsp" />
 	</definition>
 	<definition name="page.pmm.client.searchform"
@@ -319,91 +321,100 @@
 		<put name="title" value="eForm Manager: Import Survey" />
 		<put name="body" value="/survey/surveyManager/importForm.jsp" />
 	</definition>
-	<definition name="page.newcasemgmt.view"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.newcasemgmt.view"  path="/PMmodule/layout.jsp">
+		 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/newCaseManagementView.jsp" />
 	</definition>
-	<definition name="page.casemgmt.view"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.view"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/CaseManagementView.jsp" />
 	</definition>
-	<definition name="page.casemgmt.domain.error"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.domain.error"  path="/PMmodule/layout.jsp">
+		 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/domain-error.jsp" />
 	</definition>
-	<definition name="page.casemgmt.unlock.note"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.unlock.note"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/unlockNoteForm.jsp" />
 	</definition>
-	<definition name="page.casemgmt.unlock.note.success"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.unlock.note.success"  path="/PMmodule/layout.jsp">
+	 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/unlockNoteSuccess.jsp" />
 	</definition>
 	
-	<definition name="page.casemgmt.unlock.note.error"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.unlock.note.error"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/unlockNoteError.jsp" />
 	</definition>
 	
-	<definition name="page.casemgmt.unlock.ajax"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.unlock.ajax"  path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/unlockAjax.jsp" />
 	</definition>
-	<definition name="page.casemgmt.expired"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.expired"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/expired.jsp" />
 	</definition>
-	<definition name="page.casemgmt.view.notes"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.view.notes"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/viewNotes.jsp" />
 	</definition>
-	<definition name="page.casemgmt.issue.search"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.issue.search"  path="/PMmodule/layout.jsp">
+	 	<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/IssueSearch.jsp" />
 	</definition>
 	
-	<definition name="page.casemgmt.issue.search"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.issue.search"  path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/IssueSearch.jsp" />
 	</definition>
 	
-	<definition name="page.casemgmt.no.demo"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.no.demo"  path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/noDemo.jsp" />
 	</definition>
-	<definition name="page.casemgmt.close"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.close"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/close.jsp" />
 	</definition>
-	<definition name="page.casemgmt.show.history"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.show.history"  path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/showHistory.jsp" />
 	</definition>
-	<definition name="page.casemgmt.issue.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.issue.list"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/IssueList.jsp" />
 	</definition>
-	<definition name="page.casemgmt.no.issue.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.no.issue.list"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/noteIssueList.jsp" />
 	</definition>
-	<definition name="page.casemgmt.search"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.search"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/CaseManagementSearch.jsp" />
 	</definition>
-	<definition name="page.casemgmt.note.edit"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.casemgmt.note.edit"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/CaseManagementNote.jsp" ></put>
-	  
 	</definition>
-	<definition name="page.casemgmt.history.view"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.casemgmt.history.view"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/historyview.jsp" ></put>
-	  
 	</definition>
-	<definition name="page.attachment.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.attachment.list"  path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/PMmodule/AttachmentMain.jsp"></put>
 	</definition>
-	<definition name="page.attachment.edit"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.attachment.edit"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
+		<put name="body" value="/PMmodule/UploadFile.jsp"></put>
+	</definition>
+	<definition name="page.attachment.list.prog"  path="/PMmodule/layout.jsp">
+		<put name="leftNav" value="/PMmodule/navigation.jsp" />
+		<put name="body" value="/PMmodule/AttachmentMain.jsp"></put>
+	</definition>
+	<definition name="page.attachment.edit.prog"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/PMmodule/UploadFile.jsp"></put>
 	</definition>
 	<!--
@@ -430,8 +441,8 @@
 	-->
 
 	<!-- Admin Start -->
-	<definition name="page.admin.home"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.admin.home"  path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation.jsp" />
 		<put name="body" value="/PMmodule/Admin/Home.jsp" />
 	</definition>
 	<definition name="page.admin.showORGTree"

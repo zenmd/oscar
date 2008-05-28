@@ -1967,7 +1967,6 @@
         </action>
           <action path="/CaseManagementView2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="caseManagementViewForm">
             <forward name="view" path="/casemgmt/CaseManagementSearch.jsp" />           
-            <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"/>           
             <forward name="page.casemgmt.search" path="page.casemgmt.search" />
             <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
             <forward name="domain-error" path="page.casemgmt.domain.error" />
@@ -2062,7 +2061,9 @@
  -->       
          
         <!-- admin Start -->
-        <action path="/PMmodule/Admin/SysAdmin" type="org.apache.struts.actions.ForwardAction" parameter="page.admin.home" scope="request" validate="false" />
+        <action path="/PMmodule/Admin/SysAdmin" type="org.oscarehr.PMmodule.web.admin.AdminHomeAction"  scope="request" validate="false">
+         	<forward name="admin" path="page.admin.home"/>
+		</action>
 		<action path="/PMmodule/Admin/ShowORGTree" type="org.springframework.web.struts.DelegatingActionProxy"
               name="lookupTreeForm" scope="request" parameter="method">
             <forward name="tree" path="page.admin.showORGTree" />

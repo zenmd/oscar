@@ -57,6 +57,14 @@ public class UsersManager {
 	public List search(UserSearchFormBean formBean) {
 		return securityDao.search(formBean);
 	}
+	public Security getUser(String userName) {
+		Security user = null;
+		List list = securityDao.findByUserName(userName);
+		if (list.size() > 0) {
+			user = (Security) list.get(0);
+		}
+		return user;
+	}
 	public List getUserByProviderNo(String providerNo) {
 		return securityDao.findByProviderNo(providerNo);
 	}
