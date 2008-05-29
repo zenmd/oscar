@@ -226,7 +226,9 @@
 			
 				<display:column property="clientId" sortable="true" title="Client No." />
 				
-				<display:column property="formattedName" sortable="true" title="Name" />
+				<display:column property="lastName" sortable="true" title="Last Name" />
+				
+				<display:column property="firstName" sortable="true" title="First Name" />
 				
 				<display:column property="admissionDate" sortable="true" title="Admission Date" />
 				

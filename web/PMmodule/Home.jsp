@@ -107,7 +107,7 @@ String _appPath = request.getContextPath();
 									<table align="left">
 										<tr>
 											<th align="left" valign="top" class="clsHomePageLabels">
-											<html:link action="/PMmodule/FacilityManager.do?method=list">Shelter Management</html:link>
+											<html:link action="/PMmodule/FacilityManager.do?method=list">Facility Management</html:link>
 											</th>
 										</tr>
 									</table>

@@ -62,9 +62,9 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 		</td>
 		</tr>
 	<tr> <td>	
-	<div id="projecthome" class="app">
+	<div id="projecthome" class="app" background-image="">
 		<div >
-			<table border="1" cellspacing="1" cellpadding="4" width="100%">
+			<table cellspacing="1" cellpadding="4" width="100%" bgcolor="#E8E8E8">
 				<tr>
 					<th width="20%" align="right"><bean-el:message key="ClientSearch.clientNo" bundle="pmm"/></th>
 					<th align="left" width="80%"><html:text property="criteria.demographicNo" size="15" /></th>
@@ -181,8 +181,11 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 			<display:column sortable="true" title="Client No">
                  <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
             </display:column>
-			<display:column sortable="true" title="Name">
-                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.formattedName}" /></a>
+			<display:column sortable="true" title=" Last Name">
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.lastName}" /></a>
+			</display:column>
+			<display:column sortable="true" title=" First Name">
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.firstName}" /></a>
 			</display:column>
 			<display:column sortable="true" title="Date of Birth">
 				<c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />
