@@ -161,6 +161,10 @@
 			<div class="axial">
 				<table border="0" cellspacing="2" cellpadding="3">
 					<tr>
+						<th>Client No.:</th>
+						<td><html:text property="clientForm.clientId" size="20" /></td>
+					</tr>
+					<tr>
 						<th>First Name:</th>
 						<td><html:text property="clientForm.firstName" size="20" /></td>
 					</tr>
@@ -168,15 +172,16 @@
 						<th>Last Name:</th>
 						<td><html:text property="clientForm.lastName" size="20" /></td>
 					</tr>
+					<!-- 
 					<tr>
-						<th>Room:</th>
+						<th>Room Name:</th>
 						<td><html:text property="clientForm.room" size="20" /></td>
 					</tr>
 					<tr>
-						<th>Bed:</th>
+						<th>Bed Name:</th>
 						<td><html:text property="clientForm.bed" size="20" /></td>
 					</tr>
-					
+					 -->
 				
 				</table>
 			</div>
@@ -219,6 +224,8 @@
 					</logic:equal>
 				</display:column>
 			
+				<display:column property="clientId" sortable="true" title="Client No." />
+				
 				<display:column property="formattedName" sortable="true" title="Name" />
 				
 				<display:column property="admissionDate" sortable="true" title="Admission Date" />

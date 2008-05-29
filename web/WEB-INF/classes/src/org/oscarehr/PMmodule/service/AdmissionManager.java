@@ -136,9 +136,7 @@ public class AdmissionManager {
 	public List getAdmissionListByProgram(Integer programId) {
 		return admissionDao.getAdmissionListByProgram(programId);
 	}
-//	public List getClientsListByProgram(Integer programId, ClientForm form) {
-//		return admissionDao.getClientsListByProgram(programId, form);
-//	}
+
 	public List getClientsListByProgram(Program program, ClientForm form) {
 		return admissionDao.getClientsListByProgram(program, form);
 	}

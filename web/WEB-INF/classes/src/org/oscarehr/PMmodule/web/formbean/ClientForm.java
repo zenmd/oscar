@@ -10,6 +10,7 @@ public class ClientForm extends ValidatorForm{
 	private String lastName;
 	private String room;
 	private String bed;
+	private String clientId;
 
 	
 	
@@ -48,6 +49,12 @@ public class ClientForm extends ValidatorForm{
 	}
 	public void setRoom(String room) {
 		this.room = room;
+	}
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 	
 	

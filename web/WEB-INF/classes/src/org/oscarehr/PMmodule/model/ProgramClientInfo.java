@@ -10,7 +10,14 @@ public class ProgramClientInfo {
 	private String room;
 	private String bed;
 	private String isDischargeable;
+	private String clientId;
 	
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 	public String getIsDischargeable() {
 		return isDischargeable;
 	}

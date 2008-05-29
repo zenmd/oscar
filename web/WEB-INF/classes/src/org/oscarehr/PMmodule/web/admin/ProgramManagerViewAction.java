@@ -228,61 +228,6 @@ public class ProgramManagerViewAction extends DispatchAction {
         
         if (formBean.getTab().equals("Clients")) {
         	processClients( request, program, formBean);
-//            request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
-//
-//            // request.setAttribute("admissions", admissionManager.getCurrentAdmissionsByProgramId(programId));
-//            // clients should be active
-//            List<Admission> admissions = new ArrayList<Admission>();
-//            List ads = admissionManager.getCurrentAdmissionsByProgramId(programId);
-//            for (Object ad1 : ads) {
-//                Admission admission = (Admission) ad1;
-//                Integer clientId = admission.getClientId();
-//                if (clientId > 0) {
-//                    Demographic client = clientManager.getClientByDemographicNo(Integer.toString(clientId));
-//                    if (client != null) {
-//                        String clientStatus = client.getPatientStatus();
-//                        if (clientStatus != null && clientStatus.equals("AC")) admissions.add(admission);
-//                    }
-//                }
-//            }
-//            request.setAttribute("admissions", admissions);
-//
-//            request.setAttribute("program_name", program.getName());
-//
-///*            
-//            List<ProgramTeam> teams = programManager.getProgramTeams(programId);
-//
-//            for (ProgramTeam team : teams) {
-//                team.setProviders(programManager.getAllProvidersInTeam(Integer.valueOf(programId), team.getId()));
-//                team.setAdmissions(programManager.getAllClientsInTeam(Integer.valueOf(programId), team.getId()));
-//            }
-//
-//            request.setAttribute("teams", teams);
-//*/
-//            
-//            List<Program> batchAdmissionPrograms = new ArrayList<Program>();
-//
-//            for (Program bedProgram : programManager.getBedPrograms()) {
-//                if (bedProgram.isAllowBatchAdmission() && bedProgram.getProgramStatus().equals("active")) {
-//                    batchAdmissionPrograms.add(bedProgram);
-//                }
-//            }
-//
-//            List<Program> batchAdmissionServicePrograms = new ArrayList<Program>();
-//            List servicePrograms;
-//            servicePrograms = programManager.getServicePrograms();
-//            for (Object serviceProgram1 : servicePrograms) {
-//                Program sp = (Program) serviceProgram1;
-//                if (sp.isAllowBatchAdmission() && sp.getProgramStatus().equals("active")) {
-//                    batchAdmissionServicePrograms.add(sp);
-//                }
-//            }
-//
-//            // request.setAttribute("programs", batchAdmissionPrograms);
-//            request.setAttribute("bedPrograms", batchAdmissionPrograms);
-//            request.setAttribute("communityPrograms", programManager.getCommunityPrograms());
-//            request.setAttribute("allowBatchDischarge", program.isAllowBatchDischarge());
-//            request.setAttribute("servicePrograms", batchAdmissionServicePrograms);
         }
 
         if (formBean.getTab().equals("Access")) {
@@ -340,10 +285,9 @@ public class ProgramManagerViewAction extends DispatchAction {
         return mapping.findForward("view");
     }
 
-// TODO:     
+    
     private void processClients( HttpServletRequest request, Program program, ProgramManagerViewFormBean formBean){
-//    	Integer programId = program.getId();
-//    	Integer facilityId = program.getFacilityId();
+
     	
     	String mthd = request.getParameter("mthd");
     	ClientForm clientForm = formBean.getClientForm();
@@ -379,8 +323,7 @@ public class ProgramManagerViewAction extends DispatchAction {
     		pClient.setAdmissionId((Integer)objLst[4]);
     		pClient.setFirstName((String)objLst[5]);
     		pClient.setLastName((String)objLst[6]);
-    		
-		
+    		pClient.setClientId(objLst[7].toString());
     		pClient.setRoom((String)objLst[8]);
             pClient.setBed((String)objLst[9]);
     		
@@ -388,43 +331,7 @@ public class ProgramManagerViewAction extends DispatchAction {
     	}
     	request.setAttribute("clientsLst", clientsLst);
     	
-    	
-// 		if(mthd != null && mthd.equals("search")){
-//			//do search
-// 			String rm = clientForm.getRoom();
-// 			String bd = clientForm.getBed();
-// 			
-// 			if( rm.length() > 0 || bd.length() > 0){
-// 					
-//				ArrayList tmpLst = new ArrayList();
-//				for(int i = 0; i < clientsLst.size(); i++){
-//					ProgramClientInfo pClient = (ProgramClientInfo)clientsLst.get(i);
-//					
-//					String rm2 = pClient.getRoom();
-//					String bd2 = pClient.getBed();
-//					boolean flag1 = false;
-//					boolean flag2 = false;
-//					
-//					if(rm.length() > 0 && rm2 != null && rm2.toLowerCase().contains(rm.toLowerCase()) || rm.length() == 0){
-//						flag1 = true;
-//					}
-//					if(bd.length() > 0 && bd2 != null && bd2.toLowerCase().contains(bd.toLowerCase()) || bd.length() == 0){
-//						flag2 = true;
-//					}
-//					
-//					if(flag1 && flag2 ){
-//						tmpLst.add(pClient);
-//					}
-//				}
-//		    	
-//	 			request.setAttribute("clientsLst", tmpLst);
-// 			}
-//		}else{
-//			//list all
-//			clientForm = new ClientForm();
-//			formBean.setClientForm(clientForm);
-//			
-//		}
+ 
  		if(mthd == null || mthd.equals("")){
  			clientForm = new ClientForm();
 			formBean.setClientForm(clientForm);
@@ -438,103 +345,7 @@ public class ProgramManagerViewAction extends DispatchAction {
         request.setAttribute("lstCommProgram", lstCommProgram);
         
     }
-    
-//    private void processClients( HttpServletRequest request, Program program, ProgramManagerViewFormBean formBean){
-//    	Integer programId = program.getId();
-//    	Integer facilityId = program.getFacilityId();
-//    	
-//    	String mthd = request.getParameter("mthd");
-//    	ClientForm clientForm = formBean.getClientForm();
-//    	List lst = admissionManager.getClientsListByProgram(programId, clientForm);
-//    	   	
-//    	
-//    	List clientsLst = new ArrayList();
-//    	Iterator it = lst.iterator();
-//    	while(it.hasNext()){
-//    		Object[] objLst = (Object[])it.next();
-//    		ProgramClientInfo pClient = new ProgramClientInfo();
-//    		if(objLst[0]!=null){
-//    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
-//    		    pClient.setAdmissionDate(admissionDate);
-//    		}
-//    		if(objLst[1]!=null)
-//    			pClient.setAdmissionNote(objLst[1].toString());
-//    		if(objLst[2]!=null && objLst[3]!=null){
-//	    		Calendar now = Calendar.getInstance();
-//	    		Calendar start = (Calendar)objLst[2];
-//	    		Calendar end = (Calendar)objLst[3];
-//	    		if(start.before(now) && end.after(now)){
-//	    			pClient.setIsDischargeable("0");
-//	    		}else{
-//	    			pClient.setIsDischargeable("1");
-//	    		}
-//    		}else{
-//    			pClient.setIsDischargeable("1");
-//    		}
-//    		pClient.setAdmissionId((Integer)objLst[4]);
-//    		pClient.setFirstName((String)objLst[5]);
-//    		pClient.setLastName((String)objLst[6]);
-//    		
-//    		Integer demographicNo = (Integer)objLst[7];
-//    		BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo, facilityId);
-//            //RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(demographicNo, facilityId);
-//    		if(bedDemographic != null){
-//	            pClient.setRoom(bedDemographic.getRoomName());
-//	            pClient.setBed(bedDemographic.getBedName());
-//    		}
-//    		
-//    		
-//    		clientsLst.add(pClient);
-//    	}
-//    	request.setAttribute("clientsLst", clientsLst);
-//    	
-//    	
-// 		if(mthd != null && mthd.equals("search")){
-//			//do search
-// 			String rm = clientForm.getRoom();
-// 			String bd = clientForm.getBed();
-// 			
-// 			if( rm.length() > 0 || bd.length() > 0){
-// 					
-//				ArrayList tmpLst = new ArrayList();
-//				for(int i = 0; i < clientsLst.size(); i++){
-//					ProgramClientInfo pClient = (ProgramClientInfo)clientsLst.get(i);
-//					
-//					String rm2 = pClient.getRoom();
-//					String bd2 = pClient.getBed();
-//					boolean flag1 = false;
-//					boolean flag2 = false;
-//					
-//					if(rm.length() > 0 && rm2 != null && rm2.toLowerCase().contains(rm.toLowerCase()) || rm.length() == 0){
-//						flag1 = true;
-//					}
-//					if(bd.length() > 0 && bd2 != null && bd2.toLowerCase().contains(bd.toLowerCase()) || bd.length() == 0){
-//						flag2 = true;
-//					}
-//					
-//					if(flag1 && flag2 ){
-//						tmpLst.add(pClient);
-//					}
-//				}
-//		    	
-//	 			request.setAttribute("clientsLst", tmpLst);
-// 			}
-//		}else{
-//			//list all
-//			clientForm = new ClientForm();
-//			formBean.setClientForm(clientForm);
-//			
-//		}
-//    	
-//           	
-//        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
-//        request.setAttribute("lstDischargeReason", lstDischargeReason);
-//        
-//        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
-//        request.setAttribute("lstCommProgram", lstCommProgram);
-//        
-//    }
+   
     
     private void processStaff( HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
     	

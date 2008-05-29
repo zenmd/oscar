@@ -172,7 +172,7 @@ href="javascript:submitForm('removeExistStaff');">Remove</a>
 				<table align="center" class="simple" width="100%">
 					<thead>
 						<tr>
-							
+							<th align="center"><b>ProviderNo</b></th>
 							<th align="center"><b>Name</b></th>
 							<th align="center"><b>Role</b></th>
 							<th align="center"><b></b></th>
@@ -189,7 +189,7 @@ href="javascript:submitForm('removeExistStaff');">Remove</a>
 	 						-->
 													
 					
-							<td width="350px">
+							<td width="100px">
 								<table cellpadding="0" style="border:0px;" cellspacing="0"
 									width="100%">
 									<tr>
@@ -197,6 +197,15 @@ href="javascript:submitForm('removeExistStaff');">Remove</a>
 											<input style="width:100px;" type="text"
 											name="providerNo<%=String.valueOf(rIndex)%>"
 											value='<c:out value="${pp.providerNo}"/>' readonly></td>
+										
+									</tr>
+								</table>
+							</td>
+							<td width="250px">
+								<table cellpadding="0" style="border:0px;" cellspacing="0"
+									width="100%">
+									<tr>
+										
 										<td style="border:0px;" width="100%">
 											<input id="ORGfld<%=String.valueOf(rIndex)%>" 
 											style="width:100%;" type="text"  
