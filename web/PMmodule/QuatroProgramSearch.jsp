@@ -51,36 +51,40 @@
 			
 	}
 	function selectProgram(clientId,id,type,gender) {
-		var programId=Number(id);		
-		if (gender == 'M')
+		var programId=Number(id);	
+		var ruleCheck =	opener.document.<%=request.getParameter("formName")%>.elements['ruleCheck'].value;
+		if(ruleCheck!=null && ruleCheck=='Y')
 		{
-			if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+			if (gender == 'M')
 			{
-				return error("This gender not allowed in selected program.");
+				if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+				{
+					return error("This gender not allowed in selected program.");
+				}
 			}
-		}
-		if (gender == 'F')
-		{
-			if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+			if (gender == 'F')
 			{
-				return error("This gender not allowed in selected program.");
+				if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+				{
+					return error("This gender not allowed in selected program.");
+				}
 			}
-		}
-		if (gender == 'T')
-		{
-			if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
+			if (gender == 'T')
 			{
-				return error("This gender not allowed in selected program.");
+				if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
+				{
+					return error("This gender not allowed in selected program.");
+				}
+			}		
+		
+			if (!validAgeRangeForProgram(programId,age))
+			{
+				return error("This client does not meet the age range requirements for this program.");
 			}
 		}		
-	
-		if (!validAgeRangeForProgram(programId,age))
-		{
-			return error("This client does not meet the age range requirements for this program.");
-		}	
 		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
 		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="edit";
-		opener.document.<%=request.getParameter("formName")%>.elements['demoNo'].value=clientId;
+		opener.document.<%=request.getParameter("formName")%>.elements['clientId'].value=clientId;
 		opener.document.<%=request.getParameter("formName")%>.submit();
 		self.close();
 	}		
