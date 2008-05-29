@@ -52,16 +52,16 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 			<div class="app">
 			<table cellspacing="1" cellpadding="4" width="100%" bgcolor="#E8E8E8">
 				<tr>
-					<th align="left">Status:</th>
-					<th align="left" ><html:select property="searchStatus">
+					<th align="left" width="20%">Status:</th>
+					<th align="left" width="80%"><html:select property="searchStatus">
 						<html:option value="Any" />
 						<html:option value="active" />
 						<html:option value="inactive" />
 					</html:select></th>
 				</tr>
 				<tr>
-					<th align="left">Type:</th>
-					<th align="left"><html-el:select property="searchType">
+					<th align="left" width="20%">Type:</th>
+					<th align="left" width="80%"><html-el:select property="searchType">
 						<html:option value="Any" />
 						<c:forEach var="pt" items="${programTypeLst}">
 							<html-el:option value="${pt.code}">
@@ -71,8 +71,8 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					</html-el:select></th>
 				</tr>
 				<tr>
-					<th align="left">Facility:</th>
-					<th align="left"><html-el:select property="searchFacilityId">
+					<th align="left" width="20%">Facility:</th>
+					<th align="left" width="80%"><html-el:select property="searchFacilityId">
 						<html-el:option value="0">Any</html-el:option>
 						<c:forEach var="facility" items="${facilities}">
 							<html-el:option value="${facility.id}">
