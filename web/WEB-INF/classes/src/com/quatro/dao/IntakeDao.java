@@ -402,17 +402,16 @@ public class IntakeDao extends HibernateDaoSupport {
 
 		List results = null;
 		if (facilityId == 0) {
-			String progSQL = "(select p.id from Program p where  'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
-    			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
-
+			String progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
 			results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " + progSQL +
 			"  order by i.createdOn desc",
 			new Object[] {clientId, providerNo });
 		}
 		else
 		{
-	    	String progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
+	    	String progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
 
 	    	results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " + progSQL +
 	    		"  order by i.createdOn desc",

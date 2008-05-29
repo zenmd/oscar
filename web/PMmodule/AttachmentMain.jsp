@@ -36,8 +36,8 @@ response.setHeader("Cache-Control", "no-cache");
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar">
-				<html:link	action="/PMmodule/UploadFile.do?method=addNew"	style="color:Navy;text-decoration:none;">
+			<td align="left" class="buttonBar2">
+				<html:link	action="/PMmodule/UploadFile.do?method=addNew" name="actionParam"	style="color:Navy;text-decoration:none;">
 					<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add&nbsp;&nbsp;|
 				</html:link>
 				<html:link action="/Home.do" style="color:Navy;text-decoration:none;">

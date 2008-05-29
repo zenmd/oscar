@@ -30,8 +30,8 @@
         <property name="providerLastName" formula="(select a.last_name from provider a where a.provider_no=provider_no)"></property>
         <property name="commentId" column="comments" type="string" not-null="true" length="255"/>
         <property name="comments" formula="(select a.description from lst_service_restriction a where a.id=comments)"/>
-        <property name="startDate" column="start_date" type="timestamp" not-null="true"/>
-        <property name="endDate" column="end_date" type="timestamp" not-null="true"/>
+        <property name="startDate" column="start_date" />
+        <property name="endDate" column="end_date" />
         <property name="enabled" column="is_enabled" type="boolean" not-null="true"/>
         <property name="earlyTerminationProvider" column="early_termination_provider" />
     </class>

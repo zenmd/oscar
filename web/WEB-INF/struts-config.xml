@@ -364,17 +364,11 @@
             <form-property name="dischargeTo" type="java.lang.String"></form-property>
             <form-property name="transportationType" type="java.lang.String"></form-property>            
         </form-bean>
-        <form-bean name="quatroClientServiceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
-            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
-            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
-            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />          
-            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
-            <form-property name="programWithIntakeId" type="java.lang.String" />
+        <form-bean name="serviceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="serviceRestriction"  type="org.oscarehr.PMmodule.model.ProgramClientRestriction"></form-property>
-            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>                       
+            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>  
+            <form-property name="startDt" type="java.util.String"></form-property>                     
         </form-bean>
         
         <form-bean name="quatroClientComplaintForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm" />
@@ -1732,16 +1726,10 @@
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
-        <action path="/PMmodule/QuatroServiceRestriction" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientServiceRestrictionForm" scope="request">
+        <action path="/PMmodule/QuatroServiceRestriction" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="serviceRestrictionForm" scope="request">
             <forward name="list" path="page.quatro.pmm.servicerestriction.list" />
             <forward name="detail" path="page.quatro.pmm.servicerestriction" />
-            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
-            <forward name="consent" path="page.pmm.erconsent" />
-            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
-            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
-            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
-            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
-            <forward name="case" path="/CaseManagementView2.do" redirect="true" />
+            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />          
         </action>
         <action path="/PMmodule/QuatroComplaint" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientComplaintForm" scope="request">
             <forward name="list" path="page.quatro.pmm.complaint.list" />

@@ -18,7 +18,9 @@ response.setHeader("Cache-Control", "no-cache");
 
 <html:form action="/PMmodule/UploadFile.do"
 	enctype="multipart/form-data">
-	<input type="hidden" name="method" value="save" />
+	<input type="hidden" name="method" />
+	<html-el:hidden property="attachmentValue.refNo" />
+	<html-el:hidden property="attachmentValue.id" />
 	<table border="0" cellspacing="0" cellpadding="0" width="100%">
 		<tr>
 			<th class="pageTitle" width="100%">Attachment Edit</th>
@@ -27,11 +29,12 @@ response.setHeader("Cache-Control", "no-cache");
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar">
+			<td align="left" class="buttonBar2">
 				<a	href="javascript:submitForm('save')"
-					style="color:Navy;text-decoration:none;">&nbsp;Upload&nbsp;&nbsp;|</a>
+					style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Upload&nbsp;&nbsp;|</a>
 				<html:link action="/PMmodule/UploadFile.do"	style="color:Navy;text-decoration:none;">
-					<img border=0 src=<html:rewrite page="/images/close.png"/> />&nbsp;Close&nbsp;&nbsp;|
+					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 				</html:link>
 			</td>
 		</tr>

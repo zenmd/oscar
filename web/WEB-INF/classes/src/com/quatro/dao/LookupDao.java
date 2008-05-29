@@ -14,9 +14,11 @@ import oscar.MyDateFormat;
 import oscar.oscarDB.DBPreparedHandler;
 import oscar.oscarDB.DBPreparedHandlerParam;
 
+import com.quatro.model.Attachment;
 import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
+import com.quatro.model.LstOrgcd;
 import com.quatro.util.Utility;
 
 import org.oscarehr.PMmodule.model.Program;
@@ -472,6 +474,16 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setOrderByIndex(0);
 		
 		this.SaveCodeValue(isNew,pcd);
+	}
+	public boolean inOrg(String org1,String org2){
+		boolean isInString=false;
+		String sql="From LstOrgcd a where  a.fullcode like '%"+"?'  ";
+		
+		LstOrgcd orgObj1 =(LstOrgcd)getHibernateTemplate().find(sql,new Object[] {org1});
+		LstOrgcd orgObj2 =(LstOrgcd)getHibernateTemplate().find(sql,new Object[] {org2});
+		if(orgObj2.getFullcode().indexOf(orgObj1.getFullcode())>0) isInString = true;
+		return isInString;
+		
 	}
 	public void SaveAsOrgCode(Facility facility) throws SQLException
 	{

@@ -15,6 +15,7 @@ import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
@@ -36,6 +37,7 @@ public class UploadFileAction extends BaseClientAction {
 	 private LookupManager lookupManager;
 	 protected AdmissionManager admissionManager;	
 	 protected ClientManager clientManager;
+	 protected ProgramManager programManager;
 
 		public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
@@ -55,7 +57,7 @@ public class UploadFileAction extends BaseClientAction {
 	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
 		 List<Attachment> atts=null;
-		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
+		
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
@@ -65,12 +67,14 @@ public class UploadFileAction extends BaseClientAction {
 	       String demographicNo= (String)actionParam.get("clientId");
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
+		   Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+			String providerNo=(String) request.getSession().getAttribute("user");
 	       try {
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
-			    String refNo = demographicNo;
-			    Integer programId =new Integer((String)request.getSession().getAttribute("case_program_id"));
-				atts=uploadFileManager.getAttachment(moduleId, refNo,programId);
+			    String refNo = demographicNo;			   
+			    List lstProgram = programManager.getProgramByProvider(providerNo, currentFacilityId);
+				atts=uploadFileManager.getAttachment(moduleId, refNo,providerNo,currentFacilityId);
 			    request.setAttribute("att_files", atts);
 		    }catch(Exception ex){
 		    	request.setAttribute("att_files", atts);
@@ -79,37 +83,61 @@ public class UploadFileAction extends BaseClientAction {
 		}
 	 public ActionForward addNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
+		 Attachment attObj =(Attachment)attForm.get("attachmentValue");
+		 
+		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	      String demoNo = (String)actionParam.get("clientId");      
 		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
 		 ActionMessages messages= new ActionMessages();
-		 
-		 Integer cId=(Integer)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID));    
+		 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
+		 Integer cId=Integer.valueOf(demoNo) ;   
 		 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));		 
-		 saveMessages(request,messages);
-		 
+		 if(null==cId || null==moduleId){
+			 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));		 
+			 saveMessages(request,messages);
+		 }
+		 else{
+			 attObj.setModuleId(moduleId);
+			 attObj.setRefNo(cId.toString());
+		 }
+		 attForm.set("attachmentValue", attObj);
 		 return mapping.findForward("edit");
 	    }
 	 public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
-		 Attachment attObj = null;
+		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
+		 Attachment attObj = (Attachment)attForm.get("attachmentValue");
+		 String clientId =request.getParameter("clientId");
+		 if(Utility.IsEmpty(clientId)) clientId =attObj.getRefNo();
+		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId",clientId ); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+		
 		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		 ActionMessages messages= new ActionMessages();
-		 
-		 Integer cId=(Integer)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID));    
+		 String demoNo =(String)actionParam.get("clientId");
+		 Integer cId=Integer.valueOf(demoNo) ;       
 		 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
 		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
 		 
 		 Integer aId = null;
-		 if(null!=request.getParameter("id")) aId= new Integer(request.getParameter("id"));
-		 else aId= (Integer)request.getAttribute("id");
-		 attObj = uploadFileManager.getAttachmentDetail(aId);
-		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
-		// attTextObj.getImagefile().setFileName(attObj.getFileName());
-		 attForm.set("attachmentValue", attObj);
+		 if(null!=request.getParameter("id")) {
+			 aId= new Integer(request.getParameter("id"));
+			 attObj = uploadFileManager.getAttachmentDetail(aId);
+			 attForm.set("attachmentValue", attObj);
+		 }
 		 attForm.set("attachmentText",attTextObj);
-		// attForm.set("attachmentText",attTextObj);
+		
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
 		 return mapping.findForward("edit");
@@ -120,27 +148,31 @@ public class UploadFileAction extends BaseClientAction {
 		 return list(mapping, form, request, response);
 	    }
 	 public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-			
+		 DynaActionForm attForm = (DynaActionForm) form;
+		 Attachment attObj = (Attachment )attForm.get("attachmentValue");
+		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");		 
+		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId",attObj.getRefNo() ); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	       String demoNo =(String)actionParam.get("clientId");
+			 Integer cId=Integer.valueOf(demoNo) ;
 		 	ActionMessages messages = new ActionMessages();
 	        boolean isError = false;
 	        boolean isWarning = false;
-		    DynaActionForm attForm = (DynaActionForm)form;
-		 	Attachment attObj = (Attachment )attForm.get("attachmentValue");
-		 	AttachmentText attTextObj =(AttachmentText )attForm.get("attachmentText");
-			HttpSession session = request.getSession(true);
-			Integer cId=(Integer)(session.getAttribute(KeyConstants.SESSION_KEY_CLIENTID));    
-			Integer moduleId = (Integer)session.getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-			String programId = (String) request.getSession().getAttribute("case_program_id");
-			 Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-			 String providerNo=(String) session.getAttribute("user");
-	        if(Utility.IsEmpty(programId)){
-	        	//Integer demoInt = new Integer(cId);
-	        	try{
+			HttpSession session = request.getSession(true);	
+			//only for client module 
+			Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
+			String programId = "";
+			Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+			String providerNo=(String) session.getAttribute("user");
+	        try{
 	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, currentFacilityId).toString();
-	        	}catch(Exception e){;}
-	        }
+	        }catch(Exception e){;}
+	       
 			log.info("attachment client upload id: id="  + cId);
-
 			FormFile formFile = attTextObj.getImagefile();			
 			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1);
 						
@@ -162,19 +194,17 @@ public class UploadFileAction extends BaseClientAction {
 				attObj.setRefProgramId(new Integer(programId));
 				attObj.setRevDate(new GregorianCalendar());
 				attObj.setAttText(attTextObj);
-				uploadFileManager.saveAttachment(attObj);
-				request.setAttribute("id", attObj.getId());
-				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.saved", request.getContextPath()));
-		        saveMessages(request,messages);
-				
+				uploadFileManager.saveAttachment(attObj);				
+				attForm.set("attachmentValue",attObj);
+				attForm.set("attachmentText", attObj.getAttText());
 			}catch(Exception e) {
 				log.error(e);
 				//post error to page
 			}
-			
-		//	request.setAttribute("success",new Boolean(true));
-			
-			return edit(mapping,form,request,response);
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	        saveMessages(request,messages);
+			//return mapping.findForward("edit");	
+	        return edit(mapping,form,request,response);
 
 	    }
 	 public ActionForward showFile(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
@@ -183,5 +213,8 @@ public class UploadFileAction extends BaseClientAction {
 	 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}
+		public void setProgramManager(ProgramManager programManager) {
+			this.programManager = programManager;
+		}
 
 }

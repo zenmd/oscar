@@ -44,11 +44,23 @@ public class UploadFileDao extends HibernateDaoSupport {
 		return (Attachment) getHibernateTemplate().get(Attachment.class, docId);
 	}
 
-	public List<Attachment> getAttach(Integer moduleId, String refNo,Integer programId) {
+	public List<Attachment> getAttach(Integer moduleId, String refNo, String providerNo, Integer facilityId) {
+		String progSQL = "";
+		String hql = "";
+		Object [] params = null;
+		if (facilityId == 0) {
+			progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
+			params = new Object[] { moduleId, refNo,providerNo };
+		}	else {
+			progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
+			params = new Object[] { moduleId, refNo,facilityId, providerNo };		
+		}
 
-		//String hql = "select a.id,a.providerNo,a.docType,a.fileName,a.moduleId,a.refProgramId,a.refNo,a.fileType,a.revDate from Attachment a where a.moduleId = ? and a.refNo=? and a.refProgramId=? order by a.revDate desc";
-		String hql = " from Attachment a where a.moduleId = ? and a.refNo=? and a.refProgramId=? order by a.revDate desc";
-		List<Attachment> lst =getHibernateTemplate().find(hql,	new Object[] { moduleId, refNo,programId });
+		hql = " from Attachment t where t.moduleId = ? and t.refNo=? and t.refProgramId in " +
+				progSQL + " order by t.revDate desc";
+		List<Attachment> lst =getHibernateTemplate().find(hql,	params);
 		return lst;
 	}
 }

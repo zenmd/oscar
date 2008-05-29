@@ -40,6 +40,8 @@ import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
 
+import oscar.MyDateFormat;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
@@ -47,16 +49,10 @@ import com.quatro.util.Utility;
 
 
 
-public class QuatroClientServiceRestrictionAction  extends BaseClientAction {
+public class ServiceRestrictionAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
-   private AdmissionManager admissionManager;
-   private CaseManagementManager caseManagementManager;
-   private BedDemographicManager bedDemographicManager;
-   private RoomDemographicManager roomDemographicManager;
-   private RoomManager roomManager;
-   private BedManager bedManager;
    private ClientRestrictionManager clientRestrictionManager;
    private LookupManager lookupManager;
 
@@ -110,8 +106,11 @@ public class QuatroClientServiceRestrictionAction  extends BaseClientAction {
 		}
        try {
     	   days=(Integer) clientForm.get("serviceRestrictionLength");
-    	   cal.set(Calendar.DATE, cal.get(Calendar.DATE) + days);
-           restriction.setEndDate(cal.getTime());
+    	   String sDt=(String)clientForm.get("startDt");
+    	   restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
+    	   Calendar cal2 = restriction.getStartDate();
+    	   cal2.add(Calendar.DAY_OF_MONTH, days);
+    	   restriction.setEndDate(cal2);
            clientRestrictionManager.saveClientRestriction(restriction);
            success = true;
        }
@@ -160,11 +159,13 @@ public class QuatroClientServiceRestrictionAction  extends BaseClientAction {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
 			clientForm.set("serviceRestrictionLength", 180);
+			
 			pcrObj.setId(null);
 		} else if (!Utility.IsEmpty(rId)) 
 		{			
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
 			programId = pcrObj.getProgramId().toString(); 
+			clientForm.set("startDt", MyDateFormat.getStandardDate(pcrObj.getStartDate()));
 		}
 
 		Program program = (Program) clientForm.get("program");
@@ -203,17 +204,7 @@ public class QuatroClientServiceRestrictionAction  extends BaseClientAction {
 
    }
 
-   public void setAdmissionManager(AdmissionManager admissionManager) {
-	 this.admissionManager = admissionManager;
-   }
-
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
-   }
-
-   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-	 this.caseManagementManager = caseManagementManager;
-   }
+   
 
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
@@ -227,17 +218,6 @@ public class QuatroClientServiceRestrictionAction  extends BaseClientAction {
 	 this.providerManager = providerManager;
    }
 
-   public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
-	 this.roomDemographicManager = roomDemographicManager;
-   }
-
-   public void setRoomManager(RoomManager roomManager) {
-	 this.roomManager = roomManager;
-   }
-
-   public void setBedManager(BedManager bedManager) {
-	 this.bedManager = bedManager;
-   }
 
 public void setClientRestrictionManager(
 		ClientRestrictionManager clientRestrictionManager) {

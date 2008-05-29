@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,8 +19,8 @@ public class ProgramClientRestriction implements Serializable {
     private String providerLastName;
     private String commentId;
     private String comments;
-    private Date startDate;
-    private Date endDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private boolean enabled;
     private String earlyTerminationProvider;
     
@@ -30,7 +31,7 @@ public class ProgramClientRestriction implements Serializable {
     public ProgramClientRestriction() {
     }
 
-    public ProgramClientRestriction(Integer id, Integer programId, Integer demographicNo, String providerNo, String comments, Date startDate, Date endDate, boolean enabled, Program program, Demographic client) {
+    public ProgramClientRestriction(Integer id, Integer programId, Integer demographicNo, String providerNo, String comments, Calendar startDate, Calendar endDate, boolean enabled, Program program, Demographic client) {
         this.id = id;
         this.programId = programId;
         this.demographicNo = demographicNo;
@@ -48,7 +49,7 @@ public class ProgramClientRestriction implements Serializable {
     }
 
     public long getDaysRemaining() {
-        return (this.getEndDate().getTime() - this.getStartDate().getTime()) / 1000 / 60 / 60 / 24;
+        return (this.getEndDate().getTime().getTime() - this.getStartDate().getTime().getTime()) / 1000 / 60 / 60 / 24;
     }
 
     public void setProviderNo(String providerNo) {
@@ -79,19 +80,19 @@ public class ProgramClientRestriction implements Serializable {
         this.demographicNo = demographicNo;
     }
 
-    public Date getStartDate() {
+    public Calendar getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Calendar startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public Calendar  getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Calendar endDate) {
         this.endDate = endDate;
     }
 

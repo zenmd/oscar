@@ -6,7 +6,7 @@
 	<bean name="/PMmodule/UploadFile" class="org.oscarehr.PMmodule.web.UploadFileAction" singleton="false">
 		<property name="uploadFileManager" ref="uploadFileManager"></property>
 		<property name="lookupManager" ref="lookupManager"></property>
-		<property name="admissionManager" ref="admissionManager"></property>
+		<property name="programManager" ref="programManager"></property>
 		<property name="clientManager" ref="clientManager"></property>
 	</bean>
 	<bean name="/PMmodule/ShowFile" class="org.oscarehr.PMmodule.web.ShowFileAction" singleton="false">
@@ -141,16 +141,10 @@
         <property name="lookupManager" ref="lookupManager" />
         <property name="intakeManager" ref="intakeManager"/>   
     </bean>
-    <bean name="/PMmodule/QuatroServiceRestriction" class="org.oscarehr.PMmodule.web.QuatroClientServiceRestrictionAction" singleton="false" autowire="byName">
+    <bean name="/PMmodule/QuatroServiceRestriction" class="org.oscarehr.PMmodule.web.ServiceRestrictionAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
         <property name="providerManager" ref="providerManager" />
-        <property name="programManager" ref="programManager"/>       
-        <property name="admissionManager" ref="admissionManager" />
-        <property name="caseManagementManager" ref="caseManagementManager" />
-        <property name="bedDemographicManager" ref="bedDemographicManager" />
-        <property name="roomDemographicManager" ref="roomDemographicManager" />
-        <property name="roomManager" ref="roomManager" />
-        <property name="bedManager" ref="bedManager" />
+        <property name="programManager" ref="programManager"/>               
     </bean>
     
     <bean name="/PMmodule/ProviderInfo" class="org.oscarehr.PMmodule.web.ProviderInfoAction" singleton="false" autowire="byName" />

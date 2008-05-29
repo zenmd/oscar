@@ -1,6 +1,5 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.oscarehr.PMmodule.dao.ProviderDao"%>
 <%@page import="org.oscarehr.util.SpringUtils"%>
@@ -14,22 +13,17 @@
 		document.forms(0).method.value = methodVal;
 		document.forms(0).submit();
 	}
-</script>
-<script lang="javascript">
-    function resetClientFields() {
-        var form = document.clientManagerForm;
-        form.elements['program.name'].value='';
+	function terminateEarly(restrictionId)
+    {
+    	if (confirm('Do you wish to terminate this service restriction?'))
+    	{
+	        var form = document.serviceRestrictionForm;
+	        form.method.value='terminate_early';
+	        form.serviceRestriction.id.value=restrictionId;
+	        form.submit();
+    	}
     }
-
-   
-    function do_service_restriction() {
-        var form = document.clientManagerForm;
-        form.method.value='service_restrict';
-        form.submit();
-    }    
-    
-</script>
- 
+</script> 
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="demoNo"/>

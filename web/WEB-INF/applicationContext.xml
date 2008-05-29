@@ -281,6 +281,7 @@
         <property name="target">
             <bean class="com.quatro.service.UploadFileManager" autowire="byName" >
             	<property name="uploadFileDao" ref="uploadFileDao"></property>
+            	<property name="lookupDao" ref="lookupDao"></property>
             </bean>
             
         </property>
