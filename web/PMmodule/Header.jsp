@@ -22,7 +22,7 @@
 */
 -->
 <%@ include file="/taglibs.jsp"%>
-<table  width="100%" border="1" bordercolor="red">
+<table  width="100%" border="1" bordercolor="#696969">
 	<tr>
 		<td align="left" width="200px" rowspan="2">
 		<%if (oscar.OscarProperties.getInstance().isTorontoRFQ() && !oscar.OscarProperties.getInstance().getBooleanProperty("USE_CAISI_LOGO", "true")){%>
@@ -32,15 +32,15 @@
 	    <%}%>
         </td>
 		<th rowspan="2"> &nbsp; </th>
-		<td>Shelter:<b> <c:out value="${sessionScope.currentFacility.name}"></c:out></b></td>
+		<td valign="bottom" class="clsMenu">Shelter:<b> <font color="red"><c:out value="${sessionScope.currentFacility.name}"></c:out></font></b></td>
 		<td rowspan="2">&nbsp;</td>
         <td width="320px">
         <table width="100%">
         <tr>
-        <td class="clsMenuCell" nowrap="nowrap" >
+        <td class="clsMenuCell2" nowrap="nowrap" >
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuHome}">
-						<div><b>Home</b></div>
+						<div class="clsMenu2">Home</div>
 						</c:when>
 						<c:otherwise>
 						<div><html:link action="/Home.do" styleClass="clsMenu"
@@ -49,10 +49,10 @@
 						</c:otherwise>
 					</c:choose>
 		</td>
-        <td  class="clsMenuCell" nowrap="nowrap" >
+        <td  class="clsMenuCell2" nowrap="nowrap" >
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuTask}">
-						<div><b>My Tasks</b></div>
+						<div class="clsMenu2">My Tasks</div>
 						</c:when>
 						<c:otherwise>
 						<div><html:link action="/Tickler.do"
@@ -61,10 +61,10 @@
 						</c:otherwise>
 					</c:choose>
 		</td>
-        <td  class="clsMenuCell" nowrap="nowrap" >
+        <td  class="clsMenuCell2" nowrap="nowrap" >
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuReport}">
-						<div><b>Reports</b></div>
+						<div class="clsMenu2">Reports</div>
 						</c:when>
 						<c:otherwise>
 						<div><html:link action="QuatroReport/ReportList.do"
@@ -73,16 +73,16 @@
 						</c:otherwise>
 					</c:choose>
 		</td>
-        <td  class="clsMenuCell" nowrap="nowrap" >
+        <td  class="clsMenuCell2" nowrap="nowrap" >
                <a target="_blank" href='<%=request.getContextPath()%>/help/QuatroShelter.htm' class="clsMenu">Help</a>
         </td>
-        <td  class="clsMenuCell" nowrap="nowrap" >
+        <td  class="clsMenuCell2" nowrap="nowrap" >
                <a href='<%=request.getContextPath()%>/logout.jsp'  class="clsMenu">Logout</a>
         </td>
         </tr></table>
         </td>
 	</tr>
-	<tr><td>User: <c:out
+	<tr><td valign="bottom" class="clsMenu">User: <c:out
 			value="${sessionScope.provider.formattedName}" />
 		</td>
 		<td>
@@ -90,41 +90,41 @@
 				<tr>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuClient}">
-						<td  class="clsMenuCell" nowrap="nowrap" >
-						<div><b>Client</b></div></td>
+						<td  class="clsMenuCell2" nowrap="nowrap" >
+						<div></div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuClient}">
-						<td  class="clsMenuCell" nowrap="nowrap" ><div><html:link action="/PMmodule/ClientSearch2.do?client=true"
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/ClientSearch2.do?client=true"
 							 styleClass="clsMenu">Client</html:link>
 						</div></td>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuProg}">
-						<td  class="clsMenuCell" nowrap="nowrap" ><div><b>Program</b></div></td>
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div></div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuProg}">
-						<td  class="clsMenuCell" nowrap="nowrap" ><div><html:link action="/PMmodule/ProgramManager.do"
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/ProgramManager.do"
 							 styleClass="clsMenu">Program</html:link>
 						</div></td>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuFacility}">
-						<td class="clsMenuCell" nowrap="nowrap" ><div><b>Facility</b></div></td>
+						<td class="clsMenuCell2" nowrap="nowrap" ><div></div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuFacility}">
-						<td  class="clsMenuCell" nowrap="nowrap" ><div><html:link action="/PMmodule/FacilityManager.do?method=list"
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/FacilityManager.do?method=list"
 							 styleClass="clsMenu">Facility</html:link>
 						</div></td>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuAdmin}">
-						<td  class="clsMenuCell" nowrap="nowrap" ><div><b>Administration</b></div></td>
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div></div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuAdmin}">
-						<td  class="clsMenuCell" nowrap="nowrap" ><div><html:link action="/PMmodule/Admin/SysAdmin.do"
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/Admin/SysAdmin.do"
 							 styleClass="clsMenu">Administration</html:link>
 						</div></td>
 						</c:when>
