@@ -131,7 +131,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setIntakeId(intakeId);
        admission.setClientId(Integer.valueOf(clientId));
        admission.setAdmissionDate(Calendar.getInstance());
-       admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+       admission.setAdmissionDateTxt(MyDateFormat.getStandardDateTime(admission.getAdmissionDate()));
        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
        clientForm.setAdmission(admission);
 
@@ -264,7 +264,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(request.getParameter("admissionId")!=null){
           admissionId = Integer.valueOf(request.getParameter("admissionId"));
           admission = admissionManager.getAdmissionByAdmissionId(admissionId);
-          admission.setAdmissionDateTxt(MyDateFormat.getStandardDate(admission.getAdmissionDate()));
+          admission.setAdmissionDateTxt(MyDateFormat.getStandardDateTime(admission.getAdmissionDate()));
     	  if(admission.getOvPassStartDate()!=null) admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
     	  if(admission.getOvPassStartDate()!=null) admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
           clientForm.setAdmission(admission);
@@ -476,7 +476,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	   admission.setProviderNo(providerNo);
-       admission.setAdmissionDate(MyDateFormat.getCalendar(admission.getAdmissionDateTxt()));
+       admission.setAdmissionDate(MyDateFormat.getCalendarwithTime(admission.getAdmissionDateTxt()));
        admission.setFacilityId(facilityId);
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));

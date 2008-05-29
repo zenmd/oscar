@@ -76,8 +76,13 @@
 								<td> 
 								<c:choose>								
 								<c:when test="${discharge.admissionStatus == 'admitted'}">
-								<input type="button" value="Update"
+								  <c:choose>								
+								  <c:when test="${discharge.familyMember == false}">
+								    <input type="button" value="Discharge"
 										onclick="updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" />
+								  </c:when>
+								  <c:otherwise>Family Member</c:otherwise>
+								  </c:choose>
 								</c:when>
 								<c:otherwise>&nbsp;</c:otherwise>
 								</c:choose>

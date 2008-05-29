@@ -233,6 +233,19 @@ public class MyDateFormat {
             }
 	}
 	
+    //yyyy-mm-dd hh:mm:ss
+	public static Calendar getCalendarwithTime(String pDate){
+       SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
+       try{
+         Date date = (Date)formatter.parse(pDate); 
+         Calendar cal=Calendar.getInstance();
+         cal.setTime(date);
+         return cal;
+       }catch(Exception e){
+    	 return null;
+       }
+    }
+    
 	public static Calendar getCalendar(String pDate)
     {
         if (pDate == null || "".equals(pDate)) return null;

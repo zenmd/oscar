@@ -12,20 +12,17 @@
 		document.forms[0].submit();
 	}
 	
-	function validateProgram()
-	{
-		if(
-			(document.quatroClientDischargeForm.admission.communityProgramCode==null || 
-				document.quatroClientDischargeForm.admission.communityProgramCode=="") && 
-			(document.quatroClientDischargeForm.admission.bedProgramId==null || 
-				document.quatroClientDischargeForm.admission.bedProgramId=="")
-		    )	
-			return false;		
-		else if((document.quatroClientDischargeForm.admission.communityProgramCode!="") && 
-			(document.quatroClientDischargeForm.admission.bedProgramId!="")) 
-			return false;
-		else return true;	
+	function validateProgram(){
+	  var obj1=document.getElementsByName("admission.communityProgramCode")[0];
+	  var obj2=document.getElementsByName("admission.bedProgramId")[0];
+	  if(obj1.value=="" && obj2.value=="")
+	     return false;
+	  else if(obj1.value!="" && obj2.value!="")
+	     return false;
+	  else
+	     return  true;
 	}
+
 	function validateSave(){
 	
 		var str1=" Please select Community Program or Temporary Program before save." ;
@@ -41,6 +38,11 @@
 <html-el:form action="/PMmodule/QuatroDischarge.do">
 <html:hidden property="program.id" />
 <input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
+<input type="hidden" name="admissionId" value="<c:out value="${admissionId}"/>"/>
+<html:hidden property="admission.id" />
+<html:hidden property="admission.intakeId" />
+<html:hidden property="admission.programId" />
+<html:hidden property="admission.clientId" />
 <input type="hidden" name="method" />
 		<table width="100%" cellpadding="0px" cellspacing="0px">
 		<tr>

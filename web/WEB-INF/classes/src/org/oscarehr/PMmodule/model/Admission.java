@@ -11,6 +11,7 @@ public class Admission implements Serializable, Cloneable {
 
 	private Integer id;
 	private Integer clientId;
+	private boolean familyMember;  //for family admission discharge jsp page
 	private Integer programId;
 	private String providerNo;
 	private java.util.Calendar admissionDate;
@@ -316,6 +317,14 @@ public class Admission implements Serializable, Cloneable {
 
 	public void setAdmissionNotes(String admissionNotes) {
 		this.admissionNotes = admissionNotes;
+	}
+
+	public boolean isFamilyMember() {
+		return familyMember;
+	}
+
+	public void setFamilyMember(boolean familyMember) {
+		this.familyMember = familyMember;
 	}
 	
 }

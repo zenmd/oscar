@@ -243,8 +243,51 @@ public class AdmissionManager {
 	return admissionDao.getCurrentAdmissions(demographicNo);
   }
 
-  public void updateDischargeInfo(Admission admission){
+  public void updateDischargeInfo(Admission admission, boolean isReferral){
 	  admissionDao.updateDischargeInfo(admission);
+	  
+	  if(isReferral){
+		ClientReferral referral= clientReferralDAO.getReferralsByProgramId(admission.getClientId(), admission.getProgramId());
+		ProgramQueue queue = programQueueDao.getQueue(admission.getProgramId(), admission.getClientId());
+		if(referral==null){
+		  referral = new ClientReferral();
+		  referral.setClientId(admission.getClientId());
+		  referral.setNotes("Discharge Automated referral");
+		  referral.setProgramId(admission.getBedProgramId().intValue());
+		  referral.setProviderNo(admission.getProviderNo());
+		  referral.setReferralDate(new Date());
+		  referral.setStatus(KeyConstants.STATUS_ACTIVE);	        
+	      clientReferralDAO.saveClientReferral(referral);
+	      if(queue!=null) programQueueDao.delete(queue);
+		  queue = new ProgramQueue();
+	      queue.setClientId(referral.getClientId());
+	      queue.setNotes(referral.getNotes());
+	      queue.setProgramId(referral.getProgramId());
+		  queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+		  queue.setReferralDate(referral.getReferralDate());
+		  queue.setStatus(KeyConstants.STATUS_ACTIVE);
+	      queue.setReferralId(referral.getId());
+	      queue.setTemporaryAdmission(referral.isTemporaryAdmission());
+	      queue.setPresentProblems(referral.getPresentProblems());
+		  queue.setReferralId(referral.getId());
+		  programQueueDao.saveProgramQueue(queue);
+		}else{
+		  if(queue==null){
+		    queue = new ProgramQueue();
+            queue.setClientId(referral.getClientId());
+            queue.setNotes(referral.getNotes());
+            queue.setProgramId(referral.getProgramId());
+		    queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+		    queue.setReferralDate(referral.getReferralDate());
+		    queue.setStatus(KeyConstants.STATUS_ACTIVE);
+            queue.setReferralId(referral.getId());
+            queue.setTemporaryAdmission(referral.isTemporaryAdmission());
+            queue.setPresentProblems(referral.getPresentProblems());
+	        queue.setReferralId(referral.getId());
+	        programQueueDao.saveProgramQueue(queue);
+		  }
+		}
+	  }
   }
   
   public void saveAdmission(Admission admission,boolean isReferral){

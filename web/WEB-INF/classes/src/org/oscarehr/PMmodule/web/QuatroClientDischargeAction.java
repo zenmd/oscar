@@ -102,6 +102,13 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 	   admObj.setDischargeDate(Calendar.getInstance());
 
+	   boolean isReferral=false;
+	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId()>0) {
+		   isReferral =true;
+		   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
+	   }
+
+
 /*	   
 	   Admission admOld= (Admission) request.getAttribute("admission");
 	   String comProgram=admObj.getCommunityProgramCode();
@@ -120,8 +127,8 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 //	   admLst.add(admObj);
 	   // 
 	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
-	   if(!lstFamily.isEmpty()){
-		   admissionManager.updateDischargeInfo(admObj);
+	   if(lstFamily!=null){
+		   admissionManager.updateDischargeInfo(admObj, isReferral);
 		   Iterator item = lstFamily.iterator();
 			while(item.hasNext()){
 				QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
@@ -130,23 +137,18 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 					admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 					admLoc.setDischargeDate(Calendar.getInstance());
 				  	admLoc.setDischargeNotes(admObj.getDischargeNotes());	
-				  	admissionManager.updateDischargeInfo(admLoc);
+					admLoc.setCommunityProgramCode(admObj.getCommunityProgramCode());
+				  	admissionManager.updateDischargeInfo(admLoc, false);
 				}
 			}
 			
 	   }else{
-		   boolean isReferal=false;
-		   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId()>0) {
-			   isReferal =true;
-			   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
-		   
-		   }
-		   admissionManager.updateDischargeInfo(admObj);		  
+		   admissionManager.updateDischargeInfo(admObj, isReferral);		  
 	   }
 	   
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-       saveMessages(request,messages);	
-       return mapping.findForward("edit");
+       saveMessages(request,messages);
+       return edit(mapping, form, request, response);
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);
@@ -185,6 +187,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        Program[]  lstBed=programManager.getBedPrograms(facilityId);
        request.setAttribute("lstBedProgram",lstBed);
        request.setAttribute("admission", admsObj);
+       request.setAttribute("admissionId", admsObj.getId());
    }
 
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
@@ -203,12 +206,20 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
        List lstDischarge = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
-       //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
        request.setAttribute("quatroDischarge", lstDischarge);
+       for(int i=0;i<lstDischarge.size();i++){
+    	 Admission admission = (Admission)lstDischarge.get(i);
+	     admission.setFamilyMember(false);	 
+    	 if(admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)){
+    	   Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(admission.getIntakeId().toString());
+    	   if(intakeFamilyHeadId!=null){  //family
+    		 if(!intakeFamilyHeadId.equals(admission.getIntakeId())) admission.setFamilyMember(true);
+    	   }
+    	 }
+       }
    }
    
    public void setIntakeManager(IntakeManager intakeManager){

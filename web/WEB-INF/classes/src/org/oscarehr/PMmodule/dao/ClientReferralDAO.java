@@ -69,6 +69,21 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
+    public ClientReferral getReferralsByProgramId(Integer clientId, Integer programId) {
+
+        if (clientId == null || clientId.intValue() <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (programId == null || programId.intValue() <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        String sSQL="from ClientReferral cr where cr.clientId = ? and cr.programId =?";
+        List results = this.getHibernateTemplate().find(sSQL, new Object[] { clientId, programId});
+        if(results.size()==0) return null;
+        return (ClientReferral)results.get(0);
+    }
+    
     public List getReferralsByFacility(Integer clientId, Integer facilityId) {
 
         if (clientId == null || clientId.intValue() <= 0) {
