@@ -41,7 +41,7 @@
 	OscarProperties props = OscarProperties.getInstance();
 
 	BuildInfo buildInfo = BuildInfo.getInstance();
-	String buildDate = "2008-05-12 14:55"; //buildInfo.getBuildDate();
+	String buildDate = "2008-05-20 18:22"; //buildInfo.getBuildDate();
 
 	// clear old cookies
 	Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
@@ -140,13 +140,12 @@ if (props.getProperty("logintitle", "").equals("")) {
 			src="images/QuatroShelter-Logo.gif" width="500" height="100"></p>
 		<p align="center"><font size="4" face="Arial">City of
 		Toronto</font>
+		<p align="center"><font size="1" face="Arial">Build: 2008-05-28 09:50</font>
 		</td>
 	</tr>
 	<tr height="50">
 		<td>
 		<br>
-		<p align="center"><img border="0"
-			src="images/SMIS-Logo.gif"   height="30"></p>
 		</td>
 	</tr>
 	<tr height="140px">
@@ -159,9 +158,9 @@ if (props.getProperty("logintitle", "").equals("")) {
 		<tr>
 		<td  valign="top">
 			<table width="100%" align="center"><tr><td>
-			<table align="center" background="images/Silver-background-dark.gif" height="121" width="60%">
+			<table align="center" background="images/background-dark.gif" height="121" width="60%">
 				<tr>
-					<td width="40%"  align="right"><br><font
+					<td valign="centre" width="40%"  align="right"><br><font
 						size="3" face="Arial"> <b><bean:message
 						key="loginApplication.formUserName" /> 
 					<%
@@ -174,7 +173,7 @@ if (props.getProperty("logintitle", "").equals("")) {
  					}
  					%>
 					</b></font></td>
-					<td ><font size="3"
+					<td><font size="3"
 						face="Arial"><b><input type="text" name="username"
 						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
@@ -200,7 +199,8 @@ if (props.getProperty("logintitle", "").equals("")) {
 	</tr>
 	<tr>
 		<td  height="41" align="center"><img border="0"
-			src="images/QuatroGroup-Logo.gif" width="174" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			src="images/QuatroGroup-Logo.gif" width="174" height="25">&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/SMIS-Logo.gif"  height="26">&nbsp;&nbsp;&nbsp;&nbsp;
 		<img border="0" src="images/Caisi-Logo.gif" width="160" height="36">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<img border="0" src="images/OSCAR-LOGO.gif" width="70" height="40"></td>
 	</tr>

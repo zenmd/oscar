@@ -558,7 +558,9 @@
             <forward name="edit" path="/caisicore/CaisiRoleForm.jsp" />
         </action>
  -->        
+<!-- 
         <action path="/infirm" type="org.caisi.core.web.InfirmAction" name="inputForm" scope="request" parameter="action"></action>
+ -->
        	<action path="/CaisiEditor" type="org.springframework.web.struts.DelegatingActionProxy" name="caisiEditorForm" scope="request" parameter="method" validate="false">
             <forward name="list" path="/caisicore/CaisiEditorList.jsp" />
             <forward name="edit" path="/caisicore/CaisiEditorForm.jsp" />
