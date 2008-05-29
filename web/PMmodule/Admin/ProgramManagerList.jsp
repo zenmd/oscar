@@ -49,37 +49,37 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 
 		<html:form action="/PMmodule/ProgramManager.do">
 			<html:hidden property="method" />
-			<div class="axial">
-			<table border="0" cellspacing="2" cellpadding="3">
+			<div class="app">
+			<table cellspacing="1" cellpadding="4" width="100%" bgcolor="#E8E8E8">
 				<tr>
-					<th>Status:</th>
-					<td><html:select property="searchStatus">
+					<th align="left">Status:</th>
+					<th align="left" ><html:select property="searchStatus">
 						<html:option value="Any" />
 						<html:option value="active" />
 						<html:option value="inactive" />
-					</html:select></td>
+					</html:select></th>
 				</tr>
 				<tr>
-					<th>Type:</th>
-					<td><html-el:select property="searchType">
+					<th align="left">Type:</th>
+					<th align="left"><html-el:select property="searchType">
 						<html:option value="Any" />
 						<c:forEach var="pt" items="${programTypeLst}">
 							<html-el:option value="${pt.code}">
 								<c:out value="${pt.description}" />
 							</html-el:option>
 						</c:forEach>
-					</html-el:select></td>
+					</html-el:select></th>
 				</tr>
 				<tr>
-					<th>Facility:</th>
-					<td><html-el:select property="searchFacilityId">
+					<th align="left">Facility:</th>
+					<th align="left"><html-el:select property="searchFacilityId">
 						<html-el:option value="0">Any</html-el:option>
 						<c:forEach var="facility" items="${facilities}">
 							<html-el:option value="${facility.id}">
 								<c:out value="${facility.name}" />
 							</html-el:option>
 						</c:forEach>
-					</html-el:select></td>
+					</html-el:select></th>
 				</tr>
 
 			</table>
