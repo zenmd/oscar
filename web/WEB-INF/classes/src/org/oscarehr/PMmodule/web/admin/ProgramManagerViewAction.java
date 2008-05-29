@@ -341,16 +341,112 @@ public class ProgramManagerViewAction extends DispatchAction {
     }
 
 // TODO:     
+    private void processClients( HttpServletRequest request, Program program, ProgramManagerViewFormBean formBean){
+//    	Integer programId = program.getId();
+//    	Integer facilityId = program.getFacilityId();
+    	
+    	String mthd = request.getParameter("mthd");
+    	ClientForm clientForm = formBean.getClientForm();
+    	
+    	List lst = admissionManager.getClientsListByProgram(program, clientForm);
+    	
+    	
+    	
+    	List clientsLst = new ArrayList();
+    	Iterator it = lst.iterator();
+    	while(it.hasNext()){
+    		Object[] objLst = (Object[])it.next();
+    		ProgramClientInfo pClient = new ProgramClientInfo();
+    		if(objLst[0]!=null){
+    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
+    		    pClient.setAdmissionDate(admissionDate);
+    		}
+    		if(objLst[1]!=null)
+    			pClient.setAdmissionNote(objLst[1].toString());
+    		if(objLst[2]!=null && objLst[3]!=null){
+	    		Calendar now = Calendar.getInstance();
+	    		Calendar start = (Calendar)objLst[2];
+	    		Calendar end = (Calendar)objLst[3];
+	    		if(start.before(now) && end.after(now)){
+	    			pClient.setIsDischargeable("0");
+	    		}else{
+	    			pClient.setIsDischargeable("1");
+	    		}
+    		}else{
+    			pClient.setIsDischargeable("1");
+    		}
+    		pClient.setAdmissionId((Integer)objLst[4]);
+    		pClient.setFirstName((String)objLst[5]);
+    		pClient.setLastName((String)objLst[6]);
+    		
+		
+    		pClient.setRoom((String)objLst[8]);
+            pClient.setBed((String)objLst[9]);
+    		
+    		clientsLst.add(pClient);
+    	}
+    	request.setAttribute("clientsLst", clientsLst);
+    	
+    	
+// 		if(mthd != null && mthd.equals("search")){
+//			//do search
+// 			String rm = clientForm.getRoom();
+// 			String bd = clientForm.getBed();
+// 			
+// 			if( rm.length() > 0 || bd.length() > 0){
+// 					
+//				ArrayList tmpLst = new ArrayList();
+//				for(int i = 0; i < clientsLst.size(); i++){
+//					ProgramClientInfo pClient = (ProgramClientInfo)clientsLst.get(i);
+//					
+//					String rm2 = pClient.getRoom();
+//					String bd2 = pClient.getBed();
+//					boolean flag1 = false;
+//					boolean flag2 = false;
+//					
+//					if(rm.length() > 0 && rm2 != null && rm2.toLowerCase().contains(rm.toLowerCase()) || rm.length() == 0){
+//						flag1 = true;
+//					}
+//					if(bd.length() > 0 && bd2 != null && bd2.toLowerCase().contains(bd.toLowerCase()) || bd.length() == 0){
+//						flag2 = true;
+//					}
+//					
+//					if(flag1 && flag2 ){
+//						tmpLst.add(pClient);
+//					}
+//				}
+//		    	
+//	 			request.setAttribute("clientsLst", tmpLst);
+// 			}
+//		}else{
+//			//list all
+//			clientForm = new ClientForm();
+//			formBean.setClientForm(clientForm);
+//			
+//		}
+ 		if(mthd == null || mthd.equals("")){
+ 			clientForm = new ClientForm();
+			formBean.setClientForm(clientForm);
+ 		}
+    	
+           	
+        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
+        request.setAttribute("lstDischargeReason", lstDischargeReason);
+        
+        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
+        request.setAttribute("lstCommProgram", lstCommProgram);
+        
+    }
+    
 //    private void processClients( HttpServletRequest request, Program program, ProgramManagerViewFormBean formBean){
 //    	Integer programId = program.getId();
 //    	Integer facilityId = program.getFacilityId();
 //    	
 //    	String mthd = request.getParameter("mthd");
 //    	ClientForm clientForm = formBean.getClientForm();
-//    	//List lst = admissionManager.getClientsListByProgram(programId, clientForm);
-//    	List lst = admissionManager.getClientsListByProgram(program, clientForm);
-//    	
-//    	
+//    	List lst = admissionManager.getClientsListByProgram(programId, clientForm);
+//    	   	
 //    	
 //    	List clientsLst = new ArrayList();
 //    	Iterator it = lst.iterator();
@@ -380,9 +476,14 @@ public class ProgramManagerViewAction extends DispatchAction {
 //    		pClient.setFirstName((String)objLst[5]);
 //    		pClient.setLastName((String)objLst[6]);
 //    		
-//		
-//    		pClient.setRoom((String)objLst[8]);
-//            pClient.setBed((String)objLst[9]);
+//    		Integer demographicNo = (Integer)objLst[7];
+//    		BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo, facilityId);
+//            //RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(demographicNo, facilityId);
+//    		if(bedDemographic != null){
+//	            pClient.setRoom(bedDemographic.getRoomName());
+//	            pClient.setBed(bedDemographic.getBedName());
+//    		}
+//    		
 //    		
 //    		clientsLst.add(pClient);
 //    	}
@@ -434,103 +535,6 @@ public class ProgramManagerViewAction extends DispatchAction {
 //        request.setAttribute("lstCommProgram", lstCommProgram);
 //        
 //    }
-//    
-    private void processClients( HttpServletRequest request, Program program, ProgramManagerViewFormBean formBean){
-    	Integer programId = program.getId();
-    	Integer facilityId = program.getFacilityId();
-    	
-    	String mthd = request.getParameter("mthd");
-    	ClientForm clientForm = formBean.getClientForm();
-    	List lst = admissionManager.getClientsListByProgram(programId, clientForm);
-    	   	
-    	
-    	List clientsLst = new ArrayList();
-    	Iterator it = lst.iterator();
-    	while(it.hasNext()){
-    		Object[] objLst = (Object[])it.next();
-    		ProgramClientInfo pClient = new ProgramClientInfo();
-    		if(objLst[0]!=null){
-    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
-    		    pClient.setAdmissionDate(admissionDate);
-    		}
-    		if(objLst[1]!=null)
-    			pClient.setAdmissionNote(objLst[1].toString());
-    		if(objLst[2]!=null && objLst[3]!=null){
-	    		Calendar now = Calendar.getInstance();
-	    		Calendar start = (Calendar)objLst[2];
-	    		Calendar end = (Calendar)objLst[3];
-	    		if(start.before(now) && end.after(now)){
-	    			pClient.setIsDischargeable("0");
-	    		}else{
-	    			pClient.setIsDischargeable("1");
-	    		}
-    		}else{
-    			pClient.setIsDischargeable("1");
-    		}
-    		pClient.setAdmissionId((Integer)objLst[4]);
-    		pClient.setFirstName((String)objLst[5]);
-    		pClient.setLastName((String)objLst[6]);
-    		
-    		Integer demographicNo = (Integer)objLst[7];
-    		BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo, facilityId);
-            //RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(demographicNo, facilityId);
-    		if(bedDemographic != null){
-	            pClient.setRoom(bedDemographic.getRoomName());
-	            pClient.setBed(bedDemographic.getBedName());
-    		}
-    		
-    		
-    		clientsLst.add(pClient);
-    	}
-    	request.setAttribute("clientsLst", clientsLst);
-    	
-    	
- 		if(mthd != null && mthd.equals("search")){
-			//do search
- 			String rm = clientForm.getRoom();
- 			String bd = clientForm.getBed();
- 			
- 			if( rm.length() > 0 || bd.length() > 0){
- 					
-				ArrayList tmpLst = new ArrayList();
-				for(int i = 0; i < clientsLst.size(); i++){
-					ProgramClientInfo pClient = (ProgramClientInfo)clientsLst.get(i);
-					
-					String rm2 = pClient.getRoom();
-					String bd2 = pClient.getBed();
-					boolean flag1 = false;
-					boolean flag2 = false;
-					
-					if(rm.length() > 0 && rm2 != null && rm2.toLowerCase().contains(rm.toLowerCase()) || rm.length() == 0){
-						flag1 = true;
-					}
-					if(bd.length() > 0 && bd2 != null && bd2.toLowerCase().contains(bd.toLowerCase()) || bd.length() == 0){
-						flag2 = true;
-					}
-					
-					if(flag1 && flag2 ){
-						tmpLst.add(pClient);
-					}
-				}
-		    	
-	 			request.setAttribute("clientsLst", tmpLst);
- 			}
-		}else{
-			//list all
-			clientForm = new ClientForm();
-			formBean.setClientForm(clientForm);
-			
-		}
-    	
-           	
-        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
-        request.setAttribute("lstDischargeReason", lstDischargeReason);
-        
-        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
-        request.setAttribute("lstCommProgram", lstCommProgram);
-        
-    }
     
     private void processStaff( HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
     	
@@ -639,19 +643,24 @@ public class ProgramManagerViewAction extends DispatchAction {
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
        
-        request.setAttribute("existStaffLst", getStaffList( request, form, ADD));
-        
-        //ProgramManagerViewFormBean programManagerViewForm = (ProgramManagerViewFormBean)form;
-        
+                
         if (isCancelled(request)) {
 			return view(mapping, form, request, response);
 		}
       
 		
 		changeLstTable(ADD, form, request);
-        
-        
-
+		
+		request.setAttribute("existStaffLst", getStaffList( request, form, ADD));
+		// get existing Staff List
+		ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
+		String orgcd = "P" + programId;
+		StaffForm staffForm = null;
+    	staffForm = formBean.getStaffForm();
+		staffForm.setOrgcd(orgcd);
+		List lst = programManager.searchStaff(staffForm);
+		request.setAttribute("existStaffLst", lst);
+		
         return mapping.findForward("view");
     }
     
@@ -667,11 +676,18 @@ public class ProgramManagerViewAction extends DispatchAction {
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
         
-        request.setAttribute("existStaffLst", getStaffList( request, form, ADD));
+        //request.setAttribute("existStaffLst", getStaffList( request, form, ADD));
         
         changeLstTable(REMOVE, form, request);
 
-       
+        // get existing Staff List
+		ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
+		String orgcd = "P" + programId;
+		StaffForm staffForm = null;
+    	staffForm = formBean.getStaffForm();
+		staffForm.setOrgcd(orgcd);
+		List lst = programManager.searchStaff(staffForm);
+		request.setAttribute("existStaffLst", lst);
 
         return mapping.findForward("view");
     }
@@ -711,9 +727,16 @@ public class ProgramManagerViewAction extends DispatchAction {
 				
 			}
         }   
-        request.setAttribute("existStaffLst", existStaffLst);
+        
         request.setAttribute("newStaffLst", getRowList(request, form, ADD));
-       
+//      get existing Staff List
+		ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
+		String orgcd = "P" + programId;
+		StaffForm staffForm = null;
+    	staffForm = formBean.getStaffForm();
+		staffForm.setOrgcd(orgcd);
+		List lst = programManager.searchStaff(staffForm);
+		request.setAttribute("existStaffLst", lst);
 
         return mapping.findForward("view");
         
@@ -819,7 +842,7 @@ public class ProgramManagerViewAction extends DispatchAction {
 		if (arr_lineno != null)
 			lineno = arr_lineno.length;
 		
-		for (int i = 0; i < lineno; i++) {
+		for (int i = 1; i <= lineno; i++) {
 			
 			String[] isChecked = (String[]) map.get("p2" + i);
 			if ((operationType == REMOVE && isChecked == null) || operationType != REMOVE) {

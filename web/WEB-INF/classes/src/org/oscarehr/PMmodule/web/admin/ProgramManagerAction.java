@@ -97,22 +97,11 @@ public class ProgramManagerAction extends DispatchAction {
         String searchFacilityId = (String) programForm.get("searchFacilityId");
 
         String providerNo = (String)request.getSession().getAttribute("user");
-        String userrole = (String)request.getSession().getAttribute("userrole");
         
         List<Program> list =  null;
         if("".equals(searchStatus)) {
-        	//what is 'any' used for? Temporarily commented them out.
-        	//when click 'program list' on PMM, it will not display community programs, only display bed and service programs.
-        	//searchStatus = "Any";
-        	//searchType = "Any";
-        	//searchFacilityId = "0";
-        	
-        	if(userrole.indexOf("admin")!=-1) {
-        		list = programManager.getAllPrograms();
-        	} else {
-        		Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-        		list = programManager.getProgramByProvider(providerNo, facilityId);
-        	}
+       		Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       		list = programManager.getProgramByProvider(providerNo, facilityId);
         }
         else
         {

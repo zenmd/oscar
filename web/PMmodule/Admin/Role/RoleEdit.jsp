@@ -94,11 +94,20 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 					<tr>
 						<td colspan="2">&nbsp;</td>
 					</tr>
+				
+					<tr>
+						<td>Role Name:</td>
+						<td><html:text property="roleName" size="50" readonly="true"
+								style="border: none"/></td>
+					</tr>
 				</logic:present>
-				<tr>
-					<td>Role Name:</td>
-					<td><html:text property="roleName" size="50" /></td>
-				</tr>
+				<logic:notPresent name="secroleForEdit">
+					<tr>
+						<td>Role Name:</td>
+						<td><html:text property="roleName" size="50" /></td>
+					</tr>
+				</logic:notPresent>
+				
 				<tr>
 					<td colspan="2">&nbsp;</td>
 				</tr>

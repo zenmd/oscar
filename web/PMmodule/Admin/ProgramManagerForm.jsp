@@ -96,7 +96,7 @@
 						<%
 							if (selectedTab == null || selectedTab.trim().equals("")) {
 						%>
-						<security:oscarSec roleName="<%=roleName$%>"
+						<security:oscarSec 
 							objectName="_pmm_editProgram.general" rights="r">
 							<jsp:include page="/PMmodule/Admin/ProgramEdit/general.jsp" />
 						</security:oscarSec>

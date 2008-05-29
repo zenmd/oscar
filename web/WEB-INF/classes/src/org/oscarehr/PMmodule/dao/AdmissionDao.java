@@ -109,13 +109,48 @@ public class AdmissionDao extends HibernateDaoSupport {
         return lst;
     }
     
-    public List getClientsListByProgram(Integer programId, ClientForm form){
+//    public List getClientsListByProgram(Integer programId, ClientForm form){
+//    	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
+//    		+ " c.FirstName, c.LastName, a.clientId" 
+//    		+ " FROM Admission a, Demographic c" 
+//    		+ " WHERE a.programId=?"
+//    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+//    		+ " AND a.clientId = c.DemographicNo";
+//    	
+//    	if(form != null){
+//	    	String fname = form.getFirstName();
+//	    	if(fname != null && fname.length()>0){
+//	    		fname = StringEscapeUtils.escapeSql(fname);
+//				fname = fname.toLowerCase();
+//	    		queryStr = queryStr + " AND lower(c.FirstName) like '%" + fname + "%'";
+//	    	}
+//	    	String lname = form.getLastName();
+//	    	if(lname != null && lname.length()>0){
+//	    		lname = StringEscapeUtils.escapeSql(lname);
+//	    		lname = lname.toLowerCase();
+//	    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
+//	    	}
+//    	}
+//        List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
+//        
+//        return lst;
+//    }
+    
+    public List getClientsListByProgram(Program program, ClientForm form){
+    	Integer programId = program.getId();
+    	Integer facilityId = program.getFacilityId();
+    	
     	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
-    		+ " c.FirstName, c.LastName, a.clientId" 
-    		+ " FROM Admission a, Demographic c" 
+    		+ " c.FirstName, c.LastName, a.clientId, rm.name, b.name" 
+    		+ " FROM Admission a, Demographic c, BedDemographic bd, Room rm, Bed b" 
     		+ " WHERE a.programId=?"
     		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
-    		+ " AND a.clientId = c.DemographicNo";
+    		+ " AND a.clientId = c.DemographicNo"
+    		+ " AND bd.id.demographicNo = a.clientId"
+    		+ " AND bd.id.bedId = b.id"
+    		+ " AND rm.facilityId = '" + facilityId + "'"
+    		+ " AND b.roomId = rm.id";
+    	
     	
     	if(form != null){
 	    	String fname = form.getFirstName();
@@ -130,41 +165,17 @@ public class AdmissionDao extends HibernateDaoSupport {
 	    		lname = lname.toLowerCase();
 	    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
 	    	}
-    	}
-        List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
-        
-        return lst;
-    }
-    
-    public List getClientsListByProgram2(Program program, ClientForm form){
-    	Integer programId = program.getId();
-    	Integer facilityId = program.getFacilityId();
-    	
-    	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
-    		+ " c.FirstName, c.LastName, a.clientId, rm.name, b.name" 
-    		+ " FROM Admission a, Demographic c, BedDemographic bd, Room rm, Bed b" 
-    		+ " WHERE a.programId=?"
-    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
-    		+ " AND a.clientId = c.DemographicNo"
-    		+ " AND "
-    		+ " AND bd.id.demographicNo = a.clientId"
-    		+ " AND bd.id.bedId = b.id"
-    		+ " AND rm.facilityId = '" + facilityId + "'"
-    		+ " AND b.roomId = rm.id";
-    	
-    	
-    	if(form != null){
-	    	String fname = form.getFirstName();
-	    	if(fname.length()>0){
-	    		fname = StringEscapeUtils.escapeSql(fname);
-				fname = fname.toLowerCase();
-	    		queryStr = queryStr + " AND lower(c.FirstName) like '%" + fname + "%'";
+	    	String bed = form.getBed();
+	    	if(bed != null && bed.length()>0){
+	    		bed = StringEscapeUtils.escapeSql(bed);
+	    		bed = bed.toLowerCase();
+	    		queryStr = queryStr + " AND lower(b.name) like '%" + bed + "%'";
 	    	}
-	    	String lname = form.getLastName();
-	    	if(lname.length()>0){
-	    		lname = StringEscapeUtils.escapeSql(lname);
-	    		lname = lname.toLowerCase();
-	    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
+	    	String room = form.getRoom();
+	    	if(room != null && room.length()>0){
+	    		room = StringEscapeUtils.escapeSql(room);
+	    		room = room.toLowerCase();
+	    		queryStr = queryStr + " AND lower(rm.name) like '%" + room + "%'";
 	    	}
     	}
         List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});

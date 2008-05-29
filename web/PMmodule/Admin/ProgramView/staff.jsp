@@ -118,63 +118,34 @@
 				</tr>
 			</table>
 			</div> 
-			  <table align="center" class="simple" width="100%">
-				<thead>
-					<tr>
-						<th align="center"><b>Select</b></th>
-						<th align="center"><b>Name</b></th>
-						<th align="center"><b>Role</b></th>
-					</tr>
-				</thead>
-				
-				<logic:iterate id="pp" name="existStaffLst" indexId="rIndex">
-					<tr>
-						<td align="center" width="50px"><input type="checkbox"
-							name="p2<%=String.valueOf(rIndex)%>" value='<c:out value="${pp.id}"/>' /> 
-							<input type="hidden" name="lineno2" value="<%=String.valueOf(rIndex)%>" />
-							<input type="hidden" name="id<%=String.valueOf(rIndex)%>" value='<c:out value="${pp.id}"/>' />
-						</td>
-				
-						<td width="350px">
-							<table cellpadding="0" style="border:0px;" cellspacing="0"
-								width="100%">
-								<tr>
-									<td style="border:0px;" width="100px">
-										<input style="width:100px; border: none" type="text"
-										name="providerNo2<%=String.valueOf(rIndex)%>"
-										value='<c:out value="${pp.providerNo}"/>' readonly></td>
-									<td style="border:0px;" width="100%">
-										<input id="ORGfld<%=String.valueOf(rIndex)%>" 
-										style="width:100%; border: none" type="text"  
-										name="providerName2<%=String.valueOf(rIndex)%>"
-										value='<c:out value="${pp.providerName}"/>'
-										readonly></td>
-									<td style="border:0px;" width="35px"></td>
-								</tr>
-							</table>
-						</td>
-						<td width="250px">
-							<table cellpadding="0" style="border:0px;" cellspacing="0"
-								width="100%">
-								<tr>
-									<td style="border:0px;" width="1px"><input type="text"
-										style="width:1px; border: none"
-										name="role_code2<%=String.valueOf(rIndex)%>"
-										value='<c:out value="${pp.roleName}"/>' readonly></td>
-									<td style="border:0px;" width="100%"><input
-										style="width:100%; border: none" type="text" 
-										name="role_description2<%=String.valueOf(rIndex)%>"
-										value='<c:out value="${pp.roleName_desc}"/>'
-										readonly></td>
-									<td style="border:0px;" width="35px"></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</logic:iterate>
-			</table>
 			
-			 
+			
+			
+			
+			<display:table class="simple" cellspacing="2" cellpadding="3"
+				id="pp" name="existStaffLst" export="false" pagesize="0"
+				requestURI="/PMmodule/ProgramManagerView.do" >
+				
+				<display:setProperty name="paging.banner.placement" value="bottom" />
+				<display:setProperty name="basic.msg.empty_list"
+					value="No staff currently in place for this program." />
+			
+	
+				<display:column title="Select" >
+					<input type="checkbox" name="p2<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' /> 
+					<input type="hidden" name="lineno2" value="<%=pageContext.getAttribute("pp_rowNum")%>" />
+					<input type="hidden" name="id<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' />
+				</display:column>			
+				
+				<display:column sortable="true" title="ProviderNo" property="providerNo"/>
+				
+				<display:column sortable="true" title="Name" property="providerName"/>
+				
+				<display:column sortable="true" title="Role" property="roleName_desc"/>
+				
+				
+			
+			</display:table>
 			
 			<logic:empty name="existStaffLst">
 				No record to display.<br />
@@ -184,7 +155,9 @@
 					<tr>
 						<td class="clsButtonBarText" >&nbsp;&nbsp;<a href="javascript:submitForm('addStaff');">Add</a>
 						</td>
-						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a href="javascript:submitForm('removeExistStaff');">Remove</a>
+						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a 
+
+href="javascript:submitForm('removeExistStaff');">Remove</a>
 						</td>
 					</tr>
 				</table>
@@ -231,8 +204,12 @@
 											value='<c:out value="${pp.providerName}"/>'
 											readonly></td>
 										<td style="border:0px;" width="35px">
-											<a	onclick="showLookup('USR', '', '', 'programManagerViewForm','providerNo<%=String.valueOf(rIndex)%>','providerName<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-											src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
+											<a	onclick="showLookup('USR', '', '', 
+
+'programManagerViewForm','providerNo<%=String.valueOf(rIndex)%>','providerName<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+											src="<c:out 
+
+value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 									</tr>
 								</table>
 							</td>
@@ -250,8 +227,12 @@
 											value='<c:out value="${pp.roleName_desc}"/>'
 											readonly></td>
 										<td style="border:0px;" width="35px"><a  
-											onclick="showLookup('ROL', '', '', 'programManagerViewForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
-											src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
+											onclick="showLookup('ROL', '', '', 
+
+'programManagerViewForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+											src="<c:out 
+
+value="${ctx}"/>/images/microsoftsearch.gif"></a></td>
 									</tr>
 								</table>
 							</td>
