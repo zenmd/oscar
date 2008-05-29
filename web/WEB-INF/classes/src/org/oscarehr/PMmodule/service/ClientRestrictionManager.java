@@ -41,7 +41,7 @@ public class ClientRestrictionManager {
 
     private ProgramClientRestrictionDAO programClientRestrictionDAO;
 
-    public List<ProgramClientRestriction> getActiveRestrictionsForProgram(int programId, Date asOfDate) {
+    public List<ProgramClientRestriction> getActiveRestrictionsForProgram(Integer programId, Date asOfDate) {
         // check dao for restriction
         Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findForProgram(programId);
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
@@ -65,7 +65,7 @@ public class ClientRestrictionManager {
         return returnPcrs;
     }
 
-    public List<ProgramClientRestriction> getActiveRestrictionsForClient(int demographicNo, Date asOfDate) {
+    public List<ProgramClientRestriction> getActiveRestrictionsForClient(Integer demographicNo, Date asOfDate) {
         // check dao for restriction
         Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findForClient(demographicNo);
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
@@ -77,7 +77,7 @@ public class ClientRestrictionManager {
         return returnPcrs;
     }
 
-    public List getAllRestrictionsForClient(int demographicNo,List ppList) {
+    public List getAllRestrictionsForClient(Integer demographicNo,List ppList) {
     	 ArrayList resLst = new ArrayList();
          List results=programClientRestrictionDAO.findAllForClient(demographicNo);
     	 Iterator items = results.iterator();
@@ -93,7 +93,7 @@ public class ClientRestrictionManager {
         return  resLst;       
     }
 
-    public List<ProgramClientRestriction> getActiveRestrictionsForClient(int demographicNo, int facilityId, Date asOfDate) {
+    public List<ProgramClientRestriction> getActiveRestrictionsForClient(Integer demographicNo, Integer facilityId, Date asOfDate) {
         // check dao for restriction
         Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findForClient(demographicNo, facilityId);
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
@@ -105,7 +105,7 @@ public class ClientRestrictionManager {
         return returnPcrs;
     }
 
-    public List<ProgramClientRestriction> getDisabledRestrictionsForClient(int demographicNo, Date asOfDate) {
+    public List<ProgramClientRestriction> getDisabledRestrictionsForClient(Integer demographicNo, Date asOfDate) {
         // check dao for restriction
         Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findDisabledForClient(demographicNo);
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
@@ -117,7 +117,7 @@ public class ClientRestrictionManager {
         return returnPcrs;
     }
 
-    public ProgramClientRestriction checkClientRestriction(int programId, int demographicNo, Date asOfDate) {
+    public ProgramClientRestriction checkClientRestriction(Integer programId, Integer demographicNo, Date asOfDate) {
         // check dao for restriction
         Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.find(programId, demographicNo);
         if (pcrs != null && !pcrs.isEmpty()) {
@@ -137,7 +137,7 @@ public class ClientRestrictionManager {
         programClientRestrictionDAO.save(restriction);
     }
 
-    public void terminateEarly(int programClientRestrictionId, String providerNo) {
+    public void terminateEarly(Integer programClientRestrictionId, String providerNo) {
         ProgramClientRestriction x = programClientRestrictionDAO.find(programClientRestrictionId);
 
         if (x != null) {
@@ -147,7 +147,7 @@ public class ClientRestrictionManager {
         }
     }
 
-    public void disableClientRestriction(int restrictionId) {
+    public void disableClientRestriction(Integer restrictionId) {
         ProgramClientRestriction pcr = programClientRestrictionDAO.find(restrictionId);
         pcr.setEnabled(false);
         try {
@@ -170,7 +170,11 @@ public class ClientRestrictionManager {
             throw new RuntimeException(e);
         }
     }
-
+    
+    public ProgramClientRestriction find(Integer restrictionId){
+    	return programClientRestrictionDAO.find(restrictionId);
+    }
+    
     public ProgramClientRestrictionDAO getProgramClientRestrictionDAO() {
         return programClientRestrictionDAO;
     }

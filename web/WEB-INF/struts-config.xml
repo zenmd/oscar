@@ -245,7 +245,7 @@
             <form-property name="interview" type="org.oscarehr.PMmodule.model.ConsentInterview" />
         </form-bean>
         <form-bean name="consentDetailForm" type="org.apache.struts.validator.DynaValidatorForm">
-        	<form-property name="consent" type="org.oscarehr.PMmodule.model.ConsentDetail"></form-property>
+        	<form-property name="consentValue" type="org.oscarehr.PMmodule.model.ConsentDetail"></form-property>
         	<form-property name="clientId" type="java.lang.Integer"></form-property>
         </form-bean>
         <form-bean name="programManagerViewForm" type="org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean" />
@@ -374,8 +374,7 @@
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="serviceRestriction"  type="org.oscarehr.PMmodule.model.ProgramClientRestriction"></form-property>
-            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>
-            <form-property name="clientId" type="java.lang.String"></form-property>
+            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>                       
         </form-bean>
         
         <form-bean name="quatroClientComplaintForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm" />
@@ -1733,7 +1732,7 @@
         </action>
         <action path="/PMmodule/QuatroServiceRestriction" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientServiceRestrictionForm" scope="request">
             <forward name="list" path="page.quatro.pmm.servicerestriction.list" />
-            <forward name="edit" path="page.quatro.pmm.servicerestriction" />
+            <forward name="detail" path="page.quatro.pmm.servicerestriction" />
             <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
             <forward name="consent" path="page.pmm.erconsent" />
             <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />

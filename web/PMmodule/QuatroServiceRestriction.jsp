@@ -11,12 +11,12 @@
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
 		function resetClientFields() {
-		var form = document.quatroClientReferForm;
+		var form = document.quatroClientServiceRestrictionForm;
 		form.elements['program.name'].value='';
 	}
 
 	 function popupProgramSearch(clientId) {
-        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do?formName=quatroClientReferForm&formElementId=selectedProgramId&clientId=" />'+clientId;       
+        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do?formName=quatroClientServiceRestrictionForm&formElementId=selectedProgramId&clientId=" />'+clientId;       
         var windowprops = "height=600,width=800,location=no,"
                 + "scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=0,statusbar=yes";
         // alert("page name" +page);
@@ -34,19 +34,14 @@
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
-    function do_service_restriction() {
-        var form = document.clientManagerForm;
-        form.method.value='service_restrict';
-        form.submit();
-    }
-    
+       
     function terminateEarly(restrictionId)
     {
     	if (confirm('Do you wish to terminate this service restriction?'))
     	{
-	        var form = document.clientManagerForm;
+	        var form = document.quatroClientServiceRestrictionForm;
 	        form.method.value='terminate_early';
-	        form.restrictionId.value=restrictionId;
+	        form.serviceRestriction.id.value=restrictionId;
 	        form.submit();
     	}
     }
@@ -55,8 +50,8 @@
  
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="clientId"/>
-<html:hidden property="serviceRestriction.clientId" />
+<input type="hidden" name="demoNo"/>
+<html:hidden property="serviceRestriction.demographicNo" />
 <html:hidden property="serviceRestriction.commentId" />
 <html:hidden property="serviceRestriction.programId" />
 <input type="hidden" name="selectedProgramId"/>
@@ -69,13 +64,13 @@
 		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
-		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientServiceRestrictionForm" property="clientId" />');" style="color:Navy;text-decoration:none;">
+		<td align="left" class="buttonBar2">
+		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientServiceRestrictionForm" property="serviceRestriction.demographicNo" />');" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;|</a>
 		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=save"	style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Service Restriction&nbsp;&nbsp;|
+			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|
 		</html:link>
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
@@ -99,29 +94,35 @@
 			
 			<tr><td>
 			
-			<table wdith="100%" class="simple">
-			  <tr><th style="color:black">Program Name</th>
-			  <th style="color:black">Type</th>
-			  <th style="color:black">Participation</th>
-			  <th style="color:black">Phone</th>
-			  <th style="color:black">Email</th></tr>
-			  <tr><td><c:out value="${program.name }" /></td>
-			  <td><c:out value="${program.type }" /></td>
-			  <td><c:out value="${program.phone }" /></td>
-			  <td><c:out value="${program.email }" /></td></tr>
-			</table>
-			<table wdith="100%" class="simple">
-			   <tr><td width="20%">Reason for service restriction:</td>
-			    <td><html:select property="serviceRestriction.commentId">
+			 <table class="simple" cellspacing="2" cellpadding="3">
+				<tr><th style="color:black">Program Name</th>
+				<th style="color:black">Type</th>
+				<th style="color:black">Participation</th>
+				<th style="color:black">Phone</th>
+				<th style="color:black">Email</th>	
+				</tr>
+				<tr><td><c:out value="${program.name }" /></td>
+				<td><c:out value="${program.type }" /></td>
+				<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" /> (<c:out value="${program.queueSize}" /> waiting)</td>
+				<td><c:out value="${program.phone }" /></td>
+				<td><c:out value="${program.email }" /></td>
+				
+				</tr>		
+			 </table>
+			 </td></tr>
+			 <tr><td>
+			<table wdith="100%" class="edit">
+			   <tr><td width="35%">Reason for service restriction</td>
+			    <td width="65%"><html:select property="serviceRestriction.commentId">
 				   <c:forEach var="restriction" items="${serviceRestrictionList}">
 					 <html-el:option value="${restriction.code}"><c:out value="${restriction.description}"/></html-el:option>
 				   </c:forEach>
 				   </html:select>
 			     </td>
 			    </tr>
-			    <tr><td>Start Date</td>
+			    <tr><td width="35%">Start Date</td>
 			    <td><quatro:datePickerTag property="serviceRestriction.startDate" width="120px" openerForm="quatroClientServiceRestrictionForm"></quatro:datePickerTag></td></tr> 
-			     <tr><td>Length of restriction (in days)</td>
+			     <tr><td width="35%">Length of restriction (in days)</td>
 			        <td><html:text size="4" property="serviceRestrictionLength" /></td></tr>
              </table>
 <!--  end of page content -->

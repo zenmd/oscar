@@ -88,17 +88,17 @@ public class ConsentDetail implements Serializable {
 	/**
 	 * Constructor for primary key
 	 */
-	public ConsentDetail(Integer _id) {
+	public ConsentDetail(Integer id) {
 
-		this.id = _id;
+		this.id = id;
 	}
 
 	/**
 	 * Constructor for required fields
 	 */
-	public ConsentDetail(Integer _id, Integer _demographicNo, String _providerNo) {
+	public ConsentDetail(Integer id, Integer _demographicNo, String _providerNo) {
 
-		this.id = _id;
+		this.id = id;
 		this.demographicNo = _demographicNo;
 		this.providerNo = _providerNo;
 	}

@@ -50,7 +50,7 @@
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar">
+			<td align="left" class="buttonBar2">
 				<a onclick='return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">

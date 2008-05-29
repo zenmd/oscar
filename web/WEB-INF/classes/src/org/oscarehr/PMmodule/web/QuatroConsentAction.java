@@ -29,12 +29,18 @@ import org.oscarehr.util.SessionConstants;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 public class QuatroConsentAction extends BaseClientAction {
 	private static Log log = LogFactory.getLog(ConsentAction.class);
     private ClientManager clientManager;
     private ConsentManager consentManager;
+    private LookupManager lookupManager;
 
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
+	}
 
 	public ActionForward unspecified(ActionMapping mapping,	ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
 		return list(mapping,form,request,response);
@@ -88,23 +94,25 @@ public class QuatroConsentAction extends BaseClientAction {
 	       String rId=request.getParameter("rId");
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
-	      // Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-	       
+	       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("FAC", facilityId.toString()).getDescription());
 	       request.setAttribute("clientId", demographicNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consent");
+	       
+	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consentValue");
 	       
 	       if("0".equals(rId))
 	       {
 	    	   consentObj = new ConsentDetail();
-	    	   consentObj.setDemographicNo(Integer.valueOf(demographicNo));	       
+	    	   consentObj.setDemographicNo(Integer.valueOf(demographicNo));	  
+	    	   consentObj.setProviderNo(providerNo);
 	       }
 	       else if(rId!=null && rId!="0") consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
-	       dForm.set("consent", consentObj);
-	      // request.setAttribute("consent", consentObj);
+	       dForm.set("consentValue", consentObj);
+	       request.setAttribute("recordId",rId);
 	   }
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm consentForm = (DynaActionForm)form;
@@ -132,7 +140,7 @@ public class QuatroConsentAction extends BaseClientAction {
 				BeanUtils.copyProperties(newConsent,consent);
 				newConsent.setId(null);
 			}catch(Exception e) {log.warn(e);}
-			consentForm.set("consent", consent);
+			consentForm.set("consentValue", consent);
 			formMapping = consent.getFormName();
 		}
 		request.setAttribute("id",id);
@@ -157,7 +165,12 @@ public class QuatroConsentAction extends BaseClientAction {
 	     boolean isWarning = false;
 		DynaActionForm consentForm = (DynaActionForm)form;
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
-		ConsentDetail consent= (ConsentDetail)consentForm.get("consent");
+		ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
+		String rId=request.getParameter("recordId");
+		if(Utility.IsEmpty(rId)) rId=(String)request.getAttribute("recordId");
+		if(rId!=null && Integer.valueOf(rId)>0)
+		consent.setId(Integer.valueOf(rId));
+		else consent.setId(null);
 		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
@@ -193,7 +206,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	     boolean isWarning = false;
 		DynaActionForm consentForm = (DynaActionForm)form;
 		
-		ConsentDetail consent= (ConsentDetail)consentForm.get("consentDetail");
+		ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
 		
 		String id = (String)request.getParameter("clientId");
 		consent.setDemographicNo(Integer.valueOf(id));

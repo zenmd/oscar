@@ -14,8 +14,7 @@
 <% int a=1; %>
 <html-el:form action="/PMmodule/QuatroConsent.do">
 <input type="hidden" name="method"/>
-<html:hidden property="clientId"/>
-
+<input type="hidden" name="demoNo"/>
 <table width="100%"  cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Consent</th>
@@ -27,7 +26,7 @@
 
 <table width="100%">	
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 		<html:link	action="/PMmodule/QuatroConsent.do?method=edit&rId=0" paramId="clientId"  paramName="clientId"	style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Consent&nbsp;&nbsp;|
 		</html:link>
@@ -59,17 +58,17 @@
 						<th>Actions</th>
 					</tr>
 				
-					<logic-el:iterate id="consent" collection="${lstConsents}">
+					<logic-el:iterate id="consentDetail" collection="${lstConsents}">
 					<tr>				
-						<td><c:out value="${consent.providerFormattedName}"></c:out>	</td>				
-						<td><c:out value="${consent.dateSignedStr}" /></td>
-						<td><c:out value="${consent.startDateStr}" /></td>
-						<td><c:out value="${consent.endDateStr}" /></td>				
+						<td><c:out value="${consentDetail.providerFormattedName}"></c:out>	</td>				
+						<td><c:out value="${consentDetail.dateSignedStr}" /></td>
+						<td><c:out value="${consentDetail.startDateStr}" /></td>
+						<td><c:out value="${consentDetail.endDateStr}" /></td>				
 						<td> 						
 						<c:choose>
-							<c:when test="${consent.status eq 'active'}">
+							<c:when test="${consentDetail.status eq 'active'}">
 								<input type="button" value="Update"
-									onclick="updateQuatroConsent('<c:out value="${consent.demographicNo}" />', '<c:out value="${consent.id}" />')" />
+									onclick="updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" />
 							</c:when>
 							<c:otherwise>&nbsp;</c:otherwise>
 					   </c:choose>

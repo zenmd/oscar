@@ -77,8 +77,7 @@
 		if (!validAgeRangeForProgram(programId,age))
 		{
 			return error("This client does not meet the age range requirements for this program.");
-		}
-		
+		}	
 		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
 		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="edit";
 		opener.document.<%=request.getParameter("formName")%>.elements['demoNo'].value=clientId;

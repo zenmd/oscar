@@ -21,34 +21,7 @@
         form.elements['program.name'].value='';
     }
 
-    function search_programs() {
-        var form = document.clientManagerForm;
-
-        form.method.value='restrict_select_program';
-        var programName = form.elements['program.name'].value;
-        var typeEl = form.elements['program.type'];
-        var programType = typeEl.options[typeEl.selectedIndex].value;
-        var manOrWomanEl = form.elements['program.manOrWoman'];
-        var manOrWoman = manOrWomanEl.options[manOrWomanEl.selectedIndex].value;
-        var transgender = form.elements['program.transgender'].checked;
-        var firstNation = form.elements['program.firstNation'].checked;
-        var bedProgramAffiliated = form.elements['program.bedProgramAffiliated'].checked;
-        var alcohol = form.elements['program.alcohol'].checked;
-        var abstinenceSupportEl = form.elements['program.abstinenceSupport'];
-        var abstinenceSupport = abstinenceSupportEl.options[abstinenceSupportEl.selectedIndex].value;
-        var physicalHealth = form.elements['program.physicalHealth'].checked;
-        var mentalHealth = form.elements['program.mentalHealth'].checked;
-        var housing = form.elements['program.housing'].checked;
-
-        var url = '<html:rewrite action="/PMmodule/ClientManager.do"/>';
-        url += '?method=search_programs&program.name=' + programName + '&program.type=' + programType;
-        url += '&program.manOrWoman='+manOrWoman+'&program.transgender='+transgender+'&program.firstNation='+firstNation+'&program.bedProgramAffiliated='+bedProgramAffiliated+'&program.alcohol='+alcohol+'&program.abstinenceSupport='+abstinenceSupport+'&program.physicalHealth='+physicalHealth+'&program.mentalHealth='+mentalHealth+'&program.housing='+housing;
-			//url += '&program.manOrWoman='+manOrWoman;
-        url += '&formName=clientManagerForm&formElementName=program.name&formElementId=program.id&formElementType=program.type&submit=true';
-
-        window.open(url, "program_search", "width=800, height=600, scrollbars=1,location=1,status=1");
-    }
-
+   
     function do_service_restriction() {
         var form = document.clientManagerForm;
         form.method.value='service_restrict';
@@ -59,9 +32,7 @@
  
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="clientId"/>
-<html:hidden property="program.id" />
-
+<input type="hidden" name="demoNo"/>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Service Restriction List</th>
@@ -70,8 +41,8 @@
 		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
-		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0"	style="color:Navy;text-decoration:none;">
+		<td align="left" class="buttonBar2">
+		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0" name="actionParam" style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Service Restriction&nbsp;&nbsp;|
 		</html:link>
 		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">

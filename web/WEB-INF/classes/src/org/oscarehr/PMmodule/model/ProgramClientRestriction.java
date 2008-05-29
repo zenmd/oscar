@@ -63,7 +63,7 @@ public class ProgramClientRestriction implements Serializable {
         this.id = id;
     }
 
-    public int getProgramId() {
+    public Integer getProgramId() {
         return programId;
     }
 

@@ -11,7 +11,7 @@
 		document.forms(0).submit();
 	}
 	function validateStateLength(){
-	    var fieldValue = document.consentDetailForm.elements["consent.statePurpose"].value;
+	    var fieldValue = document.consentDetailForm.elements["consentValue.statePurpose"].value;
 		if (fieldValue.length>512)
 		{
 			alert("State Purpose input length is over 512!!!");
@@ -21,7 +21,7 @@
 		}	
 	}
 	function validateNotesLength(){
-	    var fieldValue = document.consentDetailForm.elements["consent.notes"].value;
+	    var fieldValue = document.consentDetailForm.elements["consentValue.notes"].value;
 		if (fieldValue.length>512)
 		{
 			return false;
@@ -43,16 +43,15 @@
 			return true;
 	}
 	function signSignature(){
-   		var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
-     	"rid=<c:out value="${consentDetailForm.consent.id}" />" + 
-     	"&moduleName=consent";
+        var rId = document.consentDetailForm.elements["consentValue.id"].value;
+   		var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?rid=' +rId+'&moduleName=consent';
 
    		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
    		win.focus();
 	}
 	function viewSignature(){
-   		var url='<c:out value="${ctx}" />/topazGetImage.do?' +
-     	"rid=<c:out value="${consentDetailForm.consent.id}" />";
+		var rId = document.consentDetailForm.elements["consentValue.id"].value;
+   		var url='<c:out value="${ctx}" />/topazGetImage.do?rid'+rId;
    		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
    		win.focus();
 	}
@@ -60,9 +59,9 @@
 
 <html-el:form action="/PMmodule/QuatroConsent.do">
 	<input type="hidden" name="method" />
-	<html-el:hidden property="consent.demographicNo"  />
-	<html-el:hidden property="consent.id"  />
-	<input type="hidden" name="clientId"/>
+	<html-el:hidden property="consentValue.demographicNo"  />
+	<input type="hidden" name="recordId" />
+	<input type="hidden" name="demoNo"/>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management - Consent</th>
@@ -76,7 +75,7 @@
 			<a href='javaScript:submitForm("update");' onclick="return validateSave();"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
-				<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
+				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">
 		  			<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
 		 		 		<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
 		  			<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
@@ -118,29 +117,43 @@
 							</table>
 						</div>
 						</td>
-					</tr>					
+					</tr>
+					<tr><td><hr></td></tr>
+					<tr><td>
+						<table cellspacing="2" cellpadding="3">
+						<tr>
+							<td rowspan="2" style="width: 50%">
+								<font size="4"><b>Client Consent to the Collection of<br />
+									Information from External Agencies
+								</b></font>
+							</td>
+							<td style="width: 30%">Shelter Name<br />Shelter Mailing Address</td>
+							<td style="width: 20%">Tel:<br /> Fax:</td>
+						</tr>
+						</table>
+					</td></tr>
+					<tr><td><br></td></tr>					
 					<tr>
 						<td>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
 								<td colspan="2">I	
-								<bean:write name="consentDetailForm" property="consent.clientFirstName"/>&nbsp;						
-								<bean:write name="consentDetailForm" property="consent.clientLastName"/>&nbsp;
+								<c:out value="${client.firstName}" /> &nbsp;<c:out value="${client.lastName}" />&nbsp;
 								  consent to the release and exchange of the following information:
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2" width="90%" ><html:textarea  rows="3" property="consent.notes" cols="105"  /> </td>
+								<td colspan="2" width="90%" ><html:textarea  rows="3" property="consentValue.notes" cols="105"  /> </td>
 							</tr>
 						</table>
 						<table class="simple" cellspacing="2" cellpadding="3">
-							<tr><td colspan="2">Between an authorized representative of {shelter name} and the agency/organization named below:</td></tr>
-							<tr><td style="width:20%">Agency Name:</td><td ><html-el:text style="width: 60%" property="consent.agencyName" maxlength="60" /></td></tr>
-							<tr><td style="width:20%">Contact Person Name:</td><td><html-el:text style="width: 60%" property="consent.contactName" maxlength="60" /></td></tr>
-							<tr><td style="width:20%">Contact Person Title:</td><td><html-el:text style="width: 60%" property="consent.contactTitle" maxlength="30" /></td></tr>
-							<tr><td style="width:20%">Contact Person Phone:</td><td><html-el:text style="width: 60%" property="consent.contactPhone" maxlength="15" /></td></tr>							
+							<tr><td colspan="2">Between an authorized representative of &nbsp;<c:out value="${facilityDesc}"></c:out>&nbsp; and the agency/organization named below:</td></tr>
+							<tr><td style="width:20%">Agency Name:</td><td ><html-el:text style="width: 60%" property="consentValue.agencyName" maxlength="60" /></td></tr>
+							<tr><td style="width:20%">Contact Person Name:</td><td><html-el:text style="width: 60%" property="consentValue.contactName" maxlength="60" /></td></tr>
+							<tr><td style="width:20%">Contact Person Title:</td><td><html-el:text style="width: 60%" property="consentValue.contactTitle" maxlength="30" /></td></tr>
+							<tr><td style="width:20%">Contact Person Phone:</td><td><html-el:text style="width: 60%" property="consentValue.contactPhone" maxlength="15" /></td></tr>							
 							<tr><td colspan="2">For the following Stated purpose(s):</td></tr>
-							<tr><td colspan="2"><html-el:textarea property="consent.statePurpose" cols="105"  rows="3" /></td></tr>
+							<tr><td colspan="2"><html-el:textarea property="consentValue.statePurpose" cols="105"  rows="3" /></td></tr>
 					  </table>
 							<table  class="simple" cellspacing="2" cellpadding="3">
 							<tr>
@@ -149,16 +162,22 @@
 								</td>
 							</tr>
 							<tr>
-								<td>
-									 Today's Date<quatro:datePickerTag property="consent.startDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag>
+								<td colspan="2">
+									<table>
+										<tr>
+											<td style="width:  50%">
+												 Today's Date <jsp:useBean id="now" class="java.util.Date" /><fmt:formatDate pattern="yyyy/MM/dd hh:mm a" value="${now}" />
+											</td>
+											<td style="width: 15%"> To</td>
+											<td style="width:35%"> <quatro:datePickerTag property="consentValue.endDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
+										</tr>
+									</table>
 								</td>
-								<td > To <quatro:datePickerTag property="consent.endDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
 							</tr>
-							<tr><td >Dated this Today's Date</td><td>
-							<jsp:useBean id="now" class="java.util.Date" />
+							<tr><td style="width:40%" >Dated this Today's Date</td><td>							
 							<fmt:formatDate pattern="yyyy/MM/dd" value="${now}" /></td></tr>
-							<tr><td>Client Signature</td><td>User Id</td></tr>
-							<tr><td >Witness Name</td><td><bean:write name="consentDetailForm" property="consent.providerFormattedName" /></td></tr>
+							<tr><td align="right" colspan="2"><u><bean:write name="consentDetailForm" property="consentValue.providerFormattedName" /></u></td></tr>
+							<tr><td align="right" colspan="2">Witness Name</td></tr>
 							<tr><td colspan="2"><br>
 								<b>Notice with Regard to the Collection of Personal Information:</b><br>
 								Personal information is collected under the legal authority of the City of Toronto Act, 1997, 

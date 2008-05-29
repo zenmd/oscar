@@ -80,6 +80,7 @@
     <bean name="/PMmodule/QuatroConsent" class="org.oscarehr.PMmodule.web.QuatroConsentAction" singleton="false" autowire="byName">
     	 <property name="clientManager" ref="clientManager" />
     	 <property name="consentManager" ref="consentManager"></property>
+    	 <property name="lookupManager" ref="lookupManager"/> 
     </bean>
     <bean name="/PMmodule/ClientHistory" class="org.oscarehr.PMmodule.web.ClientHistoryAction" singleton="false" autowire="byName">
         <property name="clientHistoryManager" ref="clientHistoryManager" />
