@@ -516,7 +516,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setRoomDemographic(roomDemographic);
  	   clientForm.setBedDemographic(bedDemographic);
  	   clientForm.setCurDB_RoomId(roomDemographic.getRoomId());
- 	   clientForm.setCurDB_BedId(bedDemographic.getBedId());
+ 	   if(bedDemographic!=null) clientForm.setCurDB_BedId(bedDemographic.getBedId());
 
        return update(mapping, form, request, response);
    }
