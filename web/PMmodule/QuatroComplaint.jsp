@@ -307,10 +307,10 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						</tr>
 
 						<tr>
-							<td>date Reviewed</td>
+							<td>Date Reviewed</td>
 							<td><quatro:datePickerTag property="complaint.date1x"
 								width="70%" openerForm="quatroClientComplaintForm" /></td>
-							<td>date Reviewed</td>
+							<td>Date Reviewed</td>
 							<td><quatro:datePickerTag property="complaint.date3x"
 								width="70%" openerForm="quatroClientComplaintForm" /></td>
 						</tr>
@@ -330,10 +330,10 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						</tr>
 
 						<tr>
-							<td>date Reviewed</td>
+							<td>Date Reviewed</td>
 							<td><quatro:datePickerTag property="complaint.date2x"
 								width="70%" openerForm="quatroClientComplaintForm" /></td>
-							<td>date Reviewed</td>
+							<td>Date Reviewed</td>
 							<td><quatro:datePickerTag property="complaint.date4x"
 								width="70%" openerForm="quatroClientComplaintForm" /></td>
 						</tr>

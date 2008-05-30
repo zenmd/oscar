@@ -5,11 +5,11 @@
 <div><span><c:out value="${client.formattedName}" />(<c:out
 	value="${client.demographicNo}" />)</span> <c:choose>
 	<c:when test="${'C' eq tabSummary}">
-		<div><b>Summary</b>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		<div><b>Summary</b></div>
 	</c:when>
 	<c:when test="${'V' eq tabSummary}">
 		<div><html:link action="/PMmodule/QuatroClientSummary.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>&nbsp;&nbsp;|&nbsp;&nbsp;
+			name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>

@@ -28,14 +28,16 @@ import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.PMmodule.web.FacilityDischargedClients;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 
 /**
  */
-public class FacilityManagerAction extends DispatchAction {
+public class FacilityManagerAction extends BaseAction {
     private static final Log log = LogFactory.getLog(FacilityManagerAction.class);
 
     private FacilityManager facilityManager;
@@ -70,7 +72,7 @@ public class FacilityManagerAction extends DispatchAction {
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
-
+        super.setMenu(request,KeyConstants.MENU_FACILITY);
         return mapping.findForward(FORWARD_LIST);
     }
 
