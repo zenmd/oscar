@@ -270,6 +270,7 @@ public class IntakeManager {
 	}
 	
 	public ArrayList saveQuatroIntake(QuatroIntake intake) {
+		historyDao.saveClientHistory(intake);
 		return intakeDao.saveQuatroIntake(intake, false);
 	}
 
