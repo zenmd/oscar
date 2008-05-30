@@ -245,7 +245,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						</tr>
 						<tr>
 							<td colspan="2">Are There Outstanding Service System issues?
-								<!-- 
+								<font size="1">(Please specify below)</font><!-- 
 								<input type="radio" name="OutstandingChk" onclick="setOutstanding('1')" value="1">Yes</input>
 								<input type="radio" name="OutstandingChk" onclick="setOutstanding('0')" value="0">No</input>
 								 -->
@@ -255,7 +255,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						</tr>
 						<div id="IssuesId">
 							<tr>
-								<td colspan="4">If yes, Specify Service System Issues:</td>
+								<td colspan="4">Specify Service System Issues:</td>
 							</tr>
 							<tr>
 								<td colspan="4"><html-el:textarea style="width:500px;"
