@@ -59,7 +59,7 @@ import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
 import org.oscarehr.util.SessionConstants;
-import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.quatro.common.KeyConstants;
@@ -69,7 +69,7 @@ import com.quatro.common.KeyConstants;
 
 import oscar.MyDateFormat;
 
-public class ProgramManagerAction extends DispatchAction {
+public class ProgramManagerAction extends BaseAction {
 
     private ClientRestrictionManager clientRestrictionManager;
     private FacilityDAO facilityDAO=null;
@@ -117,7 +117,7 @@ public class ProgramManagerAction extends DispatchAction {
         programForm.set("searchFacilityId", searchFacilityId);
 
         logManager.log("read", "full program list", "", request);
-
+        super.setMenu(request, KeyConstants.MENU_PROGRAM);
         return mapping.findForward("list");
     }
 

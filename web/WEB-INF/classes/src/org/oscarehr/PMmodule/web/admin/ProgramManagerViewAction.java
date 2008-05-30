@@ -43,7 +43,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
@@ -80,7 +80,7 @@ import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UsersManager;
 
-public class ProgramManagerViewAction extends DispatchAction {
+public class ProgramManagerViewAction extends BaseAction {
 
     private static final Log log = LogFactory.getLog(ProgramManagerViewAction.class);
 
@@ -123,7 +123,8 @@ public class ProgramManagerViewAction extends DispatchAction {
     }
     
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return view(mapping, form, request, response);
+    	super.setMenu(request,KeyConstants.MENU_PROGRAM);
+    	return view(mapping, form, request, response);
     }
 
     @SuppressWarnings("unchecked")
