@@ -101,7 +101,8 @@ function checkExistClients(){
 <tr><td>
 <table width="100%" class="simple">
 <tr><td width="15%">First name*</td>
-<td width="35%"><html-el:text property="client.firstName" size="20" maxlength="30" /></td>
+<td width="35%"><html:hidden property="client.effDateTxt" />
+<html-el:text property="client.firstName" size="20" maxlength="30" /></td>
 <td width="19%">Gender*</td>
 <td width="31%"><html-el:select property="client.sex">
    <html-el:optionsCollection property="optionList.gender" value="value" label="label"/>
