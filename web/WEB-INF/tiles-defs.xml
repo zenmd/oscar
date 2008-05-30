@@ -11,22 +11,22 @@
 		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/admin/admin.jsp" />
 	</definition>
-	<definition name="page.tickler.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.tickler.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/ticklerPlus/ticklerList.jsp" />
 	</definition>
-	<definition name="page.tickler.view"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.tickler.view"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/ticklerPlus/ticklerView.jsp" />
 	</definition>
-	<definition name="page.tickler.edit"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.tickler.edit"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/ticklerPlus/ticklerForm.jsp" />
 	</definition>
 	<definition name="page.admin.lookup.tablelist"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/lookup/LookupTableList.jsp" />
 	</definition>
 	<definition name="page.admin.lookup.codelist"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/lookup/LookupCodeList.jsp" />
 	</definition>
@@ -36,17 +36,18 @@
 		<put name="body" value="/PMmodule/lookup/LookupCodeEdit.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.view"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_program.jsp" />
 		<put name="body" value="/PMmodule/Admin/ProgramManagerView.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_program.jsp" />
 		<put name="body" value="/PMmodule/Admin/ProgramManagerList.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.edit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_program.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/ProgramManagerForm.jsp" />
 	</definition>
@@ -67,20 +68,23 @@
 		<put name="body" value="/PMmodule/Admin/Bed/Bed.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.facility.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="header" value="/PMModule/Header.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/Admin/Facility/ListFacilities.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.facility.edit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/Admin/Facility/EditFacility.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.facility.view"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/Admin/Facility/ViewFacility.jsp" />
@@ -114,7 +118,8 @@
 			value="/PMmodule/ClientManager/service_restriction_error.jsp" />
 	</definition>
 	<definition name="page.pmm.program.service_restriction_error"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_program.jsp" />
 		<put name="body"
 			value="/PMmodule/Admin/ProgramView/service_restriction_error.jsp" />
 	</definition>

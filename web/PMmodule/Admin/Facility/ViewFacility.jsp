@@ -1,19 +1,14 @@
 <%@ include file="/taglibs.jsp"%>
 
-<%@ include file="/common/messages.jsp"%>
 <%@ page import="org.oscarehr.PMmodule.model.Facility" %>
-<div class="tabs" id="tabs">
-    <table cellpadding="3" cellspacing="0" border="0">
-        <tr>
-            <th title="Facility">Facility summary</th>
-        </tr>
-    </table>
-</div>
-
 <bean:define id="facility" name="facilityManagerForm" property="facility"/>
 
 <html:form action="/PMmodule/FacilityManager.do">
     <input type="hidden" name="method" value="save" />
+
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr><th class="pageTitle" align="center">Facility Summary</th></tr>
+<tr><td>
     <table width="100%" border="1" cellspacing="2" cellpadding="3">
         <tr class="b">
             <td width="20%">Facility Id:</td>
@@ -46,7 +41,8 @@
 
 
     </table>
-
+</td></tr>
+</table>
     <div class="tabs" id="tabs">
         <table cellpadding="3" cellspacing="0" border="0">
             <tr>

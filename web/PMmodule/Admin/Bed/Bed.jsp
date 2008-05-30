@@ -93,16 +93,10 @@
     
     
 </script>
-<%@ include file="/common/messages.jsp"%>
-<div class="tabs" id="tabs">
-    <table cellpadding="3" cellspacing="0" border="0">
-        <tr>
-            <th title="Manage beds">Manage beds and rooms for facility "<c:out value="${sessionScope.bedManagerForm.facility.name}"/>"</th>
-        </tr>
-    </table>
-</div>
-
 <html:form action="/PMmodule/BedManager.do">
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr><th class="pageTitle" align="center">Facility Edit</th></tr>
+	<tr><td>
 
 <table width="100%" summary="Manage rooms and beds">
 
@@ -369,6 +363,7 @@
     </td>
 </tr>
 </table>
+</td></tr></table>
 <div>
     <p><a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=list" />Return to facilities list</a></p>
 </div>

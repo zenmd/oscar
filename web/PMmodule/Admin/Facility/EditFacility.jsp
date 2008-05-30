@@ -1,7 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
 
-<%@ include file="/common/messages.jsp"%>
-
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/validation.js">
 </script>
 <script type="text/javascript">
@@ -17,17 +15,12 @@
 </script>
 <!-- don't close in 1 statement, will break IE7 -->
 
-
-<div class="tabs" id="tabs">
-    <table cellpadding="3" cellspacing="0" border="0">
-        <tr>
-            <th title="Facility">Edit facility</th>
-        </tr>
-    </table>
-</div>
-
 <html:form action="/PMmodule/FacilityManager.do" onsubmit="return validateForm();">
     <input type="hidden" name="method" value="save" />
+
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr><th class="pageTitle" align="center">Facility Edit</th></tr>
+	<tr><td>
     <table width="100%" border="1" cellspacing="2" cellpadding="3">
         <tr class="b">          
             <td width="20%">Facility Id:</td>
@@ -107,6 +100,8 @@
             </td>
         </tr>
     </table>
+</td></tr>
+</table>
 </html:form>
 <div>
     <p><a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=list" />Return to facilities list</a></p>
