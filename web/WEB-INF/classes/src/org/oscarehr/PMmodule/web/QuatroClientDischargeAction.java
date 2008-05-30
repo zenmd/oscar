@@ -133,7 +133,25 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	   
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);
-       return edit(mapping, form, request, response);
+       
+       /* discharge */
+       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
+       request.setAttribute("lstCommProgram", lstCommProgram);
+       List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
+       request.setAttribute("lstDischargeReason", lstDischargeReason);
+       List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
+       request.setAttribute("lstTransType", lstTransType);     
+       Program[]  lstBed=programManager.getBedPrograms(facilityId);
+       request.setAttribute("lstBedProgram",lstBed);
+       request.setAttribute("admission", admObj);
+       request.setAttribute("admissionId", admObj.getId());
+       
+       request.setAttribute("clientId", admObj.getClientId());
+       request.setAttribute("client", clientManager.getClientByDemographicNo(admObj.getClientId().toString()));
+
+       return mapping.findForward("edit");
+//       return edit(mapping, form, request, response);
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);
