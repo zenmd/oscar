@@ -54,7 +54,18 @@ public class Admission implements Serializable, Cloneable {
     private String notSignReason;
     private String admissionNotes;
     
-    public String getAdmissionDateStr() {
+    private String bedName;
+    private Integer intakeHeadId;
+    
+    public String getBedName() {
+		return bedName;
+	}
+
+	public void setBedName(String bedName) {
+		this.bedName = bedName;
+	}
+
+	public String getAdmissionDateStr() {
 		return MyDateFormat.getStandardDate(admissionDate);
 	}
 
@@ -318,13 +329,21 @@ public class Admission implements Serializable, Cloneable {
 	public void setAdmissionNotes(String admissionNotes) {
 		this.admissionNotes = admissionNotes;
 	}
-
+		
 	public boolean isFamilyMember() {
 		return familyMember;
 	}
 
 	public void setFamilyMember(boolean familyMember) {
 		this.familyMember = familyMember;
+	}
+
+	public Integer getIntakeHeadId() {
+		return intakeHeadId;
+	}
+
+	public void setIntakeHeadId(Integer intakeHeadId) {
+		this.intakeHeadId = intakeHeadId;
 	}
 	
 }

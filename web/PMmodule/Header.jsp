@@ -91,7 +91,7 @@
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuClient}">
 						<td  class="clsMenuCell2" nowrap="nowrap" >
-						<div></div></td>
+						<div>Client</div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuClient}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/ClientSearch2.do?client=true"
@@ -101,7 +101,7 @@
 					</c:choose>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuProg}">
-						<td  class="clsMenuCell2" nowrap="nowrap" ><div></div></td>
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div>Program</div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuProg}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/ProgramManager.do"
@@ -111,7 +111,7 @@
 					</c:choose>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuFacility}">
-						<td class="clsMenuCell2" nowrap="nowrap" ><div></div></td>
+						<td class="clsMenuCell2" nowrap="nowrap" ><div>Facility</div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuFacility}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/FacilityManager.do?method=list"
@@ -121,7 +121,7 @@
 					</c:choose>
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuAdmin}">
-						<td  class="clsMenuCell2" nowrap="nowrap" ><div></div></td>
+						<td  class="clsMenuCell2" nowrap="nowrap" ><div>Administration</div></td>
 						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuAdmin}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/Admin/SysAdmin.do"

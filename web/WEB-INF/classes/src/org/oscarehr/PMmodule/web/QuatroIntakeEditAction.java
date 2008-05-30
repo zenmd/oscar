@@ -38,7 +38,7 @@ import com.quatro.model.LookupCodeValue;
 import oscar.MyDateFormat;
 import java.util.Calendar;
 
-public class QuatroIntakeEditAction extends DispatchAction {
+public class QuatroIntakeEditAction extends BaseClientAction {
     private ClientManager clientManager;
     private LookupManager lookupManager;
     private IntakeManager intakeManager;
@@ -130,7 +130,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         qform.setOriginalCountry(originalCountry);
 
         request.setAttribute("newClientFlag", "true");
-        
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 		return mapping.findForward("edit");
     }
     
@@ -222,6 +222,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         qform.setOriginalCountry(originalCountry);
         
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         return mapping.findForward("edit");
 	}
 
@@ -390,6 +391,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         saveMessages(request,messages);
 
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         return mapping.findForward("edit");
 	}
 	

@@ -11,7 +11,14 @@ public class ProgramClientInfo {
 	private String bed;
 	private String isDischargeable;
 	private String clientId;
+	private boolean isHead;
 	
+	public boolean getIsHead() {
+		return isHead;
+	}
+	public void setIsHead(boolean isHead) {
+		this.isHead = isHead;
+	}
 	public String getClientId() {
 		return clientId;
 	}

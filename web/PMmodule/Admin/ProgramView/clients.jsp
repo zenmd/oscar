@@ -215,13 +215,16 @@
 				<display:setProperty name="paging.banner.placement" value="bottom" />
 				<display:setProperty name="basic.msg.empty_list" value="No clients currently admitted to this program." />
 			
-				<display:column >		
-					<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
-						<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>">
-					</logic:equal>
-					<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
-						<input type="checkbox" disabled="disabled" name="checked_<c:out value="${clientInfo.admissionId}"/>">
-					</logic:equal>
+				<display:column title="Select">
+					<logic:equal name="clientInfo" property="isHead" value="true" >
+						<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
+							<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>">
+						</logic:equal>
+						<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
+							<input type="checkbox" disabled="disabled" name="checked_<c:out value="${clientInfo.admissionId}"/>">
+						</logic:equal>
+					</logic:equal>	
+					
 				</display:column>
 			
 				<display:column property="clientId" sortable="true" title="Client No." />
