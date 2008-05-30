@@ -149,11 +149,9 @@ public class QuatroIntakeEditAction extends DispatchAction {
         request.setAttribute("actionParam", actionParam);
         Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
         if(intakeHeadId!=null){
-//          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
         }else{
-//          request.setAttribute("intakeHeadId", intakeId.toString()); 
           request.setAttribute("clientId", clientId); 
         }
 
@@ -170,6 +168,22 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
   		qform.setOptionList(optionValues);
 
+        QuatroIntake intake;
+        if(intakeId.intValue()!=0){
+        	intake=intakeManager.getQuatroIntake(intakeId);
+        }else{
+        	intake= new QuatroIntake();
+        	intake.setCreatedOn(Calendar.getInstance());
+        	intake.setId(0);
+        	intake.setClientId(Integer.valueOf(qform.getClientId()));
+        	intake.setReferralId(0);
+        	intake.setQueueId(0);
+        	intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+        	intake.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        	intake.setYouth(KeyConstants.CONSTANT_NO);
+        	intake.setVAW(KeyConstants.CONSTANT_NO);
+        }
+
         Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
         ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
         		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
@@ -177,36 +191,29 @@ public class QuatroIntakeEditAction extends DispatchAction {
         ArrayList<LabelValueBean> lst3 = new ArrayList<LabelValueBean>();
         for(int i=0;i<lst.size();i++){
            Object[] obj = (Object[])lst.get(i);
-           lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
-           lst3.add(new LabelValueBean((String)obj[2], ((Integer)obj[0]).toString()));
+           //don't allow existing intake change program type
+           //if program type is wrong, discharge/reject this intake (for bed program), then create a new intake with correct program type.
+           if(intakeId.intValue()>0){
+             if(intake.getProgramType().equals((String)obj[2])){	   
+               lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
+               lst3.add(new LabelValueBean((String)obj[2], ((Integer)obj[0]).toString()));
+             }  
+           }else{
+             lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
+             lst3.add(new LabelValueBean((String)obj[2], ((Integer)obj[0]).toString()));
+           }  
         }
         qform.setProgramList(lst2);
         qform.setProgramTypeList(lst3);
-
-        QuatroIntake obj;
-        if(intakeId.intValue()!=0){
-            obj=intakeManager.getQuatroIntake(intakeId);
-        }else{
-        	obj= new QuatroIntake();
-        	obj.setCreatedOn(Calendar.getInstance());
-            obj.setId(0);
-            obj.setClientId(Integer.valueOf(qform.getClientId()));
-            obj.setReferralId(0);
-            obj.setQueueId(0);
-            obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
-    		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
-    		obj.setYouth(KeyConstants.CONSTANT_NO);
-    		obj.setVAW(KeyConstants.CONSTANT_NO);
-        }
-
-        obj.setCurrentProgramId(obj.getProgramId());
-		qform.setIntake(obj);
+        
+        intake.setCurrentProgramId(intake.getProgramId());
+		qform.setIntake(intake);
 		
         LookupCodeValue language = null;
         LookupCodeValue originalCountry = null;
         if(intakeId.intValue()!=0){
-        	language = lookupManager.GetLookupCode("LNG", obj.getLanguage());
-            originalCountry = lookupManager.GetLookupCode("CNT", obj.getOriginalCountry());
+        	language = lookupManager.GetLookupCode("LNG", intake.getLanguage());
+            originalCountry = lookupManager.GetLookupCode("CNT", intake.getOriginalCountry());
         }
         if (language == null) language = new LookupCodeValue();
         if (originalCountry == null) originalCountry = new LookupCodeValue();
