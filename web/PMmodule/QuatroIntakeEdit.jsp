@@ -206,16 +206,17 @@ function checkExistClients(){
 
 <tr><td>
 <table width="100%" class="simple">
-<tr><td width="15%">Pregnant</td>
-<td width="20%"></td>
-<td width="15%"><html-el:checkbox property="intake.pregnant" /></td>
-<td width="35%">Disclosed substance abuse</td>
-<td><html-el:checkbox property="intake.disclosedAbuse" /></td></tr>
 <tr><td>Disability</td>
-<td colspan="2"><html-el:text property="intake.disability" /></td>
-<td>Observed substance abuse</td>
-<td><html-el:checkbox property="intake.observedAbuse" /></td></tr>
-<tr><td colspan="2">Disclosed mental health issues</td>
+<td colspan="2"><html-el:text style="width: 80%" property="intake.disability"  /></td>
+<td width="35%">Disclosed substance abuse</td><td><html-el:checkbox property="intake.disclosedAbuse" /></td>
+</tr>
+						<tr>
+							<td width="15%">Pregnant</td><td width="20%"></td><td width="15%"><html-el:checkbox property="intake.pregnant" /></td>
+							
+							<td>Observed substance abuse</td><td><html-el:checkbox property="intake.observedAbuse" /></td>
+							
+						</tr>
+						<tr><td colspan="2">Disclosed mental health issues</td>
 <td><html-el:checkbox property="intake.disclosedMentalIssue" /></td>
 <td>Poor hygiene</td>
 <td><html-el:checkbox property="intake.poorHygiene" /></td></tr>
@@ -292,16 +293,53 @@ function checkExistClients(){
 <td width="8%">Income</td>
 <td width="37%"><html-el:text property="intake.income" size="20" maxlength="30" /></td></tr>
 <tr><td>Name and contact information for income worker (if applicable)</td>
-<td colspan="3"><table style="background-color:#e0e0e0;" width="100%" cellpadding="1" cellspacing="1">
-<tr><td>Name:<html-el:text property="intake.incomeWorkerName1" size="20" maxlength="30" />
-Phone:<html-el:text property="intake.incomeWorkerPhone1" size="8" maxlength="20" />
-Email:<html-el:text property="intake.incomeWorkerEmail1" size="15" maxlength="30" /></td></tr>
-<tr><td>Name:<html-el:text property="intake.incomeWorkerName2" size="20" maxlength="30" />
-Phone:<html-el:text property="intake.incomeWorkerPhone2" size="8" maxlength="20" />
-Email:<html-el:text property="intake.incomeWorkerEmail2" size="15" maxlength="30" /></td></tr>
-<tr><td>Name:<html-el:text property="intake.incomeWorkerName3" size="20" maxlength="30" />
-Phone:<html-el:text property="intake.incomeWorkerPhone3" size="8" maxlength="20" />
-Email:<html-el:text property="intake.incomeWorkerEmail3" size="15" maxlength="30" /></td></tr>
+<td colspan="3"><table style="background-color:#e0e0e0;" width="100%" cellpadding="1" cellspacing="1"><tr>
+									<td width="45">Name:</td>
+									<td width="155">
+									<html-el:text style="width: 95%" property="intake.incomeWorkerName1" 
+										maxlength="30" />
+									</td>
+									<td width="46">Phone:</td>
+									<td width="126"><html-el:text style="width: 90%" property="intake.incomeWorkerPhone1" size="8"
+										maxlength="20" /></td>
+								</tr>
+								<tr>
+									<td width="45"></td>
+									<td width="155"></td>
+									<td width="46">Email:</td>
+									<td width="126"><html-el:text style="width: 90%" property="intake.incomeWorkerEmail1"
+										size="15" maxlength="30" /></td>
+								</tr>
+								<tr>
+									<td width="45">Name:</td>
+									<td width="155"><html-el:text style="width: 95%"
+										property="intake.incomeWorkerName2"  maxlength="30" /></td>
+									<td width="46">Phone:</td>
+									<td width="126"><html-el:text
+										property="intake.incomeWorkerPhone2" size="8" maxlength="20" /></td>
+								</tr>
+								<tr>
+									<td width="45"></td>
+									<td width="155"></td>
+									<td width="46">Email:</td>
+									<td width="126"><html-el:text
+										property="intake.incomeWorkerEmail2" size="15" maxlength="30" /></td>
+								</tr>
+								<tr>
+									<td width="45">Name:</td>
+									<td width="155"><html-el:text style="width: 95%"
+										property="intake.incomeWorkerName3"  maxlength="30" /></td>
+									<td width="46">Phone:</td>
+									<td width="126"><html-el:text
+										property="intake.incomeWorkerPhone3" size="8" maxlength="20" /></td>
+								</tr>
+								<tr>
+									<td width="45"></td>
+									<td width="155"></td>
+									<td width="46">Email:</td>
+									<td width="126"><html-el:text
+										property="intake.incomeWorkerEmail3" size="15" maxlength="30" /></td>
+								</tr>
 </table>
 </td></tr>
 <tr><td>Lived the last 12 months</td>
