@@ -247,6 +247,12 @@ public class AdmissionManager {
 
   public void dischargeAdmission(Admission admission, boolean isReferral, List lstFamily){
 	   admissionDao.updateDischargeInfo(admission);
+
+	   RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
+	   if(rdm!=null) roomDemographicDAO.deleteRoomDemographic(rdm);
+	   BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
+	   if(bdm!=null) bedDemographicDAO.deleteBedDemographic(bdm);
+
 	   if(lstFamily!=null){
 		 Iterator item = lstFamily.iterator();
 		 while(item.hasNext()){
@@ -258,6 +264,10 @@ public class AdmissionManager {
 			  	admLoc.setDischargeNotes(admission.getDischargeNotes());	
 				admLoc.setCommunityProgramCode(admission.getCommunityProgramCode());
 			  	admissionDao.updateDischargeInfo(admLoc);
+				RoomDemographic rdm2 = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
+				if(rdm2!=null) roomDemographicDAO.deleteRoomDemographic(rdm2);
+				BedDemographic bdm2 = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
+				if(bdm2!=null) bedDemographicDAO.deleteBedDemographic(bdm2);
 			}
 		 }
 	   }
