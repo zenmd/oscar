@@ -108,25 +108,9 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 		   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
 	   }
 
-
-/*	   
-	   Admission admOld= (Admission) request.getAttribute("admission");
-	   String comProgram=admObj.getCommunityProgramCode();
-	   Integer bedProg =admObj.getBedProgramId();
-	   String rReason = admObj.getDischargeReason();
-	   String transType=admObj.getTransportationType();
-	   String disNotes=admObj.getDischargeNotes();
-//	   admObj =(Admission)admOld.clone();
-	   admObj.setCommunityProgramCode(comProgram);
-	   admObj.setProgramId(bedProg);
-	   admObj.setDischargeReason(rReason);
-	   admObj.setTransportationType(transType);
-	   admObj.setDischargeNotes(disNotes);
-*/	   
-//	   List<Admission> admLst = new ArrayList<Admission>();
-//	   admLst.add(admObj);
-	   // 
 	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+	   admissionManager.dischargeAdmission(admObj, isReferral, lstFamily);
+/*	   
 	   if(lstFamily!=null){
 		   admissionManager.updateDischargeInfo(admObj, isReferral);
 		   Iterator item = lstFamily.iterator();
@@ -145,6 +129,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	   }else{
 		   admissionManager.updateDischargeInfo(admObj, isReferral);		  
 	   }
+*/
 	   
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);

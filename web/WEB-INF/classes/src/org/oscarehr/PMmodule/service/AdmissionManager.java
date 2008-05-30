@@ -1,6 +1,8 @@
 package org.oscarehr.PMmodule.service;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.quatro.dao.IntakeDao;
@@ -243,8 +245,22 @@ public class AdmissionManager {
 	return admissionDao.getCurrentAdmissions(demographicNo);
   }
 
-  public void updateDischargeInfo(Admission admission, boolean isReferral){
-	  admissionDao.updateDischargeInfo(admission);
+  public void dischargeAdmission(Admission admission, boolean isReferral, List lstFamily){
+	   admissionDao.updateDischargeInfo(admission);
+	   if(lstFamily!=null){
+		 Iterator item = lstFamily.iterator();
+		 while(item.hasNext()){
+			QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
+			Admission admLoc =admissionDao.getAdmissionByIntakeId(qifTmp.getIntakeId());
+			if(admLoc.getId().intValue()!=admission.getId().intValue()){ 
+				admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+				admLoc.setDischargeDate(Calendar.getInstance());
+			  	admLoc.setDischargeNotes(admission.getDischargeNotes());	
+				admLoc.setCommunityProgramCode(admission.getCommunityProgramCode());
+			  	admissionDao.updateDischargeInfo(admLoc);
+			}
+		 }
+	   }
 	  
 	  if(isReferral){
 		ClientReferral referral= clientReferralDAO.getReferralsByProgramId(admission.getClientId(), admission.getProgramId());
