@@ -151,8 +151,8 @@ if (props.getProperty("logintitle", "").equals("")) {
 	<tr height="140px">
 		<td valign="bottom" align="center">
 		<font size="4" face="Arial">Welcome to
-		QuatroShelter.</font><br><br>
-		<font size="4" face="Arial">Please log in.</font><br><br>
+		QuatroShelter</font><br><br>
+		<font size="4" face="Arial">Please log in</font><br><br>
 		</td></tr>
 		
 		<tr>
