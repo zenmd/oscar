@@ -100,7 +100,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        try {
     	   String sDt = restriction.getStartDateStr();
     	   restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
-    	   Calendar cal2 = restriction.getStartDate();
+    	   Calendar cal2 =MyDateFormat.getCalendar(sDt);
     	   cal2.add(Calendar.DAY_OF_MONTH, days);
     	   restriction.setEndDate(cal2);
            clientRestrictionManager.saveClientRestriction(restriction);
