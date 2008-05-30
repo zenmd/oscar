@@ -365,7 +365,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
        clientForm.setNotSignReasonList(notSignReasonList);
        
-       request.setAttribute("issuedBy",providerManager.getProvider(admission.getProviderNo()).getFormattedName());
+       if(admission.getProviderNo()!=null) request.setAttribute("issuedBy",providerManager.getProvider(admission.getProviderNo()).getFormattedName());
 
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
