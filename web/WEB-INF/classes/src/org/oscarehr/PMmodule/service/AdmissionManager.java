@@ -191,55 +191,6 @@ public class AdmissionManager {
 		admissionDao.saveAdmission(admission);		
 	}
     
-    public void processDischargeToCommunity(Integer communityProgramId, Integer demographicNo, String providerNo, String notes, String radioDischargeReason) throws AdmissionException {
-        processDischargeToCommunity(communityProgramId,demographicNo,providerNo,notes,radioDischargeReason,null);
-    }
-    
-    public void processDischargeToCommunity(Integer communityProgramId, Integer demographicNo, String providerNo, String notes, String radioDischargeReason,List<Integer> dependents) throws AdmissionException {
-/*
-       Admission currentBedAdmission = getCurrentBedProgramAdmission(demographicNo);
-
-       Program program=programDao.getProgram(communityProgramId);
-       Integer facilityId=null;
-       if (program!=null) facilityId=(int)program.getFacilityId();
-    
-	   if (currentBedAdmission != null) {
-		  processDischarge(currentBedAdmission.getProgramId(), demographicNo, notes, radioDischargeReason);
-		
-		  BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo, facilityId);
-		
-		  if (bedDemographic != null) {
-			bedDemographicManager.deleteBedDemographic(bedDemographic);
-		  }
-	  }
-
-	  Admission currentCommunityAdmission = getCurrentCommunityProgramAdmission(demographicNo);
-
-  	  if (currentCommunityAdmission != null) {
-		processDischarge(currentCommunityAdmission.getProgramId(), demographicNo, notes, radioDischargeReason);
-	  }
-
-	  // Create and save admission object
-	  Admission admission = new Admission();
-	  admission.setAdmissionDate(new Date());
-	  admission.setAdmissionNotes(notes);
-	  admission.setAdmissionStatus(Admission.STATUS_CURRENT);
-	  admission.setClientId(demographicNo);
-	  admission.setProgramId(communityProgramId);
-	  admission.setProviderNo(providerNo);
-	  admission.setTeamId(0);
-	  admission.setTemporaryAdmission(false);
-	  admission.setRadioDischargeReason(radioDischargeReason);
-	  admission.setClientStatusId(0);
-	  saveAdmission(admission);
-            
-      if (dependents != null){
-         for(Integer l:dependents){
-            processDischargeToCommunity(communityProgramId,new Integer(l.intValue()),providerNo, notes, radioDischargeReason,null);
-        }
-      }
-*/      
-  }
     
   public List getCurrentAdmissions(Integer demographicNo) {
 	return admissionDao.getCurrentAdmissions(demographicNo);
