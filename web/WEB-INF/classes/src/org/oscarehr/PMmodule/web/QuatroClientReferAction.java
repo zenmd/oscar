@@ -233,7 +233,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("client", clientManager
 				.getClientByDemographicNo(demographicNo));
 		String rId = request.getParameter("rId");
-		if(Utility.IsEmpty(rId)) rId=crObj.getId().toString();		
+		if(Utility.IsEmpty(rId) && crObj.getId()!=null) rId=crObj.getId().toString();		
 		String programId = request.getParameter("selectedProgramId");
 		// Integer
 		// facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
@@ -241,7 +241,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("clientId", demographicNo);
 		String providerNo = ((Provider) request.getSession().getAttribute(
 				"provider")).getProviderNo();		
-		if ("0".equals(rId)) {
+		if ("0".equals(rId) || rId==null) {
 			crObj = new ClientReferral();
 			crObj.setClientId(Integer.valueOf(demographicNo));			
 		} else if (!Utility.IsEmpty(rId)) 

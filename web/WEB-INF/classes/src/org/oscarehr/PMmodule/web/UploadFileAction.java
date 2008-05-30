@@ -128,11 +128,14 @@ public class UploadFileAction extends BaseClientAction {
 		 String demoNo =(String)actionParam.get("clientId");
 		 Integer cId=Integer.valueOf(demoNo) ;       
 		 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
+		 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
+		 request.setAttribute("clientId", demoNo);
 		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
 		 
 		 Integer aId = null;
 		 if(null!=request.getParameter("id")) {
 			 aId= new Integer(request.getParameter("id"));
+			 if(aId>0)
 			 attObj = uploadFileManager.getAttachmentDetail(aId);
 			 attForm.set("attachmentValue", attObj);
 		 }
@@ -194,6 +197,7 @@ public class UploadFileAction extends BaseClientAction {
 				attObj.setRefProgramId(new Integer(programId));
 				attObj.setRevDate(new GregorianCalendar());
 				attObj.setAttText(attTextObj);
+				if(attObj.getId()==0) attObj.setId(null);
 				uploadFileManager.saveAttachment(attObj);				
 				attForm.set("attachmentValue",attObj);
 				attForm.set("attachmentText", attObj.getAttText());

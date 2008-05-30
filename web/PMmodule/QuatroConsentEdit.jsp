@@ -82,7 +82,7 @@
 		  				<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
         </logic:greaterThan>
         <a href='javaScript:submitForm("print");' 	style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Print16x16.gif"/> />&nbsp;Save&nbsp;&nbsp;</a>
+				<img border=0 src=<html:rewrite page="/images/Print16x16.gif"/> />&nbsp;Print&nbsp;&nbsp;</a>
         <html:link
 				action="/PMmodule/QuatroConsent.do?method=list" name="actionParam"
 				style="color:Navy;text-decoration:none;">
@@ -105,7 +105,7 @@
 			<td height="100%">
 			<div
 				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 95%; overflow: auto;">
 <!--  start of page content -->
 
 				<table width="100%" class="edit">

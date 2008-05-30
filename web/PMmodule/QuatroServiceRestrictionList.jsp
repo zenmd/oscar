@@ -72,8 +72,11 @@
 				  <display:column property="programDesc" sortable="true" title="Program Name" />
 				  <display:column property="providerFormattedName" sortable="true" title="Restricted By"/>
 				  <display:column property="comments" sortable="true" title="Comments" />
-				  <display:column property="startDate" sortable="true" title="Start date" />
-				  <display:column property="endDate" sortable="true" title="End date" />
+				  <display:column property="startDateDisplay" sortable="true" title="Start date" >				  				  
+				  </display:column>
+				  <display:column property="endDateDisplay" sortable="true" title="End date" >
+				  
+				  </display:column>
 				  <display:column sortable="true" title="Status">
 					<%
 						temp=(ProgramClientRestriction)service_restriction;

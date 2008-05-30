@@ -39,12 +39,11 @@
 <html:hidden property="referral.facilityId" />
 <html:hidden property="referral.programId" />
 <input type="hidden" name="selectedProgramId"/>
-<input type="hidden" name="method" value="edit"/>
-<input id="test" type="submit" name="edit" />
-<input type="hidden" name="ruleCheck" value="N" />
+<input type="hidden" name="method" />
+<input type="hidden" name="ruleCheck" value="Y" />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center">Client Management - Refer</th>
+		<th class="pageTitle" align="center">Client Management - Referral</th>
 	</tr>
 	<tr>
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
@@ -72,10 +71,10 @@
                     height: 100%; width: 100%; overflow: auto;">
 <table>
 
-<tr><td><br><div class="tabs" id="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
+<tr><td><br>
+<table cellpadding="3" class="simple" cellspacing="0" border="0">
 <tr><th title="LookupTableList">Referral</th></tr>
-</table></div></td></tr>
+</table></td></tr>
 <tr><td>
   <table class="simple" cellspacing="2" cellpadding="3">
 	<tr><th style="color:black">Program Name</th>

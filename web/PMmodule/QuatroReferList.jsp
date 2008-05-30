@@ -58,7 +58,7 @@
                     height: 500px; width: 100%; overflow: auto;">
 		 		<table class="simple" cellspacing="2" cellpadding="3">
 					<tr>
-						<th>Referral Program</th>							
+						<th>Program Name</th>							
 						<th>Created On</th>
 						<th>Staff</th>
 						<th>Status</th>

@@ -32,13 +32,9 @@
  
 <input type="hidden" name="clientId" value="<c:out value='${clientId}'/>" />
 <input type="hidden" name="method" value="save"/>
-<input name="test" type="submit" value="save" />
 <input type="hidden" name="ruleCheck" value="N" />
 <html:hidden property="serviceRestriction.demographicNo" />
-<html:hidden property="serviceRestriction.commentId" />
-<html:hidden property="serviceRestriction.programId" />
-<input type="hidden" name="selectedProgramId"/>
-
+<html:hidden property="serviceRestriction.id" />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Service Restriction</th>
@@ -47,12 +43,10 @@
 		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar2">
-		<a href="javaScript:popupProgramSearch('<bean:write name="serviceRestrictionForm" property="serviceRestriction.demographicNo" />');" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;|</a>
-		<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=save" name="actionParam"	style="color:Navy;text-decoration:none;">
+		<td align="left" class="buttonBar2">		
+		<a href="javaScript:submitForm('save')" style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|
-		</html:link>
+		</a>
 		<html:link action="/PMmodule/QuatroServiceRestriction.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
@@ -75,24 +69,15 @@
 						<tr><th>Service Restrictions</th></tr>
 					</table></div>
 			   </td></tr>
-			  	<tr><td>			
-			 		<table class="simple" cellspacing="2" cellpadding="3">
-						<tr><th style="color:black">Program Name</th>
-							<th style="color:black">Type</th>
-							<th style="color:black">Participation</th>
-							<th style="color:black">Phone</th>
-							<th style="color:black">Email</th>	
-						</tr>
-						<tr><td><c:out value="${program.name }" /></td>
-							<td><c:out value="${program.type }" /></td>
-							<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" /> (<c:out value="${program.queueSize}" /> waiting)</td>
-							<td><c:out value="${program.phone }" /></td>
-							<td><c:out value="${program.email }" /></td>				
-						</tr>		
-			 		</table>
-			 	</td></tr>	
+			  	
 			 	<tr><td>				 
 					<table wdith="100%" class="edit">	
+						<tr><td width="35%">Program
+						</td><td width="65%">
+							<html:select property="serviceRestriction.programId">			                
+			              	<html:options collection="allPrograms" property="id" labelProperty="name" />
+			            </html:select>
+						</td></tr>
 						<tr><td width="35%">Reason for service restriction</td>
 					    <td width="65%"><html:select property="serviceRestriction.commentId">
 						   <c:forEach var="restriction" items="${serviceRestrictionList}">

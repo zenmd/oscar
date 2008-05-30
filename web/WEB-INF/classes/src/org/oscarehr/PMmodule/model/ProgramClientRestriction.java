@@ -11,6 +11,8 @@ import oscar.MyDateFormat;
  */
 public class ProgramClientRestriction implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+    private int hashCode = Integer.MIN_VALUE;// primary key
     private Integer id;
     private Integer programId;
     private String programDesc;
@@ -90,12 +92,19 @@ public class ProgramClientRestriction implements Serializable {
     public void setStartDate(Calendar startDate) {
         this.startDate = startDate;
     }
-    public void setStartDateStr(){
-    	this.startDateStr= MyDateFormat.getStandardDate(this.startDate);
+    public void setStartDateStr(String dateStr){
+    	this.startDateStr= dateStr;
     }
-     public String getStartDateStr(){
-    	 if(this.startDate==null) return "";
-    	return MyDateFormat.getStandardDate(this.startDate);
+    public String getStartDateDisplay(){
+    	if(startDate==null) return "";
+    	return MyDateFormat.getStandardDate(startDate);
+    }
+    public String getEndDateDisplay(){
+    	if(endDate==null) return "";
+    	return MyDateFormat.getStandardDate(endDate);
+    }
+     public String getStartDateStr(){    	
+    	return startDateStr;
     }
     public Calendar  getEndDate() {
         return endDate;
@@ -145,19 +154,29 @@ public class ProgramClientRestriction implements Serializable {
         this.provider = provider;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ProgramClientRestriction that = (ProgramClientRestriction) o;
-
-        if (id != that.id) return false;
-
-        return true;
+    public boolean equals(Object obj) {
+        if (null == obj) return false;
+        if (!(obj instanceof ProgramClientRestriction)) return false;
+        else {
+        	ProgramClientRestriction mObj = (ProgramClientRestriction) obj;
+            if (null == this.getId() || null == mObj.getId()) return false;
+            else return(this.getId().equals(mObj.getId()));
+        }
     }
 
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        if (Integer.MIN_VALUE == this.hashCode) {
+            if (null == this.getId()) return super.hashCode();
+            else {
+                String hashStr = this.getClass().getName() + ":" + this.getId().hashCode();
+                this.hashCode = hashStr.hashCode();
+            }
+        }
+        return this.hashCode;
+    }
+
+    public String toString() {
+        return super.toString();
     }
 
 	public String getCommentId() {

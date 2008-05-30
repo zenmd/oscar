@@ -33,7 +33,7 @@ response.setHeader("Cache-Control", "no-cache");
 				<a	href="javascript:submitForm('save')"
 					style="color:Navy;text-decoration:none;">
 					<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Upload&nbsp;&nbsp;|</a>
-				<html:link action="/PMmodule/UploadFile.do"	style="color:Navy;text-decoration:none;">
+				<html:link action="/PMmodule/UploadFile.do" name="actionParam"	style="color:Navy;text-decoration:none;">
 					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 				</html:link>
 			</td>

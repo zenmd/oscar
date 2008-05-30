@@ -80,21 +80,14 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   ActionMessages messages = new ActionMessages();
 	   DynaActionForm clientForm = (DynaActionForm) form;
        ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
-       Integer days = 0;       
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
-       Program p = (Program) clientForm.get("program");
-      // restriction.setProgramId(p.getId());       
-       restriction.setStartDate(restriction.getStartDate());
-       String providerNo=(String)request.getSession().getAttribute("user");
-       restriction.setProviderNo(providerNo);
-       Calendar cal = new GregorianCalendar();
-       cal.setTime(new Date());
-       cal.set(Calendar.HOUR, 23);
-       cal.set(Calendar.MINUTE, 59);
-       cal.set(Calendar.SECOND, 59);
-       
-       restriction.setEnabled(true);
+       ProgramClientRestriction servObj=(ProgramClientRestriction)request.getAttribute("serviceObj");
 
+       Integer days = (Integer) clientForm.get("serviceRestrictionLength");       
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
+       Program p = (Program) clientForm.get("program");     
+       String providerNo=(String)request.getSession().getAttribute("user");
+       restriction.setProviderNo(providerNo);       
+       restriction.setEnabled(true);
        boolean success;
        if (restriction.getProgramId() == null
 				|| restriction.getProgramId().intValue() <= 0) {
@@ -105,8 +98,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		   return mapping.findForward("detail");  
 		}
        try {
-    	   days=(Integer) clientForm.get("serviceRestrictionLength");
-    	   String sDt=(String)clientForm.get("startDt");
+    	   String sDt = restriction.getStartDateStr();
     	   restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
     	   Calendar cal2 = restriction.getStartDate();
     	   cal2.add(Calendar.DAY_OF_MONTH, days);
@@ -153,35 +145,31 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
-       String programId = request.getParameter("selectedProgramId");
-       
+            
        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       
+       String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        ProgramClientRestriction pcrObj =(ProgramClientRestriction)clientForm.get("serviceRestriction");
-       String rId=request.getParameter("rId");
-       if ("0".equals(rId)) {
+       String rId=request.getParameter("rId");      
+		if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) rId=pcrObj.getId().toString();	
+       if ("0".equals(rId) || rId==null) {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
-			clientForm.set("serviceRestrictionLength", 180);
-			
+			clientForm.set("serviceRestrictionLength", 180);			
 			pcrObj.setId(null);
 		} else if (!Utility.IsEmpty(rId)) 
 		{			
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
-			programId = pcrObj.getProgramId().toString(); 
-			clientForm.set("startDt", MyDateFormat.getStandardDate(pcrObj.getStartDate()));
+			
+			pcrObj.setStartDateStr(MyDateFormat.getStandardDate(pcrObj.getStartDate()));
 		}
 
-		Program program = (Program) clientForm.get("program");
-		if (!Utility.IsEmpty(programId)) {
-			program = programManager.getProgram(programId);
-			pcrObj.setProgramId(Integer.valueOf(programId));			
-			request.setAttribute("program", program);
-		}
+       List<Program> allPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
+       request.setAttribute("allPrograms", allPrograms);
 		clientForm.set("serviceRestriction", pcrObj);
-       request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
+		request.setAttribute("serviceObj", pcrObj);
+     //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
    }
 
