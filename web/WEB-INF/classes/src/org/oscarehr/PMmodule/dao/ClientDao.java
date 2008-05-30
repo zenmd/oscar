@@ -100,7 +100,7 @@ public class ClientDao extends HibernateDaoSupport {
 		if (log.isDebugEnabled()) {
 			log.debug("getClientByDemographicNo: id=" + demographicNo + ", found=" + (result != null));
 		}
-
+        result.setEffDateTxt(MyDateFormat.getSysDateString(result.getEffDate()));
 		return result;
 	}
 

@@ -70,7 +70,7 @@ public class QuatroIntakeEditAction extends DispatchAction {
         }else{
           client= new Demographic();
   		  qform.setDob("");
-        } 	
+        }
 		qform.setClient(client);
         
 		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
@@ -257,6 +257,11 @@ public class QuatroIntakeEditAction extends DispatchAction {
 		client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
 		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
 		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
+		if(qform.getClient().getEffDateTxt().equals("")){
+		  client.setEffDate(new Date());
+		}else{
+		  client.setEffDate(MyDateFormat.getSysDate(qform.getClient().getEffDateTxt()));
+		}
     	clientManager.saveClient(client);
 
     	HashMap actionParam = new HashMap();

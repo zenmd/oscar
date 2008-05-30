@@ -79,6 +79,7 @@ public class Demographic implements Serializable {
     private String email;
     private String yearOfBirth;
     private Date effDate;
+    private String effDateTxt;
     private String links;
     private DemographicExt[] extras;
 
@@ -586,6 +587,10 @@ public class Demographic implements Serializable {
     /**
      * Return the value associated with the column: eff_date
      */
+    public String getEffDateTxt () {
+        return effDateTxt;
+    }
+
     public Date getEffDate () {
         return effDate;
     }
@@ -861,6 +866,12 @@ public class Demographic implements Serializable {
 
 	public void setHsAlertCount(int hsAlertCount) {
 		this.hsAlertCount = hsAlertCount;
+	}
+
+
+
+	public void setEffDateTxt(String effDateTxt) {
+		this.effDateTxt = effDateTxt;
 	}
 }
 
