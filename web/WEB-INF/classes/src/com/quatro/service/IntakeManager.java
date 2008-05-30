@@ -187,7 +187,6 @@ public class IntakeManager {
        	      obj.setDateOfBirth(dmg.getDateOfBirth());
        	      obj.setAlias(dmg.getAlias());
       		  obj.setDob(obj.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(obj.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(obj.getDateOfBirth()));
-//      		  obj.setEffDate(MyDateFormat.getSysDateString(dmg.getEffDate()));
     		  break;
     		}  
           }
