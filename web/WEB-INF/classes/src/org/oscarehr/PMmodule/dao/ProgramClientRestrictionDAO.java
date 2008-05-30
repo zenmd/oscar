@@ -11,6 +11,8 @@ import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.quatro.util.Utility;
+
 import java.util.Iterator;
 
 /**
@@ -55,8 +57,12 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         return pcrs;
     }
     
-    public List findAllForClient(Integer demographicNo) {      
-        List results = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.demographicNo = ? order by pcr.endDate desc", demographicNo);       
+    public List findAllForClient(Integer demographicNo,String providerNo,Integer facilityId) {
+    	String sql ="from ProgramClientRestriction pcr where pcr.demographicNo = ? and pcr.programId in " +Utility.getUserOrgQueryString(facilityId) +" order by pcr.endDate desc";
+        Object[] params=null;
+        if(facilityId==0)params=new Object[]{demographicNo,providerNo};
+        else params=new Object[]{demographicNo,facilityId,providerNo};
+    	List results = getHibernateTemplate().find(sql,params);       
         return results;
     }
     public Collection<ProgramClientRestriction> findForClient(Integer demographicNo) {

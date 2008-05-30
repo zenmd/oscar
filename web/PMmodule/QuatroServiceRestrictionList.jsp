@@ -82,9 +82,9 @@
 						if (temp.getEarlyTerminationProvider()!=null){
 							Provider providerTermination=providerDao.getProvider(temp.getEarlyTerminationProvider());
 							status="terminated early by "+providerTermination.getFormattedName();
-						}else if (temp.getEndDate().getTime()<System.currentTimeMillis()){
+						}else if (temp.getEndDate().getTime().getTime()<System.currentTimeMillis()){
 						    status="completed";
-						}else if (temp.getStartDate().getTime()<=System.currentTimeMillis() && temp.getEndDate().getTime()>=System.currentTimeMillis()){
+						}else if (temp.getStartDate().getTime().getTime()<=System.currentTimeMillis() && temp.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
 							status="in progress";
 							allowTerminateEarly=true;
 						}

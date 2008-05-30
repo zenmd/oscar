@@ -104,8 +104,8 @@ public class ClientManager {
         return referralDAO.getReferrals();
     }
 
-    public List getReferrals(String clientId) {
-        return referralDAO.getReferrals(Integer.valueOf(clientId));
+    public List getReferrals(String clientId,String providerNo,Integer facilityId) {
+        return referralDAO.getReferrals(Integer.valueOf(clientId),providerNo,facilityId);
     }
 
     public List getReferralsByFacility(String clientId, Integer facilityId) {

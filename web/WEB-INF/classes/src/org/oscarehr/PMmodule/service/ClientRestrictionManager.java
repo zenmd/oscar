@@ -25,6 +25,7 @@ package org.oscarehr.PMmodule.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ClientRestrictionManager {
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
         if (pcrs != null && !pcrs.isEmpty()) {
             for (ProgramClientRestriction pcr : pcrs) {
-                if (pcr.getStartDate().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime() <= pcr.getEndDate().getTime()) returnPcrs.add(pcr);
+                if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
@@ -59,7 +60,7 @@ public class ClientRestrictionManager {
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
         if (pcrs != null && !pcrs.isEmpty()) {
             for (ProgramClientRestriction pcr : pcrs) {
-                if (pcr.getStartDate().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime() <= pcr.getEndDate().getTime()) returnPcrs.add(pcr);
+                if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
@@ -71,26 +72,15 @@ public class ClientRestrictionManager {
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
         if (pcrs != null && !pcrs.isEmpty()) {
             for (ProgramClientRestriction pcr : pcrs) {
-                if (pcr.getStartDate().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime() <= pcr.getEndDate().getTime()) returnPcrs.add(pcr);
+                if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
     }
 
-    public List getAllRestrictionsForClient(Integer demographicNo,List ppList) {
-    	 ArrayList resLst = new ArrayList();
-         List results=programClientRestrictionDAO.findAllForClient(demographicNo);
-    	 Iterator items = results.iterator();
-         while(items.hasNext()){
-         	ProgramClientRestriction pcr =(ProgramClientRestriction)items.next();
-         	Iterator ppvs =ppList.iterator();
-         	while(ppvs.hasNext()){
-         		ProgramProvider ppv =(ProgramProvider)ppvs.next();
-         		if(pcr.getProgramId()==ppv.getProgramId().intValue()) resLst.add(pcr);
-         	}         	
-         }
-        // check dao for restriction
-        return  resLst;       
+    public List getAllRestrictionsForClient(Integer demographicNo,String providerNo,Integer facilityId) {
+    	 List results=programClientRestrictionDAO.findAllForClient(demographicNo,providerNo,facilityId);    	 
+         return  results;      
     }
 
     public List<ProgramClientRestriction> getActiveRestrictionsForClient(Integer demographicNo, Integer facilityId, Date asOfDate) {
@@ -99,7 +89,7 @@ public class ClientRestrictionManager {
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
         if (pcrs != null && !pcrs.isEmpty()) {
             for (ProgramClientRestriction pcr : pcrs) {
-                if (pcr.getStartDate().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime() <= pcr.getEndDate().getTime()) returnPcrs.add(pcr);
+                if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
@@ -111,7 +101,7 @@ public class ClientRestrictionManager {
         List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
         if (pcrs != null && !pcrs.isEmpty()) {
             for (ProgramClientRestriction pcr : pcrs) {
-                if (pcr.getStartDate().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime() <= pcr.getEndDate().getTime()) returnPcrs.add(pcr);
+                if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
@@ -122,7 +112,7 @@ public class ClientRestrictionManager {
         Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.find(programId, demographicNo);
         if (pcrs != null && !pcrs.isEmpty()) {
             for (ProgramClientRestriction pcr : pcrs) {
-                if (pcr.getStartDate().getTime() <= asOfDate.getTime() && asOfDate.getTime() <= pcr.getEndDate().getTime()) return pcr;
+                if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && asOfDate.getTime() <= pcr.getEndDate().getTime().getTime()) return pcr;
             }
         }
         return null;
@@ -142,7 +132,7 @@ public class ClientRestrictionManager {
 
         if (x != null) {
             x.setEarlyTerminationProvider(providerNo);
-            x.setEndDate(new Date());
+            x.setEndDate(new GregorianCalendar());
             programClientRestrictionDAO.save(x);
         }
     }

@@ -367,8 +367,7 @@
         <form-bean name="serviceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="serviceRestriction"  type="org.oscarehr.PMmodule.model.ProgramClientRestriction"></form-property>
-            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>  
-            <form-property name="startDt" type="java.util.String"></form-property>                     
+            <form-property name="serviceRestrictionLength" type="java.lang.Integer"></form-property>                                
         </form-bean>
         
         <form-bean name="quatroClientComplaintForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm" />

@@ -43,17 +43,14 @@
 			</logic:messagesPresent>
 			<br /></td>
 		</tr>
-	<tr>
-		<td>			
-				<div class="tabs">
-					<table cellpadding="0" cellspacing="0" border="0">
-							<tr>
-								<th>Referral</th>
-							</tr>
-						</table>
-					</div>
-		 </td>
-		</tr>	
+		<tr>
+			<td>
+			<table class="simple" cellspacing="2" cellpadding="3">
+				<tr>
+					<th align="left">REFERRAL</th></tr>	
+			</table>
+			</td>
+		</tr>		
 		
 		<tr>
 			<td>

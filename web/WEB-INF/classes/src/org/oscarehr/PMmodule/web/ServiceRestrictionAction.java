@@ -137,6 +137,12 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 
        return mapping.findForward("detail");       
    }
+ public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   
+	   ActionMessages messages = new ActionMessages();
+	   DynaActionForm clientForm = (DynaActionForm) form;
+	   return mapping.findForward("detail"); 
+ }
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
 
@@ -198,9 +204,9 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
              
        /* service restrictions */
-       	   List proPrograms = providerManager.getProgramDomain(providerNo);
+       	 //  List proPrograms = providerManager.getProgramDomain(providerNo);
            //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
-       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),proPrograms));
+       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),providerNo,facilityId));
 
    }
 

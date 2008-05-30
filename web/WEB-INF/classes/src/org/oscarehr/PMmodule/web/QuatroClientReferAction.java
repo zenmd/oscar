@@ -123,12 +123,12 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("actionParam", actionParam);
 		String demographicNo = (String) actionParam.get("clientId");
 
-		
-
+		String providerNo =(String)request.getSession(true).getAttribute(SessionConstants.CURRENT_USER_ID);
+		Integer facilityId =(Integer)request.getSession(true).getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
 		request.setAttribute("clientId", cId);		
 		try {
-			List lstRefers = clientManager.getReferrals(demographicNo);
+			List lstRefers = clientManager.getReferrals(demographicNo,providerNo,facilityId);
 			request.setAttribute("lstRefers", lstRefers);
 		} catch (Exception e) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(

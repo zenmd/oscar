@@ -81,6 +81,8 @@
 		  			<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
 		  				<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
         </logic:greaterThan>
+        <a href='javaScript:submitForm("print");' 	style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Print16x16.gif"/> />&nbsp;Save&nbsp;&nbsp;</a>
         <html:link
 				action="/PMmodule/QuatroConsent.do?method=list" name="actionParam"
 				style="color:Navy;text-decoration:none;">

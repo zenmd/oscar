@@ -102,7 +102,7 @@
 					     </td>
 					    </tr>	
 					    <tr><td width="35%">Start Date</td>
-					    <td width="65%"><quatro:datePickerTag property="startDt" width="120px" openerForm="serviceRestrictionForm"></quatro:datePickerTag></td></tr> 			    
+					    <td width="65%"><quatro:datePickerTag property="serviceRestriction.startDateStr" width="120px" openerForm="serviceRestrictionForm"></quatro:datePickerTag></td></tr> 			    
 					     <tr><td width="35%">Length of restriction (in days)</td>
 					        <td width="65%"><html:text size="4" property="serviceRestrictionLength" /></td></tr>
 		             </table>

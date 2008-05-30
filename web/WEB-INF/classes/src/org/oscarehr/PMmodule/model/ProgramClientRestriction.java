@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import oscar.MyDateFormat;
+
 /**
  * Service restriction
  */
@@ -27,6 +29,7 @@ public class ProgramClientRestriction implements Serializable {
     private Program program;
     private Demographic client;
     private Provider provider;
+    private String startDateStr;
 
     public ProgramClientRestriction() {
     }
@@ -87,7 +90,13 @@ public class ProgramClientRestriction implements Serializable {
     public void setStartDate(Calendar startDate) {
         this.startDate = startDate;
     }
-
+    public void setStartDateStr(){
+    	this.startDateStr= MyDateFormat.getStandardDate(this.startDate);
+    }
+     public String getStartDateStr(){
+    	 if(this.startDate==null) return "";
+    	return MyDateFormat.getStandardDate(this.startDate);
+    }
     public Calendar  getEndDate() {
         return endDate;
     }

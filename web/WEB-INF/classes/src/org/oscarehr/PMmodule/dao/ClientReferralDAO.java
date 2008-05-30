@@ -35,6 +35,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.common.KeyConstants;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.util.Utility;
 
 public class ClientReferralDAO extends HibernateDaoSupport {
 
@@ -50,13 +51,17 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public List getReferrals(Integer clientId) {
+    public List getReferrals(Integer clientId,String providerNo,Integer facilityId) {
 
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        List results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ?", clientId);
+        String sql="from ClientReferral cr where cr.clientId = ? and cr.programId in " +Utility.getUserOrgQueryString(facilityId);
+        Object[] params=null;
+        if(facilityId>0) params=new Object[]{clientId,facilityId,providerNo};
+        else params = new Object[]{clientId,providerNo};
+        
+        List results = this.getHibernateTemplate().find(sql, params);
 
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
