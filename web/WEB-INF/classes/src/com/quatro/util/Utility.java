@@ -154,7 +154,17 @@ public class Utility {
         	return null;
         }
     }
-    
+    public static String getUserOrgQueryString(Integer facilityId){
+    	String progSQL="";
+    	if (facilityId == 0) {
+			progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";			
+		}	else {
+			progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";				
+		}
+    	return progSQL;
+    }
     public static String FormatDate(Date pDate, String fStr) //throws Exception
     {
         try{

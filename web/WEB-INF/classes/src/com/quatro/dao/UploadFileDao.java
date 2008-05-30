@@ -15,6 +15,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.AttachmentText;
 import com.quatro.model.Attachment;
+import com.quatro.util.Utility;
 
 public class UploadFileDao extends HibernateDaoSupport {
 
@@ -45,21 +46,16 @@ public class UploadFileDao extends HibernateDaoSupport {
 	}
 
 	public List<Attachment> getAttach(Integer moduleId, String refNo, String providerNo, Integer facilityId) {
-		String progSQL = "";
-		String hql = "";
+		
 		Object [] params = null;
 		if (facilityId == 0) {
-			progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
 			params = new Object[] { moduleId, refNo,providerNo };
-		}	else {
-			progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
-			params = new Object[] { moduleId, refNo,facilityId, providerNo };		
+		}	
+		else {
+			params = new Object[] { moduleId, refNo,facilityId, providerNo };	
 		}
-
-		hql = " from Attachment t where t.moduleId = ? and t.refNo=? and t.refProgramId in " +
-				progSQL + " order by t.revDate desc";
+		String hql = " from Attachment t where t.moduleId = ? and t.refNo=? and t.refProgramId in " +
+		Utility.getUserOrgQueryString(facilityId) + " order by t.revDate desc";
 		List<Attachment> lst =getHibernateTemplate().find(hql,	params);
 		return lst;
 	}
