@@ -36,8 +36,8 @@
 		<put name="body" value="/PMmodule/lookup/LookupCodeEdit.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.view"
-		 path="/PMmodule/layout.jsp"> 
-		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_program.jsp" />
+		
 		<put name="body" value="/PMmodule/Admin/ProgramManagerView.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.list"
@@ -46,8 +46,7 @@
 		<put name="body" value="/PMmodule/Admin/ProgramManagerList.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.edit"
-		 path="/PMmodule/layout.jsp"> 
-		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_programEdit.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/ProgramManagerForm.jsp" />
 	</definition>
