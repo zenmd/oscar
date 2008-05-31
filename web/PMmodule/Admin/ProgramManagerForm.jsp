@@ -34,19 +34,7 @@
 			
 				<c:choose>
 					<c:when test="${id != null && id gt 0}">
-						<script>
-							function clickTab(name) {
-								//alert("clicktab = " + name);
-								document.programManagerForm.action = "<c:out value='${ctx}'/>/PMmodule/ProgramManagerView.do?id=<c:out value='${requestScope.id}'/>";
-								document.getElementsByName("tab")[0].value=name;
-								document.programManagerForm.method.value="view";
-								//alert("submit");
-								document.programManagerForm.submit();
-								//document.programManagerForm.method.value='edit';
-								//document.programManagerForm.elements['view.tab'].value=name;
-								//document.programManagerForm.submit();
-							}
-						</script>
+						
 			
 	
 						<table cellpadding="0" cellspacing="0" border="0" width="100%">

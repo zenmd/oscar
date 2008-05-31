@@ -1,19 +1,13 @@
 <%@ include file="/taglibs.jsp"%>
 <%@ page import="org.oscarehr.PMmodule.web.formbean.*"%>
-
 <%@page import="org.oscarehr.PMmodule.model.Program"%>
+
 <html:form action="/PMmodule/ProgramManagerView">
 	
 	<html:hidden property="tab" />
 	<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>" />
 	<input type="hidden" name="method" value="view" />
 	
-	<script>
-		function clickTab(name) {
-			document.programManagerViewForm.tab.value=name;
-			document.programManagerViewForm.submit();
-		}
-	</script>
 	
 
 
@@ -29,34 +23,7 @@
 			<th class="pageTitle" align="center">Program Management - <c:out value="${program.name}" /></th>
 			
 		</tr>
-		<tr height="18px">
-			<td  class="buttonBar2">
-				<%
-					Program program = (Program) request.getAttribute("program");
-
-					for (int i = 0; i < ProgramManagerViewFormBean.tabs.length; i++) {
-						if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase("Clients") && !program.isBed()) {
-							//break;
-							continue;
-						}
-						
-						if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase(selectedTab)) {
-				%>
-					
-						<b><%=ProgramManagerViewFormBean.tabs[i]%></b>&nbsp;&nbsp;|&nbsp;&nbsp;
-					
-				<%
-						} else {
-				%>
-					
-						<a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-					
-				<%
-						}
-					}
-				%>
-			</td>
-		</tr>
+		
 		<tr>
 			<td height="100%">
 				<jsp:include page='<%="/PMmodule/Admin/ProgramView/" + selectedTab.toLowerCase().replaceAll(" ", "_") + ".jsp"%>' />
