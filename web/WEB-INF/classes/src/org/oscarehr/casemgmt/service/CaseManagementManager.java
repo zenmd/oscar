@@ -128,21 +128,21 @@ public class CaseManagementManager {
 
     //retrieve list of providers who have edited specific note
     public void getEditors(CaseManagementNote note) {
-        List<Provider>providers;
+        List providers;
         providers = this.caseManagementNoteDAO.getEditors(note);
-        if( providers == null ) providers = new ArrayList<Provider>();
+        if( providers == null ) providers = new ArrayList();
         note.setEditors(providers);
     }
     
     //retrieves a list of providers that have been associated with each note
     //and stores this list in the coresponding note.
-    public void getEditors(List<CaseManagementNote>notes) {
-        Iterator<CaseManagementNote>iterator = notes.listIterator();
-        List<Provider>providers;
+    public void getEditors(List notes) {
+        Iterator iterator = notes.listIterator();
+        List providers;
         while(iterator.hasNext()) {
-            CaseManagementNote note = iterator.next();
+            CaseManagementNote note = (CaseManagementNote)iterator.next();
             providers = this.caseManagementNoteDAO.getEditors(note);
-            if( providers == null ) providers = new ArrayList<Provider>();
+            if( providers == null ) providers = new ArrayList();
             note.setEditors(providers);
         }
     }
@@ -219,7 +219,7 @@ public class CaseManagementManager {
         if( note.isSigned() ) {
             HashAuditImpl hashAudit = new HashAuditImpl();
             hashAudit.setType(BaseHashAudit.NOTE);
-            hashAudit.setId(note.getId());
+            hashAudit.setId(note.getId().longValue());
             hashAudit.makeHash(note.getNote().getBytes());
             hashAuditDAO.saveHash(hashAudit);
         }
@@ -244,7 +244,7 @@ public class CaseManagementManager {
      *fetch notes for demographic linked with specified issues
      *if date is set, fetch notes after specified date
      */
-    public List<CaseManagementNote> getNotes(String demographic_no, String[] issues, UserProperty prop) {
+    public List getNotes(String demographic_no, String[] issues, UserProperty prop) {
         if( prop == null )
             return getNotes(demographic_no, issues);
                 
@@ -252,11 +252,11 @@ public class CaseManagementManager {
         return caseManagementNoteDAO.getNotesByDemographic(demographic_no, issues, staleDate);
     }
 
-    public List<CaseManagementNote> getNotes(String demographic_no) {
+    public List getNotes(String demographic_no) {
         return caseManagementNoteDAO.getNotesByDemographic(demographic_no);
     }
 
-    public List<CaseManagementNote> getNotes(String demographic_no, String[] issues) {
+    public List getNotes(String demographic_no, String[] issues) {
         //List notesNoLocked = new ArrayList();
         List notes = caseManagementNoteDAO.getNotesByDemographic(demographic_no, issues);
         /*
@@ -271,23 +271,23 @@ public class CaseManagementManager {
         return notes;
     }
 
-    public List<CaseManagementIssue> getIssues(String providerNo, String demographic_no) {
+    public List getIssues(String providerNo, String demographic_no) {
         return caseManagementIssueDAO.getIssuesByDemographicOrderActive(demographic_no);
 
     }
 
-    public List<CaseManagementIssue> getActiveIssues(String providerNo, String demographic_no) {
+    public List getActiveIssues(String providerNo, String demographic_no) {
         return caseManagementIssueDAO.getActiveIssuesByDemographic(demographic_no);
     }
-    public List<CaseManagementIssue> getAllIssues(String demographic_no) {
+    public List getAllIssues(String demographic_no) {
         return caseManagementIssueDAO.getAllIssuesByDemographic(demographic_no);
     }
     
-    public List<CaseManagementIssue> getIssues(String providerNo, String demographic_no, List accessRight) {
+    public List getIssues(String providerNo, String demographic_no, List accessRight) {
         return filterIssueList(getIssues(providerNo, demographic_no), providerNo, accessRight);
     }
 
-    public List<CaseManagementIssue> getActiveIssues(String providerNo, String demographic_no, List accessRight) {
+    public List getActiveIssues(String providerNo, String demographic_no, List accessRight) {
         return filterIssueList(getActiveIssues(providerNo, demographic_no), providerNo, accessRight);
     }
 
@@ -396,11 +396,11 @@ public class CaseManagementManager {
         echartDAO.saveCPPIntoEchart(cpp, providerNo);
     }
 
-    public List<Issue> getIssueInfoByCode(String providerNo, String[] codes) {
+    public List getIssueInfoByCode(String providerNo, String[] codes) {
         return issueDAO.findIssueByCode(codes);
     }
     
-    public List<Issue> getIssueInfoByCode(String providerNo, String code) {
+    public List getIssueInfoByCode(String providerNo, String code) {
         String[] codes = {code};
         return issueDAO.findIssueByCode(codes);
     }    
@@ -690,8 +690,8 @@ public class CaseManagementManager {
         
     	
         if(Utility.IsEmpty(issId)) issId="0";
-          if((Integer.valueOf(issId)>0) || !Utility.IsEmpty(caseStatus)){  
-        	  filteredNotes = notesIssueFiltering(Integer.parseInt(issId),caseStatus, filteredNotes) ;
+          if((Integer.valueOf(issId).intValue()>0) || !Utility.IsEmpty(caseStatus)){  
+        	  filteredNotes = notesIssueFiltering(Integer.valueOf(issId),caseStatus, filteredNotes) ;
           }
         
         // filter notes based on facility
@@ -725,10 +725,13 @@ public class CaseManagementManager {
         return issList;
     }
 
-    private List<CaseManagementIssue> issuesFacilityFiltering(Integer currentFacilityId, List<CaseManagementIssue> issues) {
-        ArrayList<CaseManagementIssue> results = new ArrayList<CaseManagementIssue>();
-
-        for (CaseManagementIssue caseManagementIssue : issues) {
+    private List issuesFacilityFiltering(Integer currentFacilityId, List issues) {
+        ArrayList results = new ArrayList();
+        
+        Iterator it = issues.iterator();
+        while(it.hasNext()){
+        	CaseManagementIssue caseManagementIssue = (CaseManagementIssue)it.next();
+        //for (CaseManagementIssue caseManagementIssue : issues) {
             Integer programId = caseManagementIssue.getProgram_id();
             if (programManager.hasAccessBasedOnFacility(currentFacilityId, programId)) results.add(caseManagementIssue);
         }
@@ -736,21 +739,26 @@ public class CaseManagementManager {
         return results;
     }
 
-    private List<CaseManagementNote> notesFacilityFiltering(Integer currentFacilityId, List<CaseManagementNote> notes) {
+    private List notesFacilityFiltering(Integer currentFacilityId, List notes) {
 
-        ArrayList<CaseManagementNote> results = new ArrayList<CaseManagementNote>();
-
-        for (CaseManagementNote caseManagementNote : notes) {
+        ArrayList results = new ArrayList();
+        Iterator it = notes.iterator();
+        while(it.hasNext()){
+        	CaseManagementNote caseManagementNote = (CaseManagementNote)it.next();
+        //for (CaseManagementNote caseManagementNote : notes) {
             String programId = caseManagementNote.getProgram_no();
-            if (programId==null || programManager.hasAccessBasedOnFacility(currentFacilityId, Integer.parseInt(programId))) results.add(caseManagementNote);
+            if (programId==null || programManager.hasAccessBasedOnFacility(currentFacilityId, Integer.valueOf(programId))) results.add(caseManagementNote);
         }
 
         return results;
     }
-    private List<CaseManagementNote> notesIssueFiltering(Integer issueId,String caseStatus, List<CaseManagementNote> notes) {
-    	ArrayList<CaseManagementNote> results = new ArrayList<CaseManagementNote>();
-
-        for (CaseManagementNote caseManagementNote : notes) {
+    private List notesIssueFiltering(Integer issueId,String caseStatus, List notes) {
+    	ArrayList results = new ArrayList();
+    	
+    	Iterator it = notes.iterator();
+        while(it.hasNext()){
+        	CaseManagementNote caseManagementNote = (CaseManagementNote)it.next();
+        //for (CaseManagementNote caseManagementNote : notes) {
             
         	Set issues = caseManagementNote.getIssues();
             Iterator its = issues.iterator();
@@ -818,10 +826,13 @@ public class CaseManagementManager {
     }
 
     public void updateIssue(String demographicNo,Integer originalIssueId, Integer newIssueId) {
-        List<CaseManagementIssue> issues = this.caseManagementIssueDAO.getIssuesByDemographic(demographicNo);
-        for (CaseManagementIssue issue : issues) {
+        List issues = this.caseManagementIssueDAO.getIssuesByDemographic(demographicNo);
+        Iterator it = issues.iterator();
+        while(it.hasNext()){
+        	CaseManagementIssue issue = (CaseManagementIssue)it.next();
+        //for (CaseManagementIssue issue : issues) {
             boolean save = false;
-            if (issue.getIssue_id() == originalIssueId.longValue()) {
+            if (issue.getIssue_id() == originalIssueId) {
                 issue.setIssue_id(newIssueId);
                 issue.setIssue(null);
                 save = true;
@@ -834,9 +845,9 @@ public class CaseManagementManager {
         /*
         String[] issueIdList = new String[1];
         issueIdList[0] = String.valueOf(newIssueId);
-        List<CaseManagementNote> notes = this.caseManagementNoteDAO.getNotesByDemographic(demographicNo);
+        List notes = this.caseManagementNoteDAO.getNotesByDemographic(demographicNo);
         for(CaseManagementNote note:notes) {
-        	Set<CaseManagementIssue> issues = note.getIssues();
+        	Set issues = note.getIssues();
         	for(CaseManagementIssue issue:issues) {
         		if(issue.getIssue().getId().equals(originalIssueId)) {
         			//update this CaseManagementIssue

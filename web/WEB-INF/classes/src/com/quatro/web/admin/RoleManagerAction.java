@@ -47,7 +47,7 @@ public class RoleManagerAction extends DispatchAction {
 		this.rolesManager = rolesManager;
 	}
 
-	@Override
+	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		return list(mapping, form, request, response);
@@ -56,7 +56,7 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		List<Secrole> list = null;
+		List list = null;
 		list = rolesManager.getRoles();
 
 		request.setAttribute("roles", list);
@@ -66,7 +66,7 @@ public class RoleManagerAction extends DispatchAction {
 
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -98,8 +98,8 @@ public class RoleManagerAction extends DispatchAction {
 			request.setAttribute("secroleForEdit", secrole);
 
 		
-////////
-			ArrayList<Secobjprivilege> secobjprivilegeLst = new ArrayList<Secobjprivilege>();
+
+			ArrayList secobjprivilegeLst = new ArrayList();
 			ArrayList funLst = new ArrayList();
 			funLst = (ArrayList)rolesManager.getFunctions(secrole.getRoleName());
 			
@@ -276,7 +276,7 @@ public class RoleManagerAction extends DispatchAction {
 		
 		ActionMessages messages = new ActionMessages();
 		
-		ArrayList<Secobjprivilege> secobjprivilegeLst = new ArrayList<Secobjprivilege>();
+		ArrayList secobjprivilegeLst = new ArrayList();
 
 		
 

@@ -25,7 +25,7 @@ public class QuatroReportDao extends HibernateDaoSupport {
 	  {
           ArrayList paramList = new ArrayList();
 		  String sSQL="from ReportValue s where s.reportNo=? AND s.providerNo=? order by s.accessType DESC";		
-	      paramList.add(rptNo);
+	      paramList.add(new Integer(rptNo));
 	      paramList.add(providerNo);
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      return (ReportValue)getHibernateTemplate().find(sSQL ,params).get(0);
@@ -35,7 +35,7 @@ public class QuatroReportDao extends HibernateDaoSupport {
 	  {
           ArrayList paramList = new ArrayList();
 		  String sSQL="from ReportOptionValue s where s.active=true AND s.reportNo= ? order by s.shortDesc";		
-	      paramList.add(rptNo);
+	      paramList.add(new Integer(rptNo));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      return getHibernateTemplate().find(sSQL ,params);
 	  }
@@ -44,7 +44,7 @@ public class QuatroReportDao extends HibernateDaoSupport {
 	  {
           ArrayList paramList = new ArrayList();
 		  String sSQL="from ReportFilterValue s WHERE s.reportNo=? order by s.fieldName";		
-	      paramList.add(rptNo);
+	      paramList.add(new Integer(rptNo));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      return getHibernateTemplate().find(sSQL ,params);
 	  }
@@ -53,8 +53,8 @@ public class QuatroReportDao extends HibernateDaoSupport {
 	  {
           ArrayList paramList = new ArrayList();
 		  String sSQL="from ReportFilterValue s where s.reportNo=? AND s.fieldNo = ?";		
-	      paramList.add(rptNo);
-	      paramList.add(fieldNo);
+	      paramList.add(new Integer(rptNo));
+	      paramList.add(new Integer(fieldNo));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      List lst=getHibernateTemplate().find(sSQL ,params);
 	      if(lst.size()==0){
@@ -77,7 +77,7 @@ public class QuatroReportDao extends HibernateDaoSupport {
 	  {
           ArrayList paramList = new ArrayList();
 	      paramList.add(providerNo);
-	      paramList.add(reportGroupId);
+	      paramList.add(new Integer(reportGroupId));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);          
 		  String sSQL="from ReportValue s WHERE s.providerNo=? AND s.reportGroupId=? order by s.reportGroupDesc";
 	      return  getHibernateTemplate().find(sSQL,params);
@@ -245,7 +245,7 @@ public class QuatroReportDao extends HibernateDaoSupport {
           try{
   		  ArrayList paramList = new ArrayList();
 		  String sSQL="from DocTextValue s where s.docId=?";		
-	      paramList.add(fileNo);
+	      paramList.add(new Integer(fileNo));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      List lst = getHibernateTemplate().find(sSQL ,params);
 	      return (DocTextValue)lst.get(0);

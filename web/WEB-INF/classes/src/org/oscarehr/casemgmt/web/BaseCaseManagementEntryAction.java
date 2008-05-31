@@ -153,7 +153,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		while (itr.hasNext())
 		{
 			CaseManagementIssue cIss = (CaseManagementIssue) itr.next();
-			if (iss.getId().longValue() == cIss.getIssue_id())
+			if (iss.getId() == cIss.getIssue_id())
 				return true;
 		}
 		return false;

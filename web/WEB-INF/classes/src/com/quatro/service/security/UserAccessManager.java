@@ -16,26 +16,26 @@ public class UserAccessManager
     	SecurityManager secManager = new SecurityManager();
     	
     	Hashtable functionList = new Hashtable();
-        List <UserAccessValue>list = _dao.GetUserAccessList(providerNo);
+        List list = _dao.GetUserAccessList(providerNo);
     	if (list.size()>0) {
 	    	int startIdx = 0;
 	    	List orgList = getAccessListForFunction(list,startIdx);
-	    	functionList.put(list.get(startIdx).getFunctionCd(), list);
+	    	functionList.put(((UserAccessValue)list.get(startIdx)).getFunctionCd(), list);
 	
 	    	while(orgList != null && startIdx + orgList.size()<list.size())
 	    	{
 	    		startIdx += orgList.size();
 	        	orgList = getAccessListForFunction(list,startIdx);
-	        	functionList.put(list.get(startIdx).getFunctionCd(), orgList);
+	        	functionList.put(((UserAccessValue)list.get(startIdx)).getFunctionCd(), orgList);
 	    	}
     	}
     	secManager.set_userFunctionAccessList(functionList);
     	return secManager;
     }
-    private List getAccessListForFunction(List <UserAccessValue> list, int startIdx)
+    private List getAccessListForFunction(List  list, int startIdx)
     {
     	if (startIdx >= list.size()) return null;
-    	List<UserAccessValue> orgList = new ArrayList<UserAccessValue>();
+    	List orgList = new ArrayList();
     	UserAccessValue uofv = (UserAccessValue) list.get(startIdx);
     	String functionCd = uofv.getFunctionCd();
     	orgList.add(uofv);

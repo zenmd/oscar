@@ -35,9 +35,8 @@ public class SecroleDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(SecroleDao.class);
 
-    public List<Secrole> getRoles() {
-        @SuppressWarnings("unchecked")
-        List<Secrole> results = this.getHibernateTemplate().find("from Secrole r");
+    public List getRoles() {
+        List results = this.getHibernateTemplate().find("from Secrole r");
 
         log.debug("getRoles: # of results=" + results.size());
 
@@ -71,8 +70,8 @@ public class SecroleDao extends HibernateDaoSupport {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Secrole> getDefaultRoles() {
+    
+    public List getDefaultRoles() {
         return this.getHibernateTemplate().find("from Secrole r where r.userDefined=0");
     }
 

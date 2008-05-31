@@ -78,11 +78,11 @@ public class IntakeConstant {
 	  //total intake constant numbers defined here.
 	  public static final int TOTALITEMS = 63;
 	  
-	  private static HashMap<Integer, String> PREFIX;
+	  private static HashMap PREFIX;
 	  
-	  public static HashMap<Integer, String> getPrefixDefined() {
+	  public static HashMap getPrefixDefined() {
 			 if(PREFIX==null){
-				PREFIX = new HashMap<Integer, String>();
+				PREFIX = new HashMap();
 				PREFIX.put(new Integer(GENDER), "GEN");
 				PREFIX.put(new Integer(REFERREDBY), "RFB");
 				PREFIX.put(new Integer(ABORIGINAL), "AOI");

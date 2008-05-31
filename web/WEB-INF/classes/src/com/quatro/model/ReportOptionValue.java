@@ -9,8 +9,8 @@ public class ReportOptionValue extends BaseObject{
     private int optionNo;
     private String optionTitle;
     private String optionDescription;
-    private Boolean active;
-    private Boolean bdefault;
+    private boolean active;
+    private boolean bdefault;
 
     private String dateFieldName;
     private String dateFieldDesc;
@@ -38,16 +38,16 @@ public class ReportOptionValue extends BaseObject{
 	public void setDbsqlWhere(String dbsqlWhere) {
 		this.dbsqlWhere = dbsqlWhere;
 	}
-	public Boolean isActive() {
+	public boolean isActive() {
 		return active;
 	}
-	public void setActive(Boolean active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
-	public Boolean isDefault() {
+	public boolean isDefault() {
 		return bdefault;
 	}
-	public void setDefault(Boolean bdefault) {
+	public void setDefault(boolean bdefault) {
 		this.bdefault = bdefault;
 	}
 	public String getDateFieldDesc() {

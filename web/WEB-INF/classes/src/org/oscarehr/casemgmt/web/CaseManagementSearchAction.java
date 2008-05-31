@@ -280,7 +280,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         
             
             /* PROGRESS NOTES */
-            List<CaseManagementNote> notes = null;
+            List notes = null;
 
             // filter the notes by the checked issues and date if set
             UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
@@ -320,13 +320,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             log.debug("FILTER NOTES PROVIDER " + String.valueOf(current - start));
             start = current;
           */
-            List<Provider> providers = getProviderManager().getActiveProviders(currentFacilityId.toString(),null);
+            List providers = getProviderManager().getActiveProviders(currentFacilityId.toString(),null);
     		
             request.setAttribute("providers", providers);
-            List<LookupCodeValue> caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
+            List caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
             request.setAttribute("caseStatusList", caseStatus);
             
-            List<IssueAdmin> issues = this.caseManagementMgr.getAllIssueInfo();
+            List issues = this.caseManagementMgr.getAllIssueInfo();
             request.setAttribute("issues", issues);
             
             // apply if we are filtering on role ----N/A Lillian comment
@@ -388,12 +388,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         // readonly access to define creat a new note button in jsp.
         SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
-        Boolean readonly = sec.GetAccess("_pmm.caseManagement","P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
+        boolean tmp = sec.GetAccess("_pmm.caseManagement","P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
+        Boolean readonly = new Boolean(tmp);
         se.setAttribute("readonly", readonly);
 
         // if we have just saved a note, remove saveNote flag
         Boolean saved = (Boolean) se.getAttribute("saveNote");
-        if (saved != null && saved == true) {
+        if (saved != null && saved.booleanValue() == true) {
             request.setAttribute("saveNote", saved);
             se.removeAttribute("saveNote");
         }
@@ -426,12 +427,16 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         // filter the notes by the checked issues and date if set
         UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
         String[] codes = request.getParameterValues("issue_code");
-        List<Issue> issues = caseManagementMgr.getIssueInfoByCode(providerNo, codes);
+        List issues = caseManagementMgr.getIssueInfoByCode(providerNo, codes);
         
         StringBuffer checked_issues = new StringBuffer();
         String[] issueIds = new String[issues.size()];
         int idx = 0;
-        for(Issue issue: issues) {
+        Iterator it = issues.iterator();
+        while(it.hasNext()){
+        	Issue issue = (Issue)it.next();
+        
+        //for(Issue issue: issues) {
             checked_issues.append("&issue_id="+String.valueOf(issue.getId()));            
             issueIds[idx] = String.valueOf(issue.getId());
         }                

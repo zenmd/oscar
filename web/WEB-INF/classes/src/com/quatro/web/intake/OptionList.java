@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class OptionList {
-  private List<List> optionValues;
+  private List optionValues;
 
   public OptionList(){
-	 optionValues= new ArrayList<List>();
+	 optionValues= new ArrayList();
 	 ArrayList obj= new ArrayList();
 	 for(int i=0;i<11;i++) optionValues.add(obj);
   }
@@ -16,7 +16,7 @@ public class OptionList {
 	return optionValues;
   }
 
-  public void setOptionValues(List<List> optionValues) {
+  public void setOptionValues(List optionValues) {
 	this.optionValues = optionValues;
   }
 

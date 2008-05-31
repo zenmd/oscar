@@ -8,8 +8,8 @@ import com.quatro.util.KeyValueBean;
 
 public class QuatroReportViewerForm extends ActionForm {
 
-    private ArrayList<KeyValueBean> exportFormatList;
-    private ArrayList<KeyValueBean> reportOptionList;
+    private ArrayList exportFormatList;
+    private ArrayList reportOptionList;
 	private String reportNo;
 	private String startDate;
 	private String endDate;
@@ -65,21 +65,21 @@ public class QuatroReportViewerForm extends ActionForm {
 		this.reportNo = reportNo;
 	}
 
-	public ArrayList<KeyValueBean> getExportFormatList() {
-		if(exportFormatList==null) exportFormatList= new ArrayList<KeyValueBean>();
+	public ArrayList getExportFormatList() {
+		if(exportFormatList==null) exportFormatList= new ArrayList();
 		return exportFormatList;
 	}
 
-	public void setExportFormatList(ArrayList<KeyValueBean> exportFormatList) {
+	public void setExportFormatList(ArrayList exportFormatList) {
 		this.exportFormatList = exportFormatList;
 	}
 
-	public ArrayList<KeyValueBean> getReportOptionList() {
-		if(reportOptionList==null) reportOptionList= new ArrayList<KeyValueBean>();
+	public ArrayList getReportOptionList() {
+		if(reportOptionList==null) reportOptionList= new ArrayList();
 		return reportOptionList;
 	}
 
-	public void setReportOptionList(ArrayList<KeyValueBean> reportOptionList) {
+	public void setReportOptionList(ArrayList reportOptionList) {
 		this.reportOptionList = reportOptionList;
 	}
 

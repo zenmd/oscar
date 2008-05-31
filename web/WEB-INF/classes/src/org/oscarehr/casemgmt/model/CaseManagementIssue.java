@@ -82,7 +82,7 @@ public class CaseManagementIssue extends BaseObject {
          */
         public CaseManagementIssue(CaseManagementIssue cMgmtIssue) {
             
-            this.setId(0); //so hibernate will think it a non persisted obj
+            this.setId(new Integer(0)); //so hibernate will think it a non persisted obj
             this.setDemographic_no(cMgmtIssue.getDemographic_no());
             this.setIssue_id(cMgmtIssue.getIssue_id());
             this.setAcute(cMgmtIssue.isAcute());

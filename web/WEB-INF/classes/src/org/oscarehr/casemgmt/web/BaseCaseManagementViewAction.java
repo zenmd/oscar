@@ -136,7 +136,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	public ProviderManager getProviderManager() {
 		return (ProviderManager) getAppContext().getBean("providerManager");
 	}
-	@Deprecated
+	
     public int getProviderId(HttpServletRequest request){
         return(Integer.parseInt(getProviderNo(request)));
     }

@@ -231,7 +231,7 @@ public class CaseManagementPrintPdf {
         
     }
     
-    public void printCPP(HashMap<String,List<CaseManagementNote> >cpp) throws IOException, DocumentException {
+    public void printCPP(HashMap cpp) throws IOException, DocumentException {
         if( cpp == null )
             return;
         
@@ -278,7 +278,7 @@ public class CaseManagementPrintPdf {
             p.add(phrase);
             document.add(p);
             newPage = false;
-            this.printNotes(cpp.get(issueCodes[idx]));
+            this.printNotes((List)cpp.get(issueCodes[idx]));
         }
             //phrase.add(content[idx]);        
             //ct.addText(phrase);
@@ -349,7 +349,7 @@ public class CaseManagementPrintPdf {
         cb.endText();
     }
     
-    public void printNotes(List<CaseManagementNote>notes) throws IOException, DocumentException{
+    public void printNotes(List notes) throws IOException, DocumentException{
                                                                   
         CaseManagementNote note;             
         Font obsfont = new Font(bf, FONTSIZE, Font.UNDERLINE);
@@ -364,7 +364,7 @@ public class CaseManagementPrintPdf {
         
         //Print notes
         for( int idx = 0; idx < notes.size(); ++idx ) {
-            note = notes.get(idx);        
+            note = (CaseManagementNote)notes.get(idx);        
             p = new Paragraph();
             p.setSpacingBefore(font.leading(LINESPACING)*2f);
             phrase = new Phrase(LEADING, "", font);              

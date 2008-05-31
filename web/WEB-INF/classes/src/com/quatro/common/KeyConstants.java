@@ -20,13 +20,13 @@ public class KeyConstants {
   public static final String SESSION_KEY_SWITCH_MODULE="switch";
   public static final String SESSION_KEY_CURRENT_MODULE="curModule";
   public static final String SESSION_KEY_CURRENT_RECORD="curRec";
-  public static final Integer MODULE_ID_CLIENT = 1;
-  public static final Integer MODULE_ID_SHELTER = 2;
-  public static final Integer MODULE_ID_CASE = 3;
-  public static final Integer MODULE_ID_SYSTEM = 4;
-  public static final Integer MODULE_ID_REPORT = 5;
-  public static final Integer MODULE_ID_INTAKE = 6;
-  public static final Integer MODULE_ID_AGENCY = 7;  
+  public static final Integer MODULE_ID_CLIENT = new Integer(1);
+  public static final Integer MODULE_ID_SHELTER = new Integer(2);
+  public static final Integer MODULE_ID_CASE = new Integer(3);
+  public static final Integer MODULE_ID_SYSTEM = new Integer(4);
+  public static final Integer MODULE_ID_REPORT = new Integer(5);
+  public static final Integer MODULE_ID_INTAKE = new Integer(6);
+  public static final Integer MODULE_ID_AGENCY = new Integer(7);  
 
   public static final String PROGRAM_TYPE_Bed = "Bed";
   public static final String PROGRAM_TYPE_Service = "Service";

@@ -125,8 +125,8 @@ public class ORGDao extends HibernateDaoSupport {
 			   lv.setPrefix(tableId);
 			   lv.setCode(rs.getString(1));
 			   lv.setDescription(db.getString(rs, 2));
-			   lv.setActive(1 == Integer.valueOf("0" + db.getString(rs, 3)));
-			   lv.setOrderByIndex(Integer.valueOf("0" + db.getString(rs,4)));
+			   lv.setActive(1 == Integer.valueOf("0" + db.getString(rs, 3)).intValue());
+			   lv.setOrderByIndex(Integer.valueOf("0" + db.getString(rs,4)).intValue());
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
 			   lv.setCodeTree(db.getString(rs, 7));

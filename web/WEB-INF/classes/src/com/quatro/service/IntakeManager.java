@@ -1,6 +1,7 @@
 package com.quatro.service;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Calendar;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
@@ -97,7 +99,7 @@ public class IntakeManager {
     	  ClientReferral referral = new ClientReferral();
           if(intake.getClientId()!=null) referral.setClientId(intake.getClientId());
           referral.setNotes("Intake Automated referral");
-          if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId().intValue());
+          if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId());
           referral.setProviderNo(intake.getStaffId());
           referral.setReferralDate(new Date());
           referral.setStatus(KeyConstants.STATUS_ACTIVE);
@@ -108,7 +110,7 @@ public class IntakeManager {
           queue.setClientId(referral.getClientId());
           queue.setNotes(referral.getNotes());
           queue.setProgramId(referral.getProgramId());
-          queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+          queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
           queue.setReferralDate(referral.getReferralDate());
           queue.setStatus(KeyConstants.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
@@ -154,10 +156,16 @@ public class IntakeManager {
         if(lst==null) return null;
 
         List relationships = lookupDao.LoadCodeList("FRA",true, null, null);
-        for(Object element : lst) {
+        Iterator it = lst.iterator();
+        while(it.hasNext()){
+        	Object element = (Object)it.next();
+        
        	  QuatroIntakeFamily obj=(QuatroIntakeFamily)element;
        	  obj.setJoinFamilyDateTxt(MyDateFormat.getStandardDate(obj.getJoinFamilyDate()));
-          for(Object element2 : relationships) {
+       	  Iterator it2 = relationships.iterator();
+       	  while(it2.hasNext()){
+        	Object element2 = (Object)it2.next();
+          
         	LookupCodeValue obj2= (LookupCodeValue)element2;  
        	    if(obj2.getCode().equals(obj.getRelationship())){
         	  obj.setRelationshipDesc(obj2.getDescription());
@@ -167,15 +175,25 @@ public class IntakeManager {
         }
         
         StringBuilder sb= new StringBuilder();
-    	for(Object element : lst) {
+        Iterator it3 = lst.iterator();
+        while(it3.hasNext()){
+        	Object element = (Object)it3.next();
+    	
     	  QuatroIntakeFamily obj=(QuatroIntakeFamily)element;
           sb.append("," +  obj.getClientId().toString());          
         }
 
     	List lst2 = clientDao.getClientFamilyByDemographicNo(sb.substring(1));
-    	for(Object element2 : lst2) {
+    	Iterator it4 = lst2.iterator();
+        while(it4.hasNext()){
+        	Object element2 = (Object)it4.next();
+    	//for(Object element2 : lst2) {
     	  Demographic dmg= (Demographic)element2;
-          for(Object element : lst) {
+    	  
+    	  Iterator it5 = lst.iterator();
+          while(it5.hasNext()){
+          	Object element = (Object)it5.next();
+          //for(Object element : lst) {
        	    QuatroIntakeFamily obj=(QuatroIntakeFamily)element;
     		if(dmg.getDemographicNo().equals(obj.getClientId())){
        	      obj.setFirstName(dmg.getFirstName());
@@ -198,7 +216,7 @@ public class IntakeManager {
 	public OptionList LoadOptionsList() {
         List lst=intakeDao.LoadOptionsList();
         OptionList lst2= new OptionList();
-        HashMap<Integer, String> map= IntakeConstant.getPrefixDefined();
+        HashMap map= IntakeConstant.getPrefixDefined();
 
         ArrayList[] lst3 = new ArrayList[11];
         for(int i=0;i<11;i++){
@@ -237,14 +255,24 @@ public class IntakeManager {
         List lst= programDao.getProgramIdsByProvider(providerNo, facilityId);
         if (lst.size()==0) return lst;
         StringBuilder sb = new StringBuilder();
-        for(Object element: lst){
+        Iterator it = lst.iterator();
+        while(it.hasNext()){
+        	Object element = (Object)it.next();
+        //for(Object element: lst){
           Object[] obj = (Object[])element;
           sb.append("," + ((Integer)obj[0]).toString());	
         }
 		List lst2 = intakeDao.getQuatroIntakeHeaderList(clientId, sb.substring(1));
-        for(Object element2: lst2){
+		Iterator it2 = lst2.iterator();
+        while(it2.hasNext()){
+        	Object element2 = (Object)it2.next();
+        //for(Object element2: lst2){
           QuatroIntakeHeader obj2 = (QuatroIntakeHeader)element2;
-          for(Object element3: lst){
+          
+          Iterator it3 = lst.iterator();
+          while(it3.hasNext()){
+          	Object element3 = (Object)it3.next();
+          //for(Object element3: lst){
             Object[] obj3 = (Object[])element3;
             if(((Integer)obj3[0]).equals(obj2.getProgramId())){
               obj2.setProgramType((String)obj3[2]);

@@ -20,9 +20,11 @@ public class SecurityManager {
         String privilege = this.ACCESS_NONE;
         try
         {
-            List <UserAccessValue> orgList =  (List <UserAccessValue>) _userFunctionAccessList.get(functioncd);
-            for(UserAccessValue uav:orgList)
-            {
+            List  orgList =  (List ) _userFunctionAccessList.get(functioncd);
+            Iterator it = orgList.iterator();
+            while(it.hasNext()){
+            	UserAccessValue uav = (UserAccessValue)it.next();
+            //for(UserAccessValue uav:orgList) {
             	if (uav.isOrgApplicable()) {
 	            	if ("".equals(orgcd) || Utility.IsEmpty(uav.getOrgCd()) || orgcd.startsWith(uav.getOrgCd())){
 	            		privilege = uav.getPrivilege();

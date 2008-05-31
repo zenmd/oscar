@@ -285,6 +285,7 @@ public class ProgramManagerViewAction extends BaseAction {
         logManager.log("view", "program", programId, request);
 
         request.setAttribute("id", programId);
+        request.setAttribute("programManagerViewFormBean", formBean);
 
         return mapping.findForward("view");
     }

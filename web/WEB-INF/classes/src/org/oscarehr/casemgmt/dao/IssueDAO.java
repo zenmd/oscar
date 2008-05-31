@@ -41,15 +41,15 @@ public class IssueDAO extends HibernateDaoSupport {
         return this.getHibernateTemplate().find("from Issue");
     }
 
-    public List<Issue> findIssueByCode(String[] codes) {
+    public List findIssueByCode(String[] codes) {
         String code = StringUtils.join(codes,",");
         return this.getHibernateTemplate().find("from Issue i where i.code in (?)", new Object[] {code});
     }
     
     public Issue findIssueByCode(String code) {        
-        List<Issue>list = this.getHibernateTemplate().find("from Issue i where i.code = ?", new Object[] {code});
+        List list = this.getHibernateTemplate().find("from Issue i where i.code = ?", new Object[] {code});
         if( list != null )
-            return list.get(0);
+            return (Issue)list.get(0);
         
         return null;
     }

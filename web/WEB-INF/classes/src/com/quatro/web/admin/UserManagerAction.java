@@ -60,7 +60,7 @@ public class UserManagerAction extends DispatchAction {
 		this.lookupManager = lookupManager;
 	}
 
-	@Override
+	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		return list(mapping, form, request, response);
@@ -71,7 +71,7 @@ public class UserManagerAction extends DispatchAction {
 
 		String providerNo = request.getParameter("providerNo");
 		org.apache.struts.validator.DynaValidatorForm secForm = (org.apache.struts.validator.DynaValidatorForm) form;
-		ArrayList<Secuserrole> profilelist = new ArrayList<Secuserrole>();
+		ArrayList profilelist = new ArrayList();
 		
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		
@@ -387,7 +387,7 @@ public class UserManagerAction extends DispatchAction {
 		
 //		ActionMessages messages = new ActionMessages();
 		
-		ArrayList<Secuserrole> secUserRoleLst = new ArrayList<Secuserrole>();
+		ArrayList secUserRoleLst = new ArrayList();
 
 		
 		switch (operationType) {
@@ -417,7 +417,7 @@ public class UserManagerAction extends DispatchAction {
 	}
 
 	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
-		ArrayList<Secuserrole> secUserRoleLst = new ArrayList<Secuserrole>();
+		ArrayList secUserRoleLst = new ArrayList();
 		
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = (String) secuserForm.get("providerNo");
@@ -471,7 +471,7 @@ public class UserManagerAction extends DispatchAction {
 		String providerNo = (String) secuserForm.get("providerNo");
 		ActionMessages messages = new ActionMessages();
 		List secUserRoleLst = getRowList(request, form, 0);
-		ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
+		ArrayList LstforSave = new ArrayList();
 		
 		Iterator it = secUserRoleLst.iterator();
 		while(it.hasNext()){

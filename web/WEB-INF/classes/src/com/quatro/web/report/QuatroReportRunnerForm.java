@@ -12,10 +12,10 @@ import com.quatro.util.KeyValueBean;
 
 public class QuatroReportRunnerForm extends ActionForm {
 
-    private ArrayList<KeyValueBean> exportFormatList= new ArrayList();
-    private ArrayList<KeyValueBean> reportOptionList=new ArrayList();
-    private ArrayList<KeyValueBean> orgSelectionList=new ArrayList();
-    private ArrayList<ReportTempCriValue> templateCriteriaList=new ArrayList();
+    private ArrayList exportFormatList= new ArrayList();
+    private ArrayList reportOptionList=new ArrayList();
+    private ArrayList orgSelectionList=new ArrayList();
+    private ArrayList templateCriteriaList=new ArrayList();
 	private String reportNo;
 	private String startField;
 	private String endField;
@@ -31,8 +31,8 @@ public class QuatroReportRunnerForm extends ActionForm {
 	private String reportOption;
 	private String strClientJavascript;
 	private String [] relations = new String [] {"", "AND", "OR", "(", ")" ,")AND", ") OR",")AND(", ")OR(","AND(", "OR("};
-	private ArrayList<ReportFilterValue> filterFields= new ArrayList();
-	private ArrayList<KeyValueBean> operatorList= new ArrayList();
+	private ArrayList filterFields= new ArrayList();
+	private ArrayList operatorList= new ArrayList();
 
 	private String reportTitle;
 	private ReportValue rptVal;
@@ -89,21 +89,21 @@ public class QuatroReportRunnerForm extends ActionForm {
 		this.reportNo = reportNo;
 	}
 
-	public ArrayList<KeyValueBean> getExportFormatList() {
-		if(exportFormatList==null) exportFormatList= new ArrayList<KeyValueBean>();
+	public ArrayList getExportFormatList() {
+		if(exportFormatList==null) exportFormatList= new ArrayList();
 		return exportFormatList;
 	}
 
-	public void setExportFormatList(ArrayList<KeyValueBean> exportFormatList) {
+	public void setExportFormatList(ArrayList exportFormatList) {
 		this.exportFormatList = exportFormatList;
 	}
 
-	public ArrayList<KeyValueBean> getReportOptionList() {
-		if(reportOptionList==null) reportOptionList= new ArrayList<KeyValueBean>();
+	public ArrayList getReportOptionList() {
+		if(reportOptionList==null) reportOptionList= new ArrayList();
 		return reportOptionList;
 	}
 
-	public void setReportOptionList(ArrayList<KeyValueBean> reportOptionList) {
+	public void setReportOptionList(ArrayList reportOptionList) {
 		this.reportOptionList = reportOptionList;
 	}
 
@@ -115,12 +115,12 @@ public class QuatroReportRunnerForm extends ActionForm {
 		this.strClientJavascript = strClientJavascript;
 	}
 
-	public ArrayList<ReportTempCriValue> getTemplateCriteriaList() {
-		if(templateCriteriaList==null) templateCriteriaList= new ArrayList<ReportTempCriValue>(); 
+	public ArrayList getTemplateCriteriaList() {
+		if(templateCriteriaList==null) templateCriteriaList= new ArrayList(); 
 		return templateCriteriaList;
 	}
 
-	public void setTemplateCriteriaList(ArrayList<ReportTempCriValue> templateCriteriaList) {
+	public void setTemplateCriteriaList(ArrayList templateCriteriaList) {
 		this.templateCriteriaList = templateCriteriaList;
 	}
 
@@ -128,20 +128,20 @@ public class QuatroReportRunnerForm extends ActionForm {
 		return relations;
 	}
 
-	public ArrayList<ReportFilterValue> getFilterFields() {
+	public ArrayList getFilterFields() {
 		return filterFields;
 	}
 
-	public void setFilterFields(ArrayList<ReportFilterValue> filterFields) {
+	public void setFilterFields(ArrayList filterFields) {
 		this.filterFields = filterFields;
 	}
 
-	public ArrayList<KeyValueBean> getOperatorList() {
-		if(operatorList==null) operatorList = new ArrayList<KeyValueBean>(); 
+	public ArrayList getOperatorList() {
+		if(operatorList==null) operatorList = new ArrayList(); 
 		return operatorList;
 	}
 
-	public void setOperatorList(ArrayList<KeyValueBean> operatorList) {
+	public void setOperatorList(ArrayList operatorList) {
 		this.operatorList = operatorList;
 	}
 
@@ -217,12 +217,12 @@ public class QuatroReportRunnerForm extends ActionForm {
 		this.orgSelectionProperty = orgSelectionProperty;
 	}
 
-	public ArrayList<KeyValueBean> getOrgSelectionList() {
-		if(orgSelectionList==null) orgSelectionList= new ArrayList<KeyValueBean>();
+	public ArrayList getOrgSelectionList() {
+		if(orgSelectionList==null) orgSelectionList= new ArrayList();
 		return orgSelectionList;
 	}
 
-	public void setOrgSelectionList(ArrayList<KeyValueBean> orgSelectionList) {
+	public void setOrgSelectionList(ArrayList orgSelectionList) {
 		this.orgSelectionList = orgSelectionList;
 	}
 

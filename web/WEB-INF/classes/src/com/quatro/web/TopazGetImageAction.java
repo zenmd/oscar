@@ -37,7 +37,7 @@ public class TopazGetImageAction extends DispatchAction{
     public ActionForward image(ActionMapping mapping, ActionForm form, 
        		HttpServletRequest request, HttpServletResponse response) throws Exception {
        
-	   Integer recordId = Integer.parseInt((String)request.getParameter("rid"));
+	   Integer recordId = Integer.valueOf((String)request.getParameter("rid"));
 	   TopazValue tv= topazManager.getTopazValue(recordId);
        if(tv!=null){
 	     response.setContentType("image/gif");

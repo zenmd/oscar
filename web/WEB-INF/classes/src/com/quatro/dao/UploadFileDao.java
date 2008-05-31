@@ -45,10 +45,10 @@ public class UploadFileDao extends HibernateDaoSupport {
 		return (Attachment) getHibernateTemplate().get(Attachment.class, docId);
 	}
 
-	public List<Attachment> getAttach(Integer moduleId, String refNo, String providerNo, Integer facilityId) {
+	public List getAttach(Integer moduleId, String refNo, String providerNo, Integer facilityId) {
 		
 		Object [] params = null;
-		if (facilityId == 0) {
+		if (facilityId.intValue() == 0) {
 			params = new Object[] { moduleId, refNo,providerNo };
 		}	
 		else {
@@ -56,7 +56,7 @@ public class UploadFileDao extends HibernateDaoSupport {
 		}
 		String hql = " from Attachment t where t.moduleId = ? and t.refNo=? and t.refProgramId in " +
 		Utility.getUserOrgQueryString(facilityId) + " order by t.revDate desc";
-		List<Attachment> lst =getHibernateTemplate().find(hql,	params);
+		List lst =getHibernateTemplate().find(hql,	params);
 		return lst;
 	}
 }

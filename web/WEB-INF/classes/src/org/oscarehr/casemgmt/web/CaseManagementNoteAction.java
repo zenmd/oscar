@@ -314,11 +314,11 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String chain = request.getParameter("chain");
 
         if (chain != null && chain.length() > 0) {
-            request.getSession().setAttribute("passwordEnabled", passwd);
+            request.getSession().setAttribute("passwordEnabled", new Boolean(passwd));
             return mapping.findForward(chain);
         }
 
-        request.setAttribute("passwordEnabled", passwd);
+        request.setAttribute("passwordEnabled", new Boolean(passwd));
 
         String ajax = request.getParameter("ajax");
         if (ajax != null && ajax.equalsIgnoreCase("true")) {
@@ -412,7 +412,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                     CaseManagementIssue cIssue = this.caseManagementMgr.getIssueById(demo,issue_id[idx]);
                     if( cIssue == null ) {
                         Issue issue = this.caseManagementMgr.getIssue(issue_id[idx]);
-                        cIssue = this.newIssueToCIssue(demo, issue, Integer.parseInt(programId));                    
+                        cIssue = this.newIssueToCIssue(demo, issue, Integer.valueOf(programId));                    
                         cIssue.setNotes(noteSet);                    
                     }                
                     issueSet.add(cIssue);
@@ -551,7 +551,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String[] iss=cform.getTxtIssueKey().split(":");
         for(int i=0;i<iss.length;i++){
         	CaseManagementIssue cmIss= new CaseManagementIssue();
-        	Integer issId = Integer.parseInt(iss[i]);
+        	Integer issId = Integer.getInteger(iss[i]);
         	cmIss.setIssue_id(issId);  
         	cmIss.setDemographic_no(demo);
         	cmIss.setUpdate_date(now);
@@ -672,7 +672,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.warn(e);
         }
 
-        return note.getId();
+        return note.getId().longValue();
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -701,7 +701,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         // are we in the new encounter and chaining actions?
         String chain = request.getParameter("chain");
         if (chain != null) {
-            request.getSession().setAttribute("newNote", false);
+            request.getSession().setAttribute("newNote", new Boolean(false));
             request.getSession().setAttribute("saveNote", new Boolean(true)); // tell CaseManagementView we have just saved note
             return mapping.findForward(chain);
         }
@@ -837,7 +837,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.warn(e);
         }
         
-        request.getSession().setAttribute("newNote", false);
+        request.getSession().setAttribute("newNote", new Boolean(false));
         request.setAttribute("ajaxsave",note.getId());
         request.setAttribute("origNoteId", noteId);
         CaseManagementEntryFormBean newform = new CaseManagementEntryFormBean();
@@ -1042,7 +1042,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         // check to see if this issue has already been associated with this demographic
         boolean issueExists = false;
-        Integer lIssueId = Integer.parseInt(issueId);
+        Integer lIssueId = Integer.valueOf(issueId);
         CheckBoxBean[] existingCaseIssueList = cform.getIssueCheckList();
         for (int idx = 0; idx < existingCaseIssueList.length; ++idx) {
             if (existingCaseIssueList[idx].getIssue().getIssue_id() == lIssueId) {
@@ -1171,7 +1171,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         CaseManagementIssue origIssue = null;
         CaseManagementIssue newIssue = null;
         // find the checked issue
-        for (CheckIssueBoxBean curr : issueList) {
+        for(int i =0; i < issueList.length; i++){
+        	CheckIssueBoxBean curr = issueList[i];
+        
+        //for (CheckIssueBoxBean curr : issueList) {
             if (curr.isChecked()) {
                 substitution = curr;
                 break;
@@ -1352,7 +1355,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         String noteid = (String) request.getParameter("noteId");
 
-        List<CaseManagementNote> history = caseManagementMgr.getHistory(noteid);
+        List history = caseManagementMgr.getHistory(noteid);
         request.setAttribute("history", history);
         return mapping.findForward("showHistory");
     }
@@ -1427,23 +1430,27 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if (ids.length() > 0) noteIds = ids.split(",");
         else noteIds = (String[]) Array.newInstance(String.class, 0);
 
-        List<CaseManagementNote> notes = new ArrayList<CaseManagementNote>();
+        List notes = new ArrayList();
         for (int idx = 0; idx < noteIds.length; ++idx)
             notes.add(this.caseManagementMgr.getNote(noteIds[idx]));
 
         // we're not guaranteed any ordering of notes given to us, so sort by observation date
         Collections.sort(notes, CaseManagementNote.getObservationComparator());
         
-        List<CaseManagementNote> issueNotes;
-        HashMap<String,List<CaseManagementNote> >cpp = null; 
+        List issueNotes;
+        HashMap cpp = null; 
         if (request.getParameter("printCPP").equalsIgnoreCase("true")) {
-            cpp = new HashMap<String,List<CaseManagementNote> >();
+            cpp = new HashMap();
             String[] issueCodes = {"OMeds","SocHistory","MedHistory","Concerns","Reminders"};
             for( int j = 0; j < issueCodes.length; ++j ) {
-                List<Issue> issues = caseManagementMgr.getIssueInfoByCode(providerNo, issueCodes[j]);
+                List issues = caseManagementMgr.getIssueInfoByCode(providerNo, issueCodes[j]);
                 String[] issueIds = new String[issues.size()];            
                 int idx = 0;
-                for( Issue i: issues) {
+                Iterator it = issues.iterator();
+                while(it.hasNext()){
+                	Issue i = (Issue)it.next();
+                
+                //for( Issue i: issues) {
                     issueIds[idx] = String.valueOf(i.getId());
                     ++idx;
                 }
@@ -1590,11 +1597,15 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
     }
     
     protected CaseManagementCPP copyNote2cpp( CaseManagementCPP cpp, CaseManagementNote note ) {
-        Set<CaseManagementIssue>issueSet = note.getIssues();
+        Set issueSet = note.getIssues();
         StringBuffer text = new StringBuffer();        
         Date d = new Date();
         String separator = "\n-----[[" + d + "]]-----\n";
-        for( CaseManagementIssue issue: issueSet) {
+        Iterator it = issueSet.iterator();
+        while(it.hasNext()){
+        	CaseManagementIssue issue = (CaseManagementIssue)it.next();
+        
+        //for( CaseManagementIssue issue: issueSet) {
             String code = issue.getIssue().getCode();
             if( code.equals("OMeds") ) {
                 text.append(cpp.getFamilyHistory());

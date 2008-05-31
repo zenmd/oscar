@@ -25,7 +25,7 @@ public class LookupCodeValue {
 	public boolean isActive() {
 		return active;
 	}
-	public void setActive(Boolean active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 	public String getCode() {
@@ -67,7 +67,7 @@ public class LookupCodeValue {
 	public boolean isSelectable() {
 		return selectable;
 	}
-	public void setSelectable(Boolean selectable) {
+	public void setSelectable(boolean selectable) {
 		this.selectable = selectable;
 	}
 	public String getShortDesc() {

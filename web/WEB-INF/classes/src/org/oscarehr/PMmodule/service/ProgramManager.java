@@ -140,18 +140,18 @@ public class ProgramManager {
         return programDao.getProgramName(Integer.valueOf(programId));
     }
 
-    public List<Program> getAllPrograms() {
+    public List getAllPrograms() {
         return programDao.getAllPrograms();
     }
 
-    public List<Program> getAllPrograms(String programStatus, String type, Integer facilityId) {
+    public List getAllPrograms(String programStatus, String type, Integer facilityId) {
         return programDao.getAllPrograms(programStatus, type, facilityId);
     }
 
     /**
       * facilityId can be null, it will return all community programs optionally filtering by facility id if filtering is enabled.
      */
-    public List<Program> getCommunityPrograms(Integer facilityId) {
+    public List getCommunityPrograms(Integer facilityId) {
         if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {
             return programDao.getCommunityProgramsByFacilityId(facilityId);
         }
@@ -163,7 +163,7 @@ public class ProgramManager {
     /**
       * facilityId can be null, it will return all programs optionally filtering by facility id if filtering is enabled.
      */
-    public List<Program> getPrograms(Integer facilityId) {
+    public List getPrograms(Integer facilityId) {
         if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {
             return programDao.getProgramsByFacilityId(facilityId);
         }
@@ -171,14 +171,14 @@ public class ProgramManager {
             return programDao.getAllPrograms();
         }
     }
-    public List<Program> getProgramsByProvider(Integer facilityId,String providerNo) {
+    public List getProgramsByProvider(Integer facilityId,String providerNo) {
     	return programDao.getProgramByProvider(providerNo, facilityId);
     }
     public List getProgramIdsByProvider(Integer facilityId,String providerNo) {
     	return programDao.getProgramIdsByProvider(providerNo, facilityId);
     }
 
-    public List<Program> getPrograms() {
+    public List getPrograms() {
         return programDao.getAllPrograms();
     }
 
@@ -385,10 +385,10 @@ public class ProgramManager {
         return this.programAccessDAO.getProgramAccess(Integer.valueOf(programId), Integer.valueOf(accessTypeId));
     }
 
-    public List<Program> getProgramDomain(String providerNo) {
-        List<Program> programDomain = new ArrayList<Program>();
+    public List getProgramDomain(String providerNo) {
+        List programDomain = new ArrayList();
 
-        for (Iterator<?> i = programProviderDAO.getProgramDomain(providerNo).iterator(); i.hasNext();) {
+        for (Iterator i = programProviderDAO.getProgramDomain(providerNo).iterator(); i.hasNext();) {
             ProgramProvider programProvider = (ProgramProvider) i.next();
             programDomain.add(getProgram(programProvider.getProgramId()));
         }
@@ -396,13 +396,13 @@ public class ProgramManager {
         return programDomain;
     }
 
-    public List<Program> getProgramDomainInFacility(String providerNo, Integer facilityId) {
-    	List<Program> programs = getProgramDomain(providerNo);
-    	List<Program> results = new ArrayList<Program>();
+    public List getProgramDomainInFacility(String providerNo, Integer facilityId) {
+    	List programs = getProgramDomain(providerNo);
+    	List results = new ArrayList();
     	if(facilityId==null) 
     		return null;
-    	for(Iterator<Program> itr =programs.iterator(); itr.hasNext();) {
-    		Program p = itr.next();
+    	for(Iterator itr =programs.iterator(); itr.hasNext();) {
+    		Program p = (Program)itr.next();
     		if(p.getFacilityId()==facilityId)
     			results.add(p);
     	}
@@ -447,7 +447,7 @@ public class ProgramManager {
         return defaultRoleAccessDAO.find(roleId,accessTypeId);
     }
 
-    public List<ProgramClientStatus> getProgramClientStatuses(Integer programId) {
+    public List getProgramClientStatuses(Integer programId) {
         return clientStatusDAO.getProgramClientStatuses(programId);
     }
 
@@ -475,7 +475,7 @@ public class ProgramManager {
         return programSignatureDao.getProgramFirstSignature(programId);
     }
 
-    public List<ProgramSignature> getProgramSignatures(Integer programId) {
+    public List getProgramSignatures(Integer programId) {
         return programSignatureDao.getProgramSignatures(programId);
     }
 
@@ -497,7 +497,7 @@ public class ProgramManager {
 
         // check the providers facilities against the programs facilities
         Program program = getProgram(programId);        
-        return(program.getFacilityId() == currentFacilityId.intValue());
+        return(program.getFacilityId() == currentFacilityId);
     }
 
 	public void setSecuserroleDao(SecuserroleDao secuserroleDao) {

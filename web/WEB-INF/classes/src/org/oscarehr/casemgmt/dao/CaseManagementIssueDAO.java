@@ -30,28 +30,27 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class CaseManagementIssueDAO extends HibernateDaoSupport {
 
-    @SuppressWarnings("unchecked")
-    public List<CaseManagementIssue> getIssuesByDemographic(String demographic_no) {
+    
+    public List getIssuesByDemographic(String demographic_no) {
         return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ?", new Object[] {demographic_no});
     }
 
-    @SuppressWarnings("unchecked")
-    public List<CaseManagementIssue> getIssuesByDemographicOrderActive(String demographic_no) {
+    public List getIssuesByDemographicOrderActive(String demographic_no) {
         return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? order by cmi.resolved", new Object[] {demographic_no});
 
     }
 
-    @SuppressWarnings("unchecked")
-    public List<CaseManagementIssue> getActiveIssuesByDemographic(String demographic_no) {
+
+    public List getActiveIssuesByDemographic(String demographic_no) {
         return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? and cmi.resolved=false", new Object[] {demographic_no});
     }
-    public List<CaseManagementIssue> getAllIssuesByDemographic(String demographic_no) {
+    public List getAllIssuesByDemographic(String demographic_no) {
         return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? ", new Object[] {demographic_no});
     }
     public CaseManagementIssue getIssuebyId(String demo, String id) {
-        List<CaseManagementIssue> list = this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.issue_id = ? and demographic_no = ?",new Object[]{new Integer(id),demo});
+        List list = this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.issue_id = ? and demographic_no = ?",new Object[]{new Integer(id),demo});
         if( list != null && list.size() == 1 )
-            return list.get(0);
+            return (CaseManagementIssue)list.get(0);
         
         return null;                    
     }
@@ -62,9 +61,9 @@ public class CaseManagementIssueDAO extends HibernateDaoSupport {
 
     }
 
-    @SuppressWarnings("unchecked")
-    public void saveAndUpdateCaseIssues(List<CaseManagementIssue> issuelist) {
-        Iterator<CaseManagementIssue> itr = issuelist.iterator();
+    
+    public void saveAndUpdateCaseIssues(List issuelist) {
+        Iterator itr = issuelist.iterator();
         while (itr.hasNext()) {
             getHibernateTemplate().saveOrUpdate(itr.next());
         }

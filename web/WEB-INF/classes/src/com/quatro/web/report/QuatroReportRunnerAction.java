@@ -405,7 +405,7 @@ public class QuatroReportRunnerAction extends Action {
 		if (rptVal.isOrgApplicable()) 
 		{
 			obj5.setVisible("visibility:visible;");
-			ArrayList<KeyValueBean> lst= new ArrayList<KeyValueBean>();
+			ArrayList lst= new ArrayList();
 			String sOrgKey=myForm.getTxtOrgKey();
 			String sOrgValue=myForm.getTxtOrgValue();
 			if(sOrgKey!=null){
@@ -420,7 +420,7 @@ public class QuatroReportRunnerAction extends Action {
 		else
 		{
 			obj5.setVisible("visibility:hidden;height=1px;");
-			ArrayList<KeyValueBean> lst= new ArrayList<KeyValueBean>();
+			ArrayList lst= new ArrayList();
 			lst.add(new KeyValueBean("Not Applicable", "Not Applicable"));
 			myForm.setOrgSelectionList(lst);
 		}
@@ -555,7 +555,7 @@ public class QuatroReportRunnerAction extends Action {
         }
 	    repTemp.setReportOptionID(option.getOptionNo());
 		  
-	    ArrayList<ReportTempCriValue> tempCris= new ArrayList<ReportTempCriValue>();
+	    ArrayList tempCris= new ArrayList();
 		Map map=request.getParameterMap();
 	    String[] obj2= (String[])map.get("lineno");
 	    int lineno=0;
@@ -721,7 +721,7 @@ public class QuatroReportRunnerAction extends Action {
 
 	private ArrayList GetOperatorList(String ops)
 	{
-		ArrayList<KeyValueBean> operators = new ArrayList<KeyValueBean>();
+		ArrayList operators = new ArrayList();
 		if (Utility.IsEmpty(ops)) return operators;
 		for(int i=0; i<ops.length(); i++)
 		{
@@ -754,7 +754,7 @@ public class QuatroReportRunnerAction extends Action {
 
     public void ChangeTplCriTable(int operationType, QuatroReportRunnerForm myForm, HttpServletRequest request)
     {
-    	ArrayList<ReportTempCriValue> obj= new ArrayList<ReportTempCriValue>();
+    	ArrayList obj= new ArrayList();
 		ArrayList cris = new ArrayList();
 		if(request.getSession().getAttribute(DataViews.REPORT_CRI)!=null)
 			 cris = (ArrayList) request.getSession().getAttribute(DataViews.REPORT_CRI);

@@ -51,7 +51,7 @@ public class UserSearchAction extends DispatchAction {
 		this.usersManager = usersManager;
 	}
 
-	@Override
+	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		return list(mapping, form, request, response);
@@ -82,11 +82,11 @@ public class UserSearchAction extends DispatchAction {
 		// TODO:search
 		
 		
-		ArrayList<Secuserrole> surlist = new ArrayList<Secuserrole>();
+		ArrayList surlist = new ArrayList();
 
 		List userlist = usersManager.search(formBean);
 		
-		Hashtable<String, Secuserrole> ht = new Hashtable<String, Secuserrole>();
+		Hashtable ht = new Hashtable();
 		if (userlist != null && userlist.size() > 0) {
 			for (int i = 0; i < userlist.size(); i++) {
 				Object[] tmp = (Object[]) userlist.get(i);

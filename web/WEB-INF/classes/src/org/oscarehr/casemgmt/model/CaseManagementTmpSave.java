@@ -83,7 +83,7 @@ protected void initialize () {}
 	 * Return the value associated with the column: demographic_no
      */
     public long getDemographicNo () {
-        return _demographicNo;
+        return _demographicNo.longValue();
     }
 
     /**
@@ -113,7 +113,7 @@ protected void initialize () {}
 	 * Return the value associated with the column: program_id
      */
     public long getProgramId () {
-        return _programId;
+        return _programId.longValue();
     }
 
     /**
@@ -140,7 +140,7 @@ protected void initialize () {}
     }
     
     public long getNote_id() {
-        return _note_id;
+        return _note_id.longValue();
     }
     
     public void setNote_id( Integer note_id ) {

@@ -156,7 +156,7 @@ public class Utility {
     }
     public static String getUserOrgQueryString(Integer facilityId){
     	String progSQL="";
-    	if (facilityId == 0) {
+    	if (facilityId.intValue() == 0) {
 			progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
 			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";			
 		}	else {

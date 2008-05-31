@@ -11,7 +11,7 @@ public class ReportValue{
     private Set options;
     private Date runTime;
 
-    private Boolean print2Pdf;
+    private boolean print2Pdf;
     private int exportFormatType;
 
     //Hibernate values
@@ -19,7 +19,7 @@ public class ReportValue{
     private String title;
     private String description;
     private String accessType;
-    private Boolean orgApplicable;
+    private boolean orgApplicable;
     private String reportType;
     private int reportGroupId;
     private String reportGroupDesc;
@@ -57,11 +57,11 @@ public class ReportValue{
 		this.exportFormatType = exportFormatType;
 	}
 
-	public Boolean getPrint2Pdf() {
+	public boolean getPrint2Pdf() {
 		return print2Pdf;
 	}
 
-	public void setPrint2Pdf(Boolean print2Pdf) {
+	public void setPrint2Pdf(boolean print2Pdf) {
 		this.print2Pdf = print2Pdf;
 	}
 
@@ -121,11 +121,11 @@ public class ReportValue{
 		this.notes = notes;
 	}
 
-	public Boolean isOrgApplicable() {
+	public boolean isOrgApplicable() {
 		return orgApplicable;
 	}
 
-	public void setOrgApplicable(Boolean orgApplicable) {
+	public void setOrgApplicable(boolean orgApplicable) {
 		this.orgApplicable = orgApplicable;
 	}
 

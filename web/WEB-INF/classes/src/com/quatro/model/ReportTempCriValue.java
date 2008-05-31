@@ -13,10 +13,10 @@ public class ReportTempCriValue {
     private String val;
     private String valDesc;
 //    private String ops;
-    private Boolean required = false;
+    private boolean required = false;
     private String fieldName;
     private ReportFilterValue filter;
-    private ArrayList<KeyValueBean> operatorList;
+    private ArrayList operatorList;
     
     public int getCounter() {
 		return counter;
@@ -54,13 +54,13 @@ public class ReportTempCriValue {
 	public void setRelation(String relation) {
 		this.relation = relation;
 	}
-	public Boolean getRequired() {
+	public boolean getRequired() {
 		return required;
 	}
-	public Boolean isRequired() {
+	public boolean isRequired() {
 		return required;
 	}
-	public void setRequired(Boolean required) {
+	public void setRequired(boolean required) {
 		this.required = required;
 	}
 	public int getTemplateNo() {
@@ -81,11 +81,11 @@ public class ReportTempCriValue {
 	public void setValDesc(String valDesc) {
 		this.valDesc = valDesc;
 	}
-	public ArrayList<KeyValueBean> getOperatorList() {
-		if(operatorList==null) operatorList= new ArrayList<KeyValueBean>();
+	public ArrayList getOperatorList() {
+		if(operatorList==null) operatorList= new ArrayList();
 		return operatorList;
 	}
-	public void setOperatorList(ArrayList<KeyValueBean> operatorList) {
+	public void setOperatorList(ArrayList operatorList) {
 		this.operatorList = operatorList;
 	}
 	public ReportFilterValue getFilter() {
