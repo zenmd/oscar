@@ -53,7 +53,7 @@ public interface RoomDemographicManager {
 	 *            room identifier
 	 * @return RoomDemographic relationship object
 	 */
-	public List<RoomDemographic> getRoomDemographicByRoom(Integer roomId);
+	public List getRoomDemographicByRoom(Integer roomId);
 
 	/**
 	 * Get RoomDemographic relationship object with given demographic identifier

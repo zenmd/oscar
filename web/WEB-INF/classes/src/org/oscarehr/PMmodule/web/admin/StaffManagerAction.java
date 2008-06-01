@@ -110,19 +110,21 @@ public class StaffManagerAction extends DispatchAction {
 		request.setAttribute("programs",sortProgramProviders(pp));
 		
 		Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-		List<Program> allPrograms = programManager.getCommunityPrograms(facilityId);
-		List<StaffEditProgramContainer> allProgramsInContainer = new ArrayList<StaffEditProgramContainer>();
-		for(Program p : allPrograms) {
+		List allPrograms = programManager.getCommunityPrograms(facilityId);
+		List allProgramsInContainer = new ArrayList();
+//		for(Program p : allPrograms) {
+		for(int i=0;i<allPrograms.size();i++) {
+			Program p = (Program)allPrograms.get(i);
 			StaffEditProgramContainer container = new StaffEditProgramContainer(p,programManager.getProgramTeams(String.valueOf(p.getId())));
 			allProgramsInContainer.add(container);
 		}
 		request.setAttribute("all_programs",allProgramsInContainer);
 //		request.setAttribute("roles",roleManager.getRoles());
 		
-		List<Facility> allFacilities=facilityDAO.getActiveFacilities();
+		List allFacilities=facilityDAO.getActiveFacilities();
         request.setAttribute("all_facilities",allFacilities);
         
-        List<Integer> providerFacilities=providerManager.getFacilityIds(provider.getProviderNo());
+        List providerFacilities=providerManager.getFacilityIds(provider.getProviderNo());
         request.setAttribute("providerFacilities",providerFacilities);
 	}
 	

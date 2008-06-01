@@ -167,7 +167,7 @@ public class IncidentManager {
 		incident.setIncidentDate(MyDateFormat.getCalendar(incidentForm.getIncidentDateStr()));
 		incident.setInvestigationDate(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()));
 
-		if (incident.getId() == null || incident.getId() == 0) {
+		if (incident.getId() == null || incident.getId().intValue() == 0) {
 			incident.setId(null);
 			incident.setCreatedDate(Calendar.getInstance());
 		} 

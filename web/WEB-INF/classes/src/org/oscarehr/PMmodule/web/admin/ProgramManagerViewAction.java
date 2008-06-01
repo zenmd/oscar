@@ -127,7 +127,7 @@ public class ProgramManagerViewAction extends BaseAction {
     	return view(mapping, form, request, response);
     }
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
 
@@ -144,7 +144,7 @@ public class ProgramManagerViewAction extends BaseAction {
             request.setAttribute("clientId", demographicNo);
         }
 
-        request.setAttribute("temporaryAdmission", programManager.getEnabled());
+        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 
         // check role permission
         HttpSession se=request.getSession();
@@ -152,12 +152,14 @@ public class ProgramManagerViewAction extends BaseAction {
         se.setAttribute("performAdmissions",hasAccess(request, Integer.valueOf(programId), "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
 		        
         // need the queue to determine which tab to go to first
-        List<ProgramQueue> queue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId));
+        List queue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId));
         request.setAttribute("queue", queue);
 
-        HashSet<Integer> genderConflict = new HashSet<Integer>();
-        HashSet<Integer> ageConflict = new HashSet<Integer>();
-        for (ProgramQueue programQueue : queue) {
+        HashSet genderConflict = new HashSet();
+        HashSet ageConflict = new HashSet();
+//        for (ProgramQueue programQueue : queue) {
+        for (int i=0;i<queue.size();i++) {
+        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
             Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
             Program program=programManager.getProgram(programQueue.getProgramId());
             
@@ -180,7 +182,7 @@ public class ProgramManagerViewAction extends BaseAction {
             if (demographic != null && demographic.getAge()!=null)
             {
                 int age=Integer.parseInt(demographic.getAge());
-                if (age<program.getAgeMin() || age>program.getAgeMax()) ageConflict.add(programQueue.getClientId());
+                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
             }
         }
         request.setAttribute("genderConflict", genderConflict);
@@ -197,7 +199,7 @@ public class ProgramManagerViewAction extends BaseAction {
 
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
-        Facility facility=facilityDAO.getFacility(new Integer((int)program.getFacilityId()));
+        Facility facility=facilityDAO.getFacility(program.getFacilityId());
         if(facility!=null) request.setAttribute("facilityName", facility.getName());
 
        
@@ -730,13 +732,13 @@ public class ProgramManagerViewAction extends BaseAction {
         
 		ActionMessages messages = new ActionMessages();
 		List secUserRoleLst = getRowList(request, form, 0);
-		ArrayList<Secuserrole> LstforSave = new ArrayList<Secuserrole>();
+		ArrayList LstforSave = new ArrayList();
 		
 		Iterator it = secUserRoleLst.iterator();
 		while(it.hasNext()){
 			Secuserrole tmp = (Secuserrole)it.next();
 			if(tmp.getProviderNo() != null && tmp.getProviderNo().length() > 0 && tmp.getRoleName() != null && tmp.getRoleName().length() > 0){
-				tmp.setActiveyn(1);
+				tmp.setActiveyn(new Integer(1));
 				tmp.setOrgcd(orgcd);
 				LstforSave.add(tmp);
 			}
@@ -977,7 +979,7 @@ public class ProgramManagerViewAction extends BaseAction {
                 if(communityProgramCode.length() > 0){
                 	programToAdmit = programManager.getProgram(communityProgramCode);
                 
-                	if (programToAdmit != null && programToAdmit.getNumOfMembers() >= programToAdmit.getMaxAllowed()) {
+                	if (programToAdmit != null && programToAdmit.getNumOfMembers().intValue() >= programToAdmit.getMaxAllowed().intValue()) {
 	                	//client= clientManager.getClientByDemographicNo(admission.getClientId().toString());
 	                    message += "Program Full. Cannot admit " + client.getFormattedName() + "\n";
 	                    continue;
@@ -1015,7 +1017,7 @@ public class ProgramManagerViewAction extends BaseAction {
         String rejectionReason = request.getParameter("radioRejectionReason");
 
         //please write your code without JointAdmission, dawson wrote May 26, 2008  
-        List<Integer>  dependents = null;
+        List  dependents = null;
 /*        
         List<Integer>  dependents = clientManager.getDependentsList(new Integer(clientId));
 */        
@@ -1025,7 +1027,9 @@ public class ProgramManagerViewAction extends BaseAction {
         programQueueManager.rejectQueue(programId, clientId, notes, rejectionReason);
         
         if (dependents != null){
-            for (Integer l: dependents){
+//            for (Integer l: dependents){
+            for (int i=0;i<dependents.size();i++){
+            	Integer l = (Integer)dependents.get(i);
                 log.debug("rejecting from queue: program_id=" + programId + ",clientId=" + l.intValue());
                 programQueueManager.rejectQueue(programId, l.toString(), notes, rejectionReason);
             }
@@ -1188,7 +1192,7 @@ public class ProgramManagerViewAction extends BaseAction {
     }
 */
     
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public ActionForward switch_beds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         /*
     	 *	(1)Check whether both clients are from same program //??? probably not necessary ???
@@ -1380,7 +1384,7 @@ public class ProgramManagerViewAction extends BaseAction {
         return view(mapping, form, request, response);
     }
     
-    @Required
+    //@Required
     public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
         this.clientRestrictionManager = clientRestrictionManager;
     }
@@ -1428,7 +1432,7 @@ public class ProgramManagerViewAction extends BaseAction {
 	{
 	    SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 	    String orgCd = "P" + programId.toString();
-	    return sec.GetAccess(function,orgCd).compareTo(right) >= 0;
+	    return new Boolean(sec.GetAccess(function,orgCd).compareTo(right) >= 0);
 	}
 
 	public void setUsersManager(UsersManager usersManager) {

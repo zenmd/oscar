@@ -65,14 +65,14 @@ public class ConsentManager {
     public void saveConsent(Consent consent) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
-        clientDao.saveDemographicExt(consent.getDemographicNo().intValue(), "consent_st", consent.getStatus());
+        clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_st", consent.getStatus());
 
-        clientDao.saveDemographicExt(consent.getDemographicNo().intValue(), Demographic.CONSENT_GIVEN_KEY ,consent.getStatus());
-        clientDao.saveDemographicExt(consent.getDemographicNo().intValue(), Demographic.METHOD_OBTAINED_KEY ,Demographic.MethodObtained.EXPLICIT.name());
+        clientDao.saveDemographicExt(consent.getDemographicNo(), Demographic.CONSENT_GIVEN_KEY ,consent.getStatus());
+        clientDao.saveDemographicExt(consent.getDemographicNo(), Demographic.METHOD_OBTAINED_KEY ,Demographic.MethodObtained_EXPLICIT);
 
-        clientDao.saveDemographicExt(consent.getDemographicNo().intValue(), "consent_ex", consent.getExclusionString());
-        clientDao.saveDemographicExt(consent.getDemographicNo().intValue(), "consent_ag", String.valueOf(Agency.getLocalAgency().getId()));
-        clientDao.saveDemographicExt(consent.getDemographicNo().intValue(), "consent_dt", formatter.format(new Date()));
+        clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_ex", consent.getExclusionString());
+        clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_ag", String.valueOf(Agency.getLocalAgency().getId()));
+        clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_dt", formatter.format(new Date()));
 
         dao.saveConsent(consent);
     }

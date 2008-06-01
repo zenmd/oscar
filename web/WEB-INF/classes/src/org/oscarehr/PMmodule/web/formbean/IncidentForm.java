@@ -37,12 +37,12 @@ public class IncidentForm extends ValidatorForm{
 	private String txtClientKeys;
 	private String txtClientValues;
 	private String lstClient;
-	private ArrayList<KeyValueBean> clientSelectionList;
+	private ArrayList clientSelectionList;
 	
 	private String txtStaffKeys;
 	private String txtStaffValues;
 	private String lstStaff;
-	private ArrayList<KeyValueBean> staffSelectionList;
+	private ArrayList staffSelectionList;
 	
 	// for searching
 	private String clientId;
