@@ -51,22 +51,22 @@ public class InfirmBedProgramManager {
 
     private static Logger logger = Logger.getLogger(InfirmBedProgramManager.class);
 
-    @Required
+    //@Required
     public void setBedProgramDao(BedProgramDao dao) {
         this.bedProgramDao = dao;
     }
 
-    @Required
+    //@Required
     public void setProgramDao(ProgramDao dao) {
         this.programDao = dao;
     }
 
-    @Required
+    //@Required
     public void setProviderDefaultProgramDao(ProviderDefaultProgramDao dao) {
         this.providerDefaultProgramDao = dao;
     }
 
-    @Required
+    //@Required
     public void setDemographicDao(DemographicDAO dao) {
         this.demographicDAOT = dao;
     }
@@ -105,7 +105,7 @@ public class InfirmBedProgramManager {
                 //logger.debug("programName="+p.getProgram().getName()+"::"+"programId="+p.getProgram().getId().toString());
                 Program program = programDao.getProgram(p.getProgramId());
                 
-                if (facilityId!=null && program.getFacilityId()!=facilityId.intValue()) continue;
+                if (facilityId!=null && program.getFacilityId().intValue()!=facilityId.intValue()) continue;
                 
                 if (program.getProgramStatus() != null && program.getProgramStatus().equals("active")) pList.add(new LabelValueBean(program.getName(), program.getId().toString()));
             }

@@ -88,7 +88,7 @@ public class FacilityMessageAction extends DispatchAction {
 		String providerNo = (String)request.getSession().getAttribute("user");
 		
 		//List facilities = programProviderDAO.getFacilitiesInProgramDomain(providerNo);
-		List<Facility> facilities = new ArrayList();
+		List facilities = new ArrayList();
 		facilities.add((Facility)request.getSession().getAttribute("currentFacility"));
 		
 		request.getSession().setAttribute("facilities", facilities);
@@ -113,7 +113,7 @@ public class FacilityMessageAction extends DispatchAction {
 		DynaActionForm userForm = (DynaActionForm)form;
 		FacilityMessage msg = (FacilityMessage)userForm.get("facility_message");
 		msg.setCreation_date(new Date());
-		Integer facilityId = msg.getFacilityId().intValue();
+		Integer facilityId = msg.getFacilityId();
 		String facilityName = "";
 		if(facilityId!=null && facilityId.intValue()!=0)
 			facilityName = facilityMgr.getFacility(facilityId).getName();

@@ -53,7 +53,7 @@ public class TicklerComment extends BaseObject {
 		this.provider_no = provider_no;
 	}
 	public long getTickler_no() {
-		return tickler_no;
+		return tickler_no.longValue();
 	}
 	public void setTickler_no(Integer tickler_no) {
 		this.tickler_no = tickler_no;

@@ -75,8 +75,8 @@ public class RedirectLinkTrackingDao {
         }
     }
 
-    public List<RedirectLinkTracking> findByRedirectLinkId(int redirectLinkId) {
-        ArrayList<RedirectLinkTracking> result = new ArrayList<RedirectLinkTracking>();
+    public List findByRedirectLinkId(int redirectLinkId) {
+        ArrayList result = new ArrayList();
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
