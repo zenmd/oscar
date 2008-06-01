@@ -68,7 +68,7 @@ abstract class AbstractHtmlAdapter implements IntakeNodeHtmlAdapter {
 	// Node
 	
 	protected boolean isFirstChild() {
-		return node.getIndex() == 0;
+		return node.getIndex().intValue() == 0;
 	}
 
 	protected boolean isParentIntake() {
@@ -108,7 +108,7 @@ abstract class AbstractHtmlAdapter implements IntakeNodeHtmlAdapter {
 	}
 	
 	protected Integer getNoOfSibling() {
-		return node.getParent().getChildren().size();
+		return new Integer(node.getParent().getChildren().size());
 	}
 	
 	protected IntakeNode getParent() {
@@ -127,7 +127,7 @@ abstract class AbstractHtmlAdapter implements IntakeNodeHtmlAdapter {
 		return !getAnswerElements().isEmpty() ? getAnswerElements().iterator().next().getValidationStr() : "";
 	}
 	
-	protected Set<IntakeAnswerElement> getAnswerElements() {
+	protected Set getAnswerElements() {
 		return node.getNodeTemplate().getAnswerElements();
 	}
 	
