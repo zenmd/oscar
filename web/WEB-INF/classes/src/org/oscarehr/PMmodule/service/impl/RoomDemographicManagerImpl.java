@@ -43,10 +43,6 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 
 	private static final Log log = LogFactory.getLog(RoomDemographicManagerImpl.class);
 	
-	private static <T extends Exception> void handleException(T e) throws T {
-		log.error(e);
-		throw e;
-	}
 
 	private BedDemographicDAO bedDemographicDAO;
 	private RoomDemographicDAO roomDemographicDAO;
@@ -88,11 +84,11 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	/**
 	 * @see org.oscarehr.PMmodule.service.RoomDemographicManager#getRoomDemographicByRoom(java.lang.Integer)
 	 */
-	public List<RoomDemographic> getRoomDemographicByRoom(Integer roomId) {
+	public List getRoomDemographicByRoom(Integer roomId) {
 		if (roomId == null) {
-			handleException(new IllegalArgumentException("roomId must not be null"));
+			throw new IllegalArgumentException("roomId must not be null");
 		}
-		List<RoomDemographic> roomDemographicList = null;
+		List roomDemographicList = null;
 		roomDemographicList = roomDemographicDAO.getRoomDemographicByRoom(roomId);
 			
 		if(roomDemographicList != null  &&  roomDemographicList.size() > 0){
@@ -107,7 +103,7 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	 */
 	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo, Integer facilityId) {
 		if (demographicNo == null) {
-			handleException(new IllegalArgumentException("demographicNo must not be null"));
+			throw new IllegalArgumentException("demographicNo must not be null");
 		}
 		RoomDemographic roomDemographic = roomDemographicDAO.getRoomDemographicByDemographic(demographicNo);
 
@@ -129,7 +125,7 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	 */
 	public void saveRoomDemographic(RoomDemographic roomDemographic) {
 		if (roomDemographic == null) {
-			handleException(new IllegalArgumentException("roomDemographic must not be null"));
+			throw new IllegalArgumentException("roomDemographic must not be null");
 		}
 		boolean isNoRoomAssigned = (roomDemographic.getId().getRoomId().intValue() == 0);
 		
@@ -165,7 +161,7 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	 */
 	public void deleteRoomDemographic(RoomDemographic roomDemographic) {
 		if (roomDemographic == null) {
-			handleException(new IllegalArgumentException("roomDemographic must not be null"));
+			throw new IllegalArgumentException("roomDemographic must not be null");
 		}
 		
 		roomDemographicDAO.deleteRoomDemographic(roomDemographic);
@@ -187,25 +183,25 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 
 	void validateRoomDemographic(RoomDemographic roomDemographic) {
 		if (!roomDemographic.isValidAssign()) {
-			handleException(new IllegalArgumentException("invalid Assignvation: " + roomDemographic.getAssignStart() + " - " + roomDemographic.getAssignEnd()));
+			throw new IllegalArgumentException("invalid Assignvation: " + roomDemographic.getAssignStart() + " - " + roomDemographic.getAssignEnd());
 		}
 	}
 
 	void validateProvider(String providerId) {
 		if (!providerDao.providerExists(providerId)) {
-			handleException(new IllegalArgumentException("no provider with id : " + providerId));
+			throw new IllegalArgumentException("no provider with id : " + providerId);
 		}
 	}
 
 	void validateRoom(Integer roomId) {
 		if (!roomDAO.roomExists(roomId)) {
-			handleException(new IllegalArgumentException("no room with id : " + roomId));
+			throw new IllegalArgumentException("no room with id : " + roomId);
 		}
 	}
 
 	void validateDemographic(Integer demographicNo) {
 		if (!clientDao.clientExists(demographicNo)) {
-			handleException(new IllegalArgumentException("no demographic with id : " + demographicNo));
+			throw new IllegalArgumentException("no demographic with id : " + demographicNo);
 		}
 	}
 

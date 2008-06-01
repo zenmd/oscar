@@ -267,19 +267,19 @@ public final class SiteCheckAction extends DispatchAction {
                 Provider provider = providerManager.getProvider(username);
                 session.setAttribute("provider", provider);
 
-                List<Integer> facilityIds = providerManager.getFacilityIds(provider.getProviderNo());
+                List facilityIds = providerManager.getFacilityIds(provider.getProviderNo());
                 if (facilityIds.size() > 1) {
                     return("confirmed:/QuatroShelter" + mapping.findForward("facilitySelection").getPath());
                 }
                 else if (facilityIds.size() == 1) {
                     // set current facility
-                    Facility facility=facilityDAO.getFacility(facilityIds.get(0));
+                    Facility facility=facilityDAO.getFacility((Integer)facilityIds.get(0));
                     request.getSession().setAttribute("currentFacility", facility);
                     request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, facility.getId());
                     LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "facilityId="+facilityIds.get(0), ip);
                 }
                 else {
-                    request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, 0);
+                    request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, new Integer(0));
                 }
             }
             // expired password

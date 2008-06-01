@@ -48,10 +48,6 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 
 	private static final Log log = LogFactory.getLog(BedDemographicManagerImpl.class);
 	
-	private static <T extends Exception> void handleException(T e) throws T {
-		log.error(e);
-		throw e;
-	}
 
 	private BedDemographicDAO bedDemographicDAO;
 	private ProviderDao providerDAO;
@@ -96,7 +92,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	 */
 	public BedDemographic getBedDemographicByBed(Integer bedId) {
 		if (bedId == null) {
-			handleException(new IllegalArgumentException("bedId must not be null"));
+			throw new IllegalArgumentException("bedId must not be null");
 		}
 		
 		BedDemographic bedDemographic = null;
@@ -117,7 +113,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	 */
 	public BedDemographic getBedDemographicByDemographic(Integer demographicNo, Integer facilityId) {
 		if (demographicNo == null) {
-			handleException(new IllegalArgumentException("demographicNo must not be null"));
+			throw new IllegalArgumentException("demographicNo must not be null");
 		}
 
 		BedDemographic bedDemographic = null;
@@ -149,15 +145,18 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	 * @see org.oscarehr.PMmodule.service.BedDemographicManager#getDefaultBedDemographicStatus()
 	 */
 	public BedDemographicStatus getDefaultBedDemographicStatus() {
-		for (BedDemographicStatus status : getBedDemographicStatuses()) {
+//		for (BedDemographicStatus status : getBedDemographicStatuses()) {
+		BedDemographicStatus[] statuses =  getBedDemographicStatuses();
+		for (int i=0;i<statuses.length;i++) {
+			BedDemographicStatus status = statuses[i];
 			if (status.isDefault()) {
 				return status;
 			}
 		}
 
-		handleException(new IllegalArgumentException("no default bed demographic status"));
+		throw new IllegalArgumentException("no default bed demographic status");
 		
-		return null;
+//		return null;
 	}
 
 	/**
@@ -173,7 +172,9 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	public BedDemographicHistorical[] getExpiredReservations() {
 		BedDemographicHistorical[] bedDemographicHistoricals = bedDemographicDAO.getBedDemographicHistoricals(DateTimeFormatUtils.getToday());
 		
-		for (BedDemographicHistorical historical : bedDemographicHistoricals) {
+//		for (BedDemographicHistorical historical : bedDemographicHistoricals) {
+		for (int i=0;i<bedDemographicHistoricals.length;i++) {
+			BedDemographicHistorical historical = bedDemographicHistoricals[i]; 
 			BedDemographicHistoricalPK id = historical.getId();
 			
 			historical.setBed(bedDAO.getBed(id.getBedId()));
@@ -188,7 +189,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	 */
 	public void saveBedDemographic(BedDemographic bedDemographic) {
 		if (bedDemographic == null) {
-			handleException(new IllegalArgumentException("bedDemographic must not be null"));
+			throw new IllegalArgumentException("bedDemographic must not be null");
 		}
 		validate(bedDemographic);
 		bedDemographicDAO.saveBedDemographic(bedDemographic);
@@ -199,7 +200,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	 */
 	public void deleteBedDemographic(BedDemographic bedDemographic) {
 		if (bedDemographic == null) {
-			handleException(new IllegalArgumentException("bedDemographic must not be null"));
+			throw new IllegalArgumentException("bedDemographic must not be null");
 		}
 		
 		bedDemographicDAO.deleteBedDemographic(bedDemographic);
@@ -215,7 +216,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	    }
 		bedDemographic.setBedDemographicStatus(bedDemographicStatus);
 		
-		Integer duration = (bedDemographicStatus != null) ? bedDemographicStatus.getDuration() : 0;
+		Integer duration = (bedDemographicStatus != null) ? bedDemographicStatus.getDuration() : new Integer(0);
 		bedDemographic.setReservationEnd(duration);
 
 		String providerNo = bedDemographic.getProviderNo();
@@ -231,31 +232,31 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 
 	void validateBedDemographic(BedDemographic bedDemographic) {
 		if (!bedDemographic.isValidReservation()) {
-			handleException(new IllegalArgumentException("invalid reservation: " + bedDemographic.getReservationStart() + " - " + bedDemographic.getReservationEnd()));
+			throw new IllegalArgumentException("invalid reservation: " + bedDemographic.getReservationStart() + " - " + bedDemographic.getReservationEnd());
 		}
 	}
 
 	void validateBedDemographicStatus(Integer bedDemographicStatusId) {
 		if (!bedDemographicDAO.bedDemographicStatusExists(bedDemographicStatusId)) {
-			handleException(new IllegalArgumentException("no bed demographic status with id : " + bedDemographicStatusId));
+			throw new IllegalArgumentException("no bed demographic status with id : " + bedDemographicStatusId);
 		}
 	}
 
 	void validateProvider(String providerId) {
 		if (!providerDAO.providerExists(providerId)) {
-			handleException(new IllegalArgumentException("no provider with id : " + providerId));
+			throw new IllegalArgumentException("no provider with id : " + providerId);
 		}
 	}
 
 	void validateBed(Integer bedId) {
 		if (!bedDAO.bedExists(bedId)) {
-			handleException(new IllegalArgumentException("no bed with id : " + bedId));
+			throw new IllegalArgumentException("no bed with id : " + bedId);
 		}
 	}
 
 	void validateDemographic(Integer demographicNo) {
 		if (!demographicDAO.clientExists(demographicNo)) {
-			handleException(new IllegalArgumentException("no demographic with id : " + demographicNo));
+			throw new IllegalArgumentException("no demographic with id : " + demographicNo);
 		}
 	}
 

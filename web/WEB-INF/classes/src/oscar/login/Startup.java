@@ -112,15 +112,15 @@ public class Startup implements ServletContextListener {
 			if (!DBHandler.isInit())
 				DBHandler.init(p.getProperty("db_name"), p.getProperty("db_driver"), p.getProperty("db_uri"), p.getProperty("db_username"), p.getProperty("db_password"));
                         //Specify who will see new casemanagement screen
-                        ArrayList<String> listUsers;
+                        ArrayList listUsers;
                         String casemgmtscreen = p.getProperty("CASEMANAGEMENT");
                         if( casemgmtscreen != null ) {
                             String[] arrUsers = casemgmtscreen.split(",");
-                            listUsers = new ArrayList<String>(Arrays.asList(arrUsers));
+                            listUsers = new ArrayList(Arrays.asList(arrUsers));
                             Collections.sort(listUsers);                            
                         }
                         else
-                            listUsers = new ArrayList<String>();
+                            listUsers = new ArrayList();
                         
                         sc.getServletContext().setAttribute("CaseMgmtUsers", listUsers);
                         
@@ -137,7 +137,7 @@ public class Startup implements ServletContextListener {
 
 			String echartSwitch = p.getProperty("USE_NEW_ECHART");
 			if (echartSwitch != null && echartSwitch.equalsIgnoreCase("yes")) {
-				sc.getServletContext().setAttribute("useNewEchart", true);
+				sc.getServletContext().setAttribute("useNewEchart", Boolean.TRUE);
 			}
                         
                         log.info("BILLING REGION : "+p.getProperty("billregion","NOTSET"));

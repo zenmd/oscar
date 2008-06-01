@@ -25,7 +25,7 @@ public final class FacilitySelectionAction extends DispatchAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   
     	String providerNo=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-    	List<Integer> facilities=providerManager.getFacilityIds(providerNo);
+    	List facilities=providerManager.getFacilityIds(providerNo);
     	String facs = String.valueOf(facilities.get(0));
     	for(int i=1; i<facilities.size(); i++)
     	{
