@@ -19,7 +19,9 @@
 package org.oscarehr.common.service;
 
 import java.util.LinkedHashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.Map.Entry;
 
@@ -67,50 +69,57 @@ public class PopulationReportManager {
         return new Mortalities(count, size);
     }
 
-    public Map<String, ReportStatistic> getMajorMedicalConditions() {
-        Map<String, ReportStatistic> prevalences = new LinkedHashMap<String, ReportStatistic>();
+    public Map getMajorMedicalConditions() {
+        Map prevalences = new LinkedHashMap();
 
         int populationSize = populationReportDAO.getCurrentPopulationSize();
-
-        for (Entry<String, SortedSet<String>> e : PopulationReportCodes.getMajorMedicalConditions().entrySet()) {
+        Set s = PopulationReportCodes.getMajorMedicalConditions().entrySet();
+        Iterator it = s.iterator();
+        while(it.hasNext()){
+        	Entry e = (Entry)it.next();
+        
+        //for (Entry e : PopulationReportCodes.getMajorMedicalConditions().entrySet()) {
             prevalences.put(e.getKey(), new ReportStatistic(populationReportDAO.getPrevalence(e.getValue()), populationSize));
         }
 
         return prevalences;
     }
 
-    public Map<String, ReportStatistic> getMajorMentalIllnesses() {
-        Map<String, ReportStatistic> prevalences = new LinkedHashMap<String, ReportStatistic>();
+    public Map getMajorMentalIllnesses() {
+        Map prevalences = new LinkedHashMap();
 
         int populationSize = populationReportDAO.getCurrentPopulationSize();
-
-        for (Entry<String, SortedSet<String>> e : PopulationReportCodes.getMajorMentalIllness().entrySet()) {
+        Set s = PopulationReportCodes.getMajorMentalIllness().entrySet();
+        Iterator it = s.iterator();
+        while(it.hasNext()){
+        	Entry e = (Entry)it.next();
+        //for (Entry e : PopulationReportCodes.getMajorMentalIllness().entrySet()) {
             prevalences.put(e.getKey(), new ReportStatistic(populationReportDAO.getPrevalence(e.getValue()), populationSize));
         }
 
         return prevalences;
     }
 
-    public Map<String, ReportStatistic> getSeriousMedicalConditions() {
-        Map<String, ReportStatistic> incidences = new LinkedHashMap<String, ReportStatistic>();
+    public Map getSeriousMedicalConditions() {
+        Map incidences = new LinkedHashMap();
 
         int populationSize = populationReportDAO.getCurrentPopulationSize();
 
-        for (Entry<String, SortedSet<String>> e : PopulationReportCodes.getSeriousMedicalConditions().entrySet()) {
+        for (Entry e : PopulationReportCodes.getSeriousMedicalConditions().entrySet()) {
             incidences.put(e.getKey(), new ReportStatistic(populationReportDAO.getIncidence(e.getValue()), populationSize));
         }
 
         return incidences;
     }
 
-    public Map<String, Map<String, String>> getCategoryCodeDescriptions() {
-        Map<String, Map<String, String>> categoryCodeDescription = new LinkedHashMap<String, Map<String, String>>();
+    public Map getCategoryCodeDescriptions() {
+        Map categoryCodeDescription = new LinkedHashMap();
 
-        for (Entry<String, SortedSet<String>> e : PopulationReportCodes.getAllCodes().entrySet()) {
+        for (Entry e : PopulationReportCodes.getAllCodes().entrySet()) {
             String category = e.getKey();
-            SortedSet<String> codes = e.getValue();
+            SortedSet codes = e.getValue();
 
-            Map<String, String> codeDescriptions = new LinkedHashMap<String, String>();
+            Map codeDescriptions = new LinkedHashMap();
 
             for (String code : codes) {
                 Issue issue = issueDAO.findIssueByCode(code);

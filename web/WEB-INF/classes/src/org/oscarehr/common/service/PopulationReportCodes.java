@@ -1,5 +1,6 @@
 package org.oscarehr.common.service;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -31,12 +32,12 @@ class PopulationReportCodes {
 	private static final String[] pneumoniaCodes = { "J120", "J121", "J122", "J128", "J129", "J13", "J14", "J150", "J151", "J152", "J153", "J154", "J155", "J156", "J157", "J158", "J159", "J160", "J168", "J170", "J171", "J172", "J173", "J178", "J180", "J181", "J182", "J188", "J189", "B052", "B012", "J851" };
 	private static final String[] influenzaCodes = { "J09", "J100", "J101", "J108", "J110", "J111", "J118" };
 	
-	private static final Map<String, SortedSet<String>> majorMedicalConditions = new LinkedHashMap<String, SortedSet<String>>();
-	private static final Map<String, SortedSet<String>> majorMentalIllness = new LinkedHashMap<String, SortedSet<String>>();
-	private static final Map<String, SortedSet<String>> seriousMedicalContions = new LinkedHashMap<String, SortedSet<String>>();
-	private static final Map<String, SortedSet<String>> allCodes = new LinkedHashMap<String, SortedSet<String>>();
+	private static final Map majorMedicalConditions = new LinkedHashMap();
+	private static final Map majorMentalIllness = new LinkedHashMap();
+	private static final Map seriousMedicalContions = new LinkedHashMap();
+	private static final Map allCodes = new LinkedHashMap();
 	
-	static Map<String, SortedSet<String>> getMajorMedicalConditions() {
+	static Map getMajorMedicalConditions() {
 		if (majorMedicalConditions.isEmpty()) {
 			majorMedicalConditions.put(HIV, toSet(hivCodes));
 			majorMedicalConditions.put(CANCER, toSet(cancerCodes));
@@ -48,7 +49,7 @@ class PopulationReportCodes {
 	    return majorMedicalConditions;
     }
 	
-	static Map<String, SortedSet<String>> getMajorMentalIllness() {
+	static Map getMajorMentalIllness() {
 		if (majorMentalIllness.isEmpty()) {
 			majorMentalIllness.put(SCHIZOPHRENIA, toSet(schizophreniaCodes));
 			majorMentalIllness.put(BIPOLAR, toSet(bipolarCodes));
@@ -59,7 +60,7 @@ class PopulationReportCodes {
 	    return majorMentalIllness;
     }
 	
-	static Map<String, SortedSet<String>> getSeriousMedicalConditions() {
+	static Map getSeriousMedicalConditions() {
 		if (seriousMedicalContions.isEmpty()) {
 			seriousMedicalContions.put(PNEUMONIA, toSet(pneumoniaCodes));
 			seriousMedicalContions.put(INFLUENZA, toSet(influenzaCodes));
@@ -68,7 +69,7 @@ class PopulationReportCodes {
 	    return seriousMedicalContions;
     }
 	
-	static Map<String, SortedSet<String>> getAllCodes() {
+	static Map getAllCodes() {
 		if (allCodes.isEmpty()) {
 			allCodes.putAll(getMajorMedicalConditions());
 			allCodes.putAll(getMajorMentalIllness());
@@ -78,10 +79,13 @@ class PopulationReportCodes {
 		return allCodes;
 	}
 	
-	private static SortedSet<String> toSet(String[] array) {
-		SortedSet<String> set = new TreeSet<String>();
+	private static SortedSet toSet(String[] array) {
+		SortedSet set = new TreeSet();
+		Iterator it = set.iterator();
+		while(it.hasNext()){
+			String code = (String)it.next();
 		
-		for (String code : array) {
+		//for (String code : array) {
 			set.add(code);
         }
 		

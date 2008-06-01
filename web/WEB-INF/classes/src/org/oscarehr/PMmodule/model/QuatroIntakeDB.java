@@ -13,7 +13,7 @@ public class QuatroIntakeDB implements Serializable {
     private Integer clientId;
     private String staffId;
     private Calendar createdOn;    
-    private java.util.Set<QuatroIntakeAnswer> answers;
+    private java.util.Set answers;
     private String intakeStatus;
     private Integer programId;
     private String programType;
@@ -46,11 +46,11 @@ public class QuatroIntakeDB implements Serializable {
         return this.hashCode;
     }
 
-	public java.util.Set<QuatroIntakeAnswer> getAnswers() {
+	public java.util.Set getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(java.util.Set<QuatroIntakeAnswer> answers) {
+	public void setAnswers(java.util.Set answers) {
 		this.answers = answers;
 	}
 

@@ -80,7 +80,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
         int[] shelterUsages = new int[3];
 
-        Map<Integer, Set<Stay>> clientIdToStayMap = new HashMap<Integer, Set<Stay>>();
+        Map clientIdToStayMap = new HashMap();
 
         Calendar instant = Calendar.getInstance();
         Date end = instant.getTime();
@@ -106,7 +106,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
             }
         }
 
-        for (Entry<Integer, Set<Stay>> entry : clientIdToStayMap.entrySet()) {
+        for (Entry entry : clientIdToStayMap.entrySet()) {
             MutablePeriod period = new MutablePeriod(PeriodType.days());
 
             for (Stay stay : entry.getValue()) {
@@ -134,7 +134,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
         return ((Integer)getHibernateTemplate().find(HQL_GET_MORTALITIES, new Object[] {DateTimeFormatUtils.getPast(numYears)}).iterator().next()).intValue();
     }
 
-    public int getPrevalence(SortedSet<String> icd10Codes) {
+    public int getPrevalence(SortedSet icd10Codes) {
 
         StringBuilder query = new StringBuilder(HQL_GET_PREVALENCE).append("(");
 
@@ -151,7 +151,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
         return ((Integer)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
     }
 
-    public int getIncidence(SortedSet<String> icd10Codes) {
+    public int getIncidence(SortedSet icd10Codes) {
 
         StringBuilder query = new StringBuilder(HQL_GET_INCIDENCE).append("(");
 
@@ -168,7 +168,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
         return ((Integer)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
     }
 
-    public Map<Integer, Integer> getCaseManagementNoteCountGroupedByIssueGroup(int programId, int roleId, EncounterType encounterType, Date startDate, Date endDate) {
+    public Map getCaseManagementNoteCountGroupedByIssueGroup(int programId, int roleId, EncounterType encounterType, Date startDate, Date endDate) {
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -182,7 +182,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
             ps.setTimestamp(5, new Timestamp(endDate != null?endDate.getTime():System.currentTimeMillis()));
 
             rs = ps.executeQuery();
-            HashMap<Integer, Integer> results = new HashMap<Integer, Integer>();
+            HashMap results = new HashMap();
             while (rs.next())
                 results.put(rs.getInt(1), rs.getInt(2));
 

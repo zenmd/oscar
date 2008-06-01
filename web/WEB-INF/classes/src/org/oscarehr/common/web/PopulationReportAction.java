@@ -33,7 +33,7 @@ public class PopulationReportAction extends DispatchAction {
 	    this.populationReportManager = populationReportManager;
     }
 	
-	@Override
+	
 	protected ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    return report(mapping, form, request, response);
 	}
@@ -44,10 +44,10 @@ public class PopulationReportAction extends DispatchAction {
 		ShelterPopulation shelterPopulation = populationReportManager.getShelterPopulation();
 		ShelterUsage shelterUsage = populationReportManager.getShelterUsage();
 		Mortalities mortalities = populationReportManager.getMortalities();
-		Map<String, ReportStatistic> majorMedicalConditions = populationReportManager.getMajorMedicalConditions();
-		Map<String, ReportStatistic> majorMentalIllnesses = populationReportManager.getMajorMentalIllnesses();
-		Map<String, ReportStatistic> seriousMedicalConditions = populationReportManager.getSeriousMedicalConditions();
-		Map<String, Map<String, String>> categoryCodeDescriptions = populationReportManager.getCategoryCodeDescriptions();
+		Map majorMedicalConditions = populationReportManager.getMajorMedicalConditions();
+		Map majorMentalIllnesses = populationReportManager.getMajorMentalIllnesses();
+		Map seriousMedicalConditions = populationReportManager.getSeriousMedicalConditions();
+		Map categoryCodeDescriptions = populationReportManager.getCategoryCodeDescriptions();
 		 
 		// set attributes
 		request.setAttribute("date", DateTimeFormatUtils.getStringFromDate(currentDateTime, DATE_FORMAT));

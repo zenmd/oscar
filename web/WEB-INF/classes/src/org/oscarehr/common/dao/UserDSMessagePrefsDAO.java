@@ -59,7 +59,7 @@ public class UserDSMessagePrefsDAO extends HibernateDaoSupport {
     
     public Hashtable getHashofMessages(String providerNo,String name){
         Hashtable retHash = new Hashtable();
-        List<UserDSMessagePrefs> list = this.getHibernateTemplate().find("from UserDSMessagePrefs p where p.providerNo = ? and p.resourceType = ? and p.archived = false", new Object[] {providerNo,name});
+        List list = this.getHibernateTemplate().find("from UserDSMessagePrefs p where p.providerNo = ? and p.resourceType = ? and p.archived = false", new Object[] {providerNo,name});
         if( list != null && list.size() > 0 ) {
             for(UserDSMessagePrefs pref: list){
                 retHash.put(pref.getResourceType()+pref.getResourceId(),pref.getResourceUpdatedDate().getTime());
