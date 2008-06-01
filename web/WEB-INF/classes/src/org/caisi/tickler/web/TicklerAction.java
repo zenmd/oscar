@@ -123,7 +123,7 @@ public class TicklerAction extends DispatchAction {
         
         //request.setAttribute("programs",programMgr.getProgramDomain(providerId));
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);  
-        List programs=programMgr.getProgramDomainInFacility(providerId,Integer.valueOf(currentFacilityId));
+        List programs=programMgr.getProgramDomainInFacility(providerId,currentFacilityId);
         request.setAttribute("programs", programs);
         
         List ticklers = ticklerMgr.getTicklers();
@@ -162,7 +162,7 @@ public class TicklerAction extends DispatchAction {
         // if program selected default to first
         if (filter.getProgramId()==null || filter.getProgramId().length()==0)
         {
-            if (programs.size()>0) filter.setProgramId(String.valueOf(programs.get(0).getId()));
+            if (programs.size()>0) filter.setProgramId(((Program)programs.get(0)).getId().toString());
         }
         
         List ticklers = ticklerMgr.getTicklers(filter, currentFacilityId,providerId, programId);

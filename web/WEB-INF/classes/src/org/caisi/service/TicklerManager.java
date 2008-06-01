@@ -70,20 +70,22 @@ public class TicklerManager {
         ticklerDAO.saveTickler(tickler);
     }
 
-    public List<Tickler> getTicklers() {
+    public List getTicklers() {
         return ticklerDAO.getTicklers();
     }
 
    
-    public List<Tickler> getTicklers(CustomFilter filter, Integer currentFacilityId,String providerNo,String programId) {
-        List<Tickler> results = ticklerDAO.getTicklers(filter, currentFacilityId, providerNo,programId);   
+    public List getTicklers(CustomFilter filter, Integer currentFacilityId,String providerNo,String programId) {
+        List results = ticklerDAO.getTicklers(filter, currentFacilityId, providerNo,programId);   
         return(results);
     }
     
-    private List<Tickler> ticklerFacilityFiltering(Integer currentFacilityId, List<Tickler> ticklers) {
-        ArrayList<Tickler> results = new ArrayList<Tickler>();
+    private List ticklerFacilityFiltering(Integer currentFacilityId, List ticklers) {
+        ArrayList results = new ArrayList();
 
-        for (Tickler tickler : ticklers) {
+//        for (Tickler tickler : ticklers) {
+        for (int i=0;i<ticklers.size();i++) {
+        	Tickler tickler = (Tickler)ticklers.get(i); 
             Integer programId = tickler.getProgram_id();
             
             if (programManager.hasAccessBasedOnFacility(currentFacilityId, programId)) {            	

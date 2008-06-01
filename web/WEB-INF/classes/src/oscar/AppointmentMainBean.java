@@ -131,7 +131,7 @@ public class AppointmentMainBean {
   	  dbPH.queryExecuteUpdate("update property set value=1 where name='IS_PIN_ENCRYPTED'");
 	  ResultSet rs =null;
   	  rs = dbPH.queryResults("select SECURITY_NO, PIN from SECURITY");
-  	  ArrayList<String> lst= new ArrayList<String>();
+  	  ArrayList lst= new ArrayList();
   	  while(rs.next()){
   		 String str= "update SECURITY set PIN='" + Misc.encryptPIN(rs.getString("PIN")) + "' where SECURITY_NO=" + String.valueOf(rs.getInt("SECURITY_NO"));
   		 lst.add(str);

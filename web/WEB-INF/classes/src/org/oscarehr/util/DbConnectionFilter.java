@@ -38,16 +38,16 @@ import javax.servlet.ServletResponse;
 import oscar.util.SqlUtils;
 
 public class DbConnectionFilter implements javax.servlet.Filter {
-    private static ThreadLocal<Connection> dbConnection = new ThreadLocal<Connection>();
+    private static ThreadLocal dbConnection = new ThreadLocal();
 
     /**
      * This map was added because not all the code was using hibernate/JDBC properly, once we 
      * fix the data access we should remove this map as it's a waste of cpu time and memory.
      */
-    public static Map<Thread, StackTraceElement[]> debugMap = Collections.synchronizedMap(new WeakHashMap<Thread, StackTraceElement[]>());
+    public static Map debugMap = Collections.synchronizedMap(new WeakHashMap());
 
     public static Connection getThreadLocalDbConnection() throws SQLException {
-        Connection c = dbConnection.get();
+        Connection c = (Connection)dbConnection.get();
         if (c == null || c.isClosed()) {
             c = SpringUtils.getDbConnection();
             dbConnection.set(c);
@@ -71,7 +71,7 @@ public class DbConnectionFilter implements javax.servlet.Filter {
     }
 
     public static void releaseThreadLocalDbConnection() {
-        Connection c = dbConnection.get();
+        Connection c = (Connection)dbConnection.get();
         SqlUtils.closeResources(c, null, null);
         dbConnection.remove();
         debugMap.remove(Thread.currentThread());

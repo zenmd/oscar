@@ -112,7 +112,7 @@ public class EDocUtil extends SqlUtilBaseS {
         param[counter++] = new DBPreparedHandlerParam(org.apache.commons.lang.StringEscapeUtils.escapeSql(newDocument.getHtml()));
         param[counter++] = new DBPreparedHandlerParam(org.apache.commons.lang.StringEscapeUtils.escapeSql(newDocument.getFileName()));
         param[counter++] = new DBPreparedHandlerParam(newDocument.getCreatorId());
-        param[counter++] = new DBPreparedHandlerParam(newDocument.getProgramId());
+        param[counter++] = new DBPreparedHandlerParam(newDocument.getProgramId().intValue());
 
         java.sql.Date od1 = MyDateFormat.getSysDate(newDocument.getDateTimeStamp());
         param[counter++] = new DBPreparedHandlerParam(od1);
@@ -260,7 +260,7 @@ public class EDocUtil extends SqlUtilBaseS {
         return resultDocs;
     }
 
-    public static ArrayList<EDoc> listDocs(String module, String moduleid, String docType, String publicDoc, String sort, Integer currentFacilityId) {
+    public static ArrayList listDocs(String module, String moduleid, String docType, String publicDoc, String sort, Integer currentFacilityId) {
         // sort must be not null
         // docType = null or = "all" to show all doctypes
         // select publicDoc and sorting from static variables for this class i.e. sort=EDocUtil.SORT_OBSERVATIONDATE
@@ -279,7 +279,7 @@ public class EDocUtil extends SqlUtilBaseS {
         sql = sql + " ORDER BY " + sort;
         log.debug("sql list: " + sql);
         ResultSet rs = getSQL(sql);
-        ArrayList<EDoc> resultDocs = new ArrayList<EDoc>();
+        ArrayList resultDocs = new ArrayList();
         try {
             while (rs.next()) {
                 EDoc currentdoc = new EDoc();
@@ -311,10 +311,12 @@ public class EDocUtil extends SqlUtilBaseS {
         return resultDocs;
     }
 
-    private static ArrayList<EDoc> documentFacilityFiltering(Integer currentFacilityId, List<EDoc> eDocs) {
-        ArrayList<EDoc> results = new ArrayList<EDoc>();
+    private static ArrayList documentFacilityFiltering(Integer currentFacilityId, List eDocs) {
+        ArrayList results = new ArrayList();
 
-        for (EDoc eDoc : eDocs) {
+//        for (EDoc eDoc : eDocs) {
+        for (int i=0;i<eDocs.size();i++) {
+        	EDoc eDoc = (EDoc) eDocs.get(i); 
             Integer programId = eDoc.getProgramId();
             if (programManager.hasAccessBasedOnFacility(currentFacilityId, programId)) results.add(eDoc);
         }
@@ -322,12 +324,12 @@ public class EDocUtil extends SqlUtilBaseS {
         return results;
     }
 
-    public static ArrayList<EDoc> listDemoDocs(String moduleid, Integer currentFacilityId) {
+    public static ArrayList listDemoDocs(String moduleid, Integer currentFacilityId) {
         String sql = "SELECT d.*, p.first_name, p.last_name FROM document d, provider p, ctl_document c " + "WHERE d.doccreator=p.provider_no AND d.document_no = c.document_no " + "AND c.module='demographic' AND c.module_id=" + moduleid;
 
         log.debug("sql list: " + sql);
         ResultSet rs = getSQL(sql);
-        ArrayList<EDoc> resultDocs = new ArrayList<EDoc>();
+        ArrayList resultDocs = new ArrayList();
         try {
             while (rs.next()) {
                 EDoc currentdoc = new EDoc();

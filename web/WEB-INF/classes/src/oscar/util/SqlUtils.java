@@ -62,10 +62,14 @@ import oscar.oscarDB.DBHandler;
 public class SqlUtils {
     private static Log logger = LogFactory.getLog(SqlUtils.class);
 
+    private static String DatabaseTypes_MYSQL="MYSQL";
+    private static String DatabaseTypes_ORACLE="ORACLE";
+    private static String DatabaseTypes_POSTGRESQL="POSTGRESQL";
+/*    
     private enum DatabaseTypes {
         MYSQL, ORACLE, POSTGRESQL
     }
-
+*/
     private static java.sql.Date createAppropriateDate(Object value) {
         if (value == null) {
             return null;
@@ -508,7 +512,9 @@ public class SqlUtils {
         StringBuilder sb = new StringBuilder();
         sb.append('(');
 
-        for (Object item : items) {
+//        for (Object item : items) {
+        for (int i=0;i<items.length;i++) {
+        	Object item = items[i];
             if (sb.length() > 1) sb.append(',');
             sb.append(item);
         }
@@ -599,13 +605,13 @@ public class SqlUtils {
         return(oracleFormat.format(date1));
     }
 
-    private static DatabaseTypes getDatabaseType() {
+    private static String getDatabaseType() {
         BasicDataSource basicDataSource = (BasicDataSource) SpringUtils.getBean("dataSource");
         String driverName = basicDataSource.getDriverClassName();
 
-        if (driverName.startsWith("com.mysql.")) return(DatabaseTypes.MYSQL);
-        if (driverName.startsWith("org.postgresql.")) return(DatabaseTypes.POSTGRESQL);
-        if (driverName.startsWith("oracle.")) return(DatabaseTypes.ORACLE);
+        if (driverName.startsWith("com.mysql.")) return(DatabaseTypes_MYSQL);
+        if (driverName.startsWith("org.postgresql.")) return(DatabaseTypes_POSTGRESQL);
+        if (driverName.startsWith("oracle.")) return(DatabaseTypes_ORACLE);
         else throw(new IllegalArgumentException("Need a new database driver type added : " + driverName));
     }
 
@@ -613,15 +619,15 @@ public class SqlUtils {
      * This method will return the like condition for the appropriate database. As an example on mysql it will return "name like 'bob'" on postgres it would be "name ilike 'bob'" on oracle "regexp_like(name, 'bob', 'i')"
      */
     public static String getCaseInsensitiveLike(String column, String pattern) {
-        DatabaseTypes databaseType = getDatabaseType();
+        String databaseType = getDatabaseType();
 
-        if (databaseType == DatabaseTypes.MYSQL) return(column + " like '" + pattern + '\'');
-        if (databaseType == DatabaseTypes.POSTGRESQL) return(column + " ilike '" + pattern + '\'');
-        if (databaseType == DatabaseTypes.ORACLE) return("regexp_like(" + column + ",'" + pattern + "','i')");
+        if (databaseType == DatabaseTypes_MYSQL) return(column + " like '" + pattern + '\'');
+        if (databaseType == DatabaseTypes_POSTGRESQL) return(column + " ilike '" + pattern + '\'');
+        if (databaseType == DatabaseTypes_ORACLE) return("regexp_like(" + column + ",'" + pattern + "','i')");
         else throw(new IllegalArgumentException("Need a new databaseType added : " + databaseType));
     }
 
-    public static List<Long> selectLongList(String sqlCommand) {
+    public static List selectLongList(String sqlCommand) {
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -630,10 +636,10 @@ public class SqlUtils {
             ps = c.prepareStatement(sqlCommand);
             rs = ps.executeQuery();
 
-            ArrayList<Long> al = new ArrayList<Long>();
+            ArrayList al = new ArrayList();
 
             while (rs.next())
-                al.add(rs.getLong(1));
+                al.add(new Long(rs.getLong(1)));
 
             return(al);
         }
@@ -666,7 +672,7 @@ public class SqlUtils {
         }
     }
 
-    public static List<Integer> selectIntList(String sqlCommand) {
+    public static List selectIntList(String sqlCommand) {
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -675,10 +681,10 @@ public class SqlUtils {
             ps = c.prepareStatement(sqlCommand);
             rs = ps.executeQuery();
 
-            ArrayList<Integer> al = new ArrayList<Integer>();
+            ArrayList al = new ArrayList();
 
             while (rs.next())
-                al.add(rs.getInt(1));
+                al.add(new Integer(rs.getInt(1)));
 
             return(al);
         }

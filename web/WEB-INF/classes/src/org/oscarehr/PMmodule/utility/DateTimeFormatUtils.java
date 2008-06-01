@@ -55,7 +55,7 @@ public final class DateTimeFormatUtils {
 
 	public static final Date getFuture(Date start, Integer daysInFuture) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_MONTH, daysInFuture);
+		calendar.add(Calendar.DAY_OF_MONTH, daysInFuture.intValue());
 		Date future = calendar.getTime();
 
 		return getDateFromDate(future);
