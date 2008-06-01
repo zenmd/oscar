@@ -570,7 +570,7 @@ public class IntakeDao extends HibernateDaoSupport {
 			
 			
 		   for(int i=1;i<IntakeConstant.TOTALITEMS-1;i++){
-			 obj.add(new QuatroIntakeAnswer(i, hData.get(i)));
+			 obj.add(new QuatroIntakeAnswer(i, (String)hData.get(Integer.valueOf(i))));
 		   }
 		}
 

@@ -139,7 +139,7 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setPrefix(tableId);
 			   lv.setCode(rs.getString(1));
 			   lv.setDescription(db.getString(rs, 2));
-			   lv.setActive(Integer.valueOf("0" + db.getString(rs, 3)).equals(new Integer(1)));
+			   lv.setActive(Integer.valueOf("0" + db.getString(rs, 3)).intValue()==1);
 			   lv.setOrderByIndex(Integer.valueOf("0" + db.getString(rs,4)).intValue());
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
