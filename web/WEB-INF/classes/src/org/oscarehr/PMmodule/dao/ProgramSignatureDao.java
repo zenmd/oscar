@@ -53,7 +53,7 @@ public class ProgramSignatureDao extends HibernateDaoSupport {
         return programSignature;
     }
 
-    public List<ProgramSignature> getProgramSignatures(Integer programId) {
+    public List getProgramSignatures(Integer programId) {
         if (programId == null || programId.intValue() <= 0) {
             return null;
         }
@@ -68,7 +68,7 @@ public class ProgramSignatureDao extends HibernateDaoSupport {
     }
     
     public void removeProgramSignature(	Integer programId) {
-            if (programId == null || programId <= 0) {
+            if (programId == null || programId.intValue() <= 0) {
                 throw new IllegalArgumentException();
             }
             String sql = "from ProgramSignature where programId = " + programId;

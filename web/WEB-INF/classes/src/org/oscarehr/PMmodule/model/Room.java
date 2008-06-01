@@ -131,7 +131,7 @@ public class Room implements Serializable {
         }
     }
 
-    @Override
+    //@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }

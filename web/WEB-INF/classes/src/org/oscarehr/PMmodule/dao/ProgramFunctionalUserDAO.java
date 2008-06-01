@@ -144,8 +144,8 @@ public class ProgramFunctionalUserDAO extends HibernateDaoSupport {
         Integer result = null;
 
         Query q = getSession().createQuery("select pfu.ProgramId from ProgramFunctionalUser pfu where pfu.ProgramId = ? and pfu.UserTypeId = ?");
-        q.setInteger(0, programId);
-        q.setInteger(1, userTypeId);
+        q.setInteger(0, programId.intValue());
+        q.setInteger(1, userTypeId.intValue());
         List results = q.list();
         if (results.size() > 0) {
             result = (Integer)results.get(0);

@@ -9,7 +9,7 @@ import org.oscarehr.common.dao.BaseAuditStrategy;
 
 public class RoomAuditStrategy extends BaseAuditStrategy {
 	
-	@Override
+	//@Override
 	public void registerEvents() {
 		AuditStrategyFactory.register(Room.class, AuditableEvent.CREATE, this);
 		AuditStrategyFactory.register(Room.class, AuditableEvent.UPDATE, this);

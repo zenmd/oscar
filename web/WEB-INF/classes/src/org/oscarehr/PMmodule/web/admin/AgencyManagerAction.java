@@ -94,7 +94,7 @@ public class AgencyManagerAction extends DispatchAction {
         saveMessages(request, messages);
 
         request.setAttribute("id", agency.getId());
-        request.setAttribute("integratorEnabled", agency.isIntegratorEnabled());
+        request.setAttribute("integratorEnabled", new Boolean(agency.isIntegratorEnabled()));
 
         logManager.log("write", "agency", agency.getId().toString(), request);
 
@@ -107,7 +107,7 @@ public class AgencyManagerAction extends DispatchAction {
         agencyManager.saveAgency(agency);
 
         request.setAttribute("id", agency.getId());
-        request.setAttribute("integratorEnabled", agency.isIntegratorEnabled());
+        request.setAttribute("integratorEnabled", new Boolean(agency.isIntegratorEnabled()));
 
         return mapping.findForward(FORWARD_EDIT);
     }
@@ -119,7 +119,7 @@ public class AgencyManagerAction extends DispatchAction {
         agencyManager.saveAgency(agency);
 
         request.setAttribute("id", agency.getId());
-        request.setAttribute("integratorEnabled", agency.isIntegratorEnabled());
+        request.setAttribute("integratorEnabled", new Boolean(agency.isIntegratorEnabled()));
 
         return mapping.findForward(FORWARD_EDIT);
     }

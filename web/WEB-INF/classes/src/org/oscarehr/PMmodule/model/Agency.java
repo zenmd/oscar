@@ -31,7 +31,7 @@ public class Agency implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static Agency localAgency;
-	private static Map<?, ?> agencyMap;
+	private static Map agencyMap;
 
 	private int hashCode = Integer.MIN_VALUE;// primary key
 
@@ -58,7 +58,7 @@ public class Agency implements Serializable {
 		return localAgency;
 	}
 
-	public static Map<?, ?> getAgencyMap() {
+	public static Map getAgencyMap() {
 		return agencyMap;
 	}
 
@@ -66,7 +66,7 @@ public class Agency implements Serializable {
 		localAgency = agency;
 	}
 
-	public static void setAgencyMap(Map<?, ?> map) {
+	public static void setAgencyMap(Map map) {
 		agencyMap = map;
 	}
 

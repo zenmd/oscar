@@ -167,7 +167,7 @@ public class RoomBed implements Auditable, Serializable {
 	}
 
 	public void setAssignEnd(Integer duration) {
-		if (duration != null && duration > 0) {
+		if (duration != null && duration.intValue() > 0) {
 			Date startPlusDuration = DateTimeFormatUtils.getFuture(getAssignStart(), duration);
 			Date end = DateTimeFormatUtils.getDateFromDate(getAssignEnd());
 			
@@ -178,7 +178,7 @@ public class RoomBed implements Auditable, Serializable {
 		}
 	}
 
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}

@@ -44,8 +44,6 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== list ========= in QuatroClientComplaintAction");
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
@@ -126,19 +124,19 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			complaintForm.setIsStandards("0");
 		}
 				
-		List<LookupCodeValue> sources = lookupManager.LoadCodeList("CPS", true,
+		List sources = lookupManager.LoadCodeList("CPS", true,
 				null, null);
-		List<LookupCodeValue> methods = lookupManager.LoadCodeList("CPM", true,
+		List methods = lookupManager.LoadCodeList("CPM", true,
 				null, null);
-		List<LookupCodeValue> outcomes = lookupManager.LoadCodeList("CPO",
+		List outcomes = lookupManager.LoadCodeList("CPO",
 				true, null, null);
-		List<LookupCodeValue> allSections = lookupManager.LoadCodeList("CPB",
+		List allSections = lookupManager.LoadCodeList("CPB",
 				true, null, null);
 
 		int length = (allSections.size()) / 2; // value of offset in JSP file
 		int parentPlace = 0;
 		for (int i = 0; i < allSections.size(); i++) {
-			LookupCodeValue item = allSections.get(i);
+			LookupCodeValue item = (LookupCodeValue)allSections.get(i);
 			if (item.getCode().equals(item.getParentCode())) { // section
 				item.setParentCode("0");
 				parentPlace = i;
@@ -159,16 +157,13 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 		complaintForm.setComplaint(complaint);
 
-		request.setAttribute("ComplaintForm_length", length);
+		request.setAttribute("ComplaintForm_length", new Integer(length));
 
 		return mapping.findForward("edit");
 	}
 
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		System.out
-				.println("=========== save ========= in QuatroClientComplaintAction");
-
 		
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -196,7 +191,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		} else {
 			complaint.setStatus("0");
 		}
-		if (complaint.getId() == null || complaint.getId() == 0) {
+		if (complaint.getId() == null || complaint.getId().intValue() == 0) {
 			complaint.setId(null);
 			complaint.setCreatedDate(Calendar.getInstance());
 			complaint.setClientId(Integer.valueOf(tmp));

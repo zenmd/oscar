@@ -61,7 +61,7 @@ public class ProgramTeamDAO extends HibernateDaoSupport {
         }
 
         Query query = getSession().createQuery("select pt.id from ProgramTeam pt where pt.programId = ? and pt.name = ?");
-        query.setInteger(0, programId);
+        query.setInteger(0, programId.intValue());
         query.setString(1, teamName);
 
         List teams = query.list();

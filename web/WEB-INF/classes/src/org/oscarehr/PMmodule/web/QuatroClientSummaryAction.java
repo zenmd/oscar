@@ -42,7 +42,6 @@ import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
-import org.oscarehr.PMmodule.model.Demographic.ConsentGiven;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
@@ -103,8 +102,9 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        
        List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo);
-       for(Object element: lst){
-    	 QuatroIntakeHeader obj = (QuatroIntakeHeader)element;
+//       for(Object element: lst){
+       for(int i=0;i<lst.size();i++){
+    	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
     	 //One client should have no more than one bed program intake in one facility.
     	 //One facility may have more than one bed program, but we don't allow any client
     	 //to register muitiple bed programs in one facility.

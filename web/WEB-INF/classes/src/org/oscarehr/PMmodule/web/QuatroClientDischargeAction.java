@@ -35,7 +35,6 @@ import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
-import org.oscarehr.PMmodule.model.Demographic.ConsentGiven;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
@@ -46,7 +45,6 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
-import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
@@ -103,7 +101,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	   admObj.setDischargeDate(Calendar.getInstance());
 
 	   boolean isReferral=false;
-	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId()>0) {
+	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId().intValue()>0) {
 		   isReferral =true;
 		   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
 	   }

@@ -48,7 +48,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return result;
     }
 
-    public List<ProgramQueue> getProgramQueuesByProgramId(Integer programId) {
+    public List getProgramQueuesByProgramId(Integer programId) {
         if (programId == null) {
             throw new IllegalArgumentException();
         }
@@ -63,7 +63,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return results;
     }
 
-    public List<ProgramQueue> getActiveProgramQueuesByProgramId(Integer programId) {
+    public List getActiveProgramQueuesByProgramId(Integer programId) {
         if (programId == null) {
             throw new IllegalArgumentException();
         }

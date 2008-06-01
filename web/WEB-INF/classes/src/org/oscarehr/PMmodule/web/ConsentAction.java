@@ -117,7 +117,7 @@ public class ConsentAction extends DispatchAction {
 		consent.setHardcopy(true);
 		
 		if(consent.getOptout() != null && consent.getOptout().equalsIgnoreCase("yes")) {
-			consent.setStatus(Demographic.ConsentGiven.NONE.name());
+			consent.setStatus(Demographic.ConsentGiven_NONE);
 		}
 		
 		consentManager.saveConsent(consent);	

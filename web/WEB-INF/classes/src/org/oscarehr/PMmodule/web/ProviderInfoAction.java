@@ -69,14 +69,17 @@ public class ProviderInfoAction extends DispatchAction {
         request.setAttribute("provider", providerManager.getProvider(providerNo));
         request.setAttribute("agencyDomain", providerManager.getAgencyDomain(providerNo));
 
-        List<ProgramProvider> programDomain = new ArrayList<ProgramProvider>();
+        List programDomain = new ArrayList();
 
         int facilityId1=0;
         Facility facility = (Facility)request.getSession().getAttribute("currentFacility");
-        if(facility!=null) facilityId1=facility.getId();
+        if(facility!=null) facilityId1=facility.getId().intValue();
         
-        for (ProgramProvider programProvider : providerManager.getProgramDomainByFacility(providerNo, new Integer(facilityId1))) {
-            Program program = programManager.getProgram(programProvider.getProgramId());
+//        for (ProgramProvider programProvider : providerManager.getProgramDomainByFacility(providerNo, new Integer(facilityId1))) {
+        List programProviders = providerManager.getProgramDomainByFacility(providerNo, new Integer(facilityId1));       
+        for (int i=0;i<programProviders.size();i++) {
+        	ProgramProvider programProvider = (ProgramProvider) programProviders.get(i); 
+        	Program program = programManager.getProgram(programProvider.getProgramId());
 
             if (program.getProgramStatus().equals("active")) {
                 programProvider.setProgram(program);
@@ -95,9 +98,11 @@ public class ProviderInfoAction extends DispatchAction {
         }
        
 */        
-        List<Integer> facilityIds = providerManager.getFacilityIds(providerNo);
-        ArrayList<Facility> facilities=new ArrayList<Facility>();
-        for (Integer facilityId : facilityIds){
+        List facilityIds = providerManager.getFacilityIds(providerNo);
+        ArrayList facilities=new ArrayList();
+//        for (Integer facilityId : facilityIds){
+        for (int i=0;i<facilityIds.size();i++){
+        	Integer facilityId = (Integer)facilityIds.get(i);
             facilities.add(facilityDAO.getFacility(facilityId));
         }
         

@@ -16,14 +16,14 @@ public class FacilityDAO extends HibernateDaoSupport {
         return (Facility) getHibernateTemplate().get(Facility.class, id);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Facility> getFacilities() {
+    //@SuppressWarnings("unchecked")
+    public List getFacilities() {
         String query = "from Facility f";
         return getHibernateTemplate().find(query);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Facility> getActiveFacilities() {
+    //@SuppressWarnings("unchecked")
+    public List getActiveFacilities() {
         String query = "from Facility f where disabled=false";
         return getHibernateTemplate().find(query);
     }
@@ -34,7 +34,7 @@ public class FacilityDAO extends HibernateDaoSupport {
         getHibernateTemplate().refresh(facility);
     }
     
-    public List<Integer> getDistinctFacilityIdsByProgramId(int programId)
+    public List getDistinctFacilityIdsByProgramId(int programId)
     {
         // select program_id,facility_id from room;
         
@@ -42,14 +42,16 @@ public class FacilityDAO extends HibernateDaoSupport {
         return(SqlUtils.selectIntList(sqlCommand));
     }
     
-    public List<Integer> getDistinctProgramIdsByFacilityId(int facilityId) {
+    public List getDistinctProgramIdsByFacilityId(int facilityId) {
     	String sqlCommand = "select distinct program_id from room where room.facility_id=" + facilityId;
     	return(SqlUtils.selectIntList(sqlCommand));
     }
     
    
-    public static  boolean facilityHasIntersection(List<Integer> providersFacilityIds, List<Integer> noteFacilities) {
-        for (Integer id : noteFacilities) {
+    public static  boolean facilityHasIntersection(List providersFacilityIds, List noteFacilities) {
+//        for (Integer id : noteFacilities) {
+        for (int i=0;i<noteFacilities.size();i++) {
+        	Integer id = (Integer) noteFacilities.get(i);
             if (providersFacilityIds.contains(id)) return(true);
         }
         

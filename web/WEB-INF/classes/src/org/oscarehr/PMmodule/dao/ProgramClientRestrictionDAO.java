@@ -24,10 +24,12 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
 
     private static Log log = LogFactory.getLog(ProgramClientRestrictionDAO.class);
 
-    public Collection<ProgramClientRestriction> find(int programId, int demographicNo) {
+    public Collection find(int programId, int demographicNo) {
 
-        List<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? and pcr.demographicNo = ? order by pcr.startDate", new Object[]{programId, demographicNo});
-        for (ProgramClientRestriction pcr : pcrs) {
+        List pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? and pcr.demographicNo = ? order by pcr.startDate", new Object[]{new Integer(programId), new Integer(demographicNo)});
+//        for (ProgramClientRestriction pcr : pcrs) {
+        for (int i=0;i<pcrs.size();i++) {
+        	ProgramClientRestriction pcr =(ProgramClientRestriction)pcrs.get(i);
             setRelationships(pcr);
         }
         return pcrs;
@@ -41,18 +43,28 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         return setRelationships((ProgramClientRestriction) getHibernateTemplate().get(ProgramClientRestriction.class, restrictionId));
     }
 
-    public Collection<ProgramClientRestriction> findForProgram(Integer programId) {
-        Collection<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? order by pcr.demographicNo", programId);
-        for (ProgramClientRestriction pcr : pcrs) {
-            setRelationships(pcr);
+    public Collection findForProgram(Integer programId) {
+    	Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? order by pcr.demographicNo", programId);
+//        for (ProgramClientRestriction pcr : pcrs) {
+//            setRelationships(pcr);
+//        }
+        Iterator iterator = pcrs.iterator (); 
+        while (iterator.hasNext ()) {
+       	   ProgramClientRestriction pcr = (ProgramClientRestriction) iterator.next(); 
+           setRelationships(pcr);
         }
         return pcrs;
     }
 
-    public Collection<ProgramClientRestriction> findDisabledForProgram(Integer programId) {
-        Collection<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = false and pcr.programId = ? order by pcr.demographicNo", programId);
-        for (ProgramClientRestriction pcr : pcrs) {
-            setRelationships(pcr);
+    public Collection findDisabledForProgram(Integer programId) {
+        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = false and pcr.programId = ? order by pcr.demographicNo", programId);
+//        for (ProgramClientRestriction pcr : pcrs) {
+//            setRelationships(pcr);
+//        }
+        Iterator iterator = pcrs.iterator (); 
+        while (iterator.hasNext ()) {
+        	ProgramClientRestriction pcr = (ProgramClientRestriction) iterator.next(); 
+           setRelationships(pcr);
         }
         return pcrs;
     }
@@ -60,45 +72,53 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
     public List findAllForClient(Integer demographicNo,String providerNo,Integer facilityId) {
     	String sql ="from ProgramClientRestriction pcr where pcr.demographicNo = ? and pcr.programId in " +Utility.getUserOrgQueryString(facilityId) +" order by pcr.endDate desc";
         Object[] params=null;
-        if(facilityId==0)params=new Object[]{demographicNo,providerNo};
+        if(facilityId.intValue()==0)params=new Object[]{demographicNo,providerNo};
         else params=new Object[]{demographicNo,facilityId,providerNo};
     	List results = getHibernateTemplate().find(sql,params);       
         return results;
     }
-    public Collection<ProgramClientRestriction> findForClient(Integer demographicNo) {
-        Collection<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.demographicNo = ? order by pcr.programId", demographicNo);
-        for (ProgramClientRestriction pcr : pcrs) {
+    public Collection findForClient(Integer demographicNo) {
+        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.demographicNo = ? order by pcr.programId", demographicNo);
+//        for (ProgramClientRestriction pcr : pcrs) {
+//            setRelationships(pcr);
+//        }
+        Iterator iterator = pcrs.iterator (); 
+        while (iterator.hasNext ()) {
+        	ProgramClientRestriction pcr = (ProgramClientRestriction) iterator.next(); 
             setRelationships(pcr);
         }
         return pcrs;
     }
 
-    public Collection<ProgramClientRestriction> findForClient(Integer demographicNo, Integer facilityId) {
+    public Collection findForClient(Integer demographicNo, Integer facilityId) {
         ArrayList paramList = new ArrayList();
         String sSQL="from ProgramClientRestriction pcr where pcr.enabled = true and " +
   		 "pcr.demographicNo = ? and pcr.programId in (select s.id from Program s where s.facilityId = ? or s.facilityId is null) " +
          "order by pcr.programId";
-          paramList.add(Integer.valueOf(demographicNo));
+          paramList.add(demographicNo);
           paramList.add(facilityId);
           Object params[] = paramList.toArray(new Object[paramList.size()]);
-          Collection<ProgramClientRestriction> pcrs= getHibernateTemplate().find(sSQL, params);
-          for (ProgramClientRestriction pcr : pcrs) {
-              setRelationships(pcr);
+          Collection pcrs= getHibernateTemplate().find(sSQL, params);
+//          for (ProgramClientRestriction pcr : pcrs) {
+//              setRelationships(pcr);
+//          }
+          Iterator iterator = pcrs.iterator (); 
+          while (iterator.hasNext ()) {
+          	 ProgramClientRestriction pcr = (ProgramClientRestriction) iterator.next(); 
+             setRelationships(pcr);
           }
           return pcrs;
-/*
-    	Collection<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.demographicNo = ? order by pcr.programId", demographicNo);
-        for (ProgramClientRestriction pcr : pcrs) {
-            setRelationships(pcr);
-        }
-        return pcrs;
-*/        
     }
 
-    public Collection<ProgramClientRestriction> findDisabledForClient(Integer demographicNo) {
-        Collection<ProgramClientRestriction> pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = false and pcr.demographicNo = ? order by pcr.programId", demographicNo);
-        for (ProgramClientRestriction pcr : pcrs) {
-            setRelationships(pcr);
+    public Collection findDisabledForClient(Integer demographicNo) {
+        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = false and pcr.demographicNo = ? order by pcr.programId", demographicNo);
+//        for (ProgramClientRestriction pcr : pcrs) {
+//            setRelationships(pcr);
+//        }
+        Iterator iterator = pcrs.iterator (); 
+        while (iterator.hasNext ()) {
+        	 ProgramClientRestriction pcr = (ProgramClientRestriction) iterator.next(); 
+             setRelationships(pcr);
         }
         return pcrs;
     }
@@ -111,17 +131,17 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         return pcr;
     }
 
-    @Required
+    //@Required
     public void setDemographicDAOT(DemographicDAO demographicDAOT) {
         this.demographicDAOT = demographicDAOT;
     }
 
-    @Required
+    //@Required
     public void setProgramDao(ProgramDao programDao) {
         this.programDao = programDao;
     }
 
-    @Required
+    //@Required
     public void setProviderDao(ProviderDao providerDao) {
         this.providerDao = providerDao;
     }

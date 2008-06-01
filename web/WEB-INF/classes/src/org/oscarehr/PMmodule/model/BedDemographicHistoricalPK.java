@@ -60,7 +60,7 @@ public class BedDemographicHistoricalPK implements Serializable {
 		this.setUsageStart(usageStart);
 	}
 	
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}

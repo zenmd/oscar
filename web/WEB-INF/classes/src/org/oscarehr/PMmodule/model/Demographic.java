@@ -40,7 +40,7 @@ public class Demographic implements Serializable {
     private static final String DEFAULT_DATE = "01";
     private static final String DEFAULT_YEAR = "1900";
     private static final String DEFAULT_SEX = "M";
-    private static final String DEFAULT_PATIENT_STATUS = PatientStatus.AC.name();
+//    private static final String DEFAULT_PATIENT_STATUS = PatientStatus.AC.name();
     private static final String DEFAULT_HEATH_CARD_TYPE = "ON";
     private static final String DEFAULT_FUTURE_DATE = "2100/01/01";
 
@@ -94,20 +94,33 @@ public class Demographic implements Serializable {
     
     private int activeCount = 0;
     private int hsAlertCount = 0;
+
+    public static final String ConsentGiven_ALL="ALL";
+    public static final String ConsentGiven_CIRCLE_OF_CARE="CIRCLE_OF_CARE";
+    public static final String ConsentGiven_EMPI="EMPI";
+    public static final String ConsentGiven_INCAPACITATED_EMERGENCY="INCAPACITATED_EMERGENCY";
+    public static final String ConsentGiven_NONE="NONE";
+    
+/*    
     public enum ConsentGiven
     {
         ALL, CIRCLE_OF_CARE, EMPI, INCAPACITATED_EMERGENCY, NONE
     }
-    
+*/    
+    public static final String MethodObtained_IMPLICIT="IMPLICIT";
+    public static final String MethodObtained_EXPLICIT="EXPLICIT";
+/*    
     public enum MethodObtained
     {
         IMPLICIT, EXPLICIT
     }
+*/    
     
+/*    
     public enum PatientStatus {
         AC,IN,DE,IC,ID,MO,FI
     }
-
+*/
     public static Demographic create(String firstName, String lastName, 
                                      String monthOfBirth, String dateOfBirth, String yearOfBirth,
                                      String hin, String ver, boolean applyDefaultBirthDate ) {
@@ -125,7 +138,7 @@ public class Demographic implements Serializable {
         demographic.setFamilyDoctor(StringUtils.EMPTY);
         demographic.setHcType(DEFAULT_HEATH_CARD_TYPE);
         demographic.setPcnIndicator(StringUtils.EMPTY);
-        demographic.setPatientStatus(DEFAULT_PATIENT_STATUS);
+//        demographic.setPatientStatus(DEFAULT_PATIENT_STATUS);
         demographic.setPin(StringUtils.EMPTY);
         demographic.setRosterStatus(StringUtils.EMPTY);
         demographic.setSex(DEFAULT_SEX);
@@ -732,9 +745,9 @@ public class Demographic implements Serializable {
     public String getFormattedDob(String format) {
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, new Integer(getYearOfBirth()));
-        cal.set(Calendar.MONTH, new Integer(getMonthOfBirth()) -1);
-        cal.set(Calendar.DAY_OF_MONTH, new Integer(getDateOfBirth()));
+        cal.set(Calendar.YEAR, Integer.parseInt(getYearOfBirth()));
+        cal.set(Calendar.MONTH, new Integer(getMonthOfBirth()).intValue() -1);
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(getDateOfBirth()));
         return formatter.format(cal.getTime());
     }
 

@@ -228,7 +228,7 @@ public class Bed implements Serializable {
     }
 
 
-    @Override
+    //@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }

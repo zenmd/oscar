@@ -19,7 +19,7 @@ public class FacilityManager {
         return facilityDAO.getFacility(facilityId);
     }
 
-    public List<Facility> getFacilities() {
+    public List getFacilities() {
         return facilityDAO.getFacilities();
     }
 
@@ -38,11 +38,11 @@ public class FacilityManager {
         return facilityDAO;
     }
 
-    @Required
+    //@Required
     public void setFacilityDAO(FacilityDAO facilityDAO) {
         this.facilityDAO = facilityDAO;
     }
-    @Required
+    //@Required
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }

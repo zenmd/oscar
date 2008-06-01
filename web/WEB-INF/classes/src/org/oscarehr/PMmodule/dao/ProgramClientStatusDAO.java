@@ -34,7 +34,7 @@ public class ProgramClientStatusDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(ProgramClientStatusDAO.class);
 
-    public List<ProgramClientStatus> getProgramClientStatuses(Integer programId) {
+    public List getProgramClientStatuses(Integer programId) {
         return this.getHibernateTemplate().find("from ProgramClientStatus pcs where pcs.programId=?", programId);
     }
 
@@ -43,7 +43,7 @@ public class ProgramClientStatusDAO extends HibernateDaoSupport {
     }
 
     public ProgramClientStatus getProgramClientStatus(String id) {
-        if (id == null || Integer.valueOf(id) < 0) {
+        if (id == null || Integer.parseInt(id) < 0) {
             throw new IllegalArgumentException();
         }
 
@@ -67,7 +67,7 @@ public class ProgramClientStatusDAO extends HibernateDaoSupport {
         }
 
         Query query = getSession().createQuery("select pt.id from ProgramClientStatus pt where pt.programId = ? and pt.name = ?");
-        query.setInteger(0, programId);
+        query.setInteger(0, programId.intValue());
         query.setString(1, statusName);
 
         List teams = query.list();
@@ -80,11 +80,11 @@ public class ProgramClientStatusDAO extends HibernateDaoSupport {
     }
 
     public List getAllClientsInStatus(Integer programId, Integer statusId) {
-        if (programId == null || programId <= 0) {
+        if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        if (statusId == null || statusId <= 0) {
+        if (statusId == null || statusId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 

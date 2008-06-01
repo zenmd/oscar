@@ -68,7 +68,7 @@ public class BedManagerAction extends DispatchAction {
         bForm.setRooms(roomManager.getRooms(facilityId));
         bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
         bForm.setRoomTypes(roomManager.getRoomTypes());
-        bForm.setNumRooms(1);
+        bForm.setNumRooms(new Integer(1));
 
         if (bForm.getBedRoomFilterForBed() == null) {
             Room[] room = bForm.getRooms();
@@ -77,11 +77,16 @@ public class BedManagerAction extends DispatchAction {
             }
         }
         // bForm.setBeds(bedManager.getBedsByFacility(facilityId, null, false));
-        List<Bed> lst = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), null, false);
-        bForm.setBeds(lst.toArray(new Bed[lst.size()]));
+        List lst = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), null, false);
+        Bed[] bedsTemp= new Bed[lst.size()];
+        for(int i=0;i<lst.size();i++){
+        	bedsTemp[i]= (Bed)lst.get(i);
+        }
+        bForm.setBeds(bedsTemp);
+//        bForm.setBeds(lst.toArray(new Bed[lst.size()]));
 
         bForm.setBedTypes(bedManager.getBedTypes());
-        bForm.setNumBeds(1);
+        bForm.setNumBeds(new Integer(1));
         bForm.setPrograms(programManager.getBedPrograms(facilityId));
         bForm.setFacility(facility);
         Map statusNames = new HashMap();
@@ -105,10 +110,10 @@ public class BedManagerAction extends DispatchAction {
         bForm.setRooms(bForm.getRooms());
         bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
         bForm.setRoomTypes(roomManager.getRoomTypes());
-        bForm.setNumRooms(1);
+        bForm.setNumRooms(new Integer(1));
         bForm.setBeds(bForm.getBeds());
         bForm.setBedTypes(bedManager.getBedTypes());
-        bForm.setNumBeds(1);
+        bForm.setNumBeds(new Integer(1));
         bForm.setPrograms(programManager.getBedPrograms(facilityId));
         bForm.setFacility(facility);
         Map statusNames = new HashMap();
@@ -162,7 +167,7 @@ public class BedManagerAction extends DispatchAction {
         // if some bed assigned, retrieve all beds assigned to this room -> delete them all <-- ???
         // (3)then delete this room ('room' table)
         try {
-            List<RoomDemographic> roomDemographicList = roomDemographicManager.getRoomDemographicByRoom(roomId);
+            List roomDemographicList = roomDemographicManager.getRoomDemographicByRoom(roomId);
 
             if (roomDemographicList != null && !roomDemographicList.isEmpty()) {
                 throw new RoomHasActiveBedsException("The room has client(s) assigned to it and cannot be removed.");
@@ -258,23 +263,23 @@ public class BedManagerAction extends DispatchAction {
         BedManagerForm bForm = (BedManagerForm) form;
         Integer numRooms = bForm.getNumRooms();
 
-        Integer roomslines = 0;
+        Integer roomslines = new Integer(0);
         if ("".equals(request.getParameter("roomslines")) == false) {
             roomslines = Integer.valueOf(request.getParameter("roomslines"));
         }
 
         if (numRooms != null) {
-            if (numRooms <= 0) {
-                numRooms = 0;
+            if (numRooms.intValue() <= 0) {
+                numRooms = new Integer(0);
             }
-            else if (numRooms + roomslines > 10) {
-                numRooms = 10 - roomslines;
+            else if (numRooms.intValue() + roomslines.intValue() > 10) {
+                numRooms = new Integer(10 - roomslines.intValue());
             }
         }
 
-        if (numRooms != null && numRooms > 0) {
+        if (numRooms != null && numRooms.intValue() > 0) {
             try {
-                roomManager.addRooms(bForm.getFacilityId(), numRooms);
+                roomManager.addRooms(bForm.getFacilityId(), numRooms.intValue());
             }
             catch (RoomHasActiveBedsException e) {
                 ActionMessages messages = new ActionMessages();
@@ -292,23 +297,23 @@ public class BedManagerAction extends DispatchAction {
         Integer numBeds = bForm.getNumBeds();
         Integer roomId = bForm.getBedRoomFilterForBed();
 
-        Integer bedslines = 0;
+        Integer bedslines = new Integer(0);
         if ("".equals(request.getParameter("bedslines")) == false) {
             bedslines = Integer.valueOf(request.getParameter("bedslines"));
         }
 
         if (numBeds != null) {
-            if (numBeds <= 0) {
-                numBeds = 0;
+            if (numBeds.intValue() <= 0) {
+                numBeds = new Integer(0);
             }
-            else if (numBeds + bedslines > 10) {
-                numBeds = 10 - bedslines;
+            else if (numBeds.intValue() + bedslines.intValue() > 10) {
+                numBeds = new Integer(10 - bedslines.intValue());
             }
         }
 
-        if (numBeds != null && numBeds > 0) {
+        if (numBeds != null && numBeds.intValue() > 0) {
             try {
-                bedManager.addBeds(facilityId, roomId, numBeds);
+                bedManager.addBeds(facilityId, roomId, numBeds.intValue());
             }
             catch (BedReservedException e) {
                 ActionMessages messages = new ActionMessages();
@@ -355,7 +360,7 @@ public class BedManagerAction extends DispatchAction {
         Integer bedFilteredProgram = bForm.getBedRoomFilterForBed();
         Boolean bedStatusBoolean = new Boolean(false);
 
-        List<Bed> filteredBeds = new ArrayList<Bed>();
+        List filteredBeds = new ArrayList();
 
         if (bedStatus.intValue() == 1) {
             bedStatusBoolean = new Boolean(true);
@@ -378,7 +383,12 @@ public class BedManagerAction extends DispatchAction {
 
         filteredBeds = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), bedStatusBoolean, false);
 
-        bForm.setBeds(filteredBeds.toArray(new Bed[filteredBeds.size()]));
+        Bed[] filteredBedsTemp = new Bed[filteredBeds.size()];
+        for(int i=0;i<filteredBeds.size();i++){
+        	filteredBedsTemp[i]= (Bed)filteredBeds.get(i);
+        }
+        bForm.setBeds(filteredBedsTemp);
+//        bForm.setBeds(filteredBeds.toArray(new Bed[filteredBeds.size()]));
         form = bForm;
 
         return manageFilter(mapping, form, request, response);
@@ -388,7 +398,7 @@ public class BedManagerAction extends DispatchAction {
         return facilityManager;
     }
 
-    @Required
+    //@Required
     public void setFacilityManager(FacilityManager facilityManager) {
         this.facilityManager = facilityManager;
     }

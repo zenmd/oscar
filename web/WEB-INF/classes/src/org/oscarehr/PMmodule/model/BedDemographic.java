@@ -226,7 +226,7 @@ public class BedDemographic implements Auditable, Serializable {
 	}
 
 	public void setReservationEnd(Integer duration) {
-		if (duration != null && duration > 0) {
+		if (duration != null && duration.intValue() > 0) {
 			Date startPlusDuration = DateTimeFormatUtils.getFuture(getReservationStart(), duration);
 			Date end = DateTimeFormatUtils.getDateFromDate(getReservationEnd());
 			
@@ -237,7 +237,7 @@ public class BedDemographic implements Auditable, Serializable {
 		}
 	}
 
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}

@@ -45,7 +45,7 @@ public class BedDemographicPK implements Serializable {
 	}
 
 	
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}

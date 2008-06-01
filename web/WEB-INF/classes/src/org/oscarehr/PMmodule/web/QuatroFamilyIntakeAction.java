@@ -81,8 +81,9 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setRelationships(relationships);
        
 	   Demographic familyHead = intakeManager.getClientByDemographicNo(demographicNo);
-	   for(Object element : genders){
-           LookupCodeValue obj= (LookupCodeValue)element;
+//	   for(Object element : genders){
+	   for(int i=0;i<genders.size();i++){
+           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
         	 familyHead.setSexDesc(obj.getDescription());
 		     break;
@@ -142,8 +143,9 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setRelationships(relationships);
 
 	   Demographic familyHead = clientForm.getFamilyHead();
-	   for(Object element : genders){
-           LookupCodeValue obj= (LookupCodeValue)element;
+//	   for(Object element : genders){
+	   for(int i=0;i<genders.size();i++){
+           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
         	 familyHead.setSexDesc(obj.getDescription());
 		     break;
@@ -180,9 +182,9 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	    }
        
         QuatroIntakeFamily obj2 = new QuatroIntakeFamily();
-        obj2.setClientId(0);
+        obj2.setClientId(new Integer(0));
 		obj2.setIntakeHeadId(Integer.valueOf(request.getParameter("clientId")));
-        obj2.setIntakeId(0);
+        obj2.setIntakeId(new Integer(0));
         String currentDateTxt = MyDateFormat.getSysDateString(new Date());
     	obj2.setDuplicateClient("N");  
 		obj2.setNewClientChecked("N");
@@ -225,8 +227,9 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setRelationships(relationships);
        
 	   Demographic familyHead = clientForm.getFamilyHead();
-	   for(Object element : genders){
-           LookupCodeValue obj= (LookupCodeValue)element;
+//	   for(Object element : genders){
+	   for(int i=0;i<genders.size();i++){
+           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
         	 familyHead.setSexDesc(obj.getDescription());
 		     break;
@@ -302,8 +305,9 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setRelationships(relationships);
        
 	   Demographic familyHead = intakeManager.getClientByDemographicNo(demographicNo);
-	   for(Object element : genders){
-           LookupCodeValue obj= (LookupCodeValue)element;
+//	   for(Object element : genders){
+	   for(int i=0;i<genders.size();i++){
+           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
         	 familyHead.setSexDesc(obj.getDescription());
 		     break;
@@ -397,7 +401,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
     	 obj3.setServiceRestriction("N");
          if(obj3.getClientId().intValue()>0){
            ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-        		 headIntake.getProgramId().intValue(), obj3.getClientId().intValue(), new Date());
+        		 headIntake.getProgramId(), obj3.getClientId(), new Date());
            if (restrInPlace != null) {
      	     obj3.setServiceRestriction("Y");
        		 isWarning = true;

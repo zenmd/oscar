@@ -19,7 +19,7 @@ import com.quatro.common.KeyConstants;
 
 public class AdmissionDao extends HibernateDaoSupport {
 	public List getAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
-	  if (demographicNo == null || demographicNo <= 0) {
+	  if (demographicNo == null || demographicNo.intValue() <= 0) {
 	    throw new IllegalArgumentException();
 	  }
 
@@ -78,7 +78,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
     	String progSQL = "";
-    	if (facilityId ==0 ) {
+    	if (facilityId.intValue() ==0 ) {
     		progSQL = "program_id in (select p.program_id from program p where 'P' || p.program_id in " +
     				"(select a.code from lst_orgcd a, secuserrole b " +
     			    " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";
@@ -184,12 +184,12 @@ public class AdmissionDao extends HibernateDaoSupport {
           return (Admission) lst.get(0);
     }
 
-    public List<Admission> getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
-        if (demographicNo == null || demographicNo <= 0) {
+    public List getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        if (facilityId == null || facilityId < 0) {
+        if (facilityId == null || facilityId.intValue() < 0) {
             throw new IllegalArgumentException();
         }
 
@@ -197,7 +197,7 @@ public class AdmissionDao extends HibernateDaoSupport {
            "(select s.id from Program s where s.facilityId=? or s.facilityId is null) AND a.admissionStatus='"
           + KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
 
-        List<Admission> rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo, facilityId });
+        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo, facilityId });
 
         return rs;
 
@@ -218,7 +218,7 @@ public class AdmissionDao extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        if (demographicNo == null || demographicNo <= 0) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -250,8 +250,8 @@ public class AdmissionDao extends HibernateDaoSupport {
         return null;
     }
     
-    public List<Admission> getAdmissionsByProgramId(Integer programId, Boolean automaticDischarge, Integer days) {
-        if (programId == null || programId <= 0) {
+    public List getAdmissionsByProgramId(Integer programId, Boolean automaticDischarge, Integer days) {
+        if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
        
@@ -259,19 +259,19 @@ public class AdmissionDao extends HibernateDaoSupport {
         Calendar calendar = Calendar.getInstance();
      
         //today's date -  days
-        calendar.add(Calendar.DAY_OF_YEAR, days);
+        calendar.add(Calendar.DAY_OF_YEAR, days.intValue());
         
 //        Date sevenDaysAgo = calendar.getTime();
         
         String queryStr = "FROM Admission a WHERE a.programId=? and a.automaticDischarge=? and a.dischargeDate>= ? ORDER BY a.dischargeDate DESC";
 
-        List<Admission> rs = getHibernateTemplate().find(queryStr, new Object[] { programId, automaticDischarge, calendar });
+        List rs = getHibernateTemplate().find(queryStr, new Object[] { programId, automaticDischarge, calendar });
 
         return rs;
     }
 
     public List getCurrentAdmissionsByProgramId(Integer programId) {
-        if (programId == null || programId <= 0) {
+        if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -281,7 +281,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
 
     public Admission getAdmission(Integer id) {
-        if (id == null || id <= 0) {
+        if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -298,7 +298,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
     
     public List getCurrentAdmissions(Integer demographicNo) {
-        if (demographicNo == null || demographicNo <= 0) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -309,7 +309,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 
     }
     public List getAdmissions(Integer demographicNo) {
-        if (demographicNo == null || demographicNo <= 0) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -342,7 +342,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     public Admission getCurrentAdmission(Integer demographicNo) {
         Admission admission = null;
 
-        if (demographicNo == null || demographicNo <= 0) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -359,10 +359,10 @@ public class AdmissionDao extends HibernateDaoSupport {
     public Admission getCurrentAdmission(Integer programId, Integer demographicNo) {
         Admission admission = null;
 
-        if (demographicNo == null || demographicNo <= 0) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-        if (programId == null || programId <= 0) {
+        if (programId == null || programId.intValue() <= 0) {
             return getCurrentAdmission(demographicNo);
         }
 

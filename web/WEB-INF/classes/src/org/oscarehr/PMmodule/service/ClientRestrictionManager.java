@@ -42,36 +42,45 @@ public class ClientRestrictionManager {
 
     private ProgramClientRestrictionDAO programClientRestrictionDAO;
 
-    public List<ProgramClientRestriction> getActiveRestrictionsForProgram(Integer programId, Date asOfDate) {
+    public List getActiveRestrictionsForProgram(Integer programId, Date asOfDate) {
         // check dao for restriction
-        Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findForProgram(programId);
-        List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
+        Collection pcrs = programClientRestrictionDAO.findForProgram(programId);
+        List returnPcrs = new ArrayList();
         if (pcrs != null && !pcrs.isEmpty()) {
-            for (ProgramClientRestriction pcr : pcrs) {
+//            for (ProgramClientRestriction pcr : pcrs) {
+           	Iterator iterator = pcrs.iterator(); 
+            while (iterator.hasNext ()) {
+            	ProgramClientRestriction pcr = (ProgramClientRestriction)iterator.next(); 
                 if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
     }
 
-    public List<ProgramClientRestriction> getDisabledRestrictionsForProgram(Integer programId, Date asOfDate) {
+    public List getDisabledRestrictionsForProgram(Integer programId, Date asOfDate) {
         // check dao for restriction
-        Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findDisabledForProgram(programId);
-        List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
+        Collection pcrs = programClientRestrictionDAO.findDisabledForProgram(programId);
+        List returnPcrs = new ArrayList();
         if (pcrs != null && !pcrs.isEmpty()) {
-            for (ProgramClientRestriction pcr : pcrs) {
+//            for (ProgramClientRestriction pcr : pcrs) {
+          	Iterator iterator = pcrs.iterator(); 
+             while (iterator.hasNext ()) {
+               	ProgramClientRestriction pcr = (ProgramClientRestriction)iterator.next(); 
                 if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
     }
 
-    public List<ProgramClientRestriction> getActiveRestrictionsForClient(Integer demographicNo, Date asOfDate) {
+    public List getActiveRestrictionsForClient(Integer demographicNo, Date asOfDate) {
         // check dao for restriction
-        Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findForClient(demographicNo);
-        List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
+        Collection pcrs = programClientRestrictionDAO.findForClient(demographicNo);
+        List returnPcrs = new ArrayList();
         if (pcrs != null && !pcrs.isEmpty()) {
-            for (ProgramClientRestriction pcr : pcrs) {
+//            for (ProgramClientRestriction pcr : pcrs) {
+           	Iterator iterator = pcrs.iterator(); 
+            while (iterator.hasNext ()) {
+               	ProgramClientRestriction pcr = (ProgramClientRestriction)iterator.next(); 
                 if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
@@ -83,24 +92,30 @@ public class ClientRestrictionManager {
          return  results;      
     }
 
-    public List<ProgramClientRestriction> getActiveRestrictionsForClient(Integer demographicNo, Integer facilityId, Date asOfDate) {
+    public List getActiveRestrictionsForClient(Integer demographicNo, Integer facilityId, Date asOfDate) {
         // check dao for restriction
-        Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findForClient(demographicNo, facilityId);
-        List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
+        Collection pcrs = programClientRestrictionDAO.findForClient(demographicNo, facilityId);
+        List returnPcrs = new ArrayList();
         if (pcrs != null && !pcrs.isEmpty()) {
-            for (ProgramClientRestriction pcr : pcrs) {
+//            for (ProgramClientRestriction pcr : pcrs) {
+          	Iterator iterator = pcrs.iterator(); 
+            while (iterator.hasNext ()) {
+              	ProgramClientRestriction pcr = (ProgramClientRestriction)iterator.next(); 
                 if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
         return returnPcrs;
     }
 
-    public List<ProgramClientRestriction> getDisabledRestrictionsForClient(Integer demographicNo, Date asOfDate) {
+    public List getDisabledRestrictionsForClient(Integer demographicNo, Date asOfDate) {
         // check dao for restriction
-        Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.findDisabledForClient(demographicNo);
-        List<ProgramClientRestriction> returnPcrs = new ArrayList<ProgramClientRestriction>();
+        Collection pcrs = programClientRestrictionDAO.findDisabledForClient(demographicNo);
+        List returnPcrs = new ArrayList();
         if (pcrs != null && !pcrs.isEmpty()) {
-            for (ProgramClientRestriction pcr : pcrs) {
+//            for (ProgramClientRestriction pcr : pcrs) {
+          	Iterator iterator = pcrs.iterator(); 
+            while (iterator.hasNext ()) {
+              	ProgramClientRestriction pcr = (ProgramClientRestriction)iterator.next(); 
                 if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && pcr.getEndDate().getTime().getTime() <= pcr.getEndDate().getTime().getTime()) returnPcrs.add(pcr);
             }
         }
@@ -109,9 +124,12 @@ public class ClientRestrictionManager {
 
     public ProgramClientRestriction checkClientRestriction(Integer programId, Integer demographicNo, Date asOfDate) {
         // check dao for restriction
-        Collection<ProgramClientRestriction> pcrs = programClientRestrictionDAO.find(programId, demographicNo);
+        Collection pcrs = programClientRestrictionDAO.find(programId.intValue(), demographicNo.intValue());
         if (pcrs != null && !pcrs.isEmpty()) {
-            for (ProgramClientRestriction pcr : pcrs) {
+//            for (ProgramClientRestriction pcr : pcrs) {
+          	Iterator iterator = pcrs.iterator(); 
+            while (iterator.hasNext ()) {
+              	ProgramClientRestriction pcr = (ProgramClientRestriction)iterator.next(); 
                 if (pcr.getStartDate().getTime().getTime() <= asOfDate.getTime() && asOfDate.getTime() <= pcr.getEndDate().getTime().getTime()) return pcr;
             }
         }
@@ -169,7 +187,7 @@ public class ClientRestrictionManager {
         return programClientRestrictionDAO;
     }
 
-    @Required
+    //@Required
     public void setProgramClientRestrictionDAO(ProgramClientRestrictionDAO programClientRestrictionDAO) {
         this.programClientRestrictionDAO = programClientRestrictionDAO;
     }

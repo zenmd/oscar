@@ -52,8 +52,6 @@ public class ClientHistoryAction extends BaseClientAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== list ========= in IncidentAction");
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();

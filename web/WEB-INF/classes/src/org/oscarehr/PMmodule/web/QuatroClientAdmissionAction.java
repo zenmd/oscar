@@ -35,7 +35,6 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
 import com.quatro.service.LookupManager;
@@ -126,7 +125,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
 
        Admission admission = new Admission(); 
-       admission.setId(0);
+       admission.setId(new Integer(0));
        admission.setProgramId(programId);
        admission.setIntakeId(intakeId);
        admission.setClientId(Integer.valueOf(clientId));
@@ -138,7 +137,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId, clientForm.getFamilyIntakeType().equals("Y"));
  	   ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
-	   emptyRoom.setId(0);
+	   emptyRoom.setId(new Integer(0));
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
    	   for(int i=0;i<availableRooms.length;i++){
@@ -146,16 +145,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    	   }
    	   Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
        clientForm.setAvailableRooms(availableRooms2);
-       clientForm.setCurDB_RoomId(0);
+       clientForm.setCurDB_RoomId(new Integer(0));
 
        if(!clientForm.getFamilyIntakeType().equals("Y")){
            Bed[] availableBeds=new Bed[1];
            Bed emptyBed = new Bed();
-           emptyBed.setId(0);
+           emptyBed.setId(new Integer(0));
            emptyBed.setName(" ---- ");
            availableBeds[0]=emptyBed;
            clientForm.setAvailableBeds(availableBeds);
-           clientForm.setCurDB_BedId(0);
+           clientForm.setCurDB_BedId(new Integer(0));
        }
        
 	   //set dropdown values
@@ -195,7 +194,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
        ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
-	   emptyRoom.setId(0);
+	   emptyRoom.setId(new Integer(0));
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
@@ -214,7 +213,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          Integer curDB_BedId = clientForm.getCurDB_BedId();
          ArrayList availableBedLst = new ArrayList();
   	     Bed emptyBed=new Bed();
-  	     emptyBed.setId(0);
+  	     emptyBed.setId(new Integer(0));
   	     emptyBed.setName(" ---- ");
   	     availableBedLst.add(emptyBed);
          if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
@@ -312,7 +311,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
        ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
-	   emptyRoom.setId(0);
+	   emptyRoom.setId(new Integer(0));
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
@@ -331,7 +330,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          Integer curDB_BedId = clientForm.getCurDB_BedId();
          ArrayList availableBedLst = new ArrayList();
   	     Bed emptyBed=new Bed();
-  	     emptyBed.setId(0);
+  	     emptyBed.setId(new Integer(0));
   	     emptyBed.setName(" ---- ");
   	     availableBedLst.add(emptyBed);
          if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
@@ -395,7 +394,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
              ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-           	     admission.getProgramId().intValue(), qif.getClientId().intValue(), new Date());
+           	     admission.getProgramId(), qif.getClientId(), new Date());
              if(restrInPlace != null) {
            	   sb.append(qif.getLastName() + ", " + qif.getFirstName() + "<br>");
                isError = true;
@@ -427,7 +426,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	 }else{
            //service restriction check
 	       ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-			   programId.intValue(), clientId.intValue(), new Date());
+			   programId, clientId, new Date());
            if (restrInPlace != null) {
     	     Program program = programManager.getProgram(programId); 
 	         messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.service_restriction",

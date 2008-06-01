@@ -46,7 +46,7 @@ public class BedDAO extends HibernateDaoSupport {
      */
     public boolean bedExists(Integer bedId) {
 
-        return (((Long) getHibernateTemplate().iterate("select count(*) from Bed where id = " + bedId).next()) == 1);
+        return (((Long) getHibernateTemplate().iterate("select count(*) from Bed where id = " + bedId).next()).intValue() == 1);
     }
 
     /**
@@ -56,7 +56,7 @@ public class BedDAO extends HibernateDaoSupport {
      * @return boolean
      */
     public boolean bedTypeExists(Integer bedTypeId) {
-        boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from BedType where id = " + bedTypeId).next()) == 1);
+        boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from BedType where id = " + bedTypeId).next()).intValue() == 1);
         log.debug("bedTypeExists: " + exists);
 
         return exists;
@@ -87,7 +87,7 @@ public class BedDAO extends HibernateDaoSupport {
      * @param active activity flag
      * @return an array of beds
      */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public Bed[] getBedsByRoom(Integer roomId, Boolean active) {
         String query = getBedsQuery(null, roomId, active);
         Object[] values = getBedsValues(null, roomId, active);
@@ -97,15 +97,15 @@ public class BedDAO extends HibernateDaoSupport {
         return (Bed[]) beds.toArray(new Bed[beds.size()]);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Bed> getBedsByFacility(Integer facilityId, Boolean active) {
+    //@SuppressWarnings("unchecked")
+    public List getBedsByFacility(Integer facilityId, Boolean active) {
         String query = getBedsQuery(facilityId, null, active);
         Object[] values = getBedsValues(facilityId, null, active);
 
         return getBeds(query, values);
     }
     
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public Bed[] getBedsByFilter(Integer facilityId, Integer roomId, Boolean active) {
         String query = getBedsQuery(facilityId, roomId, active);
         Object[] values = getBedsValues(facilityId, roomId, active);
@@ -118,7 +118,7 @@ public class BedDAO extends HibernateDaoSupport {
     /**
      * @return all bed types
      */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public BedType[] getBedTypes() {
         List bedTypes = getHibernateTemplate().find("from BedType bt");
         log.debug("getRooms: size: " + bedTypes.size());
@@ -182,7 +182,7 @@ public class BedDAO extends HibernateDaoSupport {
 
     
     Object[] getBedsValues(Integer facilityId, Integer roomId, Boolean active) {
-        List<Object> values = new ArrayList<Object>();
+        List values = new ArrayList();
 
         if (facilityId != null) {
             values.add(facilityId);
@@ -199,7 +199,7 @@ public class BedDAO extends HibernateDaoSupport {
         return (Object[]) values.toArray(new Object[values.size()]);
     }
 
-    List<Bed> getBeds(String query, Object[] values) {
+    List getBeds(String query, Object[] values) {
         return (values.length > 0) ? getHibernateTemplate().find(query, values) : getHibernateTemplate().find(query);
     }
 

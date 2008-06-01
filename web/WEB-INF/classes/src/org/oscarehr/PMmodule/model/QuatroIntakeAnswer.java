@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 
-public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Serializable {
+public class QuatroIntakeAnswer implements Comparable, Serializable {
 	private static final long serialVersionUID = 1L;
     private int hashCode = Integer.MIN_VALUE;
 
@@ -60,7 +60,9 @@ public class QuatroIntakeAnswer implements Comparable<QuatroIntakeAnswer>, Seria
         return this.hashCode;
     }
 
-	public int compareTo(QuatroIntakeAnswer answer) {
+//	public int compareTo(QuatroIntakeAnswer answer) {
+    public int compareTo(Object obj) {
+    	QuatroIntakeAnswer answer = (QuatroIntakeAnswer) obj; 
 		CompareToBuilder compareToBuilder = new CompareToBuilder();
 		compareToBuilder.append(getId(), answer.getId());
 //		compareToBuilder.append(getIntakeNodeId(), answer.getIntakeNodeId());

@@ -56,7 +56,7 @@ public class UploadFileAction extends BaseClientAction {
 	    }
 	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
-		 List<Attachment> atts=null;
+		 List atts=null;
 		
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -135,7 +135,7 @@ public class UploadFileAction extends BaseClientAction {
 		 Integer aId = null;
 		 if(null!=request.getParameter("id")) {
 			 aId= new Integer(request.getParameter("id"));
-			 if(aId>0)
+			 if(aId.intValue()>0)
 			 attObj = uploadFileManager.getAttachmentDetail(aId);
 			 attForm.set("attachmentValue", attObj);
 		 }
@@ -197,7 +197,7 @@ public class UploadFileAction extends BaseClientAction {
 				attObj.setRefProgramId(new Integer(programId));
 				attObj.setRevDate(new GregorianCalendar());
 				attObj.setAttText(attTextObj);
-				if(attObj.getId()==0) attObj.setId(null);
+				if(attObj.getId().intValue()==0) attObj.setId(null);
 				uploadFileManager.saveAttachment(attObj);				
 				attForm.set("attachmentValue",attObj);
 				attForm.set("attachmentText", attObj.getAttText());

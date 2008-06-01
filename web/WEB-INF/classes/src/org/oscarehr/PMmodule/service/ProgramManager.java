@@ -233,7 +233,7 @@ public class ProgramManager {
 
     // TODO: Implement this method for real
     public Agency getAgencyByProgram(String programId) {
-        return new Agency(new Integer(0), 1, "HS", "HS", "", true, false);
+        return new Agency(new Integer(0), new Integer(1), "HS", "HS", "", true, false);
     }
 
     public List getProgramProviders(String orgcd) {
@@ -497,7 +497,7 @@ public class ProgramManager {
 
         // check the providers facilities against the programs facilities
         Program program = getProgram(programId);        
-        return(program.getFacilityId() == currentFacilityId);
+        return(program.getFacilityId().intValue() == currentFacilityId.intValue());
     }
 
 	public void setSecuserroleDao(SecuserroleDao secuserroleDao) {

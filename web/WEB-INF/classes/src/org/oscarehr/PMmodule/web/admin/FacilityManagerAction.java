@@ -60,9 +60,11 @@ public class FacilityManagerAction extends BaseAction {
     }
 
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        List<Facility> facilities = facilityManager.getFacilities();
-        List<Facility> filteredFacilities = new ArrayList<Facility>();
-        for (Facility facility : facilities) {
+        List facilities = facilityManager.getFacilities();
+        List filteredFacilities = new ArrayList();
+//        for (Facility facility : facilities) {
+        for (int i=0;i<facilities.size();i++) {
+        	Facility facility = (Facility)facilities.get(i);
             if (!facility.isDisabled()) filteredFacilities.add(facility);
         }
         request.setAttribute(BEAN_FACILITIES, filteredFacilities);
@@ -86,14 +88,17 @@ public class FacilityManagerAction extends BaseAction {
 
         // Get facility associated client list -----------
         Map facilityClientsMap = new LinkedHashMap();
-        List<FacilityDischargedClients> facilityClients = new ArrayList();
+        List facilityClients = new ArrayList();
 
         // Get program list by facility id in table room.
-        for (Program program : programManager.getPrograms(id)) {
+//        for (Program program : programManager.getPrograms(id)) {
+        List programs = programManager.getPrograms(id);
+        for (int i=0;i<programs.size();i++) {
+        	Program program = (Program) programs.get(i);
             if (program != null) {
                 // Get admission list by program id and automatic_discharge=true
 
-                List<Admission> admissions = admissionDao.getAdmissionsByProgramId(program.getId(), new Boolean(true), new Integer(-7));
+                List admissions = admissionDao.getAdmissionsByProgramId(program.getId(), new Boolean(true), new Integer(-7));
                 if (admissions != null) {
                     Iterator it = admissions.iterator();
                     while (it.hasNext()) {
@@ -224,7 +229,7 @@ public class FacilityManagerAction extends BaseAction {
         return facilityManager;
     }
 
-    @Required
+    //@Required
     public void setFacilityManager(FacilityManager facilityManager) {
         this.facilityManager = facilityManager;
     }

@@ -102,11 +102,11 @@ public class SurveyDAO extends HibernateDaoSupport {
         this.getHibernateTemplate().saveOrUpdate(data);
     }
     
-    public List<OscarForm> getAllForms() {
+    public List getAllForms() {
         return this.getHibernateTemplate().find("from OscarForm f where f.status = " + OscarForm.STATUS_ACTIVE + " order by description ASC");
     }
 
-    public List<OscarForm> getAllForms(Integer facilityId) {
+    public List getAllForms(Integer facilityId) {
         return this.getHibernateTemplate().find("from OscarForm f where f.status = " + OscarForm.STATUS_ACTIVE + " and (facilityId="+facilityId+" or facilityId is null) order by description ASC");
     }
 

@@ -35,7 +35,6 @@ import org.oscarehr.PMmodule.model.ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
-import org.oscarehr.PMmodule.model.Demographic.ConsentGiven;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
@@ -99,8 +98,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 		request.setAttribute("clientId", (String) clientForm.get("clientId"));
 
-		request.setAttribute("do_refer", true);
-		request.setAttribute("temporaryAdmission", programManager.getEnabled());
+		request.setAttribute("do_refer", Boolean.TRUE);
+		request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 
 		return mapping.findForward("edit");
 	}
@@ -182,7 +181,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		refObj.setProviderNo(p.getProviderNo());
 		refObj.setReferralDate(new Date());
 		refObj.setStatus("active");
-		if(refObj.getId()==0)refObj.setId(null);
+		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(

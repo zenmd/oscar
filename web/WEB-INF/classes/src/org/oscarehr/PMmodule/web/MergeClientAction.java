@@ -55,17 +55,17 @@ public class MergeClientAction extends BaseClientAction {
 				.get("criteria");
 
 		// formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
-		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,
-				UserRoleUtils.Roles.external);
+		boolean allowOnlyOptins = UserRoleUtils.hasRole(request, UserRoleUtils.Roles_external);
 		if ("MyP".equals(formBean.getBedProgramId())) {
 			Integer facilityId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_FACILITYID);
 			String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
-			List<Program> allBedPrograms = programManager
-					.getProgramsByProvider(facilityId, providerNo);
+			List allBedPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
 			String prgId = "";
-			for (Program prg : allBedPrograms) {
+//			for (Program prg : allBedPrograms) {
+			for (int i=0;i<allBedPrograms.size();i++) {
+				Program prg = (Program)allBedPrograms.get(i);
 				prgId += prg.getId().toString() + ",";
 			}
 			if (!"".equals(prgId))
@@ -88,9 +88,9 @@ public class MergeClientAction extends BaseClientAction {
 			throw (new IllegalStateException(
 					"This is an unexpected state, both search_with_consent and emergency_search are not null."));
 		else if (consentSearch != null)
-			consent = Demographic.ConsentGiven.ALL.name();
+			consent = Demographic.ConsentGiven_ALL;
 		else if (emergencySearch != null)
-			consent = Demographic.ConsentGiven.ALL.name();
+			consent = Demographic.ConsentGiven_ALL;
 		request.setAttribute("consent", consent);
 
 		
@@ -199,7 +199,7 @@ public class MergeClientAction extends BaseClientAction {
 		DynaActionForm searchForm = (DynaActionForm) form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
 			
-		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,UserRoleUtils.Roles.external);		
+		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,UserRoleUtils.Roles_external);		
 		/* do the search */
 		request.setAttribute("clients", clientManager.search(formBean,allowOnlyOptins));
 		setLookupLists(request);		
@@ -216,7 +216,7 @@ public class MergeClientAction extends BaseClientAction {
 		request.setAttribute("allBedPrograms", allBedPrograms);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
-		List<Provider> allProviders = providerManager.getActiveProviders(
+		List allProviders = providerManager.getActiveProviders(
 				facilityId.toString(), null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,

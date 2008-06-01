@@ -44,7 +44,7 @@ public class ProviderDao extends HibernateDaoSupport {
 	private static Log log = LogFactory.getLog(ProviderDao.class);
 	
 	public boolean providerExists(String providerNo) {
-		boolean exists = (((Integer) getHibernateTemplate().iterate("select count(*) from Provider p where p.ProviderNo = " + providerNo).next()) == 1);
+		boolean exists = (((Integer) getHibernateTemplate().iterate("select count(*) from Provider p where p.ProviderNo = " + providerNo).next()).intValue() == 1);
 		log.debug("providerExists: " + exists);
 
 		return exists;
@@ -87,9 +87,9 @@ public class ProviderDao extends HibernateDaoSupport {
 		return providerName;
 	}
 
-    public List<Provider> getProviders() {
-    	@SuppressWarnings("unchecked")
-		List<Provider> rs = getHibernateTemplate().find("FROM  Provider p ORDER BY p.LastName");
+    public List getProviders() {
+    	//@SuppressWarnings("unchecked")
+		List rs = getHibernateTemplate().find("FROM  Provider p ORDER BY p.LastName");
 
 		if (log.isDebugEnabled()) {
 			log.debug("getProviders: # of results=" + rs.size());
@@ -97,11 +97,11 @@ public class ProviderDao extends HibernateDaoSupport {
 		return rs;
 	}
 
-    public List<Provider> getActiveProviders(String facilityId, String programId) {
+    public List getActiveProviders(String facilityId, String programId) {
         ArrayList paramList = new ArrayList();
 
     	String sSQL;
-    	List<Provider> rs;
+    	List rs;
     	if(programId!=null && "0".equals(programId)==false){
     	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
                "(select c.providerNo from Secuserrole c where c.orgcd ='P' || ?) ORDER BY p.LastName";
@@ -124,9 +124,9 @@ public class ProviderDao extends HibernateDaoSupport {
 		return rs;
 	}
 
-    public List<Provider> getActiveProviders() {
-    	@SuppressWarnings("unchecked")
-		List<Provider> rs = getHibernateTemplate().find("FROM  Provider p where p.Status='1' ORDER BY p.LastName");
+    public List getActiveProviders() {
+    	//@SuppressWarnings("unchecked")
+		List rs = getHibernateTemplate().find("FROM  Provider p where p.Status='1' ORDER BY p.LastName");
 
 		if (log.isDebugEnabled()) {
 			log.debug("getProviders: # of results=" + rs.size());
@@ -134,7 +134,7 @@ public class ProviderDao extends HibernateDaoSupport {
 		return rs;
 	}
     
-	public List<Provider> search(String name) {
+	public List search(String name) {
 		boolean isOracle = OscarProperties.getInstance().getDbType().equals("oracle");
 		Criteria c = this.getSession().createCriteria(Provider.class);
 		if (isOracle) {
@@ -146,8 +146,8 @@ public class ProviderDao extends HibernateDaoSupport {
 		}
 		c.addOrder(Order.asc("ProviderNo"));
 
-		@SuppressWarnings("unchecked")
-		List<Provider> results = c.list();
+		//@SuppressWarnings("unchecked")
+		List results = c.list();
 
 		if (log.isDebugEnabled()) {
 			log.debug("search: # of results=" + results.size());
@@ -155,9 +155,9 @@ public class ProviderDao extends HibernateDaoSupport {
 		return results;
 	}
 
-	public List<Provider> getProvidersByType(String type) {
-		@SuppressWarnings("unchecked")
-		List<Provider> results = this.getHibernateTemplate().find("from Provider p where p.ProviderType = ?", type);
+	public List getProvidersByType(String type) {
+		//@SuppressWarnings("unchecked")
+		List results = this.getHibernateTemplate().find("from Provider p where p.ProviderType = ?", type);
 
 		if (log.isDebugEnabled()) {
 			log.debug("getProvidersByType: type=" + type + ",# of results=" + results.size());
@@ -183,7 +183,7 @@ public class ProviderDao extends HibernateDaoSupport {
         SqlUtils.update("delete from provider_facility where provider_no='"+provider_no+"' and facility_id="+facilityId);
 	}
 	
-	public List<Integer> getFacilityIds(String provider_no)
+	public List getFacilityIds(String provider_no)
 	{
 //	    return(SqlUtils.selectIntList("select facility_id from secuserrole where provider_no='"+provider_no+'\''));
 		String sql = "select distinct substr(codetree,18,7) as facility_id from lst_orgcd" ;
@@ -194,7 +194,7 @@ public class ProviderDao extends HibernateDaoSupport {
     	((SQLQuery) query).addScalar("facility_id", Hibernate.INTEGER); 
     	query.setString(0, provider_no);
 
-    	List<Integer> lst=query.list();
+    	List lst=query.list();
 		return lst;
 	}
 }

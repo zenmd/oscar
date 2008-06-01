@@ -70,52 +70,52 @@ public class ProviderManager
 		return dao.getProviderName(providerNo);
 	}
 	
-	public List<Provider> getProviders()
+	public List getProviders()
 	{
 		return dao.getProviders();
 	}
 	
-	public List<Provider> getActiveProviders()
+	public List getActiveProviders()
 	{
 		return dao.getActiveProviders();
 	}
 
-    public List<Provider> getActiveProviders(String facilityId, String programId) {
+    public List getActiveProviders(String facilityId, String programId) {
 		return dao.getActiveProviders(facilityId, programId);
     }
 	
-	public List<Provider> search(String name) {
+	public List search(String name) {
 		return dao.search(name);
 	}
 
-    public List<ProgramProvider> getProgramDomain(String providerNo) {
+    public List getProgramDomain(String providerNo) {
 		return programProviderDAO.getProgramDomain(providerNo);
 	}
 
-    public List<ProgramProvider> getProgramDomainByFacility(String providerNo, Integer facilityId) {
+    public List getProgramDomainByFacility(String providerNo, Integer facilityId) {
 		return programProviderDAO.getProgramDomainByFacility(providerNo, facilityId);
 	}
 
-    public List<Facility> getFacilitiesInProgramDomain(String providerNo) {
+    public List getFacilitiesInProgramDomain(String providerNo) {
         return programProviderDAO.getFacilitiesInProgramDomain(providerNo);
     }
-	public List<Integer> getFacilityIds(String provider_no)
+	public List getFacilityIds(String provider_no)
 	{
 		return dao.getFacilityIds(provider_no);
 	}
 
-    public List<Agency> getAgencyDomain(String providerNo) {
+    public List getAgencyDomain(String providerNo) {
 		Agency localAgency =  agencyDAO.getLocalAgency();
-		List<Agency> agencies = new ArrayList<Agency>();
+		List agencies = new ArrayList();
 		agencies.add(localAgency);
 		return agencies;
 	}
 	
-	public List<Provider> getProvidersByType(String type) {
+	public List getProvidersByType(String type) {
 		return dao.getProvidersByType(type);
 	}
 	
-	public List<SecUserRole> getSecUserRoles(String providerNo) {
+	public List getSecUserRoles(String providerNo) {
 		return oscarSecurityDAO.getUserRoles(providerNo);
 	}
 

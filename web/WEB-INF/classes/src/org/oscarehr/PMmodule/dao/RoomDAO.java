@@ -46,7 +46,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	 * @return true if room exists
 	 */
     public boolean roomExists(Integer roomId) {
-		boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from Room where id = " + roomId).next()) == 1);
+		boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from Room where id = " + roomId).next()).intValue() == 1);
 		log.debug("roomExists: " + exists);
 
 		return exists;
@@ -61,7 +61,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	 * @return true if room type exists
 	 */
     public boolean roomTypeExists(Integer roomTypeId) {
-		boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from RoomType where id = " + roomTypeId).next()) == 1);
+		boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from RoomType where id = " + roomTypeId).next()).intValue() == 1);
 		log.debug("roomTypeExists: " + exists);
 
 		return exists;
@@ -103,7 +103,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	 *            filter
 	 * @return list of rooms
 	 */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public Room[] getRooms(Integer facilityId, Integer programId, Boolean active) {
     	//must be commented out as to add rooms in Bed.jsp
     	//if(programId == null  ||  active == null){
@@ -129,7 +129,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	 * @param active           
 	 * @return list of assigned bed rooms
 	 */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public Room[] getAssignedBedRooms(Integer facilityId, Integer programId, Boolean active) {
     	//if(programId == null  ||  active == null){
     	//	return null;
@@ -146,7 +146,7 @@ public class RoomDAO extends HibernateDaoSupport {
 		}
 	}
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public Room[] getAvailableRooms(Integer facilityId, Integer programId, Boolean active) {
     	//condition placed here on purpose to disallow rooms to display in dropdown list
     	//when clients don't belong to any bed program -- to fix a bug
@@ -171,7 +171,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	 *
 	 * @return
 	 */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public RoomType[] getRoomTypes() {
 		List roomTypes = getHibernateTemplate().find("from RoomType rt");
 		log.debug("getRooms: size: " + roomTypes.size());
@@ -268,7 +268,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	}
 	
 	Object[] getRoomsValues(Integer facilityId, Integer programId, Boolean active) {
-		List<Object> values = new ArrayList<Object>();
+		List values = new ArrayList();
 
         if (facilityId != null) {
             values.add(facilityId);

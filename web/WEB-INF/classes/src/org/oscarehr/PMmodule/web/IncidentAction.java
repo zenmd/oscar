@@ -44,10 +44,6 @@ public class IncidentAction extends DispatchAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== list ========= in IncidentAction");
-
-		
 		// TODO:
 		Integer programId =Integer.valueOf("200011");
 			
@@ -116,13 +112,13 @@ public class IncidentAction extends DispatchAction {
 			incidentForm.setDispositionArr(dispositionArr);
 		}
 		
-		List<LookupCodeValue> clientIssuesLst = lookupManager.LoadCodeList("ICI", true,
+		List clientIssuesLst = lookupManager.LoadCodeList("ICI", true,
 				null, null);
-		List<LookupCodeValue> dispositionLst = lookupManager.LoadCodeList("IDS", true,
+		List dispositionLst = lookupManager.LoadCodeList("IDS", true,
 				null, null);
-		List<LookupCodeValue> natureLst = lookupManager.LoadCodeList("INI",
+		List natureLst = lookupManager.LoadCodeList("INI",
 				true, null, null);
-		List<LookupCodeValue> othersLst = lookupManager.LoadCodeList("IOI",
+		List othersLst = lookupManager.LoadCodeList("IOI",
 				true, null, null);
 
 		int length = (natureLst.size()) / 2; // value of offset in JSP file
@@ -134,7 +130,7 @@ public class IncidentAction extends DispatchAction {
 
 		incidentForm.setIncident(incident);
 
-		request.setAttribute("IncidentForm_length", length);
+		request.setAttribute("IncidentForm_length", new Integer(length));
 
 		return mapping.findForward("edit");
 	}
@@ -165,7 +161,7 @@ public class IncidentAction extends DispatchAction {
 		// TODO:
 		Integer programId =Integer.valueOf("200011");
 		
-		if (incident.getId() == null || incident.getId() == 0) {
+		if (incident.getId() == null || incident.getId().intValue() == 0) {
 			incident.setId(null);
 			incident.setCreatedDate(Calendar.getInstance());
 			incident.setProgramId(programId);

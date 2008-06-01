@@ -98,7 +98,7 @@ public class ProgramManagerAction extends BaseAction {
 
         String providerNo = (String)request.getSession().getAttribute("user");
         
-        List<Program> list =  null;
+        List list =  null;
         if("".equals(searchStatus)) {
        		Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
        		list = programManager.getProgramByProvider(providerNo, facilityId);
@@ -357,7 +357,7 @@ public class ProgramManagerAction extends BaseAction {
         Program program = (Program) programForm.get("program");
         ProgramProvider pp = (ProgramProvider) programForm.get("provider");
 
-        if (pp.getId() != null && pp.getId() >= 0) {
+        if (pp.getId() != null && pp.getId().intValue() >= 0) {
             programManager.deleteProgramProvider(String.valueOf(pp.getId()));
 
             ActionMessages messages = new ActionMessages();
@@ -512,7 +512,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+/*
     public ActionForward remove_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -548,14 +548,15 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+*/
+    
     public ActionForward save_restriction_settings(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
 
         Program program = (Program) programForm.get("program");
         Program realProgram = programManager.getProgram(program.getId());
 
-        if (program.getMaxAllowed() < program.getNumOfMembers()) {
+        if (program.getMaxAllowed().intValue() < program.getNumOfMembers().intValue()) {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.max_too_small", program.getName()));
             saveMessages(request, messages);
@@ -566,9 +567,9 @@ public class ProgramManagerAction extends BaseAction {
 
         Integer maxRestrictionDays = program.getMaximumServiceRestrictionDays();
         int defaultRestrictionDays = program.getDefaultServiceRestrictionDays();
-        if (maxRestrictionDays != null && maxRestrictionDays != 0 && defaultRestrictionDays > maxRestrictionDays) {
+        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0 && defaultRestrictionDays > maxRestrictionDays.intValue()) {
             ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", defaultRestrictionDays, maxRestrictionDays));
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", new Integer(defaultRestrictionDays), maxRestrictionDays));
             saveMessages(request, messages);
             setEditAttributes(request, String.valueOf(program.getId()));
 
@@ -577,7 +578,7 @@ public class ProgramManagerAction extends BaseAction {
 
         // copy over modified attributes
         realProgram.setDefaultServiceRestrictionDays(defaultRestrictionDays);
-        if (maxRestrictionDays != null && maxRestrictionDays != 0)
+        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0)
             realProgram.setMaximumServiceRestrictionDays(maxRestrictionDays);
         
         // save program & sign the modification of the program
@@ -616,7 +617,7 @@ public class ProgramManagerAction extends BaseAction {
         }
         
         try {
-            program.setFacilityId(Integer.parseInt(request.getParameter("program.facilityId")));
+            program.setFacilityId(Integer.valueOf(request.getParameter("program.facilityId")));
         }
         catch (NumberFormatException e) {
             e.printStackTrace();
@@ -739,17 +740,17 @@ public class ProgramManagerAction extends BaseAction {
         oldProgram.setName(request.getParameter("old_name"));
         oldProgram.setFacilityId(Integer.getInteger(request.getParameter("old_facility_id")));
         oldProgram.setDescr(request.getParameter("old_descr"));
-        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")));
+        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")).booleanValue());
         oldProgram.setType(request.getParameter("old_type"));
         oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
         if(request.getParameter("old_capacity_space")!=null && request.getParameter("old_capacity_space").length()>0)
         	oldProgram.setCapacity_space(Integer.getInteger(request.getParameter("old_capacity_space")));
         if(request.getParameter("old_capacity_funding")!=null && request.getParameter("old_capacity_funding").length()>0)
         	oldProgram.setCapacity_funding(Integer.getInteger(request.getParameter("old_capacity_funding")));
-        oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")));
-        oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")));
+        oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")).booleanValue());
+        oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")).booleanValue());
         oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
-        oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")));
+        oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")).booleanValue());
         if(request.getParameter("old_ageMax")!=null && request.getParameter("old_ageMax").length()>0)
         	oldProgram.setAgeMax(Integer.getInteger(request.getParameter("old_ageMax")));
         if(request.getParameter("old_ageMin")!=null && request.getParameter("old_ageMin").length()>0)
@@ -1153,7 +1154,7 @@ public class ProgramManagerAction extends BaseAction {
         return changed;
     }
 
-    @Required
+    //@Required
     public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
         this.clientRestrictionManager = clientRestrictionManager;
     }

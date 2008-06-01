@@ -34,7 +34,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   List lst = clientManager.search(criteria, false);
 
 	   Demographic obj= new Demographic();
-	   obj.setDemographicNo(0);
+	   obj.setDemographicNo(new Integer(0));
 	   obj.setFirstName(request.getParameter("firstName"));
 	   obj.setLastName(request.getParameter("lastName"));
 	   if(!request.getParameter("dob").equals("")){

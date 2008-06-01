@@ -79,8 +79,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
         ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
         		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
-        ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
-        ArrayList<LabelValueBean> lst3 = new ArrayList<LabelValueBean>();
+        ArrayList lst2 = new ArrayList();
+        ArrayList lst3 = new ArrayList();
         for(int i=0;i<lst.size();i++){
            Object[] obj = (Object[])lst.get(i);
            lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
@@ -95,10 +95,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         }else{
         	obj= new QuatroIntake();
         	obj.setCreatedOn(Calendar.getInstance());
-            obj.setId(0);
+            obj.setId(new Integer(0));
             obj.setClientId(Integer.valueOf(qform.getClientId()));
-            obj.setReferralId(0);
-            obj.setQueueId(0);
+            obj.setReferralId(new Integer(0));
+            obj.setQueueId(new Integer(0));
             obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
     		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
     		obj.setYouth(KeyConstants.CONSTANT_NO);
@@ -174,10 +174,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         }else{
         	intake= new QuatroIntake();
         	intake.setCreatedOn(Calendar.getInstance());
-        	intake.setId(0);
+        	intake.setId(new Integer(0));
         	intake.setClientId(Integer.valueOf(qform.getClientId()));
-        	intake.setReferralId(0);
-        	intake.setQueueId(0);
+        	intake.setReferralId(new Integer(0));
+        	intake.setQueueId(new Integer(0));
         	intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
         	intake.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         	intake.setYouth(KeyConstants.CONSTANT_NO);
@@ -187,8 +187,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
         ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
         		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
-        ArrayList<LabelValueBean> lst2 = new ArrayList<LabelValueBean>();
-        ArrayList<LabelValueBean> lst3 = new ArrayList<LabelValueBean>();
+        ArrayList lst2 = new ArrayList();
+        ArrayList lst3 = new ArrayList();
         for(int i=0;i<lst.size();i++){
            Object[] obj = (Object[])lst.get(i);
            //don't allow existing intake change program type
@@ -289,7 +289,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	obj.setClientId(client.getDemographicNo());
 		
 		//get program type
-    	ArrayList<LabelValueBean> lst= (ArrayList<LabelValueBean>)qform.getProgramTypeList();
+    	ArrayList lst= (ArrayList)qform.getProgramTypeList();
 		for(int i=0;i<lst.size();i++){
 			LabelValueBean obj2= (LabelValueBean)lst.get(i);
 			if(Integer.valueOf(obj2.getValue()).equals(obj.getProgramId())){
@@ -301,10 +301,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		//check service restriction
 		if(!obj.getProgramId().equals(obj.getCurrentProgramId())){
           ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-        		obj.getProgramId().intValue(), obj.getClientId().intValue(), new Date());
+        		obj.getProgramId(), obj.getClientId(), new Date());
           if (restrInPlace != null && request.getParameter("skipError")==null) {
-        	for(Object element : qform.getProgramList()) {
-        		LabelValueBean obj3 = (LabelValueBean) element;
+//          	for(Object element : qform.getProgramList()) {
+        	List programs = qform.getProgramList();  
+        	for(int i=0;i<programs.size();i++) {
+        		LabelValueBean obj3 = (LabelValueBean) programs.get(i);
             	if(obj3.getValue().equals(obj.getProgramId().toString())){
           		  if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
                		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",

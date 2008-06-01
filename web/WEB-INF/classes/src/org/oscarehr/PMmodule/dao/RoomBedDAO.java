@@ -41,7 +41,7 @@ public class RoomBedDAO extends HibernateDaoSupport {
      * @see org.oscarehr.PMmodule.dao.RoomBedDAO#bedExists(java.lang.Integer)
      */
     public boolean bedExists(Integer roomId) {
-        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomBed bd where bd.id.roomId = " + roomId).next()) == 1);
+        boolean exists = (((Integer)getHibernateTemplate().iterate("select count(*) from RoomBed bd where bd.id.roomId = " + roomId).next()).intValue() == 1);
         log.debug("clientExists: " + exists);
 
         return exists;
@@ -51,7 +51,7 @@ public class RoomBedDAO extends HibernateDaoSupport {
      * @see org.oscarehr.PMmodule.dao.RoomBedDAO#roomExists(java.lang.Integer)
      */
     public boolean roomExists(Integer bedId) {
-        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomBed bd where bd.id.bedId = " + bedId).next()) == 1);
+        boolean exists = (((Integer)getHibernateTemplate().iterate("select count(*) from RoomBed bd where bd.id.bedId = " + bedId).next()).intValue() == 1);
         log.debug("roomExists: " + exists);
 
         return exists;
@@ -110,7 +110,7 @@ public class RoomBedDAO extends HibernateDaoSupport {
     }
 
     boolean roomBedExists(RoomBedPK id) {
-        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomBed bd where bd.id.roomId = " + id.getRoomId() + " and bd.id.bedId = " + id.getBedId()).next()) == 1);
+        boolean exists = (((Integer)getHibernateTemplate().iterate("select count(*) from RoomBed bd where bd.id.roomId = " + id.getRoomId() + " and bd.id.bedId = " + id.getBedId()).next()).intValue() == 1);
         log.debug("roomBedExists: " + exists);
 
         return exists;

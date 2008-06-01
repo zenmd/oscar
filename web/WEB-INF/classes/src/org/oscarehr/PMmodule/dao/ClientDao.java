@@ -131,11 +131,11 @@ public class ClientDao extends HibernateDaoSupport {
 	}
 
 
-    public List<Demographic> getClients() {
+    public List getClients() {
 
 		String queryStr = " FROM Demographic";
-	    @SuppressWarnings("unchecked")
-		List<Demographic> rs = getHibernateTemplate().find(queryStr);
+	    //@SuppressWarnings("unchecked")
+		List rs = getHibernateTemplate().find(queryStr);
 
 		if (log.isDebugEnabled()) {
 			log.debug("getClients: # of results=" + rs.size());
@@ -147,7 +147,7 @@ public class ClientDao extends HibernateDaoSupport {
 	/*
 	 * use program_client table to do domain based search
 	 */
-	public List<Demographic> search(ClientSearchFormBean bean, boolean returnOptinsOnly) {
+	public List search(ClientSearchFormBean bean, boolean returnOptinsOnly) {
 
 		Criteria criteria = getSession().createCriteria(Demographic.class);
 		String firstName = "";
@@ -165,8 +165,8 @@ public class ClientDao extends HibernateDaoSupport {
 		String sql = "";
 		String sql2 = "";
 		
-		@SuppressWarnings("unchecked")
-		List<Demographic> results = null;
+		//@SuppressWarnings("unchecked")
+		List results = null;
 
 		if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
 			firstName = bean.getFirstName();
@@ -184,7 +184,7 @@ public class ClientDao extends HibernateDaoSupport {
 		if (clientNo != null && !"".equals(clientNo))
 		{
 			if (com.quatro.util.Utility.IsInt(clientNo) ) {
-				criteria.add(Expression.eq("DemographicNo", Integer.valueOf(clientNo).intValue()));
+				criteria.add(Expression.eq("DemographicNo", Integer.valueOf(clientNo)));
 				results = criteria.list();
 			} 
 			else 
@@ -256,11 +256,11 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		active = bean.getActive();
 		if("1".equals(active)) {
-			criteria.add(Expression.ge("activeCount", 1));
+			criteria.add(Expression.ge("activeCount", new Integer(1)));
 		}
 		else if ("0".equals(active))
 		{
-			criteria.add(Expression.eq("activeCount", 0));
+			criteria.add(Expression.eq("activeCount", new Integer(0)));
 		}
 			
 		gender = bean.getGender();
@@ -284,7 +284,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		return results;
 	}
-	public List<Demographic> search_ori(ClientSearchFormBean bean, boolean returnOptinsOnly) {
+	public List search_ori(ClientSearchFormBean bean, boolean returnOptinsOnly) {
 
 		Criteria criteria = getSession().createCriteria(Demographic.class);
 		String firstName = "";
@@ -419,7 +419,7 @@ public class ClientDao extends HibernateDaoSupport {
 			Integer [] pIdi = new Integer[pIds.length];
 			for(int i=0;i<pIds.length;i++)
 			{
-				pIdi[i] = Integer.parseInt(pIds[i]);
+				pIdi[i] = Integer.valueOf(pIds[i]);
 			}
 		    subq.add(Restrictions.in("ProgramId", pIdi));	
 			
@@ -431,7 +431,7 @@ public class ClientDao extends HibernateDaoSupport {
 				Integer [] pIdi = new Integer[pIds.length];
 				for(int i=0;i<pIds.length;i++)
 				{
-					pIdi[i] = Integer.parseInt(pIds[i]);
+					pIdi[i] = Integer.valueOf(pIds[i]);
 				}
 				
 			    subq.add(Restrictions.in("ProgramId", pIdi));		
@@ -457,8 +457,8 @@ public class ClientDao extends HibernateDaoSupport {
 		criteria.add(Expression.ne("PatientStatus", "IN"));
 		criteria.addOrder(Order.asc("LastName"));
 	
-		@SuppressWarnings("unchecked")
-		List<Demographic> results = criteria.list();
+		//@SuppressWarnings("unchecked")
+		List results = criteria.list();
 
 		if (log.isDebugEnabled()) {
 			log.debug("search: # of results=" + results.size());
@@ -478,7 +478,7 @@ public class ClientDao extends HibernateDaoSupport {
 	 * This method will remove any demographic whom has not
 	 * opted in or implicitly opted in.
 	 */
-	private List<Demographic> filterDemographicForDataSharingOptedIn(List<Demographic> demographics) {		
+	private List filterDemographicForDataSharingOptedIn(List demographics) {		
 		// The expectation is that this method is 
 		// called for search results and that the search results
 		// are generally a small list. We need 
@@ -488,17 +488,19 @@ public class ClientDao extends HibernateDaoSupport {
 		// If we tried it all at once the resulting sql string maybe too
 		// long as there's a limit on most systems (I think mysql defaults to 2k sql string size)		
 		
-		ArrayList<Demographic> optedIn=new ArrayList<Demographic>();
-		ArrayList<Demographic> tempList=new ArrayList<Demographic>();
+		ArrayList optedIn=new ArrayList();
+		ArrayList tempList=new ArrayList();
 		
-		for (Demographic demographic : demographics)
+//		for (Demographic demographic : demographics)
+		for (int i=0;i<demographics.size();i++)
 		{
+			Demographic demographic = (Demographic)demographics.get(i);
 			tempList.add(demographic);
 			
 			if (tempList.size()>=LIST_PROCESSING_CHUNK_SIZE)
 			{
 				populateDataSharingOptedIn(optedIn, tempList);
-				tempList=new ArrayList<Demographic>();
+				tempList=new ArrayList();
 			}
 		}
 			
@@ -512,7 +514,7 @@ public class ClientDao extends HibernateDaoSupport {
 	 * to data sharing. It will then add those demographics to the optedIn list.
 	 * The tempList size should be <= LIST_PROCESSING_CHUNK_SIZE.
 	 */
-    private void populateDataSharingOptedIn(ArrayList<Demographic> optedIn, ArrayList<Demographic> tempList) {
+    private void populateDataSharingOptedIn(ArrayList optedIn, ArrayList tempList) {
 		if (tempList.size()>LIST_PROCESSING_CHUNK_SIZE) throw(new IllegalStateException("tempIds list size is too large, size="+tempList.size()));
 		
 		//--- get the list of demographicId's which are opted in ---
@@ -521,7 +523,7 @@ public class ClientDao extends HibernateDaoSupport {
 		ResultSet rs=null;
 		String sqlCommand="select demographic_no from demographicExt where key_val=? and value in (?,?) and demographic_no in "+SqlUtils.constructInClauseForPreparedStatements(tempList.size());
 		
-		HashSet<Integer> optInIds=new HashSet<Integer>();
+		HashSet optInIds=new HashSet();
 		
 		try
 		{
@@ -529,18 +531,22 @@ public class ClientDao extends HibernateDaoSupport {
 			ps=c.prepareStatement(sqlCommand);
 
 			ps.setString(1, Demographic.CONSENT_GIVEN_KEY);
-			ps.setString(2, Demographic.ConsentGiven.ALL.name());
-			ps.setString(3, Demographic.ConsentGiven.CIRCLE_OF_CARE.name());
+			ps.setString(2, Demographic.ConsentGiven_ALL);
+			ps.setString(3, Demographic.ConsentGiven_CIRCLE_OF_CARE);
+//			ps.setString(2, Demographic.ConsentGiven.ALL.name());
+//			ps.setString(3, Demographic.ConsentGiven.CIRCLE_OF_CARE.name());
 			
 			int positionCounter=4;
-			for (Demographic demographic : tempList)
+//			for (Demographic demographic : tempList)
+			for (int i=0;i<tempList.size();i++)
 			{
-				ps.setInt(positionCounter, demographic.getDemographicNo());
+				Demographic demographic = (Demographic)tempList.get(i);
+				ps.setInt(positionCounter, demographic.getDemographicNo().intValue());
 				positionCounter++;
 			}
 			
 			rs=ps.executeQuery();
-			while (rs.next()) optInIds.add(rs.getInt(1));
+			while (rs.next()) optInIds.add(new Integer(rs.getInt(1)));
 		}
         catch (SQLException e) {
 	        log.error("Error running sqlCommand : "+sqlCommand, e);
@@ -553,8 +559,10 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		//--- add only the opted in people to the optedIn list ---
 		
-		for (Demographic demographic : tempList)
+//		for (Demographic demographic : tempList)
+		for (int i=0;i<tempList.size();i++)
 		{
+			Demographic demographic = (Demographic)tempList.get(i);
 			if (optInIds.contains(demographic.getDemographicNo())) optedIn.add(demographic);
 		}
 	}
@@ -568,7 +576,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.FormEdited from Formintakea intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setInteger(0, demographicNo);
+		q.setInteger(0, demographicNo.intValue());
 		List results = q.list();
 
 		if (!results.isEmpty()) {
@@ -591,7 +599,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.FormEdited from Formintakec intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setInteger(0, demographicNo);
+		q.setInteger(0, demographicNo.intValue());
 
 		List result = q.list();
 		if (!result.isEmpty()) {
@@ -639,7 +647,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.ProviderNo from Formintakea intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setInteger(0, demographicNo);
+		q.setInteger(0, demographicNo.intValue());
 		List result = q.list();
 		if (!result.isEmpty()) {
 			Integer providerNo = (Integer)result.get(0);
@@ -665,7 +673,7 @@ public class ClientDao extends HibernateDaoSupport {
     	if (lst.size() > 0)
     		return (Integer) lst.get(0);
     	else
-    		return 0;
+    		return new Integer(0);
     }
 
 	public String getMostRecentIntakeCProvider(Integer demographicNo) {
@@ -677,7 +685,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 
 		Query q = getSession().createQuery("select intake.ProviderNo from Formintakec intake where intake.DemographicNo = ? order by intake.FormEdited DESC");
-		q.setInteger(0, demographicNo);
+		q.setInteger(0, demographicNo.intValue());
 		List result = q.list();
 		if (!result.isEmpty()) {
 			Integer providerNo = (Integer)result.get(0);
@@ -710,14 +718,14 @@ public class ClientDao extends HibernateDaoSupport {
 		return result;
 	}
 
-    public List<DemographicExt> getDemographicExtByDemographicNo(Integer demographicNo) {
+    public List getDemographicExtByDemographicNo(Integer demographicNo) {
 
 		if (demographicNo == null || demographicNo.intValue() <= 0) {
 			throw new IllegalArgumentException();
 		}
 
-	    @SuppressWarnings("unchecked")
-		List<DemographicExt> results = this.getHibernateTemplate().find("from DemographicExt d where d.demographicNo = ?", demographicNo);
+	    //@SuppressWarnings("unchecked")
+		List results = this.getHibernateTemplate().find("from DemographicExt d where d.demographicNo = ?", demographicNo);
 
 		if (log.isDebugEnabled()) {
 			log.debug("getDemographicExtByDemographicNo: demographicNo=" + demographicNo + ",# of results=" + results.size());
@@ -826,7 +834,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 	}
 	public List getIntakeByFacility(Integer demographicNo, Integer facilityId) {
-		  if (demographicNo == null || demographicNo <= 0) {
+		  if (demographicNo == null || demographicNo.intValue() <= 0) {
 		    throw new IllegalArgumentException();
 		  }
 
@@ -863,7 +871,7 @@ public class ClientDao extends HibernateDaoSupport {
 		public String programName;
 	}
 	
-    public Map<String, ClientListsReportResults> findByReportCriteria(ClientListsReportFormBean x) {
+    public Map findByReportCriteria(ClientListsReportFormBean x) {
 
 		StringBuilder sqlCommand=new StringBuilder();
         boolean joinCaseMgmtNote=StringUtils.trimToNull(x.getProviderId())!=null || StringUtils.trimToNull(x.getSeenStartDate())!=null || StringUtils.trimToNull(x.getSeenEndDate())!=null;
@@ -891,7 +899,7 @@ public class ClientDao extends HibernateDaoSupport {
 		sqlCommand.append(" order by last_name,first_name");		
 
         // yeah I know using a treeMap isn't an efficient way of making this unique but given the current constraints this was quick and dirty and should work for the size of our data set 
-		TreeMap<String, ClientListsReportResults> results=new TreeMap<String, ClientListsReportResults>();
+		TreeMap results=new TreeMap();
 		
 		Connection c=null;
 		PreparedStatement ps=null;

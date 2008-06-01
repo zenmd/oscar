@@ -71,16 +71,16 @@ public class Program implements Serializable {
     private boolean mentalHealth;
     private boolean housing;
     private String exclusiveView;
-    private Integer ageMin=0;
-    private Integer ageMax=200;
+    private Integer ageMin= new Integer(0);
+    private Integer ageMax= new Integer(200);
     private Integer maximumServiceRestrictionDays;
     private int defaultServiceRestrictionDays;
     private Integer facilityId;
     private String facilityDesc;
     private String orgCd;
-    private Integer capacity_funding = 0;
-    private Integer capacity_space = 0;
-    private Integer capacity_actual = 0;
+    private Integer capacity_funding = new Integer(0);
+    private Integer capacity_space = new Integer(0);
+    private Integer capacity_actual =new Integer(0);
     
     public Integer getCapacity_actual() {
 		return capacity_actual;
@@ -166,7 +166,7 @@ public class Program implements Serializable {
     }
 
     public boolean isFull() {
-        return getNumOfMembers() >= getMaxAllowed();
+        return getNumOfMembers().intValue() >= getMaxAllowed().intValue();
     }
 
     public boolean isExternal() {

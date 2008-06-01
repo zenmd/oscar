@@ -93,7 +93,7 @@ public class ClientSearchAction2 extends DispatchAction {
 				KeyConstants.SESSION_KEY_CLIENTID)) {
 			String cId = request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_CLIENTID).toString();
-			List<Demographic> lst = new ArrayList<Demographic>();
+			List lst = new ArrayList();
 			lst.add(this.clientManager.getClientByDemographicNo(cId));
 			request.setAttribute("clients", lst);
 		}
@@ -113,16 +113,18 @@ public class ClientSearchAction2 extends DispatchAction {
 
 		// formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
 		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,
-				UserRoleUtils.Roles.external);
+				UserRoleUtils.Roles_external);
 		if ("MyP".equals(formBean.getBedProgramId())) {
 			Integer facilityId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_FACILITYID);
 			String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
-			List<Program> allBedPrograms = programManager
+			List allBedPrograms = programManager
 					.getProgramsByProvider(facilityId, providerNo);
 			String prgId = "";
-			for (Program prg : allBedPrograms) {
+//			for (Program prg : allBedPrograms) {
+			for (int i=0;i<allBedPrograms.size();i++) {
+				Program prg = (Program)allBedPrograms.get(i);
 				prgId += prg.getId().toString() + ",";
 			}
 			if (!"".equals(prgId))
@@ -145,9 +147,9 @@ public class ClientSearchAction2 extends DispatchAction {
 			throw (new IllegalStateException(
 					"This is an unexpected state, both search_with_consent and emergency_search are not null."));
 		else if (consentSearch != null)
-			consent = Demographic.ConsentGiven.ALL.name();
+			consent = Demographic.ConsentGiven_ALL;
 		else if (emergencySearch != null)
-			consent = Demographic.ConsentGiven.ALL.name();
+			consent = Demographic.ConsentGiven_ALL;
 		request.setAttribute("consent", consent);
 
 		if (formBean.isSearchOutsideDomain()) {
@@ -169,7 +171,7 @@ public class ClientSearchAction2 extends DispatchAction {
 		request.setAttribute("allBedPrograms", allBedPrograms);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
-		List<Provider> allProviders = providerManager.getActiveProviders(
+		List allProviders = providerManager.getActiveProviders(
 				facilityId.toString(), null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,

@@ -35,14 +35,14 @@ public class ShowFileAction extends DispatchAction {
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		Integer recordId = Integer.parseInt((String) request.getParameter("id"));
+		Integer recordId = Integer.valueOf((String) request.getParameter("id"));
 		Attachment attObj = uploadFileManager.getAttachmentDetail(recordId);
 		AttachmentText attTextObj = uploadFileManager.getAttachmentText(recordId);
 		LookupCodeValue lcv = lookupManager.GetLookupCode("DTT", attObj.getFileType());
 		String contentType = lcv.getDescription();
 
 		response.setContentType(contentType);
-		Integer len = attTextObj.getAttData().length;
+		Integer len = new Integer(attTextObj.getAttData().length);
 		response.addHeader("Content-Length", len.toString());
 		response.addHeader("Content-Disposition", "filename=\""
 				+ attObj.getFileName() + "\"; size=" + len.toString());

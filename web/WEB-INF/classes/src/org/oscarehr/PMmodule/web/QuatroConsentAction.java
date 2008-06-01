@@ -168,7 +168,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
 		String rId=request.getParameter("recordId");
 		if(Utility.IsEmpty(rId)) rId=(String)request.getAttribute("recordId");
-		if(rId!=null && Integer.valueOf(rId)>0)
+		if(rId!=null && Integer.parseInt(rId)>0)
 		consent.setId(Integer.valueOf(rId));
 		else consent.setId(null);
 		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");

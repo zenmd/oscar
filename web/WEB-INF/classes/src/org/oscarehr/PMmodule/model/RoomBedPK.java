@@ -45,7 +45,7 @@ public class RoomBedPK implements Serializable {
 	}
 
 	
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}

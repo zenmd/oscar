@@ -41,14 +41,14 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
      * @see org.oscarehr.PMmodule.dao.RoomDemographicDAO#roomDemographicExists(java.lang.Integer)
      */
     public boolean roomDemographicExists(Integer demographicNo) {
-        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomDemographic rd where rd.id.demographicNo = " + demographicNo).next()) == 1);
+        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomDemographic rd where rd.id.demographicNo = " + demographicNo).next()).intValue() == 1);
         log.debug("roomExists: " + exists);
 
         return exists;
     }
 
     boolean roomDemographicExists(RoomDemographicPK id) {
-        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomDemographic rd where rd.id.roomId = " + id.getRoomId() + " and rd.id.demographicNo = " + id.getDemographicNo()).next()) == 1);
+        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from RoomDemographic rd where rd.id.roomId = " + id.getRoomId() + " and rd.id.demographicNo = " + id.getDemographicNo()).next()).intValue() == 1);
         log.debug("roomDemographicExists: " + exists);
 
         return exists;
@@ -66,7 +66,7 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
     /**
      * @see org.oscarehr.PMmodule.dao.RoomDemographicDAO#getRoomDemographicByRoom(java.lang.Integer)
      */
-    public List<RoomDemographic> getRoomDemographicByRoom(Integer roomId) {
+    public List getRoomDemographicByRoom(Integer roomId) {
         List roomDemographics = getHibernateTemplate().find("from RoomDemographic rd where rd.id.roomId = ?", roomId);
 
         if(roomDemographics != null){

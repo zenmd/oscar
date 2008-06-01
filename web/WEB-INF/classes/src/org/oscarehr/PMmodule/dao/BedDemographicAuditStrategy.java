@@ -12,7 +12,7 @@ import org.oscarehr.common.dao.BaseAuditStrategy;
 
 public class BedDemographicAuditStrategy extends BaseAuditStrategy {
 	
-	@Override
+	//@Override
 	public void registerEvents() {
 		AuditStrategyFactory.register(BedDemographic.class, AuditableEvent.CREATE, this);
 		AuditStrategyFactory.register(BedDemographic.class, AuditableEvent.UPDATE, this);

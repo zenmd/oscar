@@ -151,7 +151,7 @@ public class AdmissionManager {
 		return admissionDao.getAdmissionByAdmissionId(admissionId);
     }
     
-    public List<Admission> getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
+    public List getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
 		return admissionDao.getCurrentAdmissionsByFacility(demographicNo, facilityId);
     }
 
@@ -230,7 +230,7 @@ public class AdmissionManager {
 		  referral = new ClientReferral();
 		  referral.setClientId(admission.getClientId());
 		  referral.setNotes("Discharge Automated referral");
-		  referral.setProgramId(admission.getBedProgramId().intValue());
+		  referral.setProgramId(admission.getBedProgramId());
 		  referral.setProviderNo(admission.getProviderNo());
 		  referral.setReferralDate(new Date());
 		  referral.setStatus(KeyConstants.STATUS_ACTIVE);	        
@@ -240,7 +240,7 @@ public class AdmissionManager {
 	      queue.setClientId(referral.getClientId());
 	      queue.setNotes(referral.getNotes());
 	      queue.setProgramId(referral.getProgramId());
-		  queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+		  queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
 		  queue.setReferralDate(referral.getReferralDate());
 		  queue.setStatus(KeyConstants.STATUS_ACTIVE);
 	      queue.setReferralId(referral.getId());
@@ -254,7 +254,7 @@ public class AdmissionManager {
             queue.setClientId(referral.getClientId());
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
-		    queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+		    queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
 		    queue.setReferralDate(referral.getReferralDate());
 		    queue.setStatus(KeyConstants.STATUS_ACTIVE);
             queue.setReferralId(referral.getId());
@@ -273,7 +273,7 @@ public class AdmissionManager {
 	    	ClientReferral referral = new ClientReferral();
 	        referral.setClientId(admission.getClientId());
 	        referral.setNotes("Discharge Automated referral");
-	        referral.setProgramId(admission.getBedProgramId().intValue());
+	        referral.setProgramId(admission.getBedProgramId());
 	        referral.setProviderNo(admission.getProviderNo());
 	        referral.setReferralDate(new Date());
 	        referral.setStatus(KeyConstants.STATUS_ACTIVE);	        
@@ -283,7 +283,7 @@ public class AdmissionManager {
 	          queue.setClientId(referral.getClientId());
 	          queue.setNotes(referral.getNotes());
 	          queue.setProgramId(referral.getProgramId());
-	          queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+	          queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
 	          queue.setReferralDate(referral.getReferralDate());
 	          queue.setStatus(KeyConstants.STATUS_ACTIVE);
 	          queue.setReferralId(referral.getId());

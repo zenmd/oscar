@@ -59,7 +59,6 @@ public class BedCheckTimeDAO extends HibernateDaoSupport {
      * 
      * @see org.oscarehr.PMmodule.dao.BedCheckTimeDAO#getBedCheckTimes(java.lang.Integer)
      */
-    @SuppressWarnings("unchecked")
     public BedCheckTime[] getBedCheckTimes(Integer programId) {
         String query = getBedCheckTimesQuery(programId);
         Object[] values = getBedCheckTimesValues(programId);
@@ -111,7 +110,7 @@ public class BedCheckTimeDAO extends HibernateDaoSupport {
     }
 
     Object[] getBedCheckTimesValues(Integer programId) {
-        List<Object> values = new ArrayList<Object>();
+        List values = new ArrayList();
 
         if (programId != null) {
             values.add(programId);

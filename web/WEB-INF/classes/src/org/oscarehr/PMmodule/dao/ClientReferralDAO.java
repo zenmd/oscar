@@ -58,7 +58,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         }
         String sql="from ClientReferral cr where cr.clientId = ? and cr.programId in " +Utility.getUserOrgQueryString(facilityId);
         Object[] params=null;
-        if(facilityId>0) params=new Object[]{clientId,facilityId,providerNo};
+        if(facilityId.intValue()>0) params=new Object[]{clientId,facilityId,providerNo};
         else params = new Object[]{clientId,providerNo};
         
         List results = this.getHibernateTemplate().find(sql, params);
@@ -113,12 +113,14 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     // [ 1842692 ] RFQ Feature - temp change for pmm referral history report
     // - suggestion: to add a new field to the table client_referral (Referring program/agency)
     public List displayResult(List lResult) {
-    	List <ClientReferral> ret = new ArrayList <ClientReferral>();
+    	List ret = new ArrayList();
     	//ProgramDao pd = new ProgramDao();
     	//AdmissionDao ad = new AdmissionDao();
     	
-    	for(Object element : lResult) {
-    		ClientReferral cr = (ClientReferral) element;
+//    	for(Object element : lResult) {
+    	for(int i=0;i<lResult.size();i++) {
+//    		ClientReferral cr = (ClientReferral) element;
+    		ClientReferral cr = (ClientReferral) lResult.get(i);
     		System.out.println(cr.getId() + "|" + cr.getProgramName() + "|" + cr.getClientId());
 
             ClientReferral result = null;
@@ -131,16 +133,16 @@ public class ClientReferralDAO extends HibernateDaoSupport {
                 result = (ClientReferral)results.get(0);
         		System.out.println("--" + result.getId() + "|" + result.getProgramName() + "|" + result.getClientId());
             	completionNotes = result.getProgramName();
-            	notes = isExternalProgram(Integer.parseInt(result.getProgramId().toString())) ? "Yes" : "No";
+            	notes = isExternalProgram(result.getProgramId()) ? "Yes" : "No";
         		System.out.println("--" + result.getProgramId().toString());
             } else {
             	// get program from table admission
         		System.out.println("--" + cr.getClientId());
-            	List lr = getAdmissions(Integer.parseInt(cr.getClientId().toString()));
+            	List lr = getAdmissions(cr.getClientId());
             	if(lr!=null && lr.iterator().hasNext()){
             	Admission admission = (Admission) lr.get(lr.size() - 1);
             	completionNotes = admission.getProgramName(); 
-            	notes = isExternalProgram(Integer.parseInt(admission.getProgramId().toString())) ? "Yes" : "No";
+            	notes = isExternalProgram(admission.getProgramId()) ? "Yes" : "No";
             	}
             }
             
@@ -157,7 +159,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     private boolean isExternalProgram(Integer programId) {
 		boolean result = false;
 
-		if (programId == null || programId <= 0) {
+		if (programId == null || programId.intValue() <= 0) {
 			throw new IllegalArgumentException();
 		}
 
@@ -176,7 +178,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
 	}
 	
     private List getAdmissions(Integer demographicNo) {
-        if (demographicNo == null || demographicNo <= 0) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -186,13 +188,12 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     }
     // end of change
 
-    public List<ClientReferral> getActiveReferrals(Integer clientId, Integer facilityId) {
+    public List getActiveReferrals(Integer clientId, Integer facilityId) {
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        @SuppressWarnings("unchecked")
-        List<ClientReferral> results;
+        List results;
         if(facilityId==null){
           results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ? and (cr.status = '"+KeyConstants.STATUS_ACTIVE+"' or cr.status = '"+KeyConstants.STATUS_PENDING+"' or cr.status = '"+KeyConstants.STATUS_UNKNOWN+"')", clientId);
         }else{
@@ -246,7 +247,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     public List search(ClientReferral referral) {
         Criteria criteria = getSession().createCriteria(ClientReferral.class);
 
-        if (referral != null && referral.getProgramId() > 0) {
+        if (referral != null && referral.getProgramId().intValue() > 0) {
             criteria.add(Expression.eq("ProgramId", referral.getProgramId()));
         }
 

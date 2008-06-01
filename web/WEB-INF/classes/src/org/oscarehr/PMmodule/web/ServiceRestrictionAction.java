@@ -101,7 +101,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
     	   String sDt = restriction.getStartDateStr();
     	   restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
     	   Calendar cal2 =MyDateFormat.getCalendar(sDt);
-    	   cal2.add(Calendar.DAY_OF_MONTH, days);
+    	   cal2.add(Calendar.DAY_OF_MONTH, days.intValue());
     	   restriction.setEndDate(cal2);
            clientRestrictionManager.saveClientRestriction(restriction);
            success = true;
@@ -156,7 +156,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        if ("0".equals(rId) || rId==null) {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
-			clientForm.set("serviceRestrictionLength", 180);			
+			clientForm.set("serviceRestrictionLength", new Integer(180));			
 			pcrObj.setId(null);
 		} else if (!Utility.IsEmpty(rId)) 
 		{			
@@ -165,7 +165,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDate(pcrObj.getStartDate()));
 		}
 
-       List<Program> allPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
+       List allPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
        request.setAttribute("allPrograms", allPrograms);
 		clientForm.set("serviceRestriction", pcrObj);
 		request.setAttribute("serviceObj", pcrObj);
@@ -225,7 +225,7 @@ private Boolean hasAccess(HttpServletRequest request, Integer programId, String 
 {
     SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
     String orgCd = "P" + programId.toString();
-    return sec.GetAccess(function,orgCd).compareTo(right) >= 0;
+    return new Boolean(sec.GetAccess(function,orgCd).compareTo(right) >= 0);
 }
 
 }

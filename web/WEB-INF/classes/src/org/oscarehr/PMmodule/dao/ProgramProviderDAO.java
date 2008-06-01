@@ -49,7 +49,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
     }
 
     public List getProgramProvidersByProvider(String providerNo) {
-        if (providerNo == null || Integer.valueOf(providerNo) <= 0) {
+        if (providerNo == null || Integer.parseInt(providerNo) <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -62,7 +62,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
     }
 
     public List getProgramProvidersByProviderAndFacility(String providerNo, Integer facilityId) {
-        if (providerNo == null || Integer.valueOf(providerNo) <= 0) {
+        if (providerNo == null || Integer.parseInt(providerNo) <= 0) {
             throw new IllegalArgumentException();
         }
 
@@ -159,10 +159,10 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
     }
 
     public List getProgramProvidersInTeam(Integer programId, Integer teamId) {
-        if (programId == null || programId <= 0) {
+        if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-        if (teamId == null || teamId <= 0) {
+        if (teamId == null || teamId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
         Integer pId = programId;
@@ -178,8 +178,8 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
 
 
 
-    @SuppressWarnings("unchecked")
-    public List<ProgramProvider> getProgramDomain(String providerNo) {
+    //@SuppressWarnings("unchecked")
+    public List getProgramDomain(String providerNo) {
         if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
@@ -192,7 +192,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public List<ProgramProvider> getProgramDomainByFacility(String providerNo, Integer facilityId) {
+    public List getProgramDomainByFacility(String providerNo, Integer facilityId) {
         if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
@@ -207,8 +207,8 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return results;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Facility> getFacilitiesInProgramDomain(String providerNo) {
+    //@SuppressWarnings("unchecked")
+    public List getFacilitiesInProgramDomain(String providerNo) {
         if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }
@@ -217,8 +217,8 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return results;
     }
     
-    @SuppressWarnings("unchecked")
-    public List<Facility> getFacilityMessagesInProgramDomain(String providerNo) {
+    //@SuppressWarnings("unchecked")
+    public List getFacilityMessagesInProgramDomain(String providerNo) {
         if (providerNo == null || Integer.valueOf(providerNo) == null) {
             throw new IllegalArgumentException();
         }

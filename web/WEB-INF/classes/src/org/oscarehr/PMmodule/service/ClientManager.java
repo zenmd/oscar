@@ -69,11 +69,11 @@ public class ClientManager {
         return dao.getClientByDemographicNo(Integer.valueOf(demographicNo));
     }
 
-    public List<Demographic> getClients() {
+    public List getClients() {
         return dao.getClients();
     }
 
-    public List<Demographic> search(ClientSearchFormBean criteria, boolean returnOptinsOnly) {
+    public List search(ClientSearchFormBean criteria, boolean returnOptinsOnly) {
         return dao.search(criteria, returnOptinsOnly);
     }
     
@@ -112,8 +112,8 @@ public class ClientManager {
         return referralDAO.getReferralsByFacility(Integer.valueOf(clientId), facilityId);
     }
 
-    public List<ClientReferral> getActiveReferrals(String clientId, String sourceFacilityId) {
-        List<ClientReferral> results = referralDAO.getActiveReferrals(Integer.valueOf(clientId), Integer.valueOf(sourceFacilityId));
+    public List getActiveReferrals(String clientId, String sourceFacilityId) {
+        List results = referralDAO.getActiveReferrals(Integer.valueOf(clientId), Integer.valueOf(sourceFacilityId));
 
         return results;
     }
@@ -134,7 +134,7 @@ public class ClientManager {
             queue.setClientId(referral.getClientId());
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
-            queue.setProviderNo(Integer.parseInt(referral.getProviderNo()));
+            queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
             queue.setReferralDate(referral.getReferralDate());
             queue.setStatus(KeyConstants.STATUS_ACTIVE);
             queue.setReferralId(referral.getId());
@@ -205,12 +205,12 @@ public class ClientManager {
         return dao.getDemographicExt(Integer.valueOf(id));
     }
 
-    public List<DemographicExt> getDemographicExtByDemographicNo(int demographicNo) {
-        return dao.getDemographicExtByDemographicNo(demographicNo);
+    public List getDemographicExtByDemographicNo(int demographicNo) {
+        return dao.getDemographicExtByDemographicNo(new Integer(demographicNo));
     }
 
     public DemographicExt getDemographicExt(int demographicNo, String key) {
-        return dao.getDemographicExt(demographicNo, key);
+        return dao.getDemographicExt(new Integer(demographicNo), key);
     }
 
     public void updateDemographicExt(DemographicExt de) {
@@ -218,7 +218,7 @@ public class ClientManager {
     }
 
     public void saveDemographicExt(int demographicNo, String key, String value) {
-        dao.saveDemographicExt(demographicNo, key, value);
+        dao.saveDemographicExt(new Integer(demographicNo), key, value);
     }
 
     public void removeDemographicExt(String id) {
@@ -226,25 +226,25 @@ public class ClientManager {
     }
 
     public void removeDemographicExt(int demographicNo, String key) {
-        dao.removeDemographicExt(demographicNo, key);
+        dao.removeDemographicExt(new Integer(demographicNo), key);
     }
 
-    @Required
+    //@Required
     public void setClientDao(ClientDao dao) {
         this.dao = dao;
     }
 
-    @Required
+    //@Required
     public void setClientReferralDAO(ClientReferralDAO dao) {
         this.referralDAO = dao;
     }
 
-    @Required
+    //@Required
     public void setProgramQueueManager(ProgramQueueManager mgr) {
         this.queueManager = mgr;
     }   
 
-    @Required
+    //@Required
     public void setOutsideOfDomainEnabled(boolean outsideOfDomainEnabled) {
         this.outsideOfDomainEnabled = outsideOfDomainEnabled;
     }

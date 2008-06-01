@@ -65,7 +65,7 @@ public class BedType implements Serializable {
 		initialize();
 	}
 
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}

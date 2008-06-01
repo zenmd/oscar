@@ -28,6 +28,7 @@ import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.util.SpringUtils;
+import java.util.List;
 
 public class ProgramUtils
 {
@@ -63,8 +64,14 @@ public class ProgramUtils
         
         sb.append("var oldIn=false; var newIn=false; \n");
         sb.append("if(oldProgramId=='' || oldProgramId==null) {return false;}\n");
-        for(Facility facility : facilityDao.getFacilities()) {        	
-        	for(Program program : programDao.getProgramsByFacilityId(facility.getId())) {	
+//        for(Facility facility : facilityDao.getFacilities()) {
+        List facilities = facilityDao.getFacilities();
+        for(int i=0;i<facilities.size();i++) {        	
+        	Facility facility = (Facility)facilities.get(i); 
+//        	for(Program program : programDao.getProgramsByFacilityId(facility.getId())) {
+        	List programs = programDao.getProgramsByFacilityId(facility.getId());
+        	for(int j=0;j<programs.size();j++) {
+        		Program program = (Program)programs.get(i);
         		sb.append("if(oldProgramId==" + program.getId()+") {oldIn=true;}\n ");
         		sb.append("if(newProgramId==" + program.getId()+") {newIn=true;} \n");
         	}
@@ -72,7 +79,10 @@ public class ProgramUtils
         	
         	sb.append("else { oldIn=false; newIn=false; } \n");
         }
-        for(Program program : programDao.getCommunityPrograms()){
+//        for(Program program : programDao.getCommunityPrograms()){
+        Program[] programs2=programDao.getCommunityPrograms();
+        for(int i=0;i<programs2.length;i++){
+        	Program program = programs2[i];
         	if(program.isCommunity()) {
         		sb.append("if(oldProgramId=="+program.getId()+") {return(false);} \n");
         		sb.append("if(newProgramId=="+program.getId()+") {return(false);} \n");
@@ -90,9 +100,12 @@ public class ProgramUtils
         sb.append("function validAgeRangeForProgram(programId, age)\n");
         sb.append("{\n");
         
-        for (Program program : programDao.getAllActiveBedPrograms())
+        List programs = programDao.getAllActiveBedPrograms();
+//        for (Program program : programDao.getAllActiveBedPrograms())
+        for (int i=0;i<programs.size();i++)
         {
-            sb.append("if (programId == "+program.getId()+" && ( age<"+program.getAgeMin()+" || age>"+program.getAgeMax()+" )) return(false);\n");
+            Program program= (Program)programs.get(i);
+        	sb.append("if (programId == "+program.getId()+" && ( age<"+program.getAgeMin()+" || age>"+program.getAgeMax()+" )) return(false);\n");
         }
         
         sb.append("return(true);\n");
@@ -107,18 +120,27 @@ public class ProgramUtils
         StringBuilder programFemaleOnly=new StringBuilder("[");
         StringBuilder programTransgenderOnly=new StringBuilder("[");
         
-        for (Program program : programDao.getProgramByGenderType("Man"))
+//        for (Program program : programDao.getProgramByGenderType("Man"))
+        List programs1=programDao.getProgramByGenderType("Man");
+        for (int i=0;i<programs1.size();i++)
         {
-            if (programMaleOnly.length()>1) programMaleOnly.append(',');
+        	Program program = (Program)programs1.get(i);
+        	if (programMaleOnly.length()>1) programMaleOnly.append(',');
             programMaleOnly.append(program.getId());
         }
-        for (Program program : programDao.getProgramByGenderType("Woman"))
+//        for (Program program : programDao.getProgramByGenderType("Woman"))
+        List programs2=programDao.getProgramByGenderType("Man");
+        for (int i=0;i<programs2.size();i++)
         {
+        	Program program = (Program)programs2.get(i);
             if (programFemaleOnly.length()>1) programFemaleOnly.append(',');
             programFemaleOnly.append(program.getId());
         }
-        for (Program program : programDao.getProgramByGenderType("Transgender"))
+//        for (Program program : programDao.getProgramByGenderType("Transgender"))
+        List programs3=programDao.getProgramByGenderType("Man");
+        for (int i=0;i<programs3.size();i++)
         {
+        	Program program = (Program)programs3.get(i);
             if (programTransgenderOnly.length()>1) programTransgenderOnly.append(',');
             programTransgenderOnly.append(program.getId());
         }

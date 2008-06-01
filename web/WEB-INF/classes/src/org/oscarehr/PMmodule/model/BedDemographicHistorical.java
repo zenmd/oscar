@@ -90,7 +90,7 @@ public class BedDemographicHistorical implements Serializable {
 		return demographic != null ? demographic.getFormattedName() : null;
 	}
 
-	@Override
+	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
