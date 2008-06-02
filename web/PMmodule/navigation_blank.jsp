@@ -23,21 +23,12 @@
 -->
 <%@ include file="/taglibs.jsp" %>
 <%@ page import="java.util.*" %>
-<%@ page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils" %>
 <%@ page import="org.springframework.web.context.WebApplicationContext" %>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
 <%@ page import="org.caisi.service.Version" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 
-<%
-    long loadPage = System.currentTimeMillis();
-    if (session.getAttribute("userrole") == null) response.sendRedirect("../logout.jsp");
-    String roleName$ = (String) session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
-
-    boolean userHasExternalOrErClerkRole = UserRoleUtils.hasRole(request, UserRoleUtils.Roles_external);
-    userHasExternalOrErClerkRole = userHasExternalOrErClerkRole || UserRoleUtils.hasRole(request, UserRoleUtils.Roles_er_clerk);
-%>
 
 <%
     String yearStr = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
