@@ -100,8 +100,11 @@ public class ProgramUtils
         sb.append("function validAgeRangeForProgram(programId, age)\n");
         sb.append("{\n");
         
-        for (Program program : programDao.getAllActiveBedPrograms())
+//        for (Program program : programDao.getAllActiveBedPrograms())
+        List programs = programDao.getAllActiveBedPrograms();
+        for(int i=0; i< programs.size(); i++)
         {
+        	Program program = (Program)programs.get(i);
             sb.append("if (programId == "+program.getId()+" && ( age<"+program.getAgeMin()+" || age>"+program.getAgeMax()+" )) return(false);\n");
         }
         
@@ -117,18 +120,28 @@ public class ProgramUtils
         StringBuilder programFemaleOnly=new StringBuilder("[");
         StringBuilder programTransgenderOnly=new StringBuilder("[");
         
-        for (Program program : programDao.getProgramByGenderType("Man"))
+        List programs = programDao.getProgramByGenderType("Man");
+//        for (Program program : programDao.getProgramByGenderType("Man"))
+        for (int i=0; i<programs.size(); i++)
         {
+        	Program program = (Program) programs.get(i);
             if (programMaleOnly.length()>1) programMaleOnly.append(',');
             programMaleOnly.append(program.getId());
         }
-        for (Program program : programDao.getProgramByGenderType("Woman"))
+        programs = programDao.getProgramByGenderType("Woman");
+//        for (Program program : programDao.getProgramByGenderType("Woman"))
+        for (int i=0; i<programs.size(); i++)
         {
+        	Program program = (Program) programs.get(i);
             if (programFemaleOnly.length()>1) programFemaleOnly.append(',');
             programFemaleOnly.append(program.getId());
         }
-        for (Program program : programDao.getProgramByGenderType("Transgender"))
+        
+        programs = programDao.getProgramByGenderType("Transgender");
+//      for (Program program : programDao.getProgramByGenderType("Transgender"))
+        for (int i=0; i<programs.size(); i++)
         {
+        	Program program = (Program) programs.get(i);
             if (programTransgenderOnly.length()>1) programTransgenderOnly.append(',');
             programTransgenderOnly.append(program.getId());
         }
