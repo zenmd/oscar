@@ -48,10 +48,8 @@ String _appPath = request.getContextPath();
 
 								<tr>
 									<th></th>
-									<th valign="middle"><html:link
-										action="/PMmodule/ClientSearch2.do">
-										<img ID="lnkClient" src="<%=_appPath%>/images/Client-60.gif"
-											Height="60" Width="60" border="0" />
+									<th valign="middle"><html:link action="/PMmodule/ClientSearch2.do">
+										<img id="lnkClient" src="<%=_appPath%>/images/Client-60.gif" height="60" width="60" border="0">
 									</html:link></th>
 									<th align="left" valign="middle">
 									<table>
@@ -62,10 +60,8 @@ String _appPath = request.getContextPath();
 									</table>
 									</th>
 									<th></th>
-									<th valign="middle"><html:link
-										action="/PMmodule/ProgramManager.do">
-										<img ID="lnkCare1" src="<%=_appPath%>/images/Program-60.gif"
-											Height="60" Width="60" border="0" />
+									<th valign="middle"><html:link action="/PMmodule/ProgramManager.do">
+										<img id="lnkCare1" src="<%=_appPath%>/images/Program-60.gif" height="60" width="60" border="0">
 									</html:link></th>
 									<th valign="middle">
 									<table align="left">
@@ -79,29 +75,21 @@ String _appPath = request.getContextPath();
 									<th></th>
 								</tr>
 								<tr>
-									<th></th>
-									<th valign="middle"><a
-										href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>
-									<img ID="lnkIssue1" src="<%=_appPath%>/images/Case-60.gif"
-										Height="60" Width="60" border="0"></img></a></th>
-									<th align="left">
-									<table>
-										<tr align="left">
+									<th></th><th valign="middle"><html:link action="QuatroReport/ReportList.do">
+										<img src="<%=_appPath%>/images/Reports-60.gif" height="60" width="60" border="0" alt="">
+									</html:link></th><th>
+									<table width="100%" align="left">
+										<tr>
 											<th align="left" valign="middle" class="clsHomePageLabels">
-											<!-- a
-												href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>
-											Case Management</a>
-											--> <html:link action="/CaseManagementView2.do">
-										Case Management
-									</html:link></th>
+											<html:link action="QuatroReport/ReportList.do">Reports</html:link></th>
 										</tr>
 									</table>
 									</th>
+									
+									
 									<th></th>
-									<th valign="middle"><html:link
-										action="/PMmodule/FacilityManager.do?method=list">
-										<img ID="lnkLTD1" src="<%=_appPath%>/images/Shelter-60.gif"
-											Height="60" Width="60" border="0"></img>
+									<th valign="middle"><html:link action="/PMmodule/FacilityManager.do?method=list">
+										<img id="lnkLTD1" src="<%=_appPath%>/images/Shelter-60.gif" height="60" width="60" border="0">
 									</html:link></th>
 									<th valign="middle">
 									<table align="left">
@@ -115,25 +103,19 @@ String _appPath = request.getContextPath();
 									<th></th>
 								</tr>
 								<tr>
-									<th></th>
-									<th valign="middle"><html:link
-										action="QuatroReport/ReportList.do">
-										<img src="<%=_appPath%>/images/Reports-60.gif" height="60"
-											width="60" border="0" alt="" />
-									</html:link></th>
-									<th>
-									<table width="100%" align="left">
-										<tr>
-											<th align="left" valign="middle" class="clsHomePageLabels">
-											<html:link action="QuatroReport/ReportList.do">Reports</html:link></th>
+									<th></th><th valign="middle"> 
+									<img src="<%=_appPath%>/images/mytasks60.gif" height="60" width="60" border="0"></th><th>
+									<table>
+										<tr align="left">
+											<th valign="top" align="left" class="clsHomePageLabels">
+											My Tasks &nbsp;</th>
 										</tr>
 									</table>
 									</th>
+									
+									
 									<th></th>
-									<th valign="middle"><a
-										href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img
-										src="<%=_appPath%>/images/Admin-60.gif" Height="60" Width="60"
-										border="0" OnClick="lnkResource1_Click"></img></a></th>
+									<th valign="middle"><a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img src="<%=_appPath%>/images/Admin-60.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a></th>
 									<th align="left" valign="middle">
 									<table>
 										<tr align="left">
@@ -150,16 +132,10 @@ String _appPath = request.getContextPath();
 
 								<tr>
 									<th></th>
-									<th valign="middle"><a href="<%=_appPath%>/Tickler.do">
-									<img src="<%=_appPath%>/images/mytasks60.gif" Height="60"
-										Width="60" border="0" OnClick="lnkResource1_Click"></img></a></th>
+									<th valign="middle"> 
+									</th>
 									<th>
-									<table>
-										<tr align="left">
-											<th valign="top" align="left" class="clsHomePageLabels">
-											<a href="<%=_appPath%>/Tickler.do">My Tasks</a> &nbsp;</th>
-										</tr>
-									</table>
+									
 									</th>
 									<th></th>
 									<th valign="middle"></th>

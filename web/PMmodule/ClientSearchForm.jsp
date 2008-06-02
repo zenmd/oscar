@@ -62,7 +62,7 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 		</td>
 		</tr>
 	<tr> <td>	
-	<div id="projecthome" class="app" background-image="">
+	<div id="projecthome" class="app" style="background-image: "/images/tablebg.gif">
 		<div >
 			<table cellspacing="1" cellpadding="4" width="100%" bgcolor="#E8E8E8">
 				<tr>

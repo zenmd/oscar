@@ -40,7 +40,7 @@
         <td class="clsMenuCell2" nowrap="nowrap" >
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuHome}">
-						<div class="clsMenu2">Home</div>
+						<div class="clsMenu">Home</div>
 						</c:when>
 						<c:otherwise>
 						<div><html:link action="/Home.do" styleClass="clsMenu"
@@ -49,14 +49,13 @@
 						</c:otherwise>
 					</c:choose>
 		</td>
-        <td  class="clsMenuCell2" nowrap="nowrap" >
+        <td  valign ="center" class="clsMenuCell2" nowrap="nowrap" >
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuTask}">
-						<div class="clsMenu2">My Tasks</div>
-						</c:when>
+						<div class="clsMenu">My Tasks</div>
+						</c:when
 						<c:otherwise>
-						<div><html:link action="/Tickler.do"
-							 styleClass="clsMenu">My Tasks</html:link>
+						<div class="clsMenu">My Tasks
 						</div>
 						</c:otherwise>
 					</c:choose>
@@ -64,7 +63,7 @@
         <td  class="clsMenuCell2" nowrap="nowrap" >
 					<c:choose>
 						<c:when test="${'C' eq sessionScope.mnuReport}">
-						<div class="clsMenu2">Reports</div>
+						<div class="clsMenu">Reports</div>
 						</c:when>
 						<c:otherwise>
 						<div><html:link action="QuatroReport/ReportList.do"
