@@ -70,7 +70,7 @@ function remove_entry(id) {
 </table>
 </div>
 <%
-ProgramProvider pp = null;
+caisi_ProgramProvider pp = null;
 %>
 <!--  show current staff -->
 <table class="simple" cellspacing="2" cellpadding="3">
@@ -84,21 +84,21 @@ ProgramProvider pp = null;
 		<tr>
 			<td>
 			<%
-				String checked = "";
-				pp = null;
-				List currentPrograms = (List) request.getAttribute("programs");
-				StaffEditProgramContainer container = (StaffEditProgramContainer) pageContext.getAttribute("program");
-				Program p = container.getProgram();
-				for (int x = 0; x < currentPrograms.size(); x++) {
-					ProgramProvider pp1 = (ProgramProvider) currentPrograms.get(x);
-					if (pp1.getProgramId().longValue() == p.getId().intValue()) {
-						checked = "checked";
-						pp = pp1;
-						break;
+					String checked = "";
+					pp = null;
+					List currentPrograms = (List) request.getAttribute("programs");
+					StaffEditProgramContainer container = (StaffEditProgramContainer) pageContext.getAttribute("program");
+					Program p = container.getProgram();
+					for (int x = 0; x < currentPrograms.size(); x++) {
+						caisi_ProgramProvider pp1 = (caisi_ProgramProvider) currentPrograms.get(x);
+						if (pp1.getProgramId().longValue() == p.getId().intValue()) {
+					checked = "checked";
+					pp = pp1;
+					break;
+						}
 					}
-				}
-				pageContext.setAttribute("pp", pp);
-				pageContext.setAttribute("checked", checked);
+					pageContext.setAttribute("pp", pp);
+					pageContext.setAttribute("checked", checked);
 			%> <c:choose>
 				<c:when test="${checked eq 'checked'}">
 					<input type="checkbox" <%=checked%> onclick="remove_entry('<c:out value="${pp.id}"/>')" />
