@@ -75,8 +75,10 @@ public class AuditInterceptor extends EmptyInterceptor {
 	 */
 	
 	public void postFlush(Iterator entities) {
-		for (AuditStrategy strategy : strategies) {
-	        strategy.saveAudits();
+//		for (AuditStrategy strategy : strategies) {
+		for (int i=0; i<strategies.size(); i++) {
+	        AuditStrategy strategy = (AuditStrategy) strategies.get(i);
+			strategy.saveAudits();
         }
 	}
 

@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.Map.Entry;
-
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -42,7 +42,6 @@ import org.joda.time.PeriodType;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.common.model.Stay;
 import org.oscarehr.util.DbConnectionFilter;
-import org.oscarehr.util.EncounterUtil.EncounterType;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import oscar.util.SqlUtils;
@@ -85,27 +84,29 @@ public class PopulationReportDAO extends HibernateDaoSupport {
         Calendar instant = Calendar.getInstance();
         Date end = instant.getTime();
         Date start = DateTimeFormatUtils.getPast(instant, numYears);
-
-        for (Object o : getHibernateTemplate().find(HQL_GET_USAGES, start)) {
-            Object[] tuple = (Object[])o;
+//        for (Object o : getHibernateTemplate().find(HQL_GET_USAGES, start)) {
+        List os = getHibernateTemplate().find(HQL_GET_USAGES, start);
+        for(int i=0; i<os.size();i++) {
+        	Object o = os.get(i);
+        	Object[] tuple = (Object[])o;
 
             Integer clientId = (Integer)tuple[0];
             Date admission = (Date)tuple[1];
             Date discharge = (Date)tuple[2];
 
             if (!clientIdToStayMap.containsKey(clientId)) {
-                clientIdToStayMap.put(clientId, new HashSet<Stay>());
+                clientIdToStayMap.put(clientId, new HashSet());
             }
 
             try {
                 Stay stay = new Stay(admission, discharge, start, end);
-                clientIdToStayMap.get(clientId).add(stay);
+                ((HashSet)clientIdToStayMap.get(clientId)).add(stay);
             }
             catch (IllegalArgumentException e) {
                 LOG.error("client id: " + clientId);
             }
         }
-
+/*TODO jre1.4
         for (Entry entry : clientIdToStayMap.entrySet()) {
             MutablePeriod period = new MutablePeriod(PeriodType.days());
 
@@ -125,7 +126,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
                 shelterUsages[HIGH] += 1;
             }
         }
-
+*/
         return shelterUsages;
     }
 
@@ -137,7 +138,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
     public int getPrevalence(SortedSet icd10Codes) {
 
         StringBuffer query = new StringBuffer(HQL_GET_PREVALENCE).append("(");
-
+/* TODO jre1.4
         for (String icd10Code : icd10Codes) {
             query.append("'").append(icd10Code).append("'");
 
@@ -147,14 +148,14 @@ public class PopulationReportDAO extends HibernateDaoSupport {
         }
 
         query.append(")");
-
+*/
         return ((Integer)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
     }
 
     public int getIncidence(SortedSet icd10Codes) {
 
         StringBuffer query = new StringBuffer(HQL_GET_INCIDENCE).append("(");
-
+/*TODO jre1.4*
         for (String icd10Code : icd10Codes) {
             query.append("'").append(icd10Code).append("'");
 
@@ -164,10 +165,10 @@ public class PopulationReportDAO extends HibernateDaoSupport {
         }
 
         query.append(")");
-
+*/
         return ((Integer)getHibernateTemplate().find(query.toString()).iterator().next()).intValue();
     }
-
+/* TODO jre1.4
     public Map getCaseManagementNoteCountGroupedByIssueGroup(int programId, int roleId, EncounterType encounterType, Date startDate, Date endDate) {
         Connection c = null;
         PreparedStatement ps = null;
@@ -195,5 +196,5 @@ public class PopulationReportDAO extends HibernateDaoSupport {
             SqlUtils.closeResources(c, ps, rs);
         }
     }
-
+*/
 }

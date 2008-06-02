@@ -10,9 +10,9 @@ public class AuditStrategyFactory {
 	
 	private static class AuditStrategyKey {
 		private Class clazz;
-		private AuditableEvent event;
+		private int event;
 
-		AuditStrategyKey(Class clazz, AuditableEvent event) {
+		AuditStrategyKey(Class clazz, int event) {
 			this.clazz = clazz;
 			this.event = event;
 		}
@@ -21,33 +21,33 @@ public class AuditStrategyFactory {
 			return clazz;
 		}
 
-		AuditableEvent getEvent() {
+		int getEvent() {
 			return event;
 		}
 		
-		@Override
+//		@Override
 		public int hashCode() {
 			return HashCodeBuilder.reflectionHashCode(this);
 		}
 		
-		@Override
+//		@Override
 		public boolean equals(Object rhs) {
 		    return EqualsBuilder.reflectionEquals(this, rhs);
 		}
 	}
 
-	private static final Map<AuditStrategyKey, AuditStrategy> strategies = new HashMap<AuditStrategyKey, AuditStrategy>();
+	private static final Map strategies = new HashMap();
 
-	public static AuditStrategy create(Object entity, AuditableEvent event) {
-		if (entity == null || event == null) {
+	public static AuditStrategy create(Object entity, int event) {
+		if (entity == null || event > 2) {
 			throw new IllegalArgumentException("Parameters entity and event must be non-null");
 		}
 
-		return strategies.get(new AuditStrategyKey(entity.getClass(), event));
+		return (AuditStrategy) strategies.get(new AuditStrategyKey(entity.getClass(), event));
 	}
 
-	public static void register(Class clazz, AuditableEvent event, AuditStrategy strategy) {
-		if (clazz == null || event == null || strategy == null) {
+	public static void register(Class clazz, int event, AuditStrategy strategy) {
+		if (clazz == null || event > 2 || strategy == null) {
 			throw new IllegalArgumentException("Parameters class, event and strategy must be non-null");
 		}
 
