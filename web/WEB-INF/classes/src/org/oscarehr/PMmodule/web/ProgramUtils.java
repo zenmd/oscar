@@ -28,12 +28,15 @@ import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.util.SpringUtils;
-import java.util.List;
 
+import com.quatro.dao.LookupDao;
+import com.quatro.model.LookupCodeValue;
+import java.util.List;
 public class ProgramUtils
 {
     private static ProgramDao programDao=(ProgramDao)SpringUtils.getBean("programDao");
-    private static FacilityDAO facilityDao=(FacilityDAO)SpringUtils.getBean("facilityDAO");    
+    private static FacilityDAO facilityDao=(FacilityDAO)SpringUtils.getBean("facilityDAO"); 
+    private static LookupDao lookupDao = (LookupDao)SpringUtils.getBean("lookupDao");
 
     /**
      * This method stores the program ids as javascript arrays of numbers in the session space grouped
@@ -57,37 +60,34 @@ public class ProgramUtils
     }
     
     public static String admitToNewFacilityValidationMethod(HttpServletRequest request) {
-        StringBuffer sb=new StringBuffer();
+        StringBuilder sb=new StringBuilder();
         
         sb.append("function isNewFacility(newProgramId,oldProgramId)\n");
         sb.append("{\n");
         
         sb.append("var oldIn=false; var newIn=false; \n");
         sb.append("if(oldProgramId=='' || oldProgramId==null) {return false;}\n");
-//        for(Facility facility : facilityDao.getFacilities()) {
-        List facilities = facilityDao.getFacilities();
-        for(int i=0;i<facilities.size();i++) {        	
-        	Facility facility = (Facility)facilities.get(i); 
-//        	for(Program program : programDao.getProgramsByFacilityId(facility.getId())) {
-        	List programs = programDao.getProgramsByFacilityId(facility.getId());
-        	for(int j=0;j<programs.size();j++) {
-        		Program program = (Program)programs.get(i);
-        		sb.append("if(oldProgramId==" + program.getId()+") {oldIn=true;}\n ");
-        		sb.append("if(newProgramId==" + program.getId()+") {newIn=true;} \n");
-        	}
+        
+        List facs = lookupDao.LoadCodeList("FAC",false,null,null);
+        for (int i=0; i<facs.size(); i++) {
+        	LookupCodeValue facility = (LookupCodeValue) facs.get(i); 
+            List progs = lookupDao.LoadCodeList("PRO", true, facility.getCode(),null,null);
+        for(int j = 0; j < progs.size(); j++) {
+        	LookupCodeValue program  = (LookupCodeValue) progs.get(j);	
+        		sb.append("if(oldProgramId==" + program.getCode()+") {oldIn=true;}\n ");
+        		sb.append("if(newProgramId==" + program.getCode()+") {newIn=true;} \n");
+        }
         	sb.append("if(oldIn==true && newIn==true) {return(false);}\n");
         	
         	sb.append("else { oldIn=false; newIn=false; } \n");
         }
-//        for(Program program : programDao.getCommunityPrograms()){
-        Program[] programs2=programDao.getCommunityPrograms();
-        for(int i=0;i<programs2.length;i++){
-        	Program program = programs2[i];
+/*        for(Program program : programDao.getCommunityPrograms()){
         	if(program.isCommunity()) {
         		sb.append("if(oldProgramId=="+program.getId()+") {return(false);} \n");
         		sb.append("if(newProgramId=="+program.getId()+") {return(false);} \n");
         	}
         }
+*/
         sb.append(" return(true);\n");
         sb.append("}\n");
         
@@ -95,17 +95,14 @@ public class ProgramUtils
     }
     
     public static String addProgramAgeRestrictionsMethod() {
-        StringBuffer sb=new StringBuffer();
+        StringBuilder sb=new StringBuilder();
         
         sb.append("function validAgeRangeForProgram(programId, age)\n");
         sb.append("{\n");
         
-        List programs = programDao.getAllActiveBedPrograms();
-//        for (Program program : programDao.getAllActiveBedPrograms())
-        for (int i=0;i<programs.size();i++)
+        for (Program program : programDao.getAllActiveBedPrograms())
         {
-            Program program= (Program)programs.get(i);
-        	sb.append("if (programId == "+program.getId()+" && ( age<"+program.getAgeMin()+" || age>"+program.getAgeMax()+" )) return(false);\n");
+            sb.append("if (programId == "+program.getId()+" && ( age<"+program.getAgeMin()+" || age>"+program.getAgeMax()+" )) return(false);\n");
         }
         
         sb.append("return(true);\n");
@@ -116,31 +113,22 @@ public class ProgramUtils
 
     private static void addProgramGenderRestrictions(HttpServletRequest request)
     {
-        StringBuffer programMaleOnly=new StringBuffer("[");
-        StringBuffer programFemaleOnly=new StringBuffer("[");
-        StringBuffer programTransgenderOnly=new StringBuffer("[");
+        StringBuilder programMaleOnly=new StringBuilder("[");
+        StringBuilder programFemaleOnly=new StringBuilder("[");
+        StringBuilder programTransgenderOnly=new StringBuilder("[");
         
-//        for (Program program : programDao.getProgramByGenderType("Man"))
-        List programs1=programDao.getProgramByGenderType("Man");
-        for (int i=0;i<programs1.size();i++)
+        for (Program program : programDao.getProgramByGenderType("Man"))
         {
-        	Program program = (Program)programs1.get(i);
-        	if (programMaleOnly.length()>1) programMaleOnly.append(',');
+            if (programMaleOnly.length()>1) programMaleOnly.append(',');
             programMaleOnly.append(program.getId());
         }
-//        for (Program program : programDao.getProgramByGenderType("Woman"))
-        List programs2=programDao.getProgramByGenderType("Man");
-        for (int i=0;i<programs2.size();i++)
+        for (Program program : programDao.getProgramByGenderType("Woman"))
         {
-        	Program program = (Program)programs2.get(i);
             if (programFemaleOnly.length()>1) programFemaleOnly.append(',');
             programFemaleOnly.append(program.getId());
         }
-//        for (Program program : programDao.getProgramByGenderType("Transgender"))
-        List programs3=programDao.getProgramByGenderType("Man");
-        for (int i=0;i<programs3.size();i++)
+        for (Program program : programDao.getProgramByGenderType("Transgender"))
         {
-        	Program program = (Program)programs3.get(i);
             if (programTransgenderOnly.length()>1) programTransgenderOnly.append(',');
             programTransgenderOnly.append(program.getId());
         }
