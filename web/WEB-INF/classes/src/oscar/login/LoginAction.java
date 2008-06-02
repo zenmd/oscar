@@ -47,7 +47,6 @@ import oscar.util.AlertTimer;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
-import com.sun.msv.grammar.xmlschema.KeyConstraint;
 
 public final class LoginAction extends DispatchAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);

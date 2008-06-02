@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Hashtable;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -30,12 +29,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import com.quatro.dao.security.*;
-import com.quatro.model.TopazValue;
 import com.quatro.model.security.*;
 
 import org.oscarehr.PMmodule.dao.FacilityDAO;
-import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -54,42 +50,6 @@ import oscar.util.AlertTimer;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
-import java.io.IOException;
-import java.util.List;
-import java.util.Hashtable;
-import java.util.Properties;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
-import org.oscarehr.PMmodule.dao.FacilityDAO;
-import org.oscarehr.PMmodule.dao.ProviderDao;
-import org.oscarehr.PMmodule.model.Facility;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.util.SessionConstants;
-import org.oscarehr.util.SpringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import oscar.OscarProperties;
-import oscar.log.LogAction;
-import oscar.log.LogConst;
-import oscar.oscarDB.DBHandler;
-import oscar.oscarSecurity.CRHelper;
-import oscar.util.AlertTimer;
-import com.quatro.service.security.*;
-import com.quatro.service.security.SecurityManager;
-import com.quatro.common.KeyConstants;
-import com.sun.msv.grammar.xmlschema.KeyConstraint;
-
 
 public final class SiteCheckAction extends DispatchAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);

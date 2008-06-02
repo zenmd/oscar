@@ -73,7 +73,6 @@ public class DbConnectionFilter implements javax.servlet.Filter {
     public static void releaseThreadLocalDbConnection() {
         Connection c = (Connection)dbConnection.get();
         SqlUtils.closeResources(c, null, null);
-        dbConnection.remove();
         debugMap.remove(Thread.currentThread());
     }
 
