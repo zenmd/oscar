@@ -203,7 +203,7 @@ public class RoomDAO extends HibernateDaoSupport {
     }
 
 	String getRoomsQueryString(Integer facilityId, Integer programId, Boolean active) {
-		StringBuilder queryBuilder = new StringBuilder("from Room r");
+		StringBuffer queryBuilder = new StringBuffer("from Room r");
 
         queryBuilder.append(" where ");
 
@@ -228,7 +228,7 @@ public class RoomDAO extends HibernateDaoSupport {
 	}
 
 	String getAssignedBedRoomsQueryString(Integer facilityId, Integer programId, Boolean active) {
-		StringBuilder queryBuilder = new StringBuilder("from Room r");
+		StringBuffer queryBuilder = new StringBuffer("from Room r");
 
         queryBuilder.append(" where ");
 

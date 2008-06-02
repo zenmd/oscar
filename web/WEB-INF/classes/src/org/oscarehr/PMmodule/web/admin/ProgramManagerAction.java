@@ -42,11 +42,11 @@ import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.BedCheckTime;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramAccess;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
@@ -197,9 +197,9 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward assign_role(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramProvider provider = (ProgramProvider) programForm.get("provider");
+        caisi_ProgramProvider provider = (caisi_ProgramProvider) programForm.get("provider");
 
-        ProgramProvider pp = programManager.getProgramProvider(String.valueOf(provider.getId()));
+        caisi_ProgramProvider pp = programManager.getProgramProvider(String.valueOf(provider.getId()));
 
         pp.setRoleId(provider.getRoleId());
 
@@ -210,7 +210,7 @@ public class ProgramManagerAction extends BaseAction {
         saveMessages(request, messages);
 
         logManager.log("write", "edit program - assign role", String.valueOf(program.getId()), request);
-        programForm.set("provider", new ProgramProvider());
+        programForm.set("provider", new caisi_ProgramProvider());
 
         setEditAttributes(request, String.valueOf(program.getId()));
 
@@ -220,9 +220,9 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward assign_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramProvider provider = (ProgramProvider) programForm.get("provider");
+        caisi_ProgramProvider provider = (caisi_ProgramProvider) programForm.get("provider");
 
-        ProgramProvider pp = programManager.getProgramProvider(String.valueOf(provider.getId()));
+        caisi_ProgramProvider pp = programManager.getProgramProvider(String.valueOf(provider.getId()));
 
         ProgramTeam team = programManager.getProgramTeam(request.getParameter("teamId"));
 
@@ -237,7 +237,7 @@ public class ProgramManagerAction extends BaseAction {
         saveMessages(request, messages);
 
         logManager.log("write", "edit program - assign team", String.valueOf(program.getId()), request);
-        programForm.set("provider", new ProgramProvider());
+        programForm.set("provider", new caisi_ProgramProvider());
 
         setEditAttributes(request, String.valueOf(program.getId()));
 
@@ -319,7 +319,7 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward delete_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramAccess access = (ProgramAccess) programForm.get("access");
+        caisi_ProgramAccess access = (caisi_ProgramAccess) programForm.get("access");
 
         programManager.deleteProgramAccess(String.valueOf(access.getId()));
 
@@ -330,7 +330,7 @@ public class ProgramManagerAction extends BaseAction {
         logManager.log("write", "edit program - delete access", String.valueOf(program.getId()), request);
 
         this.setEditAttributes(request, String.valueOf(program.getId()));
-        programForm.set("access", new ProgramAccess());
+        programForm.set("access", new caisi_ProgramAccess());
 
         return edit(mapping, form, request, response);
     }
@@ -355,7 +355,7 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward delete_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramProvider pp = (ProgramProvider) programForm.get("provider");
+        caisi_ProgramProvider pp = (caisi_ProgramProvider) programForm.get("provider");
 
         if (pp.getId() != null && pp.getId().intValue() >= 0) {
             programManager.deleteProgramProvider(String.valueOf(pp.getId()));
@@ -367,7 +367,7 @@ public class ProgramManagerAction extends BaseAction {
             logManager.log("write", "edit program - delete provider", String.valueOf(program.getId()), request);
         }
         this.setEditAttributes(request, String.valueOf(program.getId()));
-        programForm.set("provider", new ProgramProvider());
+        programForm.set("provider", new caisi_ProgramProvider());
 
         return edit(mapping, form, request, response);
     }
@@ -404,9 +404,9 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward edit_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramAccess access = (ProgramAccess) programForm.get("access");
+        caisi_ProgramAccess access = (caisi_ProgramAccess) programForm.get("access");
 
-        ProgramAccess pa = programManager.getProgramAccess(String.valueOf(access.getId()));
+        caisi_ProgramAccess pa = programManager.getProgramAccess(String.valueOf(access.getId()));
 
         if (pa == null) {
             ActionMessages messages = new ActionMessages();
@@ -447,9 +447,9 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward edit_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramProvider provider = (ProgramProvider) programForm.get("provider");
+        caisi_ProgramProvider provider = (caisi_ProgramProvider) programForm.get("provider");
 
-        ProgramProvider pp = programManager.getProgramProvider(String.valueOf(provider.getId()));
+        caisi_ProgramProvider pp = programManager.getProgramProvider(String.valueOf(provider.getId()));
 
         if (pp == null) {
             ActionMessages messages = new ActionMessages();
@@ -855,7 +855,7 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward save_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
-        ProgramProvider provider = (ProgramProvider) programForm.get("provider");
+        caisi_ProgramProvider provider = (caisi_ProgramProvider) programForm.get("provider");
 
         if (this.isCancelled(request)) {
             return list(mapping, form, request, response);
@@ -866,7 +866,7 @@ public class ProgramManagerAction extends BaseAction {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.provider.exists"));
             saveMessages(request, messages);
-            programForm.set("provider", new ProgramProvider());
+            programForm.set("provider", new caisi_ProgramProvider());
             setEditAttributes(request, String.valueOf(program.getId()));
             return mapping.findForward("edit");
         }
@@ -878,7 +878,7 @@ public class ProgramManagerAction extends BaseAction {
         saveMessages(request, messages);
 
         logManager.log("write", "edit program - save provider", String.valueOf(program.getId()), request);
-        programForm.set("provider", new ProgramProvider());
+        programForm.set("provider", new caisi_ProgramProvider());
         setEditAttributes(request, String.valueOf(program.getId()));
 
         return mapping.findForward("edit");

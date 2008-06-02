@@ -58,7 +58,7 @@ public class IntakeNodeLabel implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringBuilder(REF).append("(").append(getId()).append(", ").append(getLabel()).append(")").toString();
+		return new StringBuffer(REF).append("(").append(getId()).append(", ").append(getLabel()).append(")").toString();
 	}
 
     protected void initialize() {

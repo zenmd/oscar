@@ -28,7 +28,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
-import org.indivo.xml.phr.dischargesummary.DischargeSummary;
 import org.oscarehr.PMmodule.model.ClientHistory;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;

@@ -28,8 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
-
+//TODO import java.util.UUID;
+import com.ibm.ws.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -138,7 +138,8 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 
 	public void saveNote(CaseManagementNote note) {
                 if( note.getUuid() == null ) {
-                    UUID uuid = UUID.randomUUID();
+                    UUID uuid = new UUID();
+                    // UUID uuid =UUID.randomUUID();
                     note.setUuid(uuid.toString());
                 }
 		this.getHibernateTemplate().save(note);

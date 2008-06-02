@@ -53,7 +53,7 @@ public class CaseManagementLinkTag extends TagSupport {
 		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
 
 		try {
-			StringBuilder builder = new StringBuilder();
+			StringBuffer builder = new StringBuffer();
 
 			builder.append(req.getScheme()).append("://");
 			builder.append(req.getServerName()).append(":");

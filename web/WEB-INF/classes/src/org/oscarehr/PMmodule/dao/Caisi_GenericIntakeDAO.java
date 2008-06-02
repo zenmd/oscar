@@ -383,7 +383,7 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 	}
 
 	private String convertToString(Set<Integer> ids) {
-		StringBuilder builder = new StringBuilder();
+		StringBuffer builder = new StringBuffer();
 
 		for (Iterator<Integer> i = ids.iterator(); i.hasNext();) {
 			builder.append(i.next());

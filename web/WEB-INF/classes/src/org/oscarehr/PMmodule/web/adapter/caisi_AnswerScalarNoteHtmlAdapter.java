@@ -30,8 +30,8 @@ public class AnswerScalarNoteHtmlAdapter extends AbstractAnswerScalarHtmlAdapter
 		super(indent, node, intake);
 	}
 
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = startAnswer(super.getPreBuilder());
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = startAnswer(super.getPreBuilder());
 
 		indent(preBuilder).append(startLabel(true)).append(getTextInput(getId(), COLS, ROWS, getAnswerValue())).append(endLabel(false)).append(EOL);
 		String mquest = "mquests";

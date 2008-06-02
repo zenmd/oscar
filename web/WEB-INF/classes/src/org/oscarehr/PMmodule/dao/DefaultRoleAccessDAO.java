@@ -24,7 +24,7 @@ package org.oscarehr.PMmodule.dao;
 
 import java.util.List;
 
-import org.oscarehr.PMmodule.model.DefaultRoleAccess;
+import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class DefaultRoleAccessDAO extends HibernateDaoSupport {
@@ -33,23 +33,23 @@ public class DefaultRoleAccessDAO extends HibernateDaoSupport {
         this.getHibernateTemplate().delete(getDefaultRoleAccess(id));
     }
 
-    public DefaultRoleAccess getDefaultRoleAccess(Integer id) {
-        return (DefaultRoleAccess)this.getHibernateTemplate().get(DefaultRoleAccess.class, id);
+    public caisi_DefaultRoleAccess getDefaultRoleAccess(Integer id) {
+        return (caisi_DefaultRoleAccess)this.getHibernateTemplate().get(caisi_DefaultRoleAccess.class, id);
     }
 
     public List getDefaultRoleAccesses() {
         return this.getHibernateTemplate().find("from DefaultRoleAccess dra ORDER BY role_id");
     }
 
-    public void saveDefaultRoleAccess(DefaultRoleAccess dra) {
+    public void saveDefaultRoleAccess(caisi_DefaultRoleAccess dra) {
         this.getHibernateTemplate().saveOrUpdate(dra);
     }
 
-    public DefaultRoleAccess find(Integer roleId, Integer accessTypeId) {
+    public caisi_DefaultRoleAccess find(Integer roleId, Integer accessTypeId) {
         List results = this.getHibernateTemplate().find("from DefaultRoleAccess dra where dra.roleId=? and dra.accessTypeId=?", new Object[] {roleId, accessTypeId});
 
         if (!results.isEmpty()) {
-            return (DefaultRoleAccess)results.get(0);
+            return (caisi_DefaultRoleAccess)results.get(0);
         }
         return null;
     }

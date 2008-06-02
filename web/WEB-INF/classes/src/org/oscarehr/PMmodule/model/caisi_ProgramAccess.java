@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * This is the object class that relates to the program_access table. Any customizations belong here.
  */
-public class ProgramAccess implements Serializable {
+public class caisi_ProgramAccess implements Serializable {
 
 	private static final long serialVersionUID = 1L;
     public static String PROP_ALL_ROLES = "AllRoles";
@@ -43,14 +43,14 @@ public class ProgramAccess implements Serializable {
     private java.util.Set _roles;
 
     // constructors
-     public ProgramAccess () {
+     public caisi_ProgramAccess () {
          initialize();
      }
 
      /**
       * Constructor for primary key
       */
-     public ProgramAccess (Integer _id) {
+     public caisi_ProgramAccess (Integer _id) {
          this.setId(_id);
          initialize();
      }
@@ -160,9 +160,9 @@ public class ProgramAccess implements Serializable {
 
     public boolean equals (Object obj) {
         if (null == obj) return false;
-        if (!(obj instanceof ProgramAccess)) return false;
+        if (!(obj instanceof caisi_ProgramAccess)) return false;
         else {
-            ProgramAccess mObj = (ProgramAccess) obj;
+            caisi_ProgramAccess mObj = (caisi_ProgramAccess) obj;
             if (null == this.getId() || null == mObj.getId()) return false;
             else return (this.getId().equals(mObj.getId()));
         }

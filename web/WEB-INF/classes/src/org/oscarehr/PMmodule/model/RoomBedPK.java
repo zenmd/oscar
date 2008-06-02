@@ -107,7 +107,7 @@ public class RoomBedPK implements Serializable {
 
     public int hashCode () {
         if (Integer.MIN_VALUE == this.hashCode) {
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             if (null != this.getBedId()) {
                 sb.append(this.getBedId().hashCode());
                 sb.append(":");

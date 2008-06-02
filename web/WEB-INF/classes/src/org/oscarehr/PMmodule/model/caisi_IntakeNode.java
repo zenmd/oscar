@@ -211,7 +211,7 @@ public class IntakeNode implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder(REF).append("(").append(getId()).append(", ").append(getLabel()).append(", ").append(getNodeTemplate()).append(")").toString();
+        return new StringBuffer(REF).append("(").append(getId()).append(", ").append(getLabel()).append(", ").append(getNodeTemplate()).append(")").toString();
     }
 
     /**

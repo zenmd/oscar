@@ -772,7 +772,7 @@ public class Demographic implements Serializable {
     }
 
     public String getFormattedLinks() {
-        StringBuilder response = new StringBuilder();
+        StringBuffer response = new StringBuffer();
 
         if (getNumLinks() > 0) {
             String[] links = getLinks().split(",");

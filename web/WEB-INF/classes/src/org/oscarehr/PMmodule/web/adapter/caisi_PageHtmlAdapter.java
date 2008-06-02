@@ -29,8 +29,8 @@ public class PageHtmlAdapter extends AbstractHtmlAdapter {
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPreBuilder()
 	 */
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = super.getPreBuilder();
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = super.getPreBuilder();
 
 		indent(preBuilder).append("<div dojoType=\"ContentPane\" label=\"").append(getLabel()).append("\" class=\"intakePage\" >").append(EOL);
 		beginTag();
@@ -46,8 +46,8 @@ public class PageHtmlAdapter extends AbstractHtmlAdapter {
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPostBuilder()
 	 */
-	public StringBuilder getPostBuilder() {
-		StringBuilder postBuilder = super.getPostBuilder();
+	public StringBuffer getPostBuilder() {
+		StringBuffer postBuilder = super.getPostBuilder();
 
 		if (!hasSections()) {
 			endTag();

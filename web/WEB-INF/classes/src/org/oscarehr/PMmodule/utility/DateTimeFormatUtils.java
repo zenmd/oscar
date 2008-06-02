@@ -122,7 +122,7 @@ public final class DateTimeFormatUtils {
 			return (s != null && s.length() > 0) ? format.parse(s) : null;
 		} catch (ParseException e) {
 			log.error(e);
-			throw new IllegalStateException(e);
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 

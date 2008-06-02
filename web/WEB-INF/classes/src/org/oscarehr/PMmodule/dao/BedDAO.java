@@ -157,7 +157,7 @@ public class BedDAO extends HibernateDaoSupport {
 
 
     String getBedsQuery(Integer facilityId, Integer roomId, Boolean active) {
-        StringBuilder queryBuilder = new StringBuilder("from Bed b");
+        StringBuffer queryBuilder = new StringBuffer("from Bed b");
 
         queryBuilder.append(" where ");
 

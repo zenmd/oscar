@@ -22,8 +22,6 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
-import com.ibm.ws.webcontainer.httpsession.DBPortability;
-
 import oscar.log.LogAction;
 import oscar.log.LogConst;
 import oscar.oscarDB.DBPreparedHandler;

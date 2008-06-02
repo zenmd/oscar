@@ -366,7 +366,7 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
 
         Integer clientEditId = formBean.getClient().getDemographicNo();
 
-        StringBuilder parameters = new StringBuilder(PARAM_START);
+        StringBuffer parameters = new StringBuffer(PARAM_START);
         parameters.append(CLIENT_EDIT_ID).append(PARAM_EQUALS).append(clientEditId);
 
         return createRedirectForward(mapping, CLIENT_EDIT, parameters);

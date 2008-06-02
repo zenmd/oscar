@@ -447,7 +447,7 @@ public class GenericIntakeManager {
 	}
 
 	private String createStatisticLabel(String answerLabel, String answerElement) {
-		StringBuilder builder = new StringBuilder();
+		StringBuffer builder = new StringBuffer();
 
 		builder.append(answerLabel);
 

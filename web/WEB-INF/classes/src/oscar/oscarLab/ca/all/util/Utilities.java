@@ -47,7 +47,7 @@ public class Utilities {
             boolean firstMSHflag = false; //true if the first MSH segment has been processed false otherwise
             //String mshSeg = br.readLine();
             
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             String mshSeg = "";
             
             while ((line = br.readLine()) != null) {
@@ -134,7 +134,7 @@ public class Utilities {
      */
     public String inputStreamAsString(InputStream stream) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         String line = null;
         
         while ((line = br.readLine()) != null) {

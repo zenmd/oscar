@@ -48,7 +48,7 @@ public class BedDemographicAuditStrategy extends BaseAuditStrategy {
 				
 				Date now = Calendar.getInstance().getTime();
 				
-				StringBuilder builder = new StringBuilder();
+				StringBuffer builder = new StringBuffer();
 				builder.append("Class : ").append(entity.getClass().getName()).append(" ");
 				builder.append("Id : ").append(id).append(" ");
 				builder.append("Name : ").append(name).append(" ");

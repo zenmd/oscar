@@ -85,7 +85,7 @@ public class IntakeAnswerElement  implements Comparable<IntakeAnswerElement>, Se
 	
 	@Override
 	public String toString() {
-		return new StringBuilder(REF).append("(").append(getId()).append(", ").append(getElement()).append(", ").append(getValidation()).append(")").toString();
+		return new StringBuffer(REF).append("(").append(getId()).append(", ").append(getElement()).append(", ").append(getValidation()).append(")").toString();
 	}
 
     protected void initialize() {

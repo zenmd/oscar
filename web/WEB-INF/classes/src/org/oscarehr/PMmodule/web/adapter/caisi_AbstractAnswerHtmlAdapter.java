@@ -31,7 +31,7 @@ abstract class AbstractAnswerHtmlAdapter extends AbstractHtmlAdapter {
 		super(indent, node);
 	}
 
-	protected StringBuilder startRow(StringBuilder builder) {
+	protected StringBuffer startRow(StringBuffer builder) {
 		indent(builder).append("<tr>").append(EOL);
 		beginTag();
 
@@ -42,21 +42,21 @@ abstract class AbstractAnswerHtmlAdapter extends AbstractHtmlAdapter {
 		return builder;
 	}
 	
-	protected StringBuilder endRow(StringBuilder builder) {
+	protected StringBuffer endRow(StringBuffer builder) {
 		endTag();
 		indent(builder).append("</tr>").append(EOL);
 		
 		return builder;
 	}
 
-	protected StringBuilder startCell(StringBuilder builder) {
+	protected StringBuffer startCell(StringBuffer builder) {
 		indent(builder).append("<td class=\"intakeAnswerCell\" colspan=\"").append(getDistanceToMaxLevel()).append("\">").append(EOL);
 		beginTag();
 		
 		return builder;
 	}
 	
-	protected StringBuilder endCell(StringBuilder builder) {
+	protected StringBuffer endCell(StringBuffer builder) {
 		endTag();
 		indent(builder).append("</td>").append(EOL);
 		

@@ -389,7 +389,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(admissionId.intValue()==0){
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
            //service restriction check
-           StringBuilder sb = new StringBuilder();
+           StringBuffer sb = new StringBuffer();
     	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
@@ -414,7 +414,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              List lst=admissionManager.getIntakeAdmissionList(qif.getClientId());
              for(int j=0;j<lst.size();j++){
         	   Admission admission_exist = (Admission)lst.get(j);
-        	   StringBuilder sb2 = new StringBuilder();
+        	   StringBuffer sb2 = new StringBuffer();
         	   sb2.append("," + admission_exist.getId());
                if(sb2.length()>0){
                  //auto-discharge from other program   
@@ -440,7 +440,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            List lst=admissionManager.getIntakeAdmissionList(clientId);
            for(int i=0;i<lst.size();i++){
         	 Admission admission_exist = (Admission)lst.get(i);
-        	 StringBuilder sb = new StringBuilder();
+        	 StringBuffer sb = new StringBuffer();
         	 sb.append("," + admission_exist.getId());
              if(sb.length()>0){
                //auto-discharge from other program   

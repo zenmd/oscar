@@ -39,11 +39,11 @@ import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.AccessType;
 import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.DefaultRoleAccess;
+import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.ProgramAccess;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.service.AdmissionManager;
@@ -707,7 +707,7 @@ public class CaseManagementManager {
         Map map = new HashMap();
 
         for (Iterator iter = paList.iterator(); iter.hasNext();) {
-            ProgramAccess pa = (ProgramAccess)iter.next();
+            caisi_ProgramAccess pa = (caisi_ProgramAccess)iter.next();
             map.put(pa.getAccessType().getName(), pa);
         }
         return map;
@@ -816,7 +816,7 @@ public class CaseManagementManager {
     }
 
     public boolean unlockNote(int noteId, String password) {
-        CaseManagementNote note = this.caseManagementNoteDAO.getNote(Integer.valueOf(noteId));
+        CaseManagementNote note = this.caseManagementNoteDAO.getNote(new Integer(noteId));
         if (note != null) {
             if (note.isLocked() && note.getPassword().equals(password)) {
                 return true;

@@ -49,7 +49,7 @@ import org.apache.struts.action.ActionMessages;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.IssueAdmin;
 import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntake;

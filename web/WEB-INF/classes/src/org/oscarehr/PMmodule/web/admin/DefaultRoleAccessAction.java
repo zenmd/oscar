@@ -31,7 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
-import org.oscarehr.PMmodule.model.DefaultRoleAccess;
+import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoleManager;
 import org.apache.struts.actions.DispatchAction;
@@ -52,7 +52,7 @@ public class DefaultRoleAccessAction extends  DispatchAction {
 	
 	public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm accessForm = (DynaActionForm)form;
-		DefaultRoleAccess dra = null;
+		caisi_DefaultRoleAccess dra = null;
 		
 		String id = request.getParameter("id");
 		
@@ -63,7 +63,7 @@ public class DefaultRoleAccessAction extends  DispatchAction {
 			}
 		} 
 		if(dra == null) {
-			dra = new DefaultRoleAccess();
+			dra = new caisi_DefaultRoleAccess();
 		}
 		
 		accessForm.set("form", dra);
@@ -75,7 +75,7 @@ public class DefaultRoleAccessAction extends  DispatchAction {
 	
 	public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm accessForm = (DynaActionForm)form;
-		DefaultRoleAccess dra = (DefaultRoleAccess)accessForm.get("form");
+		caisi_DefaultRoleAccess dra = (caisi_DefaultRoleAccess)accessForm.get("form");
 		
 		if(dra.getId().longValue() == 0) {
 			dra.setId(null);

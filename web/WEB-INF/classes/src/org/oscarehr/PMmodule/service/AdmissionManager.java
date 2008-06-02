@@ -294,16 +294,16 @@ public class AdmissionManager {
 	         
 	          QuatroIntake intake=intakeDao.getQuatroIntake(admission.getIntakeId());
 			    if(intake.getReferralId() != null &&  intake.getReferralId().intValue()>0){
-			      ClientReferral referralOld = new ClientReferral(Integer.valueOf(intake.getReferralId().intValue()));
+			      ClientReferral referralOld = new ClientReferral(new Integer(intake.getReferralId().intValue()));
 			      referralOld.setClientId(intake.getClientId());
-			      referralOld.setProgramId(Integer.valueOf(intake.getProgramId().intValue()));
+			      referralOld.setProgramId(new Integer(intake.getProgramId().intValue()));
 			      clientReferralDAO.delete(referralOld);
 	            }  
 	            if(intake.getQueueId() != null && intake.getQueueId().intValue()>0){
-			      ProgramQueue queueOld = new ProgramQueue(Integer.valueOf(intake.getQueueId().intValue()));
+			      ProgramQueue queueOld = new ProgramQueue(new Integer(intake.getQueueId().intValue()));
 			      queueOld.setClientId(intake.getClientId());
-			      queueOld.setProviderNo(Integer.valueOf(intake.getStaffId()));
-			      queueOld.setProgramId(Integer.valueOf(intake.getProgramId().intValue()));
+			      queueOld.setProviderNo(new Integer(intake.getStaffId()));
+			      queueOld.setProgramId(new Integer(intake.getProgramId().intValue()));
 			      programQueueDao.delete(queueOld);
 	            }
 	          

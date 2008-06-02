@@ -26,11 +26,11 @@ public class AnswerCompoundHtmlAdapter extends AbstractAnswerHtmlAdapter {
 		super(indent, node);
 	}
 
-	public StringBuilder getPreBuilder() {
+	public StringBuffer getPreBuilder() {
 		return startCell(startRow(super.getPreBuilder()));
 	}
 	
-	public StringBuilder getPostBuilder() {
+	public StringBuffer getPostBuilder() {
 		return endRow(endCell(super.getPostBuilder()));
 	}
 

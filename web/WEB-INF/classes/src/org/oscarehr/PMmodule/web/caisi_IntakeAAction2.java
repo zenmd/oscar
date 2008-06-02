@@ -44,7 +44,7 @@ import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Formintakea;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.IntakeAManager;
@@ -303,7 +303,7 @@ public class IntakeAAction2 extends BaseAction {
         List programDomain = new ArrayList();
 
         for (Iterator iter = origProgramDomain.iterator(); iter.hasNext();) {
-            ProgramProvider pp = (ProgramProvider) iter.next();
+            caisi_ProgramProvider pp = (caisi_ProgramProvider) iter.next();
             Program p = programManager.getProgram(String.valueOf(pp.getProgramId()));
             boolean add = true;
             if (!p.getType().equalsIgnoreCase("bed")) {
@@ -324,7 +324,7 @@ public class IntakeAAction2 extends BaseAction {
         List programDomain = new ArrayList();
 
         for (Iterator iter = origProgramDomain.iterator(); iter.hasNext();) {
-            ProgramProvider pp = (ProgramProvider) iter.next();
+            caisi_ProgramProvider pp = (caisi_ProgramProvider) iter.next();
             Program p = programManager.getProgram(String.valueOf(pp.getProgramId()));
             boolean add = true;
             if (!p.getType().equalsIgnoreCase("service")) {

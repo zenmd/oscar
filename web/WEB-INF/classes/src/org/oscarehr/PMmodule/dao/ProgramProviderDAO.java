@@ -28,7 +28,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.Facility;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class ProgramProviderDAO extends HibernateDaoSupport {
@@ -76,12 +76,12 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return results;
     }
     
-    public ProgramProvider getProgramProvider(Integer id) {
+    public caisi_ProgramProvider getProgramProvider(Integer id) {
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        ProgramProvider result = (ProgramProvider)this.getHibernateTemplate().get(ProgramProvider.class, id);
+        caisi_ProgramProvider result = (caisi_ProgramProvider)this.getHibernateTemplate().get(caisi_ProgramProvider.class, id);
 
         if (log.isDebugEnabled()) {
             log.debug("getProgramProvider: id=" + id + ",found=" + (result != null));
@@ -90,7 +90,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public ProgramProvider getProgramProvider(String providerNo, Integer programId) {
+    public caisi_ProgramProvider getProgramProvider(String providerNo, Integer programId) {
         if (providerNo == null || Integer.parseInt(providerNo) <= 0) {
             throw new IllegalArgumentException();
         }
@@ -98,10 +98,10 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        ProgramProvider result = null;
+        caisi_ProgramProvider result = null;
         List results = this.getHibernateTemplate().find("from ProgramProvider pp where pp.ProviderNo = ? and pp.ProgramId = ?", new Object[] { providerNo, programId });
         if (!results.isEmpty()) {
-            result = (ProgramProvider) results.get(0);
+            result = (caisi_ProgramProvider) results.get(0);
         }
 
         if (log.isDebugEnabled()) {
@@ -111,7 +111,7 @@ public class ProgramProviderDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public void saveProgramProvider(ProgramProvider pp) {
+    public void saveProgramProvider(caisi_ProgramProvider pp) {
         if (pp == null) {
             throw new IllegalArgumentException();
         }

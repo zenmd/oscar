@@ -112,10 +112,10 @@ public class Agency implements Serializable {
 		boolean visible = false;
 
 		if (Intake.QUICK.equalsIgnoreCase(intakeType)) {
-			visible = getIntakeQuickState().contains("H");
+			visible = (getIntakeQuickState().indexOf("H") >= 0);
 		}
 		else if (Intake.INDEPTH.equalsIgnoreCase(intakeType)) {
-			visible = getIntakeIndepthState().contains("H");
+			visible = (getIntakeIndepthState().indexOf("H")>=0);
 		}
 
 		return visible;
@@ -125,10 +125,10 @@ public class Agency implements Serializable {
 		boolean visible = false;
 
 		if (Intake.QUICK.equalsIgnoreCase(intakeType)) {
-			visible = getIntakeQuickState().contains("S");
+			visible = (getIntakeQuickState().indexOf("S")>=0);
 		}
 		else if (Intake.INDEPTH.equalsIgnoreCase(intakeType)) {
-			visible = getIntakeIndepthState().contains("S");
+			visible = (getIntakeIndepthState().indexOf("S")>=0);
 		}
 
 		return visible;
@@ -139,11 +139,11 @@ public class Agency implements Serializable {
 
 		if (Intake.QUICK.equalsIgnoreCase(intakeType)) {
 			//"S" should be changed to be "E" in the future if still use this external program function.
-			visible = getIntakeQuickState().contains("S"); 			
+			visible = (getIntakeQuickState().indexOf("S")>=0); 			
 		}
 		else if (Intake.INDEPTH.equalsIgnoreCase(intakeType)) {
 			//"S" should be changed to be "E" in the future if still use this external program function.
-			visible = getIntakeIndepthState().contains("S");
+			visible = (getIntakeIndepthState().indexOf("S")>=0);
 		}
 
 		return visible;

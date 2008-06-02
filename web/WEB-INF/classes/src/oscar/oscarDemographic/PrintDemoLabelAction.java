@@ -49,7 +49,7 @@ public class PrintDemoLabelAction extends OscarAction {
         
         System.setProperty("jasper.reports.compile.class.path", classpath);
 
-        HashMap<String,String> parameters = new HashMap<String,String>();
+        HashMap parameters = new HashMap();
         parameters.put("demo", request.getParameter("demographic_no"));
         ServletOutputStream sos = null;
         InputStream ins = null;

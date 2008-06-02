@@ -27,7 +27,7 @@ import java.io.Serializable;
  * This is the object class that relates to the program_provider table.
  * Any customizations belong here.
  */
-public class ProgramProvider implements Serializable {
+public class caisi_ProgramProvider implements Serializable {
 
 	private static final long serialVersionUID = 1L;
     public static String PROP_PROVIDER_NO = "ProviderNo";
@@ -48,14 +48,14 @@ public class ProgramProvider implements Serializable {
     private Program program;
 
     // constructors
-	public ProgramProvider () {
+	public caisi_ProgramProvider () {
 		initialize();
 	}
 
     /**
 	 * Constructor for primary key
 	 */
-	public ProgramProvider (Integer _id) {
+	public caisi_ProgramProvider (Integer _id) {
 		this.setId(_id);
 		initialize();
 	}
@@ -202,9 +202,9 @@ public class ProgramProvider implements Serializable {
 
     public boolean equals (Object obj) {
         if (null == obj) return false;
-        if (!(obj instanceof ProgramProvider)) return false;
+        if (!(obj instanceof caisi_ProgramProvider)) return false;
         else {
-            ProgramProvider mObj = (ProgramProvider) obj;
+            caisi_ProgramProvider mObj = (caisi_ProgramProvider) obj;
             if (null == this.getId() || null == mObj.getId()) return false;
             else return (this.getId().equals(mObj.getId()));
         }

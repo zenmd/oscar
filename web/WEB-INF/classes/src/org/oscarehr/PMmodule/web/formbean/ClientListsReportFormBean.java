@@ -101,16 +101,19 @@ public class ClientListsReportFormBean {
 	 */
 	public String toString() {
 
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		try {
-			for (Method method : getClass().getDeclaredMethods()) {
+//			for (Method method : getClass().getDeclaredMethods()) {
+			Method [] methods = getClass().getDeclaredMethods();
+			for(int i=0; i<methods.length; i++) {
+				Method method = methods[i];
 				String methodName = method.getName();
 				if (method.getParameterTypes().length == 0 && (methodName.startsWith("get") || methodName.startsWith("is") || methodName.startsWith("has"))) {
 					if (sb.length() > 0) sb.append(", ");
 					sb.append(methodName);
 					sb.append("()=");
-					sb.append(method.invoke(this));
+					sb.append(method.invoke(this, null));
 				}
 			}
 		}

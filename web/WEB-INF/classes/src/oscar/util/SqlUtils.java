@@ -509,7 +509,7 @@ public class SqlUtils {
     public static String constructInClauseForStatements(Object[] items) {
         if (items.length <= 0) throw(new IllegalArgumentException("Don't call this method if the items for the in clause is <1 it doesn't make sense."));
 
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         sb.append('(');
 
 //        for (Object item : items) {
@@ -529,7 +529,7 @@ public class SqlUtils {
     public static String constructInClauseForPreparedStatements(int numberOfParameters) {
         if (numberOfParameters <= 0) throw(new IllegalArgumentException("Don't call this method if the numberOfParameters is <1 it doesn't make sense."));
 
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         sb.append('(');
 
         for (int i = 0; i < numberOfParameters; i++) {

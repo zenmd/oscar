@@ -31,7 +31,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public class Misc {
-
+ 
 public static Hashtable hashDefs(String [] names, String [] values){
   Hashtable H=new Hashtable();
   if(names.length>values.length)return H;
@@ -472,14 +472,19 @@ public static String space(int i) {
     	if (s==null) return "";
     	return (String) s;
     }
+    public static String replace(String ori, String pattern, String replaceTo)
+    {
+    	return ori;
+    }
     public static String getStringJs(Object s)
     {
     	if (s==null) return "";
-    	return ((String) s).replace("'", "\\'");
+    	return replace((String) s,"'","\\'");
+    	//return ((String) s).replace("'", "\\'");
     }
 
     public static String encryptPIN(String sPin){
-        StringBuilder sb = new StringBuilder();
+        String sb = new String();
         int i, j;
         if(sPin==null) return  null;
 
@@ -488,7 +493,7 @@ public static String space(int i) {
     	  char c = sPin.charAt(i);
     	  j = j + (int)c;
     	  if(j>127) j = j-127;
-    	  sb.append((char)j);
+    	  sb += ((char)j);
     	}
   	    return sb.toString();
     }

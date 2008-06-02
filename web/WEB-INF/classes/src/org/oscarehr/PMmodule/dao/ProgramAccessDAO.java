@@ -27,7 +27,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.AccessType;
-import org.oscarehr.PMmodule.model.ProgramAccess;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class ProgramAccessDAO extends HibernateDaoSupport {
@@ -49,13 +49,13 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public ProgramAccess getProgramAccess(Integer id) {
+    public caisi_ProgramAccess getProgramAccess(Integer id) {
 
         if (id == null || id.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        ProgramAccess result = (ProgramAccess)this.getHibernateTemplate().get(ProgramAccess.class, id);
+        caisi_ProgramAccess result = (caisi_ProgramAccess)this.getHibernateTemplate().get(caisi_ProgramAccess.class, id);
 
         if (log.isDebugEnabled()) {
             log.debug("getProgramAccess: id=" + id + ",found=" + (result != null));
@@ -63,7 +63,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public ProgramAccess getProgramAccess(Integer programId, Integer accessTypeId) {
+    public caisi_ProgramAccess getProgramAccess(Integer programId, Integer accessTypeId) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -71,10 +71,10 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
         String accessTypeIdString = accessTypeId.toString();
-        ProgramAccess result = null;
+        caisi_ProgramAccess result = null;
         List results = this.getHibernateTemplate().find("from ProgramAccess pa where pa.ProgramId = ? and pa.AccessTypeId = ?", new Object[] {programId, accessTypeIdString});
         if (results.size() > 0) {
-            result = (ProgramAccess)results.get(0);
+            result = (caisi_ProgramAccess)results.get(0);
         }
 
         if (log.isDebugEnabled()) {
@@ -84,7 +84,7 @@ public class ProgramAccessDAO extends HibernateDaoSupport {
         return result;
     }
 
-    public void saveProgramAccess(ProgramAccess pa) {
+    public void saveProgramAccess(caisi_ProgramAccess pa) {
         if (pa == null) {
             throw new IllegalArgumentException();
         }

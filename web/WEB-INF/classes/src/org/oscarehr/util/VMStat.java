@@ -90,7 +90,7 @@ public class VMStat
 	
 	public static String getMemoryInfo(MemoryPoolMXBean memoryPool)
 	{
-		StringBuilder sb=new StringBuilder();
+		StringBuffer sb=new StringBuffer();
 		
 		sb.append(memoryPool.getName());
 		sb.append(',');
@@ -127,7 +127,7 @@ public class VMStat
 
 	public static String getThreadInfo()
 	{
-		StringBuilder sb=new StringBuilder();
+		StringBuffer sb=new StringBuffer();
 
 		sb.append("ThreadInfo,");
 		
@@ -148,7 +148,7 @@ public class VMStat
 	
 	public static String getGCInfo(GarbageCollectorMXBean garbageCollectorMXBean)
 	{
-		StringBuilder sb=new StringBuilder();
+		StringBuffer sb=new StringBuffer();
 
 		sb.append(garbageCollectorMXBean.getName());
 		sb.append(',');

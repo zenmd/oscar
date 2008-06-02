@@ -43,7 +43,7 @@ import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.LogManager;
@@ -99,7 +99,7 @@ public class StaffManagerAction extends DispatchAction {
 		/* programs the provider is already a staff member of */
 		List pp = programManager.getProgramProvidersByProvider(provider.getProviderNo());
 		for(Iterator iter=pp.iterator();iter.hasNext();) {
-			ProgramProvider p = (ProgramProvider)iter.next();
+			caisi_ProgramProvider p = (caisi_ProgramProvider)iter.next();
 			String name = programManager.getProgramName(String.valueOf(p.getProgramId()));
 			if(name == null) {
 				log.warn("Program doesn't have a name?");
@@ -131,8 +131,8 @@ public class StaffManagerAction extends DispatchAction {
 	protected List sortProgramProviders(List pps) {
 		Collections.sort(pps,new Comparator() {
 			public int compare(Object o1, Object o2) {
-				ProgramProvider pp1  = (ProgramProvider)o1;
-				ProgramProvider pp2  = (ProgramProvider)o2;
+				caisi_ProgramProvider pp1  = (caisi_ProgramProvider)o1;
+				caisi_ProgramProvider pp2  = (caisi_ProgramProvider)o2;
 				
 				return pp1.getProgramName().compareTo(pp2.getProgramName());
 			}
@@ -210,8 +210,8 @@ public class StaffManagerAction extends DispatchAction {
 	public ActionForward assign_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm providerForm = (DynaActionForm)form;
 		Provider provider = (Provider)providerForm.get("provider");
-		ProgramProvider pp = (ProgramProvider)providerForm.get("program_provider");
-		ProgramProvider existingPP = null;
+		caisi_ProgramProvider pp = (caisi_ProgramProvider)providerForm.get("program_provider");
+		caisi_ProgramProvider existingPP = null;
 		
 		existingPP = programManager.getProgramProvider(provider.getProviderNo(),String.valueOf(pp.getProgramId()));
 		String teamId = request.getParameter("teamId");
@@ -222,15 +222,15 @@ public class StaffManagerAction extends DispatchAction {
 		}
 		
 		setEditAttributes(request,providerManager.getProvider(provider.getProviderNo()));
-		providerForm.set("program_provider",new ProgramProvider());
+		providerForm.set("program_provider",new caisi_ProgramProvider());
 		return mapping.findForward("edit");
 	}
 	
 	public ActionForward remove_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm providerForm = (DynaActionForm)form;
 		Provider provider = (Provider)providerForm.get("provider");
-		ProgramProvider pp = (ProgramProvider)providerForm.get("program_provider");
-		ProgramProvider existingPP = null;
+		caisi_ProgramProvider pp = (caisi_ProgramProvider)providerForm.get("program_provider");
+		caisi_ProgramProvider existingPP = null;
 		
 		existingPP = programManager.getProgramProvider(provider.getProviderNo(),String.valueOf(pp.getProgramId()));
 		String teamId = request.getParameter("teamId");
@@ -247,15 +247,15 @@ public class StaffManagerAction extends DispatchAction {
 		}
 		
 		setEditAttributes(request,providerManager.getProvider(provider.getProviderNo()));
-		providerForm.set("program_provider",new ProgramProvider());
+		providerForm.set("program_provider",new caisi_ProgramProvider());
 		return mapping.findForward("edit");
 	}
 	
 	public ActionForward assign_role(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm providerForm = (DynaActionForm)form;
 		Provider provider = (Provider)providerForm.get("provider");
-		ProgramProvider pp = (ProgramProvider)providerForm.get("program_provider");
-		ProgramProvider existingPP = null;
+		caisi_ProgramProvider pp = (caisi_ProgramProvider)providerForm.get("program_provider");
+		caisi_ProgramProvider existingPP = null;
 		
 		if( (existingPP = programManager.getProgramProvider(provider.getProviderNo(),String.valueOf(pp.getProgramId())) ) != null) {
 			if(pp.getRoleId().intValue() == 0) {
@@ -270,19 +270,19 @@ public class StaffManagerAction extends DispatchAction {
 		}
 		
 		setEditAttributes(request,providerManager.getProvider(provider.getProviderNo()));
-		providerForm.set("program_provider",new ProgramProvider());
+		providerForm.set("program_provider",new caisi_ProgramProvider());
 		return mapping.findForward("edit");
 	}
 
 	public ActionForward remove_entry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm providerForm = (DynaActionForm)form;
 		Provider provider = (Provider)providerForm.get("provider");
-		ProgramProvider pp = (ProgramProvider)providerForm.get("program_provider");
+		caisi_ProgramProvider pp = (caisi_ProgramProvider)providerForm.get("program_provider");
 		
 		programManager.deleteProgramProvider(String.valueOf(pp.getId()));
 		
 		setEditAttributes(request,providerManager.getProvider(provider.getProviderNo()));
-		providerForm.set("program_provider",new ProgramProvider());
+		providerForm.set("program_provider",new caisi_ProgramProvider());
 		return mapping.findForward("edit");
 	}
 

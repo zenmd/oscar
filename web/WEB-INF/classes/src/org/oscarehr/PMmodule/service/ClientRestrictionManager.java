@@ -33,7 +33,7 @@ import org.oscarehr.PMmodule.dao.ProgramClientRestrictionDAO;
 import org.oscarehr.PMmodule.exception.ClientAlreadyRestrictedException;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.springframework.beans.factory.annotation.Required;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 
 /**
  * Manage client restrictions

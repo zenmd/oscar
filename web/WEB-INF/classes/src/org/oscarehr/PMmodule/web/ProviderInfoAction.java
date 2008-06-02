@@ -33,7 +33,7 @@ import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -78,7 +78,7 @@ public class ProviderInfoAction extends DispatchAction {
 //        for (ProgramProvider programProvider : providerManager.getProgramDomainByFacility(providerNo, new Integer(facilityId1))) {
         List programProviders = providerManager.getProgramDomainByFacility(providerNo, new Integer(facilityId1));       
         for (int i=0;i<programProviders.size();i++) {
-        	ProgramProvider programProvider = (ProgramProvider) programProviders.get(i); 
+        	caisi_ProgramProvider programProvider = (caisi_ProgramProvider) programProviders.get(i); 
         	Program program = programManager.getProgram(programProvider.getProgramId());
 
             if (program.getProgramStatus().equals("active")) {

@@ -58,7 +58,7 @@ public class IntakeAnswerValidation implements Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder(REF).append("(").append(getId()).append(", ").append(getType()).append(")").toString();
+        return new StringBuffer(REF).append("(").append(getId()).append(", ").append(getType()).append(")").toString();
     }
 
     protected void initialize() {

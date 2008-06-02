@@ -23,7 +23,7 @@
 // *
 // -----------------------------------------------------------------------------------------------------------------------
 package oscar;
-
+ 
 
 public class StringSplitter{
   // to be used like StringTokenizer, but it can

@@ -40,13 +40,13 @@ import org.oscarehr.PMmodule.dao.ProgramSignatureDao;
 import org.oscarehr.PMmodule.dao.ProgramTeamDAO;
 import org.oscarehr.PMmodule.model.AccessType;
 import org.oscarehr.PMmodule.model.Agency;
-import org.oscarehr.PMmodule.model.DefaultRoleAccess;
+import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.oscarehr.PMmodule.model.FunctionalUserType;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramAccess;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
@@ -245,15 +245,15 @@ public class ProgramManager {
         return programProviderDAO.getProgramProvidersByProvider(providerNo);
     }
 
-    public ProgramProvider getProgramProvider(String id) {
+    public caisi_ProgramProvider getProgramProvider(String id) {
         return programProviderDAO.getProgramProvider(Integer.valueOf(id));
     }
 
-    public ProgramProvider getProgramProvider(String providerNo, String programId) {
+    public caisi_ProgramProvider getProgramProvider(String providerNo, String programId) {
         return programProviderDAO.getProgramProvider(providerNo, Integer.valueOf(programId));
     }
 
-    public void saveProgramProvider(ProgramProvider pp) {
+    public void saveProgramProvider(caisi_ProgramProvider pp) {
         programProviderDAO.saveProgramProvider(pp);
     }
 
@@ -335,11 +335,11 @@ public class ProgramManager {
         return programAccessDAO.getProgramAccesses(Integer.valueOf(programId));
     }
 
-    public ProgramAccess getProgramAccess(String id) {
+    public caisi_ProgramAccess getProgramAccess(String id) {
         return programAccessDAO.getProgramAccess(Integer.valueOf(id));
     }
 
-    public void saveProgramAccess(ProgramAccess pa) {
+    public void saveProgramAccess(caisi_ProgramAccess pa) {
         programAccessDAO.saveProgramAccess(pa);
     }
 
@@ -381,7 +381,7 @@ public class ProgramManager {
         return this.programDao.getHoldingTankProgram();
     }
 
-    public ProgramAccess getProgramAccess(String programId, String accessTypeId) {
+    public caisi_ProgramAccess getProgramAccess(String programId, String accessTypeId) {
         return this.programAccessDAO.getProgramAccess(Integer.valueOf(programId), Integer.valueOf(accessTypeId));
     }
 
@@ -389,7 +389,7 @@ public class ProgramManager {
         List programDomain = new ArrayList();
 
         for (Iterator i = programProviderDAO.getProgramDomain(providerNo).iterator(); i.hasNext();) {
-            ProgramProvider programProvider = (ProgramProvider) i.next();
+            caisi_ProgramProvider programProvider = (caisi_ProgramProvider) i.next();
             programDomain.add(getProgram(programProvider.getProgramId()));
         }
 
@@ -431,11 +431,11 @@ public class ProgramManager {
         return defaultRoleAccessDAO.getDefaultRoleAccesses();
     }
 
-    public DefaultRoleAccess getDefaultRoleAccess(String id) {
+    public caisi_DefaultRoleAccess getDefaultRoleAccess(String id) {
         return defaultRoleAccessDAO.getDefaultRoleAccess(Integer.valueOf(id));
     }
 
-    public void saveDefaultRoleAccess(DefaultRoleAccess dra) {
+    public void saveDefaultRoleAccess(caisi_DefaultRoleAccess dra) {
         defaultRoleAccessDAO.saveDefaultRoleAccess(dra);
     }
 
@@ -443,7 +443,7 @@ public class ProgramManager {
         defaultRoleAccessDAO.deleteDefaultRoleAccess(Integer.valueOf(id));
     }
 
-    public DefaultRoleAccess findDefaultRoleAccess(Integer roleId, Integer accessTypeId) {
+    public caisi_DefaultRoleAccess findDefaultRoleAccess(Integer roleId, Integer accessTypeId) {
         return defaultRoleAccessDAO.find(roleId,accessTypeId);
     }
 

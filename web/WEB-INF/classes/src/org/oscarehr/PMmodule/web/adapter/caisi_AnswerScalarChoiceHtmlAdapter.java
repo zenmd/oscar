@@ -28,8 +28,8 @@ public class AnswerScalarChoiceHtmlAdapter extends AbstractAnswerScalarHtmlAdapt
 		super(indent, node, intake);
 	}
 
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = startAnswer(super.getPreBuilder());
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = startAnswer(super.getPreBuilder());
 		
 		if (isAnswerBoolean()) {
 			indent(preBuilder).append(startLabel(false)).append(createCheckBox(IntakeAnswerElement.TRUE)).append(endLabel(true)).append(EOL);
@@ -65,8 +65,8 @@ public class AnswerScalarChoiceHtmlAdapter extends AbstractAnswerScalarHtmlAdapt
 		return endAnswer(preBuilder);
 	}
 	
-	private StringBuilder createCheckBox(String on) {
-		StringBuilder builder = new StringBuilder();
+	private StringBuffer createCheckBox(String on) {
+		StringBuffer builder = new StringBuffer();
 		
 		builder.append(String.format("<input type=\"checkbox\" name=\"intake.answerMapped(%s).value\" value=\"%s\"", new Object[] { getId(), on }));
 		
@@ -79,8 +79,8 @@ public class AnswerScalarChoiceHtmlAdapter extends AbstractAnswerScalarHtmlAdapt
 		return builder;
 	}
 
-	private StringBuilder createOption(String label, String value) {
-		StringBuilder builder = new StringBuilder();
+	private StringBuffer createOption(String label, String value) {
+		StringBuffer builder = new StringBuffer();
 		
 		builder.append(String.format("<option value=\"%s\"", new Object[] { value }));
 

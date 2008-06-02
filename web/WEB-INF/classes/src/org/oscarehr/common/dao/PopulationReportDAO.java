@@ -136,7 +136,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
     public int getPrevalence(SortedSet icd10Codes) {
 
-        StringBuilder query = new StringBuilder(HQL_GET_PREVALENCE).append("(");
+        StringBuffer query = new StringBuffer(HQL_GET_PREVALENCE).append("(");
 
         for (String icd10Code : icd10Codes) {
             query.append("'").append(icd10Code).append("'");
@@ -153,7 +153,7 @@ public class PopulationReportDAO extends HibernateDaoSupport {
 
     public int getIncidence(SortedSet icd10Codes) {
 
-        StringBuilder query = new StringBuilder(HQL_GET_INCIDENCE).append("(");
+        StringBuffer query = new StringBuffer(HQL_GET_INCIDENCE).append("(");
 
         for (String icd10Code : icd10Codes) {
             query.append("'").append(icd10Code).append("'");

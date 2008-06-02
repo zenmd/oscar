@@ -30,7 +30,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.caisi.model.Role;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -93,7 +93,7 @@ public class GetProviderRoles {
 	    	List ppList = programManager.getProgramProvidersByProvider(providerNo);
 	    	Set roles = new HashSet();
 	    	for(Iterator iter=ppList.iterator();iter.hasNext();) {
-	    		ProgramProvider pp = (ProgramProvider)iter.next();
+	    		caisi_ProgramProvider pp = (caisi_ProgramProvider)iter.next();
 	    		Role role = pp.getRole();
 	    		if(role != null) {
 	    			roles.add(role.getName());

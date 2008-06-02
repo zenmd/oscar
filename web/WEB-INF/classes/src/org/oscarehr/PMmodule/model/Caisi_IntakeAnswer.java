@@ -122,7 +122,7 @@ public class IntakeAnswer implements Comparable<IntakeAnswer>, Serializable {
 	
 	@Override
 	public String toString() {
-		return new StringBuilder(REF).append("(").append(getId()).append(", ").append(getValue()).append(")").toString();
+		return new StringBuffer(REF).append("(").append(getId()).append(", ").append(getValue()).append(")").toString();
 	}
 
     protected void initialize() {

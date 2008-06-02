@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * This is the object class that relates to the default_role_access table. Any customizations belong here.
  */
-public class DefaultRoleAccess  implements Serializable {
+public class caisi_DefaultRoleAccess  implements Serializable {
 
     private static final long serialVersionUID = 1L;
     public static String PROP_ACCESS_TYPE = "access_type";
@@ -43,14 +43,14 @@ public class DefaultRoleAccess  implements Serializable {
 
 
     // constructors
-    public DefaultRoleAccess () {
+    public caisi_DefaultRoleAccess () {
         initialize();
     }
 
     /**
      * Constructor for primary key
      */
-    public DefaultRoleAccess (Integer _id) {
+    public caisi_DefaultRoleAccess (Integer _id) {
         this.setId(_id);
         initialize();
     }
@@ -141,9 +141,9 @@ public class DefaultRoleAccess  implements Serializable {
 
     public boolean equals (Object obj) {
         if (null == obj) return false;
-        if (!(obj instanceof DefaultRoleAccess)) return false;
+        if (!(obj instanceof caisi_DefaultRoleAccess)) return false;
         else {
-            DefaultRoleAccess mObj = (DefaultRoleAccess) obj;
+            caisi_DefaultRoleAccess mObj = (caisi_DefaultRoleAccess) obj;
             if (null == this.getId() || null == mObj.getId()) return false;
             else return (this.getId().equals(mObj.getId()));
         }

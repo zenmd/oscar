@@ -205,9 +205,9 @@ public abstract class BaseAction extends DispatchAction {
 	}
 	
 	protected ActionForward createRedirectForward(ActionMapping mapping,
-			String forwardName, StringBuilder parameters) {
+			String forwardName, StringBuffer parameters) {
 		ActionForward forward = mapping.findForward(forwardName);
-		StringBuilder path = new StringBuilder(forward.getPath());
+		StringBuffer path = new StringBuffer(forward.getPath());
 		path.append(parameters);
 
 		return new RedirectingActionForward(path.toString());

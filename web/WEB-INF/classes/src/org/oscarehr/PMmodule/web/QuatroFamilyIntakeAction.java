@@ -320,7 +320,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
 	   boolean bDupliDemographicNoApproved=true;
 	   String newClientConfirmed= request.getParameter("newClientConfirmed");
 	   
-       StringBuilder sb = new StringBuilder();
+       StringBuffer sb = new StringBuffer();
        for(int i=0;i<dependentsSize;i++){
 		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
 		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));

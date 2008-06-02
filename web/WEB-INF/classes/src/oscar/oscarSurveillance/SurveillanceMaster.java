@@ -239,7 +239,7 @@ public   class SurveillanceMaster {
          surveyList  = new ArrayList();
          surveyTable = new Hashtable();
       }
-      log.debug(numSurveys());
+      log.debug(String.valueOf(numSurveys()));
       displaySurveys();
       
    }

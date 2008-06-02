@@ -28,14 +28,14 @@ public interface IntakeNodeHtmlAdapter {
 	 * 
 	 * @return builder with markup
 	 */
-	public StringBuilder getPreBuilder();
+	public StringBuffer getPreBuilder();
 
 	/**
 	 * Get builder for markup after visiting children
 	 * 
 	 * @return builder with markup
 	 */
-	public StringBuilder getPostBuilder();
+	public StringBuffer getPostBuilder();
 
 	/**
 	 * Get number of tabs to indent

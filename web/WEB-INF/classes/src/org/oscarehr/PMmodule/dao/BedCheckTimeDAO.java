@@ -94,7 +94,7 @@ public class BedCheckTimeDAO extends HibernateDaoSupport {
     }
 
     String getBedCheckTimesQuery(Integer programId) {
-        StringBuilder queryBuilder = new StringBuilder("from BedCheckTime bct");
+        StringBuffer queryBuilder = new StringBuffer("from BedCheckTime bct");
 
         if (programId != null) {
             queryBuilder.append(" where ");

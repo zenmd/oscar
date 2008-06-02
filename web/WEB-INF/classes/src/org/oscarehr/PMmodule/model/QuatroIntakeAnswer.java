@@ -71,7 +71,7 @@ public class QuatroIntakeAnswer implements Comparable, Serializable {
 	}
     
 	public String toString() {
-		return new StringBuilder("QuatroIntakeAnswer").append("(").append(getId()).append(", ").append(getValue()).append(")").toString();
+		return new StringBuffer("QuatroIntakeAnswer").append("(").append(getId()).append(", ").append(getValue()).append(")").toString();
 	}
 	
 	public Integer getId() {

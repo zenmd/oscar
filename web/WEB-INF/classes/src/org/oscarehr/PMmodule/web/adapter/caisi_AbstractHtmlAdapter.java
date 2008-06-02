@@ -54,15 +54,15 @@ abstract class AbstractHtmlAdapter implements IntakeNodeHtmlAdapter {
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPreBuilder()
 	 */
-	public StringBuilder getPreBuilder() {
-		return new StringBuilder();
+	public StringBuffer getPreBuilder() {
+		return new StringBuffer();
 	}
 	
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPostBuilder()
 	 */
-	public StringBuilder getPostBuilder() {
-		return new StringBuilder();
+	public StringBuffer getPostBuilder() {
+		return new StringBuffer();
 	}
 	
 	// Node
@@ -147,7 +147,7 @@ abstract class AbstractHtmlAdapter implements IntakeNodeHtmlAdapter {
 		indent -= 1;
 	}
 
-	protected StringBuilder indent(StringBuilder builder) {
+	protected StringBuffer indent(StringBuffer builder) {
 		for (int i = 0; i < indent; i++) {
 			builder.append(TAB);
 		}

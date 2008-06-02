@@ -81,7 +81,7 @@ import oscar.oscarReport.pageUtil.RptDemographicReportForm;
 import oscar.oscarRx.data.RxPatientData;
 import oscar.oscarRx.data.RxPatientData.Patient.Allergy;
 import oscar.util.UtilDateUtilities;
-
+import com.quatro.util.Utility;
 /**
  *
  * @author Ronnie Cheng
@@ -170,7 +170,7 @@ public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServlet
 		legalName.setNamePurpose(cdsDt.PersonNamePurposeCode.L);
 		
 		data = filledOrEmpty(demographic.getFirstName());
-		String demoName = data.replace(" ","");
+		String demoName = Utility.replace(data, " ","");
 		if (filled(data)) {
 		    firstName.setPart(data);
 		    firstName.setPartType(cdsDt.PersonNamePartTypeCode.GIV);
@@ -179,7 +179,7 @@ public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServlet
 		    err.add("Error: No First Name for Patient "+demoNo);
 		}
 		data = filledOrEmpty(demographic.getLastName());
-		demoName += data.replace(" ","");
+		demoName += Utility.replace(data," ","");
 		if (filled(data)) {
 		    lastName.setPart(data);
 		    lastName.setPartType(cdsDt.PersonNamePartTypeCode.FAMC);
@@ -896,7 +896,7 @@ public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServlet
 	exportFiles[exportFiles.length-1] = makeExportLog(files, err);
 	
 	//zip all export files
-	String zipName = "export-"+setName.replace(" ","")+"-"+UtilDateUtilities.getToday("yyyy-MM-dd.HH.mm.ss")+".zip";
+	String zipName = "export-"+Utility.replace(setName," ","")+"-"+UtilDateUtilities.getToday("yyyy-MM-dd.HH.mm.ss")+".zip";
 	if (!zipFiles(exportFiles, zipName)) {
 	    throw new Exception("Error! Failed zipping export files");
 	}
@@ -1201,7 +1201,7 @@ public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServlet
     }
     
     boolean convert10toboolean(String s){
-	Boolean ret = false;
+	boolean ret = false;
 	if ( s!= null && s.trim().equals("1") ){
 	    ret = true; 
 	}

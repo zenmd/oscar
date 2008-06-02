@@ -29,8 +29,8 @@ public class SectionHtmlAdapter extends AbstractHtmlAdapter {
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPreBuilder()
 	 */
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = super.getPreBuilder();
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = super.getPreBuilder();
 
 		if (!(isFirstChild() && isParentIntake())) {
 			indent(preBuilder);
@@ -48,8 +48,8 @@ public class SectionHtmlAdapter extends AbstractHtmlAdapter {
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPostBuilder()
 	 */
-	public StringBuilder getPostBuilder() {
-		StringBuilder postBuilder = super.getPostBuilder();
+	public StringBuffer getPostBuilder() {
+		StringBuffer postBuilder = super.getPostBuilder();
 
 		endTag();
 		indent(postBuilder).append("</table> <!-- End Question Table -->").append(EOL);

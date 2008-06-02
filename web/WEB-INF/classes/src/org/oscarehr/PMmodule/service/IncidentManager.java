@@ -178,25 +178,25 @@ public class IncidentManager {
 		String[] issuesArr = incidentForm.getIssuesArr();
 		String[] dispositionArr = incidentForm.getDispositionArr();
 		
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < othersArr.length; i++) {
 			sb.append("," + othersArr[i]);
 		}
 		incident.setOtherInvolved(sb.toString());
 		
-		StringBuilder sb2 = new StringBuilder();
+		StringBuffer sb2 = new StringBuffer();
 		for (int i = 0; i < naturesArr.length; i++) {
 			sb2.append("," + naturesArr[i]);
 		}
 		incident.setNature(sb2.toString());
 		
-		StringBuilder sb3 = new StringBuilder();
+		StringBuffer sb3 = new StringBuffer();
 		for (int i = 0; i < issuesArr.length; i++) {
 			sb3.append("," + issuesArr[i]);
 		}
 		incident.setClientIssues(sb3.toString());
 		
-		StringBuilder sb4 = new StringBuilder();
+		StringBuffer sb4 = new StringBuffer();
 		for (int i = 0; i < dispositionArr.length; i++) {
 			sb4.append("," + dispositionArr[i]);
 		}

@@ -19,6 +19,7 @@
 package org.oscarehr.PMmodule.common;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -46,24 +47,28 @@ public class IntakeTag extends SimpleTagSupport {
 		this.intake = intake;
 	}
 
-	@Override
+//	@Override
 	public void doTag() throws JspException, IOException {
 		getJspContext().getOut().print(toHtml());
 	}
 	
 	String toHtml() {
-		StringBuilder html = new StringBuilder();
+		StringBuffer html = new StringBuffer();
 		toHtml(html, base, intake.getNode());
 		
 		return html.toString();
 	}
 
-	void toHtml(StringBuilder builder, int indent, IntakeNode node) {
+	void toHtml(StringBuffer builder, int indent, IntakeNode node) {
 		IntakeNodeHtmlAdapter htmlAdapter = adapterFactory.getHtmlAdapter(indent, node, intake);
 
 		builder.append(htmlAdapter.getPreBuilder());
 
-		for (IntakeNode child : node.getChildren()) {
+//		for (IntakeNode child : node.getChildren()) {
+		List children = node.getChildren();
+		for(int i=0; i<children.size(); i++)
+		{
+			IntakeNode child = (IntakeNode)children.get(i);
 			toHtml(builder, htmlAdapter.getIndent(), child);
 		}
 

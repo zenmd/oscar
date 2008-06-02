@@ -477,7 +477,7 @@ public class IntakeCAction2 extends BaseAction {
 		IntakeCAddress[] addresses = (IntakeCAddress[]) intakeForm.get("addresses");
 		
 		if (formBean.getNumPastAddresses() > 0) {
-			StringBuilder addressesBuffer = new StringBuilder();
+			StringBuffer addressesBuffer = new StringBuffer();
 			
 			for (int i = 0; i < formBean.getNumPastAddresses(); i++) {
 				IntakeCAddress address = addresses[i];
@@ -491,7 +491,7 @@ public class IntakeCAction2 extends BaseAction {
 		IntakeCContact[] contacts = (IntakeCContact[]) intakeForm.get("contact");
 		
 		if (formBean.getNumContacts() > 0) {
-			StringBuilder contactsBuffer = new StringBuilder();
+			StringBuffer contactsBuffer = new StringBuffer();
 			
 			for (int i = 0; i < formBean.getNumContacts(); i++) {
 				IntakeCContact contact = contacts[i];
@@ -511,7 +511,7 @@ public class IntakeCAction2 extends BaseAction {
 		IntakeCIdentification[] identifications = (IntakeCIdentification[]) intakeForm.get("identification");
 		
 		if (formBean.getNumIdentification() > 0) {
-			StringBuilder idBuffer = new StringBuilder();
+			StringBuffer idBuffer = new StringBuffer();
 			
 			for (int i = 0; i < formBean.getNumIdentification(); i++) {
 				IntakeCIdentification id = identifications[i];
@@ -525,7 +525,7 @@ public class IntakeCAction2 extends BaseAction {
 		IntakeCHospitalization[] hospitalizations = (IntakeCHospitalization[]) intakeForm.get("hospitalization");
 
 		if (formBean.getNumHospitalization() > 0) {
-			StringBuilder hospitalizationBuffer = new StringBuilder();
+			StringBuffer hospitalizationBuffer = new StringBuffer();
 			
 			for (int x = 0; x < formBean.getNumHospitalization(); x++) {
 				IntakeCHospitalization hospitalization = hospitalizations[x];

@@ -113,7 +113,7 @@ public class GenericIntakeSearchAction extends BaseGenericIntakeAction {
     protected ActionForward forwardIntakeEditCreate(ActionMapping mapping, HttpServletRequest request, Demographic client) {
         request.getSession().setAttribute(CLIENT, client);
 
-        StringBuilder parameters = new StringBuilder(PARAM_START);
+        StringBuffer parameters = new StringBuffer(PARAM_START);
         parameters.append(METHOD).append(PARAM_EQUALS).append(EDIT_CREATE).append(PARAM_AND);
         parameters.append(TYPE).append(PARAM_EQUALS).append(Intake.QUICK);
 
@@ -121,7 +121,7 @@ public class GenericIntakeSearchAction extends BaseGenericIntakeAction {
     }
 
     protected ActionForward forwardIntakeEditUpdate(ActionMapping mapping, Integer clientId) {
-        StringBuilder parameters = new StringBuilder(PARAM_START);
+        StringBuffer parameters = new StringBuffer(PARAM_START);
         parameters.append(METHOD).append(PARAM_EQUALS).append(EDIT_UPDATE).append(PARAM_AND);
         parameters.append(TYPE).append(PARAM_EQUALS).append(Intake.QUICK).append(PARAM_AND);
         parameters.append(CLIENT_ID).append(PARAM_EQUALS).append(clientId);

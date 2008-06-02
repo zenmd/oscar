@@ -55,7 +55,7 @@ import org.hibernate.criterion.SQLCriterion;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -115,7 +115,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		
         String[] split= demographicNo.split(",");
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[split.length];
         for(int i=0;i<split.length;i++){
            sb.append(",?");
@@ -400,9 +400,9 @@ public class ClientDao extends HibernateDaoSupport {
 		if (bean.getProgramDomain() != null && !bean.getProgramDomain().isEmpty() && !bean.isSearchOutsideDomain()) {
 
 			// program domain search
-			StringBuilder programIds = new StringBuilder();
+			StringBuffer programIds = new StringBuffer();
 			for (int x = 0; x < bean.getProgramDomain().size(); x++) {
-				ProgramProvider p = (ProgramProvider)bean.getProgramDomain().get(x);
+				caisi_ProgramProvider p = (caisi_ProgramProvider)bean.getProgramDomain().get(x);
 				if (x > 0) {
 					programIds.append(",");
 				}
@@ -873,7 +873,7 @@ public class ClientDao extends HibernateDaoSupport {
 	
     public Map findByReportCriteria(ClientListsReportFormBean x) {
 
-		StringBuilder sqlCommand=new StringBuilder();
+		StringBuffer sqlCommand=new StringBuffer();
         boolean joinCaseMgmtNote=StringUtils.trimToNull(x.getProviderId())!=null || StringUtils.trimToNull(x.getSeenStartDate())!=null || StringUtils.trimToNull(x.getSeenEndDate())!=null;
 
         // this is a horrid join, no one is allowed to give me grief about it, until we refactor *everything*, some nasty hacks will happen. 

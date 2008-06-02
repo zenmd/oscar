@@ -29,8 +29,8 @@ public class AnswerScalarTextHtmlAdapter extends AbstractAnswerScalarHtmlAdapter
 		super(indent, node, intake);
 	}
 
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = startAnswer(super.getPreBuilder());
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = startAnswer(super.getPreBuilder());
 
 		indent(preBuilder).append(startLabel(true)).append(getTextInput(getId(), getAnswerValue(), isParentQuestion())).append(endLabel(false)).append(EOL);
 		String mquest = "mquests";

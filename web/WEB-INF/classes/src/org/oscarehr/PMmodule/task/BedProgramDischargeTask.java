@@ -64,14 +64,17 @@ public class BedProgramDischargeTask extends TimerTask {
 		this.bedDemographicManager = bedDemographicManager;
 	}
 
-	@Override
+//	@Override
 	public void run() {
 		try {
             log.info("start bed program discharge task");
 
             Program[] bedPrograms = programManager.getBedPrograms();
 
-            for (Program bedProgram : bedPrograms) {
+//            for (Program bedProgram : bedPrograms) {
+            for(int i=0; i<bedPrograms.length;i++)
+            {
+            	Program bedProgram = bedPrograms[i];
                 Date dischargeTime = DateTimeFormatUtils.getTimeFromString(DISCHARGE_TIME);
                 Date previousExecutionTime = DateTimeFormatUtils.getTimeFromLong(scheduledExecutionTime() - PERIOD);
                 Date currentExecutionTime = DateTimeFormatUtils.getTimeFromLong(scheduledExecutionTime());
@@ -80,16 +83,20 @@ public class BedProgramDischargeTask extends TimerTask {
                 if (previousExecutionTime.before(dischargeTime) && (dischargeTime.equals(currentExecutionTime) || dischargeTime.before(currentExecutionTime))) {
                     Bed[] reservedBeds = bedManager.getBedsByProgram(bedProgram.getId(), true);
 
-                    for (Bed reservedBed : reservedBeds) {
-                        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByBed(reservedBed.getId());
+//                    for (Bed reservedBed : reservedBeds) {
+                      for(int j=0; j<reservedBeds.length; j++)
+                      {
+                    	  Bed reservedBed = reservedBeds[j];
+                          BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByBed(reservedBed.getId());
 
                         if (bedDemographic.isExpired()) {
-                            try {
+                            /*try {
                                 admissionManager.processDischargeToCommunity(Program.DEFAULT_COMMUNITY_PROGRAM_ID, bedDemographic.getId().getDemographicNo(), Provider.SYSTEM_PROVIDER_NO, "bed reservation ended - automatically discharged", "0");
                             }
-                            catch (AdmissionException e) {
+//                          catch (Exception e ) //AdmissionException e) {
                                 log.error("Error discharging to community", e);
                             }
+                            */
                         }
                     }
                 }

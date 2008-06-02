@@ -206,7 +206,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		if(isChecked != null && isChecked.equals("1")){
 			
 			String[] standards1 = complaint.getStandards1();
-			StringBuilder sb = new StringBuilder();
+			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < standards1.length; i++) {
 				sb.append("," + standards1[i]);
 			}

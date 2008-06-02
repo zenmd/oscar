@@ -55,16 +55,16 @@ public class MeasurementTemplateFlowSheetConfig implements InitializingBean {
 
     private static Log log = LogFactory.getLog(MeasurementTemplateFlowSheetConfig.class);
 
-    private List<File> flowSheets;
+    private List flowSheets;
     
-    ArrayList<String> dxTriggers = new ArrayList<String>();
-    Hashtable<String, ArrayList<String>> dxTrigHash = new Hashtable<String, ArrayList<String>>();
-    Hashtable<String, String> flowsheetDisplayNames = new Hashtable<String, String>();
-    ArrayList<String> universalFlowSheets = new ArrayList<String>();
+    ArrayList dxTriggers = new ArrayList();
+    Hashtable dxTrigHash = new Hashtable();
+    Hashtable flowsheetDisplayNames = new Hashtable();
+    ArrayList universalFlowSheets = new ArrayList();
 
     static MeasurementTemplateFlowSheetConfig measurementTemplateFlowSheetConfig;
 
-    Hashtable<String, MeasurementFlowSheet> flowsheets = null;
+    Hashtable flowsheets = null;
 
     public void afterPropertiesSet() throws Exception {
         measurementTemplateFlowSheetConfig = this;
@@ -96,21 +96,21 @@ public class MeasurementTemplateFlowSheetConfig implements InitializingBean {
      * How to query in an effiecent way
      * How to handle when codes have multiple flowsheets
      */
-    public ArrayList<String> getFlowsheetsFromDxCodes(Vector coll) {
-        ArrayList<String> alist = new ArrayList<String>();
+    public ArrayList getFlowsheetsFromDxCodes(Vector coll) {
+        ArrayList alist = new ArrayList();
 
         //should i search run thru the list of possible flowsheets?
         //or should i run thru the list of dx codes for the patient?
         log.debug("Triggers size " + dxTriggers.size());
         for (int i = 0; i < dxTriggers.size(); i++) {
-            String dx = dxTriggers.get(i);
+            String dx = (String) dxTriggers.get(i);
             log.debug("Checking dx " + dx);
             if (coll.contains(dx) && !alist.contains(dx)) {
                 log.debug("coll contains " + dx);
-                ArrayList<String> flowsheets = getFlowsheetForDxCode(dx);
+                ArrayList flowsheets = (ArrayList) getFlowsheetForDxCode(dx);
                 log.debug("Size of flowsheets for " + dx + " is " + flowsheets.size());
                 for (int j = 0; j < flowsheets.size(); j++) {
-                    String flowsheet = flowsheets.get(j);
+                    String flowsheet = (String) flowsheets.get(j);
                     if (!alist.contains(flowsheet)) {
                         log.debug("adding flowsheet " + flowsheet);
                         alist.add(flowsheet);
@@ -122,26 +122,28 @@ public class MeasurementTemplateFlowSheetConfig implements InitializingBean {
         return alist;
     }
 
-    public ArrayList<String> getUniveralFlowsheets() {
+    public ArrayList getUniveralFlowsheets() {
         return universalFlowSheets;
     }
 
-    public Hashtable<String, ArrayList<String>> getDxTrigHash() {
+    public Hashtable getDxTrigHash() {
         return dxTrigHash;
     }
 
     public String getDisplayName(String name) {
-        return flowsheetDisplayNames.get(name);
+        return (String) flowsheetDisplayNames.get(name);
     }
 
 
     void loadFlowsheets() throws FileNotFoundException {
 
-        flowsheets = new Hashtable<String, MeasurementFlowSheet>();
+        flowsheets = new Hashtable();
         EctMeasurementTypeBeanHandler mType = new EctMeasurementTypeBeanHandler();
         //TODO: Will change this when there are more flowsheets
 
-        for (File flowSheet : flowSheets) {
+//        for (File flowSheet : flowSheets) {
+        for(int i =0; i<flowSheets.size(); i++) {
+        	File flowSheet = (File) flowSheets.get(i);
             InputStream is = new FileInputStream(flowSheet);
             MeasurementFlowSheet d = createflowsheet(mType, is);
             flowsheets.put(d.getName(), d);
@@ -156,23 +158,25 @@ public class MeasurementTemplateFlowSheetConfig implements InitializingBean {
         }
     }
 
-    public ArrayList<String> getFlowsheetForDxCode(String code) {
-        return dxTrigHash.get(code);
+    public ArrayList getFlowsheetForDxCode(String code) {
+        return (ArrayList) dxTrigHash.get(code);
     }
 
     private void addTriggers(String[] dxTrig, String name) {
         if (dxTrig != null) {
-            for (String aDxTrig : dxTrig) {
+//            for (String aDxTrig : dxTrig) {
+        	for(int i=0;  i<dxTrig.length; i++) {
+        		String aDxTrig = dxTrig[i];
                 if (!dxTriggers.contains(aDxTrig)) {
                     dxTriggers.add(aDxTrig);
                 }
                 if (dxTrigHash.containsKey(aDxTrig)) {
-                    ArrayList<String> l = dxTrigHash.get(aDxTrig);
+                    ArrayList l = (ArrayList) dxTrigHash.get(aDxTrig);
                     if (!l.contains(name)) {
                         l.add(name);
                     }
                 } else {
-                    ArrayList<String> l = new ArrayList<String>();
+                    ArrayList l = new ArrayList();
                     l.add(name);
                     dxTrigHash.put(aDxTrig, l);
                 }
@@ -198,11 +202,15 @@ public class MeasurementTemplateFlowSheetConfig implements InitializingBean {
                 Element e = (Element) indi.get(i);
                 d.AddIndicator(e.getAttributeValue("key"), e.getAttributeValue("colour"));
             }
-            List<Element> items = root.getChildren("item");
-            for (Element e : items) {
-                List<Attribute> attr = e.getAttributes();
-                Hashtable<String, String> h = new Hashtable<String, String>();
-                for (Attribute att : attr) {
+            List items = root.getChildren("item");
+//            for (Element e : items) {
+            for(int i=0; i<items.size();i++){
+            	Element e = (Element) items.get(i);
+                List attr = e.getAttributes();
+                Hashtable h = new Hashtable();
+                //for (Attribute att : attr) {
+                for(int j=0; j<attr.size(); j++) {
+                	Attribute att = (Attribute) attr.get(j);
                     h.put(att.getName(), att.getValue());
                     //System.out.print(att.getName()+" "+att.getValue() );
                 }
@@ -259,14 +267,14 @@ public class MeasurementTemplateFlowSheetConfig implements InitializingBean {
     }
 
     public MeasurementFlowSheet getFlowSheet(String flowsheetName) {
-        return flowsheets.get(flowsheetName);
+        return (MeasurementFlowSheet) flowsheets.get(flowsheetName);
     }
 
-    public List<File> getFlowSheets() {
+    public List getFlowSheets() {
         return flowSheets;
     }
 
-    public void setFlowSheets(List<File> flowSheets) {
+    public void setFlowSheets(List flowSheets) {
         this.flowSheets = flowSheets;
     }
 }

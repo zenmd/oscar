@@ -129,7 +129,7 @@ public class Intake implements Serializable {
 		
 		for (IntakeAnswer answer : getAnswers()) {
 			String key = answer.getQuestion().getLabelStr();
-			StringBuilder value = new StringBuilder();
+			StringBuffer value = new StringBuffer();
 			
 			if (answer.isAnswerCompound()) {
 				for (IntakeNode node : answer.getNode().getChildren()) {
@@ -246,7 +246,7 @@ public class Intake implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringBuilder(REF).append("(").append(getId()).append(", ").append(getNode()).append(")").toString();
+		return new StringBuffer(REF).append("(").append(getId()).append(", ").append(getNode()).append(")").toString();
 	}
 
     /**

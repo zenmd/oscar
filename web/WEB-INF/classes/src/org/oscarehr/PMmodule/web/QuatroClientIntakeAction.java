@@ -30,7 +30,7 @@ import org.oscarehr.PMmodule.model.DemographicExt;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Intake;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;

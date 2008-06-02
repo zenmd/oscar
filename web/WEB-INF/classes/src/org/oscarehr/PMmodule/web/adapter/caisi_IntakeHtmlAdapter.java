@@ -27,8 +27,8 @@ public class IntakeHtmlAdapter extends AbstractHtmlAdapter {
 	}
 	
 	@Override
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = super.getPreBuilder();
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = super.getPreBuilder();
 		
 		if (hasPages()) {
 			preBuilder.append("<div dojoType=\"TabContainer\" class=\"intakePageContainer\" >").append(EOL);
@@ -38,8 +38,8 @@ public class IntakeHtmlAdapter extends AbstractHtmlAdapter {
 		return preBuilder;
 	}
 
-	public StringBuilder getPostBuilder() {
-		StringBuilder postBuilder = super.getPostBuilder();
+	public StringBuffer getPostBuilder() {
+		StringBuffer postBuilder = super.getPostBuilder();
 		
 		if (hasPages()) {
 			endTag();

@@ -28,16 +28,16 @@ abstract class AbstractAnswerScalarHtmlAdapter extends AbstractAnswerHtmlAdapter
 		super(indent, node, intake);
 	}
 
-	protected StringBuilder startAnswer(StringBuilder builder) {
+	protected StringBuffer startAnswer(StringBuffer builder) {
 		return isParentQuestion() ? startCell(startRow(builder)) : builder;
 	}
 
-	protected StringBuilder endAnswer(StringBuilder builder) {
+	protected StringBuffer endAnswer(StringBuffer builder) {
 		return isParentQuestion() ? endRow(endCell(builder)) : builder;
 	}
 
-	protected StringBuilder startLabel(boolean printLabelBefore) {
-		StringBuilder labelBuilder = new StringBuilder();
+	protected StringBuffer startLabel(boolean printLabelBefore) {
+		StringBuffer labelBuilder = new StringBuffer();
 		
 		labelBuilder.append("<label>");
 		
@@ -49,8 +49,8 @@ abstract class AbstractAnswerScalarHtmlAdapter extends AbstractAnswerHtmlAdapter
 		return labelBuilder;
 	}
 	
-	protected StringBuilder endLabel(boolean printLabelAfter) {
-		StringBuilder labelBuilder = new StringBuilder();
+	protected StringBuffer endLabel(boolean printLabelAfter) {
+		StringBuffer labelBuilder = new StringBuffer();
 		
 		if (printLabelAfter) {
 			labelBuilder.append(SPACE);
@@ -62,7 +62,7 @@ abstract class AbstractAnswerScalarHtmlAdapter extends AbstractAnswerHtmlAdapter
 		return labelBuilder;
 	}
 	
-	private StringBuilder printLabel(StringBuilder builder) {
+	private StringBuffer printLabel(StringBuffer builder) {
 		// builder.append(" [").append(getId()).append("] ");
 		
 		String label = getLabel(); 

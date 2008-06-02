@@ -38,7 +38,7 @@ public class SimpleSingleLineFormatter extends Formatter
 
 	public synchronized String format(LogRecord record)
 	{
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 
 		sb.append(record.getLevel().getLocalizedName());
 		sb.append(": ");

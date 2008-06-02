@@ -29,8 +29,8 @@ public class QuestionHtmlAdapter extends AbstractHtmlAdapter {
 	/**
 	 * @see org.oscarehr.PMmodule.web.adapter.IntakeNodeHtmlAdapter#getPreBuilder()
 	 */
-	public StringBuilder getPreBuilder() {
-		StringBuilder preBuilder = super.getPreBuilder();
+	public StringBuffer getPreBuilder() {
+		StringBuffer preBuilder = super.getPreBuilder();
 				
 		indent(preBuilder).append("<tr>").append(EOL);
 		beginTag();
