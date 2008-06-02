@@ -37,7 +37,7 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoleManager;
-import org.oscarehr.PMmodule.service.SurveyManager;
+//import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.ClientImage;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
@@ -58,7 +58,6 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	protected ClientImageManager clientImageMgr;
 	protected RoleManager roleMgr;
 	protected ProgramManager programMgr;	
-	protected SurveyManager surveyMgr;
 	protected LookupManager lookupMgr;
 	protected IssueAdminManager issAdmManager;
 	protected ClientManager clientManager;
@@ -91,9 +90,6 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		this.programMgr = mgr;
 	}
 	
-	public void setSurveyManager(SurveyManager mgr) {
-		this.surveyMgr = mgr;
-	}
 	
 	public String getDemographicNo(HttpServletRequest request) {
 		String demono= request.getParameter("demographicNo");

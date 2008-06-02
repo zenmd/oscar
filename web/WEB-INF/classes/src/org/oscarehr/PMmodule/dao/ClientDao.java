@@ -55,7 +55,7 @@ import org.hibernate.criterion.SQLCriterion;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
+//import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -284,6 +284,8 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		return results;
 	}
+
+/*	
 	public List search_ori(ClientSearchFormBean bean, boolean returnOptinsOnly) {
 
 		Criteria criteria = getSession().createCriteria(Demographic.class);
@@ -473,7 +475,8 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		return results;
 	}
-
+*/
+	
 	/**
 	 * This method will remove any demographic whom has not
 	 * opted in or implicitly opted in.

@@ -87,7 +87,7 @@ public class ProviderManager
 	public List search(String name) {
 		return dao.search(name);
 	}
-
+/*
     public List getProgramDomain(String providerNo) {
 		return programProviderDAO.getProgramDomain(providerNo);
 	}
@@ -99,6 +99,7 @@ public class ProviderManager
     public List getFacilitiesInProgramDomain(String providerNo) {
         return programProviderDAO.getFacilitiesInProgramDomain(providerNo);
     }
+*/    
 	public List getFacilityIds(String provider_no)
 	{
 		return dao.getFacilityIds(provider_no);

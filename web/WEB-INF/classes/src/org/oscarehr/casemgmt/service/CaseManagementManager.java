@@ -34,21 +34,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.struts.util.LabelValueBean;
-import org.caisi.model.Role;
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.AccessType;
-import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.model.QuatroIntake;
-import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.RoleManager;
 import org.oscarehr.casemgmt.dao.AllergyDAO;
 import org.oscarehr.casemgmt.dao.ApptDAO;
 import org.oscarehr.casemgmt.dao.CaseManagementCPPDAO;
@@ -76,13 +70,13 @@ import org.oscarehr.casemgmt.model.Messagetbl;
 import org.oscarehr.casemgmt.model.base.BaseHashAudit;
 import org.oscarehr.common.dao.UserPropertyDAO;
 import org.oscarehr.common.model.UserProperty;
+
+import oscar.OscarProperties;
+
 import com.quatro.dao.IntakeDao;
 import com.quatro.dao.security.SecroleDao;
 import com.quatro.model.security.Secrole;
-import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
-
-import com.quatro.util.*;
-import oscar.OscarProperties;
+import com.quatro.util.Utility;
 
 public class CaseManagementManager {
 
@@ -791,7 +785,7 @@ public class CaseManagementManager {
     public void saveNoteSimple(CaseManagementNote note) {
         this.caseManagementNoteDAO.saveNote(note);
     }
-
+/*
     public boolean isClientInProgramDomain(Integer facilityId, String providerNo, String demographicNo) {
 
         List providerPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
@@ -814,7 +808,7 @@ public class CaseManagementManager {
 
         return false;
     }
-
+*/
     public boolean unlockNote(int noteId, String password) {
         CaseManagementNote note = this.caseManagementNoteDAO.getNote(new Integer(noteId));
         if (note != null) {

@@ -47,8 +47,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
-import javax.persistence.PersistenceException;
-
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.logging.Log;
@@ -644,7 +642,8 @@ public class SqlUtils {
             return(al);
         }
         catch (SQLException e) {
-            throw(new PersistenceException(e));
+//            throw(new PersistenceException(e));
+        	return null;
         }
         finally {
             closeResources(c, ps, rs);
@@ -665,7 +664,8 @@ public class SqlUtils {
             return(rs.getInt(1));
         }
         catch (SQLException e) {
-            throw(new PersistenceException(e));
+ //           throw(new PersistenceException(e));
+        	return 0;
         }
         finally {
             closeResources(c, ps, rs);
@@ -689,7 +689,8 @@ public class SqlUtils {
             return(al);
         }
         catch (SQLException e) {
-            throw(new PersistenceException(e));
+//            throw(new PersistenceException(e));
+        	return null;
         }
         finally {
             closeResources(c, ps, rs);
@@ -705,7 +706,8 @@ public class SqlUtils {
             return(ps.executeUpdate());
         }
         catch (SQLException e) {
-            throw(new PersistenceException(e));
+//            throw(new PersistenceException(e));
+        	return 0;
         }
         finally {
             closeResources(c, ps, null);

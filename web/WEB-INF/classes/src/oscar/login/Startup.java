@@ -39,7 +39,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import oscar.oscarDB.DBHandler;
-import oscar.oscarSurveillance.SurveillanceMaster;
+//import oscar.oscarSurveillance.SurveillanceMaster;
 
 /**
  * This ContextListener is used to Initialize classes at startup - Initialize the DBConnection Pool.
@@ -143,7 +143,7 @@ public class Startup implements ServletContextListener {
                         log.info("BILLING REGION : "+p.getProperty("billregion","NOTSET"));
                         log.info("DB PROPS: Username :"+p.getProperty("db_username","NOTSET")+ " db name: "+p.getProperty("db_name","NOTSET"));
                         p.setProperty("OSCAR_START_TIME",""+System.currentTimeMillis());
-                        SurveillanceMaster sMaster = SurveillanceMaster.getInstance();
+//                        SurveillanceMaster sMaster = SurveillanceMaster.getInstance();
 		} catch (Exception e) {
 			System.out.println("*** No Property File ***");
 			System.out.println("Property file not found at:");

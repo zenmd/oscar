@@ -123,7 +123,8 @@ public class TicklerAction extends DispatchAction {
         
         //request.setAttribute("programs",programMgr.getProgramDomain(providerId));
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);  
-        List programs=programMgr.getProgramDomainInFacility(providerId,currentFacilityId);
+//        List programs=programMgr.getProgramDomainInFacility(providerId,currentFacilityId);
+        List programs=programMgr.getProgramsByProvider(currentFacilityId, providerId);
         request.setAttribute("programs", programs);
         
         List ticklers = ticklerMgr.getTicklers();
@@ -156,7 +157,8 @@ public class TicklerAction extends DispatchAction {
         String providerId = (String)request.getSession().getAttribute("user");
         String programId = "";
         
-        List programs=programMgr.getProgramDomainInFacility(providerId,currentFacilityId);
+//        List programs=programMgr.getProgramDomainInFacility(providerId,currentFacilityId);
+        List programs=programMgr.getProgramByProvider(providerId, currentFacilityId);
         request.setAttribute("programs", programs);
         
         // if program selected default to first
@@ -227,8 +229,8 @@ public class TicklerAction extends DispatchAction {
         request.setAttribute("providers", providerMgr.getProviders());
         request.setAttribute("demographics", demographicMgr.getDemographics());
         
-        //request.setAttribute("programs",programMgr.getProgramDomain(providerId));
-		request.setAttribute("programs", programMgr.getProgramDomainInFacility(providerId,currentFacilityId));
+//		request.setAttribute("programs", programMgr.getProgramDomainInFacility(providerId,currentFacilityId));
+		request.setAttribute("programs", programMgr.getProgramByProvider(providerId, currentFacilityId));
         
 		request.setAttribute("customFilters", ticklerMgr.getCustomFilters(this.getProviderNo(request)));
         request.setAttribute("from", getFrom(request));

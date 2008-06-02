@@ -58,5 +58,14 @@ public class FacilityDAO extends HibernateDaoSupport {
         return(false);
     }
 
+    public List getFacilityMessagesByFacilityId(Integer facilityId) {
+        if (facilityId == null || facilityId == null) {
+            //throw new IllegalArgumentException();
+        	return null;
+        }
+        List results = this.getHibernateTemplate().find("select distinct fm from FacilityMessage fm where fm.facilityId = ?", facilityId);
+
+        return results;
+    }
 
 }

@@ -141,6 +141,7 @@
         <form-bean name="dxResearchForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchForm" />
         <form-bean name="dxResearchLoadQuickListItemsForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchLoadQuickListItemsForm" />
         <form-bean name="dxResearchUpdateQuickListForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchUpdateQuickListForm" />
+<!--
         <form-bean name="procedimentoRealizadoForm" type="oscar.billing.controler.ProcedimentoRealizadoForm" />
         <form-bean name="consultaFaturamentoMedicoForm" type="oscar.billing.controler.ConsultaFaturamentoMedicoForm" />
         <form-bean name="consultaFaturamentoPacienteForm" type="oscar.billing.controler.ConsultaFaturamentoPacienteForm" />
@@ -161,11 +162,11 @@
         <form-bean name="createBillingReportActionForm" type="oscar.oscarBilling.ca.bc.MSP.CreateBillingReportActionForm" />
         <form-bean name="BillingDocumentErrorReportUploadForm" type="oscar.oscarBilling.ca.on.pageUtil.BillingDocumentErrorReportUploadForm" />
         <form-bean name="AddReferralDocForm" type="oscar.oscarBilling.ca.bc.pageUtil.AddReferralDocForm" />
-        <form-bean name="CheckSurveillanceForm" type="oscar.oscarSurveillance.CheckSurveillanceForm" />
+         <form-bean name="CheckSurveillanceForm" type="oscar.oscarSurveillance.CheckSurveillanceForm" /> 
         <form-bean name="SurveillanceAnswerForm" type="oscar.oscarSurveillance.SurveillanceAnswerForm" />
         <form-bean name="CreateSurveillanceFileForm" type="oscar.oscarSurveillance.CreateSurveillanceFileForm" />
+-->        
         <form-bean name="WLWaitingListForm" type="org.apache.struts.validator.LazyValidatorForm" /> 
-        <!-- form-bean name="WLWaitingListForm" type="oscar.oscarWaitingList.pageUtil.WLWaitingListForm" /--> 
         <form-bean name="WLWaitingListNameForm" type="org.apache.struts.validator.LazyValidatorForm" /> 
         <form-bean name="PreventionReportForm" type="oscar.oscarPrevention.pageUtil.PreventionReportForm" />
         <form-bean name="ImportDemographicDataForm" type="oscar.oscarDemographic.pageUtil.ImportDemographicDataForm" />
@@ -260,7 +261,6 @@
             <form-property name="restriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction"/>
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="programFirstSignature" type="org.oscarehr.PMmodule.model.ProgramSignature" />
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.ProgramProvider" />
             <form-property name="team" type="org.oscarehr.PMmodule.model.ProgramTeam" />
             <form-property name="queue" type="org.oscarehr.PMmodule.model.ProgramQueue" />
             <form-property name="client_status" type="org.oscarehr.PMmodule.model.ProgramClientStatus" />
@@ -293,7 +293,6 @@
             <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
             <form-property name="erconsent" type="org.oscarehr.PMmodule.web.formbean.ErConsentFormBean" />
-            <form-property name="form" type="org.oscarehr.survey.model.oscar.OscarFormInstance" />
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
@@ -375,7 +374,6 @@
         
         <form-bean name="staffManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider" />
-            <form-property name="program_provider" type="org.oscarehr.PMmodule.model.ProgramProvider" />
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.StaffManagerViewFormBean" />
             <form-property name="facilityId" type="java.lang.String" />
             <form-property name="programId" type="java.lang.String" />
@@ -405,24 +403,8 @@
             <form-property name="form" type="org.oscarehr.PMmodule.web.formbean.CustomReportFormBean" />
         </form-bean>
 -->
-        <form-bean name="surveyExecuteForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="view" type="org.oscarehr.survey.web.formbean.SurveyExecuteFormBean" />
-            <form-property name="data" type="org.oscarehr.survey.web.formbean.SurveyExecuteDataBean" />
-        </form-bean>
         <form-bean name="defaultRoleAccessForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="form" type="org.oscarehr.PMmodule.model.DefaultRoleAccess" />
-        </form-bean>
-        <form-bean name="surveyForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="survey" type="org.oscarehr.survey.model.Survey" />
-            <form-property name="model" type="org.oscarehr.surveymodel.SurveyDocument" />
-            <form-property name="web" type="org.oscarehr.survey.web.formbean.SurveyManagerFormBean" />
-            <form-property name="pageModel" type="org.oscarehr.surveymodel.Page" />
-            <form-property name="questionModel" type="org.oscarehr.surveymodel.Question" />
-            <form-property name="sectionModel" type="java.util.Map" />
-        </form-bean>
-        <form-bean name="surveyTestForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="view" type="org.oscarehr.survey.web.formbean.SurveyExecuteFormBean" />
-            <form-property name="data" type="org.oscarehr.survey.web.formbean.SurveyExecuteDataBean" />
         </form-bean>
         <form-bean name="caseManagementViewForm" type="org.oscarehr.casemgmt.web.formbeans.CaseManagementViewFormBean" />
         <form-bean name="caseManagementEntryForm" type="org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean" />
@@ -509,7 +491,6 @@
         <forward name="Logout" path="/logout.jsp" redirect="true" />
         <forward name="SessionTimeOut" path="/sessiontimeout.jsp" redirect="true" />
         <forward name="failure" path="/failure.jsp" redirect="true" />
-        <forward name="auth" path="/survey/auth.jsp" />
     </global-forwards>
     
     <action-mappings>
@@ -1652,7 +1633,6 @@
             <forward name="edit" path="page.pmm.client" />
             <forward name="edit-redirect" path="page.pmm.client" redirect="true" />
             <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
-            <forward name="survey" path="/PMmodule/Forms/SurveyExecute.do" />
             <forward name="consent" path="page.pmm.erconsent" />
             <forward name="er-redirect" path="/PMmodule/ErReceptionistReport.jsp" />
             <forward name="vaccine-report" path="/VaccineProviderReport.do" redirect="true"/>
@@ -1841,14 +1821,6 @@
             <forward name="success" path="/PMmodule/ClientManager.do?method=edit" />
             <forward name="error" path="/PMmodule/ClientManager.do?method=edit" redirect="true" />
         </action>
-        <action path="/PMmodule/Forms/SurveyExecute" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="surveyExecuteForm" scope="session">
-            <forward name="view" path="/PMmodule/survey/surveyView.jsp" />
-            <forward name="execute" path="/PMmodule/survey/surveyExecute.jsp" />
-            <forward name="printPreview" path="/PMmodule/survey/surveyPrintPreview.jsp"/>
-            <forward name="client_manager" path="/PMmodule/ClientManager.do?method=save_survey" redirect="false" />
-            <forward name="success" path="/PMmodule/ClientManager.do?method=edit" />
-            <forward name="close" path="/PMmodule/survey/close.jsp" />
-        </action>
         <action path="/PMmodule/Admin/DefaultRoleAccess" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="defaultRoleAccessForm" validate="false" scope="request">
             <forward name="list" path="page.pmm.admin.defaultroleaccess.list" />
             <forward name="form" path="page.pmm.admin.defaultroleaccess.form" />
@@ -1914,22 +1886,6 @@
             <forward name="form" path="page.customreport.form" />
        </action>
 -->
-        <action path="/SurveyManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="surveyForm" scope="session">
-            <forward name="edit" path=".view.survey.form" />
-            <forward name="list" path=".view.survey.manager" redirect="true" />
-            <forward name="new_survey" path=".view.survey.new_survey" />
-            <forward name="question_editor" path="/survey/surveyManager/questionForm.jsp" />
-            <forward name="execute" path="/SurveyTest.do" redirect="false" />
-            <forward name="import" path=".view.survey.import" />
-            <forward name="redirect" path="/SurveyManager.do" redirect="true" />
-            <forward name="reportForm" path="/PMmodule/reports/UcfReportForm.jsp"/>
-            <forward name="report" path="/PMmodule/reports/UcfReport.jsp"/>
-        </action>
-        <action path="/SurveyTest" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="surveyTestForm" scope="session">
-            <forward name="view" path="/survey/surveyTest/surveyView.jsp" />
-            <forward name="execute" path="/survey/surveyTest/surveyExecute.jsp" />
-            <forward name="manager" path="/SurveyManager.do?method=list" redirect="true" />
-        </action>
         <action path="/ReceptionistReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/er/receptionist_report.jsp" />
         </action>
@@ -2081,7 +2037,6 @@
     <message-resources parameter="oscarResources" />
     <message-resources parameter="HelpResources" key="help" />
     <message-resources parameter="MessageResources_program" key="pmm" />
-    <message-resources parameter="MessageResources_survey" key="survey" />
     <message-resources parameter="MessageResources_casemgmt" key="casemgmt" />
     <plug-in className="org.apache.struts.tiles.TilesPlugin">
         <!-- Path to XML definition file -->

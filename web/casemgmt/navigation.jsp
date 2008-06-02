@@ -314,30 +314,10 @@ String backurl=bsurl+"/oscarEncounter/IncomingEncounter.do?";
         <a href="javascript:void(0)" onClick="popupPage('<%=bsurl%>/oscarEncounter/formlist.jsp?demographic_no=<%=bean.demographicNo%>'); return false;" >-old forms-</a>
     </td></tr>
 </caisirole:SecurityAccess>
-<script>
-    function openSurvey(ctl) {
-        var formId = ctl.options[ctl.selectedIndex].value;
-        if(formId == 0) {
-            return;
-        }
-        var id = document.getElementById('formInstanceId').value;
-        var url = '<html:rewrite action="/PMmodule/Forms/SurveyExecute"/>?method=survey&type=provider&formId=' + formId + '&formInstanceId=' + id + '&clientId=' + <%=bean.demographicNo%>;
-        ctl.selectedIndex=0;
-
-        popupPage(url)
-
-    }
-</script>
 <tr style="background-color:#BBBBBB;"><td>User Created Forms</td></tr>
 <tr><td><input type="hidden" id="formInstanceId" value="0" /></td></tr>
 <tr>
     <td>
-        <select property="view.formId" onchange="openSurvey(this);">
-            <option value="0">&nbsp;</option>
-            <c:forEach var="survey" items="${survey_list}">
-                <option value="<c:out value="${survey.formId}"/>"><c:out value="${survey.description}"/></option>
-            </c:forEach>
-        </select>
     </td>
 </tr>
 

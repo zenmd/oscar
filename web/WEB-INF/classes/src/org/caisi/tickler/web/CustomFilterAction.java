@@ -184,9 +184,9 @@ public class CustomFilterAction extends DispatchAction {
 		request.setAttribute("priorityList",CustomFilter.priorityList);
 		request.setAttribute("statusList",CustomFilter.statusList);
 		
-		//request.setAttribute("programs", programMgr.getProgramDomain(providerId));
 		Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);  
-		request.setAttribute("programs", programMgr.getProgramDomainInFacility(providerId,currentFacilityId));
+//		request.setAttribute("programs", programMgr.getProgramDomainInFacility(providerId,currentFacilityId));
+		request.setAttribute("programs", programMgr.getProgramByProvider(providerId, currentFacilityId));
 		return mapping.findForward("customFilterForm");
 	}
 	

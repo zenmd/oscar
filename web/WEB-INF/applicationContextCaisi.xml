@@ -50,9 +50,6 @@
     <bean id="healthSafetyDao" class="org.oscarehr.PMmodule.dao.HealthSafetyDao" autowire="byName" />
     <bean id="logDAO" class="org.oscarehr.PMmodule.dao.LogDAO" autowire="byName" />
     <bean id="formsDAO" class="org.oscarehr.PMmodule.dao.FormsDAO" autowire="byName"/>
-    <bean id="surveyDAO" class="org.oscarehr.survey.dao.hibernate.SurveyDAOHibernate" autowire="byName"/>
-    <bean id="surveyTestDAO" class="org.oscarehr.survey.dao.hibernate.SurveyTestDAOHibernate" autowire="byName"/>
-    <bean id="oscarFormDAO" class="org.oscarehr.survey.dao.oscar.hibernate.OscarFormDAOHibernate" autowire="byName"/>
     <bean id="populationReportDAO" class="org.oscarehr.common.dao.PopulationReportDAO" autowire="byName"/>
     
 
@@ -178,43 +175,6 @@
             <bean class="org.oscarehr.PMmodule.service.impl.FormsManagerImpl" autowire="byName"/>
         </property>
     </bean>
-    <bean id="surveyManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.survey.service.impl.SurveyManagerImpl">
-                <property name="surveyDAO" ref="surveyDAO"/>
-            </bean>
-        </property>
-    </bean>
-    <bean id="oscarFormManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.survey.service.impl.OscarFormManagerImpl">
-                <property name="oscarFormDAO" ref="oscarFormDAO"/>
-            </bean>
-        </property>
-    </bean>
-    <bean id="surveyTestManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.survey.service.impl.SurveyTestManagerImpl" autowire="byName"/>
-        </property>
-    </bean>
-    <bean id="surveyLaunchManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.survey.service.impl.SurveyLaunchManagerOscar" autowire="byName"/>
-        </property>
-    </bean>
-    <bean id="surveyUserManager" class="org.oscarehr.survey.service.impl.UserManagerOscar" autowire="byName"/>
-    <bean id="populationReportManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.common.service.PopulationReportManager" autowire="byName">
-                    <property name="issueDAO" ref="IssueDAO"/>
-            </bean>
-        </property>
-    </bean>
 
     <!-- ========================= SCHEDULED JOBS ========================= -->
 <!-- 
@@ -269,9 +229,6 @@
         </property>
     </bean>
  -->    
-
-    <bean id="QuestionTypes" class="org.oscarehr.survey.model.QuestionTypes" scope="singleton" lazy-init="default"
-           dependency-check="default"/>
 
 
 <!--   from Quatro start -->

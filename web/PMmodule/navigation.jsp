@@ -155,9 +155,6 @@
             <div>
                 <a href="<%=request.getContextPath()%>/PMmodule/reports/PopulationReportForm.jsp">Population Report</a>
             </div>
-            <div>
-                <html:link action="/SurveyManager.do?method=reportForm">User Created Form Report</html:link>
-            </div>
             </caisi:isModuleLoad>
             
 			<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">

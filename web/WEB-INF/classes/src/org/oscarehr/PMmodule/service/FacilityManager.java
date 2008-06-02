@@ -47,4 +47,8 @@ public class FacilityManager {
         this.lookupDao = lookupDao;
     }
     
+    public List getFacilityMessagesByFacilityId(Integer facilityId) {
+    	return facilityDAO.getFacilityMessagesByFacilityId(facilityId);
+    }
+    
 }

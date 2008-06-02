@@ -1,53 +1,22 @@
 package org.oscarehr.PMmodule.web;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.struts.util.LabelValueBean;
 
-import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.action.ActionMessage;
-import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.Agency;
-import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
-import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.DemographicExt;
-import org.oscarehr.PMmodule.model.HealthSafety;
-import org.oscarehr.PMmodule.model.Intake;
-import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.model.Room;
-import org.oscarehr.PMmodule.model.RoomDemographic;
+import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
-import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
-import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
-import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
-import org.oscarehr.util.SessionConstants;
-
-import oscar.oscarDemographic.data.DemographicRelationship;
 
 public class QuatroClientIntakeAction  extends BaseClientAction {
    private ClientManager clientManager;

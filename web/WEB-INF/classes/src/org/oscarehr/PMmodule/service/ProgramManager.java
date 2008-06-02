@@ -35,7 +35,7 @@ import org.oscarehr.PMmodule.dao.ProgramAccessDAO;
 import org.oscarehr.PMmodule.dao.ProgramClientStatusDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO;
-import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
+//import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
 import org.oscarehr.PMmodule.dao.ProgramSignatureDao;
 import org.oscarehr.PMmodule.dao.ProgramTeamDAO;
 import org.oscarehr.PMmodule.model.AccessType;
@@ -62,7 +62,7 @@ public class ProgramManager {
     private static Log log = LogFactory.getLog(ProgramManager.class);
 
     private ProgramDao programDao;
-    private ProgramProviderDAO programProviderDAO;
+//    private ProgramProviderDAO programProviderDAO;
     private ProgramFunctionalUserDAO programFunctionalUserDAO;
     private ProgramTeamDAO programTeamDAO;
     private ProgramAccessDAO programAccessDAO;
@@ -95,11 +95,11 @@ public class ProgramManager {
     public void setProgramDao(ProgramDao dao) {
         this.programDao = dao;
     }
-
+/*
     public void setProgramProviderDAO(ProgramProviderDAO dao) {
         this.programProviderDAO = dao;
     }
-
+*/
     public void setProgramFunctionalUserDAO(ProgramFunctionalUserDAO dao) {
         this.programFunctionalUserDAO = dao;
     }
@@ -241,6 +241,7 @@ public class ProgramManager {
         return secuserroleDao.findByOrgcd(orgcd);
     }
 
+/*    
     public List getProgramProvidersByProvider(String providerNo) {
         return programProviderDAO.getProgramProvidersByProvider(providerNo);
     }
@@ -260,7 +261,7 @@ public class ProgramManager {
     public void deleteProgramProvider(String id) {
         programProviderDAO.deleteProgramProvider(Integer.valueOf(id));
     }
-    
+*/    
     public void deleteProgramProvider(List lst) {
         for(int i = 0; i < lst.size(); i++){
         	Integer id = (Integer)lst.get(i);
@@ -271,10 +272,11 @@ public class ProgramManager {
     public List getProgramByProvider(String providerNo, Integer facilityId) {
         return programDao.getProgramByProvider(providerNo, facilityId);
     }
+/*    
     public void deleteProgramProviderByProgramId(Integer programId) {
         programProviderDAO.deleteProgramProviderByProgramId(programId);
     }
-
+*/
     public List getFunctionalUserTypes() {
         return programFunctionalUserDAO.getFunctionalUserTypes();
     }
@@ -385,6 +387,7 @@ public class ProgramManager {
         return this.programAccessDAO.getProgramAccess(Integer.valueOf(programId), Integer.valueOf(accessTypeId));
     }
 
+/*    
     public List getProgramDomain(String providerNo) {
         List programDomain = new ArrayList();
 
@@ -408,6 +411,8 @@ public class ProgramManager {
     	}
     	return results;
     }
+*/
+    
     public Program[] getCommunityPrograms() {
         return programDao.getCommunityPrograms();
     }

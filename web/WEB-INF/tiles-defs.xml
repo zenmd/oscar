@@ -297,6 +297,7 @@
 		<put name="body"
 			value="/PMmodule/Admin/DefaultRoleAccessForm.jsp" />
 	</definition>
+<!-- 
 	<definition name=".layout.simple"
 		path="/layouts/simpleLayout.jsp">
 		<put name="title" value="Default Title" />
@@ -325,6 +326,7 @@
 		<put name="title" value="eForm Manager: Import Survey" />
 		<put name="body" value="/survey/surveyManager/importForm.jsp" />
 	</definition>
+ -->		
 	<definition name="page.newcasemgmt.view"  path="/PMmodule/layout.jsp">
 		 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/newCaseManagementView.jsp" />

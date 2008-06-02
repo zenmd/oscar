@@ -40,7 +40,6 @@ import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
 import org.caisi.model.FacilityMessage;
 import org.caisi.service.FacilityMessageManager;
-import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.service.FacilityManager;
 
@@ -50,7 +49,6 @@ public class FacilityMessageAction extends DispatchAction {
 	
 	protected FacilityMessageManager mgr = null;
 	protected FacilityManager facilityMgr = null;
-	private ProgramProviderDAO programProviderDAO;
 	
 	public void setFacilityMessageManager(FacilityMessageManager mgr) {
 		this.mgr = mgr;
@@ -59,11 +57,11 @@ public class FacilityMessageAction extends DispatchAction {
 	public void setFacilityManager(FacilityManager facilityMgr) {
 		this.facilityMgr = facilityMgr;
 	}
-	
+/*	
 	public void setProgramProviderDAO(ProgramProviderDAO dao) {
 		this.programProviderDAO = dao;
 	}	
-	
+*/	
 	public ActionForward unspecified(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		return list(mapping,form,request,response);
 	}
@@ -135,7 +133,7 @@ public class FacilityMessageAction extends DispatchAction {
 		Integer facilityId = null;
 		if(facility!=null) 
 			facilityId = facility.getId();
-		List messages = programProviderDAO.getFacilityMessagesByFacilityId(facilityId);
+		List messages = facilityMgr.getFacilityMessagesByFacilityId(facilityId);
 		if(messages!=null && messages.size()>0) {
 			request.setAttribute("FacilityMessages",messages);
 		}

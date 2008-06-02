@@ -76,7 +76,9 @@ public class LoginFilter implements Filter {
 	}
 
 	boolean inListOfExemptions(String requestURI, String contextPath) {
-		for (String exemptUrl : EXEMPT_URLS) {
+//		for (String exemptUrl : EXEMPT_URLS) {
+		for(int i=0; i<EXEMPT_URLS.length; i++) {
+			String exemptUrl = EXEMPT_URLS[i];
 	        if (requestURI.startsWith(contextPath + exemptUrl)) {
 	        	return true;
 	        }

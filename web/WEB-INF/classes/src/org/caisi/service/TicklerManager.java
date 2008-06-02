@@ -23,21 +23,14 @@
 package org.caisi.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.caisi.dao.CustomFilterDAO;
 import org.caisi.dao.TicklerDAO;
 import org.caisi.model.CustomFilter;
-import org.caisi.model.Role;
 import org.caisi.model.Tickler;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-
-import oscar.OscarProperties;
 
 /**
  */

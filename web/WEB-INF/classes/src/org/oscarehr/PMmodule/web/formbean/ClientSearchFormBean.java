@@ -50,7 +50,6 @@ public class ClientSearchFormBean {
 	private String assignedToProviderNo; 
 	private String dateFrom;
 	private String dateTo;
-	private List programDomain;
 	private List genders;
 	
 	public ClientSearchFormBean() {
@@ -181,18 +180,6 @@ public class ClientSearchFormBean {
 			log.error(e);
 		}
 		return null;
-	}
-	/**
-	 * @return Returns the programDomain.
-	 */
-	public List getProgramDomain() {
-		return programDomain;
-	}
-	/**
-	 * @param programDomain The programDomain to set.
-	 */
-	public void setProgramDomain(List programDomain) {
-		this.programDomain = programDomain;
 	}
 	/**
 	 * @return Returns the bedProgramId.

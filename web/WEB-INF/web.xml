@@ -179,11 +179,13 @@
 		<servlet-class>oscar.util.BackupDownload</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+<!-- 
 	<servlet>
 		<servlet-name>UploadTeleplanServlet</servlet-name>
 		<servlet-class>oscar.oscarBilling.ca.bc.MSP.DocumentTeleplanReportUploadServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+ -->	
 	<servlet>
 		<servlet-name>ScatterPlotChartServlet</servlet-name>
 		<servlet-class>oscar.oscarEncounter.oscarMeasurements.pageUtil.ScatterPlotChartServlet</servlet-class>
@@ -252,10 +254,12 @@
 		<servlet-name>BackupDownload</servlet-name>
 		<url-pattern>/servlet/BackupDownload</url-pattern>
 	</servlet-mapping>
+<!-- 
 	<servlet-mapping>
 		<servlet-name>UploadTeleplanServlet</servlet-name>
 		<url-pattern>/servlet/oscar.DocumentTeleplanReportUploadServlet</url-pattern>
 	</servlet-mapping>
+ -->	
 	<servlet-mapping>
 		<servlet-name>ScatterPlotChartServlet</servlet-name>
 		<url-pattern>/servlet/oscar.oscarEncounter.oscarMeasurements.pageUtil.ScatterPlotChartServlet</url-pattern>

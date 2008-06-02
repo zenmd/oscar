@@ -59,7 +59,6 @@
     	<property name="mergeClientManager" ref="mergeClientManager"></property>
     </bean>
     <bean name="/PMmodule/ClientManager" class="org.oscarehr.PMmodule.web.ClientManagerAction" singleton="false" autowire="byName">
-        <property name="surveyManager" ref="oscarSurveyManager"/>        
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="lookupManager" ref="lookupManager"/>       
         <property name="intakeManager" ref="intakeManager"/>       
@@ -146,8 +145,9 @@
         <property name="providerManager" ref="providerManager" />
         <property name="programManager" ref="programManager"/>               
     </bean>
-    
+<!-- 
     <bean name="/PMmodule/ProviderInfo" class="org.oscarehr.PMmodule.web.ProviderInfoAction" singleton="false" autowire="byName" />
+ -->    
     <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >
         <property name="caseManagementManager" ref="caseManagementManager"/>       
@@ -164,12 +164,14 @@
     <bean name="/PMmodule/Intake" class="org.oscarehr.PMmodule.web.IntakeAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Forms/FollowUp" class="org.oscarehr.PMmodule.web.forms.FollowUpAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Reports/ProgramActivityReport" class="org.oscarehr.PMmodule.web.reports.ActivityReportAction" singleton="false"  autowire="byName" />
+<!-- 
     <bean name="/PMmodule/Forms/SurveyExecute" class="org.oscarehr.PMmodule.web.forms.SurveyExecuteAction" singleton="false">
         <property name="surveyManager" ref="oscarSurveyManager"/>
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="clientManager" ref="clientManager"/>
         <property name="admissionManager" ref="admissionManager"/>
     </bean>
+ -->    
     <bean name="/PMmodule/Reports/BasicReport" class="org.oscarehr.PMmodule.web.reports.BasicReportAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Reports/ExitInterviewReport" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Reports/ExitInterviewReportDetailed" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportDetailedAction" singleton="false"  autowire="byName" />
@@ -199,19 +201,7 @@
     <bean name="/PMmodule/EditIntake" class="org.oscarehr.PMmodule.web.EditIntakeAction" singleton="false" />
   -->    
     <!-- Generic Intake -->
-    <bean name="/SurveyManager" class="org.oscarehr.survey.web.SurveyManagerAction" singleton="false">
-        <property name="surveyManager" ref="surveyManager"/>
-        <property name="surveyTestManager" ref="surveyTestManager"/>
-        <property name="surveyLaunchManager" ref="surveyLaunchManager"/>
-        <property name="questionTypes" ref="QuestionTypes"/>
-        <property name="userManager" ref="surveyUserManager"/>
-        <property name="oscarFormManager" ref="oscarFormManager"/>
-    </bean>
-    <bean name="/SurveyTest" class="org.oscarehr.survey.web.SurveyTestAction" singleton="false">
-        <property name="surveyManager" ref="surveyManager"/>
-        <property name="surveyTestManager" ref="surveyTestManager"/>
-        <property name="userManager" ref="surveyUserManager"/>
-    </bean>
+
     <!--  ER -->
     <bean name="/ReceptionistReport" class="org.oscarehr.er.ReceptionistReportAction" singleton="false">
         <property name="programManager" ref="programManager"/>
@@ -240,7 +230,6 @@
         <property name="roleManager" ref="roleManager"/>
  -->
         <property name="programManager" ref="programManager"/>        
-        <property name="surveyManager" ref="oscarSurveyManager"/>  
         <property name="lookupManager" ref="lookupManager"></property>  
         <property name="clientManager" ref="clientManager"></property>    
     </bean>

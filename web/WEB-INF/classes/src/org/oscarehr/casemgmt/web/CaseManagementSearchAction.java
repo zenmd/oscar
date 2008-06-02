@@ -69,8 +69,6 @@ import com.quatro.model.LookupCodeValue;
 import com.quatro.util.*;
 import com.quatro.service.security.SecurityManager;
 
-import oscar.oscarRx.data.RxPatientData;
-import oscar.oscarRx.pageUtil.RxSessionBean;
 
 public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
@@ -196,11 +194,11 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         // need to check to see if the client is in our program domain
         // if not...don't show this screen!
-        
+/*        
         if (!caseManagementMgr.isClientInProgramDomain(currentFacilityId, providerNo, demoNo)) {
             return mapping.findForward("domain-error");
         }
-
+*/
         request.setAttribute("casemgmt_demoName", getDemoName(demoNo));
         request.setAttribute("casemgmt_demoAge", getDemoAge(demoNo));
         request.setAttribute("casemgmt_demoDOB", getDemoDOB(demoNo));
@@ -352,9 +350,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
                 else request.setAttribute("Notes", notes);
             }
 
-            // UCF
-            request.setAttribute("survey_list", surveyMgr.getAllForms(currentFacilityId));
-            // request.setAttribute("surveys", surveyManager.getForms(demographicNo));
 
         
 

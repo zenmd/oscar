@@ -79,7 +79,7 @@ public class PMMFilter implements Filter {
             return;
         }
 		
-		session.setAttribute("program_domain", providerManager.getProgramDomain(oscarUser));
+//		session.setAttribute("program_domain", providerManager.getProgramDomain(oscarUser));
 
 		if (session.getAttribute("pmm_admin") == null) {
 			log.debug("setting session variable: pmm_admin");
