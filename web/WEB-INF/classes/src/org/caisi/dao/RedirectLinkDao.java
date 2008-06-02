@@ -13,7 +13,7 @@ public class RedirectLinkDao extends AbstractDao{
 
 		Session session = sessionFactory.openSession();
 		try {
-			return((RedirectLink)session.get(RedirectLink.class, id));
+			return((RedirectLink)session.get(RedirectLink.class, String.valueOf(id)));
 		}
 		finally {
 			session.close();
@@ -34,14 +34,14 @@ public class RedirectLinkDao extends AbstractDao{
 	}
 
 
-    public List<RedirectLink> findAll() {
+    public List findAll() {
 
 		Session session = sessionFactory.openSession();
 		try {
 			Query query=session.createQuery("from RedirectLink");
 			
-			@SuppressWarnings("unchecked")
-			List<RedirectLink> results=query.list();
+//			@SuppressWarnings("unchecked")
+			List results=query.list();
 			
 			return(results);
 		}

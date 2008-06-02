@@ -31,21 +31,21 @@ public class IssueGroupDao extends AbstractDao {
 
 		Session session = sessionFactory.openSession();
 		try {
-			return((IssueGroup)session.get(IssueGroup.class, id));
+			return((IssueGroup)session.get(IssueGroup.class, String.valueOf(id)));
 		}
 		finally {
 			session.close();
 		}
 	}
 
-    public List<IssueGroup> findAll() {
+    public List findAll() {
 
 		Session session = sessionFactory.openSession();
 		try {
 			Query query=session.createQuery("from IssueGroup");
 			
-			@SuppressWarnings("unchecked")
-			List<IssueGroup> results=query.list();
+//			@SuppressWarnings("unchecked")
+			List results=query.list();
 			
 			return(results);
 		}

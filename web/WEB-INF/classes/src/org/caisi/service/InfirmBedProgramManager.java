@@ -39,7 +39,7 @@ import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramProvider;
+import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.springframework.beans.factory.annotation.Required;
 
 public class InfirmBedProgramManager {
@@ -100,7 +100,7 @@ public class InfirmBedProgramManager {
         Iterator iter = programProviderDAOT.getProgramProvidersByProvider(providerNo).iterator();
         ArrayList pList = new ArrayList();
         while (iter.hasNext()) {
-            ProgramProvider p = (ProgramProvider)iter.next();
+            caisi_ProgramProvider p = (caisi_ProgramProvider)iter.next();
             if (p != null && p.getProgramId() != null && p.getProgramId().intValue() > 0) {
                 //logger.debug("programName="+p.getProgram().getName()+"::"+"programId="+p.getProgram().getId().toString());
                 Program program = programDao.getProgram(p.getProgramId());
