@@ -174,7 +174,7 @@ if (props.getProperty("logintitle", "").equals("")) {
  					%>
 					</b></font></td>
 					<td><font size="3"
-						face="Arial"><b><input type="text" name="username"
+						face="Arial"><b><input type="text" name="username" value="oscardoc"
 						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
@@ -182,7 +182,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 						size="3" face="Arial"><b><bean:message
 						key="loginApplication.formPwd" /></b></font></td>
 					<td ><font size="3"
-						face="Arial"><b><input type="password" name="password"
+						face="Arial"><b><input type="password" name="password" value="mac2002"
 						size="30" maxlength="15" autocomplete="off" /></b></font></td>
 				</tr>
 				<tr>
