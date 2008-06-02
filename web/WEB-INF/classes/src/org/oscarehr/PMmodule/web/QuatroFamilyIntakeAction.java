@@ -38,7 +38,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 
 import oscar.MyDateFormat;
 
-public class QuatroFamilyIntakeAction extends DispatchAction {
+public class QuatroFamilyIntakeAction extends BaseClientAction {
 
    private IntakeManager intakeManager;
    private LookupManager lookupManager;
@@ -112,6 +112,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setDependents(dependent);
        clientForm.setDependentsSize(dependent.size());
        
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
        return mapping.findForward("edit");
    }
 
@@ -196,6 +197,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
         clientForm.setDependents(dependents);
         clientForm.setDependentsSize(dependents.size());
        
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
        return mapping.findForward("edit");
    }
 
@@ -271,6 +273,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
        clientForm.setDependents(dependents);
        clientForm.setDependentsSize(dependents.size());
 	   
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
        return mapping.findForward("edit");
    }
 
@@ -492,6 +495,7 @@ public class QuatroFamilyIntakeAction extends DispatchAction {
   	   }
        saveMessages(request,messages);
 	   
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 	   return mapping.findForward("edit");
    }
 
