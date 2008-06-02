@@ -60,18 +60,6 @@ function viewSignature(){
 	</td>
 	</tr>
 	<tr>
-		<td align="left" valign="middle" class="buttonBar3">
-		&nbsp;Summary&nbsp;&nbsp;|&nbsp;&nbsp;
-		History&nbsp;&nbsp;|&nbsp;&nbsp;
-		Intake&nbsp;&nbsp;|&nbsp;&nbsp;
-		<b>Admission</b>&nbsp;&nbsp;|&nbsp;&nbsp;
-		Refer&nbsp;&nbsp;|&nbsp;&nbsp;
-		Discharge&nbsp;&nbsp;|&nbsp;&nbsp;
-		Service Restriction&nbsp;&nbsp;|&nbsp;&nbsp;
-		Complaints
-		</td>
-	</tr>
-	<tr>
 		<td align="left" class="buttonBar">
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
