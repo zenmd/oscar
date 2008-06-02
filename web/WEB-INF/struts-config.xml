@@ -545,7 +545,7 @@
             <forward name="failure" path="/logout.jsp?login=failed" />
             <forward name="error" path="/loginfailed.jsp" />
             <forward name="caisiPMM" path="/Home.do" />
- 			<forward name="facilitySelection" path="/facilitySelection.do"/>
+ 			<forward name="shelterSelection" path="/shelterSelection.do"/>
         </action>     
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
             <forward name="receptionist" path="/receptionist/receptionistcontrol.jsp" redirect="true" />
@@ -554,10 +554,10 @@
             <forward name="failure" path="/logout.jsp?login=failed" />
             <forward name="error" path="/loginfailed.jsp" />
             <forward name="caisiPMM" path="/Home.do" />
- 			<forward name="facilitySelection" path="/facilitySelection.do"/>
+ 			<forward name="shelterSelection" path="/shelterSelection.do"/>
         </action>   
-        <action path="/facilitySelection" scope="request" type="oscar.login.FacilitySelectionAction" validate="true">
- 			<forward name="facilitySelection" path="page.pmm.facilitySelection"/>
+        <action path="/shelterSelection" scope="request" type="oscar.login.ShelterSelectionAction" validate="true">
+ 			<forward name="shelterSelection" path="page.pmm.shelterSelection"/>
         </action>
         <action input="/oscarMessenger/SendMessage.jsp" name="msgSendMessageForm" path="/oscarMessenger/SendMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgSendMessageAction">
             <forward name="success" path="/oscarMessenger/SentMessage.jsp" />
