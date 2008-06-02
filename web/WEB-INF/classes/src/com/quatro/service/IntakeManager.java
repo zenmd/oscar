@@ -60,7 +60,7 @@ public class IntakeManager {
     	List lst = intakeDao.getClientIntakeFamily(intakeHeadId.toString());
     	if(lst.size()==0) return;
     	
-    	StringBuilder sb = new StringBuilder();
+    	StringBuffer sb = new StringBuffer();
     	if(sDependentInakeIds.equals("")){
           for(int i=0;i<lst.size();i++){
         	QuatroIntakeFamily obj= (QuatroIntakeFamily)lst.get(i);
@@ -174,7 +174,7 @@ public class IntakeManager {
           }  
         }
         
-        StringBuilder sb= new StringBuilder();
+        StringBuffer sb= new StringBuffer();
         Iterator it3 = lst.iterator();
         while(it3.hasNext()){
         	Object element = (Object)it3.next();
@@ -254,7 +254,7 @@ public class IntakeManager {
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
         List lst= programDao.getProgramIdsByProvider(providerNo, facilityId);
         if (lst.size()==0) return lst;
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         Iterator it = lst.iterator();
         while(it.hasNext()){
         	Object element = (Object)it.next();

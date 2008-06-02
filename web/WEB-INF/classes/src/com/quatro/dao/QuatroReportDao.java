@@ -68,7 +68,6 @@ public class QuatroReportDao extends HibernateDaoSupport {
 
 	  public List GetReportGroupList(String providerNo)
 	  {
-          ArrayList paramList = new ArrayList();
 		  String sSQL="from ReportGroupValue s  order by s.reportGroupDesc";
 	      return  getHibernateTemplate().find(sSQL);
 	  }
@@ -122,7 +121,7 @@ public class QuatroReportDao extends HibernateDaoSupport {
 
   	  public List GetReportTemplates(int reportNo, String loginId){
           ArrayList paramList = new ArrayList();
-	      paramList.add(Integer.valueOf(reportNo));
+	      paramList.add(new Integer(reportNo));
 	      paramList.add(loginId);
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);          
 		  String sSQL="from ReportTempValue s WHERE s.reportNo=? AND (s.loginId=? or s.privateTemplate=true)";
@@ -131,21 +130,21 @@ public class QuatroReportDao extends HibernateDaoSupport {
 
   	  public ReportTempValue GetReportTemplate(int templateNo, String loginId){
           ArrayList paramList = new ArrayList();
-	      paramList.add(Integer.valueOf(templateNo));
+	      paramList.add(new Integer(templateNo));
 	      paramList.add(loginId);
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);          
 		  String sSQL="from ReportTempValue s WHERE s.templateNo=? AND (s.loginId=? or s.privateTemplate=true)";
 	      ReportTempValue rptTempVal= (ReportTempValue)getHibernateTemplate().find(sSQL,params).get(0);
 	      
 	      paramList.clear();
-	      paramList.add(Integer.valueOf(templateNo));
+	      paramList.add(new Integer(templateNo));
 	      Object params2[] = paramList.toArray(new Object[paramList.size()]);          
 		  sSQL="from ReportTempCriValue s WHERE s.templateNo=?";
 		  ArrayList lst1 = (ArrayList)getHibernateTemplate().find(sSQL,params2);
 		  for(int i=0;i<lst1.size();i++){
 			ReportTempCriValue obj1 = (ReportTempCriValue)lst1.get(i);
 		    paramList.clear();
-		    paramList.add(Integer.valueOf(obj1.getFieldNo()));
+		    paramList.add(new Integer(obj1.getFieldNo()));
 		    Object params3[] = paramList.toArray(new Object[paramList.size()]);          
 			sSQL="from ReportFilterValue s WHERE s.fieldNo=?";
 		    ReportFilterValue obj2 = (ReportFilterValue)getHibernateTemplate().find(sSQL,params3).get(0);

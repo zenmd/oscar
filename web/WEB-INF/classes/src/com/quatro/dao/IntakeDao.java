@@ -34,7 +34,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 
     public List checkExistBedIntakeByPrograms(Integer clientId, Program[] programs){
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[programs.length+1];
         obj[0]=clientId;
         for(int i=1;i<=programs.length;i++){
@@ -90,7 +90,7 @@ public class IntakeDao extends HibernateDaoSupport {
     
     public List getQuatroIntakeDBByIntakeIds(String intakeIds) {
         String[] split= intakeIds.split(",");
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         Object[] obj= new Integer[split.length];
         for(int i=0;i<split.length;i++){
            sb.append(",?");
@@ -388,7 +388,7 @@ public class IntakeDao extends HibernateDaoSupport {
 //			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.createdOn desc",
 //			new Object[] {clientId, facilityId, providerNo });
         String[] split= programIds.split(",");
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[split.length+1];
         obj[0]=clientId;
         for(int i=1;i<=split.length;i++){
@@ -461,81 +461,81 @@ public class IntakeDao extends HibernateDaoSupport {
 		Set obj= new HashSet();//TreeSet();
 
 	    HashMap hData= new HashMap();
-		hData.put(Integer.valueOf(IntakeConstant.CREATEDON), intake.getCreatedOnTxt());
+		hData.put(new Integer(IntakeConstant.CREATEDON), intake.getCreatedOnTxt());
 
 		//Referred by
-		hData.put(Integer.valueOf(IntakeConstant.REFERREDBY), intake.getReferredBy());
-		hData.put(Integer.valueOf(IntakeConstant.CONTACTNAME), intake.getContactName());
-		hData.put(Integer.valueOf(IntakeConstant.CONTACTNUMBER), intake.getContactNumber());
-		hData.put(Integer.valueOf(IntakeConstant.CONTACTEMAIL), intake.getContactEmail());
+		hData.put(new Integer(IntakeConstant.REFERREDBY), intake.getReferredBy());
+		hData.put(new Integer(IntakeConstant.CONTACTNAME), intake.getContactName());
+		hData.put(new Integer(IntakeConstant.CONTACTNUMBER), intake.getContactNumber());
+		hData.put(new Integer(IntakeConstant.CONTACTEMAIL), intake.getContactEmail());
 
   		//Other information
-		hData.put(Integer.valueOf(IntakeConstant.LANGUAGE), intake.getLanguage());
-		hData.put(Integer.valueOf(IntakeConstant.YOUTH), intake.getYouth());
-		hData.put(Integer.valueOf(IntakeConstant.ABORIGINAL), intake.getAboriginal());
-		hData.put(Integer.valueOf(IntakeConstant.ABORIGINALOTHER), intake.getAboriginalOther());
-		hData.put(Integer.valueOf(IntakeConstant.VAW), intake.getVAW());
-		hData.put(Integer.valueOf(IntakeConstant.CURSLEEPARRANGEMENT), intake.getCurSleepArrangement());
-		hData.put(Integer.valueOf(IntakeConstant.INSHELTERBEFORE), intake.getInShelterBefore());
-		hData.put(Integer.valueOf(IntakeConstant.LENGTHOFHOMELESS), intake.getLengthOfHomeless());
-		hData.put(Integer.valueOf(IntakeConstant.REASONFORHOMELESS), intake.getReasonForHomeless());
+		hData.put(new Integer(IntakeConstant.LANGUAGE), intake.getLanguage());
+		hData.put(new Integer(IntakeConstant.YOUTH), intake.getYouth());
+		hData.put(new Integer(IntakeConstant.ABORIGINAL), intake.getAboriginal());
+		hData.put(new Integer(IntakeConstant.ABORIGINALOTHER), intake.getAboriginalOther());
+		hData.put(new Integer(IntakeConstant.VAW), intake.getVAW());
+		hData.put(new Integer(IntakeConstant.CURSLEEPARRANGEMENT), intake.getCurSleepArrangement());
+		hData.put(new Integer(IntakeConstant.INSHELTERBEFORE), intake.getInShelterBefore());
+		hData.put(new Integer(IntakeConstant.LENGTHOFHOMELESS), intake.getLengthOfHomeless());
+		hData.put(new Integer(IntakeConstant.REASONFORHOMELESS), intake.getReasonForHomeless());
 
         //Presenting issues
-		hData.put(Integer.valueOf(IntakeConstant.PREGNANT), intake.getPregnant());
-		hData.put(Integer.valueOf(IntakeConstant.DISCLOSEDABUSE), intake.getDisclosedAbuse());
-		hData.put(Integer.valueOf(IntakeConstant.DISABILITY), intake.getDisability());
-		hData.put(Integer.valueOf(IntakeConstant.OBSERVEDABUSE), intake.getObservedAbuse());
-		hData.put(Integer.valueOf(IntakeConstant.DISCLOSEDMENTALISSUE), intake.getDisclosedMentalIssue());
-		hData.put(Integer.valueOf(IntakeConstant.POORHYGIENE), intake.getPoorHygiene());
-		hData.put(Integer.valueOf(IntakeConstant.OBSERVEDMENTALISSUE), intake.getObservedMentalIssue());
-		hData.put(Integer.valueOf(IntakeConstant.DISCLOSEDALCOHOLABUSE), intake.getDisclosedAlcoholAbuse());
-		hData.put(Integer.valueOf(IntakeConstant.OBSERVEDALCOHOLABUSE), intake.getObservedAlcoholAbuse());
+		hData.put(new Integer(IntakeConstant.PREGNANT), intake.getPregnant());
+		hData.put(new Integer(IntakeConstant.DISCLOSEDABUSE), intake.getDisclosedAbuse());
+		hData.put(new Integer(IntakeConstant.DISABILITY), intake.getDisability());
+		hData.put(new Integer(IntakeConstant.OBSERVEDABUSE), intake.getObservedAbuse());
+		hData.put(new Integer(IntakeConstant.DISCLOSEDMENTALISSUE), intake.getDisclosedMentalIssue());
+		hData.put(new Integer(IntakeConstant.POORHYGIENE), intake.getPoorHygiene());
+		hData.put(new Integer(IntakeConstant.OBSERVEDMENTALISSUE), intake.getObservedMentalIssue());
+		hData.put(new Integer(IntakeConstant.DISCLOSEDALCOHOLABUSE), intake.getDisclosedAlcoholAbuse());
+		hData.put(new Integer(IntakeConstant.OBSERVEDALCOHOLABUSE), intake.getObservedAlcoholAbuse());
 		
 		//Identification
-		hData.put(Integer.valueOf(IntakeConstant.BIRTHCERTIFICATE), intake.getBirthCertificate());
-		hData.put(Integer.valueOf(IntakeConstant.BIRTHCERTIFICATEYN), intake.getBirthCertificateYN());
-		hData.put(Integer.valueOf(IntakeConstant.SIN), intake.getSIN());
-		hData.put(Integer.valueOf(IntakeConstant.SINYN), intake.getSINYN());
-		hData.put(Integer.valueOf(IntakeConstant.HEALTHCARDNO), intake.getHealthCardNo());
-		hData.put(Integer.valueOf(IntakeConstant.HEALTHCARDNOYN), intake.getHealthCardNoYN());
-		hData.put(Integer.valueOf(IntakeConstant.DRIVERLICENSENO), intake.getDriverLicenseNo());
-		hData.put(Integer.valueOf(IntakeConstant.DRIVERLICENSENOYN), intake.getDriverLicenseNoYN());
-		hData.put(Integer.valueOf(IntakeConstant.CITIZENCARDNO), intake.getCitizenCardNo());
-		hData.put(Integer.valueOf(IntakeConstant.CITIZENCARDNOYN), intake.getCitizenCardNoYN());
-		hData.put(Integer.valueOf(IntakeConstant.NATIVERESERVENO), intake.getNativeReserveNo());
-		hData.put(Integer.valueOf(IntakeConstant.NATIVERESERVENOYN), intake.getNativeReserveNoYN());
-		hData.put(Integer.valueOf(IntakeConstant.VETERANNO), intake.getVeteranNo());
-		hData.put(Integer.valueOf(IntakeConstant.VETERANNOYN), intake.getVeteranNoYN());
-		hData.put(Integer.valueOf(IntakeConstant.RECORDLANDING), intake.getRecordLanding());
-		hData.put(Integer.valueOf(IntakeConstant.RECORDLANDINGYN), intake.getRecordLandingYN());
-		hData.put(Integer.valueOf(IntakeConstant.LIBRARYCARD), intake.getLibraryCard());
-		hData.put(Integer.valueOf(IntakeConstant.LIBRARYCARDYN), intake.getLibraryCardYN());
-		hData.put(Integer.valueOf(IntakeConstant.IDOTHER), intake.getIdOther());
+		hData.put(new Integer(IntakeConstant.BIRTHCERTIFICATE), intake.getBirthCertificate());
+		hData.put(new Integer(IntakeConstant.BIRTHCERTIFICATEYN), intake.getBirthCertificateYN());
+		hData.put(new Integer(IntakeConstant.SIN), intake.getSIN());
+		hData.put(new Integer(IntakeConstant.SINYN), intake.getSINYN());
+		hData.put(new Integer(IntakeConstant.HEALTHCARDNO), intake.getHealthCardNo());
+		hData.put(new Integer(IntakeConstant.HEALTHCARDNOYN), intake.getHealthCardNoYN());
+		hData.put(new Integer(IntakeConstant.DRIVERLICENSENO), intake.getDriverLicenseNo());
+		hData.put(new Integer(IntakeConstant.DRIVERLICENSENOYN), intake.getDriverLicenseNoYN());
+		hData.put(new Integer(IntakeConstant.CITIZENCARDNO), intake.getCitizenCardNo());
+		hData.put(new Integer(IntakeConstant.CITIZENCARDNOYN), intake.getCitizenCardNoYN());
+		hData.put(new Integer(IntakeConstant.NATIVERESERVENO), intake.getNativeReserveNo());
+		hData.put(new Integer(IntakeConstant.NATIVERESERVENOYN), intake.getNativeReserveNoYN());
+		hData.put(new Integer(IntakeConstant.VETERANNO), intake.getVeteranNo());
+		hData.put(new Integer(IntakeConstant.VETERANNOYN), intake.getVeteranNoYN());
+		hData.put(new Integer(IntakeConstant.RECORDLANDING), intake.getRecordLanding());
+		hData.put(new Integer(IntakeConstant.RECORDLANDINGYN), intake.getRecordLandingYN());
+		hData.put(new Integer(IntakeConstant.LIBRARYCARD), intake.getLibraryCard());
+		hData.put(new Integer(IntakeConstant.LIBRARYCARDYN), intake.getLibraryCardYN());
+		hData.put(new Integer(IntakeConstant.IDOTHER), intake.getIdOther());
 		
 		//Additional information
-		hData.put(Integer.valueOf(IntakeConstant.SOURCEINCOME), intake.getSourceIncome());
-		hData.put(Integer.valueOf(IntakeConstant.INCOME), intake.getIncome());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKERNAME1), intake.getIncomeWorkerName1());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKERPHONE1), intake.getIncomeWorkerPhone1());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKEREMAIL1), intake.getIncomeWorkerEmail1());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKERNAME2), intake.getIncomeWorkerName2());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKERPHONE2), intake.getIncomeWorkerPhone2());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKEREMAIL2), intake.getIncomeWorkerEmail2());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKERNAME3), intake.getIncomeWorkerName3());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKERPHONE3), intake.getIncomeWorkerPhone3());
-		hData.put(Integer.valueOf(IntakeConstant.INCOMEWORKEREMAIL3), intake.getIncomeWorkerEmail3());
-		hData.put(Integer.valueOf(IntakeConstant.LIVEDBEFORE), intake.getLivedBefore());
-		hData.put(Integer.valueOf(IntakeConstant.LIVEDBEFOREOTHER), intake.getLivedBeforeOther());
-		hData.put(Integer.valueOf(IntakeConstant.STATUSINCANADA), intake.getStatusInCanada());
-		hData.put(Integer.valueOf(IntakeConstant.ORIGINALCOUNTRY), intake.getOriginalCountry());
-		hData.put(Integer.valueOf(IntakeConstant.REFERREDTO), intake.getReferredTo());
-		hData.put(Integer.valueOf(IntakeConstant.REASONNOADMIT), intake.getReasonNoAdmit());
+		hData.put(new Integer(IntakeConstant.SOURCEINCOME), intake.getSourceIncome());
+		hData.put(new Integer(IntakeConstant.INCOME), intake.getIncome());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKERNAME1), intake.getIncomeWorkerName1());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKERPHONE1), intake.getIncomeWorkerPhone1());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKEREMAIL1), intake.getIncomeWorkerEmail1());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKERNAME2), intake.getIncomeWorkerName2());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKERPHONE2), intake.getIncomeWorkerPhone2());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKEREMAIL2), intake.getIncomeWorkerEmail2());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKERNAME3), intake.getIncomeWorkerName3());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKERPHONE3), intake.getIncomeWorkerPhone3());
+		hData.put(new Integer(IntakeConstant.INCOMEWORKEREMAIL3), intake.getIncomeWorkerEmail3());
+		hData.put(new Integer(IntakeConstant.LIVEDBEFORE), intake.getLivedBefore());
+		hData.put(new Integer(IntakeConstant.LIVEDBEFOREOTHER), intake.getLivedBeforeOther());
+		hData.put(new Integer(IntakeConstant.STATUSINCANADA), intake.getStatusInCanada());
+		hData.put(new Integer(IntakeConstant.ORIGINALCOUNTRY), intake.getOriginalCountry());
+		hData.put(new Integer(IntakeConstant.REFERREDTO), intake.getReferredTo());
+		hData.put(new Integer(IntakeConstant.REASONNOADMIT), intake.getReasonNoAdmit());
 
 		//Program
-		hData.put(Integer.valueOf(IntakeConstant.PROGRAM), intake.getProgramId().toString());
+		hData.put(new Integer(IntakeConstant.PROGRAM), intake.getProgramId().toString());
 
 		//Comments
-		hData.put(Integer.valueOf(IntakeConstant.COMMENTS), intake.getComments());
+		hData.put(new Integer(IntakeConstant.COMMENTS), intake.getComments());
 		
 		
         if(intake.getId().intValue()>0){
@@ -570,7 +570,7 @@ public class IntakeDao extends HibernateDaoSupport {
 			
 			
 		   for(int i=1;i<IntakeConstant.TOTALITEMS-1;i++){
-			 obj.add(new QuatroIntakeAnswer(i, (String)hData.get(Integer.valueOf(i))));
+			 obj.add(new QuatroIntakeAnswer(i, (String)hData.get(new Integer(i))));
 		   }
 		}
 
@@ -639,8 +639,8 @@ public class IntakeDao extends HibernateDaoSupport {
         
         ArrayList lst = new ArrayList();
         if(!bFamilyMember){
-          if(referral.getId()!=null) intakeDb.setReferralId(Integer.valueOf(referral.getId().intValue()));
-          if(queue.getId()!=null) intakeDb.setQueueId(Integer.valueOf(queue.getId().intValue()));
+          if(referral.getId()!=null) intakeDb.setReferralId(new Integer(referral.getId().intValue()));
+          if(queue.getId()!=null) intakeDb.setQueueId(new Integer(queue.getId().intValue()));
 
           lst.add(intakeDb.getId());
           lst.add(intakeDb.getReferralId());
@@ -672,7 +672,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	
 	public void removeInactiveIntakeFamilyMember(String sInactiveDependents){
         String[] split= sInactiveDependents.split(",");
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         Object[] obj= new Integer[split.length];
         for(int i=0;i<split.length;i++){
            sb.append(",?");

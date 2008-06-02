@@ -283,7 +283,7 @@ public class QuatroReportViewerAction extends Action {
 	
     public String GetValueListCrystal(String sValue, String sFieldType)
     {
-        StringBuilder sResult = new StringBuilder();
+        StringBuffer sResult = new StringBuffer();
         sResult.append("[");
         String[] sVals = sValue.split(",");
         for (int i = 0; i < sVals.length; i++)

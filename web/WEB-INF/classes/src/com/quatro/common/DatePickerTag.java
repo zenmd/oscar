@@ -120,7 +120,7 @@ public class DatePickerTag extends BaseInputTag{
         if (value == null) return "";
 
         String value2 = TagUtils.getInstance().filter(value.toString());
-        return value2.replace("-","/");        
+        return value2.replace('-','/');        
      }
      
 	public TextTag getDtTextTag() {

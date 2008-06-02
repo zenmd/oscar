@@ -28,7 +28,7 @@ public class QuatroReportListAction extends BaseAction {
         		getServlet().getServletContext()).getBean("quatroReportManager");
 		
 		chkNo = chkNo.substring(1);
-		StringBuilder str = new StringBuilder();
+		StringBuffer str = new StringBuffer();
 		String[] sArray = chkNo.split(","); 
 		for(int i=0;i<sArray.length;i++){
 		  String param = (String)request.getParameter("p" + sArray[i]);
