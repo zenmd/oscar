@@ -50,7 +50,7 @@
 %>
 
 <%
-    if(roleName$.indexOf(UserRoleUtils.Roles.er_clerk.name()) != -1) {
+    if(roleName$.indexOf(UserRoleUtils.Roles_er_clerk.name()) != -1) {
         response.sendRedirect("er_clerk.jsp");
         return;
     }

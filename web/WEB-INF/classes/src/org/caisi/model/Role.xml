@@ -17,7 +17,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-	<class name="org.caisi.model.Role" table="caisi_role">
+	<class name="org.caisi.model.caisi_Role" table="caisi_role">
 		<id name="id" column="role_id" unsaved-value="0">
 			<generator class="native" />
 		</id>

@@ -12,7 +12,7 @@
 	// care right now as it would be a hacker or improper use that triggers this.
 	// As for a better security architecture, that will have to wait for refactoring of the entire system.
 
-	boolean userHasExternalRole=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);
+	boolean userHasExternalRole=UserRoleUtils.hasRole(request, UserRoleUtils.Roles_external);
 	if (userHasExternalRole)
 	{
 		WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
@@ -87,7 +87,7 @@
 				admin = true;
 			}
 			
-			boolean isExternal=UserRoleUtils.hasRole(request, UserRoleUtils.Roles.external);
+			boolean isExternal=UserRoleUtils.hasRole(request, UserRoleUtils.Roles_external);
 			
 			for (int x = 0; x < ClientManagerFormBean.tabs.length; x++) {
 				
