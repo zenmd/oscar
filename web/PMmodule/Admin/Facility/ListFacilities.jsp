@@ -57,7 +57,7 @@
 							style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
 				                    height: 100%; width: 100%; overflow: auto;">
 														
-														
+							<br />
 							<div class="tabs" id="tabs">
 							    <table cellpadding="3" cellspacing="0" border="0">
 							        <tr>
@@ -110,6 +110,4 @@
 
 	
 </html:form>
-<div>
-    <p><a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=add"> Add new facility </a></p>
-</div>
+

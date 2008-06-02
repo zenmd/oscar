@@ -23,7 +23,6 @@
 package org.oscarehr.PMmodule.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -35,20 +34,18 @@ import org.oscarehr.PMmodule.dao.ProgramAccessDAO;
 import org.oscarehr.PMmodule.dao.ProgramClientStatusDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO;
-//import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
 import org.oscarehr.PMmodule.dao.ProgramSignatureDao;
 import org.oscarehr.PMmodule.dao.ProgramTeamDAO;
 import org.oscarehr.PMmodule.model.AccessType;
 import org.oscarehr.PMmodule.model.Agency;
-import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.oscarehr.PMmodule.model.FunctionalUserType;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
+import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import oscar.OscarProperties;
@@ -226,11 +223,10 @@ public class ProgramManager {
     }
 
     public void removeProgram(String programId) {
-        programDao.removeProgram(Integer.valueOf(programId));
         programSignatureDao.removeProgramSignature(Integer.valueOf(programId));
+        secuserroleDao.deleteByOrgcd("P"+programId);
         orgDao.delete("P"+programId);
-        secuserroleDao.deleteByOrgcd(programId);
-        
+        programDao.removeProgram(Integer.valueOf(programId));
     }
     
     // TODO: Implement this method for real

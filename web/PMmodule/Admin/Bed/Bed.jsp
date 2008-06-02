@@ -292,25 +292,7 @@
 									</display:table></td>
 									
 								</tr>
-								//////
-								<tr>
-									<td><html:text property="numRooms" />
-									<html:link
-										action="/PMmodule/BedManager.do?method=addRooms"
-										style="color:Navy;text-decoration:underline;"  onclick="javascript:addRooms();">Add Rooms</html:link>
-									<html:link
-										action="/PMmodule/BedManager.do?method=saveRooms"
-										style="color:Navy;text-decoration:underline;"  onclick="javascript:saveRooms();">Save Rooms</html:link>
-
-									<input type=hidden name="submit.addRoom" value="">
-									<input type=hidden name="roomslines"
-										value="<c:out value="${room_rowNum}" />"> 
-										
-										
-									<input type=hidden name="submit.saveRoom" value="">
-									</td>
-								</tr>
-								/////
+								
 								<tr>
 									<td><html:text property="numRooms" /> <html:button
 										property="submit.addRooms" onclick="javascript:addRooms();">Add Rooms</html:button>

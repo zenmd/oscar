@@ -190,11 +190,11 @@ href="javascript:submitForm('removeExistStaff');">Remove</a>
 	 						-->
 													
 					
-							<td width="100px">
+							<td width="120px">
 								<table cellpadding="0" style="border:0px;" cellspacing="0"
 									width="100%">
 									<tr>
-										<td style="border:0px;" width="100px">
+										<td style="border:0px;" width="120px">
 											<input style="width:100px;" type="text"
 											name="providerNo<%=String.valueOf(rIndex)%>"
 											value='<c:out value="${pp.providerNo}"/>' readonly></td>
