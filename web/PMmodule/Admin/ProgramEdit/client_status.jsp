@@ -57,7 +57,7 @@ function add_status(form) {
 <!--  show current staff -->
 <display:table class="simple" cellspacing="2" cellpadding="3" id="status" name="client_statuses" export="false" pagesize="0" requestURI="/PMmodule/ProgramManager.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
-	<display:setProperty name="basic.msg.empty_list" value="No statuses are currently defined for this program." />
+	<display:setProperty name="basic.msg.empty_list" value="No status codes are currently defined for this program." />
 	<display:column sortable="false" title="">
 		<a onclick="deleteStatus('<c:out value="${status.id}"/>');" href="javascript:void(0);"> Delete </a>
 	</display:column>
