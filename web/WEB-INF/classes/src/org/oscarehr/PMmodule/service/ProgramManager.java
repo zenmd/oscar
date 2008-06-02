@@ -229,8 +229,10 @@ public class ProgramManager {
         programDao.removeProgram(Integer.valueOf(programId));
         programSignatureDao.removeProgramSignature(Integer.valueOf(programId));
         orgDao.delete("P"+programId);
+        secuserroleDao.deleteByOrgcd(programId);
+        
     }
-
+    
     // TODO: Implement this method for real
     public Agency getAgencyByProgram(String programId) {
         return new Agency(new Integer(0), new Integer(1), "HS", "HS", "", true, false);
@@ -269,6 +271,7 @@ public class ProgramManager {
         }
     }
     
+        
     public List getProgramByProvider(String providerNo, Integer facilityId) {
         return programDao.getProgramByProvider(providerNo, facilityId);
     }

@@ -305,9 +305,6 @@ public class ProgramManagerAction extends BaseAction {
 
         programManager.removeProgram(id);
         
-        
-        programManager.deleteProgramProviderByProgramId(Integer.valueOf(id));
-
         ActionMessages messages = new ActionMessages();
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.deleted", request.getContextPath(), name));
         saveMessages(request, messages);
@@ -352,7 +349,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return edit(mapping, form, request, response);
     }
-
+/*
     public ActionForward delete_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -372,7 +369,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return edit(mapping, form, request, response);
     }
-
+*/
 /*    
     public ActionForward delete_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -444,7 +441,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+/*
     public ActionForward edit_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -488,7 +485,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+*/
     public ActionForward removeBedCheckTime(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         String removeId = request.getParameter("removeId");
@@ -852,7 +849,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+/*
     public ActionForward save_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -916,7 +913,7 @@ public class ProgramManagerAction extends BaseAction {
 
         return mapping.findForward("edit");
     }
-
+*/
     private void setEditAttributes(HttpServletRequest request, String programId) {
     	ArrayList programSignatureLst = new ArrayList();
         if (programId != null) {
@@ -941,7 +938,7 @@ public class ProgramManagerAction extends BaseAction {
             request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
 
             request.setAttribute("admissions", admissionManager.getCurrentAdmissionsByProgramId(programId));
-            request.setAttribute("accesses", programManager.getProgramAccesses(programId));
+            //request.setAttribute("accesses", programManager.getProgramAccesses(programId));
             request.setAttribute("queue", programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId)));
             request.setAttribute("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(programId)));
             programSignatureLst = (ArrayList)programManager.getProgramSignatures(Integer.valueOf(programId));
