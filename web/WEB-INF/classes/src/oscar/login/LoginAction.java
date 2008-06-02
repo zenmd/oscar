@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.dao.FacilityDAO;
-import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -195,7 +194,7 @@ public final class LoginAction extends DispatchAction {
 
             List facilityIds = providerManager.getFacilityIds(provider.getProviderNo());
             if (facilityIds.size() > 1) {
-                return(mapping.findForward("facilitySelection"));
+                return(mapping.findForward("shelterSelection"));
             }
             else if (facilityIds.size() == 1) {
                 // set current facility
