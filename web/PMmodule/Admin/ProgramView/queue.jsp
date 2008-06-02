@@ -87,14 +87,15 @@
             <!--Case Management Encounter-->
         <!--</a>-->
     <%--</display:column>--%>
-    <display:column sortable="true" property="clientFormattedName" title="Client name"/>
+    <display:column sortable="true" property="clientLastName" title="Last Name"/>
+    <display:column sortable="true" property="clientFirstName" title="First Name"/>
     <display:column property="referralDate" sortable="true" title="Referral Date" />
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
     <caisi:isModuleLoad moduleName="pmm.refer.temporaryAdmission.enabled">
         <display:column property="temporaryAdmission" sortable="true" title="Temporary Admission" />
     </caisi:isModuleLoad>
-    <display:column property="notes" sortable="true" title="Reason for referral" />
-    <display:column property="presentProblems" sortable="true" title="Present problems"/>
+    <display:column property="notes" sortable="true" title="Reason for Referral" />
+    <display:column property="presentProblems" sortable="true" title="Present Problems"/>
     <display:column property="headRecord" sortable="true" title="Family Id"/>
 </display:table>
 <br />

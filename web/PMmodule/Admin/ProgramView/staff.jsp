@@ -73,6 +73,7 @@
 	<tr>
 		<td>			
 			<div class="h4">
+				<p></p>
 				<h4>Search Staff by entering search criteria below</h4>
 				<br />
 			</div>
@@ -172,7 +173,7 @@ href="javascript:submitForm('removeExistStaff');">Remove</a>
 				<table align="center" class="simple" width="100%">
 					<thead>
 						<tr>
-							<th align="center"><b>ProviderNo</b></th>
+							<th align="center"><b>Provider No.</b></th>
 							<th align="center"><b>Name</b></th>
 							<th align="center"><b>Role</b></th>
 							<th align="center"><b></b></th>

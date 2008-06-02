@@ -252,7 +252,6 @@
         <form-bean name="programManagerViewForm" type="org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean" />
         <form-bean name="programManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean" />
-            <form-property name="access" type="org.oscarehr.PMmodule.model.ProgramAccess" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
             <form-property name="bedCheckTimes" type="org.oscarehr.PMmodule.model.BedCheckTime[]" />
             <form-property name="addTime" type="java.lang.String" />
@@ -261,7 +260,6 @@
             <form-property name="restriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction"/>
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="programFirstSignature" type="org.oscarehr.PMmodule.model.ProgramSignature" />
-            <form-property name="team" type="org.oscarehr.PMmodule.model.ProgramTeam" />
             <form-property name="queue" type="org.oscarehr.PMmodule.model.ProgramQueue" />
             <form-property name="client_status" type="org.oscarehr.PMmodule.model.ProgramClientStatus" />
             <form-property name="searchStatus" type="java.lang.String"></form-property>

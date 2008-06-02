@@ -79,11 +79,11 @@ public class ProgramQueue implements Serializable {
     }
 
     public String getProviderFormattedName() {
-        return getProviderLastName() + "," + getProviderFirstName();
+        return getProviderLastName() + ", " + getProviderFirstName();
     }
 
     public String getClientFormattedName() {
-        return getClientLastName() + "," + getClientFirstName();
+        return getClientLastName() + ", " + getClientFirstName();
     }
 
     protected void initialize () {}
