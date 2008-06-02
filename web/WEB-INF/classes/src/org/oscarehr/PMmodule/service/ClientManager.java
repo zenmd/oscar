@@ -136,7 +136,7 @@ public class ClientManager {
             queue.setProgramId(referral.getProgramId());
             queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
             queue.setReferralDate(referral.getReferralDate());
-            queue.setStatus(KeyConstants.STATUS_ACTIVE);
+//            queue.setStatus(KeyConstants.STATUS_ACTIVE);
             queue.setReferralId(referral.getId());
             queue.setTemporaryAdmission(referral.isTemporaryAdmission());
             queue.setPresentProblems(referral.getPresentProblems());

@@ -64,21 +64,14 @@
     		if (genderConflict.contains(clientId)) action="genderConflict";	
     		if (ageConflict.contains(clientId)) action="ageConflict";	
     	%>
-		
 			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
-   		
 	</display:column>
     <display:column sortable="false">
-        <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
-        <input type="button" value="Reject" 
-               <c:if test="${queue_entry.headClientId != null}">disabled</c:if>
-               onclick="select_client('<c:out value="${queue_entry.clientId}"/>','reject','<c:out value="${queue_entry.id}"/>')" />
-    	</caisi:isModuleLoad>
-    	
-    	<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
+		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Reject</a>
+<!-- 
     	<input type="button" value="Reject" 
                onclick="select_client('<c:out value="${queue_entry.clientId}"/>','reject','<c:out value="${queue_entry.id}"/>')" />
-    	</caisi:isModuleLoad>
+ -->               
     </display:column>
     
     <!-- disabled by rwd because visibility of link and permissions in CME are a problem -->
@@ -100,7 +93,7 @@
 </display:table>
 <br />
 <br />
-
+<!-- 
 <c:if test="${requestScope.do_admit != null}">
     <table width="100%" border="1" cellspacing="2" cellpadding="3">
         <c:if test="${requestScope.current_admission != null}">
@@ -165,4 +158,4 @@
         </tr>
     </table>
 </c:if>
-
+-->

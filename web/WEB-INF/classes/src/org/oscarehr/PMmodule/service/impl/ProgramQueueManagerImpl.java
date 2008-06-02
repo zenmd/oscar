@@ -31,7 +31,9 @@ import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
+import com.quatro.dao.IntakeDao;
 
 import com.quatro.common.KeyConstants;
 
@@ -41,6 +43,7 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 	private static Log log = LogFactory.getLog(ProgramQueueManagerImpl.class);
 	private ProgramQueueDao dao;
 	private ClientReferralDAO referralDAO;
+	private IntakeDao intakeDao;
 	
 	
 	public void setProgramQueueDao(ProgramQueueDao dao)	{
@@ -68,20 +71,23 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 	public void saveProgramQueue(ProgramQueue programQueue)	{
 		dao.saveProgramQueue(programQueue);
 	}
-	
+
+//use getProgramQueuesByProgramId(Integer programId) method	
+/*	
 	public List getActiveProgramQueuesByProgramId(Integer programId) {
-		return dao.getActiveProgramQueuesByProgramId(programId);
+		return dao.getQueuesByProgramId(programId);
 	}
-	
+*/	
 	public ProgramQueue getActiveProgramQueue(String programId, String demographicNo) {
-		return dao.getActiveProgramQueue(Integer.valueOf(programId), Integer.valueOf(demographicNo));
+		return dao.getQueue(Integer.valueOf(programId), Integer.valueOf(demographicNo));
 	}
 	
-	public void rejectQueue(String programId, String clientId,String notes, String rejectionReason) {
-		ProgramQueue queue = getActiveProgramQueue(programId,clientId);
+	public void rejectQueue(Integer queueId, String notes, String rejectionReason) {
+		ProgramQueue queue = getProgramQueue(queueId.toString());
 		if(queue==null) {
 			return;
 		}
+
 		ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
 		if(referral != null) {
 			referral.setStatus(KeyConstants.STATUS_REJECTED);
@@ -90,8 +96,14 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 			referral.setRadioRejectionReason(rejectionReason);
 			this.referralDAO.saveClientReferral(referral);
 		}
-		queue.setStatus(KeyConstants.STATUS_REJECTED);
 		
-		this.saveProgramQueue(queue);
+		dao.delete(queue);
+		
+        QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByQueueId(queueId);
+		dao.setIntakeRejectStatus(intakeDB.getId());
+	}
+
+	public void setIntakeDao(IntakeDao intakeDao) {
+		this.intakeDao = intakeDao;
 	}
 }

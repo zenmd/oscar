@@ -151,7 +151,7 @@ public class ProgramManagerViewAction extends BaseAction {
         se.setAttribute("performAdmissions",hasAccess(request, Integer.valueOf(programId), "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
 		        
         // need the queue to determine which tab to go to first
-        List queue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId));
+        List queue = programQueueManager.getProgramQueuesByProgramId(Integer.valueOf(programId));
         request.setAttribute("queue", queue);
 
         HashSet genderConflict = new HashSet();
@@ -1008,7 +1008,7 @@ public class ProgramManagerViewAction extends BaseAction {
         return view(mapping, form, request, response);
         
     }
-
+/*
     public ActionForward reject_from_queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String notes = request.getParameter("admission.admissionNotes");
         String programId = request.getParameter("id");
@@ -1017,9 +1017,6 @@ public class ProgramManagerViewAction extends BaseAction {
 
         //please write your code without JointAdmission, dawson wrote May 26, 2008  
         List  dependents = null;
-/*        
-        List<Integer>  dependents = clientManager.getDependentsList(new Integer(clientId));
-*/        
         
         log.debug("rejecting from queue: program_id=" + programId + ",clientId=" + clientId);
 
@@ -1036,7 +1033,8 @@ public class ProgramManagerViewAction extends BaseAction {
 
         return view(mapping, form, request, response);
     }
-
+*/
+    
 /*    
     public ActionForward select_client_for_admit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String programId = request.getParameter("id");

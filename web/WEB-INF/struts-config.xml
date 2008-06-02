@@ -326,6 +326,8 @@
         </form-bean>
         <form-bean name="quatroClientAdmissionForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm">
         </form-bean>
+        <form-bean name="quatroClientIntakeRejectForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientIntakeRejectForm">
+        </form-bean>
         <form-bean name="quatroClientReferForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="clientId" type="java.lang.String" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
@@ -1677,6 +1679,9 @@
         <action path="/PMmodule/QuatroAdmission" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientAdmissionForm" scope="request">
             <forward name="edit" path="page.quatro.pmm.admission" />
             <forward name="list" path="page.quatro.pmm.admissionlist" />
+        </action>
+        <action path="/PMmodule/QuatroIntakeReject" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientIntakeRejectForm" scope="request">
+            <forward name="edit" path="page.quatro.pmm.intakereject" />
         </action>
         <action path="/PMmodule/QuatroProgramSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programSearchForm" scope="request">
         	<forward name="view" path="/PMmodule/QuatroProgramSearch.jsp" />

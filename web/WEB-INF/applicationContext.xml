@@ -268,9 +268,7 @@
     <!-- Manager classes -->
     <bean id="programQueueManager" parent="baseTransactionProxy">
         <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.impl.ProgramQueueManagerImpl">
-                <property name="programQueueDao" ref="programQueueDao"/>
-                <property name="clientReferralDAO" ref="clientReferralDAO"/>
+            <bean class="org.oscarehr.PMmodule.service.impl.ProgramQueueManagerImpl" autowire="byName">
             </bean>
         </property>
     </bean>

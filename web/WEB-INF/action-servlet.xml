@@ -111,6 +111,8 @@
         <property name="providerManager" ref="providerManager"/>
         <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
     </bean>
+    <bean name="/PMmodule/QuatroIntakeReject" class="org.oscarehr.PMmodule.web.QuatroClientIntakeRejectAction" singleton="false" autowire="byName">
+    </bean>
     <bean name="/PMmodule/QuatroRefer" class="org.oscarehr.PMmodule.web.QuatroClientReferAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
         <property name="providerManager" ref="providerManager" />
