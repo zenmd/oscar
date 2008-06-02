@@ -112,7 +112,7 @@ public class IntakeManager {
           queue.setProgramId(referral.getProgramId());
           queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
           queue.setReferralDate(referral.getReferralDate());
-          queue.setStatus(KeyConstants.STATUS_ACTIVE);
+//          queue.setStatus(KeyConstants.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
           programQueueDao.saveProgramQueue(queue);
           

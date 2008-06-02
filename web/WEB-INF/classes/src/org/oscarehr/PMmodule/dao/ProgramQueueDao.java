@@ -26,8 +26,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.common.KeyConstants;
 
 public class ProgramQueueDao extends HibernateDaoSupport {
 
@@ -58,20 +61,6 @@ public class ProgramQueueDao extends HibernateDaoSupport {
 
         if (log.isDebugEnabled()) {
             log.debug("getProgramQueue: programId=" + programId + ",# of results=" + results.size());
-        }
-
-        return results;
-    }
-
-    public List getActiveProgramQueuesByProgramId(Integer programId) {
-        if (programId == null) {
-            throw new IllegalArgumentException();
-        }
-
-        List results = this.getHibernateTemplate().find("from ProgramQueue pq where pq.ProgramId = ? and pq.Status = 'active' order by pq.ReferralDate", programId);
-
-        if (log.isDebugEnabled()) {
-            log.debug("getActiveProgramQueuesByProgramId: programId=" + programId + ",# of results=" + results.size());
         }
 
         return results;
@@ -116,27 +105,10 @@ public class ProgramQueueDao extends HibernateDaoSupport {
 
         return result;
     }
-
-    public ProgramQueue getActiveProgramQueue(Integer programId,Integer demographicNo) {
-        if (programId == null || programId.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        }
-        if (demographicNo == null || demographicNo.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        }
-
-        ProgramQueue result = null;
-
-        List results = this.getHibernateTemplate().find("from ProgramQueue pq where pq.ProgramId = ? and pq.ClientId = ? and pq.Status='active'",
-                new Object[]{programId, demographicNo});
-        if (!results.isEmpty()) {
-            result = (ProgramQueue) results.get(0);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("getActiveProgramQueue: programId=" + programId + ",demogaphicNo=" + demographicNo + ",found=" + (result != null));
-        }
-
-        return result;
-    }
+    
+	public void setIntakeRejectStatus(Integer intakeId) {
+      getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
+            KeyConstants.INTAKE_STATUS_REJECTED + "' where q.id=?", intakeId);
+	}
+	
 }

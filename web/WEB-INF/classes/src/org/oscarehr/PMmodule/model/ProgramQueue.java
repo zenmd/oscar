@@ -37,7 +37,7 @@ public class ProgramQueue implements Serializable {
     private Integer _providerNo;
     private String _notes;
     private Integer _programId;
-    private String _status;
+//    private String _status;
     private boolean _temporaryAdmission;
     private Integer _referralId;
     private String _programName;
@@ -185,18 +185,20 @@ public class ProgramQueue implements Serializable {
     /**
      * Return the value associated with the column: status
      */
+/*    
     public String getStatus () {
         return _status;
     }
-
+*/
     /**
      * Set the value related to the column: status
      * @param _status the status value
      */
+/*    
     public void setStatus (String _status) {
         this._status = _status;
     }
-
+*/
     /**
      * Return the value associated with the column: temporary_admission_flag
      */
