@@ -18,6 +18,18 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		//alert("method=" + methodVal);
 		document.forms(0).method.value = methodVal;
 		
+		if(methodVal == "save" ){
+			var v1 = document.getElementsByName("complaint.description")[0].value;
+			var v2 = document.getElementsByName("complaint.outstandingIssues")[0].value;
+			if(v1.length > 4000){
+				alert("Field 'Description of Complaint/Narrative' can not has more than 4000 characters.");
+				exit(0);
+			}
+			if(v2.length > 4000){
+				alert("Field 'Service System Issues' can not has more than 4000 characters.");
+				exit(0);
+			}
+		}
 		document.forms(0).submit();
 	}
 	function setOutstanding(arg){
@@ -55,8 +67,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	
 
 <%
-	String a = "12345";
-	
+		
 	String length = request.getAttribute("ComplaintForm_length").toString();
 	String a2 = "12345";
 	
@@ -135,9 +146,9 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						</tr>
 						<tr>
 							<td>Source's First Name</td>
-							<td><html-el:text property="complaint.firstname" /></td>
+							<td><html-el:text property="complaint.firstname" maxlength="30"/></td>
 							<td>Source's Last Name</td>
-							<td><html-el:text property="complaint.lastname" /></td>
+							<td><html-el:text property="complaint.lastname" maxlength="30"/></td>
 						</tr>
 					</table>
 					</td>
@@ -278,7 +289,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 							<td><quatro:datePickerTag property="complaint.completedDatex"
 								width="70%" openerForm="quatroClientComplaintForm" /></td>
 							<td>Time Spent on Complaint</td>
-							<td><html-el:text property="complaint.duration" /> minutes</td>
+							<td><html-el:text property="complaint.duration" maxlength="10"/> minutes</td>
 						</tr>
 					</table>
 					</td>
@@ -294,16 +305,16 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						</tr>
 						<tr>
 							<td width="15%">Record Reviewed by (Person 1)</td>
-							<td width="35%"><html-el:text property="complaint.person1" /></td>
+							<td width="35%"><html-el:text property="complaint.person1" maxlength="60"/></td>
 							<td width="15%">Record Reviewed by (Person 3)</td>
-							<td width="35%"><html-el:text property="complaint.person3" /></td>
+							<td width="35%"><html-el:text property="complaint.person3" maxlength="60"/></td>
 						</tr>
 
 						<tr>
 							<td>Job Title</td>
-							<td><html-el:text property="complaint.title1" /></td>
+							<td><html-el:text property="complaint.title1" maxlength="20"/></td>
 							<td>Job Title</td>
-							<td><html-el:text property="complaint.title3" /></td>
+							<td><html-el:text property="complaint.title3" maxlength="20"/></td>
 						</tr>
 
 						<tr>
@@ -317,16 +328,16 @@ Source:web/PMmodule/QuatroComplaint.jsp
 
 						<tr>
 							<td>Record Reviewed by (Person 2)</td>
-							<td><html-el:text property="complaint.person2" /></td>
+							<td><html-el:text property="complaint.person2" maxlength="60"/></td>
 							<td>Record Reviewed by (Person 4)</td>
-							<td><html-el:text property="complaint.person4" /></td>
+							<td><html-el:text property="complaint.person4" maxlength="60"/></td>
 						</tr>
 
 						<tr>
 							<td>Job Title</td>
-							<td><html-el:text property="complaint.title2" /></td>
+							<td><html-el:text property="complaint.title2" maxlength="20"/></td>
 							<td>Job Title</td>
-							<td><html-el:text property="complaint.title4" /></td>
+							<td><html-el:text property="complaint.title4" maxlength="20"/></td>
 						</tr>
 
 						<tr>
