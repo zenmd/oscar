@@ -100,17 +100,19 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 		dao.delete(queue);
 		
         QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByQueueId(queueId);
-        List familyList = intakeDao.getClientIntakeFamily(intakeDB.getId().toString());
-		if(familyList.size()==0){
-           dao.setIntakeRejectStatus(intakeDB.getId().toString());
-		}else{
-		   String sIntakeIds = "";	
-		   for(int i=0;i<familyList.size();i++){
+        if(intakeDB!=null){
+          List familyList = intakeDao.getClientIntakeFamily(intakeDB.getId().toString());
+		  if(familyList.size()==0){
+            dao.setIntakeRejectStatus(intakeDB.getId().toString());
+		  }else{
+		    String sIntakeIds = "";	
+		    for(int i=0;i<familyList.size();i++){
 			   QuatroIntakeFamily qif = (QuatroIntakeFamily)familyList.get(i); 
 			   sIntakeIds = sIntakeIds +  "," + qif.getIntakeId().toString();  
-		   }
-	       dao.setIntakeRejectStatus(sIntakeIds.substring(1));
-		}
+		    }
+	        dao.setIntakeRejectStatus(sIntakeIds.substring(1));
+		  }
+        }
 	}
 
 	public void setIntakeDao(IntakeDao intakeDao) {
