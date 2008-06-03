@@ -7,7 +7,7 @@
 		<id name="recordId" column="record_id">
 		  <generator class="assigned" />
 		</id>
-        <property name="moduleName" column="MODUEL_NAME"/> 
+        <property name="moduleName" column="MODULE_NAME"/> 
 		<property name="signatureBlob" type="blob" column="signature" />
 	</class>
 </hibernate-mapping>

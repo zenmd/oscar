@@ -120,6 +120,14 @@ function selectMe(code, Desc, form_name, code_element_name, Desc_element_name) {
    self.close();
 }
 
+//for lookup tag java code use
+function clearLookupValue(form_name, code_element_name, desc_element_name) {
+   var myexpr = "document." + form_name + ".elements['" + code_element_name +"'].value=''";
+   eval(myexpr);
+   myexpr = "document." + form_name + ".elements['" + desc_element_name +"'].value=''";
+   eval(myexpr);
+}
+
 function AddtoDropdown(key, value, element_name){
  if (window.opener && !window.opener.closed){
     var elSel= window.opener.document.getElementsByName(element_name)[0]; 

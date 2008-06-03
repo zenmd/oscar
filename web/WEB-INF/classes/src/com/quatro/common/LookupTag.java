@@ -115,9 +115,18 @@ public class LookupTag extends BaseInputTag {
        	prepareAttribute(results, "src", "/" + sRootPath + "/images/microsoftsearch.gif");
         results.append(this.getElementClose());
         results.append("</a>");
+
+        results.append("<a ");
+        prepareAttribute(results, "onclick", "clearLookupValue('" + formProperty  + "','" +  
+              prepareName(codeProperty, name) + "','" + prepareName(bodyProperty, name) + "');");        
+        results.append(this.getElementClose());
+        
         results.append("<img");
         prepareAttribute(results, "src", "/" + sRootPath + "/images/Reset16.gif");
         results.append(this.getElementClose());
+
+        results.append("</a>");
+        
         results.append("</td></tr></table>");
 
         return results.toString();
