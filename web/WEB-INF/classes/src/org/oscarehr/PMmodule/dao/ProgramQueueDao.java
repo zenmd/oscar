@@ -106,9 +106,14 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return result;
     }
     
-	public void setIntakeRejectStatus(Integer intakeId) {
-      getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
+	public void setIntakeRejectStatus(String intakeIds) {
+       if(intakeIds==null || intakeIds.length()==0) return;
+	   String[] split = intakeIds.split(",");
+       for(int i=0;i<intakeIds.length();i++){
+    	 Integer intakeId= Integer.valueOf(split[i]);  
+	     getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
             KeyConstants.INTAKE_STATUS_REJECTED + "' where q.id=?", intakeId);
+       }  
 	}
 	
 }
