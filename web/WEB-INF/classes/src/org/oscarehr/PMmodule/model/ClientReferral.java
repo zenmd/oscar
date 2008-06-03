@@ -41,7 +41,7 @@ public class ClientReferral implements Serializable {
     private String completionNotes;
     private Integer programId;
     private String status;
-    private boolean temporaryAdmission;
+//    private boolean temporaryAdmission;
     private java.util.Date completionDate;
     private String providerLastName;
     private String providerFirstName;   
@@ -238,20 +238,22 @@ public class ClientReferral implements Serializable {
     /**
      * Return the value associated with the column: temporary_admission_flag
      */
+/*    
     public boolean isTemporaryAdmission() {
         return temporaryAdmission;
     }
-
+*/
     /**
      * Set the value related to the column: temporary_admission_flag
      * 
      * @param _temporaryAdmission
      *            the temporary_admission_flag value
      */
+/*    
     public void setTemporaryAdmission(boolean _temporaryAdmission) {
         this.temporaryAdmission = _temporaryAdmission;
     }
-
+*/
     /**
      * Return the value associated with the column: completion_date
      */

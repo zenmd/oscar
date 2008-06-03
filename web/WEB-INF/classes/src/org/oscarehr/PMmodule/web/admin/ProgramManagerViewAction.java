@@ -143,7 +143,7 @@ public class ProgramManagerViewAction extends BaseAction {
             request.setAttribute("clientId", demographicNo);
         }
 
-        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
+//        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 
         // check role permission
         HttpSession se=request.getSession();

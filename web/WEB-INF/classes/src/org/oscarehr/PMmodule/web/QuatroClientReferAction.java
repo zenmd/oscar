@@ -76,7 +76,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("clientId", (String) clientForm.get("clientId"));
 
 		request.setAttribute("do_refer", Boolean.TRUE);
-		request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
+//		request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 
 		return mapping.findForward("edit");
 	}

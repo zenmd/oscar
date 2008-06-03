@@ -38,7 +38,7 @@ public class ProgramQueue implements Serializable {
     private String _notes;
     private Integer _programId;
 //    private String _status;
-    private boolean _temporaryAdmission;
+//    private boolean _temporaryAdmission;
     private Integer _referralId;
     private String _programName;
     private String _providerLastName;
@@ -46,7 +46,7 @@ public class ProgramQueue implements Serializable {
     private String _clientLastName;
     private String _clientFirstName;
     private String presentProblems;
-    private Integer headClientId = null;
+//    private Integer headClientId = null;
 
 
     // constructors
@@ -202,18 +202,20 @@ public class ProgramQueue implements Serializable {
     /**
      * Return the value associated with the column: temporary_admission_flag
      */
+/*    
     public boolean isTemporaryAdmission () {
         return _temporaryAdmission;
     }
-
+*/
     /**
      * Set the value related to the column: temporary_admission_flag
      * @param _temporaryAdmission the temporary_admission_flag value
      */
+/*    
     public void setTemporaryAdmission (boolean _temporaryAdmission) {
         this._temporaryAdmission = _temporaryAdmission;
     }
-
+*/
     /**
      * Return the value associated with the column: referral_id
      */
@@ -336,7 +338,7 @@ public class ProgramQueue implements Serializable {
     public String toString () {
         return super.toString();
     }
-
+/*
     public Integer getHeadClientId() {
         return headClientId;
     }
@@ -351,5 +353,6 @@ public class ProgramQueue implements Serializable {
             return headClientId;
         return _clientId;
     }
-
+*/
+    
 }
