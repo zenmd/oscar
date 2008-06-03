@@ -16,6 +16,8 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 <script>
 	function resetClientFields() {
 		var form = document.clientSearchForm2;
+		if(form == null) alert ('form is null');
+		if (form.elements == null) alert('elements is null');
 		form.elements['criteria.demographicNo'].value='';
 		form.elements['criteria.firstName'].value='';
 		form.elements['criteria.lastName'].value='';
@@ -133,9 +135,7 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 	</div>  
 	</td>
 	</tr>
-</html:form>
 	<c:if test="${requestScope.clients != null}">
-         <form method="post" name="clientSearchForm2" action="/PMmodule/ClientSearch2.do">
             <tr height="100%">
                 <td>
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
@@ -171,8 +171,8 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 		</td>
 		</tr>
 		</table>       
-        </form>
        </c:if>
+</html:form>
         
            
         
