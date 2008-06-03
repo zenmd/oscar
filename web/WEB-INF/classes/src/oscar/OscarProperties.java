@@ -145,4 +145,16 @@ public class OscarProperties extends Properties {
      {
     	 return getProperty("db_type");
      }
+     public String getDbUserName()
+     {
+    	return getProperty("db_username");
+     }
+     public String getDbPassword()
+     {
+    	return getProperty("db_password");
+     }
+     public String getDbUri()
+     {
+    	 return getProperty("db_uri");
+     }
 }
