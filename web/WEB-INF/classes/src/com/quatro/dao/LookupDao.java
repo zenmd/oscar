@@ -210,14 +210,18 @@ public class LookupDao extends HibernateDaoSupport {
 					FieldDefValue fdv = (FieldDefValue) fs.get(i);
 					String val = db.getString(rs, i+1);
 					fdv.setVal(val);
-					if (!Utility.IsEmpty(fdv.getLookupTable()))
-					{
-						LookupCodeValue lkv = GetCode(fdv.getLookupTable(),val);
-						if (lkv != null) fdv.setValDesc(lkv.getDescription());
-					}
 				}
 			}
 			rs.close();
+			for (int i=0; i< fs.size(); i++)
+			{
+				FieldDefValue fdv = (FieldDefValue) fs.get(i);
+				if (!Utility.IsEmpty(fdv.getLookupTable()))
+				{
+					LookupCodeValue lkv = GetCode(fdv.getLookupTable(),fdv.getVal());
+					if (lkv != null) fdv.setValDesc(lkv.getDescription());
+				}
+			}
 		}
 		catch(SQLException e)
 		{
@@ -299,9 +303,10 @@ public class LookupDao extends HibernateDaoSupport {
 		{
 			id = UpdateCodeValue(tableDef,fieldDefList);
 		}
-		if ("OGN".equals(tableDef.getTableId()))
+		String tableId = tableDef.getTableId();
+		if ("OGN,SHL".indexOf(tableId)>=0)
 		{
-			SaveAsOrgCode(GetCode("OGN", id)); 
+			SaveAsOrgCode(GetCode(tableId, id), tableId); 
 		}
 		return id;
 	}
@@ -494,9 +499,9 @@ public class LookupDao extends HibernateDaoSupport {
 		String fullCode = "F" + facility.getId();
 		
 		String orgId = "0000000" + String.valueOf(facility.getOrgId());
-		orgId = "O" + orgId.substring(orgId.length()-7); 
+		orgId = "S" + orgId.substring(orgId.length()-7); 
 		
-		LookupCodeValue ocd = GetCode("ORG", "O" + facility.getOrgId());
+		LookupCodeValue ocd = GetCode("ORG", "S" + facility.getOrgId());
 		fullCode = ocd.getBuf1() + fullCode;
 		
 		boolean isNew = false;
@@ -515,28 +520,35 @@ public class LookupDao extends HibernateDaoSupport {
 		
 		this.SaveCodeValue(isNew,fcd);
 	}
-	public void SaveAsOrgCode(LookupCodeValue organization) throws SQLException
+	public void SaveAsOrgCode(LookupCodeValue orgVal, String tableId) throws SQLException
 	{
 		LookupTableDefValue tableDef = this.GetLookupTableDef("ORG");
 		List codeValues = new ArrayList();
-		String  orgId = "0000000" + organization.getCode();
-		orgId = "O" + orgId.substring(orgId.length()-7);
+		String orgPrefix = tableId.substring(0,1);
+		String orgPrefixP = "R1";
+		if ("S".equals(orgPrefix)) orgPrefixP = "O";   //parent of Organization is R, parent of Shelter is O.
+
+		String  orgId = "0000000" + orgVal.getCode();
+		orgId = orgPrefix + orgId.substring(orgId.length()-7);
+
+		String orgCd = orgPrefix + orgVal.getCode();
+		String parentCd = orgPrefixP + orgVal.getParentCode();
 		
-		String sId = "R0000001";
-		String fullCode = "R1" + "O" + organization.getCode() ;
+		LookupCodeValue pCd = GetCode("ORG",parentCd);
+		if(pCd == null) return;
 		
+		LookupCodeValue ocd = GetCode("ORG", orgCd);
 		boolean isNew = false;
-		LookupCodeValue ocd = GetCode("ORG", "O" + organization.getCode());
 		if (ocd == null) {
 			isNew = true;
 			ocd = new LookupCodeValue();
 		}
 		ocd.setPrefix("ORG");
-		ocd.setCode("O" + organization.getCode());
-		ocd.setCodeTree(sId + orgId);
-		ocd.setDescription(organization.getDescription());
-		ocd.setBuf1(fullCode);
-		ocd.setActive(organization.isActive());
+		ocd.setCode(orgCd);
+		ocd.setCodeTree(pCd.getCodeTree() + orgId);
+		ocd.setDescription(orgVal.getDescription());
+		ocd.setBuf1(pCd.getBuf1()+ orgCd);
+		ocd.setActive(orgVal.isActive());
 		ocd.setOrderByIndex(0);
 		
 		this.SaveCodeValue(isNew,ocd);
