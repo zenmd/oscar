@@ -261,7 +261,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</tr>
 				<logic:iterate id="ps" name="programSignatureLst" indexId="index">
 					<tr class="b">
-						<td><%=String.valueOf(index + 1)%></td>
+						<td><@%=String.valueOf(index + 1)%></td>
 						<td><c:out value="${ps.providerName}" /></td>
 						<td><c:out value="${ps.updateDateStr}" /></td>
 					</tr>

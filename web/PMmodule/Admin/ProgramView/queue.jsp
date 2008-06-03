@@ -50,8 +50,8 @@
 <html:hidden property="remoteReferralId" />
 <h3>Local Queue</h3>
 <%
-	HashSet<Long> genderConflict=(HashSet<Long>)request.getAttribute("genderConflict");
-	HashSet<Long> ageConflict=(HashSet<Long>)request.getAttribute("ageConflict");
+	HashSet genderConflict=(HashSet)request.getAttribute("genderConflict");
+	HashSet ageConflict=(HashSet)request.getAttribute("ageConflict");
 %>
 <!--  show current clients -->
 <display:table class="simple" cellspacing="2" cellpadding="3" id="queue_entry" name="queue" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
@@ -60,7 +60,7 @@
     <display:column sortable="false">
     	<%
 			String action="admit";
-    		long clientId=((ProgramQueue)pageContext.getAttribute("queue_entry")).getClientId();
+    		Integer clientId=((ProgramQueue)pageContext.getAttribute("queue_entry")).getClientId();
     		if (genderConflict.contains(clientId)) action="genderConflict";	
     		if (ageConflict.contains(clientId)) action="ageConflict";	
     	%>
