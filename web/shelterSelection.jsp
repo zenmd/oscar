@@ -2,6 +2,9 @@
 <%@page import="com.quatro.model.LookupCodeValue"%>
 <%@page import="org.oscarehr.util.SessionConstants"%>
 <%@include file="taglibs.jsp"%>
+<%
+String _appPath = request.getContextPath();
+%>
 <style type="text/css">
   li { 
   		list-style-image: url(/QuatroShelter/images/smallhouse.gif);
@@ -11,17 +14,21 @@
 </style>
 <table width="100%">
 	<tr>
-		<th class="pageTitle" colspan="2">Shelter Selection</th>
-	</tr>
-	<tr>
-	<td><img border="0" src="/QuatroShelter/images/Home.gif" width="49" height="60">
+		<th class="pageTitle" colspan="5">Shelter Selection</th>
+	</tr><tr><td colspan="5">&nbsp;</td></tr><tr>
+<td width="10%">&nbsp;&nbsp;
+<img border="0" width="60px"
+										height="60px" src="<%=_appPath %>/images/Home.gif" alt="" /></td>
+	 <td width="80%" align="left" class="clsPageHeader" colspan="5">
+			<h1><i style="color:#778899">Welcome to Quatro</i><b style="color:	#1E90FF">shelter</b></h1>
 	</td>
-	<td valign="bottom"><h1><i style="color:#778899">Welcome to Quatro</i><b style="color:	#1E90FF">shelter</b></h1></td>
-	<tr>
-	<td></td>
-	<td height="2px" style="background-color: gray">
 	
-	</td>
+	</tr>
+								<tr>
+									<td></td>
+									<td colspan="5">
+									<hr />
+				
 	<tr>
 	<td>
 	</td>
