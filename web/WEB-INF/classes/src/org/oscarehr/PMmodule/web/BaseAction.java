@@ -161,6 +161,7 @@ public abstract class BaseAction extends DispatchAction {
 		{
 			request.getSession().setAttribute(lastMenu, KeyConstants.ACCESS_VIEW);
 		}
+/*
 		request.getSession().setAttribute("currMenu", currentMenu);
 		if (currentMenu.equals(KeyConstants.MENU_CLIENT))request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_CURRENT);
 		if (currentMenu.equals(KeyConstants.MENU_PROGRAM))request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_CURRENT);
@@ -168,7 +169,7 @@ public abstract class BaseAction extends DispatchAction {
 		if (currentMenu.equals(KeyConstants.MENU_REPORT))request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_CURRENT);
 		if (currentMenu.equals(KeyConstants.MENU_ADMIN))request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_CURRENT);
 		if (currentMenu.equals(KeyConstants.MENU_HOME))request.getSession().setAttribute(KeyConstants.MENU_HOME, KeyConstants.ACCESS_CURRENT);
-	}
+*/	}
 
 	private void initMenu(HttpServletRequest request)
 	{
