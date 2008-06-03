@@ -206,6 +206,8 @@ public class IncidentManager {
 		incident.setClients(clients);
 		String staff = incidentForm.getTxtStaffKeys() + "/" + incidentForm.getTxtStaffValues();
 		incident.setStaff(staff);
+		if(incident.getDescription()!=null && incident.getDescription().length() > 4000)
+		incident.setDescription(incident.getDescription().substring(0, 3999));
 		
  		incidentDao.save(incident);
  		String incidentId = "";

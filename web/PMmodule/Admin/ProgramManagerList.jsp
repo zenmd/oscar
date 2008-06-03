@@ -135,7 +135,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					</c:otherwise>
 				</c:choose>
 	
-				<display:column sortable="true" title="Name">
+				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
 					<a
 						href="<html:rewrite action="/PMmodule/ProgramManagerView.do"/>?id=<c:out value="${program.id}" />">
 					<c:out value="${program.name}" /> </a>
@@ -146,17 +146,17 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					title="Status" />
 				<display:column property="facilityDesc" sortable="true" title="Facility" />
 				
-				<display:column sortable="true" title="Occupancy">
+				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
 					<c:out value="${program.numOfMembers}" />
 				</display:column>
-				<display:column sortable="true" title="Queue">
+				<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize">
 					<c:out value="${program.queueSize}" />
 				</display:column>
 				
-				<display:column sortable="true" title="Capacity (actual)">
+				<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual">
 					<c:out value="${program.capacity_actual}" />
 				</display:column>
-				<display:column sortable="true" title="Capacity (funding)">
+				<display:column sortable="true" title="Capacity (funding)" sortName="program" sortProperty="capacity_funding">
 					<c:out value="${program.capacity_funding}" />
 				</display:column>
 			</display:table>  

@@ -17,13 +17,10 @@ import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ComplaintManager;
 import org.oscarehr.PMmodule.service.IncidentManager;
 import org.oscarehr.PMmodule.web.formbean.IncidentForm;
-import org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm;
 
 import oscar.MyDateFormat;
 
-import com.quatro.model.Complaint;
 import com.quatro.model.IncidentValue;
-import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 
 public class IncidentAction extends DispatchAction {

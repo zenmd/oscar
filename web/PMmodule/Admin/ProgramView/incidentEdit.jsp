@@ -112,7 +112,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					</td>
 				</tr>	
 				<tr>
-					<td colspan="4"><b>Witnesses:</b> <html-el:text property="incidentForm.incident.witnesses" style="width:100%;"/></td>		
+					<td colspan="4" width="100%"><b>Witnesses:</b> 
+					<html-el:textarea property="incidentForm.incident.witnesses" style="width:95%" rows="1"  />
+					</td>		
 				</tr>
 				 
 				<tr>
@@ -166,14 +168,14 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					</td>		
 				</tr>
 				<tr>
-					<td colspan="4"><b>Location of Incident:</b> <html-el:text property="incidentForm.incident.location" style="width:100%;" /></td>		
+					<td colspan="4" width="100%"><b>Location of Incident:</b> <html-el:text property="incidentForm.incident.location" size="80" maxlength="200" /></td>		
 				</tr>
 				<tr>
-					<td colspan="4"><b>Incident Details:</b> <br />
-					<html-el:textarea property="incidentForm.incident.description" style="width:100%;" rows="3" /></td>		
+					<td colspan="4" valign="top"><b>Incident Details:</b> 
+					<html-el:textarea property="incidentForm.incident.description" style="width:95%" rows="3"  /></td>		
 				</tr>	
 				<tr>
-					<td colspan="2"><b>Restriction Information:</b><html-el:text property="incidentForm.incident.restriction" /></td>		
+					<td colspan="2"><b>Restriction Information:</b><html-el:text property="incidentForm.incident.restriction" maxlength="1000"/></td>		
 					<td colspan="2"><b>Charges Laid:</b> 
 						<html:select property="incidentForm.incident.chargesLaid">
 							<html:option value="-1" >--</html:option>
@@ -183,16 +185,19 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><b>Police Report#:</b> <html-el:text property="incidentForm.incident.policeReportNo" /></td>		
-					<td colspan="2"><b>Badge Number:</b> <html-el:text property="incidentForm.incident.badgeNo" /></td>
+					<td colspan="2"><b>Police Report#:</b> <html-el:text property="incidentForm.incident.policeReportNo" maxlength="20"/></td>		
+					<td colspan="2"><b>Badge Number:</b> <html-el:text property="incidentForm.incident.badgeNo" maxlength="20" /></td>
 				</tr>
 				<tr>
-					<td colspan="2"><b>Investigation Recommendation:</b> <html-el:text property="incidentForm.incident.investigationRcmd" style="width:100%;" /></td>
-					<td colspan="2"><b>Follow up Information:</b> <html-el:text property="incidentForm.incident.followupInfo" style="width:100%;" /></td>
+					<td colspan="2"><b>Investigation Recommendation:</b> 
+					<html-el:textarea property="incidentForm.incident.investigationRcmd" rows="1" cols="40" /></td>
+					<td colspan="2"><b>Follow up Information:</b> 
+					<html-el:textarea property="incidentForm.incident.followupInfo" rows="1" cols="40" />
+					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><b>Investigation Conducted By:</b> <html-el:text property="incidentForm.incident.investigationConductedby" /></td>	
-					<td colspan="2"><b>Follow up Completed By:</b> <html-el:text property="incidentForm.incident.followupCompletedby" /></td>	
+					<td colspan="2"><b>Investigation Conducted By:</b> <html-el:text property="incidentForm.incident.investigationConductedby" maxlength="200"/></td>	
+					<td colspan="2"><b>Follow up Completed By:</b> <html-el:text property="incidentForm.incident.followupCompletedby" maxlength="200"/></td>	
 				</tr>
 				<tr>	
 					<td><b>Investigation Date:</b> </td>
