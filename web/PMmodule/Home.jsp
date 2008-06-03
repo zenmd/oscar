@@ -22,7 +22,7 @@ String _appPath = request.getContextPath();
 									<td width="10%">&nbsp;&nbsp;<img border="0" width="60px"
 										height="60px" src="<%=_appPath %>/images/Home.gif" alt="" /></td>
 									<td width="80%" align="left" class="clsPageHeader" colspan="5">
-									<h2>Welcome to Quatro Shelter</h2>
+									<h1 style="color:#1E90FF">Home</h1>
 									</td>
 									<td width="10%">&nbsp;</td>
 								</tr>
