@@ -317,7 +317,7 @@ var XMLHttpRequestObject = false;
 		
 	<table width="90%" border="0" cellpadding="0" cellspacing="1">
 	<tr>
-			<th>Components of Service Category</th>
+			<th>Components of Service</th>
 		</tr>
 		<tr>
 			<td width="60%"><html:select property="lstIssue" multiple="true" size="3"
