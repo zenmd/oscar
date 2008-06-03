@@ -83,6 +83,11 @@
 			document.forms[0].submit();
     	}
     }
+    function deleteRoom2(rid){
+    	document.forms[0].roomToDelete.value=rid;
+    	deleteRoom();
+    }
+    
     function deleteBed(){
  		var doDelete = confirm("Are you sure you want to delete the bed?");
  		if(doDelete){
@@ -91,8 +96,12 @@
  		}
  	}
     
-    
+    function deleteBed2(bid){
+		document.forms[0].bedToDelete.value=bid;
+		deleteBed();
+ 	}
 </script>
+
 <html:form action="/PMmodule/BedManager.do">
 
 
@@ -167,21 +176,23 @@
 									<!-- begin room status & bed program filter -->
 									<table width="100%">
 										<tr>
-											<td width="40%"></td>
-											<td width="30%" style="font-weight:bold">Room Status<br />
+											
+											<td style="font-weight:bold" align="left" width="250px">Room Status
 											<html:select property="roomStatusFilter"
 												name="bedManagerForm" onchange="roomFilter();">
 												<html:optionsCollection property="roomStatusNames"
 													value="key" label="value" />
 											</html:select></td>
-											<td width="30%" align="right" style="font-weight:bold">Bed
-											Program<br />
+											
+											<td align="left" style="font-weight:bold">Bed
+											Program
 											<html:select property="bedProgramFilterForRoom"
 												name="bedManagerForm" onchange="roomFilter();">
 												<option value="0">Any</option>
 												<html:optionsCollection property="programs" value="id"
 													label="name" />
 											</html:select></td>
+											
 										</tr>
 									</table>
 
@@ -285,8 +296,12 @@
 										</display:column>
 
 										<display:column title="Delete" sortable="true">
+										<!-- 
 											<input type="button" name="submit.deleteRoom" value="Delete"
 												onclick='bedManagerForm.roomToDelete.value="<c:out value="${room.id}"/>"; deleteRoom();' />
+ 										-->
+											<a href="javascript:deleteRoom2(<c:out value="${room.id}"/>);">Delete</a>
+											
 										</display:column>
 
 									</display:table></td>
@@ -294,12 +309,22 @@
 								</tr>
 								
 								<tr>
-									<td><html:text property="numRooms" /> <html:button
+									<td><html:text property="numRooms" /> 
+									<!-- 
+									<html:button style="visibility:hidden"
 										property="submit.addRooms" onclick="javascript:addRooms();">Add Rooms</html:button>
+									-->	
+									<html:link 	style="color:Navy;text-decoration:underline;"  href="javascript:addRooms();">Add Rooms</html:link>
+										
 									<input type=hidden name="submit.addRoom" value="">
 									<input type=hidden name="roomslines"
-										value="<c:out value="${room_rowNum}" />"> <html:button
-										property="submit.saveRooms" onclick="javascript:saveRooms();">Save Rooms</html:button>
+										value="<c:out value="${room_rowNum}" />"> 
+									<!--  	
+									<html:button 
+										property="submit.saveRooms" onclick="javascript:saveRooms();">Save Rooms</html:button>	
+									-->	
+									<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveRooms();">Save Rooms</html:link>
+										
 									<input type=hidden name="submit.saveRoom" value="">
 									</td>
 								</tr>
@@ -320,14 +345,15 @@
 									<!-- begin bed status & bedRoom filter -->
 									<table width="100%">
 										<tr>
-											<td width="40%"></td>
-											<td width="30%" style="font-weight:bold">Bed Status<br />
+											
+											<td align="left" width="250px" style="font-weight:bold">Bed Status
 											<html:select property="bedStatusFilter" name="bedManagerForm"
 												onchange="bedFilter();">
 												<html:optionsCollection property="bedStatusNames"
 													value="key" label="value" />
 											</html:select></td>
-											<td width="30%" align="right" style="font-weight:bold">Room<br />
+											
+											<td align="left" style="font-weight:bold">Room
 											<html:select property="bedRoomFilterForBed"
 												name="bedManagerForm" onchange="bedFilter();">
 												<html:optionsCollection property="rooms" value="id"
@@ -399,8 +425,11 @@
 										</display:column>
 
 										<display:column title="Delete" sortable="true">
+<!-- 
 											<input type="button" name="submit.deleteBed" value="Delete"
 												onclick='bedManagerForm.bedToDelete.value="<c:out value="${bed.id}"/>"; deleteBed();' />
+ -->
+											<a href="javascript:deleteBed2(<c:out value="${bed.id}"/>);">Delete </a>
 										</display:column>
 
 									</display:table></td>
@@ -411,16 +440,25 @@
 										value="<c:out value="${bed_rowNum}" />"> <c:choose>
 										<c:when test="${not empty bedManagerForm.rooms}">
 											<html:text property="numBeds" />
+											<!--  
 											<html:button property="submit.addBeds"
 												onclick="javascript:addBeds();">Add Beds</html:button>
+											-->	
+											<html:link	style="color:Navy;text-decoration:underline;" href="javascript:addBeds();">Add Beds</html:link>
+												
 											<input type=hidden name="submit.addBed" value="">
 										</c:when>
 										<c:otherwise>
-											<html:submit property="submit.addBeds" disabled="true">Add Beds</html:submit>
+											
 										</c:otherwise>
 									</c:choose>
+									<!--  
 									<html:button property="submit.saveBeds"
-										onclick="javascript:saveBeds();">Save Beds</html:button> <input
+										onclick="javascript:saveBeds();">Save Beds</html:button>
+									-->	
+									<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveBeds();">Save Beds</html:link>
+									
+									<input
 										type=hidden name="submit.saveBed" value="">
 									</td>
 								</tr>

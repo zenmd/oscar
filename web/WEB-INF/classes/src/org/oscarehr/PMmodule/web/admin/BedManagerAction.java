@@ -139,6 +139,9 @@ public class BedManagerAction extends DispatchAction {
         }
         try {
             roomManager.saveRooms(rooms);
+            ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+            saveMessages(request, messages);
         }
         catch (RoomHasActiveBedsException e) {
             ActionMessages messages = new ActionMessages();
@@ -184,6 +187,8 @@ public class BedManagerAction extends DispatchAction {
 
             Room room = roomManager.getRoom(roomId);
             roomManager.deleteRoom(room);
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
+            saveMessages(request, messages);
 
         }
         catch (RoomHasActiveBedsException e) {
@@ -214,6 +219,9 @@ public class BedManagerAction extends DispatchAction {
         try {
             beds = bedManager.getBedsForUnfilledRooms(rooms, beds);
             bedManager.saveBeds(beds);
+            ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+            saveMessages(request, messages);
 
         }
         catch (BedReservedException e) {
@@ -237,7 +245,7 @@ public class BedManagerAction extends DispatchAction {
         // (1)Check whether any client is assigned to this bed ('bed_demographic' table)->
         // if yes, disallow bed delete and display message.
         // (2)if no client assigned, delete this bed ('bed' table)
-
+        ActionMessages messages = new ActionMessages();
         try {
 
             BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByBed(bedId);
@@ -248,10 +256,12 @@ public class BedManagerAction extends DispatchAction {
 
             Bed bed = bedManager.getBedForDelete(bedId);
             bedManager.deleteBed(bed);
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
+            saveMessages(request, messages);
 
         }
         catch (BedReservedException e) {
-            ActionMessages messages = new ActionMessages();
+           
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.reserved.error", e.getMessage()));
             saveMessages(request, messages);
         }

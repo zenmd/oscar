@@ -142,7 +142,7 @@ public class FacilityManagerAction extends BaseAction {
         }
         request.setAttribute(BEAN_ASSOCIATED_CLIENTS, facilityClients);
 
-        request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programManager.getPrograms(id));
+        request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
 
         request.setAttribute("id", facility.getId());
 
@@ -170,10 +170,21 @@ public class FacilityManagerAction extends BaseAction {
     }
 
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
-        Facility facility = facilityManager.getFacility(Integer.valueOf(id));
-        facility.setDisabled(true);
-        facilityManager.saveFacility(facility);
+    	ActionMessages messages = new ActionMessages();
+    	
+    	try{
+	        String id = request.getParameter("id");
+	        Facility facility = facilityManager.getFacility(Integer.valueOf(id));
+	        facility.setDisabled(true);
+	        facilityManager.saveFacility(facility);
+	        
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
+            saveMessages(request, messages);
+
+    	}catch( Exception e){
+    		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.remove.failed", request.getContextPath()));
+            saveMessages(request, messages);
+    	}
 
         return list(mapping, form, request, response);
     }
@@ -207,14 +218,15 @@ public class FacilityManagerAction extends BaseAction {
             facilityManager.saveFacility(facility);
 
             ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("facility.saved", facility.getName()));
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
             saveMessages(request, messages);
 
             request.setAttribute("id", facility.getId());
 
             logManager.log("write", "facility", facility.getId().toString(), request);
 
-            return list(mapping, form, request, response);
+            //return list(mapping, form, request, response);
+            return mapping.findForward(FORWARD_EDIT);
         }
         catch (Exception e) {
             ActionMessages messages = new ActionMessages();

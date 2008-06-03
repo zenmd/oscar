@@ -1,5 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
-
+<% String s = "debug"; %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
 <bean:define id="facility" name="facilityManagerForm"
 	property="facility" />
@@ -103,34 +103,39 @@
 						</tr>
 					</table>
 					</div>
-					<display:table class="simple" cellspacing="2" cellpadding="3"
-						id="program" name="associatedPrograms" export="false"
-						requestURI="/PMmodule/FacilityManager.do">
-						<display:setProperty name="basic.msg.empty_list"
-							value="No programs." />
-
-						<logic:equal name="program" property="facilityId"
-							value="<%=((Facility)facility).getId().toString()%>">
-							<display:column sortable="true" sortProperty="name"
-								title="Program Name">
-								<a
-									href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?id=<c:out value="${program.id}"/>"><c:out
-									value="${program.name}" /></a>
-							</display:column>
-						</logic:equal>
-						<logic:notEqual name="program" property="facilityId"
-							value="<%=((Facility)facility).getId().toString()%>">
-							<display:column sortable="true" sortProperty="name"
-								title="Program Name">
-								<c:out value="${program.name}" />
-							</display:column>
-						</logic:notEqual>
-
-						<display:column property="type" sortable="true"
-							title="Program Type" />
-						<display:column property="queueSize" sortable="true"
-							title="Clients in Queue" />
-					</display:table> <br>
+					<logic:empty name="associatedPrograms">No programs.<br /></logic:empty>  
+					<logic:notEmpty name="associatedPrograms">
+						<display:table class="simple" cellspacing="2" cellpadding="3"
+							id="program" name="associatedPrograms" export="false"
+							requestURI="/PMmodule/FacilityManager.do">
+							<display:setProperty name="basic.msg.empty_list"
+								value="No programs." />
+	
+							<logic:equal name="program" property="facilityId"
+								value="<%=((Facility)facility).getId().toString()%>">
+								<display:column sortable="true" sortProperty="name"
+									title="Program Name">
+									<a
+										href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?id=<c:out value="${program.id}"/>"><c:out
+										value="${program.name}" /></a>
+								</display:column>
+							</logic:equal>
+							<logic:notEqual name="program" property="facilityId"
+								value="<%=((Facility)facility).getId().toString()%>">
+								<display:column sortable="true" sortProperty="name"
+									title="Program Name">
+									<c:out value="${program.name}" />
+								</display:column>
+							</logic:notEqual>
+	
+							<display:column property="type" sortable="true"
+								title="Program Type" />
+							<display:column property="queueSize" sortable="true"
+								title="Clients in Queue" />
+						</display:table> 
+					</logic:notEmpty>
+					<br>
+					
 					<div class="tabs" id="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
 						<tr>
@@ -144,13 +149,15 @@
 					client is admitted to another facility while still admitted in this
 					facility.
 
-					<table width="100%" border="1" cellspacing="2" cellpadding="3">
-						<tr>
-							<th>Name</th>
-							<th>Client DOB</th>
-							<th>Bed Program</th>
-							<th>Discharge Date/Time</th>
-						</tr>
+					<table width="100%" border="1" cellspacing="2" cellpadding="3" class="simple" >
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Client DOB</th>
+								<th>Bed Program</th>
+								<th>Discharge Date/Time</th>
+							</tr>
+						</thead>
 						<c:forEach var="client" items="${associatedClients}">
 
 							<%

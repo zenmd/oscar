@@ -41,11 +41,9 @@
 
 <script>
 	function clickTab(name) {
-		//alert("clicktab = " + name);
 		document.programManagerForm.action = "<c:out value='${ctx}'/>/PMmodule/ProgramManagerView.do?id=<c:out value='${requestScope.id}'/>";
 		document.getElementsByName("tab")[0].value=name;
 		document.programManagerForm.method.value="view";
-		//alert("submit");
 		document.programManagerForm.submit();
 		
 	}

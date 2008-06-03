@@ -13,6 +13,9 @@
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
 		return isOk;
 	}
+	function submitForm(){
+		document.forms[0].submit();
+	}
 </script>
 <!-- don't close in 1 statement, will break IE7 -->
 
@@ -42,7 +45,7 @@
 						style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 						<html:link
-						action="/PMmodule/FacilityManager.do?method=save"
+						href="javascript:submitForm();"
 						style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 					</td>
