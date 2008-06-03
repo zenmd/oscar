@@ -58,7 +58,7 @@
 					         <logic:notEmpty name="field" property="lookupTable">
 					           <html:hidden name="field" property="lookupTable" indexed="true" />
 					           <quatro:lookupTag name="field" tableName="<%=field.getLookupTable()%>" indexed="true" formProperty="lookupCodeEditForm" codeWidth="10%"
-					              codeProperty ="val" bodyProperty="valdesc"></quatro:lookupTag>
+					              codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
 					         </logic:notEmpty>
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="D">
