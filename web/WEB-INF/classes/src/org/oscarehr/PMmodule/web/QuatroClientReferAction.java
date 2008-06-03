@@ -157,7 +157,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		refObj.setCompletionDate(new Date());
 		refObj.setProviderNo(p.getProviderNo());
 		refObj.setReferralDate(new Date());
-		refObj.setStatus("active");
+		refObj.setStatus(KeyConstants.STATUS_ACTIVE);
 		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {
