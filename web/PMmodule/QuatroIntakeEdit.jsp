@@ -234,43 +234,43 @@ function checkExistClients(){
 <table width="100%" class="simple">
 <tr><td width="30%">Birth Certificate</td>
 <td width="50%"><html-el:text property="intake.birthCertificate" size="20" maxlength="30" /></td>
-<td width="12%">On file?</td>
-<td width="8%"><html-el:checkbox property="intake.birthCertificateYN" /></td></tr>
+<td width="10%">On file?</td>
+<td width="10%"><html-el:checkbox property="intake.birthCertificateYN" /></td></tr>
 <tr><td>Social Insurance No.</td>
 <td><html-el:text property="intake.SIN" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.SINYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.SINYN" /></td></tr>
 <tr><td>Health card No.</td>
 <td><html-el:text property="intake.healthCardNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.healthCardNoYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.healthCardNoYN" /></td></tr>
 <tr><td>Driver's License No.</td>
 <td><html-el:text property="intake.driverLicenseNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.driverLicenseNoYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.driverLicenseNoYN" /></td></tr>
 <tr><td>Canadian Citizenship Card</td>
 <td><html-el:text property="intake.citizenCardNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.citizenCardNoYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.citizenCardNoYN" /></td></tr>
 <tr><td>Native Reserve Card</td>
 <td><html-el:text property="intake.nativeReserveNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.nativeReserveNoYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.nativeReserveNoYN" /></td></tr>
 <tr><td>Veteran No.</td>
 <td><html-el:text property="intake.veteranNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.veteranNoYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.veteranNoYN" /></td></tr>
 <tr><td>Record of Landing</td>
 <td><html-el:text property="intake.recordLanding" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.recordLandingYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.recordLandingYN" /></td></tr>
 <tr><td>Library Card</td>
 <td><html-el:text property="intake.libraryCard" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.libraryCardYN" /></td></tr>
+<td width="55">On file?</td>
+<td width="53"><html-el:checkbox property="intake.libraryCardYN" /></td></tr>
 <tr><td>Other</td>
 <td><html-el:text property="intake.idOther" size="20" maxlength="30" /></td>
-<td></td><td></td></tr>
+<td width="55"></td><td width="53"></td></tr>
 </table>
 </td></tr>
 
