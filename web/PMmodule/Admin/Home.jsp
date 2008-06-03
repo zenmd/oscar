@@ -27,10 +27,19 @@ String _appPath = request.getContextPath();
                     height: 100%; width: 100%; overflow: auto;">
 
 		<table width="100%" cellpadding="0" cellspacing="0">
+		<tr><td colspan="7">&nbsp;</td></tr>
 			<tr>
-				<td width="80%" align="left" class="clsPageTitle" colspan="5">
-				<h2>System Administration</h2>
-				</td>
+				<td width="10%">&nbsp;&nbsp;<img border="0" width="60px"
+										height="60px" src="<%=_appPath %>/images/Home.gif" alt="" /></td>
+									<td width="80%" align="left" class="clsPageHeader" colspan="5">
+									<h1 style="color:#1E90FF">System Administration</h1>
+									</td>
+									<td width="10%">&nbsp;</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td colspan="5">
+									<hr />
 				<td width="10%">&nbsp;</td>
 			</tr>
 
