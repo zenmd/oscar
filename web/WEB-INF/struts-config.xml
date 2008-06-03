@@ -1323,9 +1323,6 @@
         <action input="/oscarWaitingList/WLDisplayPatientWaitingList.jsp" name="WLWaitingListForm" path="/oscarWaitingList/WLWaitingList" scope="request" type="oscar.pageUtil.WLWaitingListAction">
             <forward name="success" path="/oscarWaitingList/WLDisplayPatientWaitingList.jsp" />
         </action>
-        <action path="/demographic/printDemoLabelAction" type="oscar.oscarDemographic.PrintDemoLabelAction" />
-        <action path="/demographic/printDemoAddressLabelAction" type="oscar.oscarDemographic.PrintDemoAddressLabelAction" />
-        <action path="/demographic/printBarcodeAction" type="oscar.oscarDemographic.PrintBarcodeAction" />
         <action name="createBillingReportActionForm" path="/billing/CA/BC/createBillingReportAction" scope="request" type="oscar.oscarBilling.ca.bc.MSP.CreateBillingReportAction" validate="false" />
         <action input="/oscarPrevention/AddPreventionData.jsp" name="FrmForm" path="/oscarPrevention/AddPrevention" scope="request" type="oscar.oscarPrevention.pageUtil.AddPreventionAction">
             <forward name="success" path="/oscarPrevention/close.jsp" />
@@ -1338,7 +1335,9 @@
             <forward name="error" path="/oscarPrevention/index.jsp" />
         </action>
  -->     
-        
+        <action path="/demographic/printDemoLabelAction" type="oscar.oscarDemographic.PrintDemoLabelAction" />
+        <action path="/demographic/printDemoAddressLabelAction" type="oscar.oscarDemographic.PrintDemoAddressLabelAction" />
+        <action path="/demographic/printBarcodeAction" type="oscar.oscarDemographic.PrintBarcodeAction" />
 <!-- 
         <action input="/demographic/AddAlternateContact.jsp" name="FrmForm" path="/demographic/AddRelation" scope="request" type="oscar.oscarDemographic.pageUtil.AddDemographicRelationshipAction">
             <forward name="success" path="/demographic/AddAlternateContact.jsp" />
