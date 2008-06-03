@@ -99,12 +99,6 @@
 	<td><html:textarea cols="60" rows="7" property="referral.notes" /></td></tr>
 	<tr><td width="20%">Presenting Problems</td>
 	<td><html:textarea cols="60" rows="7" property="referral.presentProblems" /></td></tr>
-	<c:if test="${program.type eq 'Bed' }">
-	  <caisi:isModuleLoad moduleName="pmm.refer.temporaryAdmission.enabled">
-		<tr><td width="20%">Request Temporary Admission</td>
-		<td><html:checkbox property="referral.temporaryAdmission" /></td></tr>
-	  </caisi:isModuleLoad>
-	</c:if>
 	<tr><td colspan="2"><!-- input type="button" value="Process Referral" onclick="do_referral()" /> <input type="button" value="Cancel" onclick="document.clientManagerForm.submit()" / --></td></tr>
   </table>
 </td></tr>

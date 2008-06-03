@@ -32,9 +32,6 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
 
-	function popupHelp(type) {
-		alert('not yet implemented... will show term definitions');
-	}
 	function submitForm(methodVal) {
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
@@ -107,28 +104,7 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 						</html-el:select>
 					</th>
 				</tr>
-				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">			
-				<caisi:isModuleLoad moduleName="GET_OHIP_INFO" reverse="false">
-				<tr>
-					<th width="20%" align="right">Health Card Number</th>
-					<th align="left" ><html:text property="criteria.healthCardNumber" size="15" /> <html:text property="criteria.healthCardVersion" size="2" /></th>
-				</tr>
-				</caisi:isModuleLoad>
 
-				<!--  <th>Search outside of domain <a href="javascript:void(0)" onclick="popupHelp('domain')">?</a></th>
-				-->			
-				<tr>
-					<caisi:isModuleLoad moduleName="pmm.client.search.outside.of.domain.enabled" >
-					<th width="20%" align="right">Search all clients <a href="javascript:void(0)" onclick="popupHelp('domain')">?</a></th>
-						<th align="left" ><html:checkbox property="criteria.searchOutsideDomain" /></th>
-					</caisi:isModuleLoad>					
-				</tr>
-				
-				<tr>
-					<th width="20%" align="right">Soundex on names <a href="javascript:void(0)" onclick="popupHelp('soundex')">?</a></th>
-					<th align="left" ><html:checkbox property="criteria.searchUsingSoundex" /></th>
-				</tr>
-				</caisi:isModuleLoad>
 				<tr>
 					<th width="20%" align="right"><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
 			          <th align="left" >
@@ -151,18 +127,7 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 			            </html:select>
 			          </th>
 				</tr>
-				<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">			
-				<tr>
-					<th width="20%" align="right">Admission Date From<br>
-						(yyyy/mm/dd)</th>
-					<td ><html:text property="criteria.dateFrom" size="12" /></td>
-				</tr>
-				<tr>
-					<th width="20%" align="right">Admission Date To<br>
-						(yyyy/mm/dd)</th>
-					<td ><html:text property="criteria.dateTo" size="12" /></td>
-				</tr>
-				</caisi:isModuleLoad>
+ 				
 			</table>
 		</div>
 	</div>  

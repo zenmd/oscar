@@ -10,6 +10,7 @@
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <jsp:include page="/common/messages.jsp" />
 <script>
+/*
     function do_admission() {
         var form = document.programManagerViewForm;
         form.method.value='admit';
@@ -27,7 +28,7 @@
         form.method.value='view';
         form.submit();
     }
-
+*/
     function quatroAdmit(client_id,action,queue_id) {
         var form = document.programManagerViewForm;
         form.elements['clientId'].value=client_id;
@@ -36,22 +37,14 @@
             form.method.value='quatroAdmit';
         }
     }
-
-    function popup(title, url) {
-        window.open(url, title, 'width=800, height=800,resizable=yes, scrollbars=yes');
-    }
-
-    function cme_client(programId, clientId) {
-        popup("caseManagement" + clientId, "../oscarEncounter/IncomingEncounter.do?case_program_id=" + programId + "&demographicNo=" + clientId + "&status=B");
-    }
 </script>
 <html:hidden property="clientId" />
 <html:hidden property="queueId" />
 <html:hidden property="remoteReferralId" />
 <h3>Local Queue</h3>
 <%
-	HashSet genderConflict=(HashSet)request.getAttribute("genderConflict");
-	HashSet ageConflict=(HashSet)request.getAttribute("ageConflict");
+//	HashSet<Long> genderConflict=(HashSet<Long>)request.getAttribute("genderConflict");
+//	HashSet<Long> ageConflict=(HashSet<Long>)request.getAttribute("ageConflict");
 %>
 <!--  show current clients -->
 <display:table class="simple" cellspacing="2" cellpadding="3" id="queue_entry" name="queue" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
@@ -59,37 +52,23 @@
     <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
     <display:column sortable="false">
     	<%
-			String action="admit";
-    		Integer clientId=((ProgramQueue)pageContext.getAttribute("queue_entry")).getClientId();
-    		if (genderConflict.contains(clientId)) action="genderConflict";	
-    		if (ageConflict.contains(clientId)) action="ageConflict";	
+//			String action="admit";
+//    		long clientId=((ProgramQueue)pageContext.getAttribute("queue_entry")).getClientId();
+//    		if (genderConflict.contains(clientId)) action="genderConflict";	
+//    		if (ageConflict.contains(clientId)) action="ageConflict";	
     	%>
 			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
 	</display:column>
     <display:column sortable="false">
 		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Reject</a>
-<!-- 
-    	<input type="button" value="Reject" 
-               onclick="select_client('<c:out value="${queue_entry.clientId}"/>','reject','<c:out value="${queue_entry.id}"/>')" />
- -->               
     </display:column>
     
-    <!-- disabled by rwd because visibility of link and permissions in CME are a problem -->
-    <%--<display:column sortable="false">--%>
-        <!--<a href="javascript:void(0)" title="Case management" onclick="cme_client('<c:out value="${queue_entry.programId}"/>', '<c:out value="${queue_entry.clientId}"/>')">-->
-            <!--Case Management Encounter-->
-        <!--</a>-->
-    <%--</display:column>--%>
     <display:column sortable="true" property="clientLastName" title="Last Name"/>
     <display:column sortable="true" property="clientFirstName" title="First Name"/>
     <display:column property="referralDate" sortable="true" title="Referral Date" />
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
-    <caisi:isModuleLoad moduleName="pmm.refer.temporaryAdmission.enabled">
-        <display:column property="temporaryAdmission" sortable="true" title="Temporary Admission" />
-    </caisi:isModuleLoad>
     <display:column property="notes" sortable="true" title="Reason for Referral" />
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>
-    <display:column property="headRecord" sortable="true" title="Family Id"/>
 </display:table>
 <br />
 <br />
