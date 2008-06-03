@@ -88,13 +88,15 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 			return;
 		}
 
-		ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
-		if(referral != null) {
-			referral.setStatus(KeyConstants.STATUS_REJECTED);
-			referral.setCompletionDate(new Date());
-			referral.setCompletionNotes(notes);			
-			referral.setRadioRejectionReason(rejectionReason);
-			this.referralDAO.saveClientReferral(referral);
+		if(queue.getReferralId().intValue()>0){
+		  ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
+		  if(referral != null) {
+			 referral.setStatus(KeyConstants.STATUS_REJECTED);
+			 referral.setCompletionDate(new Date());
+			 referral.setCompletionNotes(notes);			
+			 referral.setRadioRejectionReason(rejectionReason);
+			 this.referralDAO.saveClientReferral(referral);
+		  }
 		}
 		
 		dao.delete(queue);

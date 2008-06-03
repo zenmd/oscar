@@ -57,7 +57,14 @@
 //    		if (genderConflict.contains(clientId)) action="genderConflict";	
 //    		if (ageConflict.contains(clientId)) action="ageConflict";	
     	%>
-			<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+    <c:choose>
+    <c:when test="${queue_entry.intakeId!=null}" >    	
+	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+	</c:when>
+	<c:otherwise>
+	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeEdit.do?method=manualreferral&intakeId=0&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Intake</a>
+	</c:otherwise>
+	</c:choose>		
 	</display:column>
     <display:column sortable="false">
 		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Reject</a>
@@ -65,10 +72,11 @@
     
     <display:column sortable="true" property="clientLastName" title="Last Name"/>
     <display:column sortable="true" property="clientFirstName" title="First Name"/>
-    <display:column property="referralDate" sortable="true" title="Referral Date" />
+    <display:column property="referralDate" sortable="true" title="Referral Date" format="{0, date, yyyy/MM/dd HH:mm:ss}" />
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
     <display:column property="notes" sortable="true" title="Reason for Referral" />
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>
+    <display:column property="intakeId" sortable="true" title="Intake Id"/>
 </display:table>
 <br />
 <br />

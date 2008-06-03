@@ -96,6 +96,7 @@
         <property name="intakeManager" ref="intakeManager"/>   
         <property name="programManager" ref="programManager"/>
         <property name="clientRestrictionManager" ref="clientRestrictionManager"/>
+        <property name="programQueueManager" ref="programQueueManager"/>
     </bean>
     <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager"/>

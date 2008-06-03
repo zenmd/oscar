@@ -21,11 +21,14 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm;
 import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
+import org.oscarehr.PMmodule.model.ProgramQueue;
 
 import org.oscarehr.PMmodule.service.ClientManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import com.quatro.common.KeyConstants;
 
@@ -44,6 +47,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     private IntakeManager intakeManager;
     private ProgramManager programManager;
     private ClientRestrictionManager clientRestrictionManager;
+    private ProgramQueueManager programQueueManager;
 	
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	return update(mapping,form,request,response);
@@ -215,6 +219,76 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	language = lookupManager.GetLookupCode("LNG", intake.getLanguage());
             originalCountry = lookupManager.GetLookupCode("CNT", intake.getOriginalCountry());
         }
+        if (language == null) language = new LookupCodeValue();
+        if (originalCountry == null) originalCountry = new LookupCodeValue();
+        
+        qform.setLanguage(language);
+        qform.setOriginalCountry(originalCountry);
+        
+        request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+        return mapping.findForward("edit");
+	}
+
+    //for existing client
+    public ActionForward manualreferral(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
+
+    	String clientId = qform.getClientId();
+        Integer queueId = Integer.valueOf(request.getParameter("queueId"));
+        Integer programId = Integer.valueOf(request.getParameter("programId"));
+        
+        ProgramQueue queue = programQueueManager.getProgramQueue(queueId.toString());
+        Integer referralId = queue.getReferralId();
+        
+//        QuatroIntakeDB intakeDB = intakeManager.getQuatroIntakeDBByQueueId(queueId);
+        HashMap actionParam = new HashMap();
+        actionParam.put("clientId", clientId);
+        actionParam.put("intakeId", "0"); 
+        request.setAttribute("actionParam", actionParam);
+
+        request.setAttribute("clientId", clientId); 
+
+        Demographic client;
+	    client= clientManager.getClientByDemographicNo(clientId);
+		qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
+		qform.setClient(client);
+		request.setAttribute("client", client);
+
+		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
+  		qform.setOptionList(optionValues);
+
+        QuatroIntake intake;
+
+        intake= new QuatroIntake();
+        intake.setCreatedOn(Calendar.getInstance());
+        intake.setId(new Integer(0));
+        intake.setClientId(Integer.valueOf(qform.getClientId()));
+        intake.setReferralId(referralId);
+        intake.setQueueId(queueId);
+        intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+        intake.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        intake.setYouth(KeyConstants.CONSTANT_NO);
+        intake.setVAW(KeyConstants.CONSTANT_NO);
+        intake.setProgramId(programId);
+
+        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+        ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
+        		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        ArrayList lst2 = new ArrayList();
+        ArrayList lst3 = new ArrayList();
+        for(int i=0;i<lst.size();i++){
+           Object[] obj = (Object[])lst.get(i);
+           lst2.add(new LabelValueBean((String)obj[1], ((Integer)obj[0]).toString()));
+           lst3.add(new LabelValueBean((String)obj[2], ((Integer)obj[0]).toString()));
+        }
+        qform.setProgramList(lst2);
+        qform.setProgramTypeList(lst3);
+        
+		qform.setIntake(intake);
+		
+        LookupCodeValue language = null;
+        LookupCodeValue originalCountry = null;
         if (language == null) language = new LookupCodeValue();
         if (originalCountry == null) originalCountry = new LookupCodeValue();
         
@@ -429,5 +503,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			ClientRestrictionManager clientRestrictionManager) {
 		this.clientRestrictionManager = clientRestrictionManager;
 	}
+
+	public void setProgramQueueManager(ProgramQueueManager programQueueManager) {
+		this.programQueueManager = programQueueManager;
+	}
+
 
 }

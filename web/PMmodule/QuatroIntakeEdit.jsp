@@ -18,6 +18,32 @@
 <input type="hidden" name="newClientChecked" value="N"/>
 <script lang="javascript">
 function submitForm(methodVal) {
+    var obj = document.getElementsByName("client.firstName")[0];
+    if(obj.value==""){
+      alert("First name is empty.");
+      obj.focus();
+      return; 
+    }
+    obj = document.getElementsByName("client.lastName")[0];
+    if(obj.value==""){
+      alert("Last name is empty.");
+      obj.focus();
+      return; 
+    }
+    obj = document.getElementsByName("client.sex")[0];
+    if(obj.value==""){
+      alert("Gender is empty.");
+      obj.focus();
+      return; 
+    }
+
+    obj = document.getElementsByName("dob")[0];
+    if(obj.value==""){
+      alert("Date of birth is empty.");
+      obj.focus();
+      return; 
+    }
+    
 	document.forms(0).method.value = methodVal;
 	document.forms(0).submit();
 }
