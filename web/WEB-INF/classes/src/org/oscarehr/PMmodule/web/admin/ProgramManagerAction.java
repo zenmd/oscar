@@ -25,7 +25,6 @@ package org.oscarehr.PMmodule.web.admin;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,14 +41,12 @@ import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.BedCheckTime;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
-//import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.ProgramSignature;
-import org.oscarehr.PMmodule.model.ProgramTeam;
+import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedCheckTimeManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
@@ -57,17 +54,11 @@ import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.PMmodule.service.RoleManager;
-import org.oscarehr.util.SessionConstants;
 import org.oscarehr.PMmodule.web.BaseAction;
-import org.springframework.beans.factory.annotation.Required;
+import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
-import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
-import com.quatro.common.KeyConstants;
-
-import oscar.MyDateFormat;
 
 public class ProgramManagerAction extends BaseAction {
 
@@ -295,7 +286,7 @@ public class ProgramManagerAction extends BaseAction {
             return list(mapping, form, request, response);
         }
 
-        int numQueue = programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(id)).size();
+        int numQueue = programQueueManager.getProgramQueuesByProgramId(Integer.valueOf(id)).size();
         if (numQueue > 0) {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.delete.queue", name, String.valueOf(numQueue)));
@@ -501,7 +492,7 @@ public class ProgramManagerAction extends BaseAction {
         ProgramQueue queue = (ProgramQueue) programForm.get("queue");
 
         ProgramQueue fullQueue = programQueueManager.getProgramQueue(String.valueOf(queue.getId()));
-        fullQueue.setStatus(KeyConstants.STATUS_REMOVED);
+//        fullQueue.setStatus(KeyConstants.STATUS_REMOVED);
         programQueueManager.saveProgramQueue(fullQueue);
 
         logManager.log("write", "edit program - queue removal", String.valueOf(program.getId()), request);
@@ -664,7 +655,7 @@ public class ProgramManagerAction extends BaseAction {
                     setEditAttributes(request, String.valueOf(program.getId()));
                     return mapping.findForward("edit");
                 }
-                int numQueue = programQueueManager.getActiveProgramQueuesByProgramId(program.getId()).size();
+                int numQueue = programQueueManager.getProgramQueuesByProgramId(program.getId()).size();
                 if (numQueue > 0) {
                     ActionMessages messages = new ActionMessages();
                     messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_queue", program.getName(), String.valueOf(numQueue)));
@@ -939,7 +930,7 @@ public class ProgramManagerAction extends BaseAction {
 
             request.setAttribute("admissions", admissionManager.getCurrentAdmissionsByProgramId(programId));
             //request.setAttribute("accesses", programManager.getProgramAccesses(programId));
-            request.setAttribute("queue", programQueueManager.getActiveProgramQueuesByProgramId(Integer.valueOf(programId)));
+            request.setAttribute("queue", programQueueManager.getProgramQueuesByProgramId(Integer.valueOf(programId)));
             request.setAttribute("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(programId)));
             programSignatureLst = (ArrayList)programManager.getProgramSignatures(Integer.valueOf(programId));
             
