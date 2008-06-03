@@ -62,7 +62,14 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        return list(mapping, form, request, response);
    }
    public ActionForward terminate_early(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   
+	   DynaActionForm clientForm = (DynaActionForm) form;
+       ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
+	   String recId=request.getParameter("rId");
+	   if(Utility.IsEmpty(recId)) recId=restriction.getId().toString();
+       Integer rId=Integer.valueOf(recId);
+	   String providerNo=(String)request.getSession().getAttribute("user");
+       clientRestrictionManager.terminateEarly(rId,providerNo);
+       
        return edit(mapping, form, request, response);
    }
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

@@ -24,6 +24,7 @@ package org.oscarehr.PMmodule.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -35,6 +36,9 @@ import org.oscarehr.PMmodule.model.Consent;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+
+import com.quatro.common.KeyConstants;
 
 public class ConsentManager {
     private static Log log = LogFactory.getLog(ConsentManager.class);
@@ -76,7 +80,15 @@ public class ConsentManager {
 
         dao.saveConsent(consent);
     }
+    public void withdraw(Integer rId, String providerNo) {
+        ConsentDetail x = dao.getConsentDetail(rId);
 
+        if (x != null) {
+            x.setProviderNo(providerNo);
+            x.setStatus(KeyConstants.STATUS_WITHDRAW);
+            dao.saveConsentDetail(x);
+        }
+    }
     public Consent getMostRecentConsent(Integer demographicNo) {
         return dao.getMostRecentConsent(demographicNo);
     }

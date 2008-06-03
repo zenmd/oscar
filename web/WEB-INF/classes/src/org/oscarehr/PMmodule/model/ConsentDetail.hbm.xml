@@ -26,7 +26,8 @@
 		<property column="startdate" name="startDate" not-null="false" type="java.util.Calendar" />
 		<property column="enddate" name="endDate" not-null="false"  type="java.util.Calendar"/>
 		<property column="status" name="status"></property>
-		
+		<property name="programId" column="program_id"></property>
+		<property name="programName"  formula="(select p.name from program p where p.program_id = program_id)" />
 	</class>
 </hibernate-mapping>
 

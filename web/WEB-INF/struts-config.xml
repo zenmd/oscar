@@ -346,6 +346,9 @@
         <form-bean name="programSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
         </form-bean>
+        <form-bean name="printViewForm" type="org.apache.struts.validator.DynaValidatorForm">
+        	<form-property name="id" type="java.lang.Integer"></form-property>
+        </form-bean>
         <form-bean name="quatroClientDischargeForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
@@ -1684,6 +1687,9 @@
         </action>
         <action path="/PMmodule/QuatroProgramSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programSearchForm" scope="request">
         	<forward name="view" path="/PMmodule/QuatroProgramSearch.jsp" />
+        </action>
+        <action path="/PMmodule/PrintView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="printViewForm" scope="request">
+        	<forward name="view" path="/PMmodule/PrintView.jsp"></forward>
         </action>
         <action path="/PMmodule/QuatroRefer" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroClientReferForm" scope="request">
             <forward name="list" path="page.quatro.pmm.refer.list" />

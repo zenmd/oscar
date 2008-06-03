@@ -102,8 +102,8 @@ response.setHeader("Cache-Control", "no-cache");
 			
 			<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">Print</a>
 			
-			<a href="javascript:submitForm('close')" style="color:Navy;text-decoration:none;">&nbsp;&nbsp;|&nbsp;Close&nbsp;&nbsp;|</a>
-			</td>
+			<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 		</tr>
 	</table>
 	</div>
@@ -145,7 +145,7 @@ response.setHeader("Cache-Control", "no-cache");
 			<td>
 				<%
 					String demo = request.getParameter("demographicNo");
-				%>
+				%>				
 				<c:choose>
 					<c:when test="${not empty image_filename}">
 						<img style="cursor: pointer;" id="ci"	src="<c:out value="${ctx}"/>/images/default_img.jpg"
@@ -160,7 +160,7 @@ response.setHeader("Cache-Control", "no-cache");
 							OnMouseOver="window.status='Click to upload new photo';return true"
 							onClick="popupUploadPage('<c:out value="${ctx}"/>/casemgmt/uploadimage.jsp',<%=demo%>);return false;" />
 					</c:otherwise>
-				</c:choose>
+				</c:choose>			
 			</td>
 		</tr>
 	</table>

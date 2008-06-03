@@ -1,26 +1,17 @@
-<%@ include file="/taglibs.jsp" %>
-<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<%@ page import="com.crystaldecisions.report.web.viewer.CrystalReportViewer" %>
-<%@ page import="com.crystaldecisions.reports.sdk.ReportClientDocument" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 
-<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
- 
-<html-el:form action="/PMmodule/PrintView.do">
-<input type="hidden" name="method"/>
-<html:hidden property="id"/>
+<html>
+<head>
+<link rel="stylesheet" href="../theme/Master.css" type="text/css">
+<title>PrintPreview</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Rational Application Developer">
+<link rel="stylesheet" type="text/css" media="all" href="theme.css" />
 
-<script lang="javascript">
-function submitForm(methodVal) {
-	document.forms[0].method.value = methodVal;
-	document.forms[0].submit();
-</script>
-	<table width="100%">
-         <tr>
-            <td align="left" class="clsButtonBar" width="100%">
-                <A Font-Underline="false" ForeColor="navy" id ="lnkPrint" runat="server" target="_blank">
-                <img border=0 src="/<%=_appPath %>/@Images/Print16.png"/>&nbsp;&nbsp;Print&nbsp;&nbsp;</a>
-            </td>
-        </tr>   
-</table>
-</html-el:form>
+
+</head>
+<body>
+</body>
+</html>

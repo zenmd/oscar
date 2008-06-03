@@ -130,6 +130,9 @@
         <property name="programManager" ref="programManager"/>  
         <property name="lookupManager" ref="lookupManager" />       
     </bean>
+    <bean name="/PMmodule/PrintView" class="org.oscarehr.PMmodule.web.PrintViewAction" singleton="false" autowire="byName">
+    	<property name="consentManager" ref="consentManager"></property>
+    </bean>
     <bean name="/PMmodule/QuatroDischarge" class="org.oscarehr.PMmodule.web.QuatroClientDischargeAction" singleton="false" autowire="byName">
         <property name="clientManager" ref="clientManager" />
         <property name="providerManager" ref="providerManager" />

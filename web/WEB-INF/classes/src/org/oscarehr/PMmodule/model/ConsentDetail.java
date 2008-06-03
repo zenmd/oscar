@@ -3,6 +3,8 @@ package org.oscarehr.PMmodule.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import com.quatro.util.Utility;
+
 import oscar.MyDateFormat;
 
 public class ConsentDetail implements Serializable {
@@ -56,13 +58,27 @@ public class ConsentDetail implements Serializable {
 	private String endDateStr;
 	
 	private String dateSignedStr;
+	private Integer programId;
+	private String programName;
 	
 
+	public Integer getProgramId() {
+		return programId;
+	}
+
+	public void setProgramId(Integer programId) {
+		this.programId = programId;
+	}
+
 	public String getEndDateStr() {
-		String str = "Unknown";
-		if (endDate != null)
-			str = MyDateFormat.getStandardDate(endDate);
-		return str;
+		String eStr =endDateStr;
+		if(Utility.IsEmpty(eStr))
+		{
+			eStr="Unknown"; 
+			if(endDate!=null) eStr=MyDateFormat.getStandardDate(endDate);
+		}
+			
+		return eStr;
 	}
 
 	public void setEndDateStr(String endDateStr) {
@@ -70,9 +86,12 @@ public class ConsentDetail implements Serializable {
 	}
 
 	public String getStartDateStr() {
-		String str = "Unknown";
-		if (startDate != null)
+		String str = startDateStr;
+		if(Utility.IsEmpty(str)){
+			str="Unknown";
+			if (startDate != null)
 			str = MyDateFormat.getStandardDate(startDate);
+		}
 		return str;
 	}
 
@@ -311,5 +330,13 @@ public class ConsentDetail implements Serializable {
 
 	public void setDateSignedStr(String dateSignedStr) {
 		this.dateSignedStr = dateSignedStr;
+	}
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 }

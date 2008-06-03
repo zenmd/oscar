@@ -69,4 +69,5 @@ public class KeyConstants {
   public static final String STATUS_CURRENT = "current";
   public static final String STATUS_UNKNOWN = "unknown";
   public static final String STATUS_PENDING = "pending";
+  public static final String STATUS_WITHDRAW = "withdraw";
 }
