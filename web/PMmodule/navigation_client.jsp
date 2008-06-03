@@ -1,3 +1,15 @@
+<script type="text/JavaScript">
+function popupLabel(page) { //open a new popup window
+  var windowprops = "height=500,width=800,location=no,scrollbars=yes,menubars=no,toolbars=no,resizable=yes,screenX=0,screenY=0,top=0,left=0";
+  var popup=window.open(page, "QuatroShelter", windowprops);
+  if (popup != null) {
+    if (popup.opener == null) {
+      popup.opener = self;
+    }
+    popup.focus();
+  }
+}
+</script>
 <%@ include file="/taglibs.jsp"%>
 <div id="projecttools" class="toolgroup">
 <div class="label"><strong>Navigator</strong></div>
@@ -123,7 +135,8 @@
 	<c:otherwise>
 				&nbsp;
 			</c:otherwise>
-</c:choose> <c:choose>
+</c:choose> 
+<c:choose>
 	<c:when test="${'C' eq tabAttachment}">
 		<div><b>Attachment</b></div>
 	</c:when>
@@ -134,7 +147,17 @@
 	</c:when>
 	<c:otherwise>
 				&nbsp;
-			</c:otherwise>
+	</c:otherwise>
+</c:choose>
+<c:choose>
+<c:when test="${null eq tabSummary}">
+		&nbsp;
+</c:when>
+<c:otherwise>
+		<div>
+			<a href='javascript:popupLabel(&quot;<html:rewrite page="/demographic/printBarcodeAction.do?clientId="/><c:out value="${clientId}"></c:out>&quot;)'> Print Label</a>
+		</div>
+</c:otherwise>
 </c:choose>
 </div>
 </div></div>

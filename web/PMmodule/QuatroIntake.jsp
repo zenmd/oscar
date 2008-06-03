@@ -52,6 +52,27 @@ function updateQuatroIntake(clientId, intakeId) {
 </table></div></td></tr>
 
 <tr><td>
+<display:table class="simple" cellspacing="2" cellpadding="3" id="intake" name="quatroIntake" export="false" pagesize="100" requestURI="/PMmodule/QuatroIntake.do">
+			<display:setProperty name="paging.banner.placement" value="bottom" />
+			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
+			<display:column sortable="true" title="Program Type">
+                 <c:out value="${intake.programType}" /></a>
+            </display:column>
+            <display:column title="Created On">
+	            <c:out value="${intake.createdOnStr}" />
+            </display:column>
+            <display:column title="Staff">
+				<c:out value="${sessionScope.provider.formattedName}" />
+            </display:column>
+			<display:column title="Status">
+				<c:out value="${intake.intakeStatus}"/>
+			</display:column>
+			<display:column title="Actions">
+				<input type="button" value="Update" 
+      				onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />			
+			</display:column>
+</display:table>
+<!-- 
 <table class="simple" cellspacing="2" cellpadding="3">
   <tr><td>Program Type</td>
   <td>Created On</td>
@@ -74,6 +95,7 @@ function updateQuatroIntake(clientId, intakeId) {
   <td><input type="button" value="Create" 
      onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" /></td></tr>
 </table>
+ -->
 </td></tr>
 
 </table>
