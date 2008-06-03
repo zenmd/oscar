@@ -242,9 +242,7 @@ public class AdmissionManager {
 	      queue.setProgramId(referral.getProgramId());
 		  queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
 		  queue.setReferralDate(referral.getReferralDate());
-//		  queue.setStatus(KeyConstants.STATUS_ACTIVE);
 	      queue.setReferralId(referral.getId());
-//	      queue.setTemporaryAdmission(referral.isTemporaryAdmission());
 	      queue.setPresentProblems(referral.getPresentProblems());
 		  queue.setReferralId(referral.getId());
 		  programQueueDao.saveProgramQueue(queue);
@@ -256,9 +254,7 @@ public class AdmissionManager {
             queue.setProgramId(referral.getProgramId());
 		    queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
 		    queue.setReferralDate(referral.getReferralDate());
-//		    queue.setStatus(KeyConstants.STATUS_ACTIVE);
             queue.setReferralId(referral.getId());
-//            queue.setTemporaryAdmission(referral.isTemporaryAdmission());
             queue.setPresentProblems(referral.getPresentProblems());
 	        queue.setReferralId(referral.getId());
 	        programQueueDao.saveProgramQueue(queue);
@@ -285,9 +281,7 @@ public class AdmissionManager {
 	          queue.setProgramId(referral.getProgramId());
 	          queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
 	          queue.setReferralDate(referral.getReferralDate());
-//	          queue.setStatus(KeyConstants.STATUS_ACTIVE);
 	          queue.setReferralId(referral.getId());
-//	          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
 	          queue.setPresentProblems(referral.getPresentProblems());
 	        
 	          //delete old referral and queue records linked to this intake

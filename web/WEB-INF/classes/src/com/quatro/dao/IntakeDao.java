@@ -593,12 +593,10 @@ public class IntakeDao extends HibernateDaoSupport {
           queue.setProgramId(referral.getProgramId());
           queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
           queue.setReferralDate(referral.getReferralDate());
-//          queue.setStatus(KeyConstants.STATUS_ACTIVE);
           queue.setReferralId(referral.getId());
-//          queue.setTemporaryAdmission(referral.isTemporaryAdmission());
-//          queue.setPresentProblems(referral.getPresentProblems());
         }
 
+        //existing intake
         if(intakeDb.getId().intValue()>0){
 		  getHibernateTemplate().update(intakeDb);
 /*		  
@@ -626,15 +624,30 @@ public class IntakeDao extends HibernateDaoSupport {
 		    }
 	      }
 */	      
-		}else{
+		//new intake
+        }else{
 		  getHibernateTemplate().save(intakeDb);
-	      if(!bFamilyMember){
-		    if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-		      getHibernateTemplate().save(referral);
-		      queue.setReferralId(referral.getId());
-              getHibernateTemplate().save(queue);
-		    }
+
+		  //do this for single person intake and family head only. 
+		  if(!bFamilyMember){
+	    	//from manual referral
+	    	if(intake.getReferralId()!=null && intake.getReferralId().intValue()>0){
+	          //delete manual referral's referral# and queue# if this new intake selects non-bed program.
+	    	  //non-bed program intake don't have admission, so no referral# and queue#.	
+	    	  if(!intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+	             getHibernateTemplate().bulkUpdate("delete ClientReferral r where r.Id=?", intake.getReferralId());
+	             if(intake.getQueueId()!=null) getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?", intake.getQueueId());
+	          }
+	    	//new intake not from manual referral
+	    	}else{
+		       if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+		         getHibernateTemplate().save(referral);
+		         queue.setReferralId(referral.getId());
+                 getHibernateTemplate().save(queue);
+		       }
+	    	}
 	      }
+		  
 		}
         
         ArrayList lst = new ArrayList();

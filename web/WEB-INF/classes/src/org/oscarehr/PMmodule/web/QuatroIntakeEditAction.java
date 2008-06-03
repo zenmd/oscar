@@ -241,7 +241,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         ProgramQueue queue = programQueueManager.getProgramQueue(queueId.toString());
         Integer referralId = queue.getReferralId();
         
-//        QuatroIntakeDB intakeDB = intakeManager.getQuatroIntakeDBByQueueId(queueId);
         HashMap actionParam = new HashMap();
         actionParam.put("clientId", clientId);
         actionParam.put("intakeId", "0"); 
@@ -285,6 +284,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         qform.setProgramList(lst2);
         qform.setProgramTypeList(lst3);
         
+        intake.setCurrentProgramId(new Integer(0));
 		qform.setIntake(intake);
 		
         LookupCodeValue language = null;
@@ -351,11 +351,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         actionParam.put("intakeId", obj.getId().toString()); 
         Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(obj.getId().toString());
         if(intakeHeadId!=null){
-//          request.setAttribute("intakeHeadId", intakeHeadId.toString()); 
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
         }else{
-//          request.setAttribute("intakeHeadId", obj.getId().toString()); 
           request.setAttribute("clientId", client.getDemographicNo()); 
         }
         request.setAttribute("actionParam", actionParam);
