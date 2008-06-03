@@ -38,39 +38,18 @@
         <table width="100%">
         <tr>
         <td class="clsMenuCell2" nowrap="nowrap" >
-					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuHome}">
-						<div class="clsMenu">Home</div>
-						</c:when>
-						<c:otherwise>
 						<div><html:link action="/Home.do" styleClass="clsMenu"
 							>Home</html:link>
 						</div>
-						</c:otherwise>
-					</c:choose>
 		</td>
         <td  valign ="center" class="clsMenuCell2" nowrap="nowrap" >
-					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuTask}">
-						<div class="clsMenu">My Tasks</div>
-						</c:when
-						<c:otherwise>
 						<div class="clsMenu">My Tasks
 						</div>
-						</c:otherwise>
-					</c:choose>
 		</td>
         <td  class="clsMenuCell2" nowrap="nowrap" >
-					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuReport}">
-						<div class="clsMenu">Reports</div>
-						</c:when>
-						<c:otherwise>
 						<div><html:link action="QuatroReport/ReportList.do"
 							 styleClass="clsMenu">Reports</html:link>
 						</div>
-						</c:otherwise>
-					</c:choose>
 		</td>
         <td  class="clsMenuCell2" nowrap="nowrap" >
                <a target="_blank" href='<%=request.getContextPath()%>/help/QuatroShelter.htm' class="clsMenu">Help</a>
@@ -88,10 +67,6 @@
 			<table width="100%">
 				<tr>
 					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuClient}">
-						<td  class="clsMenuCell2" nowrap="nowrap" >
-						<div>Client</div></td>
-						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuClient}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/ClientSearch2.do?client=true"
 							 styleClass="clsMenu">Client</html:link>
@@ -99,9 +74,6 @@
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuProg}">
-						<td  class="clsMenuCell2" nowrap="nowrap" ><div>Program</div></td>
-						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuProg}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/ProgramManager.do"
 							 styleClass="clsMenu">Program</html:link>
@@ -109,9 +81,6 @@
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuFacility}">
-						<td class="clsMenuCell2" nowrap="nowrap" ><div>Facility</div></td>
-						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuFacility}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/FacilityManager.do?method=list"
 							 styleClass="clsMenu">Facility</html:link>
@@ -119,9 +88,6 @@
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${'C' eq sessionScope.mnuAdmin}">
-						<td  class="clsMenuCell2" nowrap="nowrap" ><div>Administration</div></td>
-						</c:when>
 						<c:when test="${'V' eq sessionScope.mnuAdmin}">
 						<td  class="clsMenuCell2" nowrap="nowrap" ><div><html:link action="/PMmodule/Admin/SysAdmin.do"
 							 styleClass="clsMenu">Administration</html:link>
