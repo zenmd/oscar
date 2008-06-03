@@ -37,8 +37,7 @@ public class ProgramQueue implements Serializable {
     private Integer _providerNo;
     private String _notes;
     private Integer _programId;
-//    private String _status;
-//    private boolean _temporaryAdmission;
+    private Integer intakeId;
     private Integer _referralId;
     private String _programName;
     private String _providerLastName;
@@ -46,7 +45,6 @@ public class ProgramQueue implements Serializable {
     private String _clientLastName;
     private String _clientFirstName;
     private String presentProblems;
-//    private Integer headClientId = null;
 
 
     // constructors
@@ -354,5 +352,13 @@ public class ProgramQueue implements Serializable {
         return _clientId;
     }
 */
+
+	public Integer getIntakeId() {
+		return intakeId;
+	}
+
+	public void setIntakeId(Integer intakeId) {
+		this.intakeId = intakeId;
+	}
     
 }
