@@ -162,13 +162,17 @@
     <bean name="/PMmodule/FacilityManager" class="org.oscarehr.PMmodule.web.admin.FacilityManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/BedManager" class="org.oscarehr.PMmodule.web.admin.BedManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ProviderSearch" class="org.oscarehr.PMmodule.web.ProviderSearchAction" singleton="false"  autowire="byName" />
+<!-- 
     <bean name="/PMmodule/IntakeA" class="org.oscarehr.PMmodule.web.IntakeAAction2" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/IntakeC" class="org.oscarehr.PMmodule.web.IntakeCAction2" singleton="false" autowire="byName" />
+ -->
     <bean name="/PMmodule/HealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Consent" class="org.oscarehr.PMmodule.web.ConsentAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/StaffManager" class="org.oscarehr.PMmodule.web.admin.StaffManagerAction" singleton="false"  autowire="byName" />
+<!-- 
     <bean name="/PMmodule/Intake" class="org.oscarehr.PMmodule.web.IntakeAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Forms/FollowUp" class="org.oscarehr.PMmodule.web.forms.FollowUpAction" singleton="false"  autowire="byName" />
+ -->
     <bean name="/PMmodule/Reports/ProgramActivityReport" class="org.oscarehr.PMmodule.web.reports.ActivityReportAction" singleton="false"  autowire="byName" />
 <!-- 
     <bean name="/PMmodule/Forms/SurveyExecute" class="org.oscarehr.PMmodule.web.forms.SurveyExecuteAction" singleton="false">
@@ -209,6 +213,7 @@
     <!-- Generic Intake -->
 
     <!--  ER -->
+<!-- 
     <bean name="/ReceptionistReport" class="org.oscarehr.er.ReceptionistReportAction" singleton="false">
         <property name="programManager" ref="programManager"/>
         <property name="clientManager" ref="clientManager"/>
@@ -216,6 +221,8 @@
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="providerManager" ref="providerManager"/>
     </bean>
+ -->    
+    
     <!--  CASE MANAGEMENT -->
 <!-- 
     <bean name="/CaseManagementView" class="org.oscarehr.casemgmt.web.CaseManagementViewAction" singleton="false" autowire="byName">
@@ -267,6 +274,7 @@
     </bean>
     
     <!--  Vaccine -->
+<!-- 
     <bean name="/VaccineProviderReport" class="org.oscarehr.vaccine.VaccineProviderReportAction" singleton="false">
         <property name="programManager" ref="programManager"/>
         <property name="clientManager" ref="clientManager"/>
@@ -275,6 +283,8 @@
         <property name="providerManager" ref="providerManager"/>
         <property name="genericIntakeManager" ref="genericIntakeManager"/>
     </bean>
+ -->    
+     
     <!-- Population Report -->
     <bean name="/PopulationReport" class="org.oscarehr.common.web.PopulationReportAction" singleton="false">
         <property name="populationReportManager" ref="populationReportManager"/>
@@ -307,7 +317,7 @@
     </bean>
 
     <!-- Indivo -->
-
+<!-- 
     <bean name="/phr/PhrMessage" class="org.oscarehr.phr.web.PHRMessageAction" singleton="false">
         <property name="phrService" ref="phrService"/>
         <property name="phrDocumentDAO" ref="phrDocumentDAO"/>
@@ -318,6 +328,9 @@
         <property name="phrService" ref="phrService"/>
         <property name="phrConstants" ref="phrConstants"/>
     </bean>
+ -->
+     
+<!-- 
     <bean name="/dms/SendDocToPhr" class="oscar.dms.actions.SendDocToPhrAction" singleton="false">
         <property name="phrService" ref="phrService"/>
         <property name="phrConstants" ref="phrConstants"/>
@@ -330,7 +343,8 @@
     <bean name="/phrExchange" class="org.oscarehr.phr.web.PHRExchangeAction" singleton="false">
         <property name="phrService" ref="phrService"/>
     </bean>
-    
+ -->
+     
 <!--
     <bean name="/PMmodule/Reports/CustomReport" class="org.oscarehr.PMmodule.web.reports.CustomReportAction" singleton="false" autowire="byName">
     </bean>
