@@ -22,6 +22,9 @@
         <property name="lastname" type="java.lang.String">
             <column name="LASTNAME" length="30" />
         </property>
+        <property name="standardsRelated" type="boolean">
+            <column name="STANDARDSRELATED" />
+        </property>
         <property name="standards" type="java.lang.String">
             <column name="STANDARDS" length="100" />
         </property>

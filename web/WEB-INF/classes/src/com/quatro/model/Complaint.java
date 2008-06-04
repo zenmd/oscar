@@ -20,8 +20,8 @@ public class Complaint  implements java.io.Serializable {
      private String firstname;
      private String lastname;
      private String standards;
+     private boolean standardsRelated;
      private String[] standards1 = {};
-     private String[] standards2 = {};
      private String description;
      private String satisfiedWithOutcome;
      private String standardsBreached;
@@ -115,9 +115,6 @@ public class Complaint  implements java.io.Serializable {
         this.lastname = lastname;
     }
 
-	public void setStandards2(String[] standards2) {
-		this.standards2 = standards2;
-	}
 
 	public String getDescription() {
         return this.description;
@@ -315,12 +312,6 @@ public class Complaint  implements java.io.Serializable {
         this.programId = programId;
     }
 
-
-	public String[] getStandards2() {
-		return standards2;
-	}
-
-
 	public String getStandards() {
 		return standards;
 	}
@@ -405,6 +396,18 @@ public class Complaint  implements java.io.Serializable {
 
 	public void setCreatedDatex(String createdDatex) {
 		this.createdDatex = createdDatex;
+	}
+
+
+
+	public boolean isStandardsRelated() {
+		return standardsRelated;
+	}
+
+
+
+	public void setStandardsRelated(boolean standardsRelated) {
+		this.standardsRelated = standardsRelated;
 	}
 
 
