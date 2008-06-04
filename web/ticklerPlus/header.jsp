@@ -5,9 +5,9 @@
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%
     if(session.getAttribute("userrole") == null )  response.sendRedirect("logout.jsp");
-    String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
+//    String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
 %>
-<security:oscarSec roleName="<%=roleName$%>" objectName="_tasks" rights="r" reverse="<%=true%>" >
+<security:oscarSec objectName="_tasks" rights="r" reverse="<%=true%>" >
 <%response.sendRedirect("noRights.html");%>
 </security:oscarSec>
 
