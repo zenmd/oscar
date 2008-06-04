@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +21,11 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
+import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.util.SessionConstants;
 
@@ -37,6 +40,7 @@ public class QuatroConsentAction extends BaseClientAction {
     private ClientManager clientManager;
     private ConsentManager consentManager;
     private LookupManager lookupManager;
+    private ProviderManager providerManager;
 
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
@@ -81,19 +85,33 @@ public class QuatroConsentAction extends BaseClientAction {
 	       //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
 	       request.setAttribute("lstConsents", lstConsents);
 	   }
+	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+			   DynaActionForm clientForm = (DynaActionForm) form;
+		       ConsentDetail conObj = (ConsentDetail) clientForm.get("consentValue");
+			   String recId=request.getParameter("rId");
+			   if(Utility.IsEmpty(recId)) recId=conObj.getId().toString();
+		       Integer rId=Integer.valueOf(recId);
+			   String providerNo=(String)request.getSession().getAttribute("user");
+		       consentManager.withdraw(rId, providerNo);		       
+		       return edit(mapping, form, request, response);
+		   
+	   }
 	 private void setEditAttributes(ActionForm form, HttpServletRequest request) {
 		   DynaActionForm dForm = (DynaActionForm) form;
-
+		   ConsentDetail cdObj =(ConsentDetail)dForm.get("consentValue");
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       String cId =request.getParameter("clientId");
+	       if(Utility.IsEmpty(cId))cId =cdObj.getDemographicNo().toString();
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
+	          actionParam.put("clientId", cId); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
 	       String rId=request.getParameter("rId");
+	       if(Utility.IsEmpty(rId)) rId=cdObj.getId().toString();
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
+	       
 	       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("FAC", facilityId.toString()).getDescription());
 	       request.setAttribute("clientId", demographicNo);
@@ -101,14 +119,30 @@ public class QuatroConsentAction extends BaseClientAction {
 
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	       
+	       Provider proObj =providerManager.getProvider(providerNo);
 	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consentValue");
-	       
+	       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,facilityId);
+	       List programs = null;
+	       if (programIds.size() > 0) {
+		       String progs = ((Integer)programIds.get(0)).toString();
+		       for (int i=1; i<programIds.size(); i++)
+		       {
+		    	   progs += "," + ((Integer)programIds.get(i)).toString();
+		       }
+		       programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
+	       }
+	       else
+	       {
+	    	   programs = new ArrayList();
+	       }
+	       request.setAttribute("programs", programs);
 	       if("0".equals(rId))
 	       {
 	    	   consentObj = new ConsentDetail();
 	    	   consentObj.setDemographicNo(Integer.valueOf(demographicNo));	  
 	    	   consentObj.setProviderNo(providerNo);
+	    	   consentObj.setProviderFirstName(proObj.getFirstName());
+	    	   consentObj.setProviderLastName(proObj.getLastName());
 	       }
 	       else if(rId!=null && rId!="0") consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
 	       dForm.set("consentValue", consentObj);
@@ -184,17 +218,17 @@ public class QuatroConsentAction extends BaseClientAction {
 		//consent.setProviderName(p.getFormattedName());		
 		
 		consent.setDateSigned(new GregorianCalendar());
-		consent.setStartDate(MyDateFormat.getCalendar(consent.getStartDateStr()));
+		consent.setStartDate(new GregorianCalendar());
+		String eDt = consent.getEndDateStr();
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consent.setHardCopy(true);
-		
-		
-		
+		consent.setStatus("active");		
 		consentManager.saveConsentDetail(consent);	
 		
 		//String gotoStr = request.getParameter("goto");			
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
+        setEditAttributes(form, request);
 		return mapping.findForward("edit");	
 
 	}
@@ -217,14 +251,15 @@ public class QuatroConsentAction extends BaseClientAction {
 		
 		consent.setDateSigned(new GregorianCalendar());
 		consent.setHardCopy(true);
-		
-		
-		
+		consent.setStatus("active");
+		consent.setStartDate(new GregorianCalendar());
+		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consentManager.saveConsentDetail(consent);	
 		
 		//String gotoStr = request.getParameter("goto");			
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
+        setEditAttributes(form, request);
 		return mapping.findForward("edit");	
 	}
 	
@@ -245,6 +280,10 @@ public class QuatroConsentAction extends BaseClientAction {
     public void setConsentManager(ConsentManager mgr) {
     	this.consentManager = mgr;
     }
+
+	public void setProviderManager(ProviderManager providerManager) {
+		this.providerManager = providerManager;
+	}
 }
 
 

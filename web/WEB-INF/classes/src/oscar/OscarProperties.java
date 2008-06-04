@@ -157,4 +157,7 @@ public class OscarProperties extends Properties {
      {
     	 return getProperty("db_uri");
      }
+     public String getDbDriver(){
+    	 return getProperty("db_driver");
+     }
 }

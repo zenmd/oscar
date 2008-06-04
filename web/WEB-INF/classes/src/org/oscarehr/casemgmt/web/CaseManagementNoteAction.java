@@ -383,10 +383,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
             ProgramManager programManager= (ProgramManager)ctx.getBean("programManager");
            // AdmissionManager admissionManager= (AdmissionManager)ctx.getBean("admissionManager");
-            
-/*
-  
-             String role=null;
+/*            
+            String role=null;
             String team=null;
 		
             try {
@@ -395,8 +393,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 log.error(e);
                 role = "0";
             }
-*/
-          /*  
             note.setReporter_caisi_role(role);
 		
             try {
@@ -526,7 +522,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 throw e;
         	}
         }
-   /*    
+        /*
         try {
             role = String.valueOf((programManager.getProgramProvider(note.getProvider_no(), note.getProgram_no())).getRole().getId());
         }
@@ -534,8 +530,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.error(e);
             role = "0";
         }
-   */
-        /*
          * if(request.getSession().getAttribute("archiveView")!="true") note.setReporter_caisi_role(role); else note.setReporter_caisi_role("1");
          
         note.setReporter_caisi_role(role);
@@ -555,7 +549,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String[] iss=cform.getTxtIssueKey().split(":");
         for(int i=0;i<iss.length;i++){
         	CaseManagementIssue cmIss= new CaseManagementIssue();
-        	Integer issId = Integer.getInteger(iss[i]);
+        	Integer issId = Integer.valueOf(iss[i]);
         	cmIss.setIssue_id(issId);  
         	cmIss.setDemographic_no(demo);
         	cmIss.setUpdate_date(now);
@@ -699,7 +693,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if(messages.get().hasNext()){
         	return edit(mapping, form, request, response);
         }       
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.case.save.success"));
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
         saveMessages(request, messages);
 
         // are we in the new encounter and chaining actions?
@@ -757,6 +751,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         
         WebApplicationContext ctx = this.getSpringContext();
         ProgramManager programManager = (ProgramManager) ctx.getBean("programManager");       
+
 /*
         String role = null;
         try {
@@ -768,8 +763,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         
         note.setReporter_caisi_role(role);
- */
-        /*
+
         String team = null;
         try {
             team = String.valueOf((admissionManager.getAdmission(note.getProgram_no(), Integer.valueOf(note.getDemographic_no()))).getTeamId());
@@ -1590,7 +1584,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             try {
 
                 Date tempDate = fmt.parse(strOldDate);
-                strNewDate = new SimpleDateFormat("yyyy/MM/dd").format(tempDate);
+               strNewDate = new SimpleDateFormat("yyyy/MM/dd").format(tempDate);
 
             }
             catch (ParseException ex) {
