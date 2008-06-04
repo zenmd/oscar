@@ -55,6 +55,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
@@ -149,6 +150,11 @@ public class ProgramManagerAction extends BaseAction {
         request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(Integer.valueOf(id), new Date()));
         request.setAttribute("disabled_service_restrictions", clientRestrictionManager.getDisabledRestrictionsForProgram(Integer.valueOf(id), new Date()));
 
+        ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
+        if (view.getTab() == null || view.getTab().equals("")) {
+            view.setTab("General");
+        }
+        
         request.setAttribute("pageTitle","Program Management - Edit Program");
         
         return mapping.findForward("edit");

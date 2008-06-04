@@ -188,12 +188,7 @@ public class ProgramManagerViewAction extends BaseAction {
         request.setAttribute("ageConflict", ageConflict);
 
         if (formBean.getTab() == null || formBean.getTab().equals("")) {
-            if (queue!=null && queue.size() > 0) {
-                formBean.setTab("Queue");
-            }
-            else {
-                formBean.setTab("General");
-            }
+            formBean.setTab("General");
         }
 
         Program program = programManager.getProgram(programId);
@@ -308,7 +303,8 @@ public class ProgramManagerViewAction extends BaseAction {
     		Object[] objLst = (Object[])it.next();
     		ProgramClientInfo pClient = new ProgramClientInfo();
     		if(objLst[0]!=null){
-    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
     		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
     		    pClient.setAdmissionDate(admissionDate);
     		}
