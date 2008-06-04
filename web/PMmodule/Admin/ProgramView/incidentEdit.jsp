@@ -60,9 +60,16 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 						<html-el:text property="incidentForm.providerName" readonly="true" style="border: none" /></td>
 				</tr>
 				<tr>
-					<td><b>Date of Incident:</b> </td>
-					<td><quatro:datePickerTag property="incidentForm.incidentDateStr" 
+					<td colspan="2">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tr>
+								<td nowrap="nowrap"><b>Date of Incident:</b> </td>
+								<td><quatro:datePickerTag property="incidentForm.incidentDateStr" 
 											width="150px" openerForm="programManagerViewForm" /></td>
+								<td width="100%"></td>
+							</tr>
+						</table>
+					</td>
 					<td colspan="2"><b>Time of Incident:</b> <html-el:text property="incidentForm.hour" style="width:40px" size="2" maxlength="2" onchange="javascript:checkHour(this);"/><b>:</b>
 						<html-el:text property="incidentForm.minute" style="width:40px" size="2" maxlength="2" onchange="javascript:checkMinute(this);" />&nbsp;&nbsp;
 						<html-el:radio property="incidentForm.ampm" value="AM">AM</html-el:radio>
@@ -112,8 +119,8 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					</td>
 				</tr>	
 				<tr>
-					<td colspan="4" width="100%"><b>Witnesses:</b> 
-					<html-el:textarea property="incidentForm.incident.witnesses" style="width:95%" rows="1"  />
+					<td colspan="4"><b>Witnesses:</b><br />
+					<html-el:textarea property="incidentForm.incident.witnesses" cols="40" rows="2" onkeyup="javascript:txtAreaLenChecker(this, 1000);" />
 					</td>		
 				</tr>
 				 
@@ -168,15 +175,15 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					</td>		
 				</tr>
 				<tr>
-					<td colspan="4" width="100%"><b>Location of Incident:</b> <html-el:text property="incidentForm.incident.location" size="80" maxlength="200" /></td>		
+					<td colspan="4" width="100%"><b>Location of Incident:</b> <br /> <html-el:text property="incidentForm.incident.location" size="80" maxlength="200" /></td>		
 				</tr>
 				<tr>
 					<td colspan="4" valign="top"><b>Incident Details:</b> 
-					<html-el:textarea property="incidentForm.incident.description" style="width:95%" rows="3"  /></td>		
+					<html-el:textarea property="incidentForm.incident.description" style="width:95%" rows="3" onkeyup="javascript:txtAreaLenChecker(this, 4000);" /></td>		
 				</tr>	
 				<tr>
-					<td colspan="2"><b>Restriction Information:</b>
-						<html-el:textarea property="incidentForm.incident.restriction" rows="1" cols="40" />
+					<td colspan="2"><b>Restriction Information:</b><br /> 
+						<html-el:textarea property="incidentForm.incident.restriction" rows="2" cols="40" onkeyup="javascript:txtAreaLenChecker(this, 1000);"/>
 					</td>		
 					<td colspan="2"><b>Charges Laid:</b> 
 						<html:select property="incidentForm.incident.chargesLaid">
@@ -191,23 +198,38 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					<td colspan="2"><b>Badge Number:</b> <html-el:text property="incidentForm.incident.badgeNo" maxlength="20" /></td>
 				</tr>
 				<tr>
-					<td colspan="2"><b>Investigation Recommendation:</b> 
-					<html-el:textarea property="incidentForm.incident.investigationRcmd" rows="1" cols="40" /></td>
-					<td colspan="2"><b>Follow up Information:</b> 
-					<html-el:textarea property="incidentForm.incident.followupInfo" rows="1" cols="40" />
+					<td colspan="2"><b>Investigation Recommendation:</b> <br /> 
+					<html-el:textarea property="incidentForm.incident.investigationRcmd" rows="2" cols="40" onkeyup="javascript:txtAreaLenChecker(this, 4000);"/></td>
+					<td colspan="2"><b>Follow up Information:</b> <br /> 
+					<html-el:textarea property="incidentForm.incident.followupInfo" rows="2" cols="40" onkeyup="javascript:txtAreaLenChecker(this, 1000);"/>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2"><b>Investigation Conducted By:</b> <html-el:text property="incidentForm.incident.investigationConductedby" maxlength="200"/></td>	
 					<td colspan="2"><b>Follow up Completed By:</b> <html-el:text property="incidentForm.incident.followupCompletedby" maxlength="200"/></td>	
 				</tr>
-				<tr>	
-					<td><b>Investigation Date:</b> </td>
-					<td><quatro:datePickerTag property="incidentForm.investigationDateStr" width="150px"
+				<tr>
+					<td colspan="2">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tr>
+								<td nowrap="nowrap"><b>Investigation Date:</b> </td>
+								<td><quatro:datePickerTag property="incidentForm.investigationDateStr" width="150px"
 											openerForm="programManagerViewForm" /></td>
-					<td><b>Follow up Date:</b> </td>
-					<td><quatro:datePickerTag property="incidentForm.followupDateStr" width="150px"
+								<td width="100%"></td>
+							</tr>
+						</table>
+					</td>
+					<td colspan="2">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tr>
+								<td nowrap="nowrap"><b>Follow up Date:</b> </td>
+								<td><quatro:datePickerTag property="incidentForm.followupDateStr" width="150px"
 											openerForm="programManagerViewForm" /></td>
+								<td width="100%"></td>
+							</tr>
+						</table>
+					</td>
+					
 				</tr>
 				<tr>
 					<td colspan="4"><b>Report Complete/Signed</b> <html-el:checkbox name="programManagerViewForm" property="incidentForm.incident.reportCompleted" value="1"/>

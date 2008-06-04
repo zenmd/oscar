@@ -69,7 +69,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 					<tr>
 						<th>Incident Date:</th>
 						<td><quatro:datePickerTag property="incidentForm.incDateStr"
-											width="70%" openerForm="programManagerViewForm" /></td>
+											width="90%" openerForm="programManagerViewForm" /></td>
 					</tr>
 				
 				</table>

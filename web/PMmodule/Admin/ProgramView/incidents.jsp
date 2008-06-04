@@ -102,45 +102,26 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		var flag = true;
 		if(mthd == "save"){
 			getList();
-			var v1 = document.getElementsByName("incidentForm.incident.witnesses")[0].value;
-			var v2 = document.getElementsByName("incidentForm.incident.investigationRcmd")[0].value;
-			var v3 = document.getElementsByName("incidentForm.incident.followupInfo")[0].value;
-			var v4 = document.getElementsByName("incidentForm.incident.description")[0].value;
-			var v5 = document.getElementsByName("incidentForm.incident.restriction")[0].value;
-			
-			if(v1.length > 1000 ){
-				flag = false;
-				alert("Field 'Witnesses' can not has more than 1000 characters.");
-				exit(0);
-			}
-			if( v2.length > 4000 ){
-				flag = false;
-				alert("Field 'Investigation Recommendation' can not has more than 4000 characters.");
-				exit(0);
-			}
-			if( v3.length > 1000){
-				flag = false;
-				alert("Field 'Follow up Information' can not has more than 1000 characters.");
-				exit(0);
-			}
-			if( v4.length > 4000){
-				flag = false;
-				alert("Field 'Incident Details' can not has more than 4000 characters.");
-				exit(0);
-			}
-			if( v5.length > 1000){
-				flag = false;
-				alert("Field 'Restriction Information' can not has more than 1000 characters.");
-				exit(0);
-			}
-			
 		}
-		if(flag){
-			document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
-			//alert(document.programManagerViewForm.action);
-			document.programManagerViewForm.tab.value = "Incidents";
-			document.programManagerViewForm.submit();
-		}
+		
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
+		//alert(document.programManagerViewForm.action);
+		document.programManagerViewForm.tab.value = "Incidents";
+		document.programManagerViewForm.submit();
+	
+	
+	}
+	
+	function txtAreaLenChecker(obj, maxLen) {
+	   //counting each end of line as two characters
+	   
+		var v = obj.value;
+		var len = v.length;
+		
+		if(len > maxLen){
+			alert("Length of this field can not exceed " + maxLen + " characters.");
+			obj.value = v.substr(0, maxLen);
+	   }
 	
 	}
 	

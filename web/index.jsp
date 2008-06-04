@@ -183,7 +183,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 								</b></font></td>
 								<td><font size="2"
 									face="Arial"><b><input type="text" name="username" 
-									size="30%" maxlength="15" autocomplete="off" /></b></font></td>
+									size="43%" maxlength="15" autocomplete="off" /></b></font></td>
 							</tr>
 							<tr>
 								<td width="32%"  align="right"><font
@@ -191,7 +191,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 									key="loginApplication.formPwd" /></b></font></td>
 								<td ><font size="2"
 									face="Arial"><b><input type="password" name="password" 
-									size="30%" maxlength="15" autocomplete="off" /></b></font></td>
+									size="43%" maxlength="15" autocomplete="off" /></b></font></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
