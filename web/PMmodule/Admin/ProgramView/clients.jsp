@@ -118,12 +118,11 @@
 	border="0">
 
 	
-	<tr>
+	<tr height="18px">
 		<td align="left" class="buttonBar">
-			<html:link
-			action="/PMmodule/ProgramManager.do"
+			<a href="javascript:clickTab('General');"
 			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
  			<html:link
 			href="javascript:searchClients();"
 			style="color:Navy;text-decoration:none;">

@@ -47,20 +47,21 @@
 <!--  show current clients -->
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
-<tr>
+<tr height="18px">
 		<td align="left" class="buttonBar">
-			<html:link
-			action="/PMmodule/ProgramManager.do"
+			<a href="javascript:clickTab('General');"
 			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
 		</td>
 </tr>
 <tr>
 <td>
 <div class="tabs" id="tabs">Queue</div>
 </td></tr>
-<tr>
+<tr height="100%">
 <td>
+    <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
+                        width: 100%; height: 100%; overflow: auto">
 <display:table class="simple" cellspacing="2" cellpadding="3" id="queue_entry" name="queue" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
     <display:setProperty name="paging.banner.placement" value="bottom" />
     <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
@@ -91,7 +92,7 @@
     <display:column property="notes" sortable="true" title="Reason for Referral" />
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>
     <display:column property="intakeId" sortable="true" title="Intake Id"/>
-</display:table>
+</display:table></div>
 </td>
 </tr>
 </table>

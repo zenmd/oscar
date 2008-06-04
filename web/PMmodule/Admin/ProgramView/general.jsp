@@ -24,14 +24,8 @@
  
  
 <%@ include file="/taglibs.jsp"%>
-
-
-
-
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
-
-	
 	<tr>
 		<td align="left" class="buttonBar">
 			<html:link
@@ -51,12 +45,8 @@
 			</logic:messagesPresent>
 		</td>
 	</tr>
-	
-
-
 	<tr>
 		<td height="100%">
-		
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">

@@ -10,12 +10,8 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
 	<!-- submenu -->
-	<tr>
+	<tr height="18px">
 		<td align="left" class="buttonBar">
-			<html:link
-			action="/PMmodule/ProgramManager.do"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 			<html:link
 			href="javascript:editIncident('0','new');"
 			style="color:Navy;text-decoration:none;">
@@ -27,6 +23,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			<html:link href="javascript:resetForm()"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</html:link>
+			<a href="javascript:clickTab('General');"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
 		</td>
 	</tr>
 	

@@ -23,7 +23,14 @@
 -->
 
 <%@ include file="/taglibs.jsp"%>
-<jsp:include page="/common/messages.jsp" />
+<table width="100%" cellpadding="0px" cellspacing="0px" border="0" height="100%"> 
+        <tr height="18px"><td align="left" class="buttonBar">
+			<a href="javascript:clickTab('General');"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
+        </td>
+        </tr>
+<tr> <td> 	<br />
 <div class="tabs" id="tabs">
     <table cellpadding="3" cellspacing="0" border="0">
         <tr>
@@ -31,6 +38,13 @@
         </tr>
     </table>
 </div>
+</td>
+</tr>
+<tr height="100%">
+	<td>
+                    <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
+                        width: 100%; height: 100%; overflow: auto">
+
 <display:table class="simple" cellspacing="2" cellpadding="3" id="restriction" name="service_restrictions" export="false" pagesize="0" requestURI="/PMmodule/ProgramManager.do">
     <display:setProperty name="paging.banner.placement" value="bottom" />
     <display:setProperty name="basic.msg.empty_list" value="No service restrictions currently in place for this program." />
@@ -41,5 +55,6 @@
     <display:column property="startDate.time" sortable="true" title="Start date" format="{0,date,yyyy/MM/dd}" />
     <display:column property="endDate.time" sortable="true" title="End date" format="{0,date,yyyy/MM/dd}"/>
 </display:table>
-
+</div></td></tr>
+</table>
 
