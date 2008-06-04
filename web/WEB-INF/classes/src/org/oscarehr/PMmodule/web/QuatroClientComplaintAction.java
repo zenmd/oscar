@@ -114,14 +114,11 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		if (complaint.getDate4() != null)
 			complaint.setDate4x(MyDateFormat.getStandardDate(complaint
 					.getDate4()));
-
+		complaintForm.setIsStandards(complaint.isStandardsRelated()?"on":null);
 		String standards = complaint.getStandards();
 		if (standards != null) {
-			complaintForm.setIsStandards("1");
 			String[] standards1 = standards.split(",");
 			complaint.setStandards1(standards1);
-		}else{
-			complaintForm.setIsStandards("0");
 		}
 				
 		List sources = lookupManager.LoadCodeList("CPS", true,
@@ -203,7 +200,9 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		
 		// checkboxes
 		String isChecked = complaintForm.getIsStandards();
-		if(isChecked != null && isChecked.equals("1")){
+		complaint.setStandardsRelated("on".equals(isChecked));
+		
+		if(complaint.isStandardsRelated()){
 			
 			String[] standards1 = complaint.getStandards1();
 			StringBuffer sb = new StringBuffer();

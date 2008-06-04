@@ -60,7 +60,7 @@ public class ProgramUtils
     }
     
     public static String admitToNewFacilityValidationMethod(HttpServletRequest request) {
-        StringBuilder sb=new StringBuilder();
+        StringBuffer sb=new StringBuffer();
         
         sb.append("function isNewFacility(newProgramId,oldProgramId)\n");
         sb.append("{\n");
@@ -95,7 +95,7 @@ public class ProgramUtils
     }
     
     public static String addProgramAgeRestrictionsMethod() {
-        StringBuilder sb=new StringBuilder();
+        StringBuffer sb=new StringBuffer();
         
         sb.append("function validAgeRangeForProgram(programId, age)\n");
         sb.append("{\n");
@@ -116,9 +116,9 @@ public class ProgramUtils
 
     private static void addProgramGenderRestrictions(HttpServletRequest request)
     {
-        StringBuilder programMaleOnly=new StringBuilder("[");
-        StringBuilder programFemaleOnly=new StringBuilder("[");
-        StringBuilder programTransgenderOnly=new StringBuilder("[");
+        StringBuffer programMaleOnly=new StringBuffer("[");
+        StringBuffer programFemaleOnly=new StringBuffer("[");
+        StringBuffer programTransgenderOnly=new StringBuffer("[");
         
         List programs = programDao.getProgramByGenderType("Man");
 //        for (Program program : programDao.getProgramByGenderType("Man"))
