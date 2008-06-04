@@ -42,16 +42,16 @@
 			<table border="0" cellspacing="2" cellpadding="3">
 				<tr>
 					<th><bean-el:message key="UserSearch.userName" bundle="pmm" /></th>
-					<td><html:text property="criteria.userName" size="20" /></td>
+					<td><html:text property="criteria.userName" size="20" maxlength="30"/></td>
 				</tr>
 				<tr>
 					<th><bean-el:message key="UserSearch.lastName" bundle="pmm" />
 					</th>
-					<td><html:text property="criteria.lastName" size="20" /></td>
+					<td><html:text property="criteria.lastName" size="20" maxlength="30"/></td>
 				</tr>
 				<tr>
 					<th><bean-el:message key="UserSearch.firstName" bundle="pmm" /></th>
-					<td><html:text property="criteria.firstName" size="20" /></td>
+					<td><html:text property="criteria.firstName" size="20" maxlength="30"/></td>
 				</tr>
 				<tr>
 					<th><bean-el:message key="UserSearch.active" bundle="pmm" /></th>
@@ -101,13 +101,13 @@
 			<display:setProperty name="basic.msg.empty_list"
 				value="Please enter a filter and click search." />
 
-			<display:column sortable="true" title="User ID">
+			<display:column sortable="true" title="User ID" sortProperty="userName">
 				<a
 					href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
 				<c:out value="${user.userName}" /> </a>
 			</display:column>
 
-			<display:column sortable="true" title="Name">
+			<display:column sortable="true" title="Name" sortProperty="fullName">
 				<a
 					href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
 				<c:out value="${user.fullName}" /> </a>

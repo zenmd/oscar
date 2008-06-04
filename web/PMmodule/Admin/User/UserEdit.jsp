@@ -76,22 +76,22 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 
 				<tr>
 					<td>User ID:</td>
-					<td><html:text property="userName" tabindex="1" /></td>
+					<td><html:text property="userName" tabindex="1" maxlength="30"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Email:</td>
-					<td><html:text property="email" tabindex="6"/></td>
+					<td><html:text property="email" tabindex="6" maxlength="320"/></td>
 				</tr>
 				<tr>
 					<td>First Name:</td>
-					<td><html:text property="firstName" tabindex="2" /></td>
+					<td><html:text property="firstName" tabindex="2" maxlength="30"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Initial:</td>
-					<td><html:text property="init" tabindex="7" /></td>
+					<td><html:text property="init" tabindex="7" maxlength="10"/></td>
 					
 				</tr>
 				<tr>
 					<td>Last Name:</td>
-					<td><html:text property="lastName" tabindex="3" /></td>
+					<td><html:text property="lastName" tabindex="3" maxlength="30"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Title:</td>
 					<td><html-el:select property="title" tabindex="8">
@@ -105,14 +105,14 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><html:password property="password" tabindex="4"/></td>
+					<td><html:password property="password" tabindex="4" maxlength="20"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Job Title:</td>
-					<td><html:text property="jobTitle" tabindex="9" /></td>
+					<td><html:text property="jobTitle" tabindex="9" maxlength="100"/></td>
 				</tr>
 				<tr>
 					<td>Confirm Password:</td>
-					<td><html:password property="confirmPassword"  tabindex="5"/></td>
+					<td><html:password property="confirmPassword"  tabindex="5" maxlength="20"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Active:</td>
 					<td><html:checkbox property="status" tabindex="10" /></td>
@@ -120,10 +120,10 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 				
 					<tr style="visibility:hidden;">
 						<td>PIN:</td>
-						<td><html:password property="pin" value="****" /></td>
+						<td><html:password property="pin" value="****" maxlength="4"/></td>
 						<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 						<td>Confirm PIN:</td>
-						<td><html:password property="confirmPin" value="****" /></td>
+						<td><html:password property="confirmPin" value="****" maxlength="4"/></td>
 					</tr>
  				
 			</table>

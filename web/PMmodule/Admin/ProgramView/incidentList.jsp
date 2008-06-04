@@ -60,11 +60,11 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 				<table border="0" cellspacing="2" cellpadding="3">
 					<tr>
 						<th>Client ID:</th>
-						<td><html:text property="incidentForm.clientId" size="20" /></td>
+						<td><html:text property="incidentForm.clientId" size="20" maxlength="10"/></td>
 					</tr>
 					<tr>
 						<th>First or Last Name:</th>
-						<td><html:text property="incidentForm.clientName" size="20" /></td>
+						<td><html:text property="incidentForm.clientName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
 						<th>Incident Date:</th>

@@ -162,24 +162,24 @@
 				<table border="0" cellspacing="2" cellpadding="3">
 					<tr>
 						<th>Client No.:</th>
-						<td><html:text property="clientForm.clientId" size="20" /></td>
+						<td><html:text property="clientForm.clientId" size="20" maxlength="10"/></td>
 					</tr>
 					<tr>
 						<th>First Name:</th>
-						<td><html:text property="clientForm.firstName" size="20" /></td>
+						<td><html:text property="clientForm.firstName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
 						<th>Last Name:</th>
-						<td><html:text property="clientForm.lastName" size="20" /></td>
+						<td><html:text property="clientForm.lastName" size="20" maxlength="30"/></td>
 					</tr>
 					<!-- 
 					<tr>
 						<th>Room Name:</th>
-						<td><html:text property="clientForm.room" size="20" /></td>
+						<td><html:text property="clientForm.room" size="20" maxlength="45"/></td>
 					</tr>
 					<tr>
 						<th>Bed Name:</th>
-						<td><html:text property="clientForm.bed" size="20" /></td>
+						<td><html:text property="clientForm.bed" size="20" maxlength="45"/></td>
 					</tr>
 					 -->
 				

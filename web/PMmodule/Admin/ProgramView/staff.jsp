@@ -87,11 +87,11 @@
 				<table border="0" cellspacing="2" cellpadding="3">
 					<tr>
 						<th>First Name:</th>
-						<td><html:text property="staffForm.firstName" size="20" /></td>
+						<td><html:text property="staffForm.firstName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
 						<th>Last Name:</th>
-						<td><html:text property="staffForm.lastName" size="20" /></td>
+						<td><html:text property="staffForm.lastName" size="20" maxlength="30"/></td>
 					</tr>
 					
 				
@@ -138,7 +138,7 @@
 					<input type="hidden" name="id<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' />
 				</display:column>			
 				
-				<display:column sortable="true" title="User No" property="providerNo"/>
+				<display:column sortable="true" title="User No" property="providerNo" sortProperty="providerNo"/>
 				
 				<display:column sortable="true" title="Name" property="providerName"/>
 				

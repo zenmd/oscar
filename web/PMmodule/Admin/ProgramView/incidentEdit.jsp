@@ -175,7 +175,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					<html-el:textarea property="incidentForm.incident.description" style="width:95%" rows="3"  /></td>		
 				</tr>	
 				<tr>
-					<td colspan="2"><b>Restriction Information:</b><html-el:text property="incidentForm.incident.restriction" maxlength="1000"/></td>		
+					<td colspan="2"><b>Restriction Information:</b>
+						<html-el:textarea property="incidentForm.incident.restriction" rows="1" cols="40" />
+					</td>		
 					<td colspan="2"><b>Charges Laid:</b> 
 						<html:select property="incidentForm.incident.chargesLaid">
 							<html:option value="-1" >--</html:option>

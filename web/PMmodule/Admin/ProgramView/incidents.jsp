@@ -106,6 +106,7 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 			var v2 = document.getElementsByName("incidentForm.incident.investigationRcmd")[0].value;
 			var v3 = document.getElementsByName("incidentForm.incident.followupInfo")[0].value;
 			var v4 = document.getElementsByName("incidentForm.incident.description")[0].value;
+			var v5 = document.getElementsByName("incidentForm.incident.restriction")[0].value;
 			
 			if(v1.length > 1000 ){
 				flag = false;
@@ -125,6 +126,11 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 			if( v4.length > 4000){
 				flag = false;
 				alert("Field 'Incident Details' can not has more than 4000 characters.");
+				exit(0);
+			}
+			if( v5.length > 1000){
+				flag = false;
+				alert("Field 'Restriction Information' can not has more than 1000 characters.");
 				exit(0);
 			}
 			
