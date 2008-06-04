@@ -164,7 +164,7 @@ public class CaseManagementManager {
     }
 
     public String saveNote(CaseManagementCPP cpp, CaseManagementNote note, String cproviderNo, String userName, String lastStr) {
-    	SimpleDateFormat dt = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+    	SimpleDateFormat dt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     	Date now = new Date();
         String noteStr = note.getNote();
         String noteHistory = note.getHistory();     
@@ -355,7 +355,7 @@ public class CaseManagementManager {
         Iterator iter = messagetblDAO.getMsgByDemoNo(demographicNo).iterator();
         ArrayList al = new ArrayList();
         int i = 0;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.mm.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
         while (iter.hasNext()) {
             Messagetbl mtbl = (Messagetbl)iter.next();
             al.add(new LabelValueBean(new Integer(i).toString(), mtbl.getThesubject() + "-" + sdf.format(mtbl.getThedate())));

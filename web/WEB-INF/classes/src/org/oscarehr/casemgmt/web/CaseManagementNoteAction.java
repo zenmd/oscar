@@ -384,7 +384,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             ProgramManager programManager= (ProgramManager)ctx.getBean("programManager");
            // AdmissionManager admissionManager= (AdmissionManager)ctx.getBean("admissionManager");
             
-            String role=null;
+/*
+  
+             String role=null;
             String team=null;
 		
             try {
@@ -393,6 +395,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 log.error(e);
                 role = "0";
             }
+*/
           /*  
             note.setReporter_caisi_role(role);
 		
@@ -523,7 +526,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
                 throw e;
         	}
         }
-       
+   /*    
         try {
             role = String.valueOf((programManager.getProgramProvider(note.getProvider_no(), note.getProgram_no())).getRole().getId());
         }
@@ -531,6 +534,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.error(e);
             role = "0";
         }
+   */
         /*
          * if(request.getSession().getAttribute("archiveView")!="true") note.setReporter_caisi_role(role); else note.setReporter_caisi_role("1");
          
@@ -648,7 +652,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String observationDate = cform.getObservation_date();
 
         if (observationDate != null && !observationDate.equals("")) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy H:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm");
             Date dateObserve = formatter.parse(observationDate);
             note.setObservation_date(dateObserve);
         }
@@ -753,7 +757,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         
         WebApplicationContext ctx = this.getSpringContext();
         ProgramManager programManager = (ProgramManager) ctx.getBean("programManager");       
-
+/*
         String role = null;
         try {
             role = String.valueOf((programManager.getProgramProvider(note.getProvider_no(), note.getProgram_no())).getRole().getId());
@@ -764,6 +768,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         
         note.setReporter_caisi_role(role);
+ */
         /*
         String team = null;
         try {
@@ -816,7 +821,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String observationDate = request.getParameter("obsDate");        
         
         if (observationDate != null && !observationDate.equals("")) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy H:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm");
             Date dateObserve = formatter.parse(observationDate);
             note.setObservation_date(dateObserve);
         }
@@ -1581,11 +1586,11 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
     protected String convertDateFmt(String strOldDate) {
         String strNewDate = "";
         if (strOldDate != null && strOldDate.length() > 0) {
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
             try {
 
                 Date tempDate = fmt.parse(strOldDate);
-                strNewDate = new SimpleDateFormat("dd-MMM-yyyy").format(tempDate);
+                strNewDate = new SimpleDateFormat("yyyy/MM/dd").format(tempDate);
 
             }
             catch (ParseException ex) {
