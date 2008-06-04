@@ -82,17 +82,31 @@ public class QuatroConsentAction extends BaseClientAction {
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	           
 	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo);
-	       //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);           
+	       //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);
+	       
 	       request.setAttribute("lstConsents", lstConsents);
 	   }
 	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			   DynaActionForm clientForm = (DynaActionForm) form;
+			   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		       String cId =request.getParameter("clientId");
+		       
+		       if(actionParam==null){
+		    	  actionParam = new HashMap();
+		          actionParam.put("clientId", cId); 
+		       }
+		       request.setAttribute("actionParam", actionParam);
+		       String demographicNo= (String)actionParam.get("clientId");
+		       request.setAttribute("clientId", demographicNo);
+		       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+		       
 		       ConsentDetail conObj = (ConsentDetail) clientForm.get("consentValue");
 			   String recId=request.getParameter("rId");
-			   if(Utility.IsEmpty(recId)) recId=conObj.getId().toString();
+			   if(Utility.IsEmpty(recId)) recId=request.getAttribute("rId").toString();
 		       Integer rId=Integer.valueOf(recId);
 			   String providerNo=(String)request.getSession().getAttribute("user");
-		       consentManager.withdraw(rId, providerNo);		       
+		       consentManager.withdraw(rId, providerNo);
+		       request.setAttribute("rId", recId);
 		       return edit(mapping, form, request, response);
 		   
 	   }

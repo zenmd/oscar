@@ -22,6 +22,7 @@
 
 package org.oscarehr.PMmodule.dao;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -38,6 +39,17 @@ public class ConsentDAO extends HibernateDaoSupport {
 
     public List getConsentsDetailList(Integer clientNo,String providerNo){
     	List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo=? and a.providerNo=?",new Object[]{clientNo,providerNo});
+    	if(results.size()>0){
+    		Iterator items=results.iterator();
+    		while(items.hasNext()){
+    			ConsentDetail cdObj=(ConsentDetail)items.next();
+    			cdObj.setStatus("View Only");
+    			if (cdObj.getStartDate().getTime().getTime()<=System.currentTimeMillis() && cdObj.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
+    				cdObj.setStatus("Withdraw");    				
+    			}    			
+    		}				
+    	}
+    	
     	return results;
     }
     public ConsentDetail getConsentDetail(Integer rId){

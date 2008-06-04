@@ -733,23 +733,23 @@ public class ProgramManagerAction extends BaseAction {
 
         
         oldProgram.setName(request.getParameter("old_name"));
-        oldProgram.setFacilityId(Integer.getInteger(request.getParameter("old_facility_id")));
+        oldProgram.setFacilityId(Integer.valueOf(request.getParameter("old_facility_id")));
         oldProgram.setDescr(request.getParameter("old_descr"));
         oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")).booleanValue());
         oldProgram.setType(request.getParameter("old_type"));
         oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
         if(request.getParameter("old_capacity_space")!=null && request.getParameter("old_capacity_space").length()>0)
-        	oldProgram.setCapacity_space(Integer.getInteger(request.getParameter("old_capacity_space")));
+        	oldProgram.setCapacity_space(Integer.valueOf(request.getParameter("old_capacity_space")));
         if(request.getParameter("old_capacity_funding")!=null && request.getParameter("old_capacity_funding").length()>0)
-        	oldProgram.setCapacity_funding(Integer.getInteger(request.getParameter("old_capacity_funding")));
+        	oldProgram.setCapacity_funding(Integer.valueOf(request.getParameter("old_capacity_funding")));
         oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")).booleanValue());
         oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")).booleanValue());
         oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
         oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")).booleanValue());
         if(request.getParameter("old_ageMax")!=null && request.getParameter("old_ageMax").length()>0)
-        	oldProgram.setAgeMax(Integer.getInteger(request.getParameter("old_ageMax")));
+        	oldProgram.setAgeMax(Integer.valueOf(request.getParameter("old_ageMax")));
         if(request.getParameter("old_ageMin")!=null && request.getParameter("old_ageMin").length()>0)
-        	oldProgram.setAgeMin(Integer.getInteger(request.getParameter("old_ageMin")));
+        	oldProgram.setAgeMin(Integer.valueOf(request.getParameter("old_ageMin")));
         
 
         if (isChanged(program,oldProgram)) {

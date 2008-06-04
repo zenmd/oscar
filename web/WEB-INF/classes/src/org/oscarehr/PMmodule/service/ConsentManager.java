@@ -86,6 +86,7 @@ public class ConsentManager {
         if (x != null) {
             x.setProviderNo(providerNo);
             x.setStatus(KeyConstants.STATUS_WITHDRAW);
+            x.setEndDate(new GregorianCalendar());
             dao.saveConsentDetail(x);
         }
     }

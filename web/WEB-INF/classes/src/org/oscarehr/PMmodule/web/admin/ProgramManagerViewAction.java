@@ -1042,7 +1042,7 @@ public class ProgramManagerViewAction extends BaseAction {
 
         int numMembers = program.getNumOfMembers().intValue();
         int maxMem     = program.getMaxAllowed().intValue();
-        int familySize = clientManager.getDependents(Integer.getInteger(clientId)).size();
+        int familySize = clientManager.getDependents(Integer.valueOf(clientId)).size();
         //TODO: add warning if this admission ( w/ dependents) will exceed the maxMem 
         
         // If the user is currently enrolled in a bed program, we must warn the provider that this will also be a discharge

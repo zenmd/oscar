@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+<%@ include file="/taglibs.jsp" %>
 <html>
 <head>
 <link rel="stylesheet" href="../theme/Master.css" type="text/css">
@@ -12,6 +12,6 @@
 
 
 </head>
-<body>
-</body>
-</html>
+<html-el:form action="/PMmodule/PrintView.do">
+	<input type="hidden" name="rId">
+</html-el:form>

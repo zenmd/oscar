@@ -1,5 +1,4 @@
 <%@ include file="/taglibs.jsp" %>
-<%@page import="org.oscarehr.PMmodule.model.ConsentDetail" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
@@ -11,13 +10,14 @@
 		function updateQuatroConsent(clientId, rId) {
 			location.href = '<html:rewrite action="/PMmodule/QuatroConsent.do"/>' + "?method=edit&rId=" + rId + "&clientId=" + clientId;
 		}	
-		function withdraw(rId)
+		function withdraw(clientId,rId)
 	    {
 	    	if (confirm('Do you wish to withdraw this consent?'))
 	    	{
 		        var form = document.consentDetailForm;
 		        form.method.value='withdraw';
-		        form.consentValue.id.value=rId;
+		        form.clientId.value=clientId;
+		        form.rId.value=rId;
 		        form.submit();
 	    	}
 	    }
@@ -25,7 +25,8 @@
 <% int a=1; %>
 <html-el:form action="/PMmodule/QuatroConsent.do">
 <input type="hidden" name="method"/>
-<input type="hidden" name="demoNo"/>
+<input type="hidden" name="clientId"/>
+<input type="hidden" name="rId"/>
 <table width="100%"  cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Consent</th>
@@ -70,29 +71,21 @@
 						<th>Actions</th>
 					</tr>
 				
-					<logic-el:iterate id="consentDetail" collection="${lstConsents}">
-					<%
-						boolean allowWithdraw=false;
-						ConsentDetail temp=null;						
-						temp=(ConsentDetail)consentDetail;
-						String 	 status="View Only";
-						if (temp.getStartDate().getTime().getTime()<=System.currentTimeMillis() && temp.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
-							status="Withdraw";
-							allowWithdraw=true;
-						}						
-					%>
+					<logic-el:iterate id="consentDetail" collection="${lstConsents}">					
 					<tr>				
 						<td><c:out value="${consentDetail.providerFormattedName}"></c:out>	</td>				
 						<td><c:out value="${consentDetail.dateSignedStr}" /></td>
 						<td><c:out value="${consentDetail.startDateStr}" /></td>
 						<td><c:out value="${consentDetail.endDateStr}" /></td>	
-						<td><%=status%></td>			
+						<td><c:out value="${consentDetail.status}" /></td>			
 						<td> 						
 							<c:choose>
-								<c:when test="${status eq 'Withdraw'}">
-								 	<input type="button" <%=allowWithdraw?"":"disabled=\"disabled\""%> value="Withdraw" onclick="withdraw(<%=temp.getId()%>)" />								
+								<c:when test="${consentDetail.status eq 'Withdraw'}">
+								 	<input type="button"  value="Withdraw" onclick="withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" />	
+								 	<input type="button" value="View"
+										onclick="updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" />							
 								</c:when>
-								<c:when test="status eq 'View Only'">
+								<c:when test="${consentDetail.status eq 'View Only'}">
 									<input type="button" value="View"
 										onclick="updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" />
 								</c:when>

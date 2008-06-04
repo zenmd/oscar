@@ -21,6 +21,7 @@ import oscar.OscarProperties;
 
 import com.crystaldecisions.report.web.viewer.CrPrintMode;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
+import com.crystaldecisions.report.web.viewer.ReportExportControl;
 import com.crystaldecisions.reports.sdk.ReportClientDocument;
 import com.crystaldecisions.sdk.occa.report.data.ConnectionInfo;
 import com.crystaldecisions.sdk.occa.report.data.ConnectionInfos;
@@ -29,6 +30,7 @@ import com.crystaldecisions.sdk.occa.report.data.IConnectionInfo;
 import com.crystaldecisions.sdk.occa.report.data.ParameterField;
 import com.crystaldecisions.sdk.occa.report.data.ParameterFieldDiscreteValue;
 import com.crystaldecisions.sdk.occa.report.data.Values;
+import com.crystaldecisions.sdk.occa.report.exportoptions.ExportOptions;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKException;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKExceptionBase;
@@ -100,6 +102,7 @@ public class PrintViewAction extends DispatchAction {
     }
 	private void PaintReport(HttpServletRequest request, HttpServletResponse response){
 		String rId =request.getParameter("rId");
+		request.setAttribute("rId", rId);
 		Integer id =Integer.valueOf(rId);
     	String module=request.getParameter("moduleName");
     	String loginId = (String)request.getSession().getAttribute("user");  
@@ -123,7 +126,7 @@ public class PrintViewAction extends DispatchAction {
         Values numberValues = new Values();
         ParameterFieldDiscreteValue numParameterFieldDiscreteValue = new ParameterFieldDiscreteValue();
         
-        numberParamField.setName("id");
+        numberParamField.setName("RecorId");
         numParameterFieldDiscreteValue.setValue(id);
         numberValues.add(numParameterFieldDiscreteValue);
         numberParamField.setCurrentValues(numberValues);
@@ -136,15 +139,28 @@ public class PrintViewAction extends DispatchAction {
         connInfo1.setPassword(opObj.getDbPassword());
        // reportDocument1.getDatabaseController().setDataSource(arg0, arg1, arg2)
         connInfos.add(connInfo1);
-        
+        ExportOptions oExportOptions = new ExportOptions();
+        oExportOptions.setExportFormatType(ReportExportFormat.PDF);
+        ReportExportControl oReportExportControl = new ReportExportControl();
+        oReportExportControl.setReportSource(reportSource);
+        oReportExportControl.setExportOptions(oExportOptions);
+        oReportExportControl.setExportAsAttachment(true);
+        oReportExportControl.setDatabaseLogonInfos(connInfos);
+        oReportExportControl.setParameterFields(parameterFields);
+        oReportExportControl.processHttpRequest(request, response, getServlet().getServletContext(), null); 
+        /*
         CrystalReportViewer crViewer = new CrystalReportViewer();
         crViewer.setReportSource(reportSource);
         crViewer.setOwnPage(true);
-        crViewer.setOwnForm(true);     
+        crViewer.setOwnForm(true);
+        crViewer.setHasLogo(false);
         crViewer.setPrintMode(CrPrintMode.PDF);
+        crViewer.setHasPrintButton(true);
+        crViewer.setHasExportButton(true);
         crViewer.setParameterFields(parameterFields); 
         crViewer.setDatabaseLogonInfos(connInfos);
-        crViewer.processHttpRequest(request, response, getServlet().getServletContext(), null); 
+        crViewer.processHttpRequest(request, response, getServlet().getServletContext(), null);
+        */ 
     }
     catch(ReportSDKException sdkEx) {
         System.out.println(sdkEx);

@@ -1,7 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="java.util.Date"%>
-<%@page import="org.oscarehr.PMmodule.dao.ProviderDao"%>
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <%@page import="org.oscarehr.PMmodule.model.ProgramClientRestriction" %>
 <%@page import="org.oscarehr.PMmodule.model.Provider" %>
@@ -66,12 +65,11 @@
 				<display:table class="simple" cellspacing="2" cellpadding="3" id="service_restriction" name="serviceRestrictions" export="false" pagesize="0" requestURI="/PMmodule/QuatroServiceRestriction.do">
 				<%
 					boolean allowTerminateEarly=false;
-					ProgramClientRestriction temp=null;
-					ProviderDao providerDao=(ProviderDao)SpringUtils.getBean("providerDao");
+					ProgramClientRestriction temp=null;					
 				%>
 				  <display:setProperty name="paging.banner.placement" value="bottom" />
 				  <display:column property="programDesc" sortable="true" title="Program Name" />
-				  <display:column property="providerFormattedName" sortable="true" title="Restricted By"/>
+				  <display:column property="providerFormattedName" sortProperty="providerFormattedName" sortable="true" title="Restricted By"/>
 				  <display:column property="comments" sortable="true" title="Comments" />
 				  <display:column property="startDateDisplay" sortable="true" title="Start date" >				  				  
 				  </display:column>
@@ -79,13 +77,16 @@
 				  
 				  </display:column>
 				  <display:column sortable="true" title="Status">
+				  <c:set var="pName" value="${service_restriction.providerFormattedName}"/> 
+				  
 					<%
+						String needAppend="N";
 						temp=(ProgramClientRestriction)service_restriction;
 						String status="";
 						allowTerminateEarly=false;
-						if (temp.getEarlyTerminationProvider()!=null){
-							Provider providerTermination=providerDao.getProvider(temp.getEarlyTerminationProvider());
-							status="terminated early by "+providerTermination.getFormattedName();
+						if (temp.getEarlyTerminationProvider()!=null){							
+							needAppend ="Y";
+							status="terminated early";							
 						}else if (temp.getEndDate().getTime().getTime()<System.currentTimeMillis()){
 						    status="completed";
 						}else if (temp.getStartDate().getTime().getTime()<=System.currentTimeMillis() && temp.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
@@ -93,7 +94,13 @@
 							allowTerminateEarly=true;
 						}
 					%>
-					   	<%=status%>
+					   <c:set var="addYn" value="${needAppend}" />
+					   <c:choose>
+								<c:when test="${addYn eq 'Y'}">
+								 	<%=status%><c:out value="${pName}"></c:out>
+								</c:when>								
+								<c:otherwise><%=status%></c:otherwise>
+					   	</c:choose>
  				  </display:column>
 				  <display:column sortable="true" title="">
   					<input type="button" <%=allowTerminateEarly?"":"disabled=\"disabled\""%> value="Terminate Early" onclick="terminateEarly(<%=temp.getId()%>)" />

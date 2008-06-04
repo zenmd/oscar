@@ -69,6 +69,15 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        Integer rId=Integer.valueOf(recId);
 	   String providerNo=(String)request.getSession().getAttribute("user");
        clientRestrictionManager.terminateEarly(rId,providerNo);
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("clientId", demographicNo);
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        
        return edit(mapping, form, request, response);
    }
