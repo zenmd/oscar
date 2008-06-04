@@ -79,7 +79,7 @@
 						            <a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=edit&id=<c:out value="${facility.id}" />"> Edit </a>
 						        </display:column>
 						        
-								<display:column sortable="true" title="Name">
+								<display:column sortable="true" title="Name" sortProperty="name" sortName="facility">
 									<a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=view&id=<c:out value="${facility.id}" />"><c:out value="${facility.name}" /></a>
 								</display:column>
 						        <display:column property="name" sortable="true" title="Name"/>
