@@ -8,7 +8,6 @@
 
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-<jsp:include page="/common/messages.jsp" />
 <script>
 /*
     function do_admission() {
@@ -41,12 +40,27 @@
 <html:hidden property="clientId" />
 <html:hidden property="queueId" />
 <html:hidden property="remoteReferralId" />
-<h3>Local Queue</h3>
 <%
 //	HashSet<Long> genderConflict=(HashSet<Long>)request.getAttribute("genderConflict");
 //	HashSet<Long> ageConflict=(HashSet<Long>)request.getAttribute("ageConflict");
 %>
 <!--  show current clients -->
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+	border="0">
+<tr>
+		<td align="left" class="buttonBar">
+			<html:link
+			action="/PMmodule/ProgramManager.do"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+		</td>
+</tr>
+<tr>
+<td>
+<div class="tabs" id="tabs">Queue</div>
+</td></tr>
+<tr>
+<td>
 <display:table class="simple" cellspacing="2" cellpadding="3" id="queue_entry" name="queue" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
     <display:setProperty name="paging.banner.placement" value="bottom" />
     <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
@@ -78,6 +92,9 @@
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>
     <display:column property="intakeId" sortable="true" title="Intake Id"/>
 </display:table>
+</td>
+</tr>
+</table>
 <br />
 <br />
 <!-- 

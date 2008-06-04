@@ -26,7 +26,7 @@
 	
 	<display:column property="providerName" style="white-space: nowrap;" sortable="true" title="Provider Name" ></display:column>
 	<display:column property="providerName" style="white-space: nowrap;" sortable="true" title="Role" ></display:column>
-	<display:column property="updateDate" style="white-space: nowrap;" sortable="true" title="Date" ></display:column>
+	<display:column property="updateDate" style="white-space: nowrap;" sortable="true" title="Date" format="{0,date,yyyy/MM/dd}"></display:column>
 </display:table>
 
 </body>

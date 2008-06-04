@@ -62,7 +62,7 @@ function assignStatus(id,selectBox) {
 		<a href="javascript:void(0);return false;" onclick="alert('Please discharge clients from the client manager');"> Discharge </a>
 	</display:column>
 	<display:column property="client.formattedName" sortable="true" title="Name" />
-	<display:column property="admissionDate" sortable="true" title="Admission Date" />
+	<display:column property="admissionDate" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd}" />
 	<display:column property="admissionNotes" sortable="true" title="Admission Notes" />
 	<display:column property="teamName" sortable="true" title="Team" />
 	<display:column sortable="false" title="" >

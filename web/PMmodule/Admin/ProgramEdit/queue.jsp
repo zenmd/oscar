@@ -46,7 +46,7 @@ function removeFromQueue(id) {
 		<a href="javascript:void(0);" onclick="removeFromQueue('<c:out value="${queue_entry.id}"/>')"> Remove </a>
 	</display:column>
 	<display:column property="clientFormattedName" sortable="true" title="Client Name" />
-	<display:column property="referralDate" sortable="true" title="Referral Date" />
+	<display:column property="referralDate" sortable="true" title="Referral Date" format="{0,date,yyyy/MM/dd}"/>
 	<display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
 	<display:column property="notes" sortable="true" title="Notes" />
 </display:table>

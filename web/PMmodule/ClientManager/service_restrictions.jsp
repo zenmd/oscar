@@ -98,8 +98,8 @@
     <display:column property="program.name" sortable="true" title="Program Name" />
     <display:column property="provider.formattedName" sortable="true" title="Restricted By"/>
     <display:column property="comments" sortable="true" title="Comments" />
-    <display:column property="startDate" sortable="true" title="Start date" />
-    <display:column property="endDate" sortable="true" title="End date" />
+    <display:column property="startDate" sortable="true" title="Start date" format="{0,date,yyyy/MM/dd}" />
+    <display:column property="endDate" sortable="true" title="End date" format="{0,date,yyyy/MM/dd}" />
     <display:column sortable="true" title="Status">
     	<%
     		temp=(ProgramClientRestriction)service_restriction;

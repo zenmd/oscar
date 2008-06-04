@@ -108,8 +108,8 @@ Please define the following parameters control the behaviour of new service rest
     <display-el:column property="client.formattedName" sortable="true" title="Client" />
     <display-el:column property="provider.formattedName" sortable="true" title="Restricted By"/>
     <display-el:column property="comments" sortable="true" title="Comments" />
-    <display-el:column property="startDate" sortable="true" title="Start date" />
-    <display-el:column property="endDate" sortable="true" title="End date" />
+    <display-el:column property="startDate" sortable="true" title="Start date" format="{0,date,yyyy/MM/dd}" />
+    <display-el:column property="endDate" sortable="true" title="End date" format="{0,date,yyyy/MM/dd}" />
 </display-el:table>
 
 <br/>

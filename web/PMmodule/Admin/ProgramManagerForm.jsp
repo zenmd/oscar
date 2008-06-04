@@ -6,73 +6,18 @@
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 
 <html:form action="/PMmodule/ProgramManager">
-
 	<html:hidden property="view.tab" />
 	<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>" />
 	<input type="hidden" name="method" value="edit" />
 	<html:hidden property="program.id" />
-	<input type="hidden" name="tab" />
 	<html:hidden property="program.numOfMembers" />
+	<% 	String selectedTab = request.getParameter("view.tab");%>
 			
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"	height="100%">
 		
 		<!-- Title -->
 		<tr>
 			<th class="pageTitle" align="center"><c:out value="${pageTitle}" /></th>
-		</tr>
-
-		<!-- Functions --> 
-		<tr>
-			<td>
-				<% 	String selectedTab = request.getParameter("view.tab");
-			 		//if (selectedTab == null || selectedTab.trim().equals("")) {
-			 	 	//	selectedTab = ProgramManagerViewFormBean.tabs[0];
-			 	 	//}
-			 	  	String roleName$ = (String) session.getAttribute("userrole") + ","
-			 			+ (String) session.getAttribute("user");
- 				%> 
-			
-				<c:choose>
-					<c:when test="${id != null && id gt 0}">
-						
-			
-	
-						<table cellpadding="0" cellspacing="0" border="0" width="100%">
-	
-							<tr height="18px">
-								<td class="buttonBar2">
-								<%
-									DynaValidatorForm form = (DynaValidatorForm) session
-											.getAttribute("programManagerForm");
-									Program program = (Program) form.get("program");
-	
-									for (int i = 0; i < ProgramManagerViewFormBean.tabs.length; i++) {
-										if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase("Bed Check") && program.isService()) {
-											//break;
-											continue;
-										}
-	
-										if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase(selectedTab)) {
-								%> 
-									<b><%=ProgramManagerViewFormBean.tabs[i]%></b>&nbsp;&nbsp;|&nbsp;&nbsp;
-								<%
-										} else {
-								%> 
-									<a href="javascript:void(0)" style="color:Navy;text-decoration:none;"
-									onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-	
-								<%
-										}
-									}
-								%>
-								</td>
-							</tr>
-						</table>
-
-					</c:when>
-
-				</c:choose>
-			</td>
 		</tr>
 
 		<!-- function body start -->
@@ -92,7 +37,7 @@
 						<%
 							} else {
 						%>
-						<jsp:include page='<%="/PMmodule/Admin/ProgramView/" + selectedTab.toLowerCase().replaceAll(" ","_") + ".jsp"%>' />
+						<jsp:include page='<%="/PMmodule/Admin/ProgramEdit/" + selectedTab.toLowerCase().replaceAll(" ","_") + ".jsp"%>' />
 						<%
 							}
 						%>

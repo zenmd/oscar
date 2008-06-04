@@ -138,13 +138,11 @@
 					<input type="hidden" name="id<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' />
 				</display:column>			
 				
-				<display:column sortable="true" title="ProviderNo" property="providerNo"/>
+				<display:column sortable="true" title="User No" property="providerNo"/>
 				
 				<display:column sortable="true" title="Name" property="providerName"/>
 				
 				<display:column sortable="true" title="Role" property="roleName_desc"/>
-				
-				
 			
 			</display:table>
 			

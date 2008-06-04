@@ -11,7 +11,7 @@
 			Program program = (Program) form.get("program"); 
 			request.setAttribute("program", program);	
 					
-			String selectedTab = request.getParameter("tab");
+			String selectedTab = request.getParameter("view.tab");
 			if (selectedTab == null || selectedTab.trim().equals("")) {
 				selectedTab = ProgramManagerViewFormBean.tabs[0];
 			}
@@ -41,9 +41,9 @@
 
 <script>
 	function clickTab(name) {
-		document.programManagerForm.action = "<c:out value='${ctx}'/>/PMmodule/ProgramManagerView.do?id=<c:out value='${requestScope.id}'/>";
-		document.getElementsByName("tab")[0].value=name;
-		document.programManagerForm.method.value="view";
+		document.programManagerForm.action = "<c:out value='${ctx}'/>/PMmodule/ProgramManager.do?method=edit&id=<c:out value='${requestScope.id}'/>";
+		document.getElementsByName("view.tab").value=name;
+		document.programManagerForm.method.value="edit";
 		document.programManagerForm.submit();
 		
 	}
