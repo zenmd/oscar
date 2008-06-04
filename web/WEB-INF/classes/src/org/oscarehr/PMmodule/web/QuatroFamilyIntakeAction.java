@@ -474,7 +474,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
            intake.setIntakeStatus(headIntake.getIntakeStatus());
      	 }
      	 intake.setReferralId(headIntake.getReferralId());
-     	 intake.setQueueId(headIntake.getQueueId());
+//     	 intake.setQueueId(headIntake.getQueueId());
+     	 intake.setQueueId(new Integer(0));
 
      	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
      	 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);

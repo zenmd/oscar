@@ -566,7 +566,11 @@ public class IntakeDao extends HibernateDaoSupport {
 
 		    //intake for bed program, add/update referral and queue records.
 		    intakeDb.setReferralId(intake.getReferralId());
-		    intakeDb.setQueueId(intake.getQueueId());
+		    if(bFamilyMember){
+		       intakeDb.setQueueId(0);
+		    }else{
+		       intakeDb.setQueueId(intake.getQueueId());
+		    }
 			
 			
 		   for(int i=1;i<IntakeConstant.TOTALITEMS-1;i++){
