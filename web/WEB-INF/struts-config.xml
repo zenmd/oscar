@@ -54,6 +54,7 @@
         <form-bean name="msgClearMessageForm" type="oscar.oscarMessenger.pageUtil.MsgClearMessageForm" />
         <form-bean name="msgDoc2PDFForm" type="oscar.oscarMessenger.pageUtil.MsgDoc2PDFForm" />
         <form-bean name="msgAttachPDFForm" type="oscar.oscarMessenger.pageUtil.MsgAttachPDFForm" />
+<!--
         <form-bean name="RxChoosePatientForm" type="oscar.oscarRx.pageUtil.RxChoosePatientForm" />
         <form-bean name="RxSearchDrugForm" type="oscar.oscarRx.pageUtil.RxSearchDrugForm" />
         <form-bean name="RxChooseDrugForm" type="oscar.oscarRx.pageUtil.RxChooseDrugForm" />
@@ -74,6 +75,7 @@
         <form-bean name="FrmXmlUploadForm" type="oscar.form.pageUtil.FrmXmlUploadForm" />
         <form-bean name="FrmForm" type="oscar.form.FrmForm" />
         <form-bean name="FrmFormForm" type="oscar.form.pageUtil.FrmFormForm" />
+-->     
         <form-bean name="EctConsultationFormRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctConsultationFormRequestForm" />
         <form-bean name="EctViewRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctViewRequestForm" />
         <form-bean name="EctDemographicSearchForm" type="oscar.oscarEncounter.search.pageUtil.EctDemographicSearchForm" />
@@ -497,10 +499,6 @@
     </global-forwards>
     
     <action-mappings>
-		<action path="/Dawson" type="com.quatro.web.DawsonAction" name="dawsonForm" scope="session" validate="false">
-            <forward name="edit" path="/dawson.jsp" />
-		</action>
-
 
 		<action path="/topazSave" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
             <forward name="view" path="/PMmodule/ClientManager/signatureview.jsp" />
@@ -537,11 +535,12 @@
  -->        
 <!-- 
         <action path="/infirm" type="org.caisi.core.web.InfirmAction" name="inputForm" scope="request" parameter="action"></action>
- -->
        	<action path="/CaisiEditor" type="org.springframework.web.struts.DelegatingActionProxy" name="caisiEditorForm" scope="request" parameter="method" validate="false">
             <forward name="list" path="/caisicore/CaisiEditorList.jsp" />
             <forward name="edit" path="/caisicore/CaisiEditorForm.jsp" />
        	</action>
+ -->
+
         <!-- Login -->
         <action input="/login.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
             <forward name="receptionist" path="/receptionist/receptionistcontrol.jsp" redirect="true" />
