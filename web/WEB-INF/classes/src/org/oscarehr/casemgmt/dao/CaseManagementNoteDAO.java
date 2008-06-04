@@ -79,7 +79,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
             
             Date d;
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
                 d = formatter.parse(staleDate);
             }
             catch(ParseException e) {
