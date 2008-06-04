@@ -65,5 +65,5 @@
 			}
 		}
 	</script>	
-<table border="0" cellspacing="0" cellpadding="1" width="100%" bgcolor="#CCCCFF">
-	  <tr class="subject"><th width="20%"></th><th colspan="2" width="80%">TicklerPlus</th><th width="20%" align="right" nowrap>version <c:out value="${version.version}"/></th></tr>
+<table border="0" cellspacing="0" cellpadding="1" width="100%">
+	  <tr><th  class="pageTitle">Tasks</th></tr>

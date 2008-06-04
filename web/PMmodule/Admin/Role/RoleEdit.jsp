@@ -104,7 +104,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				<logic:notPresent name="secroleForEdit">
 					<tr>
 						<td>Role Name:</td>
-						<td><html:text property="roleName" size="50" /></td>
+						<td><html:text property="roleName" size="50" maxlength="30"/></td>
 					</tr>
 				</logic:notPresent>
 				
@@ -113,7 +113,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				</tr>
 				<tr>
 					<td>Description:</td>
-					<td><html:text property="description" size="50" /></td>
+					<td><html:text property="description" size="50" maxlength="60"/></td>
 				</tr>
 				<tr>
 					<td colspan="2">&nbsp;</td>
