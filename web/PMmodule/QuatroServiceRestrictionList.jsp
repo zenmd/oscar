@@ -19,7 +19,7 @@
     	{
 	        var form = document.serviceRestrictionForm;
 	        form.method.value='terminate_early';
-	        form.serviceRestriction.id.value=restrictionId;
+	        form.rId.value=restrictionId;
 	        form.submit();
     	}
     }
@@ -27,6 +27,7 @@
 <html-el:form action="/PMmodule/QuatroServiceRestriction.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="demoNo"/>
+<input type="hidden" name="rId" />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Service Restriction List</th>

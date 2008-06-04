@@ -46,7 +46,7 @@ public class PrintBarcodeAction extends OscarAction {
         System.setProperty("jasper.reports.compile.class.path", classpath);
 
         HashMap parameters = new HashMap();
-        parameters.put("demo", request.getParameter("demographic_no"));
+        parameters.put("demo", request.getParameter("clientId"));
         ServletOutputStream sos = null;
         InputStream ins = null;
         try {

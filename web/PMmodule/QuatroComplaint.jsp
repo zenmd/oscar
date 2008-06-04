@@ -171,7 +171,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
 								<td colspan="2">Is complaint related to Toronto Shelter	Standards? 
-									<html-el:checkbox name="quatroClientComplaintForm" property="isStandards" value="1" onclick="setStandard(this)" />
+									<html-el:checkbox name="quatroClientComplaintForm" property="isStandards"  onclick="setStandard(this)" />
 								</td>
 							</tr>
 							<tr>
