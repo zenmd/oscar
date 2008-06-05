@@ -45,7 +45,7 @@ public class ProgramManagerViewFormBean extends ActionForm {
     private ProgramClientRestriction serviceRestriction;
 
     private IncidentForm incidentForm;
-    private StaffForm staffForm;
+    private StaffForm staffForm = new StaffForm();
     private ClientForm clientForm;
        
 
