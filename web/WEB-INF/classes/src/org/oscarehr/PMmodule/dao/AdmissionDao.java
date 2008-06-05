@@ -57,9 +57,15 @@ public class AdmissionDao extends HibernateDaoSupport {
     public void dischargeAdmission(String admissionIds) {
     	if(admissionIds==null || admissionIds.length()==0) return;
         
+           	
     	Calendar cal = Calendar.getInstance();
         String[] split= admissionIds.split(",");
         for(int i=0;i<split.length;i++){
+          Admission  admission = this.getAdmission(Integer.valueOf(split[i]));
+    	  getHibernateTemplate().bulkUpdate("update QuatroIntakerDB i set i.intakeStatus='" +
+          		KeyConstants.INTAKE_STATUS_DISCHARGED + "'" + 
+                  " where i.id=?", new Object[]{admission.getIntakeId()});
+
     	  getHibernateTemplate().bulkUpdate("update Admission q set q.admissionStatus='" +
         		KeyConstants.INTAKE_STATUS_DISCHARGED + "'," + 
                 " q.dischargeNotes='auto-discharge for other intake admission'," +
@@ -329,10 +335,16 @@ public class AdmissionDao extends HibernateDaoSupport {
     	return admObj;
     }
     public void updateDischargeInfo(Admission admission){
-        String sSQL="update Admission q set q.communityProgramCode=?," + 
+    	String sSQL="update QuatroIntakeDB q set q.intakeStatus='" + 
+    	KeyConstants.INTAKE_STATUS_DISCHARGED + "' where q.id=?";
+
+    	getHibernateTemplate().bulkUpdate(sSQL, new Object[]{admission.getIntakeId()});
+
+    	sSQL="update Admission q set q.communityProgramCode=?," + 
         "q.dischargeDate=?, q.admissionStatus=?, q.dischargeReason=?, " +
         "q.transportationType=?, q.dischargeNotes=? where q.id=?";
-		getHibernateTemplate().bulkUpdate(sSQL, 
+
+        getHibernateTemplate().bulkUpdate(sSQL, 
 			new Object[]{admission.getCommunityProgramCode(),  
 				admission.getDischargeDate(), admission.getAdmissionStatus(),
 				admission.getDischargeReason(), admission.getTransportationType(),
