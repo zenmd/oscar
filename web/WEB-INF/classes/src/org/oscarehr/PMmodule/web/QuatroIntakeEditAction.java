@@ -112,6 +112,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         obj.setCurrentProgramId(obj.getProgramId());
 		qform.setIntake(obj);
 
+		request.setAttribute("intakeHeadId", new Integer(0));  //intakeHeadId: for intake stauts='discharged' or 'rejected' to view family details.
+
         LookupCodeValue language;
         LookupCodeValue originalCountry;
         if(intakeId.intValue()!=0){
@@ -155,8 +157,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         if(intakeHeadId!=null){
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
+          request.setAttribute("intakeHeadId", intakeHeadClientId);  //intakeHeadId: for intake stauts='discharged' or 'rejected' to view family details.
         }else{
           request.setAttribute("clientId", clientId); 
+          request.setAttribute("intakeHeadId", new Integer(0)); //intakeHeadId: for intake stauts='discharged' or 'rejected' to view family details. 
         }
 
         Demographic client;

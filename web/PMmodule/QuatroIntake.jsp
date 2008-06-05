@@ -54,7 +54,7 @@ function updateQuatroIntake(clientId, intakeId) {
 <tr><td>
 <display:table class="simple" cellspacing="2" cellpadding="3" id="intake" name="quatroIntake" export="false" pagesize="100" requestURI="/PMmodule/QuatroIntake.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
-			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
+			<display:setProperty name="basic.msg.empty_list" value="No intakes found." />
 			<display:column sortable="true" title="Program Type">
                  <c:out value="${intake.programType}" /></a>
             </display:column>
@@ -68,34 +68,18 @@ function updateQuatroIntake(clientId, intakeId) {
 				<c:out value="${intake.intakeStatus}"/>
 			</display:column>
 			<display:column title="Actions">
-				<input type="button" value="Update" 
-      				onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />			
+	<c:choose>								
+	<c:when test="${intake.intakeStatus == 'active' || intake.intakeStatus == 'admitted'}">
+		<input type="button" value="Update" 
+			onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />			
+	</c:when>
+	<c:otherwise>
+		<input type="button" value="View" 
+			onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />			
+	</c:otherwise>
+	</c:choose>		
 			</display:column>
 </display:table>
-<!-- 
-<table class="simple" cellspacing="2" cellpadding="3">
-  <tr><td>Program Type</td>
-  <td>Created On</td>
-  <td>Staff</td>
-  <td>Status</td>
-  <td>Actions</td></tr>
-
-  <logic-el:iterate id="intake" collection="${quatroIntake}">
-    <tr><td width="20%"><c:out value="${intake.programType}" /></td>
-    <td><c:out value="${intake.createdOnStr}" /></td>
-    <td><c:out value="${sessionScope.provider.formattedName}" /></td>
-    <td><c:out value="${intake.intakeStatus}"/></td>
-    <td><input type="button" value="Update" 
-      onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" /></td></tr>
-  </logic-el:iterate>						
-  <tr><td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td><input type="button" value="Create" 
-     onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" /></td></tr>
-</table>
- -->
 </td></tr>
 
 </table>

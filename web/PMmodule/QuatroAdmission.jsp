@@ -61,8 +61,8 @@ function viewSignature(){
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
-		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ACTIVE ||
-		 quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ADMITTED}">
+		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
@@ -183,8 +183,8 @@ function viewSignature(){
 	<tr><th width="20%">Assign Room</th>
 	<td>
 	<c:choose>
-	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ACTIVE ||
-		 quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ADMITTED}">
+	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
 	      <html:select property="roomDemographic.id.roomId" onchange="quatroClientAdmissionForm.method.value='roomchange';quatroClientAdmissionForm.submit();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
