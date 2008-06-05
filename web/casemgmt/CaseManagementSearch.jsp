@@ -275,12 +275,20 @@ response.setHeader("Cache-Control", "no-cache");
 										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true" style="color:Navy;text-decoration:none;">
 									<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png"	title="Edit Note" /> 
 									</a>
-								</c:when>
+								</c:when>								
 								<c:otherwise>
 									<img border="0" style="color:Navy;text-decoration:none;" src="<c:out value="${ctx}"/>/images/transparent_icon.gif" 	title="" />
 								</c:otherwise>
 							</c:choose> 
 							<c:choose>
+								<c:when test="${note.signed}">
+								<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
+										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
+										&providerNo=<c:out value="${param.providerNo}" />"  style="color:Navy;text-decoration:none;" >
+									<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"
+									title="Note History" /> 
+								</a>
+								</c:when>
 								<c:when test="${note.hasHistory == true and note.locked != true}">
 								<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
