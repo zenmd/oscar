@@ -41,10 +41,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 	<tr>
 		<td>
 
-		<div class="h4">
-		<h4>Search program by select criteria below</h4>
-		</div>
-
+		
 		<br />
 
 		<html:form action="/PMmodule/ProgramManager.do">
