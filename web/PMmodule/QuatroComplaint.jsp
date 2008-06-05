@@ -177,7 +177,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2">If yes, Specify Complaints(identify Section
+								<td colspan="2">If yes, Specify Complaints (Identify Section
 								of Toronto Shelter Standards)</td>
 							</tr>
 	
@@ -245,7 +245,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 					<td>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
-								<td width="20%">Was the complaint satisfied with the outcome?</td>
+								<td width="20%">Was the complainant satisfied with the outcome?</td>
 								<td width="30%"><html-el:select
 									property="complaint.satisfiedWithOutcome">
 									<html-el:optionsCollection property="outcomes"
@@ -257,7 +257,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								</td>
 							</tr>
 							<tr>
-								<td colspan="4">Are There Outstanding Service System issues?
+								<td colspan="4">Are There Outstanding Service System Issues?
 									<font size="1">(Please specify below)</font><!-- 
 									<input type="radio" name="OutstandingChk" onclick="setOutstanding('1')" value="1">Yes</input>
 									<input type="radio" name="OutstandingChk" onclick="setOutstanding('0')" value="0">No</input>
