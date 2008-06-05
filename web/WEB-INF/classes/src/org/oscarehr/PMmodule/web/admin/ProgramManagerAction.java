@@ -868,78 +868,7 @@ public class ProgramManagerAction extends BaseAction {
     }
 
     private void saveProgram(HttpServletRequest request, Program program) {
-        //programManager.saveProgram(program);
-
-        //if there were some changes happened to the program, then save the signature of this program
-        Program oldProgram = new Program();
-        
-//        oldProgram.setMaxAllowed(Integer.valueOf(request.getParameter("old_maxAllowed")));
-//        oldProgram.setName(request.getParameter("old_name"));
-//        oldProgram.setDescr(request.getParameter("old_descr"));
-//        oldProgram.setType(request.getParameter("old_type"));
-//        oldProgram.setAddress(request.getParameter("old_address"));
-//        oldProgram.setPhone(request.getParameter("old_phone"));
-//        oldProgram.setFax(request.getParameter("old_fax"));
-//        oldProgram.setUrl(request.getParameter("old_url"));
-//        oldProgram.setEmail(request.getParameter("old_email"));
-//        oldProgram.setEmergencyNumber(request.getParameter("old_emergencyNumber"));
-//        oldProgram.setLocation(request.getParameter("old_location"));
-//        oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
-//        oldProgram.setBedProgramLinkId(Integer.valueOf(request.getParameter("old_bedProgramLinkId")));
-//        oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
-//        oldProgram.setAbstinenceSupport(request.getParameter("old_abstinenceSupport"));
-//        oldProgram.setExclusiveView(request.getParameter("old_exclusiveView"));
-//
-//        oldProgram.setHoldingTank(Boolean.valueOf(request.getParameter("old_holdingTank")));
-//        oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")));
-//        oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")));
-//        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")));
-//        oldProgram.setTransgender(Boolean.valueOf(request.getParameter("old_transgender")));
-//        oldProgram.setFirstNation(Boolean.valueOf(request.getParameter("old_firstNation")));
-//        oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")));
-//        oldProgram.setAlcohol(Boolean.valueOf(request.getParameter("old_alcohol")));
-//        oldProgram.setPhysicalHealth(Boolean.valueOf(request.getParameter("old_physicalHealth")));
-//        oldProgram.setMentalHealth(Boolean.valueOf(request.getParameter("old_mentalHealth")));
-//        oldProgram.setHousing(Boolean.valueOf(request.getParameter("old_housing")));
-//        oldProgram.setHousing(Boolean.valueOf(request.getParameter("old_facility_id")));
-
-
-        
-        oldProgram.setName(request.getParameter("old_name"));
-        oldProgram.setFacilityId(Integer.valueOf(request.getParameter("old_facility_id")));
-        oldProgram.setDescr(request.getParameter("old_descr"));
-        oldProgram.setHic(Boolean.valueOf(request.getParameter("old_hic")).booleanValue());
-        oldProgram.setType(request.getParameter("old_type"));
-        oldProgram.setProgramStatus(request.getParameter("old_programStatus"));
-        if(request.getParameter("old_capacity_space")!=null && request.getParameter("old_capacity_space").length()>0)
-        	oldProgram.setCapacity_space(Integer.valueOf(request.getParameter("old_capacity_space")));
-        if(request.getParameter("old_capacity_funding")!=null && request.getParameter("old_capacity_funding").length()>0)
-        	oldProgram.setCapacity_funding(Integer.valueOf(request.getParameter("old_capacity_funding")));
-        oldProgram.setAllowBatchAdmission(Boolean.valueOf(request.getParameter("old_allowBatchAdmission")).booleanValue());
-        oldProgram.setAllowBatchDischarge(Boolean.valueOf(request.getParameter("old_allowBatchDischarge")).booleanValue());
-        oldProgram.setManOrWoman(request.getParameter("old_manOrWoman"));
-        oldProgram.setBedProgramAffiliated(Boolean.valueOf(request.getParameter("old_bedProgramAffiliated")).booleanValue());
-        if(request.getParameter("old_ageMax")!=null && request.getParameter("old_ageMax").length()>0)
-        	oldProgram.setAgeMax(Integer.valueOf(request.getParameter("old_ageMax")));
-        if(request.getParameter("old_ageMin")!=null && request.getParameter("old_ageMin").length()>0)
-        	oldProgram.setAgeMin(Integer.valueOf(request.getParameter("old_ageMin")));
-        
-
-        if (isChanged(program,oldProgram)) {
-        	programManager.saveProgram(program);
-        	
-            ProgramSignature programSignature = new ProgramSignature();
-            programSignature.setProgramId(program.getId());
-            programSignature.setProgramName(program.getName());
-            String providerNo = (String)request.getSession().getAttribute("user");
-            programSignature.setProviderId(providerNo);
-            programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
-//            programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
-            //Date now = new Date();
-            programSignature.setUpdateDate(Calendar.getInstance());
-
-            programManager.saveProgramSignature(programSignature);
-        }
+        programManager.saveProgram(program);
     }
     public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	System.out.println("========== add Staff ==========");
