@@ -132,14 +132,12 @@ if (props.getProperty("logintitle", "").equals("")) {
 <input
 						type="hidden" name="pin" size="15" maxlength="15"
 						autocomplete="off" value="1117"/>
-<table align="center" border="0" width="100%" height="100%">
+<table align="center" border="0" cellspacing="0" width="100%" height="100%">
 	<tr>
 		<td>
 			<table align="center">
-				<tr><td>&nbsp;</td></tr>
 				<tr>
-					<td align="center"><img border="0"
-						src="images/QuatroShelter-Logo300.gif" ></td>
+					<td align="center"><img src="images/QuatroShelter-Logo450.gif" height="90" width="450" ></td>
 				</tr>
 				<tr>
 					<Td align="center"><font size="3" face="Arial">City of
@@ -165,10 +163,10 @@ if (props.getProperty("logintitle", "").equals("")) {
 				<tr><td>&nbsp;</td></tr>
 				<tr>
 					<td>
-						<table style="BORDER-RIGHT:Gray 1px solid; BORDER-Top:Gray 1px solid; BORDER-LEFT:Gray 1px solid;BORDER-BOTTOM:BLACK 1px solid" align="center" background="images/Silver-background-dark.gif" width="70%">
+						<table cellspacing="2" border="0" style="BORDER-RIGHT:Gray 1px solid; BORDER-Top:Silver 1px solid; BORDER-LEFT:Silver 1px solid;BORDER-BOTTOM:Gray 1px solid" align="center" valing="center" background="images/Silver-background.gif"  width="70%">
 							<tr><td height="5"></td></tr>
 							<tr>
-								<td width="32%" align="right">
+								<td width="30%" align="right">
 									<font size="2" face="Arial"> <b><bean:message
 									key="loginApplication.formUserName" /> 
 								<%
@@ -181,25 +179,28 @@ if (props.getProperty("logintitle", "").equals("")) {
 			 					}
 			 					%>
 								</b></font></td>
-								<td><font size="2"
+								<td width="40%" align="center"><font size="2"
 									face="Arial"><b><input type="text" name="username" 
-									size="43%" maxlength="15" autocomplete="off" /></b></font></td>
+									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
+								<td width="30%">&nbsp</td>
 							</tr>
 							<tr>
-								<td width="32%"  align="right"><font
+								<td align="right"><font
 									size="2" face="Arial"><b><bean:message
 									key="loginApplication.formPwd" /></b></font></td>
-								<td ><font size="2"
+								<td align="center"><font size="2"
 									face="Arial"><b><input type="password" name="password" 
-									size="43%" maxlength="15" autocomplete="off" /></b></font></td>
+									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
+								<td>&nbsp;</td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
-								<td valign="mid" align=""><font face="Arial"
+								<td align="center" valign="center" align=""><font face="Arial"
 									size="1"><input type="submit"
 									value="<bean:message key="index.btnSignIn"/>" />&nbsp; <input
 									type="reset" value="Reset">&nbsp; <input type="button"
 									value="Change Password" name="B2" ></font></td>
+									<td>&nbsp</td>
 							</tr>
 							<tr><td height="5"></td></tr>
 						</table>
@@ -209,7 +210,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 			</table>
 		</td>
 	</tr>
-	<tr><td height=50></td></tr>
+	<tr><td height=70></td></tr>
 	<tr>
 		<td  height="41" align="center"><img border="0"
 			src="images/QuatroGroup-Logo.gif" width="120" height="20">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -217,9 +218,9 @@ if (props.getProperty("logintitle", "").equals("")) {
 		<img border="0" src="images/Caisi-Logo.gif" width="120" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<img border="0" src="images/OSCAR-LOGO.gif" width="80" height="25"></td>
 	</tr>
-	<tr><td height=20></td></tr>
+	<tr><td height=30></td></tr>
 	<tr>
-		<td height="20" align="center" style="BORDER-TOP:Black 1px solid" background="images/Silver-background-Footer.gif">
+		<td height="25" align="center" style="BORDER-TOP:Gray 1px solid; BORDER-right:Silver 1px solid; BORDER-LEFT:Gray 1px solid" background="images/Silver-background.gif">
 		<p align="center"><font face="Arial" size="2">Quatro Group
 		Software System Inc. Support at: <a href="http://www.QuatroGroup.com">http://www.QuatroGroup.com</a></font>
 		</td>
