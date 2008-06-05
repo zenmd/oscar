@@ -9,6 +9,7 @@
 	<html:hidden property="view.tab" />
 	<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>" />
 	<input type="hidden" name="method" value="edit" />
+	<input type="hidden" name="mthd" />
 	<html:hidden property="program.id" />
 	<html:hidden property="program.numOfMembers" />
 	<% 	String selectedTab = request.getParameter("view.tab");%>

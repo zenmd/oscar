@@ -23,150 +23,259 @@
  -->
 
 <%@ include file="/taglibs.jsp"%>
+
+
 <style>
-.b th {color:black;}
+	.non_sorted_header {
+		color:black;
+		background:white;
+	}
 </style>
+
+
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+	border="0">
+
+
+	<tr>
+		<td align="left" class="buttonBar"><html:link
+			action="/PMmodule/ProgramManager.do"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+		<!-- 			<html:link
+				href="javascript:submitForm('saveStaff');"
+				style="color:Navy;text-decoration:none;">
+				<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
+ --> <html:link href="javascript:searchStaff();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
+		<html:link href="javascript:resetForm();"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
+		</td>
+	</tr>
+	<tr>
+		<td><logic:messagesPresent message="true">
+			<br />
+			<html:messages id="message" message="true" bundle="pmm">
+				<c:out escapeXml="false" value="${message}" />
+			</html:messages>
+			<br />
+		</logic:messagesPresent></td>
+	</tr>
+
+	<tr>
+		<td>
+		<div class="h4">
+		<p></p>
+		<h4>Search Staff by entering search criteria below</h4>
+		<br />
+		</div>
+		</td>
+	</tr>
+
+
+	<tr>
+		<td>
+		<div class="axial">
+		<table border="0" cellspacing="2" cellpadding="3">
+			<tr>
+				<th>First Name:</th>
+				<td><html:text property="view.staffForm.firstName" size="20" /></td>
+			</tr>
+			<tr>
+				<th>Last Name:</th>
+				<td><html:text property="view.staffForm.lastName" size="20" /></td>
+			</tr>
+
+
+		</table>
+		</div>
+
+
+
+		</td>
+	</tr>
+
+	<tr>
+		<td height="100%">
+
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
+
+
+		<br />
+		<div class="tabs" id="tabs">
+		<table cellpadding="3" cellspacing="0" border="0">
+			<tr>
+				<th title="Programs">Staff</th>
+			</tr>
+		</table>
+		</div>
+
+
+
+
+		<display:table class="simple" cellspacing="2" cellpadding="3" id="pp"
+			name="existStaffLst" export="false" pagesize="0"
+			requestURI="/PMmodule/ProgramManagerView.do">
+
+			<display:setProperty name="paging.banner.placement" value="bottom" />
+			<display:setProperty name="basic.msg.empty_list"
+				value="No staff currently in place for this program." />
+
+
+			<display:column title="Select">
+				<input type="checkbox"
+					name="p2<%=pageContext.getAttribute("pp_rowNum")%>"
+					value='<c:out value="${pp.id}"/>' />
+				<input type="hidden" name="lineno2"
+					value="<%=pageContext.getAttribute("pp_rowNum")%>" />
+				<input type="hidden"
+					name="id<%=pageContext.getAttribute("pp_rowNum")%>"
+					value='<c:out value="${pp.id}"/>' />
+			</display:column>
+
+			<display:column sortable="true" title="User No" property="providerNo" />
+
+			<display:column sortable="true" title="Name" property="providerName" />
+
+			<display:column sortable="true" title="Role" property="roleName_desc" />
+
+		</display:table> <logic:empty name="existStaffLst">
+				No record to display.<br />
+		</logic:empty> <logic:notEmpty name="existStaffLst">
+			<table width="100%">
+				<tr>
+					<td class="clsButtonBarText">&nbsp;&nbsp;<a
+						href="javascript:submitForm('addStaff');">Add</a></td>
+					<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
+						href="javascript:submitForm('removeExistStaff');">Remove</a></td>
+				</tr>
+			</table>
+		</logic:notEmpty> <br />
+
+		<logic:notEmpty name="newStaffLst">
+
+			<table align="center" class="simple" width="100%">
+				<thead>
+					<tr>
+						<th align="center"><b>Provider No.</b></th>
+						<th align="center"><b>Name</b></th>
+						<th align="center"><b>Role</b></th>
+						<th align="center"><b></b></th>
+					</tr>
+				</thead>
+
+				<logic:iterate id="pp" name="newStaffLst" indexId="rIndex">
+					<input type="hidden" name="lineno"
+						value="<%=String.valueOf(rIndex)%>" />
+					<tr>
+						<!-- 
+							<td align="center" width="50px">
+								<input type="checkbox"	name="p<%=String.valueOf(rIndex)%>" value="" /> 
+								<input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /></td>
+	 						-->
+
+
+						<td width="120px">
+						<table cellpadding="0" style="border:0px;" cellspacing="0"
+							width="100%">
+							<tr>
+								<td style="border:0px;" width="120px"><input
+									style="width:100px;" type="text"
+									name="providerNo<%=String.valueOf(rIndex)%>"
+									value='<c:out value="${pp.providerNo}"/>' readonly></td>
+							</tr>
+						</table>
+						</td>
+						<td width="250px">
+						<table cellpadding="0" style="border:0px;" cellspacing="0"
+							width="100%">
+							<tr>
+
+								<td style="border:0px;" width="100%"><input
+									id="ORGfld<%=String.valueOf(rIndex)%>" style="width:100%;"
+									type="text" name="providerName<%=String.valueOf(rIndex)%>"
+									value='<c:out value="${pp.providerName}"/>' readonly></td>
+								<td style="border:0px;" width="35px"><a
+									href="javascript:void();"
+									onclick="showLookup('USR', '', '', 'programManagerForm','providerNo<%=String.valueOf(rIndex)%>','providerName<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+									src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"
+									border="0"></a></td>
+							</tr>
+						</table>
+						</td>
+						<td width="250px">
+						<table cellpadding="0" style="border:0px;" cellspacing="0"
+							width="100%">
+							<tr>
+								<td style="border:0px;" width="1px"><input type="text"
+									style="width:1px;" name="role_code<%=String.valueOf(rIndex)%>"
+									value='<c:out value="${pp.roleName}"/>' readonly></td>
+								<td style="border:0px;" width="100%"><input
+									style="width:100%;" type="text"
+									name="role_description<%=String.valueOf(rIndex)%>"
+									value='<c:out value="${pp.roleName_desc}"/>' readonly></td>
+								<td style="border:0px;" width="35px"><a
+									href="javascript:void();"
+									onclick="showLookup('ROL', '', '', 'programManagerForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');"><img
+									src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"
+									border="0"></a></td>
+							</tr>
+						</table>
+						</td>
+
+						<td class="clsButtonBarText">&nbsp;&nbsp; <logic:equal
+							value="0" name="rIndex">
+							<a href="javascript:submitForm('saveStaff');">Save</a>
+						</logic:equal></td>
+					</tr>
+				</logic:iterate>
+			</table>
+			<!-- 
+				<table width="100%">
+					<tr>
+						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
+							href="javascript:submitForm('addStaff');">Add</a>&nbsp;&nbsp;&nbsp;|
+						&nbsp;&nbsp;<a href="javascript:submitForm('removeStaff');">Remove</a>
+						</td>
+					</tr>
+				</table>
+				 -->
+
+		</logic:notEmpty></div>
+
+		</td>
+	</tr>
+</table>
+
 <script>
-	function search_provider(name) {
-		var url = '<html:rewrite action="/PMmodule/ProviderSearch.do"/>';
-			url += '?q=' + name;
-			url += '&formName=programManagerForm';
-			url += '&formElementId=provider.providerNo';
-			url += '&formElementName=providerName';
-		
-		var name = document.programManagerForm.elements['providerName'].value;
-		
-		window.open(url, 'provider_search','width=500, height=400, scrollbars=yes');
-	}
-
-	function deleteProvider(id) {
-		if(!confirm("Are you sure you want to delete the staff?")) {
-			return false;
+	function submitForm(mthd) {
+		var flag = true;
+		var form = document.programManagerForm; 
+		if(mthd == "removeExistStaff"){
+			flag = confirm('Do you really want to remove these records?');
 		}
-		document.programManagerForm.elements['provider.id'].value=id;
-		document.programManagerForm.method.value='delete_provider';
-		document.programManagerForm.submit();
-	}
-	
-	function editProvider(id) {
-		document.programManagerForm.elements['provider.id'].value=id;
-		document.programManagerForm.method.value='edit_provider';
-		document.programManagerForm.submit();
-	}
-
-	function assignTeam(id,selectBox) {
-		var team_id = selectBox.options[selectBox.selectedIndex].value;
-		if(team_id == '') { return;}
-		document.programManagerForm.elements['teamId'].value=team_id;	
-		document.programManagerForm.elements['provider.id'].value=id;
-		document.programManagerForm.method.value='assign_team';
-		document.programManagerForm.submit();
-	}
-	
-	function removeTeam(id,team_id) {
-		document.programManagerForm.elements['teamId'].value=team_id;	
-		document.programManagerForm.elements['provider.id'].value=id;
-		document.programManagerForm.method.value='remove_team';
-		document.programManagerForm.submit();
-	}
-	
-	function assignRole(id,selectBox) {
-		var role_id = selectBox.options[selectBox.selectedIndex].value;
-		document.programManagerForm.elements['provider.roleId'].value=role_id;	
-		document.programManagerForm.elements['provider.id'].value=id;
-		document.programManagerForm.method.value='assign_role';
-		document.programManagerForm.submit();
-	}
-	
-	function add_provider(form) {
-		if(form.elements['provider.providerNo'].value == 0) {
-			alert('You must choose a provider');
-			return false;
+		if(flag){
+			form.method.value=mthd;
+			form.submit();
 		}
-		form.method.value='save_provider';
-		form.elements['provider.id'].value=0;
-		form.submit();
+	}
+	
+	function resetForm() {
+		document.getElementsByName("view.staffForm.firstName")[0].value = "";
+		document.getElementsByName("view.staffForm.lastName")[0].value = "";
+	}
+	
+	function searchStaff(){
+
+		document.forms[0].method.value = "edit";
+		document.forms[0].mthd.value = "search";
+		document.forms[0].elements["view.tab"].value = "Staff";
+		document.forms[0].submit();
+		
+	
 	}
 </script>
-<input type="hidden" name="teamId" value="0" />
-<div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-	<tr>
-		<th title="Programs">Staff</th>
-	</tr>
-</table>
-</div>
-<!--  show current staff -->
-<display:table class="simple" cellspacing="2" cellpadding="3" id="provider" name="providers" export="false" pagesize="0" requestURI="/PMmodule/ProgramManager.do">
-	<display:setProperty name="paging.banner.placement" value="bottom" />
-	<display:setProperty name="basic.msg.empty_list" value="No staff currently assigned to this program." />
-	<display:column sortable="false" title="">
-		<a onclick="deleteProvider('<c:out value="${provider.id}"/>');" href="javascript:void(0);"> Delete </a>
-	</display:column>
-	<display:column property="provider.formattedName" sortable="true" title="Name" />
-	<display:column property="provider.phone" sortable="true" title="Phone" />
-	<display:column property="provider.providerType" sortable="true" title="OSCAR Role" />
-	<display:column sortable="false" title="Team">
-		<table width="100%" cellspacing="2" cellpadding="2">
-			<c:forEach var="team" items="${provider.teams}">
-				<tr>
-					<td><c:out value="${team.name }" /></td>
-					<td><a href="javascript:void(0);return false;" onclick="removeTeam('<c:out value="${provider.id}"/>','<c:out value="${team.id}"/>')">Remove</a>
-				</tr>
-			</c:forEach>
-		</table>
-		<select name="x" onchange="assignTeam('<c:out value="${provider.id}"/>',this)">
-			<option value="" SELECTED></option>
-			<c:forEach var="team" items="${teams}">
-				<option value="<c:out value="${team.id}"/>"><c:out value="${team.name}" /></option>
-			</c:forEach>
-		</select>
-	</display:column>
-	<display:column sortable="false" title="CAISI Role">
-		<select name="x" onchange="assignRole('<c:out value="${provider.id}"/>',this);">
-			<option value="0">&nbsp;</option>
-			<c:forEach var="role" items="${roles}">
-				<c:choose>
-					<c:when test="${role.id == provider.roleId}">
-						<option value="<c:out value="${role.id}"/>" selected><c:out value="${role.name}" /></option>
-					</c:when>
-					<c:otherwise>
-						<option value="<c:out value="${role.id}"/>"><c:out value="${role.name}" /></option>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-		</select>
-	</display:column>
-</display:table>
-<br />
-<table width="100%" border="1" cellspacing="2" cellpadding="3">
-	<tr class="b">
-		<td width="20%">Provider :</td>
-		<td>
-			<html:hidden property="provider.id" />
-			<html:hidden property="provider.providerNo" />
-			<%
- 			String providerName = (String) request.getAttribute("providerName");
-			if (providerName == null) {
-				providerName = "";
-			}
-			%>
-			<input type="text" name="providerName" size="30" value="<%=providerName%>" />
-			<input type="button" value="Search" onclick="search_provider(this.form.providerName.value);" />
-		</td>
-	</tr>
-	<tr class="b">
-		<td width="20%">Role:</td>
-		<td>
-			<html:select property="provider.roleId">
-				<html:options collection="roles" property="id" labelProperty="name" />
-			</html:select>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<input type="button" value="Save" onclick="add_provider(this.form)" />
-			<html:cancel />
-		</td>
-	</tr>
-</table>

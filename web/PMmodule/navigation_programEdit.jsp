@@ -7,34 +7,10 @@
 <div id="projecttools" class="toolgroup">
 	<div class="label"><strong>Navigator</strong></div>
 	<div class="body">
-		<% 	DynaValidatorForm form = (DynaValidatorForm) session.getAttribute("programManagerForm");
-			Program program = (Program) form.get("program"); 
-			request.setAttribute("program", program);	
-					
-			String selectedTab = request.getParameter("view.tab");
-			if (selectedTab == null || selectedTab.trim().equals("")) {
-				selectedTab = ProgramManagerViewFormBean.tabs[0];
-			}
-		%>
-		<div><span><c:out value="${program.name}" />(<c:out	value="${program.id}" />)</span> 
-		
-		<%
-			for (int i = 0; i < ProgramManagerViewFormBean.tabs.length; i++) {
-				if (ProgramManagerViewFormBean.tabs[i].equalsIgnoreCase("Clients") && !program.isBed()) {
-					//break;
-					continue;
-				}
-				
-				
-		%>
-			
-				<div><a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('<%=ProgramManagerViewFormBean.tabs[i]%>');return false;"><%=ProgramManagerViewFormBean.tabs[i]%></a></div>
-			
-		<%
-				
-			}
-		%>
-		
+		<div><span><c:out value="${programName}" />(<c:out	value="${programId}" />)</span> 
+			<div><a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('General');return false;">General</a></div>
+			<div><a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('service_restrictions');return false;">Service Restriction</a></div>
+			<div><a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('staff');return false;">Staff</a></div>
 		</div>
 	</div>
 </div>
@@ -42,9 +18,8 @@
 <script>
 	function clickTab(name) {
 		document.programManagerForm.action = "<c:out value='${ctx}'/>/PMmodule/ProgramManager.do?method=edit&id=<c:out value='${requestScope.id}'/>";
-		document.getElementsByName("view.tab").value=name;
+		document.programManagerForm.elements["view.tab"].value=name;
 		document.programManagerForm.method.value="edit";
 		document.programManagerForm.submit();
-		
 	}
 </script>

@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
+import org.apache.struts.validator.DynaValidatorForm;
 import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.BedCheckTime;
@@ -1029,7 +1030,7 @@ public class ProgramManagerAction extends BaseAction {
         
         request.setAttribute("newStaffLst", getRowList(request, form, ADD));
 //      get existing Staff List
-		ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
+		ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) ((DynaValidatorForm)form).get("view");
 		String orgcd = "P" + programId;
 		StaffForm staffForm = null;
     	staffForm = formBean.getStaffForm();
@@ -1037,7 +1038,7 @@ public class ProgramManagerAction extends BaseAction {
 		List lst = programManager.searchStaff(staffForm);
 		request.setAttribute("existStaffLst", lst);
 
-        return mapping.findForward("view");
+        return edit(mapping,form,request,response);
     }
     
 /*

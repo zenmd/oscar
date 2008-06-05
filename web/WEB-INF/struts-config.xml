@@ -1592,13 +1592,13 @@
         </action>
  -->
          
-        <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="session">
+        <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="request">
             <forward name="list" path="page.pmm.admin.list" />
             <forward name="edit" path="page.pmm.admin.edit" />
             <forward name="timeout" path="/PMmodule/Timeout.jsp" />
             <forward name="programSignatures" path="/PMmodule/Admin/ProgramSignatures.jsp"/>
         </action>
-        <action path="/PMmodule/ProgramManagerView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerViewForm" scope="session">
+        <action path="/PMmodule/ProgramManagerView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerViewForm" scope="request">
             <forward name="view" path="page.pmm.admin.view" />
             <forward name="viewBedReservationChangeReport" path="/PMmodule/Admin/ProgramView/bed_reservation_change_report.jsp" />
             <forward name="viewBedCheckReport" path="/PMmodule/Admin/ProgramView/bed_check_report.jsp" />

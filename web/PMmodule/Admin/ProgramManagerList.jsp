@@ -122,17 +122,10 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 				</display:column>
 	
 				<c:choose>
-					<c:when test="${program.programStatus=='active'}">
-						<display:column sortable="false" title="">
-							<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
+					<display:column sortable="false" title="">
+						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
 							Edit </a>
-						</display:column>
-					</c:when>
-					<c:otherwise>
-						<display:column sortable="false" title="">
-					 		Edit 
-						</display:column>
-					</c:otherwise>
+					</display:column>
 				</c:choose>
 	
 				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
