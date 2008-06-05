@@ -81,6 +81,8 @@ function updateQuatroIntake(clientId, intakeId) {
 			</display:column>
 </display:table>
 </td></tr>
+<tr><td><input type="button" value="Create" 
+ onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" /></td></tr>
 
 </table>
 

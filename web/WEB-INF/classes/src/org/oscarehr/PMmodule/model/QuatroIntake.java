@@ -59,7 +59,8 @@ public class QuatroIntake {
     private String libraryCardYN;
     private String idOther;
 
-    private String sourceIncome;
+//    private String sourceIncome;
+    private String[] sourceIncome = new String[0];;
     private String income;
     private String incomeWorkerName1;
     private String incomeWorkerPhone1;
@@ -401,10 +402,10 @@ public class QuatroIntake {
 	public void setSINYN(String sinyn) {
 		SINYN = sinyn;
 	}
-	public String getSourceIncome() {
+	public String[] getSourceIncome() {
 		return sourceIncome;
 	}
-	public void setSourceIncome(String sourceIncome) {
+	public void setSourceIncome(String[] sourceIncome) {
 		this.sourceIncome = sourceIncome;
 	}
 	public String getStatusInCanada() {

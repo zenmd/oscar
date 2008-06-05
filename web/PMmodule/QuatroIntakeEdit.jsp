@@ -321,10 +321,13 @@ function checkExistClients(){
 <tr><td>
 <table width="100%" class="simple">
 <tr><td width="20%">Source of income</td>
-<td width="35%"><html-el:select property="intake.sourceIncome">
-<html-el:optionsCollection property="optionList.sourceIncome" value="value" label="label"/>
-</html-el:select></td>
-<td width="8%">Income</td>
+<td width="35%">
+<c:forEach var="sIncome" items="${quatroIntakeEditForm.optionList.sourceIncome}">
+<html-el:multibox property="intake.sourceIncome" value="${sIncome.value}"  /><c:out value="${sIncome.label}" /><br />
+</c:forEach>
+
+</td>
+<td width="8%">Other</td>
 <td width="37%"><html-el:text property="intake.income" size="20" maxlength="30" /></td></tr>
 <tr><td>Name and contact information for income worker (if applicable)</td>
 <td colspan="3"><table style="background-color:#e0e0e0;" width="100%" cellpadding="1" cellspacing="1">

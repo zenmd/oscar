@@ -310,7 +310,11 @@ public class IntakeDao extends HibernateDaoSupport {
 	        	   
 	        	   //Additional information
 			       case IntakeConstant.SOURCEINCOME:
-			         intake.setSourceIncome(obj.getValue());  
+			    	 if(obj.getValue()!=null){
+			           intake.setSourceIncome(obj.getValue().split(","));
+			    	 }else{
+				       intake.setSourceIncome(new String[0]);
+			    	 }
 			         break;
 	        	   case IntakeConstant.INCOME:
 			         intake.setIncome(obj.getValue());  
@@ -513,7 +517,16 @@ public class IntakeDao extends HibernateDaoSupport {
 		hData.put(new Integer(IntakeConstant.IDOTHER), intake.getIdOther());
 		
 		//Additional information
-		hData.put(new Integer(IntakeConstant.SOURCEINCOME), intake.getSourceIncome());
+		String sSourceIncome="";
+		for(int i=0;i<intake.getSourceIncome().length;i++){
+			sSourceIncome = sSourceIncome + "," + intake.getSourceIncome()[i];
+		}
+		if(sSourceIncome.length()>0){
+		   hData.put(new Integer(IntakeConstant.SOURCEINCOME), sSourceIncome.substring(1));
+		}else{
+		   hData.put(new Integer(IntakeConstant.SOURCEINCOME), "");
+		}
+		
 		hData.put(new Integer(IntakeConstant.INCOME), intake.getIncome());
 		hData.put(new Integer(IntakeConstant.INCOMEWORKERNAME1), intake.getIncomeWorkerName1());
 		hData.put(new Integer(IntakeConstant.INCOMEWORKERPHONE1), intake.getIncomeWorkerPhone1());

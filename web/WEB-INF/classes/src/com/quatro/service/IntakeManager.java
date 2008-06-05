@@ -221,6 +221,7 @@ public class IntakeManager {
         ArrayList[] lst3 = new ArrayList[11];
         for(int i=0;i<11;i++){
            lst3[i]= new ArrayList();
+           if(i==IntakeConstant.SOURCEINCOME) continue;
            LabelValueBean obj2 = new LabelValueBean();
    	       obj2.setLabel("  ");
        	   obj2.setValue("");
