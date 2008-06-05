@@ -32,9 +32,6 @@
 	</tr>
 	<tr>
 		<td><br />
-		<div class="h4">
-		<h4>Search user by select criteria below</h4>
-		</div>
 		<br />
 		<html:form action="/PMmodule/Admin/UserSearch">
 			<input type="hidden" name="method" value="search" />
