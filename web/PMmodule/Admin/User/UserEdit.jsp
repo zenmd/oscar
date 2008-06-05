@@ -145,9 +145,11 @@ function submitForm(func){
 	var fld_cPin = document.getElementsByName('confirmPin')[0];
 	var fld_firstName = document.getElementsByName('firstName')[0];
 	var fld_lastName = document.getElementsByName('lastName')[0];
+	var fld_email = document.getElementsByName('email')[0];
 	
-	if(func == 'saveNew'){
+	if(func == 'saveNew' || func == 'saveEdit'){
 		document.forms[0].method.value="save";
+/*
 		if(validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3) &&
 			validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2) &&
 			validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2) &&
@@ -160,6 +162,7 @@ function submitForm(func){
 	}
 	else if(func == 'saveEdit'){
 		document.forms[0].method.value="save";
+*/	
 		var v1 = false;
 		var v2 = false;
 		var v3 = false;
@@ -167,44 +170,39 @@ function submitForm(func){
 		var v5 = false;	
 		var v6 = false;
 		var v7 = false;
+		var v8 = false;
 				
 		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3)){
 			v1 = true;
 		}
-		
-		if ( validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2))
-		{
+		if ( validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2)){
 			v2 = true;
 		}
-		if ( validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2))
-		{
+		if ( validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2)){
 			v3 = true;
 		}	
-		if ( validateRequired(fld_password, "Password") && validateLength(fld_password, "Password", 20, 4))
-		{
+		if ( validateRequired(fld_password, "Password") && validateLength(fld_password, "Password", 20, 4)){
 			v4 = true;
 		}
-		if ( validateRequired(fld_cPassword, "Confirm Password") && validateLength(fld_cPassword, "Confirm Password", 20, 4))
-		{
+		if ( validateRequired(fld_cPassword, "Confirm Password") && validateLength(fld_cPassword, "Confirm Password", 20, 4)){
 			v5 = true;
 		}
-		if ( validateRequired(fld_pin, "PIN") && validateLength(fld_pin, "PIN", 4, 4))
-		{
+		if ( validateRequired(fld_pin, "PIN") && validateLength(fld_pin, "PIN", 4, 4)){
 			v6 = true;
 		}
-		if ( validateRequired(fld_cPin, "Confirm PIN") && validateLength(fld_cPin, "Confirm PIN", 4, 4))
-		{
+		if ( validateRequired(fld_cPin, "Confirm PIN") && validateLength(fld_cPin, "Confirm PIN", 4, 4)){
 			v7 = true;
+		}
+		if ( fld_email.value.length == 0 || ( fld_email.value.length > 0 && emailChecker(fld_email.value)))	{
+			v8 = true;
 		}	
 		
-			
-			
 				
-		if(v1 && v2 && v3 && v4 && v5 && v6 && v7)
+		if(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8){
 			document.forms[0].submit();
-	}
-	else
-	{
+		}
+	
+	} else {
 			document.forms[0].submit();
 	}
 }
@@ -218,6 +216,9 @@ function validateRequired(field, fieldNameDisplayed ){
 	return(true);
 }
 
+/**
+ * Textarea max length validation script. 
+ */
 function validateLength(field, fieldNameDisplayed, maxLength, minLength){
 	
 	if (maxLength > 0 && field.value.length > maxLength){
@@ -232,6 +233,56 @@ function validateLength(field, fieldNameDisplayed, maxLength, minLength){
 	
 	return(true);
 }
+
+/**
+ * email validation script. 
+ */
+function emailChecker(str) {
+
+		var at="@";
+		var dot=".";
+		var lat=str.indexOf(at);
+		var lstr=str.length;
+		var ldot=str.indexOf(dot);
+		
+		if (str.indexOf(at)==-1){
+		   alert("Invalid E-mail ID");
+		   return false;
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   alert("Invalid E-mail ID");
+		   return false;
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    alert("Invalid E-mail ID");
+		    return false;
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    alert("Invalid E-mail ID");
+		    return false;
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    alert("Invalid E-mail ID");
+		    return false;
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    alert("Invalid E-mail ID");
+		    return false;
+		 }
+		
+		 if (str.indexOf(" ")!=-1){
+		    alert("Invalid E-mail ID");
+		    return false;
+		 }
+
+ 		 return true;					
+	}
+
 
 //-->
 </script>

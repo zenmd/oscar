@@ -214,6 +214,9 @@ public class UserManagerAction extends DispatchAction {
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("=========== save ========= in UserManagerAction");
+		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
+        request.setAttribute("titleLst", titleLst);
+        
 		ActionMessages messages = new ActionMessages();
 
 		DynaActionForm secuserForm = (DynaActionForm) form;
@@ -298,8 +301,9 @@ public class UserManagerAction extends DispatchAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.save.success", request.getContextPath()));
 			saveMessages(request, messages);
+			secuserForm.set("providerNo", provider.getProviderNo());
 			//return addRole(mapping, form, request, response);
-			return mapping.findForward("edit");
+			//return mapping.findForward("edit");
 		} catch (Exception e) {
 			String msg = e.getMessage();
 			int i = msg
@@ -315,8 +319,11 @@ public class UserManagerAction extends DispatchAction {
 				saveMessages(request, messages);
 
 			}
-			return mapping.findForward("edit");
+			//return mapping.findForward("edit");
 		}
+		
+        return mapping.findForward("edit");
+        
 	}
 
 	public ActionForward addRole(ActionMapping mapping, ActionForm form,
@@ -478,18 +485,24 @@ public class UserManagerAction extends DispatchAction {
 			Secuserrole tmp = (Secuserrole)it.next();
 			if(tmp.getOrgcd() != null && tmp.getOrgcd().length() > 0 && tmp.getRoleName() != null && tmp.getRoleName().length() > 0)
 				LstforSave.add(tmp);
-			
 		}
-		
-		try{
-			usersManager.saveRolesToUser(LstforSave, providerNo);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+		if(LstforSave.size() == secUserRoleLst.size()){
+			try{
+				usersManager.saveRolesToUser(LstforSave, providerNo);
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
+				request.getContextPath()));
+				saveMessages(request,messages);			
+			}catch(Exception e){
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
+				request.getContextPath()));
+				saveMessages(request,messages);				
+			}
+		}else{
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed.emptyField",
 			request.getContextPath()));
-			saveMessages(request,messages);			
-		}catch(Exception e){
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
-			request.getContextPath()));
-			saveMessages(request,messages);				
+			saveMessages(request,messages);	
+			secuserForm.set("secUserRoleLst", secUserRoleLst);
+			return mapping.findForward("profile");
 		}
 		
 		return profile(mapping,form,request,response);
