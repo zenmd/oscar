@@ -119,6 +119,13 @@ public abstract class BaseClientAction extends BaseAction {
 			if (currentTab.equals(KeyConstants.TAB_CLIENT_ATTCHMENT))request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_CURRENT);
 		}
 		else request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_NULL);
+
+		//task
+		if (sec.GetAccess("_pmm.task", "").compareTo("r") >= 0) {
+			request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_VIEW);
+			if (currentTab.equals(KeyConstants.TAB_CLIENT_TASK))request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_CURRENT);
+		}
+		else request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);
 	}
 	
 	

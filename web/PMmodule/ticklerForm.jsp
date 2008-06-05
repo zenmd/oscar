@@ -74,19 +74,16 @@
 	
 </table>
 
-<!-- 
-<%@ include file="/common/messages.jsp"%>
- -->
- 
 <table width="100%" class="simple">
 	<html:form action="/Tickler" onsubmit="return validateTicklerForm(this);">
 	
 		<input type="hidden" name="method" value="save" />
-		<html:hidden property="tickler.creator" value='<%=(String) session.getAttribute("user")%>' />
+		<html:hidden property="tickler.creator" />
 		<html:hidden property="tickler.tickler_no" />
 		
 		<tr><td width="20%">Client:</td>
-		<td width="80%"><c:out value="${tickler.demographic_no}"/></td></tr>
+		<td width="80%"><input type=hidden name="clientId" value="<c:out value="${client.demographicNo}"/>">
+		<c:out value="${client.formattedName}"/></td></tr>
 		<tr><td>Service Date:</td>
 		<td><quatro:datePickerTag property="tickler.serviceDate" openerForm="ticklerForm" width="30%"/></td></tr>
 		<tr><td>Service Time:</td>
@@ -119,21 +116,10 @@
 		<td><html:select property="tickler.status">
 			<option value="A">Active</option>
 			<option value="C">Completed</option>
-			<option value="D">Deleted</option>
 			</html:select>
 		</td></tr>
 		<tr><td>Message:</td>
 		<td><html:textarea style="width: 90%" rows="10" property="tickler.message" /></td></tr>
-<!-- 
-		<tr>
-			<td class="fieldTitle">
-				Post to eChart:
-			</td>
-			<td class="fieldValue">
-				<input name="echart" value="true" type="checkbox" />
-			</td>
-		</tr>
- -->		
 
 <!-- 
 		<tr>
@@ -146,7 +132,5 @@
 	</html:form>
 </table>
 
-<c:if test="${requestScope.from ne 'CaseMgmt'}">
 	</body>
 </html>
-</c:if>

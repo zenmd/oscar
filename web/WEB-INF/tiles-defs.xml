@@ -11,6 +11,12 @@
 		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/admin/admin.jsp" />
 	</definition>
+	<definition name="page.pmm.task.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
+		<put name="body" value="/PMmodule/ClientTicklerList.jsp" />
+	</definition>
+	<definition name="page.pmm.task.new"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
+		<put name="body" value="/PMmodule/ticklerForm.jsp" />
+	</definition>
 	<definition name="page.tickler.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/ticklerPlus/ticklerList.jsp" />
 	</definition>

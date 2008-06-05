@@ -65,5 +65,3 @@
 			}
 		}
 	</script>	
-<table border="0" cellspacing="0" cellpadding="1" width="100%">
-	  <tr><th  class="pageTitle">Tasks</th></tr>

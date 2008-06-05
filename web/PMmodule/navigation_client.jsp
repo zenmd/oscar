@@ -150,6 +150,19 @@ function popupLabel(page) { //open a new popup window
 	</c:otherwise>
 </c:choose>
 <c:choose>
+	<c:when test="${'C' eq tabTask}">
+		<div><b>Tasks</b></div>
+	</c:when>
+	<c:when test="${'V' eq tabTask}">
+		<div><html:link action="/PMmodule/Task.do"
+			name="actionParam" style="color:Navy;text-decoration:none;">Tasks</html:link>
+		</div>
+	</c:when>
+	<c:otherwise>
+				&nbsp;
+	</c:otherwise>
+</c:choose>
+<c:choose>
 <c:when test="${null eq tabSummary}">
 		&nbsp;
 </c:when>

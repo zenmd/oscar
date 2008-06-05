@@ -24,6 +24,7 @@ package org.caisi.tickler.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +53,10 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.util.SessionConstants;
+
+import com.quatro.common.KeyConstants;
 
 import oscar.OscarProperties;
 
@@ -145,12 +149,15 @@ public class TicklerAction extends DispatchAction {
 
         return mapping.findForward("view");
     }
-
+    
     /* run a filter */
     /* show all ticklers */
     public ActionForward filter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.debug("filter");
-        DynaActionForm ticklerForm = (DynaActionForm) form;
+ 	    HashMap actionParam = new HashMap();
+        actionParam.put("clientId", request.getParameter("clientId")); 
+        request.setAttribute("actionParam", actionParam);
+
+    	DynaActionForm ticklerForm = (DynaActionForm) form;
         CustomFilter filter = (CustomFilter) ticklerForm.get("filter");
         
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
@@ -308,7 +315,10 @@ public class TicklerAction extends DispatchAction {
 
     /* edit a tickler */
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.debug("edit");
+        HashMap actionParam = new HashMap();
+        actionParam.put("clientId", request.getParameter("clientId")); 
+        request.setAttribute("actionParam", actionParam);
+
         request.setAttribute("providers", providerMgr.getProviders());
         request.setAttribute("from", getFrom(request));
         return mapping.findForward("edit");
@@ -452,4 +462,5 @@ public class TicklerAction extends DispatchAction {
 
         return false;
     }
+
 }

@@ -53,6 +53,10 @@ public class Tickler extends BaseObject {
 	
 	private String demographic_webName;
 	
+	private String service_hour;
+	private String service_minute;
+	private String service_ampm;
+	
 	
 	public String getCreator() {
 		return creator;
@@ -149,17 +153,17 @@ public class Tickler extends BaseObject {
 	
 	/* have to do this */
 	public void setServiceDate(String data) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			setService_date(formatter.parse(data));
 		}catch(Exception e) {
-			throw new IllegalArgumentException("Invalid service date, use yyyy-MM-dd");
+			throw new IllegalArgumentException("Invalid service date, use yyyy/MM/dd");
 		}
 	}
 	
 	public String getServiceDate() {
 		if(getService_date() != null) {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 			return formatter.format(getService_date());
 		}
 		return "";
@@ -191,5 +195,23 @@ public class Tickler extends BaseObject {
     public void setProgram_id(Integer program_id) {
         this.program_id = program_id;
     }
+	public String getService_ampm() {
+		return service_ampm;
+	}
+	public void setService_ampm(String service_ampm) {
+		this.service_ampm = service_ampm;
+	}
+	public String getService_hour() {
+		return service_hour;
+	}
+	public void setService_hour(String service_hour) {
+		this.service_hour = service_hour;
+	}
+	public String getService_minute() {
+		return service_minute;
+	}
+	public void setService_minute(String service_minute) {
+		this.service_minute = service_minute;
+	}
 	
 }

@@ -3,6 +3,12 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
+    <bean name="/PMmodule/Task" class="org.oscarehr.PMmodule.web.ClientTaskAction" singleton="false">
+        <property name="ticklerManager" ref="ticklerManagerT"/>
+        <property name="providerManager" ref="providerManager"/>
+        <property name="programManager" ref="programManager"/>       
+        <property name="clientManager" ref="clientManager"/>       
+    </bean>
 	<bean name="/PMmodule/UploadFile" class="org.oscarehr.PMmodule.web.UploadFileAction" singleton="false">
 		<property name="uploadFileManager" ref="uploadFileManager"></property>
 		<property name="lookupManager" ref="lookupManager"></property>
