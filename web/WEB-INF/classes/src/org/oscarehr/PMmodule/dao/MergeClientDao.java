@@ -23,25 +23,25 @@ public class MergeClientDao extends HibernateDaoSupport {
 	            throw new IllegalArgumentException();
 	        }
 	        this.getHibernateTemplate().saveOrUpdate(cmObj);
-	        String sql = "update Demographic a set a.ismerged=1 where a.demographicNo=?";
+	        String sql = "update Demographic a set a.merged=1 where a.DemographicNo=?";
 	        getHibernateTemplate().bulkUpdate(sql, cmObj.getClientId());
 	    }
 	
-	    public void unMerge(ClientMerge cmObj){	   
-	    	String sql = "update ClientMerge c set c.deleted=1,c.lastUpdateUser=?, c.lastUpdateDate=?  where c.demographic_no=?";
+	    public void unMerge(ClientMerge cmObj){		    	
+	    	String sql = "update ClientMerge c set c.deleted=1,c.providerNo=?, c.lastUpdateDate=?  where c.clientId=?";
 	    	 getHibernateTemplate().bulkUpdate(sql, new Object[]{cmObj.getProviderNo(),cmObj.getLastUpdateDate(),cmObj.getClientId()} );
-	    	 String sql1 = "update Demographic a set a.ismerged=1 where a.demographicNo=?";
+	    	 String sql1 = "update Demographic a set a.merged=0 where a.DemographicNo=?";
 		     getHibernateTemplate().bulkUpdate(sql1, cmObj.getClientId());	 
 	    }
 	    
 	    public Integer getHead(Integer demographic_no) {
-	        String queryStr = "FROM ClientMerge a WHERE a.deleted=0 and a.demographic_no =?";
+	        String queryStr = "FROM ClientMerge a WHERE a.deleted=0 and a.clientId =?";
 	        ClientMerge cmObj= (ClientMerge)getHibernateTemplate().find(queryStr, new Object[] {demographic_no });     
 	        return cmObj.getClientId();
 	    }
 	    
 	    public List getTail(Integer demographic_no){	        
-	        String sql = "from ClientMerge where merged_to = ? and deleted = 0";	              
+	        String sql = "from ClientMerge where mergedToClientId = ? and deleted = 0";	              
 	        List  lst= getHibernateTemplate().find(sql, new Object[] {demographic_no});
 	        return lst;
 	        

@@ -46,7 +46,9 @@ public class MergeClientAction extends BaseClientAction {
 	private MergeClientManager mergeClientManager;
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {	
-		return search(mapping, form, request, response);
+		//return search(mapping, form, request, response);
+		setLookupLists(request);
+		return mapping.findForward("view");
 	}
 	public ActionForward mergedSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
