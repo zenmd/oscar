@@ -120,7 +120,7 @@
 					</td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Male Or Female:</td>
+					<td width="20%">Male/Female:</td>
 					<td>
 						<logic:equal name="program" property="manOrWoman" value="F">Female Only</logic:equal>
 						<logic:equal name="program" property="manOrWoman" value="M">Male Only</logic:equal>
