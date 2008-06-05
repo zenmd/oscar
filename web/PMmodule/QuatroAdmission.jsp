@@ -61,15 +61,17 @@ function viewSignature(){
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
+		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ACTIVE ||
+		 quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ADMITTED}">
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
 		  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
 		  <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
 		  <a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
 		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
         </logic:greaterThan>
+        </c:if>
 		  
 		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
@@ -180,10 +182,21 @@ function viewSignature(){
 <table class="simple" cellspacing="2" cellpadding="3">
 	<tr><th width="20%">Assign Room</th>
 	<td>
+	<c:choose>
+	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ACTIVE ||
+		 quatroClientAdmissionForm.admission.admissionStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ADMITTED}">
 	      <html:select property="roomDemographic.id.roomId" onchange="quatroClientAdmissionForm.method.value='roomchange';quatroClientAdmissionForm.submit();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>
+    </c:when>
+    <c:otherwise>
+	      <html:select property="roomDemographic.id.roomId">
+           <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
+          </html:select>
+          <html:hidden property="curDB_RoomId"/>
+    </c:otherwise>
+    </c:choose>          
 	</td></tr>
 
 	<tr><th width="20%">Assign Bed</th>

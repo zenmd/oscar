@@ -70,7 +70,8 @@ function updateQuatroAdmission(clientId, admissionId) {
       onclick="updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')" />
 	</c:when>
 	<c:otherwise>
-     <input type="button" value="View" />
+     <input type="button" value="View" 
+      onclick="updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')"/>
 	</c:otherwise>
 	</c:choose>
     </td></tr>
