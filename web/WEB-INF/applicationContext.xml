@@ -292,6 +292,7 @@
    	<property name="target">
             <bean class="org.oscarehr.PMmodule.service.MergeClientManager" autowire="byName">
             	<property name="mergeClientDao" ref="mergeClientDao"></property>
+            	<property name="clientDao" ref="clientDao"/> 
             </bean>
         </property>
    </bean>

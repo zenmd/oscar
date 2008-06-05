@@ -34,7 +34,7 @@ function signSignature(){
 }
 function viewSignature(){
    var url='<c:out value="${ctx}" />/topazGetImage.do?' +
-     "rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />";
+     "rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />" +"&moduleName=admission";
 
    win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
    win.focus();

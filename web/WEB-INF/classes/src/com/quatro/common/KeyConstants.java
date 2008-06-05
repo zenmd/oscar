@@ -62,7 +62,7 @@ public class KeyConstants {
   public static final String TAB_CLIENT_CASE="tabCase";
   public static final String TAB_CLIENT_ATTCHMENT="tabAttachment";
   public static final String TAB_CLIENT_TASK="tabTask";
-  
+   
   public static final String STATUS_ADMITTED = "admitted";
   public static final String STATUS_REJECTED = "rejected";
   public static final String STATUS_REMOVED = "removed";
@@ -75,5 +75,8 @@ public class KeyConstants {
   public static final String TASK_PRIORITY_HIGH = "high";
   public static final String TASK_PRIORITY_NORMAL = "normal";
   public static final String TASK_PRIORITY_LOW = "low";
-
+  
+  public static final String CLIENT_MODE_MERGE = "merge";
+  public static final String CLIENT_MODE_UNMERGE = "unmerge";
+  
 }

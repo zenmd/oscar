@@ -5,6 +5,13 @@
 	scope="request" />
 <script type="text/javascript"
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
+
+<html-el:form action="/PMmodule/QuatroConsent.do">
+	<input type="hidden" name="method" />
+	<html-el:hidden property="consentValue.demographicNo"  />	
+	<html-el:hidden property="consentValue.id" />
+	<input type="hidden" name="clientId"/>	
+	
 <script lang="javascript">
 	function printForm(recordId){
     	//To PDF 
@@ -51,26 +58,26 @@
 		}
 			return true;
 	}
+	
 	function signSignature(){
-        var rId = document.consentDetailForm.elements["consentValue.id"].value;
-   		var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?rid=' +rId+'&moduleName=consent';
-
-   		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
-   		win.focus();
+	   var rId=document.consentDetailForm.elements['consentValue.id'].value;
+	   var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
+	     "rid=" +rId +"&moduleName=consent";
+	
+	   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
+	   win.focus();
 	}
 	function viewSignature(){
-		var rId = document.consentDetailForm.elements["consentValue.id"].value;
-   		var url='<c:out value="${ctx}" />/topazGetImage.do?rid'+rId;
-   		win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
-   		win.focus();
+	  var rId=document.consentDetailForm.elements['consentValue.id'].value;
+	   var url='<c:out value="${ctx}" />/topazGetImage.do?' +
+	     "rid=" +rId +"&moduleName=consent";
+	
+	   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
+	   win.focus();
 	}
 </script>
 
-<html-el:form action="/PMmodule/QuatroConsent.do">
-	<input type="hidden" name="method" />
-	<html-el:hidden property="consentValue.demographicNo"  />	
-	<input type="hidden" name="demoNo"/>
-	<html-el:hidden property="consentValue.id"  />	
+
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management - Consent</th>

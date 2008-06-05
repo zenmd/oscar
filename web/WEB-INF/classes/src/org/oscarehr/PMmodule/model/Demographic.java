@@ -94,6 +94,7 @@ public class Demographic implements Serializable {
     
     private int activeCount = 0;
     private int hsAlertCount = 0;
+    private boolean merged=false;
 
     public static final String ConsentGiven_ALL="ALL";
     public static final String ConsentGiven_CIRCLE_OF_CARE="CIRCLE_OF_CARE";
@@ -856,7 +857,10 @@ public class Demographic implements Serializable {
 	public boolean isActive() {
 		return activeCount > 0;
 	}
-
+	
+	public boolean isSubRecordEmpty(){
+		return this.subRecord.isEmpty();
+	}
 
 	public boolean hasHsAlert() {
 		return hsAlertCount > 0;
@@ -885,6 +889,18 @@ public class Demographic implements Serializable {
 
 	public void setEffDateTxt(String effDateTxt) {
 		this.effDateTxt = effDateTxt;
+	}
+
+
+
+	public boolean isMerged() {
+		return merged;
+	}
+
+
+
+	public void setMerged(boolean merged) {
+		this.merged = merged;
 	}
 }
 

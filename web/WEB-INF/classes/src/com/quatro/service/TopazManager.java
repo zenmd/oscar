@@ -10,8 +10,8 @@ public class TopazManager {
         this.topazDao = topazDao;
     }
 
-    public TopazValue getTopazValue(Integer recordId){
-        return topazDao.getTopazValue(recordId);
+    public TopazValue getTopazValue(Integer recordId,String moduleCd){
+        return topazDao.getTopazValue(recordId,moduleCd);
     }
 
     public void saveTopazValue(TopazValue tv){

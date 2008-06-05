@@ -120,7 +120,7 @@
 	<input type="hidden" name="mergeAction" />
 	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
 		<tr>
-			<th class="pageTitle">Merge Search<c:out value="${moduleName}" /></th>
+			<th class="pageTitle">Merged Search<c:out value="${moduleName}" /></th>
 		</tr>
 		<tr>
 			<td class="buttonBar" align="left" height="18px">
@@ -129,17 +129,9 @@
 				<a	style="color:Navy;text-decoration:none;"	href="javascript:submitForm('mergedSearch');"> 
 					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
 				<a	style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();"> 
-					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>
-				<c:choose>
-					<c:when test="${mergeAction eq 'unmerge'}">				
-						<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 				
-							<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
-					</c:when>
-					<c:otherwise>
-						<a	href="javascript:submitForm('merge')"	style="color:Navy;text-decoration:none;"> 
-							<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Merge&nbsp;&nbsp;|</a>
-					</c:otherwise>					
-				</c:choose>
+					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>				
+				<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 
+					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
 				<html:link action="/PMmodule/ClientSearch2.do"  style="color:Navy;text-decoration:none;">				
 					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				</td>
@@ -216,31 +208,27 @@
 					<display:setProperty name="paging.banner.placement" value="bottom" />
 					<display:setProperty name="basic.msg.empty_list"
 						value="No clients found." />
-					<c:choose>	
-						<c:when test="${mergeAction eq 'unmerge'}">
-							<display:column title="">																
-									<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">														
-							</display:column>
-						</c:when>
-						<c:otherwise>
-							<display:column title="">										
-								<c:choose>
-										<c:when test="${client.merged}">
-										 	&nbsp;
-										</c:when>								
-										<c:otherwise>
-											<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
-										</c:otherwise>
-							   	</c:choose>						
-							</display:column>
-							<display:column title="Main Record">						
-								<c:if test="${!client.merged}">
-								 	<input type="radio" name="head"
-											value="<c:out value='${client.demographicNo}'/>">
-								</c:if>		
-							</display:column>							
-						</c:otherwise>
-					</c:choose>		
+					<display:column title="">										
+						<c:choose>
+								<c:when test="${client.subRecordEmpty}">
+								 	&nbsp;
+								</c:when>								
+								<c:otherwise>
+									<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
+								</c:otherwise>
+					   	</c:choose>						
+					</display:column>
+					<display:column title="Main Record">
+						<c:choose>
+								<c:when test="${client.subRecordEmpty}">
+								 	&nbsp;
+								</c:when>								
+								<c:otherwise>
+									<input type="radio" name="head"
+										value="<c:out value='${client.demographicNo}'/>">
+								</c:otherwise>
+						</c:choose>				
+					</display:column>
 					<display:column sortable="true" title="Client No">
 						<c:out	value="${client.demographicNo}" />
 					</display:column>

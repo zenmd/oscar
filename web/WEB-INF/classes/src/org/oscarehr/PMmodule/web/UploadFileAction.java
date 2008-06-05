@@ -115,6 +115,15 @@ public class UploadFileAction extends BaseClientAction {
 		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
 		 Attachment attObj = (Attachment)attForm.get("attachmentValue");
 		 String clientId =request.getParameter("clientId");
+		 Integer aId = null;
+		 if(null!=request.getParameter("id")) {
+			 aId= new Integer(request.getParameter("id"));
+			 if(aId.intValue()>0)
+			 attObj = uploadFileManager.getAttachmentDetail(aId);
+			 attForm.set("attachmentValue", attObj);
+		 }
+		 attForm.set("attachmentText",attTextObj);
+		 
 		 if(Utility.IsEmpty(clientId)) clientId =attObj.getRefNo();
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -132,14 +141,7 @@ public class UploadFileAction extends BaseClientAction {
 		 request.setAttribute("clientId", demoNo);
 		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
 		 
-		 Integer aId = null;
-		 if(null!=request.getParameter("id")) {
-			 aId= new Integer(request.getParameter("id"));
-			 if(aId.intValue()>0)
-			 attObj = uploadFileManager.getAttachmentDetail(aId);
-			 attForm.set("attachmentValue", attObj);
-		 }
-		 attForm.set("attachmentText",attTextObj);
+		
 		
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
@@ -147,6 +149,17 @@ public class UploadFileAction extends BaseClientAction {
 	    }
 	 public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 Integer aId = new Integer(request.getParameter("id"));
+		 Attachment attObj=uploadFileManager.getAttachmentDetail(aId);
+		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId",attObj.getRefNo() ); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	       
+	       String demoNo =(String)actionParam.get("clientId");
+	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
+		   request.setAttribute("clientId", demoNo);
 		 if(null!=aId)uploadFileManager.deleteAttachment(aId);
 		 return list(mapping, form, request, response);
 	    }

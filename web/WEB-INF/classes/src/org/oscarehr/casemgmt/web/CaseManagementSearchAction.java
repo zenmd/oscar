@@ -141,6 +141,11 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);	      
     	String demono= (String)actionParam.get("clientId");
+    
+	    request.setAttribute("clientId", demono);
+	    request.setAttribute("client", clientManager.getClientByDemographicNo(demono));
+    	
+    	
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String nView=(String)request.getParameter("note_view");
 		caseForm.setDemographicNo(demono);
@@ -407,12 +412,14 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward listNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String providerNo = getProviderNo(request);
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);	      
-	       String demoNo= (String)actionParam.get("clientId");
+	    if(actionParam==null){
+	      actionParam = new HashMap();
+	         actionParam.put("clientId", request.getParameter("clientId")); 
+	     }
+	    request.setAttribute("actionParam", actionParam);	      
+	    String demoNo= (String)actionParam.get("clientId");
+	    request.setAttribute("clientId", demoNo);
+	    request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
         List notes = null;
 
         //set save url to be used by ajax editor
@@ -470,7 +477,17 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String programId = (String) request.getSession().getAttribute("case_program_id");
-
+        String cId =request.getParameter("clientId");
+        if(Utility.IsEmpty(cId))cId =request.getParameter("demographicNo");
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId",cId ); 
+	       }
+	    request.setAttribute("actionParam", actionParam);
+	    String demoNo= (String)actionParam.get("clientId");
+	    request.setAttribute("clientId", demoNo);
+	    request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         CaseManagementSearchBean searchBean = new CaseManagementSearchBean(this.getDemographicNo(request));
         //searchBean.setSearchEncounterType(caseForm.getSearchEncounterType());

@@ -38,7 +38,8 @@ public class TopazGetImageAction extends DispatchAction{
        		HttpServletRequest request, HttpServletResponse response) throws Exception {
        
 	   Integer recordId = Integer.valueOf((String)request.getParameter("rid"));
-	   TopazValue tv= topazManager.getTopazValue(recordId);
+	   String mCd=request.getParameter("moduleName");
+	   TopazValue tv= topazManager.getTopazValue(recordId,mCd);
        if(tv!=null){
 	     response.setContentType("image/gif");
 	     OutputStream o = response.getOutputStream();

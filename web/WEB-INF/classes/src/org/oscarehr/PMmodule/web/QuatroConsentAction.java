@@ -129,6 +129,8 @@ public class QuatroConsentAction extends BaseClientAction {
 	       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("FAC", facilityId.toString()).getDescription());
 	       request.setAttribute("clientId", demographicNo);
+	       request.setAttribute("id", rId);
+	       
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
 
@@ -269,7 +271,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		consent.setStartDate(new GregorianCalendar());
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consentManager.saveConsentDetail(consent);	
-		
+		request.setAttribute("id",consent.getId());
 		//String gotoStr = request.getParameter("goto");			
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);

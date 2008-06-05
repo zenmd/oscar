@@ -14,7 +14,9 @@ public class TopazDao extends HibernateDaoSupport{
      getHibernateTemplate().saveOrUpdate(rtv);
   }
   
-  public TopazValue getTopazValue(Integer recordId){
-	  return (TopazValue)getHibernateTemplate().get(TopazValue.class, recordId);
+  public TopazValue getTopazValue(Integer recordId,String moduleCd){
+	  
+	  String sql = "From TopazValue where recordId=? and moduleName=?";
+	  return (TopazValue)getHibernateTemplate().find(sql,new Object[]{recordId,moduleCd});
   }
 }

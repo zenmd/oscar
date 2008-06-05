@@ -27,6 +27,7 @@ response.setHeader("Cache-Control", "no-cache");
 </script>
 
 <html:form action="/PMmodule/UploadFile.do">
+<input type="hidden" name="clientId" />
 	<div id="pageTitle">
 	<table width="100%">
 		<tr>

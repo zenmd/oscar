@@ -264,7 +264,6 @@ response.setHeader("Cache-Control", "no-cache");
 						<td>
 							<c:choose>
 								<c:when	test="${(!note.signed) and (sessionScope.readonly=='false')}">
-
 									<a	href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 										&noteId=<c:out value="${note.id}"/>&demographicNo=<c:out value="${param.demographicNo}"/>
 										&providerNo=<c:out value="${param.providerNo}" />&forceNote=true" style="color:Navy;text-decoration:none;">

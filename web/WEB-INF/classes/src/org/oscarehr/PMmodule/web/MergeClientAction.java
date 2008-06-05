@@ -46,54 +46,15 @@ public class MergeClientAction extends BaseClientAction {
 	private MergeClientManager mergeClientManager;
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {	
-		return mergeSearch(mapping, form, request, response);
+		return search(mapping, form, request, response);
 	}
 	public ActionForward mergedSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm searchForm = (DynaActionForm) form;
-		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm
-				.get("criteria");
-
-		// formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
-		boolean allowOnlyOptins = UserRoleUtils.hasRole(request, UserRoleUtils.Roles_external);
-		if ("MyP".equals(formBean.getBedProgramId())) {
-			Integer facilityId = (Integer) request.getSession().getAttribute(
-					KeyConstants.SESSION_KEY_FACILITYID);
-			String providerNo = (String) request.getSession().getAttribute(
-					KeyConstants.SESSION_KEY_PROVIDERNO);
-			List allBedPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
-			String prgId = "";
-//			for (Program prg : allBedPrograms) {
-			for (int i=0;i<allBedPrograms.size();i++) {
-				Program prg = (Program)allBedPrograms.get(i);
-				prgId += prg.getId().toString() + ",";
-			}
-			if (!"".equals(prgId))
-				prgId = prgId.substring(0, prgId.length() - 1);
-			formBean.setBedProgramId(prgId);
-		}
-
+		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
 		/* do the search */
-		request.setAttribute("clients", clientManager.search(formBean,
-				allowOnlyOptins));
-
-		// sort out the consent type used to search
-		String consentSearch = StringUtils.trimToNull(request
-				.getParameter("search_with_consent"));
-		String emergencySearch = StringUtils.trimToNull(request
-				.getParameter("emergency_search"));
-		String consent = null;
-
-		if (consentSearch != null && emergencySearch != null)
-			throw (new IllegalStateException(
-					"This is an unexpected state, both search_with_consent and emergency_search are not null."));
-		else if (consentSearch != null)
-			consent = Demographic.ConsentGiven_ALL;
-		else if (emergencySearch != null)
-			consent = Demographic.ConsentGiven_ALL;
-		request.setAttribute("consent", consent);
-
-		
+		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_UNMERGE);
+		request.setAttribute("clients", mergeClientManager.searchMerged(formBean));
 		setLookupLists(request);
 
 		return mapping.findForward("view");
@@ -101,7 +62,7 @@ public class MergeClientAction extends BaseClientAction {
 	public ActionForward unmerge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionMessages messages = new ActionMessages();
-		
+		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
 		if (request.getParameterValues("records") == null) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors.select", request.getContextPath()));
@@ -110,15 +71,14 @@ public class MergeClientAction extends BaseClientAction {
 		}
 		boolean isSuccess=true;
 		ArrayList records = new ArrayList(Arrays.asList(request.getParameterValues("records")));
-		String head = request.getParameter("head");
+		
 		String providerNo = (String) request.getSession().getAttribute(	KeyConstants.SESSION_KEY_PROVIDERNO);
 		if (records.size() > 0) {				
 				for (int i = 0; i < records.size(); i++) {
 					String demographic_no = (String) records.get(i);
 					try {					
 						ClientMerge cmObj = new ClientMerge(); 
-						cmObj.setClientId(Integer.valueOf(demographic_no));
-						cmObj.setMergedToClientId(Integer.valueOf(head));
+						cmObj.setClientId(Integer.valueOf(demographic_no));						
 						cmObj.setProviderNo(providerNo);
 						cmObj.setLastUpdateDate(new GregorianCalendar());
 						mergeClientManager.unMerge(cmObj);
@@ -142,6 +102,7 @@ public class MergeClientAction extends BaseClientAction {
 	public ActionForward merge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionMessages messages = new ActionMessages();
+		String test = request.getParameter("records");
 		if (request.getParameterValues("records") == null) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors.select", request.getContextPath()));
@@ -149,6 +110,7 @@ public class MergeClientAction extends BaseClientAction {
 			return mapping.findForward("view");			
 		}
 		boolean isSuccess = true;
+		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
 		ArrayList records = new ArrayList(Arrays.asList(request.getParameterValues("records")));
 		String head = request.getParameter("head");
 		String action = request.getParameter("mergeAction");
@@ -187,40 +149,29 @@ public class MergeClientAction extends BaseClientAction {
 		}
 		return mapping.findForward("view");
 	}
-
-	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		
-		setLookupLists(request);		
-		return mapping.findForward("view");
-	}
+	
 	public ActionForward search(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response){
 		DynaActionForm searchForm = (DynaActionForm) form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
 			
-		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,UserRoleUtils.Roles_external);		
-		/* do the search */
-		request.setAttribute("clients", clientManager.search(formBean,allowOnlyOptins));
+		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
+		List clients=clientManager.search(formBean,false);
+		request.setAttribute("clients", clients);
 		setLookupLists(request);		
 		return mapping.findForward("view");
 	}
 	private void setLookupLists(HttpServletRequest request) {
-		Integer facilityId = (Integer) request.getSession().getAttribute(
-				KeyConstants.SESSION_KEY_FACILITYID);
-		String providerNo = (String) request.getSession().getAttribute(
-				KeyConstants.SESSION_KEY_PROVIDERNO);
-		List allBedPrograms = programManager.getProgramsByProvider(facilityId,
-				providerNo);
+		Integer facilityId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		List allBedPrograms = programManager.getProgramsByProvider(facilityId,providerNo);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
-		List allProviders = providerManager.getActiveProviders(
-				facilityId.toString(), null);
+		List allProviders = providerManager.getActiveProviders(facilityId.toString(), null);
 		request.setAttribute("allProviders", allProviders);
-		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,
-				null, null));
+		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,	null, null));
 		request.setAttribute("moduleName", " - Client Management");		
 	}
 	public void setClientManager(ClientManager clientManager) {

@@ -1,9 +1,17 @@
 package org.oscarehr.PMmodule.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.ClientMerge;
+import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.common.KeyConstants;
@@ -15,11 +23,15 @@ public class MergeClientDao extends HibernateDaoSupport {
 	            throw new IllegalArgumentException();
 	        }
 	        this.getHibernateTemplate().saveOrUpdate(cmObj);
+	        String sql = "update Demographic a set a.ismerged=1 where a.demographicNo=?";
+	        getHibernateTemplate().bulkUpdate(sql, cmObj.getClientId());
 	    }
 	
-	    public void unMerge(ClientMerge cmObj){	    	
-	    	  getHibernateTemplate().bulkUpdate("update ClientMerge c set c.deleted=1,c.lastUpdateUser='" +
-	                 cmObj.getProviderNo() + "' c.lastUpdateDate="+cmObj.getLastUpdateDate() +" where c.demographic_no=?", cmObj.getClientId() );
+	    public void unMerge(ClientMerge cmObj){	   
+	    	String sql = "update ClientMerge c set c.deleted=1,c.lastUpdateUser=?, c.lastUpdateDate=?  where c.demographic_no=?";
+	    	 getHibernateTemplate().bulkUpdate(sql, new Object[]{cmObj.getProviderNo(),cmObj.getLastUpdateDate(),cmObj.getClientId()} );
+	    	 String sql1 = "update Demographic a set a.ismerged=1 where a.demographicNo=?";
+		     getHibernateTemplate().bulkUpdate(sql1, cmObj.getClientId());	 
 	    }
 	    
 	    public Integer getHead(Integer demographic_no) {
@@ -34,4 +46,4 @@ public class MergeClientDao extends HibernateDaoSupport {
 	        return lst;
 	        
 	    }
-}
+	}
