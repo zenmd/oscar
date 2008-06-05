@@ -109,7 +109,7 @@ function checkExistClients(i){
 <table width="100%" class="edit">
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Spouse/Dependent(s)</th></tr>
+<tr><th>Spouse/Dependant(s)</th></tr>
 </table></div></td></tr>
 
 <tr><td>
