@@ -215,7 +215,7 @@
 			<td><html:textarea cols="50" rows="7" property="referral.notes" /></td>
 		</tr>
 		<tr class="b">
-			<td width="20%">Presenting Problems:</td>
+			<td width="20%">Presenting Issues:</td>
 			<td><html:textarea cols="50" rows="7" property="referral.presentProblems" /></td>
 		</tr>
 		<c:if test="${program.type eq 'Bed' }">
