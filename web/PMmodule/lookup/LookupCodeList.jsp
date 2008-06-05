@@ -23,14 +23,9 @@
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 
-		<table width="100%" cellpadding="0" cellspacing="0" border="10">
-			<tr>
-				<td align="left" class="clsHomePageHeader">
-				<h2>Code List</h2>
-				</td>
-			</tr>
 
-		</table>
+		
+
 
 
 <table>
