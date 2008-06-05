@@ -127,14 +127,7 @@
 				<display:setProperty name="paging.banner.placement" value="bottom" />
 				<display:setProperty name="basic.msg.empty_list"
 					value="No staff currently in place for this program." />
-			
-	
-				<display:column title="Select" >
-					<input type="checkbox" name="p2<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' /> 
-					<input type="hidden" name="lineno2" value="<%=pageContext.getAttribute("pp_rowNum")%>" />
-					<input type="hidden" name="id<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' />
-				</display:column>			
-				
+					
 				<display:column sortable="true" title="User No" property="providerNo" sortProperty="providerNo"/>
 				
 				<display:column sortable="true" title="Name" property="providerName"/>
