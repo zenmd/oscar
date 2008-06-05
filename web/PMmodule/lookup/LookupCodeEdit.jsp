@@ -17,7 +17,7 @@
 		<input type="hidden" id="method" name="method"></input>
 		<a href="javascript:submitForm();">
 			<img src="../images/Save16.png" border="0"/> Save </a> &nbsp;|&nbsp;
-			<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> <img src="../images/Back16.png" border="0"/> Back to Code List</html:link>
+			<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> <img src="../images/Back16.png" border="0"/> Back to List</html:link>
 		</td>
  	</tr>
 	<tr>
@@ -37,10 +37,7 @@
 					</table>
 					</logic:notEmpty>
 					<table width="100%">
-					 <tr>
-					     <th>Attribute </th>
-					     <th>Value</th>
-					 </tr>
+					 
 					<logic:iterate id="field" name="lookupCodeEditForm" property="codeFields" indexId="fIndex" type="com.quatro.model.FieldDefValue">
 						<tr>
 						<td> <bean:write name="field" property="fieldDesc" /></td>
