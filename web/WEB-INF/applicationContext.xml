@@ -117,7 +117,9 @@
     <bean id="programQueueDao" class="org.oscarehr.PMmodule.dao.ProgramQueueDao" autowire="byName"/>
     <bean id="clientReferralDAO" class="org.oscarehr.PMmodule.dao.ClientReferralDAO" autowire="byName"/>
     <bean id="clientHistoryDao" class="org.oscarehr.PMmodule.dao.ClientHistoryDao" autowire="byName"/>
+<!-- 
     <bean id="agencyDao" class="org.oscarehr.PMmodule.dao.AgencyDao" autowire="byName"/>
+ -->
     <bean id="admissionDao" class="org.oscarehr.PMmodule.dao.AdmissionDao" autowire="byName" />
     <bean id="mergeClientDao" class="org.oscarehr.PMmodule.dao.MergeClientDao" autowire="byName" />
    <bean id="bedDemographicDAO" class="org.oscarehr.PMmodule.dao.BedDemographicDAO" autowire="byName"/>
@@ -151,7 +153,9 @@
     <bean id="ticklerDAO" class="org.oscarehr.casemgmt.dao.TicklerDAO" autowire="byName"/>
     <bean id="programFunctionalUserDAO" class="org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO" autowire="byName"/>
     <bean id="programAccessDAO" class="org.oscarehr.PMmodule.dao.ProgramAccessDAO" autowire="byName"/>
+<!-- 
     <bean id="defaultRoleAccessDAO" class="org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO" autowire="byName"/>
+ -->
     <bean id="programClientStatusDAO" class="org.oscarehr.PMmodule.dao.ProgramClientStatusDAO" autowire="byName"/>
     <bean id="programTeamDAO" class="org.oscarehr.PMmodule.dao.ProgramTeamDAO" autowire="byName"/>
     <bean id="providerDefaultProgramDao" class="org.caisi.dao.ProviderDefaultProgramDao" autowire="byName"/>
@@ -435,7 +439,8 @@
             </bean>
         </property>
     </bean>
- 
+
+<!-- 
     <bean id="infirmBedProgramManager" parent="baseTransactionProxy">
         <property name="target">
             <bean class="org.caisi.service.InfirmBedProgramManager" autowire="byName">
@@ -443,7 +448,8 @@
             </bean>
         </property>
     </bean>
-
+ -->
+ 
     <!-- TicklerPlus managers -->
     <bean id="ticklerManagerT" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
@@ -512,7 +518,6 @@
         <property name="target">
             <bean class="org.oscarehr.PMmodule.service.ProviderManager">
                 <property name="providerDao" ref="providerDao"/>
-                <property name="agencyDAO" ref="agencyDao"/>
                 <property name="oscarSecurityDAO" ref="oscarSecurityDAO"/>
             </bean>
         </property>
