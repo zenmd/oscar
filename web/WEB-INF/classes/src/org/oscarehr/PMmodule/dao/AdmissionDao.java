@@ -18,14 +18,19 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.common.KeyConstants;
 
 public class AdmissionDao extends HibernateDaoSupport {
+	private MergeClientDao mergeClientDao;
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
+
 	public List getAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
 	  if (demographicNo == null || demographicNo.intValue() <= 0) {
 	    throw new IllegalArgumentException();
 	  }
-
-	  String queryStr = "FROM Admission a WHERE a.clientId=? and a.programId in " +
+	  String clientIds=mergeClientDao.getMergedClientIds(demographicNo);
+	  String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+ " and a.programId in " +
 	        "(select s.id from Program s where s.facilityId=? or s.facilityId is null) ORDER BY a.admissionDate DESC";
-	        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo,  facilityId });
+	        List rs = getHibernateTemplate().find(queryStr, facilityId);
 
 	        return rs;
 	    }
@@ -75,15 +80,16 @@ public class AdmissionDao extends HibernateDaoSupport {
     
     //for admission auto-discharge purpose
     public List getIntakeAdmissionList(Integer clientId) {
-    	List results = getHibernateTemplate().find("from Admission i where i.clientId = ? and " +
-  			"i.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'",
-			new Object[] {clientId});
-
+    	String clientIds=mergeClientDao.getMergedClientIds(clientId);
+    	List results = getHibernateTemplate().find("from Admission i where i.clientId in " + clientIds+" and " +
+  			"i.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'");
 		return results;
 	}
 
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
     	String progSQL = "";
+    	String clientIds=mergeClientDao.getMergedClientIds(clientId);
+    	Object[] clients=new Object[]{clientIds.split(",")}; 
     	if (facilityId.intValue() ==0 ) {
     		progSQL = "program_id in (select p.program_id from program p where 'P' || p.program_id in " +
     				"(select a.code from lst_orgcd a, secuserrole b " +
@@ -97,7 +103,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     	}
     	Criteria criteria = getSession().createCriteria(Admission.class);
     	criteria.add(Restrictions.sqlRestriction(progSQL));
-    	criteria.add(Expression.eq("clientId",clientId));
+    	criteria.add(Restrictions.in("clientId",clients));
     	criteria.addOrder(Order.desc("admissionDate"));
     	List results = criteria.list();
 
@@ -198,12 +204,12 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (facilityId == null || facilityId.intValue() < 0) {
             throw new IllegalArgumentException();
         }
-
-        String queryStr = "FROM Admission a WHERE a.clientId=? and a.programId in " +
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+ " and a.programId in " +
            "(select s.id from Program s where s.facilityId=? or s.facilityId is null) AND a.admissionStatus='"
           + KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
 
-        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo, facilityId });
+        List rs = getHibernateTemplate().find(queryStr, facilityId);
 
         return rs;
 
@@ -227,13 +233,13 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        String queryStr = "FROM Admission a WHERE a.clientId=? AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
 
         Admission admission = null;
         List rs = new ArrayList();
         try{
-          rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo });
+          rs = getHibernateTemplate().find(queryStr);
         }catch(org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException ex){
         	;
         }
@@ -307,9 +313,9 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        String queryStr = "FROM Admission a WHERE a.clientId=? AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo });
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr);
 
         return rs;
 
@@ -318,9 +324,9 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        String queryStr = "FROM Admission a WHERE a.clientId=? ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo });
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.clientId in " +clientIds  +" ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr);
         return rs;
     }
 
@@ -357,9 +363,9 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        String queryStr = "FROM Admission a WHERE a.clientId=? AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr, new Object[] {demographicNo });
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.clientId in " +clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr);
 
         if (!rs.isEmpty()) {
             admission = ((Admission) rs.get(0));
@@ -377,9 +383,9 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (programId == null || programId.intValue() <= 0) {
             return getCurrentAdmission(demographicNo);
         }
-
-        String queryStr = "FROM Admission a WHERE a.programId=? AND a.clientId=? AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr, new Object[] { programId, demographicNo });
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.programId=? AND a.clientId in "+clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr,programId);
 
         if (!rs.isEmpty()) {
             admission = ((Admission) rs.get(0));

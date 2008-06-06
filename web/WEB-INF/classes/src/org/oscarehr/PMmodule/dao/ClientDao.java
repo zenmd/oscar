@@ -146,7 +146,7 @@ public class ClientDao extends HibernateDaoSupport {
 	/*
 	 * use program_client table to do domain based search
 	 */
-	public List search(ClientSearchFormBean bean, boolean returnOptinsOnly) {
+	public List search(ClientSearchFormBean bean, boolean returnOptinsOnly,boolean excludeMerged) {
 
 		Criteria criteria = getSession().createCriteria(Demographic.class);
 		String firstName = "";
@@ -180,6 +180,8 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 		
 		String clientNo = bean.getDemographicNo(); 
+		//exclude merged client 
+		if(excludeMerged)criteria.add(Expression.eq("merged", false));
 		if (clientNo != null && !"".equals(clientNo))
 		{
 			if (com.quatro.util.Utility.IsInt(clientNo) ) {

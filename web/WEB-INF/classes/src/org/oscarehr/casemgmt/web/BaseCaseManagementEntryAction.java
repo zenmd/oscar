@@ -57,7 +57,7 @@ import org.oscarehr.PMmodule.web.BaseClientAction;
 
 public class BaseCaseManagementEntryAction extends BaseClientAction {
 
-	protected String relateIssueString = "Issues related to this note:";
+	protected String relateIssueString = "Components of Service related to this note:";
 
 	
 	protected CaseManagementManager caseManagementMgr;
@@ -223,14 +223,15 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	}
 
 	/* create related issue string */
-	protected String createIssueString(Set issuelist) {
+	protected String createIssueString(Set issuelist,Integer caseStatusId ) {
 		if (issuelist.isEmpty())
 			return "";
 		String rt = "\n[" + relateIssueString;
 		Iterator itr = issuelist.iterator();
 		while (itr.hasNext()) {
 			CaseManagementIssue iss = (CaseManagementIssue) itr.next();
-			rt = rt + "\n" + iss.getIssue().getDescription() + "\t\t\n";
+			rt = rt + "\n" + iss.getIssue().getDescription();   // + "\t\t\n";
+			/*
 			if (iss.isCertain())
 				rt = rt + "certain" + "  ";
 			else
@@ -243,10 +244,12 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 				rt = rt + "major" + "  ";
 			else
 				rt = rt + "not major" + "  ";
-			if (iss.isResolved())
+			*/
+			if (1==caseStatusId)
 				rt = rt + "resolved";
 			else
 				rt = rt + "unresolved";
+			
 		}
 		return rt + "]\n";
 	}

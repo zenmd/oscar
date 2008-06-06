@@ -180,10 +180,12 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         HttpSession se = request.getSession();
         if (se.getAttribute("userrole") == null) return mapping.findForward("expired");
+        String cId=request.getParameter("clientId");
+        if(Utility.IsEmpty(cId)) cId=request.getSession().getAttribute("casemgmt_DemoNo").toString();
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
+	          actionParam.put("clientId",cId ); 
 	       }
 	       request.setAttribute("actionParam", actionParam);	      
 	       String demoNo= (String)actionParam.get("clientId");
@@ -478,7 +480,9 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String programId = (String) request.getSession().getAttribute("case_program_id");
         String cId =request.getParameter("clientId");
-        if(Utility.IsEmpty(cId))cId =request.getParameter("demographicNo");
+        if(Utility.IsEmpty(cId)){
+        	cId =request.getSession().getAttribute("casemgmt_DemoNo").toString();
+        }
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
