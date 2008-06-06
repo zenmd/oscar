@@ -472,10 +472,21 @@ public static String space(int i) {
     	if (s==null) return "";
     	return (String) s;
     }
-    public static String replace(String ori, String pattern, String replaceTo)
+    
+    public static String replace(String str, String pattern, String replaceTo)
     {
-    	return ori;
+    	String[] buff = str.split(pattern);
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(buff[0]);
+    	for(int i=1; i<buff.length;i++)
+    	{
+    		sb.append(replaceTo);
+    		sb.append(buff[i]);
+    	}
+    	return sb.toString();
     }
+
     public static String getStringJs(Object s)
     {
     	if (s==null) return "";
