@@ -1,6 +1,6 @@
 package com.quatro.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,6 +17,11 @@ public class TopazDao extends HibernateDaoSupport{
   public TopazValue getTopazValue(Integer recordId,String moduleCd){
 	  
 	  String sql = "From TopazValue where recordId=? and moduleName=?";
-	  return (TopazValue)getHibernateTemplate().find(sql,new Object[]{recordId,moduleCd});
+	  List lst = getHibernateTemplate().find(sql,new Object[]{recordId,moduleCd});
+	  if(lst.size()>0){
+		 return (TopazValue)lst.get(0);
+	  }else{
+		 return null;
+	  }
   }
 }
