@@ -25,13 +25,13 @@ package org.oscarehr.PMmodule.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.oscarehr.PMmodule.dao.AgencyDao;
+//import org.oscarehr.PMmodule.dao.AgencyDao;
 import org.oscarehr.PMmodule.dao.OscarSecurityDAO;
-import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
+//import org.oscarehr.PMmodule.dao.ProgramProviderDAO;
 import org.oscarehr.PMmodule.dao.ProviderDao;
-import org.oscarehr.PMmodule.model.Agency;
+//import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Facility;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
+//import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.SecUserRole;
 
@@ -39,15 +39,15 @@ import org.oscarehr.PMmodule.model.SecUserRole;
 public class ProviderManager
 {
 	private ProviderDao dao;
-	private AgencyDao agencyDAO;
-	private ProgramProviderDAO programProviderDAO;
+//	private AgencyDao agencyDAO;
+//	private ProgramProviderDAO programProviderDAO;
 	private OscarSecurityDAO oscarSecurityDAO; 
 	
 	
 	public void setProviderDao(ProviderDao dao)	{
 		this.dao = dao;
 	}
-	
+/*	
 	public void setAgencyDAO(AgencyDao dao) {
 		this.agencyDAO = dao;
 	}
@@ -55,7 +55,7 @@ public class ProviderManager
 	public void setProgramProviderDAO(ProgramProviderDAO dao) {
 		this.programProviderDAO = dao;
 	}
-	
+*/	
 	public void setOscarSecurityDAO(OscarSecurityDAO oscarSecurityDAO) {
 		this.oscarSecurityDAO = oscarSecurityDAO;
 	}
@@ -104,14 +104,14 @@ public class ProviderManager
 	{
 		return dao.getFacilityIds(provider_no);
 	}
-
+/*
     public List getAgencyDomain(String providerNo) {
 		Agency localAgency =  agencyDAO.getLocalAgency();
 		List agencies = new ArrayList();
 		agencies.add(localAgency);
 		return agencies;
 	}
-	
+*/	
 	public List getProvidersByType(String type) {
 		return dao.getProvidersByType(type);
 	}

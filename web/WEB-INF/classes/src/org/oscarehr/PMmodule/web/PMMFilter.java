@@ -35,8 +35,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.oscarehr.PMmodule.model.Agency;
-//import org.oscarehr.PMmodule.service.AgencyManager;
 import org.oscarehr.PMmodule.service.OscarSecurityManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.springframework.web.context.WebApplicationContext;

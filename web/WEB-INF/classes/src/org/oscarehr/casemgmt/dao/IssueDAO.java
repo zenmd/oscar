@@ -22,12 +22,9 @@
 
 package org.oscarehr.casemgmt.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.caisi.model.Role;
 import org.oscarehr.casemgmt.model.Issue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 

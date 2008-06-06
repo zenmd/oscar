@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -46,16 +45,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.caisi.model.CustomFilter;
-import org.caisi.model.IssueAdmin;
-import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
-import org.oscarehr.PMmodule.model.ProgramTeam;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
-import org.oscarehr.casemgmt.model.CaseManagementIssue;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.oscarehr.casemgmt.model.CaseManagementTmpSave;
@@ -65,9 +56,8 @@ import org.oscarehr.common.model.UserProperty;
 import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
-import com.quatro.model.LookupCodeValue;
-import com.quatro.util.*;
 import com.quatro.service.security.SecurityManager;
+import com.quatro.util.Utility;
 
 
 public class CaseManagementSearchAction extends BaseCaseManagementViewAction {

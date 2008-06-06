@@ -36,7 +36,7 @@ import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.PMmodule.service.RoleManager;
+//import org.oscarehr.PMmodule.service.RoleManager;
 //import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.ClientImage;
@@ -56,7 +56,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	protected CaseManagementManager caseManagementMgr;
 	protected TicklerManager ticklerManager;
 	protected ClientImageManager clientImageMgr;
-	protected RoleManager roleMgr;
+//	protected RoleManager roleMgr;
 	protected ProgramManager programMgr;	
 	protected LookupManager lookupMgr;
 	protected IssueAdminManager issAdmManager;
@@ -81,11 +81,11 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	public void setClientImageManager(ClientImageManager mgr) {
 		this.clientImageMgr = mgr;
 	}
-	
+/*	
 	public void setRoleManager(RoleManager mgr) {
 		this.roleMgr = mgr;
 	}
-	
+*/	
 	public void setProgramManager(ProgramManager mgr) {
 		this.programMgr = mgr;
 	}

@@ -31,7 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ConsentDAO;
-import org.oscarehr.PMmodule.model.Agency;
+//import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Consent;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 import org.oscarehr.PMmodule.model.ConsentInterview;
@@ -75,7 +75,7 @@ public class ConsentManager {
         clientDao.saveDemographicExt(consent.getDemographicNo(), Demographic.METHOD_OBTAINED_KEY ,Demographic.MethodObtained_EXPLICIT);
 
         clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_ex", consent.getExclusionString());
-        clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_ag", String.valueOf(Agency.getLocalAgency().getId()));
+//        clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_ag", String.valueOf(Agency.getLocalAgency().getId()));
         clientDao.saveDemographicExt(consent.getDemographicNo(), "consent_dt", formatter.format(new Date()));
 
         dao.saveConsent(consent);

@@ -29,7 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.dao.AdmissionDao;
-import org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO;
+//import org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO;
 import org.oscarehr.PMmodule.dao.ProgramAccessDAO;
 import org.oscarehr.PMmodule.dao.ProgramClientStatusDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
@@ -37,14 +37,14 @@ import org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO;
 import org.oscarehr.PMmodule.dao.ProgramSignatureDao;
 import org.oscarehr.PMmodule.dao.ProgramTeamDAO;
 import org.oscarehr.PMmodule.model.AccessType;
-import org.oscarehr.PMmodule.model.Agency;
+//import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.FunctionalUserType;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
-import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
+//import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
 import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
@@ -64,7 +64,7 @@ public class ProgramManager {
     private ProgramTeamDAO programTeamDAO;
     private ProgramAccessDAO programAccessDAO;
     private AdmissionDao admissionDao;
-    private DefaultRoleAccessDAO defaultRoleAccessDAO;
+//    private DefaultRoleAccessDAO defaultRoleAccessDAO;
     private ProgramClientStatusDAO clientStatusDAO;
     private ProgramSignatureDao programSignatureDao;
     private LookupDao lookupDao;
@@ -112,11 +112,11 @@ public class ProgramManager {
     public void setAdmissionDao(AdmissionDao dao) {
         this.admissionDao = dao;
     }
-
+/*
     public void setDefaultRoleAccessDAO(DefaultRoleAccessDAO dao) {
         this.defaultRoleAccessDAO = dao;
     }
-
+*/
     public void setProgramClientStatusDAO(ProgramClientStatusDAO dao) {
         this.clientStatusDAO = dao;
     }
@@ -230,10 +230,11 @@ public class ProgramManager {
     }
     
     // TODO: Implement this method for real
+/*    
     public Agency getAgencyByProgram(String programId) {
         return new Agency(new Integer(0), new Integer(1), "HS", "HS", "", true, false);
     }
-
+*/
     public List getProgramProviders(String orgcd) {
         //return programProviderDAO.getProgramProviders(Integer.valueOf(programId));
         return secuserroleDao.findByOrgcd(orgcd);
@@ -430,7 +431,7 @@ public class ProgramManager {
          * pList.add(new LabelValueBean(program.getName(),program.getId().toString())); } } return pList;
          */
     }
-
+/*
     public List getDefaultRoleAccesses() {
         return defaultRoleAccessDAO.getDefaultRoleAccesses();
     }
@@ -450,7 +451,7 @@ public class ProgramManager {
     public caisi_DefaultRoleAccess findDefaultRoleAccess(Integer roleId, Integer accessTypeId) {
         return defaultRoleAccessDAO.find(roleId,accessTypeId);
     }
-
+*/
     public List getProgramClientStatuses(Integer programId) {
         return clientStatusDAO.getProgramClientStatuses(programId);
     }
