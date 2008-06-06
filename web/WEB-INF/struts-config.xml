@@ -145,10 +145,14 @@
         <form-bean name="addEditHtmlDoc" type="oscar.dms.data.AddEditDocumentForm" />
         <form-bean name="ManagePatientLettersForm" type="oscar.oscarReport.pageUtil.ManagePatientLettersForm" />
 -->
+<!-- 
         <form-bean name="ticklerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="tickler" type="org.caisi.model.Tickler" />
             <form-property name="filter" type="org.caisi.model.CustomFilter" />
         </form-bean>
+ -->        
+        <form-bean name="ticklerForm" type="org.oscarehr.PMmodule.web.formbean.TicklerForm"/>
+
 
         <form-bean name="customFilterForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="filter" type="org.caisi.model.CustomFilter" />
@@ -265,7 +269,6 @@
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
         </form-bean>
@@ -284,7 +287,6 @@
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="formName" type="java.lang.String" />
@@ -305,7 +307,6 @@
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="dischargeReason" type="java.lang.String"></form-property>
@@ -901,10 +902,12 @@
             <forward name="success" path="/casemgmt/uploadimage.jsp" />
         </action>
 
+<!-- 
         <action path="/ArchiveView" type="org.springframework.web.struts.DelegatingActionProxy" scope="request" parameter="method">
             <forward name="view" path="/provider/providercontrol.jsp" redirect="true" />
         </action>
-
+ -->
+ 
 <!--
         <action path="/VaccineProviderReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/PMmodule/vaccine/vaccine_provider_report.jsp" />
