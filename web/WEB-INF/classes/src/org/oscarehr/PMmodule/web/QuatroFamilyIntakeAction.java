@@ -365,7 +365,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	           criteria.setFirstName(obj.getFirstName());
 	           criteria.setDob(obj.getDob());
 	           criteria.setGender(obj.getSex());
-		       List lst = clientManager.search(criteria, false);
+		       List lst = clientManager.search(criteria, false,true);
 	           if(lst.size()>0){
 	             obj.setDuplicateClient("Y");
 		         obj.setNewClientChecked("N");

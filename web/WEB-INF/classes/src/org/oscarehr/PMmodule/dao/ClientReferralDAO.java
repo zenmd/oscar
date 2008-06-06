@@ -40,8 +40,12 @@ import com.quatro.util.Utility;
 public class ClientReferralDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(getClass());
+    private MergeClientDao mergeClientDao;
+    public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 
-    public List getReferrals() {
+	public List getReferrals() {
         List results = this.getHibernateTemplate().find("from ClientReferral");
 
         if (log.isDebugEnabled()) {
@@ -56,10 +60,11 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-        String sql="from ClientReferral cr where cr.clientId = ? and cr.programId in " +Utility.getUserOrgQueryString(facilityId);
+        String clientIds =mergeClientDao.getMergedClientIds(clientId);
+        String sql="from ClientReferral cr where cr.clientId in " +clientIds +" and cr.programId in " +Utility.getUserOrgQueryString(facilityId);
         Object[] params=null;
-        if(facilityId.intValue()>0) params=new Object[]{clientId,facilityId,providerNo};
-        else params = new Object[]{clientId,providerNo};
+        if(facilityId.intValue()>0) params=new Object[]{facilityId,providerNo};
+        else params = new Object[]{providerNo};
         
         List results = this.getHibernateTemplate().find(sql, params);
 
@@ -68,7 +73,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         }
 
         // [ 1842692 ] RFQ Feature - temp change for pmm referral history report
-        results = displayResult(results);
+       // results = displayResult(results);
         // end of change
         
         return results;
@@ -82,9 +87,9 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        String sSQL="from ClientReferral cr where cr.clientId = ? and cr.programId =?";
-        List results = this.getHibernateTemplate().find(sSQL, new Object[] { clientId, programId});
+        String clientIds =mergeClientDao.getMergedClientIds(clientId);
+        String sSQL="from ClientReferral cr where cr.clientId in " +clientIds+" and cr.programId =?";
+        List results = this.getHibernateTemplate().find(sSQL, programId);
         if(results.size()==0) return null;
         return (ClientReferral)results.get(0);
     }
@@ -97,16 +102,16 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         if (facilityId == null || facilityId.intValue() < 0) {
             throw new IllegalArgumentException();
         }
-
-        String sSQL="from ClientReferral cr where cr.clientId = ? " +
+        String clientIds =mergeClientDao.getMergedClientIds(clientId);
+        String sSQL="from ClientReferral cr where cr.clientId in " + clientIds+
                     " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=? or s.facilityId is null)))";
-        List results = this.getHibernateTemplate().find(sSQL, new Object[] { clientId, facilityId, facilityId });
+        List results = this.getHibernateTemplate().find(sSQL, new Object[] {facilityId, facilityId });
 //        		"from ClientReferral cr where cr.ClientId = ?", clientId);
 
         if (log.isDebugEnabled()) {
             log.debug("getReferralsByFacility: clientId=" + clientId + ",# of results=" + results.size());
         }
-        results = displayResult(results);
+       // results = displayResult(results);
         return results;
     }
     
@@ -181,9 +186,9 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        String queryStr = "FROM Admission a WHERE a.clientId=? ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo });
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+" ORDER BY a.admissionDate DESC";
+        List rs = getHibernateTemplate().find(queryStr);
         return rs;
     }
     // end of change
@@ -194,14 +199,15 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         }
 
         List results;
+        String clientIds =mergeClientDao.getMergedClientIds(clientId);
         if(facilityId==null){
-          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId = ? and (cr.status = '"+KeyConstants.STATUS_ACTIVE+"' or cr.status = '"+KeyConstants.STATUS_PENDING+"' or cr.status = '"+KeyConstants.STATUS_UNKNOWN+"')", clientId);
+          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId in " +clientIds+" and (cr.status = '"+KeyConstants.STATUS_ACTIVE+"' or cr.status = '"+KeyConstants.STATUS_PENDING+"' or cr.status = '"+KeyConstants.STATUS_UNKNOWN+"')");
         }else{
           ArrayList paramList = new ArrayList();
-          String sSQL="from ClientReferral cr where cr.clientId = ? and (cr.status = '" + KeyConstants.STATUS_ACTIVE+"' or cr.status = '" + 
+          String sSQL="from ClientReferral cr where cr.clientId in " +clientIds+" and (cr.status = '" + KeyConstants.STATUS_ACTIVE+"' or cr.status = '" + 
           KeyConstants.STATUS_PENDING + "' or cr.status = '" + KeyConstants.STATUS_UNKNOWN + "')" + 
             " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=?)))";
-          paramList.add(clientId);
+        //  paramList.add(clientId);
           paramList.add(facilityId);
           paramList.add(facilityId);
           Object params[] = paramList.toArray(new Object[paramList.size()]);

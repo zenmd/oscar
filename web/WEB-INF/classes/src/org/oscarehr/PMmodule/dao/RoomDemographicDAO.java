@@ -36,8 +36,12 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class RoomDemographicDAO extends HibernateDaoSupport {
 
     private static final Log log = LogFactory.getLog(RoomDemographicDAO.class);
+    private MergeClientDao mergeClientDao;
+    public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 
-    /**
+	/**
      * @see org.oscarehr.PMmodule.dao.RoomDemographicDAO#roomDemographicExists(java.lang.Integer)
      */
     public boolean roomDemographicExists(Integer demographicNo) {
@@ -79,8 +83,8 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
      * @see org.oscarehr.PMmodule.dao.RoomDemographicDAO#getRoomDemographicByDemographic(java.lang.Integer)
      */
     public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo) {
-   	
-        List roomDemographics = getHibernateTemplate().find("from RoomDemographic rd where rd.id.demographicNo = ?", demographicNo);
+   	    String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        List roomDemographics = getHibernateTemplate().find("from RoomDemographic rd where rd.id.demographicNo in "+clientIds);
         if(roomDemographics == null){
         	return null;
         }

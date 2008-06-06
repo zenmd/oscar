@@ -22,6 +22,7 @@
 
 package org.oscarehr.PMmodule.dao;
 
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class ConsentDAO extends HibernateDaoSupport {
     		while(items.hasNext()){
     			ConsentDetail cdObj=(ConsentDetail)items.next();
     			cdObj.setStatus("View Only");
+    			if(null==cdObj.getEndDate() || cdObj.getEndDate().before(cdObj.getStartDate())) cdObj.setEndDate(new GregorianCalendar());
     			if (cdObj.getStartDate().getTime().getTime()<=System.currentTimeMillis() && cdObj.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
     				cdObj.setStatus("Withdraw");    				
     			}    			

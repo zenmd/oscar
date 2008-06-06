@@ -34,7 +34,7 @@ public class MergeClientManager {
 		return mergeClientDao.getTail(demographic_no);
 	}
 	public List  searchMerged(ClientSearchFormBean criteria){
-		List lst=this.clientDao.search(criteria, false);
+		List lst=this.clientDao.search(criteria, false,false);
 		List result = new ArrayList();
 		Iterator items =lst.iterator();
 		while(items.hasNext()){

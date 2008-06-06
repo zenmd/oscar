@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.BedDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicDAO;
 import org.oscarehr.PMmodule.dao.ClientDao;
+import org.oscarehr.PMmodule.dao.MergeClientDao;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.dao.RoomDAO;
@@ -55,7 +56,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	private ClientDao demographicDAO;
 	private RoomDAO roomDAO;
 	private ProgramDao programDAO;
-
+	
 	public void setBedDemographicDAO(BedDemographicDAO BedDemographicDAO) {
 		this.bedDemographicDAO = BedDemographicDAO;
 	}
@@ -258,6 +259,6 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 		if (!demographicDAO.clientExists(demographicNo)) {
 			throw new IllegalArgumentException("no demographic with id : " + demographicNo);
 		}
-	}
+	}	
 
 }

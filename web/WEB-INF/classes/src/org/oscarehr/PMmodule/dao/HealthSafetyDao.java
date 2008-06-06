@@ -32,15 +32,19 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class HealthSafetyDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(HealthSafetyDao.class);
+    private MergeClientDao mergeClientDao;
+    public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 
-    public HealthSafety getHealthSafetyByDemographic(Integer demographicNo) {
+	public HealthSafety getHealthSafetyByDemographic(Integer demographicNo) {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
         HealthSafety result = null;
-
-        List list = this.getHibernateTemplate().find("from HealthSafety c where c.demographicNo=? order by c.updateDate desc", demographicNo);
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        List list = this.getHibernateTemplate().find("from HealthSafety c where c.demographicNo in "+clientIds+" order by c.updateDate desc");
         if (!list.isEmpty()) result = (HealthSafety)list.get(0);
 
         if (log.isDebugEnabled()) {

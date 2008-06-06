@@ -324,7 +324,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	   criteria.setFirstName(request.getParameter("client.firstName"));
     	   criteria.setDob(request.getParameter("dob"));
     	   criteria.setGender(request.getParameter("client.sex"));
-    	   List lst = clientManager.search(criteria, false);
+    	   List lst = clientManager.search(criteria, false,true);
  		   if(lst.size()>0){
     	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_client",
           			request.getContextPath()));

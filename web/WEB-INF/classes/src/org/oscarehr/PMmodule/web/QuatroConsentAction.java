@@ -268,13 +268,22 @@ public class QuatroConsentAction extends BaseClientAction {
 		consent.setDateSigned(new GregorianCalendar());
 		consent.setHardCopy(true);
 		consent.setStatus("active");
-		consent.setStartDate(new GregorianCalendar());
+		consent.setStartDate(new GregorianCalendar());		
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
-		consentManager.saveConsentDetail(consent);	
+		if(Utility.IsEmpty(consent.getEndDateStr()) || consent.getEndDate().before(consent.getStartDate())){
+			isError =true;
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.consent.date.failed", request.getContextPath()));
+	        saveMessages(request,messages);
+		}
+		if(!isError){
+			consentManager.saveConsentDetail(consent);
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	        saveMessages(request,messages);
+	       }
+			
 		request.setAttribute("id",consent.getId());
 		//String gotoStr = request.getParameter("goto");			
-		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-        saveMessages(request,messages);
+	
         setEditAttributes(form, request);
 		return mapping.findForward("edit");	
 	}

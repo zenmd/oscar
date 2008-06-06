@@ -31,7 +31,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
        criteria.setFirstName(request.getParameter("firstName"));
        criteria.setDob(request.getParameter("dob"));
        criteria.setGender(request.getParameter("sex"));
-	   List lst = clientManager.search(criteria, false);
+	   List lst = clientManager.search(criteria, false,false);
 
 	   Demographic obj= new Demographic();
 	   obj.setDemographicNo(new Integer(0));

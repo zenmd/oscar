@@ -320,8 +320,7 @@ var XMLHttpRequestObject = false;
 			<th>Components of Service</th>
 		</tr>
 		<tr>
-			<td width="60%"><html:select property="lstIssue" multiple="true" size="3"
-				 onchange="setChangeFlag(true);" style="width:100%;">
+			<td width="60%"><html:select property="lstIssue" multiple="true" size="3"	 style="width:100%;">
 				<html:options collection="lstIssueSelection" property="id"
 					labelProperty="description"></html:options>
 			</html:select>
@@ -375,8 +374,7 @@ var XMLHttpRequestObject = false;
 		<tr>
 			<td class="fieldValue" colspan="1">
 				<textarea
-					name="caseNote_note" id="caseNote_note" cols="60" rows="12"
-					wrap="hard" onchange="setChangeFlag(true);"><nested:write
+					name="caseNote_note" id="caseNote_note" cols="60" rows="12"		wrap="hard" ><nested:write
 					property="caseNote.note" /></textarea>
 			</td>
 			<td class="fieldTitle"></td>
@@ -387,8 +385,8 @@ var XMLHttpRequestObject = false;
 		<tr>
 			<td class="fieldTitle" width="40%">Encounter Type</td>
 			<td class="fieldValue"><html:select
-				property="caseNote.encounter_type" onchange="setChangeFlag(true);">
-				<html:option value=""></html:option>>
+				property="caseNote.encounter_type">
+				<html:option value=""></html:option>
 				<html:option value="face to face encounter with client">face to face encounter with client</html:option>>
 				<html:option value="telephone encounter with client">telephone encounter with client</html:option>>
 				<html:option value="encounter without client">encounter without client</html:option>
@@ -402,14 +400,12 @@ var XMLHttpRequestObject = false;
 
 		<tr>
 			<td class="fieldTitle" width="40%">Sign</td>
-			<td class="fieldValue"><html:checkbox property="sign"
-				onchange="setChangeFlag(true);" /></td>
+			<td class="fieldValue"><html:checkbox property="sign" /></td>
 		</tr>
 
 		<tr>
 			<td class="fieldTitle" width="40%">include checked issues in note</td>
-			<td class="fieldValue"><html:checkbox property="includeIssue"
-				onchange="setChangeFlag(true);" /></td>
+			<td class="fieldValue"><html:checkbox property="includeIssue" /></td>
 		</tr>					 
 	</table>
 	</div>

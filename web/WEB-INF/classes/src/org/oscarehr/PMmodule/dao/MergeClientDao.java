@@ -2,6 +2,7 @@ package org.oscarehr.PMmodule.dao;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -45,5 +46,16 @@ public class MergeClientDao extends HibernateDaoSupport {
 	        List  lst= getHibernateTemplate().find(sql, new Object[] {demographic_no});
 	        return lst;
 	        
+	    }
+	    public String getMergedClientIds(Integer clientNo){
+	    	String sql="select clientId from ClientMerge where mergedToClientId = ? and deleted = 0";
+	    	List lst = getHibernateTemplate().find(sql, clientNo);
+	    	String rtnStr=clientNo.toString();
+	    	Iterator items =lst.iterator();
+	    	while(items.hasNext()){
+	    		Integer cId = (Integer)items.next();
+	    		rtnStr+=","+cId.toString();
+	    	}
+	    	return "(" +rtnStr+")";
 	    }
 	}

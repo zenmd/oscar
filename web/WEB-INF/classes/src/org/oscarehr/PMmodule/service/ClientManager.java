@@ -73,8 +73,8 @@ public class ClientManager {
         return dao.getClients();
     }
 
-    public List search(ClientSearchFormBean criteria, boolean returnOptinsOnly) {
-        return dao.search(criteria, returnOptinsOnly);
+    public List search(ClientSearchFormBean criteria, boolean returnOptinsOnly,boolean excludeMerged) {
+        return dao.search(criteria, returnOptinsOnly,excludeMerged);
     }
     
 	public List getIntakeByFacility(Integer demographicNo, Integer facilityId){

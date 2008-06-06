@@ -158,7 +158,7 @@ public class MergeClientAction extends BaseClientAction {
 		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
 			
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
-		List clients=clientManager.search(formBean,false);
+		List clients=clientManager.search(formBean,false,false);
 		request.setAttribute("clients", clients);
 		setLookupLists(request);		
 		return mapping.findForward("view");

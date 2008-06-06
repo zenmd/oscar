@@ -42,7 +42,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class BedDemographicDAO extends HibernateDaoSupport {
 
     private static final Log log = LogFactory.getLog(BedDemographicDAO.class);
-
+    private MergeClientDao mergeClientDao; 
     public boolean bedDemographicStatusExists(Integer bedDemographicStatusId) {
         boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from BedDemographicStatus bds where bds.id = " + bedDemographicStatusId).next()).intValue() == 1);
         log.debug("bedDemographicStatusExists: " + exists);
@@ -91,7 +91,8 @@ public class BedDemographicDAO extends HibernateDaoSupport {
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#getBedDemographicByDemographic(java.lang.Integer)
      */
     public BedDemographic getBedDemographicByDemographic(Integer demographicNo) {
-        List bedDemographics = getHibernateTemplate().find("from BedDemographic bd where bd.id.demographicNo = ?", demographicNo);
+    	String clientIds = mergeClientDao.getMergedClientIds(demographicNo); 
+        List bedDemographics = getHibernateTemplate().find("from BedDemographic bd where bd.id.demographicNo in "+clientIds);
 
         if (bedDemographics.size() > 1) {
             throw new IllegalStateException("Client is assigned to more than one bed");
@@ -169,7 +170,8 @@ public class BedDemographicDAO extends HibernateDaoSupport {
     }
 
     boolean bedDemographicExists(BedDemographicPK id) {
-        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from BedDemographic bd where bd.id.bedId = " + id.getBedId() + " and bd.id.demographicNo = " + id.getDemographicNo()).next()).intValue() == 1);
+    	String clientIds=mergeClientDao.getMergedClientIds(id.getDemographicNo()); 
+        boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from BedDemographic bd where bd.id.bedId = " + id.getBedId() + " and bd.id.demographicNo  in " + clientIds).next()).intValue() == 1);
         log.debug("bedDemographicExists: " + exists);
 
         return exists;
@@ -196,5 +198,9 @@ public class BedDemographicDAO extends HibernateDaoSupport {
             deleteBedDemographic(existing);
         }
     }
+
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 
 }

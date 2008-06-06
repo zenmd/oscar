@@ -133,8 +133,7 @@ public class ClientSearchAction2 extends DispatchAction {
 		}
 
 		/* do the search */
-		request.setAttribute("clients", clientManager.search(formBean,
-				allowOnlyOptins));
+		request.setAttribute("clients", clientManager.search(formBean,allowOnlyOptins,true));
 
 		// sort out the consent type used to search
 		String consentSearch = StringUtils.trimToNull(request
