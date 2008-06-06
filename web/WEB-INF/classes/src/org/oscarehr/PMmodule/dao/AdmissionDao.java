@@ -129,8 +129,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     		+ " AND a.clientId = c.DemographicNo"
     		+ " AND rd.id.demographicNo = a.clientId"
     		+ " AND rd.id.roomId = rm.id"
-    		+ " AND rm.facilityId = '" + facilityId + "'"
-    		+ " ORDER BY a.intakeId";
+    		+ " AND rm.facilityId = '" + facilityId + "'";
     		
     	
     	
@@ -167,6 +166,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 	    	}
 	    	
     	}
+    	queryStr = queryStr + " ORDER BY a.intakeId";
         List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
         
         return lst;

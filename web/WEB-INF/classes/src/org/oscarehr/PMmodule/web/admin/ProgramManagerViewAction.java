@@ -184,6 +184,7 @@ public class ProgramManagerViewAction extends BaseAction {
                 if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
             }
         }
+
         request.setAttribute("genderConflict", genderConflict);
         request.setAttribute("ageConflict", ageConflict);
 
@@ -197,83 +198,36 @@ public class ProgramManagerViewAction extends BaseAction {
         if(facility!=null) request.setAttribute("facilityName", facility.getName());
 
        
-        if (formBean.getTab().equals("General")) {
+        if (formBean.getTab().equalsIgnoreCase("General")) {
             request.setAttribute("agency", programManager.getAgencyByProgram(programId));
         }
 
-        if (formBean.getTab().equals("Service Restrictions")) {
+        if (formBean.getTab().equalsIgnoreCase("Service Restrictions")) {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(Integer.valueOf(programId), new Date()));
         }
-        if (formBean.getTab().equals("Staff")) {
+        if (formBean.getTab().equalsIgnoreCase("Staff")) {
         	processStaff( request, programId, formBean);
             //request.setAttribute("providers", programManager.getProgramProviders("P" + programId));
         }
 
-        if (formBean.getTab().equals("Function User")) {
+        if (formBean.getTab().equalsIgnoreCase("Function User")) {
             request.setAttribute("functional_users", programManager.getFunctionalUsers(programId));
         }
 
-/*        
-        if (formBean.getTab().equals("Teams")) {
-            List<ProgramTeam> teams = programManager.getProgramTeams(programId);
-
-            for (ProgramTeam team : teams) {
-                team.setProviders(programManager.getAllProvidersInTeam(Integer.valueOf(programId), team.getId()));
-                team.setAdmissions(programManager.getAllClientsInTeam(Integer.valueOf(programId), team.getId()));
-            }
-
-            request.setAttribute("teams", teams);
-        }
-*/
         
-        if (formBean.getTab().equals("Clients")) {
+        if (formBean.getTab().equalsIgnoreCase("Clients")) {
         	processClients( request, program, formBean);
         }
 
-        if (formBean.getTab().equals("Access")) {
+        if (formBean.getTab().equalsIgnoreCase("Access")) {
             request.setAttribute("accesses", programManager.getProgramAccesses(programId));
         }
 
-        if (formBean.getTab().equals("Bed Check")) {
-        	
-        	Integer[] bedClientIds = null;
-        	Boolean[] isFamilyDependents = null;
-        	//JointAdmission clientsJadm = null;
-        	Bed[] beds = bedManager.getBedsByProgram(Integer.valueOf(programId), true);
-        	beds = bedManager.addFamilyIdsToBeds(clientManager, beds);
-            if(beds != null  &&  beds.length > 0){
-	        	bedClientIds = bedManager.getBedClientIds(beds);
-	        	
-	    		if(clientManager != null  &&  bedClientIds != null  &&  bedClientIds.length > 0){
-	    			isFamilyDependents = new Boolean[beds.length];
-	    			for(int i=0; i < bedClientIds.length; i++){
-
-	    			    //please write your code without JointAdmission, dawson wrote May 26, 2008  
-    	    			isFamilyDependents[i] = new Boolean(false);
-/*
-	    				clientsJadm = clientManager.getJointAdmission(Integer.valueOf(bedClientIds[i].toString()));
-	    				
-	    	    		if(clientsJadm != null  &&  clientsJadm.getHeadClientId() != null) {
-	    	    			isFamilyDependents[i] = new Boolean(true);
-	    	    		}else{
-	    	    			isFamilyDependents[i] = new Boolean(false);
-	    	    		}
-*/	    	    		
-	    			}
-	    		}
-            }
-    		request.setAttribute("bedDemographicStatuses", bedDemographicManager.getBedDemographicStatuses());
-    		formBean.setReservedBeds(beds);
-    		request.setAttribute("isFamilyDependents", isFamilyDependents);
-            request.setAttribute("communityPrograms", programManager.getCommunityPrograms());
-            request.setAttribute("expiredReservations", bedDemographicManager.getExpiredReservations());
-        }
-
-        if (formBean.getTab().equals("Client Status")) {
+        if (formBean.getTab().equalsIgnoreCase("Client Status")) {
             request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
         }
         
-        if (formBean.getTab().equals("Incidents")) {
+        if (formBean.getTab().equalsIgnoreCase("Incidents")) {
         	processIncident( request, programId, formBean);
 
         }

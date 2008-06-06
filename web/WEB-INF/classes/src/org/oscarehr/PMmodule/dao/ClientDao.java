@@ -67,7 +67,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import oscar.MyDateFormat;
 import oscar.OscarProperties;
 import oscar.util.SqlUtils;
-import org.oscarehr.PMmodule.model.Intake;
 import com.quatro.model.LstOrgcd;
 import org.oscarehr.PMmodule.model.SecUserRole;
 public class ClientDao extends HibernateDaoSupport {

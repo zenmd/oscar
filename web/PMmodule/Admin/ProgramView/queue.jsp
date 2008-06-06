@@ -55,8 +55,11 @@
 		</td>
 </tr>
 <tr>
-<td>
-<div class="tabs" id="tabs">Queue</div>
+<td><br>
+<div class="tabs">
+<table cellpadding="3" cellspacing="0" border="0">
+<tr><th>Queue</th></tr>
+</table></div>
 </td></tr>
 <tr height="100%">
 <td>

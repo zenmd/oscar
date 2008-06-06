@@ -44,16 +44,6 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 
 
 	<tr>
-		<td>			
-			<div class="h4">
-				<h4>Search incident by entering search criteria below</h4>
-				<br />
-			</div>
-		</td>
-	</tr>
-	
-
-	<tr>
 		<td>
 			<div class="axial">
 				<table border="0" cellspacing="2" cellpadding="3">
