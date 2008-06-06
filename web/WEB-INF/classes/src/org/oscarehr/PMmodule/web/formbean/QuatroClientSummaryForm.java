@@ -8,6 +8,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographicStatus;
+import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Provider;            
 
 
