@@ -167,7 +167,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					document.getElementsByName("searchStatus")[0].value="Any";
 					document.getElementsByName("searchType")[0].value="Any";
 					document.getElementsByName("searchFacilityId")[0].value="0";
-					document.programManagerForm.submit()
+					//document.programManagerForm.submit()
 				}
 			</script> 
 		
