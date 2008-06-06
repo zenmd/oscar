@@ -36,7 +36,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.Agency;
-import org.oscarehr.PMmodule.service.AgencyManager;
+//import org.oscarehr.PMmodule.service.AgencyManager;
 import org.oscarehr.PMmodule.service.OscarSecurityManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.springframework.web.context.WebApplicationContext;
@@ -48,7 +48,7 @@ public class PMMFilter implements Filter {
 
 	private static Log log = LogFactory.getLog(PMMFilter.class);
 
-	private AgencyManager agencyManager;
+//	private AgencyManager agencyManager;
 	private OscarSecurityManager oscarSecurityManager;
 	private ProviderManager providerManager;
 	private FilterConfig config;
@@ -56,7 +56,7 @@ public class PMMFilter implements Filter {
 	private void setProviderManager() {
 		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
 
-		agencyManager = (AgencyManager) wac.getBean("agencyManager");
+//		agencyManager = (AgencyManager) wac.getBean("agencyManager");
 		oscarSecurityManager = (OscarSecurityManager) wac.getBean("oscarSecurityManager");
 		providerManager = (ProviderManager) wac.getBean("providerManager");
 	}
@@ -97,12 +97,13 @@ public class PMMFilter implements Filter {
 		}
 */
 		// set local agency
+/*		
 		if (request.getSession().getServletContext().getAttribute("agency") == null) {
 			Agency agency = agencyManager.getLocalAgency();
 			request.getSession().getServletContext().setAttribute("agency", agency);
 			Agency.setLocalAgency(agency);
 		}
-
+*/
 
 		chain.doFilter(baseRequest, baseResponse);
 	}
