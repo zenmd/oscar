@@ -128,9 +128,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       
 	       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("FAC", facilityId.toString()).getDescription());
-	       request.setAttribute("clientId", demographicNo);
-	       request.setAttribute("id", rId);
-	       
+	       request.setAttribute("clientId", demographicNo);	       
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
 
@@ -217,7 +215,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
 		ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
 		String rId=request.getParameter("recordId");
-		if(Utility.IsEmpty(rId)) rId=(String)request.getAttribute("recordId");
+		if(Utility.IsEmpty(rId) && consent.getId()!=null) rId=consent.getId().toString();
 		if(rId!=null && Integer.parseInt(rId)>0)
 		consent.setId(Integer.valueOf(rId));
 		else consent.setId(null);
@@ -239,11 +237,17 @@ public class QuatroConsentAction extends BaseClientAction {
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consent.setHardCopy(true);
 		consent.setStatus("active");		
-		consentManager.saveConsentDetail(consent);	
-		
-		//String gotoStr = request.getParameter("goto");			
-		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-        saveMessages(request,messages);
+		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
+		if(Utility.IsEmpty(consent.getEndDateStr()) ||null== consent.getEndDate()){
+			isError =true;
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.consent.date.failed", request.getContextPath()));
+	        saveMessages(request,messages);
+		}
+		if(!isError){
+			consentManager.saveConsentDetail(consent);
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	        saveMessages(request,messages);
+	       }		
         setEditAttributes(form, request);
 		return mapping.findForward("edit");	
 

@@ -11,7 +11,6 @@
 	<html-el:hidden property="consentValue.demographicNo"  />	
 	<html-el:hidden property="consentValue.id" />
 	<input type="hidden" name="clientId"/>	
-	
 <script lang="javascript">
 	function printForm(recordId){
     	//To PDF 
