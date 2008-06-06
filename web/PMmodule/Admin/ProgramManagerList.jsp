@@ -41,7 +41,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 	<tr>
 		<td>
 
-		
+
 		<br />
 
 		<html:form action="/PMmodule/ProgramManager.do">
@@ -118,13 +118,11 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					Delete </a>
 				</display:column>
 	
-				<c:choose>
-					<display:column sortable="false" title="">
+				<display:column sortable="false" title="">
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
 							Edit </a>
-					</display:column>
-				</c:choose>
-	
+				</display:column>
+					
 				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
 					<a
 						href="<html:rewrite action="/PMmodule/ProgramManagerView.do"/>?id=<c:out value="${program.id}" />">
