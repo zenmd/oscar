@@ -35,6 +35,7 @@ import org.caisi.model.TicklerComment;
 import org.caisi.model.TicklerUpdate;
 import org.oscarehr.PMmodule.model.Provider;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import com.quatro.util.Utility;
 
 
 
@@ -81,11 +82,11 @@ public class TicklerDAO extends HibernateDaoSupport {
             this.saveTickler(tickler);
         }
     }
-
+/*
     public List getTicklers() {
         return (List)getHibernateTemplate().find("from Tickler");
     }
-
+*/
     
     public List getTicklers(CustomFilter filter, Integer facilityId, String providerNo, String programId) {
     //TODO:Add user access filter
@@ -97,6 +98,11 @@ public class TicklerDAO extends HibernateDaoSupport {
         return (List)getHibernateTemplate().find(query + "order by t.service_date " + tickler_date_order, params);
     }
     
+    public List getTicklersByClientId(Integer facilityId, String providerNo, Integer clientId) {
+        String query = "from Tickler t where t.demographic_no = ? and t.program_id in " + Utility.getUserOrgQueryString(facilityId);
+        return (List)getHibernateTemplate().find(query + "order by t.service_date ", new Object[]{clientId, facilityId, providerNo});
+    }
+
     public int getActiveTicklerCount(String providerNo){
         ArrayList paramList = new ArrayList();
         String query = "select count(*) from Tickler t where t.status = 'A' and t.service_date <= ? and (t.task_assigned_to  = '"+ providerNo + "' or t.task_assigned_to='All Providers')";

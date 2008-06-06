@@ -58,12 +58,12 @@
 	</script>
 
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
-<tr><th  class="pageTitle">Tasks - New Task</th></tr>
+<tr><th  class="pageTitle">Client Management - New Task</th></tr>
 
 <tr><td class="buttonBar"><a href='javascript:submitForm("save");'
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-	<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
+	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 </td></tr>
 <tr><td align="left" class="message">
@@ -92,6 +92,7 @@
 		<html:select property="tickler.service_minute">
 		</html:select> &nbsp; 
 		<html:select property="tickler.service_ampm">
+           <html:optionsCollection property="ampmLst" value="code" label="description"/>
 		</html:select>
 		</td></tr>
 		<tr><td>Priority:</td>
@@ -119,7 +120,7 @@
 			</html:select>
 		</td></tr>
 		<tr><td>Message:</td>
-		<td><html:textarea style="width: 90%" rows="10" property="tickler.message" /></td></tr>
+		<td><html:textarea style="width: 90%" rows="16" property="tickler.message" /></td></tr>
 
 <!-- 
 		<tr>

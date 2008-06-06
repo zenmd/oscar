@@ -62,14 +62,19 @@ public class TicklerManager {
     public void addTickler(Tickler tickler) {
         ticklerDAO.saveTickler(tickler);
     }
-
+/*
     public List getTicklers() {
         return ticklerDAO.getTicklers();
     }
-
+*/
    
     public List getTicklers(CustomFilter filter, Integer currentFacilityId,String providerNo,String programId) {
         List results = ticklerDAO.getTicklers(filter, currentFacilityId, providerNo,programId);   
+        return(results);
+    }
+
+    public List getTicklersByClientId(Integer facilityId, String providerNo, Integer clientId) {
+        List results = ticklerDAO.getTicklersByClientId(facilityId, providerNo,clientId);   
         return(results);
     }
     

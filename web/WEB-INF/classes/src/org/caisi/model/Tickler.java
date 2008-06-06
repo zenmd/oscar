@@ -34,7 +34,7 @@ import org.oscarehr.PMmodule.model.Provider;
 
 public class Tickler extends BaseObject {
 	private Integer tickler_no;
-	private String demographic_no;
+	private Integer demographic_no;
 	private Integer program_id;
 	private String message;
 	private char status;
@@ -64,10 +64,10 @@ public class Tickler extends BaseObject {
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
-	public String getDemographic_no() {
+	public Integer getDemographic_no() {
 		return demographic_no;
 	}
-	public void setDemographic_no(String demographic_no) {
+	public void setDemographic_no(Integer demographic_no) {
 		this.demographic_no = demographic_no;
 	}
 	public String getMessage() {
