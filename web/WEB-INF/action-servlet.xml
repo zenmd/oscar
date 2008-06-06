@@ -64,11 +64,13 @@
     	<property name="providerManager" ref="providerManager" />
     	<property name="mergeClientManager" ref="mergeClientManager"></property>
     </bean>
+<!-- 
     <bean name="/PMmodule/ClientManager" class="org.oscarehr.PMmodule.web.ClientManagerAction" singleton="false" autowire="byName">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="lookupManager" ref="lookupManager"/>       
         <property name="intakeManager" ref="intakeManager"/>       
     </bean>
+ -->
     <bean name="/PMmodule/DuplicateClientCheck" class="org.oscarehr.PMmodule.web.DuplicateClientCheckAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroFamilyIntake" class="org.oscarehr.PMmodule.web.QuatroFamilyIntakeAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroHealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
@@ -164,7 +166,9 @@
     <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >
         <property name="caseManagementManager" ref="caseManagementManager"/>       
     </bean>
+<!-- 
     <bean name="/PMmodule/AgencyManager" class="org.oscarehr.PMmodule.web.admin.AgencyManagerAction" singleton="false" autowire="byName" />
+ -->
     <bean name="/PMmodule/FacilityManager" class="org.oscarehr.PMmodule.web.admin.FacilityManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/BedManager" class="org.oscarehr.PMmodule.web.admin.BedManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ProviderSearch" class="org.oscarehr.PMmodule.web.ProviderSearchAction" singleton="false"  autowire="byName" />
@@ -174,49 +178,21 @@
  -->
     <bean name="/PMmodule/HealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Consent" class="org.oscarehr.PMmodule.web.ConsentAction" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/StaffManager" class="org.oscarehr.PMmodule.web.admin.StaffManagerAction" singleton="false"  autowire="byName" />
 <!-- 
-    <bean name="/PMmodule/Intake" class="org.oscarehr.PMmodule.web.IntakeAction" singleton="false"  autowire="byName" />
+    <bean name="/PMmodule/StaffManager" class="org.oscarehr.PMmodule.web.admin.StaffManagerAction" singleton="false"  autowire="byName" />
+ -->
+         
+<!-- 
     <bean name="/PMmodule/Forms/FollowUp" class="org.oscarehr.PMmodule.web.forms.FollowUpAction" singleton="false"  autowire="byName" />
  -->
+ <!-- 
     <bean name="/PMmodule/Reports/ProgramActivityReport" class="org.oscarehr.PMmodule.web.reports.ActivityReportAction" singleton="false"  autowire="byName" />
-<!-- 
-    <bean name="/PMmodule/Forms/SurveyExecute" class="org.oscarehr.PMmodule.web.forms.SurveyExecuteAction" singleton="false">
-        <property name="surveyManager" ref="oscarSurveyManager"/>
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="clientManager" ref="clientManager"/>
-        <property name="admissionManager" ref="admissionManager"/>
-    </bean>
- -->    
     <bean name="/PMmodule/Reports/BasicReport" class="org.oscarehr.PMmodule.web.reports.BasicReportAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Reports/ExitInterviewReport" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Reports/ExitInterviewReportDetailed" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportDetailedAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Reports/ClientListsReport" class="org.oscarehr.PMmodule.web.reports.ClientListsReportAction" singleton="false" autowire="byName" />
+ -->    
     <bean name="/PMmodule/Admin/DefaultRoleAccess" class="org.oscarehr.PMmodule.web.admin.DefaultRoleAccessAction" singleton="false"  autowire="byName" />
-
-    <!-- Generic Intake -->
-<!--
-    <bean name="/PMmodule/GenericIntake/Search" class="org.oscarehr.PMmodule.web.GenericIntakeSearchAction" singleton="false">
-        <property name="clientManager" ref="clientManager"/>
-        <property name="genericIntakeManager" ref="genericIntakeManager"/>
-        
-        <property name="surveyManager" ref="oscarSurveyManager"/>
-        <property name="lookupManager" ref="lookupManager"/>
-    </bean>
-    <bean name="/PMmodule/GenericIntake/Edit" class="org.oscarehr.PMmodule.web.GenericIntakeEditAction" singleton="false">
-        <property name="admissionManager" ref="admissionManager"/>
-        <property name="clientManager" ref="clientManager"/>
-        <property name="genericIntakeManager" ref="genericIntakeManager"/>
-        
-        <property name="programManager" ref="programManager"/>
-        <property name="surveyManager" ref="oscarSurveyManager"/>
-        <property name="lookupManager" ref="lookupManager"/>   
-        <property name="caseManagementManager" ref="caseManagementManager"/>       
-    </bean>
-    <bean name="/PMmodule/GenericIntake/Report" class="org.oscarehr.PMmodule.web.GenericIntakeReportAction" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/EditIntake" class="org.oscarehr.PMmodule.web.EditIntakeAction" singleton="false" />
-  -->    
-    <!-- Generic Intake -->
 
     <!--  ER -->
 <!-- 
@@ -279,18 +255,6 @@
         <property name="caseManagementManager" ref="CaseManagementManager"/>
     </bean>
     
-    <!--  Vaccine -->
-<!-- 
-    <bean name="/VaccineProviderReport" class="org.oscarehr.vaccine.VaccineProviderReportAction" singleton="false">
-        <property name="programManager" ref="programManager"/>
-        <property name="clientManager" ref="clientManager"/>
-        <property name="admissionManager" ref="admissionManager"/>
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="providerManager" ref="providerManager"/>
-        <property name="genericIntakeManager" ref="genericIntakeManager"/>
-    </bean>
- -->    
-     
     <!-- Population Report -->
     <bean name="/PopulationReport" class="org.oscarehr.common.web.PopulationReportAction" singleton="false">
         <property name="populationReportManager" ref="populationReportManager"/>
@@ -322,20 +286,6 @@
         <property name="userPropertyDAO" ref="UserPropertyDAO"/>
     </bean>
 
-    <!-- Indivo -->
-<!-- 
-    <bean name="/phr/PhrMessage" class="org.oscarehr.phr.web.PHRMessageAction" singleton="false">
-        <property name="phrService" ref="phrService"/>
-        <property name="phrDocumentDAO" ref="phrDocumentDAO"/>
-        <property name="phrConstants" ref="phrConstants"/>
-        <property name="phrActionDAO" ref="phrActionDAO"/>
-    </bean>
-    <bean name="/oscarRx/SendToPhr" class="oscar.oscarRx.pageUtil.RxSendToPhrAction" singleton="false">
-        <property name="phrService" ref="phrService"/>
-        <property name="phrConstants" ref="phrConstants"/>
-    </bean>
- -->
-     
 <!-- 
     <bean name="/dms/SendDocToPhr" class="oscar.dms.actions.SendDocToPhrAction" singleton="false">
         <property name="phrService" ref="phrService"/>

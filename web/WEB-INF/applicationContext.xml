@@ -120,9 +120,6 @@
     <bean id="agencyDao" class="org.oscarehr.PMmodule.dao.AgencyDao" autowire="byName"/>
     <bean id="admissionDao" class="org.oscarehr.PMmodule.dao.AdmissionDao" autowire="byName" />
     <bean id="mergeClientDao" class="org.oscarehr.PMmodule.dao.MergeClientDao" autowire="byName" />
-    <!--
-	<bean id="jointAdmissionDAO" class="org.oscarehr.PMmodule.dao.JointAdmissionDAO" autowire="byName" />
-    --> 
    <bean id="bedDemographicDAO" class="org.oscarehr.PMmodule.dao.BedDemographicDAO" autowire="byName"/>
     <bean id="roomDemographicDAO" class="org.oscarehr.PMmodule.dao.RoomDemographicDAO" autowire="byName"/>
     <bean id="providerDao" class="org.oscarehr.PMmodule.dao.ProviderDao" autowire="byName" />
@@ -152,7 +149,6 @@
     -->
 	<bean id="CaseManagementTmpSaveDAO" class="org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO" autowire="byName"/>
     <bean id="ticklerDAO" class="org.oscarehr.casemgmt.dao.TicklerDAO" autowire="byName"/>
-<!--     <bean id="programProviderDAO" class="org.oscarehr.PMmodule.dao.ProgramProviderDAO" autowire="byName"/> -->
     <bean id="programFunctionalUserDAO" class="org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO" autowire="byName"/>
     <bean id="programAccessDAO" class="org.oscarehr.PMmodule.dao.ProgramAccessDAO" autowire="byName"/>
     <bean id="defaultRoleAccessDAO" class="org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO" autowire="byName"/>
@@ -227,14 +223,14 @@
             <bean class="org.oscarehr.PMmodule.service.FacilityManager" autowire="byName" />            
         </property>
     </bean>
-    
+<!-- 
     <bean id="agencyManager" parent="baseTransactionProxy" lazy-init="default"
           dependency-check="default">
         <property name="target">
             <bean class="org.oscarehr.PMmodule.service.AgencyManager" autowire="byName"/>
         </property>
     </bean>
-    
+ -->        
     <bean id="systemMessageManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
           lazy-init="default"  dependency-check="default">
         <property name="transactionManager" ref="transactionManager"/>       

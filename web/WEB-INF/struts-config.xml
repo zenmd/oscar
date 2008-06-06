@@ -14,9 +14,6 @@
         <form-bean name="issueAdminForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="issueAdmin" type="org.caisi.model.IssueAdmin" />
         </form-bean>
-        <form-bean name="caisiEditorForm" type="org.apache.struts.validator.DynaValidatorForm">
-        	<form-property name="caisiEditor" type="org.caisi.model.CaisiEditor"/>
-        </form-bean>
         <form-bean name="lookupListForm" type="com.quatro.web.lookup.LookupListForm" />
         <form-bean name="lookupTableListForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="modules" type="java.util.List"></form-property>
@@ -38,6 +35,8 @@
         </form-bean>
         <!-- login form bean -->
         <form-bean name="loginForm" type="oscar.login.LoginForm" />
+
+<!-- 
         <form-bean name="msgSendMessageForm" type="oscar.oscarMessenger.pageUtil.MsgSendMessageForm" />
         <form-bean name="msgCreateMessageForm" type="oscar.oscarMessenger.pageUtil.MsgCreateMessageForm" />
         <form-bean name="msgDisplayMessagesForm" type="oscar.oscarMessenger.pageUtil.MsgDisplayMessagesForm" />
@@ -54,7 +53,9 @@
         <form-bean name="msgClearMessageForm" type="oscar.oscarMessenger.pageUtil.MsgClearMessageForm" />
         <form-bean name="msgDoc2PDFForm" type="oscar.oscarMessenger.pageUtil.MsgDoc2PDFForm" />
         <form-bean name="msgAttachPDFForm" type="oscar.oscarMessenger.pageUtil.MsgAttachPDFForm" />
+ -->                
 
+<!-- 
         <form-bean name="EctConsultationFormRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctConsultationFormRequestForm" />
         <form-bean name="EctViewRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctViewRequestForm" />
         <form-bean name="EctDemographicSearchForm" type="oscar.oscarEncounter.search.pageUtil.EctDemographicSearchForm" />
@@ -92,6 +93,9 @@
             <form-property name="measuringInstrc" type="java.lang.String" />
             <form-property name="validation" type="java.lang.String" />
         </form-bean>
+ -->
+         
+<!-- 
         <form-bean name="EctSelectMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctSelectMeasurementGroupForm" />
         <form-bean name="EctSetupAddMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctSetupAddMeasurementGroupForm" />
         <form-bean name="EctSetupEditMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctSetupEditMeasurementGroupForm" />
@@ -122,14 +126,13 @@
         <form-bean name="dxResearchForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchForm" />
         <form-bean name="dxResearchLoadQuickListItemsForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchLoadQuickListItemsForm" />
         <form-bean name="dxResearchUpdateQuickListForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchUpdateQuickListForm" />
+ -->        
 
+<!-- 
         <form-bean name="WLWaitingListForm" type="org.apache.struts.validator.LazyValidatorForm" /> 
         <form-bean name="WLWaitingListNameForm" type="org.apache.struts.validator.LazyValidatorForm" /> 
         <form-bean name="PreventionReportForm" type="oscar.oscarPrevention.pageUtil.PreventionReportForm" />
         <form-bean name="ImportDemographicDataForm" type="oscar.oscarDemographic.pageUtil.ImportDemographicDataForm" />
-        <form-bean name="newLabUploadForm" type="oscar.oscarLab.ca.all.pageUtil.LabUploadForm" />
-        <form-bean name="LabUploadForm" type="oscar.oscarLab.ca.bc.PathNet.pageUtil.LabUploadForm" />
-        <form-bean name="CMLLabUploadForm" type="oscar.oscarLab.ca.on.CML.Upload.LabUploadForm" />
         <form-bean name="DemographicExportForm" type="oscar.oscarDemographic.pageUtil.DemographicExportForm" />
         <form-bean name="DemographicSetEditForm" type="oscar.oscarReport.pageUtil.DemographicSetEditForm" />
         <form-bean name="eFormHtmlUpload" type="oscar.eform.upload.HtmlUploadForm" />
@@ -137,18 +140,16 @@
         <form-bean name="eFormImageUpload" type="oscar.eform.upload.ImageUploadForm" />
         <form-bean name="addGroup" type="oscar.eform.data.AddGroupForm" />
         <form-bean name="addToGroup" type="oscar.eform.data.AddToGroupForm" />
-        <form-bean name="billingReceivePaymentActionForm" type="oscar.oscarBilling.ca.bc.pageUtil.BillingReceivePaymentActionForm" />
-        <form-bean name="receivePaymentActionForm" type="oscar.oscarBilling.ca.bc.pageUtil.ReceivePaymentActionForm" />
-        <form-bean name="billingPreferencesActionForm" type="oscar.oscarBilling.ca.bc.pageUtil.BillingPreferencesActionForm" />
-        <form-bean name="supServiceCodeAssocActionForm" type="oscar.oscarBilling.ca.bc.pageUtil.SupServiceCodeAssocActionForm" />        
         <form-bean name="eDocsAddEditDocument" type="oscar.dms.data.AddEditDocumentForm" />
         <form-bean name="addLinkDoc" type="oscar.dms.data.AddEditDocumentForm" />
         <form-bean name="addEditHtmlDoc" type="oscar.dms.data.AddEditDocumentForm" />
         <form-bean name="ManagePatientLettersForm" type="oscar.oscarReport.pageUtil.ManagePatientLettersForm" />
+-->
         <form-bean name="ticklerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="tickler" type="org.caisi.model.Tickler" />
             <form-property name="filter" type="org.caisi.model.CustomFilter" />
         </form-bean>
+
         <form-bean name="customFilterForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="filter" type="org.caisi.model.CustomFilter" />
         </form-bean>
@@ -156,6 +157,8 @@
         <form-bean name="editProviderFaxForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="faxNumber" type="java.lang.String" />
         </form-bean>
+
+<!-- 
         <form-bean name="setProviderColour" type="org.apache.struts.action.DynaActionForm">
             <form-property name="colour" type="java.lang.String" />
         </form-bean>
@@ -173,6 +176,8 @@
             <form-property name="demoNo" type="java.lang.String" />
             <form-property name="providerNo" type="java.lang.String" />
         </form-bean>
+ -->
+         
         <form-bean name="clientSearchForm" type="org.apache.struts.validator.LazyValidatorForm" />
          
         <form-bean name="healthSafetyForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -204,6 +209,7 @@
             <form-property name="searchFacilityId" type="java.lang.String"></form-property>
             <form-property name="method" type="java.lang.String" />
         </form-bean>
+<!-- 
         <form-bean name="agencyManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency" />
             <form-property name="numRooms" type="java.lang.Integer" />
@@ -214,6 +220,7 @@
             <form-property name="bedTypes" type="org.oscarehr.PMmodule.model.BedType[]" />
             <form-property name="programs" type="org.oscarehr.PMmodule.model.Program[]" />
         </form-bean>
+ -->                
         <form-bean name="bedManagerForm" type="org.oscarehr.PMmodule.web.admin.BedManagerForm"/>
         <form-bean name="facilityManagerForm" type="org.oscarehr.PMmodule.web.admin.FacilityManagerForm"/>
         <form-bean name="clientSearchForm2" type="org.apache.struts.validator.DynaValidatorForm">
@@ -222,6 +229,7 @@
         <form-bean name="mergeClientForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="criteria" type="org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean" />
         </form-bean>
+<!-- 
         <form-bean name="clientManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
@@ -238,6 +246,8 @@
             <form-property name="serviceRestriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction" />
             <form-property name="serviceRestrictionLength" type="java.lang.Integer" />
         </form-bean>
+ -->        
+         
         <form-bean name="duplicateClientCheckForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
             <form-property name="genders" type="java.util.List" />
@@ -352,7 +362,6 @@
         <form-bean name="imageDataForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="image" type="byte[]" />
         </form-bean>
-
 		
 		<!-- Admin Start -->
 		<form-bean name="secroleForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -361,14 +370,11 @@
             <form-property name="description" type="java.lang.String"></form-property>
             <form-property name="functions" type="com.quatro.model.LookupCodeValue"></form-property>
             <form-property name="accessTypes" type="com.quatro.model.LookupCodeValue"></form-property>
-            
             <form-property name="funSelectionList" type="java.util.ArrayList"></form-property>
             <form-property name="txtFUNKey" type="java.lang.String"></form-property>  
             <form-property name="txtFUNValue" type="java.lang.String"></form-property>          
             <form-property name="lstFUN" type="java.lang.String"></form-property> 
-            
             <form-property name="secobjprivilegeLst" type="java.util.ArrayList"></form-property> 
-            
         </form-bean>
        
         <form-bean name="secuserForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -378,7 +384,6 @@
             <form-property name="confirmPassword" type="java.lang.String"></form-property>
             <form-property name="pin" type="java.lang.String"></form-property>
             <form-property name="confirmPin" type="java.lang.String"></form-property>
-       
 	       <form-property name="providerNo" type="java.lang.String"></form-property>
 	       <form-property name="lastName" type="java.lang.String"></form-property>
 	       <form-property name="firstName" type="java.lang.String"></form-property>
@@ -387,12 +392,8 @@
 	       <form-property name="jobTitle" type="java.lang.String"></form-property>
 	       <form-property name="email" type="java.lang.String"></form-property>
 	       <form-property name="status" type="java.lang.String"></form-property>
-	       
            <form-property name="secUserRoleLst" type="java.util.ArrayList"></form-property> 
-           
            <form-property name="roleName" type="java.lang.String"></form-property>
-            
-            
         </form-bean>
         
         <form-bean name="userSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -462,6 +463,8 @@
         <action path="/shelterSelection" scope="request" type="oscar.login.ShelterSelectionAction" validate="true">
  			<forward name="shelterSelection" path="page.pmm.shelterSelection"/>
         </action>
+        
+<!-- 
         <action input="/oscarMessenger/SendMessage.jsp" name="msgSendMessageForm" path="/oscarMessenger/SendMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgSendMessageAction">
             <forward name="success" path="/oscarMessenger/SentMessage.jsp" />
         </action>
@@ -528,10 +531,14 @@
         <action input="/oscarMessenger/ViewMessage.jsp" path="/oscarMessenger/WriteToEncounter" scope="request" type="oscar.oscarMessenger.pageUtil.MsgWriteToEncounterAction">
             <forward name="success" path="/oscarEncounter/IncomingEncounter.do" />
         </action>
- 
+  -->        
+  
+<!-- 
         <action input="/admin/gstControl.jsp" name="GstControlForm" path="/admin/GstControl" scope="request" type="oscar.oscarBilling.ca.on.administration.GstControlAction"> 
             <forward name="success" path="/admin/admin.jsp" /> 
         </action>
+ -->
+         
         <action input="/admin/demographicmergerecord.jsp" name="MergeRecords" path="/admin/MergeRecords" scope="request" type="oscar.oscarDemographic.pageUtil.DemographicMergeRecordAction"> 
             <forward name="success" path="/admin/demographicmergerecord.jsp?outcome=success" />
             <forward name="failure" path="/admin/demographicmergerecord.jsp?outcome=failure" />
@@ -540,6 +547,7 @@
             <forward name="caisiSearch" path="/PMmodule/ClientSearch2.do"/>
         </action>
 
+<!-- 
         <action input="/provider/providerFax.jsp" name="editProviderFaxForm" path="/EditFaxNum" scope="request" type="oscar.oscarProvider.pageUtil.ProEditFaxNumAction">
             <forward name="success" path="/provider/providerFax.jsp" />
             <forward name="error" path="/provider/providerFaxErr.jsp" />
@@ -554,11 +562,14 @@
             <forward name="success" path="/provider/setNoteStaleDate.jsp" />
             <forward name="gen"     path="/provider/setGenProperty.jsp"/>
         </action>
+ -->
 
+<!-- 
         <action path="/demographic/printDemoLabelAction" type="oscar.oscarDemographic.PrintDemoLabelAction" />
         <action path="/demographic/printDemoAddressLabelAction" type="oscar.oscarDemographic.PrintDemoAddressLabelAction" />
         <action path="/demographic/printBarcodeAction" type="oscar.oscarDemographic.PrintBarcodeAction" />
-        
+ -->    
+         
         <action input="/scratch/index.jsp" name="FrmForm" path="/Scratch" scope="request" type="oscar.scratch.ScratchAction">
             <forward name="success" path="/scratch/index.jsp" />
         </action>
@@ -591,10 +602,14 @@
             <forward name="viewBedCheckReport" path="/PMmodule/Admin/ProgramView/bed_check_report.jsp" />
             <forward name="service_restriction_error" path="page.pmm.program.service_restriction_error"/>
         </action>
+
+<!-- 
         <action path="/PMmodule/AgencyManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="agencyManagerForm" scope="session">
             <forward name="view" path="page.pmm.admin.agency.view" />
             <forward name="edit" path="page.pmm.admin.agency.edit" />
         </action>
+ -->
+         
         <action path="/PMmodule/BedManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="bedManagerForm" scope="session">
             <forward name="manage" path="page.pmm.admin.beds.manage"/>
         </action>
@@ -617,6 +632,8 @@
         <action path="/PMmodule/MergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
             <forward name="view" path="page.pmm.client.merge" />           
         </action>
+        
+<!-- 
         <action path="/PMmodule/ClientManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientManagerForm" scope="request">
             <forward name="edit" path="page.pmm.client" />
             <forward name="edit-redirect" path="page.pmm.client" redirect="true" />
@@ -631,6 +648,8 @@
             <forward name="service_restriction_error" path="page.pmm.client.service_restriction_error"/>
             <forward name="case" path="/CaseManagementView2.do" />
         </action>
+ -->
+                 
 		<action path="/PMmodule/QuatroConsent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="consentDetailForm" scope="request">
 			<forward name="list" path="page.pmm.consent.list"></forward>
 			<forward name="edit" path="page.pmm.consent.edit"></forward>
@@ -809,10 +828,13 @@
             <forward name="form" path="page.report.clientlistsreportform" />
             <forward name="report" path="page.report.clientlistsreport" />
         </action>
-
+        
+<!-- 
         <action path="/ReceptionistReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/er/receptionist_report.jsp" />
         </action>
+ -->
+         
         <action path="/CaseManagementView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementView.jsp" name="caseManagementViewForm">
             <forward name="view" path="/casemgmt/CaseManagementView.jsp" />
             <forward name="page.casemgmt.view" path="page.casemgmt.view" />
@@ -882,16 +904,20 @@
         <action path="/ArchiveView" type="org.springframework.web.struts.DelegatingActionProxy" scope="request" parameter="method">
             <forward name="view" path="/provider/providercontrol.jsp" redirect="true" />
         </action>
+
+<!--
         <action path="/VaccineProviderReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/PMmodule/vaccine/vaccine_provider_report.jsp" />
         </action>
-        
+-->        
                
         <!-- Population Report -->
+<!-- 
         <action path="/PopulationReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/report/PopulationReport.jsp" />
         </action>
-        <!-- Population Report -->
+ -->        
+         <!-- Population Report -->
 
         <!-- admin Start -->
         <action path="/PMmodule/Admin/SysAdmin" type="org.oscarehr.PMmodule.web.admin.AdminHomeAction"  scope="request" validate="false">

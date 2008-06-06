@@ -102,40 +102,6 @@
             <bean class="com.quatro.service.IntakeManager" autowire="byName"/>
         </property>
     </bean>
-<!--    
-    <bean id="genericIntakeManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.GenericIntakeManager" autowire="byName"/>
-        </property>
-    </bean>
-    <bean id="intakeAManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.impl.IntakeAManagerImpl" lazy-init="default"
-                  dependency-check="default">
-                <property name="intakeADao" ref="intakeADao"/>
-                <property name="clientDao" ref="clientDao"/>
-                <property name="enabled" value="${intakea.enabled}"/>
-                <property name="newClientForm" value="${intakea.newForm}"/>
-            </bean>
-        </property>
-    </bean>
-    <bean id="intakeCManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.impl.IntakeCManagerImpl" lazy-init="default"
-                  dependency-check="default">
-                <property name="intakeCDao" ref="intakeCDao"/>
-                <property name="clientDao" ref="clientDao"/>
-                <property name="enabled" value="${intakec.enabled}"/>
-                <property name="newClientForm" value="${intakec.newForm}"/>
-            </bean>
-        </property>
-    </bean>
- -->       
-    <!-- Generic Intake -->
-    
     
     <bean id="healthSafetyManager" parent="baseTransactionProxy" lazy-init="default"
           dependency-check="default">
@@ -230,9 +196,6 @@
     </bean>
  -->    
 
-
-<!--   from Quatro start -->
-
     <bean id="quatroReportDao" class="com.quatro.dao.QuatroReportDao" autowire="byName" />
     <bean id="quatroReportManager" parent="baseTransactionProxy">
         <property name="target">
@@ -241,8 +204,6 @@
            </bean>
         </property>
     </bean>
-    
-<!--  from Quatro end -->
 
 </beans>
 
