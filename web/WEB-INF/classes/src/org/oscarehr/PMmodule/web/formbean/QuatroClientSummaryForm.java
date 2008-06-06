@@ -8,7 +8,6 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographicStatus;
-import org.oscarehr.PMmodule.model.Agency;
 import org.oscarehr.PMmodule.model.Provider;            
 
 
@@ -20,7 +19,6 @@ public class QuatroClientSummaryForm extends ValidatorForm{
     private ClientReferral referral;
     private Bed[] unreservedBeds;
     private BedDemographicStatus[] bedDemographicStatuses;
-    private Agency agency;
     private Provider provider;            
     private String programWithIntakeId;
 
@@ -29,12 +27,6 @@ public class QuatroClientSummaryForm extends ValidatorForm{
 	}
 	public void setAdmission(Admission admission) {
 		this.admission = admission;
-	}
-	public Agency getAgency() {
-		return agency;
-	}
-	public void setAgency(Agency agency) {
-		this.agency = agency;
 	}
 	public BedDemographic getBedDemographic() {
 		return bedDemographic;

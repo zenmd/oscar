@@ -199,7 +199,7 @@ public class ProgramManagerViewAction extends BaseAction {
 
        
         if (formBean.getTab().equalsIgnoreCase("General")) {
-            request.setAttribute("agency", programManager.getAgencyByProgram(programId));
+
         }
 
         if (formBean.getTab().equalsIgnoreCase("Service Restrictions")) {
