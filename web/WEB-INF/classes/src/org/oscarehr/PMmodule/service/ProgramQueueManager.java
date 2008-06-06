@@ -33,9 +33,10 @@ public interface ProgramQueueManager
 		
 	public List getProgramQueuesByProgramId(Integer programId);
 	
-	public ProgramQueue getActiveProgramQueue(String programId, String demographicNo);
-		
 	public void saveProgramQueue(ProgramQueue programQueue);
 	
 	public void rejectQueue(Integer queueId, String notes, String rejectionReason);
+	
+	public List getProgramQueuesByClientId(Integer clientId);
+
 }

@@ -35,6 +35,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
+import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.util.SessionConstants;
 import com.quatro.service.LookupManager;
@@ -68,6 +69,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    private IntakeManager intakeManager;
    private ProviderManager providerManager;
    private ClientRestrictionManager clientRestrictionManager;
+   private ProgramQueueManager programQueueManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return list(mapping, form, request, response);
@@ -91,6 +93,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        List lstAdmission = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
        request.setAttribute("admission", lstAdmission);
 
+       List queue = programQueueManager.getProgramQueuesByClientId(Integer.valueOf(demographicNo));
+       request.setAttribute("queue", queue);
+       
        return mapping.findForward("list");
    }
 
@@ -568,5 +573,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
   }
+
+public void setProgramQueueManager(ProgramQueueManager programQueueManager) {
+	this.programQueueManager = programQueueManager;
+}
    
 }

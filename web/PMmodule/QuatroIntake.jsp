@@ -29,6 +29,9 @@ function updateQuatroIntake(clientId, intakeId) {
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
+		<a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Intake</a>&nbsp;&nbsp;|
+		
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>
@@ -52,7 +55,7 @@ function updateQuatroIntake(clientId, intakeId) {
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="intake" name="quatroIntake" export="false" pagesize="100" requestURI="/PMmodule/QuatroIntake.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="intake" name="quatroIntake" export="false" pagesize="50" requestURI="/PMmodule/QuatroIntake.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No intakes found." />
 			<display:column sortable="true" title="Program Type">
@@ -70,20 +73,15 @@ function updateQuatroIntake(clientId, intakeId) {
 			<display:column title="Actions">
 	<c:choose>								
 	<c:when test="${intake.intakeStatus == 'active' || intake.intakeStatus == 'admitted'}">
-		<input type="button" value="Update" 
-			onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />			
+	  <a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >Update</a>			
 	</c:when>
 	<c:otherwise>
-		<input type="button" value="View" 
-			onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" />			
+	  <a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >View</a>			
 	</c:otherwise>
 	</c:choose>		
 			</display:column>
 </display:table>
 </td></tr>
-<tr><td><input type="button" value="Create" 
- onclick="updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" /></td></tr>
-
 </table>
 
 <!--  end of page content -->

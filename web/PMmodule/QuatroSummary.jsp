@@ -79,18 +79,18 @@ function openHealthSafety(){
         <table width="100%" class="simple" style="background: #e0e0e0;" cellspacing="2" cellpadding="2">
 		<c:choose>
 		  <c:when test="${empty healthsafety}">
-			<tr><td><span style="color:red">None found</span></td>
-			<td><input type="button" value="New Health and Safety" onclick="openHealthSafety()" /></td></tr>
+			<tr><td>None found</td>
+			<td><a href="javascript:openHealthSafety()">New Health and Safety</a></td></tr>
 		  </c:when>
 	      <c:when test="${empty healthsafety.message}">
-			<tr><td><span style="color:red">None found</span></td>
-			<td><input type="button" value="New Health and Safety" onclick="openHealthSafety()" /></td></tr>
+			<tr><td>None found</td>
+			<td><a href="javascript:openHealthSafety()">New Health and Safety</a></td></tr>
 		  </c:when>
 		  <c:otherwise>
 			<tr><td colspan="3"><c:out value="${healthsafety.message}" /></td></tr>
 			<tr><td width="50%">User Name: <c:out value="${healthsafety.userName}" /></td>
 			<td width="30%">Date: <fmt:formatDate value="${healthsafety.updateDate}" pattern="yyyy/MM/dd" /></td>
-			<td width="20%"><input type="button" value="Edit" onclick="openHealthSafety()" />
+			<td width="20%"><a href="javascript:openHealthSafety()" >Edit</a>
 			</td></tr>
 		  </c:otherwise>
 		</c:choose>
@@ -141,7 +141,7 @@ function openHealthSafety(){
 		<td><fmt:formatDate value="${roomDemographic.assignEnd}" pattern="yyyy/MM/dd" /></td></tr>
 	  </c:when>	
 	  <c:otherwise>
-		<tr><td><span style="color:red">No bed or room reserved</span></td></tr>
+		<tr><td>No bed or room reserved</td></tr>
 	  </c:otherwise>	
 	</c:choose>
 	</c:when>

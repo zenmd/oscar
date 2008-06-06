@@ -68,20 +68,14 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 		return dao.getProgramQueuesByProgramId(programId);
 	}
 
+	public List getProgramQueuesByClientId(Integer clientId) {
+		return dao.getProgramQueuesByClientId(clientId);
+	}
+	
 	public void saveProgramQueue(ProgramQueue programQueue)	{
 		dao.saveProgramQueue(programQueue);
 	}
 
-//use getProgramQueuesByProgramId(Integer programId) method	
-/*	
-	public List getActiveProgramQueuesByProgramId(Integer programId) {
-		return dao.getQueuesByProgramId(programId);
-	}
-*/	
-	public ProgramQueue getActiveProgramQueue(String programId, String demographicNo) {
-		return dao.getQueue(Integer.valueOf(programId), Integer.valueOf(demographicNo));
-	}
-	
 	public void rejectQueue(Integer queueId, String notes, String rejectionReason) {
 		ProgramQueue queue = getProgramQueue(queueId.toString());
 		if(queue==null) {

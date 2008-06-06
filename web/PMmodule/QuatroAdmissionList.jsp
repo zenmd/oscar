@@ -45,6 +45,7 @@ function updateQuatroAdmission(clientId, admissionId) {
 
 <!--  start of page content -->
 <table width="100%" class="edit">
+
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Admission Form</th></tr>
@@ -66,18 +67,50 @@ function updateQuatroAdmission(clientId, admissionId) {
 	<td>
 	<c:choose>								
 	<c:when test="${admission.admissionStatus == 'admitted'}">
-     <input type="button" value="Update" 
-      onclick="updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')" />
+     <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
 	</c:when>
 	<c:otherwise>
-     <input type="button" value="View" 
-      onclick="updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')"/>
+     <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>
 	</c:otherwise>
 	</c:choose>
     </td></tr>
   </logic-el:iterate>						
 </table>
 </td></tr>
+
+<tr><td><br>
+<div class="tabs">
+<table cellpadding="3" cellspacing="0" border="0">
+<tr><th>Intakes in Queue</th></tr>
+</table></div>
+</td></tr>
+<tr><td>
+<display:table class="simple" cellspacing="2" cellpadding="3" id="queue_entry" name="queue" export="false" pagesize="0" requestURI="/PMmodule/QuatroAdmission.do">
+    <display:setProperty name="paging.banner.placement" value="bottom" />
+    <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
+    <display:column sortable="false">
+    <c:choose>
+    <c:when test="${queue_entry.intakeId!=null}" >    	
+	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+	</c:when>
+	<c:otherwise>
+	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeEdit.do?method=manualreferral&intakeId=0&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Intake</a>
+	</c:otherwise>
+	</c:choose>		
+	</display:column>
+    <display:column sortable="false">
+		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Reject</a>
+    </display:column>
+    
+    <display:column property="referralDate" sortable="true" title="Referral Date" format="{0, date, yyyy/MM/dd HH:mm:ss}" />
+    <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
+    <display:column property="notes" sortable="true" title="Reason for Referral" />
+    <display:column property="presentProblems" sortable="true" title="Present Problems"/>
+    <display:column property="intakeId" sortable="true" title="Intake Id"/>
+</display:table>
+</td>
+</tr>
+
 
 </table>
 

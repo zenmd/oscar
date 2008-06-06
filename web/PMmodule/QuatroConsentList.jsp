@@ -81,13 +81,11 @@
 						<td> 						
 							<c:choose>
 								<c:when test="${consentDetail.status eq 'Withdraw'}">
-								 	<input type="button"  value="Withdraw" onclick="withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" />	
-								 	<input type="button" value="View"
-										onclick="updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" />							
+								 	<a href="javascript:withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" >Withdraw</a>
+								 	<a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
 								</c:when>
 								<c:when test="${consentDetail.status eq 'View Only'}">
-									<input type="button" value="View"
-										onclick="updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" />
+									<a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
 								</c:when>
 								<c:otherwise>&nbsp;</c:otherwise>
 						   </c:choose>

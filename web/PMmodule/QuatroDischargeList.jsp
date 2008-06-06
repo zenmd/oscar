@@ -78,8 +78,7 @@
 								<c:when test="${discharge.admissionStatus == 'admitted'}">
 								  <c:choose>								
 								  <c:when test="${discharge.familyMember == false}">
-								    <input type="button" value="Discharge"
-										onclick="updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" />
+								    <a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >Discharge</a>
 								  </c:when>
 								  <c:otherwise>Family Member</c:otherwise>
 								  </c:choose>

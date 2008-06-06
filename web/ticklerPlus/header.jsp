@@ -5,17 +5,11 @@
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%
     if(session.getAttribute("userrole") == null )  response.sendRedirect("logout.jsp");
-//    String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
 %>
 <security:oscarSec objectName="_tasks" rights="r" reverse="<%=true%>" >
 <%response.sendRedirect("noRights.html");%>
 </security:oscarSec>
 
-<%
-	ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(application);
-	Version version = (Version)ctx.getBean("version");
-	pageContext.setAttribute("version",version);
-%>
 <c:if test="${requestScope.from ne 'CaseMgmt'}">
 <html>
 <head>

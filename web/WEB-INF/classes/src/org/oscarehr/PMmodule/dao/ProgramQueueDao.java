@@ -66,6 +66,17 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return results;
     }
 
+    public List getProgramQueuesByClientId(Integer clientId) {
+        if (clientId == null) {
+            throw new IllegalArgumentException();
+        }
+
+        String queryStr = " FROM ProgramQueue q WHERE q.ClientId=? ORDER BY  q.Id  ";
+        List results = getHibernateTemplate().find(queryStr, clientId);
+
+        return results;
+    }
+
     public void saveProgramQueue(ProgramQueue programQueue) {
         if (programQueue == null) {
             return;
