@@ -39,13 +39,19 @@ import java.util.Calendar;
 public class ClientHistoryDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(getClass());
-
+    private MergeClientDao mergeClientDao;
     public List getClientHistories(Integer clientId, String providerNo) {
-    	
+    	String clientIds =mergeClientDao.getMergedClientIds(clientId);
+    	clientIds=clientIds.substring(1,clientIds.length()-1);
+    	String[] cIds= clientIds.split(",");
+    	Object[] clients=new Object[cIds.length];
+    	for(int i=0;i<cIds.length;i++){
+    		clients[i] =Integer.valueOf(cIds[i]);
+    	}
         Criteria criteria = getSession().createCriteria(ClientHistory.class);
         String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";
         criteria.add(Restrictions.sqlRestriction(sql));
-        criteria.add(Restrictions.eq("ClientId", clientId));
+        criteria.add(Restrictions.in("ClientId", clients));
 
         List results = criteria.list();
         
@@ -138,4 +144,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             log.debug("saveClientReferral: id=" + history.getId());
         }
     }
+
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 }

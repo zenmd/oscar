@@ -89,7 +89,13 @@ public class AdmissionDao extends HibernateDaoSupport {
     public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
     	String progSQL = "";
     	String clientIds=mergeClientDao.getMergedClientIds(clientId);
-    	Object[] clients=new Object[]{clientIds.split(",")}; 
+    	// remove "()"
+    	clientIds=clientIds.substring(1,clientIds.length()-1);
+    	String[] cIds= clientIds.split(",");
+    	Object[] clients=new Object[cIds.length];
+    	for(int i=0;i<cIds.length;i++){
+    		clients[i] =Integer.valueOf(cIds[i]);
+    	}
     	if (facilityId.intValue() ==0 ) {
     		progSQL = "program_id in (select p.program_id from program p where 'P' || p.program_id in " +
     				"(select a.code from lst_orgcd a, secuserrole b " +
