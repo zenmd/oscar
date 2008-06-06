@@ -38,7 +38,7 @@ public class IntakeDao extends HibernateDaoSupport {
     public List checkExistBedIntakeByPrograms(Integer clientId, Program[] programs){
         StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[programs.length];
-        obj[0]=programs[0];
+        obj[0]=programs[0].getId();
         sb.append("?");
         for(int i=1;i<programs.length;i++){
            sb.append(",?");
