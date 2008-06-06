@@ -24,7 +24,7 @@ public class FacilityDAO extends HibernateDaoSupport {
 
     //@SuppressWarnings("unchecked")
     public List getActiveFacilities() {
-        String query = "from Facility f where disabled=false";
+        String query = "from Facility f where active=true";
         return getHibernateTemplate().find(query);
     }
         
