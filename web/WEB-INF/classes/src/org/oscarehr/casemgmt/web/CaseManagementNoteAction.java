@@ -577,7 +577,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             /* add the related issues to note */
 
             String issueString = "";
-            issueString = createIssueString(issueset);
+            issueString = createIssueString(issueset,note.getCaseStatusId());
             // insert the string before signiture
 
             int index = noteString.indexOf("\n[[");
