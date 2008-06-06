@@ -158,7 +158,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 						maxlength="70" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Facility</td>
+					<td width="20%">Facility:</td>
 					<td><html-el:select property="program.facilityId">
 						<c:forEach var="facility" items="${facilities}">
 							<html-el:option value="${facility.id}">
@@ -173,7 +173,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 						maxlength="255" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">HIC:</td>
+					<td width="20%">Heath Information Custodian:</td>
 					<td><html:checkbox property="program.hic" /></td>
 				</tr>
 				
