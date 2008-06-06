@@ -175,7 +175,7 @@
 								<tr><td style="width:20%">Agency Name:</td><td ><html-el:text style="width: 60%" property="consentValue.agencyName" maxlength="60" /></td></tr>
 								<tr><td style="width:20%">Contact Person Name:</td><td><html-el:text style="width: 60%" property="consentValue.contactName" maxlength="60" /></td></tr>
 								<tr><td style="width:20%">Contact Person Title:</td><td><html-el:text style="width: 60%" property="consentValue.contactTitle" maxlength="30" /></td></tr>
-								<tr><td style="width:20%">Contact Person Phone:</td><td><html-el:text style="width: 60%" property="consentValue.contactPhone" maxlength="15" /></td></tr>							
+								<tr><td style="width:20%">Contact Person Phone:</td><td><html-el:text style="width: 60%" property="consentValue.contactPhone" maxlength="25" /></td></tr>							
 								<tr><td colspan="2">For the following Stated purpose(s):</td></tr>
 								<tr><td colspan="2"><html-el:textarea property="consentValue.statePurpose" cols="105"  rows="3" /></td></tr>
 						  </table>
