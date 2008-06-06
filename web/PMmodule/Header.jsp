@@ -26,7 +26,7 @@
 	<tr>
 		<td align="left" width="200px" rowspan="2">
 		<%if (oscar.OscarProperties.getInstance().isTorontoRFQ() && !oscar.OscarProperties.getInstance().getBooleanProperty("USE_CAISI_LOGO", "true")){%>
- 	        <img src="<html:rewrite page="/images/QuatroShelterLogo.gif"  />" alt="QuatroShelter" border="0"/>
+ 	        <img src="<html:rewrite page="/images/QuatroShelter-Logo150.gif"  />" alt="QuatroShelter" border="0"/>
  	    <%} else {%>
 	        <img src="<html:rewrite page="/images/caisi_1.jpg" />" alt="Caisi" id="caisilogo"  border="0"/>
 	    <%}%>
