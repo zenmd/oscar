@@ -42,11 +42,11 @@ public class ProgramManagerViewFormBean extends ActionForm {
 	private String switchBed2;
 
 	private String radioRejectionReason;
-    private ProgramClientRestriction serviceRestriction;
+    private ProgramClientRestriction serviceRestriction = new ProgramClientRestriction();
 
-    private IncidentForm incidentForm;
+    private IncidentForm incidentForm = new IncidentForm();
     private StaffForm staffForm = new StaffForm();
-    private ClientForm clientForm;
+    private ClientForm clientForm = new ClientForm();
        
 
 	public IncidentForm getIncidentForm() {
