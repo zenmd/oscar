@@ -24,7 +24,7 @@
         </id>
         <property name="name" column="name" type="string" not-null="true" length="32" />
         <property name="description" column="description" type="string" not-null="true" length="70" />
-        <property name="disabled" column="disabled" type="boolean" not-null="true"/>
+        <property name="active" column="active" type="boolean" not-null="true"/>
         <property
                 name="contactName"
                 column="contact_name"

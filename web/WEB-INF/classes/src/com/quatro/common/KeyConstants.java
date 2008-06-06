@@ -79,4 +79,11 @@ public class KeyConstants {
   public static final String CLIENT_MODE_MERGE = "merge";
   public static final String CLIENT_MODE_UNMERGE = "unmerge";
   
+  public static final String TAB_FACILITY_GENERAL = "tabGeneral";
+  public static final String TAB_FACILITY_PROGRAM = "tabProgram";
+  public static final String TAB_FACILITY_MESSAGE = "tabMessage";
+  
+  public static final String TAB_FACILITY_EDIT = "tabEdit";
+  public static final String TAB_FACILITY_BED = "tabBed";
+  
 }

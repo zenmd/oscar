@@ -150,6 +150,10 @@
 										</c:forEach>
 									</select></td>
 								</tr>
+								<tr class="b">
+									<td width="20%">Active:</td>
+									<td><html:checkbox property="facility.active" /></td>
+								</tr>
 								
 							</table>
 							</td>

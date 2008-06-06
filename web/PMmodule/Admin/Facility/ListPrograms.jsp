@@ -12,7 +12,7 @@
 
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Facility management - Facility Details</th>
+			<th class="pageTitle" align="center">Facility management - Associated programs</th>
 		</tr>
 
 		<!-- body start -->
@@ -49,60 +49,51 @@
 				                    height: 100%; width: 100%; overflow: auto;">
 
 
+
+
+					
 					<br />
 					<div class="tabs" id="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
 						<tr>
-							<th title="Facility Details">Facility Details</th>
+							<th title="Associated programs">Associated programs</th>
 						</tr>
 					</table>
 					</div>
-
-					<table width="100%" cellpadding="0px" cellspacing="0px">
-
-						<tr>
-							<td>
-							<table width="100%" border="1" cellspacing="2" cellpadding="3">
-								<tr class="b">
-									<td width="20%">Facility Id:</td>
-									<td><c:out value="${requestScope.id}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Name:</td>
-									<td><c:out
-										value="${requestScope.facilityManagerForm.facility.name}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Description:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.description}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">HIC:</td>
-									<td><c:out value="${facilityManagerForm.facility.hic}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Primary Contact Name:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.contactName}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Primary Contact Email:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.contactEmail}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Primary Contact Phone:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.contactPhone}" /></td>
-								</tr>
-
-
-							</table>
-							</td>
-						</tr>
-					</table>
+					<logic:empty name="associatedPrograms">No programs.<br /></logic:empty>  
+					<logic:notEmpty name="associatedPrograms">
+						<display:table class="simple" cellspacing="2" cellpadding="3"
+							id="program" name="associatedPrograms" export="false"
+							requestURI="/PMmodule/FacilityManager.do">
+							<display:setProperty name="basic.msg.empty_list"
+								value="No programs." />
+	
+							<logic:equal name="program" property="facilityId"
+								value="<%=((Facility)facility).getId().toString()%>">
+								<display:column sortable="true" sortProperty="name"
+									title="Program Name">
+									<a
+										href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?id=<c:out value="${program.id}"/>"><c:out
+										value="${program.name}" /></a>
+								</display:column>
+							</logic:equal>
+							<logic:notEqual name="program" property="facilityId"
+								value="<%=((Facility)facility).getId().toString()%>">
+								<display:column sortable="true" sortProperty="name"
+									title="Program Name">
+									<c:out value="${program.name}" />
+								</display:column>
+							</logic:notEqual>
+	
+							<display:column property="type" sortable="true"
+								title="Program Type" />
+							<display:column property="queueSize" sortable="true"
+								title="Clients in Queue" />
+						</display:table> 
+					</logic:notEmpty>
+					<br>
 					
+
 					</div>
 					</td>
 				</tr>

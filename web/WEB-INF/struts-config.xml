@@ -1618,6 +1618,9 @@
             <forward name="list" path="page.pmm.admin.facility.list"/>
             <forward name="edit" path="page.pmm.admin.facility.edit"/>
             <forward name="view" path="page.pmm.admin.facility.view"/>
+            <forward name="program" path="page.pmm.admin.facility.program"/>
+            <forward name="message" path="page.pmm.admin.facility.message"/>
+
         </action>
         <action path="/PMmodule/ProviderSearch" type="org.springframework.web.struts.DelegatingActionProxy">
             <forward name="results" path="/PMmodule/ProviderSearch.jsp" />

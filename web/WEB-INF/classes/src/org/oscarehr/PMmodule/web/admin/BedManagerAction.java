@@ -21,20 +21,20 @@ import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Room;
-import org.oscarehr.PMmodule.model.RoomDemographic;
+import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.RoomManager;
-import org.apache.struts.actions.DispatchAction;
-import org.springframework.beans.factory.annotation.Required;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
+import org.oscarehr.PMmodule.service.RoomManager;
+import org.oscarehr.PMmodule.web.BaseFacilityAction;
+
+import com.quatro.common.KeyConstants;
 
 /**
  * Responsible for managing beds
  */
-public class BedManagerAction extends DispatchAction {
+public class BedManagerAction extends BaseFacilityAction {
 
     private static final String FORWARD_MANAGE = "manage";
 
@@ -58,8 +58,10 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward manage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
-        BedManagerForm bForm = (BedManagerForm) form;
+    	
+    	prepareLeftNav(request);
+        
+    	BedManagerForm bForm = (BedManagerForm) form;
 
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         Facility facility = facilityManager.getFacility(facilityId);
@@ -100,7 +102,8 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward manageFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
+    	prepareLeftNav(request);
+    	
         BedManagerForm bForm = (BedManagerForm) form;
 
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
@@ -127,7 +130,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward saveRooms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BedManagerForm bForm = (BedManagerForm) form;
+    	prepareLeftNav(request);
+    	
+    	BedManagerForm bForm = (BedManagerForm) form;
 
         Room[] rooms = bForm.getRooms();
 
@@ -158,7 +163,8 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward deleteRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
+    	prepareLeftNav(request);
+    	
         ActionMessages messages = new ActionMessages();
         BedManagerForm bForm = (BedManagerForm) form;
 
@@ -200,7 +206,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward saveBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BedManagerForm bForm = (BedManagerForm) form;
+    	prepareLeftNav(request);
+    	
+    	BedManagerForm bForm = (BedManagerForm) form;
 
         Bed[] beds = bForm.getBeds();
 
@@ -239,7 +247,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward deleteBed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BedManagerForm bForm = (BedManagerForm) form;
+    	prepareLeftNav(request);
+    	
+    	BedManagerForm bForm = (BedManagerForm) form;
 
         Integer bedId = bForm.getBedToDelete();
         // (1)Check whether any client is assigned to this bed ('bed_demographic' table)->
@@ -270,7 +280,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward addRooms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BedManagerForm bForm = (BedManagerForm) form;
+    	prepareLeftNav(request);
+    	
+    	BedManagerForm bForm = (BedManagerForm) form;
         Integer numRooms = bForm.getNumRooms();
 
         Integer roomslines = new Integer(0);
@@ -302,7 +314,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward addBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+    	prepareLeftNav(request);
+    	
+    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         BedManagerForm bForm = (BedManagerForm) form;
         Integer numBeds = bForm.getNumBeds();
         Integer roomId = bForm.getBedRoomFilterForBed();
@@ -336,7 +350,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward doRoomFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+    	prepareLeftNav(request);
+    	
+    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         BedManagerForm bForm = (BedManagerForm) form;
         Integer roomStatus = bForm.getRoomStatusFilter();
         Integer roomFilteredProgram = bForm.getBedProgramFilterForRoom();
@@ -364,7 +380,9 @@ public class BedManagerAction extends DispatchAction {
     }
 
     public ActionForward doBedFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+    	prepareLeftNav(request);
+    	
+    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         BedManagerForm bForm = (BedManagerForm) form;
         Integer bedStatus = bForm.getBedStatusFilter();
         Integer bedFilteredProgram = bForm.getBedRoomFilterForBed();
@@ -432,5 +450,21 @@ public class BedManagerAction extends DispatchAction {
 
 	public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
 		this.bedDemographicManager = bedDemographicManager;
+	}
+	
+	private void prepareLeftNav(HttpServletRequest request){
+		super.setScreenMode(request, KeyConstants.TAB_FACILITY_BED);
+		
+		String facilityId = request.getParameter("facilityId");
+				
+		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		if(actionParam==null){
+	 	  actionParam = new HashMap();
+	       actionParam.put("facilityId", facilityId); 
+	       
+	    }
+	    request.setAttribute("actionParam", actionParam);
+	    
+	    request.setAttribute("facility", facilityManager.getFacility(Integer.valueOf(facilityId)));
 	}
 }

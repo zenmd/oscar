@@ -67,9 +67,8 @@
 		<put name="body" value="/PMmodule/Admin/AgencyEdit/general.jsp" />
 	</definition>
 
-	<definition name="page.pmm.admin.beds.manage"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
-		
+	<definition name="page.pmm.admin.beds.manage" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityEdit.jsp" />
 		<put name="body" value="/PMmodule/Admin/Bed/Bed.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.facility.list"
@@ -80,20 +79,23 @@
 		<put name="body"
 			value="/PMmodule/Admin/Facility/ListFacilities.jsp" />
 	</definition>
-	<definition name="page.pmm.admin.facility.edit"
-		 path="/PMmodule/layout.jsp"> 
-		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		
-		<put name="body"
-			value="/PMmodule/Admin/Facility/EditFacility.jsp" />
+	<definition name="page.pmm.admin.facility.edit" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityEdit.jsp" />
+		<put name="body" value="/PMmodule/Admin/Facility/EditFacility.jsp" />
 	</definition>
-	<definition name="page.pmm.admin.facility.view"
-		 path="/PMmodule/layout.jsp"> 
-		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		
-		<put name="body"
-			value="/PMmodule/Admin/Facility/ViewFacility.jsp" />
+	<definition name="page.pmm.admin.facility.view" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityView.jsp" />
+		<put name="body" value="/PMmodule/Admin/Facility/ViewFacility.jsp" />
 	</definition>
+	<definition name="page.pmm.admin.facility.program" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityView.jsp" />
+		<put name="body" value="/PMmodule/Admin/Facility/ListPrograms.jsp" />
+	</definition>
+	<definition name="page.pmm.admin.facility.message" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityView.jsp" />
+		<put name="body" value="/PMmodule/Admin/Facility/ListMessages.jsp" />
+	</definition>
+
 	<definition name="page.pmm.shelterSelection"
 		path="/PMmodule/layout.jsp">
 		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />

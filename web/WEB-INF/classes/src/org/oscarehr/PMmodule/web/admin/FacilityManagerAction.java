@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.web.admin;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,17 +28,15 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.apache.struts.actions.DispatchAction;
-import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.BaseFacilityAction;
 import org.oscarehr.PMmodule.web.FacilityDischargedClients;
-import org.springframework.beans.factory.annotation.Required;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 
 /**
  */
-public class FacilityManagerAction extends BaseAction {
+public class FacilityManagerAction extends BaseFacilityAction {
     private static final Log log = LogFactory.getLog(FacilityManagerAction.class);
 
     private FacilityManager facilityManager;
@@ -50,6 +49,8 @@ public class FacilityManagerAction extends BaseAction {
     private static final String FORWARD_EDIT = "edit";
     private static final String FORWARD_VIEW = "view";
     private static final String FORWARD_LIST = "list";
+    private static final String FORWARD_PROGRAM = "program";
+    private static final String FORWARD_MESSAGE = "message";
 
     private static final String BEAN_FACILITIES = "facilities";
     private static final String BEAN_ASSOCIATED_PROGRAMS = "associatedPrograms";
@@ -62,13 +63,14 @@ public class FacilityManagerAction extends BaseAction {
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         List facilities = facilityManager.getFacilities();
         List filteredFacilities = new ArrayList();
-//        for (Facility facility : facilities) {
-        for (int i=0;i<facilities.size();i++) {
-        	Facility facility = (Facility)facilities.get(i);
-            if (!facility.isDisabled()) filteredFacilities.add(facility);
-        }
-        request.setAttribute(BEAN_FACILITIES, filteredFacilities);
 
+//        for (int i=0;i<facilities.size();i++) {
+//        	Facility facility = (Facility)facilities.get(i);
+//            if (facility.getActive()) filteredFacilities.add(facility);
+//        }
+//        request.setAttribute(BEAN_FACILITIES, filteredFacilities);
+        request.setAttribute(BEAN_FACILITIES, facilities);
+        
         // get agency's organization list from caisi editor table
         request.setAttribute("orgList", lookupManager.LoadCodeList("OGN", true, null, null));
 
@@ -79,20 +81,139 @@ public class FacilityManagerAction extends BaseAction {
     }
 
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        String idStr = request.getParameter("id");
-        Integer id = Integer.valueOf(idStr);
-        Facility facility = facilityManager.getFacility(id);
+    	
+    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", request.getParameter("facilityId")); 
+        }
+        request.setAttribute("actionParam", actionParam);
+        
+        
+    	String idStr = request.getParameter("facilityId");
+        Integer facilityId = Integer.valueOf(idStr);
+        Facility facility = facilityManager.getFacility(facilityId);
 
         FacilityManagerForm facilityForm = (FacilityManagerForm) form;
         facilityForm.setFacility(facility);
 
-        // Get facility associated client list -----------
-        Map facilityClientsMap = new LinkedHashMap();
-        List facilityClients = new ArrayList();
+//        // Get facility associated client list -----------
+//        Map facilityClientsMap = new LinkedHashMap();
+//        List facilityClients = new ArrayList();
+//
+//        // Get program list by facility id in table room.
+//        // for (Program program : programManager.getPrograms(id)) {
+//        List programs = programManager.getPrograms(id);
+//        for (int i=0;i<programs.size();i++) {
+//        	Program program = (Program) programs.get(i);
+//            if (program != null) {
+//                // Get admission list by program id and automatic_discharge=true
+//
+//                List admissions = admissionDao.getAdmissionsByProgramId(program.getId(), new Boolean(true), new Integer(-7));
+//                if (admissions != null) {
+//                    Iterator it = admissions.iterator();
+//                    while (it.hasNext()) {
+//
+//                        Admission admission = (Admission) it.next();
+//
+//                        // Get demographic list by demographic_no
+//                        Demographic client = clientDao.getClientByDemographicNo(admission.getClientId());
+//
+//                        String name = client.getFirstName() + " " + client.getLastName();
+//                        String dob = client.getYearOfBirth() + "/" + client.getMonthOfBirth() + "/" + client.getDateOfBirth();
+//                        String pName = program.getName();
+//                        Date dischargeDate = admission.getDischargeDate().getTime();
+//                        String dDate = dischargeDate.toString();
+//
+//                        // today's date
+//                        Calendar calendar = Calendar.getInstance();
+//
+//                        // today's date - days
+//                        calendar.add(Calendar.DAY_OF_YEAR, -1);
+//
+//                        Date oneDayAgo = calendar.getTime();
+//
+//                        FacilityDischargedClients fdc = new FacilityDischargedClients();
+//                        fdc.setName(name);
+//                        fdc.setDob(dob);
+//                        fdc.setProgramName(pName);
+//                        fdc.setDischargeDate(dDate);
+//
+//                        if (dischargeDate.after(oneDayAgo)) {
+//                            fdc.setInOneDay(true);
+//                        }
+//                        else {
+//                            fdc.setInOneDay(false);
+//                        }
+//                        facilityClients.add(fdc);
+//
+//                    }
+//                }
+//            }
+//        }
+//        request.setAttribute(BEAN_ASSOCIATED_CLIENTS, facilityClients);
+//
+//        request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
+
+        request.setAttribute("facilityId", facility.getId());
+        
+        request.setAttribute("facility", facility);
+
+        return mapping.findForward(FORWARD_VIEW);
+    }
+    
+    public ActionForward listPrograms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	
+    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", request.getParameter("facilityId")); 
+        }
+        request.setAttribute("actionParam", actionParam);
+        
+        
+    	String idStr = request.getParameter("facilityId");
+        Integer facilityId = Integer.valueOf(idStr);
+        Facility facility = facilityManager.getFacility(facilityId);
 
         // Get program list by facility id in table room.
-//        for (Program program : programManager.getPrograms(id)) {
-        List programs = programManager.getPrograms(id);
+        List programs = programManager.getPrograms(facilityId);
+        
+
+        request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
+
+        request.setAttribute("facilityId", facility.getId());
+        
+        request.setAttribute("facility", facility);
+
+        return mapping.findForward(FORWARD_PROGRAM);
+    }
+    public ActionForward listMessages(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	
+    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", request.getParameter("facilityId")); 
+        }
+        request.setAttribute("actionParam", actionParam);
+        
+        
+    	String idStr = request.getParameter("facilityId");
+        Integer facilityId = Integer.valueOf(idStr);
+        Facility facility = facilityManager.getFacility(facilityId);
+
+       // Get facility associated client list -----------
+       List facilityClients = new ArrayList();
+
+        // Get program list by facility id in table room.
+        // for (Program program : programManager.getPrograms(id)) {
+        List programs = programManager.getPrograms(facilityId);
         for (int i=0;i<programs.size();i++) {
         	Program program = (Program) programs.get(i);
             if (program != null) {
@@ -142,24 +263,41 @@ public class FacilityManagerAction extends BaseAction {
         }
         request.setAttribute(BEAN_ASSOCIATED_CLIENTS, facilityClients);
 
-        request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
+        request.setAttribute("facilityId", facility.getId());
+        
+        request.setAttribute("facility", facility);
 
-        request.setAttribute("id", facility.getId());
-
-        return mapping.findForward(FORWARD_VIEW);
+        return mapping.findForward(FORWARD_MESSAGE);
     }
 
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
-        Facility facility = facilityManager.getFacility(Integer.valueOf(id));
+    	
+    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", request.getParameter("facilityId")); 
+           //actionParam.put("facilityId", request.getParameter("id"));
+        }
+        request.setAttribute("actionParam", actionParam);
+        
+    	Facility facility = null;
+    	String facilityId = request.getParameter("facilityId");
+        if(facilityId!=null){
+        	facility = facilityManager.getFacility(Integer.valueOf(facilityId));
+        }else{
+        	facility = facilityManager.getFacility((Integer)request.getAttribute("facilityId"));
+        }
 
         FacilityManagerForm managerForm = (FacilityManagerForm) form;
         managerForm.setFacility(facility);
 
-        request.setAttribute("id", facility.getId());
+        request.setAttribute("facilityId", facility.getId());
         request.setAttribute("orgId", facility.getOrgId());
         request.setAttribute("sectorId", facility.getSectorId());
-
+        request.setAttribute("facility", facility);
+        
         // get agency's organization list from caisi editor table
         request.setAttribute("orgList", lookupManager.LoadCodeList("SHL", true, null, null));
 
@@ -173,9 +311,9 @@ public class FacilityManagerAction extends BaseAction {
     	ActionMessages messages = new ActionMessages();
     	
     	try{
-	        String id = request.getParameter("id");
-	        Facility facility = facilityManager.getFacility(Integer.valueOf(id));
-	        facility.setDisabled(true);
+	        String facilityId = request.getParameter("facilityId");
+	        Facility facility = facilityManager.getFacility(Integer.valueOf(facilityId));
+	        facility.setActive(true);
 	        facilityManager.saveFacility(facility);
 	        
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
@@ -203,11 +341,31 @@ public class FacilityManagerAction extends BaseAction {
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        FacilityManagerForm mform = (FacilityManagerForm) form;
+    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
+    	
+    	FacilityManagerForm mform = (FacilityManagerForm) form;
         Facility facility = mform.getFacility();
-
-        if (request.getParameter("facility.hic") == null) facility.setHic(false);
-
+        request.setAttribute("facility", facility);
+        
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", facility.getId()); 
+        }
+        request.setAttribute("actionParam", actionParam);
+        
+    	
+        
+        if (request.getParameter("facility.hic") == null) 
+        	facility.setHic(false);
+        else
+        	facility.setHic(true);
+        
+        if (request.getParameter("facility.active") == null) 
+        	facility.setActive(false);
+        else
+        	facility.setActive(true);
+        
         if (isCancelled(request)) {
             request.getSession().removeAttribute("facilityManagerForm");
 
@@ -221,20 +379,22 @@ public class FacilityManagerAction extends BaseAction {
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
             saveMessages(request, messages);
 
-            request.setAttribute("id", facility.getId());
+            request.setAttribute("facilityId", facility.getId());
 
             logManager.log("write", "facility", facility.getId().toString(), request);
 
             //return list(mapping, form, request, response);
-            return mapping.findForward(FORWARD_EDIT);
+            //return mapping.findForward(FORWARD_EDIT);
         }
         catch (Exception e) {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("duplicateKey", "The name " + facility.getName()));
             saveMessages(request, messages);
 
-            return mapping.findForward(FORWARD_EDIT);
+            //return mapping.findForward(FORWARD_EDIT);
         }
+        request.setAttribute("facilityId", facility.getId());
+        return edit(mapping, form, request, response);
     }
 
     public FacilityManager getFacilityManager() {

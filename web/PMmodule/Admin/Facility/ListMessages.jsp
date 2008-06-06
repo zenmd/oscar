@@ -12,7 +12,7 @@
 
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Facility management - Facility Details</th>
+			<th class="pageTitle" align="center">Facility management - Messages</th>
 		</tr>
 
 		<!-- body start -->
@@ -49,59 +49,55 @@
 				                    height: 100%; width: 100%; overflow: auto;">
 
 
+
+
+					
 					<br />
 					<div class="tabs" id="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
 						<tr>
-							<th title="Facility Details">Facility Details</th>
+							<th title="Facility Messages">Messages</th>
 						</tr>
 					</table>
 					</div>
+					<br>
+					This table displays client automatic discharges from this facility
+					from the past seven days. An automatic discharge occurs when the
+					client is admitted to another facility while still admitted in this
+					facility.
 
-					<table width="100%" cellpadding="0px" cellspacing="0px">
+					<table width="100%" border="1" cellspacing="2" cellpadding="3" class="simple" >
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Client DOB</th>
+								<th>Bed Program</th>
+								<th>Discharge Date/Time</th>
+							</tr>
+						</thead>
+						<c:forEach var="client" items="${associatedClients}">
 
-						<tr>
-							<td>
-							<table width="100%" border="1" cellspacing="2" cellpadding="3">
-								<tr class="b">
-									<td width="20%">Facility Id:</td>
-									<td><c:out value="${requestScope.id}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Name:</td>
-									<td><c:out
-										value="${requestScope.facilityManagerForm.facility.name}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Description:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.description}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">HIC:</td>
-									<td><c:out value="${facilityManagerForm.facility.hic}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Primary Contact Name:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.contactName}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Primary Contact Email:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.contactEmail}" /></td>
-								</tr>
-								<tr class="b">
-									<td width="20%">Primary Contact Phone:</td>
-									<td><c:out
-										value="${facilityManagerForm.facility.contactPhone}" /></td>
-								</tr>
+							<%
+							String styleColor = "";
+							%>
+							<c:if test="${client.inOneDay}">
+								<%
+								styleColor = "style=\"color:red;\"";
+								%>
+							</c:if>
+							<tr class="b" <%=styleColor%>>
+								<td><c:out value="${client.name}" /></td>
+								<td><c:out value="${client.dob}" /></td>
+								<td><c:out value="${client.programName}" /></td>
+								<td><c:out value="${client.dischargeDate}" /></td>
+							</tr>
 
-
-							</table>
-							</td>
-						</tr>
+						</c:forEach>
 					</table>
+
+
+					<br>
+					Automatic discharges in the past 24 hours appear red.
 					
 					</div>
 					</td>

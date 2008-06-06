@@ -13,7 +13,7 @@ public class Facility implements Serializable {
 	private String contactEmail;
 	private String contactPhone;
     private boolean hic;   
-    private boolean disabled;
+    private boolean active;
     private Integer orgId;
     private Integer sectorId;
     
@@ -52,12 +52,12 @@ public class Facility implements Serializable {
         this.description = description;
     }
 
-    public boolean isDisabled() {
-        return disabled;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getContactName() {
