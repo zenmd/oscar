@@ -94,7 +94,7 @@
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
     <display:column property="notes" sortable="true" title="Reason for Referral" />
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>
-    <display:column property="intakeId" sortable="true" title="Intake Id"/>
+    <display:column property="intakeId" sortable="true" title="Intake ID"/>
 </display:table></div>
 </td>
 </tr>
