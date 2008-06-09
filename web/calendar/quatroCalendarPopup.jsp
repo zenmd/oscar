@@ -46,6 +46,8 @@ function typeCaisiDate(form_name,element_name,year1,month1,day1) {
   var val = "'" + getFormatedDate(year1,month1,day1) + "'";
   var myexpr = test + "=" + val;
   eval(myexpr);
+  var test = "opener.document." + form_name + ".elements['" + element_name +"'].style.backgroundColor='#ffffff'";
+  eval(myexpr);
 }
 //-->
 </script>

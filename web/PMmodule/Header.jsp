@@ -22,6 +22,7 @@
 */
 -->
 <%@ include file="/taglibs.jsp"%>
+<script type="text/javascript" 	src='<c:out value="${pageContext.request.contextPath}"/>/js/checkDate.js'></script>
 <table  width="100%" border="1" bordercolor="#696969">
 	<tr>
 		<td align="left" width="200px" rowspan="2">

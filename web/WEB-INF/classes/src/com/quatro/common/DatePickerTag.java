@@ -63,6 +63,7 @@ public class DatePickerTag extends BaseInputTag{
         prepareAttribute(results, "name", sName);
         prepareAttribute(results, "maxlength", "10");
         prepareAttribute(results, "tabindex", getTabindex());
+        prepareAttribute(results, "onblur", "check_date('" + sName + "');");        
         prepareValue(results);
         results.append(this.prepareEventHandlers());
         results.append(this.prepareStyles());
@@ -82,6 +83,7 @@ public class DatePickerTag extends BaseInputTag{
         prepareAttribute(results, "onclick", "window.open('/" + sRootPath + "/calendar/quatroCalendarPopup.jsp?" + 
           "openerForm="+ openerForm + "&openerElement=" + sName + "&year=" + year + 
           "&month=" + month +"', '', 'width=310,height=310');");        
+
         results.append(this.getElementClose());
         results.append("<img");
        	prepareAttribute(results, "src", "/" + sRootPath + "/images/timepicker.jpg");

@@ -14,16 +14,30 @@ function check_date_for_oracle(checkedDate)
 }		
 
 
-function check_date(checkedDate) 
+function check_date(checkedDateName) 
 {	
 	//eg. checkedDate = '21-09-2007'
 	// Regular expression used to check if date is in correct format
    	//var pattern = new RegExp([0-3][0-9]-0|1[0-9]-19|20[0-9]{2});
    	//pattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	 //'21-09-2007'
+   	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
+   	var checkedDate = checkedDateObj.value;
+   	if(checkedDate==''){
+       checkedDateObj.style.backgroundColor='#ffffff';
+   	   return true;
+    }
+    
+   	if(checkedDate.length!=10){
+        alert('Date format is not valid. The right date format is like yyyy/mm/dd.');
+      	checkedDateObj.focus();
+      	checkedDateObj.style.backgroundColor='#ff0000';
+       	return false;
+    }
+   	 
    	pattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;  //'2007-09-21'	
 	if(checkedDate.match(pattern))
 	{
-      	var date_array = checkedDate.split('-');
+      	var date_array = checkedDate.split('/');
       	var year = date_array[0];
       	// Attention! Javascript consider months in the range 0 - 11      	
       	var month = date_array[1] - 1;      		
@@ -32,16 +46,21 @@ function check_date(checkedDate)
 		source_date = new Date(year,month,day);
 		if(year != source_date.getFullYear() || day != source_date.getDate() || month != source_date.getMonth() )
       	{
-         	alert('Date format is not valid!');
+      	    alert('Date format is not valid. The right date format is like yyyy/mm/dd.');
+         	checkedDateObj.focus();
+      	    checkedDateObj.style.backgroundColor='#ff0000';
          	return false;
      	}	
     }
    	else
    	{
-      	alert('Date format is not valid. The right date format is like 2007-10-16.');
+      	alert('Date format is not valid. The right date format is like yyyy/mm/dd.');
+       	checkedDateObj.focus();
+  	    checkedDateObj.style.backgroundColor='#ff0000';
       	return false;
    	}
 
+   checkedDateObj.style.backgroundColor='#ffffff';
    return true;
 }
 
