@@ -97,7 +97,7 @@ public class ProviderDao extends HibernateDaoSupport {
 		return rs;
 	}
 
-    public List getActiveProviders(String facilityId, String programId) {
+    public List getActiveProviders(Integer shelterId, String programId) {
         ArrayList paramList = new ArrayList();
 
     	String sSQL;
@@ -108,11 +108,11 @@ public class ProviderDao extends HibernateDaoSupport {
 	      paramList.add(Integer.valueOf(programId));
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      rs =  getHibernateTemplate().find(sSQL ,params);
-    	}else if(facilityId!=null && "0".equals(facilityId)==false){
+    	}else if(shelterId!=null && "0".equals(shelterId)==false){
     	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
                 "(select c.providerNo from Secuserrole c where c.orgcd in " +
-                "(select 'P' || a.id from Program a where a.facilityId=?)) ORDER BY p.LastName";
-  	      paramList.add(Integer.valueOf(facilityId));
+                "(select 'P' || a.id from Program a where a.shelterId=?)) ORDER BY p.LastName";
+  	      paramList.add(shelterId);
   	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      rs = getHibernateTemplate().find(sSQL ,params);
     	}else{

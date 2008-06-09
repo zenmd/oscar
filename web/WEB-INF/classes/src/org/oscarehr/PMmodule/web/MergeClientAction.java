@@ -171,7 +171,7 @@ public class MergeClientAction extends BaseClientAction {
 		request.setAttribute("allBedPrograms", allBedPrograms);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
-		List allProviders = providerManager.getActiveProviders(shelterId.toString(), null);
+		List allProviders = providerManager.getActiveProviders(shelterId, null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,	null, null));
 		request.setAttribute("moduleName", " - Client Management");		

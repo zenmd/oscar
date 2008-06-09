@@ -33,6 +33,8 @@ import com.ibm.ws.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -151,6 +153,9 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		
 		Criteria criteria = getSession().createCriteria(CaseManagementNote.class);
+		//criteria.createCriteria("issues");
+		criteria.setFetchMode("issues", FetchMode.JOIN);
+		criteria.createAlias("issues", "a1");
 		String clientIds =mergeClientDao.getMergedClientIds(Integer.valueOf(searchBean.getDemographicNo()));
 		clientIds =clientIds.substring(1,clientIds.length()-1);
 		String[] cIds =clientIds.split(",");
@@ -159,7 +164,11 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		{
 			criteria.add(Expression.eq("provider_no", String.valueOf(searchBean.getSearchProviderNo())));
 		}
+		// TODO  How to add issue criteria here
 		
+		if(!Utility.IsEmpty(searchBean.getSearchServiceComponent())){
+			criteria.add(Expression.eq("a1.issue_id", Integer.valueOf(searchBean.getSearchServiceComponent())));
+		}
 		/*
 		if(searchBean.getSearchRoleId() > 0) {
 			criteria.add(Expression.eq("reporter_caisi_role",String.valueOf(searchBean.getSearchRoleId())));
@@ -198,6 +207,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		}
 
 		criteria.addOrder(Order.desc("observation_date"));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		List lst=criteria.list();
 		return criteria.list();
 		

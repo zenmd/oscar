@@ -300,7 +300,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             log.debug("GET NOTES " + String.valueOf(current - start));
             start = current;
           //  notes = caseManagementMgr.filterNotes(notes, providerNo, programId,currentFacilityId);
-            notes = caseManagementMgr.filterNotes(notes,providerNo,currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
+          //  notes = caseManagementMgr.filterNotes(notes,providerNo,currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
             current = System.currentTimeMillis();
             log.debug("FILTER NOTES " + String.valueOf(current - start));
             start = current;
@@ -314,7 +314,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             log.debug("FILTER NOTES PROVIDER " + String.valueOf(current - start));
             start = current;
           */
-            List providers = getProviderManager().getActiveProviders(currentFacilityId.toString(),null);
+            List providers = getProviderManager().getActiveProviders(currentFacilityId,null);
     		
             request.setAttribute("providers", providers);
             List caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
@@ -494,15 +494,17 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
         List results = this.caseManagementMgr.search(searchBean);
         List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
+        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);   
+        // comment by lillian, it does not need apply for filter
         //List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
         
-        List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
+      //  List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request),shelterId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
 
-        List sortedResults = this.sort_notes(filteredResults, caseForm.getNote_sort());
+        List sortedResults = this.sort_notes(filtered1, caseForm.getNote_sort());
        // request.setAttribute("search_results", sortedResults);
         request.setAttribute("Notes", sortedResults);
         return view(mapping, form, request, response);
+       //return mapping.findForward("page.newcasemgmt.view");
     }
 
     public List sort_notes(List notes, String field) throws Exception {

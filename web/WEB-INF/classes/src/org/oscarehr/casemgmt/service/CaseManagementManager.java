@@ -670,6 +670,8 @@ public class CaseManagementManager {
      * new search logic
      * filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());
      */
+    //comment by Lillian
+    /*
     public List filterNotes(List notes,String providerNo,Integer currentFacilityId,String issId,String caseStatus){
     	List filteredNotes = new ArrayList();
     	if(notes.isEmpty()) return notes;
@@ -687,15 +689,17 @@ public class CaseManagementManager {
           if((Integer.valueOf(issId).intValue()>0) || !Utility.IsEmpty(caseStatus)){  
         	  filteredNotes = notesIssueFiltering(Integer.valueOf(issId),caseStatus, filteredNotes) ;
           }
-        
+        //no facility check comment by Lillian
         // filter notes based on facility
+        /*  
         if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {
             filteredNotes = notesFacilityFiltering(currentFacilityId, filteredNotes);
         }
+        
 
     	return filteredNotes;
     }
-
+*/
     //private Map convertProgramAccessListToMap(List paList) {
     public Map convertProgramAccessListToMap(List paList) {
         Map map = new HashMap();

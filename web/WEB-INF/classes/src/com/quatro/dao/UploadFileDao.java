@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.oscarehr.PMmodule.dao.MergeClientDao;
 import org.oscarehr.casemgmt.dao.CaseManagementNoteDAO;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -20,7 +21,7 @@ import com.quatro.util.Utility;
 public class UploadFileDao extends HibernateDaoSupport {
 
 	private static Log log = LogFactory.getLog(CaseManagementNoteDAO.class);
-
+	private MergeClientDao mergeClientDao;
 	public void saveAttachementText(AttachmentText rtv) {
 		getHibernateTemplate().saveOrUpdate(rtv);
 	}
@@ -45,13 +46,15 @@ public class UploadFileDao extends HibernateDaoSupport {
 		return (Attachment) getHibernateTemplate().get(Attachment.class, docId);
 	}
 
-	public List getAttach(Integer moduleId, String refNo, String providerNo, Integer shelterId) {
-		
-		Object [] params =  new Object[] { moduleId, refNo };	
-
-		String hql = " from Attachment t where t.moduleId = ? and t.refNo=? and t.refProgramId in " +
+	public List getAttach(Integer moduleId, String refNo, String providerNo, Integer shelterId) {			
+		String clientIds=mergeClientDao.getMergedClientIds(Integer.valueOf(refNo));		
+		String hql = " from Attachment t where t.moduleId = ? and t.refNo in "+ clientIds+ " and t.refProgramId in " +
 		Utility.getUserOrgQueryString(providerNo,shelterId) + " order by t.revDate desc";
-		List lst =getHibernateTemplate().find(hql,	params);
+		List lst =getHibernateTemplate().find(hql,	moduleId);
 		return lst;
+	}
+
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
 	}
 }
