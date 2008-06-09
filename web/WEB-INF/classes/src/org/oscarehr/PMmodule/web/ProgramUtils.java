@@ -53,6 +53,8 @@ public class ProgramUtils
     }
     
     private static void addProgramAgeRestrictions(HttpServletRequest request) {
+    	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	
         request.getSession().setAttribute("programAgeValidationMethod", addProgramAgeRestrictionsMethod());
     }
 
@@ -102,7 +104,7 @@ public class ProgramUtils
         sb.append("{\n");
         
 //        for (Program program : programDao.getAllActiveBedPrograms())
-        List programs = programDao.getAllPrograms(Program.PROGRAM_STATUS_ACTIVE,Program.BED_TYPE,KeyConstants.SYSTEM_USER_PROVIDER_NO, null);
+        List programs = programDao.getAllPrograms(Program.PROGRAM_STATUS_ACTIVE,Program.BED_TYPE,null,KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
         for(int i=0; i< programs.size(); i++)
         {
         	Program program = (Program)programs.get(i);

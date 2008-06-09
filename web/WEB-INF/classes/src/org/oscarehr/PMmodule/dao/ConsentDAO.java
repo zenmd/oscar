@@ -36,10 +36,15 @@ import org.oscarehr.PMmodule.model.ConsentDetail;
 public class ConsentDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(ConsentDAO.class);
+    private MergeClientDao mergeClientDao;
 
-
-    public List getConsentsDetailList(Integer clientNo,String providerNo){
-    	List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo=? and a.providerNo=?",new Object[]{clientNo,providerNo});
+    public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
+	public List getConsentsDetailList(Integer clientNo,String providerNo){
+    	String clientIds = mergeClientDao.getMergedClientIds(clientNo);
+    	
+		List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo in " +clientIds+" and a.providerNo=?",providerNo);
     	if(results.size()>0){
     		Iterator items=results.iterator();
     		while(items.hasNext()){

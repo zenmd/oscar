@@ -448,7 +448,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		qform.setOriginalCountry(originalCountry);
 		
         Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(), shelterId).size()>0){
+        String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(),providerNo, shelterId).size()>0){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
           			request.getContextPath()));
         	isError = true;

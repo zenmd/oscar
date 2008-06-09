@@ -35,14 +35,14 @@ public class IntakeDao extends HibernateDaoSupport {
         return getHibernateTemplate().find(sSQL);
 	}
 
-    public List checkExistBedIntakeByPrograms(Integer clientId, Program[] programs){
+    public List checkExistBedIntakeByPrograms(Integer clientId, List programs){
         StringBuffer sb = new StringBuffer();
-        Object[] obj= new Object[programs.length];
-        obj[0]=programs[0].getId();
+        Object[] obj= new Object[programs.size()];
+        obj[0]=((Program)programs.get(0)).getId();
         sb.append("?");
-        for(int i=1;i<programs.length;i++){
+        for(int i=1;i<programs.size();i++){
            sb.append(",?");
-           obj[i]=programs[i].getId();
+           obj[i]=((Program)programs.get(i)).getId();
         }
         //client Merge
         String clientIds=mergeClientDao.getMergedClientIds(clientId);

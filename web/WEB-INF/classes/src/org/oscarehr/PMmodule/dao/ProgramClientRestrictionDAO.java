@@ -21,12 +21,13 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
     private DemographicDAO demographicDAOT;
     private ProgramDao programDao;
     private ProviderDao providerDao;
+    private MergeClientDao mergeClientDao;
 
     private static Log log = LogFactory.getLog(ProgramClientRestrictionDAO.class);
 
     public Collection find(int programId, int demographicNo) {
-
-        List pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? and pcr.demographicNo = ? order by pcr.startDate", new Object[]{new Integer(programId), new Integer(demographicNo)});
+    	String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        List pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? and pcr.demographicNo in "+clientIds+" order by pcr.startDate",programId);
 //        for (ProgramClientRestriction pcr : pcrs) {
         for (int i=0;i<pcrs.size();i++) {
         	ProgramClientRestriction pcr =(ProgramClientRestriction)pcrs.get(i);
@@ -70,13 +71,14 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
     }
     
     public List findAllForClient(Integer demographicNo,String providerNo,Integer shelterId) {
-    	String sql ="from ProgramClientRestriction pcr where pcr.demographicNo = ? and pcr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId) +" order by pcr.endDate desc";
-        Object[] params= new Object[]{demographicNo};
-    	List results = getHibernateTemplate().find(sql,params);       
+    	String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+    	String sql ="from ProgramClientRestriction pcr where pcr.demographicNo in "+clientIds+" and pcr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId) +" order by pcr.endDate desc";
+    	List results = getHibernateTemplate().find(sql);       
         return results;
     }
     public Collection findForClient(Integer demographicNo) {
-        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.demographicNo = ? order by pcr.programId", demographicNo);
+    	String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.demographicNo in " +clientIds+" order by pcr.programId");
 //        for (ProgramClientRestriction pcr : pcrs) {
 //            setRelationships(pcr);
 //        }
@@ -88,14 +90,12 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         return pcrs;
     }
 
-    public Collection findForClient(Integer demographicNo, String providerNo,Integer shelterId) {
-        ArrayList paramList = new ArrayList();
+    public Collection findForClient(Integer demographicNo,String providerNo, Integer shelterId) {        
+        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
         String sSQL="from ProgramClientRestriction pcr where pcr.enabled = true and " +
-  		 "pcr.demographicNo = ? and pcr.programId in " +  Utility.getUserOrgQueryString(providerNo, shelterId) +
-         " order by pcr.programId";
-          paramList.add(demographicNo);
-          Object params[] = paramList.toArray(new Object[paramList.size()]);
-          Collection pcrs= getHibernateTemplate().find(sSQL, params);
+  		 "pcr.demographicNo in "+clientIds+" and pcr.programId in " + Utility.getUserOrgQueryString(providerNo, shelterId)+
+         "order by pcr.programId";        
+          Collection pcrs= getHibernateTemplate().find(sSQL, demographicNo);
 //          for (ProgramClientRestriction pcr : pcrs) {
 //              setRelationships(pcr);
 //          }
@@ -108,7 +108,8 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
     }
 
     public Collection findDisabledForClient(Integer demographicNo) {
-        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = false and pcr.demographicNo = ? order by pcr.programId", demographicNo);
+    	String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
+        Collection pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = false and pcr.demographicNo in "+clientIds+" order by pcr.programId");
 //        for (ProgramClientRestriction pcr : pcrs) {
 //            setRelationships(pcr);
 //        }
@@ -142,5 +143,9 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
     public void setProviderDao(ProviderDao providerDao) {
         this.providerDao = providerDao;
     }
+
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 
 }

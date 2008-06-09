@@ -36,6 +36,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.oscarehr.PMmodule.dao.MergeClientDao;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -46,7 +47,8 @@ import oscar.OscarProperties;
 
 public class CaseManagementNoteDAO extends HibernateDaoSupport {
 	
-	private static Log log = LogFactory.getLog(CaseManagementNoteDAO.class);                
+	private static Log log = LogFactory.getLog(CaseManagementNoteDAO.class);   
+	private MergeClientDao mergeClientDao;	
         
         public List getEditors(CaseManagementNote note) {
             String uuid = note.getUuid();
@@ -149,12 +151,15 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		
 		Criteria criteria = getSession().createCriteria(CaseManagementNote.class);
-		
-		criteria.add(Expression.eq("demographic_no", searchBean.getDemographicNo()));
+		String clientIds =mergeClientDao.getMergedClientIds(Integer.valueOf(searchBean.getDemographicNo()));
+		clientIds =clientIds.substring(1,clientIds.length()-1);
+		String[] cIds =clientIds.split(",");
+		criteria.add(Expression.in("demographic_no", cIds));
 		if(!Utility.IsEmpty(searchBean.getSearchProviderNo()))
 		{
 			criteria.add(Expression.eq("provider_no", String.valueOf(searchBean.getSearchProviderNo())));
 		}
+		
 		/*
 		if(searchBean.getSearchRoleId() > 0) {
 			criteria.add(Expression.eq("reporter_caisi_role",String.valueOf(searchBean.getSearchRoleId())));
@@ -201,5 +206,9 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 	public List getAllNoteIds() {
 		List results = this.getHibernateTemplate().find("select n.id from CaseManagementNote n");
 		return results;
+	}
+
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
 	}
 }

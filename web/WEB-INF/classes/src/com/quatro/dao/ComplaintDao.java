@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
+import org.oscarehr.PMmodule.dao.MergeClientDao;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.Complaint;
@@ -61,7 +62,7 @@ public class ComplaintDao extends HibernateDaoSupport {
 	public static final String CLIENT_ID = "clientId";
 
 	public static final String PROGRAM_ID = "programId";
-
+	private MergeClientDao mergeClientDao;
 	
 	
    public List getSources() {
@@ -182,8 +183,14 @@ public class ComplaintDao extends HibernateDaoSupport {
 			String queryString = "from Complaint as model where model."
 					+ propertyName + "= ?"
 					+ " order by model.id desc";
+			if(CLIENT_ID.equals(propertyName)){
+				String clientIds=mergeClientDao.getMergedClientIds(Integer.valueOf(value.toString()));
+				queryString = "from Complaint as model where model."
+					+ propertyName + " in " +clientIds
+					+ " order by model.id desc";
+			}
 			Query queryObject = getSession().createQuery(queryString);
-			queryObject.setParameter(0, value);
+			if(!CLIENT_ID.equals(propertyName))queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
@@ -319,5 +326,9 @@ public class ComplaintDao extends HibernateDaoSupport {
 			log.error("attach failed", re);
 			throw re;
 		}
+	}
+
+	public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
 	}
 }

@@ -230,7 +230,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		Iterator itr = issuelist.iterator();
 		while (itr.hasNext()) {
 			CaseManagementIssue iss = (CaseManagementIssue) itr.next();
-			rt = rt + "\n" + iss.getIssue().getDescription();   // + "\t\t\n";
+			rt = rt + "\n" + iss.getIssue().getDescription()+" ";   // + "\t\t\n";
 			/*
 			if (iss.isCertain())
 				rt = rt + "certain" + "  ";

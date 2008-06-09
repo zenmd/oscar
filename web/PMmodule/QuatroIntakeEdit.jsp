@@ -44,8 +44,8 @@ function submitForm(methodVal) {
       return; 
     }
     
-	document.forms(0).method.value = methodVal;
-	document.forms(0).submit();
+	document.forms[0].method.value = methodVal;
+	document.forms[0].submit();
 }
 
 function checkExistClients(){
