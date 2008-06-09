@@ -167,5 +167,11 @@ String _appPath = request.getContextPath();
 		</table>
 		</div>
 		</td>
+		<tr height="100%"> <td> &nbsp;</td></tr>
+	<tr>
+		<td valign="bottom">
+			<tiles:insert name="../Messages.jsp" />
+		</td>
+	</tr>
 	</tr>
 </table>

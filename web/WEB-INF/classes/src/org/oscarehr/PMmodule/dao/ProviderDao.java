@@ -39,7 +39,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import oscar.OscarProperties;
 import oscar.util.SqlUtils;
-
 public class ProviderDao extends HibernateDaoSupport {
 	private static Log log = LogFactory.getLog(ProviderDao.class);
 	
@@ -97,31 +96,15 @@ public class ProviderDao extends HibernateDaoSupport {
 		return rs;
 	}
 
-    public List getActiveProviders(Integer shelterId, String programId) {
+    public List getActiveProviders(Integer programId) {
         ArrayList paramList = new ArrayList();
 
-    	String sSQL;
-    	List rs;
-    	if(programId!=null && "0".equals(programId)==false){
-    	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
-               "(select c.providerNo from Secuserrole c where c.orgcd ='P' || ?) ORDER BY p.LastName";
-	      paramList.add(Integer.valueOf(programId));
-	      Object params[] = paramList.toArray(new Object[paramList.size()]);
-	      rs =  getHibernateTemplate().find(sSQL ,params);
-    	}else if(shelterId!=null && "0".equals(shelterId)==false){
-    	  sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
-                "(select c.providerNo from Secuserrole c where c.orgcd in " +
-                "(select 'P' || a.id from Program a where a.shelterId=?)) ORDER BY p.LastName";
-  	      paramList.add(shelterId);
-  	      Object params[] = paramList.toArray(new Object[paramList.size()]);
-	      rs = getHibernateTemplate().find(sSQL ,params);
-    	}else{
-    	  sSQL="FROM  Provider p where p.Status='1' ORDER BY p.LastName";
-    	  rs = getHibernateTemplate().find(sSQL);
-    	}
-//    	List<Provider> rs = getHibernateTemplate().find("FROM  Provider p ORDER BY p.LastName");
+    	String sSQL="FROM  Provider p where p.Status='1' and p.ProviderNo in " +
+           "(select c.providerNo from Secuserrole c where c.orgcd ='P' || ?) ORDER BY p.LastName";
+    	paramList.add(programId);
+    	Object params[] = paramList.toArray(new Object[paramList.size()]);
 
-		return rs;
+    	return  getHibernateTemplate().find(sSQL ,params);
 	}
 
     public List getActiveProviders() {

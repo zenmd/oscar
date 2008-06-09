@@ -156,7 +156,7 @@ public class ProgramManager {
          return programDao.getAllPrograms(null,null,null,providerNo,shelterId);
     }
     public List getPrograms(Integer clientId,String providerNo,Integer shelterId) {
-        return programDao.getAllPrograms(null,null,null,providerNo,shelterId);
+        return programDao.getAllPrograms( null,null,null,clientId,providerNo,shelterId);
     }
 
     public List getProgramIds(Integer shelterId,String providerNo) {
