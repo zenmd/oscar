@@ -20,10 +20,11 @@
 * Toronto, Ontario, Canada 
 */
 
-package org.caisi.core.web;
+package org.oscarehr.PMmodule.web.admin;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,13 +38,15 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
-import org.apache.struts.actions.DispatchAction;
-import org.caisi.model.FacilityMessage;
-import org.caisi.service.FacilityMessageManager;
 import org.oscarehr.PMmodule.model.Facility;
+import org.oscarehr.PMmodule.model.FacilityMessage;
 import org.oscarehr.PMmodule.service.FacilityManager;
+import org.oscarehr.PMmodule.service.FacilityMessageManager;
+import org.oscarehr.PMmodule.web.BaseFacilityAction;
 
-public class FacilityMessageAction extends DispatchAction {
+import com.quatro.common.KeyConstants;
+
+public class FacilityMessageAction extends BaseFacilityAction {
 
 	private static Log log = LogFactory.getLog(FacilityMessageAction.class);
 	
@@ -67,11 +70,26 @@ public class FacilityMessageAction extends DispatchAction {
 	}
 		
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		//List activeMessages = mgr.getMessages();
-		Facility facility = (Facility)request.getSession().getAttribute("currentFacility");
-		Integer facilityId = null;
-		if(facility!=null)
-			facilityId = Integer.valueOf(facility.getId().intValue());
+		super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", request.getParameter("facilityId")); 
+        }
+        request.setAttribute("actionParam", actionParam);
+        
+        
+    	String idStr = request.getParameter("facilityId");
+        Integer facilityId = Integer.valueOf(idStr);
+        Facility facility = facilityMgr.getFacility(facilityId);
+        request.setAttribute("facility", facility);
+        
+        //List activeMessages = mgr.getMessages();
+		//Facility facility = (Facility)request.getSession().getAttribute("currentFacility");
+		//Integer facilityId = null;
+		//if(facility!=null)
+		//	facilityId = Integer.valueOf(facility.getId().intValue());
 		
 		List activeMessages = mgr.getMessagesByFacilityId(facilityId);
 		if(activeMessages!=null && activeMessages.size() >0)
@@ -80,16 +98,29 @@ public class FacilityMessageAction extends DispatchAction {
 	}
 	
 	public ActionForward edit(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", request.getParameter("facilityId")); 
+        }
+        request.setAttribute("actionParam", actionParam);
+                
+    	String idStr = request.getParameter("facilityId");
+        Integer facilityId = Integer.valueOf(idStr);
+        Facility facility = facilityMgr.getFacility(facilityId);
+        request.setAttribute("facility", facility);
+		
 		DynaActionForm facilityMessageForm = (DynaActionForm)form;
 		String messageId = request.getParameter("id");
 		
-		String providerNo = (String)request.getSession().getAttribute("user");
-		
+			
 		//List facilities = programProviderDAO.getFacilitiesInProgramDomain(providerNo);
-		List facilities = new ArrayList();
-		facilities.add((Facility)request.getSession().getAttribute("currentFacility"));
+		//List facilities = new ArrayList();
+		//facilities.add((Facility)request.getSession().getAttribute("currentFacility"));
 		
-		request.getSession().setAttribute("facilities", facilities);
+		//request.getSession().setAttribute("facilities", facilities);
 		
 		if(messageId != null) {
 			FacilityMessage msg = mgr.getMessage(messageId);
@@ -112,21 +143,39 @@ public class FacilityMessageAction extends DispatchAction {
 		FacilityMessage msg = (FacilityMessage)userForm.get("facility_message");
 		msg.setCreation_date(new Date());
 		Integer facilityId = msg.getFacilityId();
+		
+		super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+    	
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("facilityId", facilityId); 
+        }
+        request.setAttribute("actionParam", actionParam);
+		
 		String facilityName = "";
 		if(facilityId!=null && facilityId.intValue()!=0)
 			facilityName = facilityMgr.getFacility(facilityId).getName();
 		msg.setFacilityName(facilityName);
-		mgr.saveFacilityMessage(msg);
+		try{
+			mgr.saveFacilityMessage(msg);
+			ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+            saveMessages(request, messages);
+		}catch(Exception e){
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed", request.getContextPath()));
+	        saveMessages(request,messages);
+		}
 		
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("system_message.saved"));
-        saveMessages(request,messages);
-
-        return list(mapping,form,request,response);
+		Facility facility = facilityMgr.getFacility(facilityId);
+        request.setAttribute("facility", facility);
+        
+        return mapping.findForward("edit");
 	}
 	
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		
+		        
 		//String providerNo = (String)request.getSession().getAttribute("user");
 		//List messages = programProviderDAO.getFacilityMessagesInProgramDomain(providerNo);
 		Facility facility = (Facility)request.getSession().getAttribute("currentFacility");

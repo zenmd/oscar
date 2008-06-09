@@ -48,7 +48,7 @@
         <property name="ticklerManager" ref="ticklerManagerT"/>
     </bean>
     <bean name="/SystemMessage" class="org.caisi.core.web.SystemMessageAction" singleton="false"  autowire="byName" />
-    <bean name="/FacilityMessage" class="org.caisi.core.web.FacilityMessageAction" singleton="false"  autowire="byName" />
+    <bean name="/FacilityMessage" class="org.oscarehr.PMmodule.web.admin.FacilityMessageAction" singleton="false"  autowire="byName" />
     <bean name="/issueAdmin" class="org.caisi.core.web.IssueAdminAction" singleton="false"  autowire="byName" />
 <!-- 
     <bean name="/CaisiEditor" class="org.caisi.core.web.CaisiEditorAction" singleton="false"  autowire="byName" />

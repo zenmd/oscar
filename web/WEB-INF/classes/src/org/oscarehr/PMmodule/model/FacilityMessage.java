@@ -20,11 +20,13 @@
 * Toronto, Ontario, Canada 
 */
 
-package org.caisi.model;
+package org.oscarehr.PMmodule.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.caisi.model.BaseObject;
 
 public class FacilityMessage extends BaseObject {
 	private Integer id;
@@ -77,12 +79,12 @@ public class FacilityMessage extends BaseObject {
 	
 	/* web specific */
 	public String getExpiry_day() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		return formatter.format(getExpiry_date());
 	}
 	
 	public void setExpiry_day(String day) throws IllegalArgumentException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			Date dt=formatter.parse(day);
 			Calendar cal1 = Calendar.getInstance();
@@ -94,7 +96,7 @@ public class FacilityMessage extends BaseObject {
 			cal.set(Calendar.YEAR, cal1.get(Calendar.YEAR));
 			setExpiry_date(cal.getTime());
 		}catch(Exception e) {
-			throw new IllegalArgumentException("date must be in yyyy-MM-dd format");
+			throw new IllegalArgumentException("date must be in yyyy/MM/dd format");
 		}
 	}
 	

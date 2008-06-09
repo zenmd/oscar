@@ -1,5 +1,7 @@
 <%@ include file="/taglibs.jsp"%>
-<% String s = "debug"; %>
+<%
+String s = "debug";
+%>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
 <bean:define id="facility" name="facilityManagerForm"
 	property="facility" />
@@ -12,7 +14,8 @@
 
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Facility management - Messages</th>
+			<th class="pageTitle" align="center">Facility management -
+			Messages</th>
 		</tr>
 
 		<!-- body start -->
@@ -27,6 +30,10 @@
 						action="/PMmodule/FacilityManager.do?method=list"
 						style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+						<html:link
+						action="/FacilityMessage.do?method=edit" name="actionParam" 
+						style="color:Navy;text-decoration:none;">
+						<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
 					</td>
 				</tr>
 
@@ -51,7 +58,7 @@
 
 
 
-					
+
 					<br />
 					<div class="tabs" id="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
@@ -60,45 +67,31 @@
 						</tr>
 					</table>
 					</div>
-					<br>
-					This table displays client automatic discharges from this facility
-					from the past seven days. An automatic discharge occurs when the
-					client is admitted to another facility while still admitted in this
-					facility.
+										
+					<br />
 
-					<table width="100%" border="1" cellspacing="2" cellpadding="3" class="simple" >
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Client DOB</th>
-								<th>Bed Program</th>
-								<th>Discharge Date/Time</th>
-							</tr>
-						</thead>
-						<c:forEach var="client" items="${associatedClients}">
-
-							<%
-							String styleColor = "";
-							%>
-							<c:if test="${client.inOneDay}">
-								<%
-								styleColor = "style=\"color:red;\"";
-								%>
-							</c:if>
-							<tr class="b" <%=styleColor%>>
-								<td><c:out value="${client.name}" /></td>
-								<td><c:out value="${client.dob}" /></td>
-								<td><c:out value="${client.programName}" /></td>
-								<td><c:out value="${client.dischargeDate}" /></td>
-							</tr>
-
-						</c:forEach>
-					</table>
-
-
-					<br>
-					Automatic discharges in the past 24 hours appear red.
 					
+					
+					<display:table class="simple" cellspacing="2" cellpadding="3" id="message" name="ActiveFacilityMessages" export="false" pagesize="0" requestURI="/FacilityMessage.do?method=list">
+						        <display:setProperty name="paging.banner.placement" value="bottom" />
+						        <display:setProperty name="paging.banner.item_name" value="agency" />
+						        <display:setProperty name="paging.banner.items_name" value="messages" />
+						        <display:setProperty name="basic.msg.empty_list" value="No message found." />
+						
+						        <display:column sortable="false" title="">
+						        	<a href="<html:rewrite action="FacilityMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>&facilityId=<c:out value="${facility.id}"/>" > Edit </a>
+						        </display:column>
+						        
+								
+						        <display:column property="formattedCreationDate" sortable="true" title="Creation Date"/>
+						        <display:column property="formattedExpiryDate" sortable="true" title="Expiry Date" />
+						        <display:column property="message" sortable="true" title="Message" />
+						        
+						        
+						    </display:table>
+
+					
+
 					</div>
 					</td>
 				</tr>

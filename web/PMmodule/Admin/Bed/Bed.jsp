@@ -356,7 +356,7 @@
 											<td align="left" style="font-weight:bold">Room
 											<html:select property="bedRoomFilterForBed"
 												name="bedManagerForm" onchange="bedFilter();">
-												<html:optionsCollection property="rooms" value="id"
+												<html:optionsCollection property="assignedBedRooms" value="id"
 													label="name" />
 											</html:select></td>
 										</tr>
@@ -396,14 +396,11 @@
 													items="${bedManagerForm.assignedBedRooms}">
 													<c:choose>
 														<c:when test="${room.id == bed.roomId}">
-															<option value="<c:out value="${room.id}"/>"
+															<option value="<c:out value="${room.id}"/>" 
 																selected="selected"><c:out value="${room.name}" />
 															</option>
 														</c:when>
-														<c:otherwise>
-															<option value="<c:out value="${room.id}"/>"><c:out
-																value="${room.name}" /></option>
-														</c:otherwise>
+														
 													</c:choose>
 												</c:forEach>
 											</select>

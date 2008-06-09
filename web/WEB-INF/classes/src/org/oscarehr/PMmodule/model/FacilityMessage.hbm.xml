@@ -17,7 +17,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-	<class name="org.caisi.model.FacilityMessage" table="facility_message">
+	<class name="org.oscarehr.PMmodule.model.FacilityMessage" table="facility_message">
 		<id name="id" column="id" unsaved-value="0">
 			<generator class="native" />
 		</id>

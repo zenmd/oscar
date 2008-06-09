@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web.admin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +59,12 @@ public class BedManagerAction extends BaseFacilityAction {
     }
 
     public ActionForward manage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	
+    	processDisplay(form, request);
+
+        return mapping.findForward(FORWARD_MANAGE);
+    }
+
+    private void processDisplay(ActionForm form, HttpServletRequest request){
     	prepareLeftNav(request);
         
     	BedManagerForm bForm = (BedManagerForm) form;
@@ -67,25 +73,53 @@ public class BedManagerAction extends BaseFacilityAction {
         Facility facility = facilityManager.getFacility(facilityId);
 
         bForm.setFacilityId(facilityId);
-        bForm.setRooms(roomManager.getRooms(facilityId));
-        bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
+        Room[] rooms = null;
+        Room[] temp = roomManager.getRooms(facilityId);
+        ArrayList rmLst = new ArrayList();
+        for(int i =0; i < temp.length; i++){
+        	Room rm = temp[i];
+        	if(rm.getAssignedBed() == 1)
+        		rmLst.add(rm);
+        }
+        if(rmLst.size()>0){
+        	rooms = new Room[rmLst.size()];
+        	for(int i = 0; i < rmLst.size(); i++){
+        		rooms[i] = (Room)rmLst.get(i);
+        	}
+        }
+        	
+        bForm.setRooms(temp);
+        //bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
+        bForm.setAssignedBedRooms(rooms);
         bForm.setRoomTypes(roomManager.getRoomTypes());
         bForm.setNumRooms(new Integer(1));
-
+        Integer tmp = bForm.getBedRoomFilterForBed();
+        Room[] room = bForm.getAssignedBedRooms();
+        if( tmp != null){
+        	for(int i=0; i< room.length;i++){
+	        	if(tmp.intValue() == room[i].getId()){
+	        		
+	        		break;
+	        	}
+	        	if(i==room.length-1)
+	        		bForm.setBedRoomFilterForBed(null);
+        	}
+        		
+        }
+        
         if (bForm.getBedRoomFilterForBed() == null) {
-            Room[] room = bForm.getRooms();
             if (room != null && room.length > 0) {
                 bForm.setBedRoomFilterForBed(room[0].getId());
             }
         }
-        // bForm.setBeds(bedManager.getBedsByFacility(facilityId, null, false));
+
         List lst = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), null, false);
         Bed[] bedsTemp= new Bed[lst.size()];
         for(int i=0;i<lst.size();i++){
         	bedsTemp[i]= (Bed)lst.get(i);
         }
         bForm.setBeds(bedsTemp);
-//        bForm.setBeds(lst.toArray(new Bed[lst.size()]));
+
 
         bForm.setBedTypes(bedManager.getBedTypes());
         bForm.setNumBeds(new Integer(1));
@@ -98,9 +132,8 @@ public class BedManagerAction extends BaseFacilityAction {
         bForm.setRoomStatusNames(statusNames);
         bForm.setBedStatusNames(statusNames);
 
-        return mapping.findForward(FORWARD_MANAGE);
     }
-
+    
     public ActionForward manageFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
@@ -300,18 +333,36 @@ public class BedManagerAction extends BaseFacilityAction {
             }
         }
 
-        if (numRooms != null && numRooms.intValue() > 0) {
-            try {
-                roomManager.addRooms(bForm.getFacilityId(), numRooms.intValue());
-            }
-            catch (RoomHasActiveBedsException e) {
-                ActionMessages messages = new ActionMessages();
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.active.beds.error", e.getMessage()));
-                saveMessages(request, messages);
-            }
+//        if (numRooms != null && numRooms.intValue() > 0) {
+//            try {
+//                roomManager.addRooms(bForm.getFacilityId(), numRooms.intValue());
+//            }
+//            catch (RoomHasActiveBedsException e) {
+//                ActionMessages messages = new ActionMessages();
+//                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.active.beds.error", e.getMessage()));
+//                saveMessages(request, messages);
+//            }
+//        }
+//		return manage(mapping, form, request, response);
+    	
+        processDisplay(form, request);
+        
+        if(numRooms != null && numRooms.intValue() > 0){
+        	int len = bForm.getRooms().length;
+	        Room[] roomsTemp= new Room[len + numRooms];
+	        
+	        for(int i = 0; i < len; i++){
+	        	roomsTemp[i]= bForm.getRooms()[i];
+	        }
+	        for(int i = len; i < len + numRooms; i++){
+	        	Room rm = new Room();
+	        	rm.setFacilityId(bForm.getFacilityId());
+	        	roomsTemp[i]= rm;
+	        }
+	        bForm.setRooms(roomsTemp);
         }
+    	return mapping.findForward(FORWARD_MANAGE);
 
-        return manage(mapping, form, request, response);
     }
 
     public ActionForward addBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -336,18 +387,51 @@ public class BedManagerAction extends BaseFacilityAction {
             }
         }
 
-        if (numBeds != null && numBeds.intValue() > 0) {
-            try {
-                bedManager.addBeds(facilityId, roomId, numBeds.intValue());
-            }
-            catch (BedReservedException e) {
-                ActionMessages messages = new ActionMessages();
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.reserved.error", e.getMessage()));
-                saveMessages(request, messages);
-            }
+//        if (numBeds != null && numBeds.intValue() > 0) {
+//            try {
+//                bedManager.addBeds(facilityId, roomId, numBeds.intValue());
+//            }
+//            catch (BedReservedException e) {
+//                ActionMessages messages = new ActionMessages();
+//                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.reserved.error", e.getMessage()));
+//                saveMessages(request, messages);
+//            }
+//        }
+//
+//        return manage(mapping, form, request, response);
+        
+        
+        
+        Room room = roomManager.getRoom(roomId);
+        int max = room.getOccupancy();
+        
+        processDisplay(form, request);
+        
+        int len = bForm.getBeds().length;
+        
+        if(len + numBeds <= max){
+	        if(numBeds != null && numBeds.intValue() > 0){
+	        	
+		        Bed[] bedsTemp= new Bed[len + numBeds];
+		        
+		        for(int i = 0; i < len; i++){
+		        	bedsTemp[i]= bForm.getBeds()[i];
+		        }
+		        for(int i = len; i < len + numBeds; i++){
+		        	Bed bed = new Bed();
+		        	bed.setFacilityId(facilityId);
+		        	bed.setRoomId(roomId);
+		        	bedsTemp[i]= bed;
+		        }
+		        bForm.setBeds(bedsTemp);
+	        }
+        }else{
+            ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.addBed.tooMany", request.getContextPath(), max));
+            saveMessages(request, messages);
         }
-
-        return manage(mapping, form, request, response);
+    	return mapping.findForward(FORWARD_MANAGE);
+    	
     }
 
     public ActionForward doRoomFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

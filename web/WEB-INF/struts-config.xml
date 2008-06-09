@@ -7,7 +7,7 @@
             <form-property name="system_message" type="org.caisi.model.SystemMessage" />
         </form-bean>
         <form-bean name="facilityMessageForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="facility_message" type="org.caisi.model.FacilityMessage" />
+            <form-property name="facility_message" type="org.oscarehr.PMmodule.model.FacilityMessage" />
         </form-bean>
         <form-bean name="roleForm" type="org.apache.struts.validator.DynaValidatorForm"></form-bean>
         <form-bean name="inputForm" type="org.apache.struts.validator.LazyValidatorForm"></form-bean>
@@ -434,8 +434,8 @@
         </action>
         <action path="/FacilityMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="facilityMessageForm" input="/caisicore/FacilityMessageForm.jsp" validate="false">
             <forward name="view" path="/caisicore/FacilityMessage.jsp" />
-            <forward name="list" path="/caisicore/FacilityMessageList.jsp" />
-            <forward name="edit" path="/caisicore/FacilityMessageForm.jsp" />
+            <forward name="list" path="page.pmm.admin.facility.message" />
+            <forward name="edit" path="page.pmm.admin.facility.message.edit" />
         </action>
         <action path="/issueAdmin" type="org.springframework.web.struts.DelegatingActionProxy" name="issueAdminForm" scope="request" parameter="method" validate="false">
             <forward name="list" path="/caisicore/issueAdminList.jsp" />

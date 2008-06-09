@@ -20,32 +20,45 @@
 * Toronto, Ontario, Canada 
 */
 
-package org.caisi.dao;
+
+package org.oscarehr.PMmodule.service;
 
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.caisi.model.FacilityMessage;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.oscarehr.PMmodule.dao.FacilityMessageDAO;
+import org.oscarehr.PMmodule.model.FacilityMessage;
 
-public class FacilityMessageDAO extends HibernateDaoSupport  {
 
-	private static Log log = LogFactory.getLog(FacilityMessageDAO.class);
+public class FacilityMessageManager {
+
+	private static Log log = LogFactory.getLog(FacilityMessageManager.class);
 	
-	public FacilityMessage getMessage(Integer id) {
-		return (FacilityMessage)this.getHibernateTemplate().get(FacilityMessage.class,id);
+	
+	private FacilityMessageDAO dao = null;	
+	
+	public FacilityMessage getMessage(String messageId) {
+		return dao.getMessage(Integer.valueOf(messageId));
+	}
+	
+	
+	public void setFacilityMessageDAO(FacilityMessageDAO dao) {
+		this.dao = dao;
+	}
+	
+	public void saveFacilityMessage(FacilityMessage msg) {
+		dao.saveMessage(msg);
 	}
 	
 	public List getMessages() {
-		return this.getHibernateTemplate().find("from FacilityMessage fm order by fm.expiry_date desc");
-	}
-	
-	public void saveMessage(FacilityMessage mesg) {
-		this.getHibernateTemplate().saveOrUpdate(mesg);
+		return dao.getMessages();
 	}
 
 	public List getMessagesByFacilityId(Integer facilityId) {
-		return this.getHibernateTemplate().find("from FacilityMessage fm where facilityId=? order by fm.expiry_date desc", facilityId);
+		if (facilityId == null || facilityId == null) {           
+        	return null;
+        }
+		return dao.getMessagesByFacilityId(facilityId);
 	}
 }

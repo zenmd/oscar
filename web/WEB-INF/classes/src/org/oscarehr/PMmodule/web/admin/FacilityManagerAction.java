@@ -185,6 +185,64 @@ public class FacilityManagerAction extends BaseFacilityAction {
         
 
         request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
+        
+        
+        
+//      Get facility associated client list -----------
+        List facilityClients = new ArrayList();
+
+         // Get program list by facility id in table room.
+                  
+         for (int i=0;i<programs.size();i++) {
+         	Program program = (Program) programs.get(i);
+             if (program != null) {
+                 // Get admission list by program id and automatic_discharge=true
+
+                 List admissions = admissionDao.getAdmissionsByProgramId(program.getId(), new Boolean(true), new Integer(-7));
+                 if (admissions != null) {
+                     Iterator it = admissions.iterator();
+                     while (it.hasNext()) {
+
+                         Admission admission = (Admission) it.next();
+
+                         // Get demographic list by demographic_no
+                         Demographic client = clientDao.getClientByDemographicNo(admission.getClientId());
+
+                         String name = client.getFirstName() + " " + client.getLastName();
+                         String dob = client.getYearOfBirth() + "/" + client.getMonthOfBirth() + "/" + client.getDateOfBirth();
+                         String pName = program.getName();
+                         Date dischargeDate = admission.getDischargeDate().getTime();
+                         String dDate = dischargeDate.toString();
+
+                         // today's date
+                         Calendar calendar = Calendar.getInstance();
+
+                         // today's date - days
+                         calendar.add(Calendar.DAY_OF_YEAR, -1);
+
+                         Date oneDayAgo = calendar.getTime();
+
+                         FacilityDischargedClients fdc = new FacilityDischargedClients();
+                         fdc.setName(name);
+                         fdc.setDob(dob);
+                         fdc.setProgramName(pName);
+                         fdc.setDischargeDate(dDate);
+
+                         if (dischargeDate.after(oneDayAgo)) {
+                             fdc.setInOneDay(true);
+                         }
+                         else {
+                             fdc.setInOneDay(false);
+                         }
+                         facilityClients.add(fdc);
+
+                     }
+                 }
+             }
+         }
+         request.setAttribute(BEAN_ASSOCIATED_CLIENTS, facilityClients);
+        
+        
 
         request.setAttribute("facilityId", facility.getId());
         
@@ -192,6 +250,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         return mapping.findForward(FORWARD_PROGRAM);
     }
+    /*
     public ActionForward listMessages(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
     	super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
@@ -269,7 +328,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         return mapping.findForward(FORWARD_MESSAGE);
     }
-
+*/
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
     	super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);

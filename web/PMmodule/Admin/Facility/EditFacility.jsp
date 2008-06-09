@@ -1,26 +1,39 @@
 <%@ include file="/taglibs.jsp"%>
 
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/validation.js">
-</script>
 <script type="text/javascript">
-	function validateForm()
+	function validateRequiredField(fieldId, fieldName, maxLength)
 	{
-		if (bCancel == true) 
-			return confirm("Do you really want to Cancel?");
+		var field=document.getElementById(fieldId);
+	
+		if (field.value==null || field.value=='')
+		{
+			alert('The field '+fieldName+' is required.');
+			return(false);
+		}
+		
+		if (field.value.length > maxLength)
+		{
+			alert('The value you entered for '+fieldName+' is too long, maximum length allowed is '+maxLength+' characters.');
+			return(false);
+		}
+		
+		return(true);
+	}
+
+
+	function submitForm(){
+		
 		var isOk = false;
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
-		return isOk;
-	}
-	function submitForm(){
-		document.forms[0].submit();
+		if(isOk){
+			document.forms[0].submit();
+		}
 	}
 </script>
 <!-- don't close in 1 statement, will break IE7 -->
 
-<html:form action="/PMmodule/FacilityManager.do"
-	onsubmit="return validateForm();">
+<html:form action="/PMmodule/FacilityManager.do">
 	<input type="hidden" name="method" value="save" />
 
 
@@ -81,7 +94,7 @@
 							<table width="100%" border="1" cellspacing="2" cellpadding="3">
 								<tr class="b">
 									<td width="20%">Facility Id:</td>
-									<td><c:out value="${requestScope.id}" /></td>
+									<td><c:out value="${facility.id}" /></td>
 
 								</tr>
 								<tr class="b">

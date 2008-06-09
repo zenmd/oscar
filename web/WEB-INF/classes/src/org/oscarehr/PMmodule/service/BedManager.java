@@ -23,6 +23,7 @@
 package org.oscarehr.PMmodule.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -605,6 +606,7 @@ public class BedManager {
 //        for (Bed bed : beds) {
         for (int i=0;i<beds.length;i++) {
         	Bed bed =  beds[i];
+        	bed.setRoomStart(Calendar.getInstance().getTime());
             saveBed(bed);
         }
     }

@@ -34,7 +34,7 @@
 		<div><b>Message</b></div>
 	</c:when>
 	<c:when test="${'V' eq tabMessage}">
-		<div><html:link action="/PMmodule/FacilityManager.do?method=listMessages"
+		<div><html:link action="/FacilityMessage.do?method=list"
 			name="actionParam" style="color:Navy;text-decoration:none;">Message</html:link>
 		</div>
 	</c:when>

@@ -95,6 +95,10 @@
 		<put name="leftNav" value="/PMmodule/navigation_facilityView.jsp" />
 		<put name="body" value="/PMmodule/Admin/Facility/ListMessages.jsp" />
 	</definition>
+	<definition name="page.pmm.admin.facility.message.edit" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityView.jsp" />
+		<put name="body" value="/PMmodule/Admin/Facility/EditMessage.jsp" />
+	</definition>
 
 	<definition name="page.pmm.shelterSelection"
 		path="/PMmodule/layout.jsp">
