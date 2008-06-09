@@ -32,7 +32,7 @@
 	    <%}%>
         </td>
 		<th rowspan="2"> &nbsp; </th>
-		<td valign="bottom" class="clsMenu">Shelter:<b> <font color="red"><c:out value="${sessionScope.currentFacility.name}"></c:out></font></b></td>
+		<td valign="bottom" class="clsMenu">Shelter:<b> <font color="red"><c:out value="${sessionScope.currentShelter.description}"></c:out></font></b></td>
 		<td rowspan="2">&nbsp;</td>
         <td width="320px">
         <table width="100%">
