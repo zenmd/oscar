@@ -101,22 +101,13 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	/**
 	 * @see org.oscarehr.PMmodule.service.RoomDemographicManager#getRoomDemographicByDemographic(java.lang.Integer)
 	 */
-	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo, Integer facilityId) {
+	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo) {
 		if (demographicNo == null) {
 			throw new IllegalArgumentException("demographicNo must not be null");
 		}
 		RoomDemographic roomDemographic = roomDemographicDAO.getRoomDemographicByDemographic(demographicNo);
-
-		if (roomDemographic != null) {			
-	        // filter in facility
-	        if (facilityId!=null)
-	        {
-	            Room room=roomDAO.getRoom(roomDemographic.getRoomId());
-	            if (room.getFacilityId()!=null && facilityId.intValue()!=room.getFacilityId().intValue()) return(null);
-	        }
-
-	        setAttributes(roomDemographic);
-		}
+		if (roomDemographic != null)
+			setAttributes(roomDemographic);
 		return roomDemographic;
 	}
 
@@ -135,7 +126,7 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 
 		// only discharge out of previous room in the same facility
         Room room=roomDAO.getRoom(roomDemographic.getRoomId());
-		RoomDemographic roomDemographicPrevious = getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo(), room.getFacilityId()); 
+		RoomDemographic roomDemographicPrevious = getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo()); 
 		if(roomDemographicPrevious != null){
 			deleteRoomDemographic(roomDemographicPrevious);
 		}

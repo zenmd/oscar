@@ -369,7 +369,7 @@ public class RoomManager {
     		return false;
     	}
     	Program program=programDao.getProgram(programId);
-    	RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(demographicNo, program.getFacilityId());
+    	RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(demographicNo);
     	if(roomDemographic != null){
  	    	Room room = getRoom(roomDemographic.getId().getRoomId());
 	    	if(room != null  &&  programId.intValue() == room.getProgramId().intValue()){

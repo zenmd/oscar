@@ -296,7 +296,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        
        if(request.getParameter("admissionId")!=null){
-         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), shelterId);
+         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId));
          clientForm.setRoomDemographic(rdm);
          clientForm.setCurDB_RoomId(rdm.getRoomId());
 

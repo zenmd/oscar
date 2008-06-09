@@ -247,7 +247,7 @@ public class Room implements Serializable {
         return facilityId;
     }
 
-    public void setFacilityId(Integer shelterId) {
+    public void setFacilityId(Integer facilityId) {
         this.facilityId = facilityId;
     }
 

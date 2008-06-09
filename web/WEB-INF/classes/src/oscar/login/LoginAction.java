@@ -62,7 +62,7 @@ public final class LoginAction extends DispatchAction {
         String nextPage=request.getParameter("nextPage");
         if (nextPage!=null) {
             // set current facility
-            String shelterId=request.getParameter(KeyConstants.SESSION_KEY_SHELTERID);
+            String shelterId=request.getParameter("shelterId");
             LookupCodeValue shelter= lookupManager.GetLookupCode("SHL",shelterId);
             request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, Integer.valueOf(shelterId));
             request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);

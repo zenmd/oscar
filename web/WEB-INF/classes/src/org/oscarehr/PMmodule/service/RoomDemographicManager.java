@@ -63,7 +63,7 @@ public interface RoomDemographicManager {
 	 *            demographic identifier
 	 * @return RoomDemographic relationship object
 	 */
-	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo, Integer shelterId);
+	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo);
 
 	/**
 	 * Save RoomDemographic relationship object

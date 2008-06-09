@@ -1088,8 +1088,8 @@ public class ProgramManagerViewAction extends BaseAction {
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyDependent1 = " + isFamilyDependent1);    	
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyDependent2 = " + isFamilyDependent2);    	
 		
-   			RoomDemographic roomDemographic1 = roomDemographicManager.getRoomDemographicByDemographic(client1, shelterId);
-   			RoomDemographic roomDemographic2 = roomDemographicManager.getRoomDemographicByDemographic(client2, shelterId);
+   			RoomDemographic roomDemographic1 = roomDemographicManager.getRoomDemographicByDemographic(client1);
+   			RoomDemographic roomDemographic2 = roomDemographicManager.getRoomDemographicByDemographic(client2);
    			
    			if(roomDemographic1 == null  ||  roomDemographic2 == null){
    	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));

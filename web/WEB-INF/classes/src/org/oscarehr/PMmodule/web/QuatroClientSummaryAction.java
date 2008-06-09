@@ -139,7 +139,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), shelterId);
        request.setAttribute("bedDemographic", bedDemographic);
        
-       RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo), shelterId);
+       RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
 
 		if(roomDemographic != null){
 			Integer roomIdInt = roomDemographic.getId().getRoomId();
