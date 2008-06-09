@@ -108,7 +108,7 @@ public class ProgramDao extends HibernateDaoSupport {
         return name;
     }
 
-    public List getAllPrograms(String programStatus, String type, Integer facilityId,String providerNo,Integer shelterId)
+    public List getAllPrograms(String programStatus, String type, Integer facilityId, Integer clientId, String providerNo,Integer shelterId)
     {
     	Criteria c = getSession().createCriteria(Program.class);
     	if (null != programStatus && !("Any".equals(programStatus) || "".equals(programStatus))) {
@@ -119,6 +119,10 @@ public class ProgramDao extends HibernateDaoSupport {
     	}
     	if (null != facilityId && facilityId.intValue() > 0) {
     		c.add(Restrictions.eq("facilityId", facilityId));
+    	}
+    	if (null != clientId && clientId.intValue() > 0) {
+    		String clientProgram = "program_id in (select itk.program_id from intake itk where itk.client_id=" + clientId.toString() + ")";
+    		c.add(Restrictions.sqlRestriction(clientProgram));
     	}
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, shelterId)));
     	return 	c.list();
