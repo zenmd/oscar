@@ -176,3 +176,24 @@ function validateDate(year, month, day)
 	
 	return(true);
 }
+
+function validateBirthDay(myDate){
+	var date=new Date();
+	var myDate_array=myDate.split("/");
+	date.setFullYear(myDate_array[0]);
+	date.setMonth(myDate_array[1]-1);
+	date.setDate(myDate_array[2]);
+	
+	var today = new Date;
+    if (date > today){
+      alert('Date of birth must not be greater than system date.');
+      return false;
+    }
+
+    date.setDate(date.getDate()+120*365);       
+    if (date < today){
+      alert('Date of birth may not be less than 120 years before system date.');
+      return false;
+    }
+    
+}
