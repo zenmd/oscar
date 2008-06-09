@@ -57,14 +57,13 @@ public class ProviderManager
 	{
 		return dao.getProviders();
 	}
-	
-	public List getActiveProviders()
-	{
-		return dao.getActiveProviders();
-	}
 
     public List getActiveProviders(Integer programId) {
 		return dao.getActiveProviders(programId);
+    }
+    /* get my collegues */
+    public List getActiveProviders(String providerNo, Integer shelterId) {
+		return dao.getActiveProviders(providerNo, shelterId);
     }
 	
 	public List search(String name) {

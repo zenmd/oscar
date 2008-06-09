@@ -107,9 +107,20 @@ public class ProviderDao extends HibernateDaoSupport {
     	return  getHibernateTemplate().find(sSQL ,params);
 	}
 
-    public List getActiveProviders() {
+    public List getActiveProviders(String providerNo, Integer shelterId) {
     	//@SuppressWarnings("unchecked")
-		List rs = getHibernateTemplate().find("FROM  Provider p where p.Status='1' ORDER BY p.LastName");
+    	String sql = "FROM  Provider p where p.Status='1'" +
+    				" and p.ProviderNo in (select sr.providerNo from Secuserrole sr " +
+    				" where sr.orgcd in (select o.code from LstOrgcd o, Secuserrole srb " +
+    				" where o.fullcode like '%S' || ? || '%' and o.fullcode like '%' || srb.orgcd || '%' and srb.providerNo =?))" + 
+    				" ORDER BY p.LastName";
+    	ArrayList paramList = new ArrayList();
+    	paramList.add(shelterId);
+    	paramList.add(providerNo);
+
+    	Object params[] = paramList.toArray(new Object[paramList.size()]);
+    	
+    	List rs = getHibernateTemplate().find(sql,params);
 
 		if (log.isDebugEnabled()) {
 			log.debug("getProviders: # of results=" + rs.size());

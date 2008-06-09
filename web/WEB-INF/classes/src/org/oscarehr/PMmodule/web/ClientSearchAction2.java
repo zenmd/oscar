@@ -167,8 +167,8 @@ public class ClientSearchAction2 extends DispatchAction {
 		List allPrograms = programManager.getPrograms(providerNo, shelterId);
 
 		request.setAttribute("allBedPrograms", allPrograms);
-		List allProviders = providerManager.getActiveProviders(
-				shelterId.toString(), null);
+		List allProviders = providerManager.getActiveProviders(providerNo,
+				shelterId);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,
 				null, null));

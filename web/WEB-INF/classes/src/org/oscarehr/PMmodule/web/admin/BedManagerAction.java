@@ -78,7 +78,7 @@ public class BedManagerAction extends BaseFacilityAction {
         ArrayList rmLst = new ArrayList();
         for(int i =0; i < temp.length; i++){
         	Room rm = temp[i];
-        	if(rm.getAssignedBed() == 1)
+        	if(rm.getAssignedBed().intValue() == 1)
         		rmLst.add(rm);
         }
         if(rmLst.size()>0){
@@ -97,8 +97,7 @@ public class BedManagerAction extends BaseFacilityAction {
         Room[] room = bForm.getAssignedBedRooms();
         if( tmp != null){
         	for(int i=0; i< room.length;i++){
-	        	if(tmp.intValue() == room[i].getId()){
-	        		
+	        	if(tmp == room[i].getId()){
 	        		break;
 	        	}
 	        	if(i==room.length-1)
@@ -349,12 +348,12 @@ public class BedManagerAction extends BaseFacilityAction {
         
         if(numRooms != null && numRooms.intValue() > 0){
         	int len = bForm.getRooms().length;
-	        Room[] roomsTemp= new Room[len + numRooms];
+	        Room[] roomsTemp= new Room[len + numRooms.intValue()];
 	        
 	        for(int i = 0; i < len; i++){
 	        	roomsTemp[i]= bForm.getRooms()[i];
 	        }
-	        for(int i = len; i < len + numRooms; i++){
+	        for(int i = len; i < len + numRooms.intValue(); i++){
 	        	Room rm = new Room();
 	        	rm.setFacilityId(bForm.getFacilityId());
 	        	roomsTemp[i]= rm;
@@ -403,21 +402,21 @@ public class BedManagerAction extends BaseFacilityAction {
         
         
         Room room = roomManager.getRoom(roomId);
-        int max = room.getOccupancy();
+        int max = room.getOccupancy().intValue();
         
         processDisplay(form, request);
         
         int len = bForm.getBeds().length;
         
-        if(len + numBeds <= max){
+        if(len + numBeds.intValue() <= max){
 	        if(numBeds != null && numBeds.intValue() > 0){
 	        	
-		        Bed[] bedsTemp= new Bed[len + numBeds];
+		        Bed[] bedsTemp= new Bed[len + numBeds.intValue()];
 		        
 		        for(int i = 0; i < len; i++){
 		        	bedsTemp[i]= bForm.getBeds()[i];
 		        }
-		        for(int i = len; i < len + numBeds; i++){
+		        for(int i = len; i < len + numBeds.intValue(); i++){
 		        	Bed bed = new Bed();
 		        	bed.setFacilityId(facilityId);
 		        	bed.setRoomId(roomId);
@@ -427,7 +426,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	        }
         }else{
             ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.addBed.tooMany", request.getContextPath(), max));
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.addBed.tooMany", request.getContextPath(),Integer.valueOf(max)));
             saveMessages(request, messages);
         }
     	return mapping.findForward(FORWARD_MANAGE);

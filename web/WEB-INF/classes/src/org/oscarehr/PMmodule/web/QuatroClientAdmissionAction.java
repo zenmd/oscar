@@ -163,7 +163,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        
 	   //set dropdown values
-	   List providerList = providerManager.getActiveProviders(shelterId, programId.toString());
+	   List providerList = providerManager.getActiveProviders(programId);
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
@@ -242,7 +242,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
 
 	   //set dropdown values
-	   List providerList = providerManager.getActiveProviders(shelterId, programId.toString());
+	   List providerList = providerManager.getActiveProviders(programId);
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
@@ -359,7 +359,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        
 	   //set dropdown values
-	   List providerList = providerManager.getActiveProviders(shelterId, programId.toString());
+	   List providerList = providerManager.getActiveProviders(programId);
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
