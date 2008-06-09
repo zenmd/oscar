@@ -440,7 +440,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		  " WHERE a.intakeId = ?";
 
 		List lst = getHibernateTemplate().find(sSQL, new Object[] {Integer.valueOf(intakeId)});
-		if(lst.size()==0) return null;
+		if(lst.size()==0) return new ArrayList();
 		
 		Integer intakeHeadId = (Integer)lst.get(0);
 		

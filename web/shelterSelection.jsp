@@ -1,6 +1,5 @@
 <%@page import="java.util.List"%>
 <%@page import="com.quatro.model.LookupCodeValue"%>
-<%@page import="org.oscarehr.util.SessionConstants"%>
 <%@include file="taglibs.jsp"%>
 <%
 String _appPath = request.getContextPath();
@@ -39,7 +38,7 @@ String _appPath = request.getContextPath();
 	<td> 
 	<ul>
 		<logic:iterate id="shelter" name="shelters">
-			<li>&nbsp;<a  href='/QuatroShelter/login.do?nextPage=caisiPMM&<%=SessionConstants.CURRENT_FACILITY_ID%>=<c:out value="${shelter.code}"/>' >    
+			<li>&nbsp;<a  href='/QuatroShelter/login.do?nextPage=caisiPMM&shelterId=<c:out value="${shelter.code}"/>' >    
 			<c:out value="${shelter.description}"></c:out></a></li>
 		</logic:iterate>
 	</ul>
