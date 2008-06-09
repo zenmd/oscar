@@ -32,6 +32,5 @@
 </table>
 
 <p>
-You cannot access this client's Encounters because he/she is not in admitted in your
-program. Please go Cleint Admission and add Admission first. 
+You may not access this client's case notes. The client is not on your Program domain. 
 </p>
