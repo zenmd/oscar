@@ -165,6 +165,13 @@ public class RoomDAO extends HibernateDaoSupport {
 			return null;
 	}
 
+    //@SuppressWarnings("unchecked")
+    public Room[] getAvailableRooms(Integer programId, Boolean active) {
+    	if(programId == null  ||  active == null){
+    		return null;
+    	}
+    	return getAvailableRooms(null,programId, active);
+	}
     
 	/**
 	 * Get room types

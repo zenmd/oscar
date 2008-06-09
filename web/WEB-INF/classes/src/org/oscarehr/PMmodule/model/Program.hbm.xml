@@ -22,6 +22,7 @@
 			<generator class="native" />
 		</id>
 		<property name="facilityId" column="facility_id" />
+		<property name="shelterId" column="shelter_id" />
 		<property name="userDefined" column="userDefined" type="boolean" length="1" />
 		<property name="numOfMembers" lazy="true" type="integer" formula="(select count(*) from admission a where a.program_id = program_id and a.admission_status = 'admitted')" />
 		<property name="queueSize" type="integer" formula="(select count(*) from program_queue a where a.program_id = program_id and a.status = 'active')" />

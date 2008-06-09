@@ -18,8 +18,6 @@ import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 
-import org.oscarehr.util.SessionConstants;
-
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 

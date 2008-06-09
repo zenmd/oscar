@@ -77,17 +77,17 @@ public class ClientManager {
         return dao.search(criteria, returnOptinsOnly,excludeMerged);
     }
     
-	public List getIntakeByFacility(Integer demographicNo, Integer facilityId){
-		return dao.getIntakeByFacility(demographicNo, facilityId);
+	public List getIntakeByFacility(Integer demographicNo, Integer shelterId){
+		return dao.getIntakeByShelter(demographicNo, shelterId);
 	}
     public java.util.Date getMostRecentIntakeADate(String demographicNo) {
         return dao.getMostRecentIntakeADate(Integer.valueOf(demographicNo));
     }
-    public List getRecentProgramIds(Integer clientId, String providerNo, Integer facilityId){
-    	return dao.getRecentProgramIds(clientId, providerNo, facilityId);
+    public List getRecentProgramIds(Integer clientId, String providerNo, Integer shelterId){
+    	return dao.getRecentProgramIds(clientId, providerNo, shelterId);
     }
-    public Integer getRecentProgramId(Integer clientId, String providerNo, Integer facilityId){
-    	return dao.getRecentProgramId(clientId, providerNo, facilityId);
+    public Integer getRecentProgramId(Integer clientId, String providerNo, Integer shelterId){
+    	return dao.getRecentProgramId(clientId, providerNo, shelterId);
     }
     
     public java.util.Date getMostRecentIntakeCDate(String demographicNo) {
@@ -106,12 +106,8 @@ public class ClientManager {
         return referralDAO.getReferrals();
     }
 
-    public List getReferrals(String clientId,String providerNo,Integer facilityId) {
-        return referralDAO.getReferrals(Integer.valueOf(clientId),providerNo,facilityId);
-    }
-
-    public List getReferralsByFacility(String clientId, Integer facilityId) {
-        return referralDAO.getReferralsByFacility(Integer.valueOf(clientId), facilityId);
+    public List getReferrals(String clientId,String providerNo,Integer shelterId) {
+        return referralDAO.getReferrals(Integer.valueOf(clientId),providerNo,shelterId);
     }
 
     public List getActiveReferrals(String clientId, String sourceFacilityId) {

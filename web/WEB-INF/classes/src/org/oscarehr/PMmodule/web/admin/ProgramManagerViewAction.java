@@ -863,7 +863,7 @@ public class ProgramManagerViewAction extends BaseAction {
         boolean isClientDependent = false; 
         boolean isClientFamilyHead = false; 
 
-        Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
+        Integer shelterId= (Integer)request.getSession().getAttribute("currentFacilityId");
 
         for (int i=0; reservedBeds != null  &&  i < reservedBeds.length; i++) {
             Bed reservedBed = reservedBeds[i];
@@ -1003,7 +1003,7 @@ public class ProgramManagerViewAction extends BaseAction {
         Date today = DateTimeFormatUtils.getToday();
         //List<Integer> familyList = new ArrayList<Integer>();
 
-        Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
+        Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
     	String switchBed1 = formBean.getSwitchBed1();
     	String switchBed2 = formBean.getSwitchBed2();
@@ -1088,8 +1088,8 @@ public class ProgramManagerViewAction extends BaseAction {
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyDependent1 = " + isFamilyDependent1);    	
 			//System.out.println("ProgramManagerViewAction.switch_beds(): isFamilyDependent2 = " + isFamilyDependent2);    	
 		
-   			RoomDemographic roomDemographic1 = roomDemographicManager.getRoomDemographicByDemographic(client1, facilityId);
-   			RoomDemographic roomDemographic2 = roomDemographicManager.getRoomDemographicByDemographic(client2, facilityId);
+   			RoomDemographic roomDemographic1 = roomDemographicManager.getRoomDemographicByDemographic(client1, shelterId);
+   			RoomDemographic roomDemographic2 = roomDemographicManager.getRoomDemographicByDemographic(client2, shelterId);
    			
    			if(roomDemographic1 == null  ||  roomDemographic2 == null){
    	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));

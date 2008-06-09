@@ -85,14 +85,14 @@ public class ClientRestrictionManager {
         return returnPcrs;
     }
 
-    public List getAllRestrictionsForClient(Integer demographicNo,String providerNo,Integer facilityId) {
-    	 List results=programClientRestrictionDAO.findAllForClient(demographicNo,providerNo,facilityId);    	 
+    public List getAllRestrictionsForClient(Integer demographicNo,String providerNo,Integer shelterId) {
+    	 List results=programClientRestrictionDAO.findAllForClient(demographicNo,providerNo,shelterId);    	 
          return  results;      
     }
 
-    public List getActiveRestrictionsForClient(Integer demographicNo, Integer facilityId, Date asOfDate) {
+    public List getActiveRestrictionsForClient(Integer demographicNo,String providerNo, Integer shelterId, Date asOfDate) {
         // check dao for restriction
-        Collection pcrs = programClientRestrictionDAO.findForClient(demographicNo, facilityId);
+        Collection pcrs = programClientRestrictionDAO.findForClient(demographicNo,providerNo, shelterId);
         List returnPcrs = new ArrayList();
         if (pcrs != null && !pcrs.isEmpty()) {
 //            for (ProgramClientRestriction pcr : pcrs) {

@@ -245,7 +245,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 			else
 				rt = rt + "not major" + "  ";
 			*/
-			if (1==caseStatusId)
+			if (1==caseStatusId.intValue())
 				rt = rt + "resolved";
 			else
 				rt = rt + "unresolved";

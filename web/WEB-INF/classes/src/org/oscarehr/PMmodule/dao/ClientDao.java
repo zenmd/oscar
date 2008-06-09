@@ -181,7 +181,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		String clientNo = bean.getDemographicNo(); 
 		//exclude merged client 
-		if(excludeMerged)criteria.add(Expression.eq("merged", false));
+		if(excludeMerged)criteria.add(Expression.eq("merged", Boolean.FALSE));
 		if (clientNo != null && !"".equals(clientNo))
 		{
 			if (com.quatro.util.Utility.IsInt(clientNo) ) {
@@ -668,19 +668,19 @@ public class ClientDao extends HibernateDaoSupport {
 
 		return providerName;
 	}
-	 public List getRecentProgramIds(Integer clientId, String providerNo, Integer facilityId){
+	 public List getRecentProgramIds(Integer clientId, String providerNo, Integer shelterId){
 	    	String sql = "select p.programId  from QuatroIntakeHeader p ,Program c ";
 	    	sql+=" where p.programId = c.id and p.clientId=? and  c.facilityId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
 	    	sql+=" order by p.createdOn desc " ;    	
-	    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, facilityId, providerNo });
+	    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, shelterId, providerNo });
 	    	return lst;
 	 }
 	   
-    public Integer getRecentProgramId(Integer clientId, String providerNo, Integer facilityId){
+    public Integer getRecentProgramId(Integer clientId, String providerNo, Integer shelterId){
     	String sql = "select p.programId  from QuatroIntakeHeader p ,Program c ";
-    	sql+=" where p.programId = c.id and p.clientId=? and  c.facilityId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
+    	sql+=" where p.programId = c.id and p.clientId=? and  c.shelterId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
     	sql+=" order by p.createdOn desc " ;    	
-    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, facilityId, providerNo });
+    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, shelterId, providerNo });
     	
     	if (lst.size() > 0)
     		return (Integer) lst.get(0);
@@ -845,14 +845,14 @@ public class ClientDao extends HibernateDaoSupport {
 			log.debug("removeDemographicExt: demographicNo=" + demographicNo + ",key=" + key);
 		}
 	}
-	public List getIntakeByFacility(Integer demographicNo, Integer facilityId) {
+	public List getIntakeByShelter(Integer demographicNo, Integer shelterId) {
 		  if (demographicNo == null || demographicNo.intValue() <= 0) {
 		    throw new IllegalArgumentException();
 		  }
 
 		  String queryStr = "FROM QuatroIntakeHeader a WHERE a.clientId=? and a.programId in " +
-		        "(select s.id from Program s where s.facilityId=? or s.facilityId is null) ORDER BY a.createdOn DESC";
-		        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo,  facilityId });
+		        "(select s.id from Program s where s.shelterId=? or s.shelterId is null) ORDER BY a.createdOn DESC";
+		        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo,  shelterId });
 
 		        return rs;
 		    }

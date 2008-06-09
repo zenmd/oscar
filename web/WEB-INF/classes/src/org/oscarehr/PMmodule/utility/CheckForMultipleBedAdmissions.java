@@ -35,6 +35,8 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.quatro.common.KeyConstants;
+
 public class CheckForMultipleBedAdmissions {
 
 	protected final Log log = LogFactory.getLog(getClass());
@@ -55,7 +57,7 @@ public class CheckForMultipleBedAdmissions {
     	List clients = clientManager.getClients();
     	for(Iterator iter=clients.iterator();iter.hasNext();) {
     		Demographic client = (Demographic)iter.next();
-    		List admissions = admissionManager.getCurrentAdmissions(client.getDemographicNo());
+    		List admissions = admissionManager.getCurrentAdmissions(client.getDemographicNo(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
     		doReport(client,admissions);   
     	}
     }

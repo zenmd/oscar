@@ -115,12 +115,12 @@ public class ClientSearchAction2 extends DispatchAction {
 		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,
 				UserRoleUtils.Roles_external);
 		if ("MyP".equals(formBean.getBedProgramId())) {
-			Integer facilityId = (Integer) request.getSession().getAttribute(
-					KeyConstants.SESSION_KEY_FACILITYID);
+			Integer shelterId = (Integer) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
 			List allBedPrograms = programManager
-					.getProgramsByProvider(facilityId, providerNo);
+					.getBedPrograms(providerNo, shelterId);
 			String prgId = "";
 //			for (Program prg : allBedPrograms) {
 			for (int i=0;i<allBedPrograms.size();i++) {
@@ -160,18 +160,17 @@ public class ClientSearchAction2 extends DispatchAction {
 	}
 
 	private void setLookupLists(HttpServletRequest request) {
-		Integer facilityId = (Integer) request.getSession().getAttribute(
-				KeyConstants.SESSION_KEY_FACILITYID);
+		Integer shelterId = (Integer) request.getSession().getAttribute(
+				KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
-		List allBedPrograms = programManager.getProgramsByProvider(facilityId,
-				providerNo);
+		List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
 		List allProviders = providerManager.getActiveProviders(
-				facilityId.toString(), null);
+				shelterId.toString(), null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,
 				null, null));

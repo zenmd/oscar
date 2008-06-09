@@ -187,7 +187,7 @@ public class BedManager {
      * @return array of beds
      */
 /*
-    public Bed[] getBedsByFacility(Integer facilityId, boolean reserved) {
+    public Bed[] getBedsByFacility(Integer shelterId, boolean reserved) {
         if (facilityId == null) {
             return new Bed[] {};
         }
@@ -202,7 +202,7 @@ public class BedManager {
         return beds.toArray(new Bed[beds.size()]);
     }
     
-    public Bed[] getBedsByFacility(Integer facilityId, Integer roomId, Boolean active, boolean reserved) {
+    public Bed[] getBedsByFacility(Integer shelterId, Integer roomId, Boolean active, boolean reserved) {
         if (facilityId == null) {
             return new Bed[] {};
         }

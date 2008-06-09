@@ -337,7 +337,7 @@ public class ClientManagerAction extends BaseAction {
 
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
-        Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
+        Integer shelterId= (Integer)request.getSession().getAttribute("currentFacilityId");
 
         if (id == null || id.equals("")) {
             Object o = request.getAttribute("demographicNo");
@@ -413,7 +413,7 @@ public class ClientManagerAction extends BaseAction {
         referral.setProgramId(programId);
         referral.setProviderNo(providerId);
 
-        Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
+        Integer shelterId= (Integer)request.getSession().getAttribute("currentFacilityId");
         referral.setFacilityId(facilityId);
         
         referral.setReferralDate(new Date());
@@ -673,7 +673,7 @@ public class ClientManagerAction extends BaseAction {
         bedDemographic.setReservationStart(today);
         bedDemographic.setRoomId(Integer.valueOf(roomId));
         
-        Integer facilityId= (Integer)request.getSession().getAttribute("currentFacilityId");
+        Integer shelterId= (Integer)request.getSession().getAttribute("currentFacilityId");
 
         Integer bedId = bedDemographic.getBedId();
         Integer demographicNo = bedDemographic.getId().getDemographicNo();
@@ -1244,7 +1244,7 @@ public class ClientManagerAction extends BaseAction {
 
         ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
-        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        Integer shelterId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
         
         request.setAttribute("id", demographicNo);
         request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));

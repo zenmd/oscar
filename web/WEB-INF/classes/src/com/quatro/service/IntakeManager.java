@@ -130,8 +130,8 @@ public class IntakeManager {
     }
 
     //for single person intake check
-    public List checkExistBedIntakeByFacility(Integer clientId, Integer facilityId){
-    	Program[] programs =programDao.getBedPrograms(facilityId);
+    public List checkExistBedIntakeByFacility(Integer clientId, Integer shelterId){
+    	Program[] programs =programDao.getBedPrograms(shelterId);
     	if(programs==null || programs.length==0) return new ArrayList();
     	return intakeDao.checkExistBedIntakeByPrograms(clientId, programs);
     }
@@ -252,8 +252,8 @@ public class IntakeManager {
         return lst2;
 	}
 
-	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
-        List lst= programDao.getProgramIdsByProvider(providerNo, facilityId);
+	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
+        List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
         if (lst.size()==0) return lst;
         StringBuffer sb = new StringBuffer();
         Iterator it = lst.iterator();

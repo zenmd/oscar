@@ -38,8 +38,8 @@ public class AdmissionManager {
 	private ProgramQueueDao programQueueDao;
 	private ClientReferralDAO clientReferralDAO;
 
-	public List getAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
-		return admissionDao.getAdmissionsByFacility(demographicNo, facilityId);
+	public List getAdmissions(Integer demographicNo,String providerNo, Integer shelterId) {
+		return admissionDao.getAdmissionList(demographicNo,false,providerNo, shelterId);
 	}
 	
 	public void saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
@@ -126,14 +126,6 @@ public class AdmissionManager {
     public void setAdmissionDao(AdmissionDao admissionDao) {
 		this.admissionDao = admissionDao;
 	}
-
-	public List getIntakeAdmissionList(Integer clientId) {
-		return admissionDao.getIntakeAdmissionList(clientId);
-	}
-
-	public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
-		return admissionDao.getAdmissionList(clientId, facilityId, providerNo);
-	}
 	
 	public List getAdmissionListByProgram(Integer programId) {
 		return admissionDao.getAdmissionListByProgram(programId);
@@ -151,8 +143,8 @@ public class AdmissionManager {
 		return admissionDao.getAdmissionByAdmissionId(admissionId);
     }
     
-    public List getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
-		return admissionDao.getCurrentAdmissionsByFacility(demographicNo, facilityId);
+    public List getCurrentAdmissions(Integer demographicNo, String providerNo,Integer shelterId) {
+		return admissionDao.getCurrentAdmissions(demographicNo,providerNo, shelterId);
     }
 
 	public void setBedDemographicDAO(BedDemographicDAO bedDemographicDao) {
@@ -167,12 +159,12 @@ public class AdmissionManager {
 		this.intakeDao = intakeDao;
 	}
 
-	public Admission getRecentAdmissionByFacility(Integer clientId,Integer facilityId){
-		return admissionDao.getRecentAdmissionByFacility(clientId, facilityId);
+	public Admission getRecentAdmissions(Integer clientId,String providerNo,Integer shelterId){
+		return admissionDao.getRecentAdmission(clientId, providerNo, shelterId);
 	}
 	
 	public Admission getCurrentBedProgramAdmission(Integer demographicNo) {
-		return admissionDao.getCurrentBedProgramAdmission(programDao, demographicNo);
+		return admissionDao.getCurrentBedProgramAdmission(demographicNo);
 	}
 
 	public void setProgramDao(ProgramDao programDao) {
@@ -191,11 +183,6 @@ public class AdmissionManager {
 		admissionDao.saveAdmission(admission);		
 	}
     
-    
-  public List getCurrentAdmissions(Integer demographicNo) {
-	return admissionDao.getCurrentAdmissions(demographicNo);
-  }
-
   public void dischargeAdmission(Admission admission, boolean isReferral, List lstFamily){
 	   admissionDao.updateDischargeInfo(admission);
 
@@ -315,9 +302,4 @@ public class AdmissionManager {
     public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
 	  this.programQueueDao = programQueueDao;
     }
-  
-	public Admission getCurrentAdmission(String programId, Integer demographicNo) {
-		return admissionDao.getCurrentAdmission(Integer.valueOf(programId), demographicNo);
-	}
-    
-}
+  }

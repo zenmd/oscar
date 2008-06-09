@@ -13,7 +13,6 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientIntakeRejectForm;
-import org.oscarehr.util.SessionConstants;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 
 import com.quatro.common.KeyConstants;

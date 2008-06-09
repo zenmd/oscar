@@ -62,7 +62,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	prepareLeftNav(request);
         
     	BedManagerForm bForm = (BedManagerForm) form;
-
+    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         Facility facility = facilityManager.getFacility(facilityId);
 
@@ -89,7 +89,7 @@ public class BedManagerAction extends BaseFacilityAction {
 
         bForm.setBedTypes(bedManager.getBedTypes());
         bForm.setNumBeds(new Integer(1));
-        bForm.setPrograms(programManager.getBedPrograms(facilityId));
+        bForm.setPrograms(programManager.getBedProgramsInFacility(providerNo, facilityId));
         bForm.setFacility(facility);
         Map statusNames = new HashMap();
         statusNames.put("1", "Active");
@@ -107,6 +107,7 @@ public class BedManagerAction extends BaseFacilityAction {
         BedManagerForm bForm = (BedManagerForm) form;
 
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         Facility facility = facilityManager.getFacility(facilityId);
 
         bForm.setFacilityId(facilityId);
@@ -117,7 +118,7 @@ public class BedManagerAction extends BaseFacilityAction {
         bForm.setBeds(bForm.getBeds());
         bForm.setBedTypes(bedManager.getBedTypes());
         bForm.setNumBeds(new Integer(1));
-        bForm.setPrograms(programManager.getBedPrograms(facilityId));
+        bForm.setPrograms(programManager.getBedProgramsInFacility(providerNo, facilityId));
         bForm.setFacility(facility);
         Map statusNames = new HashMap();
         statusNames.put("1", "Active");

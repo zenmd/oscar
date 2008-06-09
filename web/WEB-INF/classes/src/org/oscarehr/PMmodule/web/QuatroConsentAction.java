@@ -27,7 +27,6 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
-import org.oscarehr.util.SessionConstants;
 
 import oscar.MyDateFormat;
 
@@ -73,7 +72,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
-	      // Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+	      // Integer shelterId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 	       
 	       request.setAttribute("clientId", demographicNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
@@ -126,8 +125,8 @@ public class QuatroConsentAction extends BaseClientAction {
 	       if(Utility.IsEmpty(rId)) rId=cdObj.getId().toString();
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 	       
-	       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("FAC", facilityId.toString()).getDescription());
+	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("SHL", shelterId.toString()).getDescription());
 	       request.setAttribute("clientId", demographicNo);	       
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
@@ -135,7 +134,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       Provider proObj =providerManager.getProvider(providerNo);
 	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consentValue");
-	       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,facilityId);
+	       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
 	       List programs = null;
 	       if (programIds.size() > 0) {
 		       String progs = ((Integer)programIds.get(0)).toString();

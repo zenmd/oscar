@@ -19,7 +19,6 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.TicklerForm;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 
@@ -44,14 +43,14 @@ public class ClientTaskAction extends BaseClientAction{
         request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
  	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
 
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
-        String providerId = (String)request.getSession().getAttribute("user");
+        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
+        String providerNo = (String)request.getSession().getAttribute("user");
         
-        List programs=programManager.getProgramByProvider(providerId, currentFacilityId);
+        List programs=programManager.getBedPrograms(providerNo, shelterId);
         request.setAttribute("programs", programs);
         
         
-        List ticklers = ticklerManager.getTicklersByClientId(currentFacilityId, providerId, Integer.valueOf(request.getParameter("clientId")));
+        List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
 
         request.getSession().setAttribute("ticklers", ticklers);
         request.setAttribute("providers", providerManager.getProviders());

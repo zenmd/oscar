@@ -96,7 +96,7 @@ public class Admission implements Serializable, Cloneable {
 	public Integer getFacilityId() {
 		return facilityId;
 	}
-	public void setFacilityId(Integer facilityId) {
+	public void setFacilityId(Integer shelterId) {
 		this.facilityId = facilityId;
 	}
 	public Integer getId() {

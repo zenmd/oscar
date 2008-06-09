@@ -21,16 +21,16 @@ public class DBHelp {
 
     public synchronized boolean updateDBRecord(String sql) throws SQLException {
         boolean ret = false;
-        DBHandler db = null;
+        DBPreparedHandler db = null;
         try {
-            db = new DBHandler(DBHandler.OSCAR_DATA);
-            ret = db.RunSQL(sql);
+            db = new DBPreparedHandler();
+            int recs  = db.queryExecuteUpdate(sql);
             ret = true;
         } catch (SQLException e) {
             ret = false;
             System.out.println(e.getMessage());
         } finally {
-            db.CloseConn();
+            db.closeConn();
         }
         return ret;
     }
@@ -53,14 +53,14 @@ public class DBHelp {
     	
     public synchronized ResultSet searchDBRecord(String sql) throws SQLException {
         ResultSet ret = null;
-        DBHandler db = null;
+        DBPreparedHandler db = null;
         try {
-            db = new DBHandler(DBHandler.OSCAR_DATA);
-            ret = db.GetSQL(sql);
+            db = new DBPreparedHandler();
+            ret = db.queryResults(sql);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            db.CloseConn();
+            db.closeConn();
         }
         return ret;
     }
@@ -81,32 +81,32 @@ public class DBHelp {
     
     public synchronized boolean updateDBRecord(String sql, String userId) throws SQLException {
         boolean ret = false;
-        DBHandler db = null;
+        DBPreparedHandler db = null;
         try {
-            db = new DBHandler(DBHandler.OSCAR_DATA);
-            ret = db.RunSQL(sql);
+            db = new DBPreparedHandler();
+            int recs = db.queryExecuteUpdate(sql);
             ret = true;
             _logger.info("updateDBRecord(sql = " + sql + ", userId = " + userId + ")");
         } catch (SQLException e) {
             ret = false;
             _logger.error("updateDBRecord(sql = " + sql + ", userId = " + userId + ")");
         } finally {
-            db.CloseConn();
+            db.closeConn();
         }
         return ret;
     }
 
     public synchronized ResultSet searchDBRecord(String sql, String userId) throws SQLException {
         ResultSet ret = null;
-        DBHandler db = null;
+        DBPreparedHandler db = null;
         try {
-            db = new DBHandler(DBHandler.OSCAR_DATA);
-            ret = db.GetSQL(sql);
+            db = new DBPreparedHandler();
+            ret = db.queryResults(sql);
             _logger.info("searchDBRecord(sql = " + sql + ", userId = " + userId + ")");
         } catch (SQLException e) {
             _logger.error("searchDBRecord(sql = " + sql + ", userId = " + userId + ")");
         } finally {
-            db.CloseConn();
+            db.closeConn();
         }
         return ret;
     }

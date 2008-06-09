@@ -25,7 +25,6 @@ import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
@@ -107,14 +106,15 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        saveMessages(request,messages);
        
        /* discharge */
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+       String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
        request.setAttribute("lstDischargeReason", lstDischargeReason);
        List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
        request.setAttribute("lstTransType", lstTransType);     
-       Program[]  lstBed=programManager.getBedPrograms(facilityId);
+       List  lstBed=programManager.getBedPrograms(providerNo, shelterId);
        request.setAttribute("lstBedProgram",lstBed);
        request.setAttribute("admission", admObj);
        request.setAttribute("admissionId", admObj.getId());
@@ -145,8 +145,8 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        
        ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+       String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        Admission admsObj =admissionManager.getAdmission(aId);
@@ -159,7 +159,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("lstDischargeReason", lstDischargeReason);
        List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
        request.setAttribute("lstTransType", lstTransType);     
-       Program[]  lstBed=programManager.getBedPrograms(facilityId);
+       List  lstBed=programManager.getBedPrograms(providerNo,shelterId);
        request.setAttribute("lstBedProgram",lstBed);
        request.setAttribute("admission", admsObj);
        request.setAttribute("admissionId", admsObj.getId());
@@ -176,14 +176,14 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
        
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
-       List lstDischarge = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
+       List lstDischarge = admissionManager.getAdmissions(Integer.valueOf(demographicNo), providerNo,shelterId);
        request.setAttribute("quatroDischarge", lstDischarge);
        for(int i=0;i<lstDischarge.size();i++){
     	 Admission admission = (Admission)lstDischarge.get(i);

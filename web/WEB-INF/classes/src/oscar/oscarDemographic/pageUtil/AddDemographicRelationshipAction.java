@@ -80,7 +80,7 @@ public class AddDemographicRelationshipAction extends Action {
 
         // if we're in a facility tag this association with the facility
         Facility facility=(Facility)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY);
-        Integer facilityId=null;
+        Integer shelterId=null;
         if (facility!=null) facilityId=facility.getId();
         
         DemographicRelationship demo = new DemographicRelationship();

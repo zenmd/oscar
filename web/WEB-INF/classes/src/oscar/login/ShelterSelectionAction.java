@@ -24,13 +24,13 @@ public final class ShelterSelectionAction extends DispatchAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   
     	String providerNo=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-    	List shelters=providerManager.getFacilityIds(providerNo);
+    	List shelters=providerManager.getShelterIds(providerNo);
     	String shlts = String.valueOf(shelters.get(0));
     	for(int i=1; i<shelters.size(); i++)
     	{
     		shlts += "," + String.valueOf(shelters.get(i));
     	}
-    	List facilityCodes = lookupManager.LoadCodeList("FAC", false, shlts, null);
+    	List facilityCodes = lookupManager.LoadCodeList("SHL", false, shlts, null);
     	request.setAttribute("shelters", facilityCodes);
     	return mapping.findForward("shelterSelection");
     }

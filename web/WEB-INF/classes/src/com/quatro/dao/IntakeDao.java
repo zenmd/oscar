@@ -414,25 +414,14 @@ public class IntakeDao extends HibernateDaoSupport {
 		return results;
 	}
 		
-	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer facilityId, String providerNo) {
+	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
 		List results = null;
 		String clientIds=mergeClientDao.getMergedClientIds(clientId);
-		if (facilityId.intValue() == 0) {
-			String progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
-			results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in "+clientIds+" and i.programId in " + progSQL +
-			"  order by i.createdOn desc",providerNo);
-		}
-		else
-		{
-	    	String progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";
+	    String progSQL = com.quatro.util.Utility.getUserOrgQueryString(providerNo, shelterId);
 
-	    	results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in " + clientIds+" and i.programId in " + progSQL +
-	    		"  order by i.createdOn desc",
-	    		new Object[] {facilityId, providerNo });
-		}
+	    results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in " + clientIds+" and i.programId in " + progSQL +
+	    		"  order by i.createdOn desc");
 		return results;
 	}
 	

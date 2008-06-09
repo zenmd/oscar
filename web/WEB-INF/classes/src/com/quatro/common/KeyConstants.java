@@ -1,8 +1,10 @@
 package com.quatro.common;
 
 public class KeyConstants {
-  public static final String SESSION_KEY_FACILITYID="currentFacilityId"; 
-  public static final String SESSION_KEY_PROVIDERNO="user";
+	public static final String SYSTEM_USER_PROVIDER_NO = "1111";
+	public static final String SESSION_KEY_SHELTERID="currentShelterId"; 
+	public static final String SESSION_KEY_SHELTER="currentShelter"; 
+   public static final String SESSION_KEY_PROVIDERNO="user";
   public static final String SESSION_KEY_PROVIDERNAME="username";
   public static final String SESSION_KEY_SECURITY_MANAGER="secMgr";
 

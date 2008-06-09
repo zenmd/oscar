@@ -75,7 +75,7 @@ public class ProviderManager
 		return programProviderDAO.getProgramDomain(providerNo);
 	}
 
-    public List getProgramDomainByFacility(String providerNo, Integer facilityId) {
+    public List getProgramDomainByFacility(String providerNo, Integer shelterId) {
 		return programProviderDAO.getProgramDomainByFacility(providerNo, facilityId);
 	}
 
@@ -83,9 +83,9 @@ public class ProviderManager
         return programProviderDAO.getFacilitiesInProgramDomain(providerNo);
     }
 */    
-	public List getFacilityIds(String provider_no)
+	public List getShelterIds(String provider_no)
 	{
-		return dao.getFacilityIds(provider_no);
+		return dao.getShelterIds(provider_no);
 	}
 
 	public List getProvidersByType(String type) {

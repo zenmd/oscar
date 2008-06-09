@@ -368,7 +368,7 @@ public class ClientReferral implements Serializable {
         return facilityId;
     }
 
-    public void setFacilityId(Integer facilityId) {
+    public void setFacilityId(Integer shelterId) {
         this.facilityId = facilityId;
     }
 

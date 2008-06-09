@@ -24,6 +24,7 @@ package org.oscarehr.PMmodule.task;
 
 import java.util.Date;
 import java.util.TimerTask;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,7 +39,7 @@ import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.util.DbConnectionFilter;
-
+import com.quatro.common.KeyConstants;
 public class BedProgramDischargeTask extends TimerTask {
 
 	private static final Log log = LogFactory.getLog(BedProgramDischargeTask.class);
@@ -69,12 +70,12 @@ public class BedProgramDischargeTask extends TimerTask {
 		try {
             log.info("start bed program discharge task");
 
-            Program[] bedPrograms = programManager.getBedPrograms();
+            List bedPrograms = programManager.getAllPrograms(null,Program.BED_TYPE, null,KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
 
 //            for (Program bedProgram : bedPrograms) {
-            for(int i=0; i<bedPrograms.length;i++)
+            for(int i=0; i<bedPrograms.size();i++)
             {
-            	Program bedProgram = bedPrograms[i];
+            	Program bedProgram = (Program) bedPrograms.get(i);
                 Date dischargeTime = DateTimeFormatUtils.getTimeFromString(DISCHARGE_TIME);
                 Date previousExecutionTime = DateTimeFormatUtils.getTimeFromLong(scheduledExecutionTime() - PERIOD);
                 Date currentExecutionTime = DateTimeFormatUtils.getTimeFromLong(scheduledExecutionTime());

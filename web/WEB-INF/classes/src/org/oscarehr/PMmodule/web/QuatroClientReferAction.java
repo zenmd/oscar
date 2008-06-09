@@ -25,7 +25,6 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
@@ -99,12 +98,12 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("actionParam", actionParam);
 		String demographicNo = (String) actionParam.get("clientId");
 
-		String providerNo =(String)request.getSession(true).getAttribute(SessionConstants.CURRENT_USER_ID);
-		Integer facilityId =(Integer)request.getSession(true).getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
 		request.setAttribute("clientId", cId);		
 		try {
-			List lstRefers = clientManager.getReferrals(demographicNo,providerNo,facilityId);
+			List lstRefers = clientManager.getReferrals(demographicNo,providerNo,shelterId);
 			request.setAttribute("lstRefers", lstRefers);
 		} catch (Exception e) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(

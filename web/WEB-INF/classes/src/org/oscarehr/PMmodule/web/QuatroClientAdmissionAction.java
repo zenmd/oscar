@@ -37,7 +37,6 @@ import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.oscarehr.util.SessionConstants;
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
 import com.quatro.common.KeyConstants;
@@ -86,11 +85,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
        
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       List lstAdmission = admissionManager.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo);
+       List lstAdmission = admissionManager.getAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
        request.setAttribute("admission", lstAdmission);
 
        List queue = programQueueManager.getProgramQueuesByClientId(Integer.valueOf(demographicNo));
@@ -107,7 +106,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer intakeId = null;
        Integer admissionId =null;
        String clientId = null;
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
        HashMap actionParam = new HashMap();
        clientId=request.getParameter("clientId");
@@ -140,7 +139,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setNextKinProvince("ON");
        clientForm.setAdmission(admission);
 
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, clientId, clientForm.getFamilyIntakeType().equals("Y"));
+       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, clientId, clientForm.getFamilyIntakeType().equals("Y"));
  	   ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
 	   emptyRoom.setId(new Integer(0));
@@ -164,7 +163,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        
 	   //set dropdown values
-	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+	   List providerList = providerManager.getActiveProviders(shelterId.toString(), programId.toString());
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
@@ -182,7 +181,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    public ActionForward roomchange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
  	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
        HashMap actionParam = new HashMap();
        actionParam.put("clientId", clientForm.getAdmission().getClientId());            
@@ -204,7 +203,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, 
+       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
     		           clientId, clientForm.getFamilyIntakeType().equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
      	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
@@ -243,7 +242,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
 
 	   //set dropdown values
-	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+	   List providerList = providerManager.getActiveProviders(shelterId.toString(), programId.toString());
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
@@ -262,7 +261,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        HashMap actionParam = new HashMap();
 
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
        Integer admissionId;
        Admission admission;
@@ -297,13 +296,13 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        
        if(request.getParameter("admissionId")!=null){
-         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), facilityId);
+         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId), shelterId);
          clientForm.setRoomDemographic(rdm);
          clientForm.setCurDB_RoomId(rdm.getRoomId());
 
          BedDemographic bdm =null;
          if(!clientForm.getFamilyIntakeType().equals("Y")){
-    	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), facilityId);
+    	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), shelterId);
     	   if(bdm!=null){
     	     clientForm.setBedDemographic(bdm);
     	     clientForm.setCurDB_BedId(bdm.getBedId());
@@ -321,7 +320,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
-       Room[] availableRooms = roomManager.getAvailableRooms(facilityId, programId, Boolean.TRUE, 
+       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
     		   clientId, clientForm.getFamilyIntakeType().equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
      	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
@@ -360,7 +359,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        
 	   //set dropdown values
-	   List providerList = providerManager.getActiveProviders(facilityId.toString(), programId.toString());
+	   List providerList = providerManager.getActiveProviders(shelterId.toString(), programId.toString());
   	   Provider pObj= new Provider();
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
@@ -388,7 +387,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer intakeId = admission.getIntakeId();
        Integer programId = admission.getProgramId();
        Integer admissionId = admission.getId();
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
 
        //don't check these if intake admitted.
@@ -417,7 +416,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	   //check client active in other program
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
-             List lst=admissionManager.getIntakeAdmissionList(qif.getClientId());
+             List lst=admissionManager.getCurrentAdmissions(qif.getClientId(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
              for(int j=0;j<lst.size();j++){
         	   Admission admission_exist = (Admission)lst.get(j);
         	   StringBuffer sb2 = new StringBuffer();
@@ -443,7 +442,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	       }
 
            //check client active in other program
-           List lst=admissionManager.getIntakeAdmissionList(clientId);
+           List lst=admissionManager.getCurrentAdmissions(clientId,KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
            for(int i=0;i<lst.size();i++){
         	 Admission admission_exist = (Admission)lst.get(i);
         	 StringBuffer sb = new StringBuffer();
@@ -482,7 +481,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	   admission.setProviderNo(providerNo);
        admission.setAdmissionDate(MyDateFormat.getCalendarwithTime(admission.getAdmissionDateTxt()));
-       admission.setFacilityId(facilityId);
+       admission.setFacilityId(shelterId);
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
        

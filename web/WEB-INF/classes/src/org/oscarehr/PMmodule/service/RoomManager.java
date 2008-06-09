@@ -508,7 +508,7 @@ public class RoomManager {
     }
 
     void validateProgram(Integer programId) {
-        if (programId != null && !programDao.isBedProgram(programId)) {
+        if (programId != null && !programDao.isTypeOf(programId,Program.BED_TYPE)) {
             throw new IllegalStateException("no bed program with id : " + programId);
         }
     }

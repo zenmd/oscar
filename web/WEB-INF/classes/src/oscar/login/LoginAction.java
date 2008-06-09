@@ -32,7 +32,6 @@ import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.util.SessionConstants;
 import org.oscarehr.util.SpringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -43,6 +42,9 @@ import oscar.log.LogConst;
 import oscar.oscarDB.DBHandler;
 import oscar.oscarSecurity.CRHelper;
 import oscar.util.AlertTimer;
+
+import com.quatro.model.LookupCodeValue;
+import com.quatro.service.LookupManager;
 import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
@@ -52,7 +54,7 @@ public final class LoginAction extends DispatchAction {
     private static final String LOG_PRE = "Login!@#$: ";
 
     private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
-    private FacilityDAO facilityDAO = (FacilityDAO) SpringUtils.getBean("facilityDAO");
+    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -60,12 +62,12 @@ public final class LoginAction extends DispatchAction {
         String nextPage=request.getParameter("nextPage");
         if (nextPage!=null) {
             // set current facility
-            String facilityIdString=request.getParameter(SessionConstants.CURRENT_FACILITY_ID);
-            Facility facility=facilityDAO.getFacility(Integer.valueOf(facilityIdString));
-            request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, Integer.valueOf(facilityIdString));
-            request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY, facility);
+            String shelterId=request.getParameter(KeyConstants.SESSION_KEY_SHELTERID);
+            LookupCodeValue shelter= lookupManager.GetLookupCode("SHL",shelterId);
+            request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, Integer.valueOf(shelterId));
+            request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
             String username=(String)request.getSession().getAttribute("user");
-            LogAction.addLog(username, LogConst.LOGIN, LogConst.CON_LOGIN, "facilityId="+facilityIdString, ip);
+            LogAction.addLog(username, LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
             return mapping.findForward(nextPage);
         }
         String where = "failure";
@@ -192,19 +194,20 @@ public final class LoginAction extends DispatchAction {
             Provider provider = providerManager.getProvider(username);
             session.setAttribute("provider", provider);
 
-            List facilityIds = providerManager.getFacilityIds(provider.getProviderNo());
-            if (facilityIds.size() > 1) {
+            List shelterIds = providerManager.getShelterIds(provider.getProviderNo());
+            if (shelterIds.size() > 1) {
                 return(mapping.findForward("shelterSelection"));
             }
-            else if (facilityIds.size() == 1) {
-                // set current facility
-                Facility facility=facilityDAO.getFacility((Integer)facilityIds.get(0));
-                request.getSession().setAttribute("currentFacility", facility);
-                request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, facility.getId());
-                LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "facilityId="+facilityIds.get(0), ip);
+            else if (shelterIds.size() == 1) {
+                Integer shelterId = (Integer) shelterIds.get(0);
+                LookupCodeValue shelter=lookupManager.GetLookupCode("SHL",String.valueOf(shelterId));
+                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
+                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
+                LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
             }
             else {
-                request.getSession().setAttribute(SessionConstants.CURRENT_FACILITY_ID, new Integer(0));
+                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
+                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
             }
         }
         // expired password

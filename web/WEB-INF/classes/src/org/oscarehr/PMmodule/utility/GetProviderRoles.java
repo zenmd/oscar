@@ -43,7 +43,7 @@ public class GetProviderRoles {
 		
 	    protected ApplicationContext ctx = null;
 	    
-	    public GetProviderRoles() {
+ 	    public GetProviderRoles() {
 	    	String[] paths = {"/WEB-INF/applicationContext-test.xml"};
 	    	ctx = new ClassPathXmlApplicationContext(paths);
 	    }

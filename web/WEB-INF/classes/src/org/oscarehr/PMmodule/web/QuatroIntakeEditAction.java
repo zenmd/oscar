@@ -80,9 +80,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList();
   		qform.setOptionList(optionValues);
 
-        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
-        ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
-        		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        ArrayList lst= (ArrayList)programManager.getProgramIds(
+        		shelterId,(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         ArrayList lst2 = new ArrayList();
         ArrayList lst3 = new ArrayList();
         for(int i=0;i<lst.size();i++){
@@ -192,9 +192,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	intake.setVAW(KeyConstants.CONSTANT_NO);
         }
 
-        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
-        ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
-        		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        ArrayList lst= (ArrayList)programManager.getProgramIds( 
+        		shelterId,(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         ArrayList lst2 = new ArrayList();
         ArrayList lst3 = new ArrayList();
         for(int i=0;i<lst.size();i++){
@@ -275,9 +275,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         intake.setVAW(KeyConstants.CONSTANT_NO);
         intake.setProgramId(programId);
 
-        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
-        ArrayList lst= (ArrayList)programManager.getProgramIdsByProvider( 
-        		new Integer(facilityId.intValue()),(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        ArrayList lst= (ArrayList)programManager.getProgramIds( 
+        		shelterId,(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         ArrayList lst2 = new ArrayList();
         ArrayList lst3 = new ArrayList();
         for(int i=0;i<lst.size();i++){
@@ -447,8 +447,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		qform.setLanguage(language);        
 		qform.setOriginalCountry(originalCountry);
 		
-        Integer facilityId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
-		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(), facilityId).size()>0){
+        Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(), shelterId).size()>0){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
           			request.getContextPath()));
         	isError = true;

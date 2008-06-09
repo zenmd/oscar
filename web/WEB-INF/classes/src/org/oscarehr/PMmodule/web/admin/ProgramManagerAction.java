@@ -60,7 +60,6 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.Secuserrole;
@@ -100,15 +99,15 @@ public class ProgramManagerAction extends BaseAction {
         String searchFacilityId = (String) programForm.get("searchFacilityId");
 
         String providerNo = (String)request.getSession().getAttribute("user");
+   		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         
         List list =  null;
         if("".equals(searchStatus)) {
-       		Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       		list = programManager.getProgramByProvider(providerNo, facilityId);
+       		list = programManager.getPrograms(providerNo, shelterId);
         }
         else
         {
-        	list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId));
+        	list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
         }
     	request.setAttribute("programs", list);
         request.setAttribute("facilities",facilityDAO.getActiveFacilities());

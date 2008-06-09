@@ -54,7 +54,7 @@ public interface BedDemographicManager {
 	 *            demographic identifier
 	 * @return BedDemographic relationship object
 	 */
-	public BedDemographic getBedDemographicByDemographic(Integer demographicNo, Integer facilityId);
+	public BedDemographic getBedDemographicByDemographic(Integer demographicNo, Integer shelterId);
 
 	/**
 	 * Get default BedDemographic status

@@ -114,7 +114,7 @@ public class ProcessConsultationTickler extends AbstractPreparedTickler implemen
 			Tickler tickler = new Tickler();
 			tickler.setStatus('A');
 			tickler.setCreator(providerNo);
-			tickler.setDemographic_no(formBean.getDemographic_no());
+			tickler.setDemographic_no(Integer.valueOf(formBean.getDemographic_no()));
 			tickler.setPriority("Normal");
 			tickler.setService_date(new Date());
 			tickler.setTask_assigned_to(configBean.getProcessrequest().getRecipient());

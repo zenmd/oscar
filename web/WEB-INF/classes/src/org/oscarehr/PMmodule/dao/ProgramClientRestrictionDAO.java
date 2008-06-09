@@ -69,11 +69,9 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         return pcrs;
     }
     
-    public List findAllForClient(Integer demographicNo,String providerNo,Integer facilityId) {
-    	String sql ="from ProgramClientRestriction pcr where pcr.demographicNo = ? and pcr.programId in " +Utility.getUserOrgQueryString(facilityId) +" order by pcr.endDate desc";
-        Object[] params=null;
-        if(facilityId.intValue()==0)params=new Object[]{demographicNo,providerNo};
-        else params=new Object[]{demographicNo,facilityId,providerNo};
+    public List findAllForClient(Integer demographicNo,String providerNo,Integer shelterId) {
+    	String sql ="from ProgramClientRestriction pcr where pcr.demographicNo = ? and pcr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId) +" order by pcr.endDate desc";
+        Object[] params= new Object[]{demographicNo};
     	List results = getHibernateTemplate().find(sql,params);       
         return results;
     }
@@ -90,13 +88,12 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
         return pcrs;
     }
 
-    public Collection findForClient(Integer demographicNo, Integer facilityId) {
+    public Collection findForClient(Integer demographicNo, String providerNo,Integer shelterId) {
         ArrayList paramList = new ArrayList();
         String sSQL="from ProgramClientRestriction pcr where pcr.enabled = true and " +
-  		 "pcr.demographicNo = ? and pcr.programId in (select s.id from Program s where s.facilityId = ? or s.facilityId is null) " +
-         "order by pcr.programId";
+  		 "pcr.demographicNo = ? and pcr.programId in " +  Utility.getUserOrgQueryString(providerNo, shelterId) +
+         " order by pcr.programId";
           paramList.add(demographicNo);
-          paramList.add(facilityId);
           Object params[] = paramList.toArray(new Object[paramList.size()]);
           Collection pcrs= getHibernateTemplate().find(sSQL, params);
 //          for (ProgramClientRestriction pcr : pcrs) {

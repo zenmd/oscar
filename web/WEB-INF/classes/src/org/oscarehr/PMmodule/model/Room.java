@@ -82,7 +82,7 @@ public class Room implements Serializable {
             Integer roomTypeId,
             String name,
             boolean active,
-            Integer facilityId) {
+            Integer shelterId) {
 
         this.setId(id);
         this.setRoomTypeId(roomTypeId);
@@ -247,7 +247,7 @@ public class Room implements Serializable {
         return facilityId;
     }
 
-    public void setFacilityId(Integer facilityId) {
+    public void setFacilityId(Integer shelterId) {
         this.facilityId = facilityId;
     }
 

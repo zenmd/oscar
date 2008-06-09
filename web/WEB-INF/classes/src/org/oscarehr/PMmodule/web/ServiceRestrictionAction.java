@@ -38,7 +38,6 @@ import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.oscarehr.util.SessionConstants;
 
 import oscar.MyDateFormat;
 
@@ -162,7 +161,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
             
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
@@ -181,7 +180,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDate(pcrObj.getStartDate()));
 		}
 
-       List allPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
+       List allPrograms = programManager.getPrograms(providerNo,shelterId);
        request.setAttribute("allPrograms", allPrograms);
 		clientForm.set("serviceRestriction", pcrObj);
 		request.setAttribute("serviceObj", pcrObj);
@@ -199,7 +198,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        }
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
@@ -210,7 +209,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        /* service restrictions */
        	 //  List proPrograms = providerManager.getProgramDomain(providerNo);
            //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
-       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),providerNo,facilityId));
+       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),providerNo,shelterId));
 
    }
 

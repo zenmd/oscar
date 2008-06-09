@@ -79,7 +79,7 @@ public class InfirmAction extends BaseAction
 		}
 		*/
 		InfirmBedProgramManager manager=getInfirmBedProgramManager();
-		Integer facilityId=null;
+		Integer shelterId=null;
 		
 		// facility filtering
         if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {         

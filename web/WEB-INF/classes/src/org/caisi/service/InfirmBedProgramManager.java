@@ -95,7 +95,7 @@ public class InfirmBedProgramManager {
         return pList;
     }
 
-    public List getProgramBeans(String providerNo, Integer facilityId) {
+    public List getProgramBeans(String providerNo, Integer shelterId) {
         if (providerNo == null || "".equalsIgnoreCase(providerNo.trim())) return new ArrayList();
         Iterator iter = programProviderDAOT.getProgramProvidersByProvider(providerNo).iterator();
         ArrayList pList = new ArrayList();
@@ -105,7 +105,7 @@ public class InfirmBedProgramManager {
                 //logger.debug("programName="+p.getProgram().getName()+"::"+"programId="+p.getProgram().getId().toString());
                 Program program = programDao.getProgram(p.getProgramId());
                 
-                if (facilityId!=null && program.getFacilityId().intValue()!=facilityId.intValue()) continue;
+                if (shelterId!=null && program.getFacilityId().intValue()!=shelterId.intValue()) continue;
                 
                 if (program.getProgramStatus() != null && program.getProgramStatus().equals("active")) pList.add(new LabelValueBean(program.getName(), program.getId().toString()));
             }

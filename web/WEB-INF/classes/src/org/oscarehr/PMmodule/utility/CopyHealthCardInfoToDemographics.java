@@ -30,13 +30,13 @@ import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Formintakea;
 import org.oscarehr.PMmodule.service.ClientManager;
-import org.oscarehr.PMmodule.service.IntakeAManager;
+//import org.oscarehr.PMmodule.service.IntakeAManager;
 import org.oscarehr.util.DbConnectionFilter;
 import org.oscarehr.util.SpringUtils;
 
 public class CopyHealthCardInfoToDemographics {
 	protected final Log log = LogFactory.getLog(getClass());
-	    
+/*	    
     public CopyHealthCardInfoToDemographics() throws Exception {
     	int totalUpdated = 0;
     	int totalWarnings = 0;
@@ -82,4 +82,5 @@ public class CopyHealthCardInfoToDemographics {
     public static void main(String args[]) throws Exception {
     	new CopyHealthCardInfoToDemographics();
     }
+*/
 }

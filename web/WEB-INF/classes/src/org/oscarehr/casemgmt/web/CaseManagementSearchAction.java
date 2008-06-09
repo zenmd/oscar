@@ -53,7 +53,6 @@ import org.oscarehr.casemgmt.model.CaseManagementTmpSave;
 import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementViewFormBean;
 import org.oscarehr.common.model.UserProperty;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.SecurityManager;
@@ -165,7 +164,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         long start = System.currentTimeMillis();
         long current = 0;
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         HttpSession se = request.getSession();
@@ -495,7 +494,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
         List results = this.caseManagementMgr.search(searchBean);
         List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         //List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
         
         List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request),currentFacilityId,caseForm.getSearchServiceComponent(),caseForm.getSearchCaseStatus());

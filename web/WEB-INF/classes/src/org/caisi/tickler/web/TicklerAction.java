@@ -120,18 +120,23 @@ public class TicklerAction extends DispatchAction {
     /* show all ticklers */
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.debug("list");
-        String providerId = (String)request.getSession().getAttribute("user");
+        String providerNo = (String)request.getSession().getAttribute("user");
         request.setAttribute("providers", providerMgr.getProviders());
         request.setAttribute("demographics", demographicMgr.getDemographics());
         request.setAttribute("customFilters", ticklerMgr.getCustomFilters(this.getProviderNo(request)));
         
         //request.setAttribute("programs",programMgr.getProgramDomain(providerId));
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);  
+        Integer shelterId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);  
 //        List programs=programMgr.getProgramDomainInFacility(providerId,currentFacilityId);
-        List programs=programMgr.getProgramsByProvider(currentFacilityId, providerId);
+        List programs=programMgr.getProgramsByProvider(shelterId, providerNo);
         request.setAttribute("programs", programs);
-        
-        List ticklers = ticklerMgr.getTicklers();
+        String programIds = "";
+        for(int i=0; i<programs.size();i++)
+        {
+        	Program prog = (Program) programs.get(i);
+        	programIds += prog.getId().toString() + ",";
+        }
+        List ticklers = ticklerMgr.getTicklers(null,shelterId,providerNo,programIds);
         request.getSession().setAttribute("ticklers", ticklers);
         
         request.setAttribute("from", getFrom(request));
@@ -353,7 +358,7 @@ public class TicklerAction extends DispatchAction {
             SimpleDateFormat formatter2 = new SimpleDateFormat("MM/dd/yy : hh:mm a");
 
             /* get current chart */
-            EChart tempChart = chartMgr.getLatestChart(tickler.getDemographic_no());
+            EChart tempChart = chartMgr.getLatestChart(tickler.getDemographic_no().toString());
             String postedDate = "";
             if (tempChart != null) {
                 postedDate = formatter.format(tempChart.getTimeStamp());

@@ -137,74 +137,42 @@ public class ProgramManager {
         return programDao.getProgramName(Integer.valueOf(programId));
     }
 
-    public List getAllPrograms() {
-        return programDao.getAllPrograms();
+    public List getAllPrograms(String programStatus, String type, Integer facilityId,String providerNo, Integer shelterId) {
+        return programDao.getAllPrograms(programStatus, type,facilityId,providerNo, shelterId);
     }
 
-    public List getAllPrograms(String programStatus, String type, Integer facilityId) {
-        return programDao.getAllPrograms(programStatus, type, facilityId);
+    public List getBedProgramsInFacility(String providerNo, Integer facilityId) {
+        return programDao.getBedProgramsInFacility(providerNo, facilityId);
     }
-
-    /**
-      * facilityId can be null, it will return all community programs optionally filtering by facility id if filtering is enabled.
-     */
-    public List getCommunityPrograms(Integer facilityId) {
-        if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {
-            return programDao.getCommunityProgramsByFacilityId(facilityId);
-        }
-        else {
-            return programDao.getAllPrograms();
-        }
+    
+    public List getCommunityPrograms(String providerNo,Integer shelterId) {
+        return programDao.getAllPrograms(Program.PROGRAM_STATUS_ACTIVE, Program.COMMUNITY_TYPE,null,providerNo,shelterId);
     }
 
     /**
       * facilityId can be null, it will return all programs optionally filtering by facility id if filtering is enabled.
      */
-    public List getPrograms(Integer facilityId) {
-        if (OscarProperties.getInstance().getBooleanProperty("FILTER_ON_FACILITY", "true")) {
-            return programDao.getProgramsByFacilityId(facilityId);
-        }
-        else {
-            return programDao.getAllPrograms();
-        }
+    public List getPrograms(String providerNo,Integer shelterId) {
+         return programDao.getAllPrograms(null,null,null,providerNo,shelterId);
     }
-    public List getProgramsByProvider(Integer facilityId,String providerNo) {
-    	return programDao.getProgramByProvider(providerNo, facilityId);
-    }
-    public List getProgramIdsByProvider(Integer facilityId,String providerNo) {
-    	return programDao.getProgramIdsByProvider(providerNo, facilityId);
+    public List getProgramIds(Integer shelterId,String providerNo) {
+    	return programDao.getProgramIdsByProvider(providerNo, shelterId);
     }
 
-    public List getPrograms() {
-        return programDao.getAllPrograms();
+    public List getBedPrograms(String providerNo,Integer shelterId) {
+        return programDao.getAllPrograms(null,Program.BED_TYPE,null,providerNo, shelterId);
     }
-
-    public Program[] getBedPrograms() {
-        return programDao.getBedPrograms();
-    }
-
-    public Program[] getBedPrograms(Integer facilityId) {
-        return programDao.getBedPrograms(facilityId);
-    }
-
-    public List getServicePrograms() {
-        return programDao.getServicePrograms();
-    }
-
-    public Program[] getExternalPrograms() {
-        return programDao.getExternalPrograms();
-    }
-
+    
     public boolean isBedProgram(String programId) {
-        return programDao.isBedProgram(Integer.valueOf(programId));
+        return programDao.isTypeOf(Integer.valueOf(programId),Program.BED_TYPE);
     }
 
     public boolean isServiceProgram(String programId) {
-        return programDao.isServiceProgram(Integer.valueOf(programId));
+        return programDao.isTypeOf(Integer.valueOf(programId),Program.SERVICE_TYPE);
     }
 
     public boolean isCommunityProgram(String programId) {
-        return programDao.isCommunityProgram(Integer.valueOf(programId));
+        return programDao.isTypeOf(Integer.valueOf(programId),Program.COMMUNITY_TYPE);
     }
 
     public void saveProgram(Program program) {
@@ -268,15 +236,6 @@ public class ProgramManager {
         }
     }
     
-        
-    public List getProgramByProvider(String providerNo, Integer facilityId) {
-        return programDao.getProgramByProvider(providerNo, facilityId);
-    }
-/*    
-    public void deleteProgramProviderByProgramId(Integer programId) {
-        programProviderDAO.deleteProgramProviderByProgramId(programId);
-    }
-*/
     public List getFunctionalUserTypes() {
         return programFunctionalUserDAO.getFunctionalUserTypes();
     }
@@ -370,11 +329,6 @@ public class ProgramManager {
     public List search(Program criteria) {
         return this.programDao.search(criteria);
     }
-
-    public List searchByFacility(Program criteria, Integer facilityId){
-        return this.programDao.searchByFacility(criteria, facilityId);
-    }
-    
     public List searchStaff(StaffForm staffForm) {
         return this.secuserroleDao.searchByCriteria(staffForm);
     }
@@ -399,7 +353,7 @@ public class ProgramManager {
         return programDomain;
     }
 
-    public List getProgramDomainInFacility(String providerNo, Integer facilityId) {
+    public List getProgramDomainInFacility(String providerNo, Integer shelterId) {
     	List programs = getProgramDomain(providerNo);
     	List results = new ArrayList();
     	if(facilityId==null) 
@@ -412,25 +366,6 @@ public class ProgramManager {
     	return results;
     }
 */
-    
-    public Program[] getCommunityPrograms() {
-        return programDao.getCommunityPrograms();
-    }
-
-    public List getProgramBeans(String providerNo) {
-        if (providerNo == null || "".equalsIgnoreCase(providerNo.trim())) return new ArrayList();
-        ArrayList pList = new ArrayList();
-        Program[] program = programDao.getCommunityPrograms();
-        for (int i = 0; i < program.length; i++) {
-            pList.add(new LabelValueBean(program[i].getName(), program[i].getId().toString()));
-        }
-        return pList;
-        /*
-         * Iterator iter = programProviderDAOT.getProgramProvidersByProvider(new Long(providerNo)).iterator(); ArrayList pList = new ArrayList(); while (iter.hasNext()) { ProgramProvider p = (ProgramProvider) iter.next(); if (p!=null && p.getProgramId() !=
-         * null && p.getProgramId().longValue()>0){ //logger.debug("programName="+p.getProgram().getName()+"::"+"programId="+p.getProgram().getId().toString()); Program program = programDao.getProgram(new Integer(p.getProgramId().intValue()));
-         * pList.add(new LabelValueBean(program.getName(),program.getId().toString())); } } return pList;
-         */
-    }
 /*
     public List getDefaultRoleAccesses() {
         return defaultRoleAccessDAO.getDefaultRoleAccesses();

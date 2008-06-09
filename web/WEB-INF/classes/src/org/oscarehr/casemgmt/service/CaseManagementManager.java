@@ -786,7 +786,7 @@ public class CaseManagementManager {
         this.caseManagementNoteDAO.saveNote(note);
     }
 /*
-    public boolean isClientInProgramDomain(Integer facilityId, String providerNo, String demographicNo) {
+    public boolean isClientInProgramDomain(Integer shelterId, String providerNo, String demographicNo) {
 
         List providerPrograms = programManager.getProgramsByProvider(facilityId, providerNo);
      

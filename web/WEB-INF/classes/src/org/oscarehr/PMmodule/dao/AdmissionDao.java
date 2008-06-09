@@ -1,9 +1,7 @@
 package org.oscarehr.PMmodule.dao;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.Criteria;
@@ -16,24 +14,13 @@ import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.common.KeyConstants;
-
+import com.quatro.util.Utility;
 public class AdmissionDao extends HibernateDaoSupport {
 	private MergeClientDao mergeClientDao;
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
 
-	public List getAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
-	  if (demographicNo == null || demographicNo.intValue() <= 0) {
-	    throw new IllegalArgumentException();
-	  }
-	  String clientIds=mergeClientDao.getMergedClientIds(demographicNo);
-	  String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+ " and a.programId in " +
-	        "(select s.id from Program s where s.facilityId=? or s.facilityId is null) ORDER BY a.admissionDate DESC";
-	        List rs = getHibernateTemplate().find(queryStr, facilityId);
-
-	        return rs;
-	    }
 
 	public void saveAdmission(Admission admission, Integer intakeId, Integer queueId, Integer referralId) {
         if (admission == null) {
@@ -78,16 +65,8 @@ public class AdmissionDao extends HibernateDaoSupport {
         }  
     }
     
-    //for admission auto-discharge purpose
-    public List getIntakeAdmissionList(Integer clientId) {
-    	String clientIds=mergeClientDao.getMergedClientIds(clientId);
-    	List results = getHibernateTemplate().find("from Admission i where i.clientId in " + clientIds+" and " +
-  			"i.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'");
-		return results;
-	}
-
-    public List getAdmissionList(Integer clientId, Integer facilityId, String providerNo) {
-    	String progSQL = "";
+    public List getAdmissionList(Integer clientId, boolean activeOnly, String providerNo, Integer shelterId) {
+    	String progSQL = Utility.getUserOrgSqlString(providerNo, shelterId);
     	String clientIds=mergeClientDao.getMergedClientIds(clientId);
     	// remove "()"
     	clientIds=clientIds.substring(1,clientIds.length()-1);
@@ -96,20 +75,11 @@ public class AdmissionDao extends HibernateDaoSupport {
     	for(int i=0;i<cIds.length;i++){
     		clients[i] =Integer.valueOf(cIds[i]);
     	}
-    	if (facilityId.intValue() ==0 ) {
-    		progSQL = "program_id in (select p.program_id from program p where 'P' || p.program_id in " +
-    				"(select a.code from lst_orgcd a, secuserrole b " +
-    			    " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";
-    	}
-    	else
-    	{
-        	progSQL = "program_id in (select p.program_id from program p where p.facility_id =" +
-    		facilityId.toString() + " and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
-    			       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";
-    	}
     	Criteria criteria = getSession().createCriteria(Admission.class);
-    	criteria.add(Restrictions.sqlRestriction(progSQL));
     	criteria.add(Restrictions.in("clientId",clients));
+    	if (activeOnly) criteria.add(Restrictions.eq("admissionStatus",KeyConstants.INTAKE_STATUS_ADMITTED));
+    	criteria.add(Restrictions.sqlRestriction(" program_Id in " + progSQL));
+    	
     	criteria.addOrder(Order.desc("admissionDate"));
     	List results = criteria.list();
 
@@ -127,7 +97,6 @@ public class AdmissionDao extends HibernateDaoSupport {
         return lst;
     }
     
-    
     public List getClientsListByProgram(Program program, ClientForm form){
     	Integer programId = program.getId();
     	Integer facilityId = program.getFacilityId();
@@ -142,9 +111,6 @@ public class AdmissionDao extends HibernateDaoSupport {
     		+ " AND rd.id.demographicNo = a.clientId"
     		+ " AND rd.id.roomId = rm.id"
     		+ " AND rm.facilityId = '" + facilityId + "'";
-    		
-    	
-    	
     	if(form != null){
 	    	String fname = form.getFirstName();
 	    	if(fname != null && fname.length()>0){
@@ -202,27 +168,15 @@ public class AdmissionDao extends HibernateDaoSupport {
           return (Admission) lst.get(0);
     }
 
-    public List getCurrentAdmissionsByFacility(Integer demographicNo, Integer facilityId) {
-        if (demographicNo == null || demographicNo.intValue() <= 0) {
+    public List getCurrentAdmissions(Integer clientId,String providerNo, Integer shelterId) {
+        if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        if (facilityId == null || facilityId.intValue() < 0) {
-            throw new IllegalArgumentException();
-        }
-        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+ " and a.programId in " +
-           "(select s.id from Program s where s.facilityId=? or s.facilityId is null) AND a.admissionStatus='"
-          + KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-
-        List rs = getHibernateTemplate().find(queryStr, facilityId);
-
-        return rs;
-
+        return getAdmissionList(clientId, true, providerNo, shelterId);
     }
     
-    public Admission getRecentAdmissionByFacility(Integer clientId, Integer facilityId){
-    	List admissions =this.getAdmissionsByFacility(clientId, facilityId);
+    public Admission getRecentAdmission(Integer clientId, String providerNo,Integer shelterId){
+    	List admissions =this.getAdmissionList(clientId, false,providerNo,shelterId);
     	Admission admObj=null;
     	if(!admissions.isEmpty()){
     		admObj=(Admission)admissions.get(0);
@@ -231,41 +185,22 @@ public class AdmissionDao extends HibernateDaoSupport {
     	return admObj;
     }
     
-    public Admission getCurrentBedProgramAdmission(ProgramDao programDAO, Integer demographicNo) {
-        if (programDAO == null) {
-            throw new IllegalArgumentException();
-        }
-
+    public Admission getCurrentBedProgramAdmission(Integer demographicNo) {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
         String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
+        String queryStr = "from Admission a where a.clientId in "+clientIds+" and a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED +
+         "' and programType='Bed' ORDER BY a.admissionDate DESC";
 
-        Admission admission = null;
-        List rs = new ArrayList();
-        try{
-          rs = getHibernateTemplate().find(queryStr);
-        }catch(org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException ex){
-        	;
+        List admissions = getHibernateTemplate().find(queryStr);
+        if (admissions.size() > 0) {
+        	return (Admission) admissions.get(0);
         }
-        
-        if (rs.isEmpty()) {
-            return null;
+        else
+        {
+        	return null;
         }
-
-        ListIterator listIterator = rs.listIterator();
-        while (listIterator.hasNext()) {
-            try {
-                admission = (Admission) listIterator.next();
-                if (programDAO.isBedProgram(admission.getProgramId())) {
-                    return admission;
-                }
-            } catch (Exception ex) {
-                return null;
-            }
-        }
-        return null;
     }
     
     public List getAdmissionsByProgramId(Integer programId, Boolean automaticDischarge, Integer days) {
@@ -314,38 +249,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 
         getHibernateTemplate().saveOrUpdate(admission);
     }
-    
-    public List getCurrentAdmissions(Integer demographicNo) {
-        if (demographicNo == null || demographicNo.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        }
-        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "FROM Admission a WHERE a.clientId in "+clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr);
 
-        return rs;
-
-    }
-    public List getAdmissions(Integer demographicNo) {
-        if (demographicNo == null || demographicNo.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        }
-        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "FROM Admission a WHERE a.clientId in " +clientIds  +" ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr);
-        return rs;
-    }
-
-    //Lillian add 2008-05-23
-    public Admission getRecentAdmission(Integer clientId){
-    	List admissions =this.getAdmissions(clientId);
-    	Admission admObj=null;
-    	if(!admissions.isEmpty()){
-    		admObj=(Admission)admissions.get(0);
-    	}
-    	else admObj= new Admission();
-    	return admObj;
-    }
     public void updateDischargeInfo(Admission admission){
     	String sSQL="update QuatroIntakeDB q set q.intakeStatus='" + 
     	KeyConstants.INTAKE_STATUS_DISCHARGED + "' where q.id=?";
@@ -362,43 +266,5 @@ public class AdmissionDao extends HibernateDaoSupport {
 				admission.getDischargeReason(), admission.getTransportationType(),
 				admission.getDischargeNotes(), admission.getId()});
     }
-    
-    public Admission getCurrentAdmission(Integer demographicNo) {
-        Admission admission = null;
-
-        if (demographicNo == null || demographicNo.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        }
-        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "FROM Admission a WHERE a.clientId in " +clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr);
-
-        if (!rs.isEmpty()) {
-            admission = ((Admission) rs.get(0));
-        }
-
-        return admission;
-    }
-
-    public Admission getCurrentAdmission(Integer programId, Integer demographicNo) {
-        Admission admission = null;
-
-        if (demographicNo == null || demographicNo.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        }
-        if (programId == null || programId.intValue() <= 0) {
-            return getCurrentAdmission(demographicNo);
-        }
-        String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "FROM Admission a WHERE a.programId=? AND a.clientId in "+clientIds+" AND a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"' ORDER BY a.admissionDate DESC";
-        List rs = getHibernateTemplate().find(queryStr,programId);
-
-        if (!rs.isEmpty()) {
-            admission = ((Admission) rs.get(0));
-        }
-
-        return admission;
-    }
-    
 }
 

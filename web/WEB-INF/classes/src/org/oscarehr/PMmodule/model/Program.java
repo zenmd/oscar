@@ -36,6 +36,9 @@ public class Program implements Serializable {
     public static final String BED_TYPE = "Bed";
     public static final String COMMUNITY_TYPE = "community";
     public static final String SERVICE_TYPE = "Service";
+    
+	public static final String PROGRAM_STATUS_ACTIVE = "active";
+	public static final String PROGRAM_STATUS_INACTIVE = "inactive";
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
@@ -75,6 +78,7 @@ public class Program implements Serializable {
     private Integer ageMax= new Integer(200);
     private Integer maximumServiceRestrictionDays;
     private int defaultServiceRestrictionDays;
+    private Integer shelterId;
     private Integer facilityId;
     private String facilityDesc;
     private String orgCd;
@@ -109,6 +113,14 @@ public class Program implements Serializable {
 	// constructors
     public Program() {
         // no arg constructor for JPA
+    }
+
+    public Integer getShelterId() {
+        return shelterId;
+    }
+
+    public void setShelterId(Integer shelterId) {
+        this.shelterId = shelterId;
     }
 
     public Integer getFacilityId() {

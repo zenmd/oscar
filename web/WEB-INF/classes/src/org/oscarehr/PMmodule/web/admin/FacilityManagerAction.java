@@ -175,13 +175,13 @@ public class FacilityManagerAction extends BaseFacilityAction {
         }
         request.setAttribute("actionParam", actionParam);
         
-        
+        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
     	String idStr = request.getParameter("facilityId");
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityManager.getFacility(facilityId);
 
         // Get program list by facility id in table room.
-        List programs = programManager.getPrograms(facilityId);
+        List programs = programManager.getBedProgramsInFacility(providerNo,facilityId);
         
 
         request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
@@ -203,7 +203,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         }
         request.setAttribute("actionParam", actionParam);
         
-        
+        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
     	String idStr = request.getParameter("facilityId");
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityManager.getFacility(facilityId);
@@ -213,7 +213,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         // Get program list by facility id in table room.
         // for (Program program : programManager.getPrograms(id)) {
-        List programs = programManager.getPrograms(facilityId);
+        List programs = programManager.getBedProgramsInFacility(providerNo,facilityId);
         for (int i=0;i<programs.size();i++) {
         	Program program = (Program) programs.get(i);
             if (program != null) {

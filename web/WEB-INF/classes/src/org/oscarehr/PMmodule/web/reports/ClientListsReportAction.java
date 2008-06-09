@@ -35,7 +35,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
-
+import com.quatro.common.KeyConstants;
 public class ClientListsReportAction extends DispatchAction {
 
     private ClientDao clientDao;
@@ -64,10 +64,11 @@ public class ClientListsReportAction extends DispatchAction {
         // - program list
         // - icd-10 isue list?
 
-        List<Provider> providers = providerManager.getProviders();
+        List providers = providerManager.getProviders();
         request.setAttribute("providers", providers);
 
-        List<Program> programs = programManager.getAllPrograms();
+        
+        List programs = programManager.getPrograms(KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
         request.setAttribute("programs", programs);
 
         return mapping.findForward("form");

@@ -29,7 +29,6 @@ import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.Demographic;
 
 import com.quatro.common.KeyConstants;
-import org.oscarehr.util.SessionConstants;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;

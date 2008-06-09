@@ -25,7 +25,6 @@ import org.oscarehr.PMmodule.service.HealthSafetyManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
@@ -71,14 +70,14 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 
    private void setEditAttributes(ActionForm form, HttpServletRequest request, String demographicNo) {
        
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        
-       List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), facilityId, providerNo);
+       List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
 //       for(Object element: lst){
        for(int i=0;i<lst.size();i++){
     	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
@@ -116,7 +115,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 */
 
            // only allow bed/service programs show up.(not external program)
-           List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
+           List currentAdmissionList = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
            List bedServiceList = new ArrayList();
            for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
                Admission admission1 = (Admission) ad.next();
@@ -130,17 +129,17 @@ public class QuatroClientSummaryAction extends BaseClientAction {
            HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
            request.setAttribute("healthsafety", healthsafety);
 
-           request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
+           request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(shelterId)));
 //       }
 
            
 //       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
 
        /* bed reservation view */
-       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
+       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), shelterId);
        request.setAttribute("bedDemographic", bedDemographic);
        
-       RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
+       RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo), shelterId);
 
 		if(roomDemographic != null){
 			Integer roomIdInt = roomDemographic.getId().getRoomId();

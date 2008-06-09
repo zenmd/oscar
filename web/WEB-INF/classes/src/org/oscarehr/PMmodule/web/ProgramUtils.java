@@ -29,6 +29,7 @@ import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.util.SpringUtils;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.dao.LookupDao;
 import com.quatro.model.LookupCodeValue;
 import java.util.List;
@@ -101,7 +102,7 @@ public class ProgramUtils
         sb.append("{\n");
         
 //        for (Program program : programDao.getAllActiveBedPrograms())
-        List programs = programDao.getAllActiveBedPrograms();
+        List programs = programDao.getAllPrograms(Program.PROGRAM_STATUS_ACTIVE,Program.BED_TYPE,KeyConstants.SYSTEM_USER_PROVIDER_NO, null);
         for(int i=0; i< programs.size(); i++)
         {
         	Program program = (Program)programs.get(i);
@@ -120,7 +121,7 @@ public class ProgramUtils
         StringBuffer programFemaleOnly=new StringBuffer("[");
         StringBuffer programTransgenderOnly=new StringBuffer("[");
         
-        List programs = programDao.getProgramByGenderType("Man");
+        List programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null,"Man");
 //        for (Program program : programDao.getProgramByGenderType("Man"))
         for (int i=0; i<programs.size(); i++)
         {
@@ -128,7 +129,7 @@ public class ProgramUtils
             if (programMaleOnly.length()>1) programMaleOnly.append(',');
             programMaleOnly.append(program.getId());
         }
-        programs = programDao.getProgramByGenderType("Woman");
+        programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null, "Woman");
 //        for (Program program : programDao.getProgramByGenderType("Woman"))
         for (int i=0; i<programs.size(); i++)
         {
@@ -137,7 +138,7 @@ public class ProgramUtils
             programFemaleOnly.append(program.getId());
         }
         
-        programs = programDao.getProgramByGenderType("Transgender");
+        programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null, "Transgender");
 //      for (Program program : programDao.getProgramByGenderType("Transgender"))
         for (int i=0; i<programs.size(); i++)
         {

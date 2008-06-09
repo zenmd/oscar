@@ -81,7 +81,7 @@ public class Bed implements Serializable {
             Integer id,
             Integer bedTypeId,
             Integer roomId,
-            Integer facilityId,
+            Integer shelterId,
             java.util.Date roomStart,
             String name,
             boolean active) {
@@ -98,7 +98,7 @@ public class Bed implements Serializable {
 
 /*
     //a new bed should belong to a room.
-    public static Bed create(Integer facilityId, BedType bedType) {
+    public static Bed create(Integer shelterId, BedType bedType) {
         Bed bed = new Bed();
         bed.setBedTypeId(bedType.getId());
         bed.setRoomId(DEFAULT_ROOM_ID);
@@ -348,7 +348,7 @@ public class Bed implements Serializable {
         return facilityId;
     }
 
-    public void setFacilityId(Integer facilityId) {
+    public void setFacilityId(Integer shelterId) {
         this.facilityId = facilityId;
     }
 

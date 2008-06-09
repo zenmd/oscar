@@ -40,16 +40,13 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.w3c.tidy.IStack;
 
 import oscar.OscarProperties;
+import com.quatro.util.Utility;
 
 public class ProgramDao extends HibernateDaoSupport {
-	private final String PROGRAM_TYPE_Bed = "Bed";
-	private final String PROGRAM_TYPE_Service = "Service";
-	private final String PROGRAM_TYPE_External = "external";
-	private final String PROGRAM_TYPE_Community = "community";
 
     private static final Log log = LogFactory.getLog(ProgramDao.class);
 
-    private boolean isTypeOf(Integer programId, String programType) {
+    public boolean isTypeOf(Integer programId, String programType) {
         boolean result = false;
 
         if (programId == null || programId.intValue() <= 0) {
@@ -74,21 +71,6 @@ public class ProgramDao extends HibernateDaoSupport {
         return result;
     }
 
-    public boolean isBedProgram(Integer programId) {
-        return isTypeOf(programId,PROGRAM_TYPE_Bed);
-    }
-
-    public boolean isServiceProgram(Integer programId) {
-    	return isTypeOf(programId,PROGRAM_TYPE_Service);
-    }
-
-    public boolean isCommunityProgram(Integer programId) {
-    	return isTypeOf(programId,PROGRAM_TYPE_Community);
-    }
-
-    public boolean isExternalProgram(Integer programId) {
-    	return isTypeOf(programId,PROGRAM_TYPE_External);
-    }
 
     public Program getProgram(Integer programId) {
         if (programId == null || programId.intValue() <= 0) {
@@ -126,107 +108,50 @@ public class ProgramDao extends HibernateDaoSupport {
         return name;
     }
 
-    public List getAllPrograms() {
-        List rs = getHibernateTemplate().find("FROM Program p WHERE p.type != ? ORDER BY p.name ", "community");
-
-        if (log.isDebugEnabled()) {
-            log.debug("getAllPrograms: # of programs: " + rs.size());
-        }
-        return rs;
-    }
-
-    public List getAllActivePrograms() {
-    	return getAllPrograms("active", "",  new Integer(0));
-    }
-
-    public List getAllActiveBedPrograms() {
-    	return getAllPrograms("active",PROGRAM_TYPE_Bed, new Integer(0));
-    }
-    
-    public List getAllPrograms(String programStatus, String type, Integer facilityId)
+    public List getAllPrograms(String programStatus, String type, Integer facilityId,String providerNo,Integer shelterId)
     {
     	Criteria c = getSession().createCriteria(Program.class);
-    	if (!("Any".equals(programStatus) || "".equals(programStatus))) {
+    	if (null != programStatus && !("Any".equals(programStatus) || "".equals(programStatus))) {
     		c.add(Restrictions.eq("programStatus", programStatus));
     	}
-    	if (!("Any".equalsIgnoreCase(type) || "".equals(type))) {
+    	if (null != type && !("Any".equalsIgnoreCase(type) || "".equals(type))) {
     		c.add(Restrictions.eq("type", type));
     	}
-    	if (facilityId.intValue() > 0) {
+    	if (null != facilityId && facilityId.intValue() > 0) {
     		c.add(Restrictions.eq("facilityId", facilityId));
     	}
+    	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, shelterId)));
     	return 	c.list();
     }
+    
+    public List getBedProgramsInFacility(String providerNo,Integer facilityId)
+    {
+    	Criteria c = getSession().createCriteria(Program.class);
+    	c.add(Restrictions.eq("programStatus", Program.PROGRAM_STATUS_ACTIVE));
+    	c.add(Restrictions.eq("programType",Program.BED_TYPE));
+    	c.add(Restrictions.eq("facilityId",facilityId));
+    	c.add(Restrictions.sqlRestriction("programId in " + Utility.getUserOrgQueryString(providerNo, null)));
+    	return 	c.list();
+    }
+
     public List getActiveUserDefinedPrograms() {
         List rs = getHibernateTemplate().find("FROM Program p WHERE p.userDefined = ? and p.programStatus = 'active'", new Boolean[] { Boolean.TRUE });
         return rs;
     }
-    /**
-     * @param facilityId is allowed to be null
-     * @return a list of community programs in the facility and any programs with no facility associated
-     */
-    public List getServiceProgramsByFacilityId(Integer facilityId) {
-        return getAllPrograms("", PROGRAM_TYPE_Service, facilityId);
-    }
-    /**
-     * @param facilityId is allowed to be null
-     * @return a list of community programs in the facility and any programs with no facility associated
-     */
-    public List getProgramsByFacilityId(Integer facilityId) {
-        return getAllPrograms("", "", facilityId);
-    }
 
-    public List getCommunityProgramsByFacilityId(Integer facilityId) {
-        return getAllPrograms("", PROGRAM_TYPE_Community, facilityId);
-    }
-
-    public Program[] getBedPrograms(Integer facilityId) {
-    	List list = getAllPrograms("", PROGRAM_TYPE_Bed, facilityId);
-        return (Program[]) list.toArray(new Program[list.size()]);
-    }
-    public Program[] getBedPrograms() {
-        List list = getAllPrograms("", PROGRAM_TYPE_Bed, new Integer(0));
-        return (Program[]) list.toArray(new Program[list.size()]);
-    }
-
-    public List getServicePrograms() {
-        return getAllPrograms("", PROGRAM_TYPE_Service,  new Integer(0));
-    }
-
-    public Program[] getExternalPrograms() {
-        List list = getAllPrograms("", PROGRAM_TYPE_External,  new Integer(0));
-        return (Program[]) list.toArray(new Program[list.size()]);
-    }
-    public Program[] getCommunityPrograms() {
-        List list = getAllPrograms("", PROGRAM_TYPE_Community,  new Integer(0));
-        return (Program[]) list.toArray(new Program[list.size()]);
-    }
-
-    public List getProgramByGenderType(String genderType) {
+    public List getProgramByGenderType(String providerNo, Integer shelterId,String genderType) {
         // yeah I know, it's not safe to insert random strings and it's also inefficient, but unless I fix all the hibernate calls I'm following convention of
         // using the hibernate templates and just inserting random strings for now.
         //@SuppressWarnings("unchecked")
-        List rs = getHibernateTemplate().find("FROM Program p WHERE p.manOrWoman = '" + genderType + "'");
+        List rs = getHibernateTemplate().find("FROM Program p WHERE p.manOrWoman = '" + genderType + "' and p.programId in " + Utility.getUserOrgQueryString(providerNo, shelterId));
         return rs;
     }
-    public List getProgramByProvider(String providerNo, Integer facilityId)
-    {
-        Criteria criteria = getSession().createCriteria(Program.class);
-        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";
-
-        criteria.add(Restrictions.sqlRestriction(sql));
-        criteria.add(Restrictions.eq("facilityId", facilityId));
-        return criteria.list();
-    }
-
-    public List getProgramIdsByProvider(String providerNo, Integer facilityId){
-    	String sql = "select p.program_id, p.name, p.type  from program p where p.facility_id=? and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)";
+    public List getProgramIdsByProvider(String providerNo, Integer shelterId){
+    	String sql = "select p.program_id, p.name, p.type  from program p where p.program_Id in " + Utility.getUserOrgSqlString(providerNo, shelterId);
     	Query query = getSession().createSQLQuery(sql);
     	((SQLQuery) query).addScalar("program_id", Hibernate.INTEGER); 
     	((SQLQuery) query).addScalar("name", Hibernate.STRING); 
     	((SQLQuery) query).addScalar("type", Hibernate.STRING); 
-    	query.setInteger(0, facilityId.intValue());
-    	query.setString(1, providerNo);
     	List lst=query.list();
     	
     	//element in lst is Object[] type
@@ -262,21 +187,13 @@ public class ProgramDao extends HibernateDaoSupport {
         if (program == null) {
             throw new IllegalArgumentException();
         }
-        boolean isOracle = OscarProperties.getInstance().getDbType().equals("oracle");
         Criteria criteria = getSession().createCriteria(Program.class);
 
         if (program.getName() != null && program.getName().length() > 0) {
             String programName = StringEscapeUtils.escapeSql(program.getName());
             String sql = "";
-            if (isOracle) {
-            	sql = "((LEFT(SOUNDEX(name),4) = LEFT(SOUNDEX('" + programName + "'),4)))";
-            	criteria.add(Restrictions.or(Restrictions.ilike("name", "%" + programName + "%"), Restrictions.sqlRestriction(sql)));
-            }
-            else
-            {
-            	sql = "((LEFT(SOUNDEX(name),4) = LEFT(SOUNDEX('" + programName + "'),4))" + " " + "OR (name like '" + "%" + programName + "%'))";
-                criteria.add(Restrictions.sqlRestriction(sql));
-            }
+        	sql = "((LEFT(SOUNDEX(name),4) = LEFT(SOUNDEX('" + programName + "'),4)))";
+        	criteria.add(Restrictions.or(Restrictions.ilike("name", "%" + programName + "%"), Restrictions.sqlRestriction(sql)));
         }
 
         if (program.getType() != null && program.getType().length() > 0) {
@@ -304,7 +221,6 @@ public class ProgramDao extends HibernateDaoSupport {
         if (program.getAgeMax().intValue()>=0) {
             criteria.add(Expression.ge("ageMax", program.getAgeMax()));
         }
-
          criteria.addOrder(Order.asc("name"));
 
         List results = criteria.list();
@@ -316,14 +232,10 @@ public class ProgramDao extends HibernateDaoSupport {
         return results;
     }
 
-    public List searchByFacility(Program program, Integer facilityId) {
+    public List searchByShelter(String providerNo, Integer shelterId, Program program) {
         if (program == null) {
             throw new IllegalArgumentException();
         }
-        if (facilityId == null) {
-            throw new IllegalArgumentException();
-        }
-
         boolean isOracle = OscarProperties.getInstance().getDbType().equals("oracle");
         Criteria criteria = getSession().createCriteria(Program.class);
 
@@ -386,8 +298,7 @@ public class ProgramDao extends HibernateDaoSupport {
         if (program.isMentalHealth()) {
             criteria.add(Expression.eq("mentalHealth", Boolean.TRUE));
         }
-
-        criteria.add(Expression.eq("facilityId", facilityId));
+        criteria.add(Restrictions.sqlRestriction("programId in " + Utility.getUserOrgQueryString(providerNo, shelterId)));
         
         criteria.addOrder(Order.asc("name"));
 
@@ -396,7 +307,6 @@ public class ProgramDao extends HibernateDaoSupport {
         if (log.isDebugEnabled()) {
             log.debug("search: # results: " + results.size());
         }
-
         return results;
     }
     

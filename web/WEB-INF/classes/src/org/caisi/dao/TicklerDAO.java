@@ -88,7 +88,7 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
 */
     
-    public List getTicklers(CustomFilter filter, Integer facilityId, String providerNo, String programId) {
+    public List getTicklers(CustomFilter filter, Integer shelterId, String providerNo, String programId) {
     //TODO:Add user access filter
     	String tickler_date_order = filter.getSort_order();
         String query = "from Tickler t where t.service_date >= ? and t.service_date <= ? ";
@@ -98,9 +98,9 @@ public class TicklerDAO extends HibernateDaoSupport {
         return (List)getHibernateTemplate().find(query + "order by t.service_date " + tickler_date_order, params);
     }
     
-    public List getTicklersByClientId(Integer facilityId, String providerNo, Integer clientId) {
-        String query = "from Tickler t where t.demographic_no = ? and t.program_id in " + Utility.getUserOrgQueryString(facilityId);
-        return (List)getHibernateTemplate().find(query + "order by t.service_date ", new Object[]{clientId, facilityId, providerNo});
+    public List getTicklersByClientId(Integer shelterId, String providerNo, Integer clientId) {
+        String query = "from Tickler t where t.demographic_no = ? and t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
+        return (List)getHibernateTemplate().find(query + "order by t.service_date ", new Object[]{clientId});
     }
 
     public int getActiveTicklerCount(String providerNo){

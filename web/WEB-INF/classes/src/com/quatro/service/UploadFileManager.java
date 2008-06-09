@@ -30,8 +30,8 @@ public class UploadFileManager {
     public void saveAttachment(Attachment attDoc){    	
         uploadFileDao.saveAttachement(attDoc);
     }
-    public List getAttachment(Integer moduleId,String refNo,String providerNo,Integer facilityId){
-    	List lst =uploadFileDao.getAttach(moduleId, refNo, providerNo, facilityId);
+    public List getAttachment(Integer moduleId,String refNo,String providerNo,Integer shelterId){
+    	List lst =uploadFileDao.getAttach(moduleId, refNo, providerNo, shelterId);
     	return lst;
     }
     public void deleteAttachment(Integer docId){

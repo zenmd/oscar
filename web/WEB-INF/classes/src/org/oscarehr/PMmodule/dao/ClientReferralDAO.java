@@ -55,18 +55,15 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
-    public List getReferrals(Integer clientId,String providerNo,Integer facilityId) {
+    public List getReferrals(Integer clientId,String providerNo,Integer shelterId) {
 
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
-        String sql="from ClientReferral cr where cr.clientId in " +clientIds +" and cr.programId in " +Utility.getUserOrgQueryString(facilityId);
-        Object[] params=null;
-        if(facilityId.intValue()>0) params=new Object[]{facilityId,providerNo};
-        else params = new Object[]{providerNo};
+        String sql="from ClientReferral cr where cr.clientId in " +clientIds +" and cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
         
-        List results = this.getHibernateTemplate().find(sql, params);
+        List results = this.getHibernateTemplate().find(sql);
 
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
@@ -94,18 +91,18 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return (ClientReferral)results.get(0);
     }
     
-    public List getReferralsByFacility(Integer clientId, Integer facilityId) {
+    public List getReferralsByFacility(Integer clientId, Integer shelterId) {
 
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-        if (facilityId == null || facilityId.intValue() < 0) {
+        if (shelterId == null || shelterId.intValue() < 0) {
             throw new IllegalArgumentException();
         }
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
         String sSQL="from ClientReferral cr where cr.clientId in " + clientIds+
-                    " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=? or s.facilityId is null)))";
-        List results = this.getHibernateTemplate().find(sSQL, new Object[] {facilityId, facilityId });
+                    " and ( (cr.shelterId=?) or (cr.programId in (select s.id from Program s where s.shelterId=? or s.shelterId is null)))";
+        List results = this.getHibernateTemplate().find(sSQL, new Object[] {shelterId, shelterId });
 //        		"from ClientReferral cr where cr.ClientId = ?", clientId);
 
         if (log.isDebugEnabled()) {
@@ -193,23 +190,22 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     }
     // end of change
 
-    public List getActiveReferrals(Integer clientId, Integer facilityId) {
+    public List getActiveReferrals(Integer clientId, Integer shelterId) {
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
 
         List results;
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
-        if(facilityId==null){
+        if(shelterId==null){
           results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId in " +clientIds+" and (cr.status = '"+KeyConstants.STATUS_ACTIVE+"' or cr.status = '"+KeyConstants.STATUS_PENDING+"' or cr.status = '"+KeyConstants.STATUS_UNKNOWN+"')");
         }else{
           ArrayList paramList = new ArrayList();
           String sSQL="from ClientReferral cr where cr.clientId in " +clientIds+" and (cr.status = '" + KeyConstants.STATUS_ACTIVE+"' or cr.status = '" + 
           KeyConstants.STATUS_PENDING + "' or cr.status = '" + KeyConstants.STATUS_UNKNOWN + "')" + 
-            " and ( (cr.facilityId=?) or (cr.programId in (select s.id from Program s where s.facilityId=?)))";
+            " and (cr.programId in (select s.id from Program s where s.shelterId=?))";
         //  paramList.add(clientId);
-          paramList.add(facilityId);
-          paramList.add(facilityId);
+          paramList.add(shelterId);
           Object params[] = paramList.toArray(new Object[paramList.size()]);
           results = getHibernateTemplate().find(sSQL, params);
         }

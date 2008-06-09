@@ -65,7 +65,7 @@ public class DemographicRelationship {
    /**
     * @param facilityId can be null
     */
-   public void addDemographicRelationship(String demographic,String linkingDemographic,String relationship,boolean sdm,boolean emergency,String notes,String providerNo, Integer facilityId){
+   public void addDemographicRelationship(String demographic,String linkingDemographic,String relationship,boolean sdm,boolean emergency,String notes,String providerNo, Integer shelterId){
        String sdmStr = "0";
        String eContact = "0";
        if (sdm){
@@ -200,7 +200,7 @@ public class DemographicRelationship {
       return list; 
    }
 
-   public ArrayList getDemographicRelationshipsWithNamePhone(String demographic_no, Integer facilityId){                 
+   public ArrayList getDemographicRelationshipsWithNamePhone(String demographic_no, Integer shelterId){                 
 	      ArrayList list = new ArrayList();
 	      try {
 	         DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);

@@ -183,15 +183,15 @@ public class ProviderDao extends HibernateDaoSupport {
         SqlUtils.update("delete from provider_facility where provider_no='"+provider_no+"' and facility_id="+facilityId);
 	}
 	
-	public List getFacilityIds(String provider_no)
+	public List getShelterIds(String provider_no)
 	{
 //	    return(SqlUtils.selectIntList("select facility_id from secuserrole where provider_no='"+provider_no+'\''));
-		String sql = "select distinct substr(codetree,18,7) as facility_id from lst_orgcd" ;
+		String sql = "select distinct substr(codetree,18,7) as shelter_id from lst_orgcd" ;
 		sql += " where code in (select orgcd from secuserrole where provider_no=?)";
-		sql += " and fullcode like '%F%'";
+		sql += " and fullcode like '%S%'";
 
 		Query query = getSession().createSQLQuery(sql);
-    	((SQLQuery) query).addScalar("facility_id", Hibernate.INTEGER); 
+    	((SQLQuery) query).addScalar("shelter_id", Hibernate.INTEGER); 
     	query.setString(0, provider_no);
 
     	List lst=query.list();

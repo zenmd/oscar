@@ -16,7 +16,6 @@ import org.apache.struts.upload.FormFile;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.util.SessionConstants;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
@@ -67,13 +66,13 @@ public class UploadFileAction extends BaseClientAction {
 	       String demographicNo= (String)actionParam.get("clientId");
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
-		   Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+		   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo=(String) request.getSession().getAttribute("user");
 	       try {
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			    String refNo = demographicNo;			   
-			    List lstProgram = programManager.getProgramByProvider(providerNo, currentFacilityId);
+			    List lstProgram = programManager.getPrograms(providerNo, currentFacilityId);
 				atts=uploadFileManager.getAttachment(moduleId, refNo,providerNo,currentFacilityId);
 			    request.setAttribute("att_files", atts);
 		    }catch(Exception ex){
@@ -182,7 +181,7 @@ public class UploadFileAction extends BaseClientAction {
 			//only for client module 
 			Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			String programId = "";
-			Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+			Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo=(String) session.getAttribute("user");
 	        try{
 	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, currentFacilityId).toString();

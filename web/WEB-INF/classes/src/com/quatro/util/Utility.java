@@ -161,14 +161,25 @@ public class Utility {
         sql+=colName +" in (select cm.clientId from ClientMerge cm where cm.deleted=false and cm.mergedToClientId=?)" ;    	
     	return sql;    	
     }
-    public static String getUserOrgQueryString(Integer facilityId){
+    public static String getUserOrgQueryString(String providerNo,Integer shelterId){
     	String progSQL="";
-    	if (facilityId.intValue() == 0) {
-			progSQL = "(select p.id from Program p where  'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-			" where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";			
+    	if (shelterId.intValue() == 0) {
+			progSQL = "(select p.id from Program p where 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
 		}	else {
-			progSQL = "(select p.id from Program p where p.facilityId =? and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?))";				
+			progSQL = "(select p.id from Program p where p.shelterId =" + shelterId.toString() + " and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
+		}
+    	return progSQL;
+    }
+    public static String getUserOrgSqlString(String providerNo,Integer shelterId){
+    	String progSQL="";
+    	if (shelterId.intValue() == 0) {
+			progSQL = "(select p.program_id from program p where 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
+		}	else {
+			progSQL = "(select p.program_id from program p where p.shelter_id =" + shelterId.toString() + " and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
+		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
 		}
     	return progSQL;
     }
@@ -190,6 +201,19 @@ public class Utility {
         }catch(Exception ex){
         	return null;
         }
+    }
+    public static String replace(String str, String pattern, String replaceTo)
+    {
+    	String[] buff = str.split(pattern);
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(buff[0]);
+    	for(int i=1; i<buff.length;i++)
+    	{
+    		sb.append(replaceTo);
+    		sb.append(buff[i]);
+    	}
+    	return sb.toString();
     }
 
 }

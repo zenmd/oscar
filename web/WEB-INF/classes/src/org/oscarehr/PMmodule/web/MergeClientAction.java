@@ -164,14 +164,14 @@ public class MergeClientAction extends BaseClientAction {
 		return mapping.findForward("view");
 	}
 	private void setLookupLists(HttpServletRequest request) {
-		Integer facilityId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_FACILITYID);
+		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-		List allBedPrograms = programManager.getProgramsByProvider(facilityId,providerNo);
+		List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
 
 		request.setAttribute("allBedPrograms", allBedPrograms);
-		List allProviders = providerManager.getActiveProviders(facilityId.toString(), null);
+		List allProviders = providerManager.getActiveProviders(shelterId.toString(), null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,	null, null));
 		request.setAttribute("moduleName", " - Client Management");		

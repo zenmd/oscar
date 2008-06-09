@@ -9,7 +9,7 @@ import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomType;
-
+import java.util.List;
 /**
  */
 public class BedManagerForm extends ActionForm {
@@ -23,7 +23,7 @@ public class BedManagerForm extends ActionForm {
     private RoomType[] roomTypes;
     private Bed[] beds;
     private BedType[] bedTypes;
-    private Program[] programs;
+    private List programs;
     private Integer roomToDelete;
     private Integer bedToDelete;
     private Integer roomStatusFilter;
@@ -98,11 +98,11 @@ public class BedManagerForm extends ActionForm {
         this.bedTypes = bedTypes;
     }
 
-    public Program[] getPrograms() {
+    public List getPrograms() {
         return programs;
     }
 
-    public void setPrograms(Program[] programs) {
+    public void setPrograms(List programs) {
         this.programs = programs;
     }
 

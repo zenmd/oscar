@@ -39,7 +39,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.BaseAction;
-
+import com.quatro.common.KeyConstants;
 /**
  * Will report some basic statistics out of the PMM
  * 
@@ -73,7 +73,7 @@ public class BasicReportAction extends BaseAction {
 		Map map = new LinkedHashMap();
 		int total = 0, totalBed = 0, totalService = 0;
 		
-		List programs = programManager.getPrograms();
+		List programs = programManager.getPrograms(KeyConstants.SYSTEM_USER_PROVIDER_NO, null);
 		
 		for(Iterator iter = programs.iterator();iter.hasNext();) {
 			Program p = (Program)iter.next();

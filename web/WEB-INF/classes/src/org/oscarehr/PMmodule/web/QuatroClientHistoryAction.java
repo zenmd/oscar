@@ -23,7 +23,7 @@ import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.oscarehr.util.SessionConstants;
+import com.quatro.common.KeyConstants;
 
 public class QuatroClientHistoryAction  extends DispatchAction {
    private ClientManager clientManager;
@@ -41,71 +41,7 @@ public class QuatroClientHistoryAction  extends DispatchAction {
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setEditAttributes(form, request);
        return mapping.findForward("edit");
-   }
-   
-   private void setEditAttributes(ActionForm form, HttpServletRequest request) {
-       DynaActionForm clientForm = (DynaActionForm) form;
-
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-       
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
-       Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-       
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
-
-       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
-
-
-/*
-       // request.setAttribute("admissions", admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo)));
-       // only allow bed/service programs show up.(not external program)
-       List currentAdmissionList = admissionManager.getCurrentAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId);
-       List bedServiceList = new ArrayList();
-       for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-           Admission admission1 = (Admission) ad.next();
-           if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
-               continue;
-           }
-           bedServiceList.add(admission1);
-       }
-       request.setAttribute("admissions", bedServiceList);
-*/
-       request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(facilityId)));
-       
-       /* history */
-       request.setAttribute("admissionHistory", admissionManager.getAdmissionsByFacility(Integer.valueOf(demographicNo), facilityId));
-       request.setAttribute("referralHistory", clientManager.getReferralsByFacility(demographicNo, facilityId));
-           
-//       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
-
-       /* bed reservation view */
-       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
-       request.setAttribute("bedDemographic", bedDemographic);
-       
-       RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo), facilityId);
-
-		if(roomDemographic != null){
-			Integer roomIdInt = roomDemographic.getId().getRoomId();
-			Room room = null;
-			if(roomIdInt != null){
-				room = roomManager.getRoom(roomIdInt);
-			}
-			if(room != null){
-				roomDemographic.setRoom(room);
-			}
-		}
-		request.setAttribute("roomDemographic", roomDemographic);
    }
 
    public void setAdmissionManager(AdmissionManager admissionManager) {
