@@ -164,12 +164,11 @@ public class ClientSearchAction2 extends DispatchAction {
 				KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
-		List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+		List allPrograms = programManager.getPrograms(providerNo, shelterId);
 
-		request.setAttribute("allBedPrograms", allBedPrograms);
-
-		request.setAttribute("allBedPrograms", allBedPrograms);
-		List allProviders = providerManager.getActiveProviders(shelterId, null);
+		request.setAttribute("allBedPrograms", allPrograms);
+		List allProviders = providerManager.getActiveProviders(
+				shelterId.toString(), null);
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,
 				null, null));
