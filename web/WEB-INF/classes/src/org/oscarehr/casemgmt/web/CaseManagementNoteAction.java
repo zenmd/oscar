@@ -40,7 +40,6 @@ import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.service.CaseManagementPrintPdf;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
 import org.oscarehr.common.model.UserProperty;
-import org.oscarehr.util.SessionConstants;
 import org.springframework.web.context.WebApplicationContext;
 
 import oscar.oscarEncounter.pageUtil.EctSessionBean;
@@ -82,7 +81,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String providerNo = getProviderNo(request);
         Boolean restore = (Boolean) request.getAttribute("restore");
         String programId = (String) request.getSession().getAttribute("case_program_id");
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         if(Utility.IsEmpty(programId)){ 
         	Integer demoInt = Integer.valueOf(demono);
         	programId = clientManager.getRecentProgramId(Integer.valueOf(demono), providerNo, currentFacilityId).toString();        		
@@ -508,7 +507,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         WebApplicationContext ctx = this.getSpringContext();
         String role = null;
         String team = null;
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         // if this is an update, don't overwrite the program id
         if (Utility.IsEmpty(note.getProgram_no())) {
         	try{
@@ -947,7 +946,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         List filteredSearchResults = new ArrayList();
 
         // remove issues which we already have - we don't want duplicates
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         List existingIssues= caseManagementMgr.getIssues(providerNo, demono);//, providerNo, programId,currentFacilityId);
 
         Map existingIssuesMap = convertIssueListToMap(existingIssues);
@@ -1001,7 +1000,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         List filteredSearchResults = new ArrayList();
 
         // remove issues which we already have - we don't want duplicates
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
+        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         List existingIssues= caseManagementMgr.getIssues(providerNo, demono); // providerNo, programId, currentFacilityId);
         /*
          * if(request.getSession().getAttribute("archiveView")!="true") existingIssues = caseManagementMgr.filterIssues(caseManagementMgr.getIssues(providerNo, demono),providerNo,programId); else existingIssues = caseManagementMgr.getIssues(providerNo,
@@ -1102,7 +1101,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         k = 0;
 
-        String programIdStr = (String) request.getSession().getAttribute(SessionConstants.CURRENT_PROGRAM_ID);
+        String programIdStr = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         Integer programId=null;
         if (programIdStr!=null) programId=Integer.valueOf(programIdStr);
 
