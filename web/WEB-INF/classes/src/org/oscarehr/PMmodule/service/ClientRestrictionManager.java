@@ -122,7 +122,7 @@ public class ClientRestrictionManager {
 
     public ProgramClientRestriction checkClientRestriction(Integer programId, Integer demographicNo, Date asOfDate) {
         // check dao for restriction
-        Collection pcrs = programClientRestrictionDAO.find(programId.intValue(), demographicNo.intValue());
+        Collection pcrs = programClientRestrictionDAO.find(programId, demographicNo);
         if (pcrs != null && !pcrs.isEmpty()) {
 //            for (ProgramClientRestriction pcr : pcrs) {
           	Iterator iterator = pcrs.iterator(); 

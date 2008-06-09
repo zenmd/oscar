@@ -107,7 +107,10 @@ public class ProgramDao extends HibernateDaoSupport {
 
         return name;
     }
-
+    public List getAllPrograms(String programStatus, String type, Integer facilityId, String providerNo,Integer shelterId)
+    {
+    	return getAllPrograms(programStatus, type,facilityId,null,providerNo,shelterId);
+    }
     public List getAllPrograms(String programStatus, String type, Integer facilityId, Integer clientId, String providerNo,Integer shelterId)
     {
     	Criteria c = getSession().createCriteria(Program.class);

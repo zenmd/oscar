@@ -25,7 +25,7 @@ public class ProgramClientRestrictionDAO extends HibernateDaoSupport {
 
     private static Log log = LogFactory.getLog(ProgramClientRestrictionDAO.class);
 
-    public Collection find(int programId, int demographicNo) {
+    public Collection find(Integer programId, Integer demographicNo) {
     	String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
         List pcrs = getHibernateTemplate().find("from ProgramClientRestriction pcr where pcr.enabled = true and pcr.programId = ? and pcr.demographicNo in "+clientIds+" order by pcr.startDate",programId);
 //        for (ProgramClientRestriction pcr : pcrs) {
