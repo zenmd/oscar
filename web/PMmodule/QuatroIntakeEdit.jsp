@@ -95,8 +95,8 @@ function checkExistClients(){
 
          <c:if test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
            <c:choose>
-            <c:when test="${quatroIntakeEditForm.intake.intakeStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ACTIVE ||
-	    	 quatroIntakeEditForm.intake.intakeStatus==com.quatro.common.KeyConstants.INTAKE_STATUS_ADMITTED}">
+            <c:when test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
+	    	 quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
              | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
              <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
          </c:when>
