@@ -72,6 +72,6 @@
                     <key column="merged_to"/>
                     <element column="demographic_no" type="integer"/>
                 </set>
-        <property column="sdmt_status" length="7" name="SDMTStatus" type="string" />                
+        <property column="benefit_unit_status" length="7" name="benefitUnitStatus" type="string" />                
 	</class>
 </hibernate-mapping>

@@ -91,7 +91,7 @@ public class Demographic implements Serializable {
     private String sin;
     private Integer headRecord = null;
     private Set subRecord = null;
-    private String SDMTStatus;
+    private String benefitUnitStatus;
     
     private int activeCount = 0;
     private int hsAlertCount = 0;
@@ -906,14 +906,17 @@ public class Demographic implements Serializable {
 
 
 
-	public String getSDMTStatus() {
-		return SDMTStatus;
+	public String getBenefitUnitStatus() {
+		return benefitUnitStatus;
 	}
 
 
 
-	public void setSDMTStatus(String status) {
-		SDMTStatus = status;
+	public void setBenefitUnitStatus(String benefitUnitStatus) {
+		this.benefitUnitStatus = benefitUnitStatus;
 	}
+
+
+
 }
 
