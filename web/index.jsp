@@ -144,7 +144,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 					Toronto</font></td>
 				</tr>
 				<tr>
-					<td align="center"><font size="1" face="Arial">Build: 2008-05-28 09:50</font>
+					<td align="center"><font size="1" face="Arial">Build: 2008-06-09 11:15</font>
 					</td>
 				</tr>
 			</table>
