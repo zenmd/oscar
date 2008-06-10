@@ -96,6 +96,12 @@ function openHealthSafety(){
 		</c:choose>
        </table>
 	</td></tr>
+	<tr>
+		<td>SDMT Benefit Unit Status</td>
+		<td><c:out value="${client.SDMTStatus}" /></td>
+		<td></td>
+		<td></td>
+	</tr>
 </table>
 </td></tr>
 

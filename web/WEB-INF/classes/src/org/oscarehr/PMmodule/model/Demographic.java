@@ -91,6 +91,7 @@ public class Demographic implements Serializable {
     private String sin;
     private Integer headRecord = null;
     private Set subRecord = null;
+    private String SDMTStatus;
     
     private int activeCount = 0;
     private int hsAlertCount = 0;
@@ -901,6 +902,18 @@ public class Demographic implements Serializable {
 
 	public void setMerged(boolean merged) {
 		this.merged = merged;
+	}
+
+
+
+	public String getSDMTStatus() {
+		return SDMTStatus;
+	}
+
+
+
+	public void setSDMTStatus(String status) {
+		SDMTStatus = status;
 	}
 }
 
