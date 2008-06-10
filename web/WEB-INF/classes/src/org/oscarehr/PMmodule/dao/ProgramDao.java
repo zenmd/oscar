@@ -150,7 +150,7 @@ public class ProgramDao extends HibernateDaoSupport {
         // yeah I know, it's not safe to insert random strings and it's also inefficient, but unless I fix all the hibernate calls I'm following convention of
         // using the hibernate templates and just inserting random strings for now.
         //@SuppressWarnings("unchecked")
-        List rs = getHibernateTemplate().find("FROM Program p WHERE p.manOrWoman = '" + genderType + "' and p.programId in " + Utility.getUserOrgQueryString(providerNo, shelterId));
+        List rs = getHibernateTemplate().find("FROM Program p WHERE p.manOrWoman = '" + genderType + "' and p.id in " + Utility.getUserOrgQueryString(providerNo, shelterId));
         return rs;
     }
     public List getProgramIdsByProvider(String providerNo, Integer shelterId){
