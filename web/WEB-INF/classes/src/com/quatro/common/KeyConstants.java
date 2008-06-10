@@ -74,10 +74,6 @@ public class KeyConstants {
   public static final String STATUS_PENDING = "pending";
   public static final String STATUS_WITHDRAW = "withdraw";
   
-  public static final String TASK_PRIORITY_HIGH = "high";
-  public static final String TASK_PRIORITY_NORMAL = "normal";
-  public static final String TASK_PRIORITY_LOW = "low";
-  
   public static final String CLIENT_MODE_MERGE = "merge";
   public static final String CLIENT_MODE_UNMERGE = "unmerge";
   
