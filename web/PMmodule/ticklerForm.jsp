@@ -1,68 +1,87 @@
-	<%@include file="/ticklerPlus/header.jsp"%>
+<%@include file="/ticklerPlus/header.jsp"%>
+<%@page import="java.util.Calendar"%>
 	
-	<%@page import="java.util.GregorianCalendar"%>
-	<%@page import="java.util.Calendar"%>
-	
-	<%
+<script type="text/javascript">
+function submitForm(methodVal) {
+    if(methodVal=='save'){
+	   var serviceDate = document.ticklerForm.elements['tickler.serviceDate'];
+	   if(serviceDate.value == '') {
+		  alert('Please provide a service date.');
+	      document.forms(0).method.value = 'changeProgram';
+	      document.forms(0).submit();
+		  return;
+	   }
+
+	   var task_assigned_to = document.ticklerForm.elements['tickler.program_id'];
+	   if(task_assigned_to.value == '') {
+		  alert('Please select a program.');
+	      document.forms(0).method.value = 'changeProgram';
+	      document.forms(0).submit();
+		  return;
+	   }
+
+	   var task_assigned_to = document.ticklerForm.elements['tickler.task_assigned_to'];
+	   if(task_assigned_to.value == '') {
+		  alert('Please assign the task to a valid provider.');
+	      document.forms(0).method.value = 'changeProgram';
+	      document.forms(0).submit();
+		  return;
+	   }
+
+	   var message = document.ticklerForm.elements['tickler.message'];
+	   if(message.value == '') {
+		  alert('You must provide a message');
+	      document.forms(0).method.value = 'changeProgram';
+	      document.forms(0).submit();
+		  return;
+	   }
+
+	   document.forms(0).method.value = methodVal;
+	   document.forms(0).submit();
+	   
+    }else{
+	   document.forms(0).method.value = methodVal;
+	   document.forms(0).submit();
+    }
+    
+}
 /*
-		GregorianCalendar now = new GregorianCalendar();
-	
-		int curYear = now.get(Calendar.YEAR);
-		int curMonth = now.get(Calendar.MONTH);
-		int curDay = now.get(Calendar.DAY_OF_MONTH);
-		int curHour = now.get(Calendar.HOUR);
-		int curMinute = now.get(Calendar.MINUTE);
-		
-		boolean curAm = (now.get(Calendar.HOUR_OF_DAY) <= 12) ? true : false;
-*/		
-	%>
-	<script type="text/javascript" src="../js/checkDate.js"></script>
-	<script type="text/javascript">
-		function check_tickler_service_date() {
-			var serviceDate = document.ticklerForm.elements['tickler.serviceDate'].value;
-			if(check_date(serviceDate)) {		
-				return true;
-			} else {
-				return false;
-			}	
-		}
-		
-		function search_demographic() {
-			window.open('<c:out value="${ctx}"/>/ticklerPlus/demographicSearch.jsp?query=' + document.ticklerForm.elements['tickler.demographic_webName'].value,'demographic_search');
-		}
+function check_tickler_service_date() {
+	var serviceDate = document.ticklerForm.elements['tickler.serviceDate'].value;
+	if(check_date(serviceDate)) {		
+		return true;
+	} else {
+		return false;
+	}	
+}
 		
 	
-		function validateTicklerForm(form) {
-			if (form.elements['tickler.demographic_no'].value == '' || form.elements['tickler.demographic_no'].value == '0') {
-				alert('You must provide patient information. Please use the search button');
-				return false;
-			}
+function validateTicklerForm(form) {
+	if (form.elements['tickler.task_assigned_to'].value == '0' || form.elements['tickler.task_assigned_to'].value == '') {
+		alert('You must assign the task to a valid provider. Please use the search button');
+		return false;
+	}
 			
-			if (form.elements['tickler.task_assigned_to'].value == '0' || form.elements['tickler.task_assigned_to'].value == '') {
-				alert('You must assign the task to a valid provider. Please use the search button');
-				return false;
-			}
+	if (form.elements['tickler.serviceDate'].value == '') {
+		alert('You must provide a valid service date');
+		return false;
+	}
 			
-			if (form.elements['tickler.serviceDate'].value == '') {
-				alert('You must provide a valid service date');
-				return false;
-			}
+	if (form.elements['tickler.message'].value == '') {
+		alert('You must provide a message');
+		return false;
+	}
 			
-			if (form.elements['tickler.message'].value == '') {
-				alert('You must provide a message');
-				return false;
-			}
-			
-			return check_tickler_service_date();
-		}
-	</script>
+	return check_tickler_service_date();
+}
+*/
+</script>
 
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
 <tr><th  class="pageTitle">Client Management - New Task</th></tr>
 
-<tr><td class="buttonBar"><a href='javascript:submitForm("save");'
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+<tr><td class="buttonBar"><a href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 </td></tr>
@@ -75,10 +94,10 @@
 </table>
 
 <table width="100%" class="simple">
-	<html:form action="/Tickler" onsubmit="return validateTicklerForm(this);">
-	
-		<input type="hidden" name="method" value="save" />
+	<html:form action="/PMmodule/Task.do" onsubmit="return validateTicklerForm(this);">
+        <input type="hidden" name="method"/>
 		<html:hidden property="tickler.creator" />
+		<html:hidden property="tickler.demographic_no" />
 		<html:hidden property="tickler.tickler_no" />
 		
 		<tr><td width="20%">Client:</td>
@@ -88,35 +107,33 @@
 		<td><quatro:datePickerTag property="tickler.serviceDate" openerForm="ticklerForm" width="30%"/></td></tr>
 		<tr><td>Service Time:</td>
 		<td><html:select property="tickler.service_hour">
+           <html:optionsCollection property="serviceHourLst" value="value" label="label"/>
 		</html:select> : 
 		<html:select property="tickler.service_minute">
+           <html:optionsCollection property="serviceMinuteLst" value="value" label="label"/>
 		</html:select> &nbsp; 
 		<html:select property="tickler.service_ampm">
-           <html:optionsCollection property="ampmLst" value="code" label="description"/>
+           <html:optionsCollection property="ampmLst" value="value" label="label"/>
 		</html:select>
 		</td></tr>
 		<tr><td>Priority:</td>
 		<td><html:select property="tickler.priority">
-<!-- 
-					<option value="Normal">Normal</option>
-					<option value="High">High</option>
-					<option value="Low">Low</option>
- -->							
+           <html:optionsCollection property="priorityLst" value="value" label="label"/>
 		</html:select></td></tr>
 		<tr><td>Task Assigned To:</td>
-		<td><quatro:lookupTag tableName="NON" formProperty="ticklerForm" 
-		  bodyProperty="tickler.task_assigned_to" codeProperty="tickler.task_assigned_to_name"
-          showCode="false" width="50%"/>
-<!-- 
-		<html:hidden property="tickler.task_assigned_to" />
-			<html:text property="tickler.task_assigned_to_name" />
-			<input type="button" value="Search" onclick="search_provider();" />
- -->			
+		<td>Program: <html:select property="tickler.program_id" onchange="submitForm('changeProgram');">
+		   <option value=""> --- </option>
+           <html:optionsCollection property="programLst" value="id" label="name"/>
+		</html:select>
+		Provider: <html:select property="tickler.task_assigned_to">
+		   <option value=""> --- </option>
+           <html:optionsCollection property="providerLst" value="providerNo" label="formattedName"/>
+		</html:select>
 		</td></tr>
 		<tr><td>Status:</td>
 		<td><html:select property="tickler.status">
-			<option value="A">Active</option>
-			<option value="C">Completed</option>
+			<option value="Active">Active</option>
+			<option value="Completed">Completed</option>
 			</html:select>
 		</td></tr>
 		<tr><td>Message:</td>

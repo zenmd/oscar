@@ -190,7 +190,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	     admission.setFamilyMember(false);	 
     	 if(admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)){
     	   Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(admission.getIntakeId().toString());
-    	   if(intakeFamilyHeadId!=null){  //family
+    	   if(intakeFamilyHeadId.intValue()!=0){  //family
     		 if(!intakeFamilyHeadId.equals(admission.getIntakeId())) admission.setFamilyMember(true);
     	   }
     	 }

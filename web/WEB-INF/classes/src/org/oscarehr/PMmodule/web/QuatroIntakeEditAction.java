@@ -154,7 +154,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         }
         request.setAttribute("actionParam", actionParam);
         Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
-        if(intakeHeadId!=null){
+        if(intakeHeadId.intValue()!=0){
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
           request.setAttribute("intakeHeadId", intakeHeadClientId);  //intakeHeadId: for intake stauts='discharged' or 'rejected' to view family details.
@@ -216,6 +216,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         
         intake.setCurrentProgramId(intake.getProgramId());
 		qform.setIntake(intake);
+
+        request.setAttribute("programId", intake.getProgramId()); 
+        request.setAttribute("queueId", intake.getQueueId()); 
 		
         LookupCodeValue language = null;
         LookupCodeValue originalCountry = null;
@@ -311,6 +314,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	String clientId = qform.getClientId();
+        
+    	String xx=request.getParameter("intakeHeadId"); 
     	
     	Demographic client= qform.getClient();
     	QuatroIntake obj= qform.getIntake();
@@ -354,7 +359,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	actionParam.put("clientId", client.getDemographicNo()); 
         actionParam.put("intakeId", obj.getId().toString()); 
         Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(obj.getId().toString());
-        if(intakeHeadId!=null){
+        if(intakeHeadId.intValue()!=0){
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
         }else{
@@ -463,11 +468,15 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			obj.setQueueId(queueId);
 	        obj.setCurrentProgramId(obj.getProgramId());
 			qform.setIntake(obj);
-//            request.setAttribute("intakeHeadId", intakeId.toString()); 
+	        request.setAttribute("programId", obj.getProgramId()); 
+	        request.setAttribute("queueId", obj.getQueueId()); 
+
 		}
 		
 		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request,messages);
+
+        request.setAttribute("intakeHeadId", request.getParameter("intakeHeadId")); 
 
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);

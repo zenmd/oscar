@@ -7,6 +7,7 @@
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
 <html-el:form action="/PMmodule/QuatroIntakeEdit.do">
+<input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
 <html:hidden property="intake.staffId"/>
 <html:hidden property="intake.intakeStatus"/>
 <html:hidden property="intake.referralId"/>
@@ -99,12 +100,21 @@ function checkExistClients(){
 	    	 quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
              | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
              <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
+
+             <c:choose>
+               <c:when test="${intakeHeadId==0 || (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId)}">
+               | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>" style="color:Navy;text-decoration:none;">
+                <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission</a>
+               </c:when>
+             </c:choose>       
+
          </c:when>
          <c:when test="intakeHeadId gt 0">
              | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
              <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
          </c:when>
          </c:choose>       
+
          </c:if>
             </td>
 	</tr>
@@ -279,39 +289,39 @@ function checkExistClients(){
 <td width="10%"><html-el:checkbox property="intake.birthCertificateYN" /></td></tr>
 <tr><td>Social Insurance No.</td>
 <td><html-el:text property="intake.SIN" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.SINYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.SINYN" /></td></tr>
 <tr><td>Health card No.</td>
 <td><html-el:text property="intake.healthCardNo" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.healthCardNoYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.healthCardNoYN" /></td></tr>
 <tr><td>Driver's License No.</td>
 <td><html-el:text property="intake.driverLicenseNo" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
+<td>On file?</td>
 <td width="53"><html-el:checkbox property="intake.driverLicenseNoYN" /></td></tr>
 <tr><td>Canadian Citizenship Card</td>
 <td><html-el:text property="intake.citizenCardNo" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.citizenCardNoYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.citizenCardNoYN" /></td></tr>
 <tr><td>Native Reserve Card</td>
 <td><html-el:text property="intake.nativeReserveNo" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.nativeReserveNoYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.nativeReserveNoYN" /></td></tr>
 <tr><td>Veteran No.</td>
 <td><html-el:text property="intake.veteranNo" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.veteranNoYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.veteranNoYN" /></td></tr>
 <tr><td>Record of Landing</td>
 <td><html-el:text property="intake.recordLanding" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.recordLandingYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.recordLandingYN" /></td></tr>
 <tr><td>Library Card</td>
 <td><html-el:text property="intake.libraryCard" size="20" maxlength="30" /></td>
-<td width="55">On file?</td>
-<td width="53"><html-el:checkbox property="intake.libraryCardYN" /></td></tr>
+<td>On file?</td>
+<td><html-el:checkbox property="intake.libraryCardYN" /></td></tr>
 <tr><td>Other</td>
 <td><html-el:text property="intake.idOther" size="20" maxlength="30" /></td>
-<td width="55"></td><td width="53"></td></tr>
+<td></td><td width="53"></td></tr>
 </table>
 </td></tr>
 
@@ -334,48 +344,48 @@ function checkExistClients(){
 <tr><td>Name and contact information for income worker (if applicable)</td>
 <td colspan="3"><table style="background-color:#e0e0e0;" width="100%" cellpadding="1" cellspacing="1">
 								<tr>
-									<td width="49">Name:</td>
-									<td width="205"><html-el:text style="width: 95%"
+									<td width="9%">Name:</td>
+									<td width="39%"><html-el:text style="width: 95%"
 										property="intake.incomeWorkerName1"  maxlength="30" /></td>
-									<td width="51">Phone:</td>
-									<td width="217"><html-el:text style="width: 95%"
+									<td width="10%">Phone:</td>
+									<td width="42%"><html-el:text style="width: 95%"
 										property="intake.incomeWorkerPhone1"  maxlength="20" /></td>
 								</tr>
 								<tr>
-									<td width="49"></td>
-									<td width="205"></td>
-									<td width="51">Email:</td>
-									<td width="217"><html-el:text style="width: 95%"
+									<td></td>
+									<td></td>
+									<td>Email:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerEmail1"  maxlength="30" /></td>
 								</tr>
 								<tr>
-									<td width="49">Name:</td>
-									<td width="205"><html-el:text style="width: 95%"
+									<td>Name:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerName2"  maxlength="30" /></td>
-									<td width="51">Phone:</td>
-									<td width="217"><html-el:text style="width: 95%"
+									<td>Phone:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerPhone2"  maxlength="20" /></td>
 								</tr>
 								<tr>
-									<td width="49"></td>
-									<td width="205"></td>
-									<td width="51">Email:</td>
-									<td width="217"><html-el:text style="width: 95%"
+									<td></td>
+									<td></td>
+									<td>Email:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerEmail2"  maxlength="30" /></td>
 								</tr>
 								<tr>
-									<td width="49">Name:</td>
-									<td width="205"><html-el:text style="width: 95%"
+									<td>Name:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerName3"  maxlength="30" /></td>
-									<td width="51">Phone:</td>
-									<td width="217"><html-el:text style="width: 95%"
+									<td>Phone:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerPhone3"  maxlength="20" /></td>
 								</tr>
 								<tr>
-									<td width="49"></td>
-									<td width="205"></td>
-									<td width="51">Email:</td>
-									<td width="217"><html-el:text style="width: 95%"
+									<td></td>
+									<td></td>
+									<td>Email:</td>
+									<td><html-el:text style="width: 95%"
 										property="intake.incomeWorkerEmail3"  maxlength="30" /></td>
 								</tr>
 </table>

@@ -37,7 +37,7 @@ public class Tickler extends BaseObject {
 	private Integer demographic_no;
 	private Integer program_id;
 	private String message;
-	private char status;
+	private String status;
 	private Date update_date;
 	private Date service_date;
 	private String creator;
@@ -88,10 +88,10 @@ public class Tickler extends BaseObject {
 	public void setService_date(Date service_date) {
 		this.service_date = service_date;
 	}
-	public char getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	public String getTask_assigned_to() {
@@ -153,6 +153,8 @@ public class Tickler extends BaseObject {
 	
 	/* have to do this */
 	public void setServiceDate(String data) {
+		if("".equals(data)) return;
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			setService_date(formatter.parse(data));
@@ -185,7 +187,7 @@ public class Tickler extends BaseObject {
 	 * expects string '00:00 AM|PM'
 	 */
 	public void setServiceTime(String time) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
 		Date d = formatter.parse(getServiceDate() + " " + time);
 		setService_date(d);
 	}

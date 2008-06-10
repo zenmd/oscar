@@ -122,7 +122,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        programId=intakeDB.getProgramId();
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
-       if(intakeFamilyHeadId==null){
+       if(intakeFamilyHeadId.intValue()==0){
          clientForm.setFamilyIntakeType("N");
        }else{
          clientForm.setFamilyIntakeType("Y");
@@ -289,7 +289,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer intakeId = admission.getIntakeId();
        clientForm.setFamilyIntakeType("N");
 	   Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
-       if(intakeFamilyHeadId==null){
+       if(intakeFamilyHeadId.intValue()==0){
          clientForm.setFamilyAdmissionType("N");
        }else{
          clientForm.setFamilyAdmissionType("Y");
