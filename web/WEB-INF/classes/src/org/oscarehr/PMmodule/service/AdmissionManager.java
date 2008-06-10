@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.quatro.dao.IntakeDao;
 import org.oscarehr.PMmodule.dao.AdmissionDao;
+import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
@@ -44,6 +45,8 @@ public class AdmissionManager {
 	
 	public void saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
     		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
+  	    String room = null;
+   	    String bed = null;
     	if(bFamily){
     	   List lstFamily= intakeDao.getClientIntakeFamily(intakeId.toString());
            for(int i=0;i<lstFamily.size();i++){
@@ -61,12 +64,15 @@ public class AdmissionManager {
        	  
        	     //remove old room assignment
    		     RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(qif.getClientId());
-       	     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){
+   		     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){
            	   roomDemographicDAO.deleteRoomDemographic(rdm);
           	   roomDemographicDAO.saveRoomDemographic(rdm2);
+          	   room = rdm2.getRoomName();
       	     }else{
                roomDemographicDAO.saveRoomDemographic(rdm2);
+          	   room = rdm2.getRoomName();
       	     }
+             clientHistoryDao.saveClientHistory(admObj, room, bed);
            }
     	}else{
 		  intakeDao.setIntakeStatusAdmitted(intakeId);
@@ -83,11 +89,16 @@ public class AdmissionManager {
          
      	      roomDemographicDAO.saveRoomDemographic(roomDemographic);
     	      bedDemographicDAO.saveBedDemographic(bedDemographic);
+    	      room = roomDemographic.getRoomName();
+    	      bed = bedDemographic.getBedName();
     	    }
     	  }else{
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
     	    bedDemographicDAO.saveBedDemographic(bedDemographic);
+    	    room = roomDemographic.getRoomName();
+    	    bed = bedDemographic.getBedName();
     	  }
+          clientHistoryDao.saveClientHistory(admission,room, bed);
     	}
     	
     }
@@ -100,27 +111,39 @@ public class AdmissionManager {
     public void updateAdmission(Admission admission, RoomDemographic roomDemographic, BedDemographic bedDemographic) {
     	admissionDao.updateAdmission(admission);
     	//remove old room/bed assignment
+    	String room=null;
+    	String bed = null;
     	RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo());
   	    if(rdm!=null){
   	      if(!rdm.getId().getRoomId().equals(roomDemographic.getId().getRoomId())){
         	roomDemographicDAO.deleteRoomDemographic(rdm);
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
+       	    room = roomDemographic.getRoomName();
   	      }
   	    }else{
-       	  roomDemographicDAO.saveRoomDemographic(roomDemographic);
+  	    	roomDemographicDAO.saveRoomDemographic(roomDemographic);
+     	    room = roomDemographic.getRoomName();
         }
 
-  	    if(bedDemographic==null) return;
+  	    if(bedDemographic!=null) {
   	    
   	    BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(bedDemographic.getId().getDemographicNo());
     	if(bdm!=null){
     	  if(!bdm.getId().getBedId().equals(bedDemographic.getId().getBedId())){
      	    bedDemographicDAO.deleteBedDemographic(bdm);
-    	    if(bedDemographic.getBedId().intValue()>0) bedDemographicDAO.saveBedDemographic(bedDemographic);
+    	    if(bedDemographic.getBedId().intValue()>0) {
+    	    	bedDemographicDAO.saveBedDemographic(bedDemographic);
+    	    	bed = bedDemographic.getBedName();
+    	    }
     	  }  
     	}else{
-    	   if(bedDemographic.getBedId().intValue()>0) bedDemographicDAO.saveBedDemographic(bedDemographic);
+    	   if(bedDemographic.getBedId().intValue()>0) {
+    		   bedDemographicDAO.saveBedDemographic(bedDemographic);
+    		   bed = bedDemographic.getBedName();
+    	   }
     	}
+  	    }
+  	    clientHistoryDao.saveClientHistory(admission, room, bed);
     }
 
     public void setAdmissionDao(AdmissionDao admissionDao) {
@@ -180,11 +203,13 @@ public class AdmissionManager {
 	}
 
 	public void saveAdmission(Admission admission) {
-		admissionDao.saveAdmission(admission);		
+		admissionDao.saveAdmission(admission);	
+		clientHistoryDao.saveClientHistory(admission, null, null);
 	}
     
   public void dischargeAdmission(Admission admission, boolean isReferral, List lstFamily){
 	   admissionDao.updateDischargeInfo(admission);
+       clientHistoryDao.saveClientHistory(admission,null,null);
 
 	   RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
 	   if(rdm!=null) roomDemographicDAO.deleteRoomDemographic(rdm);
@@ -206,6 +231,7 @@ public class AdmissionManager {
 				if(rdm2!=null) roomDemographicDAO.deleteRoomDemographic(rdm2);
 				BedDemographic bdm2 = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
 				if(bdm2!=null) bedDemographicDAO.deleteBedDemographic(bdm2);
+		        clientHistoryDao.saveClientHistory(admLoc,null,null);
 			}
 		 }
 	   }
@@ -302,4 +328,8 @@ public class AdmissionManager {
     public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
 	  this.programQueueDao = programQueueDao;
     }
-  }
+    private ClientHistoryDao clientHistoryDao;
+	public void setClientHistoryDao(ClientHistoryDao clientHistoryDao) {
+		this.clientHistoryDao = clientHistoryDao;
+	}
+ }

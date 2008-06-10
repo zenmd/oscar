@@ -27,19 +27,21 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.ClientHistory;
 import org.oscarehr.PMmodule.model.ClientReferral;
-import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.Admission;
-
+import com.quatro.dao.LookupDao;
+import com.quatro.model.LookupCodeValue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.Calendar;
 public class ClientHistoryDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(getClass());
     private MergeClientDao mergeClientDao;
+    private LookupDao lookupDao; 
     public List getClientHistories(Integer clientId, String providerNo) {
     	String clientIds =mergeClientDao.getMergedClientIds(clientId);
     	clientIds=clientIds.substring(1,clientIds.length()-1);
@@ -52,7 +54,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.in("ClientId", clients));
-
+        criteria.addOrder(Order.asc("ActionDate"));
+        criteria.addOrder(Order.asc("Action"));
         List results = criteria.list();
         
         if (log.isDebugEnabled()) {
@@ -104,7 +107,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setAction("Intake");
         history.setActionDate(intake.getCreatedOn().getTime());
         history.setHistoryDate(Calendar.getInstance().getTime());
-        history.setNotes(intake.getReferredBy());
+        LookupCodeValue referedBy = lookupDao.GetCode("RFB", intake.getReferredBy()); 
+        if (referedBy != null) history.setNotes("Refered by: " + referedBy.getDescription());
         history.setProgramId(intake.getProgramId());
         history.setProviderNo(intake.getStaffId());
        
@@ -115,17 +119,21 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         }
     }
     
-    public void saveClientHistory( Admission admission) {
+    public void saveClientHistory( Admission admission, String room, String bed) {
         if (admission == null) {
             return;
         }
         ClientHistory history = new ClientHistory();
         history.setClientId(Integer.valueOf(admission.getClientId().toString()));
         if ("admitted".equals(admission.getAdmissionStatus())) {
-        	history.setAction("Admission");
+        	history.setAction("Admit/Bed Assignment");
         	history.setActionDate(admission.getAdmissionDate().getTime());
         	history.setHistoryDate(Calendar.getInstance().getTime());
-        	history.setNotes(admission.getProviderNo());
+        	LookupCodeValue provider = lookupDao.GetCode("USR", admission.getProviderNo());
+        	String notes = " Primary Worker: " + provider.getDescription();
+        	if (room != null) notes += ", Room: " + room;
+        	if (bed != null) notes += ", Bed: " + bed;
+        	history.setNotes(notes);
         	history.setProgramId(admission.getProgramId());
         	history.setProviderNo(admission.getProviderNo());
         }
@@ -134,7 +142,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             history.setAction("Discharge");
             history.setActionDate(admission.getDischargeDate().getTime());
             history.setHistoryDate(Calendar.getInstance().getTime());
-            history.setNotes(admission.getProviderNo());
+            LookupCodeValue dischargeReason = lookupDao.GetCode("DRN", admission.getDischargeReason());
+            history.setNotes("Discharge Reason: " + dischargeReason.getDescription());
             history.setProgramId(admission.getProgramId());
             history.setProviderNo(admission.getProviderNo());
         }
@@ -147,5 +156,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
 
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
+	}
+	public void setLookupDao(LookupDao lookupDao) {
+		this.lookupDao = lookupDao;
 	}
 }

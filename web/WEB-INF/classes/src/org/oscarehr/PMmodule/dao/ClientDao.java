@@ -269,7 +269,8 @@ public class ClientDao extends HibernateDaoSupport {
 		{
 			criteria.add(Expression.eq("Sex", gender));
 		}
-		
+		criteria.addOrder(Order.asc("LastName"));
+		criteria.addOrder(Order.asc("FirstName"));
 		results = criteria.list();
 
 		if (log.isDebugEnabled()) {
