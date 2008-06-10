@@ -163,7 +163,7 @@ public class Utility {
     }
     public static String getUserOrgQueryString(String providerNo,Integer shelterId){
     	String progSQL="";
-    	if (shelterId.intValue() == 0) {
+    	if (shelterId  == null || shelterId.intValue() == 0) {
 			progSQL = "(select p.id from Program p where 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
 		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
 		}	else {
@@ -174,7 +174,7 @@ public class Utility {
     }
     public static String getUserOrgSqlString(String providerNo,Integer shelterId){
     	String progSQL="";
-    	if (shelterId.intValue() == 0) {
+    	if (shelterId == null || shelterId.intValue() == 0) {
 			progSQL = "(select p.program_id from program p where 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
 		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
 		}	else {

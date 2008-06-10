@@ -135,9 +135,9 @@ public class ProgramDao extends HibernateDaoSupport {
     {
     	Criteria c = getSession().createCriteria(Program.class);
     	c.add(Restrictions.eq("programStatus", Program.PROGRAM_STATUS_ACTIVE));
-    	c.add(Restrictions.eq("programType",Program.BED_TYPE));
+    	c.add(Restrictions.eq("type",Program.BED_TYPE));
     	c.add(Restrictions.eq("facilityId",facilityId));
-    	c.add(Restrictions.sqlRestriction("programId in " + Utility.getUserOrgQueryString(providerNo, null)));
+    	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, null)));
     	return 	c.list();
     }
 
