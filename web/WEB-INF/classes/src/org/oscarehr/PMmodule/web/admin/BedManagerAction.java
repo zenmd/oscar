@@ -97,7 +97,7 @@ public class BedManagerAction extends BaseFacilityAction {
         Room[] room = bForm.getAssignedBedRooms();
         if( tmp != null){
         	for(int i=0; i< room.length;i++){
-	        	if(tmp == room[i].getId()){
+	        	if(tmp.intValue() == room[i].getId().intValue()){
 	        		break;
 	        	}
 	        	if(i==room.length-1)
@@ -381,9 +381,9 @@ public class BedManagerAction extends BaseFacilityAction {
             if (numBeds.intValue() <= 0) {
                 numBeds = new Integer(0);
             }
-            else if (numBeds.intValue() + bedslines.intValue() > 10) {
-                numBeds = new Integer(10 - bedslines.intValue());
-            }
+//            else if (numBeds.intValue() + bedslines.intValue() > 10) {
+//                numBeds = new Integer(10 - bedslines.intValue());
+//            }
         }
 
 //        if (numBeds != null && numBeds.intValue() > 0) {
@@ -419,6 +419,7 @@ public class BedManagerAction extends BaseFacilityAction {
 		        for(int i = len; i < len + numBeds.intValue(); i++){
 		        	Bed bed = new Bed();
 		        	bed.setFacilityId(facilityId);
+		        	bed.setActive(true);
 		        	bed.setRoomId(roomId);
 		        	bedsTemp[i]= bed;
 		        }
