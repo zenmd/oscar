@@ -17,8 +17,8 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 	<input type="hidden" name="clientId"/>
 	<script lang="javascript">
 	function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 	}
 </script>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">

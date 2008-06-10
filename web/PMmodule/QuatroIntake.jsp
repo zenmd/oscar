@@ -11,8 +11,8 @@
 <input type="hidden" name="clientId"/>
 <script lang="javascript">
 function submitForm(methodVal) {
-		document.forms(0).method.value = methodVal;
-		document.forms(0).submit();
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 }
 	
 function updateQuatroIntake(clientId, intakeId) {
