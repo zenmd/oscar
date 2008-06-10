@@ -152,9 +152,9 @@
 						<td>
 							<table class="simple" cellspacing="2" cellpadding="3">							
 								<tr>
-									<td colspan="2">I	
+									<td colspan="2">I,	
 									<c:out value="${client.firstName}" /> &nbsp;<c:out value="${client.lastName}" />&nbsp;
-									  consent to the release and exchange of the following information:
+									  , consent to the release and exchange of the following information:
 									</td>
 								</tr>
 								<tr>
@@ -181,23 +181,23 @@
 						 <table  class="simple" cellspacing="2" cellpadding="3">
 								<tr>
 									<td colspan="2">
-										I fully understand the purpose of this consent and give it voluntarily.  The consent is valid for the period from 
-									</td>
+										I fully understand the purpose of this consent and give it voluntarily.  </td>
 								</tr>
 								<tr>
 									<td colspan="2">
 										<table>
 											<tr>
-												<td style="width:  50%">
-													 Today's Date <jsp:useBean id="now" class="java.util.Date" /><fmt:formatDate pattern="yyyy/MM/dd hh:mm a" value="${now}" />
+												<td >
+													 The consent is valid for the period starting from 
+									: <jsp:useBean id="now" class="java.util.Date" /><fmt:formatDate pattern="yyyy/MM/dd hh:mm a" value="${now}" />
 												</td>
-												<td style="width: 15%"> To</td>
-												<td style="width:35%"> <quatro:datePickerTag property="consentValue.endDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
+												<td > To  &nbsp; &nbsp;</td>
+												<td > <quatro:datePickerTag property="consentValue.endDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
 											</tr>
 										</table>
 									</td>
 								</tr>
-								<tr><td style="width:40%" >Dated this Today's Date</td><td>							
+								<tr><td width="77">Dated This:</td><td width="363">							
 								<fmt:formatDate pattern="yyyy/MM/dd" value="${now}" /></td></tr>
 						</table>								
 						<table width="100%" align="right" class="simple">

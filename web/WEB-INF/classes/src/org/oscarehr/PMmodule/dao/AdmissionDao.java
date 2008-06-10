@@ -54,7 +54,7 @@ public class AdmissionDao extends HibernateDaoSupport {
         String[] split= admissionIds.split(",");
         for(int i=0;i<split.length;i++){
           Admission  admission = this.getAdmission(Integer.valueOf(split[i]));
-    	  getHibernateTemplate().bulkUpdate("update QuatroIntakerDB i set i.intakeStatus='" +
+    	  getHibernateTemplate().bulkUpdate("update QuatroIntakeDB i set i.intakeStatus='" +
           		KeyConstants.INTAKE_STATUS_DISCHARGED + "'" + 
                   " where i.id=?", new Object[]{admission.getIntakeId()});
 
