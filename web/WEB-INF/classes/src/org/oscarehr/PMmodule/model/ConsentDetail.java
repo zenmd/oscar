@@ -60,7 +60,15 @@ public class ConsentDetail implements Serializable {
 	private String dateSignedStr;
 	private Integer programId;
 	private String programName;
-	
+	private String lnkAction;
+
+	public String getLnkAction() {
+		return lnkAction;
+	}
+
+	public void setLnkAction(String lnkAction) {
+		this.lnkAction = lnkAction;
+	}
 
 	public Integer getProgramId() {
 		return programId;

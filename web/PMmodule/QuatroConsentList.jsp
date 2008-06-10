@@ -80,11 +80,11 @@
 						<td><c:out value="${consentDetail.status}" /></td>			
 						<td> 						
 							<c:choose>
-								<c:when test="${consentDetail.status eq 'Withdraw'}">
+								<c:when test="${consentDetail.lnkAction eq 'Withdraw'}">
 								 	<a href="javascript:withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" >Withdraw</a>
 								 	<a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
 								</c:when>
-								<c:when test="${consentDetail.status eq 'View Only'}">
+								<c:when test="${consentDetail.lnkAction eq 'View'}">
 									<a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
 								</c:when>
 								<c:otherwise>&nbsp;</c:otherwise>

@@ -31,7 +31,9 @@ import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.TopazValue;
 import com.quatro.service.LookupManager;
+import com.quatro.service.TopazManager;
 import com.quatro.util.Utility;
 
 public class QuatroConsentAction extends BaseClientAction {
@@ -40,7 +42,7 @@ public class QuatroConsentAction extends BaseClientAction {
     private ConsentManager consentManager;
     private LookupManager lookupManager;
     private ProviderManager providerManager;
-
+    private TopazManager topazManager;
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}
@@ -104,6 +106,7 @@ public class QuatroConsentAction extends BaseClientAction {
 			   if(Utility.IsEmpty(recId)) recId=request.getAttribute("rId").toString();
 		       Integer rId=Integer.valueOf(recId);
 			   String providerNo=(String)request.getSession().getAttribute("user");
+			   conObj.setStatus("Withdraw");
 		       consentManager.withdraw(rId, providerNo);
 		       request.setAttribute("rId", recId);
 		       return edit(mapping, form, request, response);
@@ -149,6 +152,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   programs = new ArrayList();
 	       }
 	       request.setAttribute("programs", programs);
+	       request.setAttribute("signed","N");
 	       if("0".equals(rId))
 	       {
 	    	   consentObj = new ConsentDetail();
@@ -157,8 +161,15 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   consentObj.setProviderFirstName(proObj.getFirstName());
 	    	   consentObj.setProviderLastName(proObj.getLastName());
 	       }
-	       else if(rId!=null && rId!="0") consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
+	       else if(rId!=null && rId!="0"){
+	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
+	    	   TopazValue tv= topazManager.getTopazValue(consentObj.getId(),"consent");
+		       if(tv!=null){
+		    	   request.setAttribute("signed","Y");
+		       }
+	       }
 	       dForm.set("consentValue", consentObj);
+	       
 	       request.setAttribute("recordId",rId);
 	   }
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -235,7 +246,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		String eDt = consent.getEndDateStr();
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consent.setHardCopy(true);
-		consent.setStatus("active");		
+		consent.setStatus("Active");		
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		if(Utility.IsEmpty(consent.getEndDateStr()) ||null== consent.getEndDate()){
 			isError =true;
@@ -270,7 +281,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		
 		consent.setDateSigned(new GregorianCalendar());
 		consent.setHardCopy(true);
-		consent.setStatus("active");
+		consent.setStatus("Active");
 		consent.setStartDate(new GregorianCalendar());		
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		if(Utility.IsEmpty(consent.getEndDateStr()) || consent.getEndDate().before(consent.getStartDate())){
@@ -311,6 +322,10 @@ public class QuatroConsentAction extends BaseClientAction {
 
 	public void setProviderManager(ProviderManager providerManager) {
 		this.providerManager = providerManager;
+	}
+
+	public void setTopazManager(TopazManager topazManager) {
+		this.topazManager = topazManager;
 	}
 }
 

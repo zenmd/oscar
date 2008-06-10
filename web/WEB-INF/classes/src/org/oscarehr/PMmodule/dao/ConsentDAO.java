@@ -22,6 +22,7 @@
 
 package org.oscarehr.PMmodule.dao;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -47,12 +48,18 @@ public class ConsentDAO extends HibernateDaoSupport {
 		List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo in " +clientIds+" and a.providerNo=?",providerNo);
     	if(results.size()>0){
     		Iterator items=results.iterator();
+    		Calendar today =new GregorianCalendar();
     		while(items.hasNext()){
-    			ConsentDetail cdObj=(ConsentDetail)items.next();
-    			cdObj.setStatus("View Only");
-    			if(null==cdObj.getEndDate() || cdObj.getEndDate().before(cdObj.getStartDate())) cdObj.setEndDate(new GregorianCalendar());
+    			ConsentDetail cdObj=(ConsentDetail)items.next();    			
+    			if(null==cdObj.getEndDate() || cdObj.getEndDate().before(cdObj.getStartDate())) cdObj.setEndDate(today);
+    			if(cdObj.getStatus().equals("Active")) cdObj.setLnkAction("Withdraw");
+    			if(cdObj.getStatus().equals("Active") && today.after(cdObj.getEndDate())){
+    				cdObj.setStatus("Expired");
+    				cdObj.setLnkAction("View");
+    			}
+    			if(cdObj.getStatus().equals("Withdraw"))cdObj.setLnkAction("View"); 
     			if (cdObj.getStartDate().getTime().getTime()<=System.currentTimeMillis() && cdObj.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
-    				cdObj.setStatus("Withdraw");    				
+    				cdObj.setLnkAction("Withdraw");    				
     			}    			
     		}				
     	}

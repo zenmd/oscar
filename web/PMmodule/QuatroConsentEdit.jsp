@@ -8,10 +8,11 @@
 
 <html-el:form action="/PMmodule/QuatroConsent.do">
 	<input type="hidden" name="method" />
+	<input type="hidden" name="signed" />
 	<html-el:hidden property="consentValue.demographicNo"  />	
 	<html-el:hidden property="consentValue.id" />
 	<input type="hidden" name="clientId"/>	
-<script lang="javascript">
+	<script lang="javascript">
 	function printForm(recordId){
     	//To PDF 
     	// var url = appPath + "/Print/PrintView.aspx?id=" + reportId + ":" + recordId + ":p";
@@ -86,13 +87,23 @@
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar2">			
-				<a href='javaScript:submitForm("update");' onclick="return validateSave();"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+			<td align="left" class="buttonBar2">
+				<c:if test="${'Y'==signed}" >
+					<img border=0 src=<html:rewrite page="/images/Save16.png" /> />&nbsp;<font color="grey"> Save</font>&nbsp;&nbsp;|
+				</c:if>	
+				<c:if test="${signed==null || 'N'==signed}" >		
+					<a href='javaScript:submitForm("update");'  onclick="return validateSave();"
+					style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
+				</c:if>
 				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">
+		  			<c:if test="${'Y'==signed}" >
+		  				<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;<font color="grey">Sign</font>&nbsp;&nbsp;|
+		  			</c:if>
+		  			<c:if test="${signed==null || 'N'==signed}" >
 		  			<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
 		 		 		<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
+		  			</c:if>
 		  			<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
 		  				<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
 		  			<a href="javaScript:printForm('<bean:write name="consentDetailForm" property="consentValue.id" />');"        
