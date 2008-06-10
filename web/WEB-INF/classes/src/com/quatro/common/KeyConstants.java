@@ -87,5 +87,6 @@ public class KeyConstants {
   
   public static final String TAB_FACILITY_EDIT = "tabEdit";
   public static final String TAB_FACILITY_BED = "tabBed";
-  
+
+  public static final String DEFAULT_TIME_ZONE = "GMT-05:00";
 }
