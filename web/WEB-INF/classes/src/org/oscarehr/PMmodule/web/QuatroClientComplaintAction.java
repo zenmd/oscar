@@ -1,9 +1,9 @@
 package org.oscarehr.PMmodule.web;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,9 +13,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ComplaintManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm;
 
 import oscar.MyDateFormat;
@@ -31,6 +31,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 	private LookupManager lookupManager;
 	private ClientManager clientManager;
+	private ProgramManager programManager;
 	
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
@@ -153,7 +154,12 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		complaintForm.setSections(allSections);
 
 		complaintForm.setComplaint(complaint);
-
+		Integer clientId = Integer.valueOf(tmp);
+		String providerNo = (String)request.getSession().getAttribute("user");
+		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		List programs = programManager.getPrograms( clientId, providerNo, shelterId);
+		complaintForm.setPrograms(programs);
+		
 		request.setAttribute("ComplaintForm_length", new Integer(length));
 
 		return mapping.findForward("edit");
@@ -245,6 +251,10 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
+	}
+
+	public void setProgramManager(ProgramManager programManager) {
+		this.programManager = programManager;
 	}
 
 }

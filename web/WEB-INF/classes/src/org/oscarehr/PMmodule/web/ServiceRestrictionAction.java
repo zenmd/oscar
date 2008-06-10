@@ -209,7 +209,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        /* service restrictions */
        	 //  List proPrograms = providerManager.getProgramDomain(providerNo);
            //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
-       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),providerNo,shelterId));
+       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.getInteger(demographicNo),providerNo,shelterId));
 
    }
 

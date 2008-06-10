@@ -7,28 +7,45 @@
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 
 <script lang="javascript">
+	
 	function submitForm(methodVal) {
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
 	
+		
+	function txtAreaLenChecker(obj, maxLen) {
+	   //counting each end of line as two characters
+	   
+		var v = obj.value;
+	
+		var len = v.length;
+		
+		if(len > maxLen){
+			alert("Length of this field can not exceed " + maxLen + " characters.");
+			obj.value = v.substr(0, maxLen);
+	   }
+	
+	}
 	function validateProgram(){
+
 	  var obj1=document.getElementsByName("admission.communityProgramCode")[0];
-	  var obj2=document.getElementsByName("admission.bedProgramId")[0];
-	  if(obj1.value=="" && obj2.value=="")
+	  var obj2=document.getElementsByName("admission.dischargeReason")[0];
+
+	  if(obj1.value=="" || obj2.value=="")
 	     return false;
-	  else if(obj1.value!="" && obj2.value!="")
-	     return false;
+	  
 	  else
 	     return  true;
 	}
 
 	function validateSave(){
 	
-		var str1=" Please select Community Program or Temporary Program before save." ;
+		var str1=" Please select 'Discharge Disposition' or 'Discharge Reason' before save." ;
 		
 		if (!validateProgram()){
-			alert(str1); return false;
+			alert(str1); 
+			return false;
 		}
 		return true;
 	}
@@ -53,10 +70,11 @@
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
-				<a onclick='return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
-					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a></td>
+					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>|
+					<a onclick='return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
+					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+				</td>
 		</tr>
 		<tr>
 			<td align="left" class="message"><logic:messagesPresent
@@ -79,7 +97,7 @@
 
 		<table width="100%" class="edit">
 			<tr>
-				<td width="25%" >Discharge To Community Program</td>
+				<td width="25%" >Discharge Disposition</td>
 				<td width="75%">
 					<html:select	property="admission.communityProgramCode">
 					<html:option value=""></html:option>
@@ -87,6 +105,7 @@
 						labelProperty="description"></html:options>
 				</html:select></td>
 			</tr>
+			<!--    
 			<tr>
 				<td width="25%">Discharge To Temporary Program</td>
 				<td width="75%">
@@ -96,6 +115,7 @@
 						labelProperty="descr"></html:options>
 				</html:select>
 			</tr>
+			-->
 			<tr>
 				<td width="25%">Discharge Reason</td>
 				<td><html:select property="admission.dischargeReason">
@@ -115,7 +135,7 @@
 			<tr>
 				<td width="25%">Discharge Notes</td>
 				<td><html:textarea cols="60" rows="7"
-					property="admission.dischargeNotes" /></td>
+					property="admission.dischargeNotes" onkeyup="javascript:txtAreaLenChecker(this, 4000);" /></td>
 			</tr>
 		</table>
 	

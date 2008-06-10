@@ -152,10 +152,18 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								<td>Source's Last Name</td>
 								<td><html-el:text property="complaint.lastname" maxlength="30"/></td>
 							</tr>
+							<tr>
+								<td>Program</td>
+								<td colspan="3"><html:select property="complaint.programId"	name="quatroClientComplaintForm">
+										<html:optionsCollection property="programs" value="id"
+											label="name" />
+									</html:select>
+								</td>
+							</tr>	
 						</table>
 					</td>
 				</tr>
-
+										
 				<tr>
 					<td><br>
 						<div class="tabs">
@@ -225,7 +233,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 				</tr>
 
 				<tr>
-					<td><html-el:textarea property="complaint.description" style="width:500px;" onkeyup="javascript:txtAreaLenChecker(this, 4000);"></html-el:textarea>
+					<td><html-el:textarea property="complaint.description" rows="10" style="width:500px;" onkeyup="javascript:txtAreaLenChecker(this, 4000);"></html-el:textarea>
 					</td>
 				</tr>
 
@@ -270,7 +278,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 									<td colspan="4">Specify Service System Issues:</td>
 								</tr>
 								<tr>
-									<td colspan="4"><html-el:textarea style="width:500px;"
+									<td colspan="4"><html-el:textarea style="width:500px;" rows="3"
 										property="complaint.outstandingIssues" onkeyup="javascript:txtAreaLenChecker(this, 4000);"></html-el:textarea></td>
 								</tr>
 							</div>

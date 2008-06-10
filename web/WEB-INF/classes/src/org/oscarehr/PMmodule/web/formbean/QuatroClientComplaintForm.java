@@ -20,8 +20,14 @@ public class QuatroClientComplaintForm extends ValidatorForm{
 	
 	String isStandards;
 	//String OutstandingChk;
+	List programs;
 	
-	
+	public List getPrograms() {
+		return programs;
+	}
+	public void setPrograms(List programs) {
+		this.programs = programs;
+	}
 	public Complaint getComplaint() {
 		if(complaint == null)
 			complaint = new Complaint();
