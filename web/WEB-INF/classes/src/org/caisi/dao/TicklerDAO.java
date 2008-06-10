@@ -229,14 +229,14 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
     
     
-    private void updateTickler(Integer tickler_id, String provider, char status) {
+    private void updateTickler(Integer tickler_id, String provider, String status) {
         Tickler tickler = this.getTickler(tickler_id);
         if (tickler != null) {
             tickler.setStatus(status);
             TicklerUpdate update = new TicklerUpdate();
             update.setProvider_no(provider);
             update.setStatus(status);
-            update.setTickler_no(tickler_id.longValue());
+            update.setTickler_no(tickler_id);
             update.setUpdate_date(new Date());
             tickler.getUpdates().add(update);
             this.saveTickler(tickler);
@@ -244,15 +244,15 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
 
     public void completeTickler(Integer tickler_id, String provider) {
-        updateTickler(tickler_id, provider, 'C');
+        updateTickler(tickler_id, provider, "'Completed");
     }
 
     public void deleteTickler(Integer tickler_id, String provider) {
-        updateTickler(tickler_id, provider, 'D');
+//        updateTickler(tickler_id, provider, "D');
     }
 
     public void activateTickler(Integer tickler_id, String provider) {
-        updateTickler(tickler_id, provider, 'A');
+        updateTickler(tickler_id, provider, "Active");
     }
 
 }

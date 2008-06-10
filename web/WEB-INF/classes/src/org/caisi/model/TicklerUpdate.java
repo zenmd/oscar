@@ -28,8 +28,8 @@ import org.oscarehr.PMmodule.model.Provider;
 
 public class TicklerUpdate extends BaseObject {
 	private Integer id;
-	private long tickler_no;
-	private char status;
+	private Integer tickler_no;
+	private String status;
 	private String provider_no;
 	private Date update_date;
 	private Provider provider;
@@ -46,16 +46,16 @@ public class TicklerUpdate extends BaseObject {
 	public void setProvider_no(String provider) {
 		this.provider_no = provider;
 	}
-	public char getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-	public long getTickler_no() {
+	public Integer getTickler_no() {
 		return tickler_no;
 	}
-	public void setTickler_no(long tickler_no) {
+	public void setTickler_no(Integer tickler_no) {
 		this.tickler_no = tickler_no;
 	}
 	public Date getUpdate_date() {
