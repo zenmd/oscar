@@ -46,8 +46,8 @@ function submitForm(methodVal) {
     
     if(validateBirthDay(obj.value)==false) return;
 
-	document.forms(0).method.value = methodVal;
-	document.forms(0).submit();
+	document.forms[0].method.value = methodVal;
+	document.forms[0].submit();
 }
 
 function checkExistClients(){
