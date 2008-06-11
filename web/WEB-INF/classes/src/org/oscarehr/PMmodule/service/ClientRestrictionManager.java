@@ -32,6 +32,8 @@ import java.util.List;
 import org.oscarehr.PMmodule.dao.ProgramClientRestrictionDAO;
 import org.oscarehr.PMmodule.exception.ClientAlreadyRestrictedException;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.Demographic;
 
 /**
  * Manage client restrictions
@@ -134,6 +136,20 @@ public class ClientRestrictionManager {
         return null;
     }
 
+    public boolean checkGenderConflict(Program program, Demographic demographic) {
+      if (program.getManOrWoman()!=null && demographic.getSex()!=null){
+         if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))  return true;
+         if ("Woman".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex())) return true;
+      }
+      return false;
+    }
+
+    public boolean checkAgeConflict(Program program, Demographic demographic) {
+        int age=Integer.parseInt(demographic.getAge());
+        if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) return true;
+        return false;
+    }
+    
     public void saveClientRestriction(ProgramClientRestriction restriction) throws ClientAlreadyRestrictedException {
         if (restriction.getId() == null) {
             ProgramClientRestriction result = checkClientRestriction(restriction.getProgramId(), restriction.getDemographicNo(), new Date());

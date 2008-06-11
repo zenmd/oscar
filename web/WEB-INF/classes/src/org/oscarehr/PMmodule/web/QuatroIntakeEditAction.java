@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,35 +12,27 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
-
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.LabelValueBean;
-
-import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
-import org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm;
-import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
 import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.QuatroIntakeDB;
-import org.oscarehr.PMmodule.model.ProgramQueue;
-
-import org.oscarehr.PMmodule.service.ClientManager;
-import com.quatro.service.LookupManager;
-import com.quatro.service.IntakeManager;
-import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.ProgramQueueManager;
-import org.oscarehr.PMmodule.service.ClientRestrictionManager;
-import com.quatro.common.KeyConstants;
-
-import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntake;
-import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
-import com.quatro.model.LookupCodeValue;
+import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.PMmodule.service.ClientRestrictionManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProgramQueueManager;
+import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
+import org.oscarehr.PMmodule.web.formbean.QuatroIntakeEditForm;
+
 import oscar.MyDateFormat;
-import java.util.Calendar;
+
+import com.quatro.common.KeyConstants;
+import com.quatro.model.LookupCodeValue;
+import com.quatro.service.IntakeManager;
+import com.quatro.service.LookupManager;
 
 public class QuatroIntakeEditAction extends BaseClientAction {
     private ClientManager clientManager;
@@ -315,8 +308,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
     	String clientId = qform.getClientId();
         
-    	String xx=request.getParameter("intakeHeadId"); 
-    	
     	Demographic client= qform.getClient();
     	QuatroIntake obj= qform.getIntake();
     	
@@ -378,6 +369,19 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			  break;
 			}
 		}
+
+		//check gender conflict and age conflict
+	    if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+		   Program program = programManager.getProgram(obj.getProgramId());
+		   if(clientRestrictionManager.checkGenderConflict(program, client)){
+          	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
+              isWarning = true;
+		   }
+		   if(clientRestrictionManager.checkAgeConflict(program, client)){
+          	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
+              isWarning = true;
+		   }
+		}
 		
 		//check service restriction
 		if(!obj.getProgramId().equals(obj.getCurrentProgramId())){
@@ -409,7 +413,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     		}
           }
 		}
-
+		
 		if(obj.getCreatedOnTxt().equals("")==false){
 		  obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt()));
 		}else{

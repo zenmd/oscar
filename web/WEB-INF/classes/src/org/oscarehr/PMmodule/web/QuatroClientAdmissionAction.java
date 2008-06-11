@@ -46,6 +46,7 @@ import org.oscarehr.PMmodule.model.Admission;
 import oscar.MyDateFormat;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm;
 import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.Demographic;
 
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.BedDemographic;
@@ -390,7 +391,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer programId = admission.getProgramId();
        Integer admissionId = admission.getId();
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
+       Demographic client= clientManager.getClientByDemographicNo(clientId.toString());
+       request.setAttribute("client", client);
 
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
@@ -431,11 +433,26 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            }
 
     	 }else{
+  		   //check gender conflict and age conflict
+    	   Program program = programManager.getProgram(programId);
+    	   if(clientRestrictionManager.checkGenderConflict(program, client)){
+    	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
+              isError = true;
+              saveMessages(request,messages);
+              return update(mapping, form, request, response);
+    	   }
+    	   if(clientRestrictionManager.checkAgeConflict(program, client)){
+    	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
+              isError = true;
+              saveMessages(request,messages);
+              return update(mapping, form, request, response);
+    	   }
+    		 
            //service restriction check
 	       ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
 			   programId, clientId, new Date());
            if (restrInPlace != null) {
-    	     Program program = programManager.getProgram(programId); 
+//    	     Program program = programManager.getProgram(programId); 
 	         messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.service_restriction",
               			request.getContextPath(), program.getName()));
              isError = true;
