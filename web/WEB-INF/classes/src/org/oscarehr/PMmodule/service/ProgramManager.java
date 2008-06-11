@@ -45,7 +45,6 @@ import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.model.ProgramTeam;
 //import org.oscarehr.PMmodule.model.caisi_DefaultRoleAccess;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import oscar.OscarProperties;
@@ -300,14 +299,6 @@ public class ProgramManager {
         return programAccessDAO.getProgramAccesses(Integer.valueOf(programId));
     }
 
-    public caisi_ProgramAccess getProgramAccess(String id) {
-        return programAccessDAO.getProgramAccess(Integer.valueOf(id));
-    }
-
-    public void saveProgramAccess(caisi_ProgramAccess pa) {
-        programAccessDAO.saveProgramAccess(pa);
-    }
-
     public void deleteProgramAccess(String id) {
         programAccessDAO.deleteProgramAccess(Integer.valueOf(id));
     }
@@ -339,10 +330,6 @@ public class ProgramManager {
     
     public Program getHoldingTankProgram() {
         return this.programDao.getHoldingTankProgram();
-    }
-
-    public caisi_ProgramAccess getProgramAccess(String programId, String accessTypeId) {
-        return this.programAccessDAO.getProgramAccess(Integer.valueOf(programId), Integer.valueOf(accessTypeId));
     }
 
 /*    
