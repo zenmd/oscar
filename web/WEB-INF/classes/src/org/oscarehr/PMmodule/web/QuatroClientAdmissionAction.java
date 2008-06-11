@@ -92,8 +92,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        List lstAdmission = admissionManager.getAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
        request.setAttribute("admission", lstAdmission);
 
-       List queue = programQueueManager.getProgramQueuesByClientId(Integer.valueOf(demographicNo));
-       request.setAttribute("queue", queue);
+//       List queue = programQueueManager.getProgramQueuesByClientId(Integer.valueOf(demographicNo));
+//       request.setAttribute("queue", queue);
        
        return mapping.findForward("list");
    }
@@ -315,7 +315,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //setup rooms
        Integer curDB_RoomId = clientForm.getCurDB_RoomId();
        Room currentDB_room = null;
-       if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
+       if(curDB_RoomId!=null && curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
        ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
 	   emptyRoom.setId(new Integer(0));
@@ -340,7 +340,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	     emptyBed.setId(new Integer(0));
   	     emptyBed.setName(" ---- ");
   	     availableBedLst.add(emptyBed);
-         if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
+         if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
            Bed currentDB_bed = null;
            if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
         	  if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
