@@ -249,7 +249,7 @@
 									
 								</tr>
 								<tr>
-									<td >Discharge To</td>
+									<td >Discharge Disposition</td>
 									<td >
 										<html:select property="clientForm.communityProgramCode">
 										<html:option value=""></html:option>

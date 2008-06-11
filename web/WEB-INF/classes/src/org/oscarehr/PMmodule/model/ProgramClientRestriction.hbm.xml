@@ -34,6 +34,7 @@
         <property name="endDate" column="end_date" />
         <property name="enabled" column="is_enabled" type="boolean" not-null="true"/>
         <property name="earlyTerminationProvider" column="early_termination_provider" />
+        <property name="notes" column="notes" type="string" />
     </class>
 </hibernate-mapping>
 

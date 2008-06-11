@@ -64,10 +64,13 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   DynaActionForm clientForm = (DynaActionForm) form;
        ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
 	   String recId=request.getParameter("rId");
-	   if(Utility.IsEmpty(recId)) recId=restriction.getId().toString();
+	   if(Utility.IsEmpty(recId)) 
+		   recId=restriction.getId().toString();
        Integer rId=Integer.valueOf(recId);
 	   String providerNo=(String)request.getSession().getAttribute("user");
+	   
        clientRestrictionManager.terminateEarly(rId,providerNo);
+       
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -78,13 +81,13 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        
-       return edit(mapping, form, request, response);
+       return list(mapping, form, request, response);
    }
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setEditAttributes(form, request);
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
-       return mapping.findForward("detail");
-   }
+//   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//       setEditAttributes(form, request);
+//       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
+//       return mapping.findForward("detail");
+//   }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   setListAttributes(form, request);
 	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
@@ -103,7 +106,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        String providerNo=(String)request.getSession().getAttribute("user");
        restriction.setProviderNo(providerNo);       
        restriction.setEnabled(true);
-       boolean success;
+
        if (restriction.getProgramId() == null
 				|| restriction.getProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
@@ -113,29 +116,31 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		   return mapping.findForward("detail");  
 		}
        try {
-    	   String sDt = restriction.getStartDateStr();
-    	   restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
-    	   Calendar cal2 =MyDateFormat.getCalendar(sDt);
+    	   //String sDt = restriction.getStartDateStr();
+    	   //restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
+    	   //Calendar cal2 =MyDateFormat.getCalendar(sDt);
+    	   Calendar now = Calendar.getInstance();
+    	   restriction.setStartDate(now);
+    	   Calendar cal2 = Calendar.getInstance(); 
     	   cal2.add(Calendar.DAY_OF_MONTH, days.intValue());
     	   restriction.setEndDate(cal2);
            clientRestrictionManager.saveClientRestriction(restriction);
-           success = true;
+           messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+           saveMessages(request, messages);
+          
        }
        catch (ClientAlreadyRestrictedException e) {         
-           messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("restrict.already_restricted"));
+           messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("restrict.already_restricted", request.getContextPath()));
            saveMessages(request, messages);
-           success = false;
+           
        }
        catch(Exception e){
-    	   messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("restrict.exceeds_maximum_days","1","180"));
+    	   messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("restrict.exceeds_maximum_days", request.getContextPath(),"1","180"));
            saveMessages(request, messages);
-           success = false;
+          
        }
 
-       if (success) {           
-           messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
-           saveMessages(request, messages);
-       }
+      
       // clientForm.set("program", new Program());
        clientForm.set("serviceRestriction", restriction);
        //clientForm.set("serviceRestrictionLength", null);       
@@ -186,8 +191,75 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		request.setAttribute("serviceObj", pcrObj);
      //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
+       
    }
+   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   DynaActionForm clientForm = (DynaActionForm) form;
 
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+            
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+       String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+       request.setAttribute("clientId", demographicNo);
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       ProgramClientRestriction pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
+       String rId=request.getParameter("rId");      
+       
+       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) 
+			rId=pcrObj.getId().toString();	
+       
+       if(pcrObj != null && pcrObj.getProgramId() != null){
+    	   pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
+    	   pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
+       } else if ("0".equals(rId) || rId==null) {
+			pcrObj = new ProgramClientRestriction();
+			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
+			//clientForm.set("serviceRestrictionLength", new Integer(180));			
+			pcrObj.setId(null);
+			
+		} else if (!Utility.IsEmpty(rId)){
+			
+			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
+			
+			pcrObj.setStartDateStr(MyDateFormat.getStandardDate(pcrObj.getStartDate()));
+		}
+
+       List allPrograms = programManager.getPrograms(providerNo,shelterId);
+       request.setAttribute("allPrograms", allPrograms);
+
+       if (pcrObj.getProgramId() == null || pcrObj.getProgramId().intValue() <= 0) {
+    	   if(allPrograms.size() > 0)
+    		   pcrObj.setProgramId(((Program)allPrograms.get(0)).getId());
+       }
+       if(allPrograms.size() > 0){
+    	   Program program = programManager.getProgram(pcrObj.getProgramId().toString());
+    	   int defaultDays = program.getDefaultServiceRestrictionDays();
+    	   if( defaultDays < 1)
+    		   defaultDays = 1;
+    	   clientForm.set("serviceRestrictionLength", defaultDays);
+
+    	   Integer maxDays = program.getMaximumServiceRestrictionDays();
+    	   if(maxDays == null )
+    		   clientForm.set("maxLength", 0);
+    	   else
+    		   clientForm.set("maxLength", maxDays);
+       }
+       
+       clientForm.set("serviceRestriction", pcrObj);
+       request.setAttribute("serviceObj", pcrObj);
+
+       request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
+       
+       
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
+       return mapping.findForward("detail");
+   }
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
 
@@ -209,7 +281,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        /* service restrictions */
        	 //  List proPrograms = providerManager.getProgramDomain(providerNo);
            //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
-       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.getInteger(demographicNo),providerNo,shelterId));
+       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),providerNo,shelterId));
 
    }
 

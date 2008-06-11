@@ -32,8 +32,17 @@ public class ProgramClientRestriction implements Serializable {
     private Demographic client;
     private Provider provider;
     private String startDateStr;
+    private String notes;
 
-    public ProgramClientRestriction() {
+    public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public ProgramClientRestriction() {
     }
 
     public ProgramClientRestriction(Integer id, Integer programId, Integer demographicNo, String providerNo, String comments, Calendar startDate, Calendar endDate, boolean enabled, Program program, Demographic client) {
