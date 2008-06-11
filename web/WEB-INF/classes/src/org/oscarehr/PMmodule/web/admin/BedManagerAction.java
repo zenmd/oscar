@@ -359,13 +359,36 @@ public class BedManagerAction extends BaseFacilityAction {
         processDisplay(form, request);
         
         if(numRooms != null && numRooms.intValue() > 0){
+        	int numOfRoomsInDB = bForm.getRooms().length;
         	int len = roomslines; //bForm.getRooms().length;
 	        Room[] roomsTemp= new Room[len + numRooms.intValue()];
-	        // TODO: keep existing value, include not saved.
-	        for(int i = 0; i < bForm.getRooms().length; i++){
-	        	roomsTemp[i]= bForm.getRooms()[i];
+	        // keep existing value, include not saved.
+	        for(int i = 0; i < len; i++){
+	        	Room rm;
+	        	if(i < numOfRoomsInDB){
+	        		rm = bForm.getRooms()[i];
+	        	}else{
+	        		rm = new Room();
+	        		rm.setFacilityId(bForm.getFacilityId());
+	        	}
+	        	String name = request.getParameter("rooms[" + i + "].name");
+	        	rm.setName(name);
+	        	rm.setFloor(request.getParameter("rooms[" + i + "].floor"));
+	        	String rmTypeId = request.getParameter("rooms[" + i + "].roomTypeId");
+	        	rm.setRoomTypeId(Integer.valueOf(rmTypeId));
+	        	String assignBed = request.getParameter("rooms[" + i + "].assignedBed");
+	        	rm.setAssignedBed(Integer.valueOf(assignBed));
+	        	String occupancy = request.getParameter("rooms[" + i + "].occupancy");
+	        	rm.setOccupancy(Integer.valueOf(occupancy));
+	        	String programId = request.getParameter("rooms[" + i + "].programId");
+	        	if(programId != null)
+	        		rm.setProgramId(Integer.valueOf(programId));
+	        	String active = request.getParameter("rooms[" + i + "].active");
+	        	rm.setActive(active!=null);
+	        	roomsTemp[i]= rm;
 	        }
-	        for(int i = bForm.getRooms().length; i < len + numRooms.intValue(); i++){
+
+	        for(int i = len; i < len + numRooms.intValue(); i++){
 	        	Room rm = new Room();
 	        	rm.setFacilityId(bForm.getFacilityId());
 	        	rm.setAssignedBed(new Integer(1));
