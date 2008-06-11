@@ -41,7 +41,6 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.casemgmt.dao.AllergyDAO;
 import org.oscarehr.casemgmt.dao.ApptDAO;
@@ -700,16 +699,6 @@ public class CaseManagementManager {
     	return filteredNotes;
     }
 */
-    //private Map convertProgramAccessListToMap(List paList) {
-    public Map convertProgramAccessListToMap(List paList) {
-        Map map = new HashMap();
-
-        for (Iterator iter = paList.iterator(); iter.hasNext();) {
-            caisi_ProgramAccess pa = (caisi_ProgramAccess)iter.next();
-            map.put(pa.getAccessType().getName(), pa);
-        }
-        return map;
-    }
 
     public List searchIssues(String providerNo, String programId, String search) {
     	List issList = issueDAO.search(search, providerNo, programId);

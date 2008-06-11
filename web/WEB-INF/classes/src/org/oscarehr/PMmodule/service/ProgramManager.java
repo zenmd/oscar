@@ -30,7 +30,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.dao.AdmissionDao;
 //import org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO;
-import org.oscarehr.PMmodule.dao.ProgramAccessDAO;
 import org.oscarehr.PMmodule.dao.ProgramClientStatusDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO;
@@ -61,7 +60,6 @@ public class ProgramManager {
 //    private ProgramProviderDAO programProviderDAO;
     private ProgramFunctionalUserDAO programFunctionalUserDAO;
     private ProgramTeamDAO programTeamDAO;
-    private ProgramAccessDAO programAccessDAO;
     private AdmissionDao admissionDao;
 //    private DefaultRoleAccessDAO defaultRoleAccessDAO;
     private ProgramClientStatusDAO clientStatusDAO;
@@ -104,9 +102,6 @@ public class ProgramManager {
         this.programTeamDAO = dao;
     }
 
-    public void setProgramAccessDAO(ProgramAccessDAO dao) {
-        this.programAccessDAO = dao;
-    }
 
     public void setAdmissionDao(AdmissionDao dao) {
         this.admissionDao = dao;
@@ -293,22 +288,6 @@ public class ProgramManager {
 
     public boolean teamNameExists(Integer programId, String teamName) {
         return programTeamDAO.teamNameExists(programId, teamName);
-    }
-
-    public List getProgramAccesses(String programId) {
-        return programAccessDAO.getProgramAccesses(Integer.valueOf(programId));
-    }
-
-    public void deleteProgramAccess(String id) {
-        programAccessDAO.deleteProgramAccess(Integer.valueOf(id));
-    }
-
-    public List getAccessTypes() {
-        return programAccessDAO.getAccessTypes();
-    }
-
-    public AccessType getAccessType(Integer id) {
-        return programAccessDAO.getAccessType(id);
     }
     
 /*

@@ -192,14 +192,13 @@ public class ProgramManagerViewAction extends BaseAction {
         request.setAttribute("ageConflict", ageConflict);
 
         if (formBean.getTab() == null || formBean.getTab().equals("")) {
-            formBean.setTab("General");
+            formBean.setTab("Quaue");
         }
 
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
         Facility facility=facilityDAO.getFacility(program.getFacilityId());
         if(facility!=null) request.setAttribute("facilityName", facility.getName());
-
        
         if (formBean.getTab().equalsIgnoreCase("General")) {
 
@@ -220,10 +219,6 @@ public class ProgramManagerViewAction extends BaseAction {
         
         if (formBean.getTab().equalsIgnoreCase("Clients")) {
         	processClients( request, program, formBean);
-        }
-
-        if (formBean.getTab().equalsIgnoreCase("Access")) {
-            request.setAttribute("accesses", programManager.getProgramAccesses(programId.toString()));
         }
 
         if (formBean.getTab().equalsIgnoreCase("Client Status")) {

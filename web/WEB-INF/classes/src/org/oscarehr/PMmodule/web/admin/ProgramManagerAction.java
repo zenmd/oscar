@@ -49,7 +49,6 @@ import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.ProgramSignature;
-import org.oscarehr.PMmodule.model.caisi_ProgramAccess;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedCheckTimeManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
@@ -316,25 +315,6 @@ public class ProgramManagerAction extends BaseAction {
         return list(mapping, form, request, response);
     }
 
-    public ActionForward delete_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        caisi_ProgramAccess access = (caisi_ProgramAccess) programForm.get("access");
-
-        programManager.deleteProgramAccess(String.valueOf(access.getId()));
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
-        saveMessages(request, messages);
-
-        logManager.log("write", "edit program - delete access", String.valueOf(program.getId()), request);
-
-        this.setEditAttributes(request, String.valueOf(program.getId()));
-        programForm.set("access", new caisi_ProgramAccess());
-
-        return edit(mapping, form, request, response);
-    }
-
     public ActionForward delete_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -401,26 +381,6 @@ public class ProgramManagerAction extends BaseAction {
     }
 */
     
-    public ActionForward edit_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        caisi_ProgramAccess access = (caisi_ProgramAccess) programForm.get("access");
-
-        caisi_ProgramAccess pa = programManager.getProgramAccess(String.valueOf(access.getId()));
-
-        if (pa == null) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_access.missing"));
-            saveMessages(request, messages);
-            setEditAttributes(request, String.valueOf(program.getId()));
-            return edit(mapping, form, request, response);
-        }
-        programForm.set("access", pa);
-
-        setEditAttributes(request, String.valueOf(program.getId()));
-
-        return mapping.findForward("edit");
-    }
 
     public ActionForward edit_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
