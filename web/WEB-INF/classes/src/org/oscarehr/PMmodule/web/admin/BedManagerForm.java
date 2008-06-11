@@ -1,15 +1,15 @@
 package org.oscarehr.PMmodule.web.admin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedType;
 import org.oscarehr.PMmodule.model.Facility;
-import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomType;
-import java.util.List;
 /**
  */
 public class BedManagerForm extends ActionForm {
@@ -32,6 +32,7 @@ public class BedManagerForm extends ActionForm {
     private Integer bedRoomFilterForBed;
     private Map roomStatusNames;
     private Map bedStatusNames;
+    private String existRooms;
    
 
     public Integer getFacilityId() {
@@ -177,5 +178,15 @@ public class BedManagerForm extends ActionForm {
 	public void setRoomStatusNames(Map roomStatusNames) {
 		this.roomStatusNames = roomStatusNames;
 	}
+
+	public String getExistRooms() {
+		return existRooms;
+	}
+
+	public void setExistRooms(String existRooms) {
+		this.existRooms = existRooms;
+	}
+
+	
 
 }

@@ -89,27 +89,39 @@ public class BedManagerAction extends BaseFacilityAction {
         }
         	
         bForm.setRooms(temp);
+        
         //bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
         bForm.setAssignedBedRooms(rooms);
         bForm.setRoomTypes(roomManager.getRoomTypes());
         bForm.setNumRooms(new Integer(1));
         Integer tmp = bForm.getBedRoomFilterForBed();
+        if(temp.length == 0){
+        	tmp = null;
+        	bForm.setBedRoomFilterForBed(new Integer(-1));
+        	bForm.setExistRooms("NO");
+        }else{
+        	bForm.setExistRooms("YES");
+        }
         Room[] room = bForm.getAssignedBedRooms();
-        if( tmp != null){
+        if( tmp != null && room != null){
+        	
         	for(int i=0; i< room.length;i++){
 	        	if(tmp.intValue() == room[i].getId().intValue()){
 	        		break;
 	        	}
 	        	if(i==room.length-1)
-	        		bForm.setBedRoomFilterForBed(null);
+	        		bForm.setBedRoomFilterForBed(new Integer(-1));
         	}
         		
+        }else if(room == null){
+        	bForm.setBedRoomFilterForBed(new Integer(-1));
         }
         
-        if (bForm.getBedRoomFilterForBed() == null) {
-            if (room != null && room.length > 0) {
-                bForm.setBedRoomFilterForBed(room[0].getId());
-            }
+        if (bForm.getBedRoomFilterForBed() == null || bForm.getBedRoomFilterForBed().intValue() == -1) {
+        	if(room != null && room.length > 0)
+        		bForm.setBedRoomFilterForBed(room[0].getId());
+        	else
+        		bForm.setBedRoomFilterForBed(new Integer(-1));
         }
 
         List lst = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), null, false);
@@ -327,9 +339,9 @@ public class BedManagerAction extends BaseFacilityAction {
             if (numRooms.intValue() <= 0) {
                 numRooms = new Integer(0);
             }
-            else if (numRooms.intValue() + roomslines.intValue() > 10) {
-                numRooms = new Integer(10 - roomslines.intValue());
-            }
+//            else if (numRooms.intValue() + roomslines.intValue() > 10) {
+//                numRooms = new Integer(10 - roomslines.intValue());
+//            }
         }
 
 //        if (numRooms != null && numRooms.intValue() > 0) {
@@ -347,15 +359,17 @@ public class BedManagerAction extends BaseFacilityAction {
         processDisplay(form, request);
         
         if(numRooms != null && numRooms.intValue() > 0){
-        	int len = bForm.getRooms().length;
+        	int len = roomslines; //bForm.getRooms().length;
 	        Room[] roomsTemp= new Room[len + numRooms.intValue()];
-	        
-	        for(int i = 0; i < len; i++){
+	        // TODO: keep existing value, include not saved.
+	        for(int i = 0; i < bForm.getRooms().length; i++){
 	        	roomsTemp[i]= bForm.getRooms()[i];
 	        }
-	        for(int i = len; i < len + numRooms.intValue(); i++){
+	        for(int i = bForm.getRooms().length; i < len + numRooms.intValue(); i++){
 	        	Room rm = new Room();
 	        	rm.setFacilityId(bForm.getFacilityId());
+	        	rm.setAssignedBed(new Integer(1));
+	        	rm.setActive(true);
 	        	roomsTemp[i]= rm;
 	        }
 	        bForm.setRooms(roomsTemp);
@@ -407,16 +421,17 @@ public class BedManagerAction extends BaseFacilityAction {
         processDisplay(form, request);
         
         int len = bForm.getBeds().length;
-        
-        if(len + numBeds.intValue() <= max){
+        int newLen = len + numBeds.intValue() + bedslines.intValue();
+        if(newLen <= max){
 	        if(numBeds != null && numBeds.intValue() > 0){
 	        	
-		        Bed[] bedsTemp= new Bed[len + numBeds.intValue()];
-		        
+		        Bed[] bedsTemp= new Bed[newLen];
+//		      TODO: keep existing value, include not saved.
 		        for(int i = 0; i < len; i++){
 		        	bedsTemp[i]= bForm.getBeds()[i];
 		        }
-		        for(int i = len; i < len + numBeds.intValue(); i++){
+		        
+		        for(int i = len; i < newLen; i++){
 		        	Bed bed = new Bed();
 		        	bed.setFacilityId(facilityId);
 		        	bed.setActive(true);

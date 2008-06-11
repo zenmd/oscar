@@ -34,6 +34,7 @@
     }    
 
     function addRooms(){
+    /*
       if(bedManagerForm.roomslines.value!=null && parseInt(bedManagerForm.roomslines.value)>=10){
         alert("You cannot add more than 10 rooms at a time.");
         return;
@@ -42,7 +43,12 @@
         var obj= document.getElementsByName("submit.addRoom")[0]
         obj.value='Add Rooms';
         bedManagerForm.submit();
-      }  
+      }
+      */
+      	bedManagerForm.method.value='addRooms';
+        var obj= document.getElementsByName("submit.addRoom")[0]
+        obj.value='Add Rooms';
+        bedManagerForm.submit();  
     }    
     
     function saveBeds(){
@@ -106,7 +112,9 @@
 		deleteBed();
  	}
 </script>
-
+<% 
+String s="debug"; 
+%>
 <html:form action="/PMmodule/BedManager.do">
 
 
@@ -314,20 +322,13 @@
 								</tr>
 								
 								<tr>
-									<td><html:text property="numRooms" /> 
-									<!-- 
-									<html:button style="visibility:hidden"
-										property="submit.addRooms" onclick="javascript:addRooms();">Add Rooms</html:button>
-									-->	
+									<td><html:hidden property="numRooms" /> 
+									
 									<html:link 	style="color:Navy;text-decoration:underline;"  href="javascript:addRooms();">Add Rooms</html:link>
 										
 									<input type=hidden name="submit.addRoom" value="">
-									<input type=hidden name="roomslines"
-										value="<c:out value="${room_rowNum}" />"> 
-									<!--  	
-									<html:button 
-										property="submit.saveRooms" onclick="javascript:saveRooms();">Save Rooms</html:button>	
-									-->	
+									<input type=hidden name="roomslines" value="<c:out value="${room_rowNum}" />"> 
+									
 									<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveRooms();">Save Rooms</html:link>
 										
 									<input type=hidden name="submit.saveRoom" value="">
@@ -337,133 +338,146 @@
 									<td><br />
 									</td>
 								</tr>
-								<tr>
-									<td >
-									<div class="tabs">
-									<table cellpadding="3" cellspacing="0" border="0">
-										<tr>
-											<th>Beds</th>
-										</tr>
-									</table>
-									</div>
-
-									<!-- begin bed status & bedRoom filter -->
-									<table width="100%">
-										<tr>
-											
-											<td align="left" width="250px" style="font-weight:bold">Bed Status
-											<html:select property="bedStatusFilter" name="bedManagerForm"
-												onchange="bedFilter();">
-												<html:optionsCollection property="bedStatusNames"
-													value="key" label="value" />
-											</html:select></td>
-											
-											<td align="left" style="font-weight:bold">Room
-											<html:select property="bedRoomFilterForBed"
-												name="bedManagerForm" onchange="bedFilter();">
-												<html:optionsCollection property="assignedBedRooms" value="id"
-													label="name" />
-											</html:select></td>
-										</tr>
-									</table>
-									<!-- end bed status & bedRoom filter --> <display:table
-										class="simple" name="sessionScope.bedManagerForm.beds"
-										uid="bed" requestURI="/PMmodule/BedManager.do"
-										summary="Edit beds">
-
-										<display:column title="Name" sortable="true">
-											<input type="text" style="width:100%"
-												name="beds[<c:out value="${bed_rowNum - 1}" />].name"
-												value="<c:out value="${bed.name}" />" />
-										</display:column>
-										<display:column title="Type">
-											<select
-												name="beds[<c:out value="${bed_rowNum - 1}" />].bedTypeId">
-												<c:forEach var="bedType" items="${bedManagerForm.bedTypes}">
-													<c:choose>
-														<c:when test="${bedType.id == bed.bedTypeId}">
-															<option value="<c:out value="${bedType.id}"/>"
-																selected="selected"><c:out
-																value="${bedType.name}" /></option>
-														</c:when>
-														<c:otherwise>
-															<option value="<c:out value="${bedType.id}"/>"><c:out
-																value="${bedType.name}" /></option>
-														</c:otherwise>
-													</c:choose>
-												</c:forEach>
-											</select>
-										</display:column>
-										<display:column title="Room">
-											<select
-												name="beds[<c:out value="${bed_rowNum - 1}" />].roomId">
-												<c:forEach var="room"
-													items="${bedManagerForm.assignedBedRooms}">
-													<c:choose>
-														<c:when test="${room.id == bed.roomId}">
-															<option value="<c:out value="${room.id}"/>" 
-																selected="selected"><c:out value="${room.name}" />
-															</option>
-														</c:when>
-														
-													</c:choose>
-												</c:forEach>
-											</select>
-										</display:column>
-										<display:column property="reservationEnd" sortable="true"
-											title="Reserved Until" />
-										<display:column title="Active" sortable="true">
-											<c:choose>
-												<c:when test="${bed.active}">
-													<input type="checkbox"
-														name="beds[<c:out value="${bed_rowNum - 1}" />].active"
-														checked="checked" />
-												</c:when>
-												<c:otherwise>
-													<input type="checkbox"
-														name="beds[<c:out value="${bed_rowNum - 1}" />].active" />
-												</c:otherwise>
-											</c:choose>
-										</display:column>
-
-										<display:column title="Delete" sortable="true">
-<!-- 
-											<input type="button" name="submit.deleteBed" value="Delete"
-												onclick='bedManagerForm.bedToDelete.value="<c:out value="${bed.id}"/>"; deleteBed();' />
- -->
-											<a href="javascript:deleteBed2(<c:out value="${bed.id}"/>);">Delete </a>
-										</display:column>
-
-									</display:table></td>
+								
+								
+								
+								
+								
+								<logic:equal name="bedManagerForm" property="existRooms" value="YES">
+									<logic:notEqual name="bedManagerForm" property="bedRoomFilterForBed" value="-1">
 									
-								</tr>
-								<tr>
-									<td><input type=hidden name="bedslines"
-										value="<c:out value="${bed_rowNum}" />"> <c:choose>
-										<c:when test="${not empty bedManagerForm.rooms}">
-											<html:text property="numBeds" />
-											<!--  
-											<html:button property="submit.addBeds"
-												onclick="javascript:addBeds();">Add Beds</html:button>
-											-->	
-											<html:link	style="color:Navy;text-decoration:underline;" href="javascript:addBeds();">Add Beds</html:link>
+									<tr>
+										<td >
+										<div class="tabs">
+										<table cellpadding="3" cellspacing="0" border="0">
+											<tr>
+												<th>Beds</th>
+											</tr>
+										</table>
+										</div>
+	
+										<!-- begin bed status & bedRoom filter -->
+										<table width="100%">
+											<tr>
 												
-											<input type=hidden name="submit.addBed" value="">
-										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
-									</c:choose>
-									<!--  
-									<html:button property="submit.saveBeds"
-										onclick="javascript:saveBeds();">Save Beds</html:button>
-									-->	
-									<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveBeds();">Save Beds</html:link>
+												<td align="left" width="250px" style="font-weight:bold">Bed Status
+												<html:select property="bedStatusFilter" name="bedManagerForm"
+													onchange="bedFilter();">
+													<html:optionsCollection property="bedStatusNames"
+														value="key" label="value" />
+												</html:select></td>
+												
+												<td align="left" style="font-weight:bold">Room
+												<html:select property="bedRoomFilterForBed"
+													name="bedManagerForm" onchange="bedFilter();">
+													<html:optionsCollection property="assignedBedRooms" value="id"
+														label="name" />
+												</html:select></td>
+											</tr>
+										</table>
+										<!-- end bed status & bedRoom filter --> <display:table
+											class="simple" name="sessionScope.bedManagerForm.beds"
+											uid="bed" requestURI="/PMmodule/BedManager.do"
+											summary="Edit beds">
+	
+											<display:column title="Name" sortable="true">
+												<input type="text" style="width:100%"
+													name="beds[<c:out value="${bed_rowNum - 1}" />].name"
+													value="<c:out value="${bed.name}" />" />
+											</display:column>
+											<display:column title="Type">
+												<select
+													name="beds[<c:out value="${bed_rowNum - 1}" />].bedTypeId">
+													<c:forEach var="bedType" items="${bedManagerForm.bedTypes}">
+														<c:choose>
+															<c:when test="${bedType.id == bed.bedTypeId}">
+																<option value="<c:out value="${bedType.id}"/>"
+																	selected="selected"><c:out
+																	value="${bedType.name}" /></option>
+															</c:when>
+															<c:otherwise>
+																<option value="<c:out value="${bedType.id}"/>"><c:out
+																	value="${bedType.name}" /></option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</select>
+											</display:column>
+											<display:column title="Room">
+												<select
+													name="beds[<c:out value="${bed_rowNum - 1}" />].roomId">
+													<c:forEach var="room"
+														items="${bedManagerForm.assignedBedRooms}">
+														<c:choose>
+															<c:when test="${room.id == bed.roomId}">
+																<option value="<c:out value="${room.id}"/>" 
+																	selected="selected"><c:out value="${room.name}" />
+																</option>
+															</c:when>
+															
+														</c:choose>
+													</c:forEach>
+												</select>
+											</display:column>
+											<display:column property="reservationEnd" sortable="true"
+												title="Reserved Until" />
+											<display:column title="Active" sortable="true">
+												<c:choose>
+													<c:when test="${bed.active}">
+														<input type="checkbox"
+															name="beds[<c:out value="${bed_rowNum - 1}" />].active"
+															checked="checked" />
+													</c:when>
+													<c:otherwise>
+														<input type="checkbox"
+															name="beds[<c:out value="${bed_rowNum - 1}" />].active" />
+													</c:otherwise>
+												</c:choose>
+											</display:column>
+	
+											<display:column title="Delete" sortable="true">
+	<!-- 
+												<input type="button" name="submit.deleteBed" value="Delete"
+													onclick='bedManagerForm.bedToDelete.value="<c:out value="${bed.id}"/>"; deleteBed();' />
+	 -->
+												<a href="javascript:deleteBed2(<c:out value="${bed.id}"/>);">Delete </a>
+											</display:column>
+	
+										</display:table></td>
+										
+									</tr>
+									<tr>
+										<td><input type=hidden name="bedslines"
+											value="<c:out value="${bed_rowNum}" />"> <c:choose>
+											<c:when test="${not empty bedManagerForm.rooms}">
+												<html:text property="numBeds" />
+												<!--  
+												<html:button property="submit.addBeds"
+													onclick="javascript:addBeds();">Add Beds</html:button>
+												-->	
+												<html:link	style="color:Navy;text-decoration:underline;" href="javascript:addBeds();">Add Beds</html:link>
+													
+												<input type=hidden name="submit.addBed" value="">
+											</c:when>
+											<c:otherwise>
+												
+											</c:otherwise>
+										</c:choose>
+										<!--  
+										<html:button property="submit.saveBeds"
+											onclick="javascript:saveBeds();">Save Beds</html:button>
+										-->	
+										<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveBeds();">Save Beds</html:link>
+										
+										<input
+											type=hidden name="submit.saveBed" value="">
+										</td>
+									</tr>
 									
-									<input
-										type=hidden name="submit.saveBed" value="">
-									</td>
-								</tr>
+								</logic:notEqual>
+								</logic:equal>
+								
+								
 							</table>
 							</td>
 						</tr>
