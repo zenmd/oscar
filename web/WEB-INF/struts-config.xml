@@ -568,8 +568,8 @@
 <!-- 
         <action path="/demographic/printDemoLabelAction" type="oscar.oscarDemographic.PrintDemoLabelAction" />
         <action path="/demographic/printDemoAddressLabelAction" type="oscar.oscarDemographic.PrintDemoAddressLabelAction" />
-        <action path="/demographic/printBarcodeAction" type="oscar.oscarDemographic.PrintBarcodeAction" />
  -->    
+        <action path="/demographic/printBarcodeAction" type="oscar.oscarDemographic.PrintBarcodeAction" />
          
         <action input="/scratch/index.jsp" name="FrmForm" path="/Scratch" scope="request" type="oscar.scratch.ScratchAction">
             <forward name="success" path="/scratch/index.jsp" />

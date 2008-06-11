@@ -185,7 +185,6 @@
 		<servlet-class>oscar.oscarBilling.ca.bc.MSP.DocumentTeleplanReportUploadServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
- -->	
 	<servlet>
 		<servlet-name>ScatterPlotChartServlet</servlet-name>
 		<servlet-class>oscar.oscarEncounter.oscarMeasurements.pageUtil.ScatterPlotChartServlet</servlet-class>
@@ -225,11 +224,13 @@
         <servlet-name>PatientListByAppointment</servlet-name>
         <servlet-class>oscar.oscarReport.data.PatientListByAppt</servlet-class>
     </servlet>
+ -->	
      
     <servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+<!-- 
 	<servlet-mapping>
 		<servlet-name>UploadDocument</servlet-name>
 		<url-pattern>/servlet/oscar.DocumentMgtUploadServlet</url-pattern>
@@ -254,12 +255,12 @@
 		<servlet-name>BackupDownload</servlet-name>
 		<url-pattern>/servlet/BackupDownload</url-pattern>
 	</servlet-mapping>
+ -->
 <!-- 
 	<servlet-mapping>
 		<servlet-name>UploadTeleplanServlet</servlet-name>
 		<url-pattern>/servlet/oscar.DocumentTeleplanReportUploadServlet</url-pattern>
 	</servlet-mapping>
- -->	
 	<servlet-mapping>
 		<servlet-name>ScatterPlotChartServlet</servlet-name>
 		<url-pattern>/servlet/oscar.oscarEncounter.oscarMeasurements.pageUtil.ScatterPlotChartServlet</url-pattern>
@@ -289,6 +290,7 @@
         <servlet-name>redirectLinkTracking</servlet-name>
         <url-pattern>/redirectLinkTracking</url-pattern>
     </servlet-mapping>
+ -->	
     
     <session-config>
     	<session-timeout>120</session-timeout> <!-- 120minutes -->

@@ -28,5 +28,6 @@
 		<property name="latePass" column="late_pass" type="boolean" />
 		<property name="reservationStart" column="reservation_start" type="date" not-null="true" length="10" />
 		<property name="reservationEnd" column="reservation_end" type="date" length="10" />
+		<property name="bedName" formula="(select b.name from bed b where b.bed_id=bed_id)" /> 
 	</class>
 </hibernate-mapping>

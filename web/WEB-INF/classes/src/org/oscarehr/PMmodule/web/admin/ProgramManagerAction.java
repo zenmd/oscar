@@ -127,7 +127,7 @@ public class ProgramManagerAction extends BaseAction {
         DynaActionForm programForm = (DynaActionForm) form;
 
         String id = request.getParameter("id");
-
+        Integer programId = Integer.valueOf(id);
         if (id != null) {
             Program program = programManager.getProgram(id);
 
@@ -160,17 +160,17 @@ public class ProgramManagerAction extends BaseAction {
             view.setTab("General");
         }
         if (view.getTab().equalsIgnoreCase("Staff")) {
-        	processStaff( request, id, view);
+        	processStaff( request, programId, view);
         }
         return mapping.findForward("edit");
     }
     public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
-        String programId = request.getParameter("programId");
+        Integer programId = Integer.valueOf(request.getParameter("programId"));
         if (programId != null) {
             //List<ProgramSignature> pss = programManager.getProgramSignatures(Integer.valueOf(programId));
             //programForm.set("programSignatures", (ProgramSignature[] ) pss.toArray(new ProgramSignature[pss.size()]));
-            request.setAttribute("programSignatures",programManager.getProgramSignatures(Integer.valueOf(programId)));
+            request.setAttribute("programSignatures",programManager.getProgramSignatures(programId));
         }
         return mapping.findForward("programSignatures");
     }
@@ -742,7 +742,7 @@ public class ProgramManagerAction extends BaseAction {
 		return newStaffLst;
 	}
 
-	private void processStaff( HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
+	private void processStaff( HttpServletRequest request, Integer programId, ProgramManagerViewFormBean formBean){
     	
     	changeLstTable(RESET, formBean, request);
     	
@@ -763,7 +763,8 @@ public class ProgramManagerAction extends BaseAction {
 	    	
 			staffForm = formBean.getStaffForm();
 			staffForm.setOrgcd(orgcd);
-			lst = programManager.searchStaff(staffForm);
+			lst =  providerManager.getActiveProviders(programId);
+				//programManager.searchStaff(staffForm);
 			
 		}else{
 			staffForm = new StaffForm();

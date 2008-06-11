@@ -652,12 +652,11 @@ public class DateUtils {
                 Date tempDate = fmt.parse(oldDateString);
                 sdate = new SimpleDateFormat("yyyyMMdd").format(tempDate);
             }
+            return sdate;
         }
         catch (ParseException ex) {
             ex.printStackTrace();
-        }
-        finally {
-            return sdate;
+            return null;
         }
     }
 }

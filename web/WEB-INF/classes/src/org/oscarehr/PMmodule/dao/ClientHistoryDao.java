@@ -147,6 +147,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             history.setProgramId(admission.getProgramId());
             history.setProviderNo(admission.getProviderNo());
         }
+        history.setHistoryDate(com.quatro.util.Utility.getCurrentDateTime().getTime());
         this.getHibernateTemplate().saveOrUpdate(history);
 
         if (log.isDebugEnabled()) {

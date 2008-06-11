@@ -66,11 +66,11 @@ public class DemographicNameAgeString {
       if (demoNo != null){                     
          if (!hashtable.containsKey(demoNo)){        
             //System.out.println("not in buffer "+demoNo);
-            DemographicData dData = new DemographicData();
-            String[] dArray = dData.getNameAgeSexArray(demoNo);
-            if (dArray != null){
-               hashtable.put(demoNo,dArray);
-            }        
+//            DemographicData dData = new DemographicData();
+//            String[] dArray = dData.getNameAgeSexArray(demoNo);
+//            if (dArray != null){
+//               hashtable.put(demoNo,dArray);
+//            }        
          }//else{System.out.println("name age in buffer "+demoNo);}
          String[] nameage =  (String[]) hashtable.get(demoNo);      
          if (nameage != null){
@@ -109,11 +109,11 @@ public class DemographicNameAgeString {
       if ( demoNo != null){
          if (!hashtable.containsKey(demoNo)){
             //System.out.println("not in buffer "+demoNo);
-            DemographicData dData = new DemographicData();
-            String[] dArray = dData.getNameAgeSexArray(demoNo);
-            if (dArray != null){
-               hashtable.put(demoNo,dArray);
-            }                                
+//            DemographicData dData = new DemographicData();
+//            String[] dArray = dData.getNameAgeSexArray(demoNo);
+//            if (dArray != null){
+//               hashtable.put(demoNo,dArray);
+//            }                                
          }//else{System.out.println("name age in buffer "+demoNo);}         
          String[] s =  (String[]) hashtable.get(demoNo);
          if ( s != null){

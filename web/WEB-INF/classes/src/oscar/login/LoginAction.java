@@ -41,7 +41,6 @@ import oscar.log.LogAction;
 import oscar.log.LogConst;
 import oscar.oscarDB.DBHandler;
 import oscar.oscarSecurity.CRHelper;
-import oscar.util.AlertTimer;
 
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
@@ -178,15 +177,6 @@ public final class LoginAction extends DispatchAction {
             /*
              * if (OscarProperties.getInstance().isTorontoRFQ()) { where = "caisiPMM"; }
              */
-            // Lazy Loads AlertTimer instance only once, will run as daemon for duration of server runtime
-            if (pvar.getProperty("billregion").equals("BC")) {
-                String alertFreq = pvar.getProperty("ALERT_POLL_FREQUENCY");
-                if (alertFreq != null) {
-                    Long longFreq = new Long(alertFreq);
-                    String[] alertCodes = OscarProperties.getInstance().getProperty("CDM_ALERTS").split(",");
-                    AlertTimer.getInstance(alertCodes, longFreq.longValue());
-                }
-            }
             CRHelper.recordLoginSuccess(userName, strAuth[0], request);
 
             // setup caisi stuff

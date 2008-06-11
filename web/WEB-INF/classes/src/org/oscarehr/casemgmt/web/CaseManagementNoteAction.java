@@ -37,7 +37,6 @@ import org.oscarehr.casemgmt.model.CaseManagementIssue;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementTmpSave;
 import org.oscarehr.casemgmt.model.Issue;
-import org.oscarehr.casemgmt.service.CaseManagementPrintPdf;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
 import org.oscarehr.common.model.UserProperty;
 import org.springframework.web.context.WebApplicationContext;
@@ -1463,14 +1462,14 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         response.setContentType("application/pdf"); // octet-stream
         response.setHeader("Content-Disposition", "attachment; filename=\"Encounter-" + UtilDateUtilities.getToday("yyyy-MM-dd.hh.mm.ss") + ".pdf\"");
-
+/*
         CaseManagementPrintPdf printer = new CaseManagementPrintPdf(request, response);
         printer.printDocHeaderFooter();
         printer.printCPP(cpp);
         printer.printRx(demoNo);
         printer.printNotes(notes);
         printer.finish();
-
+*/
         return null;
     }
 

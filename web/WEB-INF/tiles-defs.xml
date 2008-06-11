@@ -37,7 +37,7 @@
 		<put name="body" value="/PMmodule/lookup/LookupCodeList.jsp" />
 	</definition>
 	<definition name="page.admin.lookup.codeedit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/lookup/LookupCodeEdit.jsp" />
 	</definition>
@@ -57,12 +57,12 @@
 		<put name="body" value="/PMmodule/Admin/ProgramManagerForm.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.agency.view"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/AgencyView/general.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.agency.edit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/AgencyEdit/general.jsp" />
 	</definition>
@@ -124,7 +124,7 @@
 		<put name="body" value="/PMmodule/ClientManager.jsp" />
 	</definition>
 	<definition name="page.pmm.client.service_restriction_error"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body"
 			value="/PMmodule/ClientManager/service_restriction_error.jsp" />
 	</definition>
@@ -200,10 +200,10 @@
 		<put name="body" value="/PMmodule/QuatroComplaintList.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.incident.edit"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation.jsp" />
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/IncidentEdit.jsp" />
 	</definition>
-	<definition name="page.quatro.pmm.incident.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+	<definition name="page.quatro.pmm.incident.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/IncidentList.jsp" />
 	</definition>
 
@@ -215,7 +215,7 @@
 	<!-- Generic Intake -->
 <!-- 
 	<definition name="page.genericIntake.search"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/GenericIntake/Search.jsp" />
 	</definition>
@@ -223,57 +223,57 @@
 	<!-- Generic Intake -->
 
 	<definition name="page.pmm.provider.view"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/ProviderInfoView.jsp" />
 	</definition>
 	<definition name="page.pmm.staff.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/StaffManagerList.jsp" />
 	</definition>
 	<definition name="page.pmm.staff.edit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/StaffManagerForm.jsp" />
 	</definition>
 
 	<definition name="page.report.quatroreportlist"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/reports/QuatroReportList.jsp" />
 	</definition>
 	<definition name="page.report.quatroreportrunner"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/reports/QuatroReportRunner.jsp" />
 	</definition>
 
 	<definition name="page.report.activityform"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/reports/ActivityReportForm.jsp" />
 	</definition>
 	<definition name="page.report.activityreport"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/reports/ActivityReport.jsp" />
 	</definition>
 	<definition name="page.report.clientlistsreportform"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/reports/ClientListsReportForm.jsp" />
 	</definition>
 	<definition name="page.report.clientlistsreport"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/reports/ClientListsReport.jsp" />
 	</definition>
-	<definition name="page.pmm.erconsent"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />		
+	<definition name="page.pmm.erconsent"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />		
 		<put name="body" value="/PMmodule/erConsent.jsp" />
 	</definition>
 	<definition name="page.pmm.consent.list"  path="/PMmodule/layout.jsp"> 
@@ -285,30 +285,30 @@
 		<put name="body" value="/PMmodule/QuatroConsentEdit.jsp"></put>
 	</definition>
 	<definition name="page.report.basicform"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/reports/BasicReport.jsp" />
 	</definition>
 	<definition name="page.report.exitinterviewform"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/reports/ExitInterviewReport.jsp" />
 	</definition>
 	<definition name="page.report.exitinterviewformdetailed"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/reports/ExitInterviewReportDetailed.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.defaultroleaccess.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/Admin/DefaultRoleAccessList.jsp" />
 	</definition>
 	<definition name="page.pmm.admin.defaultroleaccess.form"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/Admin/DefaultRoleAccessForm.jsp" />
@@ -432,30 +432,30 @@
 		<put name="body" value="/PMmodule/UploadFile.jsp"></put>
 	</definition>
 	<definition name="page.attachment.list.prog"  path="/PMmodule/layout.jsp">
-		<put name="leftNav" value="/PMmodule/navigation.jsp" />
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/AttachmentMain.jsp"></put>
 	</definition>
 	<definition name="page.attachment.edit.prog"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation.jsp" />
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/UploadFile.jsp"></put>
 	</definition>
 	<!--
 		<definition
 		name="page.customreport.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put
 		name="navigation"
-		value="/PMmodule/navigation.jsp" />
+		value="/PMmodule/navigation_blank.jsp" />
 		<put
 		name="body"
 		value="/PMmodule/reports/CustomReportList.jsp" />
 		</definition>
 		<definition
 		name="page.customreport.form"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put
 		name="navigation"
-		value="/PMmodule/navigation.jsp" />
+		value="/PMmodule/navigation_blank.jsp" />
 		<put
 		name="body"
 		value="/PMmodule/reports/CustomReportForm.jsp" />
@@ -464,60 +464,60 @@
 
 	<!-- Admin Start -->
 	<definition name="page.admin.home"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation.jsp" />
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/Admin/Home.jsp" />
 	</definition>
 	<definition name="page.admin.showORGTree"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body"
 			value="/PMmodule/Admin/Organization/ORGTree.jsp" />
 	</definition>
 	<definition name="page.admin.role.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/Role/RoleList.jsp" />
 	</definition>
 	<definition
 		name="page.admin.role.edit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put
 			name="body"
 			value="/PMmodule/Admin/Role/RoleEdit.jsp" />
 	</definition>
 	<definition
 		name="page.admin.role.functions"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put
 			name="body"
 			value="/PMmodule/Admin/Role/RoleFunctions.jsp" />
 	</definition>
 	<definition name="page.admin.user.list"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/User/UserList.jsp" />
 	</definition>
 	<definition name="page.admin.user.profile"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		
 		<put name="body" value="/PMmodule/Admin/User/UserProfile.jsp" />
 	</definition>
 	<definition
 		name="page.admin.user.edit"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put
 			name="navigation"
-			value="/PMmodule/navigation.jsp" />
+			value="/PMmodule/navigation_blank.jsp" />
 		<put
 			name="body"
 			value="/PMmodule/Admin/User/UserEdit.jsp" />
 	</definition>
 	<definition
 		name="page.admin.user.addRoles"
-		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation.jsp" />
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put
 			name="navigation"
-			value="/PMmodule/navigation.jsp" />
+			value="/PMmodule/navigation_blank.jsp" />
 		<put
 			name="body"
 			value="/PMmodule/Admin/User/AddRoles.jsp" />

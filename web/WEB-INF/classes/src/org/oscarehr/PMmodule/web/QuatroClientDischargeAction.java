@@ -58,20 +58,16 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
-	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
-	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       
-	   ActionMessages messages = new ActionMessages();
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+       String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+
+       ActionMessages messages = new ActionMessages();
 	   boolean isError = false;
 	   boolean isWarning = false;
 	   Admission admObj =(Admission)clientForm.get("admission");
 	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 	   admObj.setDischargeDate(Calendar.getInstance());
+	   admObj.setProviderNo(providerNo);
 
 	   boolean isReferral=false;
 	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId().intValue()>0) {
@@ -101,13 +97,19 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 		   admissionManager.updateDischargeInfo(admObj, isReferral);		  
 	   }
 */
-	   
+
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
+	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);
        
        /* discharge */
-       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-       String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);

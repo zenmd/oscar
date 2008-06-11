@@ -47,7 +47,7 @@ import org.drools.io.RuleBaseLoader;
 import oscar.OscarProperties;
 import oscar.oscarEncounter.oscarMeasurements.bean.EctMeasurementTypesBean;
 import oscar.oscarEncounter.oscarMeasurements.bean.EctMeasurementsDataBean;
-import oscar.oscarEncounter.oscarMeasurements.util.MeasurementDSHelper;
+//import oscar.oscarEncounter.oscarMeasurements.util.MeasurementDSHelper;
 
 /**
  *
@@ -253,7 +253,7 @@ public class MeasurementFlowSheet {
 
             try {
                 WorkingMemory workingMemory = rb.newWorkingMemory();
-                workingMemory.assertObject(new MeasurementDSHelper(mdb));
+//                workingMemory.assertObject(new MeasurementDSHelper(mdb));
                 workingMemory.fireAllRules();
             } catch (Exception e) {
                 e.printStackTrace();

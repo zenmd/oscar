@@ -62,6 +62,7 @@ import org.oscarehr.PMmodule.service.IncidentManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
+import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.PMmodule.web.BaseAction;
@@ -103,6 +104,8 @@ public class ProgramManagerViewAction extends BaseAction {
 
     private ProgramManager programManager;
 
+    private ProviderManager providerManager;
+
     private ProgramQueueManager programQueueManager;
     
     private IncidentManager incidentManager;
@@ -131,12 +134,12 @@ public class ProgramManagerViewAction extends BaseAction {
         ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
 
         // find the program id
-        String programId = request.getParameter("id");
+        String id = request.getParameter("id");
 
-        if (programId == null) {
-            programId = (String) request.getAttribute("id");
+        if (id == null) {
+            id = (String) request.getAttribute("id");
         }
-
+        Integer programId = Integer.valueOf(id);
         String demographicNo = request.getParameter("clientId");
 
         if (demographicNo != null) {
@@ -148,10 +151,10 @@ public class ProgramManagerViewAction extends BaseAction {
         // check role permission
         HttpSession se=request.getSession();
         String providerNo = (String)se.getAttribute("user");
-        se.setAttribute("performAdmissions",hasAccess(request, Integer.valueOf(programId), "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
+        se.setAttribute("performAdmissions",hasAccess(request, programId, "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
 		        
         // need the queue to determine which tab to go to first
-        List queue = programQueueManager.getProgramQueuesByProgramId(Integer.valueOf(programId));
+        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
         request.setAttribute("queue", queue);
 
         HashSet genderConflict = new HashSet();
@@ -203,7 +206,7 @@ public class ProgramManagerViewAction extends BaseAction {
         }
 
         if (formBean.getTab().equalsIgnoreCase("Service Restrictions")) {
-            request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(Integer.valueOf(programId), new Date()));
+            request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
         }
         if (formBean.getTab().equalsIgnoreCase("Staff")) {
         	processStaff( request, programId, formBean);
@@ -211,7 +214,7 @@ public class ProgramManagerViewAction extends BaseAction {
         }
 
         if (formBean.getTab().equalsIgnoreCase("Function User")) {
-            request.setAttribute("functional_users", programManager.getFunctionalUsers(programId));
+            request.setAttribute("functional_users", programManager.getFunctionalUsers(programId.toString()));
         }
 
         
@@ -220,19 +223,19 @@ public class ProgramManagerViewAction extends BaseAction {
         }
 
         if (formBean.getTab().equalsIgnoreCase("Access")) {
-            request.setAttribute("accesses", programManager.getProgramAccesses(programId));
+            request.setAttribute("accesses", programManager.getProgramAccesses(programId.toString()));
         }
 
         if (formBean.getTab().equalsIgnoreCase("Client Status")) {
-            request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
+            request.setAttribute("client_statuses", programManager.getProgramClientStatuses(programId));
         }
         
         if (formBean.getTab().equalsIgnoreCase("Incidents")) {
-        	processIncident( request, programId, formBean);
+        	processIncident( request, programId.toString(), formBean);
 
         }
 
-        logManager.log("view", "program", programId, request);
+        logManager.log("view", "program", programId.toString(), request);
 
         request.setAttribute("id", programId);
         request.setAttribute("programManagerViewFormBean", formBean);
@@ -314,7 +317,7 @@ public class ProgramManagerViewAction extends BaseAction {
     }
    
     
-    private void processStaff( HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
+    private void processStaff( HttpServletRequest request, Integer programId, ProgramManagerViewFormBean formBean){
     	
     	changeLstTable(RESET, formBean, request);
     	
@@ -340,7 +343,8 @@ public class ProgramManagerViewAction extends BaseAction {
 		}else{
 			staffForm = new StaffForm();
 			formBean.setStaffForm(staffForm);
-			lst = programManager.getProgramProviders("P" + programId);
+			lst = providerManager.getActiveProviders(programId);
+				// programManager.getProgramProviders("P" + programId);
 		}
 		
 		request.setAttribute("existStaffLst", lst);
@@ -1192,6 +1196,10 @@ public class ProgramManagerViewAction extends BaseAction {
 
     public void setProgramManager(ProgramManager mgr) {
     	this.programManager = mgr;
+    }
+
+    public void setProviderManager(ProviderManager mgr) {
+    	this.providerManager = mgr;
     }
 
     public void setProgramQueueManager(ProgramQueueManager mgr) {
