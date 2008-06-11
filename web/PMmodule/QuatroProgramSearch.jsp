@@ -160,8 +160,14 @@
 						<c:out value="${program.name}" /></a>
 			</display:column>
 			<display:column property="type" sortable="true" title="Type"></display:column>
-			<display:column sortable="false" title="Participation">
-				<c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)
+			<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
+				<c:out value="${program.numOfMembers}" />
+			</display:column>
+			<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize">
+				<c:out value="${program.queueSize}" />
+			</display:column>
+			<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual">
+				<c:out value="${program.capacity_actual}" />
 			</display:column>
 			<display:column property="descr" sortable="false" title="Description"></display:column>
 		</display:table>	
