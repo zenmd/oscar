@@ -360,7 +360,7 @@ public class BedManagerAction extends BaseFacilityAction {
         
         if(numRooms != null && numRooms.intValue() > 0){
         	int numOfRoomsInDB = bForm.getRooms().length;
-        	int len = roomslines; //bForm.getRooms().length;
+        	int len = roomslines.intValue(); //bForm.getRooms().length;
 	        Room[] roomsTemp= new Room[len + numRooms.intValue()];
 	        // keep existing value, include not saved.
 	        for(int i = 0; i < len; i++){
