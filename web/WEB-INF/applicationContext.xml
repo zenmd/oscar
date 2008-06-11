@@ -152,8 +152,8 @@
 	<bean id="CaseManagementTmpSaveDAO" class="org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO" autowire="byName"/>
     <bean id="ticklerDAO" class="org.oscarehr.casemgmt.dao.TicklerDAO" autowire="byName"/>
     <bean id="programFunctionalUserDAO" class="org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO" autowire="byName"/>
-    <bean id="programAccessDAO" class="org.oscarehr.PMmodule.dao.ProgramAccessDAO" autowire="byName"/>
 <!-- 
+    <bean id="programAccessDAO" class="org.oscarehr.PMmodule.dao.ProgramAccessDAO" autowire="byName"/>
     <bean id="defaultRoleAccessDAO" class="org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO" autowire="byName"/>
  -->
     <bean id="programClientStatusDAO" class="org.oscarehr.PMmodule.dao.ProgramClientStatusDAO" autowire="byName"/>
