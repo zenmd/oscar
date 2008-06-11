@@ -112,7 +112,7 @@ public class ProcessConsultationTickler extends AbstractPreparedTickler implemen
 			//Provider provider = providerMgr
 			//create a tickler here
 			Tickler tickler = new Tickler();
-			tickler.setStatus('A');
+			tickler.setStatus("A");
 			tickler.setCreator(providerNo);
 			tickler.setDemographic_no(Integer.valueOf(formBean.getDemographic_no()));
 			tickler.setPriority("Normal");
