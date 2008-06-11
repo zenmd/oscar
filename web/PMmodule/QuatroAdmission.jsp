@@ -90,6 +90,16 @@ function viewSignature(){
 
 <!--  start of page content -->
 <table width="100%" class="edit">
+<tr><td><br>
+<table class="simple" cellpadding="3" cellspacing="0" border="0">
+<tr><th>Program</th>
+<th>Admission Date</th>
+<th>Status</th></tr>
+<tr><td><c:out value="${quatroClientAdmissionForm.admission.programName}"/></td>
+<td><c:out value="${quatroClientAdmissionForm.admission.admissionDateStr}"/></td>
+<td><c:out value="${quatroClientAdmissionForm.admission.admissionStatus}"/></td></tr>
+</table></td></tr>
+
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Admission Information</th></tr>
@@ -123,8 +133,8 @@ function viewSignature(){
 <td width="25%"><html:text property="admission.nextKinName" /></td>
 <td width="10%">Relationship</td>
 <td width="20%"><html:text property="admission.nextKinRelationship" /></td>
-<td width="10%">Telephone</td>
-<td width="25%"><html:text property="admission.nextKinTelephone" style="width: 70%" /></td></tr>
+<td width="5%">Tel</td>
+<td width="30%"><html:text property="admission.nextKinTelephone" style="width: 95%" /></td></tr>
 <tr><td>Number</td>
 <td><html:text property="admission.nextKinNumber" /></td>
 <td>Street</td>
@@ -136,7 +146,7 @@ function viewSignature(){
 <html-el:optionsCollection property="provinceList" value="code" label="description"/>
 </html:select></td>
 <td>Postal</td>
-<td><html:text property="admission.nextKinPostal" style="width: 70%" /></td></tr>
+<td><html:text property="admission.nextKinPostal" style="width: 60%" /></td></tr>
 </table>
 </td></tr>
 

@@ -53,14 +53,14 @@ function updateQuatroAdmission(clientId, admissionId) {
 
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
-  <tr><td>Program Type</td>
+  <tr><td>Admission ID</td>
   <td>Created On</td>
   <td>Staff</td>
   <td>Status</td>
   <td>Actions</td></tr>
 
   <logic-el:iterate id="admission" collection="${admission}">
-    <tr><td width="20%"><c:out value="${admission.programType}" /></td>
+    <tr><td width="20%"><c:out value="${admission.id}" /></td>
     <td><c:out value="${admission.admissionDateStr}" /></td>
     <td><c:out value="${sessionScope.provider.formattedName}" /></td>
     <td><c:out value="${admission.admissionStatus}"/></td>

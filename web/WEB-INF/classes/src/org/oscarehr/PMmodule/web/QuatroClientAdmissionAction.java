@@ -296,25 +296,31 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          clientForm.setFamilyAdmissionType("Y");
        }
        
+       Integer curDB_RoomId = new Integer(0);
+       Integer curDB_BedId = new Integer(0);
+       if(clientForm.getCurDB_RoomId()!=null) curDB_RoomId = clientForm.getCurDB_RoomId(); 
+       if(clientForm.getCurDB_BedId()!=null) curDB_BedId = clientForm.getCurDB_BedId(); 
        if(request.getParameter("admissionId")!=null){
          RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId));
          if(rdm!=null){
            clientForm.setRoomDemographic(rdm);
            clientForm.setCurDB_RoomId(rdm.getRoomId());
+           curDB_RoomId = rdm.getRoomId();
          }
          
          BedDemographic bdm =null;
          if(!clientForm.getFamilyIntakeType().equals("Y")){
-    	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId), shelterId);
+    	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId));
     	   if(bdm!=null){
     	     clientForm.setBedDemographic(bdm);
     	     clientForm.setCurDB_BedId(bdm.getBedId());
+    	     curDB_BedId = bdm.getBedId();
     	   }
          }
        }
        
        //setup rooms
-       Integer curDB_RoomId = clientForm.getCurDB_RoomId();
+//       Integer curDB_RoomId = clientForm.getCurDB_RoomId();
        Room currentDB_room = null;
        if(curDB_RoomId!=null && curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
        ArrayList availableRoomLst = new ArrayList();
@@ -335,7 +341,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //setup beds
        //family intake doesn't need assign beds, just room. 
        if(!clientForm.getFamilyIntakeType().equals("Y")){
-         Integer curDB_BedId = clientForm.getCurDB_BedId();
          ArrayList availableBedLst = new ArrayList();
   	     Bed emptyBed=new Bed();
   	     emptyBed.setId(new Integer(0));
@@ -517,6 +522,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	     BedDemographicPK bdmPK= bedDemographic.getId();
  	     bdmPK.setDemographicNo(admission.getClientId());
  	     bedDemographic.setId(bdmPK);
+ 	     bedDemographic.setBedId(bdmPK.getBedId());
  	     bedDemographic.setProviderNo(providerNo);
  	     bedDemographic.setReservationStart(new Date());
   	   }else{

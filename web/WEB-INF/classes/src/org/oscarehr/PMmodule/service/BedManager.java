@@ -464,7 +464,7 @@ public class BedManager {
         Integer facilityId=null;
         if (program!=null) facilityId=program.getFacilityId();
 
-        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo, facilityId);
+        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo);
     	if(bedDemographic != null){
 	    	Bed bed = getBed(bedDemographic.getId().getBedId());
 	    	if(bed != null){

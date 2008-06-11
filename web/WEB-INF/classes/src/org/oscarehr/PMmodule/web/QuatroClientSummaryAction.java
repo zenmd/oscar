@@ -136,7 +136,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 //       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
 
        /* bed reservation view */
-       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo), shelterId);
+       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo));
        request.setAttribute("bedDemographic", bedDemographic);
        
        RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
