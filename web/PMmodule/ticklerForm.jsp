@@ -45,43 +45,23 @@ function submitForm(methodVal) {
     }
     
 }
-/*
-function check_tickler_service_date() {
-	var serviceDate = document.ticklerForm.elements['tickler.serviceDate'].value;
-	if(check_date(serviceDate)) {		
-		return true;
-	} else {
-		return false;
-	}	
-}
-		
-	
-function validateTicklerForm(form) {
-	if (form.elements['tickler.task_assigned_to'].value == '0' || form.elements['tickler.task_assigned_to'].value == '') {
-		alert('You must assign the task to a valid provider. Please use the search button');
-		return false;
-	}
-			
-	if (form.elements['tickler.serviceDate'].value == '') {
-		alert('You must provide a valid service date');
-		return false;
-	}
-			
-	if (form.elements['tickler.message'].value == '') {
-		alert('You must provide a message');
-		return false;
-	}
-			
-	return check_tickler_service_date();
-}
-*/
 </script>
 
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
+<c:choose>
+<c:when test="${viewTickler=='Y'}">
+<tr><th  class="pageTitle">Client Management - View Task</th></tr>
+</c:when>
+<c:otherwise>
 <tr><th  class="pageTitle">Client Management - New Task</th></tr>
+</c:otherwise>
+</c:choose>
 
-<tr><td class="buttonBar"><a href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;">
+<tr><td class="buttonBar">
+   <c:if test="${viewTickler!='Y'}">
+     <a href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+   </c:if>		
 	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 </td></tr>
@@ -121,10 +101,21 @@ function validateTicklerForm(form) {
            <html:optionsCollection property="priorityLst" value="value" label="label"/>
 		</html:select></td></tr>
 		<tr><td>Task Assigned To:</td>
-		<td>Program: <html:select property="tickler.program_id" onchange="submitForm('changeProgram');">
-		   <option value=""> --- </option>
-           <html:optionsCollection property="programLst" value="id" label="name"/>
-		</html:select>
+		<td>Program: 
+          <c:choose>
+            <c:when test="${viewTickler!='Y'}">
+		      <html:select property="tickler.program_id" onchange="submitForm('changeProgram');">
+		        <option value=""> --- </option>
+                <html:optionsCollection property="programLst" value="id" label="name"/>
+		      </html:select>
+		    </c:when>
+		    <c:otherwise>
+		      <html:select property="tickler.program_id">
+		        <option value=""> --- </option>
+                <html:optionsCollection property="programLst" value="id" label="name"/>
+		      </html:select>
+		    </c:otherwise>
+		  </c:choose>    
 		Provider: <html:select property="tickler.task_assigned_to">
 		   <option value=""> --- </option>
            <html:optionsCollection property="providerLst" value="providerNo" label="formattedName"/>

@@ -59,12 +59,69 @@ public class ClientTaskAction extends BaseClientAction{
         
         List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
 
-        request.getSession().setAttribute("ticklers", ticklers);
-        request.setAttribute("providers", providerManager.getProviders());
+        request.setAttribute("ticklers", ticklers);
         
         return mapping.findForward("list");
     }
 
+    public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TicklerForm ticklerForm = (TicklerForm) form;
+    	
+    	String clientId = request.getParameter("clientId");
+    	HashMap actionParam = new HashMap();
+        actionParam.put("clientId", clientId); 
+        request.setAttribute("actionParam", actionParam);
+
+        request.setAttribute("clientId", clientId);
+        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+ 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+ 	    
+        ArrayList ampmLst = new ArrayList();
+        LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
+        ampmLst.add(lvb1);
+        LabelValueBean lvb2 = new LabelValueBean("PM", "PM");
+        ampmLst.add(lvb2);
+        ticklerForm.setAmpmLst(ampmLst);
+
+        ArrayList serviceHourLst = new ArrayList();
+        for(int i=1;i<=12;i++){
+          LabelValueBean lvb3 = new LabelValueBean(Misc.forwardZero(String.valueOf(i),2), Misc.forwardZero(String.valueOf(i),2));
+          serviceHourLst.add(lvb3);
+        }
+        ticklerForm.setServiceHourLst(serviceHourLst);
+
+        ArrayList serviceMinuteLst = new ArrayList();
+        for(int i=0;i<60;i++){
+          LabelValueBean lvb4 = new LabelValueBean(Misc.forwardZero(String.valueOf(i),2), Misc.forwardZero(String.valueOf(i),2));
+          serviceMinuteLst.add(lvb4);
+        }
+        ticklerForm.setServiceMinuteLst(serviceMinuteLst);
+        
+        ArrayList priorityLst = new ArrayList();
+        LabelValueBean lvb5 = new LabelValueBean("High", "High");
+        priorityLst.add(lvb5);
+        LabelValueBean lvb6 = new LabelValueBean("Normal", "Normal");
+        priorityLst.add(lvb6);
+        LabelValueBean lvb7 = new LabelValueBean("Low", "Low");
+        priorityLst.add(lvb7);
+        ticklerForm.setPriorityLst(priorityLst);
+
+		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+        ticklerForm.setProgramLst(programLst);
+        
+        String tickler_no =  request.getParameter("ticklerNo");
+        Tickler tickler = ticklerManager.getTickler(tickler_no);
+        ticklerForm.setTickler(tickler);
+        request.setAttribute("viewTickler", "Y");
+
+        List providerLst = providerManager.getActiveProviders(tickler.getProgram_id());
+        ticklerForm.setProviderLst(providerLst);
+        
+        return mapping.findForward("add");
+    }
+    
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionMessages messages = new ActionMessages();
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
