@@ -29,7 +29,7 @@
             <column name="STANDARDS" length="100" />
         </property>
         <property name="description" type="java.lang.String">
-            <column name="DESCRIPTION" length="4000" />
+            <column name="DESCRIPTION"/>
         </property>
         <property name="satisfiedWithOutcome" type="java.lang.String">
             <column name="SATISFIED_WITH_OUTCOME" length="50" />

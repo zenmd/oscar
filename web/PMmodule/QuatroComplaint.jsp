@@ -233,7 +233,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 				</tr>
 
 				<tr>
-					<td><html-el:textarea property="complaint.description" rows="10" style="width:500px;" onkeyup="javascript:txtAreaLenChecker(this, 4000);"></html-el:textarea>
+					<td><html-el:textarea property="complaint.description" rows="10" style="width:500px;" ></html-el:textarea>
 					</td>
 				</tr>
 
