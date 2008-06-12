@@ -10,9 +10,14 @@ getEditValueDate = true;
 codeValue = "";
 doPostBack = false;
 delaySearch= false;
+
+readOnly=false;
+
 emptyDate = new Date("01/01/1901");
 
 function showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
+    if(readOnly == true) return;
+    
     var grandParentCode = null;
     var parentCode = null;   
 
@@ -122,6 +127,8 @@ function selectMe(code, Desc, form_name, code_element_name, Desc_element_name) {
 
 //for lookup tag java code use
 function clearLookupValue(form_name, code_element_name, desc_element_name) {
+   if(readOnly == true) return;
+
    var myexpr = "document." + form_name + ".elements['" + code_element_name +"'].value=''";
    eval(myexpr);
    myexpr = "document." + form_name + ".elements['" + desc_element_name +"'].value=''";
