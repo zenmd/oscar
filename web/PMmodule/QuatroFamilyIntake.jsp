@@ -172,7 +172,7 @@ function checkExistClients(i){
 &nbsp;<a href='javascript:submitForm("add");'style="color:Navy;text-decoration:underline;">Add Dependent</a>
 </c:if>
 &nbsp;|&nbsp;
-<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Delete Dependent</a>
+<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Remove Dependent</a>
 
 <c:choose>
 <c:when test="${bDupliDemographicNoApproved==false}">

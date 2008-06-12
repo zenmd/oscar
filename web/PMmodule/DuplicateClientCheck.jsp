@@ -32,8 +32,6 @@ function selectDuplicateClient(form_name, firstName, firstNameValue,
    eval(myexpr);
 
    var statusMsgValue2=statusMsgValue;
-   alert(shortFlag);
-   alert(statusMsgValue);
    if(shortFlag=="Y"){
      if(statusMsgValue=="(Existing Client)"){
        statusMsgValue2="#";

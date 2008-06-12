@@ -108,7 +108,7 @@ String _appPath = request.getContextPath();
 									<table>
 										<tr align="left">
 											<th valign="top" align="left" class="clsHomePageLabels">
-											<html:link action="/Tickler.do">My Tasks</html:link></th>
+											<html:link action="/PMmodule/Task.do?method=filter">My Tasks</html:link></th>
 										</tr>
 									</table>
 									</th>
