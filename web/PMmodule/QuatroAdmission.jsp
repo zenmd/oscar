@@ -95,8 +95,14 @@ function viewSignature(){
 <tr><th>Program</th>
 <th>Admission Date</th>
 <th>Status</th></tr>
-<tr><td><c:out value="${quatroClientAdmissionForm.admission.programName}"/></td>
-<td><c:out value="${quatroClientAdmissionForm.admission.admissionDateStr}"/></td>
+<tr><td><c:out value="${quatroClientAdmissionForm.admission.programName}"/>
+<html:hidden property="admission.programName" />
+</td>
+<td>
+<c:if test="${quatroClientAdmissionForm.admission.admissionDateStr!=null && quatroClientAdmissionForm.admission.admissionStatus!='active'}">
+<c:out value="${quatroClientAdmissionForm.admission.admissionDateStr}"/>
+</c:if>
+</td>
 <td><c:out value="${quatroClientAdmissionForm.admission.admissionStatus}"/></td></tr>
 </table></td></tr>
 

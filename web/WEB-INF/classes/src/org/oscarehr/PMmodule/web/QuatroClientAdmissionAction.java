@@ -133,6 +133,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Admission admission = new Admission(); 
        admission.setId(new Integer(0));
        admission.setProgramId(programId);
+       admission.setProgramName(programManager.getProgramName(programId.toString()));
        admission.setIntakeId(intakeId);
        admission.setClientId(Integer.valueOf(clientId));
        admission.setAdmissionDate(Calendar.getInstance());

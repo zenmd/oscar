@@ -67,6 +67,7 @@ public class Admission implements Serializable, Cloneable {
 	}
 
 	public String getAdmissionDateStr() {
+		if(admissionDate==null) return "";
 		return MyDateFormat.getStandardDate(admissionDate);
 	}
 
