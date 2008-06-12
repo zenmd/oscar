@@ -65,12 +65,10 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
 	   String recId=request.getParameter("rId");
 	   if(Utility.IsEmpty(recId)) 
-		   recId=restriction.getId().toString();
+	   		recId=restriction.getId().toString();
        Integer rId=Integer.valueOf(recId);
 	   String providerNo=(String)request.getSession().getAttribute("user");
-	   
        clientRestrictionManager.terminateEarly(rId,providerNo);
-       
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -83,7 +81,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        
        return list(mapping, form, request, response);
    }
-//   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+  //   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 //       setEditAttributes(form, request);
 //       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
 //       return mapping.findForward("detail");
@@ -106,7 +104,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        String providerNo=(String)request.getSession().getAttribute("user");
        restriction.setProviderNo(providerNo);       
        restriction.setEnabled(true);
-
+      
        if (restriction.getProgramId() == null
 				|| restriction.getProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
@@ -115,7 +113,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			setEditAttributes(form, request);		   
 		   return mapping.findForward("detail");  
 		}
-       try {
+       try {    	  
     	   //String sDt = restriction.getStartDateStr();
     	   //restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
     	   //Calendar cal2 =MyDateFormat.getCalendar(sDt);
@@ -137,20 +135,19 @@ public class ServiceRestrictionAction  extends BaseClientAction {
            clientRestrictionManager.saveClientRestriction(restriction);
            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
            saveMessages(request, messages);
-          
        }
        catch (ClientAlreadyRestrictedException e) {         
            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("restrict.already_restricted", request.getContextPath()));
            saveMessages(request, messages);
-           
+        
        }
        catch(Exception e){
     	   messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("restrict.exceeds_maximum_days", request.getContextPath(),"1","180"));
            saveMessages(request, messages);
-          
+           
        }
 
-      
+       
       // clientForm.set("program", new Program());
        clientForm.set("serviceRestriction", restriction);
        //clientForm.set("serviceRestrictionLength", null);       
@@ -201,7 +198,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		request.setAttribute("serviceObj", pcrObj);
      //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
-       
    }
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
@@ -271,6 +267,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
        return mapping.findForward("detail");
    }
+   	
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
        DynaActionForm clientForm = (DynaActionForm) form;
 
@@ -292,7 +289,8 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        /* service restrictions */
        	 //  List proPrograms = providerManager.getProgramDomain(providerNo);
            //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
-       	  request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(Integer.valueOf(demographicNo),providerNo,shelterId));
+       Integer cId =Integer.valueOf(demographicNo);
+       request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(cId,providerNo,shelterId));
 
    }
 
