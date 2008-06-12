@@ -14,7 +14,7 @@ String _appPath = request.getContextPath();
 	<tr>
 		<td align="left" class="buttonBar"><html:link action="/Home.do"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/home16.png"/> />&nbsp;Home&nbsp;&nbsp;|</html:link>
 		</td>
 	</tr>
 	<tr>
@@ -30,7 +30,7 @@ String _appPath = request.getContextPath();
 		<tr><td colspan="7">&nbsp;</td></tr>
 			<tr>
 				<td width="10%">&nbsp;&nbsp;<img border="0" width="60px"
-										height="60px" src="<%=_appPath %>/images/Home.gif" alt="" /></td>
+										height="60px" src="<%=_appPath %>/images/Admin-60.gif" alt="" /></td>
 									<td width="80%" align="left" class="clsPageHeader" colspan="5">
 									<h1 style="color:#1E90FF">System Administration</h1>
 									</td>
