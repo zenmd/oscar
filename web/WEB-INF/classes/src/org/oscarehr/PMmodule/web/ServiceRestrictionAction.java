@@ -246,14 +246,14 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        }
        if(allPrograms.size() > 0){
     	   Program program = programManager.getProgram(pcrObj.getProgramId().toString());
-    	   int defaultDays = program.getDefaultServiceRestrictionDays();
-    	   if( defaultDays < 1)
-    		   defaultDays = 1;
+    	   Integer defaultDays = program.getDefaultServiceRestrictionDays();
+    	   if( defaultDays.intValue() < 1)
+    		   defaultDays = Integer.valueOf(1);
     	   clientForm.set("serviceRestrictionLength", defaultDays);
 
     	   Integer maxDays = program.getMaximumServiceRestrictionDays();
     	   if(maxDays == null )
-    		   clientForm.set("maxLength", 0);
+    		   clientForm.set("maxLength", Integer.valueOf(0));
     	   else
     		   clientForm.set("maxLength", maxDays);
        }

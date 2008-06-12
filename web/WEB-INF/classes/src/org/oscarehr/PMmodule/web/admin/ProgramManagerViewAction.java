@@ -133,6 +133,10 @@ public class ProgramManagerViewAction extends BaseAction {
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
 
+        if (formBean.getTab() == null || formBean.getTab().equals("")) {
+            formBean.setTab("Queue");
+        }
+
         // find the program id
         String id = request.getParameter("id");
 
@@ -140,8 +144,12 @@ public class ProgramManagerViewAction extends BaseAction {
             id = (String) request.getAttribute("id");
         }
         Integer programId = Integer.valueOf(id);
-        String demographicNo = request.getParameter("clientId");
+        Program program = programManager.getProgram(programId);
+        request.setAttribute("program", program);
+        Facility facility=facilityDAO.getFacility(program.getFacilityId());
+        if(facility!=null) request.setAttribute("facilityName", facility.getName());
 
+        String demographicNo = request.getParameter("clientId");
         if (demographicNo != null) {
             request.setAttribute("clientId", demographicNo);
         }
@@ -152,82 +160,65 @@ public class ProgramManagerViewAction extends BaseAction {
         HttpSession se=request.getSession();
         String providerNo = (String)se.getAttribute("user");
         se.setAttribute("performAdmissions",hasAccess(request, programId, "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
-		        
         // need the queue to determine which tab to go to first
-        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
-        request.setAttribute("queue", queue);
-
-        HashSet genderConflict = new HashSet();
-        HashSet ageConflict = new HashSet();
-//        for (ProgramQueue programQueue : queue) {
-        for (int i=0;i<queue.size();i++) {
-        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
-            Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
-            Program program=programManager.getProgram(programQueue.getProgramId());
-            
-            if (program.getManOrWoman()!=null && demographic.getSex()!=null)
-            {
-                if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))
-                {
-                    genderConflict.add(programQueue.getClientId());
-                }
-                if ("Woman".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex()))
-                {
-                    genderConflict.add(programQueue.getClientId());
-                }
-                if ("Transgendered".equals(program.getManOrWoman()) && !"T".equals(demographic.getSex()))
-                {
-                    genderConflict.add(programQueue.getClientId());
-                }
-            }
-            
-            if (demographic != null && demographic.getAge()!=null)
-            {
-                int age=Integer.parseInt(demographic.getAge());
-                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
-            }
+        if ("Queue".equalsIgnoreCase(formBean.getTab())) {
+	        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
+	        request.setAttribute("queue", queue);
+        
+	        HashSet genderConflict = new HashSet();
+	        HashSet ageConflict = new HashSet();
+	//        for (ProgramQueue programQueue : queue) {
+	        for (int i=0;i<queue.size();i++) {
+	        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
+	            Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
+	            
+	            if (program.getManOrWoman()!=null && demographic.getSex()!=null)
+	            {
+	                if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))
+	                {
+	                    genderConflict.add(programQueue.getClientId());
+	                }
+	                if ("Woman".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex()))
+	                {
+	                    genderConflict.add(programQueue.getClientId());
+	                }
+	                if ("Transgendered".equals(program.getManOrWoman()) && !"T".equals(demographic.getSex()))
+	                {
+	                    genderConflict.add(programQueue.getClientId());
+	                }
+	            }
+	            
+	            if (demographic != null && demographic.getAge()!=null)
+	            {
+	                int age=Integer.parseInt(demographic.getAge());
+	                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
+	            }
+	        }
+	
+	        request.setAttribute("genderConflict", genderConflict);
+	        request.setAttribute("ageConflict", ageConflict);
         }
-
-        request.setAttribute("genderConflict", genderConflict);
-        request.setAttribute("ageConflict", ageConflict);
-
-        if (formBean.getTab() == null || formBean.getTab().equals("")) {
-            formBean.setTab("Quaue");
-        }
-
-        Program program = programManager.getProgram(programId);
-        request.setAttribute("program", program);
-        Facility facility=facilityDAO.getFacility(program.getFacilityId());
-        if(facility!=null) request.setAttribute("facilityName", facility.getName());
-       
-        if (formBean.getTab().equalsIgnoreCase("General")) {
-
-        }
-
-        if (formBean.getTab().equalsIgnoreCase("Service Restrictions")) {
+        else if (formBean.getTab().equalsIgnoreCase("Service Restrictions")) {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
         }
-        if (formBean.getTab().equalsIgnoreCase("Staff")) {
+        else if (formBean.getTab().equalsIgnoreCase("Staff")) {
         	processStaff( request, programId, formBean);
-            //request.setAttribute("providers", programManager.getProgramProviders("P" + programId));
         }
-
-        if (formBean.getTab().equalsIgnoreCase("Function User")) {
+        else if(formBean.getTab().equalsIgnoreCase("Function User")) {
             request.setAttribute("functional_users", programManager.getFunctionalUsers(programId.toString()));
         }
-
-        
-        if (formBean.getTab().equalsIgnoreCase("Clients")) {
+        else if (formBean.getTab().equalsIgnoreCase("Clients")) {
         	processClients( request, program, formBean);
         }
-
-        if (formBean.getTab().equalsIgnoreCase("Client Status")) {
+        else if (formBean.getTab().equalsIgnoreCase("Client Status")) {
             request.setAttribute("client_statuses", programManager.getProgramClientStatuses(programId));
         }
-        
-        if (formBean.getTab().equalsIgnoreCase("Incidents")) {
+        else if (formBean.getTab().equalsIgnoreCase("Incidents")) {
         	processIncident( request, programId.toString(), formBean);
-
+        }
+        else
+        {
+        	// General - nothing need to do
         }
 
         logManager.log("view", "program", programId.toString(), request);

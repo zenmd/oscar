@@ -77,7 +77,7 @@ public class Program implements Serializable {
     private Integer ageMin= new Integer(0);
     private Integer ageMax= new Integer(200);
     private Integer maximumServiceRestrictionDays;
-    private int defaultServiceRestrictionDays;
+    private Integer defaultServiceRestrictionDays;
     private Integer shelterId;
     private Integer facilityId;
     private String facilityDesc;
@@ -677,11 +677,11 @@ public class Program implements Serializable {
         this.maximumServiceRestrictionDays = maximumServiceRestrictionDays;
     }
 
-    public int getDefaultServiceRestrictionDays() {
+    public Integer getDefaultServiceRestrictionDays() {
         return defaultServiceRestrictionDays;
     }
 
-    public void setDefaultServiceRestrictionDays(int defaultServiceRestrictionDays) {
+    public void setDefaultServiceRestrictionDays(Integer defaultServiceRestrictionDays) {
         this.defaultServiceRestrictionDays = defaultServiceRestrictionDays;
     }
 

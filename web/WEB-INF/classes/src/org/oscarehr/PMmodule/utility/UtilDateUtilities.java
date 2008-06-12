@@ -72,10 +72,10 @@ public class UtilDateUtilities {
     }
 
     public static Date now()    {    //Today()    
-        return GregorianCalendar.getInstance().getTime();
+        return Calendar.getInstance().getTime();
     }
     public static Date  Today()  {       
-        return GregorianCalendar.getInstance().getTime();
+        return Calendar.getInstance().getTime();
     }
 
     public static Date calcDate(String s, String s1, String s2)    {

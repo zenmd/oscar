@@ -233,15 +233,4 @@ public class Utility {
         return isDST;
       } 
 
-      public static Calendar getCurrentDateTime(){
-    	  long offset = 0L;
-    	  boolean isNowatDST = checkIfNowAtDST(KeyConstants.DEFAULT_TIME_ZONE);
-    	  TimeZone iTimeZone = TimeZone.getTimeZone(KeyConstants.DEFAULT_TIME_ZONE);
-    	  Calendar iCalendar = Calendar.getInstance(iTimeZone);
-    	  if(isNowatDST){
-    		  iCalendar.add(Calendar.HOUR_OF_DAY, 1);
-    	  }
-    	   return iCalendar;
-      }
-
 }

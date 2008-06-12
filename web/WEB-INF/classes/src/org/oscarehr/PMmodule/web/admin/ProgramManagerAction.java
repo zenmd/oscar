@@ -518,10 +518,10 @@ public class ProgramManagerAction extends BaseAction {
         Program realProgram = programManager.getProgram(program.getId());
 
         Integer maxRestrictionDays = program.getMaximumServiceRestrictionDays();
-        int defaultRestrictionDays = program.getDefaultServiceRestrictionDays();
-        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0 && defaultRestrictionDays > maxRestrictionDays.intValue()) {
+        Integer defaultRestrictionDays = program.getDefaultServiceRestrictionDays();
+        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0 && defaultRestrictionDays.intValue() > maxRestrictionDays.intValue()) {
             ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", new Integer(defaultRestrictionDays), maxRestrictionDays));
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", defaultRestrictionDays, maxRestrictionDays));
             saveMessages(request, messages);
             setEditAttributes(request, String.valueOf(program.getId()));
 
