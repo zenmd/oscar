@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,17 +59,16 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   DynaActionForm clientForm = (DynaActionForm) form;
-       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	   Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-
-       ActionMessages messages = new ActionMessages();
+	   ActionMessages messages = new ActionMessages();
 	   boolean isError = false;
 	   boolean isWarning = false;
 	   Admission admObj =(Admission)clientForm.get("admission");
 	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 	   admObj.setDischargeDate(Calendar.getInstance());
+	   admObj.setLastUpdateDate(new GregorianCalendar());
 	   admObj.setProviderNo(providerNo);
-
 	   boolean isReferral=false;
 	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId().intValue()>0) {
 		   isReferral =true;
@@ -97,19 +97,21 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 		   admissionManager.updateDischargeInfo(admObj, isReferral);		  
 	   }
 */
-
+	   
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
-	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	  	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
           actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
 
+	   
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
        saveMessages(request,messages);
        
-       /* discharge */
+       /* discharge */      
+      
        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
