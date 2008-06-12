@@ -62,7 +62,7 @@ String _appPath = request.getContextPath();
 
 				<th valign="middle"><html:link
 					action="/PMmodule/Admin/UserSearch.do">
-					<img ID="lnkClient" src="<%=_appPath%>/images/Client-60.gif"
+					<img ID="lnkClient" src="<%=_appPath%>/images/Users-60.gif"
 						Height="60" Width="60" border="0" />
 				</html:link></th>
 				<th align="left" valign="middle">
@@ -78,7 +78,7 @@ String _appPath = request.getContextPath();
 
 				<th valign="middle"><html:link
 					action="/PMmodule/Admin/RoleManager.do">
-					<img ID="lnkCare1" src="<%=_appPath%>/images/Program-60.gif"
+					<img ID="lnkCare1" src="<%=_appPath%>/images/Role-60.gif"
 						Height="60" Width="60" border="0" />
 				</html:link></th>
 				<th valign="middle">
@@ -98,7 +98,7 @@ String _appPath = request.getContextPath();
 
 				<th valign="middle"><a id="orgAdd"
 					href="<c:out value='${ctx}'/>/Lookup/LookupTableList.do"> <img
-					ID="lnkCare1" src="<%=_appPath%>/images/Program-60.gif" Height="60"
+					ID="lnkCare1" src="<%=_appPath%>/images/Lookup-60.gif" Height="60"
 					Width="60" border="0" /></a></th>
 				<th valign="middle">
 				<table align="left">
@@ -115,7 +115,7 @@ String _appPath = request.getContextPath();
 				<th></th>
 				<th valign="middle"><a id="orgAdd"
 					href="<c:out value='${ctx}'/>/PMmodule/Admin/ShowORGTree.do?tableId=ORG">
-				<img ID="lnkClient" src="<%=_appPath%>/images/Client-60.gif"
+				<img ID="lnkClient" src="<%=_appPath%>/images/Org-60.gif"
 					Height="60" Width="60" border="0" /></a></th>
 				<th align="left" valign="middle">
 				<table>
@@ -133,7 +133,7 @@ String _appPath = request.getContextPath();
 				<th></th>
 				<th valign="middle">
 				<a id="lnkMergeClient"	href="<c:out value='${ctx}'/>/PMmodule/MergeClient.do"> 
-					<img ID="lnkMereg1" src="<%=_appPath%>/images/Program-60.gif" Height="60"
+					<img ID="lnkMereg1" src="<%=_appPath%>/images/ClientMerge.gif" Height="60"
 					Width="60" border="0" /></a></th>
 				<th valign="middle">
 				<table align="left">
@@ -148,7 +148,7 @@ String _appPath = request.getContextPath();
 				<th></th>
 				<th valign="middle">
 					<a id="lnkMergeClient"	href="<c:out value='${ctx}'/>/SystemMessage.do"> 
-					<img ID="lnkAddMessage1" src="<%=_appPath%>/images/Program-60.gif" Height="60"
+					<img ID="lnkAddMessage1" src="<%=_appPath%>/images/SystemMessages60.gif" Height="60"
 					Width="60" border="0" /></a>
 				</th>
 				<th valign="middle">
