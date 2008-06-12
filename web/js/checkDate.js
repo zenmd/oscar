@@ -13,6 +13,11 @@ function check_date_for_oracle(checkedDate)
 	}
 }		
 
+function openDatePickerCalendar(url){
+  if(readOnly==true) return;
+
+  window.open(url, '', 'width=310,height=310'); 
+}
 
 function check_date(checkedDateName) 
 {	
@@ -20,6 +25,9 @@ function check_date(checkedDateName)
 	// Regular expression used to check if date is in correct format
    	//var pattern = new RegExp([0-3][0-9]-0|1[0-9]-19|20[0-9]{2});
    	//pattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	 //'21-09-2007'
+   	
+   	if(readOnly==true) return;
+   	
    	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
    	var checkedDate = checkedDateObj.value;
    	if(checkedDate==''){
