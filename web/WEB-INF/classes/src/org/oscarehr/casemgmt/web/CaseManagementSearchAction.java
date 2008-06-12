@@ -54,6 +54,7 @@ import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementViewFormBean;
 import org.oscarehr.common.model.UserProperty;
 
+import com.ibm.CORBA.iiop.Request;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
@@ -494,9 +495,10 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         //searchBean.setSearchText(caseForm.getSearchText());
         searchBean.setSearchCaseStatus(caseForm.getSearchCaseStatus());
         searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
-        List results = this.caseManagementMgr.search(searchBean);
-        List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));
-        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);   
+        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        Integer shelterId =(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        List results = this.caseManagementMgr.search(searchBean,shelterId,providerNo);
+        List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));           
         // comment by lillian, it does not need apply for filter
         //List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
         

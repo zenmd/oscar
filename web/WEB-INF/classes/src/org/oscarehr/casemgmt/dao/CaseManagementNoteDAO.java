@@ -113,14 +113,10 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 	
 	 
         public List getNotesByDemographic(Integer clientId,Integer shelterId,String providerNo){
-		 List lst =null;
-        	try{
-        		lst=this.getHibernateTemplate().findByNamedQuery("mostClientRecentNotes",new Object[]{clientId,shelterId,providerNo});
-        				 
-        		}catch(Exception e){
-        			;
-        		}
-		 return lst;
+        	return this.getHibernateTemplate().findByNamedQuery("mostClientRecentNotes",new Object[]{clientId,shelterId,providerNo});        		
+        }
+        public List getNoteIdsByDemographic(Integer clientId,Integer shelterId,String providerNo){
+        	return this.getHibernateTemplate().findByNamedQuery("mostRecentNoteIds", new Object[]{clientId,shelterId,providerNo});
         }
 	 //This is the original method. It was created by CAISI, to get all notes for each client.
 	/*public List getNotesByDemographic(String demographic_no) {
@@ -194,23 +190,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		
 		if(!Utility.IsEmpty(searchBean.getSearchServiceComponent())){
 			criteria.add(Expression.eq("a1.issue_id", Integer.valueOf(searchBean.getSearchServiceComponent())));
-		}
-		/*
-		if(searchBean.getSearchRoleId() > 0) {
-			criteria.add(Expression.eq("reporter_caisi_role",String.valueOf(searchBean.getSearchRoleId())));
-		}
-		
-		if(searchBean.getSearchProgramId()>0) {
-			criteria.add(Expression.eq("program_no",String.valueOf(searchBean.getSearchProgramId())));			
-		}
-		
-		if(!Utility.IsEmpty(searchBean.getSearchServiceComponent())){
-			criteria.add(Expression.eq("issue_id", String.valueOf(searchBean.getSearchServiceComponent())));
-		}
-		if(!Utility.IsEmpty(searchBean.getSearchCaseStatus())){
-			criteria.add(Expression.eq("resolved", String.valueOf(searchBean.getSearchCaseStatus())));
-		}
-		*/
+		}		
 		try {
 			java.sql.Date startDate;
 			java.sql.Date endDate;

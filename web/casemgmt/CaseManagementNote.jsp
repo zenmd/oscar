@@ -151,7 +151,7 @@
                 elements[elements.length] = document.caseManagementEntryForm.caseNote_note;                
                        
                 // Start the spell checker
-                 startSpellCheck('jspspellcheck/',elements);
+                  startSpellCheck('<c:out value="${ctx}"/>/jspspellcheck/',elements);
                 
        }
  	function getIssueList(){

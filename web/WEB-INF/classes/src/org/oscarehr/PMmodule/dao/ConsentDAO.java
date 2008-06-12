@@ -58,6 +58,7 @@ public class ConsentDAO extends HibernateDaoSupport {
     				cdObj.setLnkAction("View");
     			}
     			if(cdObj.getStatus().equals("Withdraw"))cdObj.setLnkAction("View"); 
+    			if(cdObj.getStatus().equals("Expired"))cdObj.setLnkAction("View");
     			if (cdObj.getStartDate().getTime().getTime()<=System.currentTimeMillis() && cdObj.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
     				cdObj.setLnkAction("Withdraw");    				
     			}    			

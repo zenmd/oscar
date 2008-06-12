@@ -692,7 +692,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         if(messages.get().hasNext()){
         	return edit(mapping, form, request, response);
         }       
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",request.getContextPath()));
         saveMessages(request, messages);
 
         // are we in the new encounter and chaining actions?
@@ -873,9 +873,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
         //ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success"));
-        saveMessages(request, messages);
-
+        String url=request.getContextPath();
+        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", url));
+        saveMessages(request,messages);
+        
         noteSave(cform, request);
         cform.setMethod("view");
         return mapping.findForward("windowClose");
@@ -1571,7 +1572,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             note.setEncounter_type(bean.encType);
 
         }else if(reqStr!=null && "new".equals(reqStr)){
-        	note.setNote("\n[" + UtilDateUtilities.DateToString(UtilDateUtilities.now(), "dd-MMM-yyyy", request.getLocale()) + " .: " + "] \n");
+        	note.setNote("\n[" + UtilDateUtilities.DateToString(UtilDateUtilities.now(), "dd-MMM-yyyy HH:mm:ss", request.getLocale()) + " .: " + "] \n");
         }
 
     }

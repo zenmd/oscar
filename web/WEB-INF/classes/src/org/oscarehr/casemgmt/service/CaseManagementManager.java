@@ -626,8 +626,22 @@ public class CaseManagementManager {
         return roleManager.getRole(id).getName();
     }
 */
-    public List search(CaseManagementSearchBean searchBean) {
-        return this.caseManagementNoteDAO.search(searchBean);
+    public List search(CaseManagementSearchBean searchBean,Integer shelterId,String providerNo) {
+        List lst = new ArrayList();
+        List notes=this.caseManagementNoteDAO.search(searchBean);
+        List ids=caseManagementNoteDAO.getNoteIdsByDemographic(Integer.valueOf(searchBean.getDemographicNo()), shelterId, providerNo);
+        if(notes.size()>0){
+        	Iterator noteItems =notes.iterator();
+        	while(noteItems.hasNext()){
+        		CaseManagementNote cObj = (CaseManagementNote)noteItems.next();
+        		while(ids.iterator().hasNext()){
+        			Integer idItem =(Integer)ids.iterator().next();
+        			if(cObj.getId().intValue()==idItem.intValue()) lst.add(cObj);
+        		}
+        	}
+        }
+    	return lst;
+        
     }
     
     public void tmpSave(String providerNo, String demographicNo, String programId, String noteId, String note) {

@@ -2,6 +2,7 @@ package org.oscarehr.PMmodule.web;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -164,7 +165,9 @@ public class QuatroConsentAction extends BaseClientAction {
 	       else if(rId!=null && rId!="0"){
 	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
 	    	   TopazValue tv= topazManager.getTopazValue(consentObj.getId(),"consent");
-		       if(tv!=null){
+	    	   if(consentObj.getStatus().equals("Active") && Calendar.getInstance().after(consentObj.getEndDate()))
+   				consentObj.setStatus("Expired");
+		       if(tv!=null ||"Withdraw".equals(consentObj.getStatus()) || "Expired".equals(consentObj.getStatus())){
 		    	   request.setAttribute("signed","Y");
 		       }
 	       }

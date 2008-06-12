@@ -247,12 +247,12 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 				rt = rt + "not major" + "  ";
 			*/
 			if (1==caseStatusId.intValue())
-				rt = rt + "resolved";
+				rt = rt+"]\n[Case Status of this note " + "resolved]\n";
 			else
-				rt = rt + "unresolved";
+				rt = rt+"]\n[Case Status of this note " + "unresolved]\n";
 			
 		}
-		return rt + "]\n";
+		return rt; // + "]\n";
 	}
         
         protected CaseManagementIssue newIssueToCIssue(String demoNo, Issue iss, Integer programId) {
