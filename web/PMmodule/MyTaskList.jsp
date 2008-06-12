@@ -1,0 +1,64 @@
+<%@ include file="/taglibs.jsp"%>
+<%@ include file="/ticklerPlus/header.jsp"%>
+<script lang="javascript">
+function submitForm(methodVal) {
+  document.forms[0].method.value = methodVal;
+  document.forms[0].submit();
+}
+<table border="0" cellspacing="0" cellpadding="1" width="100%">
+<html-el:form action="/PMmodule/Task.do">
+<tr><th  class="pageTitle">My Tasks - List</th></tr>
+<input type="hidden" name="method" />
+
+<tr><td class="buttonBar"><a href='javascript:submitForm("filter");' style="color:Navy;text-decoration:none;">
+	<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;|</a>
+	<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+</td></tr>
+<tr><td align="left" class="message">
+   <logic:messagesPresent message="true">
+     <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" /></html:messages> 
+   </logic:messagesPresent>
+</td></tr>
+</html-el:form>
+
+
+
+<tr><td><br><div class="tabs">
+<table cellpadding="3" cellspacing="0" border="0">
+<tr><th>Tasks</th></tr>
+</table></div></td></tr>
+
+<tr><td>
+<display:table class="simple" cellspacing="2" cellpadding="3" id="tickler" name="ticklers" 
+                       pagesize="0"	requestURI="/PMmodule/Task.do">
+<display:setProperty name="paging.banner.placement" value="bottom" />
+<display:setProperty name="basic.msg.empty_list" value="No task found." />
+<display:column sortable="false" title="" sortProperty="priority" >
+<c:choose>
+<c:when test="${tickler.priority == 'High'}">
+<img border=0 src=<html:rewrite page="/images/importance_high.jpg"/> />
+</c:when>
+<c:when test="${tickler.priority == 'Normal'}">
+&nbsp;
+</c:when>
+<c:otherwise>
+<img border=0 src=<html:rewrite page="/images/importance_low.jpg"/> />
+</c:otherwise>
+</c:choose>
+</display:column>
+<display:column sortable="true" sortProperty="tickler_no" title="Task ID">
+ <a href="<html:rewrite action="/PMmodule/Task.do"/>?method=view&clientId=<c:out value="${clientId}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />">
+   <c:out value="${tickler.tickler_no}" /></a>
+</display:column>
+<display:column property="status" sortable="true" title="Status" />
+<display:column property="provider.formattedName" sortable="true" sortProperty="provider.lastName, provider.firstName" title="Creator" />
+<display:column property="service_date.time" sortable="true" title="Date" format="{0, date, yyyy/MM/dd HH:mm:ss}"  />
+<display:column property="assignee.formattedName" sortable="true" sortProperty="assignee.lastName"	title="Assigned To" />
+<display:column property="program.name" sortable="true"	title="Program" />
+</display:table> 
+</td></tr>
+</table>
+</body>
+</html>
+
