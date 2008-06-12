@@ -137,7 +137,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 		<td>
 			<table align="center">
 				<tr>
-					<td align="center"><img src="images/QuatroShelter-Logo.gif"></td>
+					<td align="center"><img src="images/QuatroShelter-Logo400.gif"></td>
 				</tr>
 				<tr>
 					<Td align="center"><font size="3" face="Arial">City of
@@ -166,7 +166,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 						<table cellspacing="2" border="0" style="BORDER-RIGHT:Gray 1px solid; BORDER-Top:Silver 1px solid; BORDER-LEFT:Silver 1px solid;BORDER-BOTTOM:Gray 1px solid" align="center" valing="center" background="images/Silver-background.gif"  width="70%">
 							<tr><td height="5"></td></tr>
 							<tr>
-								<td width="30%" align="right">
+								<td width="40%" align="right">
 									<font size="2" face="Arial"> <b><bean:message
 									key="loginApplication.formUserName" /> 
 								<%
@@ -179,10 +179,10 @@ if (props.getProperty("logintitle", "").equals("")) {
 			 					}
 			 					%>
 								</b></font></td>
-								<td width="40%" align="center"><font size="2"
+								<td width="20%" align="center"><font size="2"
 									face="Arial"><b><input type="text" name="username" 
-									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
-								<td width="30%">&nbsp</td>
+									size="42%" maxlength="15" autocomplete="off" /></b></font></td>
+								<td width="40%">&nbsp</td>
 							</tr>
 							<tr>
 								<td align="right"><font
@@ -190,7 +190,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 									key="loginApplication.formPwd" /></b></font></td>
 								<td align="center"><font size="2"
 									face="Arial"><b><input type="password" name="password" 
-									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
+									size="42%" maxlength="15" autocomplete="off" /></b></font></td>
 								<td>&nbsp;</td>
 							</tr>
 							<tr>
