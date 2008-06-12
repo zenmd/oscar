@@ -119,11 +119,21 @@ public class ServiceRestrictionAction  extends BaseClientAction {
     	   //String sDt = restriction.getStartDateStr();
     	   //restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 
     	   //Calendar cal2 =MyDateFormat.getCalendar(sDt);
-    	   Calendar now = Calendar.getInstance();
-    	   restriction.setStartDate(now);
-    	   Calendar cal2 = Calendar.getInstance(); 
-    	   cal2.add(Calendar.DAY_OF_MONTH, days.intValue());
-    	   restriction.setEndDate(cal2);
+    	   String startDateStr = restriction.getStartDateStr();
+    	   if(startDateStr.equals("0")){
+    		   Calendar now = Calendar.getInstance();
+    		   restriction.setStartDate(now);
+    	   
+	    	   Calendar cal2 = Calendar.getInstance(); 
+	    	   cal2.add(Calendar.DAY_OF_MONTH, days.intValue());
+	    	   restriction.setEndDate(cal2);
+    	   }else{
+    		   restriction.setStartDate(MyDateFormat.getCalendarwithTime(startDateStr));
+    		   Calendar cal2 = MyDateFormat.getCalendarwithTime(startDateStr); 
+	    	   cal2.add(Calendar.DAY_OF_MONTH, days.intValue());
+	    	   restriction.setEndDate(cal2);
+    	   }
+    	   restriction.setLastUpdateDate(Calendar.getInstance());
            clientRestrictionManager.saveClientRestriction(restriction);
            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
            saveMessages(request, messages);
@@ -182,7 +192,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		{			
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
 			
-			pcrObj.setStartDateStr(MyDateFormat.getStandardDate(pcrObj.getStartDate()));
+			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
 		}
 
        List allPrograms = programManager.getPrograms(providerNo,shelterId);
@@ -220,6 +230,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        } else if ("0".equals(rId) || rId==null) {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
+			pcrObj.setStartDateStr("0");
 			//clientForm.set("serviceRestrictionLength", new Integer(180));			
 			pcrObj.setId(null);
 			
@@ -227,7 +238,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
 			
-			pcrObj.setStartDateStr(MyDateFormat.getStandardDate(pcrObj.getStartDate()));
+			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
 		}
 
        List allPrograms = programManager.getPrograms(providerNo,shelterId);

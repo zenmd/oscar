@@ -40,8 +40,8 @@
 	
 	function validateLength() {
 		var length = document.getElementsByName("serviceRestrictionLength")[0];
-		var maxLength = document.getElementsByName("maxLength")[0].value;
-		
+		var maxLengthStr = document.getElementsByName("maxLength")[0].value;
+		var maxLength = parseInt( maxLengthStr );
 		
 		if(isNaN(length.value)){
 			length.value="";
@@ -50,14 +50,14 @@
 		}  
 	
 		if(length.value < 1 ){
-			obj.value="";
+			length.value="";
 			alert("'Length of restriction' must be greater or equal 1 day.");
 			return false;
 		}
 		
 		if(maxLength > 0 && length.value > maxLength){
-			obj.value="";
-			alert("'Length of restriction' must be less or equal " + maxLength + "days.");
+			length.value="";
+			alert("'Length of restriction' must be less or equal " + maxLength + " days.");
 			return false;
 		}
 		
@@ -163,6 +163,8 @@
 							<td width="35%">Length of restriction (in days)</td>
 							<td width="65%"><html:text size="12" maxlength="11"	property="serviceRestrictionLength" /> 
 								<html:hidden property="maxLength" />
+								<html:hidden property="serviceRestriction.startDateStr" />
+								
 								<!--  
 								(from 1 to 
 								<logic:equal name="serviceRestrictionForm" property="maxLength" value="0">

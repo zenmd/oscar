@@ -79,7 +79,7 @@
 			<!--  start of page content -->
 			<table width="100%" class="edit">
 				<tr>
-					<td><display:table class="simple" cellspacing="2"
+					<td><display:table class="simple" cellspacing="2" 
 						cellpadding="3" id="service_restriction"
 						name="serviceRestrictions" export="false" pagesize="0"
 						requestURI="/PMmodule/QuatroServiceRestriction.do">
@@ -88,8 +88,15 @@
 									ProgramClientRestriction temp = null;
 						%>
 						<display:setProperty name="paging.banner.placement" value="bottom" />
+						
+						<display:column sortable="true"	title="ID" sortProperty="id">
+							<a href="<html:rewrite action="/PMmodule/QuatroServiceRestriction.do"/>?method=edit&clientId=<c:out value="${clientId}" />&rId=<c:out value="${service_restriction.id}" />">
+								<c:out value="${service_restriction.id}" /> </a>
+						</display:column>	
+						
 						<display:column property="programDesc" sortable="true"
 							title="Program Name" />
+							
 						<display:column property="providerFormattedName"
 							sortProperty="providerFormattedName" sortable="true"
 							title="Restricted By" />

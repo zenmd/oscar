@@ -33,6 +33,7 @@ public class ProgramClientRestriction implements Serializable {
     private Provider provider;
     private String startDateStr;
     private String notes;
+    private Calendar lastUpdateDate;
 
     public String getNotes() {
 		return notes;
@@ -228,6 +229,14 @@ public class ProgramClientRestriction implements Serializable {
 
 	public void setProviderLastName(String providerLastName) {
 		this.providerLastName = providerLastName;
+	}
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 
     

@@ -35,6 +35,7 @@
         <property name="enabled" column="is_enabled" type="boolean" not-null="true"/>
         <property name="earlyTerminationProvider" column="early_termination_provider" />
         <property name="notes" column="notes" type="string" />
+        <property name="lastUpdateDate" column="lastupdatedate" />
     </class>
 </hibernate-mapping>
 
