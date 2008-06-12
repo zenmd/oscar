@@ -481,7 +481,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 		}
 		
-		if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+		if(!(isWarning || isError)){
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+		}else if(isWarning){
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.saved_with_warning"));
+		}
         saveMessages(request,messages);
 
         request.setAttribute("intakeHeadId", request.getParameter("intakeHeadId")); 
