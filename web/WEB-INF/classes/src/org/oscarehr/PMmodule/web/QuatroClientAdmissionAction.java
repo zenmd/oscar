@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.web;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -508,7 +509,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setFacilityId(shelterId);
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
-       
+       admission.setLastUpdateDate(new GregorianCalendar());
        RoomDemographic roomDemographic = clientForm.getRoomDemographic();
  	   RoomDemographicPK rdmPK= roomDemographic.getId();
  	   rdmPK.setDemographicNo(admission.getClientId());

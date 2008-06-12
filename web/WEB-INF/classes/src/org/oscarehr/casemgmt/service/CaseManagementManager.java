@@ -225,12 +225,12 @@ public class CaseManagementManager {
      *fetch notes for demographic
      *if date is set, fetch notes after specified date
      */
-    public List getNotes(String demographic_no, UserProperty prop) {
+    public List getNotes(String demographic_no, UserProperty prop,Integer shelterId,String providerNo) {
         if( prop == null )
-            return getNotes(demographic_no);
+            return getNotes(demographic_no,providerNo,shelterId) ;
         
         String staleDate = prop.getValue();
-        return caseManagementNoteDAO.getNotesByDemographic(demographic_no, staleDate);
+        return caseManagementNoteDAO.getNotesByDemographic(Integer.valueOf(demographic_no), staleDate,shelterId,providerNo);
     }
     
     /*
@@ -245,8 +245,8 @@ public class CaseManagementManager {
         return caseManagementNoteDAO.getNotesByDemographic(demographic_no, issues, staleDate);
     }
 
-    public List getNotes(String demographic_no) {
-        return caseManagementNoteDAO.getNotesByDemographic(demographic_no);
+    public List getNotes(String demographic_no,String providerNo,Integer shelterId) {
+        return caseManagementNoteDAO.getNotesByDemographic(Integer.valueOf(demographic_no),shelterId,providerNo);
     }
 
     public List getNotes(String demographic_no, String[] issues) {
@@ -516,8 +516,8 @@ public class CaseManagementManager {
     }
 
     /* get the filtered Notes by caisi role */
-    public List getFilteredNotes(String providerNo, String demographic_no) {
-        List allNotes = caseManagementNoteDAO.getNotesByDemographic(demographic_no);
+    public List getFilteredNotes(String providerNo, String demographic_no,Integer shelterId) {
+        List allNotes = caseManagementNoteDAO.getNotesByDemographic(Integer.valueOf(demographic_no),shelterId,providerNo);
         List roles = secroleDao.getRoles();
         List filteredNotes = new ArrayList();
         Iterator itr = allNotes.iterator();
@@ -546,8 +546,8 @@ public class CaseManagementManager {
         return filteredNotes;
     }
 
-    public boolean haveIssue(Integer issid, String demoNo) {
-        List allNotes = caseManagementNoteDAO.getNotesByDemographic(demoNo);
+    public boolean haveIssue(Integer issid, String demoNo,String providerNo,Integer shelterId) {
+        List allNotes = caseManagementNoteDAO.getNotesByDemographic(Integer.valueOf(demoNo),shelterId,providerNo);
         Iterator itr = allNotes.iterator();
         while (itr.hasNext()) {
             CaseManagementNote note = (CaseManagementNote)itr.next();

@@ -94,5 +94,7 @@
         <property name="programId" type="java.lang.Integer">
             <column name="PROGRAM_ID" precision="10" scale="0" />
         </property>
+        <property name="lastUpdateUser" column="lastupdateuser"></property>
+        <property name="lastUpdateDate" column="lastupdatedate"></property>
     </class>
 </hibernate-mapping>

@@ -61,6 +61,7 @@ public class ConsentDetail implements Serializable {
 	private Integer programId;
 	private String programName;
 	private String lnkAction;
+	private Calendar lastUpdateDate;
 
 	public String getLnkAction() {
 		return lnkAction;
@@ -346,5 +347,13 @@ public class ConsentDetail implements Serializable {
 
 	public void setProgramName(String programName) {
 		this.programName = programName;
+	}
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 }

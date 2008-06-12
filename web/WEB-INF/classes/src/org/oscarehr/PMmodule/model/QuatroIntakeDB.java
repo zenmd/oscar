@@ -19,8 +19,17 @@ public class QuatroIntakeDB implements Serializable {
     private String programType;
     private Integer referralId;
     private Integer queueId;
+    private Calendar lastUpdateDate;
 
-    public boolean equals(Object obj) {
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public boolean equals(Object obj) {
         if (null == obj)
             return false;
         if (!(obj instanceof QuatroIntakeDB))

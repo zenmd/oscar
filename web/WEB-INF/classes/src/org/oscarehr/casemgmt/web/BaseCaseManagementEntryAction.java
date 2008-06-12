@@ -51,6 +51,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 import com.quatro.util.*;
 import org.oscarehr.PMmodule.web.BaseClientAction;
@@ -130,7 +131,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	protected String getProviderNo(HttpServletRequest request) {
 		String providerNo = request.getParameter("providerNo");
 		if (Utility.IsEmpty(providerNo)) {
-			providerNo = (String) request.getSession().getAttribute("user");
+			providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		}
 		return providerNo;
 	}

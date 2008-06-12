@@ -13,5 +13,7 @@
 		<property name="relationship" column="relationship" />
 		<property name="joinFamilyDate" column="join_family_date" type="calendar" />
 		<property name="leaveFamilyDate" column="leave_family_date" type="calendar" />
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

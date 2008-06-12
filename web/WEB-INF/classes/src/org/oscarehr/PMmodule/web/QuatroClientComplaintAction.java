@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -203,11 +204,12 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			Calendar c = MyDateFormat.getCalendar(str);
 			complaint.setCreatedDate(c);
 		}
-		
+		String providerNo=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		// checkboxes
 		String isChecked = complaintForm.getIsStandards();
 		complaint.setStandardsRelated("on".equals(isChecked));
-		
+		complaint.setLastUpdateUser(providerNo);
+		complaint.setLastUpdateDate(new GregorianCalendar());
 		if(complaint.isStandardsRelated()){
 			
 			String[] standards1 = complaint.getStandards1();

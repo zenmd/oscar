@@ -225,13 +225,14 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         // check to see if there is an unsaved note
         // if there is see if casemanagemententry has already handled it
         // if it has, disregard unsaved note; if it has not then set attribute
+        /*
         CaseManagementTmpSave tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo, demoNo, programId);
         if (tmpsavenote != null) {
             String restoring = (String) se.getAttribute("restoring");
             if (restoring == null) request.setAttribute("can_restore", new Boolean(true));
             else se.setAttribute("restoring", null);
         }
-
+		*/
         // fetch and set cpp display dimensions
         /*EncounterWindow ectWin = this.caseManagementMgr.getEctWin(providerNo);
         if (ectWin == null) {
@@ -279,7 +280,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             // filter the notes by the checked issues and date if set
             UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
             String[] checked_issues = request.getParameterValues("check_issue");
-            
+            Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
             if (checked_issues != null && checked_issues[0].trim().length() > 0) {
                 // need to apply a filter
                 request.setAttribute("checked_issues", checked_issues);
@@ -289,7 +290,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             }
             else {
             	 if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
-            	 else notes = caseManagementMgr.getNotes(this.getDemographicNo(request), userProp);
+            	 else notes = caseManagementMgr.getNotes(this.getDemographicNo(request), userProp,shelterId,providerNo);
                 notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
             }
 
@@ -358,9 +359,10 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         caseForm.setCpp(cpp);
 
         /* get allergies */
+        /*
         List allergies = this.caseManagementMgr.getAllergies(this.getDemographicNo(request));
         request.setAttribute("Allergies", allergies);
-
+		*/
                /* set form value for e-chart */
 
         Locale vLocale = (Locale) se.getAttribute(org.apache.struts.Globals.LOCALE_KEY);

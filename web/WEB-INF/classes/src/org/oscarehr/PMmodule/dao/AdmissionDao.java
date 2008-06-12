@@ -258,13 +258,13 @@ public class AdmissionDao extends HibernateDaoSupport {
 
     	sSQL="update Admission q set q.communityProgramCode=?," + 
         "q.dischargeDate=?, q.admissionStatus=?, q.dischargeReason=?, " +
-        "q.transportationType=?, q.dischargeNotes=? where q.id=?";
+        "q.transportationType=?, q.dischargeNotes=?,q.lastUpdateDate=?,q.providerNo=? where q.id=?";
 
         getHibernateTemplate().bulkUpdate(sSQL, 
 			new Object[]{admission.getCommunityProgramCode(),  
 				admission.getDischargeDate(), admission.getAdmissionStatus(),
 				admission.getDischargeReason(), admission.getTransportationType(),
-				admission.getDischargeNotes(), admission.getId()});
+				admission.getDischargeNotes(),admission.getLastUpdateDate(),admission.getProviderNo(), admission.getId()});
     }
 }
 

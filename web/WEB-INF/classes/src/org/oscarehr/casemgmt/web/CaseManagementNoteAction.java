@@ -78,6 +78,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         String demono = (String)actionParam.get("clientId");
         request.setAttribute("client", clientManager.getClientByDemographicNo(demono));
         String providerNo = getProviderNo(request);
+        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         Boolean restore = (Boolean) request.getAttribute("restore");
         String programId = (String) request.getSession().getAttribute("case_program_id");
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
@@ -267,7 +268,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             checkedList[i] = new CheckBoxBean();
             CaseManagementIssue iss = (CaseManagementIssue) issues.get(i);
             checkedList[i].setIssue(iss);
-            checkedList[i].setUsed(caseManagementMgr.haveIssue(iss.getId(), demono));
+            checkedList[i].setUsed(caseManagementMgr.haveIssue(iss.getId(), demono,providerNo,shelterId));
 
         }
       
@@ -1476,9 +1477,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
     public CaseManagementNote getLastSaved(HttpServletRequest request, String demono, String providerNo) {
         CaseManagementNote note = null;
         List notes = null;
-
+        Integer shelterId =(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         UserProperty prop = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
-        notes = caseManagementMgr.getNotes(demono, prop);
+        notes = caseManagementMgr.getNotes(demono, prop,shelterId,providerNo);
         notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
 
         String programId = (String) request.getSession().getAttribute("case_program_id");

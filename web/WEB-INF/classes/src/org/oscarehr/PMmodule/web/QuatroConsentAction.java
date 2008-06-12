@@ -246,7 +246,8 @@ public class QuatroConsentAction extends BaseClientAction {
 		String eDt = consent.getEndDateStr();
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consent.setHardCopy(true);
-		consent.setStatus("Active");		
+		consent.setStatus("Active");
+		consent.setLastUpdateDate(new GregorianCalendar());
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		if(Utility.IsEmpty(consent.getEndDateStr()) ||null== consent.getEndDate()){
 			isError =true;

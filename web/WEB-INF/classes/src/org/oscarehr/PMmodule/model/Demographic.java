@@ -82,7 +82,7 @@ public class Demographic implements Serializable {
     private String effDateTxt;
     private String links;
     private DemographicExt[] extras;
-
+    
     private String alias;    
     private String previousAddress;
     private String children;
@@ -96,7 +96,9 @@ public class Demographic implements Serializable {
     private int activeCount = 0;
     private int hsAlertCount = 0;
     private boolean merged=false;
-
+    
+    private Calendar lastUpdateDate;
+    
     public static final String ConsentGiven_ALL="ALL";
     public static final String ConsentGiven_CIRCLE_OF_CARE="CIRCLE_OF_CARE";
     public static final String ConsentGiven_EMPI="EMPI";
@@ -914,6 +916,18 @@ public class Demographic implements Serializable {
 
 	public void setBenefitUnitStatus(String benefitUnitStatus) {
 		this.benefitUnitStatus = benefitUnitStatus;
+	}
+
+
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 
 

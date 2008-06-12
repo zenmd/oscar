@@ -37,8 +37,26 @@ public class QuatroIntakeFamily implements Serializable{
     private String serviceRestriction;
 
     private String effDate;
+    private Calendar lastUpdateDate;
+    private String lastUpdateUser;
     
-    public QuatroIntakeFamily(){
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
+	public QuatroIntakeFamily(){
     	this.select="sel";
     }
 

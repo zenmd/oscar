@@ -2,6 +2,7 @@ package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import com.quatro.model.LookupCodeValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 
+import org.jfree.chart.renderer.category.GanttRenderer;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
@@ -417,6 +419,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        intakeFamilyHead.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
        intakeFamilyHead.setRelationship(KeyConstants.FAMILY_HEAD_CODE);
        intakeFamilyHead.setJoinFamilyDate(headIntake.getCreatedOn());
+       intakeFamilyHead.setLastUpdateUser(providerNo);
+       intakeFamilyHead.setLastUpdateDate(new GregorianCalendar());
        intakeManager.saveQuatroIntakeFamilyHead(intakeFamilyHead);
 
        //delete removed family memeber from family intake.
@@ -439,6 +443,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          client.setSex(intakeFamily.getSex());
          client.setAlias(intakeFamily.getAlias());
          client.setProviderNo(providerNo);
+         client.setLastUpdateDate(new GregorianCalendar());
          client.setEffDate(MyDateFormat.getCalendar(intakeFamily.getEffDate()).getTime());
          
      	 //check if this client has any existing active intake with same program before create new intake
@@ -453,8 +458,9 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 intake.setId(intakeFamily.getIntakeId());
      	 intake.setProgramId(headIntake.getProgramId());
      	 //copy head intake to new client intake
+    
      	 if(intake.getId().intValue()==0){
-     	   intake.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+     	 //  intake.setStaffId(providerNo);
      	   intake.setCreatedOn(Calendar.getInstance());
        	   intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 
@@ -472,6 +478,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 }else{
            intake.setIntakeStatus(headIntake.getIntakeStatus());
      	 }
+     	 intake.setStaffId(providerNo);
+     	 intake.setLastUpdateDate(new GregorianCalendar());
      	 intake.setReferralId(headIntake.getReferralId());
 //     	 intake.setQueueId(headIntake.getQueueId());
      	 intake.setQueueId(new Integer(0));
@@ -479,6 +487,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
      	 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
      	 intakeFamily.setIntakeHeadId(headIntake.getId());
+     	 intakeFamily.setLastUpdateUser(providerNo);
+     	 intakeFamily.setLastUpdateDate(new GregorianCalendar());
      	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, intake, newClient_intakeDBExist, intakeFamily);
      	 intakeFamily.setIntakeId((Integer)lst2.get(1));
      	 intakeFamily.setClientId((Integer)lst2.get(2));

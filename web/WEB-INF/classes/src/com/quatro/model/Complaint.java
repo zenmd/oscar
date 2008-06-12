@@ -53,7 +53,8 @@ public class Complaint  implements java.io.Serializable {
      private String date4x;
      private String completedDatex;
      private String createdDatex;
-     
+     private String lastUpdateUser;
+     private Calendar lastUpdateDate;
      
     // Constructors
 /*
@@ -408,6 +409,30 @@ public class Complaint  implements java.io.Serializable {
 
 	public void setStandardsRelated(boolean standardsRelated) {
 		this.standardsRelated = standardsRelated;
+	}
+
+
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
 	}
 
 

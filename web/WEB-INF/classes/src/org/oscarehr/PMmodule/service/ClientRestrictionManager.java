@@ -165,12 +165,12 @@ public class ClientRestrictionManager {
         if (x != null) {
             x.setEarlyTerminationProvider(providerNo);
             x.setEndDate(new GregorianCalendar());
+            x.setLastUpdateDate(new GregorianCalendar());
             programClientRestrictionDAO.save(x);
         }
     }
 
-    public void disableClientRestriction(Integer restrictionId) {
-        ProgramClientRestriction pcr = programClientRestrictionDAO.find(restrictionId);
+    public void disableClientRestriction(ProgramClientRestriction pcr) {        
         pcr.setEnabled(false);
         try {
             saveClientRestriction(pcr);
@@ -181,8 +181,8 @@ public class ClientRestrictionManager {
         }
     }
 
-    public void enableClientRestriction(Integer restrictionId) {
-        ProgramClientRestriction pcr = programClientRestrictionDAO.find(restrictionId);
+    public void enableClientRestriction(ProgramClientRestriction pcr) {
+        
         pcr.setEnabled(true);
         try {
             saveClientRestriction(pcr);

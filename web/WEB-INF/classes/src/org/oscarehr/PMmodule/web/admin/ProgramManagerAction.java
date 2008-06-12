@@ -25,6 +25,7 @@ package org.oscarehr.PMmodule.web.admin;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,7 @@ public class ProgramManagerAction extends BaseAction {
         String searchType = (String) programForm.get("searchType");
         String searchFacilityId = (String) programForm.get("searchFacilityId");
 
-        String providerNo = (String)request.getSession().getAttribute("user");
+        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
    		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         
         List list =  null;
@@ -538,7 +539,7 @@ public class ProgramManagerAction extends BaseAction {
         ProgramSignature programSignature = new ProgramSignature();
         programSignature.setProgramId(program.getId());
         programSignature.setProgramName(realProgram.getName());
-        String providerNo = (String)request.getSession().getAttribute("user");
+        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         programSignature.setProviderId(providerNo);
         programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
 //        programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
@@ -1173,7 +1174,7 @@ public class ProgramManagerAction extends BaseAction {
         }else{
 	        // signature part
 	        HttpSession se=request.getSession();
-	        String providerNo = (String)se.getAttribute("user");
+	        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	        ProgramSignature ps = new ProgramSignature();
 	        ps.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
 	        ps.setProviderId(providerNo);
@@ -1308,7 +1309,10 @@ public class ProgramManagerAction extends BaseAction {
         DynaActionForm programForm = (DynaActionForm) form;
 
         ProgramClientRestriction prc = (ProgramClientRestriction) programForm.get("restriction");
-        clientRestrictionManager.disableClientRestriction(prc.getId());
+        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        prc.setProviderNo(providerNo);
+        prc.setLastUpdateDate(new GregorianCalendar());
+        clientRestrictionManager.disableClientRestriction(prc);
 
         return edit(mapping, form, request, response);
     }
@@ -1317,7 +1321,10 @@ public class ProgramManagerAction extends BaseAction {
         DynaActionForm programForm = (DynaActionForm) form;
 
         ProgramClientRestriction prc = (ProgramClientRestriction) programForm.get("restriction");
-        clientRestrictionManager.enableClientRestriction(prc.getId());
+        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        prc.setProviderNo(providerNo);
+        prc.setLastUpdateDate(new GregorianCalendar());
+        clientRestrictionManager.enableClientRestriction(prc);
 
         return edit(mapping, form, request, response);
     }

@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.web;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -310,7 +311,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         
     	Demographic client= qform.getClient();
     	QuatroIntake obj= qform.getIntake();
-    	
+    	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	//check for new client duplication
     	if(obj.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N")){
     	   ClientSearchFormBean criteria = new ClientSearchFormBean();
@@ -339,6 +340,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
 		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
 		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
+		client.setProviderNo(providerNo);
+		client.setLastUpdateDate(new GregorianCalendar());
 		if(qform.getClient().getEffDateTxt().equals("")){
 		  client.setEffDate(new Date());
 		}else{
@@ -446,7 +449,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		obj.setVeteranNoYN(request.getParameter("intake.veteranNoYN"));
 		obj.setRecordLandingYN(request.getParameter("intake.recordLandingYN"));
 		obj.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
-        
+        obj.setStaffId(providerNo);
+        obj.setLastUpdateDate(new GregorianCalendar());
         LookupCodeValue language = new LookupCodeValue();
         language.setCode(request.getParameter("language_code"));
         language.setDescription(request.getParameter("language_description"));
@@ -457,7 +461,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		qform.setOriginalCountry(originalCountry);
 		
         Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-        String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        
 		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(),providerNo, shelterId).size()>0){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
           			request.getContextPath()));

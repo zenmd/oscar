@@ -25,8 +25,10 @@ package org.oscarehr.casemgmt.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 //TODO import java.util.UUID;
 import com.ibm.ws.util.UUID;
@@ -39,9 +41,12 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.dao.MergeClientDao;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.util.*;
 
 import oscar.MyDateFormat;
@@ -91,39 +96,59 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
                 d = cal.getTime();
                 e.printStackTrace();
             }
-            String hql = "select distinct cmn from CaseManagementNote cmn join cmn.issues i where i.issue_id in (" + list + ") and cmn.demographic_no = ?  and cmn.id in (select max(cmn.id) from cmn where cmn.observation_date >= ? GROUP BY uuid) ORDER BY cmn.observation_date asc";            
+            String clientIds =mergeClientDao.getMergedClientIds(Integer.valueOf(demographic_no));
+            String hql = "select distinct cmn from CaseManagementNote cmn join cmn.issues i where i.issue_id in (" + list + ") and cmn.demographic_no in "+clientIds+"  and cmn.id in (select max(cmn.id) from cmn where cmn.observation_date >= ? GROUP BY uuid) ORDER BY cmn.observation_date asc";            
              
           
-            List result=getHibernateTemplate().find(hql,new Object[] {demographic_no,d});
+            List result=getHibernateTemplate().find(hql,d);
             return result;
         }
+               
         
-        public List getNotesByDemographic(String demographic_no, String staleDate) {
-        	if (OscarProperties.getInstance().getDbType().equals("oracle")) {
-        		return this.getHibernateTemplate().findByNamedQuery("mostRecentTimeOra", new Object[] {demographic_no, staleDate});
-        	}
-        	else
-        	{
-                return this.getHibernateTemplate().findByNamedQuery("mostRecentTime", new Object[] {demographic_no, staleDate});
-        	}
+        public List getNotesByDemographic(Integer clientId, String staleDate,Integer shelterId,String providerNo) {
+        	return this.getHibernateTemplate().findByNamedQuery("mostRecentNotes",new Object[]{clientId,staleDate,shelterId,providerNo});
         }
 	
 	//This was created by OSCAR. if all notes' UUID are same like null, it will only get one note.
-	 public List getNotesByDemographic(String demographic_no) {            
-     	if (OscarProperties.getInstance().getDbType().equals("oracle")) {
-           return this.getHibernateTemplate().findByNamedQuery("mostRecentOra", new Object[] {demographic_no});
-     	}
-     	else
-     	{
-            return this.getHibernateTemplate().findByNamedQuery("mostRecent", new Object[] {demographic_no});
-     	}
-	}
 	
+	 
+        public List getNotesByDemographic(Integer clientId,Integer shelterId,String providerNo){
+		 List lst =null;
+        	try{
+        		lst=this.getHibernateTemplate().findByNamedQuery("mostClientRecentNotes",new Object[]{clientId,shelterId,providerNo});
+        				 
+        		}catch(Exception e){
+        			;
+        		}
+		 return lst;
+        }
 	 //This is the original method. It was created by CAISI, to get all notes for each client.
 	/*public List getNotesByDemographic(String demographic_no) {
 		return this.getHibernateTemplate().find("from CaseManagementNote cmn where cmn.demographic_no = ? ORDER BY cmn.update_date DESC", new Object[] {demographic_no});
-	}*/
+	}
+	 public List getNotesByDemographic(String demographic_no, String staleDate) {
+     	if (OscarProperties.getInstance().getDbType().equals("oracle")) {
+     		return this.getHibernateTemplate().findByNamedQuery("mostRecentTimeOra", new Object[] {demographic_no, staleDate});
+     	}
+     	else
+     	{
+             return this.getHibernateTemplate().findByNamedQuery("mostRecentTime", new Object[] {demographic_no, staleDate});
+     	}
+     }
+     */
 	
+	//This was created by OSCAR. if all notes' UUID are same like null, it will only get one note.
+	/*
+    public List getNotesByDemographic(String demographic_no) {            
+		  	if (OscarProperties.getInstance().getDbType().equals("oracle")) {
+		        return this.getHibernateTemplate().findByNamedQuery("mostRecentOra", new Object[] {demographic_no});
+		  	}
+		  	else
+		  	{
+		         return this.getHibernateTemplate().findByNamedQuery("mostRecent", new Object[] {demographic_no});
+		  	}
+	}
+	*/
 	public List getNotesByDemographic(String demographic_no,String[] issues) {
             String list = null;
             if(issues != null && issues.length>0) {
@@ -136,8 +161,9 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
                     }
             }
             //String hql = "select distinct cmn from CaseManagementNote cmn where cmn.demographic_no = ? and cmn.issues.issue_id in (" + list + ") and cmn.id in (select max(cmn.id) from cmn GROUP BY uuid) ORDER BY cmn.observation_date asc";
-            String hql = "select distinct cmn from CaseManagementNote cmn join cmn.issues i where i.issue_id in (" + list + ") and cmn.demographic_no = ? and cmn.id in (select max(cmn.id) from cmn GROUP BY uuid) ORDER BY cmn.observation_date asc";
-            return this.getHibernateTemplate().find(hql,demographic_no);
+            String clientIds =mergeClientDao.getMergedClientIds(Integer.valueOf(demographic_no));
+            String hql = "select distinct cmn from CaseManagementNote cmn join cmn.issues i where i.issue_id in (" + list + ") and cmn.demographic_no in "+clientIds+" and cmn.id in (select max(cmn.id) from cmn GROUP BY uuid) ORDER BY cmn.observation_date asc";
+            return this.getHibernateTemplate().find(hql);
 	}
 
 	public void saveNote(CaseManagementNote note) {

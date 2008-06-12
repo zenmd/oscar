@@ -83,8 +83,15 @@ public class QuatroIntake {
 
     private Integer referralId;
     private Integer queueId;
+    private Calendar lastUpdateDate;
 
-    public String getAboriginal() {
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+	public String getAboriginal() {
 		return aboriginal;
 	}
 	public void setAboriginal(String aboriginal) {

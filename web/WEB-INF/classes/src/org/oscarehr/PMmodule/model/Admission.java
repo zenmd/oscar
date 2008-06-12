@@ -53,6 +53,7 @@ public class Admission implements Serializable, Cloneable {
 	private String ovPassEndDateTxt;
     private String notSignReason;
     private String admissionNotes;
+    private Calendar lastUpdateDate;
     
     private String bedName;
     private Integer intakeHeadId;
@@ -344,6 +345,14 @@ public class Admission implements Serializable, Cloneable {
 
 	public void setIntakeHeadId(Integer intakeHeadId) {
 		this.intakeHeadId = intakeHeadId;
+	}
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 	
 }
