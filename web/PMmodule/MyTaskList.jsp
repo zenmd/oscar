@@ -5,8 +5,9 @@ function submitForm(methodVal) {
   document.forms[0].method.value = methodVal;
   document.forms[0].submit();
 }
-<table border="0" cellspacing="0" cellpadding="1" width="100%">
+</script>
 <html-el:form action="/PMmodule/Task.do">
+<table border="0" cellspacing="0" cellpadding="1" width="100%">
 <tr><th  class="pageTitle">My Tasks - List</th></tr>
 <input type="hidden" name="method" />
 
@@ -20,7 +21,24 @@ function submitForm(methodVal) {
      <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" /></html:messages> 
    </logic:messagesPresent>
 </td></tr>
-</html-el:form>
+
+<tr><td><table class="simple" cellspacing="2" cellpadding="3">
+<tr><td width="30%">Service Date Range:</td>
+<td width="5%">Begin:</td>
+<td width="20%"><quatro:datePickerTag property="filter.startDate" openerForm="ticklerForm" width="90%" /></td>
+<td width="5%">End:</td>
+<td width="40%"><quatro:datePickerTag property="filter.endDate" openerForm="ticklerForm" width="45%" /></td></tr>
+<tr><td colspan="2">Status: <html:select property="filter.status">
+	<html:option value="">All</html:option>
+	<html:option value="Active">Active</html:option>
+	<html:option value="Complated">Completed</html:option>
+</html:select></td>
+<td colspan="3">Program: <html:select property="filter.provider_no">
+	<html:option value="">All</html:option>
+    <html:optionsCollection property="programLst" value="id" label="name"/>
+</html:select></td></tr>
+</table>
+</td></tr>
 
 
 
@@ -48,7 +66,7 @@ function submitForm(methodVal) {
 </c:choose>
 </display:column>
 <display:column sortable="true" sortProperty="tickler_no" title="Task ID">
- <a href="<html:rewrite action="/PMmodule/Task.do"/>?method=view&clientId=<c:out value="${clientId}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />">
+ <a href="<html:rewrite action="/PMmodule/Task.do"/>?method=view&clientId=<c:out value="${tickler.demographic_no}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />">
    <c:out value="${tickler.tickler_no}" /></a>
 </display:column>
 <display:column property="status" sortable="true" title="Status" />
@@ -59,6 +77,7 @@ function submitForm(methodVal) {
 </display:table> 
 </td></tr>
 </table>
+</html-el:form>
 </body>
 </html>
 

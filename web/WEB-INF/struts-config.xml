@@ -857,6 +857,8 @@
          <action path="/PMmodule/Task" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="ticklerForm" >
             <forward name="list" path="page.pmm.task.list" />
             <forward name="add" path="page.pmm.task.new" />
+            <forward name="mytask_filter" path="page.mytask.list" />
+            <forward name="mytask_edit" path="page.mytask.edit" />
         </action>
         <action path="/PMmodule/ShowFile" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="attachmentForm" >
             <forward name="view" path="/PMmodule/ShowFile.jsp" />            

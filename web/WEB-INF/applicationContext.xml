@@ -150,7 +150,6 @@
 	<bean id="roleDAO" class="org.oscarehr.PMmodule.dao.RoleDAO" autowire="byName" />
     -->
 	<bean id="CaseManagementTmpSaveDAO" class="org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO" autowire="byName"/>
-    <bean id="ticklerDAO" class="org.oscarehr.casemgmt.dao.TicklerDAO" autowire="byName"/>
     <bean id="programFunctionalUserDAO" class="org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO" autowire="byName"/>
 <!-- 
     <bean id="programAccessDAO" class="org.oscarehr.PMmodule.dao.ProgramAccessDAO" autowire="byName"/>
@@ -165,7 +164,7 @@
     <bean id="programSignatureDao" class="org.oscarehr.PMmodule.dao.ProgramSignatureDao" autowire="byName"/>
     <bean id="consultationDAOT" class="org.caisi.dao.ConsultationDAO" autowire="byName" />
     <bean id="chartDAOT" class="org.caisi.dao.EChartDAO" autowire="byName" />
-    <bean id="ticklerDAOT" class="org.caisi.dao.TicklerDAO" autowire="byName"/>
+    <bean id="ticklerDAO" class="org.caisi.dao.TicklerDAO" autowire="byName"/>
     <bean id="customFilterDAOT" class="org.caisi.dao.CustomFilterDAO" autowire="byName"/>
     <bean id="systemMessageDAO" class="org.caisi.dao.SystemMessageDAO" autowire="byName"/>
     <bean id="HashAuditDAO" class="org.oscarehr.casemgmt.dao.HashAuditDAO" autowire="byName"/>
@@ -376,7 +375,7 @@
         </property>
     </bean>
 	-->
-
+<!-- 
     <bean id="ticklerManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
         <property name="target" ref="ticklerManagerTarget"/>
@@ -386,9 +385,10 @@
             </props>
         </property>
     </bean>
-    <bean id="ticklerManagerTarget" class="org.oscarehr.casemgmt.service.TicklerManager" autowire="byName" > 
-    	
+    <bean id="ticklerManagerTarget" class="org.caisi.service.TicklerManager" autowire="byName" > 
     </bean>
+-->
+     
     <bean id="ClientImageManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
         <property name="target" ref="ClientImageManagerTarget"/>
@@ -451,9 +451,9 @@
  -->
  
     <!-- TicklerPlus managers -->
-    <bean id="ticklerManagerT" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <bean id="ticklerManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
-        <property name="target" ref="ticklerManagerTargetT"/>
+        <property name="target" ref="ticklerManagerTarget"/>
         <property name="transactionAttributes">
             <props>
                 <prop key="save*">PROPAGATION_REQUIRED</prop>
@@ -462,8 +462,8 @@
             </props>
         </property>
     </bean>
-    <bean id="ticklerManagerTargetT" class="org.caisi.service.TicklerManager">
-        <property name="ticklerDAO" ref="ticklerDAOT"/>
+    <bean id="ticklerManagerTarget" class="org.caisi.service.TicklerManager">
+        <property name="ticklerDAO" ref="ticklerDAO"/>
         <property name="customFilterDAO" ref="customFilterDAOT"/>
         <property name="programManager" ref="programManager"/>
         <property name="caseManagementManager" ref="caseManagementManager"/>

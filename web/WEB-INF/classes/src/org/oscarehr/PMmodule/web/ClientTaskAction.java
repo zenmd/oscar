@@ -39,6 +39,28 @@ public class ClientTaskAction extends BaseClientAction{
         return list(mapping, form, request, response);
     }
 
+    //for My Task
+    public ActionForward filter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TicklerForm ticklerForm = (TicklerForm) form;
+
+    	Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
+        String providerNo = (String)request.getSession().getAttribute("user");
+        
+        List programs=programManager.getBedPrograms(providerNo, shelterId);
+        ticklerForm.setProgramLst(programs);
+        
+        List ticklers = ticklerManager.getTicklers(null, shelterId, providerNo);
+
+        request.setAttribute("ticklers", ticklers);
+        
+        return mapping.findForward("mytask_filter");
+    }
+
+    public ActionForward mytaskedit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TicklerForm ticklerForm = (TicklerForm) form;
+        return mapping.findForward("mytask_edit");
+    }
+    
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
 
@@ -54,7 +76,8 @@ public class ClientTaskAction extends BaseClientAction{
         String providerNo = (String)request.getSession().getAttribute("user");
         
         List programs=programManager.getBedPrograms(providerNo, shelterId);
-        request.setAttribute("programs", programs);
+        ticklerForm.setProgramLst(programs);
+//        request.setAttribute("programs", programs);
         
         
         List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
@@ -63,7 +86,7 @@ public class ClientTaskAction extends BaseClientAction{
         
         return mapping.findForward("list");
     }
-
+    
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
     	

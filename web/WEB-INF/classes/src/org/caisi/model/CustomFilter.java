@@ -32,73 +32,48 @@ import java.util.Set;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 
-/**
-* Object representation of 'custom_filter' table in OSCAR
-* @author Marc Dumontier <a href="mailto:marc@mdumontier.com">marc@mdumontier.com</a>
-*
-*/
 public class CustomFilter extends BaseObject {
-	/* standard stuff */
 	private Integer id;
 	private String name;
 	private String demographic_no;
-	private String demographic_webName;
 	
 	private Date start_date;
 	private Date end_date;
-	
-	private String sort_order;
-	
 	private String startDate;
 	private String endDate;
 	private String status;
 	private String priority;
 	
 	private Set providers;
-	private Set assignees;
 	private Program program;
 	
 	private String custom;
-	
 	private String client;
 	
 	public static List statusList;
 	public static List priorityList;
 	
-	
 	private String provider_no;        
-    private boolean shortcut;
 	private String programId;
 	
 	static {
 		priorityList = new ArrayList();
-		//priorityList.add(new OptionsBean(""));
 		priorityList.add(new OptionsBean("Normal"));
 		priorityList.add(new OptionsBean("High"));
 		priorityList.add(new OptionsBean("Low"));
 		
 		statusList = new ArrayList();
-		//statusList.add(new OptionsBean("",""));
-		statusList.add(new OptionsBean("Active","A"));
-		statusList.add(new OptionsBean("Completed","C"));
-		statusList.add(new OptionsBean("Deleted","D"));
+		statusList.add(new OptionsBean("Active","Active"));
+		statusList.add(new OptionsBean("Completed","Complated"));
 	}
 	
 	public CustomFilter() {
 		providers = new HashSet();
-		assignees = new HashSet();
-		setStatus("A");
+		setStatus("Active");
 		setPriority("Normal");
 		this.setEnd_date(new Date());
-		setSort_order("asc");
 	}
-	
-	public Set getAssignees() {
-		return assignees;
-	}
-	public void setAssignees(Set assignees) {
-		this.assignees = assignees;
-	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -133,22 +108,21 @@ public class CustomFilter extends BaseObject {
 		this.status = status;
 	}
 	
-	/* have to do this */
 	public void setStartDate(String data) {
 		if(data == null || data.length()==0) {
-			data = "1900-01-01";
+			data = "1900/01/01";
 		}
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			setStart_date(formatter.parse(data));
 		}catch(Exception e) {
-			throw new IllegalArgumentException("Invalid service date, use yyyy-MM-dd");
+			throw new IllegalArgumentException("Invalid service date, use yyyy/MM/dd");
 		}
 	}
 	
 	public String getStartDate() {
 		if(getStart_date() != null) {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 			return formatter.format(getStart_date());
 		}
 		return "";
@@ -156,19 +130,19 @@ public class CustomFilter extends BaseObject {
 	
 	public void setEndDate(String data) {
 		if(data == null || data.length()==0) {
-			data = "8888-12-31";
+			data = "8888/12/31";
 		}
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			setEnd_date(formatter.parse(data));
 		}catch(Exception e) {
-			throw new IllegalArgumentException("Invalid service date, use yyyy-MM-dd");
+			throw new IllegalArgumentException("Invalid service date, use yyyy/MM/dd");
 		}
 	}
 	
 	public String getEndDate() {
 		if(getEnd_date() != null) {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 			return formatter.format(getEnd_date());
 		}
 		return "";
@@ -197,19 +171,6 @@ public class CustomFilter extends BaseObject {
 		this.custom = custom;
 	}
 
-	public String getAssignee() {
-		if(getAssignees().size()>0) {
-			Provider p = (Provider)getAssignees().iterator().next();
-			return p.getProviderNo();
-		}
-		return null;
-	}
-	public void setAssignee(String assignee) {
-		Provider p = new Provider();
-		p.setProviderNo(assignee);
-		this.getAssignees().clear();
-		this.getAssignees().add(p);
-	}
 	public String getProvider() {
 		if(getProviders().size()>0) {
 			Provider p = (Provider)getProviders().iterator().next();
@@ -217,6 +178,7 @@ public class CustomFilter extends BaseObject {
 		}
 		return null;
 	}
+
 	public void setProvider(String provider) {
 		Provider p = new Provider();
 		p.setProviderNo(provider);
@@ -240,14 +202,6 @@ public class CustomFilter extends BaseObject {
 		this.demographic_no = demographic_no;
 	}
 
-	public String getDemographic_webName() {
-		return demographic_webName;
-	}
-
-	public void setDemographic_webName(String demographic_webName) {
-		this.demographic_webName = demographic_webName;
-	}
-
 	public String getPriority() {
 		return priority;
 	}
@@ -264,22 +218,6 @@ public class CustomFilter extends BaseObject {
 		this.provider_no = provider_no;
 	}
 
-	public String getSort_order() {
-		return sort_order;
-	}
-
-	public void setSort_order(String sort_order) {
-		this.sort_order = sort_order;
-	}
-
-    public boolean isShortcut() {
-        return shortcut;
-    }
-
-    public void setShortcut(boolean shortcut) {
-        this.shortcut = shortcut;
-    }
-
 	public String getProgramId() {
 		return programId;
 	}
@@ -287,6 +225,5 @@ public class CustomFilter extends BaseObject {
 	public void setProgramId(String programId) {
 		this.programId = programId;
 	}
-    
     
 }

@@ -4,6 +4,7 @@ import org.apache.struts.validator.ValidatorForm;
 import org.caisi.model.Tickler;
 import java.util.List;
 import java.util.ArrayList;
+import org.caisi.model.CustomFilter;
 
 public class TicklerForm extends ValidatorForm{
 	private Tickler tickler = new Tickler();
@@ -13,6 +14,7 @@ public class TicklerForm extends ValidatorForm{
 	private List priorityLst = new ArrayList();
 	private List programLst = new ArrayList();
 	private List providerLst = new ArrayList();
+	private CustomFilter filter = new CustomFilter();
 
 	public Tickler getTickler() {
 		return tickler;
@@ -68,6 +70,14 @@ public class TicklerForm extends ValidatorForm{
 
 	public void setProviderLst(List providerLst) {
 		this.providerLst = providerLst;
+	}
+
+	public CustomFilter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(CustomFilter filter) {
+		this.filter = filter;
 	}
 
 }

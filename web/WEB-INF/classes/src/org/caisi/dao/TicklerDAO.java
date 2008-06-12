@@ -88,14 +88,24 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
 */
     
-    public List getTicklers(CustomFilter filter, Integer shelterId, String providerNo, String programId) {
-    //TODO:Add user access filter
+    public List getTicklers(CustomFilter filter, Integer shelterId, String providerNo) {
+/*
     	String tickler_date_order = filter.getSort_order();
         String query = "from Tickler t where t.service_date >= ? and t.service_date <= ? ";
         ArrayList paramList = new ArrayList();
         query = getTicklerQueryString(query,  paramList,  filter);
         Object params[] = paramList.toArray(new Object[paramList.size()]);
         return (List)getHibernateTemplate().find(query + "order by t.service_date " + tickler_date_order, params);
+*/
+        String query = "from Tickler t where t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
+        if(filter==null){
+           return (List)getHibernateTemplate().find(query + "order by t.service_date");
+        }else{
+           ArrayList paramList = new ArrayList();
+           query = getTicklerQueryString(query,  paramList,  filter);
+           Object params[] = paramList.toArray(new Object[paramList.size()]);
+           return (List)getHibernateTemplate().find(query + "order by t.service_date", params);
+        }
     }
     
     public List getTicklersByClientId(Integer shelterId, String providerNo, Integer clientId) {
@@ -126,96 +136,44 @@ public class TicklerDAO extends HibernateDaoSupport {
      }
     
     private String getTicklerQueryString(String query, List paramList, CustomFilter filter){
-            boolean includeProviderClause = true;
-            boolean includeAssigneeClause = true;
-            boolean includeStatusClause = true;
-            boolean includeClientClause = true;
-            boolean includeDemographicClause = true;
-            boolean includeProgramClause = true;
+      boolean includeProviderClause = true;
+      boolean includeStatusClause = true;
+      boolean includeClientClause = true;
             
-            if (filter.getStartDate() == null || filter.getStartDate().length() == 0) {
-                filter.setStartDate("1900-01-01");
-            }
-            if (filter.getEndDate() == null || filter.getEndDate().length() == 0) {
-                filter.setEndDate("8888-12-31");
-            }
-             
-            if( filter.getProgramId() == null || filter.getProgramId().equals("All Programs")) {
-            		includeProgramClause = false;
-            }
-            if (filter.getProvider() == null || filter.getProvider().equals("All Providers")) {
-                    includeProviderClause=false;
-            }
-            if (filter.getAssignee() == null || filter.getAssignee().equals("All Providers")) {
-                    includeAssigneeClause=false;
-            }
-            if (filter.getClient() == null || filter.getClient().equals("All Clients")) {
-                    includeClientClause=false;
-            }
-            if (filter.getDemographic_no()==null||filter.getDemographic_no().equals("")||filter.getDemographic_no().equalsIgnoreCase("All Clients")) {
-                    includeDemographicClause=false;
-            }
+      if (filter.getStartDate() == null || filter.getStartDate().length() == 0) filter.setStartDate("1900/01/01");
+      if (filter.getEndDate() == null || filter.getEndDate().length() == 0) filter.setEndDate("8888/12/31");
 
-            if (filter.getStatus().equals("") || filter.getStatus().equals("Z")) {
-                    includeStatusClause = false;
-            }
+      if (filter.getProvider() == null || filter.getProvider().equals("All Providers")) includeProviderClause=false;
+      if (filter.getClient() == null || filter.getClient().equals("All Clients")) includeClientClause=false;
+      if (filter.getStatus().equals("")) includeStatusClause = false;
 
+      paramList.add(filter.getStart_date());
+      paramList.add(new Date(filter.getEnd_date().getTime()+DateUtils.MILLIS_PER_DAY));
+
+      if(includeProviderClause) {
+         query = query + " and t.creator IN (";
+         Set pset = filter.getProviders();
+         Provider[] providers = (Provider[])pset.toArray(new Provider[pset.size()]);
+         for(int x=0;x<providers.length;x++) {
+           if(x>0) query += ",";
+           query += "?";
+           paramList.add(providers[x].getProviderNo());
+         }
+         query += ")";
+      }
+
+      if(includeStatusClause) {
+         query = query + " and t.status = ?";
+         paramList.add(String.valueOf(filter.getStatus()));
+      }
             
-            paramList.add(filter.getStart_date());
-            paramList.add(new Date(filter.getEnd_date().getTime()+DateUtils.MILLIS_PER_DAY));
+      if(includeClientClause) {
+         query = query + "and t.demographic_no = ?";
+         paramList.add(filter.getClient());
+      }
 
-            //TODO: IN clause
-            if(includeProviderClause) {
-                    query = query + " and t.creator IN (";
-                    Set pset = filter.getProviders();
-                    Provider[] providers = (Provider[])pset.toArray(new Provider[pset.size()]);
-                    for(int x=0;x<providers.length;x++) {
-                            if(x>0) {
-                                    query += ",";
-                            }
-                            query += "?";
-                            paramList.add(providers[x].getProviderNo());
-                    }
-                    query += ")";
-            }
-
-            //TODO: IN clause
-            if(includeAssigneeClause) {
-                    query = query + " and t.task_assigned_to IN (";
-                    Set pset = filter.getAssignees();
-                    Provider[] providers = (Provider[])pset.toArray(new Provider[pset.size()]);
-                    for(int x=0;x<providers.length;x++) {
-                            if(x>0) {
-                                    query += ",";
-                            }
-                            query += "?";
-                            paramList.add(providers[x].getProviderNo());
-                    }
-                    query += ")";
-            }
-            
-            if(includeProgramClause) {
-            		query = query + " and t.program_id = ?" ;
-            		paramList.add(Integer.valueOf(filter.getProgramId()));
-            }
-            if(includeStatusClause) {
-                    query = query + " and t.status = ?";
-                    paramList.add(String.valueOf(filter.getStatus()));
-            }
-            if(includeClientClause) {
-                    query = query + "and t.demographic_no = ?";
-                    paramList.add(filter.getClient());
-            }
-            if(includeDemographicClause) {
-                    query = query + "and t.demographic_no = ?";
-                    paramList.add(filter.getDemographic_no());
-            }
-            return query;
+      return query;
     }
-   
-     
-    
-
 
     private void listParams(Object params[]){
 //        for(Object obj: params){
