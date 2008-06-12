@@ -100,6 +100,15 @@
 		<put name="body" value="/PMmodule/Admin/Facility/EditMessage.jsp" />
 	</definition>
 
+	<definition name="page.pmm.admin.system.message" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
+		<put name="body" value="/caisicore/SystemMessageList.jsp" />
+	</definition>
+	<definition name="page.pmm.admin.system.message.edit" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
+		<put name="body" value="/caisicore/SystemMessageForm.jsp" />
+	</definition>
+	
 	<definition name="page.pmm.shelterSelection"
 		path="/PMmodule/layout.jsp">
 		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />

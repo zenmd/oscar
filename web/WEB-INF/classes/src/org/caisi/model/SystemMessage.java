@@ -64,12 +64,12 @@ public class SystemMessage extends BaseObject {
 	
 	/* web specific */
 	public String getExpiry_day() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		return formatter.format(getExpiry_date());
 	}
 	
 	public void setExpiry_day(String day) throws IllegalArgumentException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			Date dt=formatter.parse(day);
 			Calendar cal1 = Calendar.getInstance();
@@ -81,7 +81,7 @@ public class SystemMessage extends BaseObject {
 			cal.set(Calendar.YEAR, cal1.get(Calendar.YEAR));
 			setExpiry_date(cal.getTime());
 		}catch(Exception e) {
-			throw new IllegalArgumentException("date must be in yyyy-MM-dd format");
+			throw new IllegalArgumentException("date must be in yyyy/MM/dd format");
 		}
 	}
 	

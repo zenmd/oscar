@@ -1,104 +1,158 @@
-<!-- 
-/*
-* 
-* Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
-* This software is published under the GPL GNU General Public License. 
-* This program is free software; you can redistribute it and/or 
-* modify it under the terms of the GNU General Public License 
-* as published by the Free Software Foundation; either version 2 
-* of the License, or (at your option) any later version. * 
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
-* along with this program; if not, write to the Free Software 
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
-* 
-* <OSCAR TEAM>
-* 
-* This software was written for 
-* Centre for Research on Inner City Health, St. Michael's Hospital, 
-* Toronto, Ontario, Canada 
-*/
- -->
 
 <%@ include file="/taglibs.jsp"%>
-<%@page import="java.util.Calendar" %>
-<html>
-	<head>
+<%
+String s = "debug";
+%>
+
+
+<html:form action="/SystemMessage.do">
+	<input type="hidden" name="method" value="save" />
+	<html:hidden property="system_message.id" />
 	
-		<style type="text/css">
-		/* <![CDATA[ */
-		@import "<html:rewrite page="/css/core.css" />";
-		/*  ]]> */
-		</style>
-		
-		<title>System Messages</title>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/validation.js"></script>
-	</head>
-	<script>
-function openBrWindow(theURL,winName,features) { 
-  window.open(theURL,winName,features);
-}
-</script>
-	<body>
-<body>
-<table border="0" cellspacing="0" cellpadding="0" width="100%" bgcolor="#CCCCFF">
-	  <tr class="subject"><th colspan="4">CAISI</th></tr>
 
-	<tr>
-            <td class="searchTitle" colspan="4">System Message Editor</td>
-	</tr>
-</table>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%"
+		height="100%">
 
-<br/>
-		<html:form action="/SystemMessage" onsubmit="return validateRequiredFieldByName('system_message.message', 'Message', 4000);">
-			<input type="hidden" name="method" value="save"/>
-			<html:hidden property="system_message.id"/>
-			<table width="60%" border="0"  cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
+		<!-- Title -->
+		<tr>
+			<th class="pageTitle" align="center">System Messages</th>
+		</tr>
+
+		<!-- body start -->
+		<tr>
+			<td height="100%">
+
+			<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+				border="0">
+				<!-- submenu -->
 				<tr>
-					<td class="fieldTitle">Expiry Day:&nbsp;</td>
-					<td class="fieldValue"><html:text property="system_message.expiry_day"/>
-					<%
-                      	Calendar rightNow = Calendar.getInstance();              
-   	                  	int year = rightNow.get(Calendar.YEAR);
-   	                  	int month = rightNow.get(Calendar.MONTH)+1;
-   	                  	int day = rightNow.get(Calendar.DAY_OF_MONTH);
-   	                  	String formattedDate = year + "-" + month + "-" + day;
-                     %>
-                     <a href="#" onClick="openBrWindow('calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=systemMessageForm&amp;openerElement=system_message.expiry_day&amp;year=<%=year %>&amp;month=<%=month %>','','width=300,height=300')"><img border="0" src="images/calendar.jpg"/></a>
-                     </td>
-                     <td></td>
-				</tr>
-				<tr>
-					<td class="fieldTitle">Expiry Time:&nbsp;</td>
-					<td class="fieldValue">Hour: 
-						<html:select property="system_message.expiry_hour">
-							<%for(int x=1;x<24;x++){ %>
-								<html:option value="<%=String.valueOf(x) %>"><%=x %></html:option>
-							<% } %>
-						</html:select>
-					&nbsp;&nbsp;
-					Minute: 
-						<html:select property="system_message.expiry_minute">
-							<%for(int x=0;x<60;x++) {%>
-								<html:option value="<%=String.valueOf(x) %>"><%=x %></html:option>
-							<% } %>
-						</html:select>
+					<td align="left" class="buttonBar"><html:link
+						action="/SystemMessage.do?method=list"
+						style="color:Navy;text-decoration:none;">
+						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+					<html:link href="javascript:submitForm();" 
+						style="color:Navy;text-decoration:none;">
+						<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 					</td>
-					<td></td>
 				</tr>
+
+				<!-- messages -->
 				<tr>
-					<td class="fieldTitle">Message&nbsp;</td>
-					<td colspan="2" class="fieldValue"><html:text size="60" property="system_message.message"/></td>
+					<td align="left" class="message"><logic:messagesPresent
+						message="true">
+						<br />
+						<html:messages id="message" message="true" bundle="pmm">
+							<c:out escapeXml="false" value="${message}" />
+						</html:messages>
+						<br />
+					</logic:messagesPresent></td>
 				</tr>
+
 				<tr>
-					<td class="fieldValue" colspan="3">
-						<html:submit>Save</html:submit>
-						<input type="button" value="Cancel" onclick="location.href='SystemMessage.do'"/>
+					<td height="100%">
+					<div
+						style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+				                    height: 100%; width: 100%; overflow: auto;">
+
+
+
+
+
+					<br />
+					<div class="tabs" id="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th title="System Messages">Messages</th>
+						</tr>
+					</table>
+					</div>
+
+					<br />
+
+					<table width="100%" cellpadding="0px" cellspacing="0px">
+						<tr class="b">
+							<td width="150px">Expiry Day:&nbsp;</td>
+							<td><quatro:datePickerTag property="system_message.expiry_day" 
+									width="150px" openerForm="systemMessageForm" />
+							</td>
+							<td></td>
+						</tr>
+						<tr class="b">
+							<td>Expiry Time:&nbsp;</td>
+							<td>Hour: <html:select
+								property="system_message.expiry_hour">
+								<%
+								for (int x = 0; x < 24; x++) {
+								%>
+								<html:option value="<%=String.valueOf(x) %>">
+									<%=x%>
+								</html:option>
+								<%
+								}
+								%>
+							</html:select> &nbsp;&nbsp; Minute: <html:select
+								property="system_message.expiry_minute">
+								<%
+								for (int x = 0; x < 60; x++) {
+								%>
+								<html:option value="<%=String.valueOf(x) %>">
+									<%=x%>
+								</html:option>
+								<%
+								}
+								%>
+							</html:select></td>
+							<td></td>
+						</tr>
+						<tr class="b">
+							<td>Message&nbsp;</td>
+							<td colspan="2">
+								<html-el:textarea property="system_message.message" rows="3" cols="50" 
+									onkeyup="javascript:txtAreaLenChecker(this, 4000);"/>
+							</td>
+						</tr>
+
+						
+
+						
+					</table>
+
+
+
+
+
+
+					</div>
 					</td>
 				</tr>
 			</table>
-		</html:form>
-	</body>
-</html>
+
+
+
+			</td>
+		</tr>
+		<!-- body end -->
+	</table>
+</html:form>
+<script type="text/javascript">
+<!--
+	function submitForm(){
+		document.forms[0].submit();
+	}
+	
+	function txtAreaLenChecker(obj, maxLen) {
+	   //counting each end of line as two characters
+	   
+		var v = obj.value;
+		var len = v.length;
+		
+		if(len > maxLen){
+			alert("Length of this field can not exceed " + maxLen + " characters.");
+			obj.value = v.substr(0, maxLen);
+	   }
+	
+	}
+	
+//-->
+</script>
+

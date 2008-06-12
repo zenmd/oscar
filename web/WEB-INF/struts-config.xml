@@ -430,8 +430,8 @@
 		</action>
         <action path="/SystemMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/caisicore/SystemMessageForm.jsp" validate="false">
             <forward name="view" path="/caisicore/SystemMessage.jsp" />
-            <forward name="list" path="/caisicore/SystemMessageList.jsp" />
-            <forward name="edit" path="/caisicore/SystemMessageForm.jsp" />
+            <forward name="list" path="page.pmm.admin.system.message" />
+            <forward name="edit" path="page.pmm.admin.system.message.edit" />
         </action>
         <action path="/FacilityMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="facilityMessageForm" input="/caisicore/FacilityMessageForm.jsp" validate="false">
             <forward name="view" path="/caisicore/FacilityMessage.jsp" />

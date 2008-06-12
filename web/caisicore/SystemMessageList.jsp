@@ -1,92 +1,104 @@
-<!-- 
-/*
-* 
-* Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
-* This software is published under the GPL GNU General Public License. 
-* This program is free software; you can redistribute it and/or 
-* modify it under the terms of the GNU General Public License 
-* as published by the Free Software Foundation; either version 2 
-* of the License, or (at your option) any later version. * 
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
-* along with this program; if not, write to the Free Software 
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
-* 
-* <OSCAR TEAM>
-* 
-* This software was written for 
-* Centre for Research on Inner City Health, St. Michael's Hospital, 
-* Toronto, Ontario, Canada 
-*/
- -->
-
 <%@ include file="/taglibs.jsp"%>
+<%
+String s = "debug";
+%>
 
-<html>
-	<head>
-		<style type="text/css">
-		/* <![CDATA[ */
-		@import "<html:rewrite page="/css/core.css" />";
-		/*  ]]> */
-		</style>
-	
-		<title>System Messages</title>
-	</head>
-	
-	<body>
-	<table border="0" cellspacing="0" cellpadding="1" width="100%" bgcolor="#CCCCFF">
-	  <tr class="subject"><th colspan="4">CAISI</th></tr>
-	  	<tr>
-            <td class="searchTitle" colspan="4">System Messages</td>
-		</tr>
-	</table>
 
-	<br/>
+<html:form action="/SystemMessage.do">
+	<input type="hidden" name="method" value="list" />
 
-		<%@ include file="messages.jsp" %>
-	
-	<br/>	
-		<table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
-			<tr class="title">
-				<td></td>
-				<td>Creation Date</td>
-				<td>Expiry Date</td>
-				<td>Message</td>
-			</tr>
-			
-			<c:forEach var="msg" items="${ActiveMessages}" varStatus="status">
-				<%String style="color:black;"; String bgcolor="white";%>
-				<c:if test="${msg.expired}">
-					<%style="color:red;"; %>
-				</c:if>
-			
-				<c:if test="${status.count % 2 != 0}">
-			    	<%bgcolor="#EEEEFF";%>
-			    </c:if>
-			
-				
-				
-				<tr style="<%=style %>" bgcolor="<%=bgcolor %>">
-					<td valign="middle">
-						<a href="SystemMessage.do?method=edit&id=<c:out value="${msg.id}"/>"><img border="0" src="images/edit.jpg"/></a>
-					</td>
-					<td><c:out value="${msg.formattedCreationDate}"/></td>
-					<td><c:out value="${msg.formattedExpiryDate}"/></td>
-					<td><c:out value="${msg.message}"/></td>
-				</tr>
-			</c:forEach>
-		</table>
-		
-		<br/>
-		
-		<table>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%"
+		height="100%">
+
+		<!-- Title -->
 		<tr>
-			<td><input type="button" value="Back" onclick="location.href='<%=request.getContextPath()%>/admin/admin.jsp'"/></td>			
-			<td><input type="button" value="Create New Message" onclick="location.href='SystemMessage.do?method=edit'"/></td>
+			<th class="pageTitle" align="center">System Messages</th>
 		</tr>
-		</table>
 
-	</body>
-</html>
+		<!-- body start -->
+		<tr>
+			<td height="100%">
+
+			<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
+				border="0">
+				<!-- submenu -->
+				<tr>
+					<td align="left" class="buttonBar"><html:link
+						action="/PMmodule/Admin/SysAdmin.do"
+						style="color:Navy;text-decoration:none;">
+						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+						<html:link
+						action="/SystemMessage.do?method=edit" 
+						style="color:Navy;text-decoration:none;">
+						<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+					</td>
+				</tr>
+
+				<!-- messages -->
+				<tr>
+					<td align="left" class="message"><logic:messagesPresent
+						message="true">
+						<br />
+						<html:messages id="message" message="true" bundle="pmm">
+							<c:out escapeXml="false" value="${message}" />
+						</html:messages>
+						<br />
+					</logic:messagesPresent></td>
+				</tr>
+
+				<tr>
+					<td height="100%">
+					<div
+						style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+				                    height: 100%; width: 100%; overflow: auto;">
+
+
+
+
+
+					<br />
+					<div class="tabs" id="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th title="System Messages">Messages</th>
+						</tr>
+					</table>
+					</div>
+										
+					<br />
+
+					
+					
+					<display:table class="simple" cellspacing="2" cellpadding="3" id="message" name="ActiveMessages" export="false" pagesize="0" requestURI="/SystemMessage.do?method=list">
+						        <display:setProperty name="paging.banner.placement" value="bottom" />
+						        <display:setProperty name="paging.banner.item_name" value="agency" />
+						        <display:setProperty name="paging.banner.items_name" value="messages" />
+						        <display:setProperty name="basic.msg.empty_list" value="No message found." />
+						
+						        <display:column sortable="false" title="">
+						        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > Edit </a>
+						        </display:column>
+						        
+								
+						        <display:column property="formattedCreationDate" sortable="true" title="Creation Date"/>
+						        <display:column property="formattedExpiryDate" sortable="true" title="Expiry Date" />
+						        <display:column property="message" sortable="true" title="Message" />
+						        
+						        
+						    </display:table>
+
+					
+
+					</div>
+					</td>
+				</tr>
+			</table>
+
+
+
+			</td>
+		</tr>
+		<!-- body end -->
+	</table>
+</html:form>
+

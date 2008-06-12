@@ -83,13 +83,20 @@ public class SystemMessageAction extends DispatchAction {
 		DynaActionForm userForm = (DynaActionForm)form;
 		SystemMessage msg = (SystemMessage)userForm.get("system_message");
 		msg.setCreation_date(new Date());
-		mgr.saveSystemMessage(msg);
+	
+        try{
+        	mgr.saveSystemMessage(msg);
+			ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+            saveMessages(request, messages);
+		}catch(Exception e){
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed", request.getContextPath()));
+	        saveMessages(request,messages);
+		}
 		
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("system_message.saved"));
-        saveMessages(request,messages);
 
-        return list(mapping,form,request,response);
+        return mapping.findForward("edit");
 	}
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		List messages = mgr.getActiveMessages();

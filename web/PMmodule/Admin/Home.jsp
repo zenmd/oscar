@@ -147,7 +147,7 @@ String _appPath = request.getContextPath();
 				</th>
 				<th></th>
 				<th valign="middle">
-					<a id="lnkMergeClient"	href=""> 
+					<a id="lnkMergeClient"	href="<c:out value='${ctx}'/>/SystemMessage.do"> 
 					<img ID="lnkAddMessage1" src="<%=_appPath%>/images/Program-60.gif" Height="60"
 					Width="60" border="0" /></a>
 				</th>
@@ -155,8 +155,9 @@ String _appPath = request.getContextPath();
 				<table align="left">
 					<tr>
 						<th align="left" valign="top" class="clsHomePageLabels">
-							<a	id="lnkAddMessage2"	href="">
-							Add System Message</a>
+							<a	id="lnkAddMessage2"	href="<c:out value='${ctx}'/>/SystemMessage.do">
+							System Message</a>
+							
 						</th>
 					</tr>
 				</table>
