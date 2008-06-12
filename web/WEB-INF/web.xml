@@ -149,6 +149,7 @@
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
+<!-- 
 	<servlet>
 		<servlet-name>UploadDocument</servlet-name>
 		<servlet-class>oscar.DocumentMgtUploadServlet</servlet-class>
@@ -179,6 +180,8 @@
 		<servlet-class>oscar.util.BackupDownload</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+ -->		
+	
 <!-- 
 	<servlet>
 		<servlet-name>UploadTeleplanServlet</servlet-name>
