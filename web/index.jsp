@@ -137,7 +137,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 		<td>
 			<table align="center">
 				<tr>
-					<td align="center"><img src="images/QuatroShelter-Logo.gif" height="80" width="400" ></td>
+					<td align="center"><img src="images/QuatroShelter-Logo.gif"></td>
 				</tr>
 				<tr>
 					<Td align="center"><font size="3" face="Arial">City of
