@@ -257,6 +257,11 @@ public class QuatroConsentAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.consent.date.failed", request.getContextPath()));
 	        saveMessages(request,messages);
 		}
+		else if(consent.getEndDate().before(consent.getStartDate())){
+			isError =true;
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.date.compare.failed", request.getContextPath()));
+	        saveMessages(request,messages);
+		}
 		if(!isError){
 			consentManager.saveConsentDetail(consent);
 			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));

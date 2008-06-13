@@ -268,6 +268,7 @@ var XMLHttpRequestObject = false;
 	<input type="hidden" name="addIssue" value="null" />
 	<input type="hidden" name="deleteId" value="0" />
 	<input type="hidden" name="clientId" />
+	<input type="hidden" name="noteId" />
 	<table width="100%">
 		<tr>
 			<th class="pageTitle" width="100%">Case Management Note</th>
@@ -292,15 +293,14 @@ var XMLHttpRequestObject = false;
 			</html:link></td>
 		</tr>
 		<tr height="18px">
-			<td align="left" class="message">
-			<br />
+			<td align="left" class="message">		
 			<logic:messagesPresent
 				message="true">
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
 			</logic:messagesPresent>
-			<br /></td>
+			</td>
 		</tr>
 	</table>		
 	<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;  height: 520px; width: 100%; overflow: auto">
@@ -409,6 +409,7 @@ var XMLHttpRequestObject = false;
 		</tr>					 
 	</table>
 	</div>
+	<%@ include file="/common/readonly.jsp" %>
 </html:form>
 </body>
 </html>

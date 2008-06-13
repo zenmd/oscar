@@ -164,6 +164,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         CaseManagementNote note = null;
 
         String nId = request.getParameter("noteId");
+        if(Utility.IsEmpty(nId)) nId=(String)request.getAttribute("noteId");
         String forceNote = request.getParameter("forceNote");
         if (forceNote == null) forceNote = "false";
 
@@ -459,7 +460,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             return new ActionForward(path.toString());
         }
 
-    public long noteSave(CaseManagementEntryFormBean cform, HttpServletRequest request)	
+    public Integer noteSave(CaseManagementEntryFormBean cform, HttpServletRequest request)	
     	throws Exception {
 
         // we don't want to save empty notes!
@@ -669,7 +670,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             log.warn(e);
         }
 
-        return note.getId().longValue();
+        return note.getId();
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -686,8 +687,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         request.setAttribute("demoDOB", getDemoDOB(demono));
 
         request.setAttribute("from", request.getParameter("from"));        
-        long noteId = noteSave(cform, request);
-
+        Integer noteId = noteSave(cform, request);
+        request.setAttribute("noteId", noteId.toString());
         /* prepare the message */
         if(messages.get().hasNext()){
         	return edit(mapping, form, request, response);
@@ -834,7 +835,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         catch (Throwable e) {
             log.warn(e);
         }
-        
+      
         request.getSession().setAttribute("newNote", new Boolean(false));
         request.setAttribute("ajaxsave",note.getId());
         request.setAttribute("origNoteId", noteId);

@@ -138,5 +138,5 @@
 					property="admission.dischargeNotes" onkeyup="javascript:txtAreaLenChecker(this, 4000);" /></td>
 			</tr>
 		</table>
-	
+	<%@ include file="/common/readonly.jsp" %>
 </html-el:form>

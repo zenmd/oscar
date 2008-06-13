@@ -64,5 +64,6 @@ response.setHeader("Cache-Control", "no-cache");
 			<!-- html:submit value="Upload" property="method" />--></td>
 		</tr>
 	</table>
+	<%@ include file="/common/readonly.jsp" %>
 </html:form>
 

@@ -32,12 +32,16 @@ public class UploadFileDao extends HibernateDaoSupport {
 	}
 
 	public void saveAttachement(Attachment atv) {
+		try{
 		getHibernateTemplate().saveOrUpdate(atv);
 		atv.getAttText().setDocId(atv.getId());
 		atv.getAttText().setRevDate(atv.getRevDate());
 		if(null!=atv.getAttText().getAttData());
 		getHibernateTemplate().saveOrUpdate(atv.getAttText());
-		
+		}catch(Exception e)
+		{
+			;
+		}
 	}
    public void deleteAttachment(Integer docId){
 	   getHibernateTemplate().delete(getAttachment(docId));

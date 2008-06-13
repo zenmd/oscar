@@ -181,10 +181,10 @@ public class UploadFileAction extends BaseClientAction {
 			//only for client module 
 			Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			String programId = "";
-			Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo=(String) session.getAttribute("user");
 	        try{
-	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, currentFacilityId).toString();
+	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
 	        }catch(Exception e){;}
 	       
 			log.info("attachment client upload id: id="  + cId);

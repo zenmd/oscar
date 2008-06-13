@@ -610,7 +610,8 @@ public class IntakeDao extends HibernateDaoSupport {
           queue.setReferralDate(referral.getReferralDate());
           queue.setReferralId(referral.getId());
         }
-
+        ArrayList lst = new ArrayList();
+        try{
         //existing intake
         if(intakeDb.getId().intValue()>0){
 		  getHibernateTemplate().update(intakeDb);
@@ -665,7 +666,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		  
 		}
         
-        ArrayList lst = new ArrayList();
+        
+      
         if(!bFamilyMember){
           if(referral.getId()!=null) intakeDb.setReferralId(new Integer(referral.getId().intValue()));
           if(queue.getId()!=null) intakeDb.setQueueId(new Integer(queue.getId().intValue()));
@@ -677,6 +679,9 @@ public class IntakeDao extends HibernateDaoSupport {
             lst.add(intakeDb.getId());
             lst.add(null);
             lst.add(null);
+        }
+        }catch(Exception e){
+        	String err =e.getMessage();
         }
         return lst;
 	}

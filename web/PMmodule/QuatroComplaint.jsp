@@ -357,4 +357,5 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			</td>
 		</tr>
 	</table>
+	<%@ include file="/common/readonly.jsp" %>
 </html-el:form>

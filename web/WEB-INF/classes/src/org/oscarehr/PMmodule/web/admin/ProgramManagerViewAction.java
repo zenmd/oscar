@@ -72,6 +72,8 @@ import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 
+import oscar.MyDateFormat;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Secuserrole;
@@ -370,7 +372,14 @@ public class ProgramManagerViewAction extends BaseAction {
     			
     			Map map = request.getParameterMap();
     			ActionMessages messages = new ActionMessages();
-
+    			if(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()).before(MyDateFormat.getCalendar(incidentForm.getIncidentDateStr()))){
+    					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+        						"error.investigate.date.failed", request.getContextPath()));
+        				saveMessages(request, messages);
+        				formBean.setIncidentForm(incidentForm);
+        				return;
+        				
+    		}
     			try {
     				incidentId = incidentManager.saveIncident(incidentForm);
        			

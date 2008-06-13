@@ -451,4 +451,5 @@ function checkExistClients(){
 </td>
 </tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>
 </html-el:form>

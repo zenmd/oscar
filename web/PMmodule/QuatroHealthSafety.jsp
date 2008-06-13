@@ -45,6 +45,7 @@ function submitForm(form) {
 	<input type="button" value="Cancel"	onclick="window.close()" />
 </td></tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>
 </html:form>
 </body>
 </html>

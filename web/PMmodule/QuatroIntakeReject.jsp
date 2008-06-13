@@ -79,4 +79,5 @@ function submitForm(methodVal) {
 </td>
 </tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>
 </html-el:form>

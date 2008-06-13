@@ -111,7 +111,7 @@ response.setHeader("Cache-Control", "no-cache");
 	</td></tr>
 	<tr height="100%">
 	<td>
-		<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;   height: 450px; width: 100%; overflow: auto;">
+		<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;   height: 550px; width: 100%; overflow: auto;">
 				<div id="clientInfo" class="axial">
 				<table width="100%">
 				<tr>
