@@ -1,5 +1,6 @@
 package com.quatro.service;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -302,7 +303,6 @@ public class IntakeManager {
 		historyDao.saveClientHistory(intake);
 		return intakeDao.saveQuatroIntake(intake, false);
 	}
-
 	public void saveQuatroIntakeFamilyHead(QuatroIntakeFamily intakeFamily) {
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 	}

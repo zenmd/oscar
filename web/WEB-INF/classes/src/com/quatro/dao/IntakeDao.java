@@ -1,5 +1,6 @@
 package com.quatro.dao;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -12,7 +13,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.ArrayList;
 
 import com.quatro.common.KeyConstants;
-import com.quatro.model.QuatroIntakeOptionValue;
+import com.quatro.dao.LookupDao;
 import com.quatro.web.intake.IntakeConstant;
 
 import org.oscarehr.PMmodule.dao.MergeClientDao;
@@ -677,7 +678,6 @@ public class IntakeDao extends HibernateDaoSupport {
             lst.add(null);
             lst.add(null);
         }
-
         return lst;
 	}
 
@@ -717,6 +717,10 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
+	}
+	private LookupDao lookupDao; 
+	public void setLookupDao(LookupDao lookupDao) {
+		this.lookupDao = lookupDao;
 	}
 	
 }

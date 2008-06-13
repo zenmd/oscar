@@ -553,5 +553,10 @@ public class LookupDao extends HibernateDaoSupport {
 		
 		this.SaveCodeValue(isNew,ocd);
 	}
-
+	public void runProcedure(String procName, String [] params) throws SQLException
+	{
+		DBPreparedHandler db = new DBPreparedHandler();
+		db.procExecute(procName, params);
+		db.closeConn();
+	}
 }

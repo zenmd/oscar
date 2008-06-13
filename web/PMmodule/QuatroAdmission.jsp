@@ -187,7 +187,7 @@ function viewSignature(){
 <table class="simple" cellspacing="2" cellpadding="3">
 	<tr><th width="20%">Assign Room</th>
 	<td>
-	      <html:select property="roomDemographic.id.roomId">
+ 	      <html:select property="roomDemographic.id.roomId">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>
@@ -249,4 +249,5 @@ Telephone no. 416-392-8741, Metro Hall, 55 John St. 6th Floor, Toronto, Ontario 
 </td>
 </tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>
 </html-el:form>
