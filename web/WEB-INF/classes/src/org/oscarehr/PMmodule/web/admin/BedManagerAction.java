@@ -134,7 +134,13 @@ public class BedManagerAction extends BaseFacilityAction {
 
         bForm.setBedTypes(bedManager.getBedTypes());
         bForm.setNumBeds(new Integer(1));
-        bForm.setPrograms(programManager.getBedProgramsInFacility(providerNo, facilityId));
+        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
+        if(pLst.size() < 1){
+        	ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.program.not.exist", request.getContextPath()));
+            saveMessages(request, messages);
+        }
+        bForm.setPrograms(pLst);
         bForm.setFacility(facility);
         Map statusNames = new HashMap();
         statusNames.put("1", "Active");

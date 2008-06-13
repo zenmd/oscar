@@ -162,6 +162,9 @@ String s="debug";
 				                    height: 100%; width: 100%; overflow: auto;">
 
 
+<logic:notEmpty name="bedManagerForm" property="programs">
+
+
 
 
 					<table width="100%" height="100%" cellpadding="0px"
@@ -483,6 +486,7 @@ String s="debug";
 						</tr>
 					</table>
 
+</logic:notEmpty>
 
 					</div>
 					</td>
