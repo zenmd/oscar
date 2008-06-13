@@ -3,7 +3,7 @@
 String _appPath = request.getContextPath();
 %>
 <%@ include file="/taglibs.jsp"%>
-<table width="100%">
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px" style="border-width: 1px; border-style: solid; bordercolor: black">
 	<tr>
 		<th class="pageTitle">Home</th>
 	</tr>
@@ -11,18 +11,21 @@ String _appPath = request.getContextPath();
 		<td>
 		<table width="100%">
 			<tr>
-				<td valign="top" align="center">
+				<td style="vertical-align: middle" align="center">
 				<table align="center" border="0" width="100%" cellpadding="5"
 					cellspacing="5">
 					<tbody>
 						<tr>
-							<td width="100%" valign="top">
+							<td align="left"></td>
+						</tr>
+						<tr>
+							<td width="100%" style="vertical-align: middle">
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tr>
-									<td width="10%">&nbsp;&nbsp;<img border="0" width="60px"
+									<td width="10%" style="vertical-align: middle">&nbsp;&nbsp;<img border="0" width="60px"
 										height="60px" src="<%=_appPath %>/images/Home.gif" alt="" /></td>
-									<td width="80%" align="left" class="clsPageHeader" colspan="5">
-									<h1 style="color:#1E90FF">Home</h1>
+									<td width="80%" align="left" class="clsPageHeader" colspan="5" style="font-style: italic; vertical-align: middle">
+									<h1 style="color:#1E90FF" style="vertical-align: middle">Home</h1>
 									</td>
 									<td width="10%">&nbsp;</td>
 								</tr>
@@ -48,25 +51,25 @@ String _appPath = request.getContextPath();
 
 								<tr>
 									<th></th>
-									<th valign="middle"><html:link action="/PMmodule/ClientSearch2.do">
-										<img id="lnkClient" src="<%=_appPath%>/images/Client-60.gif" height="60" width="60" border="0">
+									<th style="vertical-align: middle"><html:link action="/PMmodule/ClientSearch2.do">
+										<img id="lnkClient" src="<%=_appPath%>/images/Client-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
 									</html:link></th>
-									<th align="left" valign="middle">
+									<th align="left" style="vertical-align: middle">
 									<table>
 										<tr align="left">
-											<th align="left" valign="top" class="clsHomePageLabels">
+											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
 											<html:link action="/PMmodule/ClientSearch2.do">Client Management</html:link></th>
 										</tr>
 									</table>
 									</th>
 									<th></th>
-									<th valign="middle"><html:link action="/PMmodule/ProgramManager.do">
-										<img id="lnkCare1" src="<%=_appPath%>/images/Program-60.gif" height="60" width="60" border="0">
+									<th style="vertical-align: middle"><html:link action="/PMmodule/ProgramManager.do">
+										<img id="lnkCare1" src="<%=_appPath%>/images/Program-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
 									</html:link></th>
-									<th valign="middle">
+									<th style="vertical-align: middle">
 									<table align="left">
 										<tr>
-											<th align="left" valign="top" class="clsHomePageLabels">
+											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
 											<html:link action="/PMmodule/ProgramManager.do">Program Management</html:link>
 											</th>
 										</tr>
@@ -75,26 +78,27 @@ String _appPath = request.getContextPath();
 									<th></th>
 								</tr>
 								<tr>
-									<th></th><th valign="middle"><html:link action="QuatroReport/ReportList.do">
-										<img src="<%=_appPath%>/images/Reports-60.gif" height="60" width="60" border="0" alt="">
-									</html:link></th><th>
+									<th></th>
+									<th style="vertical-align: middle"><html:link action="QuatroReport/ReportList.do">
+										<img src="<%=_appPath%>/images/Reports-60.gif" height="60" width="60" border="0" alt="" style="vertical-align: middle">
+									</html:link></th>
+									<th style="vertical-align: middle">
 									<table width="100%" align="left">
 										<tr>
-											<th align="left" valign="middle" class="clsHomePageLabels">
-											<html:link action="QuatroReport/ReportList.do">Reports</html:link></th>
+											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
+											<html:link action="QuatroReport/ReportList.do">Reports</html:link>
+											</th>
 										</tr>
 									</table>
 									</th>
-									
-									
 									<th></th>
-									<th valign="middle"><html:link action="/PMmodule/FacilityManager.do?method=list">
-										<img id="lnkLTD1" src="<%=_appPath%>/images/Shelter-60.gif" height="60" width="60" border="0">
+									<th style="vertical-align: middle"><html:link action="/PMmodule/FacilityManager.do?method=list">
+										<img id="lnkLTD1" src="<%=_appPath%>/images/Shelter-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
 									</html:link></th>
-									<th valign="middle">
+									<th style="vertical-align: middle">
 									<table align="left">
 										<tr>
-											<th align="left" valign="top" class="clsHomePageLabels">
+											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
 											<html:link action="/PMmodule/FacilityManager.do?method=list">Facility Management</html:link>
 											</th>
 										</tr>
@@ -103,24 +107,27 @@ String _appPath = request.getContextPath();
 									<th></th>
 								</tr>
 								<tr>
-									<th></th><th valign="middle"> 
-									<img src="<%=_appPath%>/images/mytasks60.gif" height="60" width="60" border="0"></th><th>
+									<th></th>
+									<th style="vertical-align: middle"> 
+									<img src="<%=_appPath%>/images/mytasks60.gif" height="60" width="60" border="0" style="vertical-align: middle"></th>
+									<th style="vertical-align: middle">
 									<table>
 										<tr align="left">
-											<th valign="top" align="left" class="clsHomePageLabels">
-											<html:link action="/PMmodule/Task.do?method=filter">My Tasks</html:link></th>
+											<th style="vertical-align: middle" align="left" class="clsHomePageLabels">
+											<html:link action="/PMmodule/Task.do?method=filter">My Tasks</html:link>
+											</th>
 										</tr>
 									</table>
 									</th>
 									
 									
 									<th></th>
-									<th valign="middle"><a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img src="<%=_appPath%>/images/Admin-60.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a></th>
-									<th align="left" valign="middle">
+									<th style="vertical-align: middle"><a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img src="<%=_appPath%>/images/Admin-60.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a></th>
+									<th align="left" style="vertical-align: middle">
 									<table>
 										<tr align="left">
 
-											<th valign="top" align="left" class="clsHomePageLabels">
+											<th style="vertical-align: middle" align="left" class="clsHomePageLabels">
 											<a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do">System
 											Administration</a> &nbsp;</th>
 										</tr>
@@ -132,7 +139,7 @@ String _appPath = request.getContextPath();
 
 								<tr>
 									<th></th>
-									<th valign="middle"> 
+									<th style="vertical-align: middle"> 
 									</th>
 									<th>
 									
@@ -155,8 +162,6 @@ String _appPath = request.getContextPath();
 		</table>
 		</td>
 	</tr>
-	</table>
-	<table width="100%">
 	<tr height="100%"> <td> &nbsp; &nbsp;</td></tr>
 	<tr>
 		<td valign="bottom">
