@@ -50,7 +50,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			
 		}else{
 			//alert('6');
-			document.programManagerForm.method.value='save';
+			document.programManagerForm.method.value="save";
 			document.programManagerForm.submit();
 		}
 		

@@ -111,13 +111,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 				<display:setProperty name="paging.banner.items_name" value="programs" />
 				<display:setProperty name="basic.msg.empty_list"
 					value="No programs found." />
-	
-				<display:column sortable="false" title="">
-					<a	onclick="return ConfirmDelete('<c:out value="${program.nameJs}"/>')"
-						href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=delete&id=<c:out value="${program.id}"/>&name=<c:out value="${program.name}"/>">
-					Delete </a>
-				</display:column>
-	
+
 				<display:column sortable="false" title="">
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
 							Edit </a>
@@ -178,3 +172,4 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 	</tr>
 
 </table>
+	

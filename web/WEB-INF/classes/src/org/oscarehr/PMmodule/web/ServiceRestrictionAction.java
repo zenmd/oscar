@@ -217,13 +217,14 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        ProgramClientRestriction pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
        String rId=request.getParameter("rId");      
        
-       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) 
-			rId=pcrObj.getId().toString();	
-       
+       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) {
+    	   pcrObj =  clientRestrictionManager.find(pcrObj.getId());
+    	   rId=pcrObj.getId().toString();	
+       }
        if(pcrObj != null && pcrObj.getProgramId() != null){
     	   pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
     	   pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
-       } else if ("0".equals(rId) || rId==null) {
+       } else if ("0".equals(rId)) {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
 			pcrObj.setStartDateStr("0");
@@ -235,6 +236,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
+			
 		}
 
        List allPrograms = programManager.getPrograms(providerNo,shelterId);
@@ -257,8 +259,13 @@ public class ServiceRestrictionAction  extends BaseClientAction {
     	   else
     		   clientForm.set("maxLength", maxDays);
        }
+       if (!Utility.IsEmpty(rId) && !("0".equals(rId))){
+    	   int length = MyDateFormat.getDaysDiff(pcrObj.getStartDate(), pcrObj.getEndDate());
+    	   clientForm.set("serviceRestrictionLength", length);
+       }
        
        clientForm.set("serviceRestriction", pcrObj);
+       
        request.setAttribute("serviceObj", pcrObj);
 
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));

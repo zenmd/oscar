@@ -127,6 +127,9 @@ public class ProgramManagerAction extends BaseAction {
         DynaActionForm programForm = (DynaActionForm) form;
 
         String id = request.getParameter("id");
+        if(id == null || id.equals(""))
+        	id = (String)request.getAttribute("id");
+        
         Integer programId = Integer.valueOf(id);
         if (id != null) {
             Program program = programManager.getProgram(id);

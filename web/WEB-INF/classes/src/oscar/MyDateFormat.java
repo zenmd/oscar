@@ -33,6 +33,12 @@ public class MyDateFormat {
 	public MyDateFormat() {
 		//this.aDateTime = d;
 	}
+	
+	public static int getDaysDiff(Calendar start, Calendar end){
+		  long days = (end.getTimeInMillis() - start.getTimeInMillis())/(24*60*60*1000);
+		  return (int)days;
+	}
+
 	public static String formatMonthOrDay(String value) {
 	   String str2= "0" + value;
 	   return str2.substring(str2.length()-2, str2.length());

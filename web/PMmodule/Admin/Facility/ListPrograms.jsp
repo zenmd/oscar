@@ -95,7 +95,7 @@
 					
 
 
-
+<!-- 
 					<br />
 					<div class="tabs" id="tabs">
 					<table cellpadding="3" cellspacing="0" border="0">
@@ -143,7 +143,7 @@
 					<br>
 					Automatic discharges in the past 24 hours appear red.
 					
-					
+ -->					
 					
 					</div>
 					</td>
