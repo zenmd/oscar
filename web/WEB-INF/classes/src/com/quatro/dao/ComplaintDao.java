@@ -17,6 +17,7 @@ import com.quatro.model.Complaint;
  * @author JZhang
  */
 
+
 public class ComplaintDao extends HibernateDaoSupport {
 	private static final Log log = LogFactory.getLog(ComplaintDao.class);
 

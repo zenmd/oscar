@@ -11,7 +11,6 @@ import oscar.MyDateFormat;
 
 public class Complaint  implements java.io.Serializable {
 
-
     // Fields    
 
      private Integer id;
