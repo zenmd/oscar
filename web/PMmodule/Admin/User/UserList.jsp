@@ -14,16 +14,16 @@
 		<td align="left" class="buttonBar"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/close16t.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16t.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 		<html:link action="/PMmodule/Admin/UserManager.do?method=preNew"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
 		<html:link href="javascript:submitForm('search')"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;|</html:link>
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;|</html:link>
 		<html:link href="javascript:resetForm()"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;|</html:link>
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;|</html:link>
 		</td>
 
 	</tr>

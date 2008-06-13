@@ -13,8 +13,8 @@ String _appPath = request.getContextPath();
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar"><html:link action="/Home.do"
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/home16.png"/> />&nbsp;Home&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none">
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/home16.png"/> />&nbsp;Home&nbsp;&nbsp;|</html:link>
 		</td>
 	</tr>
 	<tr>
@@ -60,15 +60,15 @@ String _appPath = request.getContextPath();
 			</tr>
 
 
-			<tr>
+			<tr style="vertical-align: middle">
 				<th></th>
 
-				<th valign="middle"><html:link
+				<th style="vertical-align: middle"><html:link
 					action="/PMmodule/Admin/UserSearch.do">
 					<img ID="lnkClient" src="<%=_appPath%>/images/Users-60.gif"
 						Height="60" Width="60" border="0" />
 				</html:link></th>
-				<th align="left" valign="middle">
+				<th align="left" style="vertical-align: middle">
 				<table>
 					<tr align="left">
 						<th align="left" valign="top" class="clsHomePageLabels"><html:link
@@ -79,12 +79,12 @@ String _appPath = request.getContextPath();
 
 				<th></th>
 
-				<th valign="middle"><html:link
+				<th style="vertical-align: middle"><html:link
 					action="/PMmodule/Admin/RoleManager.do">
 					<img ID="lnkCare1" src="<%=_appPath%>/images/Role-60.gif"
-						Height="60" Width="60" border="0" />
+						Height="60" Width="60" border="0" style="vertical-align: middle" />
 				</html:link></th>
-				<th valign="middle">
+				<th style="vertical-align: middle">
 				<table align="left">
 					<tr>
 						<th align="left" valign="top" class="clsHomePageLabels" ><html:link
@@ -99,16 +99,16 @@ String _appPath = request.getContextPath();
 				<th></th>
 
 
-				<th valign="middle"><a id="orgAdd"
+				<th style="vertical-align: middle"><a id="orgAdd"
 					href="<c:out value='${ctx}'/>/Lookup/LookupTableList.do"> <img
 					ID="lnkCare1" src="<%=_appPath%>/images/Lookup-60.gif" Height="60"
-					Width="60" border="0" /></a></th>
-				<th valign="middle">
+					Width="60" border="0" style="vertical-align: middle"/></a></th>
+				<th style="vertical-align: middle">
 				<table align="left">
 					<tr>
 
 
-						<th align="left" valign="top" class="clsHomePageLabels"><a
+						<th align="left" style="vertical-align: middle" class="clsHomePageLabels"><a
 							id="orgAdd"
 							href="<c:out value='${ctx}'/>/Lookup/LookupTableList.do">
 						Lookup Tables</a></th>
@@ -116,14 +116,14 @@ String _appPath = request.getContextPath();
 				</table>
 				</th>
 				<th></th>
-				<th valign="middle"><a id="orgAdd"
+				<th style="vertical-align: middle"><a id="orgAdd"
 					href="<c:out value='${ctx}'/>/PMmodule/Admin/ShowORGTree.do?tableId=ORG">
 				<img ID="lnkClient" src="<%=_appPath%>/images/Organization2.png"
-					Height="60" Width="60" border="0" /></a></th>
-				<th align="left" valign="middle">
+					Height="60" Width="60" border="0" style="vertical-align: middle"/></a></th>
+				<th align="left" style="vertical-align: middle">
 				<table>
 					<tr align="left">
-						<th align="left" valign="top" class="clsHomePageLabels"><a
+						<th align="left" style="vertical-align: middle" class="clsHomePageLabels"><a
 							id="orgAdd"
 							href="<c:out value='${ctx}'/>/PMmodule/Admin/ShowORGTree.do?tableId=ORG">
 						SMIS Organization Chart</a></th>
@@ -134,14 +134,14 @@ String _appPath = request.getContextPath();
 			</tr>
 			<tr>
 				<th></th>
-				<th valign="middle">
+				<th style="vertical-align: middle">
 				<a id="lnkMergeClient"	href="<c:out value='${ctx}'/>/PMmodule/MergeClient.do"> 
 					<img ID="lnkMereg1" src="<%=_appPath%>/images/ClientMerge.gif" Height="60"
-					Width="60" border="0" /></a></th>
-				<th valign="middle">
+					Width="60" border="0" style="vertical-align: middle"/></a></th>
+				<th style="vertical-align: middle">
 				<table align="left">
 					<tr>
-						<th align="left" valign="top" class="clsHomePageLabels">
+						<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
 							<a	id="lnkMerge2"	href="<c:out value='${ctx}'/>/PMmodule/MergeClient.do">
 							Merge Client</a>
 						</th>
@@ -149,15 +149,15 @@ String _appPath = request.getContextPath();
 				</table>
 				</th>
 				<th></th>
-				<th valign="middle">
+				<th style="vertical-align: middle">
 					<a id="lnkMergeClient"	href="<c:out value='${ctx}'/>/SystemMessage.do"> 
 					<img ID="lnkAddMessage1" src="<%=_appPath%>/images/SystemMessages60.gif" Height="60"
-					Width="60" border="0" /></a>
+					Width="60" border="0" style="vertical-align: middle"/></a>
 				</th>
-				<th valign="middle">
+				<th style="vertical-align: middle">
 				<table align="left">
 					<tr>
-						<th align="left" valign="top" class="clsHomePageLabels">
+						<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
 							<a	id="lnkAddMessage2"	href="<c:out value='${ctx}'/>/SystemMessage.do">
 							System Message</a>
 							
