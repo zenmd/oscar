@@ -818,7 +818,10 @@ public class ProgramManagerAction extends BaseAction {
             setEditAttributes(request, String.valueOf(program.getId()));
             return edit(mapping,form,request,response);
         }
-
+        
+        if(program.getDefaultServiceRestrictionDays() == null)
+        	program.setDefaultServiceRestrictionDays(new Integer(1));
+        
         saveProgram(request, program);
 
         ActionMessages messages = new ActionMessages();

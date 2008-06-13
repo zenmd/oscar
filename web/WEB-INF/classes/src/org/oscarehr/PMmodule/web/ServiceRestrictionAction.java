@@ -217,7 +217,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        ProgramClientRestriction pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
        String rId=request.getParameter("rId");      
        
-       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) {
+       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null && pcrObj.getId().intValue() != 0) {
     	   pcrObj =  clientRestrictionManager.find(pcrObj.getId());
     	   rId=pcrObj.getId().toString();	
        }

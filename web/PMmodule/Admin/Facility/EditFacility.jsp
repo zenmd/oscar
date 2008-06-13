@@ -93,7 +93,7 @@
 							<td>
 							<table width="100%" border="1" cellspacing="2" cellpadding="3">
 								<tr class="b">
-									<td width="20%">Facility Id:</td>
+									<td width="20%">Facility ID:</td>
 									<td><c:out value="${facility.id}" /></td>
 
 								</tr>
@@ -108,7 +108,7 @@
 										maxlength="70" styleId="facilityDesc" /></td>
 								</tr>
 								<tr class="b">
-									<td width="20%">HIC:</td>
+									<td width="20%">Heath Information Custodian:</td>
 									<td><html:checkbox property="facility.hic" /></td>
 								</tr>
 								<tr class="b">

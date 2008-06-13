@@ -64,7 +64,7 @@
 							<td>
 							<table width="100%" border="1" cellspacing="2" cellpadding="3">
 								<tr class="b">
-									<td width="20%">Facility Id:</td>
+									<td width="20%">Facility ID:</td>
 									<td><c:out value="${requestScope.id}" /></td>
 								</tr>
 								<tr class="b">
@@ -78,7 +78,7 @@
 										value="${facilityManagerForm.facility.description}" /></td>
 								</tr>
 								<tr class="b">
-									<td width="20%">HIC:</td>
+									<td width="20%">Heath Information Custodian:</td>
 									<td><c:out value="${facilityManagerForm.facility.hic}" /></td>
 								</tr>
 								<tr class="b">
