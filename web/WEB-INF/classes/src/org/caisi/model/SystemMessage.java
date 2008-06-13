@@ -31,6 +31,7 @@ public class SystemMessage extends BaseObject {
 	private String message;
 	private Date creation_date;
 	private Date expiry_date;
+	private String type;
 	
 	public SystemMessage() {
 		creation_date = new Date();
@@ -147,5 +148,11 @@ public class SystemMessage extends BaseObject {
 			return true;
 		}
 		return false;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

@@ -40,11 +40,14 @@ import org.apache.struts.actions.DispatchAction;
 import org.caisi.model.SystemMessage;
 import org.caisi.service.SystemMessageManager;
 
+import com.quatro.service.LookupManager;
+
 public class SystemMessageAction extends DispatchAction {
 
 	private static Log log = LogFactory.getLog(SystemMessageAction.class);
 	
 	protected SystemMessageManager mgr = null;
+	private LookupManager lookupManager;
 	
 	public void setSystemMessageManager(SystemMessageManager mgr) {
 		this.mgr = mgr;
@@ -63,6 +66,8 @@ public class SystemMessageAction extends DispatchAction {
 	public ActionForward edit(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm systemMessageForm = (DynaActionForm)form;
 		String messageId = request.getParameter("id");
+		if(messageId == null)
+			messageId = (String)request.getAttribute("systemMsgId");
 		
 		if(messageId != null) {
 			SystemMessage msg = mgr.getMessage(messageId);
@@ -76,6 +81,9 @@ public class SystemMessageAction extends DispatchAction {
 			systemMessageForm.set("system_message",msg);
 		}
 		
+		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
+        request.setAttribute("msgTypepList", msgTypepList);
+        
 		return mapping.findForward("edit");
 	}
 
@@ -94,9 +102,9 @@ public class SystemMessageAction extends DispatchAction {
 	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed", request.getContextPath()));
 	        saveMessages(request,messages);
 		}
-		
+		request.setAttribute("systemMsgId", msg.getId().toString());
 
-        return mapping.findForward("edit");
+        return edit(mapping, form, request, response);
 	}
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		List messages = mgr.getActiveMessages();
@@ -104,5 +112,9 @@ public class SystemMessageAction extends DispatchAction {
 			request.setAttribute("messages",messages);
 		}
 		return mapping.findForward("view");
+	}
+
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
 	}
 }

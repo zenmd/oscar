@@ -72,13 +72,13 @@ String s = "debug";
 
 					<br />
 
-					<table width="100%" cellpadding="0px" cellspacing="0px">
+					<table width="100%" border="1" cellspacing="2" cellpadding="3" >
 						<tr class="b">
 							<td width="150px">Expiry Day:&nbsp;</td>
 							<td><quatro:datePickerTag property="facility_message.expiry_day" 
 									width="150px" openerForm="facilityMessageForm" />
 							</td>
-							<td></td>
+							
 						</tr>
 						<tr class="b">
 							<td>Expiry Time:&nbsp;</td>
@@ -105,12 +105,25 @@ String s = "debug";
 								}
 								%>
 							</html:select></td>
-							<td></td>
+							
 						</tr>
 						<tr class="b">
-							<td>Message&nbsp;</td>
+							<td>Message Type:</td>
+							<td>
+								<html-el:select property="facility_message.type" tabindex="8">
+									<c:forEach var="type" items="${msgTypepList}">
+										<html-el:option value="${type.code}">
+											<c:out value="${type.description}" />
+										</html-el:option>
+									</c:forEach>
+								</html-el:select>
+							</td>
+						</tr>
+					
+						<tr class="b">
+							<td>Message:&nbsp;</td>
 							<td colspan="2">
-								<html-el:textarea property="facility_message.message" rows="3" cols="50" 
+								<html-el:textarea property="facility_message.message" rows="10" cols="50" 
 									onkeyup="javascript:txtAreaLenChecker(this, 4000);"/>
 							</td>
 						</tr>

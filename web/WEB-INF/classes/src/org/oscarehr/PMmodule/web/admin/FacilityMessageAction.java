@@ -45,6 +45,7 @@ import org.oscarehr.PMmodule.service.FacilityMessageManager;
 import org.oscarehr.PMmodule.web.BaseFacilityAction;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.LookupManager;
 
 public class FacilityMessageAction extends BaseFacilityAction {
 
@@ -52,6 +53,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 	
 	protected FacilityMessageManager mgr = null;
 	protected FacilityManager facilityMgr = null;
+	private LookupManager lookupManager;
 	
 	public void setFacilityMessageManager(FacilityMessageManager mgr) {
 		this.mgr = mgr;
@@ -106,9 +108,13 @@ public class FacilityMessageAction extends BaseFacilityAction {
            actionParam.put("facilityId", request.getParameter("facilityId")); 
         }
         request.setAttribute("actionParam", actionParam);
-                
+        
+        Integer facilityId = null;        
     	String idStr = request.getParameter("facilityId");
-        Integer facilityId = Integer.valueOf(idStr);
+    	if(idStr == null){
+    		facilityId = (Integer)actionParam.get("facilityId");
+    	}else
+    		facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
 		
@@ -134,6 +140,8 @@ public class FacilityMessageAction extends BaseFacilityAction {
 			facilityMessageForm.set("facility_message",msg);
 		}
 		
+		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
+        request.setAttribute("msgTypepList", msgTypepList);
 		
 		return mapping.findForward("edit");
 	}
@@ -171,7 +179,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
         
-        return mapping.findForward("edit");
+        return edit(mapping, form, request, response);
 	}
 	
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -187,5 +195,9 @@ public class FacilityMessageAction extends BaseFacilityAction {
 			request.setAttribute("FacilityMessages",messages);
 		}
 		return mapping.findForward("view");
+	}
+
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
 	}
 }

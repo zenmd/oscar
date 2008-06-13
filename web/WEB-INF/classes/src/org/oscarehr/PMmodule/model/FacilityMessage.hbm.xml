@@ -26,5 +26,6 @@
 		<property name="expiry_date" column="expiry_date" type="java.util.Date" />
 		<property name="facilityId" column="facility_id" />
 		<property name="facilityName" column="facility_name"/>
+		<property name="type" column="type"/>
 	</class>
 </hibernate-mapping>

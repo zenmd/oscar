@@ -35,6 +35,7 @@ public class FacilityMessage extends BaseObject {
 	private Date expiry_date;
 	private Integer facilityId;
 	private String facilityName;
+	private String type;
 	
 	public FacilityMessage() {
 		creation_date = new Date();
@@ -163,5 +164,11 @@ public class FacilityMessage extends BaseObject {
 			return true;
 		}
 		return false;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }
