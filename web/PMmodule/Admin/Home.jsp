@@ -26,7 +26,7 @@ String _appPath = request.getContextPath();
 			style="color: Black; background-color: White; 
                     height: 100%; width: 100%; overflow: auto;">
 
-		<table width="100%" cellpadding="0" cellspacing="0">
+		<table width="100%" cellpadding="0" cellspacing="0" style="vertical-align: middle">
 			<tr>
 				<td>&nbsp;
 				</td>
@@ -36,9 +36,14 @@ String _appPath = request.getContextPath();
 										height="60px" src="<%=_appPath %>/images/Admin-60.gif" alt="" />
 				</td>
 				<td width="80%" align="left" class="clsPageHeader" colspan="5" style="font-style: italic; vertical-align: middle">
-									<h2 style="color:#1E90FF; vertical-align: middle">System Administration</h2><hr />
+									<h2 style="color:#1E90FF; vertical-align: middle">System Administration</h2>
 				</td>
 				<td width="10%">&nbsp;</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="5"><hr /></td>
+				<td></td>
 			</tr>
 			
 		</table>
