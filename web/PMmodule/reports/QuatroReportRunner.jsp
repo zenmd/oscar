@@ -258,7 +258,7 @@ function submitForm(mthd)
 		<html:select name="tplCriteria" property="op" indexed="true">
            <option value=""></option>
            <logic:iterate id="ops" name="tplCriteria" property="operatorList" type="com.quatro.util.KeyValueBean">
-              <html:option value="<%=(String)ops.getKey()%>"><bean:write name="ops" property="value" /></html:option>
+              <html:option value='<c:out value="${ops.key}"></c:out>'> <bean:write name="ops" property="value" /></html:option>
            </logic:iterate>
 		</html:select>
         </logic:notEqual>
@@ -272,7 +272,7 @@ function submitForm(mthd)
             </logic:empty>
             <logic:notEmpty name="tplCriteria" property="filter.lookupTable">
               <html:hidden name="tplCriteria" property="filter.lookupTable" indexed="true" />
-              <quatro:lookupTag name="tplCriteria" tableName="<%=((ReportTempCriValue)tplCriteria).getFilter().getLookupTable()%>" indexed="true" formProperty="quatroReportRunnerForm" 
+              <quatro:lookupTag name="tplCriteria" tableName='<c:out value="${tplCriteria.filter.lookupTable}"></c:out>' indexed="true" formProperty="quatroReportRunnerForm" 
                  codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
             </logic:notEmpty>
           </logic:equal>  

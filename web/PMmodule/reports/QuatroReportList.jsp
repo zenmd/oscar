@@ -27,7 +27,7 @@
 </table>
 <table width="100%">
 <tr><td>
-<%StringBuilder str= new StringBuilder(); %>
+<%StringBuffer str= new StringBuffer(); %>
 <logic:iterate id="reportGroup" property="reportGroups" name="quatroReportListForm" indexId="rIndex1">
 <ul><bean:write name="reportGroup" property="reportGroupDesc"/>
   <ul>
@@ -37,9 +37,10 @@
       </li>
    	  <logic:iterate id="template" property="childList" name="report" indexId="rIndex3">
         <ul>
-          <input type="checkbox" name="p<%=String.valueOf(rIndex1)%>_<%=String.valueOf(rIndex2)%>_<%=String.valueOf(rIndex3)%>" value="<c:out value="${template.templateNo}" />">
+          <input type="checkbox" name='p<c:out value="${rIndex1}"></c:out>_<c:out value="${rIndex2}"></c:out>_<c:out value="${rIndex3}"></c:out> value="<c:out value="${template.templateNo}" />">
           <%
              str.append("," + String.valueOf(rIndex1) + "_" + String.valueOf(rIndex2) + "_" + String.valueOf(rIndex3)); 
+             
           %>
           <a href="<html:rewrite action="/QuatroReport/ReportRunner.do"/>?id=<c:out value="${report.reportNo}" />&templateNo=<c:out value="${template.templateNo}" />"> <c:out value="${template.desc}"/> </a>
         </ul>
@@ -48,7 +49,7 @@
   </ul>
 </ul>
 </logic:iterate>
-<input type="hidden" name="chkDel" value="<%=str.toString()%>" />
+<input type="hidden" name="chkDel" value='<c:out value="${str}"></c:out> />
 </td></tr>
  </table>
 </html:form>
