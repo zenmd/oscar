@@ -144,7 +144,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 					Toronto</font></td>
 				</tr>
 				<tr>
-					<td align="center"><font size="1" face="Arial">Build: 2008-06-09 11:15</font>
+					<td align="center"><font size="1" face="Arial">Build: 2008-06-13 15:15</font>
 					</td>
 				</tr>
 			</table>
@@ -181,7 +181,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 								</b></font></td>
 								<td width="40%" align="center"><font size="2"
 									face="Arial"><b><input type="text" name="username" 
-									size="50%" maxlength="15" autocomplete="off" value="oscardoc" /></b></font></td>
+									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
 								<td width="30%">&nbsp</td>
 							</tr>
 							<tr>
@@ -190,7 +190,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 									key="loginApplication.formPwd" /></b></font></td>
 								<td align="center"><font size="2"
 									face="Arial"><b><input type="password" name="password" 
-									size="50%" maxlength="15" autocomplete="off" value="mac2002" /></b></font></td>
+									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
 								<td>&nbsp;</td>
 							</tr>
 							<tr>
