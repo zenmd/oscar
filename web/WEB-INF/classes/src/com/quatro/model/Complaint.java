@@ -2,6 +2,9 @@ package com.quatro.model;
 
 //import java.util.Date;
 import java.util.Calendar;
+
+import com.quatro.common.KeyConstants;
+
 import oscar.MyDateFormat;
 
 
@@ -433,16 +436,12 @@ public class Complaint  implements java.io.Serializable {
 	public void setLastUpdateUser(String lastUpdateUser) {
 		this.lastUpdateUser = lastUpdateUser;
 	}
-
-
-	
-   
-
-
-
-
-
-
-
+	 public String getComplaintStatus(){
+	    	String str =KeyConstants.STATUS_ACTIVE;
+	    	if( "1".equals(getStatus())){
+	    		str=KeyConstants.STATUS_READONLY;
+	    	}
+	    	return str;
+	    }
 
 }

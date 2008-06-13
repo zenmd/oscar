@@ -73,8 +73,11 @@
 						<td><c:out value="${refer.status}" /></td>
 						<td> 						
 						<c:choose>
-							<c:when test="${refer.status eq 'active'}">
+							<c:when test="${refer.status eq 'active' ||refer.status eq 'rejected' }">
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
+							</c:when>
+							<c:when test="${refer.status eq 'admitted'}">
+								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 							</c:when>
 							<c:otherwise>&nbsp;</c:otherwise>
 					   </c:choose>

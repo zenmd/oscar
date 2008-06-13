@@ -33,6 +33,8 @@ import java.util.Set;
 import org.caisi.model.BaseObject;
 import org.oscarehr.PMmodule.model.Provider;
 
+import com.quatro.common.KeyConstants;
+
 
 public class CaseManagementNote extends BaseObject {
     private Integer id;
@@ -65,8 +67,10 @@ public class CaseManagementNote extends BaseObject {
     private boolean locked;
     private Integer caseStatusId;
     
+    
     private int hashCode = Integer.MIN_VALUE;
-
+    
+    
     public boolean equals(Object obj) {
         if (null == obj) return false;
         if (!(obj instanceof CaseManagementNote)) return false;
@@ -405,7 +409,13 @@ public class CaseManagementNote extends BaseObject {
         }
         return status;
     }
-
+    public String getCaseNoteStatus(){
+    	String status =KeyConstants.STATUS_ACTIVE;
+    	if((getCaseStatusId()==1 && isSigned())||isLocked()){
+    		status=KeyConstants.STATUS_READONLY;
+    	}
+    	return status;
+    }
 
 	public Integer getCaseStatusId() {
 		return caseStatusId;

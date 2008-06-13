@@ -32,6 +32,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.SecurityManager;
+import com.quatro.util.Utility;
 
 public abstract class BaseClientAction extends BaseAction {
 
@@ -112,7 +113,27 @@ public abstract class BaseClientAction extends BaseAction {
 		else request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);
 	}
 	
-	
+	public boolean isReadOnly(String status,String funName){
+		boolean readOnly =false;
+		if(KeyConstants.STATUS_COMPLETED.equals(status)) readOnly =true;
+		else if(KeyConstants.STATUS_SIGNED.equals(status)) readOnly =true;
+		else if(KeyConstants.STATUS_DISCHARGED.equals(status)) readOnly =true;
+		else if(KeyConstants.STATUS_EXPIRED.equals(status)) readOnly =true;
+		else if(KeyConstants.STATUS_TERMEARLY.equals(status)) readOnly =true;
+		/*
+		else if(KeyConstants.STATUS_ADMITTED.equals(status)){			
+			if(KeyConstants.FUNCTION_INTAKE.equals(funName))readOnly =true;
+			else if(KeyConstants.FUNCTION_ADMISSION.equals(funName))readOnly =true;	
+			else if(KeyConstants.FUNCTION_REFERRAL.equals(funName))readOnly =true;	
+		}
+		*/
+		else if(KeyConstants.STATUS_READONLY.equals(status)) readOnly =true;
+		else if(KeyConstants.STATUS_REJECTED.equals(status)) {
+			readOnly =true;
+			if(KeyConstants.FUNCTION_REFERRAL.equals(funName))readOnly =false;
+		}
+		return readOnly;
+	}
 
 	public CaseManagementManager getCaseManagementManager() {
 		return (CaseManagementManager) getAppContext().getBean(

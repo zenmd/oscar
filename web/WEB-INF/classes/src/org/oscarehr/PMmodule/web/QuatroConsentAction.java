@@ -126,7 +126,10 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
 	       String rId=request.getParameter("rId");
-	       if(Utility.IsEmpty(rId)) rId=cdObj.getId().toString();
+	       if(Utility.IsEmpty(rId)) {
+	    	   rId=(String)request.getAttribute("rId");
+	       
+	       }
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 	       
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
@@ -304,7 +307,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	        saveMessages(request,messages);
 	       }
 			
-		request.setAttribute("id",consent.getId());
+		request.setAttribute("rId",consent.getId());
 		//String gotoStr = request.getParameter("goto");			
 	
         setEditAttributes(form, request);

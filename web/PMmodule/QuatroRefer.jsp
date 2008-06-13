@@ -39,6 +39,7 @@
 <html:hidden property="referral.facilityId" />
 <html:hidden property="referral.programId" />
 <input type="hidden" name="selectedProgramId"/>
+<input type="hidden" name="rId" />
 <input type="hidden" name="method" />
 <input type="hidden" name="ruleCheck" value="Y" />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">

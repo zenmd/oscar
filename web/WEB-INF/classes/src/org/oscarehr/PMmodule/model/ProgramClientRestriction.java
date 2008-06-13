@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.quatro.common.KeyConstants;
+
 import oscar.MyDateFormat;
 
 /**
@@ -33,8 +35,20 @@ public class ProgramClientRestriction implements Serializable {
     private Provider provider;
     private String startDateStr;
     private String notes;
-    private Calendar lastUpdateDate;
+    private Calendar lastUpdateDate;   
     
+    public String getStatus(){
+    	String status=KeyConstants.STATUS_ACTIVE;
+    	if (getEarlyTerminationProvider() != null) {			
+			status = KeyConstants.STATUS_TERMEARLY ;
+		} else if (getEndDate().getTime().getTime() < System.currentTimeMillis()) {
+			status = KeyConstants.STATUS_COMPLETED;
+		} else if (getStartDate().getTime().getTime() <= System	.currentTimeMillis()
+				&& getEndDate().getTime().getTime() >= System.currentTimeMillis()) {
+			status = KeyConstants.STATUS_IN_PROGRESS;			
+		}
+    	return status;
+    }
 	public String getNotes() {
 		return notes;
 	}

@@ -3,6 +3,8 @@ package com.quatro.model;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.quatro.common.KeyConstants;
+
 import oscar.MyDateFormat;
 
 /**
@@ -266,7 +268,11 @@ public class IncidentValue implements java.io.Serializable {
 		return str;
 		
 	}
-
-	
-
+	 public String getStatus(){
+	    	String status =KeyConstants.STATUS_ACTIVE;
+	    	if("1".equals(getReportCompleted())){
+	    		status=KeyConstants.STATUS_READONLY;
+	    	}
+	    	return status;
+	    }
 }

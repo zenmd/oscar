@@ -66,6 +66,7 @@ public class KeyConstants {
   public static final String TAB_CLIENT_TASK="tabTask";
    
   public static final String STATUS_ADMITTED = "admitted";
+  public static final String STATUS_DISCHARGED = "discharged";
   public static final String STATUS_REJECTED = "rejected";
   public static final String STATUS_REMOVED = "removed";
   public static final String STATUS_ACTIVE = "active";  
@@ -73,7 +74,26 @@ public class KeyConstants {
   public static final String STATUS_UNKNOWN = "unknown";
   public static final String STATUS_PENDING = "pending";
   public static final String STATUS_WITHDRAW = "withdraw";
+  public static final String STATUS_TERMEARLY="terminated early"; 
+  public static final String STATUS_COMPLETED="completed";
+  public static final String STATUS_IN_PROGRESS="in progress";
+  public static final String STATUS_READONLY="read only";
+  public static final String STATUS_EXPIRED="expired";
+  public static final String STATUS_SIGNED="signed";
+  public static final String STATUS_UNSIGNED="unsigned";
+  public static final String STATUS_LOCKED="locked";
+  public static final String STATUS_UNLOCKED="unlocked";
   
+  public static final String FUNCTION_INTAKE="intake";
+  public static final String FUNCTION_ADMISSION="admission";
+  public static final String FUNCTION_REFERRAL="referral";
+  public static final String FUNCTION_DISCHARGE="discharge";
+  public static final String FUNCTION_COMPLAINT="complaint";
+  public static final String FUNCTION_CONSENT="consent";
+  public static final String FUNCTION_CASEMANAGEMENT="case";
+  public static final String FUNCTION_INCIDENT="incident";
+  public static final String FUNCTION_SERVICE_RESTRICTION="serviceRestriction";
+ 
   public static final String CLIENT_MODE_MERGE = "merge";
   public static final String CLIENT_MODE_UNMERGE = "unmerge";
   

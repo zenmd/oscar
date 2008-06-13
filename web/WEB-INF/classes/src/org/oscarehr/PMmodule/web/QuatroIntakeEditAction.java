@@ -228,6 +228,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+        boolean readOnly=super.isReadOnly(intake.getIntakeStatus(), KeyConstants.FUNCTION_INTAKE);
+        if(readOnly) request.setAttribute("isReadOnly", readOnly);
         return mapping.findForward("edit");
 	}
 
