@@ -538,6 +538,17 @@
 			value="/PMmodule/Admin/User/AddRoles.jsp" />
 	</definition>	
 	
+	<definition
+		name="page.admin.user.changePassword"
+		 path="/PMmodule/layout.jsp"> 
+		 <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
+		<put
+			name="navigation"
+			value="/PMmodule/navigation_blank.jsp" />
+		<put
+			name="body"
+			value="/PMmodule/Admin/User/ChangePassword.jsp" />
+	</definition>	
 	<!-- Admin End -->
 
 

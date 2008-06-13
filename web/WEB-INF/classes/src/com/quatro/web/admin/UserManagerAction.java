@@ -21,6 +21,7 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.apache.struts.actions.DispatchAction;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Security;
 import com.quatro.model.security.Secuserrole;
@@ -271,19 +272,12 @@ public class UserManagerAction extends DispatchAction {
 
 		if (password.equals(cpass) && pin.equals(cpin)) {
 			if (!password.equals(PWD)) {
-				StringBuffer sbTemp = new StringBuffer();
-				byte[] pwd = password.getBytes();
 				try {
-					md = MessageDigest.getInstance("SHA");
+					password = encryptPassword(password);
 				} catch (NoSuchAlgorithmException foo) {
 					logManager.log("new user",
 							"NoSuchAlgorithmException - SHA", "", request);
 				}
-
-				byte[] btTypeInPasswd = md.digest(pwd);
-				for (int i = 0; i < btTypeInPasswd.length; i++)
-					sbTemp = sbTemp.append(btTypeInPasswd[i]);
-				password = sbTemp.toString();
 				user.setPassword(password);
 			}
 			if (!pin.equals(PIN))
@@ -327,7 +321,107 @@ public class UserManagerAction extends DispatchAction {
         return mapping.findForward("edit");
         
 	}
+	
+	public ActionForward changePassword(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("=========== changePassword ========= in UserManagerAction");
+		
+		DynaActionForm secuserForm = (DynaActionForm) form;
 
+		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		secuserForm.set("providerNo", providerNo);
+		
+        return mapping.findForward("changePassword");
+        
+	}
+	public ActionForward savePassword(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("=========== savePassword ========= in UserManagerAction");
+		
+		ActionMessages messages = new ActionMessages();
+
+		DynaActionForm secuserForm = (DynaActionForm) form;
+
+		//SecProvider provider = null;
+		
+		String providerNo = (String) secuserForm.get("providerNo");
+		//provider = usersManager.getProviderByProviderNo(providerNo);
+		List userList = usersManager.getUserByProviderNo(providerNo);
+		Security user = (Security) userList.get(0);
+		
+				
+		String oldPassword = (String) secuserForm.get("oldPassword");
+		String password = (String) secuserForm.get("password");
+		String cpass = (String) secuserForm.get("confirmPassword");
+		
+		try {
+			oldPassword = encryptPassword(oldPassword);
+		} catch (NoSuchAlgorithmException foo) {
+			logManager.log("new user",
+					"NoSuchAlgorithmException - SHA", "", request);
+		}
+		String existPwd = user.getPassword();
+		
+		if(!oldPassword.equals(existPwd)){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.password.notMatch", request.getContextPath()));
+			saveMessages(request, messages);
+			return mapping.findForward("changePassword");
+		}
+		if (password.equals(cpass)) {
+			if (!password.equals(PWD)) {
+				try {
+					password = encryptPassword(password);
+				} catch (NoSuchAlgorithmException foo) {
+					logManager.log("new user",
+							"NoSuchAlgorithmException - SHA", "", request);
+				}
+		
+				user.setPassword(password);
+			}else{
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.password.matchMask", request.getContextPath(), PWD));
+				saveMessages(request, messages);
+				return mapping.findForward("changePassword");
+			}
+			
+		} else {
+			messages
+					.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+							"error.newuser.passwordNotMatch", request
+									.getContextPath()));
+			saveMessages(request, messages);
+			return mapping.findForward("changePassword");
+		}
+
+		try {
+			usersManager.updateUser(user);
+			
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"message.save.success", request.getContextPath()));
+			saveMessages(request, messages);
+			secuserForm.set("providerNo", providerNo);
+			
+		} catch (Exception e) {
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+						"error.save.failed", request.getContextPath()));
+				saveMessages(request, messages);
+		}
+		
+        return mapping.findForward("changePassword");
+        
+	}
+	private String encryptPassword(String password) throws NoSuchAlgorithmException{
+		StringBuffer sbTemp = new StringBuffer();
+		byte[] pwd = password.getBytes();
+		
+		md = MessageDigest.getInstance("SHA");
+		
+		byte[] btTypeInPasswd = md.digest(pwd);
+		for (int i = 0; i < btTypeInPasswd.length; i++)
+			sbTemp = sbTemp.append(btTypeInPasswd[i]);
+		password = sbTemp.toString();
+
+		return password;
+	}
 	public ActionForward addRole(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 

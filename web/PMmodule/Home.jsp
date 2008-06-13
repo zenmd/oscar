@@ -139,11 +139,18 @@ String _appPath = request.getContextPath();
 
 								<tr>
 									<th></th>
-									<th style="vertical-align: middle"> 
+									<th style="vertical-align: middle"><a href="<%=_appPath%>/PMmodule/Admin/UserManager.do?method=changePassword"><img src="<%=_appPath%>/images/Admin-60.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a></th>
+									<th align="left" style="vertical-align: middle">
+										<table>
+											<tr align="left">
+	
+												<th style="vertical-align: middle" align="left" class="clsHomePageLabels">
+												<a href="<%=_appPath%>/PMmodule/Admin/UserManager.do?method=changePassword">Change Password</a> &nbsp;</th>
+											</tr>
+										</table>
 									</th>
-									<th>
+									<th>&nbsp;</th>
 									
-									</th>
 									<th></th>
 									<th valign="middle"></th>
 									<th align="left" valign="middle"></th>

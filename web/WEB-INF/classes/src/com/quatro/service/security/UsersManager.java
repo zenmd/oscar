@@ -141,6 +141,10 @@ public class UsersManager {
 		securityDao.saveOrUpdate(user);
 		
 	}
+
+	public void updateUser(Security user) {
+		securityDao.saveOrUpdate(user);
+	}
 	
 	public void setSecurityDao(SecurityDao securityDao) {
 		this.securityDao = securityDao;

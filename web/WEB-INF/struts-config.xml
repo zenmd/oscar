@@ -397,6 +397,7 @@
 	       <form-property name="status" type="java.lang.String"></form-property>
            <form-property name="secUserRoleLst" type="java.util.ArrayList"></form-property> 
            <form-property name="roleName" type="java.lang.String"></form-property>
+           <form-property name="oldPassword" type="java.lang.String"></form-property>
         </form-bean>
         
         <form-bean name="userSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -948,6 +949,7 @@
             <forward name="profile" path="page.admin.user.addRoles" />
             <forward name="edit" path="page.admin.user.edit" />
             <forward name="addRoles" path="page.admin.user.addRoles" />
+            <forward name="changePassword" path="page.admin.user.changePassword" />
             
         </action>
         <action path="/PMmodule/Admin/UserSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="userSearchForm" scope="request" validate="false">
