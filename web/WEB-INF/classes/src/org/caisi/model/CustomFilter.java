@@ -41,7 +41,7 @@ public class CustomFilter extends BaseObject {
 	private String programId;
 	
 	public CustomFilter() {
-		setStatus("Active");
+		setStatus("");
 		this.setEnd_date(new Date());
 	}
 
@@ -67,7 +67,9 @@ public class CustomFilter extends BaseObject {
 	public String getStartDate() {
 		if(getStart_date() != null) {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-			return formatter.format(getStart_date());
+			String ret= formatter.format(getStart_date());
+			if(ret.equals("1900/01/01")) return "";
+			return ret;
 		}
 		return "";
 	}

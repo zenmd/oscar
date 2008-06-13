@@ -50,7 +50,7 @@ public class TicklerDAO extends HibernateDaoSupport {
         return (Tickler)getHibernateTemplate().get(Tickler.class, id);
     }
 
-    public void addComment(Integer tickler_id, String provider, String message) {
+    public void addComment(Integer tickler_id, String provider, String message, String status) {
         Tickler tickler = this.getTickler(tickler_id);
         if (tickler != null) {
             TicklerComment comment = new TicklerComment();
@@ -58,7 +58,9 @@ public class TicklerDAO extends HibernateDaoSupport {
             comment.setUpdate_date(new Date());
             comment.setProvider_no(provider);
             comment.setMessage(message);
+            comment.setStatus(status);
             tickler.getComments().add(comment);
+            tickler.setStatus(status);
             this.saveTickler(tickler);
         }
     }
@@ -96,7 +98,13 @@ public class TicklerDAO extends HibernateDaoSupport {
         Object params[] = paramList.toArray(new Object[paramList.size()]);
         return (List)getHibernateTemplate().find(query + "order by t.service_date " + tickler_date_order, params);
 */
-        String query = "from Tickler t where t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
+    	String query;
+    	if(filter!=null && filter.getProgramId()!=null && !"".equals(filter.getProgramId())){
+            query = "from Tickler t where t.program_id = " + filter.getProgramId();
+        }else{
+            query = "from Tickler t where t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
+        }
+    	
         if(filter==null){
            return (List)getHibernateTemplate().find(query + "order by t.service_date");
         }else{

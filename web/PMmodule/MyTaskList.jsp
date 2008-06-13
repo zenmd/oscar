@@ -33,7 +33,7 @@ function submitForm(methodVal) {
 	<html:option value="Active">Active</html:option>
 	<html:option value="Complated">Completed</html:option>
 </html:select></td>
-<td colspan="3">Program: <html:select property="filter.provider_no">
+<td colspan="3">Program: <html:select property="filter.programId">
 	<html:option value="">All</html:option>
     <html:optionsCollection property="programLst" value="id" label="name"/>
 </html:select></td></tr>
@@ -65,7 +65,7 @@ function submitForm(methodVal) {
 </c:choose>
 </display:column>
 <display:column sortable="true" sortProperty="tickler_no" title="Task ID">
- <a href="<html:rewrite action="/PMmodule/Task.do"/>?method=view&clientId=<c:out value="${tickler.demographic_no}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />">
+ <a href="<html:rewrite action="/PMmodule/Task.do"/>?method=mytaskedit&clientId=<c:out value="${tickler.demographic_no}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />">
    <c:out value="${tickler.tickler_no}" /></a>
 </display:column>
 <display:column property="status" sortable="true" title="Status" />

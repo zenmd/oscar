@@ -1,5 +1,5 @@
+<%@ include file="/taglibs.jsp"%>
 <%@include file="/ticklerPlus/header.jsp"%>
-<%@page import="java.util.Calendar"%>
 	
 <script type="text/javascript">
 function submitForm(methodVal) {
@@ -12,9 +12,9 @@ function submitForm(methodVal) {
 <tr><th  class="pageTitle">My Tasks -Update Task</th></tr>
 
 <tr><td class="buttonBar">
- <a href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;">
- img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
+ <a href='javascript:submitForm("mytasksave");'	style="color:Navy;text-decoration:none;">
+ <img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+	<html:link action="/PMmodule/Task.do?method=filter" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 </td></tr>
 <tr><td align="left" class="message">
@@ -28,33 +28,55 @@ function submitForm(methodVal) {
 <table width="100%" class="simple">
 	<html:form action="/PMmodule/Task.do" onsubmit="return validateTicklerForm(this);">
         <input type="hidden" name="method"/>
+        <input type="hidden" name="clientId" value ="<c:out value="${clientId}" />"/> 
+        <input type="hidden" name="ticklerNo" value ="<c:out value="${ticklerNo}" />"/> 
 		<html:hidden property="tickler.creator" />
 		<html:hidden property="tickler.demographic_no" />
 		<html:hidden property="tickler.tickler_no" />
 		
-		<tr><td width="20%">Client:</td>
-		<td width="80%"><c:out value="${client.formattedName}"/></td></tr>
-		<tr><td>Service Date:</td>
-		<td><c:out value="${ticklerForm.tickler.serviceDate}"/></td></tr>
-		<tr><td>Service Time:</td>
-		<td><c:out value="${ticklerForm.tickler.service_hour}"/> : 
-		  <c:out value="${ticklerForm.tickler.service_minute}"/> &nbsp; 
+		<tr><td width="10%">Client:</td>
+		<td width="50%"><c:out value="${client.formattedName}"/></td>
+		<td width="15%">Service Date</td>
+		<td width="25%"><c:out value="${ticklerForm.tickler.serviceDate}"/>&nbsp;<c:out value="${ticklerForm.tickler.service_hour}"/>:<c:out value="${ticklerForm.tickler.service_minute}"/>&nbsp;
 		  <c:out value="${ticklerForm.tickler.service_ampm}"/></td></tr>
-		<tr><td>Priority:</td>
-		<td><c:out value="${ticklerForm.tickler.priority}"/></td></tr>
 		<tr><td>Creator:</td>
-		<td><c:out value="${ticklerForm.provider.formattedName}" /></td></tr>
-		<tr><td>Task Assigned To:</td>
-		<td>Program: <c:out value="${ticklerForm.program.name}" />
-		  Provider: <c:out value="${ticklerForm.assignee.formattedName}" /></td></tr>
+		<td><c:out value="${ticklerForm.tickler.provider.formattedName}" /></td>
+		<td>Priority:</td>
+		<td>
+          <c:choose>
+           <c:when test="${ticklerForm.tickler.priority == 'High'}">
+             <img border=0 src=<html:rewrite page="/images/importance_high.jpg"/> />
+           </c:when>
+          <c:when test="${ticklerForm.tickler.priority == 'Normal'}">
+            &nbsp;
+          </c:when>
+          <c:otherwise>
+            <img border=0 src=<html:rewrite page="/images/importance_low.jpg"/> />
+          </c:otherwise>
+         </c:choose>
+		</td></tr>
+		<tr><td colspan="4">
+		<table class="simple">
+		<tr><td width="20%">Task Assigned To:</td>
+		<td width="10%">Program:</td>
+		<td width="31%"><c:out value="${ticklerForm.tickler.program.name}" /></td>
+		<td width="10%">Provider:</td>
+		<td wdith="29%"><c:out value="${ticklerForm.tickler.assignee.formattedName}" /></td></tr>
+		</table></td></tr>
 		<tr><td>Status:</td>
-		<td><html:select property="tickler.status">
-			<option value="Active">Active</option>
-			<option value="Completed">Completed</option>
+		<td colspan="3"><html:select property="tickler.status">
+            <html:option value="Active">Active</html:option>
+            <html:option value="Completed">Completed</html:option>
 			</html:select>
 		</td></tr>
 		<tr><td>Message:</td>
-		<td><c:out value="${ticklerForm.tickler.message}" /></td></tr>
+		<td colspan="3"><html:textarea readonly="true" style="width: 90%;" rows="10" property="tickler.message"  /></td></tr>
+
+		<tr><td>Comments:</td>
+		<td colspan="3"><textarea readonly="true" style="width: 90%;" rows="10"><c:out value="${comments}"/></textarea></td></tr>
+
+		<tr><td>New Comment:</td>
+		<td colspan="3"><textarea name="newcomment" style="width: 90%;" rows="8"></textarea></td></tr>
 
 	</html:form>
 </table>

@@ -113,9 +113,9 @@ public class TicklerManager {
         return ticklerDAO.getTickler(id);
     }
 
-    public void addComment(String tickler_no, String provider, String message) {
+    public void addComment(String tickler_no, String provider, String message, String status) {
         Integer id = Integer.valueOf(tickler_no);
-        ticklerDAO.addComment(id, provider, message);
+        ticklerDAO.addComment(id, provider, message, status);
     }
 
     public void reassign(String tickler_no, String provider, String task_assigned_to) {

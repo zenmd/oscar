@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.LabelValueBean;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.Tickler;
+import org.caisi.model.TicklerComment;
 import org.caisi.service.TicklerManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -46,16 +49,75 @@ public class ClientTaskAction extends BaseClientAction{
         List programs=programManager.getPrograms(providerNo, shelterId);
         ticklerForm.setProgramLst(programs);
         
-        //CustomFilter filter = ticklerForm.getFilter();
-        List ticklers = ticklerManager.getTicklers(null, shelterId, providerNo);
+        CustomFilter filter = ticklerForm.getFilter();
+        List ticklers = ticklerManager.getTicklers(filter, shelterId, providerNo);
 
         request.setAttribute("ticklers", ticklers);
         
         return mapping.findForward("mytask_filter");
     }
 
+    //for My Task save
+    public ActionForward mytasksave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionMessages messages = new ActionMessages();
+    	TicklerForm ticklerForm = (TicklerForm) form;
+    	
+    	String newComment = request.getParameter("newcomment");
+        String providerNo = (String)request.getSession().getAttribute("user");
+        Tickler tickler = ticklerForm.getTickler();
+        String tickler_no = tickler.getTickler_no().toString();
+        String status = tickler.getStatus();
+    	ticklerManager.addComment(tickler_no, providerNo, newComment,status);
+    	
+ 	    messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+        saveMessages(request,messages);
+        
+        return mytaskedit(mapping, form, request, response);
+    }
+    
     public ActionForward mytaskedit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
+    	
+    	String clientId = request.getParameter("clientId");
+
+        request.setAttribute("clientId", clientId);
+        request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
+
+//		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+//		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+//        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+//        ticklerForm.setProgramLst(programLst);
+        
+        String tickler_no =  request.getParameter("ticklerNo");
+        request.setAttribute("ticklerNo", tickler_no);
+        Tickler tickler = ticklerManager.getTickler(tickler_no);
+        java.util.Date service_date = tickler.getService_date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(service_date);
+        tickler.setService_hour(Misc.forwardZero(String.valueOf(cal.get(Calendar.HOUR)),2));
+        tickler.setService_minute(Misc.forwardZero(String.valueOf(cal.get(Calendar.MINUTE)),2));
+        if(cal.get(Calendar.AM_PM)==0){
+           tickler.setService_ampm("AM");
+        }else{
+           tickler.setService_ampm("PM");
+        }
+        ticklerForm.setTickler(tickler);
+        
+        Set comments = tickler.getComments();
+        Iterator iterator = comments.iterator();
+        String msg="";
+        while (iterator.hasNext()){
+          TicklerComment tct = (TicklerComment)iterator.next();
+          if(tct.getMessage()!=null && !"".equals(tct.getMessage())){
+             if(msg.equals("")){
+               msg = tct.getMessage();
+             }else{
+               msg = msg + "\n\n" + tct.getMessage();
+             }
+          }
+        }
+        request.setAttribute("comments", msg);
+
         return mapping.findForward("mytask_edit");
     }
     
