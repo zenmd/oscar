@@ -44,7 +44,8 @@
 						</div>
 		</td>
         <td  valign ="center" class="clsMenuCell2" nowrap="nowrap" >
-						<div class="clsMenu">My Tasks
+						<div class="clsMenu"><html:link action="/PMmodule/Task.do?method=filter"
+							 styleClass="clsMenu">My Tasks</html:link>
 						</div>
 		</td>
         <td  class="clsMenuCell2" nowrap="nowrap" >
