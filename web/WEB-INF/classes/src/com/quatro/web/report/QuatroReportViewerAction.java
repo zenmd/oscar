@@ -529,16 +529,34 @@ public class QuatroReportViewerAction extends Action {
          	    pfield11.setName(fieldName2);
          	    pfield11.setCurrentValues(vals11);
          	    fields2.add(pfield11);
+      	    }else if(fieldName.equals("p_startdate")){
+         	    ParameterFieldDiscreteValue pfieldDV11 = new ParameterFieldDiscreteValue();
+        	    pfieldDV11.setValue(startDate);
+         	    Values vals11 = new Values();
+         	    vals11.add(pfieldDV11);
+        	    ParameterField pfield11 = new ParameterField();
+         	    pfield11.setName(fieldName2);
+         	    pfield11.setCurrentValues(vals11);
+         	    fields2.add(pfield11);
+      	    }else if(fieldName.equals("p_enddate")){
+         	    ParameterFieldDiscreteValue pfieldDV12 = new ParameterFieldDiscreteValue();
+        	    pfieldDV12.setValue(endDate);
+         	    Values vals12 = new Values();
+         	    vals12.add(pfieldDV12);
+        	    ParameterField pfield12 = new ParameterField();
+         	    pfield12.setName(fieldName2);
+         	    pfield12.setCurrentValues(vals12);
+         	    fields2.add(pfield12);
       	    }else{
          	    if(fieldName2!=null){
-      		       ParameterFieldDiscreteValue pfieldDV12 = new ParameterFieldDiscreteValue();
-        	       pfieldDV12.setValue("");
-         	       Values vals12 = new Values();
-         	       vals12.add(pfieldDV12);
-           	       ParameterField pfield12 = new ParameterField();
-         	       pfield12.setName(fieldName2);
-         	       pfield12.setCurrentValues(vals12);
-         	       fields2.add(pfield12);
+      		       ParameterFieldDiscreteValue pfieldDV13 = new ParameterFieldDiscreteValue();
+        	       pfieldDV13.setValue("");
+         	       Values vals13 = new Values();
+         	       vals13.add(pfieldDV13);
+           	       ParameterField pfield13 = new ParameterField();
+         	       pfield13.setName(fieldName2);
+         	       pfield13.setCurrentValues(vals13);
+         	       fields2.add(pfield13);
          	    }
       	    } 
      	  }
