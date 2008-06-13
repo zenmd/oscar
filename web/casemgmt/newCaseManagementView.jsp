@@ -32,7 +32,7 @@
 <%@page import="oscar.util.DateUtils" %>
 <%@page import="org.springframework.web.context.WebApplicationContext"%>
 <%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
-<%@page import="org.caisi.service.Version, org.caisi.model.Role"%>
+<%@page import="org.caisi.service.Version"%>
 
 <jsp:useBean id="oscarVariables" class="java.util.Properties" scope="session" />
 
@@ -1755,22 +1755,6 @@ Version version = (Version) ctx.getBean("version");
                         %>
                         <li><html:multibox property="filter_providers" value="<%=providerNo%>" onclick="filterCheckBox(this)"></html:multibox><%=prov.getFormattedName()%></li>
                         <%                        
-                        }
-                        %>
-                    </ul>
-                </div>
-                
-                <div style="height:150px; width:auto; overflow:auto; float:left; position:relative; left:20%;">
-                    Role:
-                    <ul style="margin-left:0px; margin-top:1px; list-style: none inside none;">
-                        <li><html:multibox property="filter_roles" value="a" onclick="filterCheckBox(this)"></html:multibox>All</li>
-                        <%
-                        List roles = (List)request.getAttribute("roles");
-                        for( int num = 0; num < roles.size(); ++num ) {
-                        Role role = (Role)roles.get(num);
-                        %>
-                        <li><html:multibox property="filter_roles" value="<%=String.valueOf(role.getId())%>" onclick="filterCheckBox(this)"></html:multibox><%=role.getName()%></li>
-                        <%
                         }
                         %>
                     </ul>

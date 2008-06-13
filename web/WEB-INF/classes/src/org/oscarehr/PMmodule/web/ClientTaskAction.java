@@ -1,10 +1,9 @@
 package org.oscarehr.PMmodule.web;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,20 +13,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.apache.struts.action.DynaActionForm;
+import org.apache.struts.util.LabelValueBean;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.Tickler;
 import org.caisi.service.TicklerManager;
-import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.TicklerForm;
 
-import com.quatro.common.KeyConstants;
-import org.apache.struts.util.LabelValueBean;
 import oscar.Misc;
-import java.util.TimeZone;
+
+import com.quatro.common.KeyConstants;
 
 public class ClientTaskAction extends BaseClientAction{
     private ClientManager clientManager;
@@ -46,9 +43,10 @@ public class ClientTaskAction extends BaseClientAction{
     	Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         String providerNo = (String)request.getSession().getAttribute("user");
         
-        List programs=programManager.getBedPrograms(providerNo, shelterId);
+        List programs=programManager.getPrograms(providerNo, shelterId);
         ticklerForm.setProgramLst(programs);
         
+        //CustomFilter filter = ticklerForm.getFilter();
         List ticklers = ticklerManager.getTicklers(null, shelterId, providerNo);
 
         request.setAttribute("ticklers", ticklers);

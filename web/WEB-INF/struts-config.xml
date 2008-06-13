@@ -153,7 +153,7 @@
  -->        
         <form-bean name="ticklerForm" type="org.oscarehr.PMmodule.web.formbean.TicklerForm"/>
 
-
+<!-- 
         <form-bean name="customFilterForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="filter" type="org.caisi.model.CustomFilter" />
         </form-bean>
@@ -161,7 +161,8 @@
         <form-bean name="editProviderFaxForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="faxNumber" type="java.lang.String" />
         </form-bean>
-
+ -->
+ 
 <!-- 
         <form-bean name="setProviderColour" type="org.apache.struts.action.DynaActionForm">
             <form-property name="colour" type="java.lang.String" />
@@ -575,7 +576,7 @@
         <action input="/scratch/index.jsp" name="FrmForm" path="/Scratch" scope="request" type="oscar.scratch.ScratchAction">
             <forward name="success" path="/scratch/index.jsp" />
         </action>
-        
+<!-- 
         <action path="/Tickler" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="ticklerForm" input="/ticklerPlus/ticklerForm.jsp" validate="false">
             <forward name="list" path="page.tickler.list" />
             <forward name="view" path="page.tickler.view" />
@@ -591,7 +592,8 @@
             <forward name="view" path="/ticklerPlus/viewUnreadTicklers.jsp" />
             <forward name="login" path="/ticklerPlus/loginUnreadTicklers.jsp" />
         </action>
-
+ -->        
+ 
         <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="request">
             <forward name="list" path="page.pmm.admin.list" />
             <forward name="edit" path="page.pmm.admin.edit" />
@@ -746,17 +748,19 @@
             <forward name="edit" path="/PMmodule/HealthSafety.jsp" />
             <forward name="success" path="/PMmodule/HealthSafetyExit.jsp" />
         </action>
+        
         <action path="/PMmodule/Consent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="consentForm" input="/PMmodule/Consent/consentFormA.jsp" validate="false">
             <forward name="formA" path="/PMmodule/Consent/consentFormA.jsp" />
             <forward name="formB" path="/PMmodule/Consent/consentFormB.jsp" />
             <forward name="interview" path="/PMmodule/Consent/consentInterview.jsp" />
             <forward name="success" path="/PMmodule/Consent/exit.jsp" />
         </action>
+<!--        
         <action path="/PMmodule/StaffManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="staffManagerForm" scope="request">
             <forward name="list" path="page.pmm.staff.list" />
             <forward name="edit" path="page.pmm.staff.edit" />
         </action>
-        
+-->        
         <action path="/PMmodule/QuatroIntakeEdit"
             type="org.springframework.web.struts.DelegatingActionProxy"
             parameter="method" name="quatroIntakeEditForm" scope="session">

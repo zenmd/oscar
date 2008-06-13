@@ -51,7 +51,7 @@ import org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO;
 import org.oscarehr.casemgmt.dao.ClientImageDAO;
 import org.oscarehr.casemgmt.dao.EchartDAO;
 import org.oscarehr.casemgmt.dao.EncounterFormDAO;
-import org.oscarehr.casemgmt.dao.EncounterWindowDAO;
+//import org.oscarehr.casemgmt.dao.EncounterWindowDAO;
 import org.oscarehr.casemgmt.dao.HashAuditDAO;
 import org.oscarehr.casemgmt.dao.IssueDAO;
 import org.oscarehr.casemgmt.dao.MessagetblDAO;
@@ -97,7 +97,7 @@ public class CaseManagementManager {
 //    protected RoleManager roleManager;
     protected CaseManagementTmpSaveDAO caseManagementTmpSaveDAO;    
     protected HashAuditDAO hashAuditDAO;
-    protected EncounterWindowDAO ectWindowDAO;
+//    protected EncounterWindowDAO ectWindowDAO;
     protected UserPropertyDAO userPropertyDAO;
     protected IntakeDao intakeDao;
     protected SecroleDao secroleDao;  
@@ -153,7 +153,7 @@ public class CaseManagementManager {
     public void saveUserProperty(UserProperty prop) {
         this.userPropertyDAO.saveProp(prop);
     }
-    
+/*    
     public void saveEctWin(EncounterWindow ectWin) {
         ectWindowDAO.saveWindowDimensions(ectWin);
     }
@@ -161,7 +161,7 @@ public class CaseManagementManager {
     public EncounterWindow getEctWin(String provider) {
         return this.ectWindowDAO.getWindow(provider);
     }
-
+*/
     public String saveNote(CaseManagementCPP cpp, CaseManagementNote note, String cproviderNo, String userName, String lastStr) {
     	SimpleDateFormat dt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     	Date now = new Date();
@@ -949,11 +949,11 @@ public class CaseManagementManager {
     public void setHashAuditDAO(HashAuditDAO dao) {
         this.hashAuditDAO = dao;
     }
-    
+/*    
     public void setEctWindowDAO(EncounterWindowDAO dao) {
         this.ectWindowDAO = dao;
     }
-    
+*/    
     public void setUserPropertyDAO( UserPropertyDAO dao) {
         this.userPropertyDAO = dao;
     }

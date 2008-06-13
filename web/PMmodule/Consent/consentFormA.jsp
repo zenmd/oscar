@@ -67,7 +67,7 @@
 			//warning about incompetence
 			if(answer1 != 1 || answer2 != 1 || answer3 != 1) {
 				if(confirm('Not all questions were answered correctly. \nSubmitting this form will result in the inability to obtain informed consent')) {
-					form.elements['consent.status'].value = '<%=Demographic.ConsentGiven.NONE.name()%>';					
+					form.elements['consent.status'].value = '<%=Demographic.ConsentGiven_NONE%>';					
 				} else {
 					return;
 				}
@@ -214,7 +214,7 @@
 	<tr>
 		<td>
 		<p>
-		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven.ALL.name()%>"/>
+		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven_ALL%>"/>
 		&nbsp&nbsp&nbsp I, <b><c:out value="${clientName}"/></b>,
 		permit all CAISI partner agencies to record, send and use my
 		personal information for the purposes above.</p>
@@ -223,7 +223,7 @@
 	<tr>
 		<td>
 		<p>
-		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven.CIRCLE_OF_CARE.name()%>"/>
+		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven_CIRCLE_OF_CARE%>"/>
 		&nbsp&nbsp&nbsp I, <b><c:out value="${clientName}"/></b>,
 		permit only health care providers to record, send and use
 		my personal information for the purposes above.</p>
@@ -232,7 +232,7 @@
 	<tr>
 		<td>
 		<p>
-		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven.EMPI.name()%>"/>
+		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven_EMPI%>"/>
 		&nbsp&nbsp&nbsp I, <b><c:out value="${clientName}"/></b>,
 		permit all CAISI partner agencies to record, send and
 		use only my demographic information for the purposes above.</p>
@@ -241,7 +241,7 @@
 	<tr>
 		<td>
 		<p>
-		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven.NONE.name()%>"/>
+		<html:radio property="consent.status" value="<%=Demographic.ConsentGiven_NONE%>"/>
 		&nbsp&nbsp&nbsp I, <b><c:out value="${clientName}"/></b>,
 		do <b>not</b> permit do not permit City of Toronto or any other CAISI partner
 		agencies to record, send and use my personal information for the purposes above.

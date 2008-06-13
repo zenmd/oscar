@@ -25,7 +25,7 @@ package org.caisi.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.caisi.dao.CustomFilterDAO;
+//import org.caisi.dao.CustomFilterDAO;
 import org.caisi.dao.TicklerDAO;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.Tickler;
@@ -37,7 +37,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 public class TicklerManager {
 
     private TicklerDAO ticklerDAO = null;
-    private CustomFilterDAO customFilterDAO = null;
+//    private CustomFilterDAO customFilterDAO = null;
     
     private ProgramManager programManager = null;
     private CaseManagementManager caseManagementManager = null;
@@ -53,11 +53,11 @@ public class TicklerManager {
     public void setTicklerDAO(TicklerDAO ticklerDAO) {
         this.ticklerDAO = ticklerDAO;
     }
-
+/*
     public void setCustomFilterDAO(CustomFilterDAO customFilterDAO) {
         this.customFilterDAO = customFilterDAO;
     }
-    
+*/    
     
     public void addTickler(Tickler tickler) {
         ticklerDAO.saveTickler(tickler);
@@ -134,7 +134,7 @@ public class TicklerManager {
     public void activateTickler(String tickler_no, String provider) {
         ticklerDAO.activateTickler(Integer.valueOf(tickler_no), provider);
     }
-
+/*
     public List getCustomFilters() {
         return customFilterDAO.getCustomFilters();
     }
@@ -170,4 +170,5 @@ public class TicklerManager {
     public void deleteCustomFilterById(Integer id) {
         customFilterDAO.deleteCustomFilterById(id);
     }
+*/    
 }

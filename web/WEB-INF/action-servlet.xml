@@ -249,6 +249,7 @@
     <bean name="/ArchiveView" class="org.oscarehr.casemgmt.web.ArchiveViewAction" singleton="false">
         <property name="programManager" ref="programManager"/>
     </bean>
+<!-- 
     <bean name="/oscarEncounter/displayIssues" class="oscar.oscarEncounter.pageUtil.EctDisplayIssuesAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
     </bean>
@@ -256,7 +257,8 @@
     <bean name="/oscarEncounter/displayOMeds" class="oscar.oscarEncounter.pageUtil.EctDisplayOtherMedsAction" singleton="false">
         <property name="caseManagementManager" ref="CaseManagementManager"/>
     </bean>
-    
+ -->    
+     
     <!-- Population Report -->
     <bean name="/PopulationReport" class="org.oscarehr.common.web.PopulationReportAction" singleton="false">
         <property name="populationReportManager" ref="populationReportManager"/>

@@ -51,8 +51,6 @@ public class Tickler extends BaseObject {
 	private Provider assignee;
 	private Program program;
 	
-	private String demographic_webName;
-	
 	private String service_hour;
 	private String service_minute;
 	private String service_ampm;
@@ -169,12 +167,6 @@ public class Tickler extends BaseObject {
 			return formatter.format(getService_date());
 		}
 		return "";
-	}
-	public String getDemographic_webName() {
-		return demographic_webName;
-	}
-	public void setDemographic_webName(String demographic_webName) {
-		this.demographic_webName = demographic_webName;
 	}
 	public String getTask_assigned_to_name() {
 		return task_assigned_to_name;

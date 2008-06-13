@@ -33,72 +33,16 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 
 public class CustomFilter extends BaseObject {
-	private Integer id;
-	private String name;
-	private String demographic_no;
-	
 	private Date start_date;
 	private Date end_date;
-	private String startDate;
-	private String endDate;
 	private String status;
-	private String priority;
-	
-	private Set providers;
-	private Program program;
-	
-	private String custom;
-	private String client;
-	
-	public static List statusList;
-	public static List priorityList;
 	
 	private String provider_no;        
 	private String programId;
 	
-	static {
-		priorityList = new ArrayList();
-		priorityList.add(new OptionsBean("Normal"));
-		priorityList.add(new OptionsBean("High"));
-		priorityList.add(new OptionsBean("Low"));
-		
-		statusList = new ArrayList();
-		statusList.add(new OptionsBean("Active","Active"));
-		statusList.add(new OptionsBean("Completed","Complated"));
-	}
-	
 	public CustomFilter() {
-		providers = new HashSet();
 		setStatus("Active");
-		setPriority("Normal");
 		this.setEnd_date(new Date());
-	}
-
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Set getProviders() {
-		return providers;
-	}
-	public void setProviders(Set providers) {
-		this.providers = providers;
-	}	
-
-	public Program getProgram() {
-		return program;
-	}
-
-	public void setProgram(Program program) {
-		this.program = program;
 	}
 
 	public String getStatus() {
@@ -164,52 +108,6 @@ public class CustomFilter extends BaseObject {
 		this.start_date = start_date;
 	}
 	
-	public String getCustom() {
-		return custom;
-	}
-	public void setCustom(String custom) {
-		this.custom = custom;
-	}
-
-	public String getProvider() {
-		if(getProviders().size()>0) {
-			Provider p = (Provider)getProviders().iterator().next();
-			return p.getProviderNo();
-		}
-		return null;
-	}
-
-	public void setProvider(String provider) {
-		Provider p = new Provider();
-		p.setProviderNo(provider);
-		this.getProviders().clear();
-		this.getProviders().add(p);
-	}
-
-	public String getClient() {
-		return client;
-	}
-
-	public void setClient(String client) {
-		this.client = client;
-	}
-
-	public String getDemographic_no() {
-		return demographic_no;
-	}
-
-	public void setDemographic_no(String demographic_no) {
-		this.demographic_no = demographic_no;
-	}
-
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
 	public String getProvider_no() {
 		return provider_no;
 	}

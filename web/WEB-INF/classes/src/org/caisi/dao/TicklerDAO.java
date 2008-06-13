@@ -32,7 +32,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.Tickler;
 import org.caisi.model.TicklerComment;
-import org.caisi.model.TicklerUpdate;
 import org.oscarehr.PMmodule.model.Provider;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.util.Utility;
@@ -136,20 +135,22 @@ public class TicklerDAO extends HibernateDaoSupport {
      }
     
     private String getTicklerQueryString(String query, List paramList, CustomFilter filter){
-      boolean includeProviderClause = true;
+//      boolean includeProviderClause = true;
       boolean includeStatusClause = true;
-      boolean includeClientClause = true;
+//      boolean includeClientClause = true;
             
       if (filter.getStartDate() == null || filter.getStartDate().length() == 0) filter.setStartDate("1900/01/01");
       if (filter.getEndDate() == null || filter.getEndDate().length() == 0) filter.setEndDate("8888/12/31");
 
-      if (filter.getProvider() == null || filter.getProvider().equals("All Providers")) includeProviderClause=false;
-      if (filter.getClient() == null || filter.getClient().equals("All Clients")) includeClientClause=false;
+//      if (filter.getProvider() == null || filter.getProvider().equals("All Providers")) includeProviderClause=false;
+//      if (filter.getClient() == null || filter.getClient().equals("All Clients")) includeClientClause=false;
       if (filter.getStatus().equals("")) includeStatusClause = false;
 
-      paramList.add(filter.getStart_date());
+      query = query + " and t.service_date >= ? and t.service_date <= ?";
+	  paramList.add(filter.getStart_date());
       paramList.add(new Date(filter.getEnd_date().getTime()+DateUtils.MILLIS_PER_DAY));
 
+/*      
       if(includeProviderClause) {
          query = query + " and t.creator IN (";
          Set pset = filter.getProviders();
@@ -161,17 +162,18 @@ public class TicklerDAO extends HibernateDaoSupport {
          }
          query += ")";
       }
-
+*/
+      
       if(includeStatusClause) {
          query = query + " and t.status = ?";
          paramList.add(String.valueOf(filter.getStatus()));
       }
-            
+/*            
       if(includeClientClause) {
          query = query + "and t.demographic_no = ?";
          paramList.add(filter.getClient());
       }
-
+*/
       return query;
     }
 
@@ -191,12 +193,14 @@ public class TicklerDAO extends HibernateDaoSupport {
         Tickler tickler = this.getTickler(tickler_id);
         if (tickler != null) {
             tickler.setStatus(status);
+/*
             TicklerUpdate update = new TicklerUpdate();
             update.setProvider_no(provider);
             update.setStatus(status);
             update.setTickler_no(tickler_id);
             update.setUpdate_date(new Date());
             tickler.getUpdates().add(update);
+*/            
             this.saveTickler(tickler);
         }
     }

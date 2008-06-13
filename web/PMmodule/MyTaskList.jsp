@@ -6,9 +6,9 @@ function submitForm(methodVal) {
   document.forms[0].submit();
 }
 </script>
-<html-el:form action="/PMmodule/Task.do">
+<html:form action="/PMmodule/Task.do">
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
-<tr><th  class="pageTitle">My Tasks - List</th></tr>
+<tr><th class="pageTitle">My Tasks - List</th></tr>
 <input type="hidden" name="method" />
 
 <tr><td class="buttonBar"><a href='javascript:submitForm("filter");' style="color:Navy;text-decoration:none;">
@@ -41,7 +41,6 @@ function submitForm(methodVal) {
 </td></tr>
 
 
-
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Tasks</th></tr>
@@ -54,15 +53,15 @@ function submitForm(methodVal) {
 <display:setProperty name="basic.msg.empty_list" value="No task found." />
 <display:column sortable="false" title="" sortProperty="priority" >
 <c:choose>
-<c:when test="${tickler.priority == 'High'}">
-<img border=0 src=<html:rewrite page="/images/importance_high.jpg"/> />
-</c:when>
-<c:when test="${tickler.priority == 'Normal'}">
-&nbsp;
-</c:when>
-<c:otherwise>
-<img border=0 src=<html:rewrite page="/images/importance_low.jpg"/> />
-</c:otherwise>
+  <c:when test="${tickler.priority == 'High'}">
+    <img border=0 src=<html:rewrite page="/images/importance_high.jpg"/> />
+  </c:when>
+  <c:when test="${tickler.priority == 'Normal'}">
+    &nbsp;
+  </c:when>
+  <c:otherwise>
+    <img border=0 src=<html:rewrite page="/images/importance_low.jpg"/> />
+  </c:otherwise>
 </c:choose>
 </display:column>
 <display:column sortable="true" sortProperty="tickler_no" title="Task ID">
@@ -77,7 +76,5 @@ function submitForm(methodVal) {
 </display:table> 
 </td></tr>
 </table>
-</html-el:form>
-</body>
-</html>
+</html:form>
 
