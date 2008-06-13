@@ -380,7 +380,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        clientForm.setNotSignReasonList(notSignReasonList);
        
        if(admission.getProviderNo()!=null) request.setAttribute("issuedBy",providerManager.getProvider(admission.getProviderNo()).getFormattedName());
-       if(!admission.getAdmissionStatus().equals("admitted")) {
+       if("discharged".equalsIgnoreCase(admission.getAdmissionStatus())){
     	   request.setAttribute("isReadOnly", "true");
        }
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
