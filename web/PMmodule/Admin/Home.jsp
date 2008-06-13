@@ -6,7 +6,7 @@ String _appPath = request.getContextPath();
 <%@ include file="/taglibs.jsp"%>
 
 
-<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px" style="border-width: 1px; border-style: solid; bordercolor: black">
 	<tr>
 		<th class="pageTitle" align="center"><span
 			id="_ctl0_phBody_lblTitle" align="left">System Administration</span></th>
@@ -23,26 +23,24 @@ String _appPath = request.getContextPath();
 	<tr>
 		<td height="100%">
 		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+			style="color: Black; background-color: White; 
                     height: 100%; width: 100%; overflow: auto;">
 
 		<table width="100%" cellpadding="0" cellspacing="0">
-		<tr><td colspan="7">&nbsp;</td></tr>
 			<tr>
-				<td width="10%">&nbsp;&nbsp;<img border="0" width="60px"
-										height="60px" src="<%=_appPath %>/images/Admin-60.gif" alt="" /></td>
-									<td width="80%" align="left" class="clsPageHeader" colspan="5">
-									<h1 style="color:#1E90FF">System Administration</h1>
-									</td>
-									<td width="10%">&nbsp;</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td colspan="5">
-									<hr />
+				<td>&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td width="10%" style="vertical-align: middle">&nbsp;&nbsp;<img border="0" width="60px"
+										height="60px" src="<%=_appPath %>/images/Admin-60.gif" alt="" />
+				</td>
+				<td width="80%" align="left" class="clsPageHeader" colspan="5" style="font-style: italic; vertical-align: middle">
+									<h2 style="color:#1E90FF; vertical-align: middle">System Administration</h2><hr />
+				</td>
 				<td width="10%">&nbsp;</td>
 			</tr>
-
+			
 		</table>
 
 		<table width="100%">
@@ -84,7 +82,7 @@ String _appPath = request.getContextPath();
 				<th valign="middle">
 				<table align="left">
 					<tr>
-						<th align="left" valign="top" class="clsHomePageLabels"><html:link
+						<th align="left" valign="top" class="clsHomePageLabels" ><html:link
 							action="/PMmodule/Admin/RoleManager.do">Role Management</html:link></th>
 					</tr>
 				</table>
@@ -115,7 +113,7 @@ String _appPath = request.getContextPath();
 				<th></th>
 				<th valign="middle"><a id="orgAdd"
 					href="<c:out value='${ctx}'/>/PMmodule/Admin/ShowORGTree.do?tableId=ORG">
-				<img ID="lnkClient" src="<%=_appPath%>/images/Org-60.gif"
+				<img ID="lnkClient" src="<%=_appPath%>/images/Organization2.png"
 					Height="60" Width="60" border="0" /></a></th>
 				<th align="left" valign="middle">
 				<table>

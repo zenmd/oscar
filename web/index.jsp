@@ -202,7 +202,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 									value="Change Password" name="B2" ></font></td>
 									<td>&nbsp</td>
 							</tr>
-							<tr><td height="5"></td></tr>
+							<tr><td height="5">&nbsp;</td></tr>
 						</table>
 						
 					</td>
