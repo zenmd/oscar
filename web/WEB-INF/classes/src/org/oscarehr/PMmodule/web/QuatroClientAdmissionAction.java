@@ -408,25 +408,40 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
-           //service restriction check
+      	   Program program = programManager.getProgram(programId);
+
            StringBuffer sb = new StringBuffer();
     	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
+
+      	     //check gender conflict and age conflict
+             Demographic client2= clientManager.getClientByDemographicNo(qif.getClientId().toString());
+       	     if(clientRestrictionManager.checkGenderConflict(program, client2)){
+           	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
+                 isError = true;
+                 saveMessages(request,messages);
+                 return update(mapping, form, request, response);
+       	     }
+           	 if(clientRestrictionManager.checkAgeConflict(program, client2)){
+           	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
+                 isError = true;
+                 saveMessages(request,messages);
+                 return update(mapping, form, request, response);
+           	 }
+             
+       	     //service restriction check
              ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
            	     admission.getProgramId(), qif.getClientId(), new Date());
              if(restrInPlace != null) {
            	   sb.append(qif.getLastName() + ", " + qif.getFirstName() + "<br>");
-               isError = true;
-             }  
-           }
-    	   if(isError){
-        	   Program program = programManager.getProgram(programId); 
     	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
-                  			request.getContextPath(), program.getName(), sb.toString()));
+             			request.getContextPath(), program.getName(), sb.toString()));
+               isError = true;
                saveMessages(request,messages);
                return update(mapping, form, request, response);
-    	   }
+             }  
+           }
 
     	   //check client active in other program
            for(int i=0;i<lstFamily.size();i++){
