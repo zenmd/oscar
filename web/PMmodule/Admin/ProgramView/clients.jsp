@@ -116,8 +116,6 @@
 
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
-
-	
 	<tr>
 		<td align="left" class="buttonBar">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
