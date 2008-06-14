@@ -23,6 +23,7 @@
  * Ontario, Canada
  */
 -->
+<%@ include file="/taglibs.jsp"%>
 
 <%@ page language="java" contentType="text/html"
 	import="oscar.OscarProperties,oscar.util.BuildInfo,javax.servlet.http.Cookie,oscar.oscarSecurity.CookieSecurity"%>
@@ -161,6 +162,17 @@ if (props.getProperty("logintitle", "").equals("")) {
 					</td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
+				<!-- messages -->
+				<tr>
+					<td align="center" class="message">
+					<logic:messagesPresent message="true">
+						<br />
+						<html:messages id="message" message="true">
+							<c:out escapeXml="false" value="${message}" />
+						</html:messages>
+						<br />
+					</logic:messagesPresent></td>
+				</tr>
 				<tr>
 					<td>
 						<table cellspacing="2" border="0" style="BORDER-RIGHT:Gray 1px solid; BORDER-Top:Silver 1px solid; BORDER-LEFT:Silver 1px solid;BORDER-BOTTOM:Gray 1px solid" align="center" valing="center" background="images/Silver-background.gif"  width="70%">

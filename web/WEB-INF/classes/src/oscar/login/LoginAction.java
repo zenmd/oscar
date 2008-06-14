@@ -79,14 +79,16 @@ public final class LoginAction extends DispatchAction {
         String password = ((LoginForm) form).getPassword();
         String pin = ((LoginForm) form).getPin();
         if (userName.equals("")) {
-            return mapping.findForward(where);
+            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid", request.getContextPath()));
+            saveMessages(request,messages);
+            return mapping.getInputForward();
         }
 
         LoginCheckLogin cl = new LoginCheckLogin();
         if (cl.isBlock(ip, userName)) {
             _logger.info(LOG_PRE + " Blocked: " + userName);
             // return mapping.findForward(where); //go to block page
-            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Your account is locked. Please contact your administrator to unlock."));
+            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", request.getContextPath(),"Your account is locked. Please contact your administrator to unlock."));
             saveMessages(request,messages);
             return mapping.getInputForward();
         }
@@ -97,7 +99,7 @@ public final class LoginAction extends DispatchAction {
         }
         catch (Exception e) {
             String newURL = mapping.findForward("error").getPath();
-            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Server is temporarily unavailable, please try again later"));
+            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", request.getContextPath(),"Server is temporarily unavailable, please try again later"));
             saveMessages(request,messages);
             return mapping.getInputForward();
         }
@@ -204,7 +206,7 @@ public final class LoginAction extends DispatchAction {
         // expired password
         else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
             cl.updateLoginList(ip, userName);
-   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login",
+   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", request.getContextPath(),
    	     		"Your account is expired. Please contact your administrator."));
         }
         else { // go to normal directory
@@ -212,7 +214,7 @@ public final class LoginAction extends DispatchAction {
             // LogAction.addLog(userName, "failed", LogConst.CON_LOGIN, "", ip);
             cl.updateLoginList(ip, userName);
             CRHelper.recordLoginFailure(userName, request);
-   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
+   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid", request.getContextPath()));
         }
         saveMessages(request,messages);
 	    return mapping.getInputForward();
