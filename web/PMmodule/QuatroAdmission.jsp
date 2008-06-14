@@ -17,7 +17,7 @@
 <html:hidden property="admission.programId"/>
 <html:hidden property="admission.admissionDateTxt"/>
 <html:hidden property="admission.admissionStatus"/>
-<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
 
 function submitForm(methodVal) {

@@ -83,7 +83,7 @@
 	<input type="hidden" name="ruleCheck" value="N" />
 	<html:hidden property="serviceRestriction.demographicNo" />
 	<html:hidden property="serviceRestriction.id" />
-	<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+	<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>

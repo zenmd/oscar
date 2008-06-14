@@ -12,7 +12,7 @@
 	<html-el:hidden property="consentValue.demographicNo"  />	
 	<html-el:hidden property="consentValue.id" />
 	<input type="hidden" name="clientId"/>	
-	<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+	<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 	
 	<script lang="javascript">
 	function printForm(recordId){

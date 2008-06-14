@@ -68,7 +68,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	<html-el:hidden property="complaint.clientId"  />
 	<html-el:hidden property="complaint.id"  />
 	<html-el:hidden property="complaint.createdDatex"  />
-    <input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+    <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 	
 
 <%

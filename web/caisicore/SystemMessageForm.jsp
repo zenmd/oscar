@@ -8,7 +8,7 @@ String s = "debug";
 <html:form action="/SystemMessage.do" onsubmit="getScrollPosition();>
 	<input type="hidden" name="method" value="save" />
 	<html:hidden property="system_message.id" />
-    <input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+    <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 	
 
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"

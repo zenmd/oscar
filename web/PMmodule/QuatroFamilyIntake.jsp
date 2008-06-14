@@ -9,7 +9,7 @@
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
-<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
 function submitForm(methodVal) {
  	getScrollPosition();

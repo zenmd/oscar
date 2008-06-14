@@ -43,7 +43,7 @@
 <input type="hidden" name="rId" />
 <input type="hidden" name="method" />
 <input type="hidden" name="ruleCheck" value="Y" />
-<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Referral</th>
