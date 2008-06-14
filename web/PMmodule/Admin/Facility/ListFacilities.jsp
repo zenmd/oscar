@@ -79,7 +79,7 @@
 								<display:column sortable="true" title="Name" sortProperty="name" sortName="facility">
 									<a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=view&facilityId=<c:out value="${facility.id}" />"><c:out value="${facility.name}" /></a>
 								</display:column>
-						        <display:column property="name" sortable="true" title="Name"/>
+						        
 						        <display:column property="description" sortable="true" title="Description" />
 						        <display:column property="contactName" sortable="true" title="Contact name" />
 						        <display:column sortable="true" title="HIC?" >

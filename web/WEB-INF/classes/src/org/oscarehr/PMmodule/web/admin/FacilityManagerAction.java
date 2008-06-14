@@ -5,9 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +30,7 @@ import org.oscarehr.PMmodule.web.BaseFacilityAction;
 import org.oscarehr.PMmodule.web.FacilityDischargedClients;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 
 /**
@@ -97,7 +96,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         Facility facility = facilityManager.getFacility(facilityId);
 
         FacilityManagerForm facilityForm = (FacilityManagerForm) form;
-        facilityForm.setFacility(facility);
+        
 
 //        // Get facility associated client list -----------
 //        Map facilityClientsMap = new LinkedHashMap();
@@ -157,10 +156,29 @@ public class FacilityManagerAction extends BaseFacilityAction {
 //
 //        request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
 
-        request.setAttribute("facilityId", facility.getId());
         
-        request.setAttribute("facility", facility);
+        // get agency's organization list from caisi editor table
+        List sList = lookupManager.LoadCodeList("SHL", true, null, null);
+        for(int i = 0; i <sList.size();i++){
+        	LookupCodeValue lv = (LookupCodeValue)sList.get(i);
+        	if(lv.getCode().equals( facility.getOrgId().toString())){
+        		facility.setShelter(lv.getDescription());
+        		break;
+        	}
+        }
+        // get agency's sector list from caisi editor table
+        List sList2 = lookupManager.LoadCodeList("SEC", true, null, null);
+        for(int i = 0; i <sList2.size();i++){
+        	LookupCodeValue lv = (LookupCodeValue)sList2.get(i);
+        	if(lv.getCode().equals( facility.getSectorId().toString())){
+        		facility.setSector(lv.getDescription());
+        		break;
+        	}
+        }
 
+        request.setAttribute("facilityId", facility.getId());
+        request.setAttribute("facility", facility);
+        facilityForm.setFacility(facility);
         return mapping.findForward(FORWARD_VIEW);
     }
     

@@ -65,12 +65,12 @@
 							<table width="100%" border="1" cellspacing="2" cellpadding="3">
 								<tr class="b">
 									<td width="20%">Facility ID:</td>
-									<td><c:out value="${requestScope.id}" /></td>
+									<td><c:out value="${facilityManagerForm.facility.id}" /></td>
 								</tr>
 								<tr class="b">
 									<td width="20%">Name:</td>
 									<td><c:out
-										value="${requestScope.facilityManagerForm.facility.name}" /></td>
+										value="${facilityManagerForm.facility.name}" /></td>
 								</tr>
 								<tr class="b">
 									<td width="20%">Description:</td>
@@ -96,7 +96,24 @@
 									<td><c:out
 										value="${facilityManagerForm.facility.contactPhone}" /></td>
 								</tr>
-
+								<tr class="b">
+									<td width="20%">Shelter:</td>
+									<td><c:out
+										value="${facilityManagerForm.facility.shelter}" /></td>
+								</tr>
+								<tr class="b">
+									<td width="20%">Sector:</td>
+									<td><c:out
+										value="${facilityManagerForm.facility.sector}" /></td>
+								</tr>
+								<tr class="b">
+									<td width="20%">Active:</td>
+									<td>
+										<logic:equal name="facilityManagerForm" property="facility.active" value="true">Yes</logic:equal>
+										<logic:equal name="facilityManagerForm" property="facility.active" value="false">No</logic:equal>
+									
+									</td>
+								</tr>
 
 							</table>
 							</td>

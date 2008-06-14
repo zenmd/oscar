@@ -331,8 +331,8 @@ public class ProgramManagerViewAction extends BaseAction {
 		}else{
 			staffForm = new StaffForm();
 			formBean.setStaffForm(staffForm);
-			lst = providerManager.getActiveProviders(programId);
-				// programManager.getProgramProviders("P" + programId);
+			//lst = providerManager.getActiveProviders(programId);
+			lst = programManager.getProgramProviders("P" + programId);
 		}
 		
 		request.setAttribute("existStaffLst", lst);

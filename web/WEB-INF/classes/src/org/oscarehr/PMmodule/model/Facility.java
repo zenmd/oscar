@@ -16,7 +16,8 @@ public class Facility implements Serializable {
     private boolean active;
     private Integer orgId;
     private Integer sectorId;
-    
+    private String shelter;
+    private String sector;
     public Facility() {
     }
 
@@ -122,4 +123,20 @@ public class Facility implements Serializable {
     public int hashCode() {
         return (id != null ? id.hashCode() : 0);
     }
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+
+	public String getShelter() {
+		return shelter;
+	}
+
+	public void setShelter(String shelter) {
+		this.shelter = shelter;
+	}
 }
