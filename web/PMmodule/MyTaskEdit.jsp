@@ -60,7 +60,7 @@ function submitForm(methodVal) {
 		<tr><td width="20%">Task Assigned To:</td>
 		<td width="10%">Program:</td>
 		<td width="31%"><c:out value="${ticklerForm.tickler.program.name}" /></td>
-		<td width="10%">Provider:</td>
+		<td width="10%">User:</td>
 		<td wdith="29%"><c:out value="${ticklerForm.tickler.assignee.formattedName}" /></td></tr>
 		</table></td></tr>
 		<tr><td>Status:</td>

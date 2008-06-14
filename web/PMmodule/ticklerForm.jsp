@@ -116,7 +116,7 @@ function submitForm(methodVal) {
 		      </html:select>
 		    </c:otherwise>
 		  </c:choose>    
-		Provider: <html:select property="tickler.task_assigned_to">
+		User: <html:select property="tickler.task_assigned_to">
 		   <option value=""> --- </option>
            <html:optionsCollection property="providerLst" value="providerNo" label="formattedName"/>
 		</html:select>
