@@ -15,16 +15,22 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		Search</th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><html:link
-			href="javascript:submitForm('add');"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;&nbsp;</html:link>
-		<html:link href="javascript:submitForm('list');"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
-		<html:link href="javascript:resetForm();"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
+		<td align="left" class="buttonBar">
+			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
+			</html:link>
+			<html:link
+				href="javascript:submitForm('add');"
+				style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;|
+			</html:link>
+			<html:link href="javascript:submitForm('list');"
+				style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;|
+			</html:link>
+			<html:link href="javascript:resetForm();"
+				style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;</html:link>
 		</td>
 	</tr>
 	<tr>
