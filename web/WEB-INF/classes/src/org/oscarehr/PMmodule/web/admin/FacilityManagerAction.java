@@ -406,6 +406,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         Facility facility = new Facility("", "");
+        facility.setActive(true);
         ((FacilityManagerForm) form).setFacility(facility);
 
         // get agency's organization list from caisi editor table
