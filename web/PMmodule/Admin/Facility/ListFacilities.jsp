@@ -27,12 +27,12 @@
 					border="0">
 					<!-- submenu -->
 					<tr class="buttonBar">
-						<td align="left" class="buttonBar" style="vertical-align: middle"><html:link
+						<td align="left" class="buttonBar"><html:link
 							action="/Home.do"
 							style="color:Navy;text-decoration:none">&nbsp;
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>
 						<html:link action="/PMmodule/FacilityManager.do?method=add"
-							style="color:Navy;text-decoration:none">
+							style="color:Navy;text-decoration:none">&nbsp;
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;</html:link>
 				
 						</td>

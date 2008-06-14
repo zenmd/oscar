@@ -10,20 +10,20 @@
 			id="_ctl0_phBody_lblTitle" align="left">User Management - User
 		List</span></th>
 	</tr>
-	<tr height="18px">
+	<tr height="23px">
 		<td align="left" class="buttonBar"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
-			style="color:Navy;text-decoration:none;">
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16t.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16t.png"/> />&nbsp;Close&nbsp;|</html:link>
 		<html:link action="/PMmodule/Admin/UserManager.do?method=preNew"
-			style="color:Navy;text-decoration:none;">
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;|</html:link>
 		<html:link href="javascript:submitForm('search')"
-			style="color:Navy;text-decoration:none;">
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;|</html:link>
 		<html:link href="javascript:resetForm()"
-			style="color:Navy;text-decoration:none;">
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;|</html:link>
 		</td>
 
 	</tr>
