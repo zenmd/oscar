@@ -49,19 +49,23 @@
 		</td>
 	</tr>
 	<tr>
-		<td height="100%">
-		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-  
-			<br />
+		<td>
 			<div class="tabs" id="tabs">
+				<br />
 				<table cellpadding="3" cellspacing="0" border="0">
 					<tr>
 						<th title="Programs">General Information</th>
 					</tr>
 				</table>
 			</div>
+		</td>
+	</tr>
+	<tr height="100%">
+		<td>
+			<div
+				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+	                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
+	  		
 			<table width="100%" border="1" cellspacing="2" cellpadding="3">
 				<tr class="b">
 					<td width="20%">Name:</td>
@@ -196,11 +200,7 @@
 				
 				
 			</table>
-
-
-        
-        </div>
- 
-		</td>
+	        </div>
+ 		</td>
 	</tr>
 </table>
