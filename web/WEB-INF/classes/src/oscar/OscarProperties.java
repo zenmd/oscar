@@ -140,7 +140,18 @@ public class OscarProperties extends Properties {
      public boolean isPINEncripted() {
          return getBooleanProperty("IS_PIN_ENCRYPTED", "yes") || getBooleanProperty("IS_PIN_ENCRYPTED", "true");
      }
-     
+     public boolean isAdminOptionOn()
+     {
+         return getBooleanProperty("with_admin_option", "yes") || getBooleanProperty("with_admin_option", "true");
+     }
+     public boolean isLogAccessClient()
+     {
+         return getBooleanProperty("log_accesses_of_client", "yes") || getBooleanProperty("log_accesses_of_client", "true");
+     }
+     public boolean isLogAccessProgram()
+     {
+         return getBooleanProperty("log_accesses_of_program", "yes") || getBooleanProperty("log_accesses_of_program", "true");
+     }
      public String getDbType()
      {
     	 return getProperty("db_type");

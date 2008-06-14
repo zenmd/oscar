@@ -43,6 +43,8 @@ import org.oscarehr.PMmodule.utility.Utility;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import oscar.OscarProperties;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UserAccessManager;
@@ -148,7 +150,7 @@ public abstract class BaseAction extends DispatchAction {
 
 		return attribute;
 	}
-
+	
 	protected void setMenu(HttpServletRequest request, String currentMenu) {
 		String lastMenu = (String) request.getSession().getAttribute("currMenu");
 		if (lastMenu == null) {
@@ -158,15 +160,16 @@ public abstract class BaseAction extends DispatchAction {
 		{
 			request.getSession().setAttribute(lastMenu, KeyConstants.ACCESS_VIEW);
 		}
-/*
-		request.getSession().setAttribute("currMenu", currentMenu);
-		if (currentMenu.equals(KeyConstants.MENU_CLIENT))request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_CURRENT);
-		if (currentMenu.equals(KeyConstants.MENU_PROGRAM))request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_CURRENT);
-		if (currentMenu.equals(KeyConstants.MENU_FACILITY))request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_CURRENT);
-		if (currentMenu.equals(KeyConstants.MENU_REPORT))request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_CURRENT);
-		if (currentMenu.equals(KeyConstants.MENU_ADMIN))request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_CURRENT);
-		if (currentMenu.equals(KeyConstants.MENU_HOME))request.getSession().setAttribute(KeyConstants.MENU_HOME, KeyConstants.ACCESS_CURRENT);
-*/	}
+		
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrollPosition", scrollPosition);
+		}
+		else
+		{
+			request.setAttribute("scrollPosition", "0");
+		}
+	}
 
 	private void initMenu(HttpServletRequest request)
 	{
@@ -196,7 +199,7 @@ public abstract class BaseAction extends DispatchAction {
 			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
 
 		//System Admin
-		if (sec.GetAccess("_admin", "").compareTo("r") >= 0) {
+		if (OscarProperties.getInstance().isAdminOptionOn() && sec.GetAccess("_admin", "").compareTo("r") >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
