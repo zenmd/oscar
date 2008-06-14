@@ -1,4 +1,4 @@
-<%@ include page="/taglibs.jsp"%>
+<%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
