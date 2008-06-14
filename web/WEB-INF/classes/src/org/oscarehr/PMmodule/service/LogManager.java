@@ -30,6 +30,8 @@ import org.oscarehr.PMmodule.dao.LogDAO;
 import org.oscarehr.PMmodule.model.Log;
 import org.oscarehr.PMmodule.model.Provider;
 
+import oscar.OscarProperties;
+
 
 public class LogManager {
 
@@ -40,6 +42,21 @@ public class LogManager {
 	}
 	
 	public void log(String accessType, String entity, String entityId, HttpServletRequest request) {		
+		boolean logit = false;
+		if(OscarProperties.getInstance().isLogAccessProgram())
+		{
+			if (entity.indexOf("gram") > 0) {
+				logit = true;
+			}
+		}
+		if(OscarProperties.getInstance().isLogAccessClient())
+		{
+			if (entity.indexOf("ient") > 0) {
+				logit = true;
+			}
+		}
+		if (!logit) return;
+		
 		Log log = new Log();
 		//log.setId(new LogPK(providerNo,new Date()));
 		

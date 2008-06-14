@@ -165,7 +165,13 @@ public class IntakeDao extends HibernateDaoSupport {
 		    intake.setStaffId(intakeDb.getStaffId());
 		    intake.setProgramType(intakeDb.getProgramType());
 		    intake.setProgramName((String)oo[1]);
-
+		    Calendar edt = intakeDb.getEndDate();
+		    intake.setEndDate(edt);
+		    if (null != edt) {
+		    	intake.setEndDateTxt(String.valueOf(edt.get(Calendar.YEAR)) + "/" +
+  				  String.valueOf(edt.get(Calendar.MONTH)+1) + "/" +  
+				  String.valueOf(edt.get(Calendar.DATE)));
+		    }
 		    intake.setCreatedOn(intakeDb.getCreatedOn());
     	    Calendar cal= intakeDb.getCreatedOn();
     	    intake.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "/" + 
@@ -463,7 +469,6 @@ public class IntakeDao extends HibernateDaoSupport {
 		Set obj= new HashSet();//TreeSet();
 
 	    HashMap hData= new HashMap();
-		hData.put(new Integer(IntakeConstant.CREATEDON), intake.getCreatedOnTxt());
 
 		//Referred by
 		hData.put(new Integer(IntakeConstant.REFERREDBY), intake.getReferredBy());
@@ -542,12 +547,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		hData.put(new Integer(IntakeConstant.REFERREDTO), intake.getReferredTo());
 		hData.put(new Integer(IntakeConstant.REASONNOADMIT), intake.getReasonNoAdmit());
 
-		//Program
-		hData.put(new Integer(IntakeConstant.PROGRAM), intake.getProgramId().toString());
-
 		//Comments
 		hData.put(new Integer(IntakeConstant.COMMENTS), intake.getComments());
-		
 		
         if(intake.getId().intValue()>0){
 		  List result = getHibernateTemplate().find("from QuatroIntakeAnswer i where i.intake2.id = ?",
@@ -560,6 +561,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		    	intakeDb = obj2.getIntake2();
 			    intakeDb.setProgramId(intake.getProgramId());
 			    intakeDb.setProgramType(intake.getProgramType());
+			    intakeDb.setEndDate(intake.getEndDate());
+			    intakeDb.setLastUpdateDate(intake.getLastUpdateDate());
 		      }
 		      obj.add(obj2);
 	      }
@@ -570,6 +573,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		    intakeDb.setIntakeStatus(intake.getIntakeStatus());
 		    intakeDb.setClientId(intake.getClientId());
 		    intakeDb.setCreatedOn(intake.getCreatedOn());
+		    intakeDb.setEndDate(intake.getEndDate());
+		    intakeDb.setLastUpdateDate(intake.getLastUpdateDate());
 		    intakeDb.setProgramId(intake.getProgramId());
 		    intakeDb.setStaffId(intake.getStaffId());
 

@@ -34,7 +34,7 @@
                
             }
 		</style>
-		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" /></script>
+		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" ></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar-setup.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
@@ -87,5 +87,8 @@
 					</tr></table></td>
 				</tr>
 			</table>
+			<script type="text/javascript">
+				setScrollPosition();
+			</script> 
 	</body>
 </html:html>

@@ -65,18 +65,16 @@ public class IntakeConstant {
 	  public static final int INCOMEWORKEREMAIL3 = 53;
 	  public static final int LIVEDBEFOREOTHER = 54;
 	  public static final int ORIGINALCOUNTRY = 55;
-	  public static final int PROGRAM = 56;
-	  public static final int COMMENTS = 57;
+	  public static final int COMMENTS = 56;
 	  
-	  public static final int LANGUAGE = 58;
-	  public static final int COUNTRYOFORIGINAL = 59;
-	  public static final int VAW = 60;
-	  public static final int INSHELTERBEFORE = 61;
+	  public static final int LANGUAGE = 57;
+	  public static final int COUNTRYOFORIGINAL = 58;
+	  public static final int VAW = 59;
+	  public static final int INSHELTERBEFORE = 60;
 
-	  public static final int CREATEDON = 62;
 	  
 	  //total intake constant numbers defined here.
-	  public static final int TOTALITEMS = 63;
+	  public static final int TOTALITEMS = 61;
 	  
 	  private static HashMap PREFIX;
 	  

@@ -26,7 +26,7 @@ String _appPath = request.getContextPath();
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; 
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 		<table width="100%" cellpadding="0" cellspacing="0" style="vertical-align: middle">
 			<tr>

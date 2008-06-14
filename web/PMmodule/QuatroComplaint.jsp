@@ -4,7 +4,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 
 -->
 
-<%@ include file="/taglibs.jsp"%>
+<%@ include page="/taglibs.jsp"%>
 <%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
 
@@ -31,7 +31,8 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	
 	function submitForm(methodVal) {
 		//alert("method=" + methodVal);
-		document.forms[0].method.value = methodVal;
+	 	getScrollPosition();
+	 	document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
 	
@@ -67,6 +68,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	<html-el:hidden property="complaint.clientId"  />
 	<html-el:hidden property="complaint.id"  />
 	<html-el:hidden property="complaint.createdDatex"  />
+    <input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 	
 
 <%
@@ -111,7 +113,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			<td height="100%">
 			<div
 				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 <!--  start of page content -->
 

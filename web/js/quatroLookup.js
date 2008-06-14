@@ -11,6 +11,7 @@ codeValue = "";
 doPostBack = false;
 delaySearch= false;
 var readOnly = false;
+
 emptyDate = new Date("01/01/1901");
 
     function setReadOnly()
@@ -33,6 +34,25 @@ emptyDate = new Date("01/01/1901");
         }
     }
 
+    function getScrollPosition()
+    {
+        alert("get scroll bar");
+        var scrollBar = document.getElementById("scrollBar");
+    	if(scrollBar)
+    	{
+    		var scrollPosition = document.getElementById("scrollPosition");
+    		if (scrollPosition) scrollPosition.value = scrollBar.scrollTop;
+    	}
+    }
+
+    function setScrollPosition()
+    {
+    		var scrollPosition = document.getElementById("scrollPosition");
+    		if (scrollPosition) {
+    		  var scrollBar = document.getElementById("scrollBar");
+    		  if (scrollBar) scrollBar.scrollTop = scrollPosition.value;
+    		}
+    }
 
 function showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
     if(readOnly == true) return;

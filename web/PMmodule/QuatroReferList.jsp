@@ -55,7 +55,7 @@
 		<tr>
 			<td>
 				<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 500px; width: 100%; overflow: auto;">
+                    height: 500px; width: 100%; overflow: auto;" id="scrollBar">
 		 		<table class="simple" cellspacing="2" cellpadding="3">
 					<tr>
 						<th>Program Name</th>							

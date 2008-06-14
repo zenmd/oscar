@@ -61,7 +61,6 @@ public class AdmissionManager {
    		     admObj.setClientId(qif.getClientId());
    		     admObj.setIntakeId(qif.getIntakeId());
    		     admissionDao.saveAdmission(admObj, qif.getIntakeId(), queueId, referralId);
-       	  
        	     //remove old room assignment
    		     RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(qif.getClientId());
    		     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){

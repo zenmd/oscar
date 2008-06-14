@@ -20,7 +20,11 @@ public class AdmissionDao extends HibernateDaoSupport {
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
-
+	private ClientHistoryDao clientHisDao;
+	public void setClientHistoryDao(ClientHistoryDao clientHisDao)
+	{
+		this.clientHisDao = clientHisDao;
+	}
 
 	public void saveAdmission(Admission admission, Integer intakeId, Integer queueId, Integer referralId) {
         if (admission == null) {
@@ -62,6 +66,8 @@ public class AdmissionDao extends HibernateDaoSupport {
         		KeyConstants.INTAKE_STATUS_DISCHARGED + "'," + 
                 " q.dischargeNotes='auto-discharge for other intake admission'," +
                 " q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});
+    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+    	  clientHisDao.saveClientHistory(admission, null, null);
         }  
     }
     

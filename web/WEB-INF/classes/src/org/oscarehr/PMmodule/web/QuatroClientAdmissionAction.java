@@ -384,7 +384,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	   request.setAttribute("isReadOnly", "true");
        }
        boolean readOnly=super.isReadOnly(admission.getAdmissionStatus(), KeyConstants.FUNCTION_ADMISSION);
-       if(readOnly) request.setAttribute("isReadOnly", readOnly);
+       if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
    }

@@ -1,4 +1,4 @@
-<%@ include file="/taglibs.jsp" %>
+<%@include page="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="java.util.Date"%>
 
@@ -26,6 +26,7 @@
     
     
     function submitForm(methodVal) {
+ 		getScrollPosition();
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
@@ -42,6 +43,7 @@
 <input type="hidden" name="rId" />
 <input type="hidden" name="method" />
 <input type="hidden" name="ruleCheck" value="Y" />
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Referral</th>
@@ -69,7 +71,7 @@
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 <table>
 
 <tr><td><br>

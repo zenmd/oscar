@@ -11,6 +11,7 @@
 		<property name="clientId" column="client_id" type="integer" not-null="true" />
 		<property name="staffId" column="staff_id" type="string" not-null="true" />
 		<property name="createdOn" column="creation_date" type="calendar" not-null="true" />
+		<property name="endDate" column="end_date" type="calendar" not-null="false" />
 		<property name="intakeStatus" column="intake_status"/>
 		<property name="programId" column="program_id" type="integer" not-null="true" />
 		<property name="referralId" column="referral_id" type="integer" />

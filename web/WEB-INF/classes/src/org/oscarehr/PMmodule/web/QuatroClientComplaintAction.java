@@ -163,7 +163,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		
 		request.setAttribute("ComplaintForm_length", new Integer(length));
 		boolean readOnly=super.isReadOnly(complaint.getComplaintStatus(), KeyConstants.FUNCTION_COMPLAINT);
-		if(readOnly)request.setAttribute("isReadOnly", readOnly);
+		if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		return mapping.findForward("edit");
 	}
 

@@ -261,7 +261,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        }
        if (!Utility.IsEmpty(rId) && !("0".equals(rId))){
     	   int length = MyDateFormat.getDaysDiff(pcrObj.getStartDate(), pcrObj.getEndDate());
-    	   clientForm.set("serviceRestrictionLength", length);
+    	   clientForm.set("serviceRestrictionLength", Integer.valueOf(length));
        }
        
        clientForm.set("serviceRestriction", pcrObj);

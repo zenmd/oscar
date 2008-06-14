@@ -467,7 +467,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
     	boolean hasError = false;
         CaseManagementNote note = (CaseManagementNote) cform.getCaseNote();
         String noteTxt = note.getNote();
-        if (noteTxt == null || noteTxt.equals("")) return -1;
+        if (noteTxt == null || noteTxt.equals("")) return new Integer(-1);
 
         String providerNo = getProviderNo(request);
         Provider provider = getProvider(request);

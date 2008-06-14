@@ -82,7 +82,7 @@
 		<td>
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 		<div class="tabs" id="tabs">
 		<table cellpadding="3" cellspacing="0" border="0">

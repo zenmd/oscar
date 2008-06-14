@@ -54,7 +54,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 		<br />
 		<div class="tabs" id="tabs">

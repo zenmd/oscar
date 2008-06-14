@@ -12,6 +12,8 @@
 	<html-el:hidden property="consentValue.demographicNo"  />	
 	<html-el:hidden property="consentValue.id" />
 	<input type="hidden" name="clientId"/>	
+	<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
+	
 	<script lang="javascript">
 	function printForm(recordId){
     	//To PDF 
@@ -22,7 +24,8 @@
 		top.childWin.focus();
 	}
 	function submitForm(methodVal) {
-		document.forms[0].method.value = methodVal;
+ 		getScrollPosition();
+ 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
 	
@@ -131,7 +134,7 @@
 		<tr>
 			<td height="100%">
 			<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 95%; overflow: auto;">
+                    height: 100%; width: 95%; overflow: auto;" id="scrollBar">
 <!--  start of page content -->
 
 				<table width="100%" class="edit">

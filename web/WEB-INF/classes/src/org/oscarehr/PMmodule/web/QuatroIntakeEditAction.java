@@ -229,7 +229,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         boolean readOnly=super.isReadOnly(intake.getIntakeStatus(), KeyConstants.FUNCTION_INTAKE);
-        if(readOnly) request.setAttribute("isReadOnly", readOnly);
+        if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
         return mapping.findForward("edit");
 	}
 
@@ -343,7 +343,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
 		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
 		client.setProviderNo(providerNo);
-		client.setLastUpdateDate(new GregorianCalendar());
+		client.setLastUpdateDate(Calendar.getInstance());
 		if(qform.getClient().getEffDateTxt().equals("")){
 		  client.setEffDate(new Date());
 		}else{
@@ -365,6 +365,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         request.setAttribute("client", client);
     	obj.setClientId(client.getDemographicNo());
 		
+    	/* intake */
+    	if (null != obj.getEndDateTxt()) {
+    		obj.setEndDate(MyDateFormat.getCalendar(obj.getEndDateTxt()));
+    	}
+    	obj.setLastUpdateDate(Calendar.getInstance());
 		//get program type
     	ArrayList lst= (ArrayList)qform.getProgramTypeList();
 		for(int i=0;i<lst.size();i++){

@@ -14,6 +14,7 @@
 <input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
 <script lang="javascript">
 function submitForm(methodVal) {
+ 	getScrollPosition();
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
@@ -45,7 +46,7 @@ function openHealthSafety(){
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 <!--  start of page content -->
 <table width="100%" class="edit">
@@ -183,7 +184,7 @@ function openHealthSafety(){
     <%= admissiondate%>
     </display:column>
 	<display:column sortable="true" title="Days in Program">
-	<%
+	<% 
 	    Admission tempAdmission = (Admission) pageContext.getAttribute("admission");
 		Date admissionDate = tempAdmission.getAdmissionDate().getTime();
 		Date dischargeDate = tempAdmission.getDischargeDate() != null ? tempAdmission.getDischargeDate().getTime() : new Date();

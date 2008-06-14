@@ -5,12 +5,7 @@
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 <%
-if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.jsp");
-    String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
-    String url = "/CaseManagementView2.do";
-    if(!"cv".equals(session.getAttribute(com.quatro.common.KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
-    	url ="/PMmodule/QuatroClientSummary.do";
-    }
+    String url ="/PMmodule/QuatroClientSummary.do";
 %>
 
 <script>

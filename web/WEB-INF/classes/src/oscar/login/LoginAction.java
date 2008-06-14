@@ -22,11 +22,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.annotation.XmlElementDecl.GLOBAL;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Facility;
@@ -57,6 +60,7 @@ public final class LoginAction extends DispatchAction {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        ActionMessages messages = new ActionMessages();
         String ip = request.getRemoteAddr();
         String nextPage=request.getParameter("nextPage");
         if (nextPage!=null) {
@@ -82,10 +86,9 @@ public final class LoginAction extends DispatchAction {
         if (cl.isBlock(ip, userName)) {
             _logger.info(LOG_PRE + " Blocked: " + userName);
             // return mapping.findForward(where); //go to block page
-            // change to block page
-            String newURL = mapping.findForward("error").getPath();
-            newURL = newURL + "?errormsg=Your account is locked. Please contact your administrator to unlock.";
-            return(new ActionForward(newURL));
+            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Your account is locked. Please contact your administrator to unlock."));
+            saveMessages(request,messages);
+            return mapping.getInputForward();
         }
         String[] strAuth;
         ApplicationContext appContext = getAppContext();
@@ -94,13 +97,9 @@ public final class LoginAction extends DispatchAction {
         }
         catch (Exception e) {
             String newURL = mapping.findForward("error").getPath();
-            if (e.getMessage() != null && e.getMessage().startsWith("java.lang.ClassNotFoundException")) {
-                newURL = newURL + "?errormsg=Database driver " + e.getMessage().substring(e.getMessage().indexOf(':') + 2) + " not found.";
-            }
-            else {
-                newURL = newURL + "?errormsg=Database connection error: " + e.getMessage() + ".";
-            }
-            return(new ActionForward(newURL));
+            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Server is temporarily unavailable, please try again later"));
+            saveMessages(request,messages);
+            return mapping.getInputForward();
         }
 
         if (strAuth != null && strAuth.length != 1) { // login successfully
@@ -200,23 +199,23 @@ public final class LoginAction extends DispatchAction {
                 request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
                 request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
             }
+            return mapping.findForward(where);
         }
         // expired password
         else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
             cl.updateLoginList(ip, userName);
-            String newURL = mapping.findForward("error").getPath();
-            newURL = newURL + "?errormsg=Your account is expired. Please contact your administrator.";
-            return(new ActionForward(newURL));
+   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login",
+   	     		"Your account is expired. Please contact your administrator."));
         }
         else { // go to normal directory
             // request.setAttribute("login", "failed");
             // LogAction.addLog(userName, "failed", LogConst.CON_LOGIN, "", ip);
             cl.updateLoginList(ip, userName);
             CRHelper.recordLoginFailure(userName, request);
-            return mapping.findForward(where);
+   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
         }
-
-        return mapping.findForward(where);
+        saveMessages(request,messages);
+	    return mapping.getInputForward();
     }
     
 	public ApplicationContext getAppContext() {

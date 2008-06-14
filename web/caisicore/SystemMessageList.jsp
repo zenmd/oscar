@@ -4,8 +4,9 @@ String s = "debug";
 %>
 
 
-<html:form action="/SystemMessage.do">
+<html:form action="/SystemMessage.do" onsubmit="getScrollPosition();">
 	<input type="hidden" name="method" value="list" />
+    <input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"
 		height="100%">
@@ -50,7 +51,7 @@ String s = "debug";
 					<td height="100%">
 					<div
 						style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-				                    height: 100%; width: 100%; overflow: auto;">
+				                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 
 

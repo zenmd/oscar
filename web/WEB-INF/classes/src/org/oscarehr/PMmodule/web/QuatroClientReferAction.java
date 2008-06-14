@@ -233,7 +233,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			request.setAttribute("program", program);
 		}
 		boolean readOnly=super.isReadOnly(crObj.getStatus(), KeyConstants.FUNCTION_REFERRAL);
-		if(readOnly) request.setAttribute("isReadOnly", readOnly);
+		if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		clientForm.set("referral", crObj);
 	}
 	

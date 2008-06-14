@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.BedDemographic;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
@@ -25,6 +26,7 @@ import org.oscarehr.PMmodule.service.HealthSafetyManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
+import org.oscarehr.PMmodule.service.LogManager;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
@@ -39,7 +41,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
    private IntakeManager intakeManager;
-   
+   private LogManager logManager;
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return edit(mapping, form, request, response);
    }
@@ -64,6 +66,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CLIENT);
        
        setEditAttributes(form, request, demographicNo);
+       logManager.log("read", "client", demographicNo, request);
 
        return mapping.findForward("edit");
    }
@@ -187,6 +190,10 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }
+
+public void setLogManager(LogManager logManager) {
+	this.logManager = logManager;
+}
 
    
 }

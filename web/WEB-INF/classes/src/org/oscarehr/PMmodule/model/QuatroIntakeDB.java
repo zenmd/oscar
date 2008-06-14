@@ -16,6 +16,7 @@ public class QuatroIntakeDB implements Serializable {
     private java.util.Set answers;
     private String intakeStatus;
     private Integer programId;
+    private Calendar endDate;
     private String programType;
     private Integer referralId;
     private Integer queueId;
@@ -133,6 +134,14 @@ public class QuatroIntakeDB implements Serializable {
 
 	public void setReferralId(Integer referralId) {
 		this.referralId = referralId;
+	}
+
+	public Calendar getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Calendar endDate) {
+		this.endDate = endDate;
 	}
 
 

@@ -2,11 +2,13 @@
 <script type="text/javascript">
 	function submitForm()
 	{
-		document.forms[0].method.value="save";
+ 		getScrollPosition();
+ 		document.forms[0].method.value="save";
 		document.forms[0].submit();
 	}
 </script>
 <html:form action="/Lookup/LookupCodeEdit">
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
@@ -27,7 +29,7 @@
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 					<logic:notEmpty name="lookupCodeEditForm" property="errMsg">
 					<table width="100%">
 						<tr><td>

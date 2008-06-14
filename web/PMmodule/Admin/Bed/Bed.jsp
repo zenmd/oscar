@@ -159,7 +159,7 @@ String s="debug";
 					<td height="100%">
 					<div
 						style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-				                    height: 100%; width: 100%; overflow: auto;">
+				                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 
 <logic:notEmpty name="bedManagerForm" property="programs">

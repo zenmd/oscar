@@ -7,7 +7,7 @@ response.setHeader("Cache-Control", "no-cache");
 <html>
     <head>
     	<c:if test="${requestScope.sFilePath!=null}">
-        	<meta http-equiv="refresh" content="2;url=<%=requestScope.sFilePath%>" />        
+        	<meta http-equiv="refresh" content="2;url=<c:out value="${sFilePath}" /> />        
         </c:if>
         <title>File Viewer</title>
     </head>    

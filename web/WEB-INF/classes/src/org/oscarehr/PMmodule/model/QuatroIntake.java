@@ -6,14 +6,15 @@ public class QuatroIntake {
     private Integer id;// fields
     private Integer clientId;
     private String staffId;
-    private Calendar createdOn;    
+    private Calendar createdOn;
     private String createdOnTxt;    
     private String intakeStatus;
     private Integer currentProgramId;
     private Integer programId;
     private String programType;
     private String programName;
-
+    private Calendar endDate;
+    private String endDateTxt;
 	private String referredBy;
     private String contactName;
     private String contactNumber;
@@ -457,6 +458,12 @@ public class QuatroIntake {
 	public void setCreatedOn(Calendar createdOn) {
 		this.createdOn = createdOn;
 	}
+	public Calendar getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Calendar endDate) {
+		this.endDate = endDate;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -487,6 +494,13 @@ public class QuatroIntake {
 	public void setCreatedOnTxt(String createdOnTxt) {
 		this.createdOnTxt = createdOnTxt;
 	}
+	public String getEndDateTxt() {
+		return endDateTxt;
+	}
+	public void setEndDateTxt(String endDateTxt) {
+		this.endDateTxt = endDateTxt;
+	}
+
 	public String getProgramType() {
 		return programType;
 	}

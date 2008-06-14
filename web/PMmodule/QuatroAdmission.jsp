@@ -6,7 +6,6 @@
 <%@page import="org.oscarehr.PMmodule.model.Room"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
@@ -18,8 +17,11 @@
 <html:hidden property="admission.programId"/>
 <html:hidden property="admission.admissionDateTxt"/>
 <html:hidden property="admission.admissionStatus"/>
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 <script lang="javascript">
+
 function submitForm(methodVal) {
+/*	getScrollPosition();*/
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
@@ -86,7 +88,7 @@ function viewSignature(){
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 <!--  start of page content -->
 <table width="100%" class="edit">

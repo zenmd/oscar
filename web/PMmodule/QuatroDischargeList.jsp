@@ -5,7 +5,8 @@
 <script type="text/javascript"	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
 		function submitForm(methodVal) {
-			document.forms[0].method.value = methodVal;
+ 			getScrollPosition();
+ 			document.forms[0].method.value = methodVal;
 			document.forms[0].submit();
 		}
 	
@@ -43,7 +44,7 @@
 		<tr>
 			<td height="100%">
 			<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 			<!--  start of page content -->
 			<table width="100%" class="edit">

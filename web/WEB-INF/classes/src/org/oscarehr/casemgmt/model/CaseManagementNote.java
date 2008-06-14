@@ -411,7 +411,7 @@ public class CaseManagementNote extends BaseObject {
     }
     public String getCaseNoteStatus(){
     	String status =KeyConstants.STATUS_ACTIVE;
-    	if((getCaseStatusId()==1 && isSigned())||isLocked()){
+    	if((getCaseStatusId().intValue()==1 && isSigned())||isLocked()){
     		status=KeyConstants.STATUS_READONLY;
     	}
     	return status;

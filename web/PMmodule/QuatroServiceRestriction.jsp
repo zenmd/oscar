@@ -1,4 +1,4 @@
-<%@ include file="/taglibs.jsp"%>
+<%@ include page="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
@@ -32,7 +32,7 @@
     function submitForm(methodVal) {
     
 	    if(validateLength()){
-    
+ 			getScrollPosition();
 			document.forms[0].method.value = methodVal;
 			document.forms[0].submit();
 		}
@@ -83,6 +83,7 @@
 	<input type="hidden" name="ruleCheck" value="N" />
 	<html:hidden property="serviceRestriction.demographicNo" />
 	<html:hidden property="serviceRestriction.id" />
+	<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
@@ -115,7 +116,7 @@
 			<td>
 			<div
 				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 			<!--  start of page content -->
 			<table width="100%">

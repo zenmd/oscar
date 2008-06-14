@@ -9,8 +9,10 @@
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 <script lang="javascript">
 function submitForm(methodVal) {
+ 	getScrollPosition();
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
@@ -69,7 +71,7 @@ function checkExistClients(i){
 	<tr>
 		<td height="100%">
 		<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 <!--  start of page content -->
 <table width="100%" class="edit">
 <tr><td><br><div class="tabs">

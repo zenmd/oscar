@@ -14,6 +14,7 @@ public class QuatroIntakeHeader implements Serializable {
     private Integer clientId;
     private String staffId;
     private Calendar createdOn;// many to one    
+    private Calendar endDate;    
     private String intakeStatus;
     private Integer programId;
     private String programType;
@@ -102,6 +103,14 @@ public class QuatroIntakeHeader implements Serializable {
 
 	public void setProgramType(String programType) {
 		this.programType = programType;
+	}
+
+	public Calendar getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Calendar endDate) {
+		this.endDate = endDate;
 	}
 
 }

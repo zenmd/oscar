@@ -17,8 +17,10 @@
 <html:hidden property="intake.createdOnTxt" />
 <input type="hidden" name="method"/>
 <input type="hidden" name="newClientChecked" value="N"/>
+<input type="hidden" name="scrollPosition" value='<c:out value="${scrollPosition}"/> />
 <script lang="javascript">
 function submitForm(methodVal) {
+/* 	getScrollPosition(); */
     var obj = document.getElementsByName("client.firstName")[0];
     if(obj.value==""){
       alert("First name is empty.");
@@ -128,7 +130,7 @@ function checkExistClients(){
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;">
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 <!--  start of page content -->
 <table width="100%">
 
@@ -225,8 +227,8 @@ function checkExistClients(){
 </html-el:select></td><td></td></tr>
 <tr><td>Have you stayed in a shelter before?</td>
 <td><html-el:select property="intake.inShelterBefore">
-   <html-el:option value="Yes" key="1" />
-   <html-el:option value="No" key="0" />
+   <html-el:option value="1" key="1">Yes</html-el:option>
+   <html-el:option value="1" key="0">No</html-el:option>
 </html-el:select></td><td></td><td></td></tr>
 <tr><td>Length of homelessness</td>
 <td cospan="2"><html-el:select property="intake.lengthOfHomeless">
@@ -254,25 +256,25 @@ function checkExistClients(){
 <tr><td>Disability</td>
 <td colspan="2"><html-el:text style="width: 80%" property="intake.disability" /></td>
 <td>Disclosed substance abuse</td>
-<td><html-el:checkbox property="intake.disclosedAbuse" /></td></tr>
+<td><html-el:checkbox property="intake.disclosedAbuse" value="1"/></td></tr>
 						<tr>
 							<td>Pregnant</td>
 							<td></td>
-							<td><html-el:checkbox property="intake.pregnant" /></td>
+							<td><html-el:checkbox property="intake.pregnant" value="1"/></td>
 							<td>Observed substance abuse</td>
-							<td><html-el:checkbox property="intake.observedAbuse" /></td>
+							<td><html-el:checkbox property="intake.observedAbuse" value="1"/></td>
 						</tr>
 						<tr><td colspan="2">Disclosed mental health issues</td>
-<td><html-el:checkbox property="intake.disclosedMentalIssue" /></td>
+<td><html-el:checkbox property="intake.disclosedMentalIssue" value="1"/></td>
 <td>Poor hygiene</td>
-<td><html-el:checkbox property="intake.poorHygiene" /></td></tr>
+<td><html-el:checkbox property="intake.poorHygiene" value="1"/></td></tr>
 <tr><td colspan="2">Observed mental health issues</td>
-<td><html-el:checkbox property="intake.observedMentalIssue" /></td>
+<td><html-el:checkbox property="intake.observedMentalIssue" value="1"/></td>
 <td>Disclosed alcohol abuse</td>
-<td><html-el:checkbox property="intake.disclosedAlcoholAbuse" /></td></tr>
+<td><html-el:checkbox property="intake.disclosedAlcoholAbuse" value="1"/></td></tr>
 <tr><td colspan="2"></td><td></td>
 <td>Observed alcohol abuse</td>
-<td><html-el:checkbox property="intake.observedAlcoholAbuse" /></td></tr>
+<td><html-el:checkbox property="intake.observedAlcoholAbuse" value="1"/></td></tr>
 </table>
 </td></tr>
 
@@ -286,39 +288,39 @@ function checkExistClients(){
 <tr><td width="30%">Birth Certificate</td>
 <td width="50%"><html-el:text property="intake.birthCertificate" size="20" maxlength="30" /></td>
 <td width="10%">On file?</td>
-<td width="10%"><html-el:checkbox property="intake.birthCertificateYN" /></td></tr>
+<td width="10%"><html-el:checkbox property="intake.birthCertificateYN" value="1" /></td></tr>
 <tr><td>Social Insurance No.</td>
 <td><html-el:text property="intake.SIN" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.SINYN" /></td></tr>
+<td><html-el:checkbox property="intake.SINYN" value="1"/></td></tr>
 <tr><td>Health card No.</td>
 <td><html-el:text property="intake.healthCardNo" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.healthCardNoYN" /></td></tr>
+<td><html-el:checkbox property="intake.healthCardNoYN" value="1" /></td></tr>
 <tr><td>Driver's License No.</td>
 <td><html-el:text property="intake.driverLicenseNo" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td width="53"><html-el:checkbox property="intake.driverLicenseNoYN" /></td></tr>
+<td width="53"><html-el:checkbox property="intake.driverLicenseNoYN" value="1" /></td></tr>
 <tr><td>Canadian Citizenship Card</td>
 <td><html-el:text property="intake.citizenCardNo" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.citizenCardNoYN" /></td></tr>
+<td><html-el:checkbox property="intake.citizenCardNoYN" value="1" /></td></tr>
 <tr><td>Native Reserve Card</td>
 <td><html-el:text property="intake.nativeReserveNo" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.nativeReserveNoYN" /></td></tr>
+<td><html-el:checkbox property="intake.nativeReserveNoYN" value="1" /></td></tr>
 <tr><td>Veteran No.</td>
 <td><html-el:text property="intake.veteranNo" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.veteranNoYN" /></td></tr>
+<td><html-el:checkbox property="intake.veteranNoYN" value="1"/></td></tr>
 <tr><td>Record of Landing</td>
 <td><html-el:text property="intake.recordLanding" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.recordLandingYN" /></td></tr>
+<td><html-el:checkbox property="intake.recordLandingYN" value="1"/></td></tr>
 <tr><td>Library Card</td>
 <td><html-el:text property="intake.libraryCard" size="20" maxlength="30" /></td>
 <td>On file?</td>
-<td><html-el:checkbox property="intake.libraryCardYN" /></td></tr>
+<td><html-el:checkbox property="intake.libraryCardYN" value="1"/></td></tr>
 <tr><td>Other</td>
 <td><html-el:text property="intake.idOther" size="20" maxlength="30" /></td>
 <td></td><td width="53"></td></tr>
@@ -425,13 +427,20 @@ function checkExistClients(){
 
 <tr><td>
 <table width="100%" class="simple">
-<tr><td width="15%">Program</td>
-<td width="85%"><html-el:hidden property="intake.currentProgramId" />
+<tr><td width="20%">Program</td>
+<td width="30%"><html-el:hidden property="intake.currentProgramId" />
 <html-el:select property="intake.programId">
 <html-el:optionsCollection property="programList" value="value" label="label" />
-</html-el:select></td></tr>
+</html-el:select></td>
+	<td width="25%">End Date (service program)</td>
+	<td width="25%">
+		<quatro:datePickerTag property="intake.endDateTxt" openerForm="quatroIntakeEditForm">
+		</quatro:datePickerTag>
+	</td>
+</tr>
 </table>
-</td></tr>
+</td>
+</tr>
 
 <tr><td><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">

@@ -23,7 +23,9 @@
 
 */%>
 
-<%@ page import="java.io.InputStreamReader,com.swabunga.spell.engine.SpellDictionary"%>
+<%@ page import="java.io.InputStreamReader" %>
+<%@ page import="com.swabunga.spell.engine.SpellDictionary"%>
+<%@ page import="com.swabunga.spell.engine.SpellDictionaryHashMap"%>
 
 <%
 
