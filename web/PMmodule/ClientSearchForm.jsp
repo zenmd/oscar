@@ -41,23 +41,28 @@ if(session.getAttribute("userrole") == null )  response.sendRedirect("../logout.
 </script>
 <html:form	action="/PMmodule/ClientSearch2.do">
 	<input type="hidden" name="method"  />
-	<table width="100%" height="100%"   cellpadding="1px" cellspacing="1px">
+	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
 		<tr>
-			<th class="pageTitle">Client Search<c:out value="${moduleName}"/></th>
+			<th class="pageTitle">Search <c:out value="${moduleName}"/></th>
 		</tr>
 		<tr>
-		<td class="buttonBar" align="left" height="18px"><html:link
-			action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;&nbsp;|</html:link>
-		<a href="javascript:submitForm('search')" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;|</a>
-		<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">
-		<img border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;&nbsp;</a>		
+		<td class="buttonBar" align="left">
+			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
+			</html:link>
+			<html:link
+				action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"
+				style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;|</html:link>
+			<a href="javascript:submitForm('search')" style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;|</a>
+			<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;</a>		
 		</td>
 		</tr>
-	<tr> <td>	
-	<div id="projecthome" class="app" style="background-image: "/images/tablebg.gif">
+	<tr>
+		 <td>	
+	<div id="projecthome" class="app" style="background-image: /images/tablebg.gif">
 		<div >
 			<table cellspacing="1" cellpadding="4" width="100%" bgcolor="#E8E8E8">
 				<tr>

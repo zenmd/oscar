@@ -11,8 +11,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px"
 	border="0">
 	<tr>
-		<th class="pageTitle" align="center">Program Management - Program
-		Search</th>
+		<th class="pageTitle" align="center">Program Management - Search</th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
