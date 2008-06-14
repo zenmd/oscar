@@ -111,7 +111,7 @@ public class LookupDao extends HibernateDaoSupport {
 	   }
 	   if (!Utility.IsEmpty(codeDesc)) {
 	    	sSQL += " and " + fieldNames[1] + " like ?"; 
-	    	params[i++]= new DBPreparedHandlerParam("%" + codeDesc + "%");
+	    	params[i++]= new DBPreparedHandlerParam("%" + codeDesc.toUpperCase() + "%");
 	   }	
 	   
 	   if (tableDef.isTree()) {

@@ -34,6 +34,8 @@ import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 
+import com.quatro.common.KeyConstants;
+
 public class ConsentDAO extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(ConsentDAO.class);
@@ -52,15 +54,15 @@ public class ConsentDAO extends HibernateDaoSupport {
     		while(items.hasNext()){
     			ConsentDetail cdObj=(ConsentDetail)items.next();    			
     			if(null==cdObj.getEndDate() || cdObj.getEndDate().before(cdObj.getStartDate())) cdObj.setEndDate(today);
-    			if(cdObj.getStatus().equals("Active")) cdObj.setLnkAction("Withdraw");
-    			if(cdObj.getStatus().equals("Active") && today.after(cdObj.getEndDate())){
-    				cdObj.setStatus("Expired");
+    			if(cdObj.getStatus().equals(KeyConstants.STATUS_ACTIVE)) cdObj.setLnkAction("Withdraw");
+    			if(cdObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && today.after(cdObj.getEndDate())){
+    				cdObj.setStatus(KeyConstants.STATUS_EXPIRED);
     				cdObj.setLnkAction("View");
     			}
-    			if(cdObj.getStatus().equals("Withdraw"))cdObj.setLnkAction("View"); 
-    			if(cdObj.getStatus().equals("Expired"))cdObj.setLnkAction("View");
+    			if(cdObj.getStatus().equals(KeyConstants.STATUS_WITHDRAW))cdObj.setLnkAction("View"); 
+    			if(cdObj.getStatus().equals(KeyConstants.STATUS_EXPIRED))cdObj.setLnkAction("View");
     			if (cdObj.getStartDate().getTime().getTime()<=System.currentTimeMillis() && cdObj.getEndDate().getTime().getTime()>=System.currentTimeMillis()){
-    				cdObj.setLnkAction("Withdraw");    				
+    				cdObj.setLnkAction(KeyConstants.STATUS_WITHDRAW);    				
     			}    			
     		}				
     	}
