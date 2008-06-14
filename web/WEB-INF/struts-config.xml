@@ -446,12 +446,7 @@
         </action>
 
         <!-- Login -->
-        <action input="/login.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
-            <forward name="receptionist" path="/receptionist/receptionistcontrol.jsp" redirect="true" />
-            <forward name="provider" path="/provider/providercontrol.jsp" redirect="true" />
-            <forward name="admin" path="/admin/admin.jsp" redirect="true" />
-            <forward name="failure" path="/logout.jsp?login=failed" />
-            <forward name="error" path="/loginfailed.jsp" />
+        <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
             <forward name="caisiPMM" path="/Home.do" />
  			<forward name="shelterSelection" path="/shelterSelection.do"/>
         </action>     
