@@ -11,12 +11,14 @@ String _appPath = request.getContextPath();
 		<th class="pageTitle" align="center"><span
 			id="_ctl0_phBody_lblTitle" align="left">System Administration</span></th>
 	</tr>
+<!--
 	<tr>
 		<td align="left" class="buttonBar"><html:link action="/Home.do"
 			style="color:Navy;text-decoration:none">
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/home16.png"/> />&nbsp;Home&nbsp;&nbsp;|</html:link>
 		</td>
 	</tr>
+-->
 	<tr>
 		<td align="left"></td>
 	</tr>
@@ -35,8 +37,12 @@ String _appPath = request.getContextPath();
 				<td width="10%" style="vertical-align: middle">&nbsp;&nbsp;<img border="0" width="60px"
 										height="60px" src="<%=_appPath %>/images/Admin-60.gif" alt="" />
 				</td>
-				<td width="80%" align="left" class="clsPageHeader" colspan="5" style="font-style: italic; vertical-align: middle">
+				<td width="70%" align="left" class="clsPageHeader" colspan="4" style="font-style: italic; vertical-align: middle">
 									<h2 style="color:#1E90FF; vertical-align: middle">System Administration</h2>
+				</td>
+				<td width="10%" align="right" style="vertical-align: middle"><html:link action="/Home.do"
+					style="color:Navy;text-decoration:none; font-size: 12px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<img align="right" style="vertical-align: middle" border=0 src=<html:rewrite page="/images/home16.png"/> />&nbsp;Home</html:link>
 				</td>
 				<td width="10%">&nbsp;</td>
 			</tr>
