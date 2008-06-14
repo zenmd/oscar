@@ -47,8 +47,6 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		<td>
 
 
-		<br />
-
 		<html:form action="/PMmodule/ProgramManager.do">
 			<html:hidden property="method" />
 			<div class="app">
@@ -90,15 +88,8 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		</td>
 	</tr>
 	<tr>
-		<td height="100%">
-		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-
+		<td>
 		<!-- Page Content Start -->
-
-	
-			<br />
 			<div class="tabs" id="tabs">
 			<table cellpadding="3" cellspacing="0" border="0">
 				<tr>
@@ -106,7 +97,12 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 				</tr>
 			</table>
 			</div>
-	
+		</td>
+	</tr>
+	<tr height="100%">
+		<td>
+   			<div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
+                        width: 100%; height: 100%; overflow: auto">
 	
 			<display:table class="simple" cellspacing="2" cellpadding="3"
 				id="program" name="programs" export="false" pagesize="0"
@@ -172,7 +168,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		
 		<!-- Page Content End -->
 
-		</div>
+			</div>
 		</td>
 	</tr>
 
