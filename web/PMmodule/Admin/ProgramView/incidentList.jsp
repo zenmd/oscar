@@ -12,24 +12,20 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 	<!-- submenu -->
 	<tr height="18px">
 		<td align="left" class="buttonBar">
-			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
-			</html:link>
-			<html:link
-			action="/PMmodule/ProgramManager.do"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
 			<html:link
 			href="javascript:editIncident('0','new');"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
 			<html:link
 			href="javascript:searchIncident();"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
 			<html:link href="javascript:resetForm()"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</html:link>
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</html:link>
+			<a href="javascript:clickTab('General');"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
 		</td>
 	</tr>
 	
