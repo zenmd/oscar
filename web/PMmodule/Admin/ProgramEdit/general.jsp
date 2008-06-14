@@ -45,7 +45,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		}else if( !isNumberInRange(obj4, 0, 200, 'Maximum Age')){
 			//alert('4');
 			
-		}else if(!compareNumber(obj3.value, obj4.value, 'Maximum Age field must great or equal Minimum Age field.')){
+		}else if(!compareNumber(obj3.value, obj4.value, 'Maximum Age field must be greater or equal to Minimum Age field.')){
 			//alert('5');
 			
 		}else{
@@ -65,7 +65,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 	function compareNumber(small, big, errorMsg){
 
 
-		if( small > big){
+		if( parseInt(small) > parseInt(big)){
 			alert(errorMsg);
 			return false;
 		}
