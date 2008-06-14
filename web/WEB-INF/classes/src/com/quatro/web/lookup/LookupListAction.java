@@ -41,7 +41,9 @@ public class LookupListAction extends DispatchAction {
 		LookupListForm qform = (LookupListForm) form;
         String tableId=request.getParameter("tableId");
 		List lst = lookupManager.LoadCodeList(tableId, true, null, qform.getKeywordName());
+		 LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId);
 		qform.setLookups(lst);
+		qform.setTableDef(tableDef);
 //		qform.setOpenerFormName(request.getParameter("openerFormName"));
 //		qform.setOpenerCodeElementName(request.getParameter("openerCodeElementName"));
 //		qform.setOpenerDescElementName(request.getParameter("openerDescElementName"));
