@@ -120,17 +120,21 @@
 	
 	<tr height="18px">
 		<td align="left" class="buttonBar">
-			<a href="javascript:clickTab('General');"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
+			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
+			</html:link>
+			<html:link
+			action="/PMmodule/ProgramManager.do"
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
  			<html:link
 			href="javascript:searchClients();"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
 			<html:link
 			href="javascript:resetForm();"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
 	<tr>
