@@ -450,7 +450,8 @@ public class BedManagerAction extends BaseFacilityAction {
         processDisplay(form, request);
         
         int len = bForm.getBeds().length;
-        int newLen = len + numBeds.intValue() + bedslines.intValue();
+        //int newLen = len + numBeds.intValue() + bedslines.intValue();
+        int newLen = numBeds.intValue() + bedslines.intValue();
         if(newLen <= max){
 	        if(numBeds != null && numBeds.intValue() > 0){
 	        	

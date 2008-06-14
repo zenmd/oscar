@@ -188,7 +188,16 @@ String s="debug";
 										</tr>
 									</table>
 									</div>
-
+									<table width="100%" cellpadding="0px" cellspacing="0px" border="0">
+										<!-- submenu -->
+										<tr>
+											<td align="left" class="buttonBar">
+												<html:link href="javascript:saveRooms();" 
+												style="color:Navy;text-decoration:none;">
+												<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save Rooms&nbsp;&nbsp;</html:link>
+											</td>
+										</tr>
+									</table>
 									<!-- begin room status & bed program filter -->
 									<table width="100%">
 										<tr>
@@ -332,7 +341,7 @@ String s="debug";
 									<input type=hidden name="submit.addRoom" value="">
 									<input type=hidden name="roomslines" value="<c:out value="${room_rowNum}" />"> 
 									
-									<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveRooms();">Save Rooms</html:link>
+									
 										
 									<input type=hidden name="submit.saveRoom" value="">
 									</td>
@@ -358,6 +367,16 @@ String s="debug";
 											</tr>
 										</table>
 										</div>
+										<table width="100%" cellpadding="0px" cellspacing="0px" border="0">
+											<!-- submenu -->
+											<tr>
+												<td align="left" class="buttonBar">
+													<html:link href="javascript:saveBeds();" 
+													style="color:Navy;text-decoration:none;">
+													<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save Beds&nbsp;&nbsp;</html:link>
+												</td>
+											</tr>
+										</table>
 	
 										<!-- begin bed status & bedRoom filter -->
 										<table width="100%">
@@ -453,7 +472,7 @@ String s="debug";
 										<td><input type=hidden name="bedslines"
 											value="<c:out value="${bed_rowNum}" />"> <c:choose>
 											<c:when test="${not empty bedManagerForm.rooms}">
-												<html:text property="numBeds" />
+												<html:hidden property="numBeds" />
 												<!--  
 												<html:button property="submit.addBeds"
 													onclick="javascript:addBeds();">Add Beds</html:button>
@@ -470,7 +489,7 @@ String s="debug";
 										<html:button property="submit.saveBeds"
 											onclick="javascript:saveBeds();">Save Beds</html:button>
 										-->	
-										<html:link	style="color:Navy;text-decoration:underline;"  href="javascript:saveBeds();">Save Beds</html:link>
+										
 										
 										<input
 											type=hidden name="submit.saveBed" value="">
