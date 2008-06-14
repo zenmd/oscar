@@ -523,6 +523,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  }   
        }
        
+       
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	   admission.setProviderNo(providerNo);
        admission.setAdmissionDate(MyDateFormat.getCalendarwithTime(admission.getAdmissionDateTxt()));
@@ -536,7 +537,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   roomDemographic.setId(rdmPK);
  	   roomDemographic.setProviderNo(providerNo);
  	   roomDemographic.setAssignStart(new Date());
-       
+
+       //check overnight pass validation
+       if(admission.getOvPassStartDate().after(admission.getOvPassEndDate())){
+	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.invalid_overnight_pass_date",
+     			   request.getContextPath()));
+          isError = true;
+          saveMessages(request,messages);
+          return update(mapping, form, request, response);
+       }
+ 	   
  	   BedDemographic bedDemographic;
  	   if(!clientForm.getFamilyIntakeType().equals("Y") || "Y".equals(clientForm.getFamilyAdmissionType())){  
  	     bedDemographic = clientForm.getBedDemographic();
