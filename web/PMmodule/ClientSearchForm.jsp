@@ -7,7 +7,8 @@
 <%
     String url ="/PMmodule/QuatroClientSummary.do";
 %>
-
+<c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" />
+<script type="text/javascript"	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script>
 	function resetClientFields() {
 		var form = document.clientSearchForm2;

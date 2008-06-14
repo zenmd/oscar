@@ -107,7 +107,7 @@ public class QuatroConsentAction extends BaseClientAction {
 			   if(Utility.IsEmpty(recId)) recId=request.getAttribute("rId").toString();
 		       Integer rId=Integer.valueOf(recId);
 			   String providerNo=(String)request.getSession().getAttribute("user");
-			   conObj.setStatus("Withdraw");
+			   conObj.setStatus(KeyConstants.STATUS_WITHDRAW);
 		       consentManager.withdraw(rId, providerNo);
 		       request.setAttribute("rId", recId);
 		       return edit(mapping, form, request, response);
@@ -168,9 +168,9 @@ public class QuatroConsentAction extends BaseClientAction {
 	       else if(rId!=null && rId!="0"){
 	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
 	    	   TopazValue tv= topazManager.getTopazValue(consentObj.getId(),"consent");
-	    	   if(consentObj.getStatus().equals("Active") && Calendar.getInstance().after(consentObj.getEndDate()))
-   				consentObj.setStatus("Expired");
-		       if(tv!=null ||"Withdraw".equals(consentObj.getStatus()) || "Expired".equals(consentObj.getStatus())){
+	    	   if(consentObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(consentObj.getEndDate()))
+   				consentObj.setStatus(KeyConstants.STATUS_EXPIRED);
+		       if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(consentObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(consentObj.getStatus())){
 		    	   request.setAttribute("signed","Y");
 		       }
 	       }
@@ -252,7 +252,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		String eDt = consent.getEndDateStr();
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		consent.setHardCopy(true);
-		consent.setStatus("Active");
+		consent.setStatus(KeyConstants.STATUS_ACTIVE);
 		consent.setLastUpdateDate(new GregorianCalendar());
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		if(Utility.IsEmpty(consent.getEndDateStr()) ||null== consent.getEndDate()){
@@ -293,7 +293,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		
 		consent.setDateSigned(new GregorianCalendar());
 		consent.setHardCopy(true);
-		consent.setStatus("Active");
+		consent.setStatus(KeyConstants.STATUS_ACTIVE);
 		consent.setStartDate(new GregorianCalendar());		
 		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
 		if(Utility.IsEmpty(consent.getEndDateStr()) || consent.getEndDate().before(consent.getStartDate())){

@@ -404,7 +404,7 @@ var XMLHttpRequestObject = false;
 		</tr>
 
 		<tr>
-			<td class="fieldTitle" width="40%">include checked issues in note</td>
+			<td class="fieldTitle" width="40%">Include checked components of service in note</td>
 			<td class="fieldValue"><html:checkbox property="includeIssue" /></td>
 		</tr>					 
 	</table>
