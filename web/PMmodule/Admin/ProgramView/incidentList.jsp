@@ -20,7 +20,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
 			<html:link
-			href="javascript:editIncident('0','new');"
+			href="javascript:editIncident('new');"
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
 			<html:link
@@ -99,11 +99,11 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			
 			
 					<a href="javascript:void(0)"
-						onclick="javascript:editIncident('<c:out value="${incident.id}" />','edit');return false;">
+						onclick="javascript:editIncident2('<c:out value="${incident.id}" />','edit');return false;">
 					<c:out value="${incident.id}" /></a>
 			
 				</display:column>
-				
+				<display:column property="clientsNames"	title="Clients Involved" />				
 				<display:column property="incidentDatex" sortable="true"
 					title="Incident Date" />
 			

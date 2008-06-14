@@ -17,10 +17,10 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Incidents&nbsp;&nbsp;|</html:link>
 		<html:link
-			href="javascript:editIncident('0','new');"
+			href="javascript:editIncident('new');"
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
-		<html:link href="javascript:editIncident('0','save');"
+		<html:link href="javascript:editIncident('save');"
 			style="color:Navy;text-decoration:none;">
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</td>
@@ -59,7 +59,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 			<table width="100%" class="simple" cellspacing="2" cellpadding="3">
 				<tr>
 					<td colspan="2" ><b>Incident Record Date/Time:</b> <html-el:text property="incidentForm.createdDateStr" readonly="true" style="border: none"/></td>
-					<td colspan="2"><b>Incident Record By:</b> <html-el:hidden property="incidentForm.incident.providerNo" />
+					<td colspan="2"><b>Incident Record By:</b> 
+						<html-el:hidden property="incidentForm.incident.id" styleId="incidentId"/>
+						<html-el:hidden property="incidentForm.incident.providerNo" />
 						<html-el:text property="incidentForm.providerName" readonly="true" style="border: none" /></td>
 				</tr>
 				<tr>

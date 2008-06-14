@@ -45,6 +45,7 @@ public class IncidentValue implements java.io.Serializable {
 	private Integer programId;
 	
 	private String incidentDatex;
+	private String clientsNames;
 
 	// Constructors
 
@@ -275,4 +276,17 @@ public class IncidentValue implements java.io.Serializable {
 	    	}
 	    	return status;
 	    }
+
+	public String getClientsNames() {
+		int i = clients.indexOf("/");
+		if(i > 0){
+			String tmp = clients.substring(i+1);
+			clientsNames = tmp.replace(":", "<br />");
+		}
+		return clientsNames;
+	}
+
+	public void setClientsNames(String clientsNames) {
+		this.clientsNames = clientsNames;
+	}
 }

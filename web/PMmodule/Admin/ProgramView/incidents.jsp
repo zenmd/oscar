@@ -98,14 +98,32 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		return true;
 	}
 
-	function editIncident(arg, mthd){
+	function editIncident( mthd){
+		var flag = true;
+		if(mthd == "save"){
+			getList();
+		}
+		var	arg;
+		if(mthd == "new"){
+			arg = 0;
+		}else{
+			arg = document.getElementById("incidentId").value;
+		}
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
+		//alert(document.programManagerViewForm.action);
+		document.programManagerViewForm.tab.value = "Incidents";
+		document.programManagerViewForm.submit();
+	
+	
+	}
+	function editIncident2(arg, mthd){
 		var flag = true;
 		if(mthd == "save"){
 			getList();
 		}
 		
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
-		//alert(document.programManagerViewForm.action);
+		
 		document.programManagerViewForm.tab.value = "Incidents";
 		document.programManagerViewForm.submit();
 	

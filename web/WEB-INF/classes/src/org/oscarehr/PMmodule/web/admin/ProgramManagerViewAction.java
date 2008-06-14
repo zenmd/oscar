@@ -372,14 +372,16 @@ public class ProgramManagerViewAction extends BaseAction {
     			
     			Map map = request.getParameterMap();
     			ActionMessages messages = new ActionMessages();
-    			if(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()).before(MyDateFormat.getCalendar(incidentForm.getIncidentDateStr()))){
-    					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-        						"error.investigate.date.failed", request.getContextPath()));
-        				saveMessages(request, messages);
-        				formBean.setIncidentForm(incidentForm);
-        				return;
-        				
-    		}
+    			if(incidentForm.getInvestigationDateStr().length()>0 && incidentForm.getIncidentDateStr().length()>0){
+	    			if(MyDateFormat.getCalendar(incidentForm.getInvestigationDateStr()).before(MyDateFormat.getCalendar(incidentForm.getIncidentDateStr()))){
+	    					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+	        						"error.investigate.date.failed", request.getContextPath()));
+	        				saveMessages(request, messages);
+	        				formBean.setIncidentForm(incidentForm);
+	        				return;
+	        				
+	    			}
+    			}
     			try {
     				incidentId = incidentManager.saveIncident(incidentForm);
        			
