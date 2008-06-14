@@ -51,26 +51,48 @@ String _appPath = request.getContextPath();
 
 								<tr>
 									<th></th>
-									<th style="vertical-align: middle"><html:link action="/PMmodule/ClientSearch2.do">
-										<img id="lnkClient" src="<%=_appPath%>/images/Client-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
-									</html:link></th>
+									<th style="vertical-align: middle">
+										<c:choose>
+										 <c:when test="${'V' eq sessionScope.mnuClient}">
+											<html:link action="/PMmodule/ClientSearch2.do">
+											<img id="lnkClient" src="<%=_appPath%>/images/Client-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
+											</html:link>
+										</c:when>
+										</c:choose>	
+									</th>
 									<th align="left" style="vertical-align: middle">
 									<table>
 										<tr align="left">
 											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
-											<html:link action="/PMmodule/ClientSearch2.do">Client Management</html:link></th>
+												<c:choose>
+													<c:when test="${'V' eq sessionScope.mnuClient}">
+														<html:link action="/PMmodule/ClientSearch2.do">Client Management</html:link>
+													</c:when>
+												</c:choose>		
+											</th>
 										</tr>
 									</table>
 									</th>
 									<th></th>
-									<th style="vertical-align: middle"><html:link action="/PMmodule/ProgramManager.do">
-										<img id="lnkCare1" src="<%=_appPath%>/images/Program-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
-									</html:link></th>
 									<th style="vertical-align: middle">
+										<c:choose>
+											<c:when test="${'V' eq sessionScope.mnuProg}">
+											<html:link action="/PMmodule/ProgramManager.do">
+												<img id="lnkCare1" src="<%=_appPath%>/images/Program-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
+											</html:link>
+											</c:when>
+										</c:choose>	
+									</th>
+									<th style="vertical-align: middle">
+
 									<table align="left">
 										<tr>
 											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
-											<html:link action="/PMmodule/ProgramManager.do">Program Management</html:link>
+											<c:choose>
+												<c:when test="${'V' eq sessionScope.mnuProg}">
+												<html:link action="/PMmodule/ProgramManager.do">Program Management</html:link>
+												</c:when>
+											</c:choose>	
 											</th>
 										</tr>
 									</table>
@@ -79,30 +101,50 @@ String _appPath = request.getContextPath();
 								</tr>
 								<tr>
 									<th></th>
-									<th style="vertical-align: middle"><html:link action="QuatroReport/ReportList.do">
-										<img src="<%=_appPath%>/images/Reports-60.gif" height="60" width="60" border="0" alt="" style="vertical-align: middle">
-									</html:link></th>
+									<th style="vertical-align: middle">
+										<c:choose>
+												<c:when test="${'V' eq sessionScope.mnuReport}">
+													<html:link action="QuatroReport/ReportList.do">										
+													<img src="<%=_appPath%>/images/Reports-60.gif" height="60" width="60" border="0" alt="" style="vertical-align: middle">
+													</html:link>
+												</c:when>
+										</c:choose>				
+									</th>
 									<th style="vertical-align: middle">
 									<table width="100%" align="left">
 										<tr>
 											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
-											<html:link action="QuatroReport/ReportList.do">Reports</html:link>
+											<c:choose>
+												<c:when test="${'V' eq sessionScope.mnuReport}">
+													<html:link action="QuatroReport/ReportList.do">Reports</html:link>
+												</c:when>
+											</c:choose>		
 											</th>
 										</tr>
 									</table>
 									</th>
 									<th></th>
-									<th style="vertical-align: middle"><html:link action="/PMmodule/FacilityManager.do?method=list">
-										<img id="lnkLTD1" src="<%=_appPath%>/images/Shelter-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
-									</html:link></th>
 									<th style="vertical-align: middle">
-									<table align="left">
-										<tr>
-											<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
-											<html:link action="/PMmodule/FacilityManager.do?method=list">Facility Management</html:link>
-											</th>
-										</tr>
-									</table>
+										<c:choose>
+											<c:when test="${'V' eq sessionScope.mnuFacility}">
+												<html:link action="/PMmodule/FacilityManager.do?method=list">
+													<img id="lnkLTD1" src="<%=_appPath%>/images/Shelter-60.gif" height="60" width="60" border="0" style="vertical-align: middle">
+												</html:link>
+											</c:when>
+										</c:choose>			
+									</th>
+									<th style="vertical-align: middle">
+											<c:choose>
+												<c:when test="${'V' eq sessionScope.mnuFacility}">
+													<table align="left">
+														<tr>
+															<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
+															<html:link action="/PMmodule/FacilityManager.do?method=list">Facility Management</html:link>
+															</th>
+														</tr>
+													</table>
+												</c:when>
+											</c:choose>		
 									</th>
 									<th></th>
 								</tr>
@@ -122,14 +164,23 @@ String _appPath = request.getContextPath();
 									
 									
 									<th></th>
-									<th style="vertical-align: middle"><a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img src="<%=_appPath%>/images/Admin-60.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a></th>
+									<th style="vertical-align: middle">
+										<c:choose>
+											<c:when test="${'V' eq sessionScope.mnuAdmin}">
+											<a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do"><img src="<%=_appPath%>/images/Admin-60.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a>
+											</c:when>
+										</c:choose>	
+									</th>
 									<th align="left" style="vertical-align: middle">
 									<table>
 										<tr align="left">
-
 											<th style="vertical-align: middle" align="left" class="clsHomePageLabels">
-											<a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do">System
-											Administration</a> &nbsp;</th>
+											<c:choose>
+												<c:when test="${'V' eq sessionScope.mnuAdmin}">
+												<a href="<%=_appPath%>/PMmodule/Admin/SysAdmin.do">System Administration</a> &nbsp;
+												</c:when>
+											</c:choose>	
+											</th>
 										</tr>
 									</table>
 									</th>
