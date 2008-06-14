@@ -118,7 +118,7 @@
 	border="0">
 
 	
-	<tr height="18px">
+	<tr>
 		<td align="left" class="buttonBar">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
@@ -168,23 +168,11 @@
 				
 				</table>
 			</div>
-			
-			
-
 		</td>
 	</tr>
 
 	<tr>
-		<td height="100%">
-		
-		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-  
-			 	
-			<br /> 	
-						
-						
+		<td>
 			<div class="tabs" id="tabs">
 			<table cellpadding="3" cellspacing="0" border="0">
 				<tr>
@@ -192,6 +180,13 @@
 				</tr>
 			</table>
 			</div>
+		</td>
+	</tr>
+	<tr height="100%">
+		<td>
+			<div
+				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 			<!--  show current clients -->
 			
 			<display:table class="simple" cellspacing="2" cellpadding="3" id="clientInfo" name="clientsLst" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
@@ -270,12 +265,7 @@
 					</tr>
 				</table>
 			</logic:notEmpty>
-						
-			
-			
-         
-        </div>
- 
+			</div>
 		</td>
 	</tr>
 </table>
