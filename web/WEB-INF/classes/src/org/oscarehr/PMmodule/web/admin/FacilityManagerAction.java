@@ -390,7 +390,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
     	try{
 	        String facilityId = request.getParameter("facilityId");
 	        Facility facility = facilityManager.getFacility(Integer.valueOf(facilityId));
-	        facility.setActive(true);
+	        facility.setActive(false);
 	        facilityManager.saveFacility(facility);
 	        
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
