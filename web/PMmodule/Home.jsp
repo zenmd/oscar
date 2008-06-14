@@ -3,8 +3,6 @@
 String _appPath = request.getContextPath();
 %>
 <%@ include file="/taglibs.jsp"%>
-<a href="javascript:setScrollPosition();"> Scroll </a> 
-<a href="javascript:getScrollPosition();"> Scroll </a> 
 
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px" style="border-width: 1px; border-style: solid; bordercolor: black">
 	<tr>
