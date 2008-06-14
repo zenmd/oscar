@@ -24,8 +24,8 @@
 		<property name="facilityId" column="facility_id" />
 		<property name="shelterId" column="shelter_id" />
 		<property name="userDefined" column="userDefined" type="boolean" length="1" />
-		<property name="numOfMembers" lazy="true" type="integer" formula="(select count(*) from admission a where a.program_id = program_id and a.admission_status = 'admitted')" />
-		<property name="queueSize" type="integer" formula="(select count(*) from program_queue a where a.program_id = program_id and a.status = 'active')" />
+		<property name="numOfMembers" lazy="true" type="integer" formula="(select count(*) from admission adm where adm.program_id = program_id and adm.admission_status = 'admitted')" />
+		<property name="queueSize" type="integer" formula="(select count(*) from program_queue pq where pq.program_id = program_id and pq.status = 'active')" />
 		<property name="maxAllowed" column="max_allowed" type="integer" not-null="false" length="6" />
 		<property name="type" column="type" type="string" not-null="false" length="50" />
 		<property name="descr" column="descr" type="string" not-null="false" length="255" />
@@ -60,8 +60,8 @@
 		<property name="capacity_space" column="capacity_space" type="integer" not-null="false" length="10" />
         <property name="maximumServiceRestrictionDays" column="maximum_restriction_days" type="integer" not-null="false" length="11"/>
         <property name="defaultServiceRestrictionDays" column="default_restriction_days" type="integer" not-null="false" length="11"/>
-		<property name="orgCd" formula="(select a.codetree from lst_orgcd a where a.code='P'||program_id)" update="false"/>
-		<property name="facilityDesc" formula="(select a.name from facility a where a.id=facility_id)"></property>
+		<property name="orgCd" formula="(select l1.codetree from lst_orgcd l1 where l1.code='P'||program_id)" update="false"/>
+		<property name="facilityDesc" formula="(select fac.name from facility fac where fac.id=facility_id)"></property>
 		
 		<property name="capacity_actual" type="integer" formula="(select count(b.bed_id) from Bed b, Room r where b.room_id = r.room_id and r.program_id = program_id and b.facility_id = facility_id)" />
     </class>

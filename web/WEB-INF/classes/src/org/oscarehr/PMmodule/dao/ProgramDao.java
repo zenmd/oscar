@@ -40,6 +40,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.w3c.tidy.IStack;
 
 import oscar.OscarProperties;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 
 public class ProgramDao extends HibernateDaoSupport {
@@ -128,13 +130,14 @@ public class ProgramDao extends HibernateDaoSupport {
     		c.add(Restrictions.sqlRestriction(clientProgram));
     	}
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, shelterId)));
+    	List lst =c.list();
     	return 	c.list();
     }
     
     public List getBedProgramsInFacility(String providerNo,Integer facilityId)
     {
     	Criteria c = getSession().createCriteria(Program.class);
-    	c.add(Restrictions.eq("programStatus", Program.PROGRAM_STATUS_ACTIVE));
+    	c.add(Restrictions.eq("programStatus",KeyConstants.STATUS_ACTIVE));
     	c.add(Restrictions.eq("type",Program.BED_TYPE));
     	c.add(Restrictions.eq("facilityId",facilityId));
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, null)));

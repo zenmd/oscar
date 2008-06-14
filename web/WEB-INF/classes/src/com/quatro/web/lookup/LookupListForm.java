@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.struts.action.ActionForm;
 
+import com.quatro.model.LookupTableDefValue;
+
 public class LookupListForm extends ActionForm{
 	List lookups;
     String openerForm;
@@ -11,6 +13,7 @@ public class LookupListForm extends ActionForm{
     String descName;
     String keywordName;
     String tableId;
+    LookupTableDefValue tableDef;
     
 	public List getLookups() {
 		return lookups;
@@ -58,5 +61,13 @@ public class LookupListForm extends ActionForm{
 
 	public void setTableId(String tableId) {
 		this.tableId = tableId;
+	}
+
+	public LookupTableDefValue getTableDef() {
+		return tableDef;
+	}
+
+	public void setTableDef(LookupTableDefValue tableDef) {
+		this.tableDef = tableDef;
 	}
 }

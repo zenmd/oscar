@@ -12,6 +12,8 @@
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroReport.js'></script>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <style type="text/css">
+	@import "<html:rewrite page="/css/core.css" />";
+<style type="text/css">
 	@import "<html:rewrite page="/css/displaytag.css" />";
 </style>
 </head>
@@ -22,6 +24,12 @@
 <html:hidden property="codeName"/>
 <html:hidden property="descName"/>
 <table width="100%" border="0">
+	<tr>
+		<th class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables &nbsp;-&nbsp;
+			<bean:write name="lookupListForm" property="tableDef.description"/>
+			</span></th>
+	</tr>
 <tr><td width="80%">Description: <html:text property="keywordName" style="width:100%;" /></td>
 <td width="20%"><html:submit property="method" value="search" /></td></tr>
 <tr><td colspan="2">
@@ -47,3 +55,4 @@
 </html:form>
 </body>
 </html>
+

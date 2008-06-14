@@ -72,7 +72,7 @@ public class UploadFileAction extends BaseClientAction {
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			    String refNo = demographicNo;			   
-			    List lstProgram = programManager.getPrograms(providerNo, currentFacilityId);
+			   // List lstProgram = programManager.getPrograms(providerNo, currentFacilityId);
 				atts=uploadFileManager.getAttachment(moduleId, refNo,providerNo,currentFacilityId);
 			    request.setAttribute("att_files", atts);
 		    }catch(Exception ex){

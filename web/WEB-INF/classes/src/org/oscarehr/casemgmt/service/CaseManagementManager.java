@@ -40,6 +40,7 @@ import org.oscarehr.PMmodule.model.AccessType;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.casemgmt.dao.AllergyDAO;
@@ -70,10 +71,12 @@ import org.oscarehr.casemgmt.model.base.BaseHashAudit;
 import org.oscarehr.common.dao.UserPropertyDAO;
 import org.oscarehr.common.model.UserProperty;
 
+import oscar.MyDateFormat;
 import oscar.OscarProperties;
 
 import com.quatro.dao.IntakeDao;
 import com.quatro.dao.security.SecroleDao;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.Secrole;
 import com.quatro.util.Utility;
 
@@ -629,17 +632,48 @@ public class CaseManagementManager {
     public List search(CaseManagementSearchBean searchBean,Integer shelterId,String providerNo) {
         List lst = new ArrayList();
         List notes=this.caseManagementNoteDAO.search(searchBean);
-        List ids=caseManagementNoteDAO.getNoteIdsByDemographic(Integer.valueOf(searchBean.getDemographicNo()), shelterId, providerNo);
+        List ids=caseManagementNoteDAO.getNoteIdsByDemographic(Integer.valueOf(searchBean.getDemographicNo()), shelterId, providerNo);       
+        Iterator it =notes.iterator();        
+        while(it.hasNext()){
+        	Object element = (Object)it.next();        
+       	  	CaseManagementNote obj=(CaseManagementNote)element;       	  
+       	  	Iterator it2 = ids.iterator();
+       	  	while(it2.hasNext()){
+       	  		Integer element2 = (Integer)it2.next();       	  		  
+	       	    if(element2.intValue()==obj.getId().intValue()){
+	        	  lst.add(obj);
+	       	      break;
+	       	    }
+          }  
+        }
+        
+        /*
+        int i=0;
+		while(idItem.hasNext()){
+			Integer id =(Integer)ids.iterator().next();			
+			noteIds[i]=id;
+			i++;
+		}
+		CaseManagementNote[]  note= null; 
+		i=0;
         if(notes.size()>0){
-        	Iterator noteItems =notes.iterator();
-        	while(noteItems.hasNext()){
-        		CaseManagementNote cObj = (CaseManagementNote)noteItems.next();
-        		while(ids.iterator().hasNext()){
-        			Integer idItem =(Integer)ids.iterator().next();
-        			if(cObj.getId().intValue()==idItem.intValue()) lst.add(cObj);
+        	note=new CaseManagementNote[notes.size()+1];
+        	while(notes.iterator().hasNext()){
+        		note[i] = (CaseManagementNote)notes.iterator().next();
+        		i++;
+        	}        	
+        }
+        if(note!=null && note.length>0){
+        	for(int j=0;j<note.length;j++){
+        		if(null!=note[j]){
+	        		Integer nId =note[j].getId();
+	        		for(int k=0;k<noteIds.length;k++){
+	        			if(nId.intValue()==noteIds[k].intValue()) lst.add(note[j]);
+	        		}
         		}
         	}
         }
+        */
     	return lst;
         
     }

@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import com.quatro.model.LookupTableDefValue;
 import com.quatro.service.LookupManager;
 
 public class LookupListAction extends DispatchAction {
@@ -25,9 +26,11 @@ public class LookupListAction extends DispatchAction {
 	
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String tableId=request.getParameter("tableId");
+        LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId);
 		List lst = lookupManager.LoadCodeList(tableId, true, null, null);
 		LookupListForm qform = (LookupListForm) form;
 		qform.setLookups(lst);
+		qform.setTableDef(tableDef);
 //		qform.setOpenerFormName(request.getParameter("openerFormName"));
 //		qform.setOpenerCodeElementName(request.getParameter("openerCodeElementName"));
 //		qform.setOpenerDescElementName(request.getParameter("openerDescElementName"));
