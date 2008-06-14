@@ -170,10 +170,10 @@
 			</div>
 		</td>
 	</tr>
-
 	<tr>
 		<td>
 			<div class="tabs" id="tabs">
+			<br />
 			<table cellpadding="3" cellspacing="0" border="0">
 				<tr>
 					<th title="Programs">Clients</th>
