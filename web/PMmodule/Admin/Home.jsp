@@ -42,7 +42,7 @@ String _appPath = request.getContextPath();
 				</td>
 				<td width="10%" align="right" style="vertical-align: middle"><html:link action="/Home.do"
 					style="color:Navy;text-decoration:none; font-size: 12px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<img align="right" style="vertical-align: middle" border=0 src=<html:rewrite page="/images/home16.png"/> />&nbsp;Home</html:link>
+					<img align="right" style="vertical-align: middle" border=0 src=<html:rewrite page="/images/home16.png"/> />Home</html:link>
 				</td>
 				<td width="10%">&nbsp;</td>
 			</tr>

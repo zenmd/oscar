@@ -150,7 +150,8 @@ TH {
 .pageTitle
 {
 	background-image: url(../images/titleBar2.png); 
-	height:22px;
+	height:25px;
+	vertical-align:middle;
     FONT-SIZE: 12pt;
     font-weight:bold;
     font-family:Arial Unicode MS;
@@ -170,6 +171,8 @@ TH {
 .buttonBar
 {	
 	background-image: url(../images/buttonBar2.png);
+    height:22px;
+	vertical-align:middle;
     FONT-SIZE: 8pt;
     font-family:Arial Unicode MS;
     COLOR: black;
@@ -180,6 +183,8 @@ TH {
 .buttonBar2
 {	
 	background-image: url(../images/buttonBar2.png); 
+ 	height:22px;
+ 	vertical-align:middle;
     FONT-SIZE: 8pt;
     font-family:Arial Unicode MS;
     COLOR: black;

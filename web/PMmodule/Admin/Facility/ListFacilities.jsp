@@ -16,7 +16,7 @@
 		
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Facility management</th>
+			<th class="pageTitle" align="center">Facility Management</th>
 		</tr>
 
 		<!-- body start -->
@@ -26,14 +26,14 @@
 				<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 					border="0">
 					<!-- submenu -->
-					<tr>
-						<td align="left" class="buttonBar"><html:link
+					<tr class="buttonBar">
+						<td align="left" class="buttonBar" style="vertical-align: middle"><html:link
 							action="/Home.do"
-							style="color:Navy;text-decoration:none;">
-							<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+							style="color:Navy;text-decoration:none">&nbsp;
+							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>
 						<html:link action="/PMmodule/FacilityManager.do?method=add"
-							style="color:Navy;text-decoration:none;">
-							<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+							style="color:Navy;text-decoration:none">
+							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;</html:link>
 				
 						</td>
 					</tr>
@@ -61,7 +61,7 @@
 							<div class="tabs" id="tabs">
 							    <table cellpadding="3" cellspacing="0" border="0">
 							        <tr>
-							            <th title="Facilities">Facilities management</th>
+							            <th title="Facilities">Facilities</th>
 							        </tr>
 							    </table>
 							</div>
