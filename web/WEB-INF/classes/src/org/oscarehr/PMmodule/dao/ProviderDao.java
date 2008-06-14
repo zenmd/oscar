@@ -100,13 +100,10 @@ public class ProviderDao extends HibernateDaoSupport {
         ArrayList paramList = new ArrayList();
 
     	String sSQL="FROM  SecProvider p where p.status='1' and p.providerNo in " +
-           "(select c.providerNo from Secuserrole c where c.orgcd ='P' || ?) ORDER BY p.lastName";
-    
-//    	String sSQL="SELECT c FROM Secuserrole c, SecProvider p"
-//    		+ " WHERE c.orgcd ='P' || ? "
-//    		+ " AND p.status='1'"
-//    		+ " AND c.providerNo = p.providerNo"
-//    		+ " ORDER BY p.lastName";
+    	"(select sr.providerNo from Secuserrole sr where sr.orgcd in " +
+    	"(select o1.code from LstOrgcd o, LstOrgcd o1 where o.code = 'P' || ? " +
+    	" and o.fullcode  like '%' || o1.code || '%' ))" +
+    	" ORDER BY p.lastName";
     		 	
     	paramList.add(programId);
     	Object params[] = paramList.toArray(new Object[paramList.size()]);
