@@ -305,8 +305,12 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         // if (!note.isSigned())
         // cform.setSign("off");
         // else
-
-        cform.setSign("off");
+        if(note==null ||note.getId()==null || note.getId()==0){
+        	cform.setSign("off");
+        }else{
+        	if(note.isSigned())	cform.setSign("on");
+        	else cform.setSign("off");
+        }
         if (!note.isIncludeissue()) cform.setIncludeIssue("off");
         else cform.setIncludeIssue("on");
 
