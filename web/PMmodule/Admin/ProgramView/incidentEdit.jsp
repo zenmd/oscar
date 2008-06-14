@@ -9,18 +9,20 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 	border="0">
 	<tr>
 		<td align="left" class="buttonBar">
-		
+		<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
+		</html:link>
 		<html:link
 			href="javascript:clickTab('Incidents');"
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Incidents&nbsp;&nbsp;|</html:link>
 		<html:link
 			href="javascript:editIncident('0','new');"
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
 		<html:link href="javascript:editIncident('0','save');"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;save&nbsp;&nbsp;</html:link>
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
 
@@ -38,21 +40,22 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 
 
 	<tr>
-		<td height="100%">
-		 
-		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-		 	
-		 	<br />
+		<td>
 			<div class="tabs" id="tabs">
+				<br />
 				<table cellpadding="3" cellspacing="0" border="0">
 					<tr>
 						<th title="Incidents">Incident Information</th>
 					</tr>
 				</table>
 			</div>
-			
+		</td>
+	</tr>
+	<tr height="100%">
+		<td>
+		<div
+			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;">
 			<table width="100%" class="simple" cellspacing="2" cellpadding="3">
 				<tr>
 					<td colspan="2" ><b>Incident Record Date/Time:</b> <html-el:text property="incidentForm.createdDateStr" readonly="true" style="border: none"/></td>
@@ -236,12 +239,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					</td>		
 				</tr>
 			</table>	
-			
-
-
- 
  		</div>
-
 		</td>
 	</tr>
 </table>

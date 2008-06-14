@@ -33,7 +33,7 @@
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>
 						<html:link action="/PMmodule/FacilityManager.do?method=add"
 							style="color:Navy;text-decoration:none">&nbsp;
-							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;</html:link>
+							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility&nbsp;</html:link>
 				
 						</td>
 					</tr>
