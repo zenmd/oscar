@@ -163,11 +163,11 @@ public abstract class BaseAction extends DispatchAction {
 		
 		String scrollPosition = (String) request.getParameter("scrollPosition");
 		if(null != scrollPosition) {
-			request.setAttribute("scrollPosition", scrollPosition);
+			request.setAttribute("scrPos", scrollPosition);
 		}
 		else
 		{
-			request.setAttribute("scrollPosition", "0");
+			request.setAttribute("scrPos", "0");
 		}
 	}
 

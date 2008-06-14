@@ -1,4 +1,4 @@
-<%@include page="/taglibs.jsp" %>
+<%@include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="java.util.Date"%>
 
@@ -26,7 +26,6 @@
     
     
     function submitForm(methodVal) {
- 		getScrollPosition();
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

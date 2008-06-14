@@ -87,8 +87,5 @@
 					</tr></table></td>
 				</tr>
 			</table>
-			<script type="text/javascript">
-				setScrollPosition();
-			</script> 
 	</body>
 </html:html>

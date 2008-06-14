@@ -71,7 +71,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute(BEAN_FACILITIES, facilities);
         
         // get agency's organization list from caisi editor table
-        request.setAttribute("orgList", lookupManager.LoadCodeList("OGN", true, null, null));
+        request.setAttribute("orgList", lookupManager.LoadCodeList("SHL", true, null, null));
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
@@ -409,7 +409,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         ((FacilityManagerForm) form).setFacility(facility);
 
         // get agency's organization list from caisi editor table
-        request.setAttribute("orgList", lookupManager.LoadCodeList("OGN", true, null, null));
+        request.setAttribute("orgList", lookupManager.LoadCodeList("SHL", true, null, null));
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));

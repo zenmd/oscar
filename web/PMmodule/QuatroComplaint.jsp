@@ -31,7 +31,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	
 	function submitForm(methodVal) {
 		//alert("method=" + methodVal);
-	 	getScrollPosition();
 	 	document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

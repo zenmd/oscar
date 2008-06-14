@@ -2,7 +2,6 @@
 <script type="text/javascript">
 	function submitForm()
 	{
- 		getScrollPosition();
  		document.forms[0].method.value="save";
 		document.forms[0].submit();
 	}
@@ -42,7 +41,7 @@
 					 
 					<logic:iterate id="field" name="lookupCodeEditForm" property="codeFields" indexId="fIndex" type="com.quatro.model.FieldDefValue">
 						<tr>
-						<td> <bean:write name="field" property="fieldDesc" /></td>
+						<td width="30%"> <bean:write name="field" property="fieldDesc" /></td>
 						<td>
 					       <logic:equal name="field" property="fieldType" value="S">
 					         <logic:empty name="field" property="lookupTable">

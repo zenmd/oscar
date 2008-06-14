@@ -24,7 +24,6 @@
 		top.childWin.focus();
 	}
 	function submitForm(methodVal) {
- 		getScrollPosition();
  		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

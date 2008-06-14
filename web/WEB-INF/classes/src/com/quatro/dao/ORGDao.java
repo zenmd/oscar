@@ -104,12 +104,7 @@ public class ORGDao extends HibernateDaoSupport {
 		 sSQL = sSQL1 + "(" + sSQL + ") b";
 		 sSQL += " where b." + fieldNames[6] + " like a." + fieldNames[6] + "||'%'";
 	   }
-	   if (tableDef.isTree())
-	   {
-		   sSQL += " order by 7,1";
-	   } else {
-		   sSQL += " order by 4,5,2";
-	   }
+	   sSQL += " order by 7,1";
 	   DBPreparedHandlerParam [] pars = new DBPreparedHandlerParam[i];
 	   for(int j=0; j<i;j++)
 	   {

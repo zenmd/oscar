@@ -5,7 +5,7 @@ String s = "debug";
 %>
 
 
-<html:form action="/SystemMessage.do" onsubmit="getScrollPosition();>
+<html:form action="/SystemMessage.do">
 	<input type="hidden" name="method" value="save" />
 	<html:hidden property="system_message.id" />
     <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />

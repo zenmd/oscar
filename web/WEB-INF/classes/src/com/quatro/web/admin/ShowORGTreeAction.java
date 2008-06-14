@@ -41,6 +41,7 @@ public class ShowORGTreeAction extends DispatchAction {
 		LookupTableDefValue tableDef = orgManager.GetLookupTableDef(tableId);
 
 		List lst = orgManager.LoadCodeList(tableId, true, null, null);
+	
 		MenuRepository repository = setMenu(lst, request);
 
 		DynaActionForm qform = (DynaActionForm) form;

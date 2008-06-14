@@ -20,7 +20,6 @@
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
 function submitForm(methodVal) {
-/* 	getScrollPosition(); */
     var obj = document.getElementsByName("client.firstName")[0];
     if(obj.value==""){
       alert("First name is empty.");

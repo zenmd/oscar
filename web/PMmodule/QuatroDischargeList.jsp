@@ -5,7 +5,6 @@
 <script type="text/javascript"	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
 		function submitForm(methodVal) {
- 			getScrollPosition();
  			document.forms[0].method.value = methodVal;
 			document.forms[0].submit();
 		}

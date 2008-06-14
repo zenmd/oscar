@@ -14,7 +14,6 @@
 <input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
 <script lang="javascript">
 function submitForm(methodVal) {
- 	getScrollPosition();
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }

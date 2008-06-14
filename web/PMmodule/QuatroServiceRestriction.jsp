@@ -32,7 +32,6 @@
     function submitForm(methodVal) {
     
 	    if(validateLength()){
- 			getScrollPosition();
 			document.forms[0].method.value = methodVal;
 			document.forms[0].submit();
 		}
