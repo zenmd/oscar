@@ -30,7 +30,7 @@
 			<bean:write name="lookupListForm" property="tableDef.description"/>
 			</span></th>
 	</tr>
-<tr><td width="80%">Description: <html:text property="keywordName" style="width:100%;" /></td>
+<tr><td width="80%">Description: <html:text property="keywordName" style="width:100%;" maxlength="80" /></td>
 <td width="20%"><html:submit property="method" value="search" /></td></tr>
 <tr><td colspan="2">
 <display:table class="simple" style="width:100%;" cellspacing="0" cellpadding="0" id="lookup" name="lookupListForm.lookups" export="false" pagesize="0" requestURI="/PMmodule/Reports/QuatroReportList">

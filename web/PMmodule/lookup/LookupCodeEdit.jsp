@@ -46,7 +46,7 @@
 					       <logic:equal name="field" property="fieldType" value="S">
 					         <logic:empty name="field" property="lookupTable">
 					         	<logic:equal name="field" property="editable" value="true">
-						           <html:text name="field" property="val" indexed="true"  style="{width:100%}"/>
+						           <html:text name="field" property="val" indexed="true"  style="{width:100%}" maxlength="80"/>
 					           </logic:equal>
 					         	<logic:equal name="field" property="editable" value="false">
 						           <bean:write name="field" property="val"/>
@@ -66,7 +66,7 @@
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="N">
 					       	   <logic:equal name="field" property="editable" value="true">
-					          	<html:text name="field" property="val" indexed="true" />
+					          	<html:text name="field" property="val" indexed="true" maxlength="80" />
 					           </logic:equal>
 					       	   <logic:equal name="field" property="editable" value="false">
 					       	   	<bean:write name="field" property="val" /> 
