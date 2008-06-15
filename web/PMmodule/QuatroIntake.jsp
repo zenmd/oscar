@@ -29,11 +29,15 @@ function updateQuatroIntake(clientId, intakeId) {
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
-		<a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Intake</a>&nbsp;&nbsp;|
-		
+		<html:link action="/Home.do"
+		style="color:Navy;text-decoration:none">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+		<a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" 
+		style="color:Navy;text-decoration:none;">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Intake</a>&nbsp;&nbsp;
+		</td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">

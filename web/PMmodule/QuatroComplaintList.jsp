@@ -31,11 +31,14 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar">
-			<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+			<html:link action="/Home.do"
+			style="color:Navy;text-decoration:none">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>	
+			<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 			<html:link action="/PMmodule/QuatroComplaint.do?method=edit"
-				name="actionParam" style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
+				name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Complaint&nbsp;&nbsp;</html:link>
 			</td>
 		</tr>
 		<tr>

@@ -213,7 +213,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 									type="reset" value="Reset"></font></td>
 									<td>&nbsp</td>
 							</tr>
-							<tr><td height="5">&nbsp;</td></tr>
+							<tr><td height="5"></td></tr>
 						</table>
 						
 					</td>

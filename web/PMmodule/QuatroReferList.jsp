@@ -20,18 +20,24 @@
 <input type="hidden" name="clientId"/>
 <table width="100%"  cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center">Client Management - Refer</th>
+		<th class="pageTitle" align="center">Client Management - Referral</th>
 	</tr>
 	<tr>
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>	
 	<tr>
 		<td align="left" class="buttonBar2">
-		<html:link	action="/PMmodule/QuatroRefer.do?method=edit&rId=0" paramId="clientId"  paramName="clientId" style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Referral&nbsp;&nbsp;|
+		<html:link action="/Home.do"
+		style="color:Navy;text-decoration:none">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+	
+		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+		
+		<html:link	action="/PMmodule/QuatroRefer.do?method=edit&rId=0" paramId="clientId"  paramName="clientId" style="color:Navy;text-decoration:none;">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Referral&nbsp;&nbsp;
 		</html:link>
-		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+		</td>
 	</tr>
 	<tr height="18px">
 			<td align="left" class="message">			
