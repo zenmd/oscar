@@ -156,8 +156,8 @@ public class QuatroReportDao extends HibernateDaoSupport {
 //		  ArrayList lst2 = (ArrayList)getHibernateTemplate().find(sSQL,params2);
 //		  rptTempVal.setOrgCodes(lst2);
 		  
-		  sSQL="select new com.quatro.util.KeyValueBean(b.code, b.description) from ReportTempOrgValue a, LookupCodeValue b WHERE a.templateNo=?" +
-		      " and a.orgCd = b.code and b.prefix='ORG'";
+		  sSQL="select new com.quatro.util.KeyValueBean(b.code, b.description) from ReportTempOrgValue a, LstOrgcd b WHERE a.templateNo=?" +
+		      " and a.orgCd = b.code";
 		  ArrayList lst2 = (ArrayList)getHibernateTemplate().find(sSQL,params2);
 		  rptTempVal.setOrgCodes(lst2);
 		  
