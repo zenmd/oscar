@@ -138,8 +138,8 @@ public class ClientRestrictionManager {
 
     public boolean checkGenderConflict(Program program, Demographic demographic) {
       if (program.getManOrWoman()!=null && demographic.getSex()!=null){
-         if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))  return true;
-         if ("Woman".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex())) return true;
+         if ("M".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))  return true;
+         if ("F".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex())) return true;
       }
       return false;
     }
