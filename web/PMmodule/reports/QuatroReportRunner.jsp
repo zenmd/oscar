@@ -80,6 +80,26 @@ function submitForm(mthd)
 
 <html:form action="/QuatroReport/ReportRunner.do" onsubmit="return getOrgList();">
 <input type="hidden" id="method" name="method" />
+
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+
+	<!-- Title -->
+	<tr>
+		<th class="pageTitle" align="center">Report Management</th>
+	</tr>
+
+	<tr class="buttonBar"><td align="left" class="buttonBar">
+		<img src="../images/Save16.png"/>
+		<a href="javascript:submitForm('Save');">Save Template</a>&nbsp;|&nbsp;
+		<img src="../images/Print16x16.gif"/>
+		
+		<a href="javascript:submitForm('Run');">Run Report</a>&nbsp;|&nbsp;
+		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">QuatroShelter Reports</html:link>
+		</td>
+	</tr>
+</table>
+
 <div class="tabs" id="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
 		<tr>
@@ -88,16 +108,7 @@ function submitForm(mthd)
 	</table>
 </div>
 
-<table width="100%" class="toolgroup">
-<tr><td align="left">
-<img src="../images/Save16.png"/>
-<a href="javascript:submitForm('Save');">Save Template</a>&nbsp;|&nbsp;
-<img src="../images/Print16x16.gif"/>
 
-<a href="javascript:submitForm('Run');">Run Report</a>&nbsp;|&nbsp;
-<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">QuatroShelter Reports</html:link>
-</td></tr>
-</table>
 
 <table width="100%" border="1">
    <tr>
