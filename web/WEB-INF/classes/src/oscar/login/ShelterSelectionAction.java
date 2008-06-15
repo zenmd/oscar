@@ -40,7 +40,7 @@ public final class ShelterSelectionAction extends DispatchAction {
     	if (shelters==null || shelters.size()<=0) {
     		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.miss.shelter", request.getContextPath()));
             saveMessages(request,messages);
-            return mapping.getInputForward();
+            return mapping.findForward("login");
         }    	
     	
     	String shlts = String.valueOf(shelters.get(0));
