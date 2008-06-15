@@ -235,6 +235,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		boolean readOnly=super.isReadOnly(crObj.getStatus(), KeyConstants.FUNCTION_REFERRAL);
 		if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		clientForm.set("referral", crObj);
+		request.setAttribute("referralStatus", crObj.getStatus());
 	}
 	
    public void setAdmissionManager(AdmissionManager admissionManager) {
