@@ -255,7 +255,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 
     	   Integer maxDays = program.getMaximumServiceRestrictionDays();
     	   if(maxDays == null )
-    		   clientForm.set("maxLength", Integer.valueOf(0));
+    		   clientForm.set("maxLength", new Integer(0));
     	   else
     		   clientForm.set("maxLength", maxDays);
        }
