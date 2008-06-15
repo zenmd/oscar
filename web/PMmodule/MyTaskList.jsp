@@ -29,7 +29,7 @@ function submitForm(methodVal) {
 
 <tr><td><table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="30%">Service Date Range:</td>
-<td width="5%">Begin:</td>
+<td width="5%">Start:</td>
 <td width="20%"><quatro:datePickerTag property="filter.startDate" openerForm="ticklerForm" width="90%" /></td>
 <td width="5%">End:</td>
 <td width="40%"><quatro:datePickerTag property="filter.endDate" openerForm="ticklerForm" width="45%" /></td></tr>

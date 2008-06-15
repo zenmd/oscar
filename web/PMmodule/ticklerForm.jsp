@@ -80,13 +80,13 @@ function submitForm(methodVal) {
 		<html:hidden property="tickler.demographic_no" />
 		<html:hidden property="tickler.tickler_no" />
 		
-		<tr><td width="20%">Client:</td>
-		<td width="80%"><input type=hidden name="clientId" value="<c:out value="${client.demographicNo}"/>">
+		<tr><td>Client:</td>
+		<td colspan="2"><input type=hidden name="clientId" value="<c:out value="${client.demographicNo}"/>">
 		<c:out value="${client.formattedName}"/></td></tr>
 		<tr><td>Service Date:</td>
-		<td><quatro:datePickerTag property="tickler.serviceDate" openerForm="ticklerForm" width="30%"/></td></tr>
+		<td colspan="2"><quatro:datePickerTag property="tickler.serviceDate" openerForm="ticklerForm" width="30%"/></td></tr>
 		<tr><td>Service Time:</td>
-		<td><html:select property="tickler.service_hour">
+		<td colspan="2"><html:select property="tickler.service_hour">
            <html:optionsCollection property="serviceHourLst" value="value" label="label"/>
 		</html:select> : 
 		<html:select property="tickler.service_minute">
@@ -97,11 +97,12 @@ function submitForm(methodVal) {
 		</html:select>
 		</td></tr>
 		<tr><td>Priority:</td>
-		<td><html:select property="tickler.priority">
+		<td colspan="2"><html:select property="tickler.priority">
            <html:optionsCollection property="priorityLst" value="value" label="label"/>
 		</html:select></td></tr>
-		<tr><td>Task Assigned To:</td>
-		<td>Program: 
+		<tr><td width="20%">Task Assigned To:</td>
+		<td width="10%">Program:</td>
+		<td width="70%"> 
           <c:choose>
             <c:when test="${viewTickler!='Y'}">
 		      <html:select property="tickler.program_id" onchange="submitForm('changeProgram');">
@@ -115,29 +116,24 @@ function submitForm(methodVal) {
                 <html:optionsCollection property="programLst" value="id" label="name"/>
 		      </html:select>
 		    </c:otherwise>
-		  </c:choose>    
-		User: <html:select property="tickler.task_assigned_to">
+		  </c:choose>
+		</td></tr>
+        <tr><td></td>		      
+		<td>User:</td>
+		<td><html:select property="tickler.task_assigned_to">
 		   <option value=""> --- </option>
            <html:optionsCollection property="providerLst" value="providerNo" label="formattedName"/>
 		</html:select>
 		</td></tr>
 		<tr><td>Status:</td>
-		<td><html:select property="tickler.status">
+		<td colspan="2"><html:select property="tickler.status">
 			<option value="Active">Active</option>
 			<option value="Completed">Completed</option>
 			</html:select>
 		</td></tr>
 		<tr><td>Message:</td>
-		<td><html:textarea style="width: 90%" rows="16" property="tickler.message" /></td></tr>
+		<td colspan="2"><html:textarea style="width: 90%" rows="16" property="tickler.message" /></td></tr>
 
-<!-- 
-		<tr>
-			<td class="fieldValue" colspan="3" align="left">
-				<html:submit styleClass="button">Save</html:submit>
-				<input type="button" value="Cancel" onclick="location.href='<c:out value="${ctx}"/>/Tickler.do';"/>
-			</td>
-		</tr>
- -->		
 	</html:form>
 </table>
 
