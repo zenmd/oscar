@@ -49,7 +49,7 @@
   </ul>
 </ul>
 </logic:iterate>
-<input type="hidden" name="chkDel" value='<c:out value="${str}"></c:out> />
+<input type="hidden" name="chkDel" value='<c:out value="${str}"></c:out>' />
 </td></tr>
  </table>
 </html:form>
