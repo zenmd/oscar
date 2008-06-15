@@ -101,8 +101,6 @@
 						<display:column property="providerFormattedName"
 							sortProperty="providerFormattedName" sortable="true"
 							title="Restricted By" />
-						<display:column property="comments" sortable="true"
-							title="Comments" />
 						<display:column property="startDateDisplay" sortable="true"
 							title="Start date">
 						</display:column>
