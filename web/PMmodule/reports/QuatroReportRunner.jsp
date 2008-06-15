@@ -90,14 +90,16 @@ function submitForm(mthd)
 	</tr>
 
 	<tr class="buttonBar"><td align="left" class="buttonBar">
+		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">Back to Reports</html:link>
 		<img src="../images/Save16.png"/>
 		<a href="javascript:submitForm('Save');">Save Template</a>&nbsp;|&nbsp;
 		<img src="../images/Print16x16.gif"/>
 		
 		<a href="javascript:submitForm('Run');">Run Report</a>&nbsp;|&nbsp;
-		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">QuatroShelter Reports</html:link>
+
 		</td>
 	</tr>
+	<tr><td>&nbsp;</td></tr>
 </table>
 
 <div class="tabs" id="tabs">
