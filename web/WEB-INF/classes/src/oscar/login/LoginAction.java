@@ -184,24 +184,7 @@ public final class LoginAction extends DispatchAction {
             // setup caisi stuff
             String username = (String) session.getAttribute("user");
             Provider provider = providerManager.getProvider(username);
-            session.setAttribute("provider", provider);
-
-            List shelterIds = providerManager.getShelterIds(provider.getProviderNo());
-            if (shelterIds.size() > 1) {
-                return(mapping.findForward("shelterSelection"));
-            }
-            else if (shelterIds.size() == 1) {
-                Integer shelterId = (Integer) shelterIds.get(0);
-                LookupCodeValue shelter=lookupManager.GetLookupCode("SHL",String.valueOf(shelterId));
-                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
-                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
-                LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
-            }
-            else {
-                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
-                request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
-            }
-            return mapping.findForward(where);
+            session.setAttribute("provider", provider);           
         }
         // expired password
         else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
@@ -216,8 +199,9 @@ public final class LoginAction extends DispatchAction {
             CRHelper.recordLoginFailure(userName, request);
    	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid", request.getContextPath()));
         }
-        saveMessages(request,messages);
-	    return mapping.getInputForward();
+        saveMessages(request,messages);        
+        return mapping.findForward("shelterSelection");
+	   // return mapping.getInputForward();
     }
     
 	public ApplicationContext getAppContext() {
