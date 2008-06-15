@@ -7,6 +7,11 @@
 		document.forms[0].method.value=mthd;
 		document.forms[0].submit();
 	}
+	
+	function setValue(val)
+	{
+		alert(val);
+	}
 </script>
 </head>
 <body>
@@ -58,9 +63,10 @@
 									<c:out value="${report.title}" /> - <c:out	value="${report.description}" /> </a></li>
 								<logic:iterate id="template" property="childList" name="report"	indexId="rIndex3">
 									<ul>
-										<input type="checkbox" 	name='p<c:out value="${rIndex1}"></c:out>_<c:out value="${rIndex2}"></c:out>_<c:out value="${rIndex3}"></c:out>' value="<c:out value="${template.templateNo}" />">
+										<input type="checkbox" name='p<c:out value="${rIndex1}"></c:out>_<c:out value="${rIndex2}"></c:out>_<c:out value="${rIndex3}"></c:out>' value="<c:out value="${template.templateNo}" />">
 										<%
 										   str.append("," + String.valueOf(rIndex1) + "_" + String.valueOf(rIndex2) + "_" + String.valueOf(rIndex3)); 
+										   
 										%>
 										<a href="<html:rewrite action="/QuatroReport/ReportRunner.do"/>?id=<c:out value="${report.reportNo}" />&templateNo=<c:out value="${template.templateNo}" />"> <c:out value="${template.desc}"/> </a>
 	       							</ul>
@@ -69,6 +75,7 @@
 						</ul>
 					</ul>
 				</logic:iterate>
+				<% request.setAttribute("str",str); %>
 				<input type="hidden" name="chkDel" value='<c:out value="${str}"></c:out>' />
 			</td>
 		</tr>
