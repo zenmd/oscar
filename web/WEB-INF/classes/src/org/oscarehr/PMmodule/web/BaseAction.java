@@ -174,6 +174,7 @@ public abstract class BaseAction extends DispatchAction {
 	private void initMenu(HttpServletRequest request)
 	{
 		SecurityManager sec = getSecurityManager(request);
+		if (sec==null) return;
 		//Client Management
 		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);

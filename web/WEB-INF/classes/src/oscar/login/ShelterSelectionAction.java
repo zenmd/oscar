@@ -37,16 +37,9 @@ public final class ShelterSelectionAction extends DispatchAction {
     	String providerNo=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	List shelters=providerManager.getShelterIds(providerNo);
     	ActionMessages messages = new ActionMessages();
-    	if (shelters==null || shelters.size()<=0) {
-    		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.miss.shelter", request.getContextPath()));
-            saveMessages(request,messages);
-            return mapping.findForward("login");
-        }    	
-    	
-    	String shlts = String.valueOf(shelters.get(0));
       
          if (shelters.size() > 1) {
-
+         	String shlts = String.valueOf(shelters.get(0));
          	for(int i=1; i<shelters.size(); i++)
          	{
          		shlts += "," + String.valueOf(shelters.get(i));

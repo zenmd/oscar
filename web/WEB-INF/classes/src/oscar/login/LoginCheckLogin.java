@@ -42,6 +42,7 @@ public class LoginCheckLogin {
     }
 
     public boolean isBlock(String ip) {
+    	/*
         boolean bBlock = false;
 
         // judge the local network
@@ -70,11 +71,14 @@ public class LoginCheckLogin {
         }
 
         return bBlock;
+        */
+    	return false;
     }
 
     // lock username and ip
     public boolean isBlock(String ip, String userName) {
-        if (!pvar.getProperty("login_lock", "").trim().equals("true")) {
+       /*
+    	if (!pvar.getProperty("login_lock", "").trim().equals("true")) {
             return isBlock(ip);
         }
 
@@ -95,6 +99,8 @@ public class LoginCheckLogin {
             bBlock = true;
 
         return bBlock;
+        */
+    	return false;
     }
 
     // authenticate is used to check password

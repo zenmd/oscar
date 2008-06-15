@@ -62,18 +62,7 @@ public final class LoginAction extends DispatchAction {
 
         ActionMessages messages = new ActionMessages();
         String ip = request.getRemoteAddr();
-        String nextPage=request.getParameter("nextPage");
-        if (nextPage!=null) {
-            // set current facility
-            String shelterId=request.getParameter("shelterId");
-            LookupCodeValue shelter= lookupManager.GetLookupCode("SHL",shelterId);
-            request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, Integer.valueOf(shelterId));
-            request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
-            String username=(String)request.getSession().getAttribute("user");
-            LogAction.addLog(username, LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
-            return mapping.findForward(nextPage);
-        }
-        String where = "failure";
+        String where = "shelterSelection";
         // String userName, password, pin, propName;
         String userName = ((LoginForm) form).getUsername();
         String password = ((LoginForm) form).getPassword();
@@ -122,20 +111,12 @@ public final class LoginAction extends DispatchAction {
                 DBHandler.init(pvar.getProperty("db_name"), pvar.getProperty("db_driver"), pvar.getProperty("db_uri"), pvar.getProperty("db_username"), pvar.getProperty("db_password"));
             }
 
-            // get View Type
-//            String viewType = LoginViewTypeHlp.getInstance().getProperty(strAuth[3].toLowerCase());
-//            if (viewType == null) viewType="doctor";
-            String viewType = "doctor";
             String providerNo = strAuth[0];
 
-//            session.setAttribute("user", strAuth[0]);
-//            session.setAttribute("userfirstname", strAuth[1]);
-//            session.setAttribute("userlastname", strAuth[2]);
 
             session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, strAuth[0]);
             session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, strAuth[2] + ", "+ strAuth[1]);
-            
-            session.setAttribute("userprofession", viewType);
+
             session.setAttribute("userrole", strAuth[4]);
             session.setAttribute("oscar_context_path", request.getContextPath());
             session.setAttribute("expired_days", strAuth[5]);
@@ -144,38 +125,6 @@ public final class LoginAction extends DispatchAction {
             UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
             SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo);
             session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
-            
-            String default_pmm = null;
-            if (viewType.equalsIgnoreCase("receptionist") || viewType.equalsIgnoreCase("doctor")) {
-                // get preferences from preference table
-                String[] strPreferAuth = cl.getPreferences();
-                session.setAttribute("starthour", strPreferAuth[0]);
-                session.setAttribute("endhour", strPreferAuth[1]);
-                session.setAttribute("everymin", strPreferAuth[2]);
-                session.setAttribute("groupno", strPreferAuth[3]);
-                if (org.oscarehr.common.IsPropertiesOn.isCaisiEnable()) {
-                    session.setAttribute("newticklerwarningwindow", strPreferAuth[4]);
-                    session.setAttribute("default_pmm", strPreferAuth[5]);
-                    default_pmm = strPreferAuth[5];
-                }
-            }
-            
-            if (viewType.equalsIgnoreCase("receptionist")) { // go to receptionist view
-                // where =
-                // "receptionist";//receptionistcontrol.jsp?year="+nowYear+"&month="+(nowMonth)+"&day="+(nowDay)+"&view=0&displaymode=day&dboperation=searchappointmentday";
-                where = "provider";
-            }
-            else if (viewType.equalsIgnoreCase("doctor")) { // go to provider view
-                where = "provider"; // providercontrol.jsp?year="+nowYear+"&month="+(nowMonth)+"&day="+(nowDay)+"&view=0&displaymode=day&dboperation=searchappointmentday";
-            }
-            else if (viewType.equalsIgnoreCase("admin")) { // go to admin view
-                where = "admin";
-            }
-
-//            if (where.equals("provider") && default_pmm != null && "enabled".equals(default_pmm)) {
-            if (where.equals("provider")) {
-                where = "caisiPMM";
-            }
             /*
              * if (OscarProperties.getInstance().isTorontoRFQ()) { where = "caisiPMM"; }
              */
@@ -184,24 +133,24 @@ public final class LoginAction extends DispatchAction {
             // setup caisi stuff
             String username = (String) session.getAttribute("user");
             Provider provider = providerManager.getProvider(username);
-            session.setAttribute("provider", provider);           
+            session.setAttribute("provider", provider);
+            return mapping.findForward(where);
         }
         // expired password
         else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
-            cl.updateLoginList(ip, userName);
+           // cl.updateLoginList(ip, userName);
    	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", request.getContextPath(),
    	     		"Your account is expired. Please contact your administrator."));
         }
         else { // go to normal directory
             // request.setAttribute("login", "failed");
             // LogAction.addLog(userName, "failed", LogConst.CON_LOGIN, "", ip);
-            cl.updateLoginList(ip, userName);
+            //cl.updateLoginList(ip, userName);
             CRHelper.recordLoginFailure(userName, request);
    	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid", request.getContextPath()));
         }
         saveMessages(request,messages);        
-        return mapping.findForward("shelterSelection");
-	   // return mapping.getInputForward();
+        return mapping.getInputForward();
     }
     
 	public ApplicationContext getAppContext() {
