@@ -12,7 +12,7 @@
 
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Facility management - Facility Details</th>
+			<th class="pageTitle" align="center">Facility Management - Facility Details</th>
 		</tr>
 
 		<!-- body start -->
@@ -23,10 +23,14 @@
 				border="0">
 				<!-- submenu -->
 				<tr>
-					<td align="left" class="buttonBar"><html:link
+					<td align="left" class="buttonBar">
+					<html:link action="/Home.do"
+						style="color:Navy;text-decoration:none">&nbsp;
+						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>		
+					<html:link
 						action="/PMmodule/FacilityManager.do?method=list"
 						style="color:Navy;text-decoration:none;">
-						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;</html:link>
 					</td>
 				</tr>
 
