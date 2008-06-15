@@ -55,10 +55,10 @@ public class FacilityMessageManager {
 		return dao.getMessages();
 	}
 
-	public List getMessagesByFacilityId(Integer facilityId) {
-		if (facilityId == null || facilityId == null) {           
+	public List getMessagesByShelterId(Integer shelterId) {
+		if (shelterId == null) {           
         	return null;
         }
-		return dao.getMessagesByFacilityId(facilityId);
+		return dao.getMessagesByShelterId(shelterId);
 	}
 }

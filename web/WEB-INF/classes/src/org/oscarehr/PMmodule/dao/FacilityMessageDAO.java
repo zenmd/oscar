@@ -45,7 +45,16 @@ public class FacilityMessageDAO extends HibernateDaoSupport  {
 		this.getHibernateTemplate().saveOrUpdate(mesg);
 	}
 
-	public List getMessagesByFacilityId(Integer facilityId) {
-		return this.getHibernateTemplate().find("from FacilityMessage fm where facilityId=? order by fm.expiry_date desc", facilityId);
+	public List getMessagesByShelterId(Integer shelterId) {
+		String sql;
+		if (shelterId.intValue() == 0) {
+			sql = "from FacilityMessage fm where fm.expiry_date >= sysdate order by fm.expiry_date desc";
+		}
+		else 
+		{
+//			sql = "from FacilityMessage fm, LstOrgcd org where fm.expiry_date >=sysdate and  'F' || fm.facilityId  like '%' || org.fullcode || '%' and org.code = 'S' || ?  order by fm.expiry_date desc";
+			sql = "from FacilityMessage fm where fm.expiry_date >=sysdate and fm.facilityId = ?  order by fm.expiry_date desc";
+		}
+		return this.getHibernateTemplate().find(sql, shelterId);
 	}
 }

@@ -45,10 +45,5 @@ public class FacilityManager {
     //@Required
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
-    }
-    
-    public List getFacilityMessagesByFacilityId(Integer facilityId) {
-    	return facilityDAO.getFacilityMessagesByFacilityId(facilityId);
-    }
-    
+    }    
 }

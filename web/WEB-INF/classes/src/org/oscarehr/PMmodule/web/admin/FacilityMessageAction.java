@@ -93,7 +93,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		//if(facility!=null)
 		//	facilityId = Integer.valueOf(facility.getId().intValue());
 		
-		List activeMessages = mgr.getMessagesByFacilityId(facilityId);
+		List activeMessages = mgr.getMessagesByShelterId(facilityId);
 		if(activeMessages!=null && activeMessages.size() >0)
 			request.setAttribute("ActiveFacilityMessages",activeMessages);
 		return mapping.findForward("list");
@@ -186,11 +186,8 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		        
 		//String providerNo = (String)request.getSession().getAttribute("user");
 		//List messages = programProviderDAO.getFacilityMessagesInProgramDomain(providerNo);
-		Facility facility = (Facility)request.getSession().getAttribute("currentFacility");
-		Integer facilityId = null;
-		if(facility!=null) 
-			facilityId = facility.getId();
-		List messages = facilityMgr.getFacilityMessagesByFacilityId(facilityId);
+		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		List messages = mgr.getMessagesByShelterId(shelterId);
 		if(messages!=null && messages.size()>0) {
 			request.setAttribute("FacilityMessages",messages);
 		}
