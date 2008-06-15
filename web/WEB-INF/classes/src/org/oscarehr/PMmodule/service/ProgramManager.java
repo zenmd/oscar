@@ -201,9 +201,9 @@ public class ProgramManager {
         return new Agency(new Integer(0), new Integer(1), "HS", "HS", "", true, false);
     }
 */
-    public List getProgramProviders(String orgcd) {
+    public List getProgramProviders(String orgcd, boolean activeOnly) {
         //return programProviderDAO.getProgramProviders(Integer.valueOf(programId));
-        return secuserroleDao.findByOrgcd(orgcd);
+        return secuserroleDao.findByOrgcd(orgcd, activeOnly);
     }
 
 /*    

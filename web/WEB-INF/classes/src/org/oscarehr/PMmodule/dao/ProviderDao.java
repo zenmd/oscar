@@ -100,9 +100,10 @@ public class ProviderDao extends HibernateDaoSupport {
         ArrayList paramList = new ArrayList();
 
     	String sSQL="FROM  SecProvider p where p.status='1' and p.providerNo in " +
-    	"(select sr.providerNo from Secuserrole sr where sr.orgcd in " +
-    	"(select o1.code from LstOrgcd o, LstOrgcd o1 where o.code = 'P' || ? " +
-    	" and o.fullcode  like '%' || o1.code || '%' ))" +
+    	"(select sr.providerNo from Secuserrole sr, LstOrgcd o " +
+    	" where o.code = 'P' || ? " +
+    	" and o.fullcode  like '%' || sr.orgcd || '%' " +
+    	" and not (sr.orgcd like 'R%' or sr.orgcd like 'O%'))" +
     	" ORDER BY p.lastName";
     		 	
     	paramList.add(programId);

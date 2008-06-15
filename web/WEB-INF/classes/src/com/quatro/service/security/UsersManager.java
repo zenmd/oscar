@@ -90,7 +90,7 @@ public class UsersManager {
 	}
 	
 	public void saveStaffToProgram(List list, String orgcd) {
-		List existLst = secuserroleDao.findByOrgcd(orgcd);
+		List existLst = secuserroleDao.findByOrgcd(orgcd,false);
 		saveAll(list, existLst);
 		
 	}

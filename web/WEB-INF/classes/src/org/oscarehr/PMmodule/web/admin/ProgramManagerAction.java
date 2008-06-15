@@ -733,7 +733,7 @@ public class ProgramManagerAction extends BaseAction {
 		}else{
 			staffForm = new StaffForm();
 			formBean.setStaffForm(staffForm);
-			lst = programManager.getProgramProviders("P" + programId);
+			lst = programManager.getProgramProviders("P" + programId, true);
 		}
 		
 		request.setAttribute("existStaffLst", lst);

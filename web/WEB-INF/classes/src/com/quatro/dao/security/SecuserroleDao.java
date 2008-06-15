@@ -176,7 +176,7 @@ public class SecuserroleDao extends HibernateDaoSupport {
 		return findByProperty(ROLE_NAME, roleName);
 	}
 
-	public List findByOrgcd(Object orgcd) {
+	public List findByOrgcd(Object orgcd, boolean activeOnly) {
 		//return findByProperty(ORGCD, orgcd);
 		/* SQL:
 		select * from secuserrole s,
@@ -188,8 +188,11 @@ public class SecuserroleDao extends HibernateDaoSupport {
 		log.debug("Find staff instance .");
 		try {
 			
-			String queryString = "select a from Secuserrole a, LstOrgcd b"
-				+ " where b.code ='" + orgcd + "'"
+			String queryString = "select a from Secuserrole a, LstOrgcd b, SecProvider p"
+				+ " where a.providerNo=p.providerNo and b.code ='" + orgcd + "'";
+			if (activeOnly) queryString += " and p.status='1'";
+
+			queryString = queryString 	
 				+ " and b.fullcode like '%' || a.orgcd || '%'"
 				+ " and not (a.orgcd like 'R%' or a.orgcd like 'O%')";
 						
