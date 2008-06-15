@@ -153,7 +153,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		complaintForm.setMethods(methods);
 		complaintForm.setOutcomes(outcomes);
 		complaintForm.setSections(allSections);
-
+		if(null==complaint.getId() || complaint.getId()==0) complaint.setStatus("0");
 		complaintForm.setComplaint(complaint);
 		Integer clientId = Integer.valueOf(tmp);
 		String providerNo = (String)request.getSession().getAttribute("user");

@@ -88,7 +88,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 				action="/PMmodule/QuatroComplaint.do" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
-					<c:if test="${quatroClientComplaintForm.complaint.status=='0'}">	
+					<c:if test="${quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null}">	
 					<a href="javascript:submitForm('save');"
 						style="color:Navy;text-decoration:none;">
 						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>

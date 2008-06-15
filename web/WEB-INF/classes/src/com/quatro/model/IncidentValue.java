@@ -281,7 +281,8 @@ public class IncidentValue implements java.io.Serializable {
 		int i = clients.indexOf("/");
 		if(i > 0){
 			String tmp = clients.substring(i+1);
-			clientsNames = tmp.replace(":", "<br />");
+			//clientsNames = tmp.replace(":", "<br />");// since java5
+			clientsNames = com.quatro.util.Utility.replace(tmp,":", "<br />");
 		}
 		return clientsNames;
 	}
