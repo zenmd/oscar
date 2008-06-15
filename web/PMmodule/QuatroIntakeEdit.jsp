@@ -87,9 +87,6 @@ function checkExistClients(){
 	<tr>
 		<td align="left" class="buttonBar">
 
-			<html:link action="/Home.do"
-			style="color:Navy;text-decoration:none">&nbsp;
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
            <html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
             <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Intake&nbsp;&nbsp;|</html:link>
             

@@ -53,7 +53,7 @@
 			<td>
 			<table class="simple" cellspacing="2" cellpadding="3">
 				<tr>
-					<th align="left">REFERRAL</th></tr>	
+					<th align="left">Referrals</th></tr>	
 			</table>
 			</td>
 		</tr>		

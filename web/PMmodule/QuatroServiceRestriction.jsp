@@ -97,11 +97,11 @@
 			<td align="left" class="buttonBar2">
 				<html:link action="/PMmodule/QuatroServiceRestriction.do"
 				name="actionParam" style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Service Restrictions&nbsp;&nbsp;|</html:link>
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Service Restrictions&nbsp;&nbsp;|</html:link>
 				
 			<a
 				href="javaScript:submitForm('save')"
-				style="color:Navy;text-decoration:none;"> <img border=0
+				style="color:Navy;text-decoration:none;"> <img style="vertical-align: middle" border=0
 				src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 </td>
 		</tr>

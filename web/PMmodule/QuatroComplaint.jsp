@@ -87,11 +87,11 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			<td align="left" class="buttonBar"><html:link
 				action="/PMmodule/QuatroComplaint.do" name="actionParam"
 				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Complaints&nbsp;&nbsp;</html:link>
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Complaints&nbsp;&nbsp;|</html:link>
 					<c:if test="${quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null}">	
 					<a href="javascript:submitForm('save');"
 						style="color:Navy;text-decoration:none;">
-						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 					</c:if>	
 			</td>
 				
