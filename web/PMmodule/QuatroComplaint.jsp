@@ -88,10 +88,13 @@ Source:web/PMmodule/QuatroComplaint.jsp
 				action="/PMmodule/QuatroComplaint.do" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
-			<a href="javascript:submitForm('save');"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
-				</td>
+					<c:if test="${quatroClientComplaintForm.complaint.status=='0'}">	
+					<a href="javascript:submitForm('save');"
+						style="color:Navy;text-decoration:none;">
+						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+					</c:if>	
+			</td>
+				
 		</tr>
 		
 		
@@ -261,8 +264,8 @@ Source:web/PMmodule/QuatroComplaint.jsp
 										value="code" label="description" />
 								</html-el:select></td>
 								<td width="50%" colspan="2">Was Toronto Shelter Security Standards Breached?
-									<input type="radio" name="complaint.standardsBreached" value="1">Yes</input>
-									<input type="radio" name="complaint.standardsBreached" value="0">No</input>
+									<html-el:radio property="complaint.standardsBreached" value="1">Yes</html-el:radio>
+									<html-el:radio property="complaint.standardsBreached" value="0">No</html-el:radio>
 								</td>
 							</tr>
 							<tr>
