@@ -10,6 +10,26 @@
 </script>
 </head>
 <body>
+<table width="100%" cellpadding="0px" cellspacing="0px" style="border-width: 1px; border-style: solid; bordercolor: black">
+	<tr>
+		<th width="100%" class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Reports</span></th>
+	</tr>
+	<tr>
+		<td align="left" class="buttonBar">
+			<html:link action="/Home.do"
+			style="color:Navy;text-decoration:none">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+		
+			<a
+			href="javascript:submitForm('delete');"
+			style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Delete16.gif"/> />&nbsp;Delete Template(s)&nbsp;&nbsp;</a>
+		</td>
+	</tr>
+</table>
+	
+
 <html:form action="/QuatroReport/ReportList.do">
 <div class="tabs" id="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
