@@ -95,13 +95,15 @@
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
+				<html:link action="/PMmodule/QuatroServiceRestriction.do"
+				name="actionParam" style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Service Restrictions&nbsp;&nbsp;|</html:link>
+				
 			<a
 				href="javaScript:submitForm('save')"
 				style="color:Navy;text-decoration:none;"> <img border=0
-				src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-			 <html:link action="/PMmodule/QuatroServiceRestriction.do"
-				name="actionParam" style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+				src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
+</td>
 		</tr>
 		<tr>
 			<td align="left" class="message"><logic:messagesPresent
