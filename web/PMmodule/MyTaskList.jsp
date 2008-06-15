@@ -36,7 +36,7 @@ function submitForm(methodVal) {
 <tr><td colspan="2">Status: <html:select property="filter.status">
 	<html:option value="">All</html:option>
 	<html:option value="Active">Active</html:option>
-	<html:option value="Complated">Completed</html:option>
+	<html:option value="Completed">Completed</html:option>
 </html:select></td>
 <td colspan="3">Program: <html:select property="filter.programId">
 	<html:option value="">All</html:option>
