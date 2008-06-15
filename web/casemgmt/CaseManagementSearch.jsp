@@ -93,8 +93,14 @@ response.setHeader("Cache-Control", "no-cache");
 			</tr>
 			<tr>
 				<td align="left" class="buttonBar2">
+				<html:link action="/Home.do"
+				style="color:Navy;text-decoration:none">&nbsp;
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+				<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+
 				<html:link	action="/CaseManagementView2.do?note_view=summary" paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Case Summary&nbsp;&nbsp;|
+					&nbsp;Case Summary&nbsp;&nbsp;|
 				</html:link> 
 				<html:link action="/CaseManagementView2.do?note_view=detailed"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;&nbsp;|
 				</html:link> 
@@ -104,8 +110,7 @@ response.setHeader("Cache-Control", "no-cache");
 				
 				<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">Print</a>
 				
-				<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+				</td>
 			</tr>
 		</table>
 	</td></tr>
