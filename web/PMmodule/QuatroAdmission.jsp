@@ -115,7 +115,7 @@ function viewSignature(){
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="25%">Ontario Resident Status</td>
-<td width="25%"><html:text property="admission.residentStatus" /></td>
+<td width="25%"><html:text property="admission.residentStatus" maxlength="20" /></td>
 <td width="20%">Primary Worker</td>
 <td width="30%">
 <html:select property="admission.primaryWorker">
@@ -123,9 +123,9 @@ function viewSignature(){
 </html:select>
 </td></tr>
 <tr><td>Locker#</td>
-<td><html:text property="admission.lockerNo" /></td>
+<td><html:text property="admission.lockerNo" maxlength="20"/></td>
 <td># of Bags</td>
-<td><html:text property="admission.noOfBags" /></td></tr>
+<td><html:text property="admission.noOfBags" maxlength="20" /></td></tr>
 </table>
 </td></tr>
 
@@ -137,23 +137,23 @@ function viewSignature(){
 <tr><td>
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="10%">Name</td>
-<td width="25%"><html:text property="admission.nextKinName" /></td>
+<td width="25%"><html:text property="admission.nextKinName" maxlength="60" /></td>
 <td width="10%">Relationship</td>
-<td width="20%"><html:text property="admission.nextKinRelationship" /></td>
+<td width="20%"><html:text property="admission.nextKinRelationship" maxlength="20" /></td>
 <td width="5%">Tel</td>
-<td width="30%"><html:text property="admission.nextKinTelephone" style="width: 95%" /></td></tr>
+<td width="30%"><html:text property="admission.nextKinTelephone" style="width: 95%" maxlength="25" /></td></tr>
 <tr><td>Number</td>
-<td><html:text property="admission.nextKinNumber" /></td>
+<td><html:text property="admission.nextKinNumber" maxlength="20" /></td>
 <td>Street</td>
-<td colspan="3"><html:text property="admission.nextKinStreet" style="width: 80%" /></td></tr>
+<td colspan="3"><html:text property="admission.nextKinStreet" style="width: 80%" maxlength="50" /></td></tr>
 <tr><td>City</td>
-<td><html:text property="admission.nextKinCity" /></td>
+<td><html:text property="admission.nextKinCity" maxlength="20" /></td>
 <td>Province</td>
 <td><html:select property="admission.nextKinProvince">
 <html-el:optionsCollection property="provinceList" value="code" label="description"/>
 </html:select></td>
 <td>Postal</td>
-<td><html:text property="admission.nextKinPostal" style="width: 60%" /></td></tr>
+<td><html:text property="admission.nextKinPostal" style="width: 60%" maxlength="7" /></td></tr>
 </table>
 </td></tr>
 
