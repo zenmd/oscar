@@ -43,12 +43,12 @@
 		<table border="0" cellspacing="2" cellpadding="3">
 			<tr>
 				<th>Start Date</th>
-				<td><html:text property="form.startDate"  size="15" /> (yyyy-mm-dd)</td>
+				<td><html:text maxlength="10" property="form.startDate"  size="15" /> (yyyy/MM/dd)</td>
 			</tr>
 			<tr>
 			    <th>End Date</th>
 				<td>
-					<html:text property="form.endDate"  size="15" /> (yyyy-mm-dd)
+					<html:text property="form.endDate"  maxlength="10" size="15" /> (yyyy/MM/dd)
 				</td>
 			</tr>
 			<!-- 

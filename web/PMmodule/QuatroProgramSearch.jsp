@@ -120,7 +120,7 @@
 		<%String a="12"; %>
 		<table class="simple" width="100%" cellspacing="2" cellpadding="3">
 		  <tr><td width="30%">Program Name</td>
-  				<td width="70%"><html:text property="program.name" /></td></tr>
+  				<td width="70%"><html:text property="program.name" maxlength="70" /></td></tr>
   		 <tr><td>Facility</td>
   		 	<td><html:select property="program.facilityId">
 					<html:option value="">&nbsp;</html:option>
@@ -145,9 +145,9 @@
 				</html:select>
 			</td></tr>
   		<tr><td>Minimun Age (inclusive)</td>
-  				<td><html:text property="program.ageMin" /></td></tr>
+  				<td><html:text property="program.ageMin" maxlength="3" /></td></tr>
   		<tr><td>Maximum Age (inclusive)</td>
-  			<td><html:text property="program.ageMax" /></td></tr>  		
+  			<td><html:text property="program.ageMax" maxlength="3" /></td></tr>  		
  	</table>
 	</html:form>
 		

@@ -119,7 +119,7 @@ function submitForm(mthd)
              <quatro:datePickerTag property="startField" width="70%" style="<%=startDateProperty.getVisible()%>" openerForm="quatroReportRunnerForm"></quatro:datePickerTag>
            </logic:equal>
            <logic:equal name="quatroReportRunnerForm" property="startTxtProperty.visible" value="visibility:visible;">
-             <html:text property="startField" style="<%=startTxtProperty.getVisible()%>" value="<%=startField%>" />
+             <html:text property="startField" maxlength="50" style="<%=startTxtProperty.getVisible()%>" value="<%=startField%>" />
            </logic:equal>
            </td>
         </tr>
@@ -131,7 +131,7 @@ function submitForm(mthd)
              <quatro:datePickerTag property="endField" width="70%" style="<%=endDateProperty.getVisible()%>" openerForm="quatroReportRunnerForm"></quatro:datePickerTag>
            </logic:equal>
            <logic:equal name="quatroReportRunnerForm" property="endTxtProperty.visible" value="visibility:visible;">
-             <html:text property="endField" style="<%=endTxtProperty.getVisible()%>" value="<%=endField%>" ></html:text>
+             <html:text property="endField" maxlength="50" style="<%=endTxtProperty.getVisible()%>" value="<%=endField%>" ></html:text>
            </logic:equal>
         </td>
         </tr>
@@ -268,7 +268,7 @@ function submitForm(mthd)
           <html:hidden name="tplCriteria" property="filter.fieldType" indexed="true" />
           <logic:equal name="tplCriteria" property="filter.fieldType" value="S">
             <logic:empty name="tplCriteria" property="filter.lookupTable">
-              <html:text name="tplCriteria" property="val" indexed="true"/>
+              <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
             </logic:empty>
             <logic:notEmpty name="tplCriteria" property="filter.lookupTable">
               <html:hidden name="tplCriteria" property="filter.lookupTable" indexed="true" />
@@ -280,7 +280,7 @@ function submitForm(mthd)
             <quatro:datePickerTag name="tplCriteria" property="val" indexed="true" openerForm="quatroReportRunnerForm"></quatro:datePickerTag>
           </logic:equal>  
           <logic:equal name="tplCriteria" property="filter.fieldType" value="N">
-             <html:text name="tplCriteria" property="val" indexed="true"/>
+             <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
           </logic:equal>  
         </logic:notEmpty>
 	</TD>  

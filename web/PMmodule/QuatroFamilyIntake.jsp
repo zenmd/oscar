@@ -139,16 +139,16 @@ function checkExistClients(i){
       <a href="javascript:checkExistClients(<%=rIndex%>);" style="color:Navy;text-decoration:none;">
        <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />
        </a>
-       <html:text name="dependent" property="statusMsg" indexed="true" readonly="readonly" style="border: 0px;width: 20px"/>
+       <html:text name="dependent" property="statusMsg" maxlength="20"  indexed="true" readonly="readonly" style="border: 0px;width: 20px"/>
     </td>
-    <td><html:text name="dependent" property="lastName" indexed="true" style="width:90%" /></td>
-    <td><html:text name="dependent" property="firstName" indexed="true" style="width:90%" /></td>
+    <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true" style="width:90%" /></td>
+    <td><html:text name="dependent" property="firstName" maxlength="30" indexed="true" style="width:90%" /></td>
     <td><quatro:datePickerTag name="dependent" property="dob" indexed="true" openerForm="quatroClientFamilyIntakeForm" style="width:90%"></quatro:datePickerTag></td>
     <td><html:select name="dependent" property="sex" indexed="true" style="width:90%">
        <html:optionsCollection property="genders" value="code" label="description"/>
       </html:select>
     </td>
-    <td><html:text name="dependent" property="alias" indexed="true" style="width:95%" /></td>
+    <td><html:text name="dependent" property="alias" maxlength="70" indexed="true" style="width:95%" /></td>
     <td><html:select name="dependent" property="relationship" indexed="true" style="width:90%">
        <html:optionsCollection property="relationships" value="code" label="description"/>
       </html:select>

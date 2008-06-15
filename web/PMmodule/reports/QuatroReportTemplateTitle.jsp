@@ -36,11 +36,11 @@ function setupOpt(){
 <tr><td width="25%" align="right">As New: 
   <input value="optNew" name="optSaveAs" id="optNew" type="radio" onclick="javascript:showNew();" /> 
 </td>
-<td><html:text property="txtDescription" size="100%" /></td></tr>
+<td><html:text property="txtDescription" size="100%" maxlength="200" /></td></tr>
 <tr><td align="right">To replace the template:
   <input value="optOld" name="optSaveAs" id="optOld" type="radio" onclick="javascript:showTitle();" />
 </td>
-<td><html:text property="txtTitle" size="100%" /></td></tr>
+<td><html:text property="txtTitle" size="100%" maxlength="80" /></td></tr>
 <tr><td align="right">Private:</td>
 <td><html:checkbox property="chkPrivate"/></td></tr>
 <tr><td>&nbsp;</td>
