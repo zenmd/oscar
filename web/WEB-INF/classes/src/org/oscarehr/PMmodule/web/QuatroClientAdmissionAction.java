@@ -539,12 +539,20 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   roomDemographic.setAssignStart(new Date());
 
        //check overnight pass validation
-       if(admission.getOvPassStartDate().after(admission.getOvPassEndDate())){
-	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.invalid_overnight_pass_date",
+ 	   if(admission.getOvPassStartDate()!=null && admission.getOvPassEndDate()!=null){
+         if(admission.getOvPassStartDate().after(admission.getOvPassEndDate())){
+	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.invalid_overnight_pass_date",
      			   request.getContextPath()));
-          isError = true;
-          saveMessages(request,messages);
-          return update(mapping, form, request, response);
+            isError = true;
+            saveMessages(request,messages);
+            return update(mapping, form, request, response);
+         }
+       }else if(admission.getOvPassStartDate()!=null || admission.getOvPassEndDate()!=null){
+ 	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.invalid_overnight_pass_date2",
+    			   request.getContextPath()));
+         isError = true;
+         saveMessages(request,messages);
+         return update(mapping, form, request, response);
        }
  	   
  	   BedDemographic bedDemographic;

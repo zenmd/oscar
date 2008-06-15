@@ -38,21 +38,34 @@
         <td width="320px">
         <table width="100%">
         <tr>
-        <td class="clsMenuCell2" nowrap="nowrap" >
+        	<c:choose>
+        	<c:when test="${'V' eq sessionScope.mnuHome}">
+       			 <td class="clsMenuCell2" nowrap="nowrap" >
+        	
 						<div><html:link action="/Home.do" styleClass="clsMenu"
 							>Home</html:link>
 						</div>
-		</td>
-        <td  valign ="center" class="clsMenuCell2" nowrap="nowrap" >
+				</td>
+			</c:when>
+			</c:choose>	
+			<c:choose>
+        	<c:when test="${'V' eq sessionScope.mnuTask}">
+        		<td  valign ="center" class="clsMenuCell2" nowrap="nowrap" >
 						<div class="clsMenu"><html:link action="/PMmodule/Task.do?method=filter"
 							 styleClass="clsMenu">My Tasks</html:link>
 						</div>
 		</td>
+		</c:when>
+		</c:choose>
+		<c:choose>
+        	<c:when test="${'V' eq sessionScope.mnuReport}">
         <td  class="clsMenuCell2" nowrap="nowrap" >
 						<div><html:link action="QuatroReport/ReportList.do"
 							 styleClass="clsMenu">Reports</html:link>
 						</div>
 		</td>
+		</c:when>
+		</c:choose>
         <td  class="clsMenuCell2" nowrap="nowrap" >
                <a target="_blank" href='<%=request.getContextPath()%>/help/QuatroShelter.htm' class="clsMenu">Help</a>
         </td>

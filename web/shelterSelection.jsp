@@ -38,7 +38,7 @@ String _appPath = request.getContextPath();
 	<td> 
 	<ul>
 		<logic:iterate id="shelter" name="shelters">
-			<li>&nbsp;<a  href='/QuatroShelter/login.do?nextPage=caisiPMM&shelterId=<c:out value="${shelter.code}"/>' >    
+			<li>&nbsp;<a  href='/QuatroShelter/shelterSelection.do?method=select&shelterId=<c:out value="${shelter.code}"/>' >    
 			<c:out value="${shelter.description}"></c:out></a></li>
 		</logic:iterate>
 	</ul>
