@@ -68,7 +68,8 @@ public final class ShelterSelectionAction extends DispatchAction {
     	
 		String shelter =request.getParameter("shelterId");
 		 request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(shelter));
-         request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
+		 LookupCodeValue shelterObj=lookupManager.GetLookupCode("SHL",shelter);
+         request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
         
     }
 }
