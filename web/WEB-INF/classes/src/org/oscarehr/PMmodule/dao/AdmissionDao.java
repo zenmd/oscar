@@ -43,11 +43,12 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
 
     public void updateAdmission(Admission admission) {
-        if (admission == null || admission.getId().intValue()==0) {
+        if (admission == null) {
             throw new IllegalArgumentException();
         }
 
         getHibernateTemplate().update(admission);
+        clientHisDao.saveClientHistory(admission, null, null);
     }
 
     public void dischargeAdmission(String admissionIds) {
@@ -175,7 +176,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
 
     public List getCurrentAdmissions(Integer clientId,String providerNo, Integer shelterId) {
-        if (clientId == null || clientId.intValue() <= 0) {
+        if (clientId == null ) {
             throw new IllegalArgumentException();
         }
         return getAdmissionList(clientId, true, providerNo, shelterId);
@@ -210,7 +211,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
     
     public List getAdmissionsByProgramId(Integer programId, Boolean automaticDischarge, Integer days) {
-        if (programId == null || programId.intValue() <= 0) {
+        if (programId == null) {
             throw new IllegalArgumentException();
         }
        
@@ -230,7 +231,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
 
     public List getCurrentAdmissionsByProgramId(Integer programId) {
-        if (programId == null || programId.intValue() <= 0) {
+        if (programId == null ) {
             throw new IllegalArgumentException();
         }
 
@@ -240,7 +241,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     }
 
     public Admission getAdmission(Integer id) {
-        if (id == null || id.intValue() <= 0) {
+        if (id == null) {
             throw new IllegalArgumentException();
         }
 
@@ -254,6 +255,7 @@ public class AdmissionDao extends HibernateDaoSupport {
         }
 
         getHibernateTemplate().saveOrUpdate(admission);
+        clientHisDao.saveClientHistory(admission, null, null);
     }
 
     public void updateDischargeInfo(Admission admission){
@@ -271,6 +273,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 				admission.getDischargeDate(), admission.getAdmissionStatus(),
 				admission.getDischargeReason(), admission.getTransportationType(),
 				admission.getDischargeNotes(),admission.getLastUpdateDate(),admission.getProviderNo(), admission.getId()});
+        clientHisDao.saveClientHistory(admission, null, null);
     }
 }
 
