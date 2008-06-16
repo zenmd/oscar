@@ -25,15 +25,15 @@
 <script type="text/javascript" 	src='<c:out value="${pageContext.request.contextPath}"/>/js/checkDate.js'></script>
 <table  width="100%" border="1" bordercolor="#696969">
 	<tr>
-		<td align="left" width="200px" rowspan="2">
+		<td align="left" width="180px" rowspan="2">
 		<%if (oscar.OscarProperties.getInstance().isTorontoRFQ() && !oscar.OscarProperties.getInstance().getBooleanProperty("USE_CAISI_LOGO", "true")){%>
- 	        <img src="<html:rewrite page="/images/QuatroShelterLogo.jpg"  />" alt="QuatroShelter" border="0"/>
+ 	        &nbsp;&nbsp;<img src="<html:rewrite page="/images/QuatroShelter-Logo180.gif"   />" width="180px" alt="QuatroShelter" border="0"/>
  	    <%} else {%>
 	        <img src="<html:rewrite page="/images/caisi_1.jpg" />" alt="Caisi" id="caisilogo"  border="0"/>
 	    <%}%>
         </td>
 		<th rowspan="2"> &nbsp; </th>
-		<td valign="bottom" class="clsMenu">Shelter:<b> <font color="red"><c:out value="${sessionScope.currentShelter.description}"></c:out></font></b></td>
+		<td valign="bottom" class="clsMenu">Shelter:<font color="red" size="2"><c:out value="${sessionScope.currentShelter.description}"></c:out></font></td>
 		<td rowspan="2">&nbsp;</td>
         <td width="320px">
         <table width="100%">
@@ -75,8 +75,8 @@
         </tr></table>
         </td>
 	</tr>
-	<tr><td valign="bottom" class="clsMenu">User: <c:out
-			value="${sessionScope.provider.formattedName}" />
+	<tr><td valign="bottom" class="clsMenu" align="left">User: <font size="2"> <c:out
+			value="${sessionScope.provider.formattedName}" /></font>
 		</td>
 		<td>
 			<table width="100%">
