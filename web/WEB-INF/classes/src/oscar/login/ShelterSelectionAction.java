@@ -14,12 +14,16 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.util.SpringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import oscar.OscarProperties;
 import oscar.log.LogAction;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
+import com.quatro.service.security.SecurityManager;
 
 public final class ShelterSelectionAction extends DispatchAction {
 
@@ -29,6 +33,7 @@ public final class ShelterSelectionAction extends DispatchAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	 String mthd =request.getParameter("method");
+    	// initMenu(request);
          if(mthd!=null && mthd.equals("select")){
         	 select(mapping,form,request,response);
         	 return mapping.findForward("home");
@@ -72,4 +77,53 @@ public final class ShelterSelectionAction extends DispatchAction {
          request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
         
     }
+    public ApplicationContext getAppContext() {
+		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
+				.getServletContext());
+	}
+    public ProviderManager getProviderManager() {
+		return (ProviderManager) getAppContext().getBean("providerManager");
+	}
+    protected SecurityManager getSecurityManager(HttpServletRequest request)
+	{
+		return (SecurityManager) request.getSession()
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+	}
+    private void initMenu(HttpServletRequest request)
+	{
+		SecurityManager sec = getSecurityManager(request);
+		if (sec==null) return;
+		//Client Management
+		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
+			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
+		} else
+			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
+	
+		//Program
+		if (sec.GetAccess("_pmm.programList", "").compareTo("r") >= 0) {
+			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
+		} else
+			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
+
+		//Facility Management
+		if (sec.GetAccess("_pmm.facilityList", "").compareTo("r") >= 0) {
+			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
+		} else
+			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
+
+		//Report Runner
+		if (sec.GetAccess("_reportRunner", "").compareTo("r") >= 0) {
+			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
+		} else
+			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
+
+		//System Admin
+		if (OscarProperties.getInstance().isAdminOptionOn() && sec.GetAccess("_admin", "").compareTo("r") >= 0) {
+			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
+		} else
+			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
+		request.getSession().setAttribute(KeyConstants.MENU_HOME, KeyConstants.ACCESS_VIEW);
+		request.getSession().setAttribute(KeyConstants.MENU_TASK, KeyConstants.ACCESS_VIEW);
+	}
+	
 }
