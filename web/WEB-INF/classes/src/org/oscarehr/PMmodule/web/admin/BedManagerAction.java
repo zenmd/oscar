@@ -472,7 +472,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	        }
         }else{
             ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.addBed.tooMany", request.getContextPath(),Integer.valueOf(max)));
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.addBed.tooMany", request.getContextPath(),new Integer(max)));
             saveMessages(request, messages);
         }
     	return mapping.findForward(FORWARD_MANAGE);

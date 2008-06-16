@@ -233,7 +233,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			
 		} else if (!Utility.IsEmpty(rId)){
 			
-			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
+			pcrObj =  clientRestrictionManager.find(new Integer(rId));
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
 			
@@ -261,12 +261,18 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        }
        if (!Utility.IsEmpty(rId) && !("0".equals(rId))){
     	   int length = MyDateFormat.getDaysDiff(pcrObj.getStartDate(), pcrObj.getEndDate());
-    	   clientForm.set("serviceRestrictionLength", Integer.valueOf(length));
+    	   clientForm.set("serviceRestrictionLength", new Integer(length));
        }
        
        clientForm.set("serviceRestriction", pcrObj);
        
        request.setAttribute("serviceObj", pcrObj);
+       
+       if(pcrObj.getEndDate().getTime().getTime() < System.currentTimeMillis()){
+           request.setAttribute("serviceObjStatus", "completed");
+       }else{
+           request.setAttribute("serviceObjStatus", "not");
+       }
 
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
        
