@@ -37,7 +37,7 @@ public class EChartDAO extends HibernateDaoSupport {
 
     public EChart getLatestChart(int demographicNo) {
         //return (EChart)getHibernateTemplate().find("from EChart c where c.demographicNo = ? order by c.timeStamp desc", new Object[] {String.valueOf(demographicNo)}).get(0);
-    	List echarts = getHibernateTemplate().find("from EChart c where c.demographicNo = ? order by c.timeStamp desc", new Object[] {Integer.valueOf(demographicNo)});
+    	List echarts = getHibernateTemplate().find("from EChart c where c.demographicNo = ? order by c.timeStamp desc", new Object[] {new Integer(demographicNo)});
     	if(echarts.size()>0) {
     		return (EChart)echarts.get(0);
     	}
