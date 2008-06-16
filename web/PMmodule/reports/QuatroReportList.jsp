@@ -36,6 +36,7 @@
 					src="<html:rewrite page="/images/Delete16.gif"/>" />&nbsp;Delete Template(s)&nbsp;|</html:link>
 			</td>
 		</tr>
+		<tr><td>&nbsp;</td></tr>
 	</table>
 	<div class="tabs" id="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
