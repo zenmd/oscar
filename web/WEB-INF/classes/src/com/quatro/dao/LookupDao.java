@@ -110,7 +110,7 @@ public class LookupDao extends HibernateDaoSupport {
 	    	sSQL += ")";
 	   }
 	   if (!Utility.IsEmpty(codeDesc)) {
-	    	sSQL += " and " + fieldNames[1] + " like ?"; 
+	    	sSQL += " and upper(" + fieldNames[1] + ") like ?"; 
 	    	params[i++]= new DBPreparedHandlerParam("%" + codeDesc.toUpperCase() + "%");
 	   }	
 	   
