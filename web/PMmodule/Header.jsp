@@ -50,7 +50,7 @@
 			</c:choose>	
 			<c:choose>
         	<c:when test="${'V' eq sessionScope.mnuTask}">
-        		<td  valign ="center" class="clsMenuCell2" nowrap="nowrap" >
+        		<td  class="clsMenuCell2" nowrap="nowrap" >
 						<div class="clsMenu"><html:link action="/PMmodule/Task.do?method=filter"
 							 styleClass="clsMenu">My Tasks</html:link>
 						</div>

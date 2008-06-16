@@ -127,7 +127,7 @@
 				<a	href="javascript:submitForm('search')"	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Search&nbsp;&nbsp;|</a> 
 				<a	style="color:Navy;text-decoration:none;"	href="javascript:submitForm('mergedSearch');"> 
-					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
+					<img border=0	src=<html:rewrite page="/images/search16.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
 				<a	style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();"> 
 					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>
 				<c:choose>
@@ -137,11 +137,11 @@
 					</c:when>
 					<c:otherwise>
 						<a	href="javascript:submitForm('merge')"	style="color:Navy;text-decoration:none;"> 
-							<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Merge&nbsp;&nbsp;|</a>
+							&nbsp;Merge&nbsp;&nbsp;|</a>
 					</c:otherwise>					
 				</c:choose>
 				<html:link action="/PMmodule/ClientSearch2.do"  style="color:Navy;text-decoration:none;">				
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+					<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				</td>
 		</tr>
 		<tr height="18px">

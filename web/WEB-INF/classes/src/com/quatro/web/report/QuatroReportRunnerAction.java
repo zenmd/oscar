@@ -3,6 +3,7 @@ package com.quatro.web.report;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +25,19 @@ import com.quatro.model.ReportOptionValue;
 import com.quatro.model.ReportTempCriValue;
 import com.quatro.model.ReportTempValue;
 import com.quatro.model.ReportValue;
+import com.quatro.service.LookupManager;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.HTMLPropertyBean;
 import com.quatro.util.KeyValueBean;
 import com.quatro.util.Utility;
 
 public class QuatroReportRunnerAction extends Action {
+	private LookupManager lookupManager;
 	
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
+	}
+
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -100,7 +107,7 @@ public class QuatroReportRunnerAction extends Action {
 			{
 				btnRemoveTplCri_Click(rptNo, myForm, request);
 			}
-			else if("onCriteriaChange".equals(method))
+			else if(method.startsWith("tplCriteria"))
 			{
 				OnCriteriaTextChangedHandler(rptNo, myForm, request);
 			}
@@ -443,6 +450,11 @@ public class QuatroReportRunnerAction extends Action {
                 ReportTempCriValue obj=(ReportTempCriValue)lst.get(i);
 				ReportFilterValue rptFilterVal = reportManager.GetFilterField(reportNo, obj.getFieldNo());
 				if(rptFilterVal!=null) obj.setOperatorList(GetOperatorList(rptFilterVal.getOp()));
+				if(!"".equals(rptFilterVal.getLookupTable()) && obj.getVal()!=null && obj.getVal().length() > 0){
+					String code = obj.getVal();
+					LookupCodeValue lv = (LookupCodeValue) lookupManager.GetLookupCode(rptFilterVal.getLookupTable(), code);
+					obj.setValDesc( lv.getDescription());
+				}
               }
               myForm.setTemplateCriteriaList(lst);
 		  }  

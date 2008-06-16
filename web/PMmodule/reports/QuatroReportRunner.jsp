@@ -1,12 +1,7 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="com.quatro.model.*" %>
-
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
+<%@ include  file="/taglibs.jsp" %>
 
 <bean:define id="lstExportFormat" name="quatroReportRunnerForm" property="exportFormatList"/>
 <bean:define id="lstReportOption" name="quatroReportRunnerForm" property="reportOptionList"/>
@@ -46,6 +41,7 @@ function saveTemplate(url){
 <script language="JavaScript">
 function CriteriaChanged(obj){
   	document.forms[0].method.value=obj.name;
+  	document.forms[0].onCriteriaChange.value=obj.name;
 	getOrgList();
   	document.forms[0].submit();
 }
@@ -80,7 +76,7 @@ function submitForm(mthd)
 
 <html:form action="/QuatroReport/ReportRunner.do" onsubmit="return getOrgList();">
 <input type="hidden" id="method" name="method" />
-
+<input type="hidden" id="onCriteriaChange" name="onCriteriaChange" />
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 
@@ -219,12 +215,13 @@ function submitForm(mthd)
 	     </td>
 	</tr>
 <tr><td colspan="2" width="100%">
+<%String a = "1" ;%>
 <TABLE align="center" class="simple" width="100%"><!--  722px-->
 <thead>
-   	<TR><th class="sortable">Select</th>
-    	<th class="sortable">Relation</TH>
-		<TH class="sortable">Field Name</TH>
-      	<TH class="sortable">Operator</TH>
+   	<TR><th class="sortable" width="10%">Select</th>
+    	<th class="sortable" width="10%">Relation</TH>
+		<TH class="sortable" width="20%">Field Name</TH>
+      	<TH class="sortable" width="5%">Operator</TH>
 		<TH class="sortable">Value(s)</TH></TR></thead>
 
 	<logic:iterate id="tplCriteria" name="quatroReportRunnerForm" property="templateCriteriaList" indexId="rIndex">
@@ -238,7 +235,7 @@ function submitForm(mthd)
      	<input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" /> 
    	</TD>
    	<TD>
-		<html:select name="tplCriteria" property="relation" indexed="true">
+		<html:select name="tplCriteria" property="relation" indexed="true" style="width: 100%;">
           <logic:iterate id="relation" name="arRelations" type="String">
             <html:option value="<%=relation%>"><%=relation%></html:option>
           </logic:iterate>
@@ -246,7 +243,7 @@ function submitForm(mthd)
 	</TD>  
 	<TD>
         <logic:equal name="tplCriteria" property="required" value="true">
-		<html:select name="tplCriteria" disabled="true" property="fieldNo" indexed="true" onchange="CriteriaChanged(this);">
+		<html:select name="tplCriteria" disabled="true" property="fieldNo" indexed="true" onchange="CriteriaChanged(this);"  style="width: 100%;">
            <option value="0"></option>
            <html:options collection="filterFields" property="fieldNo" labelProperty="fieldName"></html:options>
 		</html:select>
@@ -260,7 +257,7 @@ function submitForm(mthd)
 	</TD>  
 	<TD>
         <logic:equal name="tplCriteria" property="required" value="true">
-		<html:select name="tplCriteria" disabled="true" property="op" indexed="true">
+		<html:select name="tplCriteria" disabled="true" property="op" indexed="true"  style="width: 100%;">
            <option value=""></option>
            <logic:iterate id="ops" name="tplCriteria" property="operatorList" type="com.quatro.util.KeyValueBean">
               <html:option value="<%=(String)ops.getKey()%>"><bean:write name="ops" property="value" /></html:option>
@@ -271,7 +268,7 @@ function submitForm(mthd)
 		<html:select name="tplCriteria" property="op" indexed="true">
            <option value=""></option>
            <logic:iterate id="ops" name="tplCriteria" property="operatorList" type="com.quatro.util.KeyValueBean">
-              <html:option value='<c:out value="${ops.key}"></c:out>'> <bean:write name="ops" property="value" /></html:option>
+              <html:option value="<%=(String)ops.getKey()%>"> <bean:write name="ops" property="value" /></html:option>
            </logic:iterate>
 		</html:select>
         </logic:notEqual>
@@ -285,7 +282,7 @@ function submitForm(mthd)
             </logic:empty>
             <logic:notEmpty name="tplCriteria" property="filter.lookupTable">
               <html:hidden name="tplCriteria" property="filter.lookupTable" indexed="true" />
-              <quatro:lookupTag name="tplCriteria" tableName='<c:out value="${tplCriteria.filter.lookupTable}"></c:out>' indexed="true" formProperty="quatroReportRunnerForm" 
+              <quatro:lookupTag name="tplCriteria" tableName="<%=((ReportTempCriValue)tplCriteria).getFilter().getLookupTable()   %>" indexed="true" formProperty="quatroReportRunnerForm" 
                  codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
             </logic:notEmpty>
           </logic:equal>  
