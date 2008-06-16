@@ -515,7 +515,7 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setCodeTree(ocd.getCodeTree() + facilityId);
 		fcd.setDescription(facility.getName());
 		fcd.setBuf1(fullCode);
-		fcd.setActive(!facility.getActive());
+		fcd.setActive(facility.getActive());
 		fcd.setOrderByIndex(0);
 		
 		this.SaveCodeValue(isNew,fcd);
