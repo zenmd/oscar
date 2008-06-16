@@ -6,7 +6,7 @@ String _appPath = request.getContextPath();
 %>
 <style type="text/css">
   li { 
-  		list-style-image: url(/QuatroShelter/images/smallhouse-darkgreen.gif);
+  		list-style-image: url(/QuatroShelter/images/smallhouse-red.gif);
   		list-style-type: circle;
   		list-style-position: outside
   		}
