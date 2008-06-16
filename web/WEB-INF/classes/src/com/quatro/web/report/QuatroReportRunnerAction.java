@@ -162,7 +162,7 @@ public class QuatroReportRunnerAction extends Action {
           String[] arFieldNo=(String[])map.get("tplCriteria[" + i + "].fieldNo");
           String[] arOp=(String[])map.get("tplCriteria[" + i + "].op");
           String[] arVal=(String[])map.get("tplCriteria[" + i + "].val");
-          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valdesc");
+          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valDesc");
           String[] arFieldType=(String[])map.get("tplCriteria[" + i + "].filter.fieldType");
           String[] arLookupTable=(String[])map.get("tplCriteria[" + i + "].filter.lookupTable");
 
@@ -457,7 +457,9 @@ public class QuatroReportRunnerAction extends Action {
 				}
               }
               myForm.setTemplateCriteriaList(lst);
-		  }  
+		  }else{
+			  
+		  }
 		}
 		
 		RefreshCriteria(myForm, request);
@@ -578,7 +580,7 @@ public class QuatroReportRunnerAction extends Action {
           String[] arFieldNo=(String[])map.get("tplCriteria[" + i + "].fieldNo");
           String[] arOp=(String[])map.get("tplCriteria[" + i + "].op");
           String[] arVal=(String[])map.get("tplCriteria[" + i + "].val");
-          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valdesc");
+          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valDesc");
           String[] arFieldType=(String[])map.get("tplCriteria[" + i + "].filter.fieldType");
           String[] arLookupTable=(String[])map.get("tplCriteria[" + i + "].filter.lookupTable");
 	      if(arRelation!=null) criNew.setRelation(arRelation[0]);
@@ -792,7 +794,7 @@ public class QuatroReportRunnerAction extends Action {
 	          String[] arFieldNo=(String[])map.get("tplCriteria[" + i + "].fieldNo");
 	          String[] arOp=(String[])map.get("tplCriteria[" + i + "].op");
 	          String[] arVal=(String[])map.get("tplCriteria[" + i + "].val");
-	          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valdesc");
+	          String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valDesc");
 	          String[] arFieldType=(String[])map.get("tplCriteria[" + i + "].filter.fieldType");
 	          String[] arLookupTable=(String[])map.get("tplCriteria[" + i + "].filter.lookupTable");
 		      if(arRelation!=null) criNew.setRelation(arRelation[0]);
@@ -819,7 +821,7 @@ public class QuatroReportRunnerAction extends Action {
 	          String[] arFieldNo=(String[])map.get("tplCriteria[" + i + "].fieldNo");
 		      String[] arOp=(String[])map.get("tplCriteria[" + i + "].op");
 		      String[] arVal=(String[])map.get("tplCriteria[" + i + "].val");
-		      String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valdesc");
+		      String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valDesc");
 	          String[] arFieldType=(String[])map.get("tplCriteria[" + i + "].filter.fieldType");
 	          String[] arLookupTable=(String[])map.get("tplCriteria[" + i + "].filter.lookupTable");
 			  if(arRelation!=null) criNew.setRelation(arRelation[0]);
@@ -848,7 +850,7 @@ public class QuatroReportRunnerAction extends Action {
 	          String[] arFieldNo=(String[])map.get("tplCriteria[" + i + "].fieldNo");
 			  String[] arOp=(String[])map.get("tplCriteria[" + i + "].op");
 			  String[] arVal=(String[])map.get("tplCriteria[" + i + "].val");
-			  String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valdesc");
+			  String[] arValDesc=(String[])map.get("tplCriteria[" + i + "].valDesc");
 	          String[] arFieldType=(String[])map.get("tplCriteria[" + i + "].filter.fieldType");
 	          String[] arLookupTable=(String[])map.get("tplCriteria[" + i + "].filter.lookupTable");
 			  if(arRelation!=null) criNew.setRelation(arRelation[0]);
