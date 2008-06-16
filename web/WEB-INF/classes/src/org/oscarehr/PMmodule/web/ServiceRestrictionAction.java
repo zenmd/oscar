@@ -268,7 +268,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        
        request.setAttribute("serviceObj", pcrObj);
        
-       if(pcrObj.getEndDate().getTime().getTime() < System.currentTimeMillis()){
+       if(pcrObj.getEndDate()!=null && pcrObj.getEndDate().getTime().getTime() < System.currentTimeMillis()){
            request.setAttribute("serviceObjStatus", "completed");
        }else{
            request.setAttribute("serviceObjStatus", "not");
