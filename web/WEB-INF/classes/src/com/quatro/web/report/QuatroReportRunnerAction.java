@@ -284,8 +284,8 @@ public class QuatroReportRunnerAction extends Action {
 		
 		ReportTempValue rptTempVal =rptVal.getReportTemp();
 		if("D".equals(rptVal.getDatePart())){
-		  myForm.setStartField(MyDateFormat.getSysDateString(rptTempVal.getStartDate()));
-		  myForm.setEndField(MyDateFormat.getSysDateString(rptTempVal.getEndDate()));
+		  if(rptTempVal.getStartDate()!=null) myForm.setStartField(MyDateFormat.getSysDateString(rptTempVal.getStartDate()));
+		  if(rptTempVal.getEndDate()!=null) myForm.setEndField(MyDateFormat.getSysDateString(rptTempVal.getEndDate()));
 		}else{
 			myForm.setStartField(rptTempVal.getStartPayPeriod());
 			myForm.setEndField(rptTempVal.getEndPayPeriod());
