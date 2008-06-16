@@ -35,6 +35,7 @@ public class MyDateFormat {
 	}
 	
 	public static int getDaysDiff(Calendar start, Calendar end){
+		  if(start==null || end==null) return 0;
 		  long days = (end.getTimeInMillis() - start.getTimeInMillis())/(24*60*60*1000);
 		  return (int)days;
 	}
