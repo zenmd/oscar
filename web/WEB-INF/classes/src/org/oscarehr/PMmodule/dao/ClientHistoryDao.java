@@ -140,10 +140,14 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         else if("discharged".equals(admission.getAdmissionStatus()))
         {
             history.setAction("Discharge");
-            history.setActionDate(admission.getDischargeDate().getTime());
+            if(admission.getDischargeDate()!=null) history.setActionDate(admission.getDischargeDate().getTime());
             history.setHistoryDate(Calendar.getInstance().getTime());
             LookupCodeValue dischargeReason = lookupDao.GetCode("DRN", admission.getDischargeReason());
-            history.setNotes("Discharge Reason: " + dischargeReason.getDescription());
+            if(dischargeReason!=null){
+            	history.setNotes("Discharge Reason: " + dischargeReason.getDescription());
+            }else{
+            	history.setNotes("Discharge Reason: ");
+            }
             history.setProgramId(admission.getProgramId());
             history.setProviderNo(admission.getProviderNo());
         }
