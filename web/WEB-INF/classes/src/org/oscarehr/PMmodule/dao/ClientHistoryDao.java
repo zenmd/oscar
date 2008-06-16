@@ -82,12 +82,12 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             return;
         }
         ClientHistory history = new ClientHistory();
-        history.setClientId(Integer.valueOf(referral.getClientId().toString()));
+        history.setClientId(referral.getClientId());
         history.setAction("Referral");
         history.setActionDate(referral.getReferralDate());
         history.setHistoryDate(Calendar.getInstance().getTime());
         history.setNotes(referral.getNotes());
-        history.setProgramId(Integer.valueOf(referral.getProgramId().toString()));
+        history.setProgramId(referral.getProgramId());
         history.setProviderNo(referral.getProviderNo());
        
         this.getHibernateTemplate().saveOrUpdate(history);
@@ -124,7 +124,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             return;
         }
         ClientHistory history = new ClientHistory();
-        history.setClientId(Integer.valueOf(admission.getClientId().toString()));
+        history.setClientId(admission.getClientId());
         if ("admitted".equals(admission.getAdmissionStatus())) {
         	history.setAction("Admit/Bed Assignment");
         	history.setActionDate(admission.getAdmissionDate().getTime());
