@@ -424,7 +424,7 @@
             <bean class="org.oscarehr.PMmodule.service.ClientManager">
                 <property name="clientDao" ref="clientDao"/>
                 <property name="clientReferralDAO" ref="clientReferralDAO"/>                
-                <property name="programQueueManager" ref="programQueueManager"/>
+                <property name="programQueueDao" ref="programQueueDao"/>
                 <property name="clientHistoryDao" ref="clientHistoryDao"/>
 <!-- 
                 <property name="outsideOfDomainEnabled" value="${pmm.client.search.outside.of.domain.enabled}"/>
