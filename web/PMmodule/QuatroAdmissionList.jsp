@@ -56,30 +56,25 @@ function updateQuatroAdmission(clientId, admissionId) {
 </table></div></td></tr>
 
 <tr><td>
-<table class="simple" cellspacing="2" cellpadding="3">
-  <tr><td>Admission ID</td>
-  <td>Created On</td>
-  <td>Staff</td>
-  <td>Status</td>
-  <td>Actions</td></tr>
-
-  <logic-el:iterate id="admission" collection="${admission}">
-    <tr><td width="20%"><c:out value="${admission.id}" /></td>
-    <td><c:out value="${admission.admissionDateStr}" /></td>
-    <td><c:out value="${sessionScope.provider.formattedName}" /></td>
-    <td><c:out value="${admission.admissionStatus}"/></td>
-	<td>
+<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="50" requestURI="/PMmodule/QuatroAdmission.do">
+   <display:setProperty name="paging.banner.placement" value="bottom" />
+   <display:setProperty name="basic.msg.empty_list" value="No admissions found." />
+   <display:column property="id" sortable="true" title="Admission ID" />
+   <display:column property="admissionDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss}" />
+   <display:column property="providerName" sortable="true" title="Staff" />
+   <display:column property="admissionStatus" sortable="true" title="Status" />
+   <display:column sortable="false" title="Actions" >
 	<c:choose>								
-	<c:when test="${admission.admissionStatus == 'admitted'}">
-     <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
-	</c:when>
-	<c:otherwise>
-     <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>
-	</c:otherwise>
-	</c:choose>
-    </td></tr>
-  </logic-el:iterate>						
-</table>
+	  <c:when test="${admission.admissionStatus == 'admitted'}">
+        <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
+	  </c:when>
+	  <c:otherwise>
+        <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>
+	  </c:otherwise>
+	 </c:choose>
+   </display:column>
+</display:table>
+
 </td></tr>
 
 </table>
