@@ -98,7 +98,8 @@ public class UploadFileAction extends BaseClientAction {
 		 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
 		 Integer cId=Integer.valueOf(demoNo) ;   
 		 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-		 if(null==cId || null==moduleId){
+		 if(null==moduleId) moduleId=KeyConstants.MODULE_ID_CLIENT; 
+		 if(null==cId){
 			 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));		 
 			 saveMessages(request,messages);
 		 }
@@ -135,13 +136,10 @@ public class UploadFileAction extends BaseClientAction {
 		 ActionMessages messages= new ActionMessages();
 		 String demoNo =(String)actionParam.get("clientId");
 		 Integer cId=Integer.valueOf(demoNo) ;       
-		 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
+		 Integer moduleId =KeyConstants.MODULE_ID_CLIENT;  //(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
 		 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
 		 request.setAttribute("clientId", demoNo);
 		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
-		 
-		
-		
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
 		 return mapping.findForward("edit");
