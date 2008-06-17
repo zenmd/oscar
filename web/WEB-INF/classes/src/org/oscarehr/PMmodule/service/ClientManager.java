@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
+import org.oscarehr.PMmodule.dao.ProgramQueueDao;
 import org.oscarehr.PMmodule.exception.AlreadyAdmittedException;
 import org.oscarehr.PMmodule.exception.AlreadyQueuedException;
 import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
@@ -53,7 +54,7 @@ public class ClientManager {
     private ClientDao dao;
     private ClientHistoryDao clientHistoryDao;
     private ClientReferralDAO referralDAO;
-    private ProgramQueueManager queueManager;
+    private ProgramQueueDao queueDao;
    
 
     private boolean outsideOfDomainEnabled;
@@ -120,15 +121,15 @@ public class ClientManager {
         return referralDAO.getClientReferral(Integer.valueOf(id));
     }
 
-    /*
-     * This should always be a new one. add the queue to the program.
-     */
     public void saveClientReferral(ClientReferral referral) {
 
         referralDAO.saveClientReferral(referral);
 
-        if (referral.getStatus().equalsIgnoreCase(KeyConstants.STATUS_ACTIVE)) {
-            ProgramQueue queue = new ProgramQueue();
+        //don't create new queue if referral Id>0
+        if (referral.getStatus().equalsIgnoreCase(KeyConstants.STATUS_ACTIVE)){
+          ProgramQueue queue;
+          if(referral.getId().intValue()==0) {
+            queue = new ProgramQueue();
             queue.setClientId(referral.getClientId());
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
@@ -136,8 +137,29 @@ public class ClientManager {
             queue.setReferralDate(referral.getReferralDate());
             queue.setReferralId(referral.getId());
             queue.setPresentProblems(referral.getPresentProblems());
-
-            queueManager.saveProgramQueue(queue);
+          }else{
+        	List lst = queueDao.getProgramQueuesByReferralId(referral.getId());
+        	if(lst.size()==0){
+               queue = new ProgramQueue();
+               queue.setClientId(referral.getClientId());
+               queue.setNotes(referral.getNotes());
+               queue.setProgramId(referral.getProgramId());
+               queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
+               queue.setReferralDate(referral.getReferralDate());
+               queue.setReferralId(referral.getId());
+               queue.setPresentProblems(referral.getPresentProblems());
+        	}else{
+               queue = (ProgramQueue)lst.get(0);
+               queue.setClientId(referral.getClientId());
+               queue.setNotes(referral.getNotes());
+               queue.setProgramId(referral.getProgramId());
+               queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
+               queue.setReferralDate(referral.getReferralDate());
+               queue.setReferralId(referral.getId());
+               queue.setPresentProblems(referral.getPresentProblems());
+        	}
+          }
+          queueDao.saveProgramQueue(queue);
         }
         
         clientHistoryDao.saveClientHistory(referral);
@@ -236,8 +258,8 @@ public class ClientManager {
     }
 
     //@Required
-    public void setProgramQueueManager(ProgramQueueManager mgr) {
-        this.queueManager = mgr;
+    public void setProgramQueueDao(ProgramQueueDao mgr) {
+        this.queueDao = mgr;
     }   
 
     //@Required
