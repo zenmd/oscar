@@ -68,6 +68,10 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 		return dao.getProgramQueuesByProgramId(programId);
 	}
 
+	public List getProgramQueuesByReferralId(Integer referralId) {
+		return dao.getProgramQueuesByReferralId(referralId);
+	}
+
 	public List getProgramQueuesByClientId(Integer clientId) {
 		return dao.getProgramQueuesByClientId(clientId);
 	}
