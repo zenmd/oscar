@@ -62,6 +62,27 @@
 				</tr>
 				<tr>
 					<td>
+          <display:table class="simple" cellspacing="2" cellpadding="3" id="discharge" name="quatroDischarge" export="false" pagesize="50" requestURI="/PMmodule/QuatroDischarge.do">
+			<display:setProperty name="paging.banner.placement" value="bottom" />
+			<display:setProperty name="basic.msg.empty_list" value="No record found." />
+            <display:column property="admissionDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
+            <display:column property="providerName" sortable="true" title="Staff"/>
+            <display:column property="admissionStatus" sortable="true" title="Status"/>
+            <display:column sortable="false" title="Actions">
+				<c:choose>								
+					<c:when test="${discharge.admissionStatus == 'admitted'}">
+					  <c:choose>								
+						  <c:when test="${discharge.familyMember == false}">
+						    <a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >Discharge</a>
+						  </c:when>
+						  <c:otherwise>Family Member</c:otherwise>
+					  </c:choose>
+					</c:when>
+					<c:otherwise>&nbsp;</c:otherwise>
+				</c:choose>
+            </display:column>
+         </display:table>
+					
 					<table class="simple" cellspacing="2" cellpadding="3">
 						<tr>							
 							<td>Created On</td>

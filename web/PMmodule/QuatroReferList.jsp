@@ -63,7 +63,7 @@
 			    <display:setProperty name="paging.banner.placement" value="bottom" />
     			<display:setProperty name="basic.msg.empty_list" value="No Referrals found." />
 			    <display:column property="programName" sortable="true" title="Program Name" />
- 			    <display:column property="referralDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss}" />
+ 			    <display:column property="referralDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
 			    <display:column property="providerFormattedName" sortable="true" title="Staff" />
 			    <display:column property="status" sortable="true" title="Status" />
 			    <display:column sortable="false" title="Actions">

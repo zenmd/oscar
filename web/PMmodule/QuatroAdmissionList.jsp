@@ -60,7 +60,7 @@ function updateQuatroAdmission(clientId, admissionId) {
    <display:setProperty name="paging.banner.placement" value="bottom" />
    <display:setProperty name="basic.msg.empty_list" value="No admissions found." />
    <display:column property="id" sortable="true" title="Admission ID" />
-   <display:column property="admissionDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss}" />
+   <display:column property="admissionDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
    <display:column property="providerName" sortable="true" title="Staff" />
    <display:column property="admissionStatus" sortable="true" title="Status" />
    <display:column sortable="false" title="Actions" >
