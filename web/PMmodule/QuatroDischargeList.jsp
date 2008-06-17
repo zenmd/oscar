@@ -82,36 +82,6 @@
 				</c:choose>
             </display:column>
          </display:table>
-					
-					<table class="simple" cellspacing="2" cellpadding="3">
-						<tr>							
-							<td>Created On</td>
-							<td>Staff</td>
-							<td>Status</td>
-							<td>Actions</td>
-						</tr>
-						<logic-el:iterate id="discharge" collection="${quatroDischarge}">
-							<tr>								
-								<td><c:out value="${discharge.admissionDateStr}" />
-								</td>
-								<td><c:out value="${sessionScope.provider.formattedName}" /></td>
-								<td><c:out value="${discharge.admissionStatus}" /></td>
-								<td> 
-								<c:choose>								
-								<c:when test="${discharge.admissionStatus == 'admitted'}">
-								  <c:choose>								
-								  <c:when test="${discharge.familyMember == false}">
-								    <a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >Discharge</a>
-								  </c:when>
-								  <c:otherwise>Family Member</c:otherwise>
-								  </c:choose>
-								</c:when>
-								<c:otherwise>&nbsp;</c:otherwise>
-								</c:choose>
-								</td>
-							</tr>
-						</logic-el:iterate>
-					</table>
 					</td>
 				</tr>
 
