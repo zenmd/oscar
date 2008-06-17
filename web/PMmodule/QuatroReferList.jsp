@@ -49,48 +49,36 @@
 			</logic:messagesPresent>
 			<br /></td>
 		</tr>
-		<tr>
-			<td>
-			<table class="simple" cellspacing="2" cellpadding="3">
-				<tr>
-					<th align="left">Referrals</th></tr>	
-			</table>
-			</td>
-		</tr>		
+		<tr><td><div class="tabs">
+              <table cellpadding="3" cellspacing="0" border="0">
+                <tr><th>Referrals</th></tr>
+              </table></div>
+       </td></tr>
 		
 		<tr>
 			<td>
 				<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 500px; width: 100%; overflow: auto;" id="scrollBar">
-		 		<table class="simple" cellspacing="2" cellpadding="3">
-					<tr>
-						<th>Program Name</th>							
-						<th>Created On</th>
-						<th>Staff</th>
-						<th>Status</th>
-						<th>Actions</th>
-					</tr>
-				
-					<logic-el:iterate id="refer" collection="${lstRefers}">
-					<tr>				
-						<td><c:out value="${refer.programName}"></c:out>	</td>				
-						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${refer.referralDate}" /></td>
-						<td><c:out value="${refer.providerFormattedName}" /></td>
-						<td><c:out value="${refer.status}" /></td>
-						<td> 						
-						<c:choose>
-							<c:when test="${refer.status eq 'active' ||refer.status eq 'rejected' }">
-								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
-							</c:when>
-							<c:when test="${refer.status eq 'admitted'}">
-								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
-							</c:when>
-							<c:otherwise>&nbsp;</c:otherwise>
-					   </c:choose>
-						</td>
-					</tr>
-					</logic-el:iterate>
-				</table>
+               <display:table class="simple" cellspacing="2" cellpadding="3" id="refer" name="lstRefers" export="false" pagesize="50" requestURI="/PMmodule/QuatroRefer.do">
+			    <display:setProperty name="paging.banner.placement" value="bottom" />
+    			<display:setProperty name="basic.msg.empty_list" value="No intakes found." />
+			    <display:column property="programName" sortable="true" title="Program Name" />
+ 			    <display:column property="referralDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss}" />
+			    <display:column property="providerFormattedName" sortable="true" title="Staff" />
+			    <display:column property="status" sortable="true" title="Status" />
+			    <display:column sortable="false" title="Actions">
+					<c:choose>
+						<c:when test="${refer.status eq 'active' ||refer.status eq 'rejected' }">
+							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
+						</c:when>
+						<c:when test="${refer.status eq 'admitted' || refer.status eq 'discharged'}">
+							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
+						</c:when>
+						<c:otherwise>&nbsp;</c:otherwise>
+				   </c:choose>
+			    </display:column>
+			   </display:table>
+			    
 				</div>
 			</td>
 		</tr>		
