@@ -92,7 +92,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        List lstAdmission = admissionManager.getAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
-       request.setAttribute("admission", lstAdmission);
+       request.setAttribute("admissions", lstAdmission);
 
 //       List queue = programQueueManager.getProgramQueuesByClientId(Integer.valueOf(demographicNo));
 //       request.setAttribute("queue", queue);

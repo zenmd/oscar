@@ -13,6 +13,7 @@ public class QuatroIntakeHeader implements Serializable {
     private Integer id;// fields
     private Integer clientId;
     private String staffId;
+    private String staffName;
     private Calendar createdOn;// many to one    
     private Calendar endDate;    
     private String intakeStatus;
@@ -111,6 +112,14 @@ public class QuatroIntakeHeader implements Serializable {
 
 	public void setEndDate(Calendar endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
 	}
 
 }

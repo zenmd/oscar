@@ -10,6 +10,7 @@
 
 		<property name="clientId" column="client_id" type="integer" not-null="true" length="10" />
 		<property name="staffId" column="staff_id" type="string" not-null="true" length="6" />
+	    <property name="staffName" lazy="true" formula="(select concat(p.last_name, concat(', ', p.first_name)) from Provider p where p.provider_no=staff_id)"></property> 
 		<property name="createdOn" column="creation_date" type="calendar" not-null="true" />
 		<property name="endDate" column="end_date" type="calendar" not-null="false" />
 		<property name="intakeStatus" column="intake_status"/>

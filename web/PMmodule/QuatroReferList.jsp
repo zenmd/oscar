@@ -61,7 +61,7 @@
                     height: 500px; width: 100%; overflow: auto;" id="scrollBar">
                <display:table class="simple" cellspacing="2" cellpadding="3" id="refer" name="lstRefers" export="false" pagesize="50" requestURI="/PMmodule/QuatroRefer.do">
 			    <display:setProperty name="paging.banner.placement" value="bottom" />
-    			<display:setProperty name="basic.msg.empty_list" value="No intakes found." />
+    			<display:setProperty name="basic.msg.empty_list" value="No Referrals found." />
 			    <display:column property="programName" sortable="true" title="Program Name" />
  			    <display:column property="referralDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss}" />
 			    <display:column property="providerFormattedName" sortable="true" title="Staff" />
