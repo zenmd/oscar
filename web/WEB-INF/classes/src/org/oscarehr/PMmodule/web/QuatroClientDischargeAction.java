@@ -13,9 +13,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
@@ -24,7 +22,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
+import org.oscarehr.PMmodule.web.formbean.QuatroClientDischargeForm;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 
 import com.quatro.common.KeyConstants;
@@ -53,18 +51,18 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setEditAttributes(form, request);
-       
+
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
        return mapping.findForward("edit");
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   DynaActionForm clientForm = (DynaActionForm) form;
+	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
 	   Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	   ActionMessages messages = new ActionMessages();
 	   boolean isError = false;
 	   boolean isWarning = false;
-	   Admission admObj =(Admission)clientForm.get("admission");
+	   Admission admObj =(Admission)clientForm.getAdmission();
 	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 	   admObj.setDischargeDate(Calendar.getInstance());
 	   admObj.setLastUpdateDate(new GregorianCalendar());
@@ -135,7 +133,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        return mapping.findForward("list");
    }
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
-       DynaActionForm clientForm = (DynaActionForm) form;
+	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        Integer aId = new Integer(request.getParameter("admissionId"));
@@ -147,15 +145,13 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
        String demographicNo= (String)actionParam.get("clientId");
        
-       ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        Admission admsObj =admissionManager.getAdmission(aId);
       
-       clientForm.set("admission", admsObj);       
+       clientForm.setAdmission(admsObj);       
        /* discharge */
        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
@@ -167,10 +163,14 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("lstBedProgram",lstBed);
        request.setAttribute("admission", admsObj);
        request.setAttribute("admissionId", admsObj.getId());
+
+       boolean readOnly=super.isReadOnly(admsObj.getAdmissionStatus(), KeyConstants.FUNCTION_DISCHARGE);
+       if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+       
    }
 
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
-	   DynaActionForm clientForm = (DynaActionForm) form;
+	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){

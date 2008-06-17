@@ -78,7 +78,9 @@
 						  <c:otherwise>Family Member</c:otherwise>
 					  </c:choose>
 					</c:when>
-					<c:otherwise>&nbsp;</c:otherwise>
+					<c:otherwise>
+				      <a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >View</a>
+					</c:otherwise>
 				</c:choose>
             </display:column>
          </display:table>

@@ -1,19 +1,12 @@
 package org.oscarehr.PMmodule.web;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.model.Room;
-import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.ClientManager;
@@ -21,9 +14,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import com.quatro.common.KeyConstants;
 
 public class QuatroClientHistoryAction  extends DispatchAction {
    private ClientManager clientManager;

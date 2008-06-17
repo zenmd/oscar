@@ -53,7 +53,6 @@
 </script>
 
 <html-el:form action="/PMmodule/QuatroDischarge.do">
-<html:hidden property="program.id" />
 <input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
 <input type="hidden" name="admissionId" value="<c:out value="${admissionId}"/>"/>
 <html:hidden property="admission.id" />
@@ -70,10 +69,13 @@
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
-				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>|
+		       <c:if test="${quatroClientDischargeForm.admission.admissionStatus!='discharged' &&
+		          quatroClientDischargeForm.admission.admissionStatus!='rejected'}">
 					<a onclick='return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
-					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+		         </c:if>			
+				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
 				</td>
 		</tr>
 		<tr>

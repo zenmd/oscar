@@ -262,7 +262,6 @@
         <form-bean name="clientHistoryForm" type="org.apache.struts.validator.DynaValidatorForm">
         </form-bean>
         <form-bean name="quatroClientIntakeForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
             <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
@@ -271,7 +270,9 @@
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+<!-- 
             <form-property name="programWithIntakeId" type="java.lang.String" />
+ -->                        
         </form-bean>
         <form-bean name="quatroClientFamilyIntakeForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm">
         </form-bean>
@@ -299,7 +300,8 @@
         <form-bean name="printViewForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="id" type="java.lang.Integer"></form-property>
         </form-bean>
-        <form-bean name="quatroClientDischargeForm" type="org.apache.struts.validator.DynaValidatorForm">
+        <form-bean name="quatroClientDischargeForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientDischargeForm">
+<!-- 
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
             <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
@@ -314,6 +316,7 @@
             <form-property name="dischargeNote" type="java.lang.String"></form-property>
             <form-property name="dischargeTo" type="java.lang.String"></form-property>
             <form-property name="transportationType" type="java.lang.String"></form-property>            
+ -->                    
         </form-bean>
         <form-bean name="serviceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm" >
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
