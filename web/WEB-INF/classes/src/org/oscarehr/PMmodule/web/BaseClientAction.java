@@ -132,6 +132,9 @@ public abstract class BaseClientAction extends BaseAction {
 			readOnly =true;
 			if(KeyConstants.FUNCTION_REFERRAL.equals(funName))readOnly =false;
 		}
+		else if(KeyConstants.STATUS_ADMITTED.equals(status) && KeyConstants.FUNCTION_REFERRAL.equals(funName)) {
+			readOnly =true;
+		}
 		return readOnly;
 	}
 

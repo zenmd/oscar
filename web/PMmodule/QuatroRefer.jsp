@@ -54,10 +54,9 @@
 		<td align="left" class="buttonBar2">
 		<html:link action="/PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Referrals&nbsp;&nbsp;|</html:link>
-		<%String a="1"; %>
+<c:if test="${referralStatus=='active' || referralStatus=='rejected'}">
 		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;</a>
-<c:if test="${referralStatus=='active' || referralStatus=='rejected'}">
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		|<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>				
 </c:if>
