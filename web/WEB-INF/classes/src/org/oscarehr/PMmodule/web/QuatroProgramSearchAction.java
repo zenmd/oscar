@@ -55,6 +55,8 @@ public class QuatroProgramSearchAction  extends DispatchAction {
 	       request.setAttribute("actionParam", actionParam);
 	       Demographic clientObj =clientManager.getClientByDemographicNo(cId);
 	       request.setAttribute("clientId", cId);
+	       request.setAttribute("formName", request.getParameter("formName"));
+	       request.setAttribute("formElementId", request.getParameter("formElementId"));
 	       request.setAttribute("gender", clientObj.getSex());
 	       request.setAttribute("age", clientObj.getAge());
 	       List lstFacility=this.lookupManager.LoadCodeList("FAC", false, null, null);

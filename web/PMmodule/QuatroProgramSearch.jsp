@@ -98,8 +98,9 @@
 </head>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
 	<input type="hidden" name="method" />	
-	<input type="hidden" name="clientId"/>
-	<%String b="1"; %>
+	<input type="hidden" name="clientId"  value="<c:out value="${clientId}"/>"/>
+	<input type="hidden" name="formName"  value="<c:out value="${formName}"/>"/>
+	<input type="hidden" name="formElementId"  value="<c:out value="${formElementId}"/>"/>
 	<table width="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 			<th class="pageTitle">Program Search</th>
@@ -117,7 +118,6 @@
 		<tr><td>
 		</table>
 		<html:hidden property="program.id" />
-		<%String a="12"; %>
 		<table class="simple" width="100%" cellspacing="2" cellpadding="3">
 		  <tr><td width="30%">Program Name</td>
   				<td width="70%"><html:text property="program.name" maxlength="70" /></td></tr>
@@ -139,7 +139,7 @@
 		
   		<tr><td>Gender</td>
   			<td><html:select property="program.manOrWoman">
-				<html:option value="T">&nbsp;</html:option>				
+				<html:option value="">&nbsp;</html:option>				
 				<html:option value="M">Man</html:option>
 				<html:option value="W">Woman</html:option>
 				</html:select>
@@ -154,8 +154,6 @@
 		<display:table class="simple" cellspacing="2" cellpadding="3" id="program" name="programs" pagesize="200" requestURI="/PMmodule/QuatroProgramSearch.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:column sortable="true" title="Name">
-			<%String aa="1"; %>
-			<% String pp="2"; %>
 				<a href="#javascript:void(0);" onclick="selectProgram('<c:out value="${clientId}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />','<c:out value="${gender}" />');" >
 						<c:out value="${program.name}" /></a>
 			</display:column>

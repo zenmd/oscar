@@ -124,6 +124,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             return;
         }
         ClientHistory history = new ClientHistory();
+        history.setId(new Integer(0));
         history.setClientId(admission.getClientId());
         if ("admitted".equals(admission.getAdmissionStatus())) {
         	history.setAction("Admit/Bed Assignment");
