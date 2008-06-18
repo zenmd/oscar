@@ -5,7 +5,7 @@
 	<tr>
 		<th class="pageTitle" align="center"><span
 			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables
-			lookupTableListForm
+			Lookup Table List Form
 			</span></th>
 	</tr>
 	<tr>

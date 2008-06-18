@@ -40,7 +40,7 @@
 <tr><td colspan="2">&nbsp;</td>
 </tr>
 <tr>
-	<th>Id</th><th>Description</th><th>Active</th><th>Display Order</th>
+	<th>ID</th><th>Description</th><th>Active</th><th>Display Order</th>
 </tr>
 
 <logic:iterate id="lkCode" name="lookupCodeListForm" property="codes">
