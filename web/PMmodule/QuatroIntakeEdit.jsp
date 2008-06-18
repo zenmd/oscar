@@ -52,6 +52,13 @@ function submitForm(methodVal) {
       return; 
     }
 
+    obj = document.getElementsByName("intake.livedBefore")[0];
+    if(obj.value.trim()==""){
+      alert("Lived the last 12 months is empty.");
+      obj.focus();
+      return; 
+    }
+
     obj = document.getElementsByName("intake.programId")[0];
     if(obj.value.trim()==""){
       alert("No program selected.");
@@ -406,7 +413,7 @@ function checkExistClients(){
 								</tr>
 </table>
 </td></tr>
-<tr><td>Lived the last 12 months</td>
+<tr><td>Lived the last 12 months*</td>
 <td><html-el:select property="intake.livedBefore">
 <html-el:optionsCollection property="optionList.livedBefore" value="value" label="label"/>
 </html-el:select></td>
@@ -441,7 +448,7 @@ function checkExistClients(){
 
 <tr><td>
 <table width="100%" class="simple">
-<tr><td width="20%">Program</td>
+<tr><td width="20%">Program*</td>
 <td width="30%"><html-el:hidden property="intake.currentProgramId" />
 <html-el:select property="intake.programId">
 <option value=""> --- </option>
