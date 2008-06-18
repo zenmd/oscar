@@ -108,7 +108,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setActionDate(intake.getCreatedOn().getTime());
         history.setHistoryDate(Calendar.getInstance().getTime());
         LookupCodeValue referedBy = lookupDao.GetCode("RFB", intake.getReferredBy()); 
-        if (referedBy != null) history.setNotes("Refered by: " + referedBy.getDescription());
+        if (referedBy != null) history.setNotes("Referred by: " + referedBy.getDescription());
         history.setProgramId(intake.getProgramId());
         history.setProviderNo(intake.getStaffId());
        
