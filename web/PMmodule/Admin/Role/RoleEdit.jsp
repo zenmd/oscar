@@ -218,18 +218,28 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 </table>
 <script language="javascript" type="text/javascript">
 <!--
-function gotoRoleList(){
- 	window.open("<c:out value='${ctx}'/>/PMmodule/Admin/RoleManager.do?method=list", "_self") ;
-}
-function submitForm(mthd){
-	var roleName = document.getElementsByName("roleName")[0].value;
-	if(roleName.length > 0){
-		document.forms[0].method.value=mthd;
-		document.forms[0].submit();
-	}else{
-		alert("'Role Name' field can not be empty!");
+	function gotoRoleList(){
+	 	window.open("<c:out value='${ctx}'/>/PMmodule/Admin/RoleManager.do?method=list", "_self") ;
 	}
-}
+	function submitForm(mthd){
+		var roleName = document.getElementsByName("roleName")[0].value;
+		roleName = trim(roleName);
+		if(roleName.length > 0){
+			document.forms[0].method.value=mthd;
+			document.forms[0].submit();
+		}else{
+			alert("'Role Name' field can not be empty!");
+		}
+	}
+
+	// trim leading and ending spaces
+	function trim (str) {
+		var	str = str.replace(/^\s\s*/, ''),
+			ws = /\s/,
+			i = str.length;
+		while (ws.test(str.charAt(--i)));
+		return str.slice(0, i + 1);
+	}
 //-->
 </script>
 
