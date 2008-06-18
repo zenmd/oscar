@@ -218,6 +218,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 				"provider")).getProviderNo();		
 		if ("0".equals(rId) || rId==null) {
 			crObj = new ClientReferral();
+			crObj.setId(new Integer(0));
+			crObj.setStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 			crObj.setClientId(Integer.valueOf(demographicNo));			
 		} else if (!Utility.IsEmpty(rId)) 
 		{			

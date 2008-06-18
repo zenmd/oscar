@@ -19,29 +19,42 @@
 <input type="hidden" name="newClientChecked" value="N"/>
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
+String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
+
 function submitForm(methodVal) {
     var obj = document.getElementsByName("client.firstName")[0];
-    if(obj.value==""){
+    if(obj.value.trim()==""){
       alert("First name is empty.");
+      obj.value="";
       obj.focus();
       return; 
     }
     obj = document.getElementsByName("client.lastName")[0];
-    if(obj.value==""){
+    if(obj.value.trim()==""){
       alert("Last name is empty.");
+      obj.value="";
       obj.focus();
       return; 
     }
     obj = document.getElementsByName("client.sex")[0];
-    if(obj.value==""){
+    if(obj.value.trim()==""){
       alert("Gender is empty.");
+      obj.value="";
       obj.focus();
       return; 
     }
 
     obj = document.getElementsByName("dob")[0];
-    if(obj.value==""){
+    if(obj.value.trim()==""){
       alert("Date of birth is empty.");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+
+    obj = document.getElementsByName("intake.programId")[0];
+    if(obj.value.trim()==""){
+      alert("No program selected.");
       obj.focus();
       return; 
     }
@@ -431,6 +444,7 @@ function checkExistClients(){
 <tr><td width="20%">Program</td>
 <td width="30%"><html-el:hidden property="intake.currentProgramId" />
 <html-el:select property="intake.programId">
+<option value=""> --- </option>
 <html-el:optionsCollection property="programList" value="value" label="label" />
 </html-el:select></td>
 	<td width="25%">End Date (service program)</td>
