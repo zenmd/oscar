@@ -136,6 +136,6 @@ function submitForm(methodVal) {
 
 	</html:form>
 </table>
-
+<%@ include file="/common/readonly.jsp" %>
 	</body>
 </html>

@@ -198,6 +198,7 @@ public class ClientTaskAction extends BaseClientAction{
         Tickler tickler = ticklerManager.getTickler(tickler_no);
         ticklerForm.setTickler(tickler);
         request.setAttribute("viewTickler", "Y");
+        request.setAttribute("isReadOnly", Boolean.valueOf(true));
 
         List providerLst = providerManager.getActiveProviders(tickler.getProgram_id());
         ticklerForm.setProviderLst(providerLst);
