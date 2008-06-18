@@ -208,6 +208,7 @@ function submitForm(func){
 }
 
 function validateRequired(field, fieldNameDisplayed ){
+	field.value = trim(field.value);
 	if (field.value == null || field.value == ''){
 		alert('The field "' + fieldNameDisplayed + '" is required.');
 		return(false);
@@ -238,7 +239,8 @@ function validateLength(field, fieldNameDisplayed, maxLength, minLength){
  * email validation script. 
  */
 function emailChecker(str) {
-
+		str = trim(str);
+		
 		var at="@";
 		var dot=".";
 		var lat=str.indexOf(at);
@@ -282,8 +284,15 @@ function emailChecker(str) {
 
  		 return true;					
 	}
-
-
+	
+	// trim leading and ending spaces
+	function trim (str) {
+		var	str = str.replace(/^\s\s*/, ''),
+			ws = /\s/,
+			i = str.length;
+		while (ws.test(str.charAt(--i)));
+		return str.slice(0, i + 1);
+	}
 //-->
 </script>
 

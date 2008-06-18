@@ -5,6 +5,8 @@
 	{
 		var field=document.getElementById(fieldId);
 	
+		field.value = trim(field.value);
+
 		if (field.value==null || field.value=='')
 		{
 			alert('The field '+fieldName+' is required.');
@@ -29,6 +31,14 @@
 		if(isOk){
 			document.forms[0].submit();
 		}
+	}
+	// trim leading and ending spaces
+	function trim (str) {
+		var	str = str.replace(/^\s\s*/, ''),
+			ws = /\s/,
+			i = str.length;
+		while (ws.test(str.charAt(--i)));
+		return str.slice(0, i + 1);
 	}
 </script>
 <!-- don't close in 1 statement, will break IE7 -->

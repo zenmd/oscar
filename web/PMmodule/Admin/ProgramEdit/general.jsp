@@ -28,9 +28,10 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		var obj3 = document.getElementsByName('program.ageMin')[0];
 		var obj4 = document.getElementsByName('program.ageMax')[0];
 		var obj5 = document.getElementsByName('program.name')[0];
-		var obj6 = document.getElementsByName('program.name')[0];
+		
+		obj5.value = trim(obj5.value);
 			
-		if(obj5.value == null || obj6.value.length <= 0) {
+		if(obj5.value == null || obj5.value == '') {
 			
 			alert('The program name can not be blank.');
 		}else if(!isNumberInRange(obj1, 0, 'unlimit', 'Funding Capacity')){
@@ -92,7 +93,14 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 	    }
 	    return true;
 	}
-
+	// trim leading and ending spaces
+	function trim (str) {
+		var	str = str.replace(/^\s\s*/, ''),
+			ws = /\s/,
+			i = str.length;
+		while (ws.test(str.charAt(--i)));
+		return str.slice(0, i + 1);
+	}
 
 //-->
 </script>

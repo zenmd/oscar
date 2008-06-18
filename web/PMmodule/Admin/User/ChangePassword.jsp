@@ -180,6 +180,8 @@ function submitForm(func){
 }
 
 function validateRequired(field, fieldNameDisplayed ){
+	field.value = trim(field.value);
+	
 	if (field.value == null || field.value == ''){
 		alert('The field "' + fieldNameDisplayed + '" is required.');
 		return(false);
@@ -188,73 +190,14 @@ function validateRequired(field, fieldNameDisplayed ){
 	return(true);
 }
 
-/**
- * Textarea max length validation script. 
- */
-function validateLength(field, fieldNameDisplayed, maxLength, minLength){
-	
-	if (maxLength > 0 && field.value.length > maxLength){
-		alert('The value you entered for "'+ fieldNameDisplayed + '" is too long, maximum length allowed is '+maxLength+' characters.');
-		return(false);
-	}
-
-	if (minLength > 0 && field.value.length < minLength){
-		alert('The value you entered for "' + fieldNameDisplayed + '" is too short, minimum length allowed is ' + minLength+' characters.');
-		return(false);
-	}
-	
-	return(true);
+// trim leading and ending spaces
+function trim (str) {
+	var	str = str.replace(/^\s\s*/, ''),
+		ws = /\s/,
+		i = str.length;
+	while (ws.test(str.charAt(--i)));
+	return str.slice(0, i + 1);
 }
-
-/**
- * email validation script. 
- */
-function emailChecker(str) {
-
-		var at="@";
-		var dot=".";
-		var lat=str.indexOf(at);
-		var lstr=str.length;
-		var ldot=str.indexOf(dot);
-		
-		if (str.indexOf(at)==-1){
-		   alert("Invalid E-mail ID");
-		   return false;
-		}
-
-		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
-		   alert("Invalid E-mail ID");
-		   return false;
-		}
-
-		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
-		    alert("Invalid E-mail ID");
-		    return false;
-		}
-
-		 if (str.indexOf(at,(lat+1))!=-1){
-		    alert("Invalid E-mail ID");
-		    return false;
-		 }
-
-		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
-		    alert("Invalid E-mail ID");
-		    return false;
-		 }
-
-		 if (str.indexOf(dot,(lat+2))==-1){
-		    alert("Invalid E-mail ID");
-		    return false;
-		 }
-		
-		 if (str.indexOf(" ")!=-1){
-		    alert("Invalid E-mail ID");
-		    return false;
-		 }
-
- 		 return true;					
-	}
-
 
 //-->
 </script>
