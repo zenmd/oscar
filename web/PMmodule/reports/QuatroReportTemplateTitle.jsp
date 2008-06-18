@@ -28,25 +28,25 @@ function setupOpt(){
 </script>
 </head>
 <body onload="setupOpt()">
-<html:form action="/QuatroReport/SaveReportTemplate.do">
-<input type="hidden" name="postback" value="Y" />
-<table width="100%">
-<tr><td align="center" colspan="2">Saving Report Template</td></tr>
-<tr><td colspan="2" style="color:#ff0000;"><c:out value="${quatroReportSaveTemplateForm.msg}" /></td></tr>
-<tr><td width="25%" align="right">As New: 
-  <input value="optNew" name="optSaveAs" id="optNew" type="radio" onclick="javascript:showNew();" /> 
-</td>
-<td><html:text property="txtDescription" size="100%" maxlength="200" /></td></tr>
-<tr><td align="right">To replace the template:
-  <input value="optOld" name="optSaveAs" id="optOld" type="radio" onclick="javascript:showTitle();" />
-</td>
-<td><html:text property="txtTitle" size="100%" maxlength="80" /></td></tr>
-<tr><td align="right">Private:</td>
-<td><html:checkbox property="chkPrivate"/></td></tr>
-<tr><td>&nbsp;</td>
-<td><input type="submit" name="Save" value="Save" />
-<input type="submit" name="btnClose" value="Close"  onclick="window.close();" /></td></tr>
-</table>
-</html:form>
+	<html:form action="/QuatroReport/SaveReportTemplate.do">
+	<input type="hidden" name="postback" value="Y" />
+	<table width="100%">
+		<tr><td align="center" colspan="2"><b>Saving Report Template</b></td></tr>
+		<tr><td colspan="2" style="color:#ff0000;"><c:out value="${quatroReportSaveTemplateForm.msg}" /></td></tr>
+		<tr><td width="25%" align="right" nowrap="nowrap">As New: 
+		  <input value="optNew" name="optSaveAs" id="optNew" type="radio" onclick="javascript:showNew();" /> 
+		</td>
+		<td><html:text property="txtDescription" size="70%" maxlength="200" /></td></tr>
+		<tr><td align="right" nowrap="nowrap">To replace the template:
+		  <input value="optOld" name="optSaveAs" id="optOld" type="radio" onclick="javascript:showTitle();" />
+		</td>
+		<td><html:text property="txtTitle" size="70%" maxlength="80" /></td></tr>
+		<tr><td align="right">Private:</td>
+		<td><html:checkbox property="chkPrivate"/></td></tr>
+		<tr><td>&nbsp;</td>
+		<td><input type="submit" name="Save" value="Save" />
+		<input type="submit" name="btnClose" value="Close"  onclick="window.close();" /></td></tr>
+	</table>
+	</html:form>
 </body>
 </html>

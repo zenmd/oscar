@@ -46,15 +46,17 @@ public class QuatroReportRunnerAction extends Action {
 		String param2=(String)request.getParameter("templateNo");
 		int rptNo;
         int templateNo = 0;
-        if (param2!=null) templateNo=Integer.parseInt(param2); 
-		
+        if (param2!=null && param2.length()>0) 
+        	templateNo=Integer.parseInt(param2); 
+        		
 		QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
 		String loginId = (String)request.getSession().getAttribute("user");
 
 		if(param2!=null)
 		  request.getSession().setAttribute(DataViews.REPORTTPL, param2);
 		else
-		  if(request.getSession().getAttribute(DataViews.REPORTTPL)==null) request.getSession().setAttribute(DataViews.REPORTTPL, "0");
+		  if(request.getSession().getAttribute(DataViews.REPORTTPL)==null) 
+			  request.getSession().setAttribute(DataViews.REPORTTPL, "0");
 
         ArrayList lstExportFormat = myForm.getExportFormatList();
 
@@ -449,12 +451,14 @@ public class QuatroReportRunnerAction extends Action {
               for(int i=0;i<lst.size();i++){
                 ReportTempCriValue obj=(ReportTempCriValue)lst.get(i);
 				ReportFilterValue rptFilterVal = reportManager.GetFilterField(reportNo, obj.getFieldNo());
-				if(rptFilterVal!=null) obj.setOperatorList(GetOperatorList(rptFilterVal.getOp()));
-				if(!"".equals(rptFilterVal.getLookupTable()) && obj.getVal()!=null && obj.getVal().length() > 0){
-					String code = obj.getVal();
-					LookupCodeValue lv = (LookupCodeValue) lookupManager.GetLookupCode(rptFilterVal.getLookupTable(), code);
-					obj.setValDesc( lv.getDescription());
-				}
+				if(rptFilterVal!=null){ 
+					obj.setOperatorList(GetOperatorList(rptFilterVal.getOp()));
+//				if(!"".equals(rptFilterVal.getLookupTable()) && obj.getVal()!=null && obj.getVal().length() > 0){
+//					String code = obj.getVal();
+//					LookupCodeValue lv = (LookupCodeValue) lookupManager.GetLookupCode(rptFilterVal.getLookupTable(), code);
+//					obj.setValDesc( lv.getDescription());
+//				}
+              }
               }
               myForm.setTemplateCriteriaList(lst);
 		  }else{

@@ -147,8 +147,12 @@ public class QuatroReportDao extends HibernateDaoSupport {
 		    paramList.add(new Integer(obj1.getFieldNo()));
 		    Object params3[] = paramList.toArray(new Object[paramList.size()]);          
 			sSQL="from ReportFilterValue s WHERE s.fieldNo=?";
-		    ReportFilterValue obj2 = (ReportFilterValue)getHibernateTemplate().find(sSQL,params3).get(0);
-		    obj1.setFilter(obj2);
+			
+			List lst = getHibernateTemplate().find(sSQL,params3);
+			if(lst.size()>0){
+				ReportFilterValue obj2 = (ReportFilterValue)lst.get(0);
+				obj1.setFilter(obj2);
+			}
 		  }
 		  rptTempVal.setTemplateCriteria(lst1);
 

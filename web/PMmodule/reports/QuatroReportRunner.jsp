@@ -76,6 +76,7 @@ function submitForm(mthd)
 
 <html:form action="/QuatroReport/ReportRunner.do" onsubmit="return getOrgList();">
 <input type="hidden" id="method" name="method" />
+<!-- input type="hidden" name="templateNo" value="<c:out value="${templateNo}"/>" /> -->
 <input type="hidden" id="onCriteriaChange" name="onCriteriaChange" />
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -110,7 +111,7 @@ function submitForm(mthd)
 
 <table width="100%" border="1">
    <tr>
-       <td class="clsNameLabels"  colspan="2" style="color: #ff0000;"><c:out value="${quatroReportRunnerForm.lblError}" /></td>
+       <td class="clsNameLabels"  colspan="2" style="color: #ff0000;"><c:out escapeXml="false" value="${quatroReportRunnerForm.lblError}" /></td>
    </tr>
   <tr>
     <td class="clsTdBackGround" width="50%">
