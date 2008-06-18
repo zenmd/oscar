@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
+import org.oscarehr.PMmodule.model.Admission;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.security.SecProvider;
@@ -77,6 +78,21 @@ public class SecProviderDao extends HibernateDaoSupport {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			throw re;
+		}
+	}
+	public SecProvider findById(java.lang.String id,String status) {
+		log.debug("getting Provider instance with id: " + id);
+		try {
+			String sql ="from SecProvider where id=? and status=?";
+			List lst=this.getHibernateTemplate().find(sql,new Object[]{id,status});			
+	        if(lst.size()==0)
+	          return null;
+	        else
+	          return (SecProvider) lst.get(0);
+				
+			} catch (RuntimeException re) {
+				log.error("get failed", re);
 			throw re;
 		}
 	}

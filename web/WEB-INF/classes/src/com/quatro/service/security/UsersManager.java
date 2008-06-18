@@ -71,6 +71,9 @@ public class UsersManager {
 	public SecProvider getProviderByProviderNo(String providerNo) {
 		return secProviderDao.findById(providerNo);
 	}
+	public SecProvider getProviderByProviderNo(String providerNo,String status) {
+		return secProviderDao.findById(providerNo,status);
+	}
 	
 	public List getRoles() {
 		return secroleDao.getRoles();

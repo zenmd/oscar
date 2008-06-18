@@ -82,6 +82,9 @@ public class LookupCodeEditAction extends DispatchAction {
 						{
 							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
 							errMsg += fdv.getFieldDesc() + " should be an Integer Number";
+						}else if(!Utility.IsIntBigZero(fdv.getVal())){
+							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
+							errMsg += fdv.getFieldDesc() + " should be an Great Than 0";
 						}
 					}
 				}

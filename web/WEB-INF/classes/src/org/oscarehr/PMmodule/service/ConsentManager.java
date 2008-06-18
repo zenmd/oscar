@@ -85,7 +85,7 @@ public class ConsentManager {
 
         if (x != null) {
             x.setProviderNo(providerNo);
-            x.setStatus("Withdraw");
+            x.setStatus("withdraw");
             x.setEndDate(new GregorianCalendar());
             x.setLastUpdateDate(new GregorianCalendar());
             dao.saveConsentDetail(x);
