@@ -102,27 +102,35 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		var flag = true;
 		if(mthd == "save"){
 			getList();
+			var txtKey= document.getElementsByName("incidentForm.txtStaffKeys")[0];
+			var txtKey2= document.getElementsByName("incidentForm.txtClientKeys")[0];
+			if(txtKey.value.length == 0 && txtKey2.value.length == 0){
+				alert("Please add client in 'Clients Involved' field or add staff in 'Staff Involved' field.");
+				return;
+			}
 		}
-		var	arg;
+
+		var	id;
 		if(mthd == "new"){
-			arg = 0;
+			id = 0;
 		}else{
-			arg = document.getElementById("incidentId").value;
+			id = document.getElementById("incidentId").value;
 		}
-		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
+		
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		//alert(document.programManagerViewForm.action);
 		document.programManagerViewForm.tab.value = "Incidents";
 		document.programManagerViewForm.submit();
 	
 	
 	}
-	function editIncident2(arg, mthd){
+	function editIncident2(id, mthd){
 		var flag = true;
 		if(mthd == "save"){
 			getList();
 		}
 		
-		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + arg + "&mthd=" + mthd;
+		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		
 		document.programManagerViewForm.tab.value = "Incidents";
 		document.programManagerViewForm.submit();
