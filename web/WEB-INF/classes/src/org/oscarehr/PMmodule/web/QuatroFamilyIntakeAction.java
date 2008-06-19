@@ -164,7 +164,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	   for(int i=0;i<dependentsSize;i++){
 	      QuatroIntakeFamily obj = new QuatroIntakeFamily();	
 		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("clientId")));
+		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
 		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
 		  obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
 		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
@@ -188,7 +188,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        
         QuatroIntakeFamily obj2 = new QuatroIntakeFamily();
         obj2.setClientId(new Integer(0));
-		obj2.setIntakeHeadId(Integer.valueOf(request.getParameter("clientId")));
+		obj2.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
         obj2.setIntakeId(new Integer(0));
         String currentDateTxt = MyDateFormat.getSysDateString(new Date());
     	obj2.setDuplicateClient("N");  
@@ -250,7 +250,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	      if(request.getParameter("dependent[" + i +"].select")==null){
 		    QuatroIntakeFamily obj = new QuatroIntakeFamily();	
 		    obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-			obj.setIntakeHeadId(Integer.valueOf(request.getParameter("clientId")));
+			obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
 		    obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
 		    obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
 		    obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
@@ -331,7 +331,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        for(int i=0;i<dependentsSize;i++){
 		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
 		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("clientId")));
+		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
           obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
 		  if(obj.getIntakeId().intValue()>0){
 			sb.append("," + obj.getIntakeId().toString());

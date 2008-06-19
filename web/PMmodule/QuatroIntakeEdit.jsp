@@ -129,7 +129,8 @@ function checkExistClients(){
              <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
 
              <c:choose>
-               <c:when test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId)}">
+               <c:when test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
+               (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
                | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>" style="color:Navy;text-decoration:none;">
                 <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission</a>
                </c:when>
