@@ -52,6 +52,8 @@ function submitForm(methodVal) {
       return; 
     }
 
+    if(validateBirthDay(obj.value)==false) return;
+
     obj = document.getElementsByName("intake.livedBefore")[0];
     if(obj.value.trim()==""){
       alert("Lived the last 12 months is empty.");
@@ -66,7 +68,6 @@ function submitForm(methodVal) {
       return; 
     }
     
-    if(validateBirthDay(obj.value)==false) return;
 
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
