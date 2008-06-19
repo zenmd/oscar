@@ -176,7 +176,7 @@ public final class SiteCheckAction extends DispatchAction {
                 
                 // initiate security manager
                 UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
-                SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo);
+                SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
                 session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
                 
                 String default_pmm = null;

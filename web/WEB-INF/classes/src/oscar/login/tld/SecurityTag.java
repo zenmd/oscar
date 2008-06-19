@@ -266,4 +266,12 @@ public class SecurityTag implements Tag {
 		return WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext());
 	}
 
+	public String getOrgCd() {
+		return orgCd;
+	}
+
+	public void setOrgCd(String orgCd) {
+		this.orgCd = orgCd;
+	}
+
 }

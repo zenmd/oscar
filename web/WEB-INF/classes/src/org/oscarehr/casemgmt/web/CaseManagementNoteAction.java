@@ -61,7 +61,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             response.sendError(response.SC_FORBIDDEN);
             return null;
         }
-        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
+       
         CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
         Object reqForm =  request.getParameter("form");
         request.setAttribute("change_flag", "false");
@@ -86,7 +86,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         	Integer demoInt = Integer.valueOf(demono);
         	programId = clientManager.getRecentProgramId(Integer.valueOf(demono), providerNo, currentFacilityId).toString();        		
         }
-
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         request.setAttribute("demoName", getDemoName(demono));
         request.setAttribute("demoAge", getDemoAge(demono));
         request.setAttribute("demoDOB", getDemoDOB(demono));

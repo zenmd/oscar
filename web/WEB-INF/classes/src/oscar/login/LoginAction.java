@@ -123,7 +123,8 @@ public final class LoginAction extends DispatchAction {
             
             // initiate security manager
             UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
-            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo);
+            
+            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
             session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
             /*
              * if (OscarProperties.getInstance().isTorontoRFQ()) { where = "caisiPMM"; }

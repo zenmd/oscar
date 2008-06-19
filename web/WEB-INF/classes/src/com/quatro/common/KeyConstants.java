@@ -43,6 +43,11 @@ public class KeyConstants {
   public static final String ACCESS_VIEW="V";
   public static final String ACCESS_NULL="N";
   public static final String ACCESS_CURRENT="C";
+  public static final String ACCESS_NONE = "o";
+  public static final String ACCESS_READ = "r";
+  public static final String ACCESS_UPDATE = "u";
+  public static final String ACCESS_WRITE = "w";
+  public static final String ACCESS_ALL = "x";
   
   public static final String MENU_CLIENT="mnuClient";
   public static final String MENU_PROGRAM="mnuProg";
@@ -64,6 +69,8 @@ public class KeyConstants {
   public static final String TAB_CLIENT_CASE="tabCase";
   public static final String TAB_CLIENT_ATTCHMENT="tabAttachment";
   public static final String TAB_CLIENT_TASK="tabTask";
+  public static final String TAB_CLIENT_HEALTH="tabHealth";
+  public static final String TAB_CLIENT_PRINTLABEL="tabPrintLabel";
    
   public static final String STATUS_ADMITTED = "admitted";
   public static final String STATUS_DISCHARGED = "discharged";
@@ -83,7 +90,7 @@ public class KeyConstants {
   public static final String STATUS_UNSIGNED="unsigned";
   public static final String STATUS_LOCKED="locked";
   public static final String STATUS_UNLOCKED="unlocked";
-  
+  /*
   public static final String FUNCTION_INTAKE="intake";
   public static final String FUNCTION_ADMISSION="admission";
   public static final String FUNCTION_REFERRAL="referral";
@@ -93,7 +100,7 @@ public class KeyConstants {
   public static final String FUNCTION_CASEMANAGEMENT="case";
   public static final String FUNCTION_INCIDENT="incident";
   public static final String FUNCTION_SERVICE_RESTRICTION="serviceRestriction";
- 
+ */
   public static final String CLIENT_MODE_MERGE = "merge";
   public static final String CLIENT_MODE_UNMERGE = "unmerge";
   
@@ -105,4 +112,55 @@ public class KeyConstants {
   public static final String TAB_FACILITY_BED = "tabBed";
 
   public static final String DEFAULT_TIME_ZONE = "GMT-05:00";
-}
+  
+  /*Function Definition */
+  public static final String FUN_PMM_FACILITY_BED="_pmm_facility.bed";
+  public static final String FUN_PMM_FACILITY_EDIT="_pmm_facility.edit";
+  public static final String FUN_PMM_FACILITY_GENERAL="_pmm_facility.general";
+  public static final String FUN_PMM_FACILITY_MESSAGE="_pmm_facility.message";
+  public static final String FUN_PMM_FACILITY_PROGRAM="_pmm_facility.program";
+  public static final String FUN_PMM_CLIENTSEARCH="_pmm.clientSearch";
+  public static final String FUN_ADMIN_FACILITYMESSAGE="_admin.facilityMessage";
+  public static final String FUN_ADMIN_SYSTEMMESSAGE="_admin.systemMessage";
+  public static final String FUN_PMM_ADDPROGRAM="_pmm.addProgram";
+  public static final String FUN_PMM_AGENCYINFORMATION="_pmm.agencyInformation";
+  public static final String FUN_PMM_CASEMANAGEMENT="_pmm.caseManagement";
+  public static final String FUN_PMM_GLOBALROLEACCESS="_pmm.globalRoleAccess";
+  public static final String FUN_PMM_MANAGEFACILITIES="_pmm.manageFacilities";
+  public static final String FUN_PMM_NEWCLIENT="_pmm.newClient";
+  public static final String FUN_PMM_PROGRAMLIST="_pmm.programList";
+  public static final String FUN_PMM_STAFFLIST="_pmm.staffList";
+  public static final String FUN_TASKS="_tasks";
+  public static final String FUN_PMM_DOCUMENT="_pmm.document";
+  public static final String FUN_PMM_TASK="_pmm.task";
+  public static final String FUN_ADMIN="_admin";
+  public static final String FUN_ADMIN_SECURITY="_admin.security";
+  public static final String FUN_ADMIN_SECURITYLOGREPORT="_admin.securityLogReport";
+  public static final String FUN_ADMIN_UNLOCKACCOUNT="_admin.unlockAccount";
+  public static final String FUN_ADMIN_COOKIEREVOLVER="_admin.cookieRevolver";
+  public static final String FUN_ADMIN_LOOKUPFIELDEDITOR="_admin.lookupFieldEditor";
+  public static final String FUN_DEMOGRAPHIC="_demographic";
+  public static final String FUN_REPORTRUNNER="_reportRunner";
+  public static final String FUN_REPORTWRITER="_reportWriter";
+  public static final String FUN_PMM_EDITPROGRAM_GENERAL="_pmm_editProgram.general";
+  public static final String FUN_PMM_EDITPROGRAM_STAFF="_pmm_editProgram.staff";
+  public static final String FUN_PMM_EDITPROGRAM_TEAMS="_pmm_editProgram.teams";
+  public static final String FUN_PMM_EDITPROGRAM_CLIENTS="_pmm_editProgram.clients";
+  public static final String FUN_PMM_EDITPROGRAM_QUEUE="_pmm_editProgram.queue";
+  public static final String FUN_PMM_EDITPROGRAM_INCIDENT="_pmm_editProgram.incident";
+  public static final String FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS="_pmm_editProgram.serviceRestrictions";
+  public static final String FUN_ADMIN_PROVIDER="_admin.provider";
+  public static final String FUN_PMM_MERGERECORDS="_pmm.mergeRecords";
+  public static final String FUN_PMM_MANAGEMENT="_pmm_management";
+  public static final String FUN_PMM_CLIENTADMISSION="_pmm_clientAdmission";
+  public static final String FUN_PMM_CLIENTCASE="_pmm_clientCase";
+  public static final String FUN_PMM_CLIENTCOMPLAINT="_pmm_clientComplaint";
+  public static final String FUN_PMM_CLIENTCONSENT="_pmm_clientConsent";
+  public static final String FUN_PMM_CLIENTDISCHARGE="_pmm_clientDischarge";
+  public static final String FUN_PMM_CLIENTHISTORY="_pmm_clientHistory";
+  public static final String FUN_PMM_CLIENTINTAKE="_pmm_clientIntake";
+  public static final String FUN_PMM_CLIENTREFER="_pmm_clientRefer";
+  public static final String FUN_PMM_CLIENTRESTRICTION="_pmm_clientRestriction";
+  public static final String FUN_PMM_FACILITYLIST="_pmm.facilityList";
+  public static final String FUN_PMM_CLIENTHEALTHSAFETY="_pmm_clientHealthSafety";
+ }

@@ -98,16 +98,31 @@ public class LookupDao extends HibernateDaoSupport {
 	    	params[i++]= new DBPreparedHandlerParam(parentCode);
 	   }
 	   if (!Utility.IsEmpty(code)) {
-	    	sSQL += " and " + fieldNames[0] + " in (";
-	    	String [] codes = code.split(",");
-    		sSQL += "?";
-	    	params[i++] = new DBPreparedHandlerParam(codes[0]);
-	    	for(int k = 1; k<codes.length; k++)
-	    	{
-	    		sSQL += ",?";
-		    	params[i++] = new DBPreparedHandlerParam(codes[k]);
-	    	}
-	    	sSQL += ")";
+		   //org table is different from other tables 
+		   if(tableId.equals("ORG")){
+			   sSQL += " and " + fieldNames[0] + " like ('%'||";
+		    	String [] codes = code.split(",");
+	    		sSQL += "?";
+		    	params[i++] = new DBPreparedHandlerParam(codes[0]);
+		    	for(int k = 1; k<codes.length; k++)
+		    	{
+		    		sSQL += ",?";
+			    	params[i++] = new DBPreparedHandlerParam(codes[k]);
+		    	}
+		    	sSQL += ")";
+		   }else
+		   {
+		    	sSQL += " and " + fieldNames[0] + " in (";
+		    	String [] codes = code.split(",");
+	    		sSQL += "?";
+		    	params[i++] = new DBPreparedHandlerParam(codes[0]);
+		    	for(int k = 1; k<codes.length; k++)
+		    	{
+		    		sSQL += ",?";
+			    	params[i++] = new DBPreparedHandlerParam(codes[k]);
+		    	}
+		    	sSQL += ")";
+		   }
 	   }
 	   if (!Utility.IsEmpty(codeDesc)) {
 	    	sSQL += " and upper(" + fieldNames[1] + ") like ?"; 
