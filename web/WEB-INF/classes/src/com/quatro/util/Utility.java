@@ -39,7 +39,21 @@ public class Utility {
     	}
     	return isInt;
     }
-
+    public static boolean IsIntBigZero(String pStr)
+    {
+    	boolean isInt = true;
+    	try 
+    	{
+    		Integer i = Integer.valueOf(pStr);
+    		isInt = (i != null);
+    		if(i<0) isInt=false;
+    	}
+    	catch (Exception e)
+    	{
+    		isInt = false;
+    	}
+    	return isInt;
+    }
     // Convert dd/mm/yyyy d/m/yyyy to System format
     public static Date GetSysDate(String pDate) // throws Exception
     {
