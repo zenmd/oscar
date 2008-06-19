@@ -164,7 +164,11 @@ public class LoginCheckLoginBean {
 		if (secBean == null)
 			return null;
 		com.quatro.model.security.SecProvider prov = um
-				.getProviderByProviderNo(secBean.getProviderNo());
+				.getProviderByProviderNo(secBean.getProviderNo(),"1");
+		if(null==prov){
+			secBean =null;
+			return null;
+		}
 		firstname = prov.getFirstName();
 		lastname = prov.getLastName();
 		profession = prov.getProviderType();

@@ -143,8 +143,7 @@
 								%>
 								<tr class="b">
 									<td width="20%">Shelter:</td>
-									<td><select name="facility.orgId">
-										<option value="0">&nbsp;</option>
+									<td><select name="facility.orgId">										
 										<c:forEach var="org" items="${orgList}">
 											<c:choose>
 												<c:when test="${orgId == org.code }">
