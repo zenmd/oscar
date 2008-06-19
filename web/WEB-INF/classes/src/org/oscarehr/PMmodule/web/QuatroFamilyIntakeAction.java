@@ -24,8 +24,10 @@ import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 
 import org.jfree.chart.renderer.category.GanttRenderer;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.Demographic;
@@ -44,6 +46,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    private IntakeManager intakeManager;
    private LookupManager lookupManager;
    private ClientManager clientManager;
+   private ProgramManager programManager;
    private ClientRestrictionManager clientRestrictionManager;
    
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -399,15 +402,31 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
    	   Integer headIntakeId = Integer.valueOf(clientForm.getIntakeId());
  	   QuatroIntake headIntake = intakeManager.getQuatroIntake(headIntakeId);
-  	   //check service restriction
+	   Program program = programManager.getProgram(headIntake.getProgramId());
        for(int i=0;i<dependentsSize;i++){
          QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
+
+   		 //check gender conflict and age conflict
+         Demographic client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
+         client.setSex(obj3.getSex());
+		 if(clientRestrictionManager.checkGenderConflict(program, client)){
+         	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
+             isWarning = true;
+		 }
+		 if(clientRestrictionManager.checkAgeConflict(program, client)){
+         	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
+             isWarning = true;
+		 }
+    	   
+  	     //check service restriction
     	 obj3.setServiceRestriction("N");
          if(obj3.getClientId().intValue()>0){
            ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
         		 headIntake.getProgramId(), obj3.getClientId(), new Date());
            if (restrInPlace != null) {
      	     obj3.setServiceRestriction("Y");
+        	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
+             			request.getContextPath(), headIntake.getProgramName()));
        		 isWarning = true;
            }
          }
@@ -497,12 +516,15 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setDependents(dependents);
        clientForm.setDependentsSize(dependents.size());
 
-       if(isWarning){
-     	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
-           			request.getContextPath(), headIntake.getProgramName()));
-  	   }else if(!(isWarning || isError)){
+//       if(isWarning){
+//     	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
+//           			request.getContextPath(), headIntake.getProgramName()));
+//  	   }else if(!(isWarning || isError)){
+  	   if(!(isWarning || isError)){
   		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-  	   }
+	   }else if(isWarning){
+		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.saved_with_warning"));
+	   }
        saveMessages(request,messages);
 	   
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
@@ -525,5 +547,9 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
 	 this.clientRestrictionManager = clientRestrictionManager;
    }
+
+public void setProgramManager(ProgramManager programManager) {
+	this.programManager = programManager;
+}
    
 }
