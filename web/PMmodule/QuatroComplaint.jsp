@@ -14,7 +14,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 <script type="text/javascript"
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
-	var jsReadOnly = document.getElementsByName("readOnly");
 	function txtAreaLenChecker(obj, maxLen) {
 	   //counting each end of line as two characters
 	   
@@ -41,13 +40,15 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	
 	function setStandard(obj){
 		//alert(obj.checked);
+		var jsReadOnly = false;
+		if (document.forms[0].readOnly.value == 'true') {
+			jsReadOnly = true;
+		}
 		var boxes = document.getElementsByName("complaint.standards1");
 		
-		if(jsReadOnly==null) jsReadOnly="";
 		for(var i = 0; i < boxes.length; i++ ){
-			if(obj.checked == true ){
+			if(obj.checked == true && !jsReadOnly){
 				boxes[i].disabled = false;
-				if(jsReadOnly=="true") boxes[i].disabled = true;
 			}else{
 				boxes[i].disabled = true;
 			}
