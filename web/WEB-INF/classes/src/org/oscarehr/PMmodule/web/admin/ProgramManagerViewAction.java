@@ -734,7 +734,7 @@ public class ProgramManagerViewAction extends BaseAction {
         // get clients
         String dischargeReason = clientForm.getDischargeReason();
         String communityProgramCode = clientForm.getCommunityProgramCode();
-        
+        String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
         Enumeration e = request.getParameterNames();
                 
@@ -769,11 +769,14 @@ public class ProgramManagerViewAction extends BaseAction {
                 admission.setCommunityProgramCode(communityProgramCode);
                 
                 admission.setTransportationType("");
+                admission.setLastUpdateDate(Calendar.getInstance());
+                admission.setProviderNo(providerNo);
+                
                 List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());
                 
                 admissionManager.dischargeAdmission(admission, communityProgramCode.equals(""), lstFamily);
                 
-                message += client.getFormattedName() + " has been discharged.\n";
+                message += client.getFormattedName() + " has been discharged.<br>";
                 
             }
         }

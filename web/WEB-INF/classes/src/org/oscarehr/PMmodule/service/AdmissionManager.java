@@ -220,7 +220,7 @@ public class AdmissionManager {
 		 while(item.hasNext()){
 			QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
 			Admission admLoc =admissionDao.getAdmissionByIntakeId(qifTmp.getIntakeId());
-			if(admLoc.getId().intValue()!=admission.getId().intValue()){ 
+			if(admLoc != null && admLoc.getId().intValue()!=admission.getId().intValue()){ 
 				admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 				admLoc.setDischargeDate(Calendar.getInstance());
 			  	admLoc.setDischargeNotes(admission.getDischargeNotes());	

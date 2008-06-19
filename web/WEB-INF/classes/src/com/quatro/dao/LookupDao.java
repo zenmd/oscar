@@ -122,7 +122,7 @@ public class LookupDao extends HibernateDaoSupport {
 	   {
 		   sSQL += " order by 7,1";
 	   } else {
-		   sSQL += " order by 4,5,2";
+		   sSQL += " order by 4,2";
 	   }
 	   DBPreparedHandlerParam [] pars = new DBPreparedHandlerParam[i];
 	   for(int j=0; j<i;j++)

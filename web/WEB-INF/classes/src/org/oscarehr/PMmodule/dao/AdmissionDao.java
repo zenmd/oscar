@@ -273,7 +273,6 @@ public class AdmissionDao extends HibernateDaoSupport {
 				admission.getDischargeDate(), admission.getAdmissionStatus(),
 				admission.getDischargeReason(), admission.getTransportationType(),
 				admission.getDischargeNotes(),admission.getLastUpdateDate(),admission.getProviderNo(), admission.getId()});
-        clientHisDao.saveClientHistory(admission, null, null);
     }
 }
 
