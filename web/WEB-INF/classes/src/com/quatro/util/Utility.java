@@ -39,14 +39,14 @@ public class Utility {
     	}
     	return isInt;
     }
-    public static boolean IsIntBigZero(String pStr)
+    public static boolean IsIntBiggerThanZero(String pStr)
     {
     	boolean isInt = true;
     	try 
     	{
     		Integer i = Integer.valueOf(pStr);
     		isInt = (i != null);
-    		if(i<0) isInt=false;
+    		if(i.intValue()<0) isInt=false;
     	}
     	catch (Exception e)
     	{
