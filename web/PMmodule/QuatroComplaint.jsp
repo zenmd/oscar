@@ -14,7 +14,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 <script type="text/javascript"
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
-
+	var jsReadOnly = document.getElementsByName("readOnly");
 	function txtAreaLenChecker(obj, maxLen) {
 	   //counting each end of line as two characters
 	   
@@ -42,9 +42,12 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	function setStandard(obj){
 		//alert(obj.checked);
 		var boxes = document.getElementsByName("complaint.standards1");
+		
+		if(jsReadOnly==null) jsReadOnly="";
 		for(var i = 0; i < boxes.length; i++ ){
-			if(obj.checked == true){
+			if(obj.checked == true ){
 				boxes[i].disabled = false;
+				if(jsReadOnly=="true") boxes[i].disabled = true;
 			}else{
 				boxes[i].disabled = true;
 			}
@@ -68,7 +71,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	<html-el:hidden property="complaint.id"  />
 	<html-el:hidden property="complaint.createdDatex"  />
     <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
-	
+	<input type="hidden" name="readOnly" value='<c:out value="${isReadOnly}"/>' />
 
 <%
 		
@@ -204,7 +207,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 													<b><c:out value="${codeVal.description}"></c:out></b>
 												</logic:equal>
 												<logic:notEqual value="0" property="parentCode"  name="codeVal">
-														&nbsp;&nbsp;&nbsp;<html-el:multibox property="complaint.standards1" value="${codeVal.code}" /><c:out value="${codeVal.description}" />
+														&nbsp;&nbsp;&nbsp;<html-el:multibox  property="complaint.standards1" value="${codeVal.code}" /><c:out value="${codeVal.description}" />
 												</logic:notEqual>
 											</td>
 										</tr>

@@ -163,7 +163,7 @@ function popupLabel(page) { //open a new popup window
 	</c:otherwise>
 </c:choose>
 <c:choose>
-<c:when test="${null eq tabSummary}">
+<c:when test="${'N' eq tabSummary or null eq tabSummary}">
 		&nbsp;
 </c:when>
 <c:otherwise>

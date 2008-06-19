@@ -130,7 +130,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", request.getParameter("clientId"));
         request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
- 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+ 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
 
         Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         String providerNo = (String)request.getSession().getAttribute("user");
@@ -157,7 +157,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+ 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
  	    
         ArrayList ampmLst = new ArrayList();
         LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
@@ -208,7 +208,7 @@ public class ClientTaskAction extends BaseClientAction{
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionMessages messages = new ActionMessages();
-        super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+        
         boolean isError = false;
         boolean isWarning = false;
 
@@ -221,7 +221,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+ 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
  	    
  	    
         Tickler tickler = (Tickler) ticklerForm.getTickler();
@@ -286,7 +286,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+ 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
  	    
         ArrayList ampmLst = new ArrayList();
         LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
@@ -339,7 +339,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+ 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
  	    Tickler tickler = new Tickler();
         tickler.setTickler_no(new Integer(0));
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);

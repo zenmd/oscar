@@ -153,7 +153,12 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		complaintForm.setMethods(methods);
 		complaintForm.setOutcomes(outcomes);
 		complaintForm.setSections(allSections);
-		if(null==complaint.getId() || complaint.getId().intValue()==0) complaint.setStatus("0");
+		if(null==complaint.getId() || complaint.getId().intValue()==0) {
+			complaint.setStatus("0");
+		}else{
+			boolean readOnly=super.isReadOnly(request,complaint.getComplaintStatus(), KeyConstants.FUN_PMM_CLIENTCOMPLAINT,complaint.getProgramId());
+			if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+		}
 		complaintForm.setComplaint(complaint);
 		Integer clientId = Integer.valueOf(tmp);
 		String providerNo = (String)request.getSession().getAttribute("user");
@@ -162,8 +167,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		complaintForm.setPrograms(programs);
 		
 		request.setAttribute("ComplaintForm_length", new Integer(length));
-		boolean readOnly=super.isReadOnly(complaint.getComplaintStatus(), KeyConstants.FUNCTION_COMPLAINT);
-		if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+		
 		return mapping.findForward("edit");
 	}
 

@@ -184,12 +184,14 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
 			clientForm.set("serviceRestrictionLength", new Integer(180));			
-			pcrObj.setId(null);
+			pcrObj.setId(null);			
 		} else if (!Utility.IsEmpty(rId)) 
 		{			
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
+			boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_PMM_CLIENTRESTRICTION, pcrObj.getProgramId());
+			request.setAttribute("isReadOnly", readOnly);
 		}
 
        List allPrograms = programManager.getPrograms(providerNo,shelterId);
@@ -236,6 +238,8 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			pcrObj =  clientRestrictionManager.find(new Integer(rId));
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
+			boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_PMM_CLIENTRESTRICTION, pcrObj.getProgramId());
+			request.setAttribute("isReadOnly", readOnly);
 			
 		}
 

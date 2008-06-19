@@ -23,7 +23,7 @@ emptyDate = new Date("01/01/1901");
            var elem = document.forms[0].elements[i];
            if (elem) {
                if (elem.type == 'hidden' ) continue;
-               if (elem.type == 'checkbox' || elem.type == 'radio' || elem.type=='button' || elem.type=='select-one') {
+               if (elem.type == 'checkbox'||elem.type=='option'|| elem.type == 'radio'||elem.type=='textarea'|| elem.type=='button' || elem.type=='select-one') {
                   elem.disabled = true;
                }  
                else

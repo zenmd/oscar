@@ -451,7 +451,8 @@
         <!-- Login -->
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
             <forward name="caisiPMM" path="/Home.do" />
- 			<forward name="shelterSelection" path="/shelterSelection.do"/>  			
+ 			<forward name="shelterSelection" path="/shelterSelection.do"/> 
+ 			<forward name="error" path="/index.jsp"></forward> 			
         </action>     
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
             <forward name="receptionist" path="/receptionist/receptionistcontrol.jsp" redirect="true" />

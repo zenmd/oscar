@@ -164,7 +164,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("admission", admsObj);
        request.setAttribute("admissionId", admsObj.getId());
 
-       boolean readOnly=super.isReadOnly(admsObj.getAdmissionStatus(), KeyConstants.FUNCTION_DISCHARGE);
+       boolean readOnly=super.isReadOnly(request,admsObj.getAdmissionStatus(), KeyConstants.FUN_PMM_CLIENTDISCHARGE,admsObj.getProgramId());
        if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        
    }

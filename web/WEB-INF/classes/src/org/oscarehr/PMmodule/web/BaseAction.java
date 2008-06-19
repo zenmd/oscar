@@ -174,33 +174,33 @@ public abstract class BaseAction extends DispatchAction {
 	private void initMenu(HttpServletRequest request)
 	{
 		SecurityManager sec = getSecurityManager(request);
-		if (sec==null) return;
+		if (sec==null) return;		
 		//Client Management
-		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTSEARCH, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
 	
 		//Program
-		if (sec.GetAccess("_pmm.programList", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PMM_PROGRAMLIST, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
 
 		//Facility Management
-		if (sec.GetAccess("_pmm.facilityList", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITYLIST, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
 
 		//Report Runner
-		if (sec.GetAccess("_reportRunner", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_REPORTRUNNER, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
 
 		//System Admin
-		if (OscarProperties.getInstance().isAdminOptionOn() && sec.GetAccess("_admin", "").compareTo("r") >= 0) {
+		if (OscarProperties.getInstance().isAdminOptionOn() && sec.GetAccess("_admin", "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);

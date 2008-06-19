@@ -93,7 +93,10 @@ function openHealthSafety(){
 			<tr><td colspan="3"><c:out value="${healthsafety.message}" /></td></tr>
 			<tr><td width="50%">User Name: <c:out value="${healthsafety.userName}" /></td>
 			<td width="30%">Date: <fmt:formatDate value="${healthsafety.updateDate}" pattern="yyyy/MM/dd" /></td>
-			<td width="20%"><a href="javascript:openHealthSafety()" >Edit</a>
+			<td width="20%">
+			<c:if test="${not isReadOnly}">
+			 	<a href="javascript:openHealthSafety()">Edit</a>
+			 </c:if>
 			</td></tr>
 		  </c:otherwise>
 		</c:choose>

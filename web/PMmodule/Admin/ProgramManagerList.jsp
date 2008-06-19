@@ -114,8 +114,10 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 					value="No programs found." />
 
 				<display:column sortable="false" title="">
+					<security:oscarSec objectName="_pmm.programList" rights="u" orgCd='P<c:out value="${program.id}" />'>
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
 							Edit </a>
+					</security:oscarSec>		
 				</display:column>
 					
 				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">

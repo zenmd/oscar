@@ -82,6 +82,15 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        
        List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
 //       for(Object element: lst){
+       QuatroIntakeHeader obj0 = null;
+       Integer programId=null;
+       if(lst.size()>0) {
+    	   obj0=  (QuatroIntakeHeader)lst.get(0);
+    	   programId=obj0.getProgramId();
+       }
+      
+       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY, programId);
+       request.setAttribute("isReadOnly",readOnly);
        for(int i=0;i<lst.size();i++){
     	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
     	 //One client should have no more than one bed program intake in one facility.

@@ -92,5 +92,17 @@ public abstract class BaseFacilityAction extends BaseAction {
 					KeyConstants.ACCESS_NULL);
 		}
 	}
+	public boolean isReadOnly(HttpServletRequest request, String funName,Integer facilityId){
+		boolean readOnly =false;
+		
+		SecurityManager sec = super.getSecurityManager(request);
+		//summary
+		String orgCd="";
+		if(facilityId!=null ||facilityId!=0) orgCd=facilityId.toString();
+		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) == 0) 
+			readOnly=true;
+		return readOnly;
+	}
+
 
 }

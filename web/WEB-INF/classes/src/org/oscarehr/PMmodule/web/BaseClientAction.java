@@ -40,101 +40,142 @@ public abstract class BaseClientAction extends BaseAction {
 		super.setMenu(request, KeyConstants.MENU_CLIENT);
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
-		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CLIENT_SUMMARY))request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_CURRENT);
-		} else
+		String orgCd=this.getProgramIdByClient(request);
+		String newClient =(String)request.getAttribute("newClientFlag");
+		if(newClient!=null && newClient.equals("true")){
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
-		//discharge
-		if (sec.GetAccess("_pmm_clientDischarge", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CLIENT_DISCHARGE))	request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_CURRENT);
-		}else request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_NULL);
-		//admission
-		if (sec.GetAccess("_pmm_clientAdmission", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CLIENT_ADMISSION))request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_CURRENT);
+			request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_NULL);
+			request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);			
 		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_NULL);
-		//consent
-		if (sec.GetAccess("_pmm_clientConsent", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CLIENT_CONSENT))request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_NULL);
-		//history
-		if (sec.GetAccess("_pmm_clientHistory", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CLIENT_HISTORY))request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_NULL);
-		//intake
-		if (sec.GetAccess("_pmm_clientIntake", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CLIENT_INTAKE))request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_NULL);
-		//refer
-		if (sec.GetAccess("_pmm_clientRefer", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CLIENT_REFER))request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_NULL);
-		//restriction
-		if (sec.GetAccess("_pmm_clientRestriction", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CLIENT_RESTRICTION))request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_NULL);
-		//complaint
-		if (sec.GetAccess("_pmm_clientComplaint", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_VIEW);
-			if(currentTab.equals(KeyConstants.TAB_CLIENT_COMPLAINT))request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_NULL);
-		//case
-		if (sec.GetAccess("_pmm_clientCase", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CLIENT_CASE))request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_NULL);
-		//attachment
-		if (sec.GetAccess("_pmm.document", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CLIENT_ATTCHMENT))request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_NULL);
-
-		//task
-		if (sec.GetAccess("_pmm.task", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_CLIENT_TASK))request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_CURRENT);
-		}
-		else request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);
-	}
+		else
+		{
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTSEARCH, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_SUMMARY))request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_CURRENT);
+			} else
+				request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
+			
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_HEALTH))request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_CURRENT);
+			} else
+				request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
+			//discharge
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTDISCHARGE, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_DISCHARGE))	request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_CURRENT);
+			}else request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_NULL);
+			//admission
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTADMISSION, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_VIEW);
+				if(currentTab.equals(KeyConstants.TAB_CLIENT_ADMISSION))request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_ADMISSION, KeyConstants.ACCESS_NULL);
+			//consent
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCONSENT, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_VIEW);
+				if(currentTab.equals(KeyConstants.TAB_CLIENT_CONSENT))request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_CONSENT, KeyConstants.ACCESS_NULL);
+			//history
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTHISTORY, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_HISTORY))request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_HISTORY, KeyConstants.ACCESS_NULL);
+			//intake
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTINTAKE, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_VIEW);
+				if(currentTab.equals(KeyConstants.TAB_CLIENT_INTAKE))request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_INTAKE, KeyConstants.ACCESS_NULL);
+			//refer
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTREFER, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_VIEW);
+				if(currentTab.equals(KeyConstants.TAB_CLIENT_REFER))request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_REFER, KeyConstants.ACCESS_NULL);
+			//restriction
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTRESTRICTION, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_VIEW);
+				if(currentTab.equals(KeyConstants.TAB_CLIENT_RESTRICTION))request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_RESTRICTION, KeyConstants.ACCESS_NULL);
+			//complaint
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCOMPLAINT, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_VIEW);
+				if(currentTab.equals(KeyConstants.TAB_CLIENT_COMPLAINT))request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_NULL);
+			//case
+			if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCASE, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_CASE))request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_NULL);
+			//attachment
+			if (sec.GetAccess(KeyConstants.FUN_PMM_DOCUMENT, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_ATTCHMENT))request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_NULL);
 	
-	public boolean isReadOnly(String status,String funName){
+			//task
+			if (sec.GetAccess(KeyConstants.FUN_TASKS, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_TASK))request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);
+		}
+	}
+	private String getProgramIdByClient(HttpServletRequest request){
+		String cId =request.getParameter("clientId");
+		String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		String programId="";
+		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        if(!Utility.IsEmpty(cId)){ 
+        	Integer demoInt = Integer.valueOf(cId);
+        	programId = this.getClientManager().getRecentProgramId(demoInt, providerNo,shelterId).toString();        		
+        }
+        return programId;
+	}
+	public boolean isReadOnly(HttpServletRequest request, String status,String funName,Integer programId){
 		boolean readOnly =false;
 		if(KeyConstants.STATUS_COMPLETED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_SIGNED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_DISCHARGED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_EXPIRED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_TERMEARLY.equals(status)) readOnly =true;
-		/*
+		
 		else if(KeyConstants.STATUS_ADMITTED.equals(status)){			
-			if(KeyConstants.FUNCTION_INTAKE.equals(funName))readOnly =true;
-			else if(KeyConstants.FUNCTION_ADMISSION.equals(funName))readOnly =true;	
-			else if(KeyConstants.FUNCTION_REFERRAL.equals(funName))readOnly =true;	
+		//	if(KeyConstants.FUNCTION_INTAKE.equals(funName))readOnly =true;
+		//	else if(KeyConstants.FUNCTION_ADMISSION.equals(funName))readOnly =true;	
+			if(KeyConstants.FUN_PMM_CLIENTREFER.equals(funName))readOnly =true;	
 		}
-		*/
+		
 		else if(KeyConstants.STATUS_READONLY.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_REJECTED.equals(status)) {
 			readOnly =true;
-			if(KeyConstants.FUNCTION_REFERRAL.equals(funName))readOnly =false;
+			if(KeyConstants.FUN_PMM_CLIENTREFER.equals(funName))readOnly =false;
 		}
-		else if(KeyConstants.STATUS_ADMITTED.equals(status) && KeyConstants.FUNCTION_REFERRAL.equals(funName)) {
-			readOnly =true;
-		}
+		SecurityManager sec = super.getSecurityManager(request);
+		//summary
+		if(programId==null) return true;
+		
+		String orgCd="";		
+		if(programId.intValue()!=0) orgCd=programId.toString();
+		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+			readOnly=true;
 		return readOnly;
 	}
 
