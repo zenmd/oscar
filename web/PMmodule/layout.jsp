@@ -38,6 +38,31 @@
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar-setup.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
+
+		<script type="text/javascript">
+			function setDivPosition()
+			{
+				 var ele = document.getElementById("scrollBar");
+				 if(ele==null) return;
+			     if (ele)
+			     {
+			        if(document.getElementById("scrollPosition")==null) return;
+			        var sp = document.getElementById("scrollPosition").value;
+			        if (!sp) sp = "0";
+			        document.getElementById("scrollBar").scrollTop = sp;
+			     }
+			 }
+			
+			 function getDivPosition()
+			 {
+			 	 var ele = document.getElementById("scrollBar");
+				 if(ele==null) return;
+			     if (ele) {
+			        if(document.getElementById("scrollPosition")==null) return;
+			     	document.getElementById("scrollPosition").value = ele.scrollTop;
+			     }
+			 }
+		</script>
 				
 		<script type="text/javascript">
 		    var win=null;
@@ -64,7 +89,7 @@
 		
 		<html:base />
 	</head>
-	<body onunload="unloadMe()">
+	<body onload="setDivPosition()" onunload="unloadMe()">
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr height="60px">
 				<td>
@@ -88,4 +113,5 @@
 				</tr>
 			</table>
 	</body>
+	
 </html:html>

@@ -17,7 +17,7 @@
 <html:hidden property="admission.programId"/>
 <html:hidden property="admission.admissionDateTxt"/>
 <html:hidden property="admission.admissionStatus"/>
-<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
+<input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
 
 function submitForm(methodVal) {
@@ -85,7 +85,7 @@ function viewSignature(){
 	</td></tr>
 	<tr>
 		<td height="100%">
-		<div
+		<div id="scrollBar"  onscroll="getDivPosition()"
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
