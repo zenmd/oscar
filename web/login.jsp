@@ -33,9 +33,9 @@
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
 <caisi:isModuleLoad moduleName="ticklerplus">
 	<%
-		if (session.getAttribute("user") != null) {
-			response.sendRedirect("provider/providercontrol.jsp");
-		}
+//		if (session.getAttribute("user") != null) {
+//			response.sendRedirect("provider/providercontrol.jsp");
+//		}
 	%>
 </caisi:isModuleLoad>
 <%
