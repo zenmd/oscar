@@ -213,11 +213,11 @@ function checkExistClients(){
 <html-el:optionsCollection property="optionList.referredBy" value="value" label="label"/>
 </html-el:select></td></tr>
 <tr><td>Contact name</td>
-<td><html-el:text style="width: 50%" property="intake.contactName" /></td></tr>
+<td><html-el:text style="width: 50%" property="intake.contactName" maxlength="80" /></td></tr>
 <tr><td>Contact number</td>
-<td><html-el:text style="width: 35%" property="intake.contactNumber"  /></td></tr>
+<td><html-el:text style="width: 35%" property="intake.contactNumber" maxlength="25"  /></td></tr>
 <tr><td>Contact email</td>
-<td><html-el:text style="width: 50%" property="intake.contactEmail" /></td></tr>
+<td><html-el:text style="width: 50%" property="intake.contactEmail" maxlength="50" /></td></tr>
 </table>
 </td></tr>
 
@@ -241,7 +241,7 @@ function checkExistClients(){
 <html-el:optionsCollection property="optionList.aboriginal" value="value" label="label"/>
 </html-el:select></td>
 <td>Aboriginal other</td>
-<td><html-el:text property="intake.aboriginalOther" /></td></tr>
+<td><html-el:text property="intake.aboriginalOther" maxlength="100" /></td></tr>
 <tr><td>VAW</td>
 <td><html-el:select property="intake.VAW">
    <html-el:option value="1">Yes</html-el:option>
@@ -280,7 +280,7 @@ function checkExistClients(){
 <td width="35%"></td>
 <td></td></tr>
 <tr><td>Disability</td>
-<td colspan="2"><html-el:text style="width: 80%" property="intake.disability" /></td>
+<td colspan="2"><html-el:text style="width: 80%" property="intake.disability" maxlength="100" /></td>
 <td>Disclosed substance abuse</td>
 <td><html-el:checkbox property="intake.disclosedAbuse" value="1"/></td></tr>
 						<tr>
