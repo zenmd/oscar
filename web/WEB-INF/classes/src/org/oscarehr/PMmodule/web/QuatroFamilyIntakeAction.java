@@ -57,6 +57,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
+       request.setAttribute("intakeHeadId", intakeId);
        if(clientForm.getIntakeStatus()==null){
          QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
          clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
@@ -124,6 +125,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
+       request.setAttribute("intakeHeadId", intakeId);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -209,6 +211,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
+       request.setAttribute("intakeHeadId", intakeId);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -289,6 +292,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 
        String intakeId = (String)clientForm.getIntakeId();
+       request.setAttribute("intakeHeadId", intakeId);
 	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();

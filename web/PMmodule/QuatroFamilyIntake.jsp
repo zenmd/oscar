@@ -7,6 +7,7 @@
 <html-el:form action="/PMmodule/QuatroFamilyIntake.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
+<input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
