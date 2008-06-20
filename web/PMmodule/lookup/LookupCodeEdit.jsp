@@ -46,7 +46,7 @@
 					       <logic:equal name="field" property="fieldType" value="S">
 					         <logic:empty name="field" property="lookupTable">
 					         	<logic:equal name="field" property="editable" value="true">
-						           <html:text name="field" property="val" indexed="true"  style="{width:100%}" maxlength="80"/>
+						           <html:text name="field" property="val" indexed="true"  style="{width:100%}" maxlength="<%=field.getFieldLengthStr()%>"/>
 					           </logic:equal>
 					         	<logic:equal name="field" property="editable" value="false">
 						           <bean:write name="field" property="val"/>
@@ -61,7 +61,7 @@
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="D">
 					       	 <bean:define id="dateVal" name="field" property="val"></bean:define>
-					         <quatro:datePickerTag name="field" property="val" indexed="true" openerForm="lookupCodeEditForm"  width="200px"
+					         <quatro:datePickerTag name="field" property="val" indexed="true" openerForm="lookupCodeEditForm"  width="200px" 
 					         ></quatro:datePickerTag>
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="N">

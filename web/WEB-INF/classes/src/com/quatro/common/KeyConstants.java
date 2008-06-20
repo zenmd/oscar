@@ -163,4 +163,7 @@ public class KeyConstants {
   public static final String FUN_PMM_CLIENTRESTRICTION="_pmm_clientRestriction";
   public static final String FUN_PMM_FACILITYLIST="_pmm.facilityList";
   public static final String FUN_PMM_CLIENTHEALTHSAFETY="_pmm_clientHealthSafety";
+  
+  public static final String DEFAULT_FIELD_LENGTH_STRING="80";
+  
  }

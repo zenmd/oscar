@@ -1,6 +1,8 @@
 package com.quatro.model;
 import org.caisi.model.BaseObject;
 
+import com.quatro.common.KeyConstants;
+
 public class FieldDefValue extends BaseObject{
 		private String tableId;
 	    private String fieldName;
@@ -13,6 +15,7 @@ public class FieldDefValue extends BaseObject{
 	    private boolean unique;
 	    private int genericIdx;
 	    private int fieldIndex;
+	    private Integer fieldLength;
 	    
 	    private String val = "";
 	    private String valDesc = "";
@@ -111,5 +114,22 @@ public class FieldDefValue extends BaseObject{
 
 		public void setUnique(boolean unique) {
 			this.unique = unique;
+		}
+
+		public Integer getFieldLength() {
+			return fieldLength;
+		}
+
+		public void setFieldLength(Integer fieldLength) {
+			this.fieldLength = fieldLength;
+		}
+		public String getFieldLengthStr() {
+			String result;
+			if(fieldLength == null){
+				result = KeyConstants.DEFAULT_FIELD_LENGTH_STRING;
+			}else{
+				result = fieldLength.toString();
+			}
+			return result;
 		}
 	}
