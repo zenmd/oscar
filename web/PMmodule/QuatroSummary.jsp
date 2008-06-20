@@ -12,6 +12,7 @@
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
 <input type="hidden" name="method" value="edit" />
 <input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
+<input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
 function submitForm(methodVal) {
 	document.forms[0].method.value = methodVal;
@@ -46,7 +47,7 @@ function openHealthSafety(){
 	</td></tr>
 	<tr>
 		<td height="100%">
-		<div
+		<div id="scrollBar"  onscroll="getDivPosition()"
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 

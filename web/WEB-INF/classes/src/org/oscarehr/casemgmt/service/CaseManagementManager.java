@@ -621,7 +621,7 @@ public class CaseManagementManager {
     public String getDemoDOB(String demoNo) {
         Demographic dg = demographicDAO.getClientByDemographicNo(new Integer(demoNo));
         if (dg == null) return "";
-        else return dg.getYearOfBirth() + "-" + dg.getMonthOfBirth() + "-" + dg.getDateOfBirth();
+        else return dg.getYearOfBirth() + "/" + dg.getMonthOfBirth() + "/" + dg.getDateOfBirth();
     }
 /*
     public String getCaisiRoleById(String id) {
