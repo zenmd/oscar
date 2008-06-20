@@ -191,7 +191,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
 			boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_PMM_CLIENTRESTRICTION, pcrObj.getProgramId());
-			request.setAttribute("isReadOnly", readOnly);
+			if(readOnly) request.setAttribute("isReadOnly", readOnly);
 		}
 
        List allPrograms = programManager.getPrograms(providerNo,shelterId);
@@ -239,7 +239,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
 			boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_PMM_CLIENTRESTRICTION, pcrObj.getProgramId());
-			request.setAttribute("isReadOnly", readOnly);
+			if(readOnly) request.setAttribute("isReadOnly", readOnly);
 			
 		}
 
