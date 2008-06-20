@@ -29,68 +29,55 @@ import com.quatro.service.security.SecurityManager;
 
 public abstract class BaseFacilityAction extends BaseAction {
 
-	protected void setScreenMode(HttpServletRequest request, String currentTab) {
+	protected void setScreenMode(HttpServletRequest request, String currentTab,Integer orgId) {
 		super.setMenu(request, KeyConstants.MENU_FACILITY);
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
-		if (sec.GetAccess("_pmm_facility.general", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,
-					KeyConstants.ACCESS_VIEW);
+		
+		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITY_GENERAL, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+			request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_GENERAL))
-				request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,
-						KeyConstants.ACCESS_CURRENT);
-		} else{
-			request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,
-					KeyConstants.ACCESS_NULL);
+				request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_CURRENT);
 		}
+		else request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_NULL);
+		
 		
 		// program
-		if (sec.GetAccess("_pmm_facility.program", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,
-					KeyConstants.ACCESS_VIEW);
+		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITY_PROGRAM, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+			request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_PROGRAM))
-				request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,
-						KeyConstants.ACCESS_CURRENT);
-		} else{
-			request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,
-					KeyConstants.ACCESS_NULL);
-		}
+				request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_CURRENT);
+		} 
+		else request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_NULL);
+		
 		
 		// message
-		if (sec.GetAccess("_pmm_facility.message", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,
-					KeyConstants.ACCESS_VIEW);
+		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITY_MESSAGE  , orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+			request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_MESSAGE))
-				request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,
-						KeyConstants.ACCESS_CURRENT);
-		} else{
-			request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,
-					KeyConstants.ACCESS_NULL);
-		}
+				request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,	KeyConstants.ACCESS_CURRENT);
+		} 
+		else request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,KeyConstants.ACCESS_NULL);
+		
 		
 		//	Edit
-		if (sec.GetAccess("_pmm_facility.edit", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,
-					KeyConstants.ACCESS_VIEW);
+		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITY_EDIT, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+			request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_EDIT))
-				request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,
-						KeyConstants.ACCESS_CURRENT);
-		} else{
-			request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,
-					KeyConstants.ACCESS_NULL);
-		}
+				request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_CURRENT);
+		} 
+		else
+			request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_NULL);
+		
 		
 		//	Bed
-		if (sec.GetAccess("_pmm_facility.bed", "").compareTo("r") >= 0) {
-			request.setAttribute(KeyConstants.TAB_FACILITY_BED,
-					KeyConstants.ACCESS_VIEW);
+		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITY_BED, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+			request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_BED))
-				request.setAttribute(KeyConstants.TAB_FACILITY_BED,
-						KeyConstants.ACCESS_CURRENT);
-		} else{
-			request.setAttribute(KeyConstants.TAB_FACILITY_BED,
-					KeyConstants.ACCESS_NULL);
-		}
+				request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_CURRENT);
+		} else
+			request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_NULL);
+		
 	}
 	public boolean isReadOnly(HttpServletRequest request, String funName,Integer facilityId){
 		boolean readOnly =false;
@@ -99,7 +86,7 @@ public abstract class BaseFacilityAction extends BaseAction {
 		//summary
 		String orgCd="";
 		if(facilityId!=null ||facilityId!=0) orgCd=facilityId.toString();
-		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) == 0) 
+		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) <= 0) 
 			readOnly=true;
 		return readOnly;
 	}

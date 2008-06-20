@@ -29,7 +29,7 @@ String s = "debug";
 				border="0">
 				<!-- submenu -->
 				<tr>
-					<td align="left" class="buttonBar">
+					<td align="left" class="buttonBar2">
 					<html:link action="/Home.do"
 					style="color:Navy;text-decoration:none">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
@@ -37,9 +37,11 @@ String s = "debug";
 						action="/FacilityMessage.do?method=list" name="actionParam"
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Messages&nbsp;&nbsp;!</html:link>
-					<html:link href="javascript:submitForm();" 
+					<c:if test="${!isReadOnly }">
+						<html:link href="javascript:submitForm();" 
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
+					</c:if>	
 					</td>
 				</tr>
 
@@ -153,6 +155,7 @@ String s = "debug";
 		</tr>
 		<!-- body end -->
 	</table>
+	<%@ include file="/common/readonly.jsp" %>
 </html:form>
 <script type="text/javascript">
 <!--

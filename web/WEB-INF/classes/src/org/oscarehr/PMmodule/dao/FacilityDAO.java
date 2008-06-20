@@ -21,6 +21,11 @@ public class FacilityDAO extends HibernateDaoSupport {
         String query = "from Facility f";
         return getHibernateTemplate().find(query);
     }
+    
+    public List getFacilities(Integer shelterId) {
+        String query = "from Facility f where orgId=?";
+        return getHibernateTemplate().find(query,shelterId);
+    }
 
     //@SuppressWarnings("unchecked")
     public List getActiveFacilities() {

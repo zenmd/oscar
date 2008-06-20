@@ -11,7 +11,6 @@
 </script>
 <html:form action="/PMmodule/FacilityManager.do">
 
-
 <table cellpadding="0" cellspacing="0" border="0" width="100%"	height="100%">
 		
 		<!-- Title -->
@@ -26,15 +25,15 @@
 				<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 					border="0">
 					<!-- submenu -->
-					<tr class="buttonBar">
+					<tr class="buttonBar2">
 						<td align="left" class="buttonBar"><html:link
 							action="/Home.do"
 							style="color:Navy;text-decoration:none">&nbsp;
-							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>
-						<html:link action="/PMmodule/FacilityManager.do?method=add"
-							style="color:Navy;text-decoration:none">&nbsp;
-							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility&nbsp;</html:link>
-				
+							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>					
+							<c:if test="${isEditable}">
+								<html:link action="/PMmodule/FacilityManager.do?method=add"	style="color:Navy;text-decoration:none">&nbsp;
+								<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility&nbsp;</html:link>
+							</c:if>
 						</td>
 					</tr>
 				
@@ -72,8 +71,8 @@
 						        <display:setProperty name="paging.banner.items_name" value="facilities" />
 						        <display:setProperty name="basic.msg.empty_list" value="No facilities found." />
 						
-						        <display:column sortable="false" title="">
-						            <a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=edit&facilityId=<c:out value="${facility.id}" />"> Edit </a>
+						        <display:column sortable="false" title="">						        	
+						          <a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=edit&facilityId=<c:out value="${facility.id}" />"> View </a>						        						        	
 						        </display:column>
 						        
 								<display:column sortable="true" title="Name" sortProperty="name" sortName="facility">

@@ -140,7 +140,7 @@
 							&nbsp;Merge&nbsp;&nbsp;|</a>
 					</c:otherwise>					
 				</c:choose>
-				<html:link action="/PMmodule/ClientSearch2.do"  style="color:Navy;text-decoration:none;">				
+				<html:link action="/PMmodule/Admin/SysAdmin.do"  style="color:Navy;text-decoration:none;">				
 					<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				</td>
 		</tr>

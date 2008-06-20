@@ -132,7 +132,7 @@
 					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>				
 				<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
-				<html:link action="/PMmodule/ClientSearch2.do"  style="color:Navy;text-decoration:none;">				
+				<html:link action="/PMmodule/Admin/SysAdmin.do"  style="color:Navy;text-decoration:none;">				
 					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				</td>
 		</tr>

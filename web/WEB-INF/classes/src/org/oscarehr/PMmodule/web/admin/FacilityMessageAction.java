@@ -72,7 +72,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 	}
 		
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+		
     	
     	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
@@ -86,22 +86,21 @@ public class FacilityMessageAction extends BaseFacilityAction {
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        
-        //List activeMessages = mgr.getMessages();
-		//Facility facility = (Facility)request.getSession().getAttribute("currentFacility");
-		//Integer facilityId = null;
-		//if(facility!=null)
-		//	facilityId = Integer.valueOf(facility.getId().intValue());
-		
-		List activeMessages = mgr.getMessagesByShelterId(facilityId);
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getId());      
+        /*
+         *  Lillian change Message related to Shelter not related to Facility 
+         */
+		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_MESSAGE, shelterId);
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+		List activeMessages = mgr.getMessagesByShelterId(shelterId);
 		if(activeMessages!=null && activeMessages.size() >0)
 			request.setAttribute("ActiveFacilityMessages",activeMessages);
 		return mapping.findForward("list");
 	}
 	
 	public ActionForward edit(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
-    	
+		    	
     	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
      	  actionParam = new HashMap();
@@ -117,7 +116,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
     		facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-		
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getId());
 		DynaActionForm facilityMessageForm = (DynaActionForm)form;
 		String messageId = request.getParameter("id");
 		
@@ -142,7 +141,9 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
         request.setAttribute("msgTypepList", msgTypepList);
-		
+        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_MESSAGE, shelterId);
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
 		return mapping.findForward("edit");
 	}
 
@@ -152,7 +153,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		msg.setCreation_date(new Date());
 		Integer facilityId = msg.getFacilityId();
 		
-		super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+		
     	
     	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
@@ -166,6 +167,9 @@ public class FacilityMessageAction extends BaseFacilityAction {
 			facilityName = facilityMgr.getFacility(facilityId).getName();
 		msg.setFacilityName(facilityName);
 		try{
+			//after discussing with Tony, Lillian change this facility message to shelter ralated 
+			Integer shelterId =(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			msg.setFacilityId(shelterId);
 			mgr.saveFacilityMessage(msg);
 			ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
@@ -178,7 +182,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 		Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getId());
         return edit(mapping, form, request, response);
 	}
 	

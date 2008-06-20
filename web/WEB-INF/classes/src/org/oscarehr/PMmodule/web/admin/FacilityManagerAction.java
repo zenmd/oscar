@@ -60,14 +60,10 @@ public class FacilityManagerAction extends BaseFacilityAction {
     }
 
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        List facilities = facilityManager.getFacilities();
-        List filteredFacilities = new ArrayList();
-
-//        for (int i=0;i<facilities.size();i++) {
-//        	Facility facility = (Facility)facilities.get(i);
-//            if (facility.getActive()) filteredFacilities.add(facility);
-//        }
-//        request.setAttribute(BEAN_FACILITIES, filteredFacilities);
+        
+    	Integer shelterId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+    	List facilities = facilityManager.getFacilities(shelterId);
+     
         request.setAttribute(BEAN_FACILITIES, facilities);
         
         // get agency's organization list from caisi editor table
@@ -75,13 +71,16 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
+               
+        boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITYLIST, shelterId);
+        request.setAttribute("isEditable", !readOnly);
         super.setMenu(request,KeyConstants.MENU_FACILITY);
         return mapping.findForward(FORWARD_LIST);
     }
 
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
-    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL);
+    	
     	
     	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
@@ -179,13 +178,12 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("facilityId", facility.getId());
         request.setAttribute("facility", facility);
         facilityForm.setFacility(facility);
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL,facility.getId());
         return mapping.findForward(FORWARD_VIEW);
     }
     
     public ActionForward listPrograms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	
-    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM);
-    	
+    	   	
     	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
      	  actionParam = new HashMap();
@@ -265,7 +263,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("facilityId", facility.getId());
         
         request.setAttribute("facility", facility);
-
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM,facility.getId());
         return mapping.findForward(FORWARD_PROGRAM);
     }
     /*
@@ -349,7 +347,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 */
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
-    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
+    	
     	
     	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
@@ -380,7 +378,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
-
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getId());
+        boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_EDIT, facility.getId());
+        if(readOnly)request.setAttribute("isReadOnly", readOnly);
         return mapping.findForward(FORWARD_EDIT);
     }
 
@@ -419,7 +419,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
+    	
     	
     	FacilityManagerForm mform = (FacilityManagerForm) form;
         Facility facility = mform.getFacility();
@@ -472,6 +472,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
             //return mapping.findForward(FORWARD_EDIT);
         }
         request.setAttribute("facilityId", facility.getId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
         return edit(mapping, form, request, response);
     }
 

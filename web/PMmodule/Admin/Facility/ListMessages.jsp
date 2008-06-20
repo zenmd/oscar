@@ -33,11 +33,11 @@ String s = "debug";
 					<html:link
 						action="/PMmodule/FacilityManager.do?method=list"
 						style="color:Navy;text-decoration:none;">
-						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;!</html:link>
-						<html:link
-						action="/FacilityMessage.do?method=edit" name="actionParam" 
-						style="color:Navy;text-decoration:none;">
-						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;|</html:link>
+						<c:if test="${!isReadOnly}">
+							<html:link	action="/FacilityMessage.do?method=edit" name="actionParam" 	style="color:Navy;text-decoration:none;">
+							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+						</c:if>	
 					</td>
 				</tr>
 
@@ -83,7 +83,7 @@ String s = "debug";
 						        <display:setProperty name="basic.msg.empty_list" value="No message found." />
 						
 						        <display:column sortable="false" title="">
-						        	<a href="<html:rewrite action="FacilityMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>&facilityId=<c:out value="${facility.id}"/>" > Edit </a>
+						        	<a href="<html:rewrite action="FacilityMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>&facilityId=<c:out value="${facility.id}"/>" > View </a>
 						        </display:column>
 						        
 								
