@@ -5,6 +5,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
+<input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
 	<tr>
@@ -53,7 +54,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 	</tr>
 	<tr height="100%">
 		<td>
-		<div
+		<div id="scrollBar"  onscroll="getDivPosition()"
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;">
 			<table width="100%" class="simple" cellspacing="2" cellpadding="3">

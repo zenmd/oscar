@@ -411,7 +411,13 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
 
    		 //check gender conflict and age conflict
-         Demographic client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
+         Demographic client;
+         if(obj3.getClientId().intValue()==0){
+           client = new Demographic();
+         }else{
+           client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
+         }
+         client.setDateOfBirth(obj3.getDob());
          client.setSex(obj3.getSex());
 		 if(clientRestrictionManager.checkGenderConflict(program, client)){
          	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
