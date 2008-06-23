@@ -422,8 +422,10 @@ public class RoomManager {
         }
         //Check for duplicate room names.
         for (int i = 0; i < rooms.length; i++) {
+        	String name1 = rooms[i].getName().trim();
         	for (int j = 0; j < rooms.length; j++) {
-        		if ((i != j) && (rooms[i].getName().equals(rooms[j].getName()) && rooms[i].getProgramId().equals(rooms[j].getProgramId()))) {
+        		String name2 = rooms[j].getName().trim();
+        		if ((i != j) && (name1.length()>0 && name1.equalsIgnoreCase(name2) && rooms[i].getProgramId().equals(rooms[j].getProgramId()))) {
         			throw new DuplicateRoomNameException(rooms[i].getName());
 //        			return;
         		}
@@ -432,7 +434,8 @@ public class RoomManager {
 //        for (Room room : rooms) {
         for (int i=0;i<rooms.length;i++) {
         	Room room = rooms[i];
-            saveRoom(room);
+        	if(room.getName().trim().length()>0) // room without name will not be saved 
+        		saveRoom(room);
         }
     }
 

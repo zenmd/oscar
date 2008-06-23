@@ -583,10 +583,12 @@ public class BedManager {
 		ArrayList duplicateBeds = new ArrayList();
 		
 		for (int i = 0; i < beds.length; i++) {
+			String name1 =beds[i].getName();
 			for (int j = 0; j < beds.length; j++) {
+				String name2 = beds[j].getName();
 				if (i == j)
 					continue;
-				if (beds[i].getName().equals(beds[j].getName())
+				if (name1.trim().length()>0 && name1.equalsIgnoreCase(name2)
 						&& beds[i].getRoomId().intValue() == beds[j].getRoomId().intValue()) {
 					
 					beds[i].setRoom(roomDAO.getRoom(beds[i].getRoomId()));
@@ -606,8 +608,10 @@ public class BedManager {
 //        for (Bed bed : beds) {
         for (int i=0;i<beds.length;i++) {
         	Bed bed =  beds[i];
-        	bed.setRoomStart(Calendar.getInstance().getTime());
-            saveBed(bed);
+	        if(bed.getName().trim().length()>0){ // bed without name will not be saved 
+	        	bed.setRoomStart(Calendar.getInstance().getTime());
+	            saveBed(bed);
+        	}
         }
     }
 

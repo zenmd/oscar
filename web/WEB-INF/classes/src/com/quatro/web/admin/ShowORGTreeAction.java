@@ -40,7 +40,7 @@ public class ShowORGTreeAction extends DispatchAction {
 		
 		LookupTableDefValue tableDef = orgManager.GetLookupTableDef(tableId);
 
-		List lst = orgManager.LoadCodeList(tableId, true, null, null);
+		List lst = orgManager.LoadCodeList(tableId, false, null, null);
 	
 		MenuRepository repository = setMenu(lst, request);
 
@@ -58,32 +58,47 @@ public class ShowORGTreeAction extends DispatchAction {
 						MenuRepository.MENU_REPOSITORY_KEY);
 		repository.setDisplayers(defaultRepository.getDisplayers());
 
+		String inactiveCodeTree = "";
+		boolean hideInactive = false;
 		for (int i = 0; i < lst.size(); i++) {
 			MenuComponent mc = new MenuComponent();
 			LookupCodeValue obj = (LookupCodeValue) lst.get(i);
-			String name = obj.getCodeTree();
-			mc.setName(name);
-			String parent = null;
-			if (name.length() > 8)
-				parent = name.substring(0, name.length() - 8);
-			if (parent != null) {
-				MenuComponent parentMenu = repository.getMenu(parent);
-				if (parentMenu == null) {
-					parentMenu = new MenuComponent();
-					parentMenu.setName(parent);
-					repository.addMenu(parentMenu);
-				}
-
-				mc.setParent(parentMenu);
+			
+			if(inactiveCodeTree.length()>0 && !obj.getCodeTree().startsWith(inactiveCodeTree)){
+				hideInactive = false;
+			}			
+			
+			if(hideInactive == false && obj.isActive() == false){
+				inactiveCodeTree = obj.getCodeTree();
+				hideInactive = true;
 			}
-			String title = obj.getDescription();
-			mc.setTitle(title);
 
-			String location = "javascript:void(0);";
-
-			mc.setLocation(location);
-
-			repository.addMenu(mc);
+			
+			if(hideInactive == false){
+				String name = obj.getCodeTree();
+				mc.setName(name);
+				String parent = null;
+				if (name.length() > 8)
+					parent = name.substring(0, name.length() - 8);
+				if (parent != null) {
+					MenuComponent parentMenu = repository.getMenu(parent);
+					if (parentMenu == null) {
+						parentMenu = new MenuComponent();
+						parentMenu.setName(parent);
+						repository.addMenu(parentMenu);
+					}
+	
+					mc.setParent(parentMenu);
+				}
+				String title = obj.getDescription();
+				mc.setTitle(title);
+	
+				String location = "javascript:void(0);";
+	
+				mc.setLocation(location);
+	
+				repository.addMenu(mc);
+			}
 		}
 
 		return repository;

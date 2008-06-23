@@ -58,8 +58,11 @@
         for(i=0;i<parseInt(bedManagerForm.bedslines.value);i++){
           obj= document.getElementsByName("beds[" + i + "].name")[0] 
           if(obj.value==""){
-            alert("Bed name can not be empty.");
-            return;
+            if(confirm("Bed can not be saved if it do not have a name. Are you sure you want to continue?")){
+            	break;
+            }else{
+            	return;
+            }
           }
         }
         bedManagerForm.method.value='saveBeds';
@@ -76,8 +79,12 @@
         for(i=0;i<parseInt(bedManagerForm.roomslines.value);i++){
           obj= document.getElementsByName("rooms[" + i + "].name")[0] 
           if(obj.value==""){
-            alert("Room name can not be empty.");
-            return;
+            //alert("Room name can not be empty.");
+            if(confirm("Room can not be saved if it do not have a name. Are you sure you want to continue?")){
+            	break;
+            }else{
+            	return;
+            }
           }
         }
         bedManagerForm.method.value='saveRooms';
@@ -277,8 +284,12 @@ String s="debug";
 										</display:column>
 
 										<display:column title="Delete" sortable="true">	
-											<c:if test="${!isReadOnly}">									
-												<a href="javascript:deleteRoom2(<c:out value="${room.id}"/>);">Delete</a>											
+											<c:if test="${!isReadOnly}">	
+												
+												<c:if test="${room.id != null}">									
+													<a href="javascript:deleteRoom2(<c:out value="${room.id}"/>);">Delete</a>											
+												</c:if>								
+													
 											</c:if>
 										</display:column>
 
@@ -391,8 +402,11 @@ String s="debug";
 	
 											<display:column title="Delete" sortable="true">												
 												<c:if test="${!isReadOnly}">
-													<a href="javascript:deleteBed2(<c:out value="${bed.id}"/>);">Delete </a>
+													<c:if test="${bed.id != null}">	
+														<a href="javascript:deleteBed2(<c:out value="${bed.id}"/>);">Delete </a>
+													</c:if>
 												</c:if>
+												
 											</display:column>
 	
 										</display:table></td>
