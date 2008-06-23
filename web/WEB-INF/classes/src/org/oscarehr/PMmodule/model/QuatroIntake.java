@@ -29,6 +29,7 @@ public class QuatroIntake {
     private String inShelterBefore;
     private String lengthOfHomeless;
     private String reasonForHomeless;
+    private String reasonForService;
     
     private String pregnant;
     private String disclosedAbuse;
@@ -530,5 +531,11 @@ public class QuatroIntake {
 	}
 	public void setProgramName(String programName) {
 		this.programName = programName;
+	}
+	public String getReasonForService() {
+		return reasonForService;
+	}
+	public void setReasonForService(String reasonForService) {
+		this.reasonForService = reasonForService;
 	}
 }

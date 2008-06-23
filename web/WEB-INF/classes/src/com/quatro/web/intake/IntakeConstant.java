@@ -17,6 +17,7 @@ public class IntakeConstant {
 	  public static final int STATUSINCANADA = 8;
 	  public static final int REFERREDTO = 9;
 	  public static final int REASONNOADMIT = 10;
+	  public static final int REASONFORSERVICELIST = 11;  //reason for service dropdown values
 
 	  //other non-dropdown field constants
 	  public static final int CONTACTNAME = 11;
@@ -72,9 +73,10 @@ public class IntakeConstant {
 	  public static final int VAW = 59;
 	  public static final int INSHELTERBEFORE = 60;
 
+	  public static final int REASONFORSERVICE = 61;
 	  
 	  //total intake constant numbers defined here.
-	  public static final int TOTALITEMS = 61;
+	  public static final int TOTALITEMS = 62;
 	  
 	  private static HashMap PREFIX;
 	  
@@ -92,6 +94,7 @@ public class IntakeConstant {
 				PREFIX.put(new Integer(STATUSINCANADA), "SCA");
 				PREFIX.put(new Integer(REFERREDTO), "RFT");
 				PREFIX.put(new Integer(REASONNOADMIT), "RNA");
+				PREFIX.put(new Integer(REASONFORSERVICELIST), "RSV");
 			 }
 			 return PREFIX;
 		  }

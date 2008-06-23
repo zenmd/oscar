@@ -9,7 +9,7 @@ public class OptionList {
   public OptionList(){
 	 optionValues= new ArrayList();
 	 ArrayList obj= new ArrayList();
-	 for(int i=0;i<11;i++) optionValues.add(obj);
+	 for(int i=0;i<12;i++) optionValues.add(obj);
   }
   
   public List getOptionValues() {
@@ -48,6 +48,10 @@ public class OptionList {
 	  return (List)optionValues.get(IntakeConstant.REASONFORHOMELESS);
   }
 
+  public List getReasonForService(){
+	  return (List)optionValues.get(IntakeConstant.REASONFORSERVICELIST);
+  }
+  
   public List getSourceIncome(){
 	  return (List)optionValues.get(IntakeConstant.SOURCEINCOME);
   }

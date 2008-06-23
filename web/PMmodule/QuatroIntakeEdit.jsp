@@ -376,23 +376,29 @@ function checkExistClients(){
 							<td></td>
 						</tr>
 						<tr>
-							<td>Length of homelessness</td>
-							<td cospan="2"><html-el:select
-								property="intake.lengthOfHomeless">
-								<html-el:optionsCollection
-									property="optionList.lengthOfHomeless" value="value"
-									label="label" />
-							</html-el:select></td>
-							<td></td>
-						</tr>
-						<tr>
 							<td>Reason for homelessness</td>
-							<td cospan="2"><html-el:select
+							<td><html-el:select
 								property="intake.reasonForHomeless">
 								<html-el:optionsCollection
 									property="optionList.reasonForHomeless" value="value"
 									label="label" />
 							</html-el:select></td>
+							<td>Length of homelessness</td>
+							<td><html-el:select
+								property="intake.lengthOfHomeless">
+								<html-el:optionsCollection
+									property="optionList.lengthOfHomeless" value="value"
+									label="label" />
+							</html-el:select></td>
+						</tr>
+						<tr>
+							<td>Reason for Service</td>
+							<td><html-el:select property="intake.reasonForService">
+								<html-el:optionsCollection
+									property="optionList.reasonForService" value="value"
+									label="label" />
+							</html-el:select></td>
+							<td></td>
 							<td></td>
 						</tr>
 					</table>
@@ -601,7 +607,7 @@ function checkExistClients(){
 										property="intake.incomeWorkerName1" maxlength="30" /></td>
 									<td width="10%">Phone:</td>
 									<td width="42%"><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone1" maxlength="20" /></td>
+										property="intake.incomeWorkerPhone1" maxlength="25" /></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -616,7 +622,7 @@ function checkExistClients(){
 										property="intake.incomeWorkerName2" maxlength="30" /></td>
 									<td>Phone:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone2" maxlength="20" /></td>
+										property="intake.incomeWorkerPhone2" maxlength="25" /></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -631,7 +637,7 @@ function checkExistClients(){
 										property="intake.incomeWorkerName3" maxlength="30" /></td>
 									<td>Phone:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone3" maxlength="20" /></td>
+										property="intake.incomeWorkerPhone3" maxlength="25" /></td>
 								</tr>
 								<tr>
 									<td></td>
