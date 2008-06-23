@@ -194,13 +194,13 @@ function validateBirthDay(myDate){
 	
 	var today = new Date;
     if (date > today){
-      alert('Date of birth must not be greater than system date.');
+      alert('Date of birth must not be greater than current date.');
       return false;
     }
 
-    date.setDate(date.getDate()+120*365);       
+    date.setDate(date.getDate()+100*365);       
     if (date < today){
-      alert('Date of birth may not be less than 120 years before system date.');
+      alert('Date of birth may not be older than 100 years.');
       return false;
     }
     

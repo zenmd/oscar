@@ -607,7 +607,7 @@ function checkExistClients(){
 										property="intake.incomeWorkerName1" maxlength="30" /></td>
 									<td width="10%">Phone:</td>
 									<td width="42%"><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone1" maxlength="25" /></td>
+										property="intake.incomeWorkerPhone1" maxlength="21" /></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -622,7 +622,7 @@ function checkExistClients(){
 										property="intake.incomeWorkerName2" maxlength="30" /></td>
 									<td>Phone:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone2" maxlength="25" /></td>
+										property="intake.incomeWorkerPhone2" maxlength="21" /></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -637,7 +637,7 @@ function checkExistClients(){
 										property="intake.incomeWorkerName3" maxlength="30" /></td>
 									<td>Phone:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone3" maxlength="25" /></td>
+										property="intake.incomeWorkerPhone3" maxlength="21" /></td>
 								</tr>
 								<tr>
 									<td></td>
