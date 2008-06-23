@@ -14,15 +14,15 @@
 <OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
     width="500" height="300" align="baseline"
     codebase="http://java.sun.com/products/plugin/1.4/jinstall-14-win32.cab#Version=1,4,0,mn">
-    <PARAM NAME="code" VALUE="com.quatro.SigPlusAppDemo.class">
-    <PARAM NAME="archive" VALUE="topazJava_secured.jar, SigPlus2_51_secured.jar, comm_secured.jar">
+    <PARAM NAME="code" VALUE="com.quatro.SigPlusApp.class">
+    <PARAM NAME="archive" VALUE="topazApplet.jar, SigPlus2_51.jar, comm.jar">
     <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.4">
     <PARAM NAME="rid" VALUE="<%=request.getParameter("rid")%>">
     <PARAM NAME="moduleName" VALUE="<%=request.getParameter("moduleName")%>">
     <COMMENT>
         <EMBED type="application/x-java-applet;jpi-version=1.4" width="500"
-           height="200" align="baseline" code="com.quatro.SigPlusAppDemo.class" 
-           archive="topazJava_secured.jar, SigPlus2_51_secured.jar, comm_secured.jar" 
+           height="200" align="baseline" code="com.quatro.SigPlusApp.class" 
+           archive="topazApplet.jar, SigPlus2_51.jar, comm.jar" 
            pluginspage="http://java.sun.com/j2se/1.4/download.html">
             <NOEMBED>
                 No Java 2 SDK, Standard Edition v 1.4 support for APPLET!!
