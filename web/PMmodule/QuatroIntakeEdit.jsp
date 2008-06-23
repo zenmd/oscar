@@ -1,24 +1,30 @@
-<%@ include file="/taglibs.jsp" %>
-<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<bean:define id="language" name="quatroIntakeEditForm" property="language" type="com.quatro.model.LookupCodeValue" />
-<bean:define id="originalCountry" name="quatroIntakeEditForm" property="originalCountry" type="com.quatro.model.LookupCodeValue" />
+<%@ include file="/taglibs.jsp"%>
+<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
+<bean:define id="language" name="quatroIntakeEditForm"
+	property="language" type="com.quatro.model.LookupCodeValue" />
+<bean:define id="originalCountry" name="quatroIntakeEditForm"
+	property="originalCountry" type="com.quatro.model.LookupCodeValue" />
 
-<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
-<script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
- 
+<c:set var="ctx" value="${pageContext.request.contextPath}"
+	scope="request" />
+<script type="text/javascript"
+	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
+
 <html-el:form action="/PMmodule/QuatroIntakeEdit.do">
-<input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
-<html:hidden property="intake.staffId"/>
-<html:hidden property="intake.intakeStatus"/>
-<html:hidden property="intake.referralId"/>
-<html:hidden property="intake.queueId"/>
-<html:hidden property="intake.clientId"/>
-<html:hidden property="intake.id"/>
-<html:hidden property="intake.createdOnTxt" />
-<input type="hidden" name="method"/>
-<input type="hidden" name="newClientChecked" value="N"/>
-<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
-<script lang="javascript">
+	<input type="hidden" name="intakeHeadId"
+		value="<c:out value="${intakeHeadId}" />" />
+	<html:hidden property="intake.staffId" />
+	<html:hidden property="intake.intakeStatus" />
+	<html:hidden property="intake.referralId" />
+	<html:hidden property="intake.queueId" />
+	<html:hidden property="intake.clientId" />
+	<html:hidden property="intake.id" />
+	<html:hidden property="intake.createdOnTxt" />
+	<input type="hidden" name="method" />
+	<input type="hidden" name="newClientChecked" value="N" />
+	<input type="hidden" name="scrollPosition"
+		value='<c:out value="${scrPos}"/>' />
+	<script lang="javascript">
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 
 function submitForm(methodVal) {
@@ -29,6 +35,13 @@ function submitForm(methodVal) {
       obj.focus();
       return; 
     }
+    if(!isName(obj.value.trim())){
+      alert("First name should be alphabetic only.");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+    
     obj = document.getElementsByName("client.lastName")[0];
     if(obj.value.trim()==""){
       alert("Last name is empty.");
@@ -36,6 +49,13 @@ function submitForm(methodVal) {
       obj.focus();
       return; 
     }
+    if(!isName(obj.value.trim())){
+      alert("Last name should be alphabetic only.");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+    
     obj = document.getElementsByName("client.sex")[0];
     if(obj.value.trim()==""){
       alert("Gender is empty.");
@@ -76,6 +96,12 @@ function submitForm(methodVal) {
 	document.forms[0].submit();
 }
 
+function isName(str) 
+{ 
+    var reg = new RegExp(/^[a-zA-Z]+$/); 
+    return reg.test(str) 
+}
+
 function checkExistClients(){
    var lastName = document.getElementsByName("client.lastName")[0];
    var firstName = document.getElementsByName("client.firstName")[0];
@@ -91,401 +117,643 @@ function checkExistClients(){
    win.focus();
 }
 </script>
-<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
-	<tr><th class="pageTitle" align="center">Client Management - Add/Edit Intake</th></tr>
-	<tr>
-	<td>
-		<table width="100%" class="simple">
-			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
-			</tr>
-			<tr>
-				<td style="width: 15%"<font><b>Name</b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
-			</tr>
-		</table>
-	</td>
-	</tr>
-	<tr>
-		<td align="left" class="buttonBar">
-
-           <html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
-            <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Intake&nbsp;&nbsp;|</html:link>
-            
-			<c:if test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
-			 quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
-			  <a href='javascript:submitForm("save");'
+	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+		<tr>
+			<th class="pageTitle" align="center">Client Management -
+			Add/Edit Intake</th>
+		</tr>
+		<tr>
+			<td>
+			<table width="100%" class="simple">
+				<tr>
+					<td style="width: 15%"><font><b>Client No.</b></font></td>
+					<td colspan="3"><font><b><c:out
+						value="${client.demographicNo}" /></b></font></td>
+				</tr>
+				<tr>
+					<td style="width: 15%" <font><b>Name</b></font></td>
+					<td style="width: 35%"><font><b><c:out
+						value="${client.formattedName}" /></b></font></td>
+					<td style="width: 15%"><font><b>Date of Birth </b></font></td>
+					<td style="width: 35%"><font><b><c:out
+						value="${client.yearOfBirth}" />/<c:out
+						value="${client.monthOfBirth}" />/<c:out
+						value="${client.dateOfBirth}" /></b></font></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" class="buttonBar"><html:link
+				action="/PMmodule/QuatroIntake.do" name="actionParam"
 				style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-	         </c:if>
+            <img style="vertical-align: middle" border=0
+					src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Intake&nbsp;&nbsp;|</html:link>
 
-         <c:if test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
-           <c:choose>
-            <c:when test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
+			<c:if
+				test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
+			 quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
+				<a href='javascript:submitForm("save");'
+					style="color:Navy;text-decoration:none;">&nbsp; <img
+					style="vertical-align: middle" border=0
+					src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+	         </c:if> <c:if
+				test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
+				<c:choose>
+					<c:when
+						test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
 	    	 (quatroIntakeEditForm.intake.intakeStatus=='admitted' && intakeHeadId>0)}">
-             | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
-             <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
+             | <a
+							href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>"
+							style="color:Navy;text-decoration:none;"> <img border=0
+							src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
 
-             <c:choose>
-               <c:when test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
+						<c:choose>
+							<c:when
+								test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
                (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
-               | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>" style="color:Navy;text-decoration:none;">
-                <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission</a>
-               </c:when>
-             </c:choose>       
+               | <a
+									href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
+									style="color:Navy;text-decoration:none;"> <img border=0
+									src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission</a>
+							</c:when>
+						</c:choose>
 
-         </c:when>
-         <c:when test="intakeHeadId gt 0">
-             | <a href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:none;">
-             <img border=0 src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intakex</a>
-         </c:when>
-         </c:choose>       
+					</c:when>
+					<c:when test="intakeHeadId gt 0">
+             | <a
+							href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>"
+							style="color:Navy;text-decoration:none;"> <img border=0
+							src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family
+						Intakex</a>
+					</c:when>
+				</c:choose>
 
-         </c:if>
-            </td>
-	</tr>
-	<tr><td align="left" class="message">
-      <logic:messagesPresent message="true">
-        <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
-        </html:messages> 
-      </logic:messagesPresent>
-	</td></tr>
-	<tr>
-		<td height="100%">
-		<div id="scrollBar"  onscroll="getDivPosition()"
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-<!--  start of page content -->
-<table width="100%">
+			</c:if></td>
+		</tr>
+		<tr>
+			<td align="left" class="message"><logic:messagesPresent
+				message="true">
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" />
+				</html:messages>
+			</logic:messagesPresent></td>
+		</tr>
+		<tr>
+			<td height="100%">
+			<div id="scrollBar" onscroll="getDivPosition()"
+				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+                    height: 100%; width: 100%; overflow: auto;"
+				id="scrollBar"><!--  start of page content -->
+			<table width="100%">
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Personal information</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Personal information</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="15%">First name*</td>
-<td width="35%"><html:hidden property="client.effDateTxt" />
-<html-el:text property="client.firstName" size="20" maxlength="30" /></td>
-<td width="19%">Gender*</td>
-<td width="31%"><html-el:select property="client.sex">
-   <html-el:optionsCollection property="optionList.gender" value="value" label="label"/>
-</html-el:select></td></tr>
-<tr><td>Last name*</td><td><html-el:text property="client.lastName" size="20" maxlength="30" /></td>
-<td>Date of birth*<br>(yyyy/mm/dd)</td><td>
-<quatro:datePickerTag property="dob" width="65%" openerForm="quatroIntakeEditForm">
-</quatro:datePickerTag>
-</td></tr>
-<tr><td>Alias</td>
-<td><html-el:text size="30" maxlength="70" property="client.alias"/></td>
-<td>
-<c:if test="${newClientFlag=='true'}">
-<html:link href="javascript:checkExistClients();" style="color:Navy;text-decoration:none;">
-<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="15%">First name*</td>
+							<td width="35%"><html:hidden property="client.effDateTxt" />
+							<html-el:text property="client.firstName" size="20"
+								maxlength="30" /></td>
+							<td width="19%">Gender*</td>
+							<td width="31%"><html-el:select property="client.sex">
+								<html-el:optionsCollection property="optionList.gender"
+									value="value" label="label" />
+							</html-el:select></td>
+						</tr>
+						<tr>
+							<td>Last name*</td>
+							<td><html-el:text property="client.lastName" size="20"
+								maxlength="30" /></td>
+							<td>Date of birth*<br>
+							(yyyy/mm/dd)</td>
+							<td><quatro:datePickerTag property="dob" width="65%"
+								openerForm="quatroIntakeEditForm">
+							</quatro:datePickerTag></td>
+						</tr>
+						<tr>
+							<td>Alias</td>
+							<td><html-el:text size="30" maxlength="70"
+								property="client.alias" /></td>
+							<td><c:if test="${newClientFlag=='true'}">
+								<html:link href="javascript:checkExistClients();"
+									style="color:Navy;text-decoration:none;">
+									<img border="0"
+										src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
 </html:link>
-</c:if>
-</td>
-<td>
-<c:choose>
-<c:when test="${quatroIntakeEditForm.client.demographicNo>0}">
-<input type="text" name="statusMsg" value="(existing client)" readonly="readonly" style="border: 0px">
-</c:when>
-<c:otherwise>
-<input type="text" name="statusMsg" readonly="readonly" value="(new client)" style="border: 0px">
-</c:otherwise>
-</c:choose>
-</td></tr>
-</table>
-</td></tr>
+							</c:if></td>
+							<td><c:choose>
+								<c:when test="${quatroIntakeEditForm.client.demographicNo>0}">
+									<input type="text" name="statusMsg" value="(existing client)"
+										readonly="readonly" style="border: 0px">
+								</c:when>
+								<c:otherwise>
+									<input type="text" name="statusMsg" readonly="readonly"
+										value="(new client)" style="border: 0px">
+								</c:otherwise>
+							</c:choose></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Referred by</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Referred by</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="20%">Referred by</td>
-<td width="80%"><html-el:select property="intake.referredBy">
-<html-el:optionsCollection property="optionList.referredBy" value="value" label="label"/>
-</html-el:select></td></tr>
-<tr><td>Contact name</td>
-<td><html-el:text style="width: 50%" property="intake.contactName" maxlength="80" /></td></tr>
-<tr><td>Contact number</td>
-<td><html-el:text style="width: 35%" property="intake.contactNumber" maxlength="25"  /></td></tr>
-<tr><td>Contact email</td>
-<td><html-el:text style="width: 50%" property="intake.contactEmail" maxlength="50" /></td></tr>
-</table>
-</td></tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="20%">Referred by</td>
+							<td width="80%"><html-el:select property="intake.referredBy">
+								<html-el:optionsCollection property="optionList.referredBy"
+									value="value" label="label" />
+							</html-el:select></td>
+						</tr>
+						<tr>
+							<td>Contact name</td>
+							<td><html-el:text style="width: 50%"
+								property="intake.contactName" maxlength="80" /></td>
+						</tr>
+						<tr>
+							<td>Contact number</td>
+							<td><html-el:text style="width: 35%"
+								property="intake.contactNumber" maxlength="21" /></td>
+						</tr>
+						<tr>
+							<td>Contact email</td>
+							<td><html-el:text style="width: 50%"
+								property="intake.contactEmail" maxlength="50" /></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Other information</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Other information</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="22%">Language</td>
-<td width="32%"><quatro:lookupTag name="language" tableName="LNG" formProperty="quatroIntakeEditForm" 
-   codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" showCode="false" /></td>
-<td width="19%">Youth</td>
-<td width="27%"><html-el:select property="intake.youth">
-   <html-el:option value="1">Yes</html-el:option>
-   <html-el:option value="0">No</html-el:option>
-</html-el:select></td></tr>
-<tr><td>Aboriginal</td>
-<td><html-el:select property="intake.aboriginal">
-<html-el:optionsCollection property="optionList.aboriginal" value="value" label="label"/>
-</html-el:select></td>
-<td>Aboriginal other</td>
-<td><html-el:text property="intake.aboriginalOther" maxlength="100" /></td></tr>
-<tr><td>VAW</td>
-<td><html-el:select property="intake.VAW">
-   <html-el:option value="1">Yes</html-el:option>
-   <html-el:option value="0">No</html-el:option>
-</html-el:select></td><td></td><td></td></tr>
-<tr><td>Current sleeping arrangements</td>
-<td cospan="2"><html-el:select property="intake.curSleepArrangement">
-<html-el:optionsCollection property="optionList.curSleepArrangement" value="value" label="label"/>
-</html-el:select></td><td></td></tr>
-<tr><td>Have you stayed in a shelter before?</td>
-<td><html-el:select property="intake.inShelterBefore">
-   <html-el:option value="1" key="1">Yes</html-el:option>
-   <html-el:option value="1" key="0">No</html-el:option>
-</html-el:select></td><td></td><td></td></tr>
-<tr><td>Length of homelessness</td>
-<td cospan="2"><html-el:select property="intake.lengthOfHomeless">
-<html-el:optionsCollection property="optionList.lengthOfHomeless" value="value" label="label"/>
-</html-el:select></td><td></td></tr>
-<tr><td>Reason for homelessness</td>
-<td cospan="2"><html-el:select property="intake.reasonForHomeless">
-<html-el:optionsCollection property="optionList.reasonForHomeless" value="value" label="label"/>
-</html-el:select></td><td></td></tr>
-</table>
-</td></tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="22%">Language</td>
+							<td width="32%"><quatro:lookupTag name="language"
+								tableName="LNG" formProperty="quatroIntakeEditForm"
+								codeProperty="code" bodyProperty="description" width="90%"
+								codeWidth="1px" showCode="false" /></td>
+							<td width="19%">Youth</td>
+							<td width="27%"><html-el:select property="intake.youth">
+								<html-el:option value="1">Yes</html-el:option>
+								<html-el:option value="0">No</html-el:option>
+							</html-el:select></td>
+						</tr>
+						<tr>
+							<td>Aboriginal</td>
+							<td><html-el:select property="intake.aboriginal">
+								<html-el:optionsCollection property="optionList.aboriginal"
+									value="value" label="label" />
+							</html-el:select></td>
+							<td>Aboriginal other</td>
+							<td><html-el:text property="intake.aboriginalOther"
+								maxlength="100" /></td>
+						</tr>
+						<tr>
+							<td>VAW</td>
+							<td><html-el:select property="intake.VAW">
+								<html-el:option value="1">Yes</html-el:option>
+								<html-el:option value="0">No</html-el:option>
+							</html-el:select></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Current sleeping arrangements</td>
+							<td cospan="2"><html-el:select
+								property="intake.curSleepArrangement">
+								<html-el:optionsCollection
+									property="optionList.curSleepArrangement" value="value"
+									label="label" />
+							</html-el:select></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Have you stayed in a shelter before?</td>
+							<td><html-el:select property="intake.inShelterBefore">
+								<html-el:option value="1" key="1">Yes</html-el:option>
+								<html-el:option value="1" key="0">No</html-el:option>
+							</html-el:select></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Length of homelessness</td>
+							<td cospan="2"><html-el:select
+								property="intake.lengthOfHomeless">
+								<html-el:optionsCollection
+									property="optionList.lengthOfHomeless" value="value"
+									label="label" />
+							</html-el:select></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Reason for homelessness</td>
+							<td cospan="2"><html-el:select
+								property="intake.reasonForHomeless">
+								<html-el:optionsCollection
+									property="optionList.reasonForHomeless" value="value"
+									label="label" />
+							</html-el:select></td>
+							<td></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Presenting issues</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Presenting issues</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="15%"></td>
-<td width="20%"></td>
-<td width="15%"></td>
-<td width="35%"></td>
-<td></td></tr>
-<tr><td>Disability</td>
-<td colspan="2"><html-el:text style="width: 80%" property="intake.disability" maxlength="100" /></td>
-<td>Disclosed substance abuse</td>
-<td><html-el:checkbox property="intake.disclosedAbuse" value="1"/></td></tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="15%"></td>
+							<td width="20%"></td>
+							<td width="15%"></td>
+							<td width="35%"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Disability</td>
+							<td colspan="2"><html-el:text style="width: 80%"
+								property="intake.disability" maxlength="100" /></td>
+							<td>Disclosed substance abuse</td>
+							<td><html-el:checkbox property="intake.disclosedAbuse"
+								value="1" /></td>
+						</tr>
 						<tr>
 							<td>Pregnant</td>
 							<td></td>
-							<td><html-el:checkbox property="intake.pregnant" value="1"/></td>
+							<td><html-el:checkbox property="intake.pregnant" value="1" /></td>
 							<td>Observed substance abuse</td>
-							<td><html-el:checkbox property="intake.observedAbuse" value="1"/></td>
+							<td><html-el:checkbox property="intake.observedAbuse"
+								value="1" /></td>
 						</tr>
-						<tr><td colspan="2">Disclosed mental health issues</td>
-<td><html-el:checkbox property="intake.disclosedMentalIssue" value="1"/></td>
-<td>Poor hygiene</td>
-<td><html-el:checkbox property="intake.poorHygiene" value="1"/></td></tr>
-<tr><td colspan="2">Observed mental health issues</td>
-<td><html-el:checkbox property="intake.observedMentalIssue" value="1"/></td>
-<td>Disclosed alcohol abuse</td>
-<td><html-el:checkbox property="intake.disclosedAlcoholAbuse" value="1"/></td></tr>
-<tr><td colspan="2"></td><td></td>
-<td>Observed alcohol abuse</td>
-<td><html-el:checkbox property="intake.observedAlcoholAbuse" value="1"/></td></tr>
-</table>
-</td></tr>
+						<tr>
+							<td colspan="2">Disclosed mental health issues</td>
+							<td><html-el:checkbox property="intake.disclosedMentalIssue"
+								value="1" /></td>
+							<td>Poor hygiene</td>
+							<td><html-el:checkbox property="intake.poorHygiene"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td colspan="2">Observed mental health issues</td>
+							<td><html-el:checkbox property="intake.observedMentalIssue"
+								value="1" /></td>
+							<td>Disclosed alcohol abuse</td>
+							<td><html-el:checkbox
+								property="intake.disclosedAlcoholAbuse" value="1" /></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+							<td></td>
+							<td>Observed alcohol abuse</td>
+							<td><html-el:checkbox property="intake.observedAlcoholAbuse"
+								value="1" /></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Identification</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Identification</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="30%">Birth Certificate</td>
-<td width="50%"><html-el:text property="intake.birthCertificate" size="20" maxlength="30" /></td>
-<td width="10%">On file?</td>
-<td width="10%"><html-el:checkbox property="intake.birthCertificateYN" value="1" /></td></tr>
-<tr><td>Social Insurance No.</td>
-<td><html-el:text property="intake.SIN" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.SINYN" value="1"/></td></tr>
-<tr><td>Health card No.</td>
-<td><html-el:text property="intake.healthCardNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.healthCardNoYN" value="1" /></td></tr>
-<tr><td>Driver's License No.</td>
-<td><html-el:text property="intake.driverLicenseNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td width="53"><html-el:checkbox property="intake.driverLicenseNoYN" value="1" /></td></tr>
-<tr><td>Canadian Citizenship Card</td>
-<td><html-el:text property="intake.citizenCardNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.citizenCardNoYN" value="1" /></td></tr>
-<tr><td>Native Reserve Card</td>
-<td><html-el:text property="intake.nativeReserveNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.nativeReserveNoYN" value="1" /></td></tr>
-<tr><td>Veteran No.</td>
-<td><html-el:text property="intake.veteranNo" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.veteranNoYN" value="1"/></td></tr>
-<tr><td>Record of Landing</td>
-<td><html-el:text property="intake.recordLanding" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.recordLandingYN" value="1"/></td></tr>
-<tr><td>Library Card</td>
-<td><html-el:text property="intake.libraryCard" size="20" maxlength="30" /></td>
-<td>On file?</td>
-<td><html-el:checkbox property="intake.libraryCardYN" value="1"/></td></tr>
-<tr><td>Other</td>
-<td><html-el:text property="intake.idOther" size="20" maxlength="30" /></td>
-<td></td><td width="53"></td></tr>
-</table>
-</td></tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="30%">Birth Certificate</td>
+							<td width="50%"><html-el:text
+								property="intake.birthCertificate" size="20" maxlength="30" /></td>
+							<td width="10%">On file?</td>
+							<td width="10%"><html-el:checkbox
+								property="intake.birthCertificateYN" value="1" /></td>
+						</tr>
+						<tr>
+							<td>Social Insurance No.</td>
+							<td><html-el:text property="intake.SIN" size="20"
+								maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.SINYN" value="1" /></td>
+						</tr>
+						<tr>
+							<td>Health card No.</td>
+							<td><html-el:text property="intake.healthCardNo" size="20"
+								maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.healthCardNoYN"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td>Driver's License No.</td>
+							<td><html-el:text property="intake.driverLicenseNo"
+								size="20" maxlength="30" /></td>
+							<td>On file?</td>
+							<td width="53"><html-el:checkbox
+								property="intake.driverLicenseNoYN" value="1" /></td>
+						</tr>
+						<tr>
+							<td>Canadian Citizenship Card</td>
+							<td><html-el:text property="intake.citizenCardNo" size="20"
+								maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.citizenCardNoYN"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td>Native Reserve Card</td>
+							<td><html-el:text property="intake.nativeReserveNo"
+								size="20" maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.nativeReserveNoYN"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td>Veteran No.</td>
+							<td><html-el:text property="intake.veteranNo" size="20"
+								maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.veteranNoYN"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td>Record of Landing</td>
+							<td><html-el:text property="intake.recordLanding" size="20"
+								maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.recordLandingYN"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td>Library Card</td>
+							<td><html-el:text property="intake.libraryCard" size="20"
+								maxlength="30" /></td>
+							<td>On file?</td>
+							<td><html-el:checkbox property="intake.libraryCardYN"
+								value="1" /></td>
+						</tr>
+						<tr>
+							<td>Other</td>
+							<td><html-el:text property="intake.idOther" size="20"
+								maxlength="30" /></td>
+							<td></td>
+							<td width="53"></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Additional information</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Additional information</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="20%">Source of income</td>
-<td width="35%">
-<c:forEach var="sIncome" items="${quatroIntakeEditForm.optionList.sourceIncome}">
-<html-el:multibox property="intake.sourceIncome" value="${sIncome.value}"  /><c:out value="${sIncome.label}" /><br />
-</c:forEach>
-
-</td>
-<td width="8%">Other</td>
-<td width="37%"><html-el:text property="intake.income" size="20" maxlength="30" /></td></tr>
-<tr><td>Name and contact information for income worker (if applicable)</td>
-<td colspan="3"><table style="background-color:#e0e0e0;" width="100%" cellpadding="1" cellspacing="1">
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="20%">Source of income</td>
+							<td width="35%"><c:forEach var="sIncome"
+								items="${quatroIntakeEditForm.optionList.sourceIncome}">
+								<html-el:multibox property="intake.sourceIncome"
+									value="${sIncome.value}" />
+								<c:out value="${sIncome.label}" />
+								<br />
+							</c:forEach></td>
+							<td width="8%">Other</td>
+							<td width="37%"><html-el:text property="intake.income"
+								size="20" maxlength="30" /></td>
+						</tr>
+						<tr>
+							<td>Name and contact information for income worker (if
+							applicable)</td>
+							<td colspan="3">
+							<table style="background-color:#e0e0e0;" width="100%"
+								cellpadding="1" cellspacing="1">
 								<tr>
 									<td width="9%">Name:</td>
 									<td width="39%"><html-el:text style="width: 95%"
-										property="intake.incomeWorkerName1"  maxlength="30" /></td>
+										property="intake.incomeWorkerName1" maxlength="30" /></td>
 									<td width="10%">Phone:</td>
 									<td width="42%"><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone1"  maxlength="20" /></td>
+										property="intake.incomeWorkerPhone1" maxlength="20" /></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td></td>
 									<td>Email:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerEmail1"  maxlength="30" /></td>
+										property="intake.incomeWorkerEmail1" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<td>Name:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerName2"  maxlength="30" /></td>
+										property="intake.incomeWorkerName2" maxlength="30" /></td>
 									<td>Phone:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone2"  maxlength="20" /></td>
+										property="intake.incomeWorkerPhone2" maxlength="20" /></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td></td>
 									<td>Email:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerEmail2"  maxlength="30" /></td>
+										property="intake.incomeWorkerEmail2" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<td>Name:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerName3"  maxlength="30" /></td>
+										property="intake.incomeWorkerName3" maxlength="30" /></td>
 									<td>Phone:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerPhone3"  maxlength="20" /></td>
+										property="intake.incomeWorkerPhone3" maxlength="20" /></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td></td>
 									<td>Email:</td>
 									<td><html-el:text style="width: 95%"
-										property="intake.incomeWorkerEmail3"  maxlength="30" /></td>
+										property="intake.incomeWorkerEmail3" maxlength="30" /></td>
 								</tr>
-</table>
-</td></tr>
-<tr><td>Lived the last 12 months*</td>
-<td><html-el:select property="intake.livedBefore">
-<html-el:optionsCollection property="optionList.livedBefore" value="value" label="label"/>
-</html-el:select></td>
-<td>Other</td>
-<td><html-el:text property="intake.livedBeforeOther" size="20" maxlength="30" /></td></tr>
-<tr><td>Status in Canada</td>
-<td><html-el:select property="intake.statusInCanada">
-<html-el:optionsCollection property="optionList.statusInCanada" value="value" label="label"/>
-</html-el:select></td>
-<td></td><td></td></tr>
-<tr><td>Country of origin</td>
-<td><quatro:lookupTag name="originalCountry" tableName="CNT" formProperty="quatroIntakeEditForm" 
-   codeProperty ="code" bodyProperty="description" width="90%" codeWidth="1px" showCode="false" /></td>
-<td></td><td></td></tr>
-<tr><td>Referred to</td>
-<td><html-el:select property="intake.referredTo">
-<html-el:optionsCollection property="optionList.referredTo" value="value" label="label"/>
-</html-el:select></td>
-<td></td><td></td></tr>
-<tr><td>Reason for non-admittance</td>
-<td><html-el:select property="intake.reasonNoAdmit">
-<html-el:optionsCollection property="optionList.reasonNoAdmit" value="value" label="label"/>
-</html-el:select></td>
-<td></td><td></td></tr>
-</table>
-</td></tr>
+							</table>
+							</td>
+						</tr>
+						<tr>
+							<td>Lived the last 12 months*</td>
+							<td><html-el:select property="intake.livedBefore">
+								<html-el:optionsCollection property="optionList.livedBefore"
+									value="value" label="label" />
+							</html-el:select></td>
+							<td>Other</td>
+							<td><html-el:text property="intake.livedBeforeOther"
+								size="20" maxlength="30" /></td>
+						</tr>
+						<tr>
+							<td>Status in Canada</td>
+							<td><html-el:select property="intake.statusInCanada">
+								<html-el:optionsCollection property="optionList.statusInCanada"
+									value="value" label="label" />
+							</html-el:select></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Country of origin</td>
+							<td><quatro:lookupTag name="originalCountry" tableName="CNT"
+								formProperty="quatroIntakeEditForm" codeProperty="code"
+								bodyProperty="description" width="90%" codeWidth="1px"
+								showCode="false" /></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Referred to</td>
+							<td><html-el:select property="intake.referredTo">
+								<html-el:optionsCollection property="optionList.referredTo"
+									value="value" label="label" />
+							</html-el:select></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Reason for non-admittance</td>
+							<td><html-el:select property="intake.reasonNoAdmit">
+								<html-el:optionsCollection property="optionList.reasonNoAdmit"
+									value="value" label="label" />
+							</html-el:select></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Program</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Program</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="20%">Program*</td>
-<td width="30%"><html-el:hidden property="intake.currentProgramId" />
-<html-el:select property="intake.programId">
-<option value=""> --- </option>
-<html-el:optionsCollection property="programList" value="value" label="label" />
-</html-el:select></td>
-	<td width="25%">End Date (service program)</td>
-	<td width="25%">
-		<quatro:datePickerTag property="intake.endDateTxt" openerForm="quatroIntakeEditForm">
-		</quatro:datePickerTag>
-	</td>
-</tr>
-</table>
-</td>
-</tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="20%">Program*</td>
+							<td width="30%"><html-el:hidden
+								property="intake.currentProgramId" /> <html-el:select
+								property="intake.programId">
+								<option value=""></option>
+								<html-el:optionsCollection property="programList" value="value"
+									label="label" />
+							</html-el:select></td>
+							<td width="25%">End Date (service program)</td>
+							<td width="25%"><quatro:datePickerTag
+								property="intake.endDateTxt" openerForm="quatroIntakeEditForm">
+							</quatro:datePickerTag></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-<tr><td><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Comments/Details</th></tr>
-</table></div></td></tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Comments/Details</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
-<tr><td>
-<table width="100%" class="simple">
-<tr><td width="15%">Comments/Details</td>
-<td width="85%"><html-el:textarea property="intake.comments" rows="6" style="width:90%" /></td></tr>
-</table>
-</td></tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="15%">Comments/Details</td>
+							<td width="85%"><html-el:textarea property="intake.comments"
+								rows="6" style="width:90%" /></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 
-</table>
-<!--  end of page content -->
-</div>
-</td>
-</tr>
-</table>
-<%@ include file="/common/readonly.jsp" %>
+			</table>
+			<!--  end of page content --></div>
+			</td>
+		</tr>
+	</table>
+	<%@ include file="/common/readonly.jsp"%>
 </html-el:form>
