@@ -14,32 +14,28 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		<th class="pageTitle" align="center">Program Management - Search</th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
 			</html:link>
-			<html:link
-				href="javascript:submitForm('add');"
-				style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;|
-			</html:link>
-			<html:link href="javascript:submitForm('list');"
-				style="color:Navy;text-decoration:none;">&nbsp;
+			<c:if test="${!isReadOnly}">
+				<html:link	href="javascript:submitForm('add');"	style="color:Navy;text-decoration:none;">&nbsp;
+					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;|
+				</html:link>
+			</c:if>
+			<html:link href="javascript:submitForm('list');"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;|
 			</html:link>
-			<html:link href="javascript:resetForm();"
-				style="color:Navy;text-decoration:none;">&nbsp;
+			<html:link href="javascript:resetForm();"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;</html:link>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<logic:messagesPresent message="true">
-				<br />
+			<logic:messagesPresent message="true">				
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
-				</html:messages>
-				<br />
+				</html:messages>				
 			</logic:messagesPresent>
 		</td>
 	</tr>
@@ -101,36 +97,28 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 	</tr>
 	<tr height="100%">
 		<td>
-   			<div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
-                        width: 100%; height: 100%; overflow: auto">
+   			<div style="color: Black; background-color: White; border-style: ridge; border-width: 1px; width: 100%; height: 100%; overflow: auto">
 	
-			<display:table class="simple" cellspacing="2" cellpadding="3"
-				id="program" name="programs" export="false" pagesize="0"
+			<display:table class="simple" cellspacing="2" cellpadding="3"	id="program" name="programs" export="false" pagesize="0"
 				requestURI="/PMmodule/ProgramManager.do">
 				<display:setProperty name="paging.banner.placement" value="bottom" />
 				<display:setProperty name="paging.banner.item_name" value="program" />
 				<display:setProperty name="paging.banner.items_name" value="programs" />
-				<display:setProperty name="basic.msg.empty_list"
-					value="No programs found." />
+				<display:setProperty name="basic.msg.empty_list" value="No programs found." />
 
-				<display:column sortable="false" title="">
-					<security:oscarSec objectName="_pmm.programList" rights="u" orgCd='P<c:out value="${program.id}" />'>
-						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&id=<c:out value="${program.id}" />">
-							Edit </a>
-					</security:oscarSec>		
+				<display:column sortable="false" title="">					
+						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&programId=<c:out value="${program.id}" />">
+							View </a>
 				</display:column>
 					
 				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
-					<a
-						href="<html:rewrite action="/PMmodule/ProgramManagerView.do"/>?id=<c:out value="${program.id}" />">
+					<a	href="<html:rewrite action="/PMmodule/ProgramManagerView.do"/>?programId=<c:out value="${program.id}" />">
 					<c:out value="${program.name}" /> </a>
 				</display:column>
 				<display:column property="descr" sortable="true" title="Description" />
 				<display:column property="type" sortable="true" title="Type" />
-				<display:column property="programStatus" sortable="true"
-					title="Status" />
-				<display:column property="facilityDesc" sortable="true" title="Facility" />
-				
+				<display:column property="programStatus" sortable="true"	title="Status" />
+				<display:column property="facilityDesc" sortable="true" title="Facility" />				
 				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
 					<c:out value="${program.numOfMembers}" />
 				</display:column>
@@ -173,6 +161,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 			</div>
 		</td>
 	</tr>
-
 </table>
+	<%@ include file="/common/readonly.jsp" %>
+
 	

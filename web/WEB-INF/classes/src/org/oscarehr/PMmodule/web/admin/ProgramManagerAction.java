@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.BaseProgramAction;
 import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
@@ -65,8 +67,9 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.security.Secuserrole;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.UsersManager;
+import com.quatro.util.Utility;
 
-public class ProgramManagerAction extends BaseAction {
+public class ProgramManagerAction extends BaseProgramAction {
 
     private ClientRestrictionManager clientRestrictionManager;
     private FacilityDAO facilityDAO=null;
@@ -126,10 +129,15 @@ public class ProgramManagerAction extends BaseAction {
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
 
-        String id = request.getParameter("id");
+        String id = request.getParameter("programId");
         if(id == null || id.equals(""))
-        	id = (String)request.getAttribute("id");
-        
+        	id = (String)request.getAttribute("programId");
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("programId", id); 
+        }
+        request.setAttribute("actionParam", actionParam);
         Integer programId = Integer.valueOf(id);
         if (id != null) {
             Program program = programManager.getProgram(id);
@@ -157,14 +165,28 @@ public class ProgramManagerAction extends BaseAction {
         }
 
         setEditAttributes(request, id);
-
+        String viewTab=request.getParameter("view.tab");
+        if(Utility.IsEmpty(viewTab)) viewTab=KeyConstants.TAB_PROGRAM_GENERAL;
         ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
-        if (view.getTab() == null || view.getTab().equals("")) {
-            view.setTab("General");
-        }
-        if (view.getTab().equalsIgnoreCase("Staff")) {
+        view.setTab(viewTab);  
+       
+        if (view.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
         	processStaff( request, programId, view);
+        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
+            boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
+            if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+             
+        }else if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
+        	 super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
+             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
+             if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);        	
         }
+        else{
+        	 super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
+             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
+             if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+        }
+        
         return mapping.findForward("edit");
     }
     public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -736,7 +758,7 @@ public class ProgramManagerAction extends BaseAction {
 			lst = programManager.getProgramProviders("P" + programId, true);
 		}
 		
-		request.setAttribute("existStaffLst", lst);
+		request.setAttribute("existStaffLst", lst);		
    	
     }
 
@@ -1081,8 +1103,7 @@ public class ProgramManagerAction extends BaseAction {
         logManager.log("write", "edit program - save function user", String.valueOf(program.getId()), request);
 
         programForm.set("function", new ProgramFunctionalUser());
-        setEditAttributes(request, String.valueOf(program.getId()));
-
+        setEditAttributes(request, String.valueOf(program.getId()));        
         return mapping.findForward("edit");
     }
 /*

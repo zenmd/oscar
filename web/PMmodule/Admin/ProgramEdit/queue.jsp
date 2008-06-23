@@ -50,3 +50,4 @@ function removeFromQueue(id) {
 	<display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
 	<display:column property="notes" sortable="true" title="Notes" />
 </display:table>
+<%@ include file="/common/readonly.jsp" %>

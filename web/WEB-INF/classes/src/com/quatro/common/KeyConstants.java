@@ -71,7 +71,13 @@ public class KeyConstants {
   public static final String TAB_CLIENT_TASK="tabTask";
   public static final String TAB_CLIENT_HEALTH="tabHealth";
   public static final String TAB_CLIENT_PRINTLABEL="tabPrintLabel";
-   
+  public static final String TAB_PROGRAM_GENERAL =  "General";
+  public static final String TAB_PROGRAM_QUEUE="Queue";
+  public static final String TAB_PROGRAM_CLIENTS="Clients";
+  public static final String TAB_PROGRAM_INCIDENTS="Incidents";
+  public static final String TAB_PROGRAM_SEVICE="Service"; 
+  public static final String TAB_PROGRAM_STAFF="Staff"; 
+  
   public static final String STATUS_ADMITTED = "admitted";
   public static final String STATUS_DISCHARGED = "discharged";
   public static final String STATUS_REJECTED = "rejected";

@@ -53,12 +53,13 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 </script>
 <table width="100%">
 	<tr height="18px">
-		<td align="left" class="buttonBar"><a href="javascript:clickTab('General')"
+		<td align="left" class="buttonBar2"><a href="javascript:clickTab('General')"
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
-		<html:link href="javascript:save();"
-			style="color:Navy;text-decoration:none;">
+		<c:if test="${!isReadOnly}">
+			<html:link href="javascript:save();" style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
+		</c:if>	
 		</td>
 	</tr>
 	<!-- messages -->
@@ -93,3 +94,4 @@ The following parameters will be applied on new service restrictions for this pr
 	</tr>
 </table>
 <br/>
+<%@ include file="/common/readonly.jsp" %>

@@ -118,34 +118,31 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 	border="0">
 	<!-- submenu -->
 	<tr>
-		<td align="left" class="buttonBar"><html:link
-			action="/PMmodule/ProgramManager.do"
-			style="color:Navy;text-decoration:none;">
+		<td align="left" class="buttonBar2">
+			<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
-		<html:link href="javascript:save();"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
-
+			<c:if test="${!isReadOnly}">
+				<html:link href="javascript:save();"
+				style="color:Navy;text-decoration:none;">
+				<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
+			</c:if>
 		</td>
 	</tr>
 
 	<!-- messages -->
 	<tr>
 		<td align="left" class="message">
-			<logic:messagesPresent message="true">
-				<br />
+			<logic:messagesPresent message="true">			
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
-				<br />
 			</logic:messagesPresent>
 		</td>
 	</tr>
 	
 	<tr>
 		<td height="100%">
-		<div
-			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+		<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
 		<!-- Page Content Start --> 
@@ -161,12 +158,11 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 			<table width="100%" border="1" cellspacing="2" cellpadding="3">
 				<tr class="b">
-					<td width="20%">Name:</td>
-					<td><html:text property="program.name" size="30"
-						maxlength="70" /></td>
+					<td width="20%">Name</td>
+					<td><html:text property="program.name" size="30"	maxlength="70" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Facility:</td>
+					<td width="20%">Facility</td>
 					<td><html-el:select property="program.facilityId">
 						<c:forEach var="facility" items="${facilities}">
 							<html-el:option value="${facility.id}">
@@ -176,17 +172,16 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					</html-el:select></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Description:</td>
-					<td><html:text property="program.descr" size="30"
-						maxlength="255" /></td>
+					<td width="20%">Description</td>
+					<td><html:text property="program.descr" size="30" maxlength="255" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Heath Information Custodian:</td>
+					<td width="20%">Heath Information Custodian</td>
 					<td><html:checkbox property="program.hic" /></td>
 				</tr>
 				
 				<tr class="b">
-					<td width="20%">Type:</td>
+					<td width="20%">Type</td>
 					<td><html-el:select property="program.type">
 						<c:forEach var="pt" items="${programTypeLst}">
 							<html-el:option value="${pt.code}">
@@ -196,7 +191,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					</html-el:select></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Status:</td>
+					<td width="20%">Status</td>
 					<td><html:select property="program.programStatus">
 						<html:option value="active" />
 						<html:option value="inactive" />
@@ -204,25 +199,23 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</tr>
 				
 				<tr class="b">
-					<td width="20%">Space Capacity:</td>
-					<td><html:text property="program.capacity_space" size="8"
-						maxlength="8"  /></td>
+					<td width="20%">Space Capacity</td>
+					<td><html:text property="program.capacity_space" size="8"	maxlength="8"  /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Funding Capacity:</td>
-					<td><html:text property="program.capacity_funding" size="8"
-						maxlength="8"  /></td>
+					<td width="20%">Funding Capacity</td>
+					<td><html:text property="program.capacity_funding" size="8"		maxlength="8"  /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Allow Batch Admissions:</td>
+					<td width="20%">Allow Batch Admissions</td>
 					<td><html:checkbox property="program.allowBatchAdmission" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Allow Batch Discharges:</td>
+					<td width="20%">Allow Batch Discharges</td>
 					<td><html:checkbox property="program.allowBatchDischarge" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Male/Female:</td>
+					<td width="20%">Male/Female</td>
 					<td><html-el:select property="program.manOrWoman">
 						<c:forEach var="gen" items="${genderLst}">
 							<html-el:option value="${gen.code}">
@@ -233,16 +226,16 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					
 				</tr>
 				<tr class="b">
-					<td width="20%">Bed Program Affiliated:</td>
+					<td width="20%">Bed Program Affiliated</td>
 					<td><html:checkbox property="program.bedProgramAffiliated" /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Minimum Age (inclusive):</td>
+					<td width="20%">Minimum Age (inclusive)</td>
 					<td><html:text property="program.ageMin" size="8"
 						maxlength="3"  /></td>
 				</tr>
 				<tr class="b">
-					<td width="20%">Maximum Age (inclusive):</td>
+					<td width="20%">Maximum Age (inclusive)</td>
 					<td><html:text property="program.ageMax" size="8"
 						maxlength="3" /></td>
 				</tr>
@@ -282,85 +275,47 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 
 
 
-<%
- Program p = (Program) request.getAttribute("oldProgram");
- %> <input type="hidden" name="old_maxAllowed" value=<%if(p!=null) { %>
-			"<%=p.getMaxAllowed() %>" <%}else{ %> "0" <%} %> /> <input
-			type="hidden" name="old_name" value=<%if(p!=null) { %>
-			"<%=p.getName()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_descr" value=<%if(p!=null) { %>
-			"<%=p.getDescr()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_type" value=<%if(p!=null) { %>
-			"<%=p.getType()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_address" value=<%if(p!=null) { %>
-			"<%=p.getAddress()%>"<%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_phone" value=<%if(p!=null) { %>
-			"<%=p.getPhone()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_fax" value=<%if(p!=null) { %>
-			"<%=p.getFax() %>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_url" value=<%if(p!=null) { %>
-			"<%=p.getUrl()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_email" value=<%if(p!=null) { %>
-			"<%=p.getEmail()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_emergencyNumber" value=<%if(p!=null) { %>
-			"<%=p.getEmergencyNumber()%>"<%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_location" value=<%if(p!=null) { %>
-			"<%=p.getLocation()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_programStatus" value=<%if(p!=null) { %>
-			"<%=p.getProgramStatus()%>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_bedProgramLinkId" value=<%if(p!=null) { %>
-			"<%=p.getBedProgramLinkId()%>" <%}else{ %> "0" <%} %> /> <input
-			type="hidden" name="old_manOrWoman" value=<%if(p!=null) { %>
-			"<%=p.getManOrWoman() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_abstinenceSupport" value=<%if(p!=null) { %>
-			"<%=p.getAbstinenceSupport() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_exclusiveView" value=<%if(p!=null) { %>
-			"<%=p.getExclusiveView() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_holdingTank" value=<%if(p!=null) { %>
-			"<%=p.isHoldingTank() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_allowBatchAdmission" value=<%if(p!=null) { %>
-			"<%=p.isAllowBatchAdmission() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_allowBatchDischarge" value=<%if(p!=null) { %>
-			"<%=p.isAllowBatchDischarge() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_hic" value=<%if(p!=null) { %>
-			"<%=p.isHic() %>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_transgender" value=<%if(p!=null) { %>
-			"<%=p.isTransgender() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_firstNation" value=<%if(p!=null) { %>
-			"<%=p.isFirstNation() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_bedProgramAffiliated"
-			value=<%if(p!=null) { %>
-			"<%=p.isBedProgramAffiliated() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_alcohol" value=<%if(p!=null) { %>
-			"<%=p.isAlcohol()%>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_physicalHealth" value=<%if(p!=null) { %>
-			"<%=p.isPhysicalHealth() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_mentalHealth" value=<%if(p!=null) { %>
-			"<%=p.isMentalHealth() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_facility_id" value=<%if(p!=null) { %>
-			"<%=p.getFacilityId() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_housing" value=<%if(p!=null) { %>
-			"<%=p.isHousing() %>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_ageMax" value=<%if(p!=null) { %>
-			"<%=p.getAgeMax() %>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_ageMin" value=<%if(p!=null) { %>
-			"<%=p.getAgeMin() %>" <%}else{ %> "" <%} %> /> <input type="hidden"
-			name="old_capacity_funding" value=<%if(p!=null) { %>
-			"<%=p.getCapacity_funding() %>" <%}else{ %> "" <%} %> /> <input
-			type="hidden" name="old_capacity_space" value=<%if(p!=null) { %>
-			"<%=p.getCapacity_space() %>" <%}else{ %> "" <%} %> /> 
-			
+	<%
+ 		Program p = (Program) request.getAttribute("oldProgram");
+ 	%> 
+ 	<input type="hidden" name="old_maxAllowed" value=<%if(p!=null) { %>	"<%=p.getMaxAllowed() %>" <%}else{ %> "0" <%} %> /> 
+	<input type="hidden" name="old_name" value=<%if(p!=null) { %> "<%=p.getName()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden"	name="old_descr" value=<%if(p!=null) { %> "<%=p.getDescr()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_type" value=<%if(p!=null) { %> "<%=p.getType()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_address" value=<%if(p!=null) { %> "<%=p.getAddress()%>"<%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_phone" value=<%if(p!=null) { %>	"<%=p.getPhone()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_fax" value=<%if(p!=null) { %> "<%=p.getFax() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_url" value=<%if(p!=null) { %> "<%=p.getUrl()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_email" value=<%if(p!=null) { %>	"<%=p.getEmail()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_emergencyNumber" value=<%if(p!=null) { %> "<%=p.getEmergencyNumber()%>"<%}else{ %> "" <%} %> /> 
+	<input	type="hidden" name="old_location" value=<%if(p!=null) { %>	"<%=p.getLocation()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_programStatus" value=<%if(p!=null) { %>	"<%=p.getProgramStatus()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_bedProgramLinkId" value=<%if(p!=null) { %> "<%=p.getBedProgramLinkId()%>" <%}else{ %> "0" <%} %> />
+	<input type="hidden" name="old_manOrWoman" value=<%if(p!=null) { %>	"<%=p.getManOrWoman() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_abstinenceSupport" value=<%if(p!=null) { %>	"<%=p.getAbstinenceSupport() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_exclusiveView" value=<%if(p!=null) { %> "<%=p.getExclusiveView() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_holdingTank" value=<%if(p!=null) { %> "<%=p.isHoldingTank() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_allowBatchAdmission" value=<%if(p!=null) { %> "<%=p.isAllowBatchAdmission() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_allowBatchDischarge" value=<%if(p!=null) { %> "<%=p.isAllowBatchDischarge() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_hic" value=<%if(p!=null) { %> "<%=p.isHic() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_transgender" value=<%if(p!=null) { %> "<%=p.isTransgender() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_firstNation" value=<%if(p!=null) { %> "<%=p.isFirstNation() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_bedProgramAffiliated" value=<%if(p!=null) { %> "<%=p.isBedProgramAffiliated() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_alcohol" value=<%if(p!=null) { %> "<%=p.isAlcohol()%>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_physicalHealth" value=<%if(p!=null) { %>	"<%=p.isPhysicalHealth() %>" <%}else{ %> "" <%} %> /> 
+	<input	type="hidden" name="old_mentalHealth" value=<%if(p!=null) { %>	"<%=p.isMentalHealth() %>" <%}else{ %> "" <%} %> /> 
+	<input	type="hidden" name="old_facility_id" value=<%if(p!=null) { %>	"<%=p.getFacilityId() %>" <%}else{ %> "" <%} %> /> 
+	<input	type="hidden" name="old_housing" value=<%if(p!=null) { %>	"<%=p.isHousing() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_ageMax" value=<%if(p!=null) { %>	"<%=p.getAgeMax() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_ageMin" value=<%if(p!=null) { %>	"<%=p.getAgeMin() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_capacity_funding" value=<%if(p!=null) { %>	"<%=p.getCapacity_funding() %>" <%}else{ %> "" <%} %> /> 
+	<input type="hidden" name="old_capacity_space" value=<%if(p!=null) { %> 	"<%=p.getCapacity_space() %>" <%}else{ %> "" <%} %> /> 
 		
-			
-			
-			
-			
-			
 			<!-- Page Content End -->
 		</td>
 	</tr>
 
 </table>
-
+<%@ include file="/common/readonly.jsp" %>
 
 

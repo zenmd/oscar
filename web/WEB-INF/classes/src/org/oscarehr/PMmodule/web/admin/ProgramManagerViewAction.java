@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -66,6 +67,7 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.BaseProgramAction;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
@@ -81,8 +83,9 @@ import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UsersManager;
+import com.quatro.util.Utility;
 
-public class ProgramManagerViewAction extends BaseAction {
+public class ProgramManagerViewAction extends BaseProgramAction {
 
     private static final Log log = LogFactory.getLog(ProgramManagerViewAction.class);
 
@@ -127,24 +130,29 @@ public class ProgramManagerViewAction extends BaseAction {
     }
     
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	super.setMenu(request,KeyConstants.MENU_PROGRAM);
+    	//super.setMenu(request,KeyConstants.MENU_PROGRAM);
     	return view(mapping, form, request, response);
     }
 
     //@SuppressWarnings("unchecked")
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
-
-        if (formBean.getTab() == null || formBean.getTab().equals("")) {
-            formBean.setTab("Queue");
+        String viewTab=request.getParameter("tab");
+        String id = request.getParameter("programId");
+        if(id == null || id.equals(""))
+        	id = (String)request.getAttribute("programId");
+        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null){
+     	  actionParam = new HashMap();
+           actionParam.put("programId", id); 
         }
-
-        // find the program id
-        String id = request.getParameter("id");
-
-        if (id == null) {
-            id = (String) request.getAttribute("id");
+        request.setAttribute("actionParam", actionParam);
+        if (Utility.IsEmpty(viewTab)) {
+        	viewTab =KeyConstants.TAB_PROGRAM_GENERAL;            
         }
+        formBean.setTab(viewTab);
+
+        // find the program id       
         Integer programId = Integer.valueOf(id);
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
@@ -163,10 +171,12 @@ public class ProgramManagerViewAction extends BaseAction {
         String providerNo = (String)se.getAttribute("user");
         se.setAttribute("performAdmissions",hasAccess(request, programId, "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
         // need the queue to determine which tab to go to first
-        if ("Queue".equalsIgnoreCase(formBean.getTab())) {
+        if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
 	        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
 	        request.setAttribute("queue", queue);
-        
+	        super.setScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_QUEUE, programId);
+	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
 	        HashSet genderConflict = new HashSet();
 	        HashSet ageConflict = new HashSet();
 	//        for (ProgramQueue programQueue : queue) {
@@ -200,27 +210,36 @@ public class ProgramManagerViewAction extends BaseAction {
 	        request.setAttribute("genderConflict", genderConflict);
 	        request.setAttribute("ageConflict", ageConflict);
         }
-        else if (formBean.getTab().equalsIgnoreCase("Service Restrictions")) {
+        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)) {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
+            super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS, programId);
+	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
         }
-        else if (formBean.getTab().equalsIgnoreCase("Staff")) {
+        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
         	processStaff( request, programId, formBean);
-        }
-        else if(formBean.getTab().equalsIgnoreCase("Function User")) {
-            request.setAttribute("functional_users", programManager.getFunctionalUsers(programId.toString()));
-        }
-        else if (formBean.getTab().equalsIgnoreCase("Clients")) {
+        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
+	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+        }        
+        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
         	processClients( request, program, formBean);
+        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS, programId);
+	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
         }
-        else if (formBean.getTab().equalsIgnoreCase("Client Status")) {
-            request.setAttribute("client_statuses", programManager.getProgramClientStatuses(programId));
-        }
-        else if (formBean.getTab().equalsIgnoreCase("Incidents")) {
+        
+        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
         	processIncident( request, programId.toString(), formBean);
+        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT, programId);
+	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
         }
         else
         {
-        	// General - nothing need to do
+        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
+	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
         }
 
         logManager.log("view", "program", programId.toString(), request);

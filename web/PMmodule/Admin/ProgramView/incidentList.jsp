@@ -11,24 +11,20 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 	border="0">
 	<!-- submenu -->
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
 			</html:link>
-			<html:link
-			action="/PMmodule/ProgramManager.do"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
-			<html:link
-			href="javascript:editIncident('new');"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
-			<html:link
-			href="javascript:searchIncident();"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
-			<html:link href="javascript:resetForm()"
-			style="color:Navy;text-decoration:none;">&nbsp;
+			<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|
+			</html:link>			
+			<c:if test="${!isReadOnly}">
+				<html:link	href="javascript:editIncident('new');"	style="color:Navy;text-decoration:none;">&nbsp;
+					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
+			</c:if>
+			<html:link	href="javascript:searchIncident();"	style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
+			<html:link href="javascript:resetForm()"	style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif"/> />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
@@ -52,15 +48,15 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			<div class="axial">
 				<table border="0" cellspacing="2" cellpadding="3">
 					<tr>
-						<th>Client ID:</th>
+						<th>Client ID</th>
 						<td><html:text property="incidentForm.clientId" size="20" maxlength="10"/></td>
 					</tr>
 					<tr>
-						<th>First or Last Name:</th>
+						<th>First or Last Name</th>
 						<td><html:text property="incidentForm.clientName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
-						<th>Incident Date:</th>
+						<th>Incident Date</th>
 						<td><quatro:datePickerTag property="incidentForm.incDateStr"
 											width="90%" openerForm="programManagerViewForm" /></td>
 					</tr>
@@ -84,32 +80,24 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 	</tr>
 	<tr height="100%">
 		<td>
-			<div
-				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
+			<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;  height: 100%; width: 100%; overflow: auto;" id="scrollBar">
   
-			<display:table class="simple" cellspacing="2" cellpadding="3"
-				id="incident" name="incidents" export="false" pagesize="0"
+			<display:table class="simple" cellspacing="2" cellpadding="3"	id="incident" name="incidents" export="false" pagesize="0"
 				requestURI="/PMmodule/ProgramManagerView.do">
 				<display:setProperty name="paging.banner.placement" value="bottom" />
-				<display:setProperty name="basic.msg.empty_list"
-					value="No incidents currently in place for this program." />
+				<display:setProperty name="basic.msg.empty_list"	value="No incidents currently in place for this program." />
 			
-				<display:column sortable="true" title="Incident ID">
-			
-			
-					<a href="javascript:void(0)"
-						onclick="javascript:editIncident2('<c:out value="${incident.id}" />','edit');return false;">
-					<c:out value="${incident.id}" /></a>
-			
+				<display:column sortable="true" title="Incident ID">			
+					<a href="javascript:void(0)" onclick="javascript:editIncident2('<c:out value="${incident.id}" />','edit');return false;">
+						<c:out value="${incident.id}" />
+					</a>			
 				</display:column>
 				<display:column property="clientsNames"	title="Clients Involved" />				
-				<display:column property="incidentDatex" sortable="true"
-					title="Incident Date" />
-			
+				<display:column property="incidentDatex" sortable="true"	title="Incident Date" />			
 			</display:table>
  			</div>
 
 		</td>
 	</tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>

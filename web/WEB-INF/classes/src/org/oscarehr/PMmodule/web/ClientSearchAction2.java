@@ -51,7 +51,7 @@ import org.apache.struts.actions.DispatchAction;
 
 import oscar.oscarDemographic.data.DemographicMerged;
 
-public class ClientSearchAction2 extends DispatchAction {
+public class ClientSearchAction2 extends BaseClientAction {
 
 	private LookupManager lookupManager;
 
@@ -97,6 +97,9 @@ public class ClientSearchAction2 extends DispatchAction {
 			lst.add(this.clientManager.getClientByDemographicNo(cId));
 			request.setAttribute("clients", lst);
 		}
+		//check new Client link
+		//super.setScreenMode(request, currentTab)
+		//boolean isReadOnly=super.is
 		return mapping.findForward("form");
 	}
 	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,

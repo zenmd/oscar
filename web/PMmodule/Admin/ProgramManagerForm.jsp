@@ -32,25 +32,24 @@
 						%>
 						<security:oscarSec 
 							objectName="_pmm_editProgram.general" rights="r">
-							<jsp:include page="/PMmodule/Admin/ProgramEdit/general.jsp" />
+							<jsp:include page="/PMmodule/Admin/ProgramEdit/General.jsp" />
 						</security:oscarSec>
 	
 						<%
 							} else {
 						%>
-						<jsp:include page='<%="/PMmodule/Admin/ProgramEdit/" + selectedTab.toLowerCase().replaceAll(" ","_") + ".jsp"%>' />
+						<jsp:include page='<%="/PMmodule/Admin/ProgramEdit/" + selectedTab.replaceAll(" ","_") + ".jsp"%>' />
 						<%
 							}
 						%>
 					</c:when>
 					<c:otherwise>
-						<jsp:include page="/PMmodule/Admin/ProgramEdit/general.jsp" />
+						<jsp:include page="/PMmodule/Admin/ProgramEdit/General.jsp" />
 					</c:otherwise>
 				</c:choose> 
 			</td>
 		</tr>
 		<!-- function body end -->
 	</table>
-
 
 </html:form>

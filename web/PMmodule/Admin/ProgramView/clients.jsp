@@ -106,43 +106,29 @@
 <input type="hidden" name="program_name" value="<c:out value="${program_name}"/>" />
 <input type="hidden" name="clientStatusId" />
 
- 	
- 	
- 	
-
- 
  
 <%@ include file="/taglibs.jsp"%>
 
-<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
-	border="0">
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"	border="0">
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
 			</html:link>
-			<html:link
-			action="/PMmodule/ProgramManager.do"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
- 			<html:link
-			href="javascript:searchClients();"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
-			<html:link
-			href="javascript:resetForm();"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
+			<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
+ 			<html:link	href="javascript:searchClients();"	style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
+			<html:link	href="javascript:resetForm();"	style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/searchreset.gif"/>" />&nbsp;Reset&nbsp;&nbsp;</html:link>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<logic:messagesPresent message="true">
-				<br />
+			<logic:messagesPresent message="true">				
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
-				</html:messages>
-				<br />
+				</html:messages>				
 			</logic:messagesPresent>
 		</td>
 	</tr>
@@ -152,15 +138,15 @@
 			<div class="axial">
 				<table border="0" cellspacing="2" cellpadding="3">
 					<tr>
-						<th>Client No.:</th>
+						<th>Client No.</th>
 						<td><html:text property="clientForm.clientId" size="20" maxlength="10"/></td>
 					</tr>
 					<tr>
-						<th>First Name:</th>
+						<th>First Name</th>
 						<td><html:text property="clientForm.firstName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
-						<th>Last Name:</th>
+						<th>Last Name</th>
 						<td><html:text property="clientForm.lastName" size="20" maxlength="30"/></td>
 					</tr>
 				
@@ -182,9 +168,7 @@
 	</tr>
 	<tr height="100%">
 		<td>
-			<div
-				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
+			<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge; height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 			<!--  show current clients -->
 			
 			<display:table class="simple" cellspacing="2" cellpadding="3" id="clientInfo" name="clientsLst" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
@@ -258,7 +242,9 @@
 							</table>
 						</td>
 						<td align="left" >
-							<input type="button" value="Batch Discharge" onclick="javascript:do_batch_discharge();"/>
+							<c:if test="${!isReadOnly}">
+								<input type="button" value="Batch Discharge" onclick="javascript:do_batch_discharge();"/>
+							</c:if>	
 						</td>
 					</tr>
 				</table>
@@ -267,5 +253,6 @@
 		</td>
 	</tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>
  	
 

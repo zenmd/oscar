@@ -96,3 +96,4 @@ function assignStatus(id,selectBox) {
 		</select>
 	</display:column>
 </display:table>
+<%@ include file="/common/readonly.jsp" %>
