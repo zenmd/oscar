@@ -9,7 +9,9 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -17,6 +19,9 @@ import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 public class AdmissionDao extends HibernateDaoSupport {
 	private MergeClientDao mergeClientDao;
+	private RoomDemographicDAO roomDemographicDAO;
+	private BedDemographicDAO bedDemographicDAO;
+	
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
@@ -67,7 +72,13 @@ public class AdmissionDao extends HibernateDaoSupport {
         		KeyConstants.INTAKE_STATUS_DISCHARGED + "'," + 
                 " q.dischargeNotes='auto-discharge for other intake admission'," +
                 " q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});
-    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+
+      	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
+  	      if(rdm!=null) roomDemographicDAO.deleteRoomDemographic(rdm);
+  	      BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
+  	      if(bdm!=null) bedDemographicDAO.deleteBedDemographic(bdm);
+
+  	      admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
     	  clientHisDao.saveClientHistory(admission, null, null);
         }  
     }
@@ -274,5 +285,13 @@ public class AdmissionDao extends HibernateDaoSupport {
 				admission.getDischargeReason(), admission.getTransportationType(),
 				admission.getDischargeNotes(),admission.getLastUpdateDate(),admission.getProviderNo(), admission.getId()});
     }
+
+	public void setBedDemographicDAO(BedDemographicDAO bedDemographicDAO) {
+		this.bedDemographicDAO = bedDemographicDAO;
+	}
+
+	public void setRoomDemographicDAO(RoomDemographicDAO roomDemographicDAO) {
+		this.roomDemographicDAO = roomDemographicDAO;
+	}
 }
 
