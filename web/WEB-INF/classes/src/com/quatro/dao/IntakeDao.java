@@ -229,6 +229,9 @@ public class IntakeDao extends HibernateDaoSupport {
 	        	   case IntakeConstant.REASONFORHOMELESS:
 			         intake.setReasonForHomeless(obj.getValue());  
 			         break;
+	        	   case IntakeConstant.REASONFORSERVICE:
+				     intake.setReasonForService(obj.getValue());  
+				     break;
 	          		 
 	          	   //Presenting issues
 	        	   case IntakeConstant.PREGNANT:
@@ -486,6 +489,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		hData.put(new Integer(IntakeConstant.INSHELTERBEFORE), intake.getInShelterBefore());
 		hData.put(new Integer(IntakeConstant.LENGTHOFHOMELESS), intake.getLengthOfHomeless());
 		hData.put(new Integer(IntakeConstant.REASONFORHOMELESS), intake.getReasonForHomeless());
+		hData.put(new Integer(IntakeConstant.REASONFORSERVICE), intake.getReasonForService());
 
         //Presenting issues
 		hData.put(new Integer(IntakeConstant.PREGNANT), intake.getPregnant());
@@ -589,7 +593,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		    }
 			
 			
-		   for(int i=1;i<IntakeConstant.TOTALITEMS-1;i++){
+		   for(int i=1;i<IntakeConstant.TOTALITEMS;i++){
 			 obj.add(new QuatroIntakeAnswer(i, (String)hData.get(new Integer(i))));
 		   }
 		}

@@ -219,8 +219,8 @@ public class IntakeManager {
         OptionList lst2= new OptionList();
         HashMap map= IntakeConstant.getPrefixDefined();
 
-        ArrayList[] lst3 = new ArrayList[11];
-        for(int i=0;i<11;i++){
+        ArrayList[] lst3 = new ArrayList[12];
+        for(int i=0;i<12;i++){
            lst3[i]= new ArrayList();
            if(i==IntakeConstant.SOURCEINCOME) continue;
            LabelValueBean obj2 = new LabelValueBean();
@@ -230,7 +230,7 @@ public class IntakeManager {
         }
         
         boolean getRec;
-        for(int i=0;i<11;i++){
+        for(int i=0;i<12;i++){
           getRec=false;
           for(int j=0;j<lst.size();j++){
         	QuatroIntakeOptionValue obj= (QuatroIntakeOptionValue)lst.get(j);
