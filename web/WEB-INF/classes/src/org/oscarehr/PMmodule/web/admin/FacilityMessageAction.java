@@ -92,7 +92,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
          */
 		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_MESSAGE, shelterId);
-		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		List activeMessages = mgr.getMessagesByShelterId(shelterId);
 		if(activeMessages!=null && activeMessages.size() >0)
 			request.setAttribute("ActiveFacilityMessages",activeMessages);
@@ -143,7 +143,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
         request.setAttribute("msgTypepList", msgTypepList);
         Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_MESSAGE, shelterId);
-		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("edit");
 	}
 

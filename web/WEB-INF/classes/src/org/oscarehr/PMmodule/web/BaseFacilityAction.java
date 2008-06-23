@@ -85,7 +85,7 @@ public abstract class BaseFacilityAction extends BaseAction {
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
 		String orgCd="";
-		if(facilityId!=null ||facilityId!=0) orgCd=facilityId.toString();
+		if(facilityId!=null ||facilityId.intValue()!=0) orgCd=facilityId.toString();
 		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) <= 0) 
 			readOnly=true;
 		return readOnly;

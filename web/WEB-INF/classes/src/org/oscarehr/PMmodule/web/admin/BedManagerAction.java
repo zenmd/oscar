@@ -597,7 +597,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	    request.setAttribute("facility", facility);
 	    super.setScreenMode(request, KeyConstants.TAB_FACILITY_BED,facility.getId());
 	    boolean isReadOnly= super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_BED, facility.getId());
-	    if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+	    if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	   
 	}
 }

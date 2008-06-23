@@ -90,7 +90,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        }
       
        boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY, programId);
-       request.setAttribute("isReadOnly",readOnly);
+       request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
        for(int i=0;i<lst.size();i++){
     	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
     	 //One client should have no more than one bed program intake in one facility.

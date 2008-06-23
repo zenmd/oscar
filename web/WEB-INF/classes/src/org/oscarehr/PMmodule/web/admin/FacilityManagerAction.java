@@ -73,7 +73,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
                
         boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITYLIST, shelterId);
-        request.setAttribute("isEditable", !readOnly);
+        request.setAttribute("isEditable", Boolean.valueOf(!readOnly));
         super.setMenu(request,KeyConstants.MENU_FACILITY);
         return mapping.findForward(FORWARD_LIST);
     }
@@ -380,7 +380,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
         super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getId());
         boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_EDIT, facility.getId());
-        if(readOnly)request.setAttribute("isReadOnly", readOnly);
+        if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
         return mapping.findForward(FORWARD_EDIT);
     }
 

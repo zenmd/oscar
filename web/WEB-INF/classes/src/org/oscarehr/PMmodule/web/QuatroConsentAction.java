@@ -168,7 +168,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       else if(rId!=null && rId!="0"){
 	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
 	    	   boolean isReadOnly=super.isReadOnly(request, consentObj.getStatus(), KeyConstants.FUN_PMM_CLIENTCONSENT, consentObj.getProgramId());
-	    	   request.setAttribute("isReadOnly", isReadOnly);
+	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	    	   TopazValue tv= topazManager.getTopazValue(consentObj.getId(),"consent");
 	    	   if(consentObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(consentObj.getEndDate()))
    				consentObj.setStatus(KeyConstants.STATUS_EXPIRED);
