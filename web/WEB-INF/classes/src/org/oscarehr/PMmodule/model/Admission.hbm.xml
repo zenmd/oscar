@@ -48,7 +48,7 @@
 		<property name="admissionNotes" column="admission_notes" />
 		
 		<property name="bedName" type="string" lazy="true"
-			formula="(select b.name from bed b, bed_demographic bd where b.bed_id = bd.bed_id and bd.demographic_no = client_id)" />
+			formula="(select min(b.name) from bed b, bed_demographic bd where b.bed_id = bd.bed_id and bd.demographic_no = client_id )" />
 		
 		<property name="intakeHeadId" type="integer" lazy="true"
 			formula="(select if.intake_head_id from intake_family if where if.intake_id = intake_id)" />
