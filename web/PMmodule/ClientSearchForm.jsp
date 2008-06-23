@@ -135,24 +135,21 @@
                 <td>
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
-            <display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="100" requestURI="/PMmodule/ClientSearch2.do">
+            <display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="100"  requestURI="/PMmodule/ClientSearch2.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
-			<display:column sortable="true" title="Client No" sortProperty="demographicNo" sortName="client">
-                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
-            </display:column>
-			<display:column sortable="true" title=" Last Name" sortProperty="lastName" sortName="client">
-                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.lastName}" /></a>
-			</display:column>
 			<display:column sortable="true" title=" First Name" sortProperty="firstName" sortName="client">
                  <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.firstName}" /></a>
 			</display:column>
+			<display:column sortable="true" title=" Last Name" sortProperty="lastName" sortName="client">
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.lastName}" /></a>
+			</display:column>
+			<display:column sortable="true" title="Gender" sortName="client" sortProperty="sexDesc" >
+				<c:out value="${client.sexDesc}" />
+			</display:column>                        
 			<display:column sortable="true" title="Date of Birth">
 				<c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />
 			</display:column>
-			<display:column sortable="true" title="Gender">
-				<c:out value="${client.sexDesc}" />
-			</display:column>                        
 			<display:column sortable="true" title="Active">
 				<logic:equal value="0" property="activeCount" name="client">No</logic:equal>
 				<logic:notEqual value="0" property="activeCount" name="client">Yes</logic:notEqual>
@@ -161,6 +158,9 @@
 				<logic:equal value="0" property="hsAlertCount" name="client">No</logic:equal>
 				<logic:notEqual value="0" property="hsAlertCount" name="client">Yes</logic:notEqual>
 			</display:column>                         
+			<display:column sortable="true" title="Client No" sortProperty="demographicNo" sortName="client">
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
+            </display:column>
 		</display:table>
 		</div>
 		</td>
