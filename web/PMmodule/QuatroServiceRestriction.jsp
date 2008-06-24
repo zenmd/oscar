@@ -150,6 +150,7 @@
 							<td width="65%"><html:select
 								property="serviceRestriction.commentId">
 								<c:forEach var="restriction" items="${serviceRestrictionList}">
+									<html-el:option value=""></html-el:option>
 									<html-el:option value="${restriction.code}">
 										<c:out value="${restriction.description}" />
 									</html-el:option>
