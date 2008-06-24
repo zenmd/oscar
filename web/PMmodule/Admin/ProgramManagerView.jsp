@@ -5,7 +5,7 @@
 <html:form action="/PMmodule/ProgramManagerView">
 	
 	<html:hidden property="tab" />
-	<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>" />
+	<input type="hidden" name="programId" value="<c:out value="${requestScope.programId}"/>" />
 	<input type="hidden" name="method" value="view" />
 	
 	

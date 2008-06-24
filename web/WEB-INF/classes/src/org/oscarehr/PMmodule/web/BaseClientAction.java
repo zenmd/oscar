@@ -40,9 +40,9 @@ public abstract class BaseClientAction extends BaseAction {
 		super.setMenu(request, KeyConstants.MENU_CLIENT);
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
-		String orgCd=this.getProgramIdByClient(request);
-		String newClient =(String)request.getAttribute("newClientFlag");
-		if(newClient!=null && newClient.equals("true")){
+		String orgCd=this.getProgramIdByClient(request);		
+		String clientId =request.getParameter("clientId");
+		if(Utility.IsEmpty(clientId)||"0".equals(clientId)){
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_NULL);

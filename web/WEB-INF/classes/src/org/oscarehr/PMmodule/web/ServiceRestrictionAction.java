@@ -104,15 +104,25 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        String providerNo=(String)request.getSession().getAttribute("user");
        restriction.setProviderNo(providerNo);       
        restriction.setEnabled(true);
-      
+       boolean hasError = false;
+      if(Utility.IsEmpty(restriction.getCommentId())){
+    	  hasError =true;
+    	  messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.service.reason", request.getContextPath()));		
+			saveMessages(request, messages);	
+      }
        if (restriction.getProgramId() == null
 				|| restriction.getProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"error.referral.program", request.getContextPath()));		
+					"error.referral.program", request.getContextPath()));	
+			 hasError =true;
 			saveMessages(request, messages);	
-			setEditAttributes(form, request);		   
-		   return mapping.findForward("detail");  
+			 
 		}
+       if(hasError){
+    	   setEditAttributes(form, request);		   
+		   return mapping.findForward("detail"); 
+       }
        try {    	  
     	   //String sDt = restriction.getStartDateStr();
     	   //restriction.setStartDate(MyDateFormat.getCalendar(sDt));    	 

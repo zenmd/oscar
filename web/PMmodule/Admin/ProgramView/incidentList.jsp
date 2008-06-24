@@ -88,7 +88,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 				<display:setProperty name="basic.msg.empty_list"	value="No incidents currently in place for this program." />
 			
 				<display:column sortable="true" title="Incident ID">			
-					<a href="javascript:void(0)" onclick="javascript:editIncident2('<c:out value="${incident.id}" />','edit');return false;">
+					<a href="javascript:void(0)" onclick="javascript:editIncident2('<c:out value="${incident.id}" />','view');return false;">
 						<c:out value="${incident.id}" />
 					</a>			
 				</display:column>

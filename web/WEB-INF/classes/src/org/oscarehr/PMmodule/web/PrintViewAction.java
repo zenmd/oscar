@@ -126,7 +126,7 @@ public class PrintViewAction extends DispatchAction {
         Values numberValues = new Values();
         ParameterFieldDiscreteValue numParameterFieldDiscreteValue = new ParameterFieldDiscreteValue();
         
-        numberParamField.setName("RecorId");
+        numberParamField.setName("RecordId");
         numParameterFieldDiscreteValue.setValue(id);
         numberValues.add(numParameterFieldDiscreteValue);
         numberParamField.setCurrentValues(numberValues);

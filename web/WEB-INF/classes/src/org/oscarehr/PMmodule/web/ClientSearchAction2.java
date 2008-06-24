@@ -25,6 +25,7 @@ package org.oscarehr.PMmodule.web;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +75,12 @@ public class ClientSearchAction2 extends BaseClientAction {
 
 	public ActionForward form(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
 		if (clientManager.isOutsideOfDomainEnabled()) {
 			request.getSession().setAttribute("outsideOfDomainEnabled", "true");
 		} else {
@@ -97,9 +104,20 @@ public class ClientSearchAction2 extends BaseClientAction {
 			lst.add(this.clientManager.getClientByDemographicNo(cId));
 			request.setAttribute("clients", lst);
 		}
+		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		//check new Client link
-		//super.setScreenMode(request, currentTab)
-		//boolean isReadOnly=super.is
+		List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+		String prgId = "0";
+		if(allBedPrograms.size()>0){
+			Program prg = (Program)allBedPrograms.get(0);
+			prgId =prg.getId().toString();
+		}
+		request.setAttribute("searchClient", "true");
+		super.setScreenMode(request, KeyConstants.FUN_PMM_CLIENTSEARCH);		
+		boolean isReadOnly=super.isReadOnly(request, KeyConstants.STATUS_ACTIVE, KeyConstants.FUN_PMM_CLIENTINTAKE, Integer.valueOf(prgId));
+		
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
 		return mapping.findForward("form");
 	}
 	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,

@@ -212,7 +212,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     public ActionForward addBedCheckTime(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        String programId = request.getParameter("id");
+        String programId = request.getParameter("programId");
         String addTime = request.getParameter("addTime");
 
         BedCheckTime bedCheckTime = BedCheckTime.create(Integer.valueOf(programId), addTime);
@@ -296,7 +296,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 */
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
+        String id = request.getParameter("programId");
         String name = request.getParameter("name");
 
         if (id == null) {
@@ -475,7 +475,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 */
     public ActionForward removeBedCheckTime(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
+        String id = request.getParameter("programId");
         String removeId = request.getParameter("removeId");
 
         bedCheckTimeManager.removeBedCheckTime(Integer.valueOf(removeId));
@@ -863,12 +863,12 @@ public class ProgramManagerAction extends BaseProgramAction {
     public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	System.out.println("========== add Staff ==========");
     	 
-    	String programId = request.getParameter("id");
+    	String programId = request.getParameter("programId");
 
         if (programId == null) {
-            programId = (String) request.getAttribute("id");
+            programId = (String) request.getAttribute("programId");
         }
-        request.setAttribute("id", programId);
+        request.setAttribute("programId", programId);
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
        
@@ -897,11 +897,11 @@ public class ProgramManagerAction extends BaseProgramAction {
 
 		System.out.println("=========== saveStaff ========= in ProgramManagerViewAction");
 		
-		String programId = request.getParameter("id");
+		String programId = request.getParameter("programId");
         if (programId == null) {
-            programId = (String) request.getAttribute("id");
+            programId = (String) request.getAttribute("programId");
         }
-        request.setAttribute("id", programId);
+        request.setAttribute("programId", programId);
         String orgcd = "P" + programId;
         
 		ActionMessages messages = new ActionMessages();
@@ -956,12 +956,12 @@ public class ProgramManagerAction extends BaseProgramAction {
     public ActionForward removeStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
         System.out.println("========== remove Staff ==========");
-        String programId = request.getParameter("id");
+        String programId = request.getParameter("programId");
 
         if (programId == null) {
-            programId = (String) request.getAttribute("id");
+            programId = (String) request.getAttribute("programId");
         }
-        request.setAttribute("id", programId);
+        request.setAttribute("programId", programId);
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
         
@@ -984,12 +984,12 @@ public class ProgramManagerAction extends BaseProgramAction {
     public ActionForward removeExistStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
         System.out.println("========== remove Existing Staff ==========");
-        String programId = request.getParameter("id");
+        String programId = request.getParameter("programId");
 
         if (programId == null) {
-            programId = (String) request.getAttribute("id");
+            programId = (String) request.getAttribute("programId");
         }
-        request.setAttribute("id", programId);
+        request.setAttribute("programId", programId);
         Program program = programManager.getProgram(programId);
         request.setAttribute("program", program);
         
@@ -1175,7 +1175,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     	ArrayList programSignatureLst = new ArrayList();
         if (programId != null) {
 
-        	request.setAttribute("id", programId);
+        	request.setAttribute("programId", programId);
             request.setAttribute("programName", programManager.getProgram(programId).getName());
 /*            request.setAttribute("providers", programManager.getProgramProviders(programId));
             request.setAttribute("functional_users", programManager.getFunctionalUsers(programId));

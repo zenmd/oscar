@@ -54,8 +54,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		setEditAttributes(form, request);
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
+		setEditAttributes(form, request);		
 		return mapping.findForward("edit");
 	}
 
@@ -187,8 +186,10 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.save.success", request.getContextPath()));
 		saveMessages(request, messages);
-		return edit(mapping,form,request,response);
-		//return mapping.findForward("edit");
+		setEditAttributes(form, request);
+		//return  edit(mapping,form,request,response);
+		
+		return mapping.findForward("edit");
 	}
 
 	private void setEditAttributes(ActionForm form, HttpServletRequest request) {
@@ -214,6 +215,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		// facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 		clientForm.set("clientId", demographicNo);
 		request.setAttribute("clientId", demographicNo);
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		String providerNo = ((Provider) request.getSession().getAttribute(
 				"provider")).getProviderNo();		
 		if ("0".equals(rId) || rId==null) {
@@ -238,7 +240,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		}
 		
 		clientForm.set("referral", crObj);
-		request.setAttribute("referralStatus", crObj.getStatus());
+		request.setAttribute("referralStatus", crObj.getStatus());		
 	}
 	
    public void setAdmissionManager(AdmissionManager admissionManager) {

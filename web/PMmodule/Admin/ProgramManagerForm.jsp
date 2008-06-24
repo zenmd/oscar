@@ -7,7 +7,7 @@
 
 <html:form action="/PMmodule/ProgramManager">
 	<html:hidden property="view.tab" />
-	<input type="hidden" name="id" value="<c:out value="${requestScope.id}"/>" />
+	<input type="hidden" name="programId" value="<c:out value="${requestScope.programId}"/>" />
 	<input type="hidden" name="method" value="edit" />
 	<input type="hidden" name="mthd" />
 	<html:hidden property="program.id" />
@@ -25,26 +25,22 @@
 		<tr>
 			<td height="100%"> 
 				<c:choose>
-					<c:when test="${id != null && id gt 0}">
+					<c:when test="${programId != null && programId gt 0}">
 	
 						<%
 							if (selectedTab == null || selectedTab.trim().equals("")) {
-						%>
-						<security:oscarSec 
-							objectName="_pmm_editProgram.general" rights="r">
-							<jsp:include page="/PMmodule/Admin/ProgramEdit/General.jsp" />
-						</security:oscarSec>
-	
+						%>						
+							<jsp:include page="/PMmodule/Admin/ProgramEdit/general.jsp" />						
 						<%
 							} else {
 						%>
-						<jsp:include page='<%="/PMmodule/Admin/ProgramEdit/" + selectedTab.replaceAll(" ","_") + ".jsp"%>' />
+						<jsp:include page='<%="/PMmodule/Admin/ProgramEdit/" + selectedTab.toLowerCase() + ".jsp"%>' />
 						<%
 							}
 						%>
 					</c:when>
 					<c:otherwise>
-						<jsp:include page="/PMmodule/Admin/ProgramEdit/General.jsp" />
+						<jsp:include page="/PMmodule/Admin/ProgramEdit/general.jsp" />
 					</c:otherwise>
 				</c:choose> 
 			</td>

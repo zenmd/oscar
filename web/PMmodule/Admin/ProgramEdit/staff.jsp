@@ -115,20 +115,18 @@
 		</display:table> <logic:empty name="existStaffLst">
 				No record to display.<br />
 		</logic:empty> <logic:notEmpty name="existStaffLst">
-			<table width="100%">
-				<tr>
-					<td class="clsButtonBarText">&nbsp;&nbsp;
-						<c:if test="${!isReadOnly}">
-							<a	href="javascript:submitForm('addStaff');">Add</a>
-						</c:if>
-					</td>
-					<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;
-						<c:if test="${!isReadOnly}">
-							<a	href="javascript:submitForm('removeExistStaff');">Remove</a>
-						</c:if>	
-					</td>
-				</tr>
-			</table>
+			<c:if test="${!isReadOnly}">
+				<table width="100%">
+					<tr>
+						<td class="clsButtonBarText" width="5%">&nbsp;&nbsp;						
+								<a	href="javascript:submitForm('addStaff');">Add</a>
+						</td>
+						<td class="clsButtonBarText" width="95%">&nbsp;&nbsp;
+								<a	href="javascript:submitForm('removeExistStaff');">Remove</a>						
+						</td>
+					</tr>
+				</table>
+			</c:if>	
 		</logic:notEmpty> <br />
 
 		<logic:notEmpty name="newStaffLst">
