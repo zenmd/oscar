@@ -234,9 +234,7 @@ public class ClientDao extends HibernateDaoSupport {
 */		
 		
 		if (bean.getDob() != null && bean.getDob().length() > 0) {
-			criteria.add(Expression.eq("YearOfBirth", bean.getYearOfBirth()));
-			criteria.add(Expression.eq("MonthOfBirth", bean.getMonthOfBirth()));
-			criteria.add(Expression.eq("DateOfBirth", bean.getDayOfBirth()));
+			criteria.add(Expression.eq("DateOfBirth", MyDateFormat.getCalendar(bean.getDob())));
 		}
 
 		if (bean.getHealthCardNumber() != null && bean.getHealthCardNumber().length() > 0) {
