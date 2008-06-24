@@ -680,7 +680,7 @@ public class Demographic implements Serializable {
     }
 
     public String getAge() {
-    	if(null == getDateOfBirth()) return "";
+    	if(null == getDateOfBirth()) return "0";
         return (Utility.calcAge(getDateOfBirth().getTime()));
     }
 
