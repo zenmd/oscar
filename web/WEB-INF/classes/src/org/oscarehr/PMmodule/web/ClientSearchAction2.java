@@ -117,7 +117,7 @@ public class ClientSearchAction2 extends BaseClientAction {
 		super.setScreenMode(request, KeyConstants.FUN_PMM_CLIENTSEARCH);		
 		boolean isReadOnly=super.isReadOnly(request, KeyConstants.STATUS_ACTIVE, KeyConstants.FUN_PMM_CLIENTINTAKE, Integer.valueOf(prgId));
 		
-		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("form");
 	}
 	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,
