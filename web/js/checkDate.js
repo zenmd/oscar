@@ -15,8 +15,8 @@ function check_date_for_oracle(checkedDate)
 
 function openDatePickerCalendar(url){
   if(readOnly==true) return;
-
-  window.open(url, '', 'width=310,height=310'); 
+  if(win!=null) win.close();
+  win=window.open(url, '', 'width=310,height=310'); 
 }
 
 function check_date(checkedDateName) 
