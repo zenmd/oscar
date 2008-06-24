@@ -203,11 +203,12 @@ public class IntakeManager {
        	      obj.setLastName(dmg.getLastName());
        	      obj.setSex(dmg.getSex());
        	      obj.setSexDesc(dmg.getSexDesc());
-       	      obj.setYearOfBirth(dmg.getYearOfBirth());
-       	      obj.setMonthOfBirth(dmg.getMonthOfBirth());
-       	      obj.setDateOfBirth(dmg.getDateOfBirth());
+//       	      obj.setYearOfBirth(dmg.getYearOfBirth());
+//       	      obj.setMonthOfBirth(dmg.getMonthOfBirth());
+//       	      obj.setDateOfBirth(dmg.getDateOfBirth());
+       	      obj.setDob(MyDateFormat.getStandardDate(dmg.getDateOfBirth()));
        	      obj.setAlias(dmg.getAlias());
-      		  obj.setDob(obj.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(obj.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(obj.getDateOfBirth()));
+//      		  obj.setDob(obj.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(obj.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(obj.getDateOfBirth()));
       		  obj.setEffDate(MyDateFormat.getSysDateString(dmg.getEffDate()));
     		  break;
     		}  

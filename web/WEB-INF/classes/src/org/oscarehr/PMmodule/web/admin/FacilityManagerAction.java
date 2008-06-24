@@ -32,6 +32,7 @@ import org.oscarehr.PMmodule.web.FacilityDischargedClients;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
+import oscar.MyDateFormat;
 
 /**
  */
@@ -225,7 +226,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
                          Demographic client = clientDao.getClientByDemographicNo(admission.getClientId());
 
                          String name = client.getFirstName() + " " + client.getLastName();
-                         String dob = client.getYearOfBirth() + "/" + client.getMonthOfBirth() + "/" + client.getDateOfBirth();
+                         String dob = MyDateFormat.getStandardDate(client.getDateOfBirth());
                          String pName = program.getName();
                          Date dischargeDate = admission.getDischargeDate().getTime();
                          String dDate = dischargeDate.toString();

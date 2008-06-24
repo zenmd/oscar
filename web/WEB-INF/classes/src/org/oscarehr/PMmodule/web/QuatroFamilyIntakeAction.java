@@ -170,7 +170,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
 		  obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
 		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
-		  obj.setDateOfBirth(MyDateFormat.getDayFromStandardDate(request.getParameter("dependent[" + i +"].dob")));
+		  obj.setDob(request.getParameter("dependent[" + i +"].dob"));
 		  obj.setSex(request.getParameter("dependent[" + i +"].sex"));
 		  obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
 		  obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
@@ -403,6 +403,15 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          request.setAttribute("bDupliDemographicNoApproved", "true");
        }
        
+       //check if family members existing in other families.
+       for(int i=0;i<dependentsSize;i++){
+         QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
+         
+         //only check intake_status=active/admitted
+         //if intake_status=active, delete from intake_family, keep current intakeId and add new record in intake_family
+         //if intake_status=admitted, discharge from admission, delete from intake_family, create new intake intakeId and add new record in intake_family
+       }       
+       
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
    	   Integer headIntakeId = Integer.valueOf(clientForm.getIntakeId());
  	   QuatroIntake headIntake = intakeManager.getQuatroIntake(headIntakeId);
@@ -417,7 +426,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          }else{
            client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
          }
-         client.setDateOfBirth(obj3.getDateOfBirth());
+         client.setDateOfBirth(MyDateFormat.getCalendar(obj3.getDob()));
          client.setSex(obj3.getSex());
 		 if(clientRestrictionManager.checkGenderConflict(program, client)){
          	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
@@ -464,10 +473,11 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          client.setLastName(intakeFamily.getLastName());
          client.setFirstName(intakeFamily.getFirstName());
 
-     	 String[] split = intakeFamily.getDob().split("/");
-		 client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
-		 client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
-		 client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
+//     	 String[] split = intakeFamily.getDob().split("/");
+//		 client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
+//		 client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
+//		 client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
+		 client.setDateOfBirth(MyDateFormat.getCalendar(intakeFamily.getDob()));
          
          client.setSex(intakeFamily.getSex());
          client.setAlias(intakeFamily.getAlias());

@@ -64,7 +64,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         Demographic client;
         if(Integer.parseInt(clientId)>0){
 		  client= clientManager.getClientByDemographicNo(clientId);
-		  qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
+		  qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
         }else{
           client= new Demographic();
   		  qform.setDob("");
@@ -160,7 +160,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         Demographic client;
         if(Integer.parseInt(clientId)>0){
 		  client= clientManager.getClientByDemographicNo(clientId);
-		  qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
+		  qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
         }else{
           client= new Demographic();
   		  qform.setDob("");
@@ -253,7 +253,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
         Demographic client;
 	    client= clientManager.getClientByDemographicNo(clientId);
-		qform.setDob(client.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(client.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(client.getDateOfBirth()));
+		qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
 		qform.setClient(client);
 		request.setAttribute("client", client);
 
@@ -338,10 +338,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
  		   }  
 		}
     	
-    	String[] split = qform.getDob().split("/");
-		client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
-		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
-		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
+//    	String[] split = qform.getDob().split("/");
+//		client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
+//		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
+//		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
+		client.setDateOfBirth(MyDateFormat.getCalendar(qform.getDob()));
 		client.setProviderNo(providerNo);
 		client.setLastUpdateDate(Calendar.getInstance());
 		if(qform.getClient().getEffDateTxt().equals("")){

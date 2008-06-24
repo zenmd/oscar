@@ -38,9 +38,10 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   obj.setFirstName(request.getParameter("firstName"));
 	   obj.setLastName(request.getParameter("lastName"));
 	   if(!request.getParameter("dob").equals("")){
-	     obj.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(request.getParameter("dob"))));
-	     obj.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(request.getParameter("dob"))));
-	     obj.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(request.getParameter("dob"))));
+		 obj.setDateOfBirth(MyDateFormat.getCalendar(request.getParameter("dob")));  
+//	     obj.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(request.getParameter("dob"))));
+//	     obj.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(request.getParameter("dob"))));
+//	     obj.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(request.getParameter("dob"))));
 	   }
 	   if(!request.getParameter("sex").equals("")){
 	     obj.setSex(request.getParameter("sex"));

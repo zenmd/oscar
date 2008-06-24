@@ -15,7 +15,7 @@ public class QuatroIntakeFamily implements Serializable{
     private Calendar joinFamilyDate;
     private String joinFamilyDateTxt;
     private Calendar leaveFamilyDate;
-    private Calendar dateOfBirth;
+//    private Calendar dateOfBirth;
     private String firstName;
     private String lastName;
     private String sex;
@@ -23,6 +23,7 @@ public class QuatroIntakeFamily implements Serializable{
     private String alias;    
 
     private Integer clientId;
+    private String dob;
     private String select;
     
     private String statusMsg;
@@ -142,12 +143,14 @@ public class QuatroIntakeFamily implements Serializable{
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
+/*	
 	public Calendar getDateOfBirth() {
 		return dateOfBirth;
 	}
 	public void setDateOfBirth(Calendar dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+*/	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -248,6 +251,14 @@ public class QuatroIntakeFamily implements Serializable{
 	}
 	public void setJoinFamilyDateTxt(String joinFamilyDateTxt) {
 		this.joinFamilyDateTxt = joinFamilyDateTxt;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
 	}
 
 }

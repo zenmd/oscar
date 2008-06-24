@@ -627,6 +627,13 @@ public class ClientDao extends HibernateDaoSupport {
 			throw new IllegalArgumentException();
 		}
 
+		Calendar cal= client.getDateOfBirth();
+		if(cal==null){
+		  cal= Calendar.getInstance();
+		  cal.set(1,1,1);
+		  client.setDateOfBirth(cal);
+		}
+/*		
 		if (client.getYearOfBirth() != null && client.getYearOfBirth().equals("")) {
 			client.setYearOfBirth("0001");
 		}
@@ -638,7 +645,7 @@ public class ClientDao extends HibernateDaoSupport {
 		if (client.getDateOfBirth() != null && client.getDateOfBirth().equals("")) {
 			client.setDateOfBirth("01");
 		}
-
+*/
 		this.getHibernateTemplate().saveOrUpdate(client);
 
 		if (log.isDebugEnabled()) {
