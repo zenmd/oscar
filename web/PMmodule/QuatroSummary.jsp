@@ -22,7 +22,7 @@ function submitForm(methodVal) {
 function openHealthSafety(){
 	var url = '<html:rewrite action="/PMmodule/QuatroHealthSafety.do"/>';
 		url += '?method=form&clientId='+ '<c:out value="${client.demographicNo}"/>';
-	window.open(url,'HealthSafety', 'scrollbars=1,width=800,height=450');
+	win=window.open(url,'HealthSafety', 'scrollbars=1,width=800,height=450');
 }	
 
 </script>
