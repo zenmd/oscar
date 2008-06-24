@@ -14,6 +14,57 @@ var readOnly = false;
 
 emptyDate = new Date("01/01/1901");
 
+ var needToConfirm = true;
+ var pageChanged = false;
+ var hashVal0= "";
+
+
+   function getHash()
+   {
+       var hashVal = "";
+       var k = document.forms[0].elements.length;
+       for(var i=0; i < k; i++) 
+       {
+          var elem = document.forms[0].elements(i);
+          if (elem) {
+              if (elem.type == 'hidden' ) continue;
+              if (elem.type == 'checkbox' || elem.type == 'radio') {
+                 hashVal += elem.checked;
+              }  
+              else
+              {
+                 hashVal += elem.value;
+              }
+          }
+       }
+       return hashVal;
+   }
+
+	function confirmClose() {
+       txtPgChanged = document.getElementById("_ctl0_txtPgChanged");
+       if (txtPgChanged == null) txtPgChanged = document.getElementById("_ctl0__ctl0_txtPgChanged");
+       if (!needToConfirm) {
+           var hashVal1 = getHash();
+           if( hashVal != hashVal0) {
+               txtPgChanged.value = 'Y';
+           }
+           return;
+       }
+       needToConfirm = false; 
+       setTimeout('resetFlag()', 750);
+       pageChanged = pageChanged || 'Y' == txtPgChanged.value; 
+       if (!pageChanged) {
+           var hashVal = getHash();
+           pageChanged = hashVal != hashVal0;
+       }
+       if (pageChanged) 
+       { 
+           txtPgChanged.value = 'N';
+           return "You have made changes. To save these changes, click Cancel, then Save."; 
+       }
+}
+
+
     function setReadOnly()
     {
         readOnly = true;
