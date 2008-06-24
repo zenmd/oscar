@@ -893,7 +893,7 @@ public class ClientDao extends HibernateDaoSupport {
 		public int programId;
 		public String programName;
 	}
-	
+/*	
     public Map findByReportCriteria(ClientListsReportFormBean x) {
 
 		StringBuffer sqlCommand=new StringBuffer();
@@ -989,6 +989,6 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		return results;
 	}
-
+*/
 
 }
