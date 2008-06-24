@@ -30,8 +30,18 @@
     
     
     function submitForm(methodVal) {
-    
-	    if(validateLength()){
+    	var validProgram = document.getElementsByName("serviceRestriction.programId")[0].value.length > 0;
+    	var validReason = document.getElementsByName("serviceRestriction.commentId")[0].value.length > 0;
+    	
+    	if(!validProgram){
+    		alert("Please select 'Program' before save.");
+    		return;
+    	}
+    	if(!validReason){
+    		alert("Please select 'Reason for service restriction' before save.");
+    		return;
+    	}    	
+	    if(validProgram && validReason && validateLength()){
 			document.forms[0].method.value = methodVal;
 			document.forms[0].submit();
 		}
@@ -139,8 +149,10 @@
 					<table wdith="100%" class="edit">
 						<tr>
 							<td width="35%">Program</td>
-							<td width="65%"><html:select onchange="programFilter();"
+							<td width="65%">
+							<html:select onchange="programFilter();"
 								property="serviceRestriction.programId">
+								<html:option value=""></html:option>
 								<html:options collection="allPrograms" property="id"
 									labelProperty="name" />
 							</html:select></td>
@@ -149,6 +161,7 @@
 							<td width="35%">Reason for service restriction</td>
 							<td width="65%"><html:select
 								property="serviceRestriction.commentId">
+								<html:option value=""></html:option>
 								<c:forEach var="restriction" items="${serviceRestrictionList}">
 									<html-el:option value=""></html-el:option>
 									<html-el:option value="${restriction.code}">

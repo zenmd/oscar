@@ -14,6 +14,9 @@ Source:web/PMmodule/QuatroComplaint.jsp
 <script type="text/javascript"
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
+	
+	String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
+
 	function txtAreaLenChecker(obj, maxLen) {
 	   //counting each end of line as two characters
 	   
@@ -29,11 +32,106 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	}
 	
 	function submitForm(methodVal) {
-		//alert("method=" + methodVal);
-	 	document.forms[0].method.value = methodVal;
-		document.forms[0].submit();
+		var validSource = document.getElementsByName("complaint.source")[0].value.length > 0;
+		if(!validSource){
+			alert("Please select Source of Complaint before save.");
+			return;
+		}
+		var validMethod = document.getElementsByName("complaint.method")[0].value.length > 0;
+		if(!validMethod){
+			alert("Please select Method of Contact before save.");
+			return;
+		}
+		//name
+	var obj = document.getElementsByName("complaint.firstname")[0];
+    if(obj.value.trim()==""){
+      alert("First name is empty.");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+    if(!isName(obj.value.trim())){
+      alert("First name contains illegal character!");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+    
+    var obj = document.getElementsByName("complaint.lastname")[0];
+    if(obj.value.trim()==""){
+      alert("Last name is empty.");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+    if(!isName(obj.value.trim())){
+      alert("Last name contains illegal character!");
+      obj.value="";
+      obj.focus();
+      return; 
+    }
+		
+		var validProgram = document.getElementsByName("complaint.programId")[0].value.length > 0;
+		if(!validProgram){
+			alert("Please select program before save.");
+			return;
+		}
+		//standards
+		var validStandards = validateStandards();
+		if(!validStandards){
+			alert("Please select select Toronto Shelter Standards before save.");
+			return;
+		}
+		var validDescription = document.getElementsByName("complaint.description")[0].value.length > 0;
+		if(!validDescription){
+			alert("Please enter the Description of Complaint before save.");
+			return;
+		}
+		var validOutcome = document.getElementsByName("complaint.satisfiedWithOutcome")[0].value.length > 0;
+		if(!validOutcome){
+			alert("Please specify if the complainant was satisfied with the outcome before save.");
+			return;
+		}
+		
+		
+		 	document.forms[0].method.value = methodVal;
+			document.forms[0].submit();
+		
 	}
 	
+	function isName(str) 
+	{ 
+	    var reg = new RegExp(/^[\s\'\-a-zA-Z]+$/); 
+	    var flag = reg.test(str);
+	    if(flag){
+			var len = str.length;
+			var startChar = str.substring(0,1);
+			var endChar = str.substring(len-1);
+			if(startChar == "'" || startChar == "-" || endChar == "'" || endChar == "-" || str.indexOf("''") >= 0 || str.indexOf("--") >= 0|| str.indexOf("  ") >= 0){
+				flag = false	
+			}	
+		}
+		return flag;
+	}
+
+	function validateStandards(){
+		var result = false;
+		var flag = document.getElementsByName("isStandards")[0].checked;
+		if(flag == true){
+			var chkList = document.getElementsByName("complaint.standards1");
+			for(var i = 0; i < chkList.length; i++){
+				if(chkList[i].checked == true){
+					result = true;
+					break;
+				}
+			}	
+		}else{
+			result = true;	
+		}
+		
+		return result;
+	}
+
 	function setOutstanding(arg){
 		//alert("Outstanding state="+arg);
 	}
@@ -144,12 +242,14 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								<td width="15%">Source of Complaint</td>
 								<td width="45%"><html-el:select
 									property="complaint.source">
+									<html-el:option value=""></html-el:option>
 									<html-el:optionsCollection property="sources"
 										value="code" label="description" />
 								</html-el:select></td>
 								<td width="15%">Method of Contact</td>
 								<td width="35%"><html-el:select
 									property="complaint.method">
+									<html-el:option value=""></html-el:option>
 									<html-el:optionsCollection property="methods"
 										value="code" label="description" />
 								</html-el:select></td>
@@ -160,14 +260,19 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								<td>Source's Last Name</td>
 								<td><html-el:text property="complaint.lastname" maxlength="30"/></td>
 							</tr>
-							<tr>
-								<td>Program</td>
-								<td colspan="3"><html:select property="complaint.programId"	name="quatroClientComplaintForm">
-										<html:optionsCollection property="programs" value="id"
-											label="name" />
-									</html:select>
-								</td>
-							</tr>	
+							
+								<tr>
+									<td>Program</td>
+									<td colspan="3">
+										<html:select property="complaint.programId"	name="quatroClientComplaintForm">
+											<html-el:option value=""></html-el:option>
+											<html:optionsCollection property="programs" value="id"
+												label="name" />
+										</html:select>
+									</td>
+								</tr>	
+							
+							
 						</table>
 					</td>
 				</tr>
@@ -264,6 +369,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								<td width="20%">Was the complainant satisfied with the outcome?</td>
 								<td width="30%"><html-el:select
 									property="complaint.satisfiedWithOutcome">
+									<html-el:option value=""></html-el:option>
 									<html-el:optionsCollection property="outcomes"
 										value="code" label="description" />
 								</html-el:select></td>

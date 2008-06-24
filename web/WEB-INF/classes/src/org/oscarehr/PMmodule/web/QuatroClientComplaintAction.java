@@ -93,6 +93,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		Complaint complaint = null;
 		if (complaintId == null || "0".equals(complaintId)) {
 			complaint = new Complaint();
+			complaint.setStandardsBreached("0");
 			complaintForm.setIsStandards("1");
 		} else {
 			complaint = complaintManager
@@ -163,7 +164,8 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		Integer clientId = Integer.valueOf(tmp);
 		String providerNo = (String)request.getSession().getAttribute("user");
 		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		List programs = programManager.getPrograms( clientId, providerNo, shelterId);
+		//List programs = programManager.getPrograms( clientId, providerNo, shelterId);
+		List programs = programManager.getPrograms(providerNo, shelterId);
 		complaintForm.setPrograms(programs);
 		
 		request.setAttribute("ComplaintForm_length", new Integer(length));
