@@ -176,7 +176,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        request.setAttribute("queue", queue);
 	        super.setScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_QUEUE, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	        HashSet genderConflict = new HashSet();
 	        HashSet ageConflict = new HashSet();
 	//        for (ProgramQueue programQueue : queue) {
@@ -214,32 +214,32 @@ public class ProgramManagerViewAction extends BaseProgramAction {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
             super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
         	processStaff( request, programId, formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }        
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
         	processClients( request, program, formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
         	processIncident( request, programId.toString(), formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         else
         {
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+	        if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
         }
 
         logManager.log("view", "program", programId.toString(), request);

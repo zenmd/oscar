@@ -174,17 +174,17 @@ public class ProgramManagerAction extends BaseProgramAction {
         	processStaff( request, programId, view);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
-            if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+            if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
              
         }else if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
         	 super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
-             if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);        	
+             if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        	
         }
         else{
         	 super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
-             if(isReadOnly)request.setAttribute("isReadOnly", isReadOnly);
+             if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         
         return mapping.findForward("edit");
