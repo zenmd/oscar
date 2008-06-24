@@ -36,7 +36,7 @@ function submitForm(methodVal) {
       return; 
     }
     if(!isName(obj.value.trim())){
-      alert("First name should be alphabetic only.");
+      alert("First name contains illegal character!");
       obj.value="";
       obj.focus();
       return; 
@@ -50,7 +50,7 @@ function submitForm(methodVal) {
       return; 
     }
     if(!isName(obj.value.trim())){
-      alert("Last name should be alphabetic only.");
+      alert("Last name contains illegal character!");
       obj.value="";
       obj.focus();
       return; 
@@ -98,8 +98,17 @@ function submitForm(methodVal) {
 
 function isName(str) 
 { 
-    var reg = new RegExp(/^[a-zA-Z]+$/); 
-    return reg.test(str) 
+    var reg = new RegExp(/^[\s\'\-a-zA-Z]+$/); 
+    var flag = reg.test(str);
+    if(flag){
+		var len = str.length;
+		var startChar = str.substring(0,1);
+		var endChar = str.substring(len-1);
+		if(startChar == "'" || startChar == "-" || endChar == "'" || endChar == "-" || str.indexOf("''") >= 0 || str.indexOf("--") >= 0|| str.indexOf("  ") >= 0){
+			flag = false	
+		}	
+	}
+	return flag;
 }
 
 function checkExistClients(){
