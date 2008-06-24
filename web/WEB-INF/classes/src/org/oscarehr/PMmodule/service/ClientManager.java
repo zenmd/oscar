@@ -90,7 +90,7 @@ public class ClientManager {
     public Integer getRecentProgramId(Integer clientId, String providerNo, Integer shelterId){
     	return dao.getRecentProgramId(clientId, providerNo, shelterId);
     }
-    
+/*    
     public java.util.Date getMostRecentIntakeCDate(String demographicNo) {
         return dao.getMostRecentIntakeCDate(Integer.valueOf(demographicNo));
     }
@@ -102,7 +102,7 @@ public class ClientManager {
     public String getMostRecentIntakeCProvider(String demographicNo) {
         return dao.getMostRecentIntakeCProvider(Integer.valueOf(demographicNo));
     }
-
+*/
     public List getReferrals() {
         return referralDAO.getReferrals();
     }
