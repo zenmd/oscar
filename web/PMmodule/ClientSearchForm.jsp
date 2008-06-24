@@ -29,8 +29,30 @@
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
+	function hasAnyFilter() {
+		var form = document.clientSearchForm2;
+		if(form == null) alert ('form is null');
+		if (form.elements == null) alert('elements is null');
+		if (form.elements['criteria.demographicNo'].value!='') return true;
+		if (form.elements['criteria.firstName'].value !='') return true;
+		if (form.elements['criteria.lastName'].value !='') return true;
+		if (form.elements['criteria.dob'].value!='') return true;
+		// form.elements['criteria.healthCardNumber'].value='';
+		// form.elements['criteria.healthCardVersion'].value='';
+		// form.elements['criteria.searchOutsideDomain'].checked = true;
+		// form.elements['criteria.searchUsingSoundex'].checked = true;
+		// form.elements['criteria.dateFrom'].value=''; 
+		// form.elements['criteria.dateTo'].value=''; 
+		if (form.elements['criteria.bedProgramId'].selectedIndex > 0) return true;
+		if (form.elements['criteria.assignedToProviderNo'].selectedIndex > 0) return true;
+		if (form.elements['criteria.active'].selectedIndex > 0) return true;
+		if (form.elements['criteria.gender'].selectedIndex > 0) return true;
+		alert('Please enter some filters to search');
+		return false; 
+	}
 
 	function submitForm(methodVal) {
+		if (!hasAnyFilter()) return;
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

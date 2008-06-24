@@ -15,9 +15,7 @@ public class QuatroIntakeFamily implements Serializable{
     private Calendar joinFamilyDate;
     private String joinFamilyDateTxt;
     private Calendar leaveFamilyDate;
-    private String dateOfBirth;
-    private String monthOfBirth;
-    private String yearOfBirth;
+    private Calendar dateOfBirth;
     private String firstName;
     private String lastName;
     private String sex;
@@ -25,7 +23,6 @@ public class QuatroIntakeFamily implements Serializable{
     private String alias;    
 
     private Integer clientId;
-    private String dob;
     private String select;
     
     private String statusMsg;
@@ -145,10 +142,10 @@ public class QuatroIntakeFamily implements Serializable{
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
-	public String getDateOfBirth() {
+	public Calendar getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(Calendar dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	public String getFirstName() {
@@ -169,37 +166,17 @@ public class QuatroIntakeFamily implements Serializable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getMonthOfBirth() {
-		return monthOfBirth;
-	}
-	public void setMonthOfBirth(String monthOfBirth) {
-		this.monthOfBirth = monthOfBirth;
-	}
 	public String getSex() {
 		return sex;
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public String getYearOfBirth() {
-		return yearOfBirth;
-	}
-	public void setYearOfBirth(String yearOfBirth) {
-		this.yearOfBirth = yearOfBirth;
-	}
 	public Integer getClientId() {
 		return clientId;
 	}
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
-	}
-
-	public String getDob() {
-		return dob;
-	}
-
-	public void setDob(String dob) {
-		this.dob = dob;
 	}
 
 	public String getSelect() {
