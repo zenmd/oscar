@@ -96,29 +96,31 @@ public class IntakeManager {
     	for(int i=0;i<split2.length;i++){
     	  QuatroIntakeDB intake = (QuatroIntakeDB) lst2.get(i);	
 
-    	  //create new referral#
-    	  ClientReferral referral = new ClientReferral();
-          if(intake.getClientId()!=null) referral.setClientId(intake.getClientId());
-          referral.setNotes("Intake Automated referral");
-          if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId());
-          referral.setProviderNo(intake.getStaffId());
-          referral.setReferralDate(new Date());
-          referral.setStatus(KeyConstants.STATUS_ACTIVE);
-          clientReferralDAO.saveClientReferral(referral);
+    	  if(intake.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE)){
+    	    //create new referral#
+    	    ClientReferral referral = new ClientReferral();
+            if(intake.getClientId()!=null) referral.setClientId(intake.getClientId());
+            referral.setNotes("Intake Automated referral");
+            if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId());
+            referral.setProviderNo(intake.getStaffId());
+            referral.setReferralDate(new Date());
+            referral.setStatus(KeyConstants.STATUS_ACTIVE);
+            clientReferralDAO.saveClientReferral(referral);
           
-          //create new queue# 
-          ProgramQueue queue = new ProgramQueue();
-          queue.setClientId(referral.getClientId());
-          queue.setNotes(referral.getNotes());
-          queue.setProgramId(referral.getProgramId());
-          queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-          queue.setReferralDate(referral.getReferralDate());
+            //create new queue# 
+            ProgramQueue queue = new ProgramQueue();
+            queue.setClientId(referral.getClientId());
+            queue.setNotes(referral.getNotes());
+            queue.setProgramId(referral.getProgramId());
+            queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
+            queue.setReferralDate(referral.getReferralDate());
 //          queue.setStatus(KeyConstants.STATUS_ACTIVE);
-          queue.setReferralId(referral.getId());
-          programQueueDao.saveProgramQueue(queue);
+            queue.setReferralId(referral.getId());
+            programQueueDao.saveProgramQueue(queue);
           
-          //modify referral# and queue# in intake
-          intakeDao.updateReferralIdQueueId(intake, referral.getId(), queue.getId());
+            //modify referral# and queue# in intake
+            intakeDao.updateReferralIdQueueId(intake, referral.getId(), queue.getId());
+    	  }
     	}
   	    
     }
