@@ -155,7 +155,7 @@ function checkExistClients(shortFlagValue){
     </c:choose>
   </display:column>
   <display:column sortable="false" title="Date of Birth">
-    <c:if test="${client.yearOfBirth!=null}">
+    <c:if test="${client.dob!=null}">
 	  <c:out value="${client.dob}" />
     </c:if>
   </display:column>

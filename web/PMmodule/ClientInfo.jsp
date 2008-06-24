@@ -16,7 +16,7 @@
 				<td style="width: 15%"><font><b>Name</b></font></td>
 				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
 				<td style="width: 15%"><font><b>DOB </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></b></font></td>
+				<td style="width: 35%"><font><b><c:out value="${client.dob}" /></b></font></td>
 			</tr>
 		</table>
 	</td>

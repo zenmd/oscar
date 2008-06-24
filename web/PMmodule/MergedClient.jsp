@@ -236,9 +236,7 @@
 						<c:out	value="${client.formattedName}" />
 					</display:column>
 					<display:column sortable="true" title="Date of Birth">
-						<c:out value="${client.yearOfBirth}" />/<c:out
-							value="${client.monthOfBirth}" />/<c:out
-							value="${client.dateOfBirth}" />
+						<c:out value="${client.dob}" />
 					</display:column>
 					<display:column sortable="true" title="Gender">
 						<c:out value="${client.sexDesc}" />
