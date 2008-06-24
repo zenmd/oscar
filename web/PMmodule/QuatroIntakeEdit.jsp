@@ -11,8 +11,8 @@
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 
 <html-el:form action="/PMmodule/QuatroIntakeEdit.do">
-	<input type="hidden" name="intakeHeadId"
-		value="<c:out value="${intakeHeadId}" />" />
+	<input type="hidden" name="clientId" value="<c:out value="${clientId}" />" />
+	<input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />" />
 	<html:hidden property="intake.staffId" />
 	<html:hidden property="intake.intakeStatus" />
 	<html:hidden property="intake.referralId" />
