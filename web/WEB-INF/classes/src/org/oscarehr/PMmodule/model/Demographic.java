@@ -342,6 +342,10 @@ public class Demographic implements Serializable {
         this.ver = ver;
     }
 
+    public String getDob() {
+        return MyDateFormat.getStandardDate(dateOfBirth);
+    }
+
     /**
      * Return the value associated with the column: date_of_birth
      */

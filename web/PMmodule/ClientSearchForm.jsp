@@ -159,6 +159,7 @@
                 <td>
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
+
             <display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="100"  
             requestURI="/PMmodule/ClientSearch2.do" defaultsort="2">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
@@ -172,9 +173,11 @@
 			<display:column sortable="true" title="Gender" sortName="client" sortProperty="sexDesc" >
 				<c:out value="${client.sexDesc}" />
 			</display:column>                        
+
 			<display:column sortable="true" title="Date of Birth">
-				<c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" />
+				<c:out value="${client.dob}" />
 			</display:column>
+
 			<display:column sortable="true" title="Active">
 				<logic:equal value="0" property="activeCount" name="client">No</logic:equal>
 				<logic:notEqual value="0" property="activeCount" name="client">Yes</logic:notEqual>
@@ -187,6 +190,7 @@
                  <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
             </display:column>
 		</display:table>
+
 		</div>
 		</td>
 		</tr>
