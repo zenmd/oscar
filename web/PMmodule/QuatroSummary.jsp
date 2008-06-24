@@ -74,7 +74,7 @@ function openHealthSafety(){
 	<tr><td>Last Name</th>
 	<td><c:out value="${client.lastName}" /></td>
 	<td>Date of Birth</td>
-	<td><c:out value="${client.yearOfBirth}" />/<c:out value="${client.monthOfBirth}" />/<c:out value="${client.dateOfBirth}" /></td></tr>
+	<td><c:out value="${client.dob}" /></td></tr>
 	</tr>
 	<tr><td>Alias</td>
 	<td colspan="3"><c:out value="${client.alias}" /></td></tr>
