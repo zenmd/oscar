@@ -598,6 +598,7 @@ public class ClientDao extends HibernateDaoSupport {
 		return date;
 	}
 
+/*	
 	public Date getMostRecentIntakeCDate(Integer demographicNo) {
 
 		Date date = null;
@@ -620,7 +621,8 @@ public class ClientDao extends HibernateDaoSupport {
 
 		return date;
 	}
-
+*/
+	
 	public void saveClient(Demographic client) {
 
 		if (client == null) {
@@ -652,7 +654,7 @@ public class ClientDao extends HibernateDaoSupport {
 			log.debug("saveClient: id=" + client.getDemographicNo());
 		}
 	}
-
+/*
 	public String getMostRecentIntakeAProvider(Integer demographicNo) {
 
 		String providerName = null;
@@ -679,6 +681,8 @@ public class ClientDao extends HibernateDaoSupport {
 
 		return providerName;
 	}
+*/
+	
 	 public List getRecentProgramIds(Integer clientId, String providerNo, Integer shelterId){
 	    	String sql = "select p.programId  from QuatroIntakeHeader p ,Program c ";
 	    	sql+=" where p.programId = c.id and p.clientId=? and  c.shelterId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
@@ -699,6 +703,7 @@ public class ClientDao extends HibernateDaoSupport {
     		return new Integer(0);
     }
 
+/*    
 	public String getMostRecentIntakeCProvider(Integer demographicNo) {
 
 		String providerName = null;
@@ -725,7 +730,8 @@ public class ClientDao extends HibernateDaoSupport {
 
 		return providerName;
 	}
-
+*/
+    
 	public DemographicExt getDemographicExt(Integer id) {
 
 		if (id == null || id.intValue() <= 0) {
