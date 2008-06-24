@@ -29,7 +29,7 @@
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
-	function hasAnyFilter() {
+		function hasAnyFilter() {
 		var form = document.clientSearchForm2;
 		if(form == null) alert ('form is null');
 		if (form.elements == null) alert('elements is null');
@@ -49,7 +49,7 @@
 		if (form.elements['criteria.gender'].selectedIndex > 0) return true;
 		alert('Please enter some filters to search');
 		return false; 
-	}
+	}	
 
 	function submitForm(methodVal) {
 		if (!hasAnyFilter()) return;
@@ -68,8 +68,10 @@
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
 			</html:link>
-			<html:link	action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"	style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;|</html:link>
+			<c:if test="${!isReadOnly}">
+				<html:link	action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"	style="color:Navy;text-decoration:none;">&nbsp;
+					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;|</html:link>
+			</c:if>		
 			<a href="javascript:submitForm('search')" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;|</a>
 			<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">&nbsp;
