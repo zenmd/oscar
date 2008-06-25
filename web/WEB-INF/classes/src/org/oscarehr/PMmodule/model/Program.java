@@ -85,7 +85,7 @@ public class Program implements Serializable {
     private Integer capacity_funding = new Integer(0);
     private Integer capacity_space = new Integer(0);
     private Integer capacity_actual =new Integer(0);
-    
+    private Integer totalUsedRoom = new Integer(0);
     public Integer getCapacity_actual() {
 		return capacity_actual;
 	}
@@ -716,6 +716,14 @@ public class Program implements Serializable {
 
 	public void setFacilityDesc(String facilityDesc) {
 		this.facilityDesc = facilityDesc;
+	}
+
+	public Integer getTotalUsedRoom() {
+		return totalUsedRoom;
+	}
+
+	public void setTotalUsedRoom(Integer totalUsedRoom) {
+		this.totalUsedRoom = totalUsedRoom;
 	}
     
 }

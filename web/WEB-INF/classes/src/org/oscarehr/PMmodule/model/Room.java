@@ -55,7 +55,8 @@ public class Room implements Serializable {
     private boolean active;
     private Integer facilityId;
     private Integer assignedBed;
-    private Integer occupancy;
+    private Integer occupancy; //this is room capacity
+    private Integer totalBedOccupancy = new Integer(0);
 
     private RoomType roomType;
     private Program program;
@@ -303,5 +304,13 @@ public class Room implements Serializable {
      */
 	public void setOccupancy(Integer occupancy) {
 		this.occupancy = occupancy;
+	}
+
+	public Integer getTotalBedOccupancy() {
+		return totalBedOccupancy;
+	}
+
+	public void setTotalBedOccupancy(Integer totalBedOccupancy) {
+		this.totalBedOccupancy = totalBedOccupancy;
 	}
 }

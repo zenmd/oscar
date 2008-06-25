@@ -3,6 +3,7 @@ package org.oscarehr.PMmodule.web.admin;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import org.oscarehr.PMmodule.exception.RoomHasActiveBedsException;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Facility;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
@@ -179,25 +181,62 @@ public class BedManagerAction extends BaseFacilityAction {
 
         return mapping.findForward(FORWARD_MANAGE);
     }
-
+    
+    private boolean isRoomOverProgramCapacity(Room[] rooms,HttpServletRequest request){
+    	boolean isValid =true;
+    	ActionMessages messages = new ActionMessages();
+    	ArrayList programLst = new ArrayList();
+    	for (int i = 0; i < rooms.length; i++) {
+    		Integer pId=rooms[i].getProgramId();
+    		if(i==0){
+    			  Program pObj=programManager.getProgram(pId);
+    			  pObj.setTotalUsedRoom(rooms[i].getOccupancy());
+    			  programLst.add(pObj);
+    		}
+    		else{
+	    		  for(int j=0;j<programLst.size();j++){
+	    			  Program pLocal =(Program)programLst.get(j);
+	    			  if(pId.intValue()==pLocal.getId().intValue())  pLocal.setTotalUsedRoom(pLocal.getTotalUsedRoom()+rooms[i].getOccupancy());	    			  
+	    			  else {
+	    				  pLocal.setTotalUsedRoom(rooms[i].getOccupancy());
+	        			  programLst.add(pLocal);
+	    			  }
+	    		  }
+    		}    		  
+    	}
+    	//Validation
+    	Iterator item = programLst.iterator();
+    	while(item.hasNext()){
+    		Program pLocal =(Program)item.next();
+    		if(pLocal.getTotalUsedRoom()>pLocal.getCapacity_space()){
+    			isValid = false;
+    			  messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.program.room.over", request.getContextPath(),pLocal.getName(),pLocal.getCapacity_space()));
+  	            saveMessages(request, messages);
+    		}
+    		
+    	}
+    	return isValid;
+    }
     public ActionForward saveRooms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
     	BedManagerForm bForm = (BedManagerForm) form;
 
         Room[] rooms = bForm.getRooms();
-
+        boolean isValid = isRoomOverProgramCapacity(rooms,request);
         // detect check box false
         for (int i = 0; i < rooms.length; i++) {
             if (request.getParameter("rooms[" + i + "].active") == null) {
-                rooms[i].setActive(false);
+                rooms[i].setActive(false);                
             }
         }
         try {
-            roomManager.saveRooms(rooms);
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-            saveMessages(request, messages);
+        	if(isValid){
+	            roomManager.saveRooms(rooms);
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+	            saveMessages(request, messages);
+        	}
         }
         catch (RoomHasActiveBedsException e) {
             ActionMessages messages = new ActionMessages();
@@ -260,7 +299,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	prepareLeftNav(request);
     	
     	BedManagerForm bForm = (BedManagerForm) form;
-
+    	ActionMessages messages = new ActionMessages();
         Bed[] beds = bForm.getBeds();
 
         for (int i = 0; i < beds.length; i++) {
@@ -275,21 +314,30 @@ public class BedManagerAction extends BaseFacilityAction {
                 log.error("saveBeds(): No beds are assigned to rooms.");
             }
         }
+        boolean isValid=true; 
         try {
             beds = bedManager.getBedsForUnfilledRooms(rooms, beds);
-            bedManager.saveBeds(beds);
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-            saveMessages(request, messages);
+            if(rooms!=null)
+            	for(int i=0;i<rooms.length;i++){
+            		if(rooms[i].getTotalBedOccupancy()>rooms[i].getOccupancy()){
+            			isValid =false;
+            			messages.add(ActionMessages.GLOBAL_MESSAGE, 
+            					new ActionMessage("message.room.bed.over", request.getContextPath(),rooms[i].getName(),rooms[i].getOccupancy()));
+                    	saveMessages(request, messages);            			
+            		}
+            	}
+            if(isValid){
+            	bedManager.saveBeds(beds);           
+            	messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+            	saveMessages(request, messages);
+            }
 
         }
-        catch (BedReservedException e) {
-            ActionMessages messages = new ActionMessages();
+        catch (BedReservedException e) {           
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.reserved.error", e.getMessage()));
             saveMessages(request, messages);
         }
-        catch (DuplicateBedNameException e) {
-            ActionMessages messages = new ActionMessages();
+        catch (DuplicateBedNameException e) {          
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.duplicate.name.error", e.getMessage()));
             saveMessages(request, messages);
         }

@@ -42,6 +42,7 @@ public abstract class BaseClientAction extends BaseAction {
 		//summary
 		String orgCd=this.getProgramIdByClient(request);		
 		String clientId =request.getParameter("clientId");
+		if(Utility.IsEmpty(clientId)) clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
 		if(Utility.IsEmpty(clientId)||"0".equals(clientId)){
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
@@ -140,6 +141,7 @@ public abstract class BaseClientAction extends BaseAction {
 	}
 	private String getProgramIdByClient(HttpServletRequest request){
 		String cId =request.getParameter("clientId");
+		if(Utility.IsEmpty(cId)) cId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
 		String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		String programId="";
 		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);

@@ -166,8 +166,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         long start = System.currentTimeMillis();
         long current = 0;
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-        CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
+        CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;        
         HttpSession se = request.getSession();
         if (se.getAttribute("userrole") == null) return mapping.findForward("expired");
         String cId=request.getParameter("clientId");
@@ -187,15 +186,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if(providerNo==null || demoNo ==null) {
          request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
-        }
-
-        // need to check to see if the client is in our program domain
-        // if not...don't show this screen!
-/*        
-        if (!caseManagementMgr.isClientInProgramDomain(currentFacilityId, providerNo, demoNo)) {
-            return mapping.findForward("domain-error");
-        }
-*/
+        }        
         request.setAttribute("casemgmt_demoName", getDemoName(demoNo));
         request.setAttribute("casemgmt_demoAge", getDemoAge(demoNo));
         request.setAttribute("casemgmt_demoDOB", getDemoDOB(demoNo));
@@ -223,58 +214,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if(null==request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
         		request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(demoNo));
         }
-        // check to see if there is an unsaved note
-        // if there is see if casemanagemententry has already handled it
-        // if it has, disregard unsaved note; if it has not then set attribute
-        /*
-        CaseManagementTmpSave tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo, demoNo, programId);
-        if (tmpsavenote != null) {
-            String restoring = (String) se.getAttribute("restoring");
-            if (restoring == null) request.setAttribute("can_restore", new Boolean(true));
-            else se.setAttribute("restoring", null);
-        }
-		*/
-        // fetch and set cpp display dimensions
-        /*EncounterWindow ectWin = this.caseManagementMgr.getEctWin(providerNo);
-        if (ectWin == null) {
-            ectWin = new EncounterWindow();
-            ectWin.setProvider_no(providerNo);
-            ectWin.setRowOneSize(EncounterWindow.NORMAL);
-            ectWin.setRowTwoSize(EncounterWindow.NORMAL);
-        }
-
-        caseForm.setEctWin(ectWin);
-         */
-        //remove team concept by Lillian
-        /*
-        String teamName = "";
-        Admission admission = admissionMgr.getCurrentAdmission(programId, Integer.valueOf(demoNo));
-        if (admission != null) {
-            List teams = programMgr.getProgramTeams(programId);
-            for (Iterator i = teams.iterator(); i.hasNext();) {
-                ProgramTeam team = (ProgramTeam) i.next();
-                String id1 = Integer.toString(team.getId());
-                String id2 = Integer.toString(admission.getTeamId());
-                if (id1.equals(id2)) teamName = team.getName();
-            }
-        }
-        request.setAttribute("teamName", teamName);
-
-        List teamMembers = new ArrayList();
-        List ps = programMgr.getProgramProviders(programId);
-        for (Iterator j = ps.iterator(); j.hasNext();) {
-            ProgramProvider pp = (ProgramProvider) j.next();
-            for (Iterator k = pp.getTeams().iterator(); k.hasNext();) {
-                ProgramTeam pt = (ProgramTeam) k.next();
-                if (pt.getName().equals(teamName)) {
-                    teamMembers.add(pp.getProvider().getFormattedName());
-                }
-            }
-        }
-        request.setAttribute("teamMembers", teamMembers);
-      */
-        
-            
+                    
             /* PROGRESS NOTES */
             List notes = null;
 
@@ -382,7 +322,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         // readonly access to define creat a new note button in jsp.
         SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
-        boolean tmp = sec.GetAccess("_pmm.caseManagement","P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
+        boolean tmp = sec.GetAccess(KeyConstants.FUN_PMM_CASEMANAGEMENT,"P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
         Boolean readonly = new Boolean(tmp);
         se.setAttribute("readonly", readonly);
 
@@ -394,7 +334,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         }
         current = System.currentTimeMillis();
         log.debug("THE END " + String.valueOf(current - start));
-
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         String useNewCaseMgmt = (String) request.getSession().getAttribute("newCaseManagement");
         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
         if (useNewCaseMgmt != null && useNewCaseMgmt.equals("true")) return mapping.findForward("page.newcasemgmt.view");
@@ -406,9 +346,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward listNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String providerNo = getProviderNo(request);
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        String cId = request.getParameter("clientId");
+        if(Utility.IsEmpty(cId)){
+        	cId =request.getSession().getAttribute("casemgmt_DemoNo").toString();
+        }
 	    if(actionParam==null){
 	      actionParam = new HashMap();
-	         actionParam.put("clientId", request.getParameter("clientId")); 
+	         actionParam.put("clientId", cId); 
 	     }
 	    request.setAttribute("actionParam", actionParam);	      
 	    String demoNo= (String)actionParam.get("clientId");
@@ -512,7 +456,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
 
     public List sort_notes(List notes, String field) throws Exception {
-        log.debug("Sorting notes by field: " + field);
+        log.debug("Sorting notes by field: " + field); 
         if (field == null || field.equals("") || field.equals("update_date")) {
             return notes;
         }
