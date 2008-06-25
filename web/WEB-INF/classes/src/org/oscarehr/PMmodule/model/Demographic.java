@@ -343,6 +343,7 @@ public class Demographic implements Serializable {
     }
 
     public String getDob() {
+    	if(dateOfBirth==null) return "";
         return MyDateFormat.getStandardDate(dateOfBirth);
     }
 
