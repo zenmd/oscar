@@ -21,6 +21,14 @@
 <script lang="javascript">
 
 function submitForm(methodVal) {
+    if(methodVal=='save'){
+      var primaryWorker = document.getElementsByName("admission.primaryWorker")[0];
+      if(primaryWorker.value==''){
+        alert("Please select Primary Worker.");
+        primaryWorker.focus();
+        return;
+      }
+    }
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
