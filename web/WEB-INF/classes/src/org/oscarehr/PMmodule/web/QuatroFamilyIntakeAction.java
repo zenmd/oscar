@@ -1,45 +1,38 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
-import org.apache.struts.util.LabelValueBean;
+import org.apache.struts.action.ActionMessages;
+import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
+import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
+import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.PMmodule.service.ClientRestrictionManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
+import org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm;
 
+import oscar.MyDateFormat;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
-
-import org.jfree.chart.renderer.category.GanttRenderer;
-import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.ClientManager;
-import org.oscarehr.PMmodule.service.ClientRestrictionManager;
-import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramClientRestriction;
-import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
-import org.oscarehr.PMmodule.model.Demographic;
-
-import com.quatro.common.KeyConstants;
-import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
-import org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm;
-import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
-import org.oscarehr.PMmodule.model.QuatroIntake;
-import org.oscarehr.PMmodule.model.QuatroIntakeDB;
-
-import oscar.MyDateFormat;
 
 public class QuatroFamilyIntakeAction extends BaseClientAction {
 
