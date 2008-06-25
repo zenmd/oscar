@@ -57,7 +57,8 @@ public class SecurityManager {
         {
         	;
         }
-        
+
+        if(privilege==null) return "";
         return privilege;
     }
     public String GetAccess(String function)
