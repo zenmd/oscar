@@ -382,13 +382,13 @@ public class RoleManagerAction extends DispatchAction {
 		ArrayList listForSave = new ArrayList();
 		for (int i = 0; i < lineno; i++) {
 			String[] function_code = (String[]) map.get("function_code" + i);
-			if (function_code != null && function_code[0].length() > 0) {
+			String[] accessType_code = (String[]) map.get("accessTypes_code" + i);
+			if (function_code != null && function_code[0].length() > 0 && accessType_code!=null && accessType_code[0].length()>0) {
 				Secobjprivilege objNew = new Secobjprivilege();
 				objNew.setObjectname(function_code[0]);
 				objNew.setRoleusergroup(roleName);
 
-				String[] accessType_code = (String[]) map
-						.get("accessTypes_code" + i);
+				//String[] accessType_code = (String[]) map.get("accessTypes_code" + i);
 				if (accessType_code != null)
 					objNew.setPrivilege(accessType_code[0]);
 				
