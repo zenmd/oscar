@@ -55,6 +55,10 @@ public class IntakeManager {
 		this.historyDao = historyDao;
 	}
 
+	public List getActiveIntakeIds(Integer clientId){
+		return intakeDao.getActiveIntakeIds(clientId);
+	}
+
     public void removeInactiveIntakeFamilyMember(String sDependentInakeIds, Integer intakeHeadId){
     	if(sDependentInakeIds==null) return;
     	

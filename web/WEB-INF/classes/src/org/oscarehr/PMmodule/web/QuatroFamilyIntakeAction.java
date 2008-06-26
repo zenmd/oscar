@@ -395,18 +395,47 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        }else{
          request.setAttribute("bDupliDemographicNoApproved", "true");
        }
+
+       Integer headIntakeId = Integer.valueOf(clientForm.getIntakeId());
        
        //check if family members existing in other families.
-       for(int i=0;i<dependentsSize;i++){
-         QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
+       if(KeyConstants.INTAKE_STATUS_ACTIVE.equals(clientForm.getIntakeStatus())){
+  	     //intakeFamily is null before a family created
+    	 List intakeFamily = intakeManager.getClientFamilyByIntakeId(headIntakeId.toString());
+         for(int i=0;i<dependentsSize;i++){
+           QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
+           int j=-1;
+           if(intakeFamily!=null){
+             for(j=0;j<intakeFamily.size();j++){
+               //obj5: current family member in DB
+        	   QuatroIntakeFamily obj5 = (QuatroIntakeFamily)intakeFamily.get(j);
+               if(obj3.getClientId().equals(obj5.getClientId())) break;
+             }
+           }
          
-         //only check intake_status=active/admitted
-         //if intake_status=active, delete from intake_family, keep current intakeId and add new record in intake_family
-         //if intake_status=admitted, discharge from admission, delete from intake_family, create new intake intakeId and add new record in intake_family
+           //new added dependent (existing client)
+           if(intakeFamily==null || (j==intakeFamily.size() && obj3.getClientId().intValue()>0)){
+             //only check intake_status=active/admitted
+             List activeIntakeIds = intakeManager.getActiveIntakeIds(obj3.getClientId());
+             for(j=0;j<activeIntakeIds.size();j++){
+               Integer intakeHeadId =intakeManager.getIntakeFamilyHeadId(((Integer)activeIntakeIds.get(j)).toString());
+               if(intakeHeadId.intValue()>0 && !intakeHeadId.equals(headIntakeId)){
+          		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.existing_in_other_family",
+               			request.getContextPath(), obj3.getLastName() + "," + obj3.getFirstName()));
+                  isError = true;
+               }
+             }
+           }
+         }
+         if(isError){
+	       saveMessages(request,messages);
+           clientForm.setDependents(dependents);
+           clientForm.setDependentsSize(dependents.size());
+           return mapping.findForward("edit");
+         }
        }       
        
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-   	   Integer headIntakeId = Integer.valueOf(clientForm.getIntakeId());
  	   QuatroIntake headIntake = intakeManager.getQuatroIntake(headIntakeId);
 	   Program program = programManager.getProgram(headIntake.getProgramId());
        for(int i=0;i<dependentsSize;i++){
