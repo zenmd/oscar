@@ -92,11 +92,24 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			alert("Please specify if the complainant was satisfied with the outcome before save.");
 			return;
 		}
-		
+		var completeStatus = document.getElementsByName("complaint.status")[0].checked == true;
+		var completeDate = document.getElementsByName("complaint.completedDatex")[0].value;
+		if(completeStatus && completeDate.length == 0){
+			alert("Please specify the complete date before save.");
+			document.getElementsByName("complaint.completedDatex")[0].focus();
+			return;
+		}
+		if(!completeStatus && completeDate.length > 0){
+			confirmComplete();
+		}
+		if(completeDate.length > 0 && !validateCompleteDate(completeDate)){
+			document.getElementsByName("complaint.completedDatex")[0].focus();
+			return;
+		}
 		
 		 	document.forms[0].method.value = methodVal;
 			document.forms[0].submit();
-		
+			//alert("Debug:submitted");
 	}
 	
 	function isName(str) 
@@ -113,7 +126,36 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		}
 		return flag;
 	}
-
+	
+	function confirmComplete(){
+		var result = confirm("Complaint is about to be completed. \nNo further changes to the complaint will be allowed.\nAre you sure to complete this complaint?");
+		if(!result){
+			document.getElementsByName("complaint.completedDatex")[0].value = '';
+			document.getElementsByName("complaint.status")[0].checked=false;
+			document.getElementsByName("complaint.status")[1].checked=true;
+		}else{
+			document.getElementsByName("complaint.status")[0].checked=true;
+			document.getElementsByName("complaint.status")[1].checked=false;
+		}
+		return result;
+	}
+	function cancelComplete(){
+			document.getElementsByName("complaint.completedDatex")[0].value = '';
+	}
+	function validateCompleteDate(myDate){
+		var date=new Date();
+		var myDate_array=myDate.split("/");
+		date.setFullYear(myDate_array[0]);
+		date.setMonth(myDate_array[1]-1);
+		date.setDate(myDate_array[2]);
+		
+		var today = new Date;
+	    if (date > today){
+	      alert('Complete Date can not be after the current date.');
+	      return false;
+	    }
+	    return true;
+	}
 	function validateStandards(){
 		var result = false;
 		var flag = document.getElementsByName("isStandards")[0].checked;
@@ -399,8 +441,8 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	
 							<tr>
 								<td colspan="4">Complaint Status
-									<html-el:radio property="complaint.status" value="1">Completed</html-el:radio>
-									<html-el:radio property="complaint.status" value="0">In Progress</html-el:radio>
+									<html-el:radio property="complaint.status" value="1" onclick="javascript:confirmComplete();">Completed</html-el:radio>
+									<html-el:radio property="complaint.status" value="0" onclick="javascript:cancelComplete();">In Progress</html-el:radio>
 								</td>
 								
 							</tr>
@@ -408,7 +450,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 							<tr>
 								<td>Date Completed</td>
 								<td><quatro:datePickerTag property="complaint.completedDatex"
-									width="70%" openerForm="quatroClientComplaintForm" /></td>
+									width="70%" openerForm="quatroClientComplaintForm" onchange="javascript:confirmComplete();"/></td>
 								<td>Time Spent on Complaint</td>
 								<td><html-el:text property="complaint.duration" maxlength="10"/> minutes</td>
 							</tr>
