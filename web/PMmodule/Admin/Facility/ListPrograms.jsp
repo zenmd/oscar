@@ -1,14 +1,12 @@
 <%@ include file="/taglibs.jsp"%>
 <% String s = "debug"; %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
-<bean:define id="facility" name="facilityManagerForm"
-	property="facility" />
+<bean:define id="facility" name="facilityManagerForm" property="facility" />
 
 <html:form action="/PMmodule/FacilityManager.do">
 	<input type="hidden" name="method" value="save" />
 
-	<table cellpadding="0" cellspacing="0" border="0" width="100%"
-		height="100%">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%"	height="100%">
 
 		<!-- Title -->
 		<tr>
@@ -24,21 +22,18 @@
 				<!-- submenu -->
 				<tr>
 					<td align="left" class="buttonBar">
-					<html:link action="/Home.do"
-						style="color:Navy;text-decoration:none">&nbsp;
+					<html:link action="/Home.do" style="color:Navy;text-decoration:none">&nbsp;
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 						
-					<html:link
-						action="/PMmodule/FacilityManager.do?method=list"
-						style="color:Navy;text-decoration:none;">
+					<html:link	action="/PMmodule/FacilityManager.do?method=list"	style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;</html:link>
 					</td>
 				</tr>
 
 				<!-- messages -->
 				<tr>
-					<td align="left" class="message"><logic:messagesPresent
-						message="true">
+					<td align="left" class="message">
+					<logic:messagesPresent	message="true">
 						<br />
 						<html:messages id="message" message="true" bundle="pmm">
 							<c:out escapeXml="false" value="${message}" />
@@ -77,9 +72,8 @@
 								value="<%=((Facility)facility).getId().toString()%>">
 								<display:column sortable="true" sortProperty="name"
 									title="Program Name">
-									<a
-										href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?id=<c:out value="${program.id}"/>"><c:out
-										value="${program.name}" /></a>
+									<a	href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?programId=<c:out value="${program.id}"/>">
+									<c:out	value="${program.name}" /></a>
 								</display:column>
 							</logic:equal>
 							<logic:notEqual name="program" property="facilityId"
