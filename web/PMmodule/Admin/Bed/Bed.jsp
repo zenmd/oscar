@@ -199,12 +199,12 @@ String s="debug";
 									</table>
 
 									<!-- end room status & bed program filter --> 
-									<display:table	class="simple" name="sessionScope.bedManagerForm.rooms"		uid="room" requestURI="/PMmodule/BedManager.do"	summary="Edit rooms">
-										<display:column title="Name" sortable="true">
+									<display:table class="simple" name="sessionScope.bedManagerForm.rooms"	uid="room" requestURI="/PMmodule/BedManager.do"	summary="Edit rooms">
+										<display:column title="Name" sortable="true" sortName="room" sortProperty="name">
 											<input type="text" style="width:100%" name="rooms[<c:out value="${room_rowNum - 1}" />].name"
 												value="<c:out value="${room.name}" />" />
 										</display:column>
-										<display:column title="Floor" sortable="true">
+										<display:column title="Floor" sortable="true" sortName="room" sortProperty="floor">
 											<input type="text" style="width:100%"	name="rooms[<c:out value="${room_rowNum - 1}" />].floor" value="<c:out value="${room.floor}" />" />
 										</display:column>
 										<display:column title="Type">
@@ -283,7 +283,7 @@ String s="debug";
 											</c:choose>
 										</display:column>
 
-										<display:column title="Delete" sortable="true">	
+										<display:column title="Delete">	
 											<c:if test="${!isReadOnly}">	
 												
 												<c:if test="${room.id != null}">									
@@ -354,7 +354,7 @@ String s="debug";
 										<!-- end bed status & bedRoom filter --> 
 										<display:table	class="simple" name="sessionScope.bedManagerForm.beds"	uid="bed" requestURI="/PMmodule/BedManager.do"	summary="Edit beds">
 	
-											<display:column title="Name" sortable="true">
+											<display:column title="Name" sortable="true" sortName="bed" sortProperty="name">
 												<input type="text" style="width:100%" 	name="beds[<c:out value="${bed_rowNum - 1}" />].name"
 													value="<c:out value="${bed.name}" />" />
 											</display:column>
@@ -388,7 +388,7 @@ String s="debug";
 													</c:forEach>
 												</select>
 											</display:column>
-											<display:column property="reservationEnd" sortable="true"	title="Reserved Until" />
+											
 											<display:column title="Active" sortable="true">
 												<c:choose>
 													<c:when test="${bed.active}">
@@ -400,7 +400,7 @@ String s="debug";
 												</c:choose>
 											</display:column>
 	
-											<display:column title="Delete" sortable="true">												
+											<display:column title="Delete">												
 												<c:if test="${!isReadOnly}">
 													<c:if test="${bed.id != null}">	
 														<a href="javascript:deleteBed2(<c:out value="${bed.id}"/>);">Delete </a>
