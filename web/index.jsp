@@ -31,29 +31,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
-<caisi:isModuleLoad moduleName="ticklerplus">
-	<%
-//		if (session.getAttribute("user") != null) {
-//			response.sendRedirect("provider/providercontrol.jsp");
-//		}
-	%>
-</caisi:isModuleLoad>
 <%
 	OscarProperties props = OscarProperties.getInstance();
 
 	BuildInfo buildInfo = BuildInfo.getInstance();
 	String buildDate = "2008-05-20 18:22"; //buildInfo.getBuildDate();
 
-	// clear old cookies
-	Cookie rcpCookie = new Cookie(CookieSecurity.receptionistCookie, "");
-	Cookie prvCookie = new Cookie(CookieSecurity.providerCookie, "");
-	Cookie admCookie = new Cookie(CookieSecurity.adminCookie, "");
-	rcpCookie.setPath("/");
-	prvCookie.setPath("/");
-	admCookie.setPath("/");
-	response.addCookie(rcpCookie);
-	response.addCookie(prvCookie);
-	response.addCookie(admCookie);
 	if (props.isSiteSecured()) {
 		response.sendRedirect("login.jsp");
 	}
@@ -145,7 +128,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 					Toronto</font></td>
 				</tr>
 				<tr>
-					<td align="center"><font size="1" face="Arial">Build: 2008-06-16 10:00</font>
+					<td align="center"><font size="1" face="Arial">Build: 2008-06-13 15:15</font>
 					</td>
 				</tr>
 			</table>
