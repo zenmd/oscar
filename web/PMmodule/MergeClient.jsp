@@ -62,8 +62,8 @@
 		// form.elements['criteria.searchUsingSoundex'].checked = true;
 		// form.elements['criteria.dateFrom'].value=''; 
 		// form.elements['criteria.dateTo'].value=''; 
-		form.elements['criteria.bedProgramId'].selectedIndex = 0;
-		form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
+		// form.elements['criteria.bedProgramId'].selectedIndex = 0;
+		// form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
