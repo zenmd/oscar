@@ -722,13 +722,26 @@ function checkExistClients(){
 					<table width="100%" class="simple">
 						<tr>
 							<td width="20%">Program*</td>
-							<td width="30%"><html-el:hidden
-								property="intake.currentProgramId" /> <html-el:select
-								property="intake.programId">
+							<td width="30%">
+							<c:choose>
+							<c:when test="${quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
+							<html-el:hidden	property="intake.currentProgramId" /> 
+								<html-el:select	property="intake.programId" disabled="true">
 								<option value=""></option>
 								<html-el:optionsCollection property="programList" value="value"
 									label="label" />
-							</html-el:select></td>
+							</html-el:select>
+							</c:when>
+							<c:otherwise>
+							<html-el:hidden	property="intake.currentProgramId" /> 
+								<html-el:select	property="intake.programId">
+								<option value=""></option>
+								<html-el:optionsCollection property="programList" value="value"
+									label="label" />
+							</html-el:select>
+							</c:otherwise>
+							</c:choose>
+							</td>
 							<td width="25%">End Date (service program)</td>
 							<td width="25%"><quatro:datePickerTag
 								property="intake.endDateTxt" openerForm="quatroIntakeEditForm">
