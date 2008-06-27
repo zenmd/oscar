@@ -61,7 +61,8 @@
 		for(var i=0;i<elements.length;i++) {
 			if(elements[i].type == 'checkbox' && elements[i].name.substring(0,8) == 'checked_') {
 				if(elements[i].checked == true) {
-					var admissionId = elements[i].name.substring(8);
+					var clientInx =elements[i].name.indexOf(":");
+					var admissionId = elements[i].name.substring(8,clientInx-1);
 					admissionIds[x++] = admissionId;
 					numClients++;
 				}
@@ -80,6 +81,36 @@
 			document.programManagerViewForm.submit();
 		}
 	}
+	
+	function do_swap_beds() {
+	
+		//get clients
+		var elements = document.programManagerViewForm.elements;
+		var swapIds = new Array();
+		var x=0;
+		var numClients = 0;
+		for(var i=0;i<elements.length;i++) {
+			if(elements[i].type == 'checkbox' && elements[i].name.substring(0,8) == 'checked_') {
+				if(elements[i].checked == true) {
+					var clientInx =elements[i].name.indexOf(":");
+					var swapId = elements[i].name.substring(clientInx+1);
+					swapIds[x++] = swapId;
+					numClients++;
+				}
+			}
+		}		
+		if(numClients !=2) {
+			alert('You have to select the clients and only select two!');
+			return false;
+		}
+		var msg = 'You are about to swap ' + numClients + ' client(s).' + '\n' +
+					'Are you sure you would like to continue?';
+		if(confirm(msg)) {	
+			document.programManagerViewForm.method.value='switch_beds';
+			document.programManagerViewForm.submit();
+		}
+	}
+	
 
 	function resetForm() {
 		document.getElementsByName("clientForm.firstName")[0].value = "";
@@ -178,7 +209,7 @@
 				<display:column title="Select">
 					<logic:equal name="clientInfo" property="isHead" value="true" >
 						<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
-							<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>">
+							<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>:<c:out value="${clientInfo.clientId}"/>">
 						</logic:equal>
 						<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
 							<input type="checkbox" disabled="disabled" name="checked_<c:out value="${clientInfo.admissionId}"/>">
@@ -214,6 +245,10 @@
 			
 			
 			<logic:notEmpty name="clientsLst">
+				<c:if test="${!isReadOnly}">
+					<input type="button" value="Swap Beds" onclick="javascript:do_swap_beds();"/>
+				</c:if>	
+
 				<br />
 				<table align="left">
 					<tr>

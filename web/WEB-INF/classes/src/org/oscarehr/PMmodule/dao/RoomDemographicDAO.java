@@ -114,5 +114,11 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
         getHibernateTemplate().delete(roomDemographic);
         getHibernateTemplate().flush();
     }
+    public void deleteRoomDemographic(String clients,Integer roomId){
+    	
+    	String sql ="delete from RoomDemographic where rd.id.demographicNo in ("+clients+") and roomId=?";
+    	getHibernateTemplate().update(sql,roomId); 
+    	getHibernateTemplate().flush();
+    }
 
 }

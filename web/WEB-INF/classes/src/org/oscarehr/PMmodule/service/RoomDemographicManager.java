@@ -88,5 +88,6 @@ public interface RoomDemographicManager {
 	 *            RoomDemographic relationship object
 	 */
 	public void deleteRoomDemographic(RoomDemographic roomDemographic);
+	public void deleteRoomDemographic(String clients,Integer roomId);
 
 }

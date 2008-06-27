@@ -192,7 +192,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 		if (bedDemographic == null) {
 			throw new IllegalArgumentException("bedDemographic must not be null");
 		}
-		validate(bedDemographic);
+		// validate(bedDemographic);
 		bedDemographicDAO.saveBedDemographic(bedDemographic);
 	}
 
@@ -205,6 +205,9 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 		}
 		
 		bedDemographicDAO.deleteBedDemographic(bedDemographic);
+	}
+	public void deleteBedDemographic(String cIds){
+		bedDemographicDAO.deleteBedDemographic(cIds);
 	}
 
 	void setAttributes(BedDemographic bedDemographic) {

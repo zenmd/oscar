@@ -168,7 +168,11 @@ public class BedDemographicDAO extends HibernateDaoSupport {
         getHibernateTemplate().delete(bedDemographic);
         getHibernateTemplate().flush();
     }
-
+    public void deleteBedDemographic(String clients){
+    	String sql = "delete from BedDemographic bd where bd.id.demographicNo in ("+clients+")";
+    	 getHibernateTemplate().update(sql);
+         getHibernateTemplate().flush();
+    }
     boolean bedDemographicExists(BedDemographicPK id) {
     	String clientIds=mergeClientDao.getMergedClientIds(id.getDemographicNo()); 
         boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from BedDemographic bd where bd.id.bedId = " + id.getBedId() + " and bd.id.demographicNo  in " + clientIds).next()).intValue() == 1);

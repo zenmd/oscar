@@ -76,7 +76,12 @@ public class BedManagerAction extends BaseFacilityAction {
 
         bForm.setFacilityId(facilityId);
         Room[] rooms = null;
-        Room[] temp = roomManager.getRooms(facilityId);
+        Boolean hasError=false;
+        if(null!=request.getAttribute("hasErrorRoom"))
+        hasError =(Boolean)request.getAttribute("hasErrorRoom");
+        Room[] temp =null;
+        if(hasError)temp=bForm.getRooms();
+        else temp = roomManager.getRooms(facilityId);
         ArrayList rmLst = new ArrayList();
         for(int i =0; i < temp.length; i++){
         	Room rm = temp[i];
@@ -127,10 +132,17 @@ public class BedManagerAction extends BaseFacilityAction {
         }
 
         List lst = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), null, false);
-        Bed[] bedsTemp= new Bed[lst.size()];
-        for(int i=0;i<lst.size();i++){
-        	bedsTemp[i]= (Bed)lst.get(i);
-        }
+        Bed[] bedsTemp= null;
+        hasError =false;
+        if(null!=request.getAttribute("hasErrorBed"))
+            hasError =(Boolean)request.getAttribute("hasErrorBed");
+        if(hasError) bedsTemp = bForm.getBeds();
+        else {
+        	bedsTemp=new Bed[lst.size()];        
+	        for(int i=0;i<lst.size();i++){
+	        	bedsTemp[i]= (Bed)lst.get(i);
+	        }
+	    }
         bForm.setBeds(bedsTemp);
 
 
@@ -190,7 +202,7 @@ public class BedManagerAction extends BaseFacilityAction {
     		Integer pId=rooms[i].getProgramId();
     		if(i==0){
     			  Program pObj=programManager.getProgram(pId);
-    			  pObj.setTotalUsedRoom(rooms[i].getOccupancy());
+    			  if(rooms[i].isActive()) pObj.setTotalUsedRoom(rooms[i].getOccupancy());
     			  programLst.add(pObj);
     		}
     		else{
@@ -198,7 +210,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	    			  Program pLocal =(Program)programLst.get(j);
 	    			  if(pId.intValue()==pLocal.getId().intValue())  pLocal.setTotalUsedRoom(pLocal.getTotalUsedRoom()+rooms[i].getOccupancy());	    			  
 	    			  else {
-	    				  pLocal.setTotalUsedRoom(rooms[i].getOccupancy());
+	    				  if(rooms[i].isActive())pLocal.setTotalUsedRoom(rooms[i].getOccupancy());
 	        			  programLst.add(pLocal);
 	    			  }
 	    		  }
@@ -239,16 +251,18 @@ public class BedManagerAction extends BaseFacilityAction {
         	}
         }
         catch (RoomHasActiveBedsException e) {
+        	isValid = false;
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.active.beds.error", e.getMessage()));
             saveMessages(request, messages);
         }
         catch (DuplicateRoomNameException e) {
+        	isValid=false;
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.duplicate.name.error", e.getMessage()));
             saveMessages(request, messages);
         }
-
+        request.setAttribute("hasErrorRoom", !isValid);
         return manage(mapping, form, request, response);
     }
 
@@ -333,15 +347,17 @@ public class BedManagerAction extends BaseFacilityAction {
             }
 
         }
-        catch (BedReservedException e) {           
+        catch (BedReservedException e) {
+        	isValid =false;
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.reserved.error", e.getMessage()));
             saveMessages(request, messages);
         }
-        catch (DuplicateBedNameException e) {          
+        catch (DuplicateBedNameException e) {
+        	isValid =false;
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.duplicate.name.error", e.getMessage()));
             saveMessages(request, messages);
         }
-
+        request.setAttribute("hasErrorBed", !isValid);
         return manage(mapping, form, request, response);
     }
 

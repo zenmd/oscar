@@ -157,6 +157,10 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 		
 		roomDemographicDAO.deleteRoomDemographic(roomDemographic);
 	}
+	public void deleteRoomDemographic(String clients, Integer roomId){
+		if(clients==null) return; 
+		roomDemographicDAO.deleteRoomDemographic(clients,roomId);
+	}
 
 	void setAttributes(RoomDemographic roomDemographic) {
 

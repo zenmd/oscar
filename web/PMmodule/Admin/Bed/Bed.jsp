@@ -123,6 +123,8 @@
 String s="debug"; 
 %>
 <html:form action="/PMmodule/BedManager.do">
+	<input type="hidden" name="hasErrorRoom" />
+	<input type="hidden" name="hasErrorBed" />
 	<table cellpadding="0" cellspacing="0" border="0" width="100%" 	height="100%">
 		<tr>
 			<th class="pageTitle" align="center">Facility Management - Manage Beds</th>

@@ -92,5 +92,6 @@ public interface BedDemographicManager {
 	 *            BedDemographic relationship object
 	 */
 	public void deleteBedDemographic(BedDemographic bedDemographic);
+	public void deleteBedDemographic(String cIds);
 
 }

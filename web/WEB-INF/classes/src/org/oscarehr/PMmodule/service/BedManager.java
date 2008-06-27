@@ -375,7 +375,7 @@ public class BedManager {
     			
     			if(beds[i].getRoomId().intValue() == rooms[j].getId().intValue()){
     				bedList.add(beds[i]);
-    				rooms[j].setTotalBedOccupancy(rooms[j].getTotalBedOccupancy()+1);
+    				if(beds[i].isActive())rooms[j].setTotalBedOccupancy(rooms[j].getTotalBedOccupancy()+1);
     				break;
     			}
     		}
