@@ -211,7 +211,9 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		}catch(Exception e) {
 			log.warn(e);
 		}
-
+		if(!Utility.IsEmpty(searchBean.getSearchCaseStatus())){
+			criteria.add(Expression.eq("caseStatusId", Integer.valueOf(searchBean.getSearchCaseStatus())));
+		}
 		criteria.addOrder(Order.desc("observation_date"));
 		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		List lst=criteria.list();
