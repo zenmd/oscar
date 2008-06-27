@@ -762,8 +762,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         while (e.hasMoreElements()) {
             String name = (String) e.nextElement();
             if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {
-                Integer clientIdx =name.indexOf(":");
-            	String admissionId = name.substring(8,clientIdx-1);
+                Integer clientIdx =Integer.valueOf(name.indexOf(":"));
+            	String admissionId = name.substring(8,clientIdx.intValue()-1);
                 Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
                 if (admission == null) {
                     log.warn("admission #" + admissionId + " not found.");
@@ -1039,11 +1039,11 @@ public class ProgramManagerViewAction extends BaseProgramAction {
          while (e.hasMoreElements()) {
              String name = (String) e.nextElement();
              if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {                 
-            	  Integer clientIdx =name.indexOf(":");
-              	  String clientId = name.substring(clientIdx+1);
+            	  Integer clientIdx =Integer.valueOf(name.indexOf(":"));
+              	  String clientId = name.substring(clientIdx.intValue()+1);
                   BedDemographic bdObj =bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId));
             	 lstBeds.add(bdObj);     
-            	 String admissionId = name.substring(8,clientIdx-1);
+            	 String admissionId = name.substring(8,clientIdx.intValue()-1);
                  Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
                  lstAdmission.add(admission);
              }
@@ -1091,8 +1091,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    		}
    		Integer bedId1 =bedDemographic1.getBedId();
 		Integer bedId2=bedDemographic2.getBedId();
-		Integer roomId1 = 0;
-		Integer roomId2 = 0;
+		Integer roomId1 = new Integer(0);
+		Integer roomId2 = new Integer(0);
    		//System.out.println("ProgramManagerViewAction.switch_beds(): isSameRoom = " + isSameRoom);    	
    		if(isSameRoom){//you can switch beds in same room for any client combination
    			

@@ -76,11 +76,11 @@ public class BedManagerAction extends BaseFacilityAction {
 
         bForm.setFacilityId(facilityId);
         Room[] rooms = null;
-        Boolean hasError=false;
+        Boolean hasError= Boolean.FALSE;
         if(null!=request.getAttribute("hasErrorRoom"))
         hasError =(Boolean)request.getAttribute("hasErrorRoom");
         Room[] temp =null;
-        if(hasError)temp=bForm.getRooms();
+        if(hasError.booleanValue())temp=bForm.getRooms();
         else temp = roomManager.getRooms(facilityId);
         ArrayList rmLst = new ArrayList();
         for(int i =0; i < temp.length; i++){
@@ -133,10 +133,10 @@ public class BedManagerAction extends BaseFacilityAction {
 
         List lst = bedManager.getBedsByFilter(facilityId, bForm.getBedRoomFilterForBed(), null, false);
         Bed[] bedsTemp= null;
-        hasError =false;
+        hasError =Boolean.FALSE;
         if(null!=request.getAttribute("hasErrorBed"))
             hasError =(Boolean)request.getAttribute("hasErrorBed");
-        if(hasError) bedsTemp = bForm.getBeds();
+        if(hasError.booleanValue()) bedsTemp = bForm.getBeds();
         else {
         	bedsTemp=new Bed[lst.size()];        
 	        for(int i=0;i<lst.size();i++){
@@ -208,7 +208,7 @@ public class BedManagerAction extends BaseFacilityAction {
     		else{
 	    		  for(int j=0;j<programLst.size();j++){
 	    			  Program pLocal =(Program)programLst.get(j);
-	    			  if(pId.intValue()==pLocal.getId().intValue())  pLocal.setTotalUsedRoom(pLocal.getTotalUsedRoom()+rooms[i].getOccupancy());	    			  
+	    			  if(pId.intValue()==pLocal.getId().intValue())  pLocal.setTotalUsedRoom(Integer.valueOf((pLocal.getTotalUsedRoom().intValue() +rooms[i].getOccupancy().intValue())));	    			  
 	    			  else {
 	    				  if(rooms[i].isActive())pLocal.setTotalUsedRoom(rooms[i].getOccupancy());
 	        			  programLst.add(pLocal);
@@ -220,7 +220,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	Iterator item = programLst.iterator();
     	while(item.hasNext()){
     		Program pLocal =(Program)item.next();
-    		if(pLocal.getTotalUsedRoom()>pLocal.getCapacity_space()){
+    		if(pLocal.getTotalUsedRoom().compareTo(pLocal.getCapacity_space())> 0){
     			isValid = false;
     			  messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.program.room.over", request.getContextPath(),pLocal.getName(),pLocal.getCapacity_space()));
   	            saveMessages(request, messages);
@@ -262,7 +262,7 @@ public class BedManagerAction extends BaseFacilityAction {
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.duplicate.name.error", e.getMessage()));
             saveMessages(request, messages);
         }
-        request.setAttribute("hasErrorRoom", !isValid);
+        request.setAttribute("hasErrorRoom", Boolean.valueOf(!isValid));
         return manage(mapping, form, request, response);
     }
 
@@ -333,7 +333,7 @@ public class BedManagerAction extends BaseFacilityAction {
             beds = bedManager.getBedsForUnfilledRooms(rooms, beds);
             if(rooms!=null)
             	for(int i=0;i<rooms.length;i++){
-            		if(rooms[i].getTotalBedOccupancy()>rooms[i].getOccupancy()){
+            		if(rooms[i].getTotalBedOccupancy().compareTo(rooms[i].getOccupancy())>0){
             			isValid =false;
             			messages.add(ActionMessages.GLOBAL_MESSAGE, 
             					new ActionMessage("message.room.bed.over", request.getContextPath(),rooms[i].getName(),rooms[i].getOccupancy()));
@@ -357,7 +357,7 @@ public class BedManagerAction extends BaseFacilityAction {
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.duplicate.name.error", e.getMessage()));
             saveMessages(request, messages);
         }
-        request.setAttribute("hasErrorBed", !isValid);
+        request.setAttribute("hasErrorBed",Boolean.valueOf(!isValid));
         return manage(mapping, form, request, response);
     }
 
