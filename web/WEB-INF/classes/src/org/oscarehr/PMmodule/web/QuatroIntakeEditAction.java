@@ -312,10 +312,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	String clientId = qform.getClientId();
         
     	Demographic client= qform.getClient();
-    	QuatroIntake obj= qform.getIntake();
+    	QuatroIntake intake= qform.getIntake();
     	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	//check for new client duplication
-    	if(obj.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N")){
+    	if(intake.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N")){
     	   ClientSearchFormBean criteria = new ClientSearchFormBean();
     	   criteria.setActive("");
     	   criteria.setAssignedToProviderNo("");
@@ -331,17 +331,13 @@ public class QuatroIntakeEditAction extends BaseClientAction {
              saveMessages(request,messages);
              request.setAttribute("newClientFlag", "true");
        	     HashMap actionParam2 = new HashMap();
-    	     actionParam2.put("clientId", obj.getClientId()); 
-             actionParam2.put("intakeId", obj.getId().toString()); 
+    	     actionParam2.put("clientId", intake.getClientId()); 
+             actionParam2.put("intakeId", intake.getId().toString()); 
              request.setAttribute("actionParam", actionParam2);
 		     return mapping.findForward("edit");
  		   }  
 		}
     	
-//    	String[] split = qform.getDob().split("/");
-//		client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
-//		client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
-//		client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
 		client.setDateOfBirth(MyDateFormat.getCalendar(qform.getDob()));
 		client.setProviderNo(providerNo);
 		client.setLastUpdateDate(Calendar.getInstance());
@@ -354,8 +350,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
     	HashMap actionParam = new HashMap();
     	actionParam.put("clientId", client.getDemographicNo()); 
-        actionParam.put("intakeId", obj.getId().toString()); 
-        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(obj.getId().toString());
+        actionParam.put("intakeId", intake.getId().toString()); 
+        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
         if(intakeHeadId.intValue()!=0){
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
@@ -364,26 +360,31 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         }
         request.setAttribute("actionParam", actionParam);
         request.setAttribute("client", client);
-    	obj.setClientId(client.getDemographicNo());
+    	intake.setClientId(client.getDemographicNo());
 		
     	/* intake */
-    	if (null != obj.getEndDateTxt()) {
-    		obj.setEndDate(MyDateFormat.getCalendar(obj.getEndDateTxt()));
+    	if (null != intake.getEndDateTxt()) {
+    		intake.setEndDate(MyDateFormat.getCalendar(intake.getEndDateTxt()));
     	}
-    	obj.setLastUpdateDate(Calendar.getInstance());
+    	intake.setLastUpdateDate(Calendar.getInstance());
 		//get program type
     	ArrayList lst= (ArrayList)qform.getProgramTypeList();
 		for(int i=0;i<lst.size();i++){
 			LabelValueBean obj2= (LabelValueBean)lst.get(i);
-			if(Integer.valueOf(obj2.getValue()).equals(obj.getProgramId())){
-			  obj.setProgramType(obj2.getLabel());
+			if(Integer.valueOf(obj2.getValue()).equals(intake.getProgramId())){
+			  intake.setProgramType(obj2.getLabel());
 			  break;
 			}
 		}
 
-		//check gender conflict and age conflict
-	    if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-		   Program program = programManager.getProgram(obj.getProgramId());
+	  if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)) &&
+		KeyConstants.INTAKE_STATUS_ACTIVE.equals(intake.getIntakeStatus()) &&
+		(intake.getId().intValue()==0 || 
+		(intake.getId().intValue()>0 && !intake.getCurrentProgramId().equals(intake.getProgramId())))){
+
+	    //check gender conflict and age conflict
+	    if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+		   Program program = programManager.getProgram(intake.getProgramId());
 		   if(clientRestrictionManager.checkGenderConflict(program, client)){
           	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
               isWarning = true;
@@ -395,16 +396,16 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}
 		
 		//check service restriction
-		if(!obj.getProgramId().equals(obj.getCurrentProgramId())){
+		if(!intake.getProgramId().equals(intake.getCurrentProgramId())){
           ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-        		obj.getProgramId(), obj.getClientId(), new Date());
+        		intake.getProgramId(), intake.getClientId(), new Date());
           if (restrInPlace != null && request.getParameter("skipError")==null) {
 //          	for(Object element : qform.getProgramList()) {
         	List programs = qform.getProgramList();  
         	for(int i=0;i<programs.size();i++) {
         		LabelValueBean obj3 = (LabelValueBean) programs.get(i);
-            	if(obj3.getValue().equals(obj.getProgramId().toString())){
-          		  if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+            	if(obj3.getValue().equals(intake.getProgramId().toString())){
+          		  if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
                		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
                			request.getContextPath(), obj3.getLabel()));
                		isWarning = true;
@@ -424,41 +425,48 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     		}
           }
 		}
-		
-		if(obj.getCreatedOnTxt().equals("")==false){
-		  obj.setCreatedOn(MyDateFormat.getCalendar(obj.getCreatedOnTxt()));
+		if(isWarning){
+  			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.overwrite_conflict",
+          			request.getContextPath()));
+            saveMessages(request,messages);
+			return mapping.findForward("edit");
+		}
+	  }
+	  
+		if(intake.getCreatedOnTxt().equals("")==false){
+			intake.setCreatedOn(MyDateFormat.getCalendar(intake.getCreatedOnTxt()));
 		}else{
 	  	  Calendar cal= Calendar.getInstance();
-		  obj.setCreatedOn(cal);
-	      obj.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "/" + 
+	  	  intake.setCreatedOn(cal);
+	  	  intake.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "/" + 
 				  String.valueOf(cal.get(Calendar.MONTH)+1) + "/" +  
 				  String.valueOf(cal.get(Calendar.DATE)));
 		}
  
-		if(obj.getId().intValue()==0)obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);		
-		obj.setLanguage(request.getParameter("language_code"));
-		obj.setOriginalCountry(request.getParameter("originalCountry_code"));
-//		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+		if(intake.getId().intValue()==0) intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);		
+		intake.setLanguage(request.getParameter("language_code"));
+		intake.setOriginalCountry(request.getParameter("originalCountry_code"));
+//		intake.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
          
-		obj.setPregnant(request.getParameter("intake.pregnant"));
-		obj.setDisclosedAbuse(request.getParameter("intake.disclosedAbuse"));
-		obj.setObservedAbuse(request.getParameter("intake.observedAbuse"));
-		obj.setDisclosedMentalIssue(request.getParameter("intake.disclosedMentalIssue"));
-		obj.setPoorHygiene(request.getParameter("intake.poorHygiene"));
-		obj.setObservedMentalIssue(request.getParameter("intake.observedMentalIssue"));
-		obj.setDisclosedAlcoholAbuse(request.getParameter("intake.disclosedAlcoholAbuse"));
-		obj.setObservedAlcoholAbuse(request.getParameter("intake.observedAlcoholAbuse"));
-		obj.setBirthCertificateYN(request.getParameter("intake.birthCertificateYN"));
-		obj.setSINYN(request.getParameter("intake.SINYN"));
-		obj.setHealthCardNoYN(request.getParameter("intake.healthCardNoYN"));
-		obj.setDriverLicenseNoYN(request.getParameter("intake.driverLicenseNoYN"));
-		obj.setCitizenCardNoYN(request.getParameter("intake.citizenCardNoYN"));
-		obj.setNativeReserveNoYN(request.getParameter("intake.nativeReserveNoYN"));
-		obj.setVeteranNoYN(request.getParameter("intake.veteranNoYN"));
-		obj.setRecordLandingYN(request.getParameter("intake.recordLandingYN"));
-		obj.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
-        obj.setStaffId(providerNo);
-        obj.setLastUpdateDate(new GregorianCalendar());
+		intake.setPregnant(request.getParameter("intake.pregnant"));
+		intake.setDisclosedAbuse(request.getParameter("intake.disclosedAbuse"));
+		intake.setObservedAbuse(request.getParameter("intake.observedAbuse"));
+		intake.setDisclosedMentalIssue(request.getParameter("intake.disclosedMentalIssue"));
+		intake.setPoorHygiene(request.getParameter("intake.poorHygiene"));
+		intake.setObservedMentalIssue(request.getParameter("intake.observedMentalIssue"));
+		intake.setDisclosedAlcoholAbuse(request.getParameter("intake.disclosedAlcoholAbuse"));
+		intake.setObservedAlcoholAbuse(request.getParameter("intake.observedAlcoholAbuse"));
+		intake.setBirthCertificateYN(request.getParameter("intake.birthCertificateYN"));
+		intake.setSINYN(request.getParameter("intake.SINYN"));
+		intake.setHealthCardNoYN(request.getParameter("intake.healthCardNoYN"));
+		intake.setDriverLicenseNoYN(request.getParameter("intake.driverLicenseNoYN"));
+		intake.setCitizenCardNoYN(request.getParameter("intake.citizenCardNoYN"));
+		intake.setNativeReserveNoYN(request.getParameter("intake.nativeReserveNoYN"));
+		intake.setVeteranNoYN(request.getParameter("intake.veteranNoYN"));
+		intake.setRecordLandingYN(request.getParameter("intake.recordLandingYN"));
+		intake.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
+		intake.setStaffId(providerNo);
+		intake.setLastUpdateDate(new GregorianCalendar());
         LookupCodeValue language = new LookupCodeValue();
         language.setCode(request.getParameter("language_code"));
         language.setDescription(request.getParameter("language_description"));
@@ -470,22 +478,22 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		
         Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         
-		if(obj.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(obj.getClientId(),providerNo, shelterId).size()>0){
+		if(intake.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(intake.getClientId(),providerNo, shelterId).size()>0){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
           			request.getContextPath()));
         	isError = true;
 		}else{
-			ArrayList lst2 = intakeManager.saveQuatroIntake(obj);
+			ArrayList lst2 = intakeManager.saveQuatroIntake(intake);
 			Integer intakeId = (Integer)lst2.get(0);
 			Integer referralId = (Integer)lst2.get(1);
 			Integer queueId = (Integer)lst2.get(2);
-			obj.setId(intakeId);
-			obj.setReferralId(referralId);
-			obj.setQueueId(queueId);
-	        obj.setCurrentProgramId(obj.getProgramId());
-			qform.setIntake(obj);
-	        request.setAttribute("programId", obj.getProgramId()); 
-	        request.setAttribute("queueId", obj.getQueueId()); 
+			intake.setId(intakeId);
+			intake.setReferralId(referralId);
+			intake.setQueueId(queueId);
+			intake.setCurrentProgramId(intake.getProgramId());
+			qform.setIntake(intake);
+	        request.setAttribute("programId", intake.getProgramId()); 
+	        request.setAttribute("queueId", intake.getQueueId()); 
 
 		}
 		

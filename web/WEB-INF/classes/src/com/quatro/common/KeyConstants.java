@@ -172,4 +172,7 @@ public class KeyConstants {
   
   public static final String DEFAULT_FIELD_LENGTH_STRING="80";
   
+  //for page warnings/errors that need user to confirm before proceed save/update.
+  public static final String CONFIRMATION_CHECKBOX_NAME ="chk_confirm_overwrite";  
+  
  }

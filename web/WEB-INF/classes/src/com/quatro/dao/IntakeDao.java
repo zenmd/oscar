@@ -17,6 +17,9 @@ import com.quatro.dao.LookupDao;
 import com.quatro.web.intake.IntakeConstant;
 
 import org.oscarehr.PMmodule.dao.MergeClientDao;
+import org.oscarehr.PMmodule.dao.ProgramQueueDao;
+import org.oscarehr.PMmodule.dao.ClientReferralDAO;
+
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
@@ -31,6 +34,10 @@ import oscar.MyDateFormat;
 public class IntakeDao extends HibernateDaoSupport {
 
 	private MergeClientDao mergeClientDao;
+	
+	private ProgramQueueDao programQueueDao;
+    private ClientReferralDAO clientReferralDao;
+    
 	public List LoadOptionsList() {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
         return getHibernateTemplate().find(sSQL);
@@ -633,6 +640,28 @@ public class IntakeDao extends HibernateDaoSupport {
         //existing intake
         if(intakeDb.getId().intValue()>0){
 		  getHibernateTemplate().update(intakeDb);
+		  
+		  //always update programId in referral and queue record in case program changed on intake_edit jsp page.
+		  if(KeyConstants.INTAKE_STATUS_ACTIVE.equals(intakeDb.getIntakeStatus()) &&
+	        intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+	        	
+	        Integer queueId = intakeDb.getQueueId();
+	        if(queueId != null){
+	          ProgramQueue programQueue = programQueueDao.getProgramQueue(queueId);
+	          if(programQueue!=null){
+	             programQueue.setProgramId(intakeDb.getProgramId());
+	             programQueueDao.saveProgramQueue(programQueue);
+	          }
+        	}
+	        Integer referralId = intakeDb.getReferralId();
+	        if(referralId != null){
+	          ClientReferral clientReferral = clientReferralDao.getClientReferral(referralId);
+	          if(clientReferral!=null){
+	        	clientReferral.setProgramId(intakeDb.getProgramId());
+	        	clientReferralDao.saveClientReferral(clientReferral);
+	          }
+	        }
+		  }
 /*		  
 	      if(!bFamilyMember){
             //delete old referral and queue records linked to this intake
@@ -744,6 +773,14 @@ public class IntakeDao extends HibernateDaoSupport {
 	private LookupDao lookupDao; 
 	public void setLookupDao(LookupDao lookupDao) {
 		this.lookupDao = lookupDao;
+	}
+
+	public void setClientReferralDAO(ClientReferralDAO clientReferralDao) {
+		this.clientReferralDao = clientReferralDao;
+	}
+
+	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
+		this.programQueueDao = programQueueDao;
 	}
 	
 }
