@@ -9,12 +9,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.BedDemographic;
+import org.oscarehr.PMmodule.model.BedDemographicHistorical;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
@@ -23,6 +23,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 	private RoomDemographicDAO roomDemographicDAO;
 	private BedDemographicDAO bedDemographicDAO;
 	private RoomDemographicHistoricalDao roomDemographicHistoricalDao;
+	private BedDemographicHistoricalDao bedDemographicHistoricalDao;
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
@@ -77,7 +78,7 @@ public class AdmissionDao extends HibernateDaoSupport {
       	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
   	      if(rdm!=null){
   	    	  roomDemographicDAO.deleteRoomDemographic(rdm);
-  	     	   // room history
+  	     	  // update room_history
               Integer roomId = rdm.getId().getRoomId();
               RoomDemographicHistorical history = roomDemographicHistoricalDao.findById(roomId, admission.getId());
               if(history!=null){
@@ -86,7 +87,17 @@ public class AdmissionDao extends HibernateDaoSupport {
               }
   	      }
   	      BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
-  	      if(bdm!=null) bedDemographicDAO.deleteBedDemographic(bdm);
+  	      if(bdm!=null) {
+  	    	  bedDemographicDAO.deleteBedDemographic(bdm);
+  	    	  // update bed_history
+              Integer bedId = bdm.getId().getBedId();
+              BedDemographicHistorical history = bedDemographicHistoricalDao.findById(bedId, admission.getId());
+              if(history!=null){
+            	  history.setUsageEnd(Calendar.getInstance());
+                  bedDemographicHistoricalDao.saveOrUpdate(history);
+              }
+  	    	  
+  	      }
 
   	      admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
     	  clientHisDao.saveClientHistory(admission, null, null);
@@ -307,6 +318,11 @@ public class AdmissionDao extends HibernateDaoSupport {
 	public void setRoomDemographicHistoricalDao(
 			RoomDemographicHistoricalDao roomDemographicHistoricalDao) {
 		this.roomDemographicHistoricalDao = roomDemographicHistoricalDao;
+	}
+
+	public void setBedDemographicHistoricalDao(
+			BedDemographicHistoricalDao bedDemographicHistoricalDao) {
+		this.bedDemographicHistoricalDao = bedDemographicHistoricalDao;
 	}
 }
 

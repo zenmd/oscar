@@ -171,15 +171,15 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	 */
 	public BedDemographicHistorical[] getExpiredReservations() {
 		BedDemographicHistorical[] bedDemographicHistoricals = bedDemographicDAO.getBedDemographicHistoricals(DateTimeFormatUtils.getToday());
-		
-//		for (BedDemographicHistorical historical : bedDemographicHistoricals) {
-		for (int i=0;i<bedDemographicHistoricals.length;i++) {
-			BedDemographicHistorical historical = bedDemographicHistoricals[i]; 
-			BedDemographicHistoricalPK id = historical.getId();
-			
-			historical.setBed(bedDAO.getBed(id.getBedId()));
-			historical.setDemographic(demographicDAO.getClientByDemographicNo(id.getDemographicNo()));
-        }
+//		
+////		for (BedDemographicHistorical historical : bedDemographicHistoricals) {
+//		for (int i=0;i<bedDemographicHistoricals.length;i++) {
+//			BedDemographicHistorical historical = bedDemographicHistoricals[i]; 
+//			BedDemographicHistoricalPK id = historical.getId();
+//			
+//			historical.setBed(bedDAO.getBed(id.getBedId()));
+//			historical.setDemographic(demographicDAO.getClientByDemographicNo(id.getDemographicNo()));
+//        }
 		
 		return bedDemographicHistoricals;
 	}

@@ -580,5 +580,6 @@
     </bean>
     
     <bean id="roomDemographicHistoricalDao" class="org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao" autowire="byName" />
+    <bean id="bedDemographicHistoricalDao" class="org.oscarehr.PMmodule.dao.BedDemographicHistoricalDao" autowire="byName" />
     
 </beans>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
+import org.oscarehr.PMmodule.model.BedDemographicHistorical;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.dao.security.SecroleDao;
@@ -15,16 +15,16 @@ import com.quatro.dao.security.SecroleDao;
  */
 
 
-public class RoomDemographicHistoricalDao extends HibernateDaoSupport {
+public class BedDemographicHistoricalDao extends HibernateDaoSupport {
 	   private Log log = LogFactory.getLog(SecroleDao.class);
 
-	   public RoomDemographicHistorical findById(Integer roomId, Integer admissionId) {
-			log.debug("getting RoomDemographicHistorical instance with id: " + roomId + "/" + admissionId);
-			RoomDemographicHistorical history = null;
+	   public BedDemographicHistorical findById(Integer bedId, Integer admissionId) {
+			log.debug("getting BedDemographicHistorical instance with id: " + bedId + "/" + admissionId);
+			BedDemographicHistorical history = null;
 			try {
-				List lst = this.getHibernateTemplate().find("from RoomDemographicHistorical r where r.roomId='" + roomId + "'" + " and r.admissionId='" + admissionId + "'");
+				List lst = this.getHibernateTemplate().find("from BedDemographicHistorical r where r.bedId='" + bedId + "'" + " and r.admissionId='" + admissionId + "'");
 				if(lst != null && lst.size() > 0)
-					history = (RoomDemographicHistorical) lst.get(0);
+					history = (BedDemographicHistorical) lst.get(0);
 				return history;
 			} catch (RuntimeException re) {
 				log.error("get failed", re);
@@ -32,7 +32,7 @@ public class RoomDemographicHistoricalDao extends HibernateDaoSupport {
 			}
 		}
 	   
-	    public void saveOrUpdate(RoomDemographicHistorical history) {
+	    public void saveOrUpdate(BedDemographicHistorical history) {
 	        if (history == null) {
 	            throw new IllegalArgumentException();
 	        }
@@ -43,7 +43,7 @@ public class RoomDemographicHistoricalDao extends HibernateDaoSupport {
 				throw re;
 			}
 	        if (log.isDebugEnabled()) {
-	            log.debug("RoomDemographicHistoricalDao : save: RoomID=" + history.getRoomId());
+	            log.debug("BedDemographicHistoricalDao : save: BedID=" + history.getBedId());
 	        }
 	    }
 	    

@@ -1,161 +1,113 @@
-/*
-* 
-* Copyright (c) 2001-2002. Centre for Research on Inner City Health, St. Michael's Hospital, Toronto. All Rights Reserved. *
-* This software is published under the GPL GNU General Public License. 
-* This program is free software; you can redistribute it and/or 
-* modify it under the terms of the GNU General Public License 
-* as published by the Free Software Foundation; either version 2 
-* of the License, or (at your option) any later version. * 
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
-* along with this program; if not, write to the Free Software 
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
-* 
-* <OSCAR TEAM>
-* 
-* This software was written for 
-* Centre for Research on Inner City Health, St. Michael's Hospital, 
-* Toronto, Ontario, Canada 
-*/
-
 package org.oscarehr.PMmodule.model;
 
-import java.io.Serializable;
+import java.util.Calendar;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
+public class BedDemographicHistorical implements java.io.Serializable {
 
-public class BedDemographicHistorical implements Serializable {
+	// Fields
 
-	private static final long serialVersionUID = 1L;
-    public static String REF = "BedDemographicHistorical";
-    public static String PROP_USAGE_END = "usageEnd";
-    public static String PROP_ID = "id";
-    private int hashCode = Integer.MIN_VALUE;// primary key
-    private java.util.Date usageEnd;
-    private BedDemographicHistoricalPK id;// fields
-    private Bed bed;
-    private Demographic demographic;
-    private Integer admissionId;
 
-    public Integer getAdmissionId() {
+	private Integer bedId;
+	private Integer admissionId;
+	private Integer demographicNo;
+	private Calendar usageEnd;
+	private Calendar usageStart;
+	// Constructors
+
+	/** default constructor */
+	public BedDemographicHistorical() {
+	}
+
+
+	public BedDemographicHistorical(Integer bedId, Integer admissionId, Integer demographicNo, Calendar usageStart, Calendar usageEnd) {
+		this.bedId = bedId;
+		this.admissionId = admissionId;
+		this.demographicNo = demographicNo;
+		this.usageEnd = usageEnd;
+		this.usageStart = usageStart;
+	}
+
+
+	public boolean equals(Object other) {
+		if ((this == other))
+			return true;
+		if ((other == null))
+			return false;
+		if (!(other instanceof BedDemographicHistorical))
+			return false;
+		BedDemographicHistorical castOther = (BedDemographicHistorical) other;
+
+		return ((this.getAdmissionId() == castOther.getAdmissionId()) || (this
+				.getAdmissionId() != null
+				&& castOther.getAdmissionId() != null && this
+				.getAdmissionId().equals(castOther.getAdmissionId())))
+				&& ((this.getBedId() == castOther.getBedId()) || (this
+						.getBedId() != null
+						&& castOther.getBedId() != null && this
+						.getBedId().equals(castOther.getBedId())));
+	}
+
+	public int hashCode() {
+		int result = 17;
+
+		result = 37
+				* result
+				+ (getAdmissionId() == null ? 0 : this.getAdmissionId()
+						.hashCode());
+		result = 37
+				* result
+				+ (getBedId() == null ? 0 : this.getBedId()
+						.hashCode());
+		return result;
+	}
+
+
+	public Integer getAdmissionId() {
 		return admissionId;
 	}
+
 
 	public void setAdmissionId(Integer admissionId) {
 		this.admissionId = admissionId;
 	}
 
-	public static BedDemographicHistorical create(BedDemographic bedDemographic) {
-		BedDemographicHistorical historical = new BedDemographicHistorical();
 
-		historical.setId(BedDemographicHistoricalPK.create(bedDemographic.getId(), bedDemographic.getReservationStart()));
-		historical.setUsageEnd(DateTimeFormatUtils.getToday());
-
-		return historical;
-	}
-
-    // constructors
-	public BedDemographicHistorical () {
-		initialize();
-	}
-
-    /**
-	 * Constructor for primary key
-	 */
-	public BedDemographicHistorical (org.oscarehr.PMmodule.model.BedDemographicHistoricalPK id) {
-		this.setId(id);
-		initialize();
+	public Integer getBedId() {
+		return bedId;
 	}
 
 
-    /**
-	 * Constructor for required fields
-	 */
-	public BedDemographicHistorical (
-		org.oscarehr.PMmodule.model.BedDemographicHistoricalPK id,
-		java.util.Date usageEnd) {
-
-		this.setId(id);
-		this.setUsageEnd(usageEnd);
-		initialize();
+	public void setBedId(Integer bedId) {
+		this.bedId = bedId;
 	}
 
-    public void setBed(Bed bed) {
-	    this.bed = bed;
-    }
-	
-	public void setDemographic(Demographic demographic) {
-		this.demographic = demographic;
+
+	public Integer getDemographicNo() {
+		return demographicNo;
 	}
 
-	public String getBedName() {
-		return bed != null ? bed.getName() : null;
-	}
-	
-	public String getDemographicName() {
-		return demographic != null ? demographic.getFormattedName() : null;
+
+	public void setDemographicNo(Integer demographicNo) {
+		this.demographicNo = demographicNo;
 	}
 
-	//@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+
+	public Calendar getUsageEnd() {
+		return usageEnd;
 	}
 
-    protected void initialize () {}
 
-    /**
-	 * Return the unique identifier of this class
-* @hibernate.id
-*/
-    public BedDemographicHistoricalPK getId () {
-        return id;
-    }
+	public void setUsageEnd(Calendar usageEnd) {
+		this.usageEnd = usageEnd;
+	}
 
-    /**
-	 * Set the unique identifier of this class
-     * @param id the new ID
-     */
-    public void setId (BedDemographicHistoricalPK id) {
-        this.id = id;
-        this.hashCode = Integer.MIN_VALUE;
-    }
 
-    /**
-	 * Return the value associated with the column: usage_end
-     */
-    public java.util.Date getUsageEnd () {
-        return usageEnd;
-    }
+	public Calendar getUsageStart() {
+		return usageStart;
+	}
 
-    /**
-	 * Set the value related to the column: usage_end
-     * @param usageEnd the usage_end value
-     */
-    public void setUsageEnd (java.util.Date usageEnd) {
-        this.usageEnd = usageEnd;
-    }
 
-    public boolean equals (Object obj) {
-        if (null == obj) return false;
-        if (!(obj instanceof BedDemographicHistorical)) return false;
-        else {
-            BedDemographicHistorical bedDemographicHistorical = (BedDemographicHistorical) obj;
-            if (null == this.getId() || null == bedDemographicHistorical.getId()) return false;
-            else return (this.getId().equals(bedDemographicHistorical.getId()));
-        }
-    }
-
-    public int hashCode () {
-        if (Integer.MIN_VALUE == this.hashCode) {
-            if (null == this.getId()) return super.hashCode();
-            else {
-                String hashStr = this.getClass().getName() + ":" + this.getId().hashCode();
-                this.hashCode = hashStr.hashCode();
-            }
-        }
-        return this.hashCode;
-    }
+	public void setUsageStart(Calendar usageStart) {
+		this.usageStart = usageStart;
+	}
 }
