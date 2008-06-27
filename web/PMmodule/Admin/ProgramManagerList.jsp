@@ -108,7 +108,7 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 
 				<display:column sortable="false" title="">					
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&programId=<c:out value="${program.id}" />">
-							View </a>
+							Edit </a>
 				</display:column>
 					
 				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
