@@ -51,7 +51,7 @@
 
 <script>
 	function resetClientFields() {
-		var form = document.clientSearchForm2;
+		var form = document.mergeClientForm;
 		form.elements['criteria.demographicNo'].value='';
 		form.elements['criteria.firstName'].value='';
 		form.elements['criteria.lastName'].value='';
@@ -173,11 +173,11 @@
 				</tr>
 
 				<tr>
-					<th><bean-el:message key="ClientSearch.dateOfBirth"
-						bundle="pmm" /> <br>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
 					(yyyy/mm/dd)</th>
-					<td><quatro:datePickerTag property="criteria.dob"
-						openerForm="clientSearchForm2"></quatro:datePickerTag></td>
+					<th align="left" width="80%">
+					<quatro:datePickerTag property="criteria.dob" openerForm="mergeClientForm" width="180px"></quatro:datePickerTag>
+					</th>
 				</tr>
 				<tr>
 					<th><bean-el:message key="ClientSearch.active" bundle="pmm" /></th>

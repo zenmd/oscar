@@ -309,6 +309,7 @@ var XMLHttpRequestObject = false;
 		<tr>
 			<th style="width:40%">Case Status</th>
 			<td><html:select property="caseNote.caseStatusId">
+				<html-el:option value=""></html-el:option>
 				<html:options collection="lstCaseStatus" property="code"
 					labelProperty="description"></html:options>
 				</html:select>

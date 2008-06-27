@@ -239,7 +239,7 @@ response.setHeader("Cache-Control", "no-cache");
 								<th style="background-color:#EEEEFF">Date</thd>
 								<th style="background-color:#EEEEFF">Provider</th>
 								<th style="background-color:#EEEEFF">Status</th>
-								<th style="background-color:#EEEEFF">Staff</th>					
+								<th style="background-color:#EEEEFF">Program</th>					
 							</tr>
 			
 							<%	int index = 0; String bgcolor = "white"; %>				

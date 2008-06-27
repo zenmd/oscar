@@ -62,7 +62,7 @@ function check_date(checkedDateName)
     }
    	else
    	{
-      	alert('Date format is not valid. The right date format is like yyyy/mm/dd.');
+      	alert('Date format is not valid. The right date format is yyyy/mm/dd.');
        	checkedDateObj.focus();
   	    checkedDateObj.style.backgroundColor='#ff0000';
       	return false;
