@@ -25,5 +25,6 @@
 			<key-property name="usageStart" column="usage_start" type="date" />
 		</composite-id>
 		<property name="usageEnd" column="usage_end" type="date" not-null="true" length="10" />
+		<property name="admissionId" column="admission_id" type="integer" />
 	</class>
 </hibernate-mapping>

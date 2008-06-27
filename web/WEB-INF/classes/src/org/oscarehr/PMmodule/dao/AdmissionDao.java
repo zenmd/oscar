@@ -5,15 +5,16 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.RoomDemographic;
+import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
@@ -21,7 +22,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 	private MergeClientDao mergeClientDao;
 	private RoomDemographicDAO roomDemographicDAO;
 	private BedDemographicDAO bedDemographicDAO;
-	
+	private RoomDemographicHistoricalDao roomDemographicHistoricalDao;
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
@@ -74,7 +75,16 @@ public class AdmissionDao extends HibernateDaoSupport {
                 " q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});
 
       	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
-  	      if(rdm!=null) roomDemographicDAO.deleteRoomDemographic(rdm);
+  	      if(rdm!=null){
+  	    	  roomDemographicDAO.deleteRoomDemographic(rdm);
+  	     	   // room history
+              Integer roomId = rdm.getId().getRoomId();
+              RoomDemographicHistorical history = roomDemographicHistoricalDao.findById(roomId, admission.getId());
+              if(history!=null){
+           	   	history.setUsageEnd(Calendar.getInstance());
+                  roomDemographicHistoricalDao.saveOrUpdate(history);
+              }
+  	      }
   	      BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
   	      if(bdm!=null) bedDemographicDAO.deleteBedDemographic(bdm);
 
@@ -292,6 +302,11 @@ public class AdmissionDao extends HibernateDaoSupport {
 
 	public void setRoomDemographicDAO(RoomDemographicDAO roomDemographicDAO) {
 		this.roomDemographicDAO = roomDemographicDAO;
+	}
+
+	public void setRoomDemographicHistoricalDao(
+			RoomDemographicHistoricalDao roomDemographicHistoricalDao) {
+		this.roomDemographicHistoricalDao = roomDemographicHistoricalDao;
 	}
 }
 

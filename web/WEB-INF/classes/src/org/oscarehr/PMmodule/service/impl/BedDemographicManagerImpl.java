@@ -27,7 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.BedDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicDAO;
 import org.oscarehr.PMmodule.dao.ClientDao;
-import org.oscarehr.PMmodule.dao.MergeClientDao;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.dao.RoomDAO;

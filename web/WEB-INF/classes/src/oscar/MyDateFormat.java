@@ -253,6 +253,12 @@ public class MyDateFormat {
        }
     }
     
+	public static Calendar getCalendar(java.util.Date date){
+		Calendar cal= Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	}
+
 	public static Calendar getCalendar(String pDate)
     {
         if (pDate == null || "".equals(pDate)) return null;

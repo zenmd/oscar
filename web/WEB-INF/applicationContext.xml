@@ -578,4 +578,7 @@
             <bean class="org.oscarehr.PMmodule.service.IncidentManager" autowire="byName"/>
         </property>
     </bean>
+    
+    <bean id="roomDemographicHistoricalDao" class="org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao" autowire="byName" />
+    
 </beans>

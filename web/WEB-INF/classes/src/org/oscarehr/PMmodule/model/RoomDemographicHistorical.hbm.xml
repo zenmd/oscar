@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.oscarehr.PMmodule.model.RoomDemographicHistorical" table="room_demographic_historical">
+        <composite-id >
+            <key-property name="roomId" type="integer">
+                <column name="room_id" />
+            </key-property>
+            <key-property name="admissionId" type="integer">
+                <column name="admission_id" />
+            </key-property>
+        </composite-id>
+        <property name="demographicNo" type="integer">
+            <column name="demographic_no" />
+        </property>
+        <property name="usageStart" >
+            <column name="usage_start" />
+        </property>
+        <property name="usageEnd" >
+            <column name="usage_end" />
+        </property>
+    </class>
+</hibernate-mapping>

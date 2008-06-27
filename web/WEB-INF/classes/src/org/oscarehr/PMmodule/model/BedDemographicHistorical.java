@@ -38,8 +38,17 @@ public class BedDemographicHistorical implements Serializable {
     private BedDemographicHistoricalPK id;// fields
     private Bed bed;
     private Demographic demographic;
+    private Integer admissionId;
 
-    public static BedDemographicHistorical create(BedDemographic bedDemographic) {
+    public Integer getAdmissionId() {
+		return admissionId;
+	}
+
+	public void setAdmissionId(Integer admissionId) {
+		this.admissionId = admissionId;
+	}
+
+	public static BedDemographicHistorical create(BedDemographic bedDemographic) {
 		BedDemographicHistorical historical = new BedDemographicHistorical();
 
 		historical.setId(BedDemographicHistoricalPK.create(bedDemographic.getId(), bedDemographic.getReservationStart()));

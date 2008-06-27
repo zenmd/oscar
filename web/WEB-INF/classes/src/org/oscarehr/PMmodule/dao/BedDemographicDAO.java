@@ -158,11 +158,11 @@ public class BedDemographicDAO extends HibernateDaoSupport {
     }
 
     public void deleteBedDemographic(BedDemographic bedDemographic) {
-        // save historical
-        if (!DateUtils.isSameDay(bedDemographic.getReservationStart(), Calendar.getInstance().getTime())) {
-            BedDemographicHistorical historical = BedDemographicHistorical.create(bedDemographic);
-            getHibernateTemplate().saveOrUpdate(historical);
-        }
+//        // save historical
+//        if (!DateUtils.isSameDay(bedDemographic.getReservationStart(), Calendar.getInstance().getTime())) {
+//            BedDemographicHistorical historical = BedDemographicHistorical.create(bedDemographic);
+//            getHibernateTemplate().saveOrUpdate(historical);
+//        }
 
         // delete
         getHibernateTemplate().delete(bedDemographic);
