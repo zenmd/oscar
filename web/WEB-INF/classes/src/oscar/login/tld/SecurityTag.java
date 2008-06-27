@@ -108,8 +108,9 @@ public class SecurityTag implements Tag {
     private Vector getPrivilegeProp(String objName) {
         Vector ret = new Vector();
         Properties prop = new Properties();
-        try {
-            DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+        DBHandler db =null;
+        try {  
+        	db = new DBHandler(DBHandler.OSCAR_DATA);
             java.sql.ResultSet rs;
             String [] objectNames  = getVecObjectName(objName);
             StringBuffer objectWhere = new StringBuffer();
@@ -136,7 +137,7 @@ public class SecurityTag implements Tag {
             db.CloseConn();
         } catch (java.sql.SQLException e) {
             e.printStackTrace(System.out);
-        }
+        }        
         return ret;
     }
     /**

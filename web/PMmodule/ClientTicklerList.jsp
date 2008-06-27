@@ -1,20 +1,20 @@
 <%@ include file="/taglibs.jsp"%>
 <%@ include file="/ticklerPlus/header.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants"%>
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
 <tr><th  class="pageTitle">Client Management - Tasks</th></tr>
 <input type="hidden" name="method" value="save" />
 
-<tr><td class="buttonBar">
-	<html:link action="/Home.do"
-	style="color:Navy;text-decoration:none">&nbsp;
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+<tr><td class="buttonBar2">
+	<html:link action="/Home.do" style="color:Navy;text-decoration:none">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 	<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-				
-	<html:link action="/PMmodule/Task.do?method=add" name="actionParam"
-			style="color:Navy;text-decoration:none;">
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+	<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_TASK %>" rights="<%=KeyConstants.ACCESS_WRITE %>">		
+		<html:link action="/PMmodule/Task.do?method=add" name="actionParam"
+				style="color:Navy;text-decoration:none;">
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
+	</security:oscarSec>
 </td></tr>
 <tr><td align="left" class="message">
    <logic:messagesPresent message="true">
@@ -58,5 +58,6 @@
 </td></tr>
 </table>
 </body>
+
 </html>
 

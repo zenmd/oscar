@@ -7,12 +7,10 @@
 <%@ page import="org.caisi.service.Version"%>
 <%@ page import="oscar.OscarProperties"%>
 
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
-
 <%
 response.setHeader("Cache-Control", "no-cache");
 %>
+<%@page import="com.quatro.common.KeyConstants"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" } />
 <script type="text/javascript">
 
@@ -97,10 +95,11 @@ response.setHeader("Cache-Control", "no-cache");
 				</html:link> 
 				<html:link action="/CaseManagementView2.do?note_view=detailed"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;&nbsp;|
 				</html:link> 
-				<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
-					 New&nbsp;Note&nbsp;&nbsp;|
-				</html:link> 
-				
+				<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CASEMANAGEMENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
+						 New&nbsp;Note&nbsp;&nbsp;|
+					</html:link> 
+				</security:oscarSec>
 				<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">Print</a>
 				
 				</td>

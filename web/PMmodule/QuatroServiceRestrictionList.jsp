@@ -4,7 +4,7 @@
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <%@page import="org.oscarehr.PMmodule.model.ProgramClientRestriction"%>
 <%@page import="org.oscarehr.PMmodule.model.Provider"%>
-
+<%@page import="com.quatro.common.KeyConstants"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
 <script type="text/javascript"
@@ -46,10 +46,10 @@
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 				<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-				<html:link
-					action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0"
-					name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
+				<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTRESTRICTION %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+					<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0" name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Service Restriction&nbsp;&nbsp;</html:link> 
+				</security:oscarSec>	
 			</td>
 		</tr>
 		<tr>

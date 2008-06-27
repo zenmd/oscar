@@ -1,8 +1,7 @@
 <%@ include file="/taglibs.jsp" %>
-<%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
-
+<%@page import="com.quatro.common.KeyConstants"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
@@ -28,15 +27,16 @@ function updateQuatroIntake(clientId, intakeId) {
 		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
-		<html:link action="/Home.do"
-		style="color:Navy;text-decoration:none">&nbsp;
+		<td align="left" class="buttonBar2">
+		<html:link action="/Home.do" style="color:Navy;text-decoration:none">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-		<a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" 
-		style="color:Navy;text-decoration:none;">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Intake</a>&nbsp;&nbsp;
+		<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+			<a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '0')" 
+				style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Intake</a>&nbsp;&nbsp;
+		</security:oscarSec>			
 		</td>
 	</tr>
 	<tr><td align="left" class="message">

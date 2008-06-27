@@ -1,4 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
+<%@page import="KeyConstants" %>
+<%@page import="com.quatro.common.KeyConstants;" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
@@ -22,7 +24,7 @@
 	    	}
 	    }
 </script>
-<% int a=1; %>
+
 <html-el:form action="/PMmodule/QuatroConsent.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId"/>
@@ -39,16 +41,15 @@
 <table width="100%">	
 	<tr>
 		<td align="left" class="buttonBar2">
-		<html:link action="/Home.do"
-		style="color:Navy;text-decoration:none">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-
-		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-		
-		<html:link	action="/PMmodule/QuatroConsent.do?method=edit&rId=0" paramId="clientId"  paramName="clientId"	style="color:Navy;text-decoration:none;">
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Consent&nbsp;&nbsp;
-		</html:link>
+			<html:link action="/Home.do" style="color:Navy;text-decoration:none">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+			<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+			<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTCONSENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+				<html:link	action="/PMmodule/QuatroConsent.do?method=edit&rId=0" paramId="clientId"  paramName="clientId"	style="color:Navy;text-decoration:none;">
+					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Consent&nbsp;&nbsp;
+				</html:link>
+			</security:oscarSec>
 		</td>
 	</tr>
 	<tr>

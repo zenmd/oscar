@@ -4,7 +4,6 @@
 <%@page import="java.util.Date"%>
 <%@page import="org.oscarehr.PMmodule.model.Bed"%>
 <%@page import="org.oscarehr.PMmodule.model.Room"%>
-
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
@@ -72,7 +71,7 @@ function viewSignature(){
 	<tr>
 		<td align="left" class="buttonBar">
 		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
@@ -81,8 +80,7 @@ function viewSignature(){
 		  <a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
 		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
         </logic:greaterThan>
-        </c:if>
-		  
+        </c:if>       
 		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
 	</tr>

@@ -1,9 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
-<%@page import="oscar.OscarProperties"%>
-<%@page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
-
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
+<%@page import="com.quatro.common.KeyConstants" %>
 <%
     String url ="/PMmodule/QuatroClientSummary.do";
 %>
@@ -64,14 +60,14 @@
 			<th class="pageTitle">Search <c:out value="${moduleName}"/></th>
 		</tr>
 		<tr>
-		<td class="buttonBar" align="left">
+		<td class="buttonBar2" align="left">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
 			</html:link>
-			<c:if test="${!isReadOnly}">
+			<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTSEARCH %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 				<html:link	action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;|</html:link>
-			</c:if>		
+			</security:oscarSec>	
 			<a href="javascript:submitForm('search')" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;|</a>
 			<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">&nbsp;
