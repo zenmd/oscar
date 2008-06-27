@@ -117,7 +117,7 @@ public class TicklerDAO extends HibernateDaoSupport {
     
     public List getTicklersByClientId(Integer shelterId, String providerNo, Integer clientId) {
         String query = "from Tickler t where t.demographic_no = ? and t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
-        return (List)getHibernateTemplate().find(query + "order by t.service_date ", new Object[]{clientId});
+        return (List)getHibernateTemplate().find(query + "order by t.id desc, t.service_date desc", new Object[]{clientId});
     }
 
     public int getActiveTicklerCount(String providerNo){
