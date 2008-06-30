@@ -40,6 +40,7 @@ import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
+import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
@@ -99,7 +100,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        
        return mapping.findForward("list");
    }
-
+   
    //from queue page 
    public ActionForward queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
  	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
@@ -391,7 +392,13 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
    }
-   
+   private boolean canOverwrite(HttpServletRequest request,String programId){
+	   SecurityManager sec = super.getSecurityManager(request);
+		//summary
+		if(programId==null) return false;
+		
+		return sec.GetAccess(KeyConstants.FUN_PMM_CLIENTADMISSION, programId).equals(KeyConstants.ACCESS_ALL);
+   }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        ActionMessages messages = new ActionMessages();
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
@@ -407,7 +414,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        Demographic client= clientManager.getClientByDemographicNo(clientId.toString());
        request.setAttribute("client", client);
-
+       
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
