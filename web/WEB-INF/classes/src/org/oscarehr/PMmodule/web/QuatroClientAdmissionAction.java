@@ -262,8 +262,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    	
    public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+      // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
 
-       HashMap actionParam = new HashMap();
 
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
@@ -283,9 +283,14 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
 	   String clientId=admission.getClientId().toString();
        Integer programId = admission.getProgramId();
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();          
+       }       
        actionParam.put("clientId", admission.getClientId());            
    	   actionParam.put("intakeId", admission.getIntakeId());
-       request.setAttribute("clientId", clientId);
+   	   request.setAttribute("actionParam", actionParam);
+   	   request.setAttribute("clientId", clientId);
 	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
        request.setAttribute("actionParam", actionParam);
 
@@ -399,13 +404,44 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 		
 		return sec.GetAccess(KeyConstants.FUN_PMM_CLIENTADMISSION, programId).equals(KeyConstants.ACCESS_ALL);
    }
-   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       ActionMessages messages = new ActionMessages();
+   private boolean validateConflict(HttpServletRequest request, Program program,Demographic client,ActionMessages messages){
+	   boolean valid = true;
+	 //  ActionMessages messages = new ActionMessages();
+	   if(clientRestrictionManager.checkGenderConflict(program, client)){
+     	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
+           valid = false;
+           saveMessages(request,messages);           
+ 	     }
+     	 if(clientRestrictionManager.checkAgeConflict(program, client)){
+     	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
+     	    valid = false;
+           saveMessages(request,messages);           
+     	 }
+     	StringBuffer sb = new StringBuffer();
+ 	     //service restriction check
+       ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
+     	     program.getId(), client.getDemographicNo(), new Date());
+       if(restrInPlace != null) {
+     	   sb.append(client.getLastName() + ", " + client.getFirstName() + "<br>");
+	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
+       			request.getContextPath(), program.getName(), sb.toString()));
+         valid = false;
+         saveMessages(request,messages);         
+       }
+	   return !valid;
+   }
+   public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {     
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
        boolean isError = false;
        boolean isWarning = false;
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
-
+       ActionMessages messages = new ActionMessages();
        Admission admission = clientForm.getAdmission();
        Integer clientId = admission.getClientId();
        Integer intakeId = admission.getIntakeId();
@@ -414,43 +450,32 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        Demographic client= clientManager.getClientByDemographicNo(clientId.toString());
        request.setAttribute("client", client);
-       
+       String overrideYN =request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME);
+       boolean canOverride=false;
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
       	   Program program = programManager.getProgram(programId);
 
-           StringBuffer sb = new StringBuffer();
+           
     	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
 
       	     //check gender conflict and age conflict
              Demographic client2= clientManager.getClientByDemographicNo(qif.getClientId().toString());
-       	     if(clientRestrictionManager.checkGenderConflict(program, client2)){
-           	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
-                 isError = true;
-                 saveMessages(request,messages);
-                 return update(mapping, form, request, response);
+       	     isWarning = validateConflict(request, program, client2,messages);
+       	     canOverride=canOverwrite(request, program.getId().toString());
+       	     if(isWarning){
+       	    	 if (!canOverride)  return update(mapping, form, request, response);
+       	    	 else{
+       	    		if(!"Y".equals(overrideYN)){
+       	    			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
+       	    			saveMessages(request,messages);
+       	    			return update(mapping, form, request, response);
+       	    		}
+       	    	 }
        	     }
-           	 if(clientRestrictionManager.checkAgeConflict(program, client2)){
-           	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
-                 isError = true;
-                 saveMessages(request,messages);
-                 return update(mapping, form, request, response);
-           	 }
-             
-       	     //service restriction check
-             ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-           	     admission.getProgramId(), qif.getClientId(), new Date());
-             if(restrInPlace != null) {
-           	   sb.append(qif.getLastName() + ", " + qif.getFirstName() + "<br>");
-    	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
-             			request.getContextPath(), program.getName(), sb.toString()));
-               isError = true;
-               saveMessages(request,messages);
-               return update(mapping, form, request, response);
-             }  
            }
 
     	   //check client active in other program
@@ -471,32 +496,21 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	 }else{
   		   //check gender conflict and age conflict
     	   Program program = programManager.getProgram(programId);
-    	   if(clientRestrictionManager.checkGenderConflict(program, client)){
-    	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
-              isError = true;
-              saveMessages(request,messages);
-              return update(mapping, form, request, response);
-    	   }
-    	   if(clientRestrictionManager.checkAgeConflict(program, client)){
-    	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
-              isError = true;
-              saveMessages(request,messages);
-              return update(mapping, form, request, response);
-    	   }
-    		 
-           //service restriction check
-	       ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-			   programId, clientId, new Date());
-           if (restrInPlace != null) {
-//    	     Program program = programManager.getProgram(programId); 
-	         messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.service_restriction",
-              			request.getContextPath(), program.getName()));
-             isError = true;
-             saveMessages(request,messages);
-             return update(mapping, form, request, response);
-	       }
-
-           //check client active in other program
+    	   isWarning = validateConflict(request, program, client,messages);
+     	   canOverride=canOverwrite(request, program.getId().toString());
+     	   
+     	   if(isWarning){
+     		  if (!canOverride)  return update(mapping, form, request, response);
+     		  else{
+     			  if(!"Y".equals(overrideYN)){
+	    	    	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
+	    	    	  saveMessages(request,messages);
+	    	    	  return update(mapping, form, request, response);
+    	    	  }
+    	    	 }
+     		}
+     	   
+     	   //check client active in other program
            List lst=admissionManager.getCurrentAdmissions(clientId,KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
            for(int i=0;i<lst.size();i++){
         	 Admission admission_exist = (Admission)lst.get(i);

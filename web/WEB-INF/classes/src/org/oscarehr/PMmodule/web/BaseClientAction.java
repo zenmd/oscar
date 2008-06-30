@@ -24,6 +24,7 @@ package org.oscarehr.PMmodule.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
@@ -42,7 +43,11 @@ public abstract class BaseClientAction extends BaseAction {
 		//summary
 		String orgCd=this.getProgramIdByClient(request);		
 		String clientId =request.getParameter("clientId");
-		if(Utility.IsEmpty(clientId)) clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
+	//	Demographic client =(Demographic)request.getAttribute("client");
+		if(Utility.IsEmpty(clientId)){
+			if(null!=request.getParameter("clientId")) clientId=request.getAttribute("clientId").toString();
+			else clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
+		}
 		if(Utility.IsEmpty(clientId)||"0".equals(clientId)){
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
@@ -141,7 +146,11 @@ public abstract class BaseClientAction extends BaseAction {
 	}
 	private String getProgramIdByClient(HttpServletRequest request){
 		String cId =request.getParameter("clientId");
-		if(Utility.IsEmpty(cId)) cId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
+		//Demographic client =(Demographic)request.getAttribute("client");
+		if(Utility.IsEmpty(cId)){
+			 if(null !=request.getAttribute("clientId"))cId=request.getAttribute("clientId").toString();
+			 else cId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
+		}
 		String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		String programId="";
 		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
