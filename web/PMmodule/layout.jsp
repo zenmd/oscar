@@ -62,6 +62,10 @@
 			     	document.getElementById("scrollPosition").value = ele.scrollTop;
 			     }
 			 }
+			 function initPage()
+			 {
+				setDivPosition();
+			 }
 		</script>
 				
 		<script type="text/javascript">
@@ -74,22 +78,22 @@
 			};
 			
 			function unloadMe(){
-			  if(win!=null) win.close();
+			  	if(win!=null) win.close();
 			}
 		</script>
 	    
-		<script type="text/javascript" src="<html:rewrite page="/dojoAjax/dojo.js" />">
-		</script>
+		<!--  script type="text/javascript" src="<html:rewrite page="/dojoAjax/dojo.js" />">
+		</script -->
 		
-		<script type="text/javascript" language="JavaScript">
+		<!-- script type="text/javascript" language="JavaScript">
             dojo.require("dojo.date.format");
 			dojo.require("dojo.widget.*");
 			dojo.require("dojo.validate.*");
-		</script>
+		</script -->
 		
 		<html:base />
 	</head>
-	<body onload="setDivPosition()" onunload="unloadMe()">
+	<body onload="initPage()"  onunload="unloadMe()">
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr height="60px">
 				<td>
