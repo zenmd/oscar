@@ -45,7 +45,16 @@
     function resetFlag() { needToConfirm = true; } 
 </script>
 	<c:out value="${isReadOnly}" />
-	<logic:equal name="isReadOnly" value="true">
+	<logic:notPresent name="isReadOnly">
+		<script type="text/javascript">
+			readOnly=false;
+			needToConfirm = true;
+			window.onload = initHash;
+		    window.onbeforeunload = confirmClose; 
+		</script>
+	</logic:notPresent>
+	<logic:present name="isReadOnly">
+		<logic:equal name="isReadOnly" value="true">
 		<script type="text/javascript">
 			readOnly = true;
 			needToConfirm = false;
@@ -60,3 +69,4 @@
 		    window.onbeforeunload = confirmClose; 
 		</script>
 	</logic:equal>
+</logic:present>
