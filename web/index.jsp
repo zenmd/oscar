@@ -174,18 +174,18 @@ if (props.getProperty("logintitle", "").equals("")) {
 			 					}
 			 					%>
 								</b></font></td>
-								<td width="20%" align="center"><font size="2"
-									face="Arial"><b><input type="text" name="username"
-									size="42%" maxlength="15" autocomplete="off" /></b></font></td>
-								<td width="40%">&nbsp</td>
+								<td width="40%" align="center"><font size="2"
+									face="Arial"><b><input type="text" name="username" value="smisadmin"
+									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
+								<td width="30%">&nbsp</td>
 							</tr>
 							<tr>
 								<td align="right"><font
 									size="2" face="Arial"><b><bean:message
 									key="loginApplication.formPwd" /></b></font></td>
 								<td align="center"><font size="2"
-									face="Arial"><b><input type="password" name="password"
-									size="42%" maxlength="15" autocomplete="off" /></b></font></td>
+									face="Arial"><b><input type="password" name="password" value="smisadmin"
+									size="50%" maxlength="15" autocomplete="off" /></b></font></td>
 								<td>&nbsp;</td>
 							</tr>
 							<tr>
@@ -204,14 +204,14 @@ if (props.getProperty("logintitle", "").equals("")) {
 			</table>
 		</td>
 	</tr>
-	<tr><td height=30></td></tr>
-	<tr valign="middle">
-		<td align="center"><img src="images/QuatroGroup-Logo160.gif">&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/SMIS-Logo-White.gif" >&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/Caisi-Logo.gif" >&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/Oscar-Logo-80.gif" ></td>
+	<tr><td height=70></td></tr>
+	<tr>
+		<td  height="41" align="center"><img border="0"
+			src="images/QuatroGroup-Logo.gif" width="120" height="20">&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/SMIS-Logo.gif"  width="120" height="20">&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/Caisi-Logo.gif" width="120" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/OSCAR-LOGO.gif" width="80" height="25"></td>
 	</tr>
-	
 	<tr><td height=30></td></tr>
 	<tr>
 		<td height="25" align="center" style="BORDER-TOP:Gray 1px solid; BORDER-right:Silver 1px solid; BORDER-LEFT:Gray 1px solid" background="images/Silver-background.gif">

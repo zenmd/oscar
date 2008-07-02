@@ -38,8 +38,7 @@ String s = "debug";
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Messages&nbsp;&nbsp;!</html:link>
 					<c:if test="${!isReadOnly }">
-						<html:link href="javascript:submitForm();" 
-						style="color:Navy;text-decoration:none;">
+						<html:link href="javascript:submitForm();" 	style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 					</c:if>	
 					</td>

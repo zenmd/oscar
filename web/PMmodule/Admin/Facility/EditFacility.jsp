@@ -67,12 +67,10 @@
 						<html:link action="/Home.do"
 						style="color:Navy;text-decoration:none">&nbsp;
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-						<html:link						
-						action="/PMmodule/FacilityManager.do?method=list"
-						style="color:Navy;text-decoration:none;">
+						<html:link	action="/PMmodule/FacilityManager.do?method=list"	style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;|</html:link>
 						<c:if test="${!isReadOnly}">
-							<html:link	href="javascript:submitForm();"		style="color:Navy;text-decoration:none;">
+							<html:link	href="javascript:submitForm();"	onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 						</c:if>	
 					</td>

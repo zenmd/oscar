@@ -57,7 +57,7 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 			style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
 		<c:if test="${!isReadOnly}">
-			<html:link href="javascript:save();" style="color:Navy;text-decoration:none;">
+			<html:link href="javascript:save();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</c:if>	
 		</td>

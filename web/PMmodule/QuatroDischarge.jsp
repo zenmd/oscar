@@ -70,8 +70,8 @@
 		<tr>
 			<td align="left" class="buttonBar2">
 		       <c:if test="${quatroClientDischargeForm.admission.admissionStatus!='discharged' &&
-		          quatroClientDischargeForm.admission.admissionStatus!='rejected'}">
-					<a onclick='return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
+		          	quatroClientDischargeForm.admission.admissionStatus!='rejected'}">
+					<a onclick='javascript: setNoConfirm();return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		         </c:if>			
 				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">

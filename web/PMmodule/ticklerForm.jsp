@@ -59,7 +59,7 @@ function submitForm(methodVal) {
 
 <tr><td class="buttonBar">
    <c:if test="${viewTickler!='Y'}">
-     <a href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;">
+     <a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
    </c:if>		
 	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">

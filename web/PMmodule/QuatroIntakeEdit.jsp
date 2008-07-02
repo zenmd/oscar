@@ -131,75 +131,48 @@ function checkExistClients(){
 			<th class="pageTitle" align="center">Client Management -
 			Add/Edit Intake</th>
 		</tr>
-		<tr>
-			<td>
-			<table width="100%" class="simple">
-				<tr>
-					<td style="width: 15%"><font><b>Client No.</b></font></td>
-					<td colspan="3"><font><b><c:out
-						value="${client.demographicNo}" /></b></font></td>
-				</tr>
-				<tr>
-					<td style="width: 15%" <font><b>Name</b></font></td>
-					<td style="width: 35%"><font><b><c:out
-						value="${client.formattedName}" /></b></font></td>
-					<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-					<td style="width: 35%"><font><b><c:out value="${client.dob}" /></b></font></td>
-				</tr>
-			</table>
-			</td>
+		<tr>			
+			<td class="simple" style="background: lavender">
+				<%@ include	file="ClientInfo.jsp"%></td>			
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar"><html:link
-				action="/PMmodule/QuatroIntake.do" name="actionParam"
-				style="color:Navy;text-decoration:none;">&nbsp;
-            <img style="vertical-align: middle" border=0
-					src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Intake&nbsp;&nbsp;|</html:link>
+			<td align="left" class="buttonBar2">
+			<html:link	action="/PMmodule/QuatroIntake.do" name="actionParam"	style="color:Navy;text-decoration:none;">&nbsp;
+            <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Intake&nbsp;&nbsp;|</html:link>
 
-			<c:if
-				test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
-			 quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
-				<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"
-					style="color:Navy;text-decoration:none;">&nbsp; <img
-					style="vertical-align: middle" border=0
-					src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-	         </c:if> <c:if
-				test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
+			<c:if	test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
+			 	quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
+				<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">&nbsp; 
+					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
+	         </c:if> 
+	         <c:if	test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
 				<c:choose>
-					<c:when
-						test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
-	    	 (quatroIntakeEditForm.intake.intakeStatus=='admitted' && intakeHeadId>0)}">
-             | <a
-							href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>"
-							style="color:Navy;text-decoration:none;"> <img border=0
-							src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake</a>
-
-						<c:choose>
-							<c:when
-								test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
-               (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
-               | <a
-									href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
-									style="color:Navy;text-decoration:none;"> <img border=0
-									src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission</a>
-							</c:when>
-						</c:choose>
-
+					<c:when	test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
+	    	 			(quatroIntakeEditForm.intake.intakeStatus=='admitted' && intakeHeadId>0)}">
+	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>"
+							style="color:Navy;text-decoration:none;"> 
+							<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake &nbsp;&nbsp;|</a>
+							<c:choose>
+								<c:when	test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
+               						(intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
+               						<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
+									style="color:Navy;text-decoration:none;"> 
+									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
+								</c:when>
+							</c:choose>
 					</c:when>
 					<c:when test="intakeHeadId gt 0">
-             | <a
-							href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>"
-							style="color:Navy;text-decoration:none;"> <img border=0
-							src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family
-						Intakex</a>
+              		<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>
+              				&clientId=<c:out value="${clientId}"/>"
+							style="color:Navy;text-decoration:none;"> 
+						<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake&nbsp;&nbsp;|</a>
 					</c:when>
 				</c:choose>
-
 			</c:if></td>
 		</tr>
 		<tr>
-			<td align="left" class="message"><logic:messagesPresent
-				message="true">
+			<td align="left" class="message">
+			<logic:messagesPresent	message="true">
 				<html:messages id="message" message="true" bundle="pmm">
 					<c:out escapeXml="false" value="${message}" />
 				</html:messages>
@@ -209,10 +182,8 @@ function checkExistClients(){
 			<td height="100%">
 			<div id="scrollBar" onscroll="getDivPosition()"
 				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;"
-				id="scrollBar"><!--  start of page content -->
+                    height: 100%; width: 100%; overflow: auto;"	id="scrollBar"><!--  start of page content -->
 			<table width="100%">
-
 				<tr>
 					<td>
 					<div class="tabs">
@@ -254,11 +225,9 @@ function checkExistClients(){
 							<td><html-el:text size="30" maxlength="70"
 								property="client.alias" /></td>
 							<td><c:if test="${newClientFlag=='true'}">
-								<html:link href="javascript:checkExistClients();"
-									style="color:Navy;text-decoration:none;">
-									<img border="0"
-										src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
-</html:link>
+								<html:link href="javascript:checkExistClients();"	style="color:Navy;text-decoration:none;">
+									<img border="0"	src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
+								</html:link>
 							</c:if></td>
 							<td><c:choose>
 								<c:when test="${quatroIntakeEditForm.client.demographicNo>0}">
@@ -780,5 +749,5 @@ function checkExistClients(){
 			</td>
 		</tr>
 	</table>
-	<%@ include file="/common/readonly.jsp"%>
+	<%@ include file="/common/readonly.jsp" %>
 </html-el:form>

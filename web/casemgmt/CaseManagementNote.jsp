@@ -288,9 +288,8 @@ var XMLHttpRequestObject = false;
 			<html:link action="/CaseManagementView2.do"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Case Management&nbsp;&nbsp;|
 			</html:link>	
-			<a onclick="return validateSave();" href='javascript:submitForm("save");'
-			style="color:Navy;text-decoration:none;">
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+			<a onclick="javascript: setNoConfirm();return validateSave();" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 			</td>
 		</tr>
 		<tr height="18px">

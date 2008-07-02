@@ -188,7 +188,7 @@
 
 						<td class="clsButtonBarText">&nbsp;&nbsp; 
 							<logic:equal	value="0" name="rIndex">
-								<a href="javascript:submitForm('saveStaff');">Save</a>
+								<a href="javascript:submitForm('saveStaff');" onclick="javascript: setNoConfirm();">Save</a>
 						</logic:equal></td>
 					</tr>
 				</logic:iterate>

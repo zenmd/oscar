@@ -100,8 +100,7 @@
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png" /> />&nbsp;<font color="grey"> Save</font>&nbsp;&nbsp;|
 				</c:if>	
 				<c:if test="${signed==null || 'N'==signed}" >		
-					<a href='javaScript:submitForm("update");'  onclick="return validateSave();"
-					style="color:Navy;text-decoration:none;">
+					<a href='javaScript:submitForm("update");'  onclick="javascript: setNoConfirm();return validateSave();"	style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 				</c:if>
 				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">

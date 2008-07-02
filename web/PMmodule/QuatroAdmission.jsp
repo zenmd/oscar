@@ -55,24 +55,14 @@ function viewSignature(){
 	</tr>
 	<tr>
 	<td>
-		<table width="100%" class="simple">
-			<tr>
-			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
-			</tr>
-			<tr>
-				<td style="width: 15%"<font><b>Name</b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
-				<td style="width: 35%"><font><b><c:out value="${client.dob}" /></b></font></td>
-			</tr>
-		</table>
+		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</td>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar">
 		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
-		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
 		  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">

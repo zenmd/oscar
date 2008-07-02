@@ -41,7 +41,7 @@ function submitForm(form) {
 <tr><td width="40%">User Name: <c:out value="${healthsafety.userName}"/> </td>
 <td width="40%">Date: <fmt:formatDate value="${healthsafety.updateDate}" pattern="yyyy-MM-dd" /></td>
 <td width="20%">
-	<input type="button" value="Save" onclick="submitForm(document.healthSafetyForm)" />
+	<input type="button" value="Save" onclick="javascript: setNoConfirm();submitForm(document.healthSafetyForm)" />
 	<input type="button" value="Cancel"	onclick="window.close()" />
 </td></tr>
 </table>
