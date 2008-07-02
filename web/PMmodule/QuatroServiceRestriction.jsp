@@ -148,7 +148,7 @@
 						<tr>
 							<td width="35%">Program</td>
 							<td width="65%">
-							<html:select onchange="programFilter();"
+							<html:select onchange="javascript: setNoConfirm();programFilter();"
 								property="serviceRestriction.programId">
 								<html:option value=""></html:option>
 								<html:options collection="allPrograms" property="id"
