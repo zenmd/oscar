@@ -10,7 +10,7 @@
        var k = frm.elements.length;
        for(var i=0; i < k; i++) 
        {
-          var elem = frm.elements(i);
+          var elem = frm.elements[i];
           if (elem) {
               if (elem.type == 'hidden' ) continue;
               if (elem.type == 'checkbox' || elem.type == 'radio') {
