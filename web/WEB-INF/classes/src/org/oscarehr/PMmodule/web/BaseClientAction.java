@@ -45,7 +45,7 @@ public abstract class BaseClientAction extends BaseAction {
 		String clientId =request.getParameter("clientId");
 	//	Demographic client =(Demographic)request.getAttribute("client");
 		if(Utility.IsEmpty(clientId)){
-			if(null!=request.getParameter("clientId")) clientId=request.getAttribute("clientId").toString();
+			if(null!=request.getAttribute("clientId")) clientId=request.getAttribute("clientId").toString();
 			else clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
 		}
 		if(Utility.IsEmpty(clientId)||"0".equals(clientId)){
