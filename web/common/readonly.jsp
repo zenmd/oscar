@@ -44,7 +44,6 @@
 	}	
     function resetFlag() { needToConfirm = true; } 
 </script>
-	<c:out value="${isReadOnly}" />
 	<logic:notPresent name="isReadOnly">
 		<script type="text/javascript">
 			readOnly=false;
