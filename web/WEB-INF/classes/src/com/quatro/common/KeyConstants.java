@@ -175,4 +175,9 @@ public class KeyConstants {
   //for page warnings/errors that need user to confirm before proceed save/update.
   public static final String CONFIRMATION_CHECKBOX_NAME ="chk_confirm_overwrite";  
   
+  //value in discharge reason lookup table
+  public static final String AUTO_DISCHARGE_REASON="50";
+  public static final String AUTO_DISCHARGE_DISPOSITION="1014";
+
+  
  }

@@ -518,6 +518,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
         	 sb.append("," + admission_exist.getId());
              if(sb.length()>0){
                //auto-discharge from other program   
+//               List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, "Other");
                admissionManager.dischargeAdmission(sb.substring(1));
              }
            }

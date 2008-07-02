@@ -66,6 +66,8 @@ public class AdmissionDao extends HibernateDaoSupport {
         String[] split= admissionIds.split(",");
         for(int i=0;i<split.length;i++){
           Admission  admission = this.getAdmission(Integer.valueOf(split[i]));
+	      admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+          
     	  getHibernateTemplate().bulkUpdate("update QuatroIntakeDB i set i.intakeStatus='" +
           		KeyConstants.INTAKE_STATUS_DISCHARGED + "'" + 
                   " where i.id=?", new Object[]{admission.getIntakeId()});
@@ -73,9 +75,11 @@ public class AdmissionDao extends HibernateDaoSupport {
     	  getHibernateTemplate().bulkUpdate("update Admission q set q.admissionStatus='" +
         		KeyConstants.INTAKE_STATUS_DISCHARGED + "'," + 
                 " q.dischargeNotes='auto-discharge for other intake admission'," +
+                " q.dischargeReason='" + KeyConstants.AUTO_DISCHARGE_REASON + "'," +
+                " q.communityProgramCode='" + KeyConstants.AUTO_DISCHARGE_DISPOSITION + "'," +  
                 " q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});
 
-      	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
+    	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
   	      if(rdm!=null){
   	    	  roomDemographicDAO.deleteRoomDemographic(rdm);
   	     	  // update room_history
@@ -99,7 +103,6 @@ public class AdmissionDao extends HibernateDaoSupport {
   	    	  
   	      }
 
-  	      admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
     	  clientHisDao.saveClientHistory(admission, null, null);
         }  
     }
