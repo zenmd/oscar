@@ -1,12 +1,5 @@
-<!-- 
-
-Source:web/PMmodule/Admin/ProgramManagerList.jsp 
-
--->
-<% String a ="asdf"; %>
-
 <%@ include file="/taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;" %>
 
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px"
 	border="0">
@@ -17,12 +10,12 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		<td align="left" class="buttonBar2">
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
-			</html:link>
-			<c:if test="${!isReadOnly}">
+			</html:link>			
+			<security:oscarSec  objectName="<%=KeyConstants.FUN_PMM_PROGRAMLIST %>"  rights="<%=KeyConstants.ACCESS_WRITE %>">
 				<html:link	href="javascript:submitForm('add');"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;|
 				</html:link>
-			</c:if>
+			</security:oscarSec>
 			<html:link href="javascript:submitForm('list');"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;|
 			</html:link>
@@ -162,6 +155,5 @@ Source:web/PMmodule/Admin/ProgramManagerList.jsp
 		</td>
 	</tr>
 </table>
-	<%@ include file="/common/readonly.jsp" %>
 
 	

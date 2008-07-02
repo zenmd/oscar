@@ -215,33 +215,33 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)) {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
             super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        //boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS, programId);
+	        //if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
         	processStaff( request, programId, formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        //boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
+	        //if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }        
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
         	processClients( request, program, formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        //boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS, programId);
+	        //if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
         	processIncident( request, programId.toString(), formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        //boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT, programId);
+	        //if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         else
         {
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
+	        //boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
+	        //if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
         }
 
         logManager.log("view", "program", programId.toString(), request);
@@ -763,7 +763,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
             String name = (String) e.nextElement();
             if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {
                 Integer clientIdx =Integer.valueOf(name.indexOf(":"));
-            	String admissionId = name.substring(8,clientIdx.intValue()-1);
+            	String admissionId = name.substring(8,clientIdx.intValue());
                 Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
                 if (admission == null) {
                     log.warn("admission #" + admissionId + " not found.");
@@ -1043,7 +1043,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
               	  String clientId = name.substring(clientIdx.intValue()+1);
                   BedDemographic bdObj =bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId));
             	 lstBeds.add(bdObj);     
-            	 String admissionId = name.substring(8,clientIdx.intValue()-1);
+            	 String admissionId = name.substring(8,clientIdx.intValue());
                  Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
                  lstAdmission.add(admission);
              }
