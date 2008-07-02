@@ -130,6 +130,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         qform.setOriginalCountry(originalCountry);
 
         request.setAttribute("newClientFlag", "true");
+        request.setAttribute("isReadOnly", Boolean.FALSE);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 		return mapping.findForward("edit");
     }
@@ -174,7 +175,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         if(intakeId.intValue()!=0){
         	intake=intakeManager.getQuatroIntake(intakeId);
         	 boolean readOnly=super.isReadOnly(request,intake.getIntakeStatus(), KeyConstants.FUN_PMM_CLIENTINTAKE,intake.getProgramId());
-             if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+             request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
         }else{
         	intake= new QuatroIntake();
         	intake.setCreatedOn(Calendar.getInstance());
@@ -186,6 +187,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	intake.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         	intake.setYouth(KeyConstants.CONSTANT_NO);
         	intake.setVAW(KeyConstants.CONSTANT_NO);
+            request.setAttribute("isReadOnly", Boolean.FALSE);
         }
 
         Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
