@@ -53,13 +53,11 @@ function viewSignature(){
 	<tr>
 		<th class="pageTitle" align="center">Client Management - Admission</th>
 	</tr>
-	<tr>
-	<td>
-		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
-	</td>
+	<tr>	
+		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>	
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
