@@ -1,5 +1,4 @@
 <%@ include file="/taglibs.jsp" %>
-<%@page import="KeyConstants" %>
 <%@page import="com.quatro.common.KeyConstants;" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
