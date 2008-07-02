@@ -197,7 +197,7 @@ function viewSignature(){
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
-	      <html:select property="roomDemographic.id.roomId" onchange="quatroClientAdmissionForm.method.value='roomchange';quatroClientAdmissionForm.submit();">
+	      <html:select property="roomDemographic.id.roomId" onchange="javascript: setNoConfirm();quatroClientAdmissionForm.method.value='roomchange';quatroClientAdmissionForm.submit();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>
