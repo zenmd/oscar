@@ -233,6 +233,19 @@ public class Utility {
     	}
     	return sb.toString();
     }
+    public static String merge(String[] str, String sep)
+    {
+    	if (str == null || str.length ==0) return "";
+    	StringBuffer sb = new StringBuffer();
+    	sb.append(str[0]);
+    	for(int i=1; i<str.length;i++)
+    	{
+    		sb.append(sep);
+    		sb.append(str[i]);
+    	}
+    	return sb.toString();
+    }
+    
     private static boolean checkIfNowAtDST(String iTimezoneName){ 
        	boolean isDST = false;
        	TimeZone iTimezone = TimeZone.getTimeZone(iTimezoneName);
