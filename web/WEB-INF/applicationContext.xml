@@ -112,7 +112,6 @@
     <bean id="secSiteDao" class="com.quatro.dao.security.SecSiteDao" autowire="byName"/>
     <bean id="redirectLinkDao" class="org.caisi.dao.RedirectLinkDao" autowire="byName"/>
     <bean id="redirectLinkTrackingDao" class="org.caisi.dao.RedirectLinkTrackingDao" autowire="byName"/>
-    <bean id="issueGroupDao" class="org.caisi.dao.IssueGroupDao" autowire="byName"/>
     <bean id="programDao" class="org.oscarehr.PMmodule.dao.ProgramDao" autowire="byName"/>
     <bean id="programQueueDao" class="org.oscarehr.PMmodule.dao.ProgramQueueDao" autowire="byName"/>
     <bean id="clientReferralDAO" class="org.oscarehr.PMmodule.dao.ClientReferralDAO" autowire="byName"/>
@@ -133,16 +132,13 @@
 
     <bean id="roomDAO" class="org.oscarehr.PMmodule.dao.RoomDAO" autowire="byName"/>
     <bean id="CaseManagementIssueDAO" class="org.oscarehr.casemgmt.dao.CaseManagementIssueDAO" autowire="byName"/>
-    <bean id="caseManagementIssueDAO" class="org.oscarehr.casemgmt.dao.CaseManagementIssueDAO" autowire="byName"/>
     <bean id="CaseManagementNoteDAO" class="org.oscarehr.casemgmt.dao.CaseManagementNoteDAO" autowire="byName"/>
     <bean id="CaseManagementCPPDAO" class="org.oscarehr.casemgmt.dao.CaseManagementCPPDAO" autowire="byName"/>
     <bean id="AllergyDAO" class="org.oscarehr.casemgmt.dao.AllergyDAO" autowire="byName"/>
     <bean id="PrescriptionDAO" class="org.oscarehr.casemgmt.dao.PrescriptionDAO" autowire="byName"/>
-    <bean id="IssueDAO" class="org.oscarehr.casemgmt.dao.IssueDAO" autowire="byName"/>
     <bean id="EncounterFormDAO" class="org.oscarehr.casemgmt.dao.EncounterFormDAO" autowire="byName"/>
     <bean id="EchartDAO" class="org.oscarehr.casemgmt.dao.EchartDAO" autowire="byName"/>
     <bean id="ApptDAO" class="org.oscarehr.casemgmt.dao.ApptDAO" autowire="byName"/>
-    <bean id="MessagetblDAO" class="org.oscarehr.casemgmt.dao.MessagetblDAO" autowire="byName"/>
     <bean id="ProviderSignitureDao" class="org.oscarehr.casemgmt.dao.ProviderSignitureDao" autowire="byName"/>
     <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName"/>
     <bean id="ClientImageDAO" class="org.oscarehr.casemgmt.dao.ClientImageDAO" autowire="byName"/>
@@ -351,9 +347,7 @@
         <property name="caseManagementCPPDAO" ref="CaseManagementCPPDAO"/>
         <property name="allergyDAO" ref="AllergyDAO"/>
         <property name="prescriptionDAO" ref="PrescriptionDAO"/>
-        <property name="issueDAO" ref="IssueDAO"/>
         <property name="encounterFormDAO" ref="EncounterFormDAO"/>
-        <property name="messagetblDAO" ref="MessagetblDAO"/>
         <property name="echartDAO" ref="EchartDAO"/>
         <property name="apptDAO" ref="ApptDAO"/>
         <property name="providerSignitureDao" ref="ProviderSignitureDao"/>

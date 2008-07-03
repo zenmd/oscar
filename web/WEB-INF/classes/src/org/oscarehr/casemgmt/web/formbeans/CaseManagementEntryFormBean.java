@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForm;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.web.CheckBoxBean;
-import org.oscarehr.casemgmt.web.CheckIssueBoxBean;
 
 public class CaseManagementEntryFormBean extends ActionForm {
 	private CaseManagementNote caseNote;
@@ -36,7 +35,6 @@ public class CaseManagementEntryFormBean extends ActionForm {
 	private String demoNo;
 	private String noteId;
 	private CheckBoxBean[] issueCheckList;
-	private CheckIssueBoxBean[] newIssueCheckList;
 	private List newIssueList;
 	private String sign; 
 	private String includeIssue;
@@ -118,14 +116,6 @@ public class CaseManagementEntryFormBean extends ActionForm {
 	public void setMethod(String method)
 	{
 		this.method = method;
-	}
-	public CheckIssueBoxBean[] getNewIssueCheckList()
-	{
-		return newIssueCheckList;
-	}
-	public void setNewIssueCheckList(CheckIssueBoxBean[] newIssueCheckList)
-	{
-		this.newIssueCheckList = newIssueCheckList;
 	}
 	public List getNewIssueList()
 	{

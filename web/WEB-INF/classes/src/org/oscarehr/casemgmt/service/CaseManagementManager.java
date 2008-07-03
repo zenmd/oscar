@@ -54,8 +54,6 @@ import org.oscarehr.casemgmt.dao.EchartDAO;
 import org.oscarehr.casemgmt.dao.EncounterFormDAO;
 //import org.oscarehr.casemgmt.dao.EncounterWindowDAO;
 import org.oscarehr.casemgmt.dao.HashAuditDAO;
-import org.oscarehr.casemgmt.dao.IssueDAO;
-import org.oscarehr.casemgmt.dao.MessagetblDAO;
 import org.oscarehr.casemgmt.dao.PrescriptionDAO;
 import org.oscarehr.casemgmt.dao.ProviderSignitureDao;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
@@ -65,8 +63,6 @@ import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.oscarehr.casemgmt.model.CaseManagementTmpSave;
 import org.oscarehr.casemgmt.model.EncounterWindow;
 import org.oscarehr.casemgmt.model.HashAuditImpl;
-import org.oscarehr.casemgmt.model.Issue;
-import org.oscarehr.casemgmt.model.Messagetbl;
 import org.oscarehr.casemgmt.model.base.BaseHashAudit;
 import org.oscarehr.common.dao.UserPropertyDAO;
 import org.oscarehr.common.model.UserProperty;
@@ -76,6 +72,7 @@ import oscar.OscarProperties;
 
 import com.quatro.dao.IntakeDao;
 import com.quatro.dao.security.SecroleDao;
+import com.quatro.dao.LookupDao;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.Secrole;
 import com.quatro.util.Utility;
@@ -85,12 +82,10 @@ public class CaseManagementManager {
     protected String issueAccessType = "access";
     protected CaseManagementNoteDAO caseManagementNoteDAO;
     protected CaseManagementIssueDAO caseManagementIssueDAO;
-    protected IssueDAO issueDAO;
     protected CaseManagementCPPDAO caseManagementCPPDAO;
     protected AllergyDAO allergyDAO;
     protected PrescriptionDAO prescriptionDAO;
     protected EncounterFormDAO encounterFormDAO;
-    protected MessagetblDAO messagetblDAO;
     protected EchartDAO echartDAO;
     protected ApptDAO apptDAO;
     protected ProviderDao providerDAO;
@@ -104,7 +99,7 @@ public class CaseManagementManager {
     protected UserPropertyDAO userPropertyDAO;
     protected IntakeDao intakeDao;
     protected SecroleDao secroleDao;  
-   
+    protected LookupDao lookupDao;
     private boolean enabled;
     
     /*
@@ -280,11 +275,11 @@ public class CaseManagementManager {
     }
     
     public List getIssues(String providerNo, String demographic_no, List accessRight) {
-        return filterIssueList(getIssues(providerNo, demographic_no), providerNo, accessRight);
+        return getIssues(providerNo, demographic_no);
     }
 
     public List getActiveIssues(String providerNo, String demographic_no, List accessRight) {
-        return filterIssueList(getActiveIssues(providerNo, demographic_no), providerNo, accessRight);
+        return getActiveIssues(providerNo, demographic_no);
     }
 
     /* return true if have the right to access issues */
@@ -298,35 +293,9 @@ public class CaseManagementManager {
         }
         return rt;
     }
-
-    /* filter the issues by caisi role */
-    public List filterIssueList(List allIssue, String providerNo, List accessRight) {
-        List roles = secroleDao.getRoles();
-        List filteredIssue = new ArrayList();
-
-        for (int i = 0; i < roles.size(); i++) {
-            Iterator itr = allIssue.iterator();
-            String rl = ((Secrole)roles.get(i)).getRoleName();
-            String right = rl.trim() + "issues";
-            boolean inaccessRight = inAccessRight(right, issueAccessType, accessRight);
-            if (inaccessRight) {
-
-                String iRole = rl;
-                while (itr.hasNext()) {
-                    CaseManagementIssue iss = (CaseManagementIssue)itr.next();
-
-                    if (iss.getIssue().getRole().trim().equalsIgnoreCase(iRole.trim())) {
-                        filteredIssue.add(iss);
-                    }
-                }
-            }
-        }
-        return filteredIssue;
-    }
     
-    
-    public Issue getIssue(String issue_id) {
-        return this.issueDAO.getIssue(Integer.valueOf(issue_id));
+    public LookupCodeValue getIssue(String issue_id) {
+        return this.lookupDao.GetCode("ISS",issue_id);
     }
 
     public CaseManagementNote getNote(String note_id) {
@@ -352,20 +321,6 @@ public class CaseManagementManager {
     public List getEncounterFormBeans() {
         return encounterFormDAO.getAllForms();
     }
-
-    public List getMsgBeans(Integer demographicNo) {
-        Iterator iter = messagetblDAO.getMsgByDemoNo(demographicNo).iterator();
-        ArrayList al = new ArrayList();
-        int i = 0;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
-        while (iter.hasNext()) {
-            Messagetbl mtbl = (Messagetbl)iter.next();
-            al.add(new LabelValueBean(new Integer(i).toString(), mtbl.getThesubject() + "-" + sdf.format(mtbl.getThedate())));
-            i++;
-        }
-        return al;
-    }
-
     public void deleteIssueById(CaseManagementIssue issue) {
         caseManagementIssueDAO.deleteIssueById(issue);
     }
@@ -377,56 +332,10 @@ public class CaseManagementManager {
     public void saveCaseIssue(CaseManagementIssue issue) {
         caseManagementIssueDAO.saveIssue(issue);
     }
-
-    public Issue getIssueInfo(Integer l) {
-        return issueDAO.getIssue(l);
-    }
-
-    public List getAllIssueInfo() {
-        return issueDAO.getIssues();
-    }
-
     public void saveCPP(CaseManagementCPP cpp, String providerNo) {
         cpp.setProvider_no(providerNo);    // added because nothing else was setting providerNo; not sure this is the right place to do this -- rwd        
         caseManagementCPPDAO.saveCPP(cpp);
         echartDAO.saveCPPIntoEchart(cpp, providerNo);
-    }
-
-    public List getIssueInfoByCode(String providerNo, String[] codes) {
-        return issueDAO.findIssueByCode(codes);
-    }
-    
-    public List getIssueInfoByCode(String providerNo, String code) {
-        String[] codes = {code};
-        return issueDAO.findIssueByCode(codes);
-    }    
-    
-    public List getIssueInfoBySearch(String providerNo, String search, List accessRight) {
-        List issList = issueDAO.findIssueBySearch(search);
-        // filter the issue list by role
-        List roles = secroleDao.getRoles();
-        List filteredIssue = new ArrayList();
-
-        for (int i = 0; i < roles.size(); i++) {
-            Iterator itr = issList.iterator();
-            String rl = ((Secrole)roles.get(i)).getRoleName();
-            String right = rl.trim() + "issues";
-            boolean inaccessRight = inAccessRight(right, issueAccessType, accessRight);
-            if (inaccessRight) {
-
-                String iRole = rl;
-                while (itr.hasNext()) {
-                    Issue iss = (Issue)itr.next();
-
-                    if (iss.getRole().trim().equalsIgnoreCase(iRole.trim())) {
-                        filteredIssue.add(iss);
-
-                    }
-                }
-            }
-        }
-        return filteredIssue;
-
     }
 
     public void addNewIssueToConcern(String demoNo, String issueName) {
@@ -521,32 +430,7 @@ public class CaseManagementManager {
     /* get the filtered Notes by caisi role */
     public List getFilteredNotes(String providerNo, String demographic_no,Integer shelterId) {
         List allNotes = caseManagementNoteDAO.getNotesByDemographic(Integer.valueOf(demographic_no),shelterId,providerNo);
-        List roles = secroleDao.getRoles();
-        List filteredNotes = new ArrayList();
-        Iterator itr = allNotes.iterator();
-        boolean added = false;
-        while (itr.hasNext()) {
-            CaseManagementNote note = (CaseManagementNote)itr.next();
-            added = false;
-            Set se = note.getIssues();
-            if (se == null || se.size() == 0) {
-                Iterator isit = se.iterator();
-                while (isit.hasNext()) {
-                    CaseManagementIssue iss = (CaseManagementIssue)isit.next();
-                    for (int i = 0; i < roles.size(); i++) {
-                        String rl = ((Secrole)roles.get(i)).getRoleName();
-                        if (iss.getIssue().getRole().trim().equalsIgnoreCase(rl.trim())) {
-                            filteredNotes.add(iss);
-                            added = true;
-                            break;
-                        }
-
-                    }
-                    if (added) break;
-                }
-            }
-        }
-        return filteredNotes;
+        return allNotes;
     }
 
     public boolean haveIssue(Integer issid, String demoNo,String providerNo,Integer shelterId) {
@@ -752,18 +636,6 @@ public class CaseManagementManager {
     }
 */
 
-    public List searchIssues(String providerNo, String programId, String search) {
-    	List issList = issueDAO.search(search, providerNo, programId);
-        return issList;
-    }
-
-    public List searchIssuesNoRolesConcerned(String providerNo, String programId, String search) {
-
-        List issList = issueDAO.searchNoRolesConcerned(search);
-
-        return issList;
-    }
-
     private List issuesFacilityFiltering(Integer currentFacilityId, List issues) {
         ArrayList results = new ArrayList();
         
@@ -919,10 +791,6 @@ public class CaseManagementManager {
         this.encounterFormDAO = dao;
     }
 
-    public void setMessagetblDAO(MessagetblDAO dao) {
-        this.messagetblDAO = dao;
-    }
-
     public void setCaseManagementNoteDAO(CaseManagementNoteDAO dao) {
         this.caseManagementNoteDAO = dao;
     }
@@ -931,8 +799,8 @@ public class CaseManagementManager {
         this.caseManagementIssueDAO = dao;
     }
 
-    public void setIssueDAO(IssueDAO dao) {
-        this.issueDAO = dao;
+    public void setLookupDao(LookupDao dao) {
+        this.lookupDao = dao;
     }
 
     public void setCaseManagementCPPDAO(CaseManagementCPPDAO dao) {

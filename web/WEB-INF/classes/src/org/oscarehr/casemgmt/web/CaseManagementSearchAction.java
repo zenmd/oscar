@@ -50,12 +50,12 @@ import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
 import org.oscarehr.casemgmt.model.CaseManagementTmpSave;
-import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementViewFormBean;
 import org.oscarehr.common.model.UserProperty;
 
 import com.ibm.CORBA.iiop.Request;
 import com.quatro.common.KeyConstants;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
@@ -262,7 +262,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             List caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
             request.setAttribute("caseStatusList", caseStatus);
             
-            List issues = this.caseManagementMgr.getAllIssueInfo();
+            List issues = this.lookupMgr.LoadCodeList("ISS", true,null,null);
             request.setAttribute("issues", issues);
             
             // apply if we are filtering on role ----N/A Lillian comment
@@ -317,9 +317,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         /* prepare new form list for patient */
         se.setAttribute("casemgmt_newFormBeans", this.caseManagementMgr.getEncounterFormBeans());
 
-        /* prepare messenger list */
-        se.setAttribute("casemgmt_msgBeans", this.caseManagementMgr.getMsgBeans(new Integer(getDemographicNo(request))));
-
         // readonly access to define creat a new note button in jsp.
         SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
         boolean tmp = sec.GetAccess(KeyConstants.FUN_PMM_CASEMANAGEMENT,"P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
@@ -367,18 +364,19 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         // filter the notes by the checked issues and date if set
         UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
         String[] codes = request.getParameterValues("issue_code");
-        List issues = caseManagementMgr.getIssueInfoByCode(providerNo, codes);
+        String codeCvs = Utility.merge(codes, ",");
+        List issues = lookupMgr.LoadCodeList("ISS", true, codeCvs, null);
         
         StringBuffer checked_issues = new StringBuffer();
         String[] issueIds = new String[issues.size()];
         int idx = 0;
         Iterator it = issues.iterator();
         while(it.hasNext()){
-        	Issue issue = (Issue)it.next();
+        	LookupCodeValue issue = (LookupCodeValue)it.next();
         
         //for(Issue issue: issues) {
-            checked_issues.append("&issue_id="+String.valueOf(issue.getId()));            
-            issueIds[idx] = String.valueOf(issue.getId());
+            checked_issues.append("&issue_id="+issue.getCode());            
+            issueIds[idx] = issue.getCode();
         }                
         
         //set save Url 

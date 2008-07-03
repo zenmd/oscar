@@ -196,7 +196,7 @@ response.setHeader("Cache-Control", "no-cache");
 						<td width="20%">
 							<html:select property="searchServiceComponent">
 								<html:option value="">	</html:option>
-								<html:options collection="issues" property="id"	labelProperty="description" />
+								<html:options collection="issues" property="code"	labelProperty="description" />
 							</html:select>
 						</td>
 						<td width="20%">&nbsp;</td>
@@ -256,7 +256,7 @@ response.setHeader("Cache-Control", "no-cache");
 										<c:choose>
 											<c:when test="${note.signed && (note.caseStatusId==1)}">
 											<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
-													&noteId=<c:out value="${note.id}"/> 
+													&noteId=<c:out value="${note.id}"/>" 
 													 style="color:Navy;text-decoration:none;" >
 												<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"
 												title="Note History" /> 

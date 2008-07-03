@@ -43,7 +43,6 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 //import org.oscarehr.PMmodule.service.SurveyManager;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
-import org.oscarehr.casemgmt.model.Issue;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
@@ -53,6 +52,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.util.*;
 import org.oscarehr.PMmodule.web.BaseClientAction;
 
@@ -149,12 +149,12 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	}
 
 		
-	protected boolean inCaseIssue(Issue iss, List issues) {
+	protected boolean inCaseIssue(LookupCodeValue iss, List issues) {
 		Iterator itr = issues.iterator();
 		while (itr.hasNext())
 		{
 			CaseManagementIssue cIss = (CaseManagementIssue) itr.next();
-			if (iss.getId() == cIss.getIssue_id())
+			if (iss.getCode().equals(cIss.getIssue_id()))
 				return true;
 		}
 		return false;
@@ -255,22 +255,21 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		return rt; // + "]\n";
 	}
         
-        protected CaseManagementIssue newIssueToCIssue(String demoNo, Issue iss, Integer programId) {
+        protected CaseManagementIssue newIssueToCIssue(String demoNo, LookupCodeValue iss, Integer programId) {
             	CaseManagementIssue cIssue = new CaseManagementIssue();
 		// cIssue.setActive(true);
 		cIssue.setAcute(false);
 		cIssue.setCertain(false);
 		cIssue.setDemographic_no(demoNo);
 
-		cIssue.setIssue_id(iss.getId());
+		cIssue.setIssue_id(Integer.valueOf(iss.getCode()));
 
 		cIssue.setIssue(iss);
 		cIssue.setMajor(false);
 		// cIssue.setMedical_diagnosis(true);
 		cIssue.setNotes(new HashSet());
 		cIssue.setResolved(false);
-		String issueType = iss.getRole();
-		cIssue.setType(issueType);
+		cIssue.setType("case");
 		cIssue.setUpdate_date(new Date());
 		cIssue.setWriteAccess(true);
 		cIssue.setProgram_id(programId);
@@ -286,7 +285,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	/**
 	 * @param programId is optional, can be null for none.
 	 */
-	protected CaseManagementIssue newIssueToCIssue(CaseManagementEntryFormBean cform, Issue iss, Integer programId) {
+	protected CaseManagementIssue newIssueToCIssue(CaseManagementEntryFormBean cform, LookupCodeValue iss, Integer programId) {
             return newIssueToCIssue((String) cform.getDemoNo(),iss,programId);
 	}
 	
@@ -294,7 +293,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		Map map = new HashMap();
 		for(Iterator iter=issueList.iterator();iter.hasNext();) {
 			CaseManagementIssue issue = (CaseManagementIssue)iter.next();
-			map.put(issue.getIssue().getId(), issue);
+			map.put(issue.getIssue().getCode(), issue);
 		}
 		return map;
 	}

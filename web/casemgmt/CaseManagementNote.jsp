@@ -322,7 +322,7 @@ var XMLHttpRequestObject = false;
 		</tr>
 		<tr>
 			<td width="60%"><html:select property="lstIssue" multiple="true" size="3"	 style="width:100%;">
-				<html:options collection="lstIssueSelection" property="id"
+				<html:options collection="lstIssueSelection" property="code"
 					labelProperty="description"></html:options>
 			</html:select>
 			 <html:hidden property="txtIssueKey" value="" />
