@@ -74,7 +74,6 @@
 			<tr><td>
 			  <table width="100%" summary="Manage rooms and beds">
 				<html:hidden property="facilityId" />
-				<html:hidden property="roomToDelete" />
 				<tr><td width="100%">								
 				<!-- begin room status & bed program filter -->
 				<table width="100%">

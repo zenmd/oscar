@@ -451,7 +451,7 @@ public class RoomManager {
         }
     }
 
-    void saveRoom(Room room) throws RoomHasActiveBedsException {
+    public void saveRoom(Room room) throws RoomHasActiveBedsException {
         validate(room);
         roomDAO.saveRoom(room);
     }
@@ -496,7 +496,7 @@ public class RoomManager {
             throw new IllegalStateException("room must not be null");
         }
 
-        validateRoom(room);
+//        validateRoom(room);
         validateRoomType(room.getRoomTypeId());
         validateProgram(room.getProgramId());
     }

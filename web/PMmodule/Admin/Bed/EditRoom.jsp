@@ -9,6 +9,8 @@
 
 <html:form action="/PMmodule/BedManager.do">
   <input type="hidden" name="method" />
+  <html:hidden property="room.id"/>
+  <html:hidden property="room.facilityId"/>
   <table cellpadding="0" cellspacing="0" border="0" width="100%" 	height="100%">
     <c:choose>
     <c:when test="${roomId==0}">

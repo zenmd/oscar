@@ -21,7 +21,7 @@ public class BedManagerForm extends ActionForm {
     
     private Integer numBeds;
     
-    private Room room;
+    private Room room= new Room();
 //    private Room[] rooms;
 //    private Room[] assignedBedRooms;
 //    private RoomType[] roomTypes;
@@ -31,8 +31,8 @@ public class BedManagerForm extends ActionForm {
     private List assignedBedLst;
     
     private List programs;
-    private Integer roomToDelete;
-    private Integer bedToDelete;
+//    private Integer roomToDelete;
+//    private Integer bedToDelete;
     private Integer roomStatusFilter;
     private Integer bedStatusFilter;
     private Integer bedProgramFilterForRoom;
@@ -132,6 +132,8 @@ public class BedManagerForm extends ActionForm {
 		this.assignedBedRooms = assignedBedRooms;
 	}
 */
+    
+/*    
 	public Integer getBedToDelete() {
 		return bedToDelete;
 	}
@@ -147,7 +149,7 @@ public class BedManagerForm extends ActionForm {
 	public void setRoomToDelete(Integer roomToDelete) {
 		this.roomToDelete = roomToDelete;
 	}
-
+*/
 	public Integer getBedRoomFilterForBed() {
 		return bedRoomFilterForBed;
 	}
