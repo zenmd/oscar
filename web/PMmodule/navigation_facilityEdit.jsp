@@ -22,11 +22,11 @@
 </c:choose> 
 <c:choose>
 	<c:when test="${'C' eq tabBed}">
-		<div><b>Bed</b></div>
+		<div><b>Room/Bed</b></div>
 	</c:when>
 	<c:when test="${'V' eq tabBed}">
-		<div><html:link action="/PMmodule/BedManager.do?method=manage"
-			name="actionParam" style="color:Navy;text-decoration:none;">Bed</html:link>
+		<div><html:link action="/PMmodule/BedManager.do?method=manageroom"
+			name="actionParam" style="color:Navy;text-decoration:none;">Room/Bed</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>

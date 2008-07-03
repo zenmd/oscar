@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.struts.util.LabelValueBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +40,7 @@ import com.quatro.common.KeyConstants;
  */
 public class BedManagerAction extends BaseFacilityAction {
 
-    private static final String FORWARD_MANAGE = "manage";
+    private static final String FORWARD_MANAGE = "manageroom";
 
     private FacilityManager facilityManager;
     private BedManager bedManager;
@@ -51,13 +52,101 @@ public class BedManagerAction extends BaseFacilityAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // dispatch to correct method based on which button was selected
         // Please don't make changes that causes addRoom and addBed button not working any more!
-        if ("".equals(request.getParameter("submit.saveRoom")) == false) return saveRooms(mapping, form, request, response);
+/*        
+    	if ("".equals(request.getParameter("submit.saveRoom")) == false) return saveRooms(mapping, form, request, response);
         else if (request.getParameter("submit.deleteRoom") != null) return deleteRoom(mapping, form, request, response);
         else if ("".equals(request.getParameter("submit.addRoom")) == false) return addRooms(mapping, form, request, response);
         else if ("".equals(request.getParameter("submit.saveBed")) == false) return saveBeds(mapping, form, request, response);
         else if (request.getParameter("submit.deleteBed") != null) return deleteBed(mapping, form, request, response);
         else if ("".equals(request.getParameter("submit.addBed")) == false) return addBeds(mapping, form, request, response);
         else return manage(mapping, form, request, response);
+*/        
+        return manage(mapping, form, request, response);
+    }
+
+    public ActionForward editRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	prepareLeftNav(request);
+        
+    	BedManagerForm bForm = (BedManagerForm) form;
+    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
+
+        bForm.setFacilityId(facilityId);
+
+        ArrayList assignedBedLst= new ArrayList();
+        assignedBedLst.add(new LabelValueBean("N", "0"));
+        assignedBedLst.add(new LabelValueBean("Y", "1"));
+        request.setAttribute("assignedBedLst", assignedBedLst);
+
+        request.setAttribute("roomId", roomId);
+
+        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+        
+        Room room;
+        if(roomId.intValue()>0){
+          room = roomManager.getRoom(roomId);
+        }else{
+          room = new Room();
+        }
+        bForm.setRoom(room);
+        
+        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
+        bForm.setPrograms(pLst);
+
+        return mapping.findForward("editroom");
+    }
+
+    public ActionForward manageroom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	prepareLeftNav(request);
+        
+    	BedManagerForm bForm = (BedManagerForm) form;
+    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+
+        bForm.setFacilityId(facilityId);
+        Boolean hasError=false;
+        if(null!=request.getAttribute("hasErrorRoom"))
+        hasError =(Boolean)request.getAttribute("hasErrorRoom");
+
+        Room[] temp =null;
+        temp = roomManager.getRooms(facilityId);
+        
+        processDisplay2(form, request, temp, providerNo, facilityId);
+
+        return mapping.findForward("manageroom");
+    }
+
+    public ActionForward doRoomFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	prepareLeftNav(request);
+    	
+    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+
+        Integer roomStatus = Integer.valueOf(request.getParameter("roomStatusFilter"));
+        Integer roomFilteredProgram = Integer.valueOf(request.getParameter("bedProgramFilterForRoom"));
+        
+        Boolean roomStatusBoolean = new Boolean(false);
+
+        if (roomStatus.intValue() == 1) {
+            roomStatusBoolean = new Boolean(true);
+        }
+        else if (roomStatus.intValue() == 0) {
+            roomStatusBoolean = new Boolean(false);
+        }
+        else {
+            roomStatusBoolean = null;
+        }
+
+        if (roomFilteredProgram.intValue() == 0) {
+            roomFilteredProgram = null;
+        }
+
+        Room[] temp = roomManager.getRooms(facilityId, roomFilteredProgram, roomStatusBoolean);
+
+        processDisplay2(form, request, temp, providerNo, facilityId);
+
+        return mapping.findForward("manageroom");
     }
 
     public ActionForward manage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -66,7 +155,59 @@ public class BedManagerAction extends BaseFacilityAction {
         return mapping.findForward(FORWARD_MANAGE);
     }
 
+    private void processDisplay2(ActionForm form, HttpServletRequest request, Room[] roomLst,
+    		String providerNo, Integer facilityId){
+    	BedManagerForm bForm = (BedManagerForm) form;
+
+        Room[] rooms = null;
+
+        ArrayList rmLst = new ArrayList();
+        for(int i =0; i < roomLst.length; i++){
+        	Room rm = roomLst[i];
+        	if(rm.getAssignedBed().intValue() == 1)	rmLst.add(rm);
+        }
+        if(rmLst.size()>0){
+        	rooms = new Room[rmLst.size()];
+        	for(int i = 0; i < rmLst.size(); i++){
+        		rooms[i] = (Room)rmLst.get(i);
+        	}
+        }
+        	
+        request.setAttribute("rooms", roomLst);
+        
+        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+
+        ArrayList assignedBedLst= new ArrayList();
+        assignedBedLst.add(new LabelValueBean("0", "N"));
+        assignedBedLst.add(new LabelValueBean("1", "Y"));
+        request.setAttribute("assignedBedLst", assignedBedLst);
+
+        bForm.setNumRooms(new Integer(1));
+        Integer tmp = bForm.getBedRoomFilterForBed();
+        if(roomLst.length == 0){
+        	tmp = null;
+        	bForm.setBedRoomFilterForBed(new Integer(-1));
+        	bForm.setExistRooms("NO");
+        }else{
+        	bForm.setExistRooms("YES");
+        }
+
+        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
+        if(pLst.size() < 1){
+        	ActionMessages messages = new ActionMessages();
+            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.program.not.exist", request.getContextPath()));
+            saveMessages(request, messages);
+        }
+        bForm.setPrograms(pLst);
+        Map statusNames = new HashMap();
+        statusNames.put("1", "Active");
+        statusNames.put("0", "Inactive");
+        statusNames.put("2", "Any");
+        bForm.setRoomStatusNames(statusNames);
+    }
+
     private void processDisplay(ActionForm form, HttpServletRequest request){
+/*    	
     	prepareLeftNav(request);
         
     	BedManagerForm bForm = (BedManagerForm) form;
@@ -162,7 +303,7 @@ public class BedManagerAction extends BaseFacilityAction {
         statusNames.put("2", "Any");
         bForm.setRoomStatusNames(statusNames);
         bForm.setBedStatusNames(statusNames);
-
+*/
     }
     
     public ActionForward manageFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -175,15 +316,16 @@ public class BedManagerAction extends BaseFacilityAction {
         Facility facility = facilityManager.getFacility(facilityId);
 
         bForm.setFacilityId(facilityId);
-        bForm.setRooms(bForm.getRooms());
-        bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
-        bForm.setRoomTypes(roomManager.getRoomTypes());
+//        bForm.setRooms(bForm.getRooms());
+//        bForm.setAssignedBedRooms(roomManager.getAssignedBedRooms(facilityId));
+//        bForm.setRoomTypes(roomManager.getRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getRoomTypes());
         bForm.setNumRooms(new Integer(1));
         bForm.setBeds(bForm.getBeds());
         bForm.setBedTypes(bedManager.getBedTypes());
         bForm.setNumBeds(new Integer(1));
         bForm.setPrograms(programManager.getBedProgramsInFacility(providerNo, facilityId));
-        bForm.setFacility(facility);
+//        bForm.setFacility(facility);
         Map statusNames = new HashMap();
         statusNames.put("1", "Active");
         statusNames.put("0", "Inactive");
@@ -194,6 +336,11 @@ public class BedManagerAction extends BaseFacilityAction {
         return mapping.findForward(FORWARD_MANAGE);
     }
     
+    //please implement this method for QuatroShelter
+    private boolean isRoomOverProgramCapacity(Room room, Bed bed){
+    	return false;
+    }
+
     private boolean isRoomOverProgramCapacity(Room[] rooms,HttpServletRequest request){
     	boolean isValid =true;
     	ActionMessages messages = new ActionMessages();
@@ -229,13 +376,30 @@ public class BedManagerAction extends BaseFacilityAction {
     	}
     	return isValid;
     }
-    public ActionForward saveRooms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    
+    public ActionForward saveRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
     	BedManagerForm bForm = (BedManagerForm) form;
 
-        Room[] rooms = bForm.getRooms();
+        Room room = bForm.getRoom();
+        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+        Integer programId = bForm.getRoom().getProgramId();
+        
+        Room[] existing_rooms = roomManager.getRooms(facilityId, programId, Boolean.TRUE);
+        Room[] rooms;
+        //new room
+        if(room.getId().intValue()==0){
+          if(existing_rooms!=null){
+            rooms = new Room[existing_rooms.length+1];	
+            for(int i=0;i<rooms.length;i++){
+
+            }
+          }
+        }
+        
         boolean isValid = isRoomOverProgramCapacity(rooms,request);
+        
         // detect check box false
         for (int i = 0; i < rooms.length; i++) {
             if (request.getParameter("rooms[" + i + "].active") == null) {
@@ -244,7 +408,7 @@ public class BedManagerAction extends BaseFacilityAction {
         }
         try {
         	if(isValid){
-	            roomManager.saveRooms(rooms);
+	            roomManager.saveRoom(room);
 	            ActionMessages messages = new ActionMessages();
 	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
 	            saveMessages(request, messages);
@@ -308,7 +472,7 @@ public class BedManagerAction extends BaseFacilityAction {
 
         return manage(mapping, form, request, response);
     }
-
+/*
     public ActionForward saveBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
@@ -360,7 +524,7 @@ public class BedManagerAction extends BaseFacilityAction {
         request.setAttribute("hasErrorBed",Boolean.valueOf(!isValid));
         return manage(mapping, form, request, response);
     }
-
+*/
     public ActionForward deleteBed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
@@ -394,7 +558,9 @@ public class BedManagerAction extends BaseFacilityAction {
         return manage(mapping, form, request, response);
     }
 
-    public ActionForward addRooms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    
+    public ActionForward addRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+/*
     	prepareLeftNav(request);
     	
     	BedManagerForm bForm = (BedManagerForm) form;
@@ -409,22 +575,8 @@ public class BedManagerAction extends BaseFacilityAction {
             if (numRooms.intValue() <= 0) {
                 numRooms = new Integer(0);
             }
-//            else if (numRooms.intValue() + roomslines.intValue() > 10) {
-//                numRooms = new Integer(10 - roomslines.intValue());
-//            }
         }
 
-//        if (numRooms != null && numRooms.intValue() > 0) {
-//            try {
-//                roomManager.addRooms(bForm.getFacilityId(), numRooms.intValue());
-//            }
-//            catch (RoomHasActiveBedsException e) {
-//                ActionMessages messages = new ActionMessages();
-//                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.active.beds.error", e.getMessage()));
-//                saveMessages(request, messages);
-//            }
-//        }
-//		return manage(mapping, form, request, response);
     	
         processDisplay(form, request);
         
@@ -467,10 +619,12 @@ public class BedManagerAction extends BaseFacilityAction {
 	        }
 	        bForm.setRooms(roomsTemp);
         }
+*/        
     	return mapping.findForward(FORWARD_MANAGE);
 
     }
 
+    
     public ActionForward addBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
@@ -541,36 +695,6 @@ public class BedManagerAction extends BaseFacilityAction {
         }
     	return mapping.findForward(FORWARD_MANAGE);
     	
-    }
-
-    public ActionForward doRoomFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-    	
-    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        BedManagerForm bForm = (BedManagerForm) form;
-        Integer roomStatus = bForm.getRoomStatusFilter();
-        Integer roomFilteredProgram = bForm.getBedProgramFilterForRoom();
-        Boolean roomStatusBoolean = new Boolean(false);
-
-        if (roomStatus.intValue() == 1) {
-            roomStatusBoolean = new Boolean(true);
-        }
-        else if (roomStatus.intValue() == 0) {
-            roomStatusBoolean = new Boolean(false);
-        }
-        else {
-            roomStatusBoolean = null;
-        }
-
-        if (roomFilteredProgram.intValue() == 0) {
-            roomFilteredProgram = null;
-        }
-        Room[] filteredRooms = roomManager.getRooms(facilityId, roomFilteredProgram, roomStatusBoolean);
-
-        bForm.setRooms(filteredRooms);
-        form = bForm;
-
-        return manageFilter(mapping, form, request, response);
     }
 
     public ActionForward doBedFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

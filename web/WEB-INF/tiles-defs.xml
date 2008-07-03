@@ -73,6 +73,18 @@
 		<put name="body" value="/PMmodule/Admin/AgencyEdit/general.jsp" />
 	</definition>
 
+	<definition name="page.pmm.admin.room.edit" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityEdit.jsp" />
+		<put name="body" value="/PMmodule/Admin/Bed/EditRoom.jsp" />
+	</definition>
+	<definition name="page.pmm.admin.rooms.manage" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityEdit.jsp" />
+		<put name="body" value="/PMmodule/Admin/Bed/Room.jsp" />
+	</definition>
+	<definition name="page.pmm.admin.bed.edit" path="/PMmodule/layout.jsp"> 
+		<put name="leftNav" value="/PMmodule/navigation_facilityEdit.jsp" />
+		<put name="body" value="/PMmodule/Admin/Bed/EditBed.jsp" />
+	</definition>
 	<definition name="page.pmm.admin.beds.manage" path="/PMmodule/layout.jsp"> 
 		<put name="leftNav" value="/PMmodule/navigation_facilityEdit.jsp" />
 		<put name="body" value="/PMmodule/Admin/Bed/Bed.jsp" />

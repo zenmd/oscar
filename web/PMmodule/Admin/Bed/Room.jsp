@@ -7,51 +7,18 @@
     }
     
     function roomFilter(){
-//		document.forms[0].action = '<html:rewrite action="/PMmodule/BedManager.do?method=doRoomFilter" />';
-        document.forms[0].method.value='doRoomFilter';
-		document.forms[0].submit();
+		var obj = document.getElementById("hrefSort");
+		var obj2 = document.getElementsByName("bedProgramFilterForRoom")[0];
+		var obj3 = document.getElementsByName("roomStatusFilter")[0];
+		
+		obj.href='<html:rewrite action="/PMmodule/BedManager.do?method=doRoomFilter" />' + 
+   		    '&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&bedProgramFilterForRoom=' + 
+   		    obj2.value + '&roomStatusFilter=' + obj3.value; 
+   		    
+   		obj.click();   
     }
     
-    function addRooms(){
-    /*
-      if(bedManagerForm.roomslines.value!=null && parseInt(bedManagerForm.roomslines.value)>=10){
-        alert("You cannot add more than 10 rooms at a time.");
-        return;
-      }else{  
-        bedManagerForm.method.value='addRooms';
-        var obj= document.getElementsByName("submit.addRoom")[0]
-        obj.value='Add Rooms';
-        bedManagerForm.submit();
-      }
-      */
-      	bedManagerForm.method.value='addRooms';
-        var obj= document.getElementsByName("submit.addRoom")[0]
-        obj.value='Add Rooms';
-        bedManagerForm.submit();  
-    }    
-    
-    function saveRooms(){
-      var i;
-      var obj;
-      if(bedManagerForm.roomslines.value!=null){
-        for(i=0;i<parseInt(bedManagerForm.roomslines.value);i++){
-          obj= document.getElementsByName("rooms[" + i + "].name")[0] 
-          if(obj.value==""){
-            //alert("Room name can not be empty.");
-            if(confirm("Room can not be saved if it do not have a name. Are you sure you want to continue?")){
-            	break;
-            }else{
-            	return;
-            }
-          }
-        }
-        bedManagerForm.method.value='saveRooms';
-        obj= document.getElementsByName("submit.saveRoom")[0]
-        obj.value='Save Rooms';
-        bedManagerForm.submit();
-      }  
-    }    
-    
+/*    
     function deleteRoom(){
     	var doDelete = confirm("Are you sure you want to delete the room?");
     	if(doDelete){
@@ -59,9 +26,15 @@
 			document.forms[0].submit();
     	}
     }
-    function deleteRoom2(rid){
-    	document.forms[0].roomToDelete.value=rid;
-    	deleteRoom();
+*/    
+    function deleteRoom(rid){
+    	var doDelete = confirm("Are you sure you want to delete the room?");
+    	if(doDelete){
+    	  document.forms[0].roomToDelete.value=rid;
+		  var obj = document.getElementById("method");
+		  obj.value='deleteRoom';
+		  document.forms[0].submit();
+		}  
     }
 </script>
 
@@ -70,17 +43,14 @@
   <input type="hidden" name="hasErrorRoom" />
   <input type="hidden" name="hasErrorBed" />
   <table cellpadding="0" cellspacing="0" border="0" width="100%" 	height="100%">
-	<tr><th class="pageTitle" align="center">Facility Management - Manage Rooms</th></tr>
+	<tr><th class="pageTitle" align="center">Facility Management - Rooms List</th></tr>
 	<tr><td height="100%">
 	 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%" 	border="0">
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
 		<c:if test="${!isReadOnly}">
-		  <html:link href="javascript:saveRooms();" style="color:Navy;text-decoration:none;">
-		  <img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save Rooms&nbsp;&nbsp;|</html:link>
-
-		  <html:link href="javascript:addRooms();" style="color:Navy;text-decoration:none;">
-		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add Rooms&nbsp;&nbsp;|</html:link>
+		  <a href='<html:rewrite action="/PMmodule/BedManager.do?method=editRoom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=0' style="color:Navy;text-decoration:none">
+		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add Room&nbsp;&nbsp;|</a>
 		</c:if>	
 
 		<html:link action="/Home.do"	style="color:Navy;text-decoration:none">&nbsp;
@@ -105,7 +75,6 @@
 			  <table width="100%" summary="Manage rooms and beds">
 				<html:hidden property="facilityId" />
 				<html:hidden property="roomToDelete" />
-				<html:hidden property="bedToDelete" />
 				<tr><td width="100%">								
 				<!-- begin room status & bed program filter -->
 				<table width="100%">
@@ -118,97 +87,57 @@
 				  <html:select property="bedProgramFilterForRoom"	name="bedManagerForm" onchange="roomFilter();">
 					<option value="0">Any</option>
 					<html:optionsCollection property="programs" value="id" label="name" />
-				  </html:select></td></tr>
+				  </html:select>
+				  <a id="hrefSort" href="">
+				  </td></tr>
 				</table>
 
 				<!-- end room status & bed program filter --> 
-				<display:table class="simple" name="bedManagerForm.rooms"	id="room" requestURI="/PMmodule/BedManager.do">
-				   <display:column title="Name" sortable="true" sortName="room" sortProperty="name">
-					  <input type="text" style="width:100%" name="rooms[<c:out value="${room_rowNum - 1}" />].name"	value="<c:out value="${room.name}" />" />
-				   </display:column>
-				   <display:column title="Floor" sortable="true" sortProperty="floor">
-					  <input type="text" style="width:100%"	name="rooms[<c:out value="${room_rowNum - 1}" />].floor" value="<c:out value="${room.floor}" />" />
-				   </display:column>
+				<display:table class="simple" name="rooms"	id="room" requestURI="/PMmodule/BedManager.do">
+				   <display:column title="Name" sortable="true" sortProperty="name">
+				    <a href="<html:rewrite action="/PMmodule/BedManager.do?method=editRoom" />&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${room.id}"/>">
+                      <c:out value="${room.name}"/>
+                    </a>  
+                   </display:column>   
+				   <display:column property="floor" title="Floor" sortable="true"/>
 				   <display:column title="Type">
-					  <select name="rooms[<c:out value="${room_rowNum - 1}" />].roomTypeId">
-						<c:forEach var="roomType"	items="${bedManagerForm.roomTypes}">
-						<c:choose>
-						  <c:when test="${roomType.id == room.roomTypeId}">
-							<option value="<c:out value="${roomType.id}"/>"	selected="selected"><c:out value="${roomType.name}" /></option>
-						  </c:when>
-						  <c:otherwise>
-							<option value="<c:out value="${roomType.id}"/>"><c:out value="${roomType.name}" /></option>
-						  </c:otherwise>
-						</c:choose>
-						</c:forEach>
-					  </select>
+					<c:forEach var="roomType"	items="${roomTypes}">
+					<c:if test="${roomType.id == room.roomTypeId}"><c:out value="${roomType.name}" /></c:if>
+					</c:forEach>
 				   </display:column>
 				   <display:column title="Assigned Beds">
-					<select name="rooms[<c:out value="${room_rowNum - 1}" />].assignedBed">
 						<c:choose>
-						<c:when test="${room.assignedBed != 1}">
-						  <option value="1">Y</option>
-						  <option value="0" selected>N</option>
-						</c:when>
-						<c:otherwise>
-						  <option value="1" selected>Y</option>
-						  <option value="0">N</option>
-						</c:otherwise>
+						<c:when test="${room.assignedBed != 1}">N</c:when>
+						<c:otherwise>Y</c:otherwise>
 						</c:choose>
 					 </select>
 				   </display:column>
-				   <display:column title="Room Capacity">
-					  <select name="rooms[<c:out value="${room_rowNum - 1}" />].occupancy">
-						 <c:forEach var="num" begin="1" end="20" step="1">
-						 <c:choose>
-						 <c:when test="${room.occupancy == num}">
-						   <option value="<c:out value='${num}' />" selected="selected"><c:out value="${num}" /></option>
-						 </c:when>
-						 <c:otherwise>
-						   <option value="<c:out value='${num}' />"><c:out	value="${num}" /></option>
-						 </c:otherwise>
-						 </c:choose>
-					 	 </c:forEach>
-					  </select>
-					</display:column>
+				   <display:column property="occupancy" title="Room Capacity" />
 					<display:column title="Program">
-					  <select name="rooms[<c:out value="${room_rowNum - 1}" />].programId">
 						 <c:forEach var="program" items="${bedManagerForm.programs}">
-						 <c:choose>
-						 <c:when test="${program.id == room.programId}">
-							<option value="<c:out value="${program.id}"/>"	selected="selected"><c:out value="${program.name}" /></option>
-						 </c:when>
-						 <c:otherwise>
-							<option value="<c:out value="${program.id}"/>">
-							<c:out value="${program.name}" /></option>
-						 </c:otherwise>
-						 </c:choose>
+						 <c:if test="${program.id == room.programId}"><c:out value="${program.name}" /></c:if>
 						 </c:forEach>
-					  </select>
 					</display:column>
-					<display:column title="Active" sortable="true">
+					<display:column title="Active" sortable="true" sortProperty="active">
 					   <c:choose>
-					     <c:when test="${room.active}">
-						   <input type="checkbox"	name="rooms[<c:out value="${room_rowNum - 1}" />].active" checked="checked" />
-					     </c:when>
-					     <c:otherwise>
-						   <input type="checkbox"	name="rooms[<c:out value="${room_rowNum - 1}" />].active" />
-					     </c:otherwise>
+					     <c:when test="${room.active}">Y</c:when>
+					     <c:otherwise>N</c:otherwise>
 					   </c:choose>
 					</display:column>
-					<display:column title="Delete">	
+					<display:column>	
 					  <c:if test="${!isReadOnly &&  room.id != null}">									
-						 <a href="javascript:deleteRoom2(<c:out value="${room.id}"/>);">Delete</a>											
-					  </c:if>								
+				         <a href="<html:rewrite action="/PMmodule/BedManager.do?method=deleteRoom" />&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${room.id}"/>">
+<!-- 
+						 <a href="javascript:deleteRoom(<c:out value="${room.id}"/>);">Delete Room</a>											
+ -->
+					  Delete</c:if>								
 					</display:column>
 				</display:table>
 				</td></tr>
 								
 				<tr>
 					<td><html:hidden property="numRooms" /> 
-						<input type=hidden name="submit.addRoom" value="">
 						<input type=hidden name="roomslines" value="<c:out value="${room_rowNum}" />"> 
-						<input type=hidden name="submit.saveRoom" value="">
 					</td>
 				</tr>
 			</table>

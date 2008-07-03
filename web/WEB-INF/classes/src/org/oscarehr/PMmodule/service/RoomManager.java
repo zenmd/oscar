@@ -25,6 +25,7 @@ package org.oscarehr.PMmodule.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.oscarehr.PMmodule.model.Facility;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,7 +70,9 @@ public class RoomManager {
         }
 
         Room room = roomDAO.getRoom(roomId);
+        Facility facility = facilityDAO.getFacility(room.getFacilityId()); 
         setAttributes(room);
+        room.setFacility(facility);
 
         return room;
     }
@@ -80,11 +83,14 @@ public class RoomManager {
      */
     public Room[] getRooms(Integer facilityId) {
         Room[] rooms = roomDAO.getRooms(facilityId, null, null);
+        Facility facility = facilityDAO.getFacility(facilityId); 
+
         if(rooms!=null){
 //          for (Room room : rooms) {
           for (int i=0;i<rooms.length;i++) {
         	Room room = rooms[i];
             setAttributes(room);
+            room.setFacility(facility);
           }
         }
         return rooms;
@@ -92,11 +98,13 @@ public class RoomManager {
 
     public Room[] getRooms(Integer facilityId, Integer programId, Boolean active) {
         Room[] rooms = roomDAO.getRooms(facilityId, programId, active);
+        Facility facility = facilityDAO.getFacility(facilityId); 
         if(rooms!=null){
 //          for (Room room : rooms) {
           for (int i=0;i<rooms.length;i++) {
            	Room room = rooms[i];
             setAttributes(room);
+            room.setFacility(facility);
           }
         }
         return rooms;
@@ -126,11 +134,13 @@ public class RoomManager {
      */
     public Room[] getAssignedBedRooms(Integer facilityId, Integer programId, Boolean active) {
         Room[] rooms = roomDAO.getAssignedBedRooms(facilityId, programId, active);
+        Facility facility = facilityDAO.getFacility(facilityId); 
         if(rooms!=null){
 //          for (Room room : rooms) {
           for (int i=0;i<rooms.length;i++) {
            	Room room = rooms[i];
             setAttributes(room);
+            room.setFacility(facility);
           }
         }  
         return rooms;
@@ -142,11 +152,13 @@ public class RoomManager {
      */
     public Room[] getAssignedBedRooms(Integer facilityId) {
         Room[] rooms = roomDAO.getAssignedBedRooms(facilityId, null, null);
+        Facility facility = facilityDAO.getFacility(facilityId); 
         if(rooms!=null){
 //          for (Room room : rooms) {
           for (int i=0;i<rooms.length;i++) {
            	Room room = rooms[i];
             setAttributes(room);
+            room.setFacility(facility);
           }
         }
         return rooms;
@@ -470,7 +482,7 @@ public class RoomManager {
     	}
         Integer roomTypeId = room.getRoomTypeId();
         room.setRoomType(roomDAO.getRoomType(roomTypeId));
-        room.setFacility(facilityDAO.getFacility(room.getFacilityId()));
+//        room.setFacility(facilityDAO.getFacility(room.getFacilityId()));
 
         Integer programId = room.getProgramId();
 

@@ -1,0 +1,93 @@
+<%@ include file="/taglibs.jsp"%>
+
+<script>
+    function saveRoom(){
+      	bedManagerForm.method.value='saveRoom';
+        bedManagerForm.submit();  
+    }    
+</script>
+
+<html:form action="/PMmodule/BedManager.do">
+  <input type="hidden" name="method" />
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" 	height="100%">
+    <c:choose>
+    <c:when test="${roomId==0}">
+	  <tr><th class="pageTitle" align="center">Facility Management - New Room</th></tr>
+	</c:when>
+	<c:otherwise>
+	  <tr><th class="pageTitle" align="center">Facility Management - Edit Room</th></tr>
+	</c:otherwise>
+	</c:choose>  
+	<tr><td height="100%">
+	 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%" 	border="0">
+	 <!-- submenu -->
+	  <tr><td align="left" class="buttonBar2">
+		<c:if test="${!isReadOnly}">
+		  <html:link href="javascript:saveRoom();" style="color:Navy;text-decoration:none;">
+		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room&nbsp;&nbsp;|</html:link>
+		</c:if>	
+
+		<html:link action="/PMmodule/FacilityManager.do?method=manageBed" style="color:Navy;text-decoration:none;">
+		<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;Beds&nbsp;&nbsp;|</html:link>
+		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=manageroom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>' style="color:Navy;text-decoration:none">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
+	  </td></tr>
+
+	  <!-- messages -->
+	  <tr><td align="left" class="message">
+		<logic:messagesPresent	message="true"><br />
+		  <html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" />
+		  </html:messages><br />
+		</logic:messagesPresent>
+	  </td></tr>
+
+   	  <tr><td height="100%">
+		<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;  height: 100%; width: 100%; overflow: auto;" id="scrollBar">
+		  <table width="100%" height="100%" cellpadding="0px"	cellspacing="0px">				
+			<tr><td>
+			  <table width="100%">
+				<html:hidden property="facilityId" />
+				<tr><td width="100%">								
+
+				<table width="100%" class="simple">
+				  <tr><td>Room Name</td>
+				  <td><html:text property="room.name" maxlength="45"></html:text></td></tr>
+				  <tr><td>Floor</td>
+				  <td><html:text property="room.floor" maxlength="45"></html:text></td></tr>
+				  <tr><td>Type</td>
+				  <td><html:select property="room.roomTypeId">
+				    <html:optionsCollection name="roomTypes" value="id"	label="name" />
+				  </html:select></td></tr>
+				  <tr><td>Assigned Beds</td>
+				  <td><html:select property="room.assignedBed">
+				    <html-el:optionsCollection name="assignedBedLst" value="value"	label="label" />
+				  </html:select></td></tr>
+				  <tr><td>Room Capacity</td>
+				  <td><html:text property="room.occupancy" maxlength="10"></html:text></td></tr>
+				  <tr><td>Program</td>
+				  <td><html:select property="room.programId">
+				    <option value=""></option>
+				    <html:optionsCollection property="programs" value="id"	label="name" />
+				  </html:select></td></tr>
+				  <tr><td>Active</td>
+				  <td><html:checkbox  property="room.active" value="1"></html:checkbox></td></tr>
+				</table>
+
+				</td></tr>
+								
+			</table>
+			</td></tr>
+		</table>
+
+					</div>
+					</td>
+				</tr>
+			</table>
+
+
+			</td>
+		</tr>
+		<!-- body end -->
+	</table>
+	<%@ include file="/common/readonly.jsp" %>
+</html:form>
