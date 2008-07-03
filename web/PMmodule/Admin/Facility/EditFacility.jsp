@@ -1,5 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <script type="text/javascript">
 	function validateRequiredField(fieldId, fieldName, maxLength)
 	{
@@ -69,7 +69,7 @@
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 						<html:link	action="/PMmodule/FacilityManager.do?method=list"	style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;|</html:link>
-						<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+						<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">						
 							<html:link	href="javascript:submitForm();"	onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 						</security:oscarSec>	
