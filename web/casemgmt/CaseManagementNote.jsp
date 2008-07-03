@@ -363,7 +363,7 @@ var XMLHttpRequestObject = false;
 	%>
 	<table style="width: 90%">
 		<tr>
-			<td align="left" class="buttonBar">
+			<td align="left" class="buttonBar2">
 			<span
 				style="text-decoration: cursor:pointer;color: blue"
 				onclick="javascript:spellCheck();"> <img border=0
