@@ -320,7 +320,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
         request.setAttribute("lstDischargeReason", lstDischargeReason);
         
-        List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
+        List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);
         request.setAttribute("lstCommProgram", lstCommProgram);
         
     }
