@@ -228,7 +228,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 		</tr>
 		<tr>
-			<td align="left" class="buttonBar">
+			<td align="left" class="buttonBar2">
 			<html:link	action="/PMmodule/QuatroComplaint.do" name="actionParam"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Complaints&nbsp;&nbsp;|</html:link>
 					<c:if test="${quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null}">	

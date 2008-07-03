@@ -5,7 +5,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
@@ -18,10 +18,10 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|
 			</html:link>			
-			<c:if test="${!isReadOnly}">
+			<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 				<html:link	href="javascript:editIncident('new');"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
-			</c:if>
+			</security:oscarSec>
 			<html:link	href="javascript:searchIncident();"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
 			<html:link href="javascript:resetForm()"	style="color:Navy;text-decoration:none;">&nbsp;
@@ -100,4 +100,3 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 		</td>
 	</tr>
 </table>
-<%@ include file="/common/readonly.jsp" %>

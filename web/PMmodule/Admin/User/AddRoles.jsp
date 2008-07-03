@@ -13,12 +13,12 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 			id="lblTitle" align="left">User Management - Role/Org Security </span></th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><html:link
-			href="javascript:submitForm('edit');"
+		<td align="left" class="buttonBar2">
+		<html:link	href="javascript:submitForm('edit');" 
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User Profile&nbsp;&nbsp;|</html:link>
 		<html:link href="javascript:submitForm('saveRoles');"
-			onclick="javascript:getFunctionsList();"
+			onclick="javascript: setNoConfirm();getFunctionsList();"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 		</td>
@@ -150,7 +150,7 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 		</td>
 	</tr>
 </table>
-
+<%@ include file="/common/readonly.jsp" %>
 <script language="javascript" type="text/javascript">
 <!--
 function submitForm(mthd){

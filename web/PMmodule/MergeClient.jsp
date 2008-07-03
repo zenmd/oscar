@@ -124,7 +124,7 @@
 			<th class="pageTitle">Merge Search<c:out value="${moduleName}" /></th>
 		</tr>
 		<tr>
-			<td class="buttonBar" align="left" height="18px">
+			<td class="buttonBar2" align="left" height="18px">
 				<a	href="javascript:submitForm('search')"	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Search&nbsp;&nbsp;|</a> 
 				<a	style="color:Navy;text-decoration:none;"	href="javascript:submitForm('mergedSearch');"> 

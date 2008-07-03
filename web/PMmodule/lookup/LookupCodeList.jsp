@@ -7,7 +7,7 @@
 			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables &nbsp;-&nbsp;<bean:write name="lookupCodeListForm" property="tableDef.description"/></span></th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 		<html:link  action="/Lookup/LookupCodeEdit.do" paramName="lookupCodeListForm" paramProperty="tableDef.tableId" paramId="id">
 		<img src="../images/New16.png" border="0"/> Add</html:link>&nbsp;|&nbsp;
 		<html:link action="/Lookup/LookupTableList.do"> <img src="../images/Back16.png" border="0"/> Back to Lookup Fields</html:link>

@@ -27,7 +27,7 @@ function updateQuatroAdmission(clientId, admissionId) {
 		<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar">
+		<td align="left" class="buttonBar2">
 		<html:link action="/Home.do"
 		style="color:Navy;text-decoration:none">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>

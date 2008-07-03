@@ -27,11 +27,10 @@ String s = "debug";
 				border="0">
 				<!-- submenu -->
 				<tr>
-					<td align="left" class="buttonBar"><html:link
-						action="/SystemMessage.do?method=list"
-						style="color:Navy;text-decoration:none;">
+					<td align="left" class="buttonBar2">
+					<html:link	action="/SystemMessage.do?method=list"		style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
-					<html:link href="javascript:submitForm();" 
+					<html:link href="javascript:submitForm();"  onclick="javascript:setNoConfirm();"
 						style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 					</td>
@@ -54,10 +53,6 @@ String s = "debug";
 					<div
 						style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
 				                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-
-
-
-
 
 					<br />
 					<div class="tabs" id="tabs">
@@ -125,16 +120,7 @@ String s = "debug";
 							</td>
 						</tr>
 
-						
-
-						
 					</table>
-
-
-
-
-
-
 					</div>
 					</td>
 				</tr>
@@ -147,6 +133,7 @@ String s = "debug";
 		<!-- body end -->
 	</table>
 </html:form>
+<%@ include file="/common/readonly.jsp" %>
 <script type="text/javascript">
 <!--
 	function submitForm(){

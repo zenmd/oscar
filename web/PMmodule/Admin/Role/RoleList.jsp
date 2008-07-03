@@ -9,7 +9,7 @@
 			id="_ctl0_phBody_lblTitle" align="left">Role Management - Role List</span></th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><html:link
+		<td align="left" class="buttonBar2"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>

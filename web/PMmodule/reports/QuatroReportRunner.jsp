@@ -86,7 +86,7 @@ function submitForm(mthd)
 		<th class="pageTitle" align="center">Report Management</th>
 	</tr>
 
-	<tr class="buttonBar"><td align="left" class="buttonBar">
+	<tr class="buttonBar2"><td align="left" class="buttonBar2">
 		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">Back to Reports</html:link>
 		<img src="../images/Save16.png"/>
 		<a href="javascript:submitForm('Save');">Save Template</a>&nbsp;|&nbsp;

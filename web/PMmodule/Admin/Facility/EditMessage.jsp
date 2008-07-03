@@ -4,6 +4,7 @@
 String s = "debug";
 %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
+<%@page import="com.quatro.common.KeyConstants;"%>
 <bean:define id="facility" name="facilityManagerForm"
 	property="facility" />
 
@@ -30,17 +31,16 @@ String s = "debug";
 				<!-- submenu -->
 				<tr>
 					<td align="left" class="buttonBar2">
-					<html:link action="/Home.do"
-					style="color:Navy;text-decoration:none">&nbsp;
+					<html:link action="/Home.do"	style="color:Navy;text-decoration:none">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 					<html:link
 						action="/FacilityMessage.do?method=list" name="actionParam"
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Messages&nbsp;&nbsp;!</html:link>
-					<c:if test="${!isReadOnly }">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_FACILITY_MESSAGE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
 						<html:link href="javascript:submitForm();" 	style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
-					</c:if>	
+					</security:oscarSec>
 					</td>
 				</tr>
 
@@ -61,9 +61,6 @@ String s = "debug";
 					<div
 						style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
 				                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-
-
-
 
 
 					<br />

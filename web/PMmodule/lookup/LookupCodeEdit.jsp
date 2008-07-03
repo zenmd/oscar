@@ -14,9 +14,9 @@
 			id="lblTitle" align="left">Code Edit - <bean:write name="lookupCodeEditForm" property="tableDef.description"/></span></th>
 	</tr>
 	<tr>
-		<td  align="left" class="buttonBar">
+		<td  align="left" class="buttonBar2">
 		<input type="hidden" id="method" name="method"></input>
-		<a href="javascript:submitForm();">
+		<a href="javascript:submitForm();" onclick="javascript:setNoConfirm();">
 			<img src="../images/Save16.png" border="0"/> Save </a> &nbsp;|&nbsp;
 			<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> <img src="../images/Back16.png" border="0"/> Back to List</html:link>
 		</td>
@@ -88,3 +88,4 @@
 	</tr>
 </table>
 </html:form>
+<%@ include file="/common/readonly.jsp" %>

@@ -5,6 +5,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
+<%@page import="com.quatro.common.KeyConstants;"%>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
@@ -15,10 +16,12 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 		</html:link>
 		<html:link	href="javascript:clickTab('Incidents');" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Incidents&nbsp;&nbsp;|</html:link>
-		<c:if test="${!isReadOnly}">
+		<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 			<html:link	href="javascript:editIncident('new');"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
-			<html:link href="javascript:editIncident('save');"	style="color:Navy;text-decoration:none;">
+		</security:oscarSec>	
+		<c:if test="!isReadOnly">
+		<html:link href="javascript:editIncident('save');" onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</c:if>
 		</td>

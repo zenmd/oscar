@@ -31,7 +31,7 @@
 		<th class="pageTitle">Client History</th>
 	</tr>
 	<tr>
-		<td class="buttonBar"></td>
+		<td class="buttonBar2"></td>
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="1"
 	bgcolor="#C0C0C0">

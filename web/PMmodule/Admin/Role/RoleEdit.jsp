@@ -18,14 +18,12 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				</logic:notPresent> </span></th>
 	</tr>
 	<tr>
-		<td align="left" class="buttonBar"><html:link
-			action="/PMmodule/Admin/RoleManager.do"
-			style="color:Navy;text-decoration:none;">
+		<td align="left" class="buttonBar2">
+			<html:link	action="/PMmodule/Admin/RoleManager.do" style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Role List&nbsp;&nbsp;|</html:link>
 
 		<logic:present name="secroleForEdit">
-			<html:link href="javascript:submitForm('saveChange');"
-				style="color:Navy;text-decoration:none;">
+			<html:link href="javascript:submitForm('saveChange');" onclick="javascript:setNoConfirm();" 	style="color:Navy;text-decoration:none;">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 		</logic:present> <logic:notPresent name="secroleForEdit">
 			<html:link href="javascript:submitForm('saveNew');"
@@ -157,13 +155,6 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 										</tr>
 									</table>
 
-
-
-
-
-
-
-
 									</TD>
 									<TD width="250px">
 
@@ -216,6 +207,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		</td>
 	</tr>
 </table>
+<%@ include file="/common/readonly.jsp" %>
 <script language="javascript" type="text/javascript">
 <!--
 	function gotoRoleList(){

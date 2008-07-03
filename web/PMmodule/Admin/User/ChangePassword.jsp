@@ -13,7 +13,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			id="_ctl0_phBody_lblTitle" align="left">Change Password</span></th>
 	</tr>
 	<tr height="18px">
-		<td align="left" class="buttonBar"><html:link
+		<td align="left" class="buttonBar2"><html:link
 			action="/Home.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>

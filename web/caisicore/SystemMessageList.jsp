@@ -24,9 +24,8 @@ String s = "debug";
 				border="0">
 				<!-- submenu -->
 				<tr>
-					<td align="left" class="buttonBar"><html:link
-						action="/PMmodule/Admin/SysAdmin.do"
-						style="color:Navy;text-decoration:none;">
+					<td align="left" class="buttonBar2">
+						<html:link	action="/PMmodule/Admin/SysAdmin.do" style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 						<html:link
 						action="/SystemMessage.do?method=edit" 

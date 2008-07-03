@@ -57,7 +57,7 @@ function submitForm(methodVal) {
 </c:otherwise>
 </c:choose>
 
-<tr><td class="buttonBar">
+<tr><td class="buttonBar2">
    <c:if test="${viewTickler!='Y'}">
      <a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|

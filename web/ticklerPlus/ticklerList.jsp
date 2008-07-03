@@ -122,7 +122,7 @@ function wrapUp() {
 <input type="hidden" name="method" value="save" />
 <input type="hidden" name="order_tcr" value="asc" />
 
-<tr><td class="buttonBar"><html:link action="/PMmodule/Admin/UserManager.do?method=add"
+<tr><td class="buttonBar2"><html:link action="/PMmodule/Admin/UserManager.do?method=add"
 			style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
 	<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">

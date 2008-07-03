@@ -11,7 +11,7 @@
 		List</span></th>
 	</tr>
 	<tr height="23px">
-		<td align="left" class="buttonBar"><html:link
+		<td align="left" class="buttonBar2"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16t.png"/> />&nbsp;Close&nbsp;|</html:link>

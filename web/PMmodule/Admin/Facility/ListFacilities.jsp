@@ -1,5 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <script>
     function ConfirmDelete(name)
     {
@@ -25,15 +25,15 @@
 				<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 					border="0">
 					<!-- submenu -->
-					<tr class="buttonBar2">
-						<td align="left" class="buttonBar"><html:link
+					<tr>
+						<td align="left" class="buttonBar2"><html:link
 							action="/Home.do"
 							style="color:Navy;text-decoration:none">&nbsp;
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>					
-							<c:if test="${isEditable}">
+							<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 								<html:link action="/PMmodule/FacilityManager.do?method=add"	style="color:Navy;text-decoration:none">&nbsp;
 								<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility&nbsp;</html:link>
-							</c:if>
+							</security:oscarSec>
 						</td>
 					</tr>
 				
@@ -88,13 +88,8 @@
 								<display:column sortable="true" title="Active?" >
 							        <logic:equal name="facility" property="active" value="true">Yes</logic:equal>
 									<logic:equal name="facility" property="active" value="false">No</logic:equal>
-								</display:column>
-						        
+								</display:column>						        
 						    </display:table>
-										
-				
-				
-				
 						</div>
 						</td>
 					</tr>

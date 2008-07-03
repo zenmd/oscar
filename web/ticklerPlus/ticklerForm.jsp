@@ -60,8 +60,8 @@
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
 <tr><th  class="pageTitle">Tasks - New Task</th></tr>
 
-<tr><td class="buttonBar"><a href='javascript:submitForm("save");'
-			style="color:Navy;text-decoration:none;">
+<tr><td class="buttonBar2"><a href='javascript:submitForm("save");'
+			style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 	<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
@@ -145,7 +145,7 @@
  -->		
 	</html:form>
 </table>
-
+<%@ include file="/common/readonly.jsp" %>
 <c:if test="${requestScope.from ne 'CaseMgmt'}">
 	</body>
 </html>

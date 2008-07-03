@@ -70,7 +70,7 @@
   <th class="pageTitle" width="100%">Client Image Manager  
   </th></tr>
   <tr>  	
-	<td align="left" class="buttonBar">
+	<td align="left" class="buttonBar2">
 	 <a href="javascript:submitForm('saveImage')" onclick="return onPicUpload();" style="color:Navy;text-decoration:none;">&nbsp;Upload&nbsp;&nbsp;|</a>
 	<a href="#" onClick='window.close()'> Cancel </a>
 	</td>
