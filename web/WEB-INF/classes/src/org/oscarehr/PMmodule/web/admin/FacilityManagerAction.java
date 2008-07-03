@@ -73,8 +73,8 @@ public class FacilityManagerAction extends BaseFacilityAction {
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
                
-        boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITYLIST, shelterId);
-        request.setAttribute("isEditable", Boolean.valueOf(!readOnly));
+        //boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITYLIST, shelterId);
+        //request.setAttribute("isEditable", Boolean.valueOf(!readOnly));
         super.setMenu(request,KeyConstants.MENU_FACILITY);
         return mapping.findForward(FORWARD_LIST);
     }
