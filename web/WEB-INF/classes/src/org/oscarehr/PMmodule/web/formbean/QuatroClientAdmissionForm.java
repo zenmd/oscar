@@ -15,10 +15,8 @@ import org.oscarehr.PMmodule.model.RoomDemographicPK;
 public class QuatroClientAdmissionForm extends ValidatorForm{
 
     private Admission admission = new Admission();
-    private String familyIntakeType;  //Y: family Intake (not admitted yet).
+    private String familyIntakeType;  //Y: family Intake/Admission
 
-    private String familyAdmissionType;  //Y: admitted family Intake.
-    
     private List providerList;
     private List provinceList;
     private List notSignReasonList;
@@ -120,13 +118,4 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	public void setCurDB_RoomId(Integer curDB_RoomId) {
 		this.curDB_RoomId = curDB_RoomId;
 	}
-
-	public String getFamilyAdmissionType() {
-		return familyAdmissionType;
-	}
-
-	public void setFamilyAdmissionType(String familyAdmissionType) {
-		this.familyAdmissionType = familyAdmissionType;
-	}
-	
 }

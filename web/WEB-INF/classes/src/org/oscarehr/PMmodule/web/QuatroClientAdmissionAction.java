@@ -300,10 +300,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        clientForm.setFamilyIntakeType("N");
 	   Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
        if(intakeFamilyHeadId.intValue()==0){
-         clientForm.setFamilyAdmissionType("N");
+         clientForm.setFamilyIntakeType("N");
          FamilyIntakeType="N";
        }else{
-         clientForm.setFamilyAdmissionType("Y");
+         clientForm.setFamilyIntakeType("Y");
          FamilyIntakeType="Y";
        }
        
@@ -537,7 +537,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }else{
     	  //check bedId selected for single person intake admission
     	  //admitted family member may not necessary be assigned bed on this page.  
-    	  if(!clientForm.getFamilyIntakeType().equals("Y") && !"Y".equals(clientForm.getFamilyAdmissionType())){
+    	  if(!clientForm.getFamilyIntakeType().equals("Y")){
     	     BedDemographic bdm = clientForm.getBedDemographic();
     	     if(bdm.getBedId().intValue()==0){
     	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
@@ -582,7 +582,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
  	   
  	   BedDemographic bedDemographic;
- 	   if(!clientForm.getFamilyIntakeType().equals("Y") || "Y".equals(clientForm.getFamilyAdmissionType())){  
+ 	   if(!clientForm.getFamilyIntakeType().equals("Y")){  
  	     bedDemographic = clientForm.getBedDemographic();
  	     BedDemographicPK bdmPK= bedDemographic.getId();
  	     bdmPK.setDemographicNo(admission.getClientId());
