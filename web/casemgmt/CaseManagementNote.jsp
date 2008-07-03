@@ -130,7 +130,10 @@
 			alert(str5);  return false;
 		}
 		if (!validateSignStatus()){
-			if(confirm(str4)) return true;
+			if(confirm(str4)) {
+				setNoConfirm();
+				return true;
+			}
 			else return false;
 		}
 		/*
@@ -138,6 +141,7 @@
 			if (confirm(str2)) return true;
 			else return false;
 		*/
+		setNoConfirm();
 		return true;
 	}
 	
@@ -288,7 +292,7 @@ var XMLHttpRequestObject = false;
 			<html:link action="/CaseManagementView2.do"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Case Management&nbsp;&nbsp;|
 			</html:link>	
-			<a onclick="javascript: setNoConfirm();return validateSave();" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+			<a onclick="javascript: return validateSave();" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 			</td>
 		</tr>
@@ -333,11 +337,11 @@ var XMLHttpRequestObject = false;
 			<table width="100%">
 			 <tr>
 			 	<td>
-					<a id="issAdd"	href="javascript:showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">	Add</a>			 
+					<a id="issAdd" onclick="setNoConfirm();"	href="javascript:showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">	Add</a>			 
 				</td>
 			</tr>
 			<tr>
-				<td><a	href="javascript:removeSel('lstIssue')">Remove</a>
+				<td><a	href="javascript:removeSel('lstIssue')" onclick="setNoConfirm();">Remove</a>
 				</td>
 			</tr>
 			</table>
