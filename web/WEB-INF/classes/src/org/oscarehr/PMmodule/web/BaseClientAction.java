@@ -48,7 +48,7 @@ public abstract class BaseClientAction extends BaseAction {
 			if(null!=request.getAttribute("clientId")) clientId=request.getAttribute("clientId").toString();
 			else clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
 		}
-		if(Utility.IsEmpty(clientId)||"0".equals(clientId)){
+		if(Utility.IsEmpty(clientId)||"0".equals(clientId) ||KeyConstants.FUN_PMM_CLIENTSEARCH.equals(currentTab)){
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_NULL);

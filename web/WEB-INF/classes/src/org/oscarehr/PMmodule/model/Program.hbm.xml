@@ -61,8 +61,8 @@
         <property name="maximumServiceRestrictionDays" column="maximum_restriction_days" type="integer" not-null="false" length="11"/>
         <property name="defaultServiceRestrictionDays" column="default_restriction_days" type="integer" not-null="false" length="11"/>
 		<property name="orgCd" formula="(select l1.codetree from lst_orgcd l1 where l1.code='P'||program_id)" update="false"/>
-		<property name="facilityDesc" formula="(select fac.name from facility fac where fac.id=facility_id)"></property>
-		
-		<property name="capacity_actual" type="integer" formula="(select count(b.bed_id) from Bed b, Room r where b.room_id = r.room_id and r.program_id = program_id and b.facility_id = facility_id)" />
+		<property name="facilityDesc" formula="(select fac.name from facility fac where fac.id=facility_id)"></property>		
+		<property name="capacity_actual" type="integer" 
+			formula="(select sum(decode(r.assigned_bed,0,r.occupancy,1,count(b.bed_id))) from bed b,room r where b.room_id=r.room_id and b.active=1 and r.active=1 and r.program_id=program_id group by b.room_id,r.assigned_bed,r.occupancy)" />
     </class>
 </hibernate-mapping>

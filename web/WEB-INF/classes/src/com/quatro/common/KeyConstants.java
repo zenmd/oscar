@@ -130,7 +130,7 @@ public class KeyConstants {
   public static final String FUN_ADMIN_SYSTEMMESSAGE="_admin.systemMessage";
   public static final String FUN_PMM_ADDPROGRAM="_pmm.addProgram";
   public static final String FUN_PMM_AGENCYINFORMATION="_pmm.agencyInformation";
-  public static final String FUN_PMM_CASEMANAGEMENT="_pmm.caseManagement";
+ // public static final String FUN_PMM_CASEMANAGEMENT="_pmm.caseManagement";
   public static final String FUN_PMM_GLOBALROLEACCESS="_pmm.globalRoleAccess";
   public static final String FUN_PMM_MANAGEFACILITIES="_pmm.manageFacilities";
   public static final String FUN_PMM_NEWCLIENT="_pmm.newClient";
