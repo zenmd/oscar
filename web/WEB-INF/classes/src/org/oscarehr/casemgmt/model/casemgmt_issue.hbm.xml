@@ -34,6 +34,5 @@
 			<key column="id" />
 			<many-to-many column="note_id" class="org.oscarehr.casemgmt.model.CaseManagementNote" />
 		</set>
-		<many-to-one name="issue" class="org.oscarehr.casemgmt.model.Issue" column="issue_id" update="false" insert="false" lazy="false" />
 	</class>
 </hibernate-mapping>

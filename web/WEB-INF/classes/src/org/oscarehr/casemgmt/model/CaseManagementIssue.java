@@ -28,7 +28,7 @@ package org.oscarehr.casemgmt.model;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
+import com.quatro.model.LookupCodeValue;
 import org.caisi.model.BaseObject;
 
 public class CaseManagementIssue extends BaseObject {
@@ -44,7 +44,7 @@ public class CaseManagementIssue extends BaseObject {
 	private String type;
 	private Date update_date;
 	private Set notes = new HashSet();
-	private Issue issue;
+	private LookupCodeValue issue;
 	private Integer program_id=null;
 	
 	private boolean writeAccess;
@@ -125,10 +125,10 @@ public class CaseManagementIssue extends BaseObject {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Issue getIssue() {
+	public LookupCodeValue getIssue() {
 		return issue;
 	}
-	public void setIssue(Issue issue) {
+	public void setIssue(LookupCodeValue issue) {
 		this.issue = issue;
 	}
 	public Integer getIssue_id() {
