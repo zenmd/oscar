@@ -105,7 +105,7 @@ function submitForm(methodVal) {
 		<td width="70%"> 
           <c:choose>
             <c:when test="${viewTickler!='Y'}">
-		      <html:select property="tickler.program_id" onchange="submitForm('changeProgram');">
+		      <html:select property="tickler.program_id" onchange="setNoConfirm();submitForm('changeProgram');">
 		        <option value=""> --- </option>
                 <html:optionsCollection property="programLst" value="id" label="name"/>
 		      </html:select>
