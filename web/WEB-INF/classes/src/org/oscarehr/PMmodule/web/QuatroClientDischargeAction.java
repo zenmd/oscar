@@ -110,7 +110,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        
        /* discharge */      
       
-       List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
+       List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
        request.setAttribute("lstDischargeReason", lstDischargeReason);
@@ -153,7 +153,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
       
        clientForm.setAdmission(admsObj);       
        /* discharge */
-       List lstCommProgram =lookupManager.LoadCodeList("CMP", true, null, null);
+       List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
        List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
        request.setAttribute("lstDischargeReason", lstDischargeReason);
