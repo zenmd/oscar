@@ -264,7 +264,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 
 		cIssue.setIssue_id(Integer.valueOf(iss.getCode()));
 
-		cIssue.setIssue(iss);
+		//cIssue.setIssue(iss);
 		cIssue.setMajor(false);
 		// cIssue.setMedical_diagnosis(true);
 		cIssue.setNotes(new HashSet());

@@ -175,7 +175,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -14);
         Date twoWeeksAgo = cal.getTime();
-        CaseManagementTmpSave tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo, demono, programId, twoWeeksAgo);
+       // CaseManagementTmpSave tmpsavenote = this.caseManagementMgr.restoreTmpSave(providerNo, demono, programId, twoWeeksAgo);
         if (request.getParameter("note_edit") != null && request.getParameter("note_edit").equals("new")) {
             log.info("NEW NOTE GENERATED");
             request.getSession().setAttribute("newNote", "true");
@@ -194,6 +194,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             resetTemp(providerNo, demono, programId);
 
         }
+        /*
         else if (tmpsavenote != null && !forceNote.equals("true")) {
             log.debug("tempsavenote is NOT NULL");
             if (tmpsavenote.getNote_id() > 0) {
@@ -216,6 +217,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             note.setNote(tmpsavenote.getNote());
 
         }
+        */
         else if (nId != null && Integer.parseInt(nId) > 0) {
             log.info("Using nId " + nId + " to fetch note");
             request.getSession().setAttribute("newNote", "false");
@@ -249,7 +251,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         Iterator itr1 = note.getIssues().iterator();
         ArrayList lstIssueSelection = new ArrayList();
         while (itr1.hasNext()) {
-        	CaseManagementIssue iss =(CaseManagementIssue) itr1.next(); 
+        	CaseManagementIssue iss =(CaseManagementIssue) itr1.next();        	
             lstIssueSelection.add(iss.getIssue());
         }
         request.setAttribute("lstIssueSelection",lstIssueSelection);         
@@ -314,7 +316,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         }
         if (!note.isIncludeissue()) cform.setIncludeIssue("off");
         else cform.setIncludeIssue("on");
-
+        /*
         boolean passwd = caseManagementMgr.getEnabled();
         String chain = request.getParameter("chain");
 
@@ -330,6 +332,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
             request.getSession().setAttribute("caseManagementEntryForm", cform);
             return mapping.findForward("issueList_ajax");
         }
+        */
         return mapping.findForward("view");
     }
 
@@ -558,7 +561,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         	cmIss.setIssue_id(issId);  
         	cmIss.setDemographic_no(demo);
         	cmIss.setUpdate_date(now);
-        	cmIss.setIssue(caseManagementMgr.getIssue(issId.toString()));
+        //	cmIss.setIssue(caseManagementMgr.getIssue(issId.toString()));
             issueset.add(cmIss);
         	issuelist.add(cmIss);
         }

@@ -69,7 +69,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
         }
 
 	public CaseManagementNote getNote(Integer id) {
-		CaseManagementNote note = (CaseManagementNote)this.getHibernateTemplate().get(CaseManagementNote.class,id);
+		CaseManagementNote note = (CaseManagementNote)this.getHibernateTemplate().get(CaseManagementNote.class,id);		
 		getHibernateTemplate().initialize(note.getIssues());
 		return note;
 	}

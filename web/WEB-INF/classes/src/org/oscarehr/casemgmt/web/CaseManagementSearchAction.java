@@ -409,6 +409,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	//request.getSession().setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
+    	if(request.getSession().getAttribute("casemgmt_DemoNo")!=null) request.getSession().removeAttribute("casemgmt_DemoNo");
     	return mapping.findForward("client");
     }
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

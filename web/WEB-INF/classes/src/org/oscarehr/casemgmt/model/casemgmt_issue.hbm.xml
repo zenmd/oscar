@@ -28,7 +28,8 @@
 		<property name="major" />
 		<property name="resolved" />
 		<property name="program_id" />
-		<property name="type" />
+		<property name="type" />		
+		<property name="issueDesc" type="string" formula="(select lst.description from lst_componentofservice lst where lst.id=issue_id)"></property>
 		<property name="update_date" type="java.util.Date" />
 		<set name="notes" table="casemgmt_issue_notes" lazy="true" inverse="true">
 			<key column="id" />

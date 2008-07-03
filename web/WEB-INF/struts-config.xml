@@ -880,6 +880,7 @@
             <forward name="unlock_ajax" path="page.casemgmt.unlock.ajax" />
             <forward name="expired" path="/casemgmt/expired.jsp" />  
             <forward name="listNotes" path="page.casemgmt.view.notes"/>
+            <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
         </action>
         <action path="/CaseManagementEntry2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session"  name="caseManagementEntryForm">
             <forward name="view" path="page.casemgmt.note.edit" />

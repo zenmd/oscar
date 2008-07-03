@@ -87,7 +87,7 @@ response.setHeader("Cache-Control", "no-cache");
 				<html:link action="/Home.do"
 				style="color:Navy;text-decoration:none">&nbsp;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-				<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
+				<html:link action="/CaseManagementView2.do?method=close" style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 
 				<html:link	action="/CaseManagementView2.do?note_view=summary" paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">

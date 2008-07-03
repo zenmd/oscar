@@ -44,7 +44,8 @@ public class CaseManagementIssue extends BaseObject {
 	private String type;
 	private Date update_date;
 	private Set notes = new HashSet();
-	private LookupCodeValue issue;
+	private String issueDesc;
+	
 	private Integer program_id=null;
 	
 	private boolean writeAccess;
@@ -92,7 +93,7 @@ public class CaseManagementIssue extends BaseObject {
             this.setType(cMgmtIssue.getType());
             this.setUpdate_date(cMgmtIssue.getUpdate_date());
             this.setNotes(cMgmtIssue.getNotes());
-            this.setIssue(cMgmtIssue.getIssue());
+           // this.setIssue(cMgmtIssue.getIssue());
             this.setWriteAccess(cMgmtIssue.isWriteAccess());
         }
 	/*public boolean isActive() {
@@ -101,6 +102,12 @@ public class CaseManagementIssue extends BaseObject {
 	public void setActive(boolean active) {
 		this.active = active;
 	}*/
+    public LookupCodeValue getIssue(){
+    	LookupCodeValue lk = new LookupCodeValue();
+    	lk.setCode(issue_id.toString());
+    	lk.setDescription(issueDesc);
+    	return lk;
+    }
 	public boolean isAcute() {
 		return acute;
 	}
@@ -124,13 +131,7 @@ public class CaseManagementIssue extends BaseObject {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public LookupCodeValue getIssue() {
-		return issue;
-	}
-	public void setIssue(LookupCodeValue issue) {
-		this.issue = issue;
-	}
+	}	
 	public Integer getIssue_id() {
 		return issue_id;
 	}
@@ -194,5 +195,15 @@ public class CaseManagementIssue extends BaseObject {
     public void setProgram_id(Integer program_id) {
         this.program_id = program_id;
     }
+
+
+	public String getIssueDesc() {
+		return issueDesc;
+	}
+
+
+	public void setIssueDesc(String issueDesc) {
+		this.issueDesc = issueDesc;
+	}
 	
 }

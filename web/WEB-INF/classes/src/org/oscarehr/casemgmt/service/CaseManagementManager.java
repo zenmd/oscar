@@ -745,7 +745,7 @@ public class CaseManagementManager {
             boolean save = false;
             if (issue.getIssue_id() == originalIssueId) {
                 issue.setIssue_id(newIssueId);
-                issue.setIssue(null);
+                //issue.setIssue(null);
                 save = true;
             }
             if (save) {
