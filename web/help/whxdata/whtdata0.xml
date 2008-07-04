@@ -1,51 +1,81 @@
 <?xml version='1.0' encoding='windows-1252' ?>
 <tocdata>
-<book name="1 QuatroShelter Basics" url="1_QuatroShelter_Basics.htm" >
-  <item name="1.1 Accessing QUATROSHELTER" url="1_QuatroShelter_Basics.htm#1_1_Accessing" />
-  <item name="1.2 Logging Out" url="1_QuatroShelter_Basics.htm#1_2_Logging_Out" />
+<book name="1 Overview" url="1_Overview.htm" >
+  <item name="1.1 Welcome" url="1_1_Welcome.htm" />
+  <item name="1.2 Modules" url="1_2_Modules.htm" />
 </book>
-<book name="2 Program Management Module" url="2_Program_Management_Module.htm" >
-  <item name="2.1 Accessing Program Management" url="2_Program_Management_Module.htm#2_1_Accessing_Program" />
-  <book name="2.2 Viewing client files" url="2_Program_Management_Module.htm#2_2_Viewing_client_files" >
-    <item name="2.2.1 In OSCAR Medical:" url="2_Program_Management_Module.htm#2_2_1_In_OSCAR_Medical" />
-    <item name="2.2.2 In QUATROSHELTER:" url="2_Program_Management_Module.htm#2_2_2_In_QUATROSHELTER" />
+<book name="2 How to Navigate QuatroShelter" url="2_How_to_Navigate_QuatroShelter.htm" >
+  <item name="2.1 Starting QuatroShelter" url="2_1_Starting_QuatroShelter.htm" />
+  <item name="2.2 Login" url="2_2_Login.htm" />
+  <item name="2.3 Multiple Shelter Scenario" url="2_3_Multiple_Shelter_Scenario.htm" />
+  <item name="2.4 Logout" url="2_4_Logout.htm" />
+  <item name="2.5 Home Page" url="2_5_Home_Page.htm" />
+  <book name="2.6 Navigator" url="2_6_Navigator.htm" >
+    <item name="2.6.1 Navigator for the client page" url="2_6_1_Navigator_for_the_client_page.htm" />
+    <item name="2.6.2 Navigator for the program page" url="2_6_2_Navigator_for_the_program_page.htm" />
+    <item name="2.6.3 Navigator for the facility page" url="2_6_3_Navigator_for_the_facility_page.htm" />
   </book>
-  <book name="2.3 Searching for a Client" url="2_Program_Management_Module.htm#2_3_Searching_for_a" >
-    <item name="2.3.1 In OSCAR Medical:" url="2_Program_Management_Module.htm#2_3_1_In_OSCAR_Medical" />
-    <item name="2.3.2 In QUATROSHELTER:" url="2_Program_Management_Module.htm#2_3_2_In_QUATROSHELTER" />
+  <book name="2.7 Lookup Tables" url="2_7_Lookup_Tables.htm" >
+    <item name="2.7.1 Lookup Field" url="2_7_1_Lookup_Field.htm" />
+    <item name="2.7.2 Lookup pop-up example" url="2_7_2_Lookup_pop_up_example.htm" />
   </book>
-  <item name="2.4 Adding a new client" url="2_Program_Management_Module.htm#2_4_Adding_a_new_client" />
-  <item name="2.5 Bed Management" url="2_Program_Management_Module.htm#2_5_Bed_Management" />
-  <item name="2.6 Referring and Admissions" url="2_Program_Management_Module.htm#2_6_Referring_and" />
-  <item name="2.7 Admissions" url="2_Program_Management_Module.htm#2_7_Admissions" />
-  <item name="2.8 Temporary Admissions" url="2_Program_Management_Module.htm#2_8_Temporary_Admissions" />
-  <item name="2.9 Discharging a Client" url="2_Program_Management_Module.htm#2_9_Discharging_a_Client" />
-  <item name="2.10 Batch Discharge and Admission" url="2_Program_Management_Module.htm#2_10Batch_Discharge_and" />
-  <item name="2.11 Uploading Pictures of a Client" url="2_Program_Management_Module.htm#2_11Uploading_Pictures" />
+  <book name="2.8 Drop-down Lists" url="2_8_Drop_down_Lists.htm" >
+    <item name="2.8.1 Drop-down list field" url="2_8_1_Drop_down_list_field.htm" />
+    <item name="2.8.2 Drop-down list example" url="2_8_2_Drop_down_list_example.htm" />
+  </book>
+  <book name="2.9 Dates and calendar" url="2_9_Dates_and_calendar.htm" >
+    <item name="2.9.1 Date field" url="2_9_1_Date_field.htm" />
+    <item name="2.9.2 Calendar example" url="2_9_2_Calendar_example.htm" />
+  </book>
+  <book name="2.10 System Overview" url="2_10_System_Overview.htm" >
+    <item name="2.10.1 System Overview Diagram" url="2_10_1System_Overview_Diagram.htm" />
+  </book>
+  <book name="2.11 Administration Module" url="2_11_Administration_Module.htm" >
+    <item name="2.11.1 Administration Menu" url="2_11_1_Administration_Menu.htm" />
+    <item name="2.11.2 QuatroShelter organizational structure and security levels" url="2_11_2_QuatroShelter_organizational_structure_and_security.htm" />
+    <item name="2.11.3 Automated SMIS Organizational Chart" url="2_11_3_Automated_SMIS_Organizational_Chart.htm" />
+    <item name="2.11.4 Functions of QuatroShelter" url="2_11_4_Functions_of_QuatroShelter.htm" />
+    <item name="2.11.5 User roles for QuatroShelter" url="2_11_5_User_roles_for_QuatroShelter.htm" />
+    <item name="2.11.6 Users for QuatroShelter" url="2_11_6_Users_for_QuatroShelter.htm" />
+    <item name="2.11.7 Merge Users" url="2_11_7_Merge_Users.htm" />
+    <item name="2.11.8 System Messages" url="2_11_8_System_Messages.htm" />
+  </book>
+  <book name="2.12 Client Management Module" url="2_12_Client_Management_Module.htm" >
+    <item name="2.12.1 Accessing the Client Management Module" url="2_12_1_Accessing_the_Client_Management_Module.htm" />
+    <item name="2.12.2 The Client Screen" url="2_12_2_The_Client_Screen.htm" />
+    <item name="2.12.3 Client Search" url="2_12_3_Client_Search.htm" />
+    <item name="2.12.4 Client Summary" url="2_12_4_Client_Summary.htm" />
+    <item name="2.12.5 Client History" url="2_12_5_Client_History.htm" />
+    <item name="2.12.6 Client Intake" url="2_12_6_Client_Intake.htm" />
+    <item name="2.12.7 Family Intake" url="2_12_7_Family_Intake.htm" />
+    <item name="2.12.8 Admission" url="2_12_8_Admission.htm" />
+    <item name="2.12.9 Referrals" url="2_12_9_Referrals.htm" />
+    <item name="2.12.10 Discharges" url="2_12_10_Discharges.htm" />
+    <item name="2.12.11 Service Restrictions" url="2_12_11_Service_Restrictions.htm" />
+    <item name="2.12.12 Complaints" url="2_12_12_Complaints.htm" />
+    <item name="2.12.13 Consent" url="2_12_13_Consent.htm" />
+    <item name="2.12.14 Case Management" url="2_12_14_Case_Management.htm" />
+    <item name="2.12.15 Attachment" url="2_12_15_Attachment.htm" />
+    <item name="2.12.16 Task" url="2_12_16_Task.htm" />
+    <item name="2.12.17 Print Label" url="2_12_17_Print_Label.htm" />
+  </book>
+  <book name="2.13 Facility Management Module" url="2_13_Facility_Management_Module.htm" >
+    <item name="2.13.1 General" url="2_13_2_General.htm" />
+    <item name="2.13.2 Room - Bed" url="2_13_3_Room_Bed.htm" />
+    <item name="2.13.3 Programs" url="2_13_4_Programs.htm" />
+    <item name="2.13.4 Message" url="2_13_5_Facility_Message.htm" />
+  </book>
+  <book name="2.14 Program Management Module" url="2_14_Program_Management_Module.htm" >
+    <item name="2.14.1 General" url="2_14_1_General.htm" />
+    <item name="2.14.2 Queue" url="2_14_2_Queue.htm" />
+    <item name="2.14.3 Clients" url="2_14_3_Clients.htm" />
+    <item name="2.14.4 Incidents" url="2_14_4_Incidents.htm" />
+    <item name="2.14.5 Service Restrictions" url="2_14_5_Service_Restrictions.htm" />
+    <item name="2.14.6 Staff" url="2_14_6_Staff.htm" />
+  </book>
+  <book name="2.15 QG Report Runner" url="2_15_QG_Report_Runner.htm" >
+    <item name="2.15.1 Running Reports" url="2_15_1_Running_Reports.htm" />
+  </book>
 </book>
-<book name="3 CASE MANAGEMENT ENCOUNTER (CME)" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm" >
-  <item name="3.1 Case Notes and Issues" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm#3_1_Case_Notes_and_Issues" />
-  <item name="3.2 Editing Case Notes and Note History" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm#3_2_Editing_Case_Notes" />
-  <item name="3.3 Locking and Unlocking Case Notes" url="3_CASE_MANAGEMENT_ENCOUNTER_CME.htm#3_3_Locking_and" />
-</book>
-<book name="4 Ticklers" url="4_Ticklers.htm" >
-  <item name="4.1 Adding a Tickler" url="4_Ticklers.htm#4_1_Adding_a_Tickler" />
-  <item name="4.2 Viewing a Tickler" url="4_Ticklers.htm#4_2_Viewing_a_Tickler" />
-  <item name="4.3 Using a custom filter to view a Tickler" url="4_Ticklers.htm#4_3_Using_a_custom" />
-</book>
-<item name="5 Documents" url="5_Documents.htm" />
-<book name="6 Administration" url="6_Administration.htm" >
-  <item name="6.1 Assigning access to QUATROSHELTER" url="6_Administration.htm#6_1_Assigning_access_to" />
-  <item name="6.2 Add a provider" url="6_Administration.htm#6_2_Add_a_provider" />
-  <item name="6.3 Assigning a role and a login to the provider" url="6_Administration.htm#6_3_Assigning_a_role_and" />
-  <item name="STEP FOUR" url="6_Administration.htm#STEP_FOUR" />
-  <item name="6.4 Add a login record for the provider" url="6_Administration.htm#6_4_Add_a_login_record" />
-</book>
-<book name="7 What to do when providers forget their Password and/or PIN number" url="7_What_to_do_when_providers_forget_their_Password_and_or_PIN.htm" >
-  <item name="7.1 1.5 Disabling a login for providers" url="7_What_to_do_when_providers_forget_their_Password_and_or_PIN.htm#7_1_1_5_Disabling_a" />
-</book>
-<item name="8 Adding a New Program into the QUATROSHELTER System" url="8_Adding_a_New_Program_into_the_QUATROSHELTER_System.htm" />
-<item name="9 ADDING STAFF TO A PROGRAM/ ADDING QUATROSHELTER ROLE IN QUATROSHELTER" url="9_ADDING_STAFF_TO_A_PROGRAM_ADDING_QUATROSHELTER_ROLE_IN.htm" />
-<item name="10 ADDING QUATROSHELTER ACCESS FOR PROGRAMS" url="10_ADDING_QUATROSHELTER_ACCESS_FOR_PROGRAMS.htm" />
 
 </tocdata>
