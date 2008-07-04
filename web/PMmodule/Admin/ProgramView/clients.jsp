@@ -188,9 +188,6 @@
 						<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
 							<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>:<c:out value="${clientInfo.clientId}"/>">
 						</logic:equal>
-						<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
-							<input type="checkbox" disabled="disabled" name="checked_<c:out value="${clientInfo.admissionId}"/>">
-						</logic:equal>
 					</logic:equal>	
 					
 				</display:column>
@@ -210,10 +207,10 @@
 				<display:column property="bed" sortable="true" title="Bed" />
 				
 				<display:column title="Late Pass">		
-					<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
+					<logic:equal name="clientInfo" property="isLatepassHolder" value="0"> 
 						<input type="checkbox" disabled="disabled">
 					</logic:equal>
-					<logic:equal name="clientInfo" property="isDischargeable" value="0"> 
+					<logic:equal name="clientInfo" property="isLatepassHolder" value="1"> 
 						<input type="checkbox" checked="checked" disabled="disabled">
 					</logic:equal>
 				</display:column>
