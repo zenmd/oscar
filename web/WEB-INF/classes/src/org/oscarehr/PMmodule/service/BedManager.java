@@ -370,78 +370,7 @@ public class BedManager {
         return bedDAO.getBedTypes();
     }
 
-    /**
-     * Add new beds
-     *
-     * @param numBeds
-     *            number of beds
-     * @throws BedReservedException
-     *             bed is inactive and reserved
-     */
-/*    
-    public void addBeds(Integer facilityId, Integer roomId, int numBeds) throws BedReservedException {
-        if (numBeds < 1) {
-            throw new IllegalArgumentException("numBeds must be greater than or equal to 1");
-        }
 
-        BedType defaultBedType = getDefaultBedType();
-
-        for (int i = 0; i < numBeds; i++) {
-            saveBed(Bed.create(facilityId, roomId, defaultBedType));
-        }
-    }
-*/
-    /**
-     * Save beds
-     *
-     * @param beds
-     *            beds to save
-     * @throws BedReservedException
-     *             bed is inactive and reserved
-     */
-/*    
-    public void saveBeds(Bed[] beds) throws BedReservedException, DuplicateBedNameException {
-        if (beds == null) {
-            throw new IllegalArgumentException("beds must not be null");
-        }
-
-		// Checks if there are beds with same name in the same room.
-		ArrayList duplicateBeds = new ArrayList();
-		
-		for (int i = 0; i < beds.length; i++) {
-			String name1 =beds[i].getName();
-			for (int j = 0; j < beds.length; j++) {
-				String name2 = beds[j].getName();
-				if (i == j)
-					continue;
-				if (name1.trim().length()>0 && name1.equalsIgnoreCase(name2)
-						&& beds[i].getRoomId().intValue() == beds[j].getRoomId().intValue()) {
-					
-					beds[i].setRoom(roomDAO.getRoom(beds[i].getRoomId()));
-					duplicateBeds.add(beds[i]);
-					StringBuffer errMsg = new StringBuffer();
-					for (Iterator it = duplicateBeds.iterator(); it.hasNext();) {
-						Bed theBed = (Bed) it.next();
-						if(theBed != null){
-							errMsg.append(theBed.getName() + " " + theBed.getRoomName());
-						}
-					}
-					throw new DuplicateBedNameException(errMsg.toString());
-//					return;
-				}
-			}
-		}
-//        for (Bed bed : beds) {
-        for (int i=0;i<beds.length;i++) {
-        	Bed bed =  beds[i];
-	        if(bed.getName().trim().length()>0){ // bed without name will not be saved 
-	        	bed.setRoomStart(Calendar.getInstance().getTime());
-	            saveBed(bed);
-        	}
-        }
-    }
-*/
-    
     /**
      * Save bed
      *
@@ -450,7 +379,7 @@ public class BedManager {
      * @throws BedReservedException
      *             bed is inactive and reserved
      */
-    public void saveBed(Bed bed){
+    public void saveBed(Bed bed) throws IllegalStateException{
         validate(bed);
         bedDAO.saveBed(bed);
     }
@@ -488,6 +417,13 @@ public class BedManager {
 
         validateBedType(bed.getBedTypeId());
         validateRoom(bed.getRoomId());
+        
+        if(bed.isActive()==false){
+        	BedDemographic bdm = bedDemographicManager.getBedDemographicByBed(bed.getId());
+            if(bdm!=null)
+          	  throw new IllegalStateException("bed can not be inactive with client occupied");
+        }  
+        
     }
     
     void validateBedType(Integer bedTypeId) {

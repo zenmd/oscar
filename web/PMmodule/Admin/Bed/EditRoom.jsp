@@ -3,7 +3,6 @@
 <script>
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
     function saveRoom(){
-      	bedManagerForm.method.value='saveRoom';
       	var name= document.getElementsByName("room.name")[0];
       	if(name.value.trim()==''){
       	   alert("Please input Room Name.");
@@ -29,6 +28,7 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
       	   return;
       	}
 
+      	bedManagerForm.method.value='saveRoom';
         bedManagerForm.submit();  
     }    
 </script>
