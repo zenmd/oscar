@@ -1,4 +1,5 @@
 package com.quatro.model;
+import java.util.Calendar;
 import java.util.List;
 public class LookupCodeValue {
 	private String prefix;
@@ -12,6 +13,8 @@ public class LookupCodeValue {
 	private String buf1;
 	private String codeTree;
 	private String buf2;
+	private String lastUpdateUser;
+	private Calendar lastUpdateDate;
 	
     private int orderByIndex;
     private List associates;
@@ -97,5 +100,17 @@ public class LookupCodeValue {
 	}
 	public void setBuf2(String buf2) {
 		this.buf2 = buf2;
+	}
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
 	}
 }
