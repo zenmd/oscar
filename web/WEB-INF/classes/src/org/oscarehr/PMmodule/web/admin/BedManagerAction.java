@@ -243,28 +243,28 @@ public class BedManagerAction extends BaseFacilityAction {
     	Integer pId=room.getProgramId();
     	if(pId==null ||pId.intValue()==0) return isValid;    	
     	Program pObj=programManager.getProgram(pId);
-    	Integer capActual=pObj.getCapacity_actual();
+    	int capActual=pObj.getCapacity_actual().intValue();
     	//for new room 
-    	if((room.getId()==null|| room.getId()==0)&&room.isActive()){
-    		if(room.getAssignedBed()==null ||room.getAssignedBed()==0)capActual+=room.getOccupancy();
-    		else if(room.getAssignedBed()>0 && bed!=null && bed.isActive()) capActual+=1;
+    	if((room.getId()==null|| room.getId().intValue()==0)&&room.isActive()){
+    		if(room.getAssignedBed()==null ||room.getAssignedBed().intValue()==0)capActual+=room.getOccupancy().intValue();
+    		else if(room.getAssignedBed().intValue()>0 && bed!=null && bed.isActive()) capActual+=1;
     		
-    	}else if(room.getId()!=null && room.getId()>0){
+    	}else if(room.getId()!=null && room.getId().intValue()>0){
     		//actual capacity plus changed value
     		if(room.isActive()){
-    			if(room.getAssignedBed()==null ||room.getAssignedBed()==0)capActual+=room.getOccupancy();
-        		else if(room.getAssignedBed()>0 && bed!=null && bed.isActive()) capActual+=1;
+    			if(room.getAssignedBed()==null ||room.getAssignedBed().intValue()==0)capActual+=room.getOccupancy().intValue();
+        		else if(room.getAssignedBed().intValue()>0 && bed!=null && bed.isActive()) capActual+=1;
     		}
     		//  actual capacity minus original value
     		Room roomOld = roomManager.getRoom(room.getId());
     		if(roomOld.isActive()){
-    			if(roomOld.getAssignedBed()==null ||roomOld.getAssignedBed()==0)capActual-=room.getOccupancy();
-        		else if(roomOld.getAssignedBed()>0 && bed!=null && bed.isActive()) capActual-=1;
+    			if(roomOld.getAssignedBed()==null ||roomOld.getAssignedBed().intValue()==0)capActual-=room.getOccupancy().intValue();
+        		else if(roomOld.getAssignedBed().intValue()>0 && bed!=null && bed.isActive()) capActual-=1;
     		}
     	}	    	
-    	if(capActual.compareTo(pObj.getCapacity_space())> 0){
+    	if(capActual>pObj.getCapacity_space().intValue()){
     		isValid = false;
-    		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.program.room.over", request.getContextPath(),capActual,pObj.getName(),pObj.getCapacity_space()));
+    		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.program.room.over", request.getContextPath(),Integer.valueOf(capActual),pObj.getName(),pObj.getCapacity_space()));
   	        saveMessages(request, messages);
     	}    
     	return isValid;
