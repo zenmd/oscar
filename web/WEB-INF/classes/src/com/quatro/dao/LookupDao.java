@@ -29,6 +29,7 @@ public class LookupDao extends HibernateDaoSupport {
 	/* Column property mappings defined by the generic idx 
 	 *  1 - Code 2 - Description 3 Active 
 	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree
+	 *  8 - Last Update User   9 - Last Update Date
 	 */
 	
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
@@ -53,11 +54,11 @@ public class LookupDao extends HibernateDaoSupport {
 		LookupTableDefValue tableDef = GetLookupTableDef(tableId);
 		List fields = LoadFieldDefList(tableId);
 		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[100];
-		String fieldNames [] = new String[7];
+		String fieldNames [] = new String[9];
 		String sSQL1 = "";
 		String sSQL="select distinct ";
 		boolean activeFieldExists = true;
-		for (int i = 1; i <= 7; i++)
+		for (int i = 1; i <= 9; i++)
 		{
 			boolean ok = false;
 			for (int j = 0; j<fields.size(); j++)
@@ -159,6 +160,8 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
 			   lv.setCodeTree(db.getString(rs, 7));
+			   lv.setLastUpdateUser(db.getString(rs,8));
+			   lv.setLastUpdateDate(MyDateFormat.getCalendar(db.getString(rs, 9)));
 			   list.add(lv);
 			}
 			rs.close();
@@ -224,6 +227,8 @@ public class LookupDao extends HibernateDaoSupport {
 				{
 					FieldDefValue fdv = (FieldDefValue) fs.get(i);
 					String val = db.getString(rs, i+1);
+					if("D".equals(fdv.getFieldType()))
+						val = MyDateFormat.getStandardDateTime(MyDateFormat.getCalendarwithTime(val));
 					fdv.setVal(val);
 				}
 			}
@@ -273,6 +278,8 @@ public class LookupDao extends HibernateDaoSupport {
 				{
 					FieldDefValue fdv = (FieldDefValue) fs.get(i);
 					String val = db.getString(rs, i+1);
+					if("D".equals(fdv.getFieldType()))
+						val = MyDateFormat.getStandardDateTime(MyDateFormat.getCalendarwithTime(val));
 					fdv.setVal(val);
 					if (!Utility.IsEmpty(fdv.getLookupTable()))
 					{
@@ -356,6 +363,13 @@ public class LookupDao extends HibernateDaoSupport {
 				break;
 			case 7:
 				fdv.setVal(codeValue.getCodeTree());
+				break;
+			case 8:
+				fdv.setVal(codeValue.getLastUpdateUser());
+				break;
+			case 9:
+				fdv.setVal(MyDateFormat.getStandardDateTime(codeValue.getLastUpdateDate()));
+				break;
 			}
 		}
 		if (isNew) 
