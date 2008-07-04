@@ -122,11 +122,6 @@
 					     <c:otherwise>N</c:otherwise>
 					   </c:choose>
 					</display:column>
-					<display:column>	
-					  <c:if test="${!isReadOnly &&  room.id != null}">									
-				         <a href="<html:rewrite action="/PMmodule/BedManager.do?method=deleteRoom" />&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${room.id}"/>">
-					  Delete</c:if>								
-					</display:column>
 				</display:table>
 				</td></tr>
 								

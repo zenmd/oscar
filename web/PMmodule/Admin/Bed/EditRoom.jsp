@@ -1,8 +1,34 @@
 <%@ include file="/taglibs.jsp"%>
 
 <script>
+String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
     function saveRoom(){
       	bedManagerForm.method.value='saveRoom';
+      	var name= document.getElementsByName("room.name")[0];
+      	if(name.value.trim()==''){
+      	   alert("Please input Room Name.");
+      	   name.value='';
+      	   name.focus();
+      	   return;
+      	}
+
+      	var assignedBed= document.getElementsByName("room.assignedBed")[0];
+      	if(assignedBed.value=='0'){
+      	   var roomCapacity= document.getElementsByName("room.occupancy")[0];
+      	   if(!isInteger(roomCapacity.value)){
+      	      alert("Please input valid Room Capacity.");
+      	      roomCapacity.focus();
+      	      return;
+      	   }
+      	}
+
+      	var programId= document.getElementsByName("room.programId")[0];
+      	if(programId.value==''){
+      	   alert("Please select a Program.");
+      	   programId.focus();
+      	   return;
+      	}
+
         bedManagerForm.submit();  
     }    
 </script>
@@ -57,7 +83,7 @@
 
 				<tr><td>								
 				<table width="100%" class="simple">
-				  <tr><td>Room Name</td>
+				  <tr><td>Room Name*</td>
 				  <td><html:text property="room.name" maxlength="45"></html:text></td></tr>
 				  <tr><td>Floor</td>
 				  <td><html:text property="room.floor" maxlength="45"></html:text></td></tr>
@@ -65,13 +91,13 @@
 				  <td><html:select property="room.roomTypeId">
 				    <html:optionsCollection name="roomTypes" value="id"	label="name" />
 				  </html:select></td></tr>
-				  <tr><td>Assigned Beds</td>
+				  <tr><td>Assigned Beds*</td>
 				  <td><html:select property="room.assignedBed">
 				    <html-el:optionsCollection name="assignedBedLst" value="value"	label="label" />
 				  </html:select></td></tr>
 				  <tr><td>Room Capacity</td>
 				  <td><html:text property="room.occupancy" maxlength="10"></html:text></td></tr>
-				  <tr><td>Program</td>
+				  <tr><td>Program*</td>
 				  <td><html:select property="room.programId">
 				    <option value=""></option>
 				    <html:optionsCollection property="programs" value="id"	label="name" />
