@@ -126,9 +126,7 @@ public class BedManager {
             	Bed bed = beds2[j];
             	setAttributes(bed);
 
-                if (!filterBed(bed, new Boolean(reserved))) {
-                    beds.add(bed);
-                }
+                beds.add(bed);
             }
         }
 
@@ -165,9 +163,7 @@ public class BedManager {
             	Bed bed = beds2[j];
                 setAttributes(bed);
 
-                if (!filterBed(bed, new Boolean(reserved))) {
-                    beds.add(bed);
-                }
+                beds.add(bed);
             }
         }
 //        return beds.toArray(new Bed[beds.size()]);
@@ -227,9 +223,7 @@ public class BedManager {
         	Bed bed = beds2[i];
         	setAttributes(bed);
 
-            if (!filterBed(bed, new Boolean(reserved))) {
-                beds.add(bed);
-            }
+            beds.add(bed);
         }
         return beds;
     }
@@ -285,9 +279,7 @@ public class BedManager {
             	Bed bed = beds2[j];
             	setAttributes(bed);
 
-                if (!filterBed(bed, new Boolean(reserved))) {
-                    beds.add(bed);
-                }
+                beds.add(bed);
             }
         }
 
@@ -353,130 +345,6 @@ public class BedManager {
         Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
         return beds;
     }
-
-    /*
-     * 
-     * (e.g. used in BedManagerAction.saveBeds() )
-     * 
-     * @param rooms
-     * @param beds
-     * @return array of beds
-     */
-    public Bed[] getBedsForUnfilledRooms(Room[] rooms, Bed[] beds){
-    	
-    	if(rooms == null  ||  beds == null){
-    		return null;
-    	}
-    	
-    	List bedList = new ArrayList();
-    	for(int i=0; i < beds.length; i++){
-    		
-    		for(int j=0; j < rooms.length; j++){
-    			
-    			if(beds[i].getRoomId().intValue() == rooms[j].getId().intValue()){
-    				bedList.add(beds[i]);
-    				if(beds[i].isActive())rooms[j].setTotalBedOccupancy(Integer.valueOf(rooms[j].getTotalBedOccupancy().intValue()+1));
-    				break;
-    			}
-    		}
-    	}
-    	return (Bed[])bedList.toArray(new Bed[bedList.size()]);
-    }
-    /**
-     * Get unreserved beds by roomId and clientBedId
-     * @param roomId
-     * @param clientBedId
-     * @return array of beds
-     */
-    public Bed[] getReservedBedsByRoom(Integer roomId, boolean reserved) {
-        Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
-        List bedList = new ArrayList();
-//        for (Bed bed : beds) {
-        for (int i=0;i<beds.length;i++) {
-           	Bed bed = beds[i];
-            setAttributes(bed);
-            
-            // filter for unreserved beds for roomId only
-            if (!filterBed(bed, new Boolean(reserved))) {
-            	bedList.add(bed);
-            }
-        }
-//        return bedList.toArray(new Bed[bedList.size()]);
-        Bed[] ret=  new Bed[bedList.size()];
-        for(int i=0;i<bedList.size();i++){
-        	ret[i]= (Bed)bedList.get(i);
-        }
-        return ret;
-    }
-    
-    /**
-     * Get unreserved beds by roomId and clientBedId
-     * @param roomId
-     * @param clientBedId
-     * @return array of beds
-     */
-    public Bed[] getCurrentPlusUnreservedBedsByRoom(Integer roomId, Integer clientBedId, boolean reserved) {
-        Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
-        List bedList = new ArrayList();
-        
-//        for (Bed bed : beds) {
-          for (int i=0;i<beds.length;i++) {
-        	Bed bed = beds[i];
-            setAttributes(bed);
-            
-            // filter for unreserved beds for roomId only
-            if (!filterBed(bed, new Boolean(reserved))) {
-            	bedList.add(bed);
-            }
-            // include the reserved bed of this current room/bed combination for changing
-            if(bed.getId().intValue() == clientBedId.intValue()  &&  bed.getRoomId().intValue() == roomId.intValue()){
-            	bedList.add(bed);
-            }
-        }
-//        return bedList.toArray(new Bed[bedList.size()]);
-        Bed[] ret=  new Bed[bedList.size()];
-        for(int i=0;i<bedList.size();i++){
-        	ret[i]= (Bed)bedList.get(i);
-        }
-        return ret;
-    }
- 
-
-    /**
-	 * Used by AdmissionManager during processDischarge()  to  delete discharged 
-	 * program-related room/bed reservation records
-     * @param demographicNo
-     * @param programId
-     */
-    public boolean isBedOfDischargeProgramAssignedToClient(Integer demographicNo, Integer programId){
-    	/*
-		 *(1)admission.clientId ===[table:bed_demographic]===>>  bedDemographic.bedId
-		 *(2)bedDemographic.bedId ===[table:bed]===>>  bed.roomId
-		 *(3)bed.roomId ===[table:room]===>>   room.programId
-		 *(4)Compare  admission.programId  with  room.programId
-	     *   - if true -->  delete  bedDemographic record
-		 *   - if false -->  do nothing
-    	 */
-    	if(demographicNo == null  ||  programId == null){
-    		return false;
-    	}
-        
-    	Program program=programDao.getProgram(programId);
-        Integer facilityId=null;
-        if (program!=null) facilityId=program.getFacilityId();
-
-        BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(demographicNo);
-    	if(bedDemographic != null){
-	    	Bed bed = getBed(bedDemographic.getId().getBedId());
-	    	if(bed != null){
-		    	Room room = roomDAO.getRoom(bed.getRoomId());
-		    	if(room != null  &&  programId.intValue() == room.getProgramId().intValue()){
-		    		return true;
-		    	}
-	    	}
-    	}
-    	return false;
-    }
     
     public Integer[] getBedClientIds(Bed[] beds){
     	
@@ -497,52 +365,7 @@ public class BedManager {
 
     }
 
-    //please write your code without JointAdmission if you need call addFamilyIdsToBeds(), dawson wrote May 26, 2008  
-    public Bed[] addFamilyIdsToBeds(ClientManager clientManager, Bed[] beds){
-    	return null;
-    }
-/*
-    public Bed[] addFamilyIdsToBeds(ClientManager clientManager, Bed[] beds){
-    	
-    	if(clientManager == null  ||  beds == null  ||  beds.length <= 0){
-    		return null;
-    	}
-    	Integer[] bedClientIds = new Integer[beds.length];
-    	JointAdmission clientsJadmFamily = null;
-    	boolean isFamilyHead = false;
-    	Integer headRecord = 0;
-    	
-	    if(beds != null  &&  beds.length > 0){
-	    	BedDemographic bd = null;
-	    	
-	    	for(int i=0; i < beds.length; i++){
-	    		bd = bedDemographicManager.getBedDemographicByBed(beds[i].getId());
-	    		if(bd != null){
-	    			bedClientIds[i] = bd.getId().getDemographicNo();
-	    			clientsJadmFamily = clientManager.getJointAdmission(Integer.valueOf(bedClientIds[i].toString()));
-	    			isFamilyHead = clientManager.isClientFamilyHead(bedClientIds[i]);
-	    			if(clientsJadmFamily != null){
-	    				headRecord = Integer.valueOf(clientsJadmFamily.getHeadClientId().toString());
-	    			}else if(isFamilyHead){
-	    				headRecord = bedClientIds[i];
-	    			}else{
-	    				headRecord = null;
-	    			}
-	   			    isFamilyHead = false;
-	    			beds[i].setFamilyId(headRecord);
-	    		}else{
-	    			bedClientIds[i] = null;
-	    			beds[i].setFamilyId(null);
-	    		}
-	    	}
-	    }
-	    return beds;
-    }
-*/
     
-    /**
-     * @see org.oscarehr.PMmodule.service.BedManager#getBedTypes()
-     */
     public BedType[] getBedTypes() {
         return bedDAO.getBedTypes();
     }
@@ -555,6 +378,7 @@ public class BedManager {
      * @throws BedReservedException
      *             bed is inactive and reserved
      */
+/*    
     public void addBeds(Integer facilityId, Integer roomId, int numBeds) throws BedReservedException {
         if (numBeds < 1) {
             throw new IllegalArgumentException("numBeds must be greater than or equal to 1");
@@ -566,7 +390,7 @@ public class BedManager {
             saveBed(Bed.create(facilityId, roomId, defaultBedType));
         }
     }
-
+*/
     /**
      * Save beds
      *
@@ -575,6 +399,7 @@ public class BedManager {
      * @throws BedReservedException
      *             bed is inactive and reserved
      */
+/*    
     public void saveBeds(Bed[] beds) throws BedReservedException, DuplicateBedNameException {
         if (beds == null) {
             throw new IllegalArgumentException("beds must not be null");
@@ -615,7 +440,8 @@ public class BedManager {
         	}
         }
     }
-
+*/
+    
     /**
      * Save bed
      *
@@ -624,7 +450,7 @@ public class BedManager {
      * @throws BedReservedException
      *             bed is inactive and reserved
      */
-    public void saveBed(Bed bed) throws BedReservedException {
+    public void saveBed(Bed bed){
         validate(bed);
         bedDAO.saveBed(bed);
     }
@@ -633,22 +459,7 @@ public class BedManager {
         
         bedDAO.deleteBed(bed);
     }
-
-    BedType getDefaultBedType() {
-//        for (BedType bedType : getBedTypes()) {
-    	BedType[] bedTypes = getBedTypes();
-        for (int i=0;i<bedTypes.length;i++) {
-        	BedType bedType = bedTypes[i];
-            if (bedType.isDefault()) {
-                return bedType;
-            }
-        }
-
-        throw new IllegalStateException("no default bed type");
-
-//        return null;
-    }
-
+/*
     boolean filterBed(Bed bed, Boolean reserved) {
         if (reserved == null) {
             return false;
@@ -656,17 +467,11 @@ public class BedManager {
 
         return reserved.booleanValue() != bed.isReserved();
     }
-
+*/
     void setAttributes(Bed bed) {
    		bed.setBedType(bedDAO.getBedType(bed.getBedTypeId()));
         if (bed.getRoomId() != null){
             bed.setRoom(roomDAO.getRoom(bed.getRoomId()));
-        }
-
-        Integer teamId = bed.getTeamId();
-
-        if (teamId != null) {
-            bed.setTeam(teamDAO.getProgramTeam(teamId));
         }
 
         BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByBed(bed.getId());
@@ -676,29 +481,15 @@ public class BedManager {
         }
     }
 
-    void validate(Bed bed) throws BedReservedException {
+    void validate(Bed bed) {
         if (bed == null) {
             throw new IllegalStateException("bed must not be null");
         }
 
-        validateBed(bed.getId(), bed);
         validateBedType(bed.getBedTypeId());
         validateRoom(bed.getRoomId());
-        validateTeam(bed.getTeamId());
     }
-
-    void validateBed(Integer bedId, Bed bed) throws BedReservedException {
-        if (bedId != null) {
-            if (!bedDAO.bedExists(bedId)) {
-                throw new IllegalStateException("no bed with id : " + bedId);
-            }
-
-            if (!bed.isActive() && bedDemographicManager.demographicExists(bed.getId())) {
-                throw new BedReservedException("bed with id : " + bedId + " has a reservation");
-            }
-        }
-    }
-
+    
     void validateBedType(Integer bedTypeId) {
         if (!bedDAO.bedTypeExists(bedTypeId)) {
             throw new IllegalStateException("no bed type with id : " + bedTypeId);
@@ -708,12 +499,6 @@ public class BedManager {
     void validateRoom(Integer roomId) {
         if (roomId != null && !roomDAO.roomExists(roomId)) {
             throw new IllegalStateException("no room with id : " + roomId);
-        }
-    }
-
-    void validateTeam(Integer teamId) {
-        if (teamId != null && !teamDAO.teamExists(teamId)) {
-            throw new IllegalStateException("no team with id : " + teamId);
         }
     }
 

@@ -29,8 +29,8 @@
 		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room&nbsp;&nbsp;|</html:link>
 		</c:if>	
 
-		<html:link action="/PMmodule/FacilityManager.do?method=manageBed" style="color:Navy;text-decoration:none;">
-		<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;Beds&nbsp;&nbsp;|</html:link>
+		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=managebed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>' style="color:Navy;text-decoration:none">
+		<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;Beds&nbsp;&nbsp;|</a>
 		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=manageroom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>' style="color:Navy;text-decoration:none">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
 	  </td></tr>
@@ -49,8 +49,13 @@
 			<tr><td>
 			  <table width="100%">
 				<html:hidden property="facilityId" />
-				<tr><td width="100%">								
 
+                 <tr><td><div class="tabs">
+                   <table cellpadding="3" cellspacing="0" border="0">
+                      <tr><th>Room</th></tr>
+                 </table></div></td></tr>
+
+				<tr><td>								
 				<table width="100%" class="simple">
 				  <tr><td>Room Name</td>
 				  <td><html:text property="room.name" maxlength="45"></html:text></td></tr>

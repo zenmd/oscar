@@ -451,7 +451,7 @@ public class RoomManager {
         }
     }
 
-    public void saveRoom(Room room) throws RoomHasActiveBedsException {
+    public void saveRoom(Room room){
         validate(room);
         roomDAO.saveRoom(room);
     }
@@ -491,16 +491,15 @@ public class RoomManager {
         }
     }
 
-    void validate(Room room) throws RoomHasActiveBedsException {
+    void validate(Room room){
         if (room == null) {
             throw new IllegalStateException("room must not be null");
         }
 
-//        validateRoom(room);
         validateRoomType(room.getRoomTypeId());
         validateProgram(room.getProgramId());
     }
-
+/*
     void validateRoom(Room room) throws RoomHasActiveBedsException {
         Integer roomId = room.getId();
 
@@ -508,14 +507,9 @@ public class RoomManager {
             if (!roomDAO.roomExists(roomId)) {
                 throw new IllegalStateException("no room with id : " + roomId);
             }
-/*
-            if (!room.isActive() && bedDAO.getBedsByRoom(roomId, Boolean.TRUE).length > 0) {
-                handleException(new RoomHasActiveBedsException("room with id : " + roomId + " has active beds"));
-            }
-*/            
         }
     }
-
+*/
     void validateRoomType(Integer roomTypeId) {
         if (!roomDAO.roomTypeExists(roomTypeId)) {
             throw new IllegalStateException("no room type with id : " + roomTypeId);

@@ -77,12 +77,12 @@
 				<tr><td width="100%">								
 				<!-- begin room status & bed program filter -->
 				<table width="100%">
-				  <tr><td style="font-weight:bold" align="left" width="250px">Room Status
+				  <tr><td width="35%">Room Status
 					<html:select property="roomStatusFilter"	name="bedManagerForm" onchange="roomFilter();">
 					<html:optionsCollection property="roomStatusNames"	value="key" label="value" />
 					</html:select>
 				  </td>
-				  <td align="left" style="font-weight:bold">Bed	Program
+				  <td width="65%">Bed Program
 				  <html:select property="bedProgramFilterForRoom"	name="bedManagerForm" onchange="roomFilter();">
 					<option value="0">Any</option>
 					<html:optionsCollection property="programs" value="id" label="name" />
@@ -109,7 +109,6 @@
 						<c:when test="${room.assignedBed != 1}">N</c:when>
 						<c:otherwise>Y</c:otherwise>
 						</c:choose>
-					 </select>
 				   </display:column>
 				   <display:column property="occupancy" title="Room Capacity" />
 					<display:column title="Program">
@@ -126,19 +125,11 @@
 					<display:column>	
 					  <c:if test="${!isReadOnly &&  room.id != null}">									
 				         <a href="<html:rewrite action="/PMmodule/BedManager.do?method=deleteRoom" />&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${room.id}"/>">
-<!-- 
-						 <a href="javascript:deleteRoom(<c:out value="${room.id}"/>);">Delete Room</a>											
- -->
 					  Delete</c:if>								
 					</display:column>
 				</display:table>
 				</td></tr>
 								
-				<tr>
-					<td><html:hidden property="numRooms" /> 
-						<input type=hidden name="roomslines" value="<c:out value="${room_rowNum}" />"> 
-					</td>
-				</tr>
 			</table>
 			</td></tr>
 		</table>
