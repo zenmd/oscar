@@ -25,6 +25,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.Complaint;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 public class QuatroClientComplaintAction extends BaseClientAction {
 
@@ -233,7 +234,12 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		
 		Map map = request.getParameterMap();
 		ActionMessages messages = new ActionMessages();
-
+		if(!Utility.IsInt(complaint.getDuration())){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.complaint.duration", request.getContextPath()));
+			saveMessages(request, messages);
+			return edit(mapping, form, request, response);
+		}
 		try {
 			complaintManager.save(complaint);
 
