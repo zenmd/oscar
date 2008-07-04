@@ -223,10 +223,9 @@
 				<table align="left" width="100%">
 					<tr>
 						<td align="left" width="70%">
-							<table class="edit">
-								
+							<table class="edit" width="100%">
 								<tr>
-									<td width="150px">Discharge Reason</td>
+									<td width="250px">Discharge Reason</td>
 									<td><html:select property="clientForm.dischargeReason" style="width:100%">
 										<html:option value=""></html:option>
 										<html:options collection="lstDischargeReason" property="code"
@@ -235,9 +234,9 @@
 									
 								</tr>
 								<tr>
-									<td >Discharge Disposition</td>
+									<td width="250px">Discharge Disposition</td>
 									<td >
-										<html:select property="clientForm.communityProgramCode">
+										<html:select property="clientForm.communityProgramCode" style="width:100%">
 										<html:option value=""></html:option>
 										<html:options collection="lstCommProgram" property="code"
 											labelProperty="description"></html:options>
@@ -246,7 +245,7 @@
 								
 							</table>
 						</td>
-						<td align="left" width="30%">							
+						<td align="left">							
 								<input type="button" value="Batch Discharge" onclick="javascript:do_batch_discharge();"/>								
 						</td>
 					</tr>

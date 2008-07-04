@@ -96,7 +96,7 @@
 			</tr>
 		</table>
 		</div>
-		<display:table class="simple" cellspacing="2" cellpadding="3" id="pp"	name="existStaffLst" export="false" pagesize="0"	requestURI="/PMmodule/ProgramManagerView.do">
+		<display:table class="simple" cellspacing="2" cellpadding="3" id="pp"	name="existStaffLst" export="false" pagesize="0"	requestURI="/PMmodule/ProgramManager.do">
 
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No staff currently in place for this program." />

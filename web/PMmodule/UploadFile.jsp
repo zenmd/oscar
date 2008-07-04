@@ -11,6 +11,10 @@ response.setHeader("Cache-Control", "no-cache");
 <script>	
 	function submitForm(methodValue)
 	{
+		if(document.forms[0].imagefile.value=="") {
+			alert ("Please browse a file for upload first");
+			return;
+		}
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
 	}
@@ -58,7 +62,7 @@ response.setHeader("Cache-Control", "no-cache");
 		</tr>
 		<tr>
 			<th ALIGN="right" width="20%">File Name</th>
-			<td><html:file property="attachmentText.imagefile" size="30">
+			<td><html:file property="attachmentText.imagefile" size="30" styleId="imagefile" >
 			</html:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
 			<!-- html:submit value="Upload" property="method" />--></td>
 		</tr>
