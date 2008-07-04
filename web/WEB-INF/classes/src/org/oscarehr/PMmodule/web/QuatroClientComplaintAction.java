@@ -234,10 +234,11 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		
 		Map map = request.getParameterMap();
 		ActionMessages messages = new ActionMessages();
-		if(!Utility.IsInt(complaint.getDuration())){
+		if(!Utility.IsEmpty(complaint.getDuration()) && !Utility.IsInt(complaint.getDuration())){
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.complaint.duration", request.getContextPath()));
 			saveMessages(request, messages);
+			complaintForm.setComplaint(complaint);
 			return edit(mapping, form, request, response);
 		}
 		try {
