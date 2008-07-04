@@ -10,6 +10,7 @@ public class ProgramClientInfo {
 	private String room;
 	private String bed;
 	private String isDischargeable;
+	private String isLatepassHolder;
 	private String clientId;
 	private boolean isHead;
 	
@@ -79,6 +80,12 @@ public class ProgramClientInfo {
 	}
 	public void setAdmissionId(Integer admissionId) {
 		this.admissionId = admissionId;
+	}
+	public String getIsLatepassHolder() {
+		return isLatepassHolder;
+	}
+	public void setIsLatepassHolder(String isLatepassHolder) {
+		this.isLatepassHolder = isLatepassHolder;
 	}
 	
 
