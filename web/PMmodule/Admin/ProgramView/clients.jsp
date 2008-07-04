@@ -223,9 +223,9 @@
 			<logic:notEmpty name="clientsLst">				
 					<input type="button" value="Swap Beds" onclick="javascript:do_swap_beds();"/>
 					<br />
-				<table align="left">
+				<table align="left" width="100%">
 					<tr>
-						<td align="left">
+						<td align="left" width="70%">
 							<table class="edit">
 								
 								<tr>
@@ -249,7 +249,7 @@
 								
 							</table>
 						</td>
-						<td align="left" >							
+						<td align="left" width="30%">							
 								<input type="button" value="Batch Discharge" onclick="javascript:do_batch_discharge();"/>								
 						</td>
 					</tr>

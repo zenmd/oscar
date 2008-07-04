@@ -41,6 +41,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.security.SecurityManager;
+import com.quatro.util.Utility;
 import com.quatro.common.KeyConstants;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
@@ -563,7 +564,13 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   roomDemographic.setId(rdmPK);
  	   roomDemographic.setProviderNo(providerNo);
  	   roomDemographic.setAssignStart(new Date());
-
+ 	   //check # of bag
+ 	   if(!Utility.IsInt(admission.getNoOfBags())){
+ 		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.invalid_no_of_bag", request.getContextPath()));
+           isError = true;
+           saveMessages(request,messages);
+           return update(mapping, form, request, response);
+ 	   }
        //check overnight pass validation
  	   if(admission.getOvPassStartDate()!=null && admission.getOvPassEndDate()!=null){
          if(admission.getOvPassStartDate().after(admission.getOvPassEndDate())){

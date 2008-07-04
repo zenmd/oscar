@@ -225,8 +225,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			crObj.setClientId(Integer.valueOf(demographicNo));			
 		} else if (!Utility.IsEmpty(rId)) 
 		{			
-			crObj = clientManager.getClientReferral(rId);
-			programId = crObj.getProgramId().toString(); 
+			crObj = clientManager.getClientReferral(rId);			
+			if(Utility.IsEmpty(programId)) programId=crObj.getProgramId().toString();
 			boolean readOnly=super.isReadOnly(request,crObj.getStatus(), KeyConstants.FUN_PMM_CLIENTREFER,crObj.getProgramId());
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		}

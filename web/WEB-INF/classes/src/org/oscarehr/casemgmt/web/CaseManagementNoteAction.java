@@ -704,7 +704,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",request.getContextPath()));
         saveMessages(request, messages);
 
-        // are we in the new encounter and chaining actions?
+        // are we in the new encounter and chaining actions?        
         String chain = request.getParameter("chain");
         if (chain != null) {
             request.getSession().setAttribute("newNote", new Boolean(false));
