@@ -259,55 +259,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	String mthd = request.getParameter("mthd");
     	ClientForm clientForm = formBean.getClientForm();
     	
-    	List lst = admissionManager.getClientsListByProgram(program, clientForm);
+    	List clientsLst = admissionManager.getClientsListByProgram(program, clientForm);
     	
-    	
-    	
-    	List clientsLst = new ArrayList();
-    	Iterator it = lst.iterator();
-    	while(it.hasNext()){
-    		Object[] objLst = (Object[])it.next();
-    		ProgramClientInfo pClient = new ProgramClientInfo();
-    		if(objLst[0]!=null){
-//    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-    		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
-    		    pClient.setAdmissionDate(admissionDate);
-    		}
-    		if(objLst[1]!=null)
-    			pClient.setAdmissionNote(objLst[1].toString());
-    		if(objLst[2]!=null && objLst[3]!=null){
-	    		Calendar now = Calendar.getInstance();
-	    		Calendar start = (Calendar)objLst[2];
-	    		Calendar end = (Calendar)objLst[3];
-	    		if(start.before(now) && end.after(now)){
-	    			pClient.setIsDischargeable("0");
-	    		}else{
-	    			pClient.setIsDischargeable("1");
-	    		}
-    		}else{
-    			pClient.setIsDischargeable("1");
-    		}
-    		pClient.setAdmissionId((Integer)objLst[4]);
-    		pClient.setFirstName((String)objLst[5]);
-    		pClient.setLastName((String)objLst[6]);
-    		pClient.setClientId(objLst[7].toString());
-    		pClient.setRoom((String)objLst[8]);
-            pClient.setBed((String)objLst[9]);
-            Integer intakeId = null;
-            Integer intakeHeadId = null;
-            if(objLst[10] != null)
-            	intakeId = (Integer)objLst[10];
-            if(objLst[11] != null)
-            	intakeHeadId = (Integer)objLst[11];
-            if(intakeHeadId == null || intakeHeadId.equals(intakeId)){
-            	pClient.setIsHead(true);
-            }else{
-            	pClient.setIsHead(false);
-            }
-    		
-    		clientsLst.add(pClient);
-    	}
     	request.setAttribute("clientsLst", clientsLst);
     	
  
