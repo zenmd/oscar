@@ -44,25 +44,34 @@
 						<td width="30%"> <bean:write name="field" property="fieldDesc" /></td>
 						<td>
 					       <logic:equal name="field" property="fieldType" value="S">
-					         <logic:empty name="field" property="lookupTable">
-					         	<logic:equal name="field" property="editable" value="true">
-						           <html:text name="field" property="val" indexed="true"  style="{width:100%}" maxlength="<%=field.getFieldLengthStr()%>"/>
-					           </logic:equal>
 					         	<logic:equal name="field" property="editable" value="false">
 						           <bean:write name="field" property="val"/>
-						           <html:hidden name="field" property="val" indexed="true"  style="{width:100%}"/>
+						           <logic:notEmpty name="field" property="valDesc">
+						           		 - <bean:write name="field" property="valDesc"/>
+						           </logic:notEmpty>
+						           <html:hidden name="field" property="val" indexed="true" />
 					           </logic:equal>
-					         </logic:empty>
-					         <logic:notEmpty name="field" property="lookupTable">
-					           <html:hidden name="field" property="lookupTable" indexed="true" />
-					           <quatro:lookupTag name="field" tableName="<%=field.getLookupTable()%>" indexed="true" formProperty="lookupCodeEditForm" codeWidth="10%"
-					              codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
-					         </logic:notEmpty>
+					           <logic:equal name="field" property="editable" value="true">
+					         		<logic:empty name="field" property="lookupTable">
+							           <html:text name="field" property="val" indexed="true"  style="{width:100%}" maxlength="<%=field.getFieldLengthStr()%>"/>
+							        </logic:empty>
+					         		<logic:notEmpty name="field" property="lookupTable">
+					           			<html:hidden name="field" property="lookupTable" indexed="true" />
+					           			<quatro:lookupTag name="field" tableName="<%=field.getLookupTable()%>" indexed="true" formProperty="lookupCodeEditForm" codeWidth="10%"
+					              			codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
+					         		</logic:notEmpty>
+					       		</logic:equal>
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="D">
-					       	 <bean:define id="dateVal" name="field" property="val"></bean:define>
-					         <quatro:datePickerTag name="field" property="val" indexed="true" openerForm="lookupCodeEditForm"  width="200px" 
-					         ></quatro:datePickerTag>
+					       	 	<bean:define id="dateVal" name="field" property="val"></bean:define>
+					         	<logic:equal name="field" property="editable" value="true">
+					         		<quatro:datePickerTag name="field" property="val" indexed="true" openerForm="lookupCodeEditForm"  width="200px">
+					         		</quatro:datePickerTag>
+					         	</logic:equal>
+					         	<logic:equal name="field" property="editable" value="false">
+						           <bean:write name="field" property="val"/>
+						           <html:hidden name="field" property="val" indexed="true"/>
+					         	</logic:equal>
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="N">
 					       	   <logic:equal name="field" property="editable" value="true">
@@ -74,10 +83,19 @@
 					           </logic:equal>
 					       </logic:equal>
 					       <logic:equal name="field" property="fieldType" value="B">
-					          <html:select name="field" property="val" indexed="true">
-					          	<html:option value="1">Yes</html:option>
-					          	<html:option value="0">No</html:option>
-					          </html:select>
+					       	   <logic:equal name="field" property="editable" value="true">
+					          		<html:select name="field" property="val" indexed="true">
+					          			<html:option value="1">Yes</html:option>
+					          			<html:option value="0">No</html:option>
+					          		</html:select>
+					          	</logic:equal>
+					       	   <logic:equal name="field" property="editable" value="false">
+					          		<html:select name="field" property="val" indexed="true" disabled="true">
+					          			<html:option value="1">Yes</html:option>
+					          			<html:option value="0">No</html:option>
+					          		</html:select>
+					          	</logic:equal>
+					          	
 					       </logic:equal>
 					      </td>
 					  </tr>  
