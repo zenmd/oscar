@@ -78,6 +78,7 @@ public class MyDateFormat {
 	}
 
 	public static String getStandardDateTime(Calendar cal) {
+		if(cal==null) return "";
 	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	    return formatter.format(cal.getTime());
 	}
@@ -242,6 +243,7 @@ public class MyDateFormat {
 	
     //yyyy-mm-dd hh:mm:ss
 	public static Calendar getCalendarwithTime(String pDate){
+	   pDate = pDate.replace('-','/'); 
        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
        try{
          Date date = (Date)formatter.parse(pDate); 
