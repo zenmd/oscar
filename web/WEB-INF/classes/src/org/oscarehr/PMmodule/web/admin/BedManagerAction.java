@@ -101,7 +101,7 @@ public class BedManagerAction extends BaseFacilityAction {
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
 
         bForm.setFacilityId(facilityId);
-        Boolean hasError=false;
+        Boolean hasError=Boolean.FALSE;
         if(null!=request.getAttribute("hasErrorRoom"))
         hasError =(Boolean)request.getAttribute("hasErrorRoom");
 
