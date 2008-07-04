@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.exception.RoomHasActiveBedsException;
 import org.oscarehr.PMmodule.model.Bed;
+import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
@@ -28,6 +29,7 @@ import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.BaseFacilityAction;
 
 import org.oscarehr.PMmodule.exception.DuplicateBedNameException;
+import org.oscarehr.PMmodule.exception.BedReservedException;
 import com.quatro.common.KeyConstants;
 
 public class BedManagerAction extends BaseFacilityAction {
@@ -602,13 +604,13 @@ public class BedManagerAction extends BaseFacilityAction {
     }
 
     
-/*    
+    
     public ActionForward deleteBed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	prepareLeftNav(request);
     	
     	BedManagerForm bForm = (BedManagerForm) form;
 
-        Integer bedId = bForm.getBedToDelete();
+        Integer bedId = Integer.valueOf((String)request.getParameter("bedId"));
         // (1)Check whether any client is assigned to this bed ('bed_demographic' table)->
         // if yes, disallow bed delete and display message.
         // (2)if no client assigned, delete this bed ('bed' table)
@@ -633,9 +635,9 @@ public class BedManagerAction extends BaseFacilityAction {
             saveMessages(request, messages);
         }
 
-        return manage(mapping, form, request, response);
+        return managebed(mapping, form, request, response);
     }
-*/
+
 
 /*    
     public ActionForward addRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
