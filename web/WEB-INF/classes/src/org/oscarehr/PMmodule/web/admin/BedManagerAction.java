@@ -76,6 +76,9 @@ public class BedManagerAction extends BaseFacilityAction {
         List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
         bForm.setPrograms(pLst);
 
+        List temp = bedManager.getBedsByFilter(facilityId, roomId, Boolean.TRUE, false);
+        request.setAttribute("activebednum", String.valueOf(temp.size()));
+
         return mapping.findForward("editroom");
     }
 

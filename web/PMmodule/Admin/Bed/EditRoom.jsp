@@ -10,8 +10,17 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
       	   name.focus();
       	   return;
       	}
-
+ 
+        var bednum = document.getElementsByName("activebednum")[0];
+        var current_assignedBed = document.getElementsByName("current_assignedBed")[0];
       	var assignedBed= document.getElementsByName("room.assignedBed")[0];
+
+      	if(current_assignedBed.value=='1' && assignedBed.value=='0' && bednum.value>0){
+    	   alert("This room already has bed(s) assigned, Assigned Beds can not be 'N'.");
+      	   assignedBed.focus();
+      	   return;
+      	}
+ 
       	if(assignedBed.value=='0'){
       	   var roomCapacity= document.getElementsByName("room.occupancy")[0];
       	   if(!isInteger(roomCapacity.value)){
@@ -54,9 +63,10 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 		  <html:link href="javascript:saveRoom();" style="color:Navy;text-decoration:none;">
 		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room&nbsp;&nbsp;|</html:link>
 		</c:if>	
-
+<c:if test="${bedManagerForm.room.assignedBed=='1'}">
 		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=managebed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>' style="color:Navy;text-decoration:none">
 		<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;Beds&nbsp;&nbsp;|</a>
+</c:if>
 		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=manageroom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>' style="color:Navy;text-decoration:none">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
 	  </td></tr>
@@ -94,7 +104,10 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 				  <tr><td>Assigned Beds*</td>
 				  <td><html:select property="room.assignedBed">
 				    <html-el:optionsCollection name="assignedBedLst" value="value"	label="label" />
-				  </html:select></td></tr>
+				  </html:select>
+				  <input type=hidden name="current_assignedBed" value="<c:out value="${bedManagerForm.room.assignedBed}" />">
+				  <input type=hidden name="activebednum" value="<c:out value="${activebednum}"/>">
+				  </td></tr>
 				  <tr><td>Room Capacity</td>
 				  <td><html:text property="room.occupancy" maxlength="10"></html:text></td></tr>
 				  <tr><td>Program*</td>

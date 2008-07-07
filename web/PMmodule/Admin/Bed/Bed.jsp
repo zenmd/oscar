@@ -54,8 +54,8 @@
 
 		<html:link action="/Home.do"	style="color:Navy;text-decoration:none">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-		<html:link action="/PMmodule/FacilityManager.do?method=list" style="color:Navy;text-decoration:none;">
-		<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Room&nbsp;&nbsp;</html:link>
+		<a href="<html:rewrite action="/PMmodule/BedManager.do?method=editRoom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>" style="color:Navy;text-decoration:none;">
+		<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Room&nbsp;&nbsp;</a>
 	  </td></tr>
 
 	  <!-- messages -->
