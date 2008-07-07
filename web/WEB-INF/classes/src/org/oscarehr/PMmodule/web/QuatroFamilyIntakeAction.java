@@ -317,6 +317,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		     break;
            }  
 	   }
+       clientForm.setFamilyHead(familyHead);
 	   
        ArrayList dependents = new ArrayList();
 	   int dependentsSize=clientForm.getDependentsSize();
