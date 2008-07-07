@@ -73,10 +73,11 @@ public class AdmissionManager {
 	}
 	
 	
-	public void saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
+	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
     		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
   	    String room = null;
    	    String bed = null;
+   	    Integer admissionId= new Integer(0);
     	if(bFamily){
     	   List lstFamily= intakeDao.getClientIntakeFamily(intakeId.toString());
            for(int i=0;i<lstFamily.size();i++){
@@ -91,7 +92,10 @@ public class AdmissionManager {
    		     admObj.setClientId(qif.getClientId());
    		     admObj.setIntakeId(qif.getIntakeId());
    		     admissionDao.saveAdmission(admObj, qif.getIntakeId(), queueId, referralId);
-       	     //remove old room assignment
+   		     
+   		     if(admission.getClientId().intValue()==qif.getClientId().intValue()) admissionId=admObj.getId(); 
+       	     
+   		    	 //remove old room assignment
    		     RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(qif.getClientId());
    		     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){
            	   roomDemographicDAO.deleteRoomDemographic(rdm);
@@ -111,6 +115,7 @@ public class AdmissionManager {
     	}else{
 		  intakeDao.setIntakeStatusAdmitted(intakeId);
 		  admissionDao.saveAdmission(admission, intakeId, queueId, referralId);
+		  admissionId=admission.getId();
     	
     	  //remove old room/bed assignment
     	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo());
@@ -146,6 +151,8 @@ public class AdmissionManager {
           
 
     	}
+    	
+    	return admissionId;
     	
     }
 

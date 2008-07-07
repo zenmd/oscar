@@ -604,8 +604,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(admission.getId().intValue()==0){
     	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
     	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
-    	  admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
+    	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
    			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
+    	  admission.setId(newAdmissionId);
        }else{
     	  admissionManager.updateAdmission(admission, roomDemographic,bedDemographic);
        }
