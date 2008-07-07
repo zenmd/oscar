@@ -296,13 +296,13 @@ public class AdmissionManager {
 			  	admLoc.setDischargeNotes(admission.getDischargeNotes());	
 				admLoc.setCommunityProgramCode(admission.getCommunityProgramCode());
 			  	admissionDao.updateDischargeInfo(admLoc);
-				RoomDemographic rdm2 = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
+				RoomDemographic rdm2 = roomDemographicDAO.getRoomDemographicByDemographic(admLoc.getClientId());
 				if(rdm2!=null){ 
 					roomDemographicDAO.deleteRoomDemographic(rdm2);
 		      	   // update room_history
 		           updateRoomDemographicHistory(admission, rdm);
 				}
-				BedDemographic bdm2 = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
+				BedDemographic bdm2 = bedDemographicDAO.getBedDemographicByDemographic(admLoc.getClientId());
 				if(bdm2!=null) {
 					bedDemographicDAO.deleteBedDemographic(bdm2);
 		      	   // update bed_history
