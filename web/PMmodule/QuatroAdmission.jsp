@@ -8,6 +8,7 @@
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
 <html:hidden property="familyIntakeType"/>
@@ -47,6 +48,13 @@ function viewSignature(){
    win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
    win.focus();
 }
+function roomChanged()
+{
+	quatroClientAdmissionForm.method.value='roomchange';
+	quatroClientAdmissionForm.pageChanged.value='1';
+	setNoConfirm();
+	quatroClientAdmissionForm.submit();
+}
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
@@ -62,9 +70,9 @@ function viewSignature(){
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
-		  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
+		  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		  <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
-		  <a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
+		  <a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
         </logic:greaterThan>
         </c:if>       
@@ -196,7 +204,7 @@ function viewSignature(){
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
-	      <html:select property="roomDemographic.id.roomId" onchange="javascript: setNoConfirm();quatroClientAdmissionForm.method.value='roomchange';quatroClientAdmissionForm.submit();">
+	      <html:select property="roomDemographic.id.roomId" onchange="javascript: roomChanged();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>

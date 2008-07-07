@@ -41,6 +41,7 @@
 		<script type="text/javascript" src="<html:rewrite page="/js/validation.js" />"></script>
 
 		<script type="text/javascript">
+			var isInFrame = true;
 			function setDivPosition()
 			{
 				 var ele = document.getElementById("scrollBar");

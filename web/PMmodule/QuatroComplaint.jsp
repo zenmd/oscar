@@ -35,10 +35,12 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var validSource = document.getElementsByName("complaint.source")[0].value.length > 0;
 		if(!validSource){
 			alert("Please select Source of Complaint before save.");
+			document.getElementsByName("complaint.source")[0].focus();
 			return;
 		}
 		var validMethod = document.getElementsByName("complaint.method")[0].value.length > 0;
 		if(!validMethod){
+			document.getElementsByName("complaint.method")[0].focus();
 			alert("Please select Method of Contact before save.");
 			return;
 		}
@@ -46,13 +48,11 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	var obj = document.getElementsByName("complaint.firstname")[0];
     if(obj.value.trim()==""){
       alert("First name is empty.");
-      obj.value="";
       obj.focus();
       return; 
     }
     if(!isName(obj.value.trim())){
       alert("First name contains illegal character!");
-      obj.value="";
       obj.focus();
       return; 
     }
@@ -60,7 +60,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
     var obj = document.getElementsByName("complaint.lastname")[0];
     if(obj.value.trim()==""){
       alert("Last name is empty.");
-      obj.value="";
       obj.focus();
       return; 
     }
@@ -74,6 +73,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var validProgram = document.getElementsByName("complaint.programId")[0].value.length > 0;
 		if(!validProgram){
 			alert("Please select program before save.");
+			document.getElementsByName("complaint.programId")[0].focus();
 			return;
 		}
 		//standards
@@ -85,13 +85,23 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var validDescription = document.getElementsByName("complaint.description")[0].value.length > 0;
 		if(!validDescription){
 			alert("Please enter the Description of Complaint before save.");
+			document.getElementsByName("complaint.description")[0].focus();
 			return;
 		}
 		var validOutcome = document.getElementsByName("complaint.satisfiedWithOutcome")[0].value.length > 0;
 		if(!validOutcome){
 			alert("Please specify if the complainant was satisfied with the outcome before save.");
+			document.getElementsByName("complaint.satisfiedWithOutcome")[0].focus();
 			return;
 		}
+		var duration = document.getElementsByName("complaint.duration")[0].value;
+		if(!isInteger(duration))
+		{
+			alert("Time Spent on Complaint should be a number");
+			document.getElementsByName("complaint.duration")[0].focus();
+			return;
+		}
+		
 		var completeStatus = document.getElementsByName("complaint.status")[0].checked == true;
 		var completeDate = document.getElementsByName("complaint.completedDatex")[0].value;
 		if(completeStatus && completeDate.length == 0){
@@ -107,9 +117,9 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			return;
 		}
 		
-		 	document.forms[0].method.value = methodVal;
-			document.forms[0].submit();
-			//alert("Debug:submitted");
+	 	document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
+		//alert("Debug:submitted");
 	}
 	
 	function isName(str) 

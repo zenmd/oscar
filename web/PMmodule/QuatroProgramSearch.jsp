@@ -81,9 +81,11 @@
 			{
 				return error("This client does not meet the age range requirements for this program.");
 			}
-		}		
+		}
+		opener.setNoConfirm();
+		opener.document.<%=request.getParameter("formName")%>.elements['pageChanged'].value="1";
 		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
-		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="edit";
+		opener.document.<%=request.getParameter("formName")%>.elements['method'].value="selectProgram";
 		opener.document.<%=request.getParameter("formName")%>.elements['clientId'].value=clientId;
 		opener.document.<%=request.getParameter("formName")%>.submit();
 		self.close();

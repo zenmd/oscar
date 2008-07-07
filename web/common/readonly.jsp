@@ -2,6 +2,28 @@
 <script type="text/javascript">
 	var hashVal0= "";
 	var needToConfirm = false;
+	var readOnly = false;
+	
+    function setReadOnly()
+    {
+        readOnly = true;
+        var k = document.forms[0].elements.length;
+        for(var i=0; i < k; i++) 
+        {
+           var elem = document.forms[0].elements[i];
+           if (elem) {
+               if (elem.type == 'hidden' ) continue;
+               if (elem.type == 'checkbox'||elem.type=='option'|| elem.type == 'radio'||elem.type=='textarea'|| elem.type=='button' || elem.type=='select-one') {
+                  elem.disabled = true;
+               }  
+               else
+               {
+                  elem.readOnly=true;
+               }
+           }
+        }
+    }
+
     function getHash()
     {
        var hashVal = "";
@@ -31,10 +53,22 @@
 	}
 	function confirmClose() {
 		if(!needToConfirm) return;
+		var pageChangedBox = document.forms[0].pageChanged;
+		var pageChanged = "";
+		if (pageChangedBox != null) 
+		{
+			pageChanged = pageChangedBox.value;
+		}
 		setNoConfirm();
-        var hashVal1 = getHash();
-        if( hashVal1 != hashVal0) {
-         		return "You have made changes. To save these changes, click Cancel, then Save."; 
+		if (pageChanged == "") {
+	        var hashVal1 = getHash();
+	        if( hashVal1 != hashVal0) {
+	         		return "You have made changes. To save these changes, click Cancel, then Save."; 
+	     	}
+     	}
+     	else
+     	{
+     		return "You have made changes. To save these changes, click Cancel, then Save."; 
      	}
 	}
 	function setNoConfirm()

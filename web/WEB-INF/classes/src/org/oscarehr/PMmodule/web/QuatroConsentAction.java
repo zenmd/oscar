@@ -224,7 +224,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		return mapping.findForward("formA");
 	}
 	
-	public ActionForward update(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
+	public ActionForward save(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
 		log.debug("Saving Consent");
 		ActionMessages messages = new ActionMessages();
 		 boolean isError = false;
@@ -272,48 +272,10 @@ public class QuatroConsentAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
 	        saveMessages(request,messages);
 	       }		
-        setEditAttributes(form, request);
-		return mapping.findForward("edit");	
-
-	}
-	public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
-		log.debug("Saving Consent");
-		ActionMessages messages = new ActionMessages();
-		 boolean isError = false;
-	     boolean isWarning = false;
-		DynaActionForm consentForm = (DynaActionForm)form;
-		
-		ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
-		
-		String id = (String)request.getParameter("clientId");
-		consent.setDemographicNo(Integer.valueOf(id));
-		
-		Provider p =  (Provider)request.getSession().getAttribute("provider");
-		consent.setProviderNo(p.getProviderNo());
-		//consent.setProviderName(p.getFormattedName());		
-		
-		consent.setDateSigned(new GregorianCalendar());
-		consent.setHardCopy(true);
-		consent.setStatus(KeyConstants.STATUS_ACTIVE);
-		consent.setStartDate(new GregorianCalendar());		
-		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
-		if(Utility.IsEmpty(consent.getEndDateStr()) || consent.getEndDate().before(consent.getStartDate())){
-			isError =true;
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.consent.date.failed", request.getContextPath()));
-	        saveMessages(request,messages);
-		}
-		if(!isError){
-			consentManager.saveConsentDetail(consent);
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-	        saveMessages(request,messages);
-	       }
-			
-		request.setAttribute("rId",consent.getId());
-		//String gotoStr = request.getParameter("goto");			
-	
-        setEditAttributes(form, request);
-		return mapping.findForward("edit");	
+//        setEditAttributes(form, request);
+//		return mapping.findForward("edit");	
+		request.setAttribute("rId", String.valueOf(consent.getId()));
+		return edit(mapping, form,request, response);
 	}
 	
 	private String getRandomForm() {

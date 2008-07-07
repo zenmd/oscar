@@ -10,6 +10,12 @@
 <head>
 	<title>Health and Safety</title>
 <script>
+	/* this funcion serves as a protocol call for pages independent of the layout.jsp */
+			 function initPage()
+			 {
+				return true;
+			 }
+
 function submitForm(form) {
  var message = form.elements['healthsafety.message'].value;
  if(message!=null && message.length==0){

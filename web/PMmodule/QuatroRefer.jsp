@@ -34,10 +34,12 @@
 
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="clientId" /> 
+<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <html:hidden property="referral.clientId" />
 <html:hidden property="referral.id" />
 <html:hidden property="referral.facilityId" />
 <html:hidden property="referral.programId" />
+<html:hidden property="referral.status"/>
 <input type="hidden" name="selectedProgramId"/>
 <input type="hidden" name="rId" />
 <input type="hidden" name="method" />
@@ -55,8 +57,6 @@
 		<html:link action="/PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Referrals&nbsp;&nbsp;|</html:link>
 <c:if test="${referralStatus=='active' || referralStatus=='rejected'}">
-		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;">
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search Program&nbsp;&nbsp;|</a>
 		<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>				
 </c:if>
@@ -81,7 +81,11 @@
 </table></td></tr>
 <tr><td>
   <table class="simple" cellspacing="2" cellpadding="3">
-	<tr><th style="color:black">Program Name</th>
+	<tr><th style="color:black" rowspan="2">Program <br>
+	<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;"
+	onclick="javascript: setNoConfirm();">
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;</a></th>
+	<th style="color:black">Name</th>
 	<th style="color:black">Type</th>
 	<th style="color:black">Participation</th>
 	<th style="color:black">Phone</th>

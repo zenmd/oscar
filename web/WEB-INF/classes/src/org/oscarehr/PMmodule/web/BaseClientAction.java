@@ -38,6 +38,11 @@ import com.quatro.util.Utility;
 public abstract class BaseClientAction extends BaseAction {
 
 	protected void setScreenMode(HttpServletRequest request, String currentTab) {
+		/*
+		  isPageChangedFlag appeared?
+		*/
+		if(request.getParameter("pageChanged")!= null) request.setAttribute("pageChanged", request.getParameter("pageChanged"));
+
 		super.setMenu(request, KeyConstants.MENU_CLIENT);
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary

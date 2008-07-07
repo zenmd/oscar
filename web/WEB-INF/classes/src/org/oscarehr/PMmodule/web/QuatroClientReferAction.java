@@ -57,7 +57,33 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		setEditAttributes(form, request);		
 		return mapping.findForward("edit");
 	}
+	public ActionForward selectProgram(ActionMapping mapping, ActionForm form, 
+		 HttpServletRequest request, HttpServletResponse response) {
 
+		DynaActionForm clientForm = (DynaActionForm) form;
+		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
+
+		String programId = request.getParameter("selectedProgramId");
+		Program program = (Program) clientForm.get("program");
+		if (!Utility.IsEmpty(programId)) {
+			program = programManager.getProgram(programId);
+			crObj.setProgramId(Integer.valueOf(programId));
+			crObj.setFacilityId(program.getFacilityId());
+			request.setAttribute("program", program);
+		}
+		String cId = request.getParameter("clientId");
+		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		if (actionParam == null) {
+			actionParam = new HashMap();
+			actionParam.put("clientId",cId );
+		}
+		request.setAttribute("actionParam", actionParam);
+		request.setAttribute("referralStatus", crObj.getStatus());		
+		
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
+
+		return mapping.findForward("edit");
+	}
 	public ActionForward refer_select_program(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {

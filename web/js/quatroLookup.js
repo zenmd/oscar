@@ -10,29 +10,8 @@ getEditValueDate = true;
 codeValue = "";
 doPostBack = false;
 delaySearch= false;
-var readOnly = false;
 
-   emptyDate = new Date("01/01/1901");
-
-    function setReadOnly()
-    {
-        readOnly = true;
-        var k = document.forms[0].elements.length;
-        for(var i=0; i < k; i++) 
-        {
-           var elem = document.forms[0].elements[i];
-           if (elem) {
-               if (elem.type == 'hidden' ) continue;
-               if (elem.type == 'checkbox'||elem.type=='option'|| elem.type == 'radio'||elem.type=='textarea'|| elem.type=='button' || elem.type=='select-one') {
-                  elem.disabled = true;
-               }  
-               else
-               {
-                  elem.readOnly=true;
-               }
-           }
-        }
-    }
+emptyDate = new Date("01/01/1901");
 
 function showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
     if(readOnly == true) return;

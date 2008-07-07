@@ -13,21 +13,6 @@
 		var form = document.serviceRestrictionForm;
 		form.elements['program.name'].value='';
 	}
-
-	 function popupProgramSearch(clientId) {
-        var page = '<html:rewrite action="/PMmodule/QuatroProgramSearch.do?formName=serviceRestrictionForm&formElementId=selectedProgramId&clientId=" />'+clientId;       
-        var windowprops = "height=600,width=800,location=no,"
-                + "scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=0,statusbar=yes";
-        // alert("page name" +page);
-        var popup = window.open(page, "_blank", windowprops);
-        if (popup != null) {
-            if (popup.opener == null) {
-                popup.opener = self;
-            }
-            popup.focus();
-        }
-    }	
-    
     
     function submitForm(methodVal) {
     	var validProgram = document.getElementsByName("serviceRestriction.programId")[0].value.length > 0;
@@ -75,6 +60,7 @@
     }	
     
     function programFilter(){
+    	return;
 //       var method= document.getElementsByName("method")[0];
 //       method.value='edit';
        
