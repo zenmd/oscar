@@ -177,6 +177,9 @@ public class IntakeManager {
        	    if(obj2.getCode().equals(obj.getRelationship())){
         	  obj.setRelationshipDesc(obj2.getDescription());
        	      break;
+       	    }else if(KeyConstants.FAMILY_HEAD_CODE.equals(obj.getRelationship())){
+          	  obj.setRelationshipDesc(KeyConstants.FAMILY_HEAD_DESC);
+       	      break;
        	    }
           }  
         }

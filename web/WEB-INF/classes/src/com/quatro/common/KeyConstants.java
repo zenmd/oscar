@@ -40,6 +40,7 @@ public class KeyConstants {
   public static final String INTAKE_STATUS_REJECTED = "rejected";
   public static final String INTAKE_STATUS_DISCHARGED = "discharged";
   public static final String FAMILY_HEAD_CODE = "AA";
+  public static final String FAMILY_HEAD_DESC = "Family Head";
   public static final String ACCESS_VIEW="V";
   public static final String ACCESS_NULL="N";
   public static final String ACCESS_CURRENT="C";
