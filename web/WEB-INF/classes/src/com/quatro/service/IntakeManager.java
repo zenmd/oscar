@@ -137,10 +137,10 @@ public class IntakeManager {
     }
 
     //for single person intake check
-    public List checkExistBedIntakeByFacility(Integer clientId,String providerNo, Integer shelterId){
-    	List programs =programDao.getAllPrograms(null, Program.BED_TYPE, null, providerNo, shelterId);
-    	if(programs==null || programs.size()==0) return new ArrayList();
-    	return intakeDao.checkExistBedIntakeByPrograms(clientId, programs);
+    public List checkExistBedIntakeByFacility(Integer clientId, Integer programId){
+//    	List programs =programDao.getAllPrograms(null, Program.BED_TYPE, null, providerNo, shelterId);
+//    	if(programs==null || programs.size()==0) return new ArrayList();
+    	return intakeDao.checkExistBedIntakeByPrograms(clientId, programId);
     }
     
     //for family member intake check

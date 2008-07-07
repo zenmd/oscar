@@ -42,7 +42,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
         return getHibernateTemplate().find(sSQL);
 	}
-
+/*
     public List checkExistBedIntakeByPrograms(Integer clientId, List programs){
         StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[programs.size()];
@@ -61,7 +61,19 @@ public class IntakeDao extends HibernateDaoSupport {
     	List result = getHibernateTemplate().find(sSQL, obj);
 	    return result;
     }
+*/
+    public List checkExistBedIntakeByPrograms(Integer clientId, Integer programId){
+        //client Merge
+        String clientIds=mergeClientDao.getMergedClientIds(clientId);
+    	String sSQL="from QuatroIntakeDB i where i.clientId in " +clientIds+ 
+		        " and i.programId=" + programId.toString() + " and (i.intakeStatus='" + 
+		          KeyConstants.INTAKE_STATUS_ACTIVE + "' or i.intakeStatus='" +
+		          KeyConstants.INTAKE_STATUS_ADMITTED + "')";
 		
+    	List result = getHibernateTemplate().find(sSQL);
+	    return result;
+    }
+
 	public QuatroIntakeDB findQuatroIntakeDB(Integer clientId, Integer programId) {
 		String clientIds=mergeClientDao.getMergedClientIds(clientId);
 		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.clientId in "+clientIds +
