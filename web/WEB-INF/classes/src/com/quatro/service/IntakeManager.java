@@ -324,9 +324,12 @@ public class IntakeManager {
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 		
-		//remove referral# and queue# from old active intake.
-		if(exist_intakeDB!=null)
+		//remove referral# and queue# from old active intake,
+		//and set this familily member's intake queue#=0.
+		if(exist_intakeDB!=null){
 		  intakeDao.deleteReferralIdQueueId(exist_intakeDB.getReferralId(), exist_intakeDB.getQueueId());
+		  intakeDao.resetFamilyMemeberReferralIdQueueId(intake.getId(), intake.getReferralId());
+		}
 		
 		lst.add(intakeFamily.getIntakeHeadId());
 		lst.add(intakeFamily.getIntakeId());

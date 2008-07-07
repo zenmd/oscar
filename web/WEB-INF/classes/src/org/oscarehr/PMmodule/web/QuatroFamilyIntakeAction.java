@@ -486,6 +486,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        //delete removed family memeber from family intake.
        if(sb.length()>0){
          intakeManager.removeInactiveIntakeFamilyMember(sb.substring(1), headIntake.getId());
+       }else{
+         intakeManager.removeInactiveIntakeFamilyMember("", headIntake.getId());
        }
 
        for(int i=0;i<dependentsSize;i++){
@@ -555,8 +557,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 intakeFamily.setClientId((Integer)lst2.get(2));
   	   }
    
-       clientForm.setDependents(dependents);
-       clientForm.setDependentsSize(dependents.size());
 
 //       if(isWarning){
 //     	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
@@ -570,7 +570,30 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        saveMessages(request,messages);
 	   
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-	   return mapping.findForward("edit");
+	
+       //in case added same client in multiple family member lines,
+       //the save method saved family member correctly, 
+       //but need to remove duplicated family member line(s) by reading every family memeber from DB again.  
+       List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeId);
+       if(dependentsDB==null) dependentsDB = new ArrayList(); 
+       for(int i=0;i<dependentsDB.size();i++){
+     	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependentsDB.get(i);
+     	  obj.setNewClientChecked("N");
+     	  obj.setDuplicateClient("N");
+     	  obj.setServiceRestriction("N");
+     	  obj.setStatusMsg("#");
+       }
+       for(int i=0;i<dependentsDB.size();i++){
+    	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependentsDB.get(i);
+    	  if(obj.getIntakeHeadId().equals(obj.getIntakeId())){
+    		  dependentsDB.remove(obj);
+    		 break;
+    	  }
+       }
+       clientForm.setDependents(dependentsDB);
+       clientForm.setDependentsSize(dependentsDB.size());
+
+       return mapping.findForward("edit");
    }
 
    
@@ -590,8 +613,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	 this.clientRestrictionManager = clientRestrictionManager;
    }
 
-public void setProgramManager(ProgramManager programManager) {
-	this.programManager = programManager;
-}
+   public void setProgramManager(ProgramManager programManager) {
+	 this.programManager = programManager;
+   }
    
 }

@@ -767,6 +767,11 @@ public class IntakeDao extends HibernateDaoSupport {
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{intakeId});
 	}
 
+	public void resetFamilyMemeberReferralIdQueueId(Integer intakeId, Integer referralId){
+        String sSQL="update QuatroIntakeDB q set q.queueId=0, q.referralId=? where q.id=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, intakeId});
+	}
+
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}

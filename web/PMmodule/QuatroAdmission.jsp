@@ -118,7 +118,7 @@ function roomChanged()
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="25%">Ontario Resident Status</td>
 <td width="25%"><html:text property="admission.residentStatus" maxlength="20" /></td>
-<td width="20%">Primary Worker</td>
+<td width="20%">Primary Worker*</td>
 <td width="30%">
 <html:select property="admission.primaryWorker">
 <html-el:optionsCollection property="providerList" value="providerNo" label="formattedName"/>
@@ -188,7 +188,7 @@ function roomChanged()
 <tr><td>
 <logic:equal name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
 <table class="simple" cellspacing="2" cellpadding="3">
-	<tr><th width="20%">Assign Room</th>
+	<tr><th width="20%">Assign Room*</th>
 	<td>
  	      <html:select property="roomDemographic.id.roomId">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
@@ -199,7 +199,7 @@ function roomChanged()
 </logic:equal>
 <logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
 <table class="simple" cellspacing="2" cellpadding="3">
-	<tr><th width="20%">Assign Room</th>
+	<tr><th width="20%">Assign Room*</th>
 	<td>
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
