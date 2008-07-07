@@ -171,10 +171,11 @@ function checkExistClients(i){
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
 <c:if test="${quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
-&nbsp;<a href='javascript:submitForm("add");'style="color:Navy;text-decoration:underline;">Add Dependent</a>
+&nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependent</a>
+&nbsp;|
 </c:if>
-&nbsp;|&nbsp;
-<a href='javascript:submitForm("delete");'style="color:Navy;text-decoration:underline;">Remove Dependent</a>
+&nbsp;
+<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependent</a>
 
 <c:choose>
 <c:when test="${bDupliDemographicNoApproved==false}">
