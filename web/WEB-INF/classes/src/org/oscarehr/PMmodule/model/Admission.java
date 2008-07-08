@@ -119,7 +119,10 @@ public class Admission implements Serializable, Cloneable {
 		return lockerNo;
 	}
 	public void setLockerNo(String lockerNo) {
-		this.lockerNo = lockerNo;
+		if(lockerNo!=null)
+		  this.lockerNo = lockerNo.trim();
+		else
+		  this.lockerNo = lockerNo;
 	}
 	public String getNextKinCity() {
 		return nextKinCity;
