@@ -20,6 +20,7 @@
 <script lang="javascript">
 
 function submitForm(methodVal) {
+/*
     if(methodVal=='save'){
       var primaryWorker = document.getElementsByName("admission.primaryWorker")[0];
       if(primaryWorker.value==''){
@@ -28,6 +29,7 @@ function submitForm(methodVal) {
         return;
       }
     }
+*/    
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
@@ -118,7 +120,7 @@ function roomChanged()
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="25%">Ontario Resident Status</td>
 <td width="25%"><html:text property="admission.residentStatus" maxlength="20" /></td>
-<td width="20%">Primary Worker*</td>
+<td width="20%">Primary Worker</td>
 <td width="30%">
 <html:select property="admission.primaryWorker">
 <html-el:optionsCollection property="providerList" value="providerNo" label="formattedName"/>
