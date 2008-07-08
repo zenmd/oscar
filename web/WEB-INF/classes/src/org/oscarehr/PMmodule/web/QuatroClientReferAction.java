@@ -79,9 +79,10 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		}
 		request.setAttribute("actionParam", actionParam);
 		request.setAttribute("referralStatus", crObj.getStatus());		
+		request.setAttribute("client", clientManager
+				.getClientByDemographicNo(cId));
 		
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-
 		return mapping.findForward("edit");
 	}
 	public ActionForward refer_select_program(ActionMapping mapping,

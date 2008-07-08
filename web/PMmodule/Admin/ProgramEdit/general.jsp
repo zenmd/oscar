@@ -172,7 +172,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</tr>
 				<tr class="b">
 					<td width="20%">Description</td>
-					<td><html:text property="program.descr" size="30" maxlength="255" /></td>
+					<td><html:text property="program.descr" size="80" maxlength="255" /></td>
 				</tr>
 				<tr class="b">
 					<td width="20%">Heath Information Custodian</td>

@@ -209,7 +209,6 @@
 		</td>
 	</tr>
 </table>
-<%@ include file="/common/readonly.jsp" %>
 <script>
 	function submitForm(mthd) {
 		var flag = true;

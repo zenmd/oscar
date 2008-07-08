@@ -18,18 +18,18 @@ public class FacilityDAO extends HibernateDaoSupport {
 
     //@SuppressWarnings("unchecked")
     public List getFacilities() {
-        String query = "from Facility f";
+        String query = "from Facility f order by name";
         return getHibernateTemplate().find(query);
     }
     
     public List getFacilities(Integer shelterId) {
-        String query = "from Facility f where orgId=?";
+        String query = "from Facility f where orgId=? order by name";
         return getHibernateTemplate().find(query,shelterId);
     }
 
     //@SuppressWarnings("unchecked")
     public List getActiveFacilities() {
-        String query = "from Facility f where active=true";
+        String query = "from Facility f where active=true order by name";
         return getHibernateTemplate().find(query);
     }
         
