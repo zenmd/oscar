@@ -580,6 +580,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
                 // lets see if there's room first
                 Program programToAdmit = null;
                 Demographic client = clientManager.getClientByDemographicNo(admission.getClientId().toString());
+                /*
                 if(communityProgramCode.length() > 0){
                 	programToAdmit = programManager.getProgram(communityProgramCode);
                 
@@ -589,6 +590,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	                    continue;
                 	}
                 }
+                */
                 admission.setDischargeDate(Calendar.getInstance());
                 admission.setDischargeNotes("Batch discharge");
                 admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
