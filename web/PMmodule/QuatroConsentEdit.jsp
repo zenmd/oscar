@@ -9,6 +9,7 @@
 <html-el:form action="/PMmodule/QuatroConsent.do">
 	<input type="hidden" name="method" />
 	<input type="hidden" name="signed" />
+	<input type="hidden" name="rId" value='<c:out  value="${recordId}" />'/>
 	<html-el:hidden property="consentValue.demographicNo"  />	
 	<html-el:hidden property="consentValue.demographicNo"  />	
 	<html-el:hidden property="consentValue.demographicNo"  />	
