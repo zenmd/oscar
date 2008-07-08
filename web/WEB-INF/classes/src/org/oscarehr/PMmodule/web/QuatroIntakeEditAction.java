@@ -339,7 +339,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		     return mapping.findForward("edit");
  		   }  
 		}
-    	
+    	client.setDemographicNo(intake.getClientId());
 		client.setDateOfBirth(MyDateFormat.getCalendar(qform.getDob()));
 		client.setProviderNo(providerNo);
 		client.setLastUpdateDate(Calendar.getInstance());

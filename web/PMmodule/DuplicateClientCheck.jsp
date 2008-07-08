@@ -31,6 +31,10 @@ function selectDuplicateClient(form_name, firstName, firstNameValue,
    myexpr = "opener.document." + form_name + ".elements['" + clientNo +"'].value='" + clientNoValue + "'";
    eval(myexpr);
 
+   myexpr = "opener.document." + form_name + ".elements['" + "clientId" +"'].value='" + clientNoValue + "'";
+   eval(myexpr);
+
+
    var statusMsgValue2=statusMsgValue;
    if(shortFlag=="Y"){
      if(statusMsgValue=="(Existing Client)"){
