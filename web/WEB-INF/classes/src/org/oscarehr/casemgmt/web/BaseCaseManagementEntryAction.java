@@ -228,31 +228,17 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		if (issuelist.isEmpty())
 			return "";
 		String rt = "\n[" + relateIssueString;
+		//Integer i=new Integer(0);
 		Iterator itr = issuelist.iterator();
 		while (itr.hasNext()) {
 			CaseManagementIssue iss = (CaseManagementIssue) itr.next();
-			rt = rt + "\n" + iss.getIssue().getDescription()+" ";   // + "\t\t\n";
-			/*
-			if (iss.isCertain())
-				rt = rt + "certain" + "  ";
-			else
-				rt = rt + "uncertain" + "  ";
-			if (iss.isAcute())
-				rt = rt + "acute" + "  ";
-			else
-				rt = rt + "chronic" + "  ";
-			if (iss.isMajor())
-				rt = rt + "major" + "  ";
-			else
-				rt = rt + "not major" + "  ";
-			*/
-			if (1==caseStatusId.intValue())
-				rt = rt+"]\n[Case Status of this note " + "resolved]\n";
-			else
-				rt = rt+"]\n[Case Status of this note " + "unresolved]\n";
-			
+			rt = rt + "\t\t\n[" + lookupManager.GetLookupCode("ISS", iss.getIssue_id().toString()).getDescription()+"]";   // + "\t\t\n";			
 		}
-		return rt; // + "]\n";
+		if (1==caseStatusId.intValue())
+			rt = rt+"]\t\t\n[Case Status of this note " + "resolved]\n";
+		else
+			rt = rt+"]\t\t\n[Case Status of this note " + "unresolved]\n";
+		return rt+ "]\n";
 	}
         
         protected CaseManagementIssue newIssueToCIssue(String demoNo, LookupCodeValue iss, Integer programId) {

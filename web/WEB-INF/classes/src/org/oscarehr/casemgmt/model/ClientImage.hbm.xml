@@ -25,5 +25,6 @@
 		<property name="image_type" type="string" />
 		<property name="image_data2" column="image_data" type="string" />
 		<property name="update_date" type="java.util.Date" />
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

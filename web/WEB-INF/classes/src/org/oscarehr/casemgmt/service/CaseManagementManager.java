@@ -160,41 +160,46 @@ public class CaseManagementManager {
         return this.ectWindowDAO.getWindow(provider);
     }
 */
-    public String saveNote(CaseManagementCPP cpp, CaseManagementNote note, String cproviderNo, String userName, String lastStr) {
+    private String removeNoteAppend(String noteStr){
+    	String newStr=noteStr;
+    	Integer idx1 =noteStr.indexOf("[");
+    	Integer idx2= noteStr.indexOf("]");    	
+    	String tmpStr="";
+    	if(idx2<idx1){
+    		tmpStr=newStr.substring(0,idx2)+newStr.substring(idx2+1);    		
+        	newStr=tmpStr;
+        	return removeNoteAppend(newStr);
+    	}
+    	
+    	if(idx1>0){
+    		newStr =noteStr.substring(0,idx1)+noteStr.substring(idx2+1);
+    		return removeNoteAppend(newStr);
+    	}
+    	else if(idx1==0){
+    		newStr =noteStr.substring(idx2+1);
+    		return removeNoteAppend(newStr);
+    	}
+    	else{
+    		newStr=newStr.replace("]", "");
+    		newStr=newStr.replace("[", "");
+    	}
+    	String[] lft = newStr.split("\n");
+    	//remove \n from string
+    	tmpStr="";
+    	for(int i=0;i<lft.length;i++){
+    		if(lft[i]!="" || !lft[i].startsWith("\t"))tmpStr+=lft[i]+"\n";
+    	}
+    	return tmpStr;
+    }
+    public String saveNote(CaseManagementNote note, String cproviderNo, String lastStr) {
     	SimpleDateFormat dt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     	Date now = new Date();
         String noteStr = note.getNote();
         String noteHistory = note.getHistory();     
-        
+        String userName=providerDAO.getProviderName(cproviderNo);
         // process noteStr, remove existing signed on string
         // noteStr = removeSignature(noteStr);
-        if (note.isSigned())
-        {
-                
-        	// add the time, signiture and role at the end of note
-        	String rolename="";
-        	// if have signiture setting, use signiture as username
-        	String tempS = null;
-        	if (providerSignitureDao.isOnSig(cproviderNo))
-        		tempS = providerSignitureDao.getProviderSig(cproviderNo);
-        	if (tempS != null && !"".equals(tempS.trim()))
-        		userName = tempS;
-
-        	if (userName != null && !"".equals(userName.trim()))
-        	{
-        		noteStr = noteStr + "\n[[Signed on " + dt.format(now) + " "
-        				+ "by " + userName + ", " + rolename + "]]\n";
-        	} else
-        		noteStr = noteStr + "\n[[" + dt.format(now) + "]]\n";
-
-        } else
-        {
-
-        	// add time at the end of note
-        	noteStr = noteStr + "\n[[" + dt.format(now) + "]]\n";
-        }
-
-        /* formate the "/n" in noteStr */
+               /* formate the "/n" in noteStr */
         noteStr = noteStr.replaceAll("\r\n", "\n");
         noteStr = noteStr.replaceAll("\r", "\n");
 
@@ -202,11 +207,19 @@ public class CaseManagementManager {
         else noteHistory = noteStr + "\n" + "   ----------------History Record----------------   \n" + noteHistory + "\n";
 
         //note.setNote(noteStr);
-        note.setHistory(noteHistory);
-        
+        //remove empty line 
+        String tmpString ="";
+        String[] his=noteHistory.split("\n");
+        for(int i=0;i<his.length;i++){
+        	if(his[i]!="" || !his[i].startsWith("\t")) tmpString+=his[i]+"\n";
+        }        
+        note.setHistory(tmpString);
+        //remove automatically append for note
+        note.setNote(removeNoteAppend(note.getNote()));
         caseManagementNoteDAO.saveNote(note);
         
-        //if note is signed we hash it and save hash
+        //if note is signed we hash it and save hash --N/A by Lillian
+        /*
         if( note.isSigned() ) {
             HashAuditImpl hashAudit = new HashAuditImpl();
             hashAudit.setType(BaseHashAudit.NOTE);
@@ -214,9 +227,8 @@ public class CaseManagementManager {
             hashAudit.makeHash(note.getNote().getBytes());
             hashAuditDAO.saveHash(hashAudit);
         }
-        
-        return echartDAO.saveEchart(note, cpp, userName, lastStr);                 
-
+        */      
+        return echartDAO.saveEchart(note, null, userName, lastStr);       
     }
     
     /*

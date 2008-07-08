@@ -22,6 +22,7 @@
 
 package org.oscarehr.casemgmt.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.codec.binary.Base64;
@@ -33,7 +34,16 @@ public class ClientImage extends BaseObject {
 	private String image_type;
 	private byte[] image_data;
 	private Date update_date;
-	
+	private String lastUpdateUser;
+    
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
 	public ClientImage() {
 		update_date = new Date();
 	}

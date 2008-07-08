@@ -24,5 +24,7 @@
 		<property column="hidden" length="5" name="hidden" not-null="true" type="integer" />
 		<property column="form_name" length="30" name="formName" not-null="true" type="string" />
 		<property column="form_table" length="50" name="formTable" not-null="true" type="string" />
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

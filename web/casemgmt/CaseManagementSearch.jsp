@@ -253,21 +253,33 @@ response.setHeader("Cache-Control", "no-cache");
 			
 								<tr bgcolor="<%=bgcolor %>" align="center">
 									<td>
-										<c:choose>
-											<c:when test="${note.signed && (note.caseStatusId==1)}">
-											<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
-													&noteId=<c:out value="${note.id}"/>" 
-													 style="color:Navy;text-decoration:none;" >
-												<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"
-												title="Note History" /> 
-											</a>
-											</c:when>	
-											<c:otherwise>
+										<c:choose>				
+											<c:when test="${(!note.signed)}">
 												<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 													&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
 												<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
-											</c:otherwise>								
-										</c:choose> 							 
+											</c:when>				
+											<c:when test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
+												<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+													&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
+												<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
+											</c:when>
+											<c:otherwise>
+												<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif" title=""/>
+											</c:otherwise>	
+										</c:choose>
+										<c:choose>				
+											<c:when test="${note.hasHistory or (note.signed and (note.caseStatusId ==1))}">
+												<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
+													&noteId=<c:out value="${note.id}"/>" 
+													 style="color:Navy;text-decoration:none;" >
+													<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"	title="Note History" /> 
+												</a>												
+											</c:when>
+											<c:otherwise>
+												<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif" title=""/>
+											</c:otherwise>	
+										</c:choose>
 										<c:choose>
 											<c:when test="${note.locked}">
 												<a style="color:Navy;text-decoration:none;"	href="<html:rewrite name="actionParam"  action="/CaseManagementView2.do?method=unlock" />
@@ -276,8 +288,8 @@ response.setHeader("Cache-Control", "no-cache");
 												</a>
 											</c:when>
 											<c:otherwise>
-												<img border="0" style="color:Navy;text-decoration:none;" src="<c:out value="${ctx}"/>/images/transparent_icon.gif"	title="" />
-											</c:otherwise>
+												<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif" title=""/>
+											</c:otherwise>	
 										</c:choose>
 									</td>
 									<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm a" value="${note.observation_date}" /></td>
@@ -328,25 +340,29 @@ response.setHeader("Cache-Control", "no-cache");
 										<tr bgcolor="<%=bgcolor1 %>">
 											<td width="7%">Action</td>
 											<td width="93%">
-											<c:if test="${note.signed && (note.caseStatusId==1)}">									
-													<a href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt"/>
-														&noteId=<c:out value="${noteId}"/>" >							
-														Note History
-													</a>									
-											</c:if> 
-											<c:if test="${(!note.signed) || (note.caseStatusId==0)}">									
-												<a href="<html:rewrite name="actionParam" action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+												<c:if test="${(!note.signed)}">
+													<a href="<html:rewrite name="actionParam" action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 													&noteId=<c:out value="${note.id}"/>" >							
 													Edit and Sign
 												</a>
-												
-											</c:if> 								
-											<c:if test="${note.locked}">
-												<c:url	value="/CaseManagementView2.do?method=unlock&noteId=${noteId}"	var="lockedURL" />
-												<a href="<html:rewrite action="/CaseManagementEntry2.do?method=unlock"/>
-													&noteId=<c:out value="${noteId}"/> ">Unlock
-												</a>
-											</c:if>
+												</c:if>
+												<c:if test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
+													<a href="<html:rewrite name="actionParam" action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+														&noteId=<c:out value="${note.id}"/>" >	Edit and Sign
+													</a>
+												</c:if>																								
+												<c:if test="${note.hasHistory or (note.signed and (note.caseStatusId eq 1))}">
+													<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
+															&noteId=<c:out value="${note.id}"/>" 
+															 style="color:Navy;text-decoration:none;" >
+														<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"
+														title="Note History" /> 
+													</a>
+												</c:if>
+												<c:if test="${note.locked}">
+													<a href="<html:rewrite action="/CaseManagementEntry2.do?method=unlock"/>&noteId=<c:out value="${noteId}"/> ">Unlock
+													</a>			
+												</c:if>
 										</td>
 										</tr>
 										<tr bgcolor="<%=bgcolor1 %>">

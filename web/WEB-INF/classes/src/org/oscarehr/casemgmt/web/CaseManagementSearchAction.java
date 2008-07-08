@@ -67,7 +67,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         caseForm.setFilter_provider("");        
-        return client(mapping, form, request, response);
+       // return client(mapping, form, request, response);
+        return view(mapping, form, request, response);
     }
 
     public ActionForward setViewType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -168,7 +169,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;        
         HttpSession se = request.getSession();
-        if (se.getAttribute("userrole") == null) return mapping.findForward("expired");
+        if (se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO) == null) return mapping.findForward("expired");
         String cId=request.getParameter("clientId");
         if(Utility.IsEmpty(cId)) cId=request.getSession().getAttribute("casemgmt_DemoNo").toString();
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -180,9 +181,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       String demoNo= (String)actionParam.get("clientId");
 	       request.setAttribute("clientId", demoNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-        String providerNo = getProviderNo(request);
-        //String demoNo = getDemographicNo(request);
-        //if client id is null, it should start from client search page 
+        String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        
         if(providerNo==null || demoNo ==null) {
          request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
@@ -209,31 +209,18 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             	request.setAttribute("case_program_id", programId);
         	}
         }
-        //set up current module
-        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CASE);
-        if(null==request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
-        		request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,new Integer(demoNo));
-        }
-                    
+                          
             /* PROGRESS NOTES */
             List notes = null;
 
             // filter the notes by the checked issues and date if set
-            UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
-            String[] checked_issues = request.getParameterValues("check_issue");
+            UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);         
             Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-            if (checked_issues != null && checked_issues[0].trim().length() > 0) {
-                // need to apply a filter
-                request.setAttribute("checked_issues", checked_issues);
-                if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
-                else notes = caseManagementMgr.getNotes(this.getDemographicNo(request), checked_issues, userProp);
-                notes = manageLockedNotes(notes, true, this.getUnlockedNotesMap(request));
-            }
-            else {
-            	 if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
-            	 else notes = caseManagementMgr.getNotes(this.getDemographicNo(request), userProp,shelterId,providerNo);
-                notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
-            }
+           
+            if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
+            else notes = caseManagementMgr.getNotes(demoNo, userProp,shelterId,providerNo);
+            notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
+           
 
             log.info("FETCHED " + notes.size() + " NOTES");
             // apply role based access
@@ -265,13 +252,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             List issues = this.lookupMgr.LoadCodeList("ISS", true,null,null);
             request.setAttribute("issues", issues);
             
-            // apply if we are filtering on role ----N/A Lillian comment
-            /*
-            List roles = roleMgr.getRoles();
-            request.setAttribute("roles", roles);
-            String[] roleId = caseForm.getFilter_roles();
-            if (roleId != null && roleId.length > 0) notes = applyRoleFilter(notes, roleId);
-             */
+            
             this.caseManagementMgr.getEditors(notes);
 
             /*
@@ -290,15 +271,15 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
 
         
-
-        CaseManagementCPP cpp = this.caseManagementMgr.getCPP(this.getDemographicNo(request));
-        if (cpp == null) {
-            cpp = new CaseManagementCPP();
-            cpp.setDemographic_no(getDemographicNo(request));
-        }
-        request.setAttribute("cpp", cpp);
-        caseForm.setCpp(cpp);
-
+            /*
+		        CaseManagementCPP cpp = this.caseManagementMgr.getCPP(this.getDemographicNo(request));
+		        if (cpp == null) {
+		            cpp = new CaseManagementCPP();
+		            cpp.setDemographic_no(getDemographicNo(request));
+		        }
+		        request.setAttribute("cpp", cpp);
+		        caseForm.setCpp(cpp);
+             */
         /* get allergies */
         /*
         List allergies = this.caseManagementMgr.getAllergies(this.getDemographicNo(request));
@@ -321,7 +302,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
         boolean tmp = sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCASE,"P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
         Boolean readonly = new Boolean(tmp);
-        se.setAttribute("readonly", readonly);
+        se.setAttribute("readOnly", readonly);
 
         // if we have just saved a note, remove saveNote flag
         Boolean saved = (Boolean) se.getAttribute("saveNote");
@@ -466,9 +447,11 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if (field.equals("programName")) {
             Collections.sort(notes, CaseManagementNote.getProgramComparator());
         }
+        /*
         if (field.equals("roleName")) {
             Collections.sort(notes, CaseManagementNote.getRoleComparator());
         }
+        */
         if (field.equals("update_date_asc")) {
             Collections.reverse(notes);
         }

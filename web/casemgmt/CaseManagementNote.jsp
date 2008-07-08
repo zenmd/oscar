@@ -104,12 +104,25 @@
 		else 
 			return false;
 	}
+	function validateNoteStatus() {
+		if (document.caseManagementEntryForm.elements["caseNote.caseStatusId"].value=="" ||document.caseManagementEntryForm.elements["caseNote.caseStatusId"].value==" ")
+		{
+			return false;
+		}else{
+		 	return true;
+		}
+	}
 	function isIssueEmpty()
 	{
-		if(document.caseManagementEntryForm.lstIssue==null ||document.caseManagementEntryForm.lstIssue=="") 
+		var elSel= document.getElementsByName("lstIssue")[0]; 
+		var txtKey= "";
+		if(elSel!=null && elSel.options[0]!=null) txtKey=elSel.options[0].value;
+		if(txtKey=="") {			
 			return true;		
-		else 
+		}
+		else{						
 			return false;
+		}
 	}
 	function validateSave(){
 	
@@ -117,7 +130,7 @@
 		var str2="Are you sure that you want to sign and save without changing the status of any of the issues?";
 		var str3="Please choose encounter type before saving the note.";
 		var str4="Are you sure that you want to save without signing?";
-		var str5="You cannot save a note when there is no issue, please add an issue before save." ;
+		var str5="You cannot save a note when there is no Component of Service, please add a Component of Service before save." ;
 		if (!validateEnounter()){
 			alert(str3); return false;
 		}
@@ -126,21 +139,18 @@
 			alert(str1); return false;
 		}
 		*/
-		if(isIssueEmpty()){
+		if(isIssueEmpty()){			
 			alert(str5);  return false;
 		}
+		
 		if (!validateSignStatus()){
 			if(confirm(str4)) {
-				setNoConfirm();
+			    setNoConfirm();
 				return true;
 			}
 			else return false;
 		}
-		/*
-		if (!validateIssueStatus())
-			if (confirm(str2)) return true;
-			else return false;
-		*/
+		
 		setNoConfirm();
 		return true;
 	}
@@ -407,11 +417,12 @@ var XMLHttpRequestObject = false;
 			<td class="fieldTitle" width="40%">Sign</td>
 			<td class="fieldValue"><html:checkbox property="sign" /></td>
 		</tr>
-
+<!-- 
 		<tr>
 			<td class="fieldTitle" width="40%">Include checked components of service in note</td>
 			<td class="fieldValue"><html:checkbox property="includeIssue" /></td>
-		</tr>					 
+		</tr>	
+-->				 
 	</table>
 	</div>
 	<%@ include file="/common/readonly.jsp" %>

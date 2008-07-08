@@ -23,6 +23,7 @@
 package org.oscarehr.casemgmt.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * This is the object class that relates to the encounterform table.
@@ -38,7 +39,24 @@ public class Encounterform implements Serializable {
     private Integer _hidden;
     private String _formName;
     private String _formTable;
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
 
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
     // constructors
 	public Encounterform () {
 		initialize();
