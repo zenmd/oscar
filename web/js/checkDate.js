@@ -36,7 +36,7 @@ function check_date(checkedDateName)
     }
     
    	if(checkedDate.length!=10){
-        alert('Date format is not valid. The right date format is yyyy/mm/dd.');
+        alert('Date entered is not valid.');
       	checkedDateObj.focus();
       	checkedDateObj.style.backgroundColor='#ff0000';
        	return false;
@@ -54,7 +54,7 @@ function check_date(checkedDateName)
 		source_date = new Date(year,month,day);
 		if(year != source_date.getFullYear() || day != source_date.getDate() || month != source_date.getMonth() )
       	{
-      	    alert('Date entered is not correct. Please re-enter. Correct format is: yyyy/mm/dd.');
+      	    alert('Date entered is not valid.');
          	checkedDateObj.focus();
       	    checkedDateObj.style.backgroundColor='#ff0000';
          	return false;
@@ -62,7 +62,7 @@ function check_date(checkedDateName)
     }
    	else
    	{
-      	alert('Date format is not valid. The right date format is yyyy/mm/dd.');
+      	alert('Date entered is not valid.');
        	checkedDateObj.focus();
   	    checkedDateObj.style.backgroundColor='#ff0000';
       	return false;
