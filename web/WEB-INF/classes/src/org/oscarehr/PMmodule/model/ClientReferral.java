@@ -234,6 +234,6 @@ public class ClientReferral implements Serializable {
 		referralDiff = referralDiff / 60; // hours
 		referralDiff = referralDiff / 24; // days
 
-		return Integer.valueOf((int)referralDiff);
+		return new Integer((int)referralDiff);
     }
 }
