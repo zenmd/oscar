@@ -152,6 +152,11 @@ public abstract class BaseAction extends DispatchAction {
 	}
 	
 	protected void setMenu(HttpServletRequest request, String currentMenu) {
+		/*
+		  isPageChangedFlag appeared?
+		*/
+		if(request.getParameter("pageChanged")!= null) request.setAttribute("pageChanged", request.getParameter("pageChanged"));
+
 		String lastMenu = (String) request.getSession().getAttribute("currMenu");
 		if (lastMenu == null) {
 			initMenu(request);
