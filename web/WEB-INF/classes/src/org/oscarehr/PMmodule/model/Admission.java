@@ -125,25 +125,37 @@ public class Admission implements Serializable, Cloneable {
 		return nextKinCity;
 	}
 	public void setNextKinCity(String nextKinCity) {
-		this.nextKinCity = nextKinCity;
+		if(nextKinCity!=null)
+		  this.nextKinCity = nextKinCity.trim();
+		else
+		  this.nextKinCity = nextKinCity;
 	}
 	public String getNextKinName() {
 		return nextKinName;
 	}
 	public void setNextKinName(String nextKinName) {
-		this.nextKinName = nextKinName;
+		if(nextKinName!=null)
+		  this.nextKinName = nextKinName.trim();
+		else
+		  this.nextKinName = nextKinName;
 	}
 	public String getNextKinNumber() {
 		return nextKinNumber;
 	}
 	public void setNextKinNumber(String nextKinNumber) {
-		this.nextKinNumber = nextKinNumber;
+		if(nextKinNumber!=null)
+		  this.nextKinNumber = nextKinNumber.trim();
+		else
+		  this.nextKinNumber = nextKinNumber;
 	}
 	public String getNextKinPostal() {
 		return nextKinPostal;
 	}
 	public void setNextKinPostal(String nextKinPostal) {
-		this.nextKinPostal = nextKinPostal;
+		if(nextKinPostal!=null)
+  		  this.nextKinPostal = nextKinPostal.trim();
+		else
+		  this.nextKinPostal = nextKinPostal;
 	}
 	public String getNextKinProvince() {
 		return nextKinProvince;
@@ -155,7 +167,10 @@ public class Admission implements Serializable, Cloneable {
 		return nextKinRelationship;
 	}
 	public void setNextKinRelationship(String nextKinRelationship) {
-		this.nextKinRelationship = nextKinRelationship;
+		if(nextKinRelationship!=null)
+		  this.nextKinRelationship = nextKinRelationship.trim();
+		else
+		  this.nextKinRelationship = nextKinRelationship;
 	}
 	public String getNextKinStreet() {
 		return nextKinStreet;
@@ -167,7 +182,10 @@ public class Admission implements Serializable, Cloneable {
 		return nextKinTelephone;
 	}
 	public void setNextKinTelephone(String nextKinTelephone) {
-		this.nextKinTelephone = nextKinTelephone;
+		if(nextKinTelephone!=null)
+		  this.nextKinTelephone = nextKinTelephone.trim();
+		else
+		  this.nextKinTelephone = nextKinTelephone;
 	}
 	public String getNoOfBags() {
 		return noOfBags;
