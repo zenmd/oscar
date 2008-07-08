@@ -279,6 +279,7 @@ public class IntakeManager {
           	Object element3 = (Object)it3.next();
             Object[] obj3 = (Object[])element3;
             if(((Integer)obj3[0]).equals(obj2.getProgramId())){
+              obj2.setProgramName((String)obj3[1]);
               obj2.setProgramType((String)obj3[2]);
               break;
             }

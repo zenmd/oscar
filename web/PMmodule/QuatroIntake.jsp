@@ -62,7 +62,8 @@ function updateQuatroIntake(clientId, intakeId) {
 <display:table class="simple" cellspacing="2" cellpadding="3" id="intake" name="quatroIntake" export="false" pagesize="50" requestURI="/PMmodule/QuatroIntake.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No intakes found." />
-			<display:column property="programType" sortable="true" title="Program Type"/>
+			<display:column property="programName" sortable="true" title="Program Name"/>
+			<display:column property="programType" sortable="true" title="Type"/>
             <display:column property="createdOn.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
             <display:column property="staffName" sortable="true" title="Staff"/>
 			<display:column property="intakeStatus" sortable="true" title="Status" />

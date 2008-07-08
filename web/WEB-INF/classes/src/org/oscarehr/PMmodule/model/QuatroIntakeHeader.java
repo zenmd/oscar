@@ -19,6 +19,7 @@ public class QuatroIntakeHeader implements Serializable {
     private String intakeStatus;
     private Integer programId;
     private String programType;
+    private String programName;
 
     public boolean equals(Object obj) {
         if (null == obj)
@@ -120,6 +121,14 @@ public class QuatroIntakeHeader implements Serializable {
 
 	public void setStaffName(String staffName) {
 		this.staffName = staffName;
+	}
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 
 }
