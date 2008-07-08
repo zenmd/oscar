@@ -23,6 +23,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -39,6 +40,24 @@ public class BedDemographicStatus implements Serializable {
     private String name;
     private Integer duration;
     private boolean m_default;
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
 
 
     // constructors

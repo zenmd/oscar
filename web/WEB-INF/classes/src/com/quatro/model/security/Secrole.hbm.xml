@@ -14,5 +14,9 @@
         <property name="description" type="java.lang.String">
             <column name="DESCRIPTION" length="60" />
         </property>
+        <property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
+		<property name="active" column="isactive"></property>
+		<property name="orderByIndex" column="displayorder"></property>  
     </class>
 </hibernate-mapping>

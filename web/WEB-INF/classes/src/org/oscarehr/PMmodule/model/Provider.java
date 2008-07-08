@@ -22,6 +22,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Comparator;
 
 /**
@@ -71,6 +72,24 @@ public class Provider implements Serializable {
     private String _providerActivity;
     private String _firstName;
     private String _rmaNo;
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
 
     // constructors
 	public Provider () {

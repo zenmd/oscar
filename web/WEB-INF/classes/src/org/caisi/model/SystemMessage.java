@@ -32,6 +32,7 @@ public class SystemMessage extends BaseObject {
 	private Date creation_date;
 	private Date expiry_date;
 	private String type;
+	private String lastUpdateUser;
 	
 	public SystemMessage() {
 		creation_date = new Date();
@@ -154,5 +155,11 @@ public class SystemMessage extends BaseObject {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
 	}
 }

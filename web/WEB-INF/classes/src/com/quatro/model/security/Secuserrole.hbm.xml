@@ -26,5 +26,7 @@
 	    -->
 	    <property name="providerLName" formula="(select p.last_name from Provider p where p.provider_no=provider_no)"></property> 
 	    <property name="providerFName" formula="(select p.first_name from Provider p where p.provider_no=provider_no)"></property> 
+	    <property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
     </class>
 </hibernate-mapping>

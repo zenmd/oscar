@@ -23,6 +23,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -58,6 +59,16 @@ public class BedDemographic implements Auditable, Serializable {
     private Provider provider;
     private Bed bed;
     private Demographic demographic;
+    
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}	
 
     public static BedDemographic create(Integer demographicNo, BedDemographicStatus bedDemographicStatus, String providerNo) {
 		BedDemographicPK id = new BedDemographicPK();

@@ -67,6 +67,8 @@
                 not-null="true"
                 length="10"
                 />
+        <property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>       
     </class>
 </hibernate-mapping>
         

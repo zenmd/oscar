@@ -22,6 +22,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 
@@ -38,6 +39,24 @@ public class BedCheckTime implements Serializable {
     private Integer id;// fields
     private Integer programId;
     private java.util.Date time;
+	private String lastUpdateUser;
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
 
     public static BedCheckTime create(Integer programId, String time) {
 		BedCheckTime bedCheckTime = new BedCheckTime();

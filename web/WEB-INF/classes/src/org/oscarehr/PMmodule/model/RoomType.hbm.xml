@@ -24,5 +24,9 @@
 		</id>
 		<property name="name" column="name" type="string" not-null="true" length="45" />
 		<property name="default" column="dflt" type="boolean" not-null="true" />
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
+		<property name="active" column="isactive"></property>
+		<property name="orderByIndex" column="displayorder"></property>      
 	</class>
 </hibernate-mapping>

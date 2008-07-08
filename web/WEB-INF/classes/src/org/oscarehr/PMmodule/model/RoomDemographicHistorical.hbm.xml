@@ -21,5 +21,7 @@
         <property name="usageEnd" >
             <column name="usage_end" />
         </property>
+        <property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
     </class>
 </hibernate-mapping>

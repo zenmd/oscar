@@ -1,5 +1,7 @@
 package com.quatro.model.security;
 
+import java.util.Calendar;
+
 
 public class Secuserrole implements java.io.Serializable {
 
@@ -20,8 +22,29 @@ public class Secuserrole implements java.io.Serializable {
 	// added more
 	private String fullName;
 	private String userName;
+	private String lastUpdateUser;
+	private Calendar lastUpdateDate;
 	
-	
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
+
 	/** default constructor */
 	public Secuserrole() {
 		

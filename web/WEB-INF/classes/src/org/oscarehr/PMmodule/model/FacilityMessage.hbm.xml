@@ -27,5 +27,6 @@
 		<property name="facilityId" column="facility_id" />
 		<property name="facilityName" column="facility_name"/>
 		<property name="type" column="type"/>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

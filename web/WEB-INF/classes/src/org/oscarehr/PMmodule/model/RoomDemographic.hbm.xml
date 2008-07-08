@@ -28,5 +28,6 @@
 		<property name="assignEnd" column="assign_end" type="date" not-null="false" length="10" />
 		<property name="comment" column="comments" type="string" not-null="false" length="50" />
 		<property name="roomName" formula="(select r.name from room r where r.room_id=room_id)" /> 
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
 	</class>
 </hibernate-mapping>

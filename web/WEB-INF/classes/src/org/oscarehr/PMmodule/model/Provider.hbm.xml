@@ -39,5 +39,7 @@
 		<property column="provider_activity" length="3" name="ProviderActivity" not-null="false" type="string" />
 		<property column="first_name" length="30" name="FirstName" not-null="true" type="string" />
 		<property column="rma_no" length="20" name="RmaNo" not-null="false" type="string" />
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

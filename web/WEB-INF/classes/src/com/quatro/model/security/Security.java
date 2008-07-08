@@ -1,5 +1,6 @@
 package com.quatro.model.security;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -16,8 +17,26 @@ public class Security implements java.io.Serializable {
 	private Integer BLocallockset;
 	private Date dateExpiredate;
 	private Integer BExpireset;
+	private String lastUpdateUser;
+	private Calendar lastUpdateDate;
 
 	// Constructors
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
 
 	/** default constructor */
 	public Security() {

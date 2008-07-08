@@ -25,5 +25,7 @@
 		<property name="name" column="name" type="string" not-null="true" length="45" />
 		<property name="duration" column="duration" type="integer" not-null="true" length="10" />
 		<property name="default" column="dflt" type="boolean" not-null="true" />
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

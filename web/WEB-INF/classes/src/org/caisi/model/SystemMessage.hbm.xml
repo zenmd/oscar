@@ -25,5 +25,6 @@
 		<property name="creation_date" column="creation_date" type="java.util.Date" />
 		<property name="expiry_date" column="expiry_date" type="java.util.Date" />
 		<property name="type" column="type" />
+		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>
 </hibernate-mapping>

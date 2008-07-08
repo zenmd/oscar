@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * Represents a facility, i.e. bricks and mortar.  Each facility has a number of rooms.
@@ -18,6 +19,25 @@ public class Facility implements Serializable {
     private Integer sectorId;
     private String shelter;
     private String sector;
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
     public Facility() {
     }
 

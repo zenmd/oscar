@@ -23,6 +23,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -37,7 +38,12 @@ public class RoomType implements Serializable {
     private Integer id;// fields
     private String name;
     private boolean m_default;
-
+    private boolean active;   
+	private String lastUpdateUser;
+	private Calendar lastUpdateDate;
+	
+    private Integer orderByIndex;
+    
     // constructors
     public RoomType () {
         initialize();
@@ -141,4 +147,37 @@ public class RoomType implements Serializable {
         }
         return this.hashCode;
     }
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
+	public Integer getOrderByIndex() {
+		return orderByIndex;
+	}
+	
+
+	public void setOrderByIndex(Integer orderByIndex) {
+		this.orderByIndex = orderByIndex;
+	}
 }

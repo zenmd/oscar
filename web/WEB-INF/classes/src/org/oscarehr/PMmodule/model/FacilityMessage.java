@@ -36,7 +36,16 @@ public class FacilityMessage extends BaseObject {
 	private Integer facilityId;
 	private String facilityName;
 	private String type;
-	
+	private String lastUpdateUser;
+   
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
 	public FacilityMessage() {
 		creation_date = new Date();
 		expiry_date = new Date();

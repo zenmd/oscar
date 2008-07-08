@@ -22,6 +22,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * This is the object class that relates to the program table. Any customizations belong here.
@@ -86,6 +87,26 @@ public class Program implements Serializable {
     private Integer capacity_space = new Integer(0);
     private Integer capacity_actual =new Integer(0);
     private Integer totalUsedRoom = new Integer(0);
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
+    
     public Integer getCapacity_actual() {
 		return capacity_actual;
 	}
