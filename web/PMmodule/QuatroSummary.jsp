@@ -1,17 +1,12 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-<%@page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
-<%@page import="org.oscarehr.PMmodule.model.Admission"%>
-<%@page import="java.util.Date"%>
-<%@page import="oscar.MyDateFormat"%>
-<%@page import="org.oscarehr.PMmodule.model.ClientReferral"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
 <input type="hidden" name="method" value="edit" />
-<input type="hidden" name="clientId" value="<c:out value="${requestScope.clientId}"/>"/>
+<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
 function submitForm(methodVal) {
@@ -122,7 +117,7 @@ function openHealthSafety(){
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="member" name="family" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
+<display:table class="simple" cellspacing="2" cellpadding="3"  id="member" name="family" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No family member exists." />
 	
@@ -137,7 +132,7 @@ function openHealthSafety(){
 
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Bed/Room Reservation</th></tr>
+<tr><th>Bed/Room</th></tr>
 </table></div></td></tr>
 
 <tr><td>
@@ -150,8 +145,6 @@ function openHealthSafety(){
 		<td><c:out value="${roomDemographic.room.name}" /></td></tr>
 		<tr><th width="20%">Assigned Bed:</th>
 		<td>N/A</td></tr>
-		<tr><th width="20%">Until</th>
-		<td><fmt:formatDate value="${roomDemographic.assignEnd}" pattern="yyyy/MM/dd" /></td></tr>
 	  </c:when>	
 	  <c:otherwise>
 		<tr><td>No bed or room reserved</td></tr>
@@ -182,29 +175,8 @@ function openHealthSafety(){
 	
 	<display:column property="programName" sortable="true" title="Program Name" />
 	<display:column property="programType" sortable="true" title="Program Type" />
-    <display:column sortable="true" title="Admission Date">
-    <%
-	   Admission tempAdmission = (Admission) pageContext.getAttribute("admission");
-       String admissiondate=MyDateFormat.getStandardDate(tempAdmission.getAdmissionDate());
-    %>
-    <%= admissiondate%>
-    </display:column>
-	<display:column sortable="true" title="Days in Program">
-	<% 
-	    Admission tempAdmission = (Admission) pageContext.getAttribute("admission");
-		Date admissionDate = tempAdmission.getAdmissionDate().getTime();
-		Date dischargeDate = tempAdmission.getDischargeDate() != null ? tempAdmission.getDischargeDate().getTime() : new Date();
-			
-		long diff = dischargeDate.getTime() - admissionDate.getTime();
-		diff = diff / 1000; // seconds
-		diff = diff / 60; // minutes
-		diff = diff / 60; // hours
-		diff = diff / 24; // days
-
-		String numDays = String.valueOf(diff);
-	%>
-	<%=numDays%>
-	</display:column>
+	<display:column property="admissionDate.time" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd hh:mm a}" />
+	<display:column property="daysInProgram" sortable="true" title="Days in Program" />
 </display:table>
 </td></tr>
 
@@ -219,23 +191,9 @@ function openHealthSafety(){
 	
 	<display:column property="programName" sortable="true" title="Program Name" />
 	<display:column property="programType" sortable="true" title="Program Type" />
-	<display:column property="referralDate" format="{0, date, yyyy/MM/dd kk:mm}" sortable="true" title="Referral Date" />
+	<display:column property="referralDate" format="{0, date, yyyy/MM/dd hh:mm a}" sortable="true" title="Referral Date" />
 	<display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
-	<display:column sortable="true" title="Days in Queue">
-	<%
-		ClientReferral tempReferral = (ClientReferral) pageContext.getAttribute("referral");
-		Date referralDate = tempReferral.getReferralDate();
-		Date currentDate = new Date();
-			
-		long referralDiff = currentDate.getTime() - referralDate.getTime();
-		referralDiff = referralDiff / 1000; // seconds
-		referralDiff = referralDiff / 60; // minutes
-		referralDiff = referralDiff / 60; // hours
-		referralDiff = referralDiff / 24; // days
-
-		String referralNumDays = String.valueOf(referralDiff);
-	%>
-	<%=referralNumDays%>
+	<display:column property="daysCreated" sortable="true" title="Days in Queue">
 	</display:column>
 </display:table>
 </td></tr>

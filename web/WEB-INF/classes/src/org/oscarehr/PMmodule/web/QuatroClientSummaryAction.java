@@ -30,6 +30,7 @@ import org.oscarehr.PMmodule.service.LogManager;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
+import org.oscarehr.PMmodule.web.formbean.QuatroClientSummaryForm;
 
 public class QuatroClientSummaryAction extends BaseClientAction {
 
@@ -91,19 +92,17 @@ public class QuatroClientSummaryAction extends BaseClientAction {
       
        boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY, programId);
        request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
+       
        for(int i=0;i<lst.size();i++){
     	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
-    	 //One client should have no more than one bed program intake in one facility.
-    	 //One facility may have more than one bed program, but we don't allow any client
-    	 //to register muitiple bed programs in one facility.
-    	 if((obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE) ||
-    		obj.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)) && 
-    		obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-            List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
-    		request.setAttribute("family", lst2);
+    	 if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+    		List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
+   		    request.setAttribute("family", lst2);
    		    break;
     	 }
        }
+       
+       
 /*       
        // check role permission
        HttpSession se = request.getSession();
@@ -145,15 +144,14 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 //       }
 
            
-//       List<?> currentAdmissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
-
        /* bed reservation view */
-       BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo));
-       request.setAttribute("bedDemographic", bedDemographic);
+       if(currentAdmissionList.size()>0){
+         BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo));
+         request.setAttribute("bedDemographic", bedDemographic);
        
-       RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
+         RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
 
-		if(roomDemographic != null){
+		 if(roomDemographic != null){
 			Integer roomIdInt = roomDemographic.getId().getRoomId();
 			Room room = null;
 			if(roomIdInt != null){
@@ -162,9 +160,9 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 			if(room != null){
 				roomDemographic.setRoom(room);
 			}
-		}
-		request.setAttribute("roomDemographic", roomDemographic);
-		
+		 } 
+		 request.setAttribute("roomDemographic", roomDemographic);
+       }
    }
    
    public void setHealthSafetyManager(HealthSafetyManager healthSafetyManager) {

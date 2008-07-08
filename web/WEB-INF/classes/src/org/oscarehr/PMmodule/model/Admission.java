@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import oscar.MyDateFormat;
+import java.util.Date;
 
 public class Admission implements Serializable, Cloneable {
 
@@ -364,5 +365,17 @@ public class Admission implements Serializable, Cloneable {
 	public void setProviderName(String providerName) {
 		this.providerName = providerName;
 	}
-	
+
+	public Integer getDaysInProgram(){
+		Date admissionDate = getAdmissionDate().getTime();
+		Date dischargeDate = getDischargeDate() != null ? getDischargeDate().getTime() : new Date();
+			
+		long diff = dischargeDate.getTime() - admissionDate.getTime();
+		diff = diff / 1000; // seconds
+		diff = diff / 60; // minutes
+		diff = diff / 60; // hours
+		diff = diff / 24; // days
+
+		return Integer.valueOf((int)diff);
+	}
 }

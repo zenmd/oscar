@@ -418,12 +418,9 @@ public class IntakeDao extends HibernateDaoSupport {
 		
 	}
 	
+	//for Shelter program, family only exists when intake status is active or admitted,
+	//for history report, family may be treated as existing for any intake status. 
 	public List getQuatroIntakeHeaderList(Integer clientId, String programIds) {
-// Quatro Shelter doesn't use program_provider table any more, use secuserrole table.		
-//		List results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId = ? and i.programId in " +
-//			"(select p.id from Program p, ProgramProvider q where p.facilityId =?" + 
-//			" and p.id= q.ProgramId and q.ProviderNo=?) order by i.createdOn desc",
-//			new Object[] {clientId, facilityId, providerNo });
         String[] split= programIds.split(",");
         StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[split.length];
@@ -436,7 +433,9 @@ public class IntakeDao extends HibernateDaoSupport {
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
         String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
         		" and i.programId in (" +
-          sb.toString() + ") order by i.createdOn desc";
+          sb.toString() + ") and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
+          " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "')" +
+          " order by i.intakeStatus desc, i.createdOn desc";
         
 		List results = getHibernateTemplate().find(sSQL, obj);
 		

@@ -210,12 +210,8 @@ public class IntakeManager {
        	      obj.setLastName(dmg.getLastName());
        	      obj.setSex(dmg.getSex());
        	      obj.setSexDesc(dmg.getSexDesc());
-//       	      obj.setYearOfBirth(dmg.getYearOfBirth());
-//       	      obj.setMonthOfBirth(dmg.getMonthOfBirth());
-//       	      obj.setDateOfBirth(dmg.getDateOfBirth());
        	      obj.setDob(MyDateFormat.getStandardDate(dmg.getDateOfBirth()));
        	      obj.setAlias(dmg.getAlias());
-//      		  obj.setDob(obj.getYearOfBirth() + "/" + MyDateFormat.formatMonthOrDay(obj.getMonthOfBirth()) + "/" + MyDateFormat.formatMonthOrDay(obj.getDateOfBirth()));
       		  obj.setEffDate(MyDateFormat.getSysDateString(dmg.getEffDate()));
     		  break;
     		}  
@@ -275,16 +271,12 @@ public class IntakeManager {
           sb.append("," + ((Integer)obj[0]).toString());	
         }
 		List lst2 = intakeDao.getQuatroIntakeHeaderList(clientId, sb.substring(1));
-		Iterator it2 = lst2.iterator();
-        while(it2.hasNext()){
-        	Object element2 = (Object)it2.next();
-        //for(Object element2: lst2){
-          QuatroIntakeHeader obj2 = (QuatroIntakeHeader)element2;
+		for(int i=0;i<lst2.size();i++){
+          QuatroIntakeHeader obj2 = (QuatroIntakeHeader)lst2.get(i);
           
           Iterator it3 = lst.iterator();
           while(it3.hasNext()){
           	Object element3 = (Object)it3.next();
-          //for(Object element3: lst){
             Object[] obj3 = (Object[])element3;
             if(((Integer)obj3[0]).equals(obj2.getProgramId())){
               obj2.setProgramType((String)obj3[2]);

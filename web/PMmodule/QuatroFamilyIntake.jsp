@@ -59,7 +59,7 @@ function checkExistClients(i){
 		<td align="left" class="buttonBar2">
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-            <html:link action="/PMmodule/QuatroIntake.do" name="actionParam" style="color:Navy;text-decoration:none;">
+            <html:link action="/PMmodule/QuatroIntakeEdit.do?method=update" name="actionParam" style="color:Navy;text-decoration:none;">
             <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;</html:link></td>
 	</tr>
 	<tr><td align="left" class="message">
