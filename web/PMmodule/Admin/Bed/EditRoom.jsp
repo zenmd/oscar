@@ -60,7 +60,7 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
 		<c:if test="${!isReadOnly}">
-		  <html:link href="javascript:saveRoom();" style="color:Navy;text-decoration:none;">
+		  <html:link href="javascript:saveRoom();" style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
 		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room&nbsp;&nbsp;|</html:link>
 		</c:if>	
 <c:if test="${bedManagerForm.room.assignedBed=='1'}">

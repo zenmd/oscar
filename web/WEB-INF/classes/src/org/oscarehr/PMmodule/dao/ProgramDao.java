@@ -84,7 +84,7 @@ public class ProgramDao extends HibernateDaoSupport {
         if (log.isDebugEnabled()) {
             log.debug("getProgram: " + ((program != null) ? String.valueOf(program.getId()) : "null"));
         }
-
+        if(program.getCapacity_actual() == null) program.setCapacity_actual(new Integer(0));
         return program;
     }
 
