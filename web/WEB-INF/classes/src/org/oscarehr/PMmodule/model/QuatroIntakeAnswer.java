@@ -103,7 +103,10 @@ public class QuatroIntakeAnswer implements Comparable, Serializable {
 	}
 
 	public void setValue(String value) {
-		this.value = value;
+		if(value!=null)
+		  this.value = value.trim();
+		else
+		  this.value = value;	
 	}
 
 	public QuatroIntakeDB getIntake2() {
