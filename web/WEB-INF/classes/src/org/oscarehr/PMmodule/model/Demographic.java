@@ -434,7 +434,10 @@ public class Demographic implements Serializable {
      * @param firstName the first_name value
      */
     public void setFirstName (String firstName) {
-        this.firstName = firstName;
+    	if(firstName!=null)
+          this.firstName = firstName.trim();
+    	else
+          this.firstName = firstName;
     }
 
     /**
@@ -524,7 +527,10 @@ public class Demographic implements Serializable {
      * @param lastName the last_name value
      */
     public void setLastName (String lastName) {
-        this.lastName = lastName;
+        if(lastName!=null)
+          this.lastName = lastName.trim();
+        else
+          this.lastName = lastName;
     }
 
     /**
@@ -596,7 +602,10 @@ public class Demographic implements Serializable {
 	}
 
 	public void setAlias(String alias) {
-		this.alias = alias;
+		if(alias!=null)
+		  this.alias = alias.trim();
+		else
+		  this.alias = alias;
 	}
 
 	public String getChildren() {
