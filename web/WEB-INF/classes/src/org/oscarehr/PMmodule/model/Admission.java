@@ -89,7 +89,10 @@ public class Admission implements Serializable, Cloneable {
 		return admissionStatus;
 	}
 	public void setAdmissionStatus(String admissionStatus) {
-		this.admissionStatus = admissionStatus;
+		if(admissionStatus!=null)
+		  this.admissionStatus = admissionStatus.trim();
+		else
+		  this.admissionStatus = admissionStatus;
 	}
 	public Integer getClientId() {
 		return clientId;
