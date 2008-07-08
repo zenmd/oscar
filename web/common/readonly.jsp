@@ -2,7 +2,7 @@
 <script type="text/javascript">
 	var hashVal0= "";
 	var needToConfirm = false;
-	var readOnly = false;
+
 	
     function setReadOnly()
     {

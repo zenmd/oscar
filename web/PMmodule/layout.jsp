@@ -42,6 +42,7 @@
 
 		<script type="text/javascript">
 			var isInFrame = true;
+			var readOnly = false;
 			function setDivPosition()
 			{
 				 var ele = document.getElementById("scrollBar");
