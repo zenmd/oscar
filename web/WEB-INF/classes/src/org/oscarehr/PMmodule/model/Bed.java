@@ -37,7 +37,7 @@ public class Bed implements Serializable {
     public static String REF = "Bed";
     public static String PROP_ACTIVE = "active";
     public static String PROP_BED_TYPE_ID = "bedTypeId";
-    public static String PROP_NAME = "name";
+    public static String PROP_NAME = "name";    
     public static String PROP_ROOM_ID = "roomId";
     public static String PROP_ID = "id";
 
@@ -46,16 +46,35 @@ public class Bed implements Serializable {
     private Integer id;// fields
     private Integer bedTypeId;
     private Integer roomId;
-    private Integer facilityId;
+    private Integer facilityId;  
     private String name;
     private boolean active;
 
     private BedType bedType;
-    private Room room;
+    private Room room; 
     private BedDemographic bedDemographic;
     private Integer communityProgramId;
+      
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
 
-    // constructors
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+
+	// constructors
     public Bed () {
         initialize();
     }
@@ -64,19 +83,19 @@ public class Bed implements Serializable {
         this.setId(id);
         initialize();
     }
-
+    
     public Bed (
             Integer id,
             Integer bedTypeId,
             Integer roomId,
-            Integer facilityId,
+            Integer facilityId,           
             String name,
             boolean active) {
 
         this.setId(id);
         this.setBedTypeId(bedTypeId);
         this.setRoomId(roomId);
-        this.setFacilityId(facilityId);
+        this.setFacilityId(facilityId);        
         this.setName(name);
         this.setActive(active);
         initialize();
@@ -99,12 +118,12 @@ public class Bed implements Serializable {
     public static Bed create(Integer facilityId, Integer roomId, BedType bedType) {
         Bed bed = new Bed();
         bed.setBedTypeId(bedType.getId());
-        bed.setRoomId(roomId);
+        bed.setRoomId(roomId);       
         bed.setName(DEFAULT_NAME);
         bed.setActive(DEFAULT_ACTIVE);
         bed.setFacilityId(facilityId);
         return bed;
-    }
+    }  
 
     public boolean isLatePass() {
         return bedDemographic != null ? bedDemographic.isLatePass() : false;
@@ -122,7 +141,6 @@ public class Bed implements Serializable {
         return room.getProgramName();
     }
 
-
     public BedDemographic getBedDemographic() {
         return bedDemographic;
     }
@@ -130,6 +148,7 @@ public class Bed implements Serializable {
     public String getDemographicName() {
         return bedDemographic != null ? bedDemographic.getDemographicName() : null;
     }
+	
 
     public Integer getStatusId() {
         return bedDemographic != null ? bedDemographic.getBedDemographicStatusId() : null;
@@ -138,11 +157,12 @@ public class Bed implements Serializable {
     public String getStatusName() {
         return bedDemographic != null ? bedDemographic.getStatusName() : null;
     }
-
+   
     public Integer getCommunityProgramId() {
         return communityProgramId;
     }
 
+	
     public void setBedType(BedType bedType) {
         this.bedType = bedType;
     }
@@ -150,7 +170,7 @@ public class Bed implements Serializable {
     public void setRoom(Room room) {
         this.room = room;
     }
-
+    
     public void setBedDemographic(BedDemographic bedDemographic) {
         this.bedDemographic = bedDemographic;
     }
@@ -233,20 +253,18 @@ public class Bed implements Serializable {
     public void setRoomId (Integer roomId) {
         this.roomId = roomId;
     }
-
-
+ 
     public String getName () {
         return name;
-    }
-
-    public void setName (String name) {
+    } public void setName (String name) {
         this.name = name;
     }
-
+    
     public boolean isActive () {
         return active;
     }
 
+ 
     public void setActive (boolean active) {
         this.active = active;
     }
