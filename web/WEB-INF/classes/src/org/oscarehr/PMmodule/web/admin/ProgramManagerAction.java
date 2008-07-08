@@ -749,8 +749,8 @@ public class ProgramManagerAction extends BaseProgramAction {
 	    	
 			staffForm = formBean.getStaffForm();
 			staffForm.setOrgcd(orgcd);
-			lst =  providerManager.getActiveProviders(programId);
-				//programManager.searchStaff(staffForm);
+			lst =  // providerManager.getActiveProviders(programId);
+				programManager.searchStaff(staffForm);
 			
 		}else{
 			staffForm = new StaffForm();
