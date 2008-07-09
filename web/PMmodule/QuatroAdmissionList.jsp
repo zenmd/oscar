@@ -59,7 +59,6 @@ function updateQuatroAdmission(clientId, admissionId) {
 <display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="50" requestURI="/PMmodule/QuatroAdmission.do">
    <display:setProperty name="paging.banner.placement" value="bottom" />
    <display:setProperty name="basic.msg.empty_list" value="No admissions found." />
-   <display:column property="id" sortable="true" title="Admission ID" />
    <display:column property="programName" sortable="true" title="Program Name" />
    <display:column property="admissionDate.time" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
    <display:column property="providerName" sortable="true" title="Staff" />
