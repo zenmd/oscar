@@ -209,14 +209,14 @@ public class ClientDao extends HibernateDaoSupport {
 //			sql2 = "(LEFT(SOUNDEX(alias),4) = LEFT(SOUNDEX('" + firstName + "'),4))";
 //			condFirstName = Restrictions.or(Restrictions.ilike("FirstName", firstNameL), Restrictions.sqlRestriction(sql));
 //			condAlias1 = Restrictions.or(Restrictions.ilike("Alias", firstNameL),Restrictions.sqlRestriction(sql2));
-			criteria.add(Restrictions.or(Restrictions.ilike("Alias", firstNameL),Restrictions.ilike("FirstName", firstNameL)));
+			criteria.add(Restrictions.or(Restrictions.or(Restrictions.ilike("LastName", firstNameL), Restrictions.ilike("Alias", firstNameL)),Restrictions.ilike("FirstName", firstNameL)));
 		}
 		if (lastName.length() > 0) {
 //				sql = "(LEFT(SOUNDEX(last_name),4) = LEFT(SOUNDEX('" + lastName + "'),4))";
 //				sql2 = "(LEFT(SOUNDEX(alias),4) = LEFT(SOUNDEX('" + lastName + "'),4))";
 //				condLastName = Restrictions.or(Restrictions.ilike("LastName", lastNameL), Restrictions.sqlRestriction(sql));
 //				condAlias2 = Restrictions.or(Restrictions.ilike("Alias", lastNameL),Restrictions.sqlRestriction(sql2));
-				criteria.add(Restrictions.or(Restrictions.ilike("Alias", lastNameL),Restrictions.ilike("LastName", lastNameL)));
+				criteria.add(Restrictions.or(Restrictions.or(Restrictions.ilike("FirstName", lastNameL), Restrictions.ilike("Alias", lastNameL)),Restrictions.ilike("LastName", lastNameL)));
 		}
 /*
 		if (firstName.length() > 0 && lastName.length()>0)
