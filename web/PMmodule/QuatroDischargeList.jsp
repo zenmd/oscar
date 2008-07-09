@@ -65,7 +65,8 @@
           <display:table class="simple" cellspacing="2" cellpadding="3" id="discharge" name="quatroDischarge" export="false" pagesize="50" requestURI="/PMmodule/QuatroDischarge.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No record found." />
-            <display:column property="admissionDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
+            <display:column property="programName" sortable="true" title="Program Name"/>
+            <display:column property="admissionDate.time" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
             <display:column property="providerName" sortable="true" title="Staff"/>
             <display:column property="admissionStatus" sortable="true" title="Status"/>
             <display:column sortable="false" title="Actions">
