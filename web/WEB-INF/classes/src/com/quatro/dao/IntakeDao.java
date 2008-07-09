@@ -433,10 +433,14 @@ public class IntakeDao extends HibernateDaoSupport {
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
         String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
         		" and i.programId in (" +
+          sb.toString() + ") order by i.intakeStatus, i.createdOn desc";
+/*
+        String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
+        		" and i.programId in (" +
           sb.toString() + ") and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
           " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "')" +
           " order by i.intakeStatus desc, i.createdOn desc";
-        
+*/        
 		List results = getHibernateTemplate().find(sSQL, obj);
 		
 		return results;
