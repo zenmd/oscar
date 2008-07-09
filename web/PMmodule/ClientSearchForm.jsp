@@ -41,9 +41,9 @@
 		// form.elements['criteria.dateTo'].value=''; 
 		if (form.elements['criteria.bedProgramId'].selectedIndex > 0) return true;
 		if (form.elements['criteria.assignedToProviderNo'].selectedIndex > 0) return true;
-		if (form.elements['criteria.active'].selectedIndex > 0) return true;
-		if (form.elements['criteria.gender'].selectedIndex > 0) return true;
-		alert('Please enter some filters to search');
+//		if (form.elements['criteria.active'].selectedIndex > 0) return true;
+//		if (form.elements['criteria.gender'].selectedIndex > 0) return true;
+		alert('Please enter at least one of Client No, First Name, Last Name, DOB, Program or Assigned To to search');
 		return false; 
 	}	
 
