@@ -29,9 +29,7 @@
 		<property column="completion_notes" name="completionNotes" not-null="false" type="string" />
 		<property column="program_id" length="11" name="programId" not-null="true" type="java.lang.Integer" />
 		<property column="status" length="30" name="status" not-null="false" type="string" />
-<!-- 
-		<property column="temporary_admission_flag" name="temporaryAdmission" not-null="false" type="boolean" />
--->
+		<property column="automanual" name="autoManual"  />
 		<property column="completion_date" length="19" name="completionDate" not-null="false" type="timestamp" />
 		<property name="providerLastName" type="string" formula="(select p.last_name from provider p where p.provider_no = provider_no)" />
 		<property name="providerFirstName" type="string" formula="(select p.first_name from provider p where p.provider_no = provider_no)" />

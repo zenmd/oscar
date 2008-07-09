@@ -23,7 +23,9 @@ package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * This is the object class that relates to the client_referral table. Any customizations belong here.
+ */
 public class ClientReferral implements Serializable {
 
     private int hashCode = Integer.MIN_VALUE;
@@ -44,7 +46,8 @@ public class ClientReferral implements Serializable {
     private String providerFirstName;   
     private String programName;
     private String programType;
-
+	private String autoManual;
+	
     public ClientReferral() {
         initialize();
     }
@@ -236,4 +239,15 @@ public class ClientReferral implements Serializable {
 
 		return new Integer((int)referralDiff);
     }
+   
+    
+
+    public String getAutoManual() {
+		return autoManual;
+	}
+
+	public void setAutoManual(String autoManual) {
+		this.autoManual = autoManual;
+	}
+
 }
