@@ -637,8 +637,9 @@ public class IntakeDao extends HibernateDaoSupport {
           referral.setNotes("Intake Automated referral");
           if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId());
           referral.setProviderNo(intake.getStaffId());
-          referral.setReferralDate(new Date());
-          referral.setStatus(KeyConstants.STATUS_ACTIVE);
+          referral.setReferralDate(new Date());          
+          referral.setStatus(KeyConstants.STATUS_PENDING);
+          referral.setAutoManual(KeyConstants.AUTOMATIC);
         }
         
         ProgramQueue queue = new ProgramQueue();

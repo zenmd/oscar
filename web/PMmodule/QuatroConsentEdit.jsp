@@ -97,19 +97,12 @@
 				action="/PMmodule/QuatroConsent.do?method=list" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Consents&nbsp;&nbsp;|</html:link>
-				
 			
-				<c:if test="${'Y'==signed}" >
-					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png" /> />&nbsp;<font color="grey"> Save</font>&nbsp;&nbsp;|
-				</c:if>	
 				<c:if test="${signed==null || 'N'==signed}" >		
 					<a href='javaScript:submitForm("save");'  onclick="javascript: setNoConfirm();return validateSave();"	style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 				</c:if>
-				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">
-		  			<c:if test="${'Y'==signed}" >
-		  				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;<font color="grey">Sign</font>&nbsp;&nbsp;|
-		  			</c:if>
+				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">		  			
 		  			<c:if test="${signed==null || 'N'==signed}" >
 		  			<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
 		 		 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|

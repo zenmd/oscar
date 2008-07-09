@@ -68,13 +68,12 @@
 			    <display:column property="status" sortable="true" title="Status" />
 			    <display:column sortable="false" title="Actions">
 					<c:choose>
-						<c:when test="${refer.status eq 'active' ||refer.status eq 'rejected' }">
+						<c:when test="${'M' eq refer.autoManual and (refer.status eq 'pending') }">
 							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
-						</c:when>
-						<c:when test="${refer.status eq 'admitted' || refer.status eq 'discharged'}">
+						</c:when>						
+						<c:otherwise>
 							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
-						</c:when>
-						<c:otherwise>&nbsp;</c:otherwise>
+						</c:otherwise>
 				   </c:choose>
 			    </display:column>
 			   </display:table>

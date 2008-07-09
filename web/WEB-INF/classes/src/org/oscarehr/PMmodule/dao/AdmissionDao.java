@@ -50,7 +50,7 @@ public class AdmissionDao extends HibernateDaoSupport {
         getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queueId);
 
         getHibernateTemplate().bulkUpdate("update ClientReferral c set c.status='" +
-                KeyConstants.INTAKE_STATUS_ADMITTED + "' where c.Id=?", referralId);
+                KeyConstants.STATUS_ACCEPTED + "' where c.Id=?", referralId);
     }
 
     public void updateAdmission(Admission admission) {

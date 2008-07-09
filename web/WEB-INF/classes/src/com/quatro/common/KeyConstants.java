@@ -49,6 +49,8 @@ public class KeyConstants {
   public static final String ACCESS_UPDATE = "u";
   public static final String ACCESS_WRITE = "w";
   public static final String ACCESS_ALL = "x";
+  public static final String AUTOMATIC ="A";
+  public static final String MANUAL ="M";
   
   public static final String MENU_CLIENT="mnuClient";
   public static final String MENU_PROGRAM="mnuProg";
@@ -78,8 +80,9 @@ public class KeyConstants {
   public static final String TAB_PROGRAM_INCIDENTS="Incidents";
   public static final String TAB_PROGRAM_SEVICE="Service"; 
   public static final String TAB_PROGRAM_STAFF="Staff"; 
-  
+    
   public static final String STATUS_ADMITTED = "admitted";
+  public static final String STATUS_ACCEPTED = "accepted";
   public static final String STATUS_DISCHARGED = "discharged";
   public static final String STATUS_REJECTED = "rejected";
   public static final String STATUS_REMOVED = "removed";

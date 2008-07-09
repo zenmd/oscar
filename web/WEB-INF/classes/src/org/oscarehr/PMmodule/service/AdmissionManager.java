@@ -330,7 +330,8 @@ public class AdmissionManager {
 		  referral.setProgramId(admission.getBedProgramId());
 		  referral.setProviderNo(admission.getProviderNo());
 		  referral.setReferralDate(new Date());
-		  referral.setStatus(KeyConstants.STATUS_ACTIVE);	        
+		  referral.setStatus(KeyConstants.STATUS_PENDING);
+		  referral.setAutoManual(KeyConstants.AUTOMATIC);
 	      clientReferralDAO.saveClientReferral(referral);
 	      if(queue!=null) programQueueDao.delete(queue);
 		  queue = new ProgramQueue();
@@ -368,8 +369,9 @@ public class AdmissionManager {
 	        referral.setNotes("Discharge Automated referral");
 	        referral.setProgramId(admission.getBedProgramId());
 	        referral.setProviderNo(admission.getProviderNo());
-	        referral.setReferralDate(new Date());
-	        referral.setStatus(KeyConstants.STATUS_ACTIVE);	        
+	        referral.setReferralDate(new Date());	       
+	        referral.setStatus(KeyConstants.STATUS_PENDING);
+	        referral.setAutoManual(KeyConstants.AUTOMATIC);
 	        
 	        ProgramQueue queue = new ProgramQueue();
 	        

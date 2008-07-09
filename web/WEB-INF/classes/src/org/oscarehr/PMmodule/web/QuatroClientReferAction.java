@@ -182,7 +182,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		refObj.setCompletionDate(new Date());
 		refObj.setProviderNo(p.getProviderNo());
 		refObj.setReferralDate(new Date());
-		refObj.setStatus(KeyConstants.STATUS_ACTIVE);
+		refObj.setStatus(KeyConstants.STATUS_PENDING);
+		refObj.setAutoManual(KeyConstants.MANUAL);
 		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {
@@ -255,7 +256,10 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			crObj = clientManager.getClientReferral(rId);			
 			if(Utility.IsEmpty(programId)) programId=crObj.getProgramId().toString();
 			boolean readOnly=super.isReadOnly(request,crObj.getStatus(), KeyConstants.FUN_PMM_CLIENTREFER,crObj.getProgramId());
+			//for automatically Read Only
+			if(KeyConstants.AUTOMATIC.equals(crObj.getAutoManual())) readOnly=true;
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+			request.setAttribute("activeButton", !readOnly);
 		}
 
 		Program program = (Program) clientForm.get("program");

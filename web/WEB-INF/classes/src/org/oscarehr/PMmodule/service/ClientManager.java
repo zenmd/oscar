@@ -126,7 +126,7 @@ public class ClientManager {
         referralDAO.saveClientReferral(referral);
 
         //don't create new queue if referral Id>0
-        if (referral.getStatus().equalsIgnoreCase(KeyConstants.STATUS_ACTIVE)){
+        if (referral.getStatus().equalsIgnoreCase(KeyConstants.STATUS_PENDING )){
           ProgramQueue queue;
           if(referral.getId().intValue()==0) {
             queue = new ProgramQueue();
