@@ -23,8 +23,8 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
@@ -36,30 +36,29 @@ import org.oscarehr.common.dao.Auditable;
 public class BedDemographic implements Auditable, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static String INFINITE_DATE = "2999-12-31";
-    public static String REF = "BedDemographic";
-    public static String PROP_PROVIDER_NO = "providerNo";
-    public static String PROP_RESERVATION_START = "reservationStart";
-    public static String PROP_RESERVATION_END = "reservationEnd";
-    public static String PROP_BED_DEMOGRAPHIC_STATUS_ID = "bedDemographicStatusId";
-    public static String PROP_ID = "id";
-    public static String PROP_LATE_PASS = "latePass";
+//	private static String INFINITE_DATE = "2999-12-31";
+//    public static String REF = "BedDemographic";
+//    public static String PROP_PROVIDER_NO = "providerNo";
+//    public static String PROP_RESERVATION_START = "reservationStart";
+//    public static String PROP_ID = "id";
+//    public static String PROP_LATE_PASS = "latePass";
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
     private BedDemographicPK id;// fields
     private Integer roomId;
-    private Integer bedDemographicStatusId;
+//    private Integer bedDemographicStatusId;
     private String providerNo;
+    private Integer admissionId;
     private boolean latePass;
     private Date reservationStart;
-    private Date reservationEnd;
-    private String infiniteDate = INFINITE_DATE;
-    private BedDemographicStatus bedDemographicStatus;
+//    private Date reservationEnd;
+//    private String infiniteDate = INFINITE_DATE;
+//    private BedDemographicStatus bedDemographicStatus;
     private Provider provider;
     private Bed bed;
     private Demographic demographic;
-    
+
     private Calendar lastUpdateDate;
 
     public Calendar getLastUpdateDate() {
@@ -70,21 +69,20 @@ public class BedDemographic implements Auditable, Serializable {
 		this.lastUpdateDate = lastUpdateDate;
 	}	
 
-    public static BedDemographic create(Integer demographicNo, BedDemographicStatus bedDemographicStatus, String providerNo) {
+    public static BedDemographic create(Integer demographicNo, String providerNo) {
 		BedDemographicPK id = new BedDemographicPK();
 		id.setDemographicNo(demographicNo);
 
 		BedDemographic bedDemographic = new BedDemographic();
 		bedDemographic.setId(id);
-		bedDemographic.setBedDemographicStatusId(bedDemographicStatus.getId());
+//		bedDemographic.setBedDemographicStatusId(bedDemographicStatus.getId());
 		bedDemographic.setProviderNo(providerNo);
 
 		// set reservation start to today and reservation end to today + duration
 		Date today = DateTimeFormatUtils.getToday();
 		
 		bedDemographic.setReservationStart(today);
-		//bedDemographic.setReservationEnd(DateTimeFormatUtils.getFuture(today, bedDemographicStatus.getDuration()));
-		bedDemographic.setReservationEnd(DateTimeFormatUtils.getDateFromString(INFINITE_DATE));
+//		bedDemographic.setReservationEnd(DateTimeFormatUtils.getDateFromString(INFINITE_DATE));
 
 		return bedDemographic;
 	}
@@ -108,25 +106,23 @@ public class BedDemographic implements Auditable, Serializable {
 	 */
 	public BedDemographic (
 		org.oscarehr.PMmodule.model.BedDemographicPK id,
-		Integer bedDemographicStatusId,
 		String providerNo,
 		boolean latePass,
-		java.util.Date reservationStart,
-		java.util.Date reservationEnd) {
+		java.util.Date reservationStart) {
 
 		this.setId(id);
-		this.setBedDemographicStatusId(bedDemographicStatusId);
+//		this.setBedDemographicStatusId(bedDemographicStatusId);
 		this.setProviderNo(providerNo);
 		this.setLatePass(latePass);
 		this.setReservationStart(reservationStart);
-		this.setReservationEnd(reservationEnd);
+//		this.setReservationEnd(reservationEnd);
 		initialize();
 	}
-
+/*
 	public void setBedDemographicStatus(BedDemographicStatus bedDemographicStatus) {
 	    this.bedDemographicStatus = bedDemographicStatus;
     }
-	
+*/	
 	public void setProvider(Provider provider) {
 	    this.provider = provider;
     }
@@ -138,14 +134,15 @@ public class BedDemographic implements Auditable, Serializable {
 	public void setDemographic(Demographic demographic) {
 	    this.demographic = demographic;
     }
-	
+/*	
 	public boolean isExpired() {
 		Date end = DateTimeFormatUtils.getDateFromDate(getReservationEnd());
 		Date today = DateTimeFormatUtils.getToday();
 		
 		return end.before(today);
 	}
-	
+*/
+/*	
 	public boolean isValidReservation() {
 		Date start = DateTimeFormatUtils.getDateFromDate(getReservationStart());
 		Date end = DateTimeFormatUtils.getDateFromDate(getReservationEnd());
@@ -153,11 +150,12 @@ public class BedDemographic implements Auditable, Serializable {
 
 		return start.before(end) && today.before(end);
 	}
-
+*/	
+/*
 	public String getStatusName() {
 		return bedDemographicStatus.getName();
 	}
-
+*/
 	public void setStatusName(String statusName) {
 		// immutable
 		System.out.println("BedDemographic.setStatusName()");
@@ -227,15 +225,18 @@ public class BedDemographic implements Auditable, Serializable {
 	}
 
 	// property adapted for view
+/*	
 	public String getStrReservationEnd() {
 		return DateTimeFormatUtils.getStringFromDate(getReservationEnd());
 	}
-
+*/
 	// property adapted for view
+/*
 	public void setStrReservationEnd(String strReservationEnd) {
 		setReservationEnd(DateTimeFormatUtils.getDateFromString(strReservationEnd));
 	}
-
+*/
+/*	
 	public void setReservationEnd(Integer duration) {
 		if (duration != null && duration.intValue() > 0) {
 			Date startPlusDuration = DateTimeFormatUtils.getFuture(getReservationStart(), duration);
@@ -247,7 +248,8 @@ public class BedDemographic implements Auditable, Serializable {
 			}
 		}
 	}
-
+*/
+	
 	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -275,18 +277,20 @@ public class BedDemographic implements Auditable, Serializable {
     /**
 	 * Return the value associated with the column: bed_demographic_status_id
      */
+/*    
     public Integer getBedDemographicStatusId () {
         return bedDemographicStatusId;
     }
-
+*/
     /**
 	 * Set the value related to the column: bed_demographic_status_id
      * @param bedDemographicStatusId the bed_demographic_status_id value
      */
+/*    
     public void setBedDemographicStatusId (Integer bedDemographicStatusId) {
         this.bedDemographicStatusId = bedDemographicStatusId;
     }
-
+*/
     /**
 	 * Return the value associated with the column: provider_no
      */
@@ -335,18 +339,20 @@ public class BedDemographic implements Auditable, Serializable {
     /**
 	 * Return the value associated with the column: reservation_end
      */
+/*    
     public Date getReservationEnd () {
         return reservationEnd;
     }
-
+*/
     /**
 	 * Set the value related to the column: reservation_end
      * @param reservationEnd the reservation_end value
      */
+/*    
     public void setReservationEnd (Date reservationEnd) {
         this.reservationEnd = reservationEnd;
     }
-
+*/
     public boolean equals (Object obj) {
         if (null == obj) return false;
         if (!(obj instanceof BedDemographic)) return false;
@@ -367,7 +373,7 @@ public class BedDemographic implements Auditable, Serializable {
         }
         return this.hashCode;
     }
-
+/*
 	public String getInfiniteDate() {
 		return infiniteDate;
 	}
@@ -376,5 +382,15 @@ public class BedDemographic implements Auditable, Serializable {
 	public void setInfiniteDate(String infiniteDate) {
 		this.infiniteDate = infiniteDate;
 	}
-    
+*/
+
+
+	public Integer getAdmissionId() {
+		return admissionId;
+	}
+
+
+	public void setAdmissionId(Integer admissionId) {
+		this.admissionId = admissionId;
+	}    
 }

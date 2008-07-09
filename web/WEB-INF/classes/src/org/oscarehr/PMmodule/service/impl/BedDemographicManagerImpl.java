@@ -33,8 +33,8 @@ import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicHistorical;
-import org.oscarehr.PMmodule.model.BedDemographicHistoricalPK;
-import org.oscarehr.PMmodule.model.BedDemographicStatus;
+//import org.oscarehr.PMmodule.model.BedDemographicHistoricalPK;
+//import org.oscarehr.PMmodule.model.BedDemographicStatus;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
@@ -144,6 +144,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	/**
 	 * @see org.oscarehr.PMmodule.service.BedDemographicManager#getDefaultBedDemographicStatus()
 	 */
+/*	
 	public BedDemographicStatus getDefaultBedDemographicStatus() {
 //		for (BedDemographicStatus status : getBedDemographicStatuses()) {
 		BedDemographicStatus[] statuses =  getBedDemographicStatuses();
@@ -158,14 +159,16 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 		
 //		return null;
 	}
-
+*/
 	/**
 	 * @see org.oscarehr.PMmodule.service.BedDemographicManager#getBedDemographicStatuses()
 	 */
+/*	
 	public BedDemographicStatus[] getBedDemographicStatuses() {
 		return bedDemographicDAO.getBedDemographicStatuses();
 	}
-
+*/
+	
 	/**
 	 * @see org.oscarehr.PMmodule.service.BedDemographicManager#getExpiredReservations()
 	 */
@@ -210,6 +213,7 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	}
 
 	void setAttributes(BedDemographic bedDemographic) {
+/*		
 		Integer bedDemographicStatusId = bedDemographic.getBedDemographicStatusId();
 		BedDemographicStatus bedDemographicStatus;
 		if(bedDemographicStatusId!=null){
@@ -217,34 +221,39 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	    }else{
 	      bedDemographicStatus=null;
 	    }
-		bedDemographic.setBedDemographicStatus(bedDemographicStatus);
+*/	    
+//		bedDemographic.setBedDemographicStatus(bedDemographicStatus);
 		
-		Integer duration = (bedDemographicStatus != null) ? bedDemographicStatus.getDuration() : new Integer(0);
-		bedDemographic.setReservationEnd(duration);
+//		Integer duration = (bedDemographicStatus != null) ? bedDemographicStatus.getDuration() : new Integer(0);
+//		bedDemographic.setReservationEnd(duration);
 
 		String providerNo = bedDemographic.getProviderNo();
 		bedDemographic.setProvider(providerDAO.getProvider(providerNo));
 	}
 
 	void validate(BedDemographic bedDemographic) {
-		validateBedDemographicStatus(bedDemographic.getBedDemographicStatusId());
+//		validateBedDemographicStatus(bedDemographic.getBedDemographicStatusId());
 		validateProvider(bedDemographic.getProviderNo());
 		validateBed(bedDemographic.getId().getBedId());
 		validateDemographic(bedDemographic.getId().getDemographicNo());
 	}
 
 	void validateBedDemographic(BedDemographic bedDemographic) {
+/*		
 		if (!bedDemographic.isValidReservation()) {
 			throw new IllegalArgumentException("invalid reservation: " + bedDemographic.getReservationStart() + " - " + bedDemographic.getReservationEnd());
 		}
+*/		
 	}
 
+/*	
 	void validateBedDemographicStatus(Integer bedDemographicStatusId) {
 		if (!bedDemographicDAO.bedDemographicStatusExists(bedDemographicStatusId)) {
 			throw new IllegalArgumentException("no bed demographic status with id : " + bedDemographicStatusId);
 		}
 	}
-
+*/
+	
 	void validateProvider(String providerId) {
 		if (!providerDAO.providerExists(providerId)) {
 			throw new IllegalArgumentException("no provider with id : " + providerId);

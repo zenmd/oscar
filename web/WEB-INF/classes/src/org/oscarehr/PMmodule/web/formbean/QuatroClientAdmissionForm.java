@@ -16,6 +16,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 
     private Admission admission = new Admission();
     private String familyIntakeType;  //Y: family Intake/Admission
+    private Integer intakeClientNum;
 
     private List providerList;
     private List provinceList;
@@ -117,5 +118,13 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 
 	public void setCurDB_RoomId(Integer curDB_RoomId) {
 		this.curDB_RoomId = curDB_RoomId;
+	}
+
+	public Integer getIntakeClientNum() {
+		return intakeClientNum;
+	}
+
+	public void setIntakeClientNum(Integer intakeClientNum) {
+		this.intakeClientNum = intakeClientNum;
 	}
 }

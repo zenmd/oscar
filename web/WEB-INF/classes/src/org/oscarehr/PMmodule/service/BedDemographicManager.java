@@ -24,7 +24,7 @@ package org.oscarehr.PMmodule.service;
 
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicHistorical;
-import org.oscarehr.PMmodule.model.BedDemographicStatus;
+//import org.oscarehr.PMmodule.model.BedDemographicStatus;
 
 public interface BedDemographicManager {
 
@@ -61,14 +61,14 @@ public interface BedDemographicManager {
 	 * 
 	 * @return BedDemographic
 	 */
-	public BedDemographicStatus getDefaultBedDemographicStatus();
+//	public BedDemographicStatus getDefaultBedDemographicStatus();
 
 	/**
 	 * Get BedDemographic statuses
 	 * 
 	 * @return array of BedDemographic statuses
 	 */
-	public BedDemographicStatus[] getBedDemographicStatuses();
+//	public BedDemographicStatus[] getBedDemographicStatuses();
 
 	/**
 	 * Get reservations that expired today

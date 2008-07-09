@@ -21,6 +21,7 @@
         <property name="usageEnd" >
             <column name="usage_end" />
         </property>
+		<property name="bedName" formula="(select b.name from bed b where b.bed_id=bed_id)" /> 
         <property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
     </class>

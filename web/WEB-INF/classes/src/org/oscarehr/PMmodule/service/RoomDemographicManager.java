@@ -28,65 +28,20 @@ import org.oscarehr.PMmodule.model.RoomDemographic;
 
 public interface RoomDemographicManager {
 
-	/**
-	 * Does demographic exist for given roomId
-	 * 
-	 * @param roomId
-	 *            given roomId
-	 * @return true, if roomDemographicExists exists
-	 */
 	public boolean roomDemographicExists(Integer roomId);
 
-	/**
-	 * Get room occupancy integer with given room identifier
-	 * 
-	 * @param roomId
-	 *            room identifier
-	 * @return int
-	 */
 	public int getRoomOccupanyByRoom(Integer roomId);
 
-	/**
-	 * Get RoomDemographic relationship object with given room identifier
-	 * 
-	 * @param roomId
-	 *            room identifier
-	 * @return RoomDemographic relationship object
-	 */
 	public List getRoomDemographicByRoom(Integer roomId);
 
-	/**
-	 * Get RoomDemographic relationship object with given demographic identifier
-	 *
-	 * @param facilityId can be null
-	 * @param demographicNo
-	 *            demographic identifier
-	 * @return RoomDemographic relationship object
-	 */
 	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo);
+	
+	public RoomDemographic getRoomDemographicByAdmissionId(Integer admissionId);
 
-	/**
-	 * Save RoomDemographic relationship object
-	 * 
-	 * @param roomDemographic
-	 *            RoomDemographic relationship object
-	 */
 	public void saveRoomDemographic(RoomDemographic roomDemographic);
 
-	/**
-	 * Clean up BedDemographic relationship object
-	 * 
-	 * @param roomDemographic
-	 *            RoomDemographic relationship object
-	 */
 	public void cleanUpBedTables(RoomDemographic roomDemographic);
 	
-	/**
-	 * Delete room demographic and create room demographic historical
-	 * 
-	 * @param roomDemographic
-	 *            RoomDemographic relationship object
-	 */
 	public void deleteRoomDemographic(RoomDemographic roomDemographic);
 	public void deleteRoomDemographic(String clients,Integer roomId);
 

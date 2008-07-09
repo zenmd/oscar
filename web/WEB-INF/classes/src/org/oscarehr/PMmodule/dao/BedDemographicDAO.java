@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicHistorical;
 import org.oscarehr.PMmodule.model.BedDemographicPK;
-import org.oscarehr.PMmodule.model.BedDemographicStatus;
+//import org.oscarehr.PMmodule.model.BedDemographicStatus;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -42,14 +42,16 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class BedDemographicDAO extends HibernateDaoSupport {
 
     private static final Log log = LogFactory.getLog(BedDemographicDAO.class);
-    private MergeClientDao mergeClientDao; 
+    private MergeClientDao mergeClientDao;
+    
+/*
     public boolean bedDemographicStatusExists(Integer bedDemographicStatusId) {
         boolean exists = (((Long)getHibernateTemplate().iterate("select count(*) from BedDemographicStatus bds where bds.id = " + bedDemographicStatusId).next()).intValue() == 1);
         log.debug("bedDemographicStatusExists: " + exists);
 
         return exists;
     }
-
+*/
     /**
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#demographicExists(java.lang.Integer)
      */
@@ -116,24 +118,27 @@ public class BedDemographicDAO extends HibernateDaoSupport {
     /**
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#getBedDemographicStatus(java.lang.Integer)
      */
+/*     
     public BedDemographicStatus getBedDemographicStatus(Integer bedDemographicStatusId) {
         BedDemographicStatus bedDemographicStatus = (BedDemographicStatus)getHibernateTemplate().get(BedDemographicStatus.class, bedDemographicStatusId);
         log.debug("getBedDemographicStatus: id: " + (bedDemographicStatus != null?bedDemographicStatus.getId():null));
 
         return bedDemographicStatus;
     }
-
+*/
+    
     /**
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#getBedDemographicStatuses()
      */
     //@SuppressWarnings("unchecked")
+/*    
     public BedDemographicStatus[] getBedDemographicStatuses() {
         List bedDemographicStatuses = getHibernateTemplate().find("from BedDemographicStatus");
         log.debug("getBedDemographicStatuses: size: " + bedDemographicStatuses.size());
 
         return (BedDemographicStatus[])bedDemographicStatuses.toArray(new BedDemographicStatus[bedDemographicStatuses.size()]);
     }
-
+*/
     /**
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#getBedDemographicHistoricals(java.util.Date)
      */

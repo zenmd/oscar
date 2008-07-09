@@ -98,6 +98,20 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
         return roomDemographic;
     }
 
+    public RoomDemographic getRoomDemographicByAdmissionId(Integer admissionId) {
+        List roomDemographics = getHibernateTemplate().find("from RoomDemographic rd where rd.admissionId=?", admissionId);
+        if(roomDemographics == null){
+        	return null;
+        }
+        if (roomDemographics.size() > 1) {
+            throw new IllegalStateException("Client is assigned to more than one room");
+        }
+
+        RoomDemographic roomDemographic = (RoomDemographic)((roomDemographics.size() == 1)? roomDemographics.get(0): null);
+
+        return roomDemographic;
+    }
+    
     /**
      * @see org.oscarehr.PMmodule.dao.RoomDemographicDAO#saveRoomDemographic(org.oscarehr.PMmodule.model.RoomDemographic)
      */

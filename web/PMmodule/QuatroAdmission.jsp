@@ -12,6 +12,7 @@
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
 <html:hidden property="familyIntakeType"/>
+<html:hidden property="intakeClientNum"/>
 <html:hidden property="admission.id"/>
 <html:hidden property="admission.programId"/>
 <html:hidden property="admission.admissionDateTxt"/>
@@ -172,11 +173,11 @@ function roomChanged()
 <td>Issued By</td></tr>
 <tr><td width="5%">Start</td>
 <td width="20%">
-<quatro:datePickerTag property="admission.ovPassStartDateTxt" width="70%" openerForm="quatroClientAdmissionForm" />
+<quatro:datePickerTag property="admission.ovPassStartDateTxt" width="80%" openerForm="quatroClientAdmissionForm" />
 </td>
 <td width="5%">End</td>
 <td width="20%">
-<quatro:datePickerTag property="admission.ovPassEndDateTxt" width="70%" openerForm="quatroClientAdmissionForm" />
+<quatro:datePickerTag property="admission.ovPassEndDateTxt" width="80%" openerForm="quatroClientAdmissionForm" />
 </td>
 <td width="50%"><c:out value="${issuedBy}" /></td></tr>
 </table>
@@ -184,50 +185,47 @@ function roomChanged()
 
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Bed/Room Reservation</th></tr>
+<tr><th>Bed/Room</th></tr>
 </table></div></td></tr>
 
 <tr><td>
-<logic:equal name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
 <table class="simple" cellspacing="2" cellpadding="3">
-	<tr><th width="20%">Assign Room*</th>
-	<td>
- 	      <html:select property="roomDemographic.id.roomId">
-           <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
-          </html:select>
-          <html:hidden property="curDB_RoomId"/>
-	</td></tr>
-	</table>
-</logic:equal>
-<logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
-<table class="simple" cellspacing="2" cellpadding="3">
-	<tr><th width="20%">Assign Room*</th>
+	<tr><td width="16%">Assign Room*</td>
 	<td>
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' ||
+		 quatroClientAdmissionForm.admission.admissionStatus=='pending'}">
 	      <html:select property="roomDemographic.id.roomId" onchange="javascript: roomChanged();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
-          <html:hidden property="curDB_RoomId"/>
+          <html:hidden property="curDB_RoomId"/>&nbsp;
+          <c:out escapeXml="false" value="${properRoomMsg}"/>
     </c:when>
     <c:otherwise>
-	      <html:select property="roomDemographic.id.roomId">
-           <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
-          </html:select>
-          <html:hidden property="curDB_RoomId"/>
+	      <c:out value="${historyRoomName}"/>
     </c:otherwise>
     </c:choose>          
 	</td></tr>
-
-	<tr><th width="20%">Assign Bed</th>
-	<td><html:select property="bedDemographic.id.bedId">
+<logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
+	<tr><td>Assign Bed</td>
+	<td>
+	<c:choose>
+	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' ||
+		 quatroClientAdmissionForm.admission.admissionStatus=='pending'}">
+	<html:select property="bedDemographic.id.bedId">
             <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	  </html:select>
       <html:hidden property="curDB_BedId"/>
+    </c:when>
+    <c:otherwise>
+	      <c:out value="${historyBedName}"/>
+    </c:otherwise>
+    </c:choose>          
 	</td></tr>
-	</table>
 </logic:notEqual>
+	</table>
 </td></tr>
 
 <tr><td align="center">Reason for not signing&nbsp;

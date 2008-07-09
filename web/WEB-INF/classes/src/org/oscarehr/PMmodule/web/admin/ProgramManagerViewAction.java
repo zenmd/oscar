@@ -790,7 +790,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   			bedDemographic1.setProviderNo(providerNo);
    	   			bedDemographic1.setBedId(bedId1);
    	   			bedDemographic2.setProviderNo(providerNo);
-   	   			bedDemographic1.setReservationEnd(bedDemographic2.getReservationEnd());
+//   	   			bedDemographic1.setReservationEnd(bedDemographic2.getReservationEnd());
    	   			bedDemographic2.getId().setDemographicNo(client1);   	   			
    	   			bedDemographic2.setReservationStart(today);
    	   			bedDemographic2.setBedId(bedId2);

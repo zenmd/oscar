@@ -46,5 +46,13 @@ public class RoomDemographicHistoricalDao extends HibernateDaoSupport {
 	            log.debug("RoomDemographicHistoricalDao : save: RoomID=" + history.getRoomId());
 	        }
 	    }
+
+		public RoomDemographicHistorical getLatestRoomDemographicHistory(Integer admissionId){
+			if(admissionId==null)  return null;
+			RoomDemographicHistorical history = null;
+			List lst = this.getHibernateTemplate().find("from RoomDemographicHistorical r where r.admissionId='" + admissionId + "' order by r.usageStart desc");
+			if(lst != null && lst.size() > 0) history = (RoomDemographicHistorical) lst.get(0);
+			return history;
+		}
 	    
 }

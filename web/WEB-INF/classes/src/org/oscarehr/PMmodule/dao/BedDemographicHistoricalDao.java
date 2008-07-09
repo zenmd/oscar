@@ -1,10 +1,12 @@
 package org.oscarehr.PMmodule.dao;
 
 import java.util.List;
+import java.util.Calendar;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.BedDemographicHistorical;
+import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.dao.security.SecroleDao;
@@ -47,4 +49,12 @@ public class BedDemographicHistoricalDao extends HibernateDaoSupport {
 	        }
 	    }
 	    
+		public BedDemographicHistorical getLatestBedDemographicHistory(Integer admissionId, Calendar latestUsageStart){
+			if(admissionId==null || latestUsageStart==null)  return null;
+			BedDemographicHistorical history = null;
+			List lst = this.getHibernateTemplate().find("from BedDemographicHistorical r where r.admissionId=? and r.usageStart=? ", 
+					 new Object[]{admissionId, latestUsageStart});
+			if(lst != null && lst.size() > 0) history = (BedDemographicHistorical) lst.get(0);
+			return history;
+		}
 }

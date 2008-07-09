@@ -12,6 +12,8 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 	private Integer demographicNo;
 	private Calendar usageEnd;
 	private Calendar usageStart;
+	private String roomName;
+
 	private String lastUpdateUser;
     private Calendar lastUpdateDate;
 
@@ -30,7 +32,7 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 	public void setLastUpdateUser(String lastUpdateUser) {
 		this.lastUpdateUser = lastUpdateUser;
 	}
-
+	
 	// Constructors
 
 	/** default constructor */
@@ -128,5 +130,15 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 
 	public void setUsageStart(Calendar usageStart) {
 		this.usageStart = usageStart;
+	}
+
+
+	public String getRoomName() {
+		return roomName;
+	}
+
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
 }

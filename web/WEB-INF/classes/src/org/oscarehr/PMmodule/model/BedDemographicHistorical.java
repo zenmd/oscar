@@ -12,6 +12,8 @@ public class BedDemographicHistorical implements java.io.Serializable {
 	private Integer demographicNo;
 	private Calendar usageEnd;
 	private Calendar usageStart;
+	private String bedName;
+	
 	private String lastUpdateUser;
     private Calendar lastUpdateDate;
 
@@ -30,7 +32,7 @@ public class BedDemographicHistorical implements java.io.Serializable {
 	public void setLastUpdateUser(String lastUpdateUser) {
 		this.lastUpdateUser = lastUpdateUser;
 	}
-
+	
 	// Constructors
 
 	/** default constructor */
@@ -128,5 +130,15 @@ public class BedDemographicHistorical implements java.io.Serializable {
 
 	public void setUsageStart(Calendar usageStart) {
 		this.usageStart = usageStart;
+	}
+
+
+	public String getBedName() {
+		return bedName;
+	}
+
+
+	public void setBedName(String bedName) {
+		this.bedName = bedName;
 	}
 }
