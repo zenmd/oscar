@@ -61,9 +61,9 @@ public class QuatroConsentAction extends BaseClientAction {
 
 		   DynaActionForm dForm = (DynaActionForm) form;
 	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consentValue");
-	       String rId=request.getParameter("rId");
+	       String  rId=(String)request.getAttribute("rId");
 	       if(Utility.IsEmpty(rId)) {
-	    	   rId=(String)request.getAttribute("rId");
+		       rId=request.getParameter("rId");
 	       }
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       String cId =request.getParameter("clientId");
