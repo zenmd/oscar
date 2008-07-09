@@ -162,8 +162,8 @@ public class CaseManagementManager {
 */
     private String removeNoteAppend(String noteStr){
     	String newStr=noteStr;
-    	Integer idx1 =noteStr.indexOf("[");
-    	Integer idx2= noteStr.indexOf("]");    	
+    	int idx1 =noteStr.indexOf('[');
+    	int idx2= noteStr.indexOf(']');    	
     	String tmpStr="";
     	if(idx2<idx1){
     		tmpStr=newStr.substring(0,idx2)+newStr.substring(idx2+1);    		
