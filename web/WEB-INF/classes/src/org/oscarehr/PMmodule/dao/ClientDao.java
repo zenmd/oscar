@@ -247,7 +247,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		if(bean.getBedProgramId() != null && bean.getBedProgramId().length() > 0) {
 			bedProgramId = bean.getBedProgramId(); 
-			sql = "demographic_no in (select client_id from admission where program_id in (" + bedProgramId + "))"; 
+			sql = "demographic_no in (select client_id from intake where program_id in (" + bedProgramId + "))"; 
 			criteria.add(Restrictions.sqlRestriction(sql));
 		}
 		if(bean.getAssignedToProviderNo() != null && bean.getAssignedToProviderNo().length() > 0) {
