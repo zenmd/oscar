@@ -295,9 +295,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         caseForm.setRootCompURL((String) se.getAttribute("casemgmt_oscar_baseurl"));
         se.setAttribute("casemgmt_VlCountry", vLocale.getCountry());
 
-        /* prepare new form list for patient */
-        se.setAttribute("casemgmt_newFormBeans", this.caseManagementMgr.getEncounterFormBeans());
-
         // readonly access to define creat a new note button in jsp.
         SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
         boolean tmp = sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCASE,"P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
