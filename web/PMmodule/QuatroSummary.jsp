@@ -1,5 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
+<%@page import="com.quatro.common.KeyConstants;" %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
@@ -74,14 +75,15 @@ function openHealthSafety(){
 	<tr><td>Alias</td>
 	<td colspan="3"><c:out value="${client.alias}" /></td></tr>
 	<tr><td>Health and Safety</td>
-	<td colspan="3">
+	<td colspan="3">&nbsp;
+        <security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY%>" rights="<%=KeyConstants.ACCESS_READ%>">
         <table width="100%" class="simple" style="background: #e0e0e0;" cellspacing="2" cellpadding="2">
 		<c:choose>
-		  <c:when test="${empty healthsafety}">
+		  <c:when test="${empty healthsafety and !isReadOnly}">
 			<tr><td>None found</td>
 			<td><a href="javascript:openHealthSafety()">New Health and Safety</a></td></tr>
 		  </c:when>
-	      <c:when test="${empty healthsafety.message}">
+	      <c:when test="${empty healthsafety.message and !isReadOnly}">
 			<tr><td>None found</td>
 			<td><a href="javascript:openHealthSafety()">New Health and Safety</a></td></tr>
 		  </c:when>
@@ -97,7 +99,8 @@ function openHealthSafety(){
 		  </c:otherwise>
 		</c:choose>
        </table>
-	</td></tr>
+ 	   </security:oscarSec>
+ 	</td></tr>
 	<tr>
 		<td>SDMT Benefit Unit Status</td>
 		<td><c:out value="${client.benefitUnitStatus}" /></td>
