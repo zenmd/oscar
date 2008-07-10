@@ -255,13 +255,13 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }else{
           if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
             Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getRoomId());        	  
-      	    if(newSelectedRoom.getAssignedBed().equals("Y")){
+      	    if(newSelectedRoom.getAssignedBed().intValue()==1){
               Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
       		  if(availableBeds.length<clientForm.getIntakeClientNum().intValue()) 
       			request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
             }else{
       		  if(newSelectedRoom.getOccupancy().intValue()<clientForm.getIntakeClientNum().intValue()) 
-        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough room capacity (Room capacity is " + currentDB_room.getOccupancy().toString() + "), please select other room.</font>");
+        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough room capacity (Room capacity is " + newSelectedRoom.getOccupancy().toString() + "), please select other room.</font>");
             }
           
           }
