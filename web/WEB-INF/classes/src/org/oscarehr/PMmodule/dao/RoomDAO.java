@@ -231,6 +231,8 @@ public class RoomDAO extends HibernateDaoSupport {
             queryBuilder.append("r.active = ?");
         }
 
+        queryBuilder.append(" order by r.programId");
+
         return queryBuilder.toString();
 	}
 

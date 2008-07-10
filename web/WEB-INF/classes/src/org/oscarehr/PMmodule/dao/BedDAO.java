@@ -97,24 +97,6 @@ public class BedDAO extends HibernateDaoSupport {
         return (Bed[]) beds.toArray(new Bed[beds.size()]);
     }
 
-    //@SuppressWarnings("unchecked")
-    public List getBedsByFacility(Integer facilityId, Boolean active) {
-        String query = getBedsQuery(facilityId, null, active);
-        Object[] values = getBedsValues(facilityId, null, active);
-
-        return getBeds(query, values);
-    }
-    
-    //@SuppressWarnings("unchecked")
-    public Bed[] getBedsByFilter(Integer facilityId, Integer roomId, Boolean active) {
-        String query = getBedsQuery(facilityId, roomId, active);
-        Object[] values = getBedsValues(facilityId, roomId, active);
-        List beds = getBeds(query, values);
-        log.debug("getBedsByFilter: size " + beds.size());
-
-        return (Bed[]) beds.toArray(new Bed[beds.size()]);
-    }
-
     /**
      * @return all bed types
      */
@@ -132,7 +114,7 @@ public class BedDAO extends HibernateDaoSupport {
       * @see org.oscarehr.PMmodule.dao.BedDAO#saveBed(org.oscarehr.PMmodule.model.Bed)
       */
     public void saveBed(Bed bed) {
-        updateHistory(bed);
+//        updateHistory(bed);
         getHibernateTemplate().saveOrUpdate(bed);
         getHibernateTemplate().flush();
         getHibernateTemplate().refresh(bed);
@@ -162,14 +144,11 @@ public class BedDAO extends HibernateDaoSupport {
         queryBuilder.append(" where ");
 
         boolean andClause = false;
-        if (facilityId != null) {
-            queryBuilder.append("b.facilityId = ?");
-            andClause = true;
-        }
 
         if (roomId!= null) {
             if (andClause) queryBuilder.append(" and "); else andClause = true;
             queryBuilder.append("b.roomId = ?");
+            andClause = true;
         }
 
         if (active != null) {
@@ -202,9 +181,9 @@ public class BedDAO extends HibernateDaoSupport {
     List getBeds(String query, Object[] values) {
         return (values.length > 0) ? getHibernateTemplate().find(query, values) : getHibernateTemplate().find(query);
     }
-
+/*
     void updateHistory(Bed bed) {
         // TODO IC Bedlog Historical - if room to bed association has changed, create historical record
     }
-
+*/
 }

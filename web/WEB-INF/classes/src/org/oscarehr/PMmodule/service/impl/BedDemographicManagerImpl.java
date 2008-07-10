@@ -123,16 +123,18 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 		Bed bed = bedDAO.getBed(bedDemographic.getId().getBedId());
 		bedDemographic.setBed(bed);
 
-		Room room = roomDAO.getRoom(bed.getRoomId());
-		bed.setRoom(room);
+//		Room room = roomDAO.getRoom(bed.getRoomId());
+//		bed.setRoom(room);
 
+/*		
 		Integer programId = room.getProgramId();
 
 		if (programId != null) {
 			Program program = programDAO.getProgram(programId);
 			room.setProgram(program);
 		}
-
+*/
+		
 		return bedDemographic;
 	}
 
@@ -153,17 +155,19 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 			Bed bed = bedDAO.getBed(bedDemographic.getId().getBedId());
 			bedDemographic.setBed(bed);
 
-			Room room = roomDAO.getRoom(bed.getRoomId());
+//			Room room = roomDAO.getRoom(bed.getRoomId());
 			// check for facility filtering
 //			if (facilityId!=null && room.getFacilityId()!=null && room.getFacilityId().intValue()!=facilityId.intValue()) return(null);
-			bed.setRoom(room);
+//			bed.setRoom(room);
 
+/*
 			Integer programId = room.getProgramId();
 
 			if (programId != null) {
 				Program program = programDAO.getProgram(programId);
 				room.setProgram(program);
 			}
+*/			
 		}
 
 		return bedDemographic;

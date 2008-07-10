@@ -31,7 +31,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Bed implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+/*
     private static final String DEFAULT_NAME = "";
     private static final boolean DEFAULT_ACTIVE = true;
     public static String REF = "Bed";
@@ -40,20 +40,21 @@ public class Bed implements Serializable {
     public static String PROP_NAME = "name";
     public static String PROP_ROOM_ID = "roomId";
     public static String PROP_ID = "id";
-
+*/
     private int hashCode = Integer.MIN_VALUE;// primary key
 
     private Integer id;// fields
     private Integer bedTypeId;
     private Integer roomId;
-    private Integer facilityId;
     private String name;
     private boolean active;
 
     private BedType bedType;
-    private Room room;
-    private BedDemographic bedDemographic;
-    private Integer communityProgramId;
+//    private Room room;
+    private Integer bedOccupied;
+    
+//    private BedDemographic bedDemographic;
+//    private Integer communityProgramId;
 
     private String lastUpdateUser;
     private Calendar lastUpdateDate;
@@ -73,7 +74,7 @@ public class Bed implements Serializable {
 	public void setLastUpdateUser(String lastUpdateUser) {
 		this.lastUpdateUser = lastUpdateUser;
 	}
-
+/*
     // constructors
     public Bed () {
         initialize();
@@ -88,51 +89,26 @@ public class Bed implements Serializable {
             Integer id,
             Integer bedTypeId,
             Integer roomId,
-            Integer facilityId,
             String name,
             boolean active) {
 
         this.setId(id);
         this.setBedTypeId(bedTypeId);
         this.setRoomId(roomId);
-        this.setFacilityId(facilityId);
         this.setName(name);
         this.setActive(active);
         initialize();
     }
-
-/*
-    //a new bed should belong to a room.
-    public static Bed create(Integer facilityId, BedType bedType) {
-        Bed bed = new Bed();
-        bed.setBedTypeId(bedType.getId());
-        bed.setRoomId(DEFAULT_ROOM_ID);
-        bed.setRoomStart(Calendar.getInstance().getTime());
-        bed.setName(DEFAULT_NAME);
-        bed.setActive(DEFAULT_ACTIVE);
-        bed.setFacilityId(facilityId);
-        return bed;
-    }
 */
-    
-    public static Bed create(Integer facilityId, Integer roomId, BedType bedType) {
-        Bed bed = new Bed();
-        bed.setBedTypeId(bedType.getId());
-        bed.setRoomId(roomId);
-        bed.setName(DEFAULT_NAME);
-        bed.setActive(DEFAULT_ACTIVE);
-        bed.setFacilityId(facilityId);
-        return bed;
-    }
-
+/*	
     public boolean isLatePass() {
         return bedDemographic != null ? bedDemographic.isLatePass() : false;
     }
-
+*/
     public String getBedTypeName() {
         return bedType.getName();
     }
-
+/*
     public String getRoomName() {
         return room.getName();
     }
@@ -140,8 +116,9 @@ public class Bed implements Serializable {
     public String getProgramName() {
         return room.getProgramName();
     }
-
-
+*/    
+    
+/*
     public BedDemographic getBedDemographic() {
         return bedDemographic;
     }
@@ -149,110 +126,70 @@ public class Bed implements Serializable {
     public String getDemographicName() {
         return bedDemographic != null ? bedDemographic.getDemographicName() : null;
     }
-/*
-    public Integer getStatusId() {
-        return bedDemographic != null ? bedDemographic.getBedDemographicStatusId() : null;
-    }
-
-    public String getStatusName() {
-        return bedDemographic != null ? bedDemographic.getStatusName() : null;
-    }
 */
+    
+/*
     public Integer getCommunityProgramId() {
         return communityProgramId;
     }
-
+*/
     public void setBedType(BedType bedType) {
         this.bedType = bedType;
     }
-
+    
+/*
     public void setRoom(Room room) {
         this.room = room;
     }
-
+*/    
+    
+/*
     public void setBedDemographic(BedDemographic bedDemographic) {
         this.bedDemographic = bedDemographic;
     }
-/*
-    public void setStatusId(Integer statusId) {
-        if (bedDemographic != null) {
-            bedDemographic.setBedDemographicStatusId(statusId);
-        }
-    }
-*/
+
     public void setLatePass(boolean latePass) {
         if (bedDemographic != null) {
             bedDemographic.setLatePass(latePass);
         }
     }
-/*
-    public void setStrReservationEnd(String strReservationEnd) {
-        if (bedDemographic != null) {
-            bedDemographic.setStrReservationEnd(strReservationEnd);
-        }
-    }
 */
+    
+/*
     public void setCommunityProgramId(Integer communityProgramId) {
         this.communityProgramId = communityProgramId;
     }
-
-
-    //@Override
+*/
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
 
-    protected void initialize () {}
+//    protected void initialize () {}
 
-    /**
-     * Return the unique identifier of this class
-     * @hibernate.id
-     *  generator-class="native"
-     *  column="bed_id"
-     */
     public Integer getId () {
         return id;
     }
 
-    /**
-     * Set the unique identifier of this class
-     * @param id the new ID
-     */
     public void setId (Integer id) {
         this.id = id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
-    /**
-     * Return the value associated with the column: bed_type_id
-     */
     public Integer getBedTypeId () {
         return bedTypeId;
     }
 
-    /**
-     * Set the value related to the column: bed_type_id
-     * @param bedTypeId the bed_type_id value
-     */
     public void setBedTypeId (Integer bedTypeId) {
         this.bedTypeId = bedTypeId;
     }
 
-    /**
-     * Return the value associated with the column: room_id
-     */
     public Integer getRoomId () {
         return roomId;
     }
 
-    /**
-     * Set the value related to the column: room_id
-     * @param roomId the room_id value
-     */
     public void setRoomId (Integer roomId) {
         this.roomId = roomId;
     }
-
 
     public String getName () {
         return name;
@@ -268,14 +205,6 @@ public class Bed implements Serializable {
 
     public void setActive (boolean active) {
         this.active = active;
-    }
-
-    public Integer getFacilityId() {
-        return facilityId;
-    }
-
-    public void setFacilityId(Integer facilityId) {
-        this.facilityId = facilityId;
     }
 
     public boolean equals (Object obj) {
@@ -298,5 +227,13 @@ public class Bed implements Serializable {
         }
         return this.hashCode;
     }
+
+	public Integer getBedOccupied() {
+		return bedOccupied;
+	}
+
+	public void setBedOccupied(Integer bedOccupied) {
+		this.bedOccupied = bedOccupied;
+	}
 
 }

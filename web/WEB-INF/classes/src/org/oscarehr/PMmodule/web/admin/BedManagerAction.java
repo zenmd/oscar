@@ -76,8 +76,8 @@ public class BedManagerAction extends BaseFacilityAction {
         List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
         bForm.setPrograms(pLst);
 
-        List temp = bedManager.getBedsByFilter(facilityId, roomId, Boolean.TRUE, false);
-        request.setAttribute("activebednum", String.valueOf(temp.size()));
+        Bed[] temp = bedManager.getActiveBedsByRoom(roomId);
+        request.setAttribute("activebednum", String.valueOf(temp.length));
 
         return mapping.findForward("editroom");
     }
@@ -108,7 +108,6 @@ public class BedManagerAction extends BaseFacilityAction {
           bed = bedManager.getBed(bedId);
         }else{
           bed = new Bed();
-          bed.setFacilityId(facilityId);
           bed.setRoomId(roomId);
         }
         bForm.setBed(bed);
@@ -150,7 +149,7 @@ public class BedManagerAction extends BaseFacilityAction {
         Program program = programManager.getProgram(room.getProgramId());
         request.setAttribute("program", program);
         
-        List temp = bedManager.getBedsByFilter(facilityId, roomId, null, false);
+        Bed[] temp = bedManager.getAllBedsByRoom(roomId);
         
         processDisplayBed(form, request, temp, providerNo, facilityId);
 
@@ -230,7 +229,7 @@ public class BedManagerAction extends BaseFacilityAction {
         bForm.setRoomStatusNames(statusNames);
     }
 
-    private void processDisplayBed(ActionForm form, HttpServletRequest request, List bedLst,
+    private void processDisplayBed(ActionForm form, HttpServletRequest request, Bed[] bedLst,
     		String providerNo, Integer facilityId){
     	BedManagerForm bForm = (BedManagerForm) form;
         	

@@ -24,11 +24,12 @@
 		</id>
 		<property name="bedTypeId" column="bed_type_id" type="integer" not-null="true" length="10" />
 		<property name="roomId" column="room_id" type="integer" not-null="false" length="10" />
-        <property name="facilityId" column="facility_id" type="integer" not-null="true" length="10" />
 		<property name="name" column="name" type="string" length="45" />
 		<property name="active" column="active" type="boolean" not-null="true" />
 		<property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
+		<property name="bedOccupied" type="integer"  lazy="true"
+			formula="(select count(*) from bed_demographic t where t.bed_id=bed_id)" />
 	</class>
 </hibernate-mapping>
         

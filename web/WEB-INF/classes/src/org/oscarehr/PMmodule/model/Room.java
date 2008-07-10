@@ -62,6 +62,8 @@ public class Room implements Serializable {
     private Program program;
     private Facility facility;
 
+    private Integer bedNum;
+    
     // constructors
     public Room() {
         initialize();
@@ -312,5 +314,13 @@ public class Room implements Serializable {
 
 	public void setTotalBedOccupancy(Integer totalBedOccupancy) {
 		this.totalBedOccupancy = totalBedOccupancy;
+	}
+
+	public Integer getBedNum() {
+		return bedNum;
+	}
+
+	public void setBedNum(Integer bedNum) {
+		this.bedNum = bedNum;
 	}
 }

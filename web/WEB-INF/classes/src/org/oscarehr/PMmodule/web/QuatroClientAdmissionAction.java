@@ -5,64 +5,52 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.struts.util.LabelValueBean;
 
-import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
+import org.oscarehr.PMmodule.model.BedDemographic;
+import org.oscarehr.PMmodule.model.BedDemographicHistorical;
+import org.oscarehr.PMmodule.model.BedDemographicPK;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.Room;
+import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
+import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
-import org.oscarehr.PMmodule.service.ProgramQueueManager;
+import org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import com.quatro.service.LookupManager;
+
+import oscar.MyDateFormat;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
+import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
-import com.quatro.common.KeyConstants;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.model.QuatroIntakeDB;
-import org.oscarehr.PMmodule.model.Admission;
-import oscar.MyDateFormat;
-import org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm;
-import org.oscarehr.PMmodule.model.QuatroIntake;
-import org.oscarehr.PMmodule.model.Demographic;
-
-import org.oscarehr.PMmodule.model.RoomDemographic;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.RoomDemographicPK;
-import org.oscarehr.PMmodule.model.BedDemographicPK;
-import org.oscarehr.PMmodule.model.RoomBedHistorical;
-import org.oscarehr.PMmodule.model.BedDemographicHistorical;
-//import org.oscarehr.PMmodule.model.BedDemographicHistoricalPK;
-
-import org.oscarehr.PMmodule.exception.AdmissionException;
-import org.oscarehr.PMmodule.exception.ProgramFullException;
-import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
 
 public class QuatroClientAdmissionAction  extends BaseClientAction {
    private ClientManager clientManager;
@@ -222,7 +210,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setId(new Integer(0));
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
-       if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
+       if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
        Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
     		           clientId, clientForm.getFamilyIntakeType().equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
@@ -265,10 +253,18 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	     
        //family intake needs check if there are enough beds in the selected room.
        }else{
-          Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
-          if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0)
-        		  && availableBeds.length<clientForm.getIntakeClientNum().intValue()) 
-        	  request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
+          if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
+            Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getRoomId());        	  
+      	    if(newSelectedRoom.getAssignedBed().equals("Y")){
+              Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+      		  if(availableBeds.length<clientForm.getIntakeClientNum().intValue()) 
+      			request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
+            }else{
+      		  if(newSelectedRoom.getOccupancy().intValue()<clientForm.getIntakeClientNum().intValue()) 
+        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough room capacity (Room capacity is " + currentDB_room.getOccupancy().toString() + "), please select other room.</font>");
+            }
+          
+          }
        }
 
 	   //set dropdown values

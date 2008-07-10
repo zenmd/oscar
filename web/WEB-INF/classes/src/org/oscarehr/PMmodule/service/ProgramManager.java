@@ -31,13 +31,11 @@ import org.oscarehr.PMmodule.dao.ProgramClientStatusDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO;
 import org.oscarehr.PMmodule.dao.ProgramSignatureDao;
-import org.oscarehr.PMmodule.dao.ProgramTeamDAO;
 import org.oscarehr.PMmodule.model.FunctionalUserType;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientStatus;
 import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
 import org.oscarehr.PMmodule.model.ProgramSignature;
-import org.oscarehr.PMmodule.model.ProgramTeam;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import com.quatro.dao.LookupDao;
@@ -49,11 +47,8 @@ public class ProgramManager {
     private static Log log = LogFactory.getLog(ProgramManager.class);
 
     private ProgramDao programDao;
-//    private ProgramProviderDAO programProviderDAO;
     private ProgramFunctionalUserDAO programFunctionalUserDAO;
-    private ProgramTeamDAO programTeamDAO;
     private AdmissionDao admissionDao;
-//    private DefaultRoleAccessDAO defaultRoleAccessDAO;
     private ProgramClientStatusDAO clientStatusDAO;
     private ProgramSignatureDao programSignatureDao;
     private LookupDao lookupDao;
@@ -81,28 +76,15 @@ public class ProgramManager {
     public void setProgramDao(ProgramDao dao) {
         this.programDao = dao;
     }
-/*
-    public void setProgramProviderDAO(ProgramProviderDAO dao) {
-        this.programProviderDAO = dao;
-    }
-*/
+
     public void setProgramFunctionalUserDAO(ProgramFunctionalUserDAO dao) {
         this.programFunctionalUserDAO = dao;
     }
 
-    public void setProgramTeamDAO(ProgramTeamDAO dao) {
-        this.programTeamDAO = dao;
-    }
-
-
     public void setAdmissionDao(AdmissionDao dao) {
         this.admissionDao = dao;
     }
-/*
-    public void setDefaultRoleAccessDAO(DefaultRoleAccessDAO dao) {
-        this.defaultRoleAccessDAO = dao;
-    }
-*/
+
     public void setProgramClientStatusDAO(ProgramClientStatusDAO dao) {
         this.clientStatusDAO = dao;
     }
@@ -166,10 +148,6 @@ public class ProgramManager {
     }
 
     public void saveProgram(Program program) {
-//        if (program.getHoldingTank()) {
-//            programDao.resetHoldingTank();
-//        }
-//        boolean isNew = (program.getId() == 0);
         programDao.saveProgram(program);
         try {
         	lookupDao.SaveAsOrgCode(program);
@@ -187,38 +165,10 @@ public class ProgramManager {
         programDao.removeProgram(Integer.valueOf(programId));
     }
     
-    // TODO: Implement this method for real
-/*    
-    public Agency getAgencyByProgram(String programId) {
-        return new Agency(new Integer(0), new Integer(1), "HS", "HS", "", true, false);
-    }
-*/
     public List getProgramProviders(String orgcd, boolean activeOnly) {
-        //return programProviderDAO.getProgramProviders(Integer.valueOf(programId));
         return secuserroleDao.findByOrgcd(orgcd, activeOnly);
     }
 
-/*    
-    public List getProgramProvidersByProvider(String providerNo) {
-        return programProviderDAO.getProgramProvidersByProvider(providerNo);
-    }
-
-    public caisi_ProgramProvider getProgramProvider(String id) {
-        return programProviderDAO.getProgramProvider(Integer.valueOf(id));
-    }
-
-    public caisi_ProgramProvider getProgramProvider(String providerNo, String programId) {
-        return programProviderDAO.getProgramProvider(providerNo, Integer.valueOf(programId));
-    }
-
-    public void saveProgramProvider(caisi_ProgramProvider pp) {
-        programProviderDAO.saveProgramProvider(pp);
-    }
-
-    public void deleteProgramProvider(String id) {
-        programProviderDAO.deleteProgramProvider(Integer.valueOf(id));
-    }
-*/    
     public void deleteProgramProvider(List lst) {
         for(int i = 0; i < lst.size(); i++){
         	Integer id = (Integer)lst.get(i);
@@ -262,36 +212,6 @@ public class ProgramManager {
         return programFunctionalUserDAO.getFunctionalUserByUserType(programId, userTypeId);
     }
 
-    public List getProgramTeams(String programId) {
-        return programTeamDAO.getProgramTeams(Integer.valueOf(programId));
-    }
-
-    public ProgramTeam getProgramTeam(String id) {
-        return programTeamDAO.getProgramTeam(Integer.valueOf(id));
-    }
-
-    public void saveProgramTeam(ProgramTeam team) {
-        programTeamDAO.saveProgramTeam(team);
-    }
-
-    public void deleteProgramTeam(String id) {
-        programTeamDAO.deleteProgramTeam(Integer.valueOf(id));
-    }
-
-    public boolean teamNameExists(Integer programId, String teamName) {
-        return programTeamDAO.teamNameExists(programId, teamName);
-    }
-    
-/*
-    public List getAllProvidersInTeam(Integer programId, Integer teamId) {
-        return this.programProviderDAO.getProgramProvidersInTeam(programId, teamId);
-    }
-*/    
-/*
-    public List getAllClientsInTeam(Integer programId, Integer teamId) {
-        return admissionDao.getAdmissionsInTeam(programId, teamId);
-    }
-*/
     public List search(Program criteria) {
         return this.programDao.search(criteria);
     }
@@ -303,52 +223,6 @@ public class ProgramManager {
         return this.programDao.getHoldingTankProgram();
     }
 
-/*    
-    public List getProgramDomain(String providerNo) {
-        List programDomain = new ArrayList();
-
-        for (Iterator i = programProviderDAO.getProgramDomain(providerNo).iterator(); i.hasNext();) {
-            caisi_ProgramProvider programProvider = (caisi_ProgramProvider) i.next();
-            programDomain.add(getProgram(programProvider.getProgramId()));
-        }
-
-        return programDomain;
-    }
-
-    public List getProgramDomainInFacility(String providerNo, Integer shelterId) {
-    	List programs = getProgramDomain(providerNo);
-    	List results = new ArrayList();
-    	if(facilityId==null) 
-    		return null;
-    	for(Iterator itr =programs.iterator(); itr.hasNext();) {
-    		Program p = (Program)itr.next();
-    		if(p.getFacilityId()==facilityId)
-    			results.add(p);
-    	}
-    	return results;
-    }
-*/
-/*
-    public List getDefaultRoleAccesses() {
-        return defaultRoleAccessDAO.getDefaultRoleAccesses();
-    }
-
-    public caisi_DefaultRoleAccess getDefaultRoleAccess(String id) {
-        return defaultRoleAccessDAO.getDefaultRoleAccess(Integer.valueOf(id));
-    }
-
-    public void saveDefaultRoleAccess(caisi_DefaultRoleAccess dra) {
-        defaultRoleAccessDAO.saveDefaultRoleAccess(dra);
-    }
-
-    public void deleteDefaultRoleAccess(String id) {
-        defaultRoleAccessDAO.deleteDefaultRoleAccess(Integer.valueOf(id));
-    }
-
-    public caisi_DefaultRoleAccess findDefaultRoleAccess(Integer roleId, Integer accessTypeId) {
-        return defaultRoleAccessDAO.find(roleId,accessTypeId);
-    }
-*/
     public List getProgramClientStatuses(Integer programId) {
         return clientStatusDAO.getProgramClientStatuses(programId);
     }

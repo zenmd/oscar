@@ -188,6 +188,7 @@ public class BedDemographic implements Auditable, Serializable {
 		System.out.println("BedDemographic.setDemographicName()");
 	}
 
+/*	
 	public String getRoomName() {
 		return bed != null ? bed.getRoomName() : null;
 	}
@@ -196,7 +197,8 @@ public class BedDemographic implements Auditable, Serializable {
 		// immutable
 		System.out.println("BedDemographic.setRoomName()");
 	}
-
+*/
+	
 	public Integer getRoomId() {
 		return roomId;
 	}
@@ -204,7 +206,8 @@ public class BedDemographic implements Auditable, Serializable {
 	public void setRoomId(Integer roomId) {
 		this.roomId = roomId;
 	}
-	
+
+/*	
 	public String getProgramName() {
 		return bed != null ? bed.getProgramName() : null;
 	}
@@ -213,7 +216,8 @@ public class BedDemographic implements Auditable, Serializable {
 		// immutable
 		System.out.println("BedDemographic.setProgramName()");
 	}
-
+*/
+	
 	// property adapted for view
 	public Integer getBedId() {
 		return getId().getBedId();
