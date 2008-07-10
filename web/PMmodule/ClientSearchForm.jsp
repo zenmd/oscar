@@ -43,7 +43,7 @@
 		if (form.elements['criteria.assignedToProviderNo'].selectedIndex > 0) return true;
 //		if (form.elements['criteria.active'].selectedIndex > 0) return true;
 //		if (form.elements['criteria.gender'].selectedIndex > 0) return true;
-		alert('Please enter at least one of Client No, First Name, Last Name, DOB, Program or Assigned To to search');
+		alert('Please enter at least one of the following: Client No, First Name, Last Name, Date of Birth, Assigned To or Program and then click on Search.');
 		return false; 
 	}	
 
