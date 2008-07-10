@@ -284,13 +284,13 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 
-       String intakeId = (String)clientForm.getIntakeId();
-       request.setAttribute("intakeHeadId", intakeId);
+       String intakeHeadId = (String)clientForm.getIntakeId();
+       request.setAttribute("intakeHeadId", intakeHeadId);
 	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
           actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", intakeId); 
+          actionParam.put("intakeId", intakeHeadId); 
        }
        request.setAttribute("actionParam", actionParam);
 
@@ -419,8 +419,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
              //only check intake_status=active/admitted
              List activeIntakeIds = intakeManager.getActiveIntakeIds(obj3.getClientId());
              for(j=0;j<activeIntakeIds.size();j++){
-               Integer intakeHeadId =intakeManager.getIntakeFamilyHeadId(((Integer)activeIntakeIds.get(j)).toString());
-               if(intakeHeadId.intValue()>0 && !intakeHeadId.equals(headIntakeId)){
+               Integer intakeHeadId_exist =intakeManager.getIntakeFamilyHeadId(((Integer)activeIntakeIds.get(j)).toString());
+               if(intakeHeadId_exist.intValue()>0 && !intakeHeadId_exist.equals(headIntakeId)){
           		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.existing_in_other_family",
                			request.getContextPath(), obj3.getLastName() + "," + obj3.getFirstName()));
                   isError = true;
@@ -553,7 +553,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 intakeFamily.setIntakeHeadId(headIntake.getId());
      	 intakeFamily.setLastUpdateUser(providerNo);
      	 intakeFamily.setLastUpdateDate(new GregorianCalendar());
-     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, intake, newClient_intakeDBExist, intakeFamily);
+     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, Integer.valueOf(intakeHeadId), intake, newClient_intakeDBExist, intakeFamily);
      	 intakeFamily.setIntakeId((Integer)lst2.get(1));
      	 intakeFamily.setClientId((Integer)lst2.get(2));
   	   }
@@ -575,7 +575,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        //in case added same client in multiple family member lines,
        //the save method saved family member correctly, 
        //but need to remove duplicated family member line(s) by reading every family memeber from DB again.  
-       List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeId);
+       List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeHeadId);
        if(dependentsDB==null) dependentsDB = new ArrayList(); 
        for(int i=0;i<dependentsDB.size();i++){
      	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependentsDB.get(i);

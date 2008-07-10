@@ -303,20 +303,20 @@ public class IntakeManager {
 		return intakeDao.getQuatroIntakeDBByIntakeId(intakeId);
 	}
 	
-	public ArrayList saveQuatroIntake(QuatroIntake intake) {
+	public ArrayList saveQuatroIntake(QuatroIntake intake, Integer intakeHeadId, boolean isFamily) {
 		historyDao.saveClientHistory(intake);
-		return intakeDao.saveQuatroIntake(intake, false);
+		return intakeDao.saveQuatroIntake(intake, intakeHeadId, isFamily);
 	}
 	public void saveQuatroIntakeFamilyHead(QuatroIntakeFamily intakeFamily) {
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 	}
 
-	public ArrayList saveQuatroIntakeFamily(Demographic client, QuatroIntake intake, QuatroIntakeDB exist_intakeDB, QuatroIntakeFamily intakeFamily) {
+	public ArrayList saveQuatroIntakeFamily(Demographic client, Integer intakeHeadId, QuatroIntake intake, QuatroIntakeDB exist_intakeDB, QuatroIntakeFamily intakeFamily) {
 		ArrayList lst = new ArrayList();
 		clientDao.saveClient(client);
 		intake.setClientId(client.getDemographicNo());
 		if(intake.getId().intValue()==0){
-		    List lst2 = intakeDao.saveQuatroIntake(intake, true);
+		    List lst2 = intakeDao.saveQuatroIntake(intake, intakeHeadId, true);
 		    intakeFamily.setIntakeId((Integer)lst2.get(0));
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);

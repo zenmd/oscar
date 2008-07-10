@@ -485,7 +485,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
           			request.getContextPath()));
         	isError = true;
 		}else{
-			ArrayList lst2 = intakeManager.saveQuatroIntake(intake);
+			ArrayList lst2 = intakeManager.saveQuatroIntake(intake, intakeHeadId, intakeHeadId.intValue()>0);
 			Integer intakeId = (Integer)lst2.get(0);
 			Integer referralId = (Integer)lst2.get(1);
 			Integer queueId = (Integer)lst2.get(2);

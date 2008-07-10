@@ -693,7 +693,8 @@ function checkExistClients(){
 							<td width="20%">Program*</td>
 							<td width="30%">
 							<c:choose>
-							<c:when test="${quatroIntakeEditForm.intake.intakeStatus=='admitted'}">
+							<c:when test="${quatroIntakeEditForm.intake.intakeStatus=='admitted' ||
+							(quatroIntakeEditForm.intake.intakeStatus=='active' && intakeHeadId!='0' && intakeHeadId!=quatroIntakeEditForm.intake.id)}">
 							<html-el:hidden	property="intake.currentProgramId" /> 
 								<html-el:select	property="intake.programId" disabled="true">
 								<option value=""></option>

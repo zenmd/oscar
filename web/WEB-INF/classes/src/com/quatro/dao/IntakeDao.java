@@ -497,8 +497,10 @@ public class IntakeDao extends HibernateDaoSupport {
 	
 	//bFamilyMember=true for family member intake
 	//bFamilyMember=false for individual person or family head intake
-	public ArrayList saveQuatroIntake(QuatroIntake intake, boolean bFamilyMember){
+	public ArrayList saveQuatroIntake(QuatroIntake intake, Integer intakeHeadId, boolean bFamilyMember){
 	    QuatroIntakeDB intakeDb= null;
+
+	    boolean programChangedForFamily=false;  //for family member programId update
 	    
 		Set obj= new HashSet();//TreeSet();
 
@@ -594,6 +596,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		      obj2.setValue((String)hData.get(obj2.getIntakeNodeId()));
 		      if (i==0){
 		    	intakeDb = obj2.getIntake2();
+		    	if(intakeDb.getProgramId().intValue()!=intake.getProgramId().intValue()) programChangedForFamily=true;
 			    intakeDb.setProgramId(intake.getProgramId());
 			    intakeDb.setProgramType(intake.getProgramType());
 			    intakeDb.setEndDate(intake.getEndDate());
@@ -662,7 +665,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	        intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
 	        	
 	        Integer queueId = intakeDb.getQueueId();
-	        if(queueId != null){
+	        if(queueId != null && queueId.intValue()>0){
 	          ProgramQueue programQueue = programQueueDao.getProgramQueue(queueId);
 	          if(programQueue!=null){
 	             programQueue.setProgramId(intakeDb.getProgramId());
@@ -670,7 +673,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	          }
         	}
 	        Integer referralId = intakeDb.getReferralId();
-	        if(referralId != null){
+	        if(referralId != null && referralId.intValue()>0){
 	          ClientReferral clientReferral = clientReferralDao.getClientReferral(referralId);
 	          if(clientReferral!=null){
 	        	clientReferral.setProgramId(intakeDb.getProgramId());
@@ -678,31 +681,16 @@ public class IntakeDao extends HibernateDaoSupport {
 	          }
 	        }
 		  }
-/*		  
-	      if(!bFamilyMember){
-            //delete old referral and queue records linked to this intake
-		    if(intakeDb.getReferralId() != null &&  intakeDb.getReferralId().intValue()>0){
-		      ClientReferral referralOld = new ClientReferral(Integer.valueOf(intakeDb.getReferralId().intValue()));
-		      referralOld.setClientId(intakeDb.getClientId());
-		      referralOld.setProgramId(Integer.valueOf(intakeDb.getProgramId().intValue()));
-		      getHibernateTemplate().delete(referralOld);
-            }  
-            if(intakeDb.getQueueId() != null && intakeDb.getQueueId().intValue()>0){
-		      ProgramQueue queueOld = new ProgramQueue(Integer.valueOf(intakeDb.getQueueId().intValue()));
-		      queueOld.setClientId(intakeDb.getClientId());
-		      queueOld.setProviderNo(Integer.getInteger(intakeDb.getStaffId()));
-		      queueOld.setProgramId(Integer.valueOf(intakeDb.getProgramId().intValue()));
-		      getHibernateTemplate().delete(queueOld);
-            }
-          
-            //add referral and queue records linked to this intake for bed program
-		    if(intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-		      getHibernateTemplate().save(referral);
-		      queue.setReferralId(referral.getId());
-	          getHibernateTemplate().save(queue);
-		    }
-	      }
-*/	      
+
+		  //update family member programId if family head programId changed
+          if(bFamilyMember && intakeHeadId.intValue()==intakeDb.getId().intValue() && programChangedForFamily==true){
+        	  List  family = getClientIntakeFamily(intakeDb.getId().toString());
+        	  for(int i=1;i<family.size();i++){
+        		QuatroIntakeFamily qif = (QuatroIntakeFamily)family.get(i);
+        		updateFamilyProgramId(qif.getIntakeId(), intakeDb.getProgramId());
+        	  }
+          }
+		  
 		//new intake
         }else{
 		  getHibernateTemplate().save(intakeDb);
@@ -758,6 +746,12 @@ public class IntakeDao extends HibernateDaoSupport {
         String sSQL="update QuatroIntakeDB q set q.referralId=?, q.queueId=? where q.id=?";
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, queueId, intake.getId()});
 	}
+	
+	private void updateFamilyProgramId(Integer intakeId, Integer programId){
+        String sSQL="update QuatroIntakeDB q set q.programId=? where q.id=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{programId, intakeId});
+	}
+	
 	public void deleteReferralIdQueueId(Integer referralId, Integer queueId){
         String sSQL="delete ClientReferral r where r.Id=?";
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId});
