@@ -259,7 +259,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			//for automatically Read Only
 			if(KeyConstants.AUTOMATIC.equals(crObj.getAutoManual())) readOnly=true;
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
-			request.setAttribute("activeButton", !readOnly);
+			request.setAttribute("activeButton", new Boolean(!readOnly));
 		}
 
 		Program program = (Program) clientForm.get("program");

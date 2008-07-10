@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -410,7 +411,7 @@ public class LookupDao extends HibernateDaoSupport {
 			}
 			else if ("D".equals(fdv.getFieldType()))
 			{
-				params[i] = new DBPreparedHandlerParam(MyDateFormat.getSysDate(fdv.getVal()));
+				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
 			}
 			else
 			{
@@ -459,7 +460,7 @@ public class LookupDao extends HibernateDaoSupport {
 			}
 			else if ("D".equals(fdv.getFieldType()))
 			{
-				params[i] = new DBPreparedHandlerParam(MyDateFormat.getSysDate(fdv.getVal()));
+				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
 			}
 			else
 			{
@@ -509,7 +510,7 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setBuf1(fullCode);
 		pcd.setActive(program.getProgramStatus().equalsIgnoreCase("active"));
 		pcd.setOrderByIndex(0);
-		
+		pcd.setLastUpdateDate(Calendar.getInstance());
 		this.SaveCodeValue(isNew,pcd);
 	}
 	public boolean inOrg(String org1,String org2){

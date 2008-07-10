@@ -1,10 +1,10 @@
 package oscar.oscarDB;
 
-import java.sql.Date;
+import java.util.Calendar;
 
 
 public class DBPreparedHandlerParam {
-   private Date dateValue;
+   private Calendar dateValue;
    private String stringValue;
    private int intValue;
    private String paramType;
@@ -20,7 +20,7 @@ public class DBPreparedHandlerParam {
 	   this.paramType=PARAM_STRING;
    }
    
-   public DBPreparedHandlerParam(Date dateValue){
+   public DBPreparedHandlerParam(Calendar dateValue){
 	   this.intValue = 0;
 	   this.stringValue=null;
 	   this.dateValue= dateValue;
@@ -34,7 +34,7 @@ public class DBPreparedHandlerParam {
 	   this.paramType=PARAM_INT;
    }
 
-   public Date getDateValue() {
+   public Calendar getDateValue() {
 	  return dateValue;
    }
 

@@ -27,6 +27,7 @@ package oscar.oscarDB;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.Calendar;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -165,7 +166,8 @@ public class DBPreparedHandler {
         	}
         	else if (DBPreparedHandlerParam.PARAM_DATE.equals(param.getParamType()))
         			{
-                    preparedStmt.setDate(i+1, param.getDateValue());
+        			Date dt = new Date(param.getDateValue().getTimeInMillis());
+                    preparedStmt.setDate(i+1, dt);
         			}
         	else if (DBPreparedHandlerParam.PARAM_INT.equals(param.getParamType()))
         	{
@@ -285,7 +287,8 @@ public class DBPreparedHandler {
                preparedStmt.setString((i + 1), param[i].getStringValue());
            }
            else if(param[i].getParamType().equals(DBPreparedHandlerParam.PARAM_DATE)){
-               preparedStmt.setDate((i + 1), param[i].getDateValue());
+        	   Date dt = new Date(param[i].getDateValue().getTimeInMillis());
+               preparedStmt.setDate((i + 1), dt);
            }
            else if(param[i].getParamType().equals(DBPreparedHandlerParam.PARAM_INT)){
                preparedStmt.setInt((i + 1), param[i].getIntValue());
@@ -302,7 +305,8 @@ public class DBPreparedHandler {
                preparedStmt.setString((i + 1), param[i].getStringValue());
            }
            else if(param[i].getParamType().equals(DBPreparedHandlerParam.PARAM_DATE)){
-               preparedStmt.setDate((i + 1), param[i].getDateValue());
+        	   Date dt = new Date(param[i].getDateValue().getTimeInMillis());
+               preparedStmt.setDate((i + 1),dt);
            }
            else if(param[i].getParamType().equals(DBPreparedHandlerParam.PARAM_INT)){
                preparedStmt.setInt((i + 1), param[i].getIntValue());

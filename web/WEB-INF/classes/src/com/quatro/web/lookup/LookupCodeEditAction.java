@@ -3,7 +3,7 @@ package com.quatro.web.lookup;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +12,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import oscar.MyDateFormat;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.service.LookupManager;
@@ -61,39 +64,49 @@ public class LookupCodeEditAction extends DispatchAction {
 		LookupTableDefValue tableDef = qform.getTableDef();
 		List fieldDefList = qform.getCodeFields();
 		boolean isNew = qform.isNewCode();
+		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Map map=request.getParameterMap();
 		String errMsg = "";
 		for(int i=0; i<fieldDefList.size(); i++)
 		{
 			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
-			String [] val = (String[]) map.get("field[" + i + "].val");
-			if (val != null) {
-				fdv.setVal(val[0]);
-				if("D".equals(fdv.getFieldType())) {
-					if(!Utility.IsDate(fdv.getVal())) {
-						if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-						errMsg += fdv.getFieldDesc() + "should be a Date";
+			if (fdv.getGenericIdx() == 8) {
+				fdv.setVal(providerNo);
+			}
+			else if(fdv.getGenericIdx() == 9)
+			{
+				fdv.setVal(MyDateFormat.getStandardDateTime(Calendar.getInstance()));
+			}
+			else
+			{	
+				String [] val = (String[]) map.get("field[" + i + "].val");
+				if (val != null) {
+					fdv.setVal(val[0]);
+					if("D".equals(fdv.getFieldType())) {
+						if(!Utility.IsDate(fdv.getVal())) {
+							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
+							errMsg += fdv.getFieldDesc() + "should be a Date";
+						}
 					}
-				}
-				else if("N".equals(fdv.getFieldType()))
-				{
-					if (!(fdv.isAuto() && isNew)) {
-						if(!Utility.IsInt(fdv.getVal()))
-						{
-							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-							errMsg += fdv.getFieldDesc() + " should be an Integer number";
-						}else if(!Utility.IsIntBiggerThanZero(fdv.getVal())){
-							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-							errMsg += fdv.getFieldDesc() + " should be greater than 0";
+					else if("N".equals(fdv.getFieldType()))
+					{
+						if (!(fdv.isAuto() && isNew)) {
+							if(!Utility.IsInt(fdv.getVal()))
+							{
+								if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
+								errMsg += fdv.getFieldDesc() + " should be an Integer number";
+							}else if(!Utility.IsIntBiggerThanZero(fdv.getVal())){
+								if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
+								errMsg += fdv.getFieldDesc() + " should be greater than 0";
+							}
 						}
 					}
 				}
+				else
+				{
+					fdv.setVal("");
+				}
 			}
-			else
-			{
-				fdv.setVal("");
-			}
-
 		}
 		if(!Utility.IsEmpty(errMsg)) 
 		{
