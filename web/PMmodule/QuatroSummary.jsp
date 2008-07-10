@@ -156,9 +156,13 @@ function openHealthSafety(){
 	</c:when>
 	<c:when test="${bedDemographic != null}">
 	  <tr><th width="20%">Assigned Room:</th>
-	  <td><c:out value="${bedDemographic.roomName}" /> (<c:out value="${bedDemographic.programName}" />)</td></tr>
+	  <td>
+	  <c:if test="${roomDemographic!=null}">
+	  <c:out value="${roomDemographic.room.name}" />
+	  </c:if>
+	   </td></tr>
 	  <tr><th width="20%">Assigned Bed:</th>
-	  <td><c:out value="${bedDemographic.bedName}" /> (<c:out value="${bedDemographic.programName}" />)</td></tr>
+	  <td><c:out value="${bedDemographic.bedName}" /></td></tr>
 	</c:when>
 	<c:otherwise>		
 	</c:otherwise>
@@ -168,18 +172,18 @@ function openHealthSafety(){
 
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Current Programs</th></tr>
+<tr><th>Current Program</th></tr>
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="10" requestURI="/PMmodule/QuatroClientSummary.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="This client is not currently admitted to any programs." />
 	
-	<display:column property="programName" sortable="true" title="Program Name" />
-	<display:column property="programType" sortable="true" title="Program Type" />
-	<display:column property="admissionDate.time" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd hh:mm a}" />
-	<display:column property="daysInProgram" sortable="true" title="Days in Program" />
+	<display:column property="programName" sortable="false" title="Program Name" />
+	<display:column property="programType" sortable="false" title="Program Type" />
+	<display:column property="admissionDate.time" sortable="false" title="Admission Date" format="{0,date,yyyy/MM/dd hh:mm a}" />
+	<display:column property="daysInProgram" sortable="false" title="Days in Program" />
 </display:table>
 </td></tr>
 

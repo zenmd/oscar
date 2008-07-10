@@ -261,6 +261,8 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 
 		String providerNo = bedDemographic.getProviderNo();
 		bedDemographic.setProvider(providerDAO.getProvider(providerNo));
+		Bed bed = bedDAO.getBed(bedDemographic.getBedId());
+		bedDemographic.setRoomId(bed.getRoomId());
 	}
 
 	void validate(BedDemographic bedDemographic) {

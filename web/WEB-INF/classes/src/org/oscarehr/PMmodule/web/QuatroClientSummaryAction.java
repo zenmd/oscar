@@ -102,29 +102,6 @@ public class QuatroClientSummaryAction extends BaseClientAction {
     	 }
        }
        
-       
-/*       
-       // check role permission
-       HttpSession se = request.getSession();
-       List admissions = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo));
-       for (Iterator it = admissions.iterator(); it.hasNext();) {
-           Admission admission = (Admission) it.next();
-           String inProgramId = String.valueOf(admission.getProgramId());
-           String inProgramType = admission.getProgramType();
-           if ("service".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeService", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionService", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-           else if ("bed".equalsIgnoreCase(inProgramType)) {
-               se.setAttribute("performDischargeBed", new Boolean(caseManagementManager.hasAccessRight("perform discharges", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performAdmissionBed", new Boolean(caseManagementManager.hasAccessRight("perform admissions", "access", providerNo, demographicNo, inProgramId)));
-               se.setAttribute("performBedAssignments", new Boolean(caseManagementManager.hasAccessRight("perform bed assignments", "access", providerNo, demographicNo, inProgramId)));
-
-           }
-       }
-*/
-
            // only allow bed/service programs show up.(not external program)
            List currentAdmissionList = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
            List bedServiceList = new ArrayList();
