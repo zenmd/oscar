@@ -196,7 +196,7 @@ function roomChanged()
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='pending'}">
-	      <html:select property="roomDemographic.id.roomId" onchange="javascript: roomChanged();">
+	      <html:select property="roomDemographic.id.roomId" onchange="javascript: setNoConfirm();roomChanged();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>&nbsp;

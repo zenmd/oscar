@@ -20,7 +20,6 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
   <input type="hidden" name="method" />
   <html:hidden property="bed.id"/>
   <html:hidden property="bed.roomId"/>
-  <html:hidden property="bed.facilityId"/>
   <table cellpadding="0" cellspacing="0" border="0" width="100%" 	height="100%">
     <c:choose>
     <c:when test="${bedId==0}">
@@ -64,16 +63,19 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
                 
                 <tr><td>
 				<table width="100%" class="simple">
-				  <tr><td width="25%">Room Name</td>
+				  <tr>
+				  <td width="25%">Program</td>
+				  <td width="25%">Room Name</td>
 				  <td width="10%">Floor</td>
 				  <td width="15%">Type</td>
 				  <td width="10%">Assigned Beds</td>
 				  <td width="10%">Room Capacity</td>
-				  <td width="25%">Program</td>
 				  <td width="5%">Active</td>
 				  </tr>
 
-				  <tr><td><c:out value="${bedManagerForm.room.name}"/></td>
+				  <tr>
+				  <td><c:out value="${program.name}" /></td>
+				  <td><c:out value="${bedManagerForm.room.name}"/></td>
 				  <td><c:out value="${bedManagerForm.room.floor}"/></td>
 				  <td>
 					<c:forEach var="roomType" items="${roomTypes}">
@@ -87,7 +89,6 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 					</c:choose>
 				  </td>
 				  <td><c:out value="${bedManagerForm.room.occupancy}"/></td>
-				  <td><c:out value="${program.name}" /></td>
 				  <td>
 				   <c:choose>
 				     <c:when test="${bedManagerForm.room.active}">Y</c:when>

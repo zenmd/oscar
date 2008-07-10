@@ -93,29 +93,30 @@
 
 				<!-- end room status & bed program filter --> 
 				<display:table class="simple" name="rooms"	id="room" requestURI="/PMmodule/BedManager.do">
+					<display:column title="Program">
+						 <c:forEach var="program" items="${bedManagerForm.programs}">
+						 <c:if test="${program.id == room.programId}"><c:out value="${program.name}" /></c:if>
+						 </c:forEach>
+					</display:column>
 				   <display:column title="Name" sortable="true" sortProperty="name">
 				    <a href="<html:rewrite action="/PMmodule/BedManager.do?method=editRoom" />&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${room.id}"/>">
                       <c:out value="${room.name}"/>
                     </a>  
                    </display:column>   
 				   <display:column property="floor" title="Floor" sortable="true"/>
-				   <display:column title="Type">
+				   <display:column title="Type" sortable="true">
 					<c:forEach var="roomType"	items="${roomTypes}">
 					<c:if test="${roomType.id == room.roomTypeId}"><c:out value="${roomType.name}" /></c:if>
 					</c:forEach>
 				   </display:column>
-				   <display:column title="Assigned Beds">
+				   <display:column title="Assigned Beds" sortable="true">
 						<c:choose>
 						<c:when test="${room.assignedBed != 1}">N</c:when>
 						<c:otherwise>Y</c:otherwise>
 						</c:choose>
 				   </display:column>
+				   <display:column property="bedNum" title="Beds" />
 				   <display:column property="occupancy" title="Room Capacity" />
-					<display:column title="Program">
-						 <c:forEach var="program" items="${bedManagerForm.programs}">
-						 <c:if test="${program.id == room.programId}"><c:out value="${program.name}" /></c:if>
-						 </c:forEach>
-					</display:column>
 					<display:column title="Active" sortable="true" sortProperty="active">
 					   <c:choose>
 					     <c:when test="${room.active}">Y</c:when>

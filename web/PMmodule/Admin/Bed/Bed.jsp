@@ -80,16 +80,19 @@
 
 				<tr><td width="100%">								
 				<table width="100%" class="simple">
-				  <tr><th width="25%">Room Name</th>
-				  <th width="10%">Floor</th>
-				  <th width="15%">Type</th>
-				  <th width="10%">Assigned Beds</th>
-				  <th width="10%">Room Capacity</th>
-				  <th width="25%">Program</th>
-				  <th width="5%">Active</th>
+				  <tr>
+				  <td width="25%">Program</td>
+				  <td width="25%">Room Name</td>
+				  <td width="10%">Floor</td>
+				  <td width="15%">Type</td>
+				  <td width="10%">Assigned Beds</td>
+				  <td width="10%">Room Capacity</td>
+				  <td width="5%">Active</td>
 				  </tr>
 
-				  <tr><td><c:out value="${bedManagerForm.room.name}"/></td>
+				  <tr>
+				  <td><c:out value="${program.name}" /></td>
+				  <td><c:out value="${bedManagerForm.room.name}"/></td>
 				  <td><c:out value="${bedManagerForm.room.floor}"/></td>
 				  <td>
 					<c:forEach var="roomType" items="${roomTypes}">
@@ -103,7 +106,6 @@
 					</c:choose>
 				  </td>
 				  <td><c:out value="${bedManagerForm.room.occupancy}"/></td>
-				  <td><c:out value="${program.name}" /></td>
 				  <td>
 				   <c:choose>
 				     <c:when test="${bedManagerForm.room.active}">Y</c:when>
