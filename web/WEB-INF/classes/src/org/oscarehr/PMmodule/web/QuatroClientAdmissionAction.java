@@ -354,7 +354,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
      if(admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED) ||
               	admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_PENDING)){
        if(request.getParameter("admissionId")!=null){
-         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId));
+         RoomDemographic rdm = roomDemographicManager.getRoomDemographicByAdmissionId(Integer.valueOf(request.getParameter("admissionId")));
          if(rdm!=null){
            clientForm.setRoomDemographic(rdm);
            clientForm.setCurDB_RoomId(rdm.getRoomId());
@@ -363,7 +363,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          
          BedDemographic bdm =null;
          if(!FamilyIntakeType.equals("Y")){
-    	   bdm = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId));
+    	   bdm = bedDemographicManager.getBedDemographicByAdmissionId(Integer.valueOf(request.getParameter("admissionId")));
     	   if(bdm!=null){
     	     clientForm.setBedDemographic(bdm);
     	     clientForm.setCurDB_BedId(bdm.getBedId());

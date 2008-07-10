@@ -89,6 +89,18 @@ public class BedDemographicDAO extends HibernateDaoSupport {
         return bedDemographic;
     }
 
+    public BedDemographic getBedDemographicByAdmissionId(Integer admissionId) {
+        List bedDemographics = getHibernateTemplate().find("from BedDemographic bd where bd.admissionId =?", admissionId);
+
+        if (bedDemographics.size() > 1) {
+            throw new IllegalStateException("Client is assigned to more than one bed");
+        }
+
+        BedDemographic bedDemographic = (BedDemographic)((bedDemographics.size() == 1)?bedDemographics.get(0):null);
+
+        return bedDemographic;
+    }
+
     /**
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#getBedDemographicByDemographic(java.lang.Integer)
      */

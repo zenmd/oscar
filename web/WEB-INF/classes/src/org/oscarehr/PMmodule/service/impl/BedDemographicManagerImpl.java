@@ -108,6 +108,34 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 		return bedDemographic;
 	}
 
+	public BedDemographic getBedDemographicByAdmissionId(Integer admissionId) {
+		if (admissionId == null) {
+			throw new IllegalArgumentException("admissionId must not be null");
+		}
+
+		BedDemographic bedDemographic = null;
+
+		bedDemographic = bedDemographicDAO.getBedDemographicByAdmissionId(admissionId);
+		if(bedDemographic==null) return null;
+		
+		setAttributes(bedDemographic);
+
+		Bed bed = bedDAO.getBed(bedDemographic.getId().getBedId());
+		bedDemographic.setBed(bed);
+
+		Room room = roomDAO.getRoom(bed.getRoomId());
+		bed.setRoom(room);
+
+		Integer programId = room.getProgramId();
+
+		if (programId != null) {
+			Program program = programDAO.getProgram(programId);
+			room.setProgram(program);
+		}
+
+		return bedDemographic;
+	}
+
 	/**
 	 * @see org.oscarehr.PMmodule.service.BedDemographicManager#getBedDemographicByDemographic(java.lang.Integer)
 	 */
