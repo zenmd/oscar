@@ -34,7 +34,6 @@
 
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="clientId" /> 
-<input type="hidden" name="activeButton" />
 <input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <html:hidden property="referral.clientId" />
 <html:hidden property="referral.id" />
@@ -57,7 +56,7 @@
 		<td align="left" class="buttonBar2">
 		<html:link action="/PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Referrals&nbsp;&nbsp;|</html:link>
-		<c:if test="${activeButton && referralStatus=='pending'}">
+		<c:if test="${!isReadOnly && referralStatus=='pending'}">
 				<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>				
 		</c:if>
@@ -83,7 +82,7 @@
 <tr><td>
   <table class="simple" cellspacing="2" cellpadding="3">
 	<tr><th style="color:black" rowspan="2">Program <br>
-	<c:if test="${activeButton}">
+	<c:if test="${!isReadOnly}">
 		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;"
 			onclick="javascript: setNoConfirm();">			
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;&nbsp;</a>
