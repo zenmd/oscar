@@ -714,14 +714,14 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		/* remember the str written into echart */
 		request.getSession().setAttribute("lastSavedNoteString", savedStr);
 		caseManagementMgr.getEditors(note);
-
+		/*
 		try {
 			this.caseManagementMgr.deleteTmpSave(providerNo, note
 					.getDemographic_no(), note.getProgram_no());
 		} catch (Throwable e) {
 			log.warn(e);
 		}
-
+	*/
 		return note.getId();
 	}
 
