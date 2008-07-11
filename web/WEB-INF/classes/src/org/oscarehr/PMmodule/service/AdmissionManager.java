@@ -107,7 +107,7 @@ public class AdmissionManager {
    		     if(admission.getClientId().intValue()==qif.getClientId().intValue()) admissionId=admObj.getId(); 
        	     
  		     //remove old room assignment
-   		     rdm2.setAdmissionId(admissionId);
+   		     rdm2.setAdmissionId(admObj.getId());
    		     RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(qif.getClientId());
    		     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){
            	   roomDemographicDAO.deleteRoomDemographic(rdm);

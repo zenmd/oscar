@@ -411,6 +411,41 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          }
        }
      
+     //fail to create new admission due to error message.
+     }else if(admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE)){
+         ArrayList availableRoomLst = new ArrayList();
+  	     Room emptyRoom=new Room();
+  	     emptyRoom.setId(new Integer(0));
+  	     emptyRoom.setName(" ---- ");
+  	     availableRoomLst.add(emptyRoom);
+         Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+      		   clientId, FamilyIntakeType.equals("Y"));
+         for(int i=0;i<availableRooms.length;i++){
+             availableRoomLst.add(availableRooms[i]);
+         }
+         Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
+         clientForm.setAvailableRooms(availableRooms2);
+
+         if(!FamilyIntakeType.equals("Y")){
+             ArrayList availableBedLst = new ArrayList();
+      	     Bed emptyBed=new Bed();
+      	     emptyBed.setId(new Integer(0));
+      	     emptyBed.setName(" ---- ");
+      	     availableBedLst.add(emptyBed);
+             if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
+               Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+               for(int i=0;i<availableBeds.length;i++){
+                   availableBedLst.add(availableBeds[i]);
+               }
+           	   Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
+               clientForm.setAvailableBeds(availableBeds2);
+       	     }else{
+               Bed[] availableBeds=new Bed[1];
+         	   availableBeds[0] = emptyBed;
+               clientForm.setAvailableBeds(availableBeds);
+             }
+           }
+         
      //admission discharged
      }else{
        RoomDemographicHistorical rdm= admissionManager.getLatestRoomDemographicHistory(admissionId);
@@ -460,30 +495,51 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 		
 		return sec.GetAccess(KeyConstants.FUN_PMM_CLIENTADMISSION, programId).equals(KeyConstants.ACCESS_ALL);
    }
-   private boolean validateConflict(HttpServletRequest request, Program program,Demographic client,ActionMessages messages){
+   private boolean validateConflict(HttpServletRequest request, Program program,Demographic client,
+		   Integer roomId, Integer clientNum, ActionMessages messages){
 	   boolean valid = true;
 	 //  ActionMessages messages = new ActionMessages();
 	   if(clientRestrictionManager.checkGenderConflict(program, client)){
-     	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
+    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
            valid = false;
            saveMessages(request,messages);           
- 	     }
-     	 if(clientRestrictionManager.checkAgeConflict(program, client)){
-     	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
-     	    valid = false;
+ 	   }
+       if(clientRestrictionManager.checkAgeConflict(program, client)){
+     	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
+     	   valid = false;
            saveMessages(request,messages);           
-     	 }
-     	StringBuffer sb = new StringBuffer();
- 	     //service restriction check
+       }
+
+ 	   //service restriction check
+       StringBuffer sb = new StringBuffer();
        ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
      	     program.getId(), client.getDemographicNo(), new Date());
        if(restrInPlace != null) {
-     	   sb.append(client.getLastName() + ", " + client.getFirstName() + "<br>");
-	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
+     	 sb.append(client.getLastName() + ", " + client.getFirstName() + "<br>");
+	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
        			request.getContextPath(), program.getName(), sb.toString()));
          valid = false;
          saveMessages(request,messages);         
        }
+       
+       //enough bed or room capacity check
+       if(roomId.intValue()>0){
+           Room newSelectedRoom = roomManager.getRoom(roomId);        	  
+     	    if(newSelectedRoom.getAssignedBed().intValue()==1){
+             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(roomId);
+     		  if(availableBeds.length<clientNum.intValue()) 
+  		        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.room_bed_limitation",
+  	       			request.getContextPath(), String.valueOf(availableBeds.length)));
+                valid = false;
+           }else{
+     		  if(newSelectedRoom.getOccupancy().intValue()<clientNum.intValue()) 
+	            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.room_capacity_limitation",
+	  	       		request.getContextPath(), newSelectedRoom.getOccupancy().toString()));
+              valid = false;
+           }
+         
+         }
+       
 	   return !valid;
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {     
@@ -520,7 +576,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
       	     //check gender conflict and age conflict
              Demographic client2= clientManager.getClientByDemographicNo(qif.getClientId().toString());
-       	     isWarning = validateConflict(request, program, client2,messages);
+             if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)))
+               isWarning = validateConflict(request, program, client2,
+              	  clientForm.getRoomDemographic().getRoomId(),clientForm.getIntakeClientNum(),messages);
+             
        	     canOverride=canOverwrite(request, program.getId().toString());
        	     if(isWarning){
        	    	 if (!canOverride)  return update(mapping, form, request, response);
@@ -552,7 +611,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	 }else{
   		   //check gender conflict and age conflict
     	   Program program = programManager.getProgram(programId);
-    	   isWarning = validateConflict(request, program, client,messages);
+//    	   isWarning = validateConflict(request, program, client,messages);
+           isWarning = validateConflict(request, program, client,
+               	  clientForm.getRoomDemographic().getRoomId(),clientForm.getIntakeClientNum(),messages);
      	   canOverride=canOverwrite(request, program.getId().toString());
      	   
      	   if(isWarning){

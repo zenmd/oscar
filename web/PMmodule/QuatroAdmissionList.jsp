@@ -65,8 +65,8 @@ function updateQuatroAdmission(clientId, admissionId) {
    <display:column property="admissionStatus" sortable="true" title="Status" />
    <display:column sortable="false" title="Actions" >
 	<c:choose>								
-	  <c:when test="${admission.admissionStatus == 'admitted'}">
-        <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
+	  <c:when test="${admission.admissionStatus == 'admitted' || admission.admissionStatus == 'pending'}">
+          <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
 	  </c:when>
 	  <c:otherwise>
         <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>

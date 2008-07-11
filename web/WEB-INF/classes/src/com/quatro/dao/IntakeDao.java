@@ -66,9 +66,10 @@ public class IntakeDao extends HibernateDaoSupport {
         //client Merge
         String clientIds=mergeClientDao.getMergedClientIds(clientId);
     	String sSQL="from QuatroIntakeDB i where i.clientId in " +clientIds+ 
-		        " and i.programId=" + programId.toString() + " and (i.intakeStatus='" + 
-		          KeyConstants.INTAKE_STATUS_ACTIVE + "' or i.intakeStatus='" +
-		          KeyConstants.INTAKE_STATUS_ADMITTED + "')";
+		        " and i.programId=" + programId.toString() + 
+		        " and (i.intakeStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
+		        " or i.intakeStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
+                " or i.intakeStatus='" + KeyConstants.INTAKE_STATUS_PENDING + "')";
 		
     	List result = getHibernateTemplate().find(sSQL);
 	    return result;
@@ -431,16 +432,19 @@ public class IntakeDao extends HibernateDaoSupport {
            obj[i]=Integer.valueOf(split[i]);
         }
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
+/*        
         String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
         		" and i.programId in (" +
           sb.toString() + ") order by i.intakeStatus, i.createdOn desc";
-/*
+*/          
+
         String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
         		" and i.programId in (" +
           sb.toString() + ") and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
-          " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "')" +
+          " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
+          " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_PENDING + "')" +
           " order by i.intakeStatus desc, i.createdOn desc";
-*/        
+        
 		List results = getHibernateTemplate().find(sSQL, obj);
 		
 		return results;
@@ -453,7 +457,10 @@ public class IntakeDao extends HibernateDaoSupport {
 	    String progSQL = com.quatro.util.Utility.getUserOrgQueryString(providerNo, shelterId);
 
 	    results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in " + clientIds+" and i.programId in " + progSQL +
-	    		"  order by i.createdOn desc");
+	    		" and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
+	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
+	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_PENDING + "')" +
+	            "  order by i.createdOn desc");
 		return results;
 	}
 	
@@ -469,8 +476,9 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	public List getActiveIntakeIds(Integer clientId){
 		String sSQL="select a.id from QuatroIntakeHeader a WHERE a.clientId = ? and " +
-		"(a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "' or a.intakeStatus='" +
-		KeyConstants.INTAKE_STATUS_ADMITTED + "')";
+		"(a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
+		" or a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
+		" or a.intakeStatus='" + KeyConstants.INTAKE_STATUS_PENDING + "')";
 
 		List lst = getHibernateTemplate().find(sSQL, new Object[] {clientId});
 		return lst;
