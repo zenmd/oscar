@@ -89,9 +89,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        List lstAdmission = admissionManager.getAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
        request.setAttribute("admissions", lstAdmission);
 
-//       List queue = programQueueManager.getProgramQueuesByClientId(Integer.valueOf(demographicNo));
-//       request.setAttribute("queue", queue);
-       
        return mapping.findForward("list");
    }
    
@@ -261,7 +258,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
       			request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
             }else{
       		  if(newSelectedRoom.getOccupancy().intValue()<clientForm.getIntakeClientNum().intValue()) 
-        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough room capacity (Room capacity is " + newSelectedRoom.getOccupancy().toString() + "), please select other room.</font>");
+        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough capacity (Room capacity is " + newSelectedRoom.getOccupancy().toString() + "), please select other room.</font>");
             }
           
           }
