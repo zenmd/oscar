@@ -400,6 +400,6 @@ public class Admission implements Serializable, Cloneable {
 		diff = diff / 60; // hours
 		diff = diff / 24; // days
 
-		return Integer.valueOf((int)diff);
+		return new Integer((int)diff);
 	}
 }
