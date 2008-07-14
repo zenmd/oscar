@@ -414,7 +414,7 @@ public class LookupDao extends HibernateDaoSupport {
 			else if ("D".equals(fdv.getFieldType()))
 			{
 				//for last update date Using calendar Instance
-				params[i] = new DBPreparedHandlerParam( new GregorianCalendar());
+				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
 			}
 			else
 			{
@@ -464,8 +464,7 @@ public class LookupDao extends HibernateDaoSupport {
 			else if ("D".equals(fdv.getFieldType()))
 			{
 //				for last update date Using calendar Instance
-				params[i] = new DBPreparedHandlerParam( new GregorianCalendar());
-				//params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
+				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
 			}
 			else
 			{
