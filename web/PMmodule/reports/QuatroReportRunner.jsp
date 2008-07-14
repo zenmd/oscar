@@ -47,9 +47,9 @@ function CriteriaChanged(obj){
 }
 
 function getOrgList(){
-  var elSel= document.getElementsByName("lstOrg")[0]; 
-  var txtKey= document.getElementsByName("txtOrgKey")[0]; 
-  var txtValue= document.getElementsByName("txtOrgValue")[0]; 
+  var elSel= document.forms[0].lstOrg; 
+  var txtKey= document.forms[0].txtOrgKey; 
+  var txtValue= document.forms[0].txtOrgValue; 
   txtKey.value="";
   txtValue.value="";
   for(var i=0;i<elSel.options.length;i++){
@@ -70,11 +70,12 @@ function getOrgList(){
 function submitForm(mthd)
 {
 	document.forms[0].method.value=mthd;
+	getOrgList();
 	document.forms[0].submit();
 }
 </script>
 
-<html:form action="/QuatroReport/ReportRunner.do" onsubmit="return getOrgList();">
+<html:form action="/QuatroReport/ReportRunner.do">
 <input type="hidden" id="method" name="method" />
 <!-- input type="hidden" name="templateNo" value="<c:out value="${templateNo}"/>" /> -->
 <input type="hidden" id="onCriteriaChange" name="onCriteriaChange" />
@@ -168,10 +169,11 @@ function submitForm(mthd)
            <td class="clsMenuLables" valign="top" width="50%">ORGANIZATION</td>
         </tr>
         <tr>
-           <td><html:select property="lstOrg" multiple="true" size="5" style="width:90%;">
+           <td><html:select property="lstOrg" multiple="true" size="5" style="width:90%;" styleId="lstOrg">
               <html:options collection="lstOrgSelection" property="key" labelProperty="value"></html:options>
            </html:select>
-           <html:hidden property="txtOrgKey" value="" /><html:hidden property="txtOrgValue" value="" /></td>
+           <html:hidden property="txtOrgKey" value="" styleId="txtOrgKey"/>
+           <html:hidden property="txtOrgValue" styleId="txtOrgValue" value="" /></td>
         </tr>
         <tr>
            <td class="clsButtonBarText">
