@@ -24,6 +24,7 @@ import com.quatro.util.Utility;
 
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Facility;
+import java.util.Calendar;
 
 public class LookupDao extends HibernateDaoSupport {
 
@@ -411,7 +412,8 @@ public class LookupDao extends HibernateDaoSupport {
 			}
 			else if ("D".equals(fdv.getFieldType()))
 			{
-				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
+				//for last update date Using calendar Instance
+				params[i] = new DBPreparedHandlerParam(Calendar.getInstance());
 			}
 			else
 			{
