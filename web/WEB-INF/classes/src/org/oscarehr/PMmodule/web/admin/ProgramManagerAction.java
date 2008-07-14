@@ -113,7 +113,8 @@ public class ProgramManagerAction extends BaseProgramAction {
         	list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
         }
     	request.setAttribute("programs", list);
-        request.setAttribute("facilities",facilityDAO.getActiveFacilities());
+    	List lstFac=facilityDAO.getActiveFacilities(shelterId,providerNo);
+        request.setAttribute("facilities",lstFac);
         List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
         request.setAttribute("programTypeLst", programTypeLst);
         
@@ -560,19 +561,8 @@ public class ProgramManagerAction extends BaseProgramAction {
         
         // save program & sign the modification of the program
         programManager.saveProgram(realProgram);
-
-        ProgramSignature programSignature = new ProgramSignature();
-        programSignature.setProgramId(program.getId());
-        programSignature.setProgramName(realProgram.getName());
-        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        programSignature.setProviderId(providerNo);
-        programSignature.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
-//        programSignature.setCaisiRoleName(providerManager.getProvider(providerNo).getProviderType());
-        //Date now = new Date();
-        //programSignature.setUpdateDate(now);
-        programSignature.setUpdateDate(Calendar.getInstance());
-        programManager.saveProgramSignature(programSignature);
-
+        
+        
         ActionMessages messages = new ActionMessages();
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
         saveMessages(request, messages);
