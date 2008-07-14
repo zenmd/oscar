@@ -13,6 +13,7 @@
 <html-el:form action="/PMmodule/QuatroIntakeEdit.do">
 	<input type="hidden" name="clientId" value="<c:out value="${clientId}" />" />
 	<input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />" />
+	<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 	<html:hidden property="intake.staffId" />
 	<html:hidden property="intake.intakeStatus" />
 	<html:hidden property="intake.referralId" />
@@ -225,7 +226,7 @@ function checkExistClients(){
 							<td><html-el:text size="30" maxlength="70"
 								property="client.alias" /></td>
 							<td><c:if test="${newClientFlag=='true'}">
-								<html:link href="javascript:setNoConfirm();checkExistClients();"	style="color:Navy;text-decoration:none;">
+								<html:link href="javascript:checkExistClients();" onclick="javascript:setNoConfirm();"style="color:Navy;text-decoration:none;">
 									<img border="0"	src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Check&nbsp;&nbsp;
 								</html:link>
 							</c:if></td>
@@ -694,7 +695,7 @@ function checkExistClients(){
 							<td width="30%">
 							<c:choose>
 							<c:when test="${quatroIntakeEditForm.intake.intakeStatus=='admitted' ||
-							(intakeHeadId!='0' && intakeHeadId!=quatroIntakeEditForm.intake.id)}">
+							(quatroIntakeEditForm.intake.intakeStatus=='active' && intakeHeadId!='0' && intakeHeadId!=quatroIntakeEditForm.intake.id)}">
 							<html-el:hidden	property="intake.currentProgramId" /> 
 								<html-el:select	property="intake.programId" disabled="true">
 								<option value=""></option>
