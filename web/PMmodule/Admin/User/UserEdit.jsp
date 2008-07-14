@@ -19,7 +19,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User List&nbsp;&nbsp;|</html:link>
 			<logic:present	name="userForEdit">
 				<html:link href="javascript:submitForm('saveEdit');"
-				style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+				style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 				<html:link href="javascript:submitForm('profile');"
 				style="color:Navy;text-decoration:none;">
@@ -27,7 +27,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
 				<html:link href="javascript:submitForm('saveNew');"
-				style="color:Navy;text-decoration:none;">
+				style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 			</logic:notPresent>
 			
@@ -198,13 +198,12 @@ function submitForm(func){
 			v8 = true;
 		}	
 		
-				
 		if(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8){
 			document.forms[0].submit();
 		}
 	
 	} else {
-			document.forms[0].submit();
+		document.forms[0].submit();
 	}
 }
 
