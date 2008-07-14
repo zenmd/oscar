@@ -70,6 +70,8 @@ public class RoomManager {
         }
 
         Room room = roomDAO.getRoom(roomId);
+        if(room==null) return room;
+        
         Facility facility = facilityDAO.getFacility(room.getFacilityId()); 
         setAttributes(room);
         room.setFacility(facility);

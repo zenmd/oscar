@@ -53,7 +53,7 @@ public class RoomDemographic implements Auditable, Serializable {
     private Date assignEnd;
     private String comment;
     private Provider provider;
-    private Room room;
+//    private Room room;
     private Demographic demographic;
     private Calendar lastUpdateDate;    
 
@@ -112,7 +112,8 @@ public class RoomDemographic implements Auditable, Serializable {
 		this.setComment(comment);
 		initialize();
 	}
-
+	
+/*
 	public void setRoomDemographicFromBedDemographic(BedDemographic bedDemographic) {
 	    
 		if(bedDemographic == null ){
@@ -127,6 +128,7 @@ public class RoomDemographic implements Auditable, Serializable {
 		
 		return; 
     }
+*/
 	
 	public void setDemographicNo(Integer demographicNo){
 		this.demographicNo = demographicNo;
@@ -135,9 +137,6 @@ public class RoomDemographic implements Auditable, Serializable {
 	    this.provider = provider;
     }
 	
-	public void setRoom(Room room) {
-	    this.room = room;
-    }
 	
 	public void setDemographic(Demographic demographic) {
 	    this.demographic = demographic;
@@ -167,14 +166,6 @@ public class RoomDemographic implements Auditable, Serializable {
 		System.out.println("RoomDemographic.setProviderName()");
 	}
 
-	public Room getRoom() {
-		return room;
-	}
-
-	public String getRoomName() {
-		return room != null ? room.getName() : null;
-	}
-
 	public void setRoomName(String roomName) {
 		// immutable
 		System.out.println("RoomDemographic.setRoomName()");
@@ -188,7 +179,7 @@ public class RoomDemographic implements Auditable, Serializable {
 		// immutable
 		System.out.println("RoomDemographic.setDemographicName()");
 	}
-
+/*
 	public String getProgramName() {
 		return room != null ? room.getProgramName() : null;
 	}
@@ -197,17 +188,19 @@ public class RoomDemographic implements Auditable, Serializable {
 		// immutable
 		System.out.println("RoomDemographic.setProgramName()");
 	}
-
+*/
 	// property adapted for view
+/*	
 	public Integer getRoomId() {
 		return getId().getRoomId();
 	}
-
+*/
 	// property adapted for view
+/*	
 	public void setRoomId(Integer roomId) {
 		getId().setRoomId(roomId);
 	}
-
+*/
 	// property adapted for view
 	public String getStrAssignEnd() {
 		return DateTimeFormatUtils.getStringFromDate(getAssignEnd());

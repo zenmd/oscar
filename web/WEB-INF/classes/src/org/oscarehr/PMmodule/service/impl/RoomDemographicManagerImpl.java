@@ -132,7 +132,7 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 		}
 
 		// only discharge out of previous room in the same facility
-        Room room=roomDAO.getRoom(roomDemographic.getRoomId());
+        Room room=roomDAO.getRoom(roomDemographic.getId().getRoomId());
 		RoomDemographic roomDemographicPrevious = getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo()); 
 		if(roomDemographicPrevious != null){
 			deleteRoomDemographic(roomDemographicPrevious);

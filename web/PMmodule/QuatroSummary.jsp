@@ -157,8 +157,8 @@ function openHealthSafety(){
 	<c:when test="${bedDemographic != null}">
 	  <tr><th width="20%">Assigned Room:</th>
 	  <td>
-	  <c:if test="${roomDemographic!=null}">
-	  <c:out value="${roomDemographic.room.name}" />
+	  <c:if test="${room!=null}">
+	  <c:out value="${room.name}" />
 	  </c:if>
 	   </td></tr>
 	  <tr><th width="20%">Assigned Bed:</th>

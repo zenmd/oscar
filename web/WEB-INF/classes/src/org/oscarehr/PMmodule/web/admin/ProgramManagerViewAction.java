@@ -743,8 +743,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		
    			RoomDemographic roomDemographic1 = roomDemographicManager.getRoomDemographicByDemographic(client1);
    			RoomDemographic roomDemographic2 = roomDemographicManager.getRoomDemographicByDemographic(client2);
-   			roomId1 =roomDemographic1.getRoomId();
-   			roomId2 =roomDemographic2.getRoomId();
+   			roomId1 =roomDemographic1.getId().getRoomId();
+   			roomId2 =roomDemographic2.getId().getRoomId();
    			if(roomDemographic1 == null  ||  roomDemographic2 == null){
    	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
    	            saveMessages(request, messages);
@@ -793,13 +793,13 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   			roomDemographic1.getId().setDemographicNo(client2);
    	   		    roomDemographic1.setAssignStart(today);
    	   		    roomDemographic1.setProviderNo(providerNo);
-   	   		    roomDemographic1.setRoomId(roomId1);
+   	   		    roomDemographic1.getId().setRoomId(roomId1);
    	   		    roomDemographic2.setProviderNo(providerNo);
    	   		    roomDemographic1.setAssignEnd(roomDemographic2.getAssignEnd());
    	   			roomDemographic2.getId().setDemographicNo(client1);
    	   		    roomDemographic2.setAssignStart(today);
    	   		    roomDemographic2.setAssignEnd(assignEnd1);
-   	   		    roomDemographic2.setRoomId(roomId2);
+   	   		    roomDemographic2.getId().setRoomId(roomId2);
 
    	   			roomDemographicManager.saveRoomDemographic(roomDemographic1);
    	   			roomDemographicManager.saveRoomDemographic(roomDemographic2);
@@ -816,7 +816,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    						QuatroIntakeFamily f1Intake =(QuatroIntakeFamily)f1Items.next();
    						cIds +=f1Intake.getClientId()+",";
    					}
-   					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic1.getRoomId());
+   					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic1.getId().getRoomId());
    					//delete beds
    					bedDemographicManager.deleteBedDemographic(cIds);
    					String[] clients=cIds.split(",");
@@ -827,7 +827,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   	   			
    	   	   		    rdObj.setAssignStart(today);
    	   	   		    rdObj.setProviderNo(providerNo);   	   	   		    
-   	   	   		    rdObj.setRoomId(roomId1);
+   	   	   		    rdObj.getId().setRoomId(roomId1);
    	   	   		    roomDemographicManager.saveRoomDemographic(rdObj); 
    					}
    					Iterator f2Items =f2.iterator();
@@ -836,7 +836,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    						QuatroIntakeFamily f2Intake =(QuatroIntakeFamily)f2Items.next();
    						cIds +=f2Intake.getClientId()+",";
    					}
-   					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic2.getRoomId());
+   					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic2.getId().getRoomId());
    					bedDemographicManager.deleteBedDemographic(cIds);
    					clients=cIds.split(",");
    					for(int i=0;i<clients.length;i++){
@@ -846,7 +846,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   	   			
    	   	   		    rdObj.setAssignStart(today);
    	   	   		    rdObj.setProviderNo(providerNo);   	   	   		    
-   	   	   		    rdObj.setRoomId(roomId2);
+   	   	   		    rdObj.getId().setRoomId(roomId2);
    	   	   		    roomDemographicManager.saveRoomDemographic(rdObj); 
    					}
    		            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.familyHead_switch"));

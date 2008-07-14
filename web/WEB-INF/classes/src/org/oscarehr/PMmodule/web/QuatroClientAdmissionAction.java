@@ -220,7 +220,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //setup beds
        //family intake doesn't need assign beds, just room. 
        if(!clientForm.getFamilyIntakeType().equals("Y")){
-         Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getRoomId());        	  
+         Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getId().getRoomId());        	  
     	 if(newSelectedRoom==null){
       	   Bed emptyBed=new Bed();
     	   emptyBed.setId(new Integer(0));
@@ -236,27 +236,27 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	       emptyBed.setName(" ---- ");
   	       availableBedLst.add(emptyBed);
 
-  	       if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
+  	       if(clientForm.getRoomDemographic().getId().getRoomId().intValue()>0){
              Bed currentDB_bed = null;
-             if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
+             if(curDB_RoomId.equals(clientForm.getRoomDemographic().getId().getRoomId())){
         	   if(curDB_BedId!=null) currentDB_bed = bedManager.getBed(curDB_BedId);
                if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
              }
-             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getId().getRoomId());
              for(int i=0;i<availableBeds.length;i++){
          	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
                availableBedLst.add(availableBeds[i]);
              }
        	     Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
              clientForm.setAvailableBeds(availableBeds2);
-             if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0) && availableBeds2.length<2)
+             if((clientForm.getRoomDemographic().getId().getRoomId()!=null && clientForm.getRoomDemographic().getId().getRoomId().intValue()>0) && availableBeds2.length<2)
         	   request.setAttribute("properRoomMsg", "<font color='#ff0000'>No available bed(s) in this room, please select other room.</font>");
              
    	       }else{
              Bed[] availableBeds=new Bed[1];
      	     availableBeds[0] = emptyBed;
              clientForm.setAvailableBeds(availableBeds);
-             if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0) && availableBeds.length<2)
+             if((clientForm.getRoomDemographic().getId().getRoomId()!=null && clientForm.getRoomDemographic().getId().getRoomId().intValue()>0) && availableBeds.length<2)
                request.setAttribute("properRoomMsg", "<font color='#ff0000'>No available bed(s) in this room, please select other room.</font>");
            }
       	 }else{
@@ -270,10 +270,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	     
        //family intake needs check if there are enough beds in the selected room.
        }else{
-          if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
-            Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getRoomId());        	  
+          if(clientForm.getRoomDemographic().getId().getRoomId()!=null && clientForm.getRoomDemographic().getId().getRoomId().intValue()>0){
+            Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getId().getRoomId());        	  
       	    if(newSelectedRoom.getAssignedBed().intValue()==1){
-              Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+              Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getId().getRoomId());
       		  if(availableBeds.length<clientForm.getIntakeClientNum().intValue()) 
       			request.setAttribute("properRoomMsg", "<font color='#ff0000'>Not enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
             }else{
@@ -370,8 +370,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          RoomDemographic rdm = roomDemographicManager.getRoomDemographicByAdmissionId(Integer.valueOf(request.getParameter("admissionId")));
          if(rdm!=null){
            clientForm.setRoomDemographic(rdm);
-           clientForm.setCurDB_RoomId(rdm.getRoomId());
-           curDB_RoomId = rdm.getRoomId();
+           clientForm.setCurDB_RoomId(rdm.getId().getRoomId());
+           curDB_RoomId = rdm.getId().getRoomId();
          }
          
          BedDemographic bdm =null;
@@ -421,13 +421,13 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	       emptyBed.setId(new Integer(0));
   	       emptyBed.setName(" ---- ");
   	       availableBedLst.add(emptyBed);
-           if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
+           if(clientForm.getRoomDemographic().getId().getRoomId()!=null && clientForm.getRoomDemographic().getId().getRoomId().intValue()>0){
              Bed currentDB_bed = null;
-             if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
+             if(curDB_RoomId.equals(clientForm.getRoomDemographic().getId().getRoomId())){
         	   if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
                if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
              }
-             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getId().getRoomId());
              for(int i=0;i<availableBeds.length;i++){
          	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
                availableBedLst.add(availableBeds[i]);
@@ -465,8 +465,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
       	     emptyBed.setId(new Integer(0));
       	     emptyBed.setName(" ---- ");
       	     availableBedLst.add(emptyBed);
-             if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
-               Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+             if(clientForm.getRoomDemographic().getId().getRoomId()!=null && clientForm.getRoomDemographic().getId().getRoomId().intValue()>0){
+               Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getId().getRoomId());
                for(int i=0;i<availableBeds.length;i++){
                    availableBedLst.add(availableBeds[i]);
                }
@@ -535,12 +535,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   if(clientRestrictionManager.checkGenderConflict(program, client)){
     	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.gender_conflict", request.getContextPath()));
            valid = false;
-           saveMessages(request,messages);           
+//           saveMessages(request,messages);           
  	   }
        if(clientRestrictionManager.checkAgeConflict(program, client)){
      	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.age_conflict", request.getContextPath()));
      	   valid = false;
-           saveMessages(request,messages);           
+//           saveMessages(request,messages);           
        }
 
  	   //service restriction check
@@ -552,7 +552,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.family_service_restriction",
        			request.getContextPath(), program.getName(), sb.toString()));
          valid = false;
-         saveMessages(request,messages);         
+//         saveMessages(request,messages);         
        }
        
        //enough bed or room capacity check
@@ -560,19 +560,21 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            Room newSelectedRoom = roomManager.getRoom(roomId);        	  
      	    if(newSelectedRoom.getAssignedBed().intValue()==1){
              Bed[] availableBeds = bedManager.getAvailableBedsByRoom(roomId);
-     		  if(availableBeds.length<clientNum.intValue()) 
+     		 if(availableBeds.length<clientNum.intValue()){ 
   		        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.room_bed_limitation",
   	       			request.getContextPath(), String.valueOf(availableBeds.length)));
                 valid = false;
+     		 } 
            }else{
-     		  if(newSelectedRoom.getOccupancy().intValue()<clientNum.intValue()) 
+     		  if(newSelectedRoom.getOccupancy().intValue()<clientNum.intValue()){ 
 	            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.room_capacity_limitation",
 	  	       		request.getContextPath(), newSelectedRoom.getOccupancy().toString()));
-              valid = false;
+                valid = false;
+     		  }
            }
          
          }
-       
+       if(!valid) saveMessages(request,messages);         
 	   return !valid;
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {     
@@ -611,7 +613,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              Demographic client2= clientManager.getClientByDemographicNo(qif.getClientId().toString());
              if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)))
                isWarning = validateConflict(request, program, client2,
-              	  clientForm.getRoomDemographic().getRoomId(),clientForm.getIntakeClientNum(),messages);
+              	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
              
        	     canOverride=canOverwrite(request, program.getId().toString());
        	     if(isWarning){
@@ -646,7 +648,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	   Program program = programManager.getProgram(programId);
 //    	   isWarning = validateConflict(request, program, client,messages);
            isWarning = validateConflict(request, program, client,
-               	  clientForm.getRoomDemographic().getRoomId(),clientForm.getIntakeClientNum(),messages);
+               	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
      	   canOverride=canOverwrite(request, program.getId().toString());
      	   
      	   if(isWarning){
@@ -687,7 +689,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  //check bedId selected for single person intake admission
     	  //admitted family member may not necessary be assigned bed on this page.  
     	  if(!clientForm.getFamilyIntakeType().equals("Y")){
-    		 if(rdm.getRoom().getAssignedBed().intValue()==1){
+    		 if(roomManager.getRoom(rdm.getId().getRoomId()).getAssignedBed().intValue()==1){
     	       BedDemographic bdm = clientForm.getBedDemographic();
     	       if(bdm.getBedId().intValue()==0){
     	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
@@ -767,7 +769,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setAdmission(admission);
  	   clientForm.setRoomDemographic(roomDemographic);
  	   clientForm.setBedDemographic(bedDemographic);
- 	   clientForm.setCurDB_RoomId(roomDemographic.getRoomId());
+ 	   clientForm.setCurDB_RoomId(roomDemographic.getId().getRoomId());
  	   if(bedDemographic!=null) clientForm.setCurDB_BedId(bedDemographic.getBedId());
 
        return update(mapping, form, request, response);

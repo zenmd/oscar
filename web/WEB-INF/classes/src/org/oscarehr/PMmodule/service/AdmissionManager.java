@@ -12,6 +12,7 @@ import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
+import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.dao.RoomDemographicDAO;
 import org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao;
 import org.oscarehr.PMmodule.model.Admission;
@@ -26,6 +27,7 @@ import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
+import org.oscarehr.PMmodule.model.Room;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.dao.IntakeDao;
@@ -34,6 +36,7 @@ public class AdmissionManager {
 	private IntakeDao intakeDao;
 	private ProgramDao programDao;
 	private AdmissionDao admissionDao;
+	private RoomDAO roomDAO;
 	private RoomDemographicDAO roomDemographicDAO;
 	private BedDemographicDAO bedDemographicDAO;
 	private ProgramQueueDao programQueueDao;
@@ -82,8 +85,8 @@ public class AdmissionManager {
 	
 	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
     		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
-  	    String room = null;
-   	    String bed = null;
+  	    String roomName = null;
+   	    String bedName = null;
    	    Integer admissionId= new Integer(0);
 
    	    //to set RoomDemographicHistory:usageStart and BedDemographicHistory:usageStart with same value. 
@@ -112,13 +115,14 @@ public class AdmissionManager {
    		     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){
            	   roomDemographicDAO.deleteRoomDemographic(rdm);
           	   roomDemographicDAO.saveRoomDemographic(rdm2);
-          	   room = rdm2.getRoomName();
-          	   
+          	   Room room = roomDAO.getRoom(rdm2.getId().getRoomId());
+          	   if(room!=null) roomName = room.getName();
       	     }else{
                roomDemographicDAO.saveRoomDemographic(rdm2);
-          	   room = rdm2.getRoomName();
+          	   Room room = roomDAO.getRoom(rdm2.getId().getRoomId());
+          	   if(room!=null) roomName = room.getName();
       	     }
-             clientHistoryDao.saveClientHistory(admObj, room, bed);
+             clientHistoryDao.saveClientHistory(admObj, roomName, bedName);
  
              // save room_history
              saveRoomDemographicHistory(admObj, roomDemographic, cal);
@@ -147,16 +151,18 @@ public class AdmissionManager {
               
      	      roomDemographicDAO.saveRoomDemographic(roomDemographic);
     	      bedDemographicDAO.saveBedDemographic(bedDemographic);
-    	      room = roomDemographic.getRoomName();
-    	      bed = bedDemographic.getBedName();
+        	  Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
+          	  if(room!=null) roomName = room.getName();
+    	      bedName = bedDemographic.getBedName();
     	    }
     	  }else{
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
     	    bedDemographicDAO.saveBedDemographic(bedDemographic);
-    	    room = roomDemographic.getRoomName();
-    	    bed = bedDemographic.getBedName();
+      	    Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
+      	    if(room!=null) roomName = room.getName();
+    	    bedName = bedDemographic.getBedName();
     	  }
-          clientHistoryDao.saveClientHistory(admission,room, bed);
+          clientHistoryDao.saveClientHistory(admission,roomName, bedName);
           
           // save room_history
           saveRoomDemographicHistory(admission, roomDemographic, cal);
@@ -179,8 +185,8 @@ public class AdmissionManager {
     public void updateAdmission(Admission admission, RoomDemographic roomDemographic, BedDemographic bedDemographic) {
     	admissionDao.updateAdmission(admission);
     	//remove old room/bed assignment
-    	String room=null;
-    	String bed = null;
+    	String roomName=null;
+    	String bedName = null;
     	roomDemographic.setAdmissionId(admission.getId());
     	RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo());
   	    
@@ -191,7 +197,8 @@ public class AdmissionManager {
   	      if(!rdm.getId().getRoomId().equals(roomDemographic.getId().getRoomId())){
         	roomDemographicDAO.deleteRoomDemographic(rdm);
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
-       	    room = roomDemographic.getRoomName();
+      	    Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
+      	    if(room!=null) roomName = room.getName();
             
        	    // update room_history
             updateRoomDemographicHistory(admission, rdm);
@@ -201,7 +208,8 @@ public class AdmissionManager {
   	      }
   	    }else{
   	    	roomDemographicDAO.saveRoomDemographic(roomDemographic);
-     	    room = roomDemographic.getRoomName();
+      	    Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
+      	    if(room!=null) roomName = room.getName();
      	    // save room_history
             saveRoomDemographicHistory(admission, roomDemographic, cal);            
         }
@@ -214,7 +222,7 @@ public class AdmissionManager {
      	      bedDemographicDAO.deleteBedDemographic(bdm);
     	      if(bedDemographic.getBedId().intValue()>0) {
     	    	bedDemographicDAO.saveBedDemographic(bedDemographic);
-    	    	bed = bedDemographic.getBedName();
+    	    	bedName = bedDemographic.getBedName();
            	    // update bed_history
                 updateBedDemographicHistory(admission, bdm);
            	    // save bed_history
@@ -224,13 +232,13 @@ public class AdmissionManager {
     	  }else{
     	   if(bedDemographic.getBedId().intValue()>0) {
     		   bedDemographicDAO.saveBedDemographic(bedDemographic);
-    		   bed = bedDemographic.getBedName();
+    		   bedName = bedDemographic.getBedName();
           	   // save bed_history
                saveBedDemographicHistory(admission, bedDemographic, cal);    		   
     	   }
     	  }
   	    }
-  	    clientHistoryDao.saveClientHistory(admission, room, bed);
+  	    clientHistoryDao.saveClientHistory(admission, roomName, bedName);
     }
 
     public void setAdmissionDao(AdmissionDao admissionDao) {
@@ -453,5 +461,9 @@ public class AdmissionManager {
 	public void setBedDemographicHistoricalDao(
 			BedDemographicHistoricalDao bedDemographicHistoricalDao) {
 		this.bedDemographicHistoricalDao = bedDemographicHistoricalDao;
+	}
+
+	public void setRoomDAO(RoomDAO roomDAO) {
+		this.roomDAO = roomDAO;
 	}
  }
