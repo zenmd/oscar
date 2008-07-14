@@ -57,37 +57,6 @@ public class QuatroReportManager {
 		options = quatroReportDao.GetReportOptionList(rptNo);
 		return options;
 	}
-/*	
-	public void DownloadRptFile(String rptFilePath, int fileNo) throws  Exception{
-		if (fileNo <= 0) return;
-
-    	   byte[] fileData = quatroReportDao.GetDocText(fileNo);
-//			DocumentDataValue fileData= _rptDao.GetDocText(fileNo);
-
-  		   if (fileData == null) return;
-
-//		if (File.Exists(rptFilePath)) {
-//			File.Delete(rptFilePath);
-//		}
-//		StreamWriter sw = new StreamWriter(rptFilePath);
-//		Stream st = sw.BaseStream;
-//		st.Write(fileData, 0, fileData.Length);
-//		sw.Close();
-		   File file=new File(rptFilePath);
-		   if (file.exists()) file.delete();
-		   FileOutputStream st = new FileOutputStream(rptFilePath);
-           try{
-		      for (int i = 0; i < fileData.length; i++) {
-                 st.write(fileData[i]);
-              }
-              st.close();
-           }catch(IOException ex){
-        	  st.close();
-           }
-//		   _rptDao.UpdateReportOptVersion(fileNo);
-           
-	}
-*/
 	
     public List GetCriteriaFieldList(int rptNo)
     {
@@ -172,10 +141,12 @@ public class QuatroReportManager {
 	     if (file.exists()) file.delete();
 	     FileOutputStream st = new FileOutputStream(rptFilePath);
          try{
-	       for (int i = 0; i < fileData.length; i++) st.write(fileData[i]);
-           st.close();
+        	 st.write(fileData);
+//	       for (int i = 0; i < fileData.length; i++) st.write(fileData[i]);
+        	 st.close();
          }catch(IOException ex){
-       	  st.close();
+        	 st.close();
+        	 throw ex;
          }
 	   }
 	}
