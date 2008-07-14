@@ -3,6 +3,7 @@ package com.quatro.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Calendar;
 
@@ -413,7 +414,7 @@ public class LookupDao extends HibernateDaoSupport {
 			else if ("D".equals(fdv.getFieldType()))
 			{
 				//for last update date Using calendar Instance
-				params[i] = new DBPreparedHandlerParam(Calendar.getInstance());
+				params[i] = new DBPreparedHandlerParam( new GregorianCalendar());
 			}
 			else
 			{
@@ -463,7 +464,7 @@ public class LookupDao extends HibernateDaoSupport {
 			else if ("D".equals(fdv.getFieldType()))
 			{
 //				for last update date Using calendar Instance
-				params[i] = new DBPreparedHandlerParam(Calendar.getInstance());
+				params[i] = new DBPreparedHandlerParam( new GregorianCalendar());
 				//params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
 			}
 			else
