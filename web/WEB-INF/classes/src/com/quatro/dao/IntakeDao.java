@@ -602,6 +602,9 @@ public class IntakeDao extends HibernateDaoSupport {
 		  for(int i=0;i<result.size();i++){
 			  QuatroIntakeAnswer obj2=(QuatroIntakeAnswer)result.get(i);
 		      obj2.setValue((String)hData.get(obj2.getIntakeNodeId()));
+		      obj2.setLastUpdateDate(intake.getLastUpdateDate());
+		      obj2.setLastUpdateUser(intake.getStaffId());
+		      
 		      if (i==0){
 		    	intakeDb = obj2.getIntake2();
 		    	if(intakeDb.getProgramId().intValue()!=intake.getProgramId().intValue()) programChangedForFamily=true;

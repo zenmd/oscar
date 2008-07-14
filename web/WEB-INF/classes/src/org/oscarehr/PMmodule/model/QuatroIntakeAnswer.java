@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 
@@ -13,6 +14,15 @@ public class QuatroIntakeAnswer implements Comparable, Serializable {
     private Integer intakeNodeId;
     private String value;
     private QuatroIntakeDB intake2;
+    private String lastUpdateUser;
+    private Calendar lastUpdateDate;
+
+    public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
 
     public QuatroIntakeAnswer(){
     }
@@ -115,6 +125,12 @@ public class QuatroIntakeAnswer implements Comparable, Serializable {
 
 	public void setIntake2(QuatroIntakeDB intake2) {
 		this.intake2 = intake2;
+	}
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
 	}
     
 }

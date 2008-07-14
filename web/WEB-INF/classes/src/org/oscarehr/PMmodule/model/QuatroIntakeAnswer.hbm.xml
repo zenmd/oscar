@@ -10,7 +10,8 @@
 
 	    <property name="intakeNodeId" column="intake_node_id"/>
 		<property name="value" column="val" type="string" />
-
+		<property name="lastUpdateDate" column="lastupdatedate"></property>
+		<property name="lastUpdateUser" column="lastUpdateUser"></property>
 		<many-to-one name="intake2"
 			class="org.oscarehr.PMmodule.model.QuatroIntakeDB" lazy="false"
 			insert="false" update="false">
