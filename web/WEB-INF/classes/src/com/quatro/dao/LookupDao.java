@@ -462,7 +462,9 @@ public class LookupDao extends HibernateDaoSupport {
 			}
 			else if ("D".equals(fdv.getFieldType()))
 			{
-				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
+//				for last update date Using calendar Instance
+				params[i] = new DBPreparedHandlerParam(Calendar.getInstance());
+				//params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
 			}
 			else
 			{
