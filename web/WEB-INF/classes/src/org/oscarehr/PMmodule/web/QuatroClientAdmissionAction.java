@@ -220,33 +220,53 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //setup beds
        //family intake doesn't need assign beds, just room. 
        if(!clientForm.getFamilyIntakeType().equals("Y")){
-         Integer curDB_BedId = clientForm.getCurDB_BedId();
-         ArrayList availableBedLst = new ArrayList();
-  	     Bed emptyBed=new Bed();
-  	     emptyBed.setId(new Integer(0));
-  	     emptyBed.setName(" ---- ");
-  	     availableBedLst.add(emptyBed);
+         Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getRoomId());        	  
+    	 if(newSelectedRoom==null){
+      	   Bed emptyBed=new Bed();
+    	   emptyBed.setId(new Integer(0));
+    	   emptyBed.setName(" ---- ");
+           Bed[] availableBeds=new Bed[1];
+   	       availableBeds[0] = emptyBed;
+           clientForm.setAvailableBeds(availableBeds);
+       	 }else if(newSelectedRoom.getAssignedBed().intValue()==1){
+           Integer curDB_BedId = clientForm.getCurDB_BedId();
+           ArrayList availableBedLst = new ArrayList();
+  	       Bed emptyBed=new Bed();
+  	       emptyBed.setId(new Integer(0));
+  	       emptyBed.setName(" ---- ");
+  	       availableBedLst.add(emptyBed);
 
-  	     if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
-           Bed currentDB_bed = null;
-           if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
-        	  if(curDB_BedId!=null) currentDB_bed = bedManager.getBed(curDB_BedId);
-              if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
-           }
-           Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
-           for(int i=0;i<availableBeds.length;i++){
+  	       if(clientForm.getRoomDemographic().getRoomId().intValue()>0){
+             Bed currentDB_bed = null;
+             if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
+        	   if(curDB_BedId!=null) currentDB_bed = bedManager.getBed(curDB_BedId);
+               if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+             }
+             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+             for(int i=0;i<availableBeds.length;i++){
          	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
                availableBedLst.add(availableBeds[i]);
+             }
+       	     Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
+             clientForm.setAvailableBeds(availableBeds2);
+             if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0) && availableBeds2.length<2)
+        	   request.setAttribute("properRoomMsg", "<font color='#ff0000'>No available bed(s) in this room, please select other room.</font>");
+             
+   	       }else{
+             Bed[] availableBeds=new Bed[1];
+     	     availableBeds[0] = emptyBed;
+             clientForm.setAvailableBeds(availableBeds);
+             if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0) && availableBeds.length<2)
+               request.setAttribute("properRoomMsg", "<font color='#ff0000'>No available bed(s) in this room, please select other room.</font>");
            }
-       	   Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
-           clientForm.setAvailableBeds(availableBeds2);
-           if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0) && availableBeds2.length<2) request.setAttribute("properRoomMsg", "<font color='#ff0000'>No available bed(s) in this room, please select other room.</font>");
-   	     }else{
-           Bed[] availableBeds=new Bed[1];
-     	   availableBeds[0] = emptyBed;
-           clientForm.setAvailableBeds(availableBeds);
-           if((clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0) && availableBeds.length<2) request.setAttribute("properRoomMsg", "<font color='#ff0000'>No available bed(s) in this room, please select other room.</font>");
-         }
+      	 }else{
+             clientForm.setAvailableBeds(null);
+        	 if(newSelectedRoom.getOccupancy().intValue()>0){
+        		clientForm.setCurDB_RoomCapacity(newSelectedRoom.getOccupancy()); 
+        	 }else{
+         	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>Not enough capacity (Room capacity is " + newSelectedRoom.getOccupancy().toString() + "), please select other room.</font>");
+        	 }
+      	 }
   	     
        //family intake needs check if there are enough beds in the selected room.
        }else{
@@ -255,10 +275,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
       	    if(newSelectedRoom.getAssignedBed().intValue()==1){
               Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
       		  if(availableBeds.length<clientForm.getIntakeClientNum().intValue()) 
-      			request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
+      			request.setAttribute("properRoomMsg", "<font color='#ff0000'>Not enough beds (" + String.valueOf(availableBeds.length) + " bed(s) in this room), please select other room.</font>");
             }else{
       		  if(newSelectedRoom.getOccupancy().intValue()<clientForm.getIntakeClientNum().intValue()) 
-        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>No enough capacity (Room capacity is " + newSelectedRoom.getOccupancy().toString() + "), please select other room.</font>");
+        	    request.setAttribute("properRoomMsg", "<font color='#ff0000'>Not enough capacity (Room capacity is " + newSelectedRoom.getOccupancy().toString() + "), please select other room.</font>");
             }
           
           }
@@ -373,7 +393,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setId(new Integer(0));
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
-       if(currentDB_room!=null)availableRoomLst.add(currentDB_room);
+       if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
        Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
     		   clientId, FamilyIntakeType.equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
@@ -382,33 +402,46 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
        clientForm.setAvailableRooms(availableRooms2);
+       if(currentDB_room!=null && currentDB_room.getAssignedBed().intValue()==1) 
+    	   clientForm.setCurDB_RoomCapacity(currentDB_room.getOccupancy());
 
        //setup beds
        //family intake doesn't need assign beds, just room. 
        if(!FamilyIntakeType.equals("Y")){
-         ArrayList availableBedLst = new ArrayList();
-  	     Bed emptyBed=new Bed();
-  	     emptyBed.setId(new Integer(0));
-  	     emptyBed.setName(" ---- ");
-  	     availableBedLst.add(emptyBed);
-         if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
-           Bed currentDB_bed = null;
-           if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
-        	  if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
-              if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
-           }
-           Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
-           for(int i=0;i<availableBeds.length;i++){
+      	 if(currentDB_room==null){
+    	   Bed emptyBed=new Bed();
+    	   emptyBed.setId(new Integer(0));
+    	   emptyBed.setName(" ---- ");
+           Bed[] availableBeds=new Bed[1];
+   	       availableBeds[0] = emptyBed;
+           clientForm.setAvailableBeds(availableBeds);
+      	 }else if(currentDB_room.getAssignedBed().intValue()==1){  
+           ArrayList availableBedLst = new ArrayList();
+  	       Bed emptyBed=new Bed();
+  	       emptyBed.setId(new Integer(0));
+  	       emptyBed.setName(" ---- ");
+  	       availableBedLst.add(emptyBed);
+           if(clientForm.getRoomDemographic().getRoomId()!=null && clientForm.getRoomDemographic().getRoomId().intValue()>0){
+             Bed currentDB_bed = null;
+             if(curDB_RoomId.equals(clientForm.getRoomDemographic().getRoomId())){
+        	   if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
+               if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+             }
+             Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getRoomId());
+             for(int i=0;i<availableBeds.length;i++){
          	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
                availableBedLst.add(availableBeds[i]);
+             }
+       	     Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
+             clientForm.setAvailableBeds(availableBeds2);
+   	       }else{
+             Bed[] availableBeds=new Bed[1];
+     	     availableBeds[0] = emptyBed;
+             clientForm.setAvailableBeds(availableBeds);
            }
-       	   Bed[] availableBeds2 =  (Bed[]) availableBedLst.toArray(new Bed[availableBedLst.size()]);
-           clientForm.setAvailableBeds(availableBeds2);
-   	     }else{
-           Bed[] availableBeds=new Bed[1];
-     	   availableBeds[0] = emptyBed;
-           clientForm.setAvailableBeds(availableBeds);
-         }
+    	 }else{
+    		 
+    	 }
        }
      
      //fail to create new admission due to error message.
@@ -654,14 +687,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  //check bedId selected for single person intake admission
     	  //admitted family member may not necessary be assigned bed on this page.  
     	  if(!clientForm.getFamilyIntakeType().equals("Y")){
-    	     BedDemographic bdm = clientForm.getBedDemographic();
-    	     if(bdm.getBedId().intValue()==0){
-    	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
-      			   request.getContextPath()));
-                isError = true;
-                saveMessages(request,messages);
-                return update(mapping, form, request, response);
-    	     } 
+    		 if(rdm.getRoom().getAssignedBed().intValue()==1){
+    	       BedDemographic bdm = clientForm.getBedDemographic();
+    	       if(bdm.getBedId().intValue()==0){
+    	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
+      			     request.getContextPath()));
+                  isError = true;
+                  saveMessages(request,messages);
+                  return update(mapping, form, request, response);
+    	       }
+    		 }
     	  }   
        }
        

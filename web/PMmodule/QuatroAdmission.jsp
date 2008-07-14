@@ -208,22 +208,30 @@ function roomChanged()
     </c:choose>          
 	</td></tr>
 <logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
-	<tr><td>Assign Bed</td>
-	<td>
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='pending'}">
-	<html:select property="bedDemographic.id.bedId">
-            <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
-	  </html:select>
-      <html:hidden property="curDB_BedId"/>
+
+	    <c:if test="${quatroClientAdmissionForm.availableBeds!=null}">
+	      <tr><td>Assign Bed</td>
+     	  <td><html:select property="bedDemographic.id.bedId">
+              <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
+	        </html:select>
+            <html:hidden property="curDB_BedId"/>
+	      </td></tr>
+	   </c:if>
+	   <c:if test="${quatroClientAdmissionForm.availableBeds==null}">
+	      <tr><td>Room capacity</td>
+     	  <td><c:out value="${quatroClientAdmissionForm.curDB_RoomCapacity}"/></td></tr>
+	   </c:if>
+	  
     </c:when>
     <c:otherwise>
-	      <c:out value="${historyBedName}"/>
+      <tr><td>Assign Bed</td><td><c:out value="${historyBedName}"/></td></tr>
     </c:otherwise>
     </c:choose>          
-	</td></tr>
+
 </logic:notEqual>
 	</table>
 </td></tr>

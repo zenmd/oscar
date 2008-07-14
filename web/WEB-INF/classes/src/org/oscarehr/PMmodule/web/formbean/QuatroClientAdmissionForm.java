@@ -28,6 +28,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
     private BedDemographic bedDemographic = new BedDemographic(new BedDemographicPK());
     
     private Integer curDB_RoomId;
+    private Integer curDB_RoomCapacity;
     private Integer curDB_BedId;
     
 	public Admission getAdmission() {
@@ -39,7 +40,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	}
 
 	public Bed[] getAvailableBeds() {
-		if(availableBeds==null) return new Bed[0];
+//		if(availableBeds==null) return new Bed[0];
 		return availableBeds;
 	}
 
@@ -48,7 +49,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 	}
 
 	public Room[] getAvailableRooms() {
-		if(availableRooms==null) return new Room[0];
+//		if(availableRooms==null) return new Room[0];
 		return availableRooms;
 	}
 
@@ -126,5 +127,13 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 
 	public void setIntakeClientNum(Integer intakeClientNum) {
 		this.intakeClientNum = intakeClientNum;
+	}
+
+	public Integer getCurDB_RoomCapacity() {
+		return curDB_RoomCapacity;
+	}
+
+	public void setCurDB_RoomCapacity(Integer curDB_RoomCapacity) {
+		this.curDB_RoomCapacity = curDB_RoomCapacity;
 	}
 }
