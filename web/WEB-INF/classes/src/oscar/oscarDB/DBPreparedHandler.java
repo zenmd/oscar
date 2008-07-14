@@ -32,6 +32,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import org.oscarehr.util.DbConnectionFilter;
 
@@ -166,8 +167,7 @@ public class DBPreparedHandler {
         	}
         	else if (DBPreparedHandlerParam.PARAM_DATE.equals(param.getParamType()))
         			{
-        			Date dt = new Date(param.getDateValue().getTimeInMillis());
-                    preparedStmt.setDate(i+1, dt);
+                    preparedStmt.setTimestamp(i+1, new Timestamp(param.getDateValue().getTimeInMillis()));
         			}
         	else if (DBPreparedHandlerParam.PARAM_INT.equals(param.getParamType()))
         	{
