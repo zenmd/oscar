@@ -6,11 +6,13 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class UserAccessDao extends HibernateDaoSupport {
 	  public List GetUserAccessList(String providerNo)
 	  {
-          ArrayList paramList = new ArrayList();
 		  String sSQL="from UserAccessValue s where s.providerNo= ? order by s.functionCd, s.privilege desc, s.orgCd";		
-	      paramList.add(providerNo);
-	      Object params[] = paramList.toArray(new Object[paramList.size()]);
-	      return getHibernateTemplate().find(sSQL ,params);
+	      return getHibernateTemplate().find(sSQL ,providerNo);
 	  }
-	  // hello
+	  
+	  public List GetUserOrgAccessList(String providerNo)
+	  {
+		  String sSQL="select distinct o.fullcode from UserAccessValue s, LstOrgcd o where s.providerNo= ? and s.privilege>='r' and s.orgCd=o.code order by o.fullcode";		
+		  return getHibernateTemplate().find(sSQL ,providerNo);
+	  }
 }

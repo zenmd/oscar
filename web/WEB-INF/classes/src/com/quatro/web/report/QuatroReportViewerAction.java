@@ -24,7 +24,9 @@ import com.crystaldecisions.sdk.occa.report.data.Values;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKException;
 import com.crystaldecisions.sdk.occa.report.reportsource.IReportSource;
+import com.quatro.common.KeyConstants;
 import com.quatro.model.DataViews;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.model.ReportFilterValue;
 import com.quatro.model.ReportOptionValue;
 import com.quatro.model.ReportTempCriValue;
@@ -94,10 +96,14 @@ public class QuatroReportViewerAction extends Action {
 			
 			String optionId = String.valueOf(rptTemp.getReportOptionID());
 
-			//2. get the org list (not include the users limitations)
+			//2. get the org filter
 	        String orgDis = "";
             String orgs = "";
-            if (_rptValue.isOrgApplicable()) orgs = ""; //ConstructOrgStringCrysatal(out orgDis);
+            if (_rptValue.isOrgApplicable()) {
+            	ArrayList orgLst = constructOrgStringCrysatal(request);
+            	orgs = (String) orgLst.get(0);
+            	orgDis = (String) orgLst.get(1);
+            }
 	                
             //3. Construct Criteria String
 			String criteriaDis="";
@@ -126,6 +132,54 @@ public class QuatroReportViewerAction extends Action {
 		}
 
 	}
+    private ArrayList constructOrgStringCrysatal(HttpServletRequest request)
+    {
+        ReportTempValue rptTemp = _rptValue.getReportTemp();
+        String fieldName = "{" + _rptValue.getTableName() + ".ORGCD}";
+        String orgDis = "";
+        ArrayList selectedOrgs = rptTemp.getOrgCodes();
+        ArrayList filterOrgs = new ArrayList();
+        for(int i=0; i<selectedOrgs.size(); i++)
+        {
+        	LookupCodeValue org = (LookupCodeValue) selectedOrgs.get(i);
+            filterOrgs.add(org.getCode());
+            orgDis += org.getCode() + " - " + org.getDescription() + "\n";
+        }
+        String orgFilter = getOrgFilterString(fieldName, filterOrgs);
+        filterOrgs.clear();
+        com.quatro.service.security.SecurityManager sm = (com.quatro.service.security.SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        ArrayList orgAccessList = (ArrayList) sm.getUserOrgAccessList();
+        for(int i=0; i<orgAccessList.size();i++)
+        {
+        	String orgcd = (String) orgAccessList.get(i);
+            filterOrgs.add(orgcd);
+        }
+        String orgSecFilter = getOrgFilterString(fieldName, filterOrgs);
+
+        ArrayList retVal = new ArrayList();
+        retVal.add(appendCriteria("AND", orgFilter,orgSecFilter));
+        retVal.add(orgDis);
+        return retVal;
+    }
+    private String appendCriteria(String op, String filter1, String filter2)
+    {
+    	if(Utility.IsEmpty(filter1)) return filter2;
+    	if(Utility.IsEmpty(filter2)) return filter1;
+    	return "(" + filter1  + " " + op + " " + filter2 + ")";
+    }
+    private String getOrgFilterString(String fieldName, ArrayList orgs)
+    {
+        if (orgs == null || orgs.size() == 0) return "";
+        String orgStr = "(" + fieldName;
+        orgStr += " LIKE '*" + (String)orgs.get(0) + "*'";
+        for (int i = 1; i < orgs.size(); i++)
+        {
+            String orgcd = (String)orgs.get(i);
+            orgStr += " OR " + fieldName + " LIKE '*" + orgcd + "*'";
+        }
+        orgStr += ")";
+        return orgStr;
+    }
 
     public ArrayList ConstructCriteriaStringCrystal(int reportNo,  String criteriaDis)
     {
@@ -360,28 +414,10 @@ public class QuatroReportViewerAction extends Action {
              sDateSQL = sDateSQL + " TO " + CRDate(endDate,isDateFieldString);
            }
         }
+        criteriaString = appendCriteria("AND", sDateSQL, criteriaString);
+        criteriaString = appendCriteria("AND",_rptOption.getDbsqlWhere(), criteriaString);
+        criteriaString = appendCriteria("AND", orgs, criteriaString);
         
-        if (!"".equals(sDateSQL)) {
-           if (Utility.IsEmpty(criteriaString))
-             criteriaString = sDateSQL;
-           else
-             criteriaString = sDateSQL + " AND " + criteriaString;
-        }
-
-        if (!Utility.IsEmpty(_rptOption.getDbsqlWhere())){
-           if (Utility.IsEmpty(criteriaString))
-             criteriaString = _rptOption.getDbsqlWhere();
-           else
-             criteriaString = "(" + _rptOption.getDbsqlWhere() + ")" + " AND " + criteriaString;
-        }
-        
-        if (!Utility.IsEmpty(orgs)){
-           if (Utility.IsEmpty(criteriaString))
-             criteriaString = orgs;
-           else
-             criteriaString = "(" + orgs + ")" + " AND " + criteriaString;
-        }
-
       ReportClientDocument reportDocument1 = new ReportClientDocument();
       String jspPath="";
       try{
@@ -562,7 +598,6 @@ public class QuatroReportViewerAction extends Action {
      	  }
      	
           crystalReportViewer.setParameterFields(fields2);
-
    	      crystalReportViewer.setPrintMode(CrPrintMode.PDF);
   	      crystalReportViewer.setOwnPage(true);
   	      crystalReportViewer.setOwnForm(true);
@@ -575,7 +610,7 @@ public class QuatroReportViewerAction extends Action {
   	      crystalReportViewer.setHasZoomFactorList(false);
   	      crystalReportViewer.setHasLogo(false);
   	      crystalReportViewer.setEnableDrillDown(false);
-
+  	      
           switch (_rptValue.getExportFormatType()){
             case ReportExportFormat._PDF:
                crystalReportViewer.processHttpRequest(request, response, getServlet().getServletContext(), null);

@@ -15,10 +15,20 @@ public class SecurityManager {
 	public static final String ACCESS_WRITE = "w";
 	public static final String ACCESS_ALL = "x";
 	private LookupManager lookupManager;
-	Hashtable _userFunctionAccessList;	
-	public void set_userFunctionAccessList(Hashtable functionAccessList) {
+	Hashtable _userFunctionAccessList;
+	List _userOrgAccessList;    /* list of all orgs the user has at least read only rights */
+	public void setUserFunctionAccessList(Hashtable functionAccessList) {
 		_userFunctionAccessList = functionAccessList;
 	}
+	
+	public List getUserOrgAccessList() {
+		return _userOrgAccessList;
+	}
+
+	public void setUserOrgAccessList(List orgAccessList) {
+		_userOrgAccessList = orgAccessList;
+	}
+
 	public void setLookupManager(LookupManager lkManager) {
 		lookupManager=lkManager;
 		}

@@ -417,7 +417,7 @@ public class QuatroReportRunnerAction extends Action {
 			ArrayList lst= new ArrayList();
 			String sOrgKey=myForm.getTxtOrgKey();
 			String sOrgValue=myForm.getTxtOrgValue();
-			if(sOrgKey!=null){
+			if(!Utility.IsEmpty(sOrgKey)){
 		      String[] sArray1=sOrgKey.split(":");
 		      String[] sArray2=sOrgValue.split(":");
               for(int i=0;i<sArray1.length;i++){		      

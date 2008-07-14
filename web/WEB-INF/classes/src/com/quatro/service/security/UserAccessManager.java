@@ -7,6 +7,8 @@ import org.apache.batik.dom.util.HashTable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import oscar.OscarProperties;
+
 import com.quatro.dao.security.UserAccessDao;
 import com.quatro.model.security.*;
 public class UserAccessManager
@@ -31,7 +33,13 @@ public class UserAccessManager
 	        	functionList.put(((UserAccessValue)list.get(startIdx)).getFunctionCd(), orgList);
 	    	}
     	}
-    	secManager.set_userFunctionAccessList(functionList);
+    	secManager.setUserFunctionAccessList(functionList);
+    	List orgs = _dao.GetUserOrgAccessList(providerNo);
+    	if(orgs.size() > 0 && OscarProperties.getInstance().getProperty("ORGROOT").equals((String) orgs.get(0))) 
+    	{
+    		orgs.clear();
+    	}
+    	secManager.setUserOrgAccessList(orgs);
     	return secManager;
     }
     private List getAccessListForFunction(List  list, int startIdx)
