@@ -56,7 +56,7 @@
 		<td align="left" class="buttonBar2">
 		<html:link action="/PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Referrals&nbsp;&nbsp;|</html:link>
-		<c:if test="${!isReadOnly && referralStatus=='pending'}">
+		<c:if test="${!isReadOnly && (referralStatus=='' || referralStatus=='pending') }">
 				<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>				
 		</c:if>
