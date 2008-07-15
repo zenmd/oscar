@@ -116,7 +116,7 @@
 						</c:choose>
 				   </display:column>
 				   <display:column property="bedNum" title="Beds" />
-				   <display:column property="occupancy" title="Room Capacity" />
+				   <display:column property="capacity" title="Room Capacity" />
 					<display:column title="Active" sortable="true" sortProperty="active">
 					   <c:choose>
 					     <c:when test="${room.active}">Y</c:when>

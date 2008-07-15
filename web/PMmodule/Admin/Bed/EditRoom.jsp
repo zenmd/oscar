@@ -22,7 +22,7 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
       	}
  
       	if(assignedBed.value=='0'){
-      	   var roomCapacity= document.getElementsByName("room.occupancy")[0];
+      	   var roomCapacity= document.getElementsByName("room.capacity")[0];
       	   if(!isInteger(roomCapacity.value)){
       	      alert("Please input valid Room Capacity.");
       	      roomCapacity.focus();
@@ -109,7 +109,7 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 				  <input type=hidden name="activebednum" value="<c:out value="${activebednum}"/>">
 				  </td></tr>
 				  <tr><td>Room Capacity</td>
-				  <td><html:text property="room.occupancy" maxlength="10"></html:text></td></tr>
+				  <td><html:text property="room.capacity" maxlength="10"></html:text></td></tr>
 				  <tr><td>Program*</td>
 				  <td><html:select property="room.programId">
 				    <option value=""></option>

@@ -88,7 +88,7 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 					<c:otherwise>Y</c:otherwise>
 					</c:choose>
 				  </td>
-				  <td><c:out value="${bedManagerForm.room.occupancy}"/></td>
+				  <td><c:out value="${bedManagerForm.room.capacity}"/></td>
 				  <td>
 				   <c:choose>
 				     <c:when test="${bedManagerForm.room.active}">Y</c:when>
