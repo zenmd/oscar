@@ -51,8 +51,8 @@
                 
                 
 	</class>          
-        <sql-query name="mostRecentNotes">
-			<return alias="cmn" class="org.oscarehr.casemgmt.model.CaseManagementNote" />
+    <sql-query name="mostRecentNotes">
+		<return alias="cmn" class="org.oscarehr.casemgmt.model.CaseManagementNote" />
         	     select note_id as {cmn.id},casestatusid as {cmn.caseStatusId}, update_date as {cmn.update_date}, 
                 	observation_date as {cmn.observation_date}, demographic_no as {cmn.demographic_no},
                  	provider_no as {cmn.provider_no}, note as {cmn.note}, signed as {cmn.signed}, include_issue_innote as {cmn.includeissue}, 
@@ -75,8 +75,33 @@
                     ) recent
                     using(note_id) order by {cmn.observation_date} desc    	
         	 	
-        </sql-query>    
-        <sql-query name="mostRecentNoteIds">
+  </sql-query>
+  <sql-query name="mostRecentNotesAll">
+		<return alias="cmn" class="org.oscarehr.casemgmt.model.CaseManagementNote" />
+        	     select note_id as {cmn.id},casestatusid as {cmn.caseStatusId}, update_date as {cmn.update_date}, 
+                	observation_date as {cmn.observation_date}, demographic_no as {cmn.demographic_no},
+                 	provider_no as {cmn.provider_no}, note as {cmn.note}, signed as {cmn.signed}, include_issue_innote as {cmn.includeissue}, 
+                    signing_provider_no as {cmn.signing_provider_no},encounter_type as {cmn.encounter_type}, 
+                    billing_code as {cmn.billing_code}, program_no as {cmn.program_no},
+                    reporter_caisi_role as {cmn.reporter_caisi_role}, reporter_program_team as {cmn.reporter_program_team}, 
+                    history as {cmn.history},uuid as {cmn.uuid}, password as {cmn.password},
+                     locked as {cmn.locked}, 
+                    (select p.name from program p where p.program_id = program_no) as {cmn.programName}, 
+                    (select count(n1.uuid) from casemgmt_note n1 where casemgmt_note.uuid = n1.uuid) as {cmn.revision}, 
+                    (select min(n2.update_date) from casemgmt_note n2 where casemgmt_note.uuid = n2.uuid) as {cmn.create_date} 
+                  from casemgmt_note
+                  inner join 
+                    ( select max(note_id) as note_id from casemgmt_note where demographic_no = ?  and observation_date >=?  
+                    	and  casemgmt_note.program_no in
+  					    ( select p.program_id from Program p  where  'P' || p.program_id in 
+                          (select a.code from lst_orgcd a, secuserrole b 
+		        		    where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)
+          			     ) group by uuid                    
+                    ) recent
+                    using(note_id) order by {cmn.observation_date} desc    	
+        	 	
+  </sql-query>    
+  <sql-query name="mostRecentNoteIds">
         	<return-scalar column="note_id" type="java.lang.Integer"/>
         		select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
 						and  casemgmt_note.program_no in
@@ -85,8 +110,18 @@
              				where p.shelter_id =?  and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b 
 		        			where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)
           			 	)	group by uuid
-        </sql-query>
-		<sql-query name="mostClientRecentNotes">
+  </sql-query>
+   <sql-query name="mostRecentNoteIdsAll">
+        	<return-scalar column="note_id" type="java.lang.Integer"/>
+        		select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
+						and  casemgmt_note.program_no in
+  						(
+             				select p.program_id from Program p 
+             				where 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b 
+		        			where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)
+          			 	)	group by uuid
+  </sql-query>
+  <sql-query name="mostClientRecentNotes">
 			<return alias="cmn" class="org.oscarehr.casemgmt.model.CaseManagementNote" />
                     select note_id as {cmn.id},casestatusid as {cmn.caseStatusId}, update_date as {cmn.update_date}, 
                     observation_date as {cmn.observation_date}, demographic_no as {cmn.demographic_no}, provider_no as {cmn.provider_no}, note as {cmn.note},
@@ -106,9 +141,31 @@
 		        			where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)
           			 	)	group by uuid                 
                     ) recent
-                    using(note_id) order by {cmn.observation_date} desc                    
-				
-		</sql-query>
+                    using(note_id) order by {cmn.observation_date} desc 				
+	</sql-query>
+	 <sql-query name="mostClientRecentNotesAll">
+			<return alias="cmn" class="org.oscarehr.casemgmt.model.CaseManagementNote" />
+                    select note_id as {cmn.id},casestatusid as {cmn.caseStatusId}, update_date as {cmn.update_date}, 
+                    observation_date as {cmn.observation_date}, demographic_no as {cmn.demographic_no}, provider_no as {cmn.provider_no}, note as {cmn.note},
+                    signed as {cmn.signed}, include_issue_innote as {cmn.includeissue}, signing_provider_no as {cmn.signing_provider_no},
+                    encounter_type as {cmn.encounter_type}, billing_code as {cmn.billing_code}, program_no as {cmn.program_no},
+                    reporter_caisi_role as {cmn.reporter_caisi_role}, reporter_program_team as {cmn.reporter_program_team}, history as {cmn.history},
+                    uuid as {cmn.uuid}, password as {cmn.password}, locked as {cmn.locked}, 
+                    (select p.name from program p where p.program_id = program_no) as {cmn.programName}, 
+                    (select count(n1.uuid) from casemgmt_note n1 where casemgmt_note.uuid = n1.uuid) as {cmn.revision}, 
+                    (select min(n2.update_date) from casemgmt_note n2 where casemgmt_note.uuid = n2.uuid) as {cmn.create_date} from casemgmt_note
+                    inner join (
+   						select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
+						and  casemgmt_note.program_no in
+  						(
+             				select p.program_id from Program p 
+             				where 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b 
+		        			where a.fullcode like '%' || b.orgcd || '%' and b.provider_no=?)
+          			 	)	group by uuid                 
+                    ) recent
+                    using(note_id) order by {cmn.observation_date} desc 				
+	</sql-query>
+	
 <!-- generated sql
 
  <sql-query name="mostRecent">

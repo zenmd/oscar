@@ -106,17 +106,21 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
                
         
         public List getNotesByDemographic(Integer clientId, String staleDate,Integer shelterId,String providerNo) {
-        	return this.getHibernateTemplate().findByNamedQuery("mostRecentNotes",new Object[]{clientId,staleDate,shelterId,providerNo});
+        	if(shelterId.intValue()==0)
+        		return this.getHibernateTemplate().findByNamedQuery("mostRecentNotesAll",new Object[]{clientId,staleDate,providerNo});
+        	else return this.getHibernateTemplate().findByNamedQuery("mostRecentNotes",new Object[]{clientId,staleDate,shelterId,providerNo});
         }
 	
 	//This was created by OSCAR. if all notes' UUID are same like null, it will only get one note.
 	
 	 
         public List getNotesByDemographic(Integer clientId,Integer shelterId,String providerNo){
-        	return this.getHibernateTemplate().findByNamedQuery("mostClientRecentNotes",new Object[]{clientId,shelterId,providerNo});        		
+        	if(shelterId.intValue()==0) return this.getHibernateTemplate().findByNamedQuery("mostClientRecentNotesAll",new Object[]{clientId,providerNo});
+        	else return this.getHibernateTemplate().findByNamedQuery("mostClientRecentNotes",new Object[]{clientId,shelterId,providerNo});        		
         }
         public List getNoteIdsByDemographic(Integer clientId,Integer shelterId,String providerNo){
-        	return this.getHibernateTemplate().findByNamedQuery("mostRecentNoteIds", new Object[]{clientId,shelterId,providerNo});
+        	if(shelterId.intValue()==0)return this.getHibernateTemplate().findByNamedQuery("mostRecentNoteIdsAll", new Object[]{clientId,providerNo});
+        	else return this.getHibernateTemplate().findByNamedQuery("mostRecentNoteIds", new Object[]{clientId,shelterId,providerNo});
         }
 	 //This is the original method. It was created by CAISI, to get all notes for each client.
 	/*public List getNotesByDemographic(String demographic_no) {

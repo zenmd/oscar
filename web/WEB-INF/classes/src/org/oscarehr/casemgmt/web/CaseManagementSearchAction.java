@@ -67,8 +67,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         caseForm.setFilter_provider("");        
-       // return client(mapping, form, request, response);
-        return view(mapping, form, request, response);
+        return client(mapping, form, request, response);
+     //   return view(mapping, form, request, response);
     }
 
     public ActionForward setViewType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

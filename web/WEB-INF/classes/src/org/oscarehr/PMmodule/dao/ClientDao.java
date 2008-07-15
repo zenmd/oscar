@@ -864,13 +864,19 @@ public class ClientDao extends HibernateDaoSupport {
 		  if (demographicNo == null || demographicNo.intValue() <= 0) {
 		    throw new IllegalArgumentException();
 		  }
-
-		  String queryStr = "FROM QuatroIntakeHeader a WHERE a.clientId=? and a.programId in " +
-		        "(select s.id from Program s where s.shelterId=? or s.shelterId is null) ORDER BY a.createdOn DESC";
-		        List rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo,  shelterId });
-
-		        return rs;
-		    }
+		  String queryStr = "";
+		  List rs=null;
+		  if(shelterId.intValue()>0){
+			  queryStr = "FROM QuatroIntakeHeader a WHERE a.clientId=? and a.programId in " +
+			        "(select s.id from Program s where s.shelterId=? or s.shelterId is null) ORDER BY a.createdOn DESC";
+			  rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo,  shelterId });
+		  }
+		  else{
+			  queryStr = "FROM QuatroIntakeHeader a WHERE a.clientId=? ORDER BY a.createdOn DESC";
+			  rs = getHibernateTemplate().find(queryStr, new Object[] { demographicNo});
+		  }
+        return rs;
+	}
 	public List getProgramIdByDemoNo(String demoNo) {
 
 		String q = "Select a.ProgramId From Admission a " + "Where a.ClientId=? and a.AdmissionDate<=? and " + "(a.DischargeDate>=? or (a.DischargeDate is null) or a.DischargeDate=?)";
