@@ -17,7 +17,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
-	<class name="BedType" table="bed_type">
+	<class name="BedType" table="lst_bed_type">
 		<meta attribute="sync-DAO">false</meta>
 		<id name="id" type="integer" column="bed_type_id">
 			<generator class="native" />
