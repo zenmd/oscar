@@ -49,7 +49,7 @@ public class ClientReferral implements Serializable {
 	private String autoManual;
 	private Integer fromProgramId;
 	
-    public Integer getFroMProgramId() {
+    public Integer getFromProgramId() {
 		return fromProgramId;
 	}
 
