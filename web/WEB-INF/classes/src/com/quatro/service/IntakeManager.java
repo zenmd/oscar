@@ -107,7 +107,7 @@ public class IntakeManager {
             referral.setNotes("Intake Automated referral");
             if(intake.getProgramId()!=null) {
             	referral.setProgramId(intake.getProgramId());
-            	referral.setFromPromgramId(intake.getProgramId());
+            	referral.setFromProgramId(intake.getProgramId());
             }
             referral.setProviderNo(intake.getStaffId());
             referral.setReferralDate(new Date());

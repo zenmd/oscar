@@ -466,10 +466,8 @@ public class BedManagerAction extends BaseFacilityAction {
 		String facilityId = request.getParameter("facilityId");
 				
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if(actionParam==null){
-	 	  actionParam = new HashMap();
-	       actionParam.put("facilityId", facilityId); 
-	    }
+		if(actionParam==null) actionParam = new HashMap();
+	    actionParam.put("facilityId", facilityId); 
 	    request.setAttribute("actionParam", actionParam);
 	    Facility facility=facilityManager.getFacility(Integer.valueOf(facilityId));
 	    request.setAttribute("facility", facility);

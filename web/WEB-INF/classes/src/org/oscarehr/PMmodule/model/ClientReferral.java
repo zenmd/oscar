@@ -47,14 +47,14 @@ public class ClientReferral implements Serializable {
     private String programName;
     private String programType;
 	private String autoManual;
-	private Integer fromPromgramId;
+	private Integer fromProgramId;
 	
-    public Integer getFromPromgramId() {
-		return fromPromgramId;
+    public Integer getFroMProgramId() {
+		return fromProgramId;
 	}
 
-	public void setFromPromgramId(Integer fromPromgramId) {
-		this.fromPromgramId = fromPromgramId;
+	public void setFromProgramId(Integer fromProgramId) {
+		this.fromProgramId = fromProgramId;
 	}
 
 	public ClientReferral() {
