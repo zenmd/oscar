@@ -105,11 +105,14 @@ public class IntakeManager {
     	    ClientReferral referral = new ClientReferral();
             if(intake.getClientId()!=null) referral.setClientId(intake.getClientId());
             referral.setNotes("Intake Automated referral");
-            if(intake.getProgramId()!=null) referral.setProgramId(intake.getProgramId());
+            if(intake.getProgramId()!=null) {
+            	referral.setProgramId(intake.getProgramId());
+            	referral.setFromPromgramId(intake.getProgramId());
+            }
             referral.setProviderNo(intake.getStaffId());
             referral.setReferralDate(new Date());
             referral.setStatus(KeyConstants.STATUS_PENDING);
-            referral.setAutoManual(KeyConstants.AUTOMATIC);
+            referral.setAutoManual(KeyConstants.AUTOMATIC);            
             clientReferralDAO.saveClientReferral(referral);
           
             //create new queue# 
@@ -120,6 +123,7 @@ public class IntakeManager {
             queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
             queue.setReferralDate(referral.getReferralDate());
 //          queue.setStatus(KeyConstants.STATUS_ACTIVE);
+            
             queue.setReferralId(referral.getId());
             programQueueDao.saveProgramQueue(queue);
           
@@ -129,7 +133,9 @@ public class IntakeManager {
     	}
   	    
     }
-    
+    public Integer getProgramIdByProvider(Integer clientId, Integer shelterId, String providerNo){
+     return intakeDao.getProgramIdByProvider(clientId, shelterId, providerNo);
+    }
 	public Demographic getClientByDemographicNo(String demographicNo) {
         if (demographicNo == null || demographicNo.length() == 0) {
             return null;

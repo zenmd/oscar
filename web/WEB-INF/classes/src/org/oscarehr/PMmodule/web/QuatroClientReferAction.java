@@ -27,6 +27,7 @@ import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.util.Utility;
 
 public class QuatroClientReferAction  extends BaseClientAction {
@@ -39,6 +40,11 @@ public class QuatroClientReferAction  extends BaseClientAction {
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
    private BedManager bedManager;
+   private IntakeManager intakeManager;
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+	this.intakeManager = intakeManager;
+}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -184,6 +190,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		refObj.setReferralDate(new Date());
 		refObj.setStatus(KeyConstants.STATUS_PENDING);
 		refObj.setAutoManual(KeyConstants.MANUAL);
+		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		refObj.setFromPromgramId(intakeManager.getProgramIdByProvider(refObj.getClientId(), shelterId, refObj.getProviderNo()));
 		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {

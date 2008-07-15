@@ -355,6 +355,7 @@ public class AdmissionManager {
 		  referral.setClientId(admission.getClientId());
 		  referral.setNotes("Discharge Automated referral");
 		  referral.setProgramId(admission.getBedProgramId());
+		  referral.setFromPromgramId(admission.getBedProgramId());
 		  referral.setProviderNo(admission.getProviderNo());
 		  referral.setReferralDate(new Date());
 		  referral.setStatus(KeyConstants.STATUS_PENDING);
@@ -395,6 +396,7 @@ public class AdmissionManager {
 	        referral.setClientId(admission.getClientId());
 	        referral.setNotes("Discharge Automated referral");
 	        referral.setProgramId(admission.getBedProgramId());
+	        referral.setFromPromgramId(admission.getBedProgramId());
 	        referral.setProviderNo(admission.getProviderNo());
 	        referral.setReferralDate(new Date());	       
 	        referral.setStatus(KeyConstants.STATUS_PENDING);

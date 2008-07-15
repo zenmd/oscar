@@ -13,7 +13,7 @@
 			location.href = '<html:rewrite action="/PMmodule/QuatroRefer.do"/>' + "?method=edit&rId=" + rId + "&clientId=" + clientId;
 		}	
 </script>
-<% int a=1; %>
+
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId"/>
@@ -54,7 +54,7 @@
                 <tr><th>Referrals</th></tr>
               </table></div>
        </td></tr>
-		
+		<% int a=1; %>
 		<tr>
 			<td>
 				<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
@@ -66,7 +66,7 @@
  			    <display:column property="referralDate.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
 			    <display:column property="providerFormattedName" sortable="true" title="Staff" />
 			    <display:column property="status" sortable="true" title="Status" />
-			    <display:column sortable="false" title="Actions">
+			    <display:column  title="Actions">
 					<c:choose>
 						<c:when test="${'M' eq refer.autoManual and (refer.status eq 'pending') }">
 							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>

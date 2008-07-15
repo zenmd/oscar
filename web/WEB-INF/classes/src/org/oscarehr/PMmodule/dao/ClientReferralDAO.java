@@ -61,10 +61,15 @@ public class ClientReferralDAO extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
-        String sql="from ClientReferral cr where cr.clientId in " +clientIds +" and cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
-        
+       /*
+        String sql="select cr.id,cr.clientId,cr.referralDate,cr.providerNo,cr.facilityId,cr.notes,cr.presentProblems,cr.radioRejectionReason, " +
+        		"cr.completionNotes,cr.programId,cr.status,cr.completionDate,cr.providerLastName,"+
+        		"cr.providerFirstName,cr.programName,cr.programType,cr.autoManual "+
+       */
+        String sql=	"from ClientReferral cr where cr.clientId in " +clientIds 
+        	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
+        sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")";
         List results = this.getHibernateTemplate().find(sql);
-
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
         }

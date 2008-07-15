@@ -27,6 +27,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 
 import oscar.MyDateFormat;
 
@@ -449,7 +450,14 @@ public class IntakeDao extends HibernateDaoSupport {
 		
 		return results;
 	}
-		
+	public Integer getProgramIdByProvider(Integer clientId, Integer shelterId, String providerNo){
+		List intakes=getQuatroIntakeHeaderListByFacility(clientId, shelterId,providerNo);
+		Integer progId=new Integer(0);
+		if(!intakes.isEmpty()){
+			progId =((QuatroIntakeHeader)intakes.get(0)).getProgramId();
+		}
+		return progId;
+	}
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
 		List results = null;
@@ -687,7 +695,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	        if(referralId != null && referralId.intValue()>0){
 	          ClientReferral clientReferral = clientReferralDao.getClientReferral(referralId);
 	          if(clientReferral!=null){
-	        	clientReferral.setProgramId(intakeDb.getProgramId());
+	        	clientReferral.setProgramId(intakeDb.getProgramId());	        	
 	        	clientReferralDao.saveClientReferral(clientReferral);
 	          }
 	        }

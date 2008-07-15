@@ -37,5 +37,6 @@
 		<property name="programType" type="string" formula="(select p.type from program p where p.program_id = program_id)" />
 		<property column="present_problems" name="presentProblems" not-null="false" type="string" />
 		<property column="radioRejectionReason" length="10" name="radioRejectionReason" not-null="false" type="string"/>
+		<property name="fromProgramId" column="fromprogramid" not-null="true" type="java.lang.Integer" />
 	</class>
 </hibernate-mapping>
