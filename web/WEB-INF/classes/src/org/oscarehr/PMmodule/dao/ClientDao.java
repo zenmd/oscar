@@ -68,6 +68,8 @@ import oscar.MyDateFormat;
 import oscar.OscarProperties;
 import oscar.util.SqlUtils;
 import com.quatro.model.LstOrgcd;
+import com.quatro.util.Utility;
+
 import org.oscarehr.PMmodule.model.SecUserRole;
 public class ClientDao extends HibernateDaoSupport {
 
@@ -682,18 +684,20 @@ public class ClientDao extends HibernateDaoSupport {
 */
 	
 	 public List getRecentProgramIds(Integer clientId, String providerNo, Integer shelterId){
+		 String progSql = Utility.getUserOrgQueryString(providerNo, shelterId);
 	    	String sql = "select p.programId  from QuatroIntakeHeader p ,Program c ";
-	    	sql+=" where p.programId = c.id and p.clientId=? and  c.shelterId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
+	    	sql+=" where p.programId = c.id and p.clientId=? and  p.programId in " + progSql;
 	    	sql+=" order by p.createdOn desc " ;    	
-	    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, shelterId, providerNo });
+	    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId});
 	    	return lst;
 	 }
 	   
     public Integer getRecentProgramId(Integer clientId, String providerNo, Integer shelterId){
+    	String progSql = Utility.getUserOrgQueryString(providerNo, shelterId);
     	String sql = "select p.programId  from QuatroIntakeHeader p ,Program c ";
-    	sql+=" where p.programId = c.id and p.clientId=? and  c.shelterId=? and 'P' || p.programId in (select a.code from LstOrgcd a, Secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.providerNo=?)";
+    	sql+=" where p.programId = c.id and p.clientId=? and p.programId in " + progSql;
     	sql+=" order by p.createdOn desc " ;    	
-    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId, shelterId, providerNo });
+    	List lst = this.getHibernateTemplate().find(sql, new Object[] {clientId});
     	
     	if (lst.size() > 0)
     		return (Integer) lst.get(0);

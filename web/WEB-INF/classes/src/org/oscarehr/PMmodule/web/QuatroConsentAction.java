@@ -22,10 +22,12 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 
@@ -43,6 +45,7 @@ public class QuatroConsentAction extends BaseClientAction {
     private ConsentManager consentManager;
     private LookupManager lookupManager;
     private ProviderManager providerManager;
+    private ProgramManager programManager;
     private TopazManager topazManager;
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
@@ -166,11 +169,18 @@ public class QuatroConsentAction extends BaseClientAction {
 	       String demographicNo= (String)actionParam.get("clientId");
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 	       
-	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-	       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("SHL", shelterId.toString()).getDescription());
 	       request.setAttribute("clientId", demographicNo);	       
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
+	       if(cdObj != null) {
+	    	   Integer programId = cdObj.getProgramId();
+	    	   Program prog = programManager.getProgram(programId);
+		       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("SHL", prog.getShelterId().toString()).getDescription());
+	       }
+	       else
+	       {
+		       request.setAttribute("facilityDesc","");
+	       }
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       Provider proObj =providerManager.getProvider(providerNo);
@@ -178,6 +188,8 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   cdObj.setProviderFirstName(proObj.getFirstName());
 	    	   cdObj.setProviderLastName(proObj.getLastName());
 	       }
+	       
+	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
 	       List programs = null;
 	       if (programIds.size() > 0) {
@@ -318,6 +330,10 @@ public class QuatroConsentAction extends BaseClientAction {
 
 	public void setTopazManager(TopazManager topazManager) {
 		this.topazManager = topazManager;
+	}
+
+	public void setProgramManager(ProgramManager programManager) {
+		this.programManager = programManager;
 	}
 }
 
