@@ -515,6 +515,7 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setActive(program.getProgramStatus().equalsIgnoreCase("active"));
 		pcd.setOrderByIndex(0);
 		pcd.setLastUpdateDate(Calendar.getInstance());
+		pcd.setLastUpdateUser(program.getLastUpdateUser());
 		this.SaveCodeValue(isNew,pcd);
 	}
 	public boolean inOrg(String org1,String org2){
@@ -554,7 +555,8 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setBuf1(fullCode);
 		fcd.setActive(facility.getActive());
 		fcd.setOrderByIndex(0);
-		
+		fcd.setLastUpdateDate(Calendar.getInstance());
+		fcd.setLastUpdateUser(facility.getLastUpdateUser());
 		this.SaveCodeValue(isNew,fcd);
 	}
 	public void SaveAsOrgCode(LookupCodeValue orgVal, String tableId) throws SQLException
@@ -587,7 +589,8 @@ public class LookupDao extends HibernateDaoSupport {
 		ocd.setBuf1(pCd.getBuf1()+ orgCd);
 		ocd.setActive(orgVal.isActive());
 		ocd.setOrderByIndex(0);
-		
+		ocd.setLastUpdateDate(Calendar.getInstance());
+		ocd.setLastUpdateUser(orgVal.getLastUpdateUser());
 		this.SaveCodeValue(isNew,ocd);
 	}
 	public void runProcedure(String procName, String [] params) throws SQLException

@@ -166,9 +166,13 @@ public class DBPreparedHandler {
                 preparedStmt.setString(i+1, param.getStringValue());
         	}
         	else if (DBPreparedHandlerParam.PARAM_DATE.equals(param.getParamType()))
-        			{
-                    preparedStmt.setTimestamp(i+1, new Timestamp(param.getDateValue().getTimeInMillis()));
-        			}
+        	{
+        		if(param.getDateValue() ==null) {
+        			preparedStmt.setTimestamp(i+1, null);
+        		}	else {
+        			preparedStmt.setTimestamp(i+1, new Timestamp(param.getDateValue().getTimeInMillis()));
+        		}
+        	}
         	else if (DBPreparedHandlerParam.PARAM_INT.equals(param.getParamType()))
         	{
         		preparedStmt.setInt(i+1,param.getIntValue());
