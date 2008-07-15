@@ -423,17 +423,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
     	
     	
     	FacilityManagerForm mform = (FacilityManagerForm) form;
-        Facility facility = mform.getFacility();
-        request.setAttribute("facility", facility);
-        
-    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("facilityId", facility.getId()); 
-        }
-        request.setAttribute("actionParam", actionParam);
-        
-    	
+        Facility facility = mform.getFacility();    	
         
         if (request.getParameter("facility.hic") == null) 
         	facility.setHic(false);
@@ -472,7 +462,12 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
             //return mapping.findForward(FORWARD_EDIT);
         }
-        request.setAttribute("facilityId", facility.getId());
+        request.setAttribute("facility", facility);
+    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+        if(actionParam==null) actionParam = new HashMap();
+        actionParam.put("facilityId", facility.getId()); 
+        request.setAttribute("actionParam", actionParam);
+        
         super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
         return edit(mapping, form, request, response);
     }
