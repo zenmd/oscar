@@ -267,7 +267,9 @@ public class IntakeManager {
 	}
 
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
+
         List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
+/*
         if (lst.size()==0) return lst;
         StringBuffer sb = new StringBuffer();
         Iterator it = lst.iterator();
@@ -277,7 +279,8 @@ public class IntakeManager {
           Object[] obj = (Object[])element;
           sb.append("," + ((Integer)obj[0]).toString());	
         }
-		List lst2 = intakeDao.getQuatroIntakeHeaderList(clientId, sb.substring(1));
+  */
+		List lst2 = intakeDao.getQuatroIntakeHeaderListByFacility(clientId, shelterId, providerNo);
 		for(int i=0;i<lst2.size();i++){
           QuatroIntakeHeader obj2 = (QuatroIntakeHeader)lst2.get(i);
           
