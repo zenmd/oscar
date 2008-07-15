@@ -83,6 +83,7 @@ public class AdmissionManager {
 	}
 	
 	
+	//bedDemographic ==null for room assignedbed=0
 	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
     		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
   	    String roomName = null;
@@ -134,8 +135,8 @@ public class AdmissionManager {
 		  admissionId=admission.getId();
     	
     	  //remove old room/bed assignment
-    	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo());
-    	  BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(bedDemographic.getId().getDemographicNo());
+    	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
+    	  BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
           roomDemographic.setAdmissionId(admissionId);
           bedDemographic.setAdmissionId(admissionId);
     	  if(rdm!=null && bdm!=null){
@@ -150,17 +151,30 @@ public class AdmissionManager {
               updateBedDemographicHistory(admission, bdm); 
               
      	      roomDemographicDAO.saveRoomDemographic(roomDemographic);
-    	      bedDemographicDAO.saveBedDemographic(bedDemographic);
+    	      if(bedDemographic!=null) bedDemographicDAO.saveBedDemographic(bedDemographic);
         	  Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
           	  if(room!=null) roomName = room.getName();
-    	      bedName = bedDemographic.getBedName();
+    	      if(bedDemographic!=null) bedName = bedDemographic.getBedName();
     	    }
+    	  }else if(rdm!=null && bdm==null){
+      	    if(!(rdm.getId().getRoomId().equals(roomDemographic.getId().getRoomId()))){
+        	  roomDemographicDAO.deleteRoomDemographic(rdm);
+           	  
+       	      // update room_history
+              updateRoomDemographicHistory(admission, rdm);
+                
+     	      roomDemographicDAO.saveRoomDemographic(roomDemographic);
+    	      if(bedDemographic!=null) bedDemographicDAO.saveBedDemographic(bedDemographic);
+        	  Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
+          	  if(room!=null) roomName = room.getName();
+    	      if(bedDemographic!=null) bedName = bedDemographic.getBedName();
+      	    }
     	  }else{
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
-    	    bedDemographicDAO.saveBedDemographic(bedDemographic);
+       	    if(bedDemographic!=null) bedDemographicDAO.saveBedDemographic(bedDemographic);
       	    Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
       	    if(room!=null) roomName = room.getName();
-    	    bedName = bedDemographic.getBedName();
+      	    if(bedDemographic!=null) bedName = bedDemographic.getBedName();
     	  }
           clientHistoryDao.saveClientHistory(admission,roomName, bedName);
           

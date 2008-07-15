@@ -219,11 +219,14 @@ function roomChanged()
               <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	        </html:select>
             <html:hidden property="curDB_BedId"/>
+            <input type="hidden" name="roomAssignedBed" value="1">
 	      </td></tr>
 	   </c:if>
 	   <c:if test="${quatroClientAdmissionForm.availableBeds==null}">
 	      <tr><td>Room capacity</td>
-     	  <td><c:out value="${quatroClientAdmissionForm.curDB_RoomCapacity}"/></td></tr>
+     	  <td><c:out value="${quatroClientAdmissionForm.curDB_RoomCapacity}"/>
+            <input type="hidden" name="roomAssignedBed" value="0">
+     	  </td></tr>
 	   </c:if>
 	  
     </c:when>

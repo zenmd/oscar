@@ -29,7 +29,7 @@
 		<property name="active" column="active" type="boolean" not-null="true" />
         <property name="facilityId" column="facility_id" type="integer" length="10" not-null="true"/>
         <property name="assignedBed" column="assigned_bed" type="integer" length="1" not-null="true"/>
-        <property name="occupancy" column="occupancy" type="integer" length="10" not-null="false"/>
+        <property name="capacity" column="occupancy" type="integer" length="10" not-null="false"/>
 		<property name="bedNum" type="integer" 
 			formula="(select count(*) from bed t where t.room_id=room_id and t.active=1)" />
     </class>

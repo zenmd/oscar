@@ -166,7 +166,7 @@ public class BedDemographicDAO extends HibernateDaoSupport {
      * @see org.oscarehr.PMmodule.dao.BedDemographicDAO#saveBedDemographic(org.oscarehr.PMmodule.model.BedDemographic)
      */
     public void saveBedDemographic(BedDemographic bedDemographic) {
-        updateHistory(bedDemographic);
+//        updateHistory(bedDemographic);
 
         bedDemographic = (BedDemographic)getHibernateTemplate().merge(bedDemographic);
         getHibernateTemplate().flush();
@@ -197,7 +197,7 @@ public class BedDemographicDAO extends HibernateDaoSupport {
 
         return exists;
     }
-
+/*
     void updateHistory(BedDemographic bedDemographic) {
         BedDemographic existing = null;
 
@@ -219,7 +219,7 @@ public class BedDemographicDAO extends HibernateDaoSupport {
             deleteBedDemographic(existing);
         }
     }
-
+*/
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}

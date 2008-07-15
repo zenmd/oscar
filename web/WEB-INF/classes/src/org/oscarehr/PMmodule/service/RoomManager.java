@@ -187,7 +187,7 @@ public class RoomManager {
     			
     			if(  rooms[i].getId().intValue() == roomIdAndOccupancy[j][0].intValue() ){
    			
-    				if( rooms[i].getOccupancy().intValue() - roomIdAndOccupancy[j][1].intValue() >= 0 ){
+    				if( rooms[i].getCapacity().intValue() - roomIdAndOccupancy[j][1].intValue() >= 0 ){
     					roomList.add(rooms[i]);
     				}
     			}
@@ -247,7 +247,7 @@ public class RoomManager {
 						Bed[] availableBeds = bedManager.getAvailableBedsByRoom(rooms[i].getId());
 						if(availableBeds.length>0) availableRooms.add(rooms[i]);
 					}else{
-					  if(rooms[i].getOccupancy().intValue() -  totalClientsInRoom > 0){
+					  if(rooms[i].getCapacity().intValue() -  totalClientsInRoom > 0){
 						 availableRooms.add(rooms[i]);
 					  }
 					}
@@ -416,6 +416,7 @@ public class RoomManager {
      * @throws RoomHasActiveBedsException
      *             room has active beds
      */
+/*    
     public void addRooms(Integer facilityId, int numRooms) throws RoomHasActiveBedsException {
         if (numRooms < 1) {
             throw new IllegalArgumentException("numRooms must be greater than or equal to 1");
@@ -427,7 +428,7 @@ public class RoomManager {
             saveRoom(Room.create(facilityId, defaultRoomType));
         }
     }
-
+*/
     /**
      * Save rooms
      *

@@ -29,23 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Room implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private static final String DEFAULT_NAME = "";
-    private static final boolean DEFAULT_ACTIVE = true;
-    private static final Integer DEFAULT_ASSIGNED_BED = new Integer(1);
-    private static final Integer DEFAULT_OCCUPANCY = new Integer(1);
-
-    public static String REF = "Room";
-    public static String PROP_ROOM_TYPE_ID = "roomTypeId";
-    public static String PROP_ACTIVE = "active";
-    public static String PROP_FLOOR = "floor";
-    public static String PROP_PROGRAM_ID = "programId";
-    public static String PROP_ASSIGNED_BED = "assignedBed";
-    public static String PROP_OCCUPANCY = "occupancy";
-    public static String PROP_NAME = "name";
-    public static String PROP_ID = "id";
-
-    private int hashCode = Integer.MIN_VALUE;// primary key
+    private int hashCode = Integer.MIN_VALUE;
 
     private Integer id;// fields
     private Integer roomTypeId;
@@ -55,8 +39,7 @@ public class Room implements Serializable {
     private boolean active;
     private Integer facilityId;
     private Integer assignedBed;
-    private Integer occupancy; //this is room capacity
-    private Integer totalBedOccupancy = new Integer(0);
+    private Integer capacity; //this is room capacity
 
     private RoomType roomType;
     private Program program;
@@ -64,48 +47,11 @@ public class Room implements Serializable {
 
     private Integer bedNum;
     
-    // constructors
     public Room() {
-        initialize();
     }
 
-    /**
-     * Constructor for primary key
-     */
     public Room(Integer id) {
         this.setId(id);
-        initialize();
-    }
-
-    /**
-     * Constructor for required fields
-     */
-    public Room(
-            Integer id,
-            Integer roomTypeId,
-            String name,
-            boolean active,
-            Integer facilityId) {
-
-        this.setId(id);
-        this.setRoomTypeId(roomTypeId);
-        this.setName(name);
-        this.setActive(active);
-        this.setFacilityId(facilityId);
-        initialize();
-    }
-
-    public static final Room create(Integer facilityId, RoomType roomType) {
-        Room room = new Room();
-
-        room.setFacilityId(facilityId);
-        room.setRoomTypeId(roomType.getId());
-        room.setName(DEFAULT_NAME);
-        room.setActive(DEFAULT_ACTIVE);
-        room.setAssignedBed(DEFAULT_ASSIGNED_BED);
-        room.setOccupancy(DEFAULT_OCCUPANCY);
-
-        return room;
     }
 
     public void setRoomType(RoomType roomType) {
@@ -134,101 +80,51 @@ public class Room implements Serializable {
         }
     }
 
-    //@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
 
-    protected void initialize() {
-    }
-
-    /**
-     * Return the unique identifier of this class
-     *
-     * @hibernate.id generator-class="native"
-     * column="room_id"
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * Set the unique identifier of this class
-     *
-     * @param id the new ID
-     */
     public void setId(Integer id) {
         this.id = id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
-    /**
-     * Return the value associated with the column: room_type_id
-     */
     public Integer getRoomTypeId() {
         return roomTypeId;
     }
 
-    /**
-     * Set the value related to the column: room_type_id
-     *
-     * @param roomTypeId the room_type_id value
-     */
     public void setRoomTypeId(Integer roomTypeId) {
         this.roomTypeId = roomTypeId;
     }
 
-    /**
-     * Return the value associated with the column: program_id
-     */
     public Integer getProgramId() {
         return programId;
     }
 
-    /**
-     * Set the value related to the column: program_id
-     *
-     * @param programId the program_id value
-     */
     public void setProgramId(Integer programId) {
         this.programId = programId;
     }
 
-    /**
-     * Return the value associated with the column: name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Set the value related to the column: name
-     *
-     * @param name the name value
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Return the value associated with the column: floor
-     */
     public String getFloor() {
         return floor;
     }
 
-    /**
-     * Set the value related to the column: floor
-     *
-     * @param floor the floor value
-     */
     public void setFloor(String floor) {
         this.floor = floor;
     }
 
-    /**
-     * Return the value associated with the column: active
-     */
     public boolean isActive() {
         return active;
     }
@@ -237,11 +133,6 @@ public class Room implements Serializable {
         return facility;
     }
 
-    /**
-     * Set the value related to the column: active
-     *
-     * @param active the active value
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -275,45 +166,16 @@ public class Room implements Serializable {
         return this.hashCode;
     }
 
-
     public void setFacility(Facility facility) {
         this.facility = facility;
     }
-    /**
-     * Return the value associated with the column: assigned_bed
-     */
-	public Integer getAssignedBed() {
+
+    public Integer getAssignedBed() {
 		return assignedBed;
 	}
-    /**
-     * Set the value related to the column: assigned_bed
-     *
-     * @param assignedBed the assignedBed value
-     */
+
 	public void setAssignedBed(Integer assignedBed) {
 		this.assignedBed = assignedBed;
-	}
-    /**
-     * Return the value associated with the column: occupancy
-     */
-	public Integer getOccupancy() {
-		return occupancy;
-	}
-    /**
-     * Set the value related to the column: occupancy
-     *
-     * @param occupancy the occupancy value
-     */
-	public void setOccupancy(Integer occupancy) {
-		this.occupancy = occupancy;
-	}
-
-	public Integer getTotalBedOccupancy() {
-		return totalBedOccupancy;
-	}
-
-	public void setTotalBedOccupancy(Integer totalBedOccupancy) {
-		this.totalBedOccupancy = totalBedOccupancy;
 	}
 
 	public Integer getBedNum() {
@@ -322,5 +184,13 @@ public class Room implements Serializable {
 
 	public void setBedNum(Integer bedNum) {
 		this.bedNum = bedNum;
+	}
+
+	public Integer getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
 	}
 }
