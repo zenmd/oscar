@@ -156,7 +156,7 @@
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
             <display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" 
-            export="false" sort="external"  pagesize="20"   requestURI="/PMmodule/ClientSearch2.do" defaultsort="2">            
+            export="false"   pagesize="100"   requestURI="/PMmodule/ClientSearch2.do" sort="list" defaultsort="2">            
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
 			<display:column sortable="true" title=" First Name" sortProperty="firstName" sortName="client">
