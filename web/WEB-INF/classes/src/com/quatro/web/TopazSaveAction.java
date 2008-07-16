@@ -16,12 +16,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import com.quatro.service.TopazManager;
+import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.model.Admission;
 
 import com.quatro.model.TopazValue;
 
 public class TopazSaveAction extends DispatchAction {
 	
     private TopazManager topazManager=null;
+    private AdmissionManager admissionManager=null;
 
     public void setTopazManager(TopazManager topazManager) {
         this.topazManager = topazManager;
@@ -51,6 +54,10 @@ public class TopazSaveAction extends DispatchAction {
 //		   tobj.setProviderNo(providerNo);
 		
 		   topazManager.saveTopazValue(tobj);
+		   Admission admission = admissionManager.getAdmission(tobj.getRecordId());
+		   Integer intakeId = admission.getIntakeId();
+		   String admissionStatus = admission.getAdmissionStatus();
+		   admissionManager.setAdmissionSignedFlag(tobj.getRecordId(), intakeId, admissionStatus);
 //		   request.getSession().setAttribute("signatureID", tobj.getRecordId());
 	
 //		   TopazValue tv=topazManager.getTopazValue(providerNo);
@@ -75,5 +82,9 @@ public class TopazSaveAction extends DispatchAction {
 //     TopazValue tv= topazManager.getTopazValue(providerNo);
 
 	   return mapping.findForward("view");
-    }    
+    }
+
+	public void setAdmissionManager(AdmissionManager admissionManager) {
+		this.admissionManager = admissionManager;
+	}    
 }

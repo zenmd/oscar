@@ -45,7 +45,7 @@ public class AdmissionDao extends HibernateDaoSupport {
         getHibernateTemplate().saveOrUpdate(admission);
 
         getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
-                KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?", intakeId);
+        		KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?", intakeId);
         
         getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queueId);
 
@@ -62,6 +62,17 @@ public class AdmissionDao extends HibernateDaoSupport {
         clientHisDao.saveClientHistory(admission, null, null);
     }
 
+    public void setAdmissionSignedFlag(Integer admissionId, String admissionStatus){
+  	  if(KeyConstants.INTAKE_STATUS_PENDING.equals(admissionStatus)){
+         getHibernateTemplate().bulkUpdate("update Admission i set i.hasSignature='Y'" +
+               ",i.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
+               " where i.id=?", new Object[]{admissionId});
+  	  }else{
+         getHibernateTemplate().bulkUpdate("update Admission i set i.hasSignature='Y'" +
+               " where i.id=?", new Object[]{admissionId});
+  	  }
+    }
+    
     public void dischargeAdmission(String admissionIds) {
     	if(admissionIds==null || admissionIds.length()==0) return;
         
@@ -123,7 +134,7 @@ public class AdmissionDao extends HibernateDaoSupport {
     	}
     	Criteria criteria = getSession().createCriteria(Admission.class);
     	criteria.add(Restrictions.in("clientId",clients));
-    	if (activeOnly) criteria.add(Restrictions.eq("admissionStatus",KeyConstants.INTAKE_STATUS_ADMITTED));
+    	if (activeOnly) criteria.add(Restrictions.or(Restrictions.eq("admissionStatus",KeyConstants.INTAKE_STATUS_PENDING),Restrictions.eq("admissionStatus",KeyConstants.INTAKE_STATUS_ADMITTED)));
     	criteria.add(Restrictions.sqlRestriction(" program_Id in " + progSQL));
     	
     	criteria.addOrder(Order.desc("admissionDate"));
@@ -137,7 +148,8 @@ public class AdmissionDao extends HibernateDaoSupport {
     		+ " c.FirstName, c.LastName, a.clientId" 
     		+ " FROM Admission a, Demographic c" 
     		+ " WHERE a.programId=?"
-    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " AND (a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " or a.admissionStatus='" + KeyConstants.INTAKE_STATUS_PENDING + "')"
     		+ " AND a.clientId = c.DemographicNo";
         List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
         return lst;
@@ -152,7 +164,8 @@ public class AdmissionDao extends HibernateDaoSupport {
     		+ " a.intakeId, a.intakeHeadId "
     		+ " FROM Admission a, Demographic c, RoomDemographic rd, Room rm" 
     		+ " WHERE a.programId=?"
-    		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " AND (a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
+    		+ " or a.admissionStatus='" + KeyConstants.INTAKE_STATUS_PENDING + "')"
     		+ " AND a.clientId = c.DemographicNo"
     		+ " AND rd.id.demographicNo = a.clientId"
     		+ " AND rd.id.roomId = rm.id"
@@ -284,8 +297,10 @@ public class AdmissionDao extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
         String clientIds =mergeClientDao.getMergedClientIds(demographicNo);
-        String queryStr = "from Admission a where a.clientId in "+clientIds+" and a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED +
-         "' and programType='Bed' ORDER BY a.admissionDate DESC";
+        String queryStr = "from Admission a where a.clientId in " + clientIds + " and " +
+        "(a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "' or a.admissionStatus='" +  
+         KeyConstants.INTAKE_STATUS_PENDING + "')" + 
+         " and programType='Bed' ORDER BY a.admissionDate DESC";
 
         List admissions = getHibernateTemplate().find(queryStr);
         if (admissions.size() > 0) {
@@ -322,7 +337,9 @@ public class AdmissionDao extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        List results = this.getHibernateTemplate().find("from Admission a where a.programId = ? and a.admissionStatus='"+KeyConstants.INTAKE_STATUS_ADMITTED+"'", programId);
+        List results = this.getHibernateTemplate().find("from Admission a where a.programId = ? and " +
+      		"(a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "' or a.admissionStatus='" +
+      		KeyConstants.INTAKE_STATUS_PENDING + "')", programId);
 
         return results;
     }

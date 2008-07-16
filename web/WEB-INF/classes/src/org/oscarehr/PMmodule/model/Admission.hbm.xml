@@ -38,6 +38,7 @@
 		<property name="ovPassEndDate" column="ovpass_enddate" />
 		<property name="notSignReason" column="notsign_reason" />
 		<property name="lastUpdateDate" column="lastupdate_date"></property>
+		<property name="hasSignature" column="has_signature"></property>
 		<property name="programName" type="string" lazy="true"
 			formula="(select p.name from program p where p.program_id = program_id)" />
 		<property name="programType" type="string" lazy="true"

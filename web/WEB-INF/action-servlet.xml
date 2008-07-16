@@ -21,6 +21,7 @@
 	</bean>
 	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
+        <property name="admissionManager" ref="admissionManager"/>
 	</bean>
 	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>

@@ -24,7 +24,7 @@ public class Admission implements Serializable, Cloneable {
 	private boolean automaticDischarge=false;
 
 	private Integer intakeId;
-	private Integer facilityId;
+//	private Integer facilityId;
 	private String programName;
 	private String programType;
 
@@ -59,6 +59,7 @@ public class Admission implements Serializable, Cloneable {
     
     private String bedName;
     private Integer intakeHeadId;
+    private String hasSignature;
     
     public String getBedName() {
 		return bedName;
@@ -100,12 +101,14 @@ public class Admission implements Serializable, Cloneable {
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
+/*	
 	public Integer getFacilityId() {
 		return facilityId;
 	}
 	public void setFacilityId(Integer shelterId) {
 		this.facilityId = facilityId;
 	}
+*/	
 	public Integer getId() {
 		return id;
 	}
@@ -401,5 +404,13 @@ public class Admission implements Serializable, Cloneable {
 		diff = diff / 24; // days
 
 		return new Integer((int)diff);
+	}
+
+	public String getHasSignature() {
+		return hasSignature;
+	}
+
+	public void setHasSignature(String hasSignature) {
+		this.hasSignature = hasSignature;
 	}
 }

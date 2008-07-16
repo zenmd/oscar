@@ -221,7 +221,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //family intake doesn't need assign beds, just room. 
        if(!clientForm.getFamilyIntakeType().equals("Y")){
          Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getId().getRoomId());        	  
-    	 if(newSelectedRoom==null){
+//         Room newSelectedRoom = roomManager.getRoom(Integer.valueOf(request.getParameter("roomDemographic.id.roomId")));        	  
+         
+         if(newSelectedRoom==null){
       	   Bed emptyBed=new Bed();
     	   emptyBed.setId(new Integer(0));
     	   emptyBed.setName(" ---- ");
@@ -242,6 +244,19 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
         	   if(curDB_BedId!=null) currentDB_bed = bedManager.getBed(curDB_BedId);
                if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
              }
+
+             //add current bed in bed_demographic table to bed dropdown when change room (assignedBed=0) to room (assignBed=1) 
+             if(currentDB_bed==null){
+               Admission admission = clientForm.getAdmission();
+               BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByAdmissionId(admission.getId());
+               if(bedDemographic!=null){
+            	 if(!bedDemographic.getBedId().equals(curDB_BedId)){
+            	   currentDB_bed = bedManager.getBed(bedDemographic.getBedId());
+            	   if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+            	 }
+               }
+             }
+             
              Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getId().getRoomId());
              for(int i=0;i<availableBeds.length;i++){
          	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
@@ -396,6 +411,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
+       
        Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
     		   clientId, FamilyIntakeType.equals("Y"));
        for(int i=0;i<availableRooms.length;i++){
@@ -429,6 +445,18 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
         	   if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
                if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
              }
+
+             //add current bed in bed_demographic table to bed dropdown when change room (assignedBed=0) to room (assignBed=1) 
+             if(currentDB_bed==null){
+               BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByAdmissionId(admission.getId());
+               if(bedDemographic!=null){
+            	 if(!bedDemographic.getBedId().equals(curDB_BedId)){
+            	   currentDB_bed = bedManager.getBed(bedDemographic.getBedId());
+            	   if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+            	 }
+               }
+             }
+
              Bed[] availableBeds = bedManager.getAvailableBedsByRoom(clientForm.getRoomDemographic().getId().getRoomId());
              for(int i=0;i<availableBeds.length;i++){
          	   if(currentDB_bed!=null && currentDB_bed.equals(availableBeds[i])) continue; 
@@ -701,13 +729,15 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	       }
     		 }else{
                  Integer roomOccupancy = new Integer(roomDemographicManager.getRoomOccupanyByRoom(roomToSave.getId()));
-            	 if(roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
-       	            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.not_available_room_space",
+                 if(clientForm.getCurDB_RoomId().intValue()!=roomToSave.getId().intValue()){
+                   if(roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
+       	             messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.not_available_room_space",
            			     request.getContextPath()));
-                    isError = true;
-                    saveMessages(request,messages);
-                    return update(mapping, form, request, response);
-            	 }
+                     isError = true;
+                     saveMessages(request,messages);
+                     return update(mapping, form, request, response);
+            	   }
+                 }  
     		 }
     	  }   
        }
@@ -716,10 +746,19 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	   admission.setProviderNo(providerNo);
        admission.setAdmissionDate(MyDateFormat.getCalendarwithTime(admission.getAdmissionDateTxt()));
-       admission.setFacilityId(shelterId);
+//       admission.setFacilityId(shelterId);
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
        admission.setLastUpdateDate(new GregorianCalendar());
+   	   
+       if(!"Y".equals(admission.getHasSignature())){
+  	     if(admission.getNotSignReason().equals("") && admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)){
+  	        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_PENDING);
+  	      }else if(!admission.getNotSignReason().equals("") && admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_PENDING)){
+    	     admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+  	      }
+  	   }
+       
        RoomDemographic roomDemographic = clientForm.getRoomDemographic();
  	   RoomDemographicPK rdmPK= roomDemographic.getId();
  	   rdmPK.setDemographicNo(admission.getClientId());
@@ -765,7 +804,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	   
        if(admission.getId().intValue()==0){
     	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
-    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+//    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+   	      if(admission.getNotSignReason().equals("")){
+   	        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_PENDING);
+   	      }else{
+     	     admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+   	      }
     	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
    			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
     	  admission.setId(newAdmissionId);

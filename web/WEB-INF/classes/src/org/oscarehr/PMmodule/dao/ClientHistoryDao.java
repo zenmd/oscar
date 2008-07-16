@@ -138,6 +138,19 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         	history.setProgramId(admission.getProgramId());
         	history.setProviderNo(admission.getProviderNo());
         }
+        else if ("pending".equals(admission.getAdmissionStatus()))
+        {
+        	history.setAction(" Admit Pending");
+        	history.setActionDate(admission.getAdmissionDate().getTime());
+        	history.setHistoryDate(Calendar.getInstance().getTime());
+        	LookupCodeValue provider = lookupDao.GetCode("USR", admission.getProviderNo());
+        	String notes = " Primary Worker: " + provider.getDescription();
+        	if (room != null) notes += ", Room: " + room;
+        	if (bed != null) notes += ", Bed: " + bed;
+        	history.setNotes(notes);
+        	history.setProgramId(admission.getProgramId());
+        	history.setProviderNo(admission.getProviderNo());
+        }
         else if("discharged".equals(admission.getAdmissionStatus()))
         {
             history.setAction("Discharge");

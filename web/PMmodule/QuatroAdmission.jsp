@@ -11,6 +11,7 @@
 <input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
+<html:hidden property="admission.hasSignature"/>
 <html:hidden property="familyIntakeType"/>
 <html:hidden property="intakeClientNum"/>
 <html:hidden property="admission.id"/>
@@ -69,7 +70,7 @@ function roomChanged()
 	<tr>
 		<td align="left" class="buttonBar2">
 		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' || quatroClientAdmissionForm.admission.admissionStatus=='pending'}">		 
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
@@ -241,7 +242,7 @@ function roomChanged()
 
 <tr><td align="center">Reason for not signing&nbsp;
 <html-el:select property="admission.notSignReason">
-  <option value="0"></option>
+  <option value=""></option>
   <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
 </td></tr>

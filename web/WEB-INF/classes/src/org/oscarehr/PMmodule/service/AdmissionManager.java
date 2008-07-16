@@ -82,6 +82,10 @@ public class AdmissionManager {
         }
 	}
 	
+    public void setAdmissionSignedFlag(Integer admissionId, Integer intakeId, String admissionStatus){
+    	admissionDao.setAdmissionSignedFlag(admissionId, admissionStatus);
+    	intakeDao.setIntakeStatusAdmitted(intakeId);
+    }	
 	
 	//bedDemographic ==null for room assignedbed=0
 	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
@@ -102,7 +106,7 @@ public class AdmissionManager {
              rdm2.setId(rdmPK);
              rdm2.setProviderNo(roomDemographic.getProviderNo());
              rdm2.setAssignStart(roomDemographic.getAssignStart());
-   		     intakeDao.setIntakeStatusAdmitted(qif.getIntakeId());
+             intakeDao.setIntakeStatusAdmitted(qif.getIntakeId());
    		     Admission admObj =(Admission)admission.clone();
    		     admObj.setClientId(qif.getClientId());
    		     admObj.setIntakeId(qif.getIntakeId());
@@ -133,12 +137,12 @@ public class AdmissionManager {
 		  intakeDao.setIntakeStatusAdmitted(intakeId);
 		  admissionDao.saveAdmission(admission, intakeId, queueId, referralId);
 		  admissionId=admission.getId();
-    	
+		  
     	  //remove old room/bed assignment
     	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
     	  BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
           roomDemographic.setAdmissionId(admissionId);
-          bedDemographic.setAdmissionId(admissionId);
+          if(bedDemographic!=null) bedDemographic.setAdmissionId(admissionId);
     	  if(rdm!=null && bdm!=null){
     	    if(!(rdm.getId().getRoomId().equals(roomDemographic.getId().getRoomId()) &&
     	             bdm.getId().getBedId().equals(bedDemographic.getId().getBedId()))){
@@ -181,8 +185,7 @@ public class AdmissionManager {
           // save room_history
           saveRoomDemographicHistory(admission, roomDemographic, cal);
           // save bed_history
-          saveBedDemographicHistory(admission, bedDemographic, cal);
-          
+          if(bedDemographic!=null) saveBedDemographicHistory(admission, bedDemographic, cal);
 
     	}
     	
@@ -230,7 +233,7 @@ public class AdmissionManager {
 
   	    if(bedDemographic!=null) {
   	      BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(bedDemographic.getId().getDemographicNo());
-    	  roomDemographic.setAdmissionId(admission.getId());
+  	      bedDemographic.setAdmissionId(admission.getId());
     	  if(bdm!=null){
     	    if(!bdm.getId().getBedId().equals(bedDemographic.getId().getBedId())){
      	      bedDemographicDAO.deleteBedDemographic(bdm);
