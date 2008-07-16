@@ -98,7 +98,7 @@
 				style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Consents&nbsp;&nbsp;|</html:link>
 			
-				<c:if test="${signed==null || 'N'==signed}" >		
+				<c:if test="${(signed==null || 'N'==signed) && !isReadOnly}" >		
 					<a href='javaScript:submitForm("save");'  onclick="javascript: setNoConfirm();return validateSave();"	style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 				</c:if>

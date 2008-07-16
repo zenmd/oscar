@@ -86,15 +86,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   consentObj.setProviderNo(providerNo);
 	       }
 	       else if(rId!=null && rId!="0"){
-	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
-	    	   boolean isReadOnly=super.isReadOnly(request, consentObj.getStatus(), KeyConstants.FUN_PMM_CLIENTCONSENT, consentObj.getProgramId());
-	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-	    	   TopazValue tv= topazManager.getTopazValue(consentObj.getId(),"consent");
-	    	   if(consentObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(consentObj.getEndDate()))
-   				consentObj.setStatus(KeyConstants.STATUS_EXPIRED);
-		       if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(consentObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(consentObj.getStatus())){
-		    	   request.setAttribute("signed","Y");
-		       }
+	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));  	  
 	       }
 	       dForm.set("consentValue", consentObj);
 	       
@@ -172,14 +164,23 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("clientId", demographicNo);	       
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
-	       if(cdObj != null) {
+	       if(cdObj != null && cdObj.getId().intValue()>0) {
 	    	   Integer programId = cdObj.getProgramId();
 	    	   Program prog = programManager.getProgram(programId);
 		       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("SHL", prog.getShelterId().toString()).getDescription());
+		       boolean isReadOnly=super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_PMM_CLIENTCONSENT, cdObj.getProgramId());
+	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	    	   TopazValue tv= topazManager.getTopazValue(cdObj.getId(),"consent");
+	    	   if(cdObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(cdObj.getEndDate()))
+   				cdObj.setStatus(KeyConstants.STATUS_EXPIRED);
+		       if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(cdObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(cdObj.getStatus())){
+		    	   request.setAttribute("signed","Y");
+		       }
 	       }
 	       else
 	       {
 		       request.setAttribute("facilityDesc","");
+		       request.setAttribute("signed","N");
 	       }
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -205,7 +206,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   programs = new ArrayList();
 	       }
 	       request.setAttribute("programs", programs);
-	       request.setAttribute("signed","N");
+	      // request.setAttribute("signed","N");
 	   }
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm consentForm = (DynaActionForm)form;
