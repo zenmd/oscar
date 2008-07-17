@@ -45,6 +45,7 @@ public class DBPreparedHandler {
     Statement stmt = null;
     PreparedStatement preparedStmt = null;
     Connection connection;
+    
 
     public DBPreparedHandler() {
     }

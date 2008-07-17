@@ -83,7 +83,7 @@
     
     <display:column sortable="true" property="clientLastName" title="Last Name"/>
     <display:column sortable="true" property="clientFirstName" title="First Name"/>
-    <display:column property="referralDate" sortable="true" title="Referral Date" format="{0, date, yyyy/MM/dd HH:mm:ss}" />
+    <display:column property="referralDate" sortable="true" title="Referral Date" format="{0, date, yyyy/MM/dd hh:mm:ss a}" />
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
     <display:column property="notes" sortable="true" title="Reason for Referral" />
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>

@@ -436,13 +436,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	  }
 	  
 		if(intake.getCreatedOnTxt().equals("")==false){
-			intake.setCreatedOn(MyDateFormat.getCalendar(intake.getCreatedOnTxt()));
+			intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake.getCreatedOnTxt()));
 		}else{
 	  	  Calendar cal= Calendar.getInstance();
 	  	  intake.setCreatedOn(cal);
-	  	  intake.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "/" + 
-				  String.valueOf(cal.get(Calendar.MONTH)+1) + "/" +  
-				  String.valueOf(cal.get(Calendar.DATE)));
+	  	  intake.setCreatedOnTxt(MyDateFormat.getStandardDateTime(cal));
 		}
  
 		if(intake.getId().intValue()==0) intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);		

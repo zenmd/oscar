@@ -64,7 +64,7 @@ function updateQuatroIntake(clientId, intakeId) {
 			<display:setProperty name="basic.msg.empty_list" value="No intakes found." />
 			<display:column property="programName" sortable="true" title="Program Name"/>
 			<display:column property="programType" sortable="true" title="Type"/>
-            <display:column property="createdOn.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:MM:ss a}" />
+            <display:column property="createdOn.time" sortable="true" title="Created On" format="{0,date,yyyy/MM/dd hh:mm:ss a}" />
             <display:column property="staffName" sortable="true" title="Staff"/>
 			<display:column property="intakeStatus" sortable="true" title="Status" />
 			<display:column title="Actions">
