@@ -82,7 +82,7 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 						<thead>
 							<TR>
 								<th align="center"><b>Select</b></th>
-								<th align="center"><b>Organization</b></TH>
+								<th align="center"><b>Org</b></TH>
 								<TH align="center"><b>Role</b></TH>
 							</TR>
 						</thead>
