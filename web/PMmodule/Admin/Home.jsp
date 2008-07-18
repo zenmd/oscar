@@ -132,7 +132,7 @@ String _appPath = request.getContextPath();
 						<th align="left" style="vertical-align: middle" class="clsHomePageLabels"><a
 							id="orgAdd"
 							href="<c:out value='${ctx}'/>/PMmodule/Admin/ShowORGTree.do?tableId=ORG">
-						SMIS Organization Chart</a></th>
+						SMIS Org Chart</a></th>
 					</tr>
 				</table>
 				</th>
