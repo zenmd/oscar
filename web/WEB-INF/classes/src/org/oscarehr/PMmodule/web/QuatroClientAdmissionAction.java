@@ -49,10 +49,12 @@ import oscar.MyDateFormat;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
+import com.quatro.service.TopazManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
 public class QuatroClientAdmissionAction  extends BaseClientAction {
+   private TopazManager topazManager;
    private ClientManager clientManager;
    private LookupManager lookupManager;
    private ProgramManager programManager;
@@ -113,16 +115,14 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        intakeId = intakeDB.getId();
        actionParam.put("intakeId", intakeId);
        request.setAttribute("actionParam", actionParam);
+       
+       //check if admission existing (do this check to prevent somebody from deleting the signature 
+       //by manual input of a url with method=queue.)
+       Admission admissionExisting = admissionManager.getAdmissionByIntakeId(intakeId);
+       if(admissionExisting==null) topazManager.deleteSignature(intakeId); 
 
        programId=intakeDB.getProgramId();
-/*       
-       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
-       if(intakeFamilyHeadId.intValue()==0){
-         clientForm.setFamilyIntakeType("N");
-       }else{
-         clientForm.setFamilyIntakeType("Y");
-       }
-*/       
+
        List clientFamily = intakeManager.getClientFamilyByIntakeId(intakeId.toString());
        if(clientFamily==null){
          clientForm.setFamilyIntakeType("N");
@@ -381,8 +381,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(clientForm.getCurDB_BedId()!=null) curDB_BedId = clientForm.getCurDB_BedId(); 
        
 
-     if(admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED) ||
-              	admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_PENDING)){
+     if(admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)){
        if(request.getParameter("admissionId")!=null){
          RoomDemographic rdm = roomDemographicManager.getRoomDemographicByAdmissionId(Integer.valueOf(request.getParameter("admissionId")));
          if(rdm!=null){
@@ -750,7 +749,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
        admission.setLastUpdateDate(new GregorianCalendar());
-   	   
+       
+/*   	   
        if(!"Y".equals(admission.getHasSignature())){
   	     if(admission.getNotSignReason().equals("") && admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)){
   	        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_PENDING);
@@ -758,6 +758,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	     admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
   	      }
   	   }
+*/
        
        RoomDemographic roomDemographic = clientForm.getRoomDemographic();
  	   RoomDemographicPK rdmPK= roomDemographic.getId();
@@ -804,12 +805,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	   
        if(admission.getId().intValue()==0){
     	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
-//    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
-   	      if(admission.getNotSignReason().equals("")){
-   	        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_PENDING);
-   	      }else{
-     	     admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
-   	      }
+    	  if(!topazManager.isSignatureExist(intakeId)){
+     	    messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.miss_signature",
+       			   request.getContextPath()));
+            isError = true;
+            saveMessages(request,messages);
+            return update(mapping, form, request, response);
+    	  }
+
+    	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+
     	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
    			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
     	  admission.setId(newAdmissionId);
@@ -880,5 +885,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   public void setProgramQueueManager(ProgramQueueManager programQueueManager) {
 	this.programQueueManager = programQueueManager;
   }
+
+public void setTopazManager(TopazManager topazManager) {
+	this.topazManager = topazManager;
+}
    
 }

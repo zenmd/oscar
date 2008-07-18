@@ -11,7 +11,6 @@
 <input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
-<html:hidden property="admission.hasSignature"/>
 <html:hidden property="familyIntakeType"/>
 <html:hidden property="intakeClientNum"/>
 <html:hidden property="admission.id"/>
@@ -20,6 +19,15 @@
 <html:hidden property="admission.admissionStatus"/>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
+function checkSignLinkVisibility(objSel) {
+  if(objSel.value==''){
+    var signLink = document.getElementById("signLink");
+    signLink.style.visibility = 'visible';
+  }else{
+    var signLink = document.getElementById("signLink");
+    signLink.style.visibility = 'hidden';
+  } 
+}
 
 function submitForm(methodVal) {
 /*
@@ -38,7 +46,7 @@ function submitForm(methodVal) {
 
 function signSignature(){
    var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
-     "rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />" + 
+     "rid=<c:out value="${quatroClientAdmissionForm.admission.intakeId}" />" + 
      "&moduleName=admission";
    if(win!=null) win.close();
    win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
@@ -46,7 +54,7 @@ function signSignature(){
 }
 function viewSignature(){
    var url='<c:out value="${ctx}" />/topazGetImage.do?' +
-     "rid=<c:out value="${quatroClientAdmissionForm.admission.id}" />" +"&moduleName=admission";
+     "rid=<c:out value="${quatroClientAdmissionForm.admission.intakeId}" />" +"&moduleName=admission";
 
    if(win!=null) win.close();
    win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=400,height=200");
@@ -73,12 +81,6 @@ function roomChanged()
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' || quatroClientAdmissionForm.admission.admissionStatus=='pending'}">		 
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-		<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
-		  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
-		  <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
-		  <a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
-		  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
-        </logic:greaterThan>
         </c:if>       
 		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
@@ -241,10 +243,37 @@ function roomChanged()
 </td></tr>
 
 <tr><td align="center">Reason for not signing&nbsp;
-<html-el:select property="admission.notSignReason">
+<html-el:select property="admission.notSignReason" onchange="setNoConfirm();checkSignLinkVisibility(this);">
   <option value=""></option>
   <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
+<br/>
+<div id="signLink">
+<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
+  quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
+<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>
+<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
+  |&nbsp;<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>
+</logic:greaterThan>
+</c:if>
+</div>
+<c:choose>
+<c:when test="${quatroClientAdmissionForm.admission.notSignReason==null ||
+         quatroClientAdmissionForm.admission.notSignReason==''}">
+<script lang="javascript">
+var signLink = document.getElementById("signLink");
+signLink.style.visibility = 'visible';
+</script>
+</c:when>
+<c:otherwise>
+<script lang="javascript">
+var signLink = document.getElementById("signLink");
+signLink.style.visibility = 'hidden';
+</script>
+</c:otherwise>
+</c:choose>
 </td></tr>
 <tr><td><br>
 <b>Notice with Regard to the Collection of Personal Information:</b><br>

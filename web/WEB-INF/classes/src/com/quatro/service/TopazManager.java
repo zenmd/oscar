@@ -14,7 +14,16 @@ public class TopazManager {
         return topazDao.getTopazValue(recordId,moduleCd);
     }
 
+    public boolean isSignatureExist(Integer recordId){
+        return topazDao.isSignatureExist(recordId);
+    }
+    
     public void saveTopazValue(TopazValue tv){
         topazDao.saveTopazValue(tv);
     }
+    
+    public void deleteSignature(Integer recordId){
+        topazDao.deleteSignature(recordId);
+    }
+
 }

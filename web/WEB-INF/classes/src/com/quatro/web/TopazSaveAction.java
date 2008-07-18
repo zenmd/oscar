@@ -24,7 +24,6 @@ import com.quatro.model.TopazValue;
 public class TopazSaveAction extends DispatchAction {
 	
     private TopazManager topazManager=null;
-    private AdmissionManager admissionManager=null;
 
     public void setTopazManager(TopazManager topazManager) {
         this.topazManager = topazManager;
@@ -54,10 +53,6 @@ public class TopazSaveAction extends DispatchAction {
 //		   tobj.setProviderNo(providerNo);
 		
 		   topazManager.saveTopazValue(tobj);
-		   Admission admission = admissionManager.getAdmission(tobj.getRecordId());
-		   Integer intakeId = admission.getIntakeId();
-		   String admissionStatus = admission.getAdmissionStatus();
-		   admissionManager.setAdmissionSignedFlag(tobj.getRecordId(), intakeId, admissionStatus);
 //		   request.getSession().setAttribute("signatureID", tobj.getRecordId());
 	
 //		   TopazValue tv=topazManager.getTopazValue(providerNo);
@@ -84,7 +79,4 @@ public class TopazSaveAction extends DispatchAction {
 	   return mapping.findForward("view");
     }
 
-	public void setAdmissionManager(AdmissionManager admissionManager) {
-		this.admissionManager = admissionManager;
-	}    
 }

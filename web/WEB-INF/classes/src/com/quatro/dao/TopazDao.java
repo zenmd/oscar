@@ -24,4 +24,19 @@ public class TopazDao extends HibernateDaoSupport{
 		 return null;
 	  }
   }
+  
+  public boolean isSignatureExist(Integer recordId){
+	  String sql = "From TopazValue where recordId=?";
+	  List lst = getHibernateTemplate().find(sql,new Object[]{recordId});
+	  if(lst.size()>0){
+		 return true;
+	  }else{
+		 return false;
+	  }
+  }
+  
+  public void deleteSignature(Integer recordId){
+      getHibernateTemplate().bulkUpdate("delete TopazValue t where t.recordId=?", recordId);
+  }
+
 }

@@ -59,7 +59,6 @@ public class Admission implements Serializable, Cloneable {
     
     private String bedName;
     private Integer intakeHeadId;
-    private String hasSignature;
     
     public String getBedName() {
 		return bedName;
@@ -406,11 +405,4 @@ public class Admission implements Serializable, Cloneable {
 		return new Integer((int)diff);
 	}
 
-	public String getHasSignature() {
-		return hasSignature;
-	}
-
-	public void setHasSignature(String hasSignature) {
-		this.hasSignature = hasSignature;
-	}
 }

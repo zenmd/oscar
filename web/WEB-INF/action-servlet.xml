@@ -21,7 +21,6 @@
 	</bean>
 	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
-        <property name="admissionManager" ref="admissionManager"/>
 	</bean>
 	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false">
         <property name="topazManager" ref="topazManager"/>
@@ -110,6 +109,7 @@
         <property name="programQueueManager" ref="programQueueManager"/>
     </bean>
     <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
+        <property name="topazManager" ref="topazManager"/>
         <property name="clientManager" ref="clientManager"/>
         <property name="lookupManager" ref="lookupManager"/>
         <property name="programManager" ref="programManager"/>

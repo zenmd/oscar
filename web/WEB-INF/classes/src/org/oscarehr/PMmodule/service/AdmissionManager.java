@@ -82,11 +82,6 @@ public class AdmissionManager {
         }
 	}
 	
-    public void setAdmissionSignedFlag(Integer admissionId, Integer intakeId, String admissionStatus){
-    	admissionDao.setAdmissionSignedFlag(admissionId, admissionStatus);
-    	intakeDao.setIntakeStatusAdmitted(intakeId);
-    }	
-	
 	//bedDemographic ==null for room assignedbed=0
 	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
     		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
