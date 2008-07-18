@@ -205,16 +205,16 @@ function checkExistClients(){
 							<td width="35%"><html:hidden property="client.effDateTxt" />
 							<html-el:text property="client.firstName" size="20"
 								maxlength="30" /></td>
-							<td width="19%">Gender*</td>
-							<td width="31%"><html-el:select property="client.sex">
+							<td width="19%">Last name*</td>
+							<td width="31%"><html-el:text property="client.lastName" size="20"
+								maxlength="30" /></td>
+						</tr>
+						<tr>
+							<td>Gender*</td>
+							<td><html-el:select property="client.sex">
 								<html-el:optionsCollection property="optionList.gender"
 									value="value" label="label" />
 							</html-el:select></td>
-						</tr>
-						<tr>
-							<td>Last name*</td>
-							<td><html-el:text property="client.lastName" size="20"
-								maxlength="30" /></td>
 							<td>Date of birth*<br>
 							(yyyy/mm/dd)</td>
 							<td><quatro:datePickerTag property="dob" width="65%"
