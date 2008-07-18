@@ -41,7 +41,7 @@
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr>
 				<td align="left" class="clsHomePageHeader" colspan="5">
-				<h2>Organization Chart</h2>
+				<h2>Org Chart</h2>
 				</td>
 			</tr>
 
