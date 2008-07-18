@@ -34,10 +34,10 @@ public class ClientReferral implements Serializable {
     private Integer clientId;
     private java.util.Date referralDate;
     private String providerNo;
-    private Integer facilityId;
+//    private Integer facilityId;
     private String notes;
     private String presentProblems;
-    private String radioRejectionReason;
+    private String rejectionReason;
     private String completionNotes;
     private Integer programId;
     private String status;
@@ -131,12 +131,12 @@ public class ClientReferral implements Serializable {
         this.presentProblems = presentProblems;
     }
 
-    public String getRadioRejectionReason() {
-        return radioRejectionReason;
+    public String getRejectionReason() {
+        return rejectionReason;
     }
 
-    public void setRadioRejectionReason(String radioRejectionReason) {
-        this.radioRejectionReason = radioRejectionReason;
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
     }
 
     public String getCompletionNotes() {
@@ -227,7 +227,7 @@ public class ClientReferral implements Serializable {
     public String toString() {
         return super.toString();
     }
-
+/*
     public Integer getFacilityId() {
         return facilityId;
     }
@@ -235,7 +235,7 @@ public class ClientReferral implements Serializable {
     public void setFacilityId(Integer shelterId) {
         this.facilityId = facilityId;
     }
-
+*/
     public Integer getDaysCreated(){
 		Date referralDate = getReferralDate();
 		Date currentDate = new Date();

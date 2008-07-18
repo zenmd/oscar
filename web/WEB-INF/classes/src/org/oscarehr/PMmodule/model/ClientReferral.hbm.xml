@@ -24,7 +24,6 @@
 		<property column="client_id" length="11" name="clientId" not-null="true" type="java.lang.Integer" />
 		<property column="referral_date" length="19" name="referralDate" not-null="false" type="timestamp" />
 		<property column="provider_no" name="providerNo" />
-		<property column="facility_id" name="facilityId" />
 		<property column="notes" name="notes" not-null="false" type="string" />
 		<property column="completion_notes" name="completionNotes" not-null="false" type="string" />
 		<property column="program_id" length="11" name="programId" not-null="true" type="java.lang.Integer" />
@@ -36,7 +35,7 @@
 		<property name="programName" type="string" formula="(select p.name from program p where p.program_id = program_id)" />
 		<property name="programType" type="string" formula="(select p.type from program p where p.program_id = program_id)" />
 		<property column="present_problems" name="presentProblems" not-null="false" type="string" />
-		<property column="radioRejectionReason" length="10" name="radioRejectionReason" not-null="false" type="string"/>
+		<property column="rejectionReason" length="10" name="rejectionReason" not-null="false" type="string"/>
 		<property name="fromProgramId" column="fromprogramid"  type="java.lang.Integer" />
 	</class>
 </hibernate-mapping>

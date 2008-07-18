@@ -74,7 +74,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		if (!Utility.IsEmpty(programId)) {
 			program = programManager.getProgram(programId);
 			crObj.setProgramId(Integer.valueOf(programId));
-			crObj.setFacilityId(program.getFacilityId());
+//			crObj.setFacilityId(program.getFacilityId());
 			request.setAttribute("program", program);
 		}
 		String cId = request.getParameter("clientId");
@@ -274,7 +274,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		if (!Utility.IsEmpty(programId)) {
 			program = programManager.getProgram(programId);
 			crObj.setProgramId(Integer.valueOf(programId));
-			crObj.setFacilityId(program.getFacilityId());
+//			crObj.setFacilityId(program.getFacilityId());
 			request.setAttribute("program", program);
 		}
 		

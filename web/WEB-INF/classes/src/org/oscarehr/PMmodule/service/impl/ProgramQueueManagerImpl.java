@@ -92,7 +92,7 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 			 referral.setStatus(KeyConstants.STATUS_REJECTED);
 			 referral.setCompletionDate(new Date());
 			 referral.setCompletionNotes(notes);			
-			 referral.setRadioRejectionReason(rejectionReason);			
+			 referral.setRejectionReason(rejectionReason);			
 			 this.referralDAO.saveClientReferral(referral);
 		  }
 		}
