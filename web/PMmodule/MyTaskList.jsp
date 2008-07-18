@@ -2,8 +2,9 @@
 <%@ include file="/ticklerPlus/header.jsp"%>
 <script lang="javascript">
 function submitForm(methodVal) {
-  document.forms[0].method.value = methodVal;
-  document.forms[0].submit();
+	trimInputBox();
+  	document.forms[0].method.value = methodVal;
+  	document.forms[0].submit();
 }
 </script>
 <html:form action="/PMmodule/Task.do">

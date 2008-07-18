@@ -24,7 +24,7 @@
 
 
 	function submitForm(){
-		
+		trimInputBox();
 		var isOk = false;
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);

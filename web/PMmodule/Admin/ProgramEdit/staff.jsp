@@ -211,6 +211,7 @@
 </table>
 <script>
 	function submitForm(mthd) {
+		trimInputBox();
 		var flag = true;
 		var form = document.programManagerForm; 
 		if(mthd == "removeExistStaff"){

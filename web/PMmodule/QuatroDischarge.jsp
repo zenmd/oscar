@@ -9,6 +9,7 @@
 <script lang="javascript">
 	
 	function submitForm(methodVal) {
+		trimInputBox();
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

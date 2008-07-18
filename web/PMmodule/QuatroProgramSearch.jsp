@@ -92,6 +92,7 @@
 	}		
 	function submitForm(methodVal) {
 	// alert("method");
+		trimInputBox();
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

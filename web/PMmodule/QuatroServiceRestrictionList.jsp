@@ -11,6 +11,7 @@
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
 	function submitForm(methodVal) {
+		trimInputBox();
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}

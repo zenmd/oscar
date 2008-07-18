@@ -39,6 +39,7 @@
     }
     function onSave() 
 	{
+		trimInputBox();
         document.forms[0].submitForm.value="save";
         document.forms[0].method.value ='save';
         

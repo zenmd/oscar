@@ -137,6 +137,7 @@ String s = "debug";
 <script type="text/javascript">
 <!--
 	function submitForm(){
+		trimInputBox();
 		document.forms[0].submit();
 	}
 	

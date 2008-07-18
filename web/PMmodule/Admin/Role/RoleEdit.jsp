@@ -214,6 +214,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 	 	window.open("<c:out value='${ctx}'/>/PMmodule/Admin/RoleManager.do?method=list", "_self") ;
 	}
 	function submitForm(mthd){
+		trimInputBox();
 		var roleName = document.getElementsByName("roleName")[0].value;
 		roleName = trim(roleName);
 		if(roleName.length > 0){

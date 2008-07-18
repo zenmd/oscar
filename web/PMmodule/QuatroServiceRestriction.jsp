@@ -15,6 +15,7 @@
 	}
     
     function submitForm(methodVal) {
+		trimInputBox();
     	var validProgram = document.getElementsByName("serviceRestriction.programId")[0].value.length > 0;
     	var validReason = document.getElementsByName("serviceRestriction.commentId")[0].value.length > 0;
     	

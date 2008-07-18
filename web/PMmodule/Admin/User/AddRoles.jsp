@@ -154,6 +154,7 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 <script language="javascript" type="text/javascript">
 <!--
 function submitForm(mthd){
+	trimInputBox();
 	document.forms[0].method.value=mthd;
 	document.forms[0].submit();
 }

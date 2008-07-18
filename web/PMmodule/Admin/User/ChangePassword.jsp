@@ -94,6 +94,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 <!--
 
 function submitForm(func){
+	trimInputBox();
 	document.forms[0].method.value=func;
 	
 	var fld_userName = document.getElementsByName('userName')[0];

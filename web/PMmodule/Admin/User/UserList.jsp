@@ -127,7 +127,7 @@
 <!--
 
 function submitForm(mthd){
-
+	trimInputBox();
 	document.forms[0].method.value=mthd;
 	document.forms[0].submit();
 

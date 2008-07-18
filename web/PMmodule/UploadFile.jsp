@@ -11,6 +11,7 @@ response.setHeader("Cache-Control", "no-cache");
 <script>	
 	function submitForm(methodValue)
 	{
+		trimInputBox();
 		if(document.forms[0].imagefile.value=="") {
 			alert ("Please browse a file for upload first");
 			return;

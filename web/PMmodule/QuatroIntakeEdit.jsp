@@ -29,6 +29,7 @@
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 
 function submitForm(methodVal) {
+	trimInputBox();
     var obj = document.getElementsByName("client.firstName")[0];
     if(obj.value.trim()==""){
       alert("First name is empty.");

@@ -59,6 +59,7 @@
 	
 	function submitForm(methodValue)
 	{
+		trimInputBox();
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
 	}

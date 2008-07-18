@@ -251,6 +251,7 @@ var XMLHttpRequestObject = false;
 	}	
 	function submitForm(methodValue)
 	{
+		trimInputBox();
 		getIssueList();
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();

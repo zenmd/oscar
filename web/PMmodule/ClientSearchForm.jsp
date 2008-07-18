@@ -48,6 +48,7 @@
 	}	
 
 	function submitForm(methodVal) {
+		trimInputBox();
 		if (!hasAnyFilter()) return;
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();

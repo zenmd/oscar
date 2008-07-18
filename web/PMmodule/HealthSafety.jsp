@@ -11,6 +11,7 @@
 	<title>Health and Safety</title>
 <script>
 function submitForm(form) {
+ trimInputBox();
  var message = form.elements['healthsafety.message'].value;
  if(message!=null && message.length==0){
    alert("message can not be empty.");

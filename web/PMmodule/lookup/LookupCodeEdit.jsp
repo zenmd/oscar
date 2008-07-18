@@ -2,6 +2,7 @@
 <script type="text/javascript">
 	function submitForm()
 	{
+		trimInputBox();
  		document.forms[0].method.value="save";
 		document.forms[0].submit();
 	}

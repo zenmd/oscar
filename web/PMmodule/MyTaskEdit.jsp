@@ -3,8 +3,9 @@
 	
 <script type="text/javascript">
 function submitForm(methodVal) {
-   document.forms(0).method.value = methodVal;
-   document.forms(0).submit();
+	trimInputBox();
+   	document.forms(0).method.value = methodVal;
+   	document.forms(0).submit();
 }
 </script>
 

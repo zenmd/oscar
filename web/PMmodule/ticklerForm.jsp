@@ -3,6 +3,7 @@
 	
 <script type="text/javascript">
 function submitForm(methodVal) {
+	trimInputBox();
     if(methodVal=='save'){
 	   var serviceDate = document.ticklerForm.elements['tickler.serviceDate'];
 	   if(serviceDate.value == '') {

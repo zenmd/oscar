@@ -137,6 +137,7 @@
 				}
 				function submitForm(method)
 				{
+					trimInputBox();
 					document.programManagerForm.method.value=method;
 					document.programManagerForm.submit()
 				}

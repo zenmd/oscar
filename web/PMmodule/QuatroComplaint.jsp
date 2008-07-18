@@ -32,6 +32,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	}
 	
 	function submitForm(methodVal) {
+		trimInputBox();
 		var validSource = document.getElementsByName("complaint.source")[0].value.length > 0;
 		if(!validSource){
 			alert("Please select Source of Complaint before save.");

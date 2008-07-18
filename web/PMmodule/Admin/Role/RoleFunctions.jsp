@@ -201,6 +201,7 @@
 <script language="javascript" type="text/javascript">
 <!--
 function submitForm(mthd){
+	trimInputBox();
 	document.forms[0].method.value=mthd;
 	document.forms[0].submit();
 }
@@ -244,6 +245,7 @@ function getFunctionsList(){
   return true;
 }
 function submitForm2(){
+	trimInputBox();
 	document.forms[0].method.value="save";
 	document.forms[0].submit();
 /*
