@@ -216,8 +216,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		qform.setIntake(intake);
 
         request.setAttribute("programId", intake.getProgramId()); 
-//        request.setAttribute("queueId", intake.getQueueId()); 
-        request.setAttribute("queueId", "0"); 
+//        request.setAttribute("queueId", intake.getQueueId());
+        ProgramQueue queue=programQueueManager.getProgramQueuesByIntakeId(intake.getId());
+        request.setAttribute("queueId", queue.getId());
 		
         LookupCodeValue language = null;
         LookupCodeValue originalCountry = null;

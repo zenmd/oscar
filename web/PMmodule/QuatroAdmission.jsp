@@ -214,8 +214,7 @@ function roomChanged()
 <logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='pending'}">
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
 
 	    <c:if test="${quatroClientAdmissionForm.availableBeds!=null}">
 	      <tr><td>Assign Bed</td>

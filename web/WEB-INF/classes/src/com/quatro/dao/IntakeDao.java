@@ -85,10 +85,11 @@ public class IntakeDao extends HibernateDaoSupport {
 
     //from queueId of family intake, you may get any family memebr's intakeId, then get family head's intakeId and return it.
 	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
-		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.queueId = ?" +
+		ProgramQueue queue = programQueueDao.getProgramQueue(queueId);
+		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?" +
 					" and i.intakeStatus='" + 
 					KeyConstants.INTAKE_STATUS_ACTIVE + "'", 
-					new Object[] {queueId});
+					new Object[] {queue.getFromIntakeId()});
 		if(result.size()>0){
 			QuatroIntakeDB qdb = (QuatroIntakeDB)result.get(0);
 			Integer intakeId = qdb.getId(); 

@@ -31,6 +31,8 @@ public interface ProgramQueueManager
 {
 	public ProgramQueue getProgramQueue(String queueId);
 		
+	public ProgramQueue getProgramQueuesByIntakeId(Integer intakeId);
+
 	public List getProgramQueuesByProgramId(Integer programId);
 
 	public List getProgramQueuesByReferralId(Integer referralId);

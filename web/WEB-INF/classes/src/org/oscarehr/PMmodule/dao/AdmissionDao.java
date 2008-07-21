@@ -37,7 +37,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 		this.clientHisDao = clientHisDao;
 	}
 
-	public void saveAdmission(Admission admission, Integer intakeId, Integer queueId, Integer referralId) {
+	public void saveAdmission(Admission admission, Integer intakeId){//, Integer queueId, Integer referralId) {
         if (admission == null) {
             throw new IllegalArgumentException();
         }
@@ -46,11 +46,12 @@ public class AdmissionDao extends HibernateDaoSupport {
 
         getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
         		KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?", intakeId);
-        
+/*        
         getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queueId);
 
         getHibernateTemplate().bulkUpdate("update ClientReferral c set c.status='" +
                 KeyConstants.STATUS_ACCEPTED + "' where c.Id=?", referralId);
+*/                
     }
 
     public void updateAdmission(Admission admission) {

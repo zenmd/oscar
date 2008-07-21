@@ -85,8 +85,10 @@ public class AdmissionManager {
 	}
 	
 	//bedDemographic ==null for room assignedbed=0
-	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
-    		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
+//	public Integer saveAdmission(Admission admission, Integer intakeId, Integer queueId, 
+//    		Integer referralId, RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
+	public Integer saveAdmission(Admission admission, Integer intakeId,  
+    		RoomDemographic roomDemographic, BedDemographic bedDemographic, boolean bFamily) {
   	    String roomName = null;
    	    String bedName = null;
    	    Integer admissionId= new Integer(0);
@@ -107,7 +109,8 @@ public class AdmissionManager {
    		     Admission admObj =(Admission)admission.clone();
    		     admObj.setClientId(qif.getClientId());
    		     admObj.setIntakeId(qif.getIntakeId());
-   		     admissionDao.saveAdmission(admObj, qif.getIntakeId(), queueId, referralId);
+   		     admissionDao.saveAdmission(admObj, qif.getIntakeId());//, queueId, referralId);
+   		     //need to delete queue and update referral status here
    		     
    		     if(admission.getClientId().intValue()==qif.getClientId().intValue()) admissionId=admObj.getId(); 
        	     
@@ -132,7 +135,7 @@ public class AdmissionManager {
            }
     	}else{
 		  intakeDao.setIntakeStatusAdmitted(intakeId);
-		  admissionDao.saveAdmission(admission, intakeId, queueId, referralId);
+		  admissionDao.saveAdmission(admission, intakeId);//, queueId, referralId);
 		  admissionId=admission.getId();
 		  
     	  //remove old room/bed assignment

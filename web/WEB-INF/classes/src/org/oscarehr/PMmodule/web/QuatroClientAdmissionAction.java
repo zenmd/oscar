@@ -811,8 +811,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
     	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
 
-    	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
-   			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
+//		  clientReferral = clientReferralDao.getReferralByIntakeId(intake.getId());
+//          programQueue = programQueueDao.getProgramQueueByIntakeId(intake.getId());
+//    	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
+//   			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
+    	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId,  
+       			  roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
     	  admission.setId(newAdmissionId);
        }else{
     	  admissionManager.updateAdmission(admission, roomDemographic,bedDemographic);
