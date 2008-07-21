@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.oscarehr.PMmodule.dao.AdmissionDao;
+import org.oscarehr.PMmodule.dao.BedDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicHistoricalDao;
 import org.oscarehr.PMmodule.dao.ClientHistoryDao;
@@ -16,6 +17,7 @@ import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.dao.RoomDemographicDAO;
 import org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicHistorical;
 import org.oscarehr.PMmodule.model.ClientReferral;
@@ -34,9 +36,9 @@ import com.quatro.dao.IntakeDao;
 
 public class AdmissionManager {
 	private IntakeDao intakeDao;
-	private ProgramDao programDao;
 	private AdmissionDao admissionDao;
 	private RoomDAO roomDAO;
+	private BedDAO bedDAO;
 	private RoomDemographicDAO roomDemographicDAO;
 	private BedDemographicDAO bedDemographicDAO;
 	private ProgramQueueDao programQueueDao;
@@ -244,7 +246,8 @@ public class AdmissionManager {
     	  }else{
     	   if(bedDemographic.getBedId().intValue()>0) {
     		   bedDemographicDAO.saveBedDemographic(bedDemographic);
-    		   bedName = bedDemographic.getBedName();
+    		   Bed bed = bedDAO.getBed(bedDemographic.getBedId());
+    		   if (bed != null) bedName =  bed.getName();
           	   // save bed_history
                saveBedDemographicHistory(admission, bedDemographic, cal);    		   
     	   }
@@ -296,10 +299,6 @@ public class AdmissionManager {
 	public Admission getCurrentBedProgramAdmission(Integer demographicNo) {
 		return admissionDao.getCurrentBedProgramAdmission(demographicNo);
 	}
-
-	public void setProgramDao(ProgramDao programDao) {
-		this.programDao = programDao;
-	}
 	
 	public List getCurrentAdmissionsByProgramId(String programId) {
 		return admissionDao.getCurrentAdmissionsByProgramId(Integer.valueOf(programId));
@@ -307,11 +306,6 @@ public class AdmissionManager {
 	
     public Admission getAdmission(Integer id) {
 		return admissionDao.getAdmission(id);
-	}
-
-	public void saveAdmission(Admission admission) {
-		admissionDao.saveAdmission(admission);	
-		clientHistoryDao.saveClientHistory(admission, null, null);
 	}
   
   public void dischargeAdmission(Admission admission, boolean isReferral, List lstFamily){
@@ -401,53 +395,6 @@ public class AdmissionManager {
 	  }
   }
   
-  public void saveAdmission(Admission admission,boolean isReferral){
-		 admissionDao.saveAdmission(admission);
-		 if(isReferral){
-	    	ClientReferral referral = new ClientReferral();
-	        referral.setClientId(admission.getClientId());
-	        referral.setNotes("Discharge Automated referral");
-	        referral.setProgramId(admission.getBedProgramId());
-	        referral.setFromProgramId(admission.getBedProgramId());
-	        referral.setProviderNo(admission.getProviderNo());
-	        referral.setReferralDate(new Date());	       
-	        referral.setStatus(KeyConstants.STATUS_PENDING);
-	        referral.setAutoManual(KeyConstants.AUTOMATIC);
-	        
-	        ProgramQueue queue = new ProgramQueue();
-	        
-	          queue.setClientId(referral.getClientId());
-	          queue.setNotes(referral.getNotes());
-	          queue.setProgramId(referral.getProgramId());
-	          queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-	          queue.setReferralDate(referral.getReferralDate());
-	          queue.setReferralId(referral.getId());
-	          queue.setPresentProblems(referral.getPresentProblems());
-	        
-	          //delete old referral and queue records linked to this intake
-	         
-	          QuatroIntake intake=intakeDao.getQuatroIntake(admission.getIntakeId());
-			    if(intake.getReferralId() != null &&  intake.getReferralId().intValue()>0){
-			      ClientReferral referralOld = new ClientReferral(new Integer(intake.getReferralId().intValue()));
-			      referralOld.setClientId(intake.getClientId());
-			      referralOld.setProgramId(new Integer(intake.getProgramId().intValue()));
-			      clientReferralDAO.delete(referralOld);
-	            }  
-	            if(intake.getQueueId() != null && intake.getQueueId().intValue()>0){
-			      ProgramQueue queueOld = new ProgramQueue(new Integer(intake.getQueueId().intValue()));
-			      queueOld.setClientId(intake.getClientId());
-			      queueOld.setProviderNo(new Integer(intake.getStaffId()));
-			      queueOld.setProgramId(new Integer(intake.getProgramId().intValue()));
-			      programQueueDao.delete(queueOld);
-	            }
-	          
-	          
-			      clientReferralDAO.saveClientReferral(referral);
-			      queue.setReferralId(referral.getId());
-			      programQueueDao.saveProgramQueue(queue);
-		 }
-	}
-
     public void setClientReferralDAO(ClientReferralDAO clientReferralDAO) {
 	  this.clientReferralDAO = clientReferralDAO;
     }
@@ -479,5 +426,8 @@ public class AdmissionManager {
 
 	public void setRoomDAO(RoomDAO roomDAO) {
 		this.roomDAO = roomDAO;
+	}
+	public void setBedDAO(BedDAO bedDAO) {
+		this.bedDAO = bedDAO;
 	}
  }

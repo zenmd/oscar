@@ -43,7 +43,7 @@ function openBrWindow(theURL,winName,features) {
 	<body>
 <body>
 <table border="0" cellspacing="0" cellpadding="0" width="100%" bgcolor="#CCCCFF">
-	  <tr class="subject"><th colspan="4">CAISI</th></tr>
+	  <tr class="subject"><th colspan="4">QUATRO</th></tr>
 
 	<tr>
             <td class="searchTitle" colspan="4">Facility Message Editor</td>
@@ -58,15 +58,10 @@ function openBrWindow(theURL,winName,features) {
 				<tr>
 					<td class="fieldTitle">Expiry Day:&nbsp;</td>
 					<td class="fieldValue"><html:text property="facility_message.expiry_day"/>
-					<%
-                      	Calendar rightNow = Calendar.getInstance();              
-   	                  	int year = rightNow.get(Calendar.YEAR);
-   	                  	int month = rightNow.get(Calendar.MONTH)+1;
-   	                  	int day = rightNow.get(Calendar.DAY_OF_MONTH);
-   	                  	String formattedDate = year + "-" + month + "-" + day;
-                     %>
-                     <a href="#" onClick="openBrWindow('calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=facilityMessageForm&amp;openerElement=facility_message.expiry_day&amp;year=<%=year %>&amp;month=<%=month %>','','width=300,height=300')"><img border="0" src="images/calendar.jpg"/></a>
-                     </td>
+							<quatro:datePickerTag property="facility_message.expiry_day" width="65%"
+								openerForm="facilityMessageForm">
+							</quatro:datePickerTag>
+					</td>
                      <td></td>
 				</tr>
 				<tr>

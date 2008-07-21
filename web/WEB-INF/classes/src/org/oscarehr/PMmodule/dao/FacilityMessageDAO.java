@@ -24,15 +24,10 @@ package org.oscarehr.PMmodule.dao;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.FacilityMessage;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class FacilityMessageDAO extends HibernateDaoSupport  {
-
-	private static Log log = LogFactory.getLog(FacilityMessageDAO.class);
-	
 	public FacilityMessage getMessage(Integer id) {
 		return (FacilityMessage)this.getHibernateTemplate().get(FacilityMessage.class,id);
 	}

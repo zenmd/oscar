@@ -31,11 +31,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 import oscar.oscarDemographic.data.DemographicNameAgeString;
 
 public class DemographicNameAgeTag extends TagSupport {
-
-    public DemographicNameAgeTag()    {
-        numNewMessages = 0;
-    }
-
     public void setDemographicNo(String demoNo1)    {
        demoNo = demoNo1;
     }
@@ -43,7 +38,6 @@ public class DemographicNameAgeTag extends TagSupport {
     public String getDemographicNo()    {
         return demoNo;
     }
-
     public int doStartTag() throws JspException    {       
        DemographicNameAgeString demoNameAge = DemographicNameAgeString.getInstance();       
        String nameage = demoNameAge.getNameAgeString(demoNo);
@@ -62,5 +56,4 @@ public class DemographicNameAgeTag extends TagSupport {
     }
 
     private String demoNo;
-    private int numNewMessages;
 }

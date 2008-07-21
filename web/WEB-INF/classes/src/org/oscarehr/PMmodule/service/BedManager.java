@@ -24,19 +24,14 @@ package org.oscarehr.PMmodule.service;
 
 import java.util.ArrayList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.BedDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicDAO;
-import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedType;
 
 public class BedManager {
-
-    private static final Log log = LogFactory.getLog(BedManager.class);
 
     private BedDAO bedDAO;
     private RoomDAO roomDAO;

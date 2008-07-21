@@ -31,8 +31,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -44,17 +42,15 @@ import oscar.util.UtilDateUtilities;
 
 public class EctIncomingEncounterAction extends Action {
     
-  private static Log log = LogFactory.getLog(EctIncomingEncounterAction.class);
     
   public ActionForward execute(ActionMapping mapping,
 				 ActionForm form,
 				 HttpServletRequest request,
 				 HttpServletResponse response) throws IOException, ServletException {
 				  
-        UtilDateUtilities dateConvert = new UtilDateUtilities();
         oscar.oscarSecurity.CookieSecurity cs   = new oscar.oscarSecurity.CookieSecurity();
         EctSessionBean bean = new EctSessionBean();
-        if(cs.FindThisCookie(request.getCookies(),cs.providerCookie)){ //pass security???
+        if(cs.FindThisCookie(request.getCookies(),oscar.oscarSecurity.CookieSecurity.providerCookie)){ //pass security???
             if(request.getParameter("appointmentList")!=null){
                     bean = (EctSessionBean) request.getSession().getAttribute("EctSessionBean") ;
                     bean.setUpEncounterPage(request.getParameter("appointmentNo"));

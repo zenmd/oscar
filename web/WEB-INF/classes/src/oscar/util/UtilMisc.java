@@ -247,15 +247,12 @@ public class UtilMisc {
    * @return double
    */
   public static double safeParseDouble(String value) {
-    double ret = 0.0;
     try {
-      ret = Double.parseDouble(value);
+      return Double.parseDouble(value);
     }
     catch (Exception ex) {
       ex.printStackTrace();
-    }
-    finally {
-      return ret;
+      return 0.0;
     }
   }
 
@@ -353,15 +350,12 @@ public class UtilMisc {
    */
 
   public static int safeParseInt(String value) {
-    int ret = 0;
     try {
-      ret = Integer.parseInt(value);
+      return Integer.parseInt(value);
     }
     catch (Exception ex) {
       ex.printStackTrace();
-    }
-    finally {
-      return ret;
+      return 0;
     }
   }
 

@@ -19,7 +19,6 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -36,15 +35,11 @@ public class Demographic implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private static final String DEFAULT_MONTH = "01";
-    private static final String DEFAULT_DATE = "01";
-    private static final String DEFAULT_YEAR = "1900";
     private static final String DEFAULT_SEX = "M";
 //    private static final String DEFAULT_PATIENT_STATUS = PatientStatus.AC.name();
     private static final String DEFAULT_HEATH_CARD_TYPE = "ON";
     private static final String DEFAULT_FUTURE_DATE = "2100/01/01";
 
-    private static final String SEPERATOR = "/";
 
     public static final String CONSENT_GIVEN_KEY="CONSENT_GIVEN";
     public static final String METHOD_OBTAINED_KEY="METHOD_OBTAINED";
@@ -723,7 +718,6 @@ public class Demographic implements Serializable {
         if (getNumLinks() > 0) {
             String[] links = getLinks().split(",");
             for (int x = 0; x < links.length; x++) {
-                String components[] = links[x].split("/");
                 if (response.length() > 0) {
                     response.append(",");
                 }

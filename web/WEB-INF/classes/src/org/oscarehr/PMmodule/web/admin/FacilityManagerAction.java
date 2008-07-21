@@ -10,8 +10,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -37,8 +35,6 @@ import oscar.MyDateFormat;
 /**
  */
 public class FacilityManagerAction extends BaseFacilityAction {
-    private static final Log log = LogFactory.getLog(FacilityManagerAction.class);
-
     private FacilityManager facilityManager;
     private AdmissionDao admissionDao;
     private ClientDao clientDao;
@@ -50,7 +46,6 @@ public class FacilityManagerAction extends BaseFacilityAction {
     private static final String FORWARD_VIEW = "view";
     private static final String FORWARD_LIST = "list";
     private static final String FORWARD_PROGRAM = "program";
-    private static final String FORWARD_MESSAGE = "message";
 
     private static final String BEAN_FACILITIES = "facilities";
     private static final String BEAN_ASSOCIATED_PROGRAMS = "associatedPrograms";

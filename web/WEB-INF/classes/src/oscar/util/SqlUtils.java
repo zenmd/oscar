@@ -397,8 +397,8 @@ public class SqlUtils {
             if (records != null) {
                 records = records.isEmpty() ? null : records;
             }
-            return records;
         }
+        return records;
     }
 
     /**
@@ -471,9 +471,8 @@ public class SqlUtils {
                     ex1.printStackTrace();
                 }
             }
-
-            return records;
         }
+        return records;
     }
 
     /**

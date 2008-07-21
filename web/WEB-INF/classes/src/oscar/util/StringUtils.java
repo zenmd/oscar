@@ -239,16 +239,13 @@ public class StringUtils {
       * @return boolean
       */
     public static boolean isValidDate(String dateString, String format) {
-        boolean ret = false;
         SimpleDateFormat fmt = new SimpleDateFormat(format);
         try {
             fmt.parse(dateString);
-            ret = true;
+            return true;
         }
         catch (ParseException ex) {
-        }
-        finally {
-            return ret;
+        	return false;
         }
     }
 

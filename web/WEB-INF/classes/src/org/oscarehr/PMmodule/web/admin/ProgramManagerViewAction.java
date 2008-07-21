@@ -95,8 +95,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
     private FacilityDAO facilityDAO=null;
 
-    private CaseManagementManager caseManagementManager;
-
     private AdmissionManager admissionManager;
 
     private RoomDemographicManager roomDemographicManager;
@@ -863,10 +861,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     //@Required
     public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
         this.clientRestrictionManager = clientRestrictionManager;
-    }
-
-    public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-    	this.caseManagementManager = caseManagementManager;
     }
 
     public void setAdmissionManager(AdmissionManager mgr) {

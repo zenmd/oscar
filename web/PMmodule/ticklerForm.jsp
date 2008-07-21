@@ -1,4 +1,3 @@
-<%@include file="/ticklerPlus/header.jsp"%>
 <%@page import="java.util.Calendar"%>
 	
 <script type="text/javascript">

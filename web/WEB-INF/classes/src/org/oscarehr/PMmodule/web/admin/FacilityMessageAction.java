@@ -22,16 +22,12 @@
 
 package org.oscarehr.PMmodule.web.admin;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -48,9 +44,6 @@ import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 
 public class FacilityMessageAction extends BaseFacilityAction {
-
-	private static Log log = LogFactory.getLog(FacilityMessageAction.class);
-	
 	protected FacilityMessageManager mgr = null;
 	protected FacilityManager facilityMgr = null;
 	private LookupManager lookupManager;

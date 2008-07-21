@@ -22,46 +22,12 @@
 
 package org.oscarehr.PMmodule.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.oscarehr.PMmodule.dao.ClientDao;
-import org.oscarehr.PMmodule.dao.ClientReferralDAO;
-import org.oscarehr.PMmodule.exception.AlreadyAdmittedException;
-import org.oscarehr.PMmodule.exception.AlreadyQueuedException;
-import org.oscarehr.PMmodule.exception.ServiceRestrictionException;
-import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.ClientReferral;
-import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.DemographicExt;
-import org.oscarehr.PMmodule.model.ProgramClientRestriction;
-import org.oscarehr.PMmodule.model.ProgramQueue;
-import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
-import org.springframework.beans.factory.annotation.Required;
-
 import com.quatro.dao.ComplaintDao;
 import com.quatro.model.Complaint;
 
 public class ComplaintManager {
-
-	private static Log log = LogFactory.getLog(ComplaintManager.class);
-
-	private ClientDao dao;
-
-	private ClientReferralDAO referralDAO;
-
-	private ProgramQueueManager queueManager;
-
-	private AdmissionManager admissionManager;
-
-	private ClientRestrictionManager clientRestrictionManager;
-
 	private ComplaintDao complaintDao;
-
-	
 	public List getComplaintsByClientId(Integer clientId) {
 		return complaintDao.findByClientId(clientId);
 	}

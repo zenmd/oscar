@@ -24,7 +24,6 @@
 // -----------------------------------------------------------------------------------------------------------------------
 package oscar;
 
-import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -32,15 +31,12 @@ import java.util.Properties;
 import oscar.oscarDB.DBPreparedHandler;
 
 public class dbBillingData {
-  private String username="";
-  private String password="";
   DBPreparedHandler accessDB=null;
   private String db_service_code=null;
   private String service_code=null;
   private String description=null;
   private String value=null;
   private String percentage=null;
-  private MessageDigest md;
   Properties  oscarVariables= null;
 
 

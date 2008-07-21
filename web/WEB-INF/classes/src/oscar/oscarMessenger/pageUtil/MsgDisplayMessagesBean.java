@@ -29,9 +29,6 @@ import java.util.Hashtable;
 import oscar.oscarDB.DBHandler;
 
 public class MsgDisplayMessagesBean {
-  private String sample = "Start value";
-  //Access sample property
-
   private String providerNo;
   private java.util.Vector messageid;
   private java.util.Vector messagePosition;
@@ -40,7 +37,6 @@ public class MsgDisplayMessagesBean {
   private java.util.Vector sentby;
   private java.util.Vector subject;
   private java.util.Vector attach;
-  private int counter;
   private String currentLocationId;
 
  /*

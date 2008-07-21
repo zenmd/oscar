@@ -59,7 +59,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    private LookupManager lookupManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
-   private CaseManagementManager caseManagementManager;
    private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
@@ -67,7 +66,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    private IntakeManager intakeManager;
    private ProviderManager providerManager;
    private ClientRestrictionManager clientRestrictionManager;
-   private ProgramQueueManager programQueueManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return list(mapping, form, request, response);
@@ -319,8 +317,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
       // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
-
-
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
        Integer admissionId;
@@ -838,10 +834,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	 this.bedDemographicManager = bedDemographicManager;
    }
 
-   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-	 this.caseManagementManager = caseManagementManager;
-   }
-
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
    }
@@ -880,10 +872,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
-  }
-
-  public void setProgramQueueManager(ProgramQueueManager programQueueManager) {
-	this.programQueueManager = programQueueManager;
   }
 
 public void setTopazManager(TopazManager topazManager) {

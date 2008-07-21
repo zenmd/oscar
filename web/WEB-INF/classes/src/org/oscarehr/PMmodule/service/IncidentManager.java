@@ -25,9 +25,6 @@ package org.oscarehr.PMmodule.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 
 import oscar.MyDateFormat;
@@ -40,8 +37,6 @@ import com.quatro.service.LookupManager;
 import com.quatro.util.KeyValueBean;
 
 public class IncidentManager {
-
-	private static Log log = LogFactory.getLog(IncidentManager.class);
 
 	private IncidentDao incidentDao;
 	

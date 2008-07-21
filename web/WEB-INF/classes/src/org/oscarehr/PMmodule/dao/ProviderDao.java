@@ -113,13 +113,21 @@ public class ProviderDao extends HibernateDaoSupport {
 
     public List getActiveProviders(String providerNo, Integer shelterId) {
     	//@SuppressWarnings("unchecked")
-    	String sql = "FROM  Provider p where p.Status='1'" +
+    	String sql;
+    	if (shelterId == null || shelterId.intValue() == 0)
+    		sql = "FROM  Provider p where p.Status='1'" +
     				" and p.ProviderNo in (select sr.providerNo from Secuserrole sr " +
     				" where sr.orgcd in (select o.code from LstOrgcd o, Secuserrole srb " +
-    				" where o.fullcode like '%S' || ? || '%' and o.fullcode like '%' || srb.orgcd || '%' and srb.providerNo =?))" + 
+    				" where o.fullcode  like '%' || srb.orgcd || '%' and srb.providerNo =?))" + 
     				" ORDER BY p.LastName";
+    	else
+    		sql = "FROM  Provider p where p.Status='1'" +
+			" and p.ProviderNo in (select sr.providerNo from Secuserrole sr " +
+			" where sr.orgcd in (select o.code from LstOrgcd o, Secuserrole srb " +
+			" where o.fullcode like '%S'" + shelterId.toString()+ "'%' and o.fullcode like '%' || srb.orgcd || '%' and srb.providerNo =?))" + 
+			" ORDER BY p.LastName";
+    	
     	ArrayList paramList = new ArrayList();
-    	paramList.add(shelterId);
     	paramList.add(providerNo);
 
     	Object params[] = paramList.toArray(new Object[paramList.size()]);

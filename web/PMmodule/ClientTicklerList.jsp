@@ -1,5 +1,4 @@
 <%@ include file="/taglibs.jsp"%>
-<%@ include file="/ticklerPlus/header.jsp"%>
 <%@page import="com.quatro.common.KeyConstants"%>
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
 <tr><th  class="pageTitle">Client Management - Tasks</th></tr>
@@ -46,8 +45,8 @@
 </c:choose>
 </display:column>
 <display:column sortable="true" sortProperty="tickler_no" title="Task ID">
- <a href="<html:rewrite action="/PMmodule/Task.do"/>?method=view&clientId=<c:out value="${clientId}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />">
-   <c:out value="${tickler.tickler_no}" /></a>
+ <html:link action='/PMmodule/Task.do?method=view&clientId=<c:out value="${clientId}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />'>
+   <c:out value="${tickler.tickler_no}" /></html:link>
 </display:column>
 <display:column property="status" sortable="true" title="Status" />
 <display:column property="provider.formattedName" sortable="true" sortProperty="provider.lastName, provider.firstName" title="Creator" />

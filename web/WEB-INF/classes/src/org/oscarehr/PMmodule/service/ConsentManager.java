@@ -26,9 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ConsentDAO;
 //import org.oscarehr.PMmodule.model.Agency;
@@ -36,12 +33,8 @@ import org.oscarehr.PMmodule.model.Consent;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.ProgramClientRestriction;
-
-import com.quatro.common.KeyConstants;
 
 public class ConsentManager {
-    private static Log log = LogFactory.getLog(ConsentManager.class);
     private ConsentDAO dao;
     private ClientDao clientDao;
 

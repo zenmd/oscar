@@ -14,22 +14,15 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.LabelValueBean;
-import org.oscarehr.PMmodule.exception.RoomHasActiveBedsException;
 import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Room;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.BaseFacilityAction;
-
-import org.oscarehr.PMmodule.exception.DuplicateBedNameException;
-import org.oscarehr.PMmodule.exception.BedReservedException;
 import com.quatro.common.KeyConstants;
 
 public class BedManagerAction extends BaseFacilityAction {
@@ -38,8 +31,6 @@ public class BedManagerAction extends BaseFacilityAction {
     private BedManager bedManager;
     private ProgramManager programManager;
     private RoomManager roomManager;
-    private RoomDemographicManager roomDemographicManager;
-    private BedDemographicManager bedDemographicManager;
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return manageroom(mapping, form, request, response);
@@ -452,15 +443,6 @@ public class BedManagerAction extends BaseFacilityAction {
         this.roomManager = roomManager;
     }
 
-	public void setRoomDemographicManager(
-			RoomDemographicManager roomDemographicManager) {
-		this.roomDemographicManager = roomDemographicManager;
-	}
-
-	public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-		this.bedDemographicManager = bedDemographicManager;
-	}
-	
 	private void prepareLeftNav(HttpServletRequest request){
 				
 		String facilityId = request.getParameter("facilityId");

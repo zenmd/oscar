@@ -1,6 +1,5 @@
 package com.quatro.dao;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -13,7 +12,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.ArrayList;
 
 import com.quatro.common.KeyConstants;
-import com.quatro.dao.LookupDao;
 import com.quatro.web.intake.IntakeConstant;
 
 import org.oscarehr.PMmodule.dao.MergeClientDao;
@@ -26,11 +24,9 @@ import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
-import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 
 import oscar.MyDateFormat;
-
 
 public class IntakeDao extends HibernateDaoSupport {
 
@@ -194,9 +190,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		    }
 		    intake.setCreatedOn(intakeDb.getCreatedOn());
     	    Calendar cal= intakeDb.getCreatedOn();
-    	    intake.setCreatedOnTxt(String.valueOf(cal.get(Calendar.YEAR)) + "/" + 
-    				  String.valueOf(cal.get(Calendar.MONTH)+1) + "/" +  
-    				  String.valueOf(cal.get(Calendar.DATE)));
+    	    intake.setCreatedOnTxt(MyDateFormat.getStandardDateTime(cal));
             
     	    //intake for bed program, add/update referral and queue records.
     	    intake.setReferralId(intakeDb.getReferralId());
@@ -801,10 +795,6 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
-	}
-	private LookupDao lookupDao; 
-	public void setLookupDao(LookupDao lookupDao) {
-		this.lookupDao = lookupDao;
 	}
 
 	public void setClientReferralDAO(ClientReferralDAO clientReferralDao) {

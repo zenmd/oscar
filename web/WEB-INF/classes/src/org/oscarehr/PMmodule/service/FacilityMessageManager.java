@@ -24,17 +24,11 @@
 package org.oscarehr.PMmodule.service;
 
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.FacilityMessageDAO;
 import org.oscarehr.PMmodule.model.FacilityMessage;
 
 
 public class FacilityMessageManager {
-
-	private static Log log = LogFactory.getLog(FacilityMessageManager.class);
-	
 	
 	private FacilityMessageDAO dao = null;	
 	

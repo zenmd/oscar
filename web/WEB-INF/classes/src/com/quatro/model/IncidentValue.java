@@ -1,7 +1,6 @@
 package com.quatro.model;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import com.quatro.common.KeyConstants;
 
@@ -44,7 +43,6 @@ public class IncidentValue implements java.io.Serializable {
 	private String reportCompleted;
 	private Integer programId;
 	
-	private String incidentDatex;
 	private String clientsNames;
 
 	// Constructors

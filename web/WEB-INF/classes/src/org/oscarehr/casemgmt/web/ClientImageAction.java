@@ -22,8 +22,6 @@
 
 package org.oscarehr.casemgmt.web;
 
-import java.util.logging.LogManager;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -38,7 +36,6 @@ import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.upload.FormFile;
 import org.oscarehr.casemgmt.model.ClientImage;
 import org.oscarehr.casemgmt.service.ClientImageManager;
-import org.oscarehr.casemgmt.web.formbeans.CaseManagementViewFormBean;
 import org.oscarehr.casemgmt.web.formbeans.ClientImageFormBean;
 
 
@@ -48,14 +45,8 @@ public class ClientImageAction extends DispatchAction {
 
 	private ClientImageManager clientImageManager;
 
-	private LogManager logManager;
-
 	public void setClientImageManager(ClientImageManager mgr) {
 		this.clientImageManager = mgr;
-	}
-
-	public void setLogManager(LogManager mgr) {
-		this.logManager = mgr;
 	}
 	 public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	       	        

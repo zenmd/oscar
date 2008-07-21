@@ -22,19 +22,9 @@
 
 package org.oscarehr.PMmodule.web.formbean;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class ClientSearchFormBean {
-	private static Log log = LogFactory.getLog(ClientSearchFormBean.class);
-
-	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-	private Calendar calendar = Calendar.getInstance();
 	
 	private String demographicNo;
 	private String firstName;

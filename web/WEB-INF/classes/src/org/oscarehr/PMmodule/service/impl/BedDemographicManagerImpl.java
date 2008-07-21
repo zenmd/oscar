@@ -22,22 +22,16 @@
 
 package org.oscarehr.PMmodule.service.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.dao.BedDAO;
 import org.oscarehr.PMmodule.dao.BedDemographicDAO;
 import org.oscarehr.PMmodule.dao.ClientDao;
-import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
-import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedDemographicHistorical;
 //import org.oscarehr.PMmodule.model.BedDemographicHistoricalPK;
 //import org.oscarehr.PMmodule.model.BedDemographicStatus;
 import org.oscarehr.PMmodule.model.Demographic;
-import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 
@@ -45,16 +39,10 @@ import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
  * Implementation of BedDemographicManager interface
  */
 public class BedDemographicManagerImpl implements BedDemographicManager {
-
-	private static final Log log = LogFactory.getLog(BedDemographicManagerImpl.class);
-	
-
 	private BedDemographicDAO bedDemographicDAO;
 	private ProviderDao providerDAO;
 	private BedDAO bedDAO;
 	private ClientDao demographicDAO;
-	private RoomDAO roomDAO;
-	private ProgramDao programDAO;
 	
 	public void setBedDemographicDAO(BedDemographicDAO BedDemographicDAO) {
 		this.bedDemographicDAO = BedDemographicDAO;
@@ -71,15 +59,6 @@ public class BedDemographicManagerImpl implements BedDemographicManager {
 	public void setDemographicDAO(ClientDao demographicDAO) {
 		this.demographicDAO = demographicDAO;
 	}
-
-	public void setRoomDAO(RoomDAO roomDAO) {
-		this.roomDAO = roomDAO;
-	}
-
-	public void setProgramDAO(ProgramDao programDAO) {
-		this.programDAO = programDAO;
-	}
-
 	/**
 	 * @see org.oscarehr.PMmodule.service.BedDemographicManager#demographicExists(java.lang.Integer)
 	 */

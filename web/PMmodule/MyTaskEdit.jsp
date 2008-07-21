@@ -1,5 +1,4 @@
 <%@ include file="/taglibs.jsp"%>
-<%@include file="/ticklerPlus/header.jsp"%>
 	
 <script type="text/javascript">
 function submitForm(methodVal) {

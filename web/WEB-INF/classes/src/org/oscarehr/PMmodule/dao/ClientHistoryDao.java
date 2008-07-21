@@ -131,7 +131,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         	history.setActionDate(admission.getAdmissionDate().getTime());
         	history.setHistoryDate(Calendar.getInstance().getTime());
         	LookupCodeValue provider = lookupDao.GetCode("USR", admission.getPrimaryWorker());
-        	String notes = " Primary Worker: " + provider.getDescription();
+        	String notes = "";
+        	if(provider != null) notes += " Primary Worker: " + provider.getDescription();
         	if (room != null) notes += ", Room: " + room;
         	if (bed != null) notes += ", Bed: " + bed;
         	history.setNotes(notes);

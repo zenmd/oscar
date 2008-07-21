@@ -64,7 +64,6 @@ public class Consent  implements Serializable {
     private String _formName;
     private String _formVersion;
     private boolean _signatureDeclaration;
-    private String _exclusionString;
     private boolean _refusedToSign;
 
     // constructors

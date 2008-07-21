@@ -59,7 +59,6 @@ public class AdmissionDao extends HibernateDaoSupport {
         }
 
         getHibernateTemplate().update(admission);
-        clientHisDao.saveClientHistory(admission, null, null);
     }
 
     public void dischargeAdmission(String admissionIds) {
@@ -106,8 +105,6 @@ public class AdmissionDao extends HibernateDaoSupport {
               }
   	    	  
   	      }
-
-    	  clientHisDao.saveClientHistory(admission, null, null);
         }  
     }
     
@@ -344,7 +341,6 @@ public class AdmissionDao extends HibernateDaoSupport {
         }
 
         getHibernateTemplate().saveOrUpdate(admission);
-        clientHisDao.saveClientHistory(admission, null, null);
     }
 
     public void updateDischargeInfo(Admission admission){

@@ -1,20 +1,11 @@
 package com.quatro.model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
-import com.quatro.service.LookupManager;
-import com.quatro.util.Utility;
-
 public class Attachment implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
-			"yyyy-MM-dd kk:mm");
 
 	private int hashCode = Integer.MIN_VALUE;// primary key
 
@@ -47,7 +38,6 @@ public class Attachment implements Serializable {
 	private String viewRefNo;
 
 	private Calendar revDate;
-	private java.util.Date revDt;
 
 	private AttachmentText attText;
 

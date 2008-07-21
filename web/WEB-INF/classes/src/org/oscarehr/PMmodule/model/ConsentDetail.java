@@ -57,7 +57,6 @@ public class ConsentDetail implements Serializable {
 
 	private String endDateStr;
 	
-	private String dateSignedStr;
 	private Integer programId;
 	private String programName;
 	private String lnkAction;
@@ -335,10 +334,6 @@ public class ConsentDetail implements Serializable {
 		if (dateSigned != null)
 			str = MyDateFormat.getStandardDate(dateSigned);
 		return str;
-	}
-
-	public void setDateSignedStr(String dateSignedStr) {
-		this.dateSignedStr = dateSignedStr;
 	}
 
 	public String getProgramName() {

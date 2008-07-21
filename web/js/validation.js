@@ -1,4 +1,6 @@
 /* This method will return true if valid, false otherwise (and present an alert box). */ 
+String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
+
 function validateRequiredField(fieldId, fieldName, maxLength)
 {
 	var field=document.getElementById(fieldId);
@@ -62,10 +64,6 @@ function isEmpty(s){
 function isDigit(c){
    return ((c >= "0") && (c <= "9"))
 }
-function trim(str)
-{
-	return str.replace(/^\s+|\s+$/g, '');
-}
 function trimInputBox()
 {
     var k = document.forms[0].elements.length;
@@ -74,7 +72,7 @@ function trimInputBox()
        var elem = document.forms[0].elements[i];
        if (elem) {
            if (elem.type == 'textarea'|| elem.type=='text') {
-              elem.value = trim(elem.value);
+              elem.value = elem.value.trim();
            }  
        }
     }

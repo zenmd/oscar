@@ -54,11 +54,12 @@ function submitForm(methodVal) {
 <display:table class="simple" cellspacing="2" cellpadding="3" id="history" name="histories"  requestURI="/PMmodule/ClientHistory.do" >
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No client history available" />
-	<display:column property="actionDate" format="{0, date, yyyy/MM/dd hh:mm:ss a}" sortable="true" title="Action Date" />
+	<display:column property="actionDate" format="{0, date, yyyy/MM/dd}" sortable="true" title="Action Date" />
 	<display:column property="action" sortable="true" title="Action" />
 	<display:column property="notes" sortable="false" title="Reference" />
     <display:column property="programName" sortable="true" title="Program" />
 	<display:column property="providerName" sortable="true" title="Staff" />
+	<display:column property="historyDate" format="{0, date, yyyy/MM/dd hh:mm:ss a}" sortable="true" title="Update Date" />
 </display:table>
 </td></tr>
 </table>
