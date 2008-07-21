@@ -53,7 +53,6 @@ public class Bed implements Serializable {
 //    private Room room;
     private Integer bedOccupied;
     
-//    private BedDemographic bedDemographic;
 //    private Integer communityProgramId;
 
     private String lastUpdateUser;

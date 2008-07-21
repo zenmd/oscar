@@ -15,6 +15,7 @@
         <property name="demographicNo" type="integer">
             <column name="demographic_no" />
         </property>
+        <property name="bedId" column="bed_id" />
         <property name="usageStart" >
             <column name="usage_start" />
         </property>
@@ -22,6 +23,7 @@
             <column name="usage_end" />
         </property>
 		<property name="roomName" formula="(select r.name from room r where r.room_id=room_id)" /> 
+		<property name="bedName" formula="(select b.name from bed b where b.bed_id=bed_id)" /> 
         <property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
     </class>

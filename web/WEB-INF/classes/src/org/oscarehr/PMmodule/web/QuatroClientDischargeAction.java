@@ -15,7 +15,6 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -31,14 +30,8 @@ import com.quatro.service.LookupManager;
 
 public class QuatroClientDischargeAction  extends BaseClientAction {
    private ClientManager clientManager;
-   private ProviderManager providerManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
-   private CaseManagementManager caseManagementManager;
-   private BedDemographicManager bedDemographicManager;
-   private RoomDemographicManager roomDemographicManager;
-   private RoomManager roomManager;
-   private BedManager bedManager;
    private LookupManager lookupManager;
    private IntakeManager intakeManager;
    
@@ -208,13 +201,6 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	 this.admissionManager = admissionManager;
    }
 
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
-   }
-
-   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-	 this.caseManagementManager = caseManagementManager;
-   }
 
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
@@ -222,22 +208,6 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 
    public void setProgramManager(ProgramManager programManager) {
 	 this.programManager = programManager;
-   }
-
-   public void setProviderManager(ProviderManager providerManager) {
-	 this.providerManager = providerManager;
-   }
-
-   public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
-	 this.roomDemographicManager = roomDemographicManager;
-   }
-
-   public void setRoomManager(RoomManager roomManager) {
-	 this.roomManager = roomManager;
-   }
-
-   public void setBedManager(BedManager bedManager) {
-	 this.bedManager = bedManager;
    }
 
    public void setLookupManager(LookupManager lookupManager) {

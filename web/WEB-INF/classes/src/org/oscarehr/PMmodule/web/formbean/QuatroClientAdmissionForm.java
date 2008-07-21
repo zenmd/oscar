@@ -3,8 +3,6 @@ package org.oscarehr.PMmodule.web.formbean;
 import org.apache.struts.validator.ValidatorForm;
 import java.util.List;
 import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.BedDemographicPK;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.Admission;
@@ -25,7 +23,7 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
     private Bed[] availableBeds;
 
     private RoomDemographic roomDemographic = new RoomDemographic(new RoomDemographicPK());
-    private BedDemographic bedDemographic = new BedDemographic(new BedDemographicPK());
+    private Integer bedId;
     
     private Integer curDB_RoomId;
     private Integer curDB_RoomCapacity;
@@ -81,12 +79,12 @@ public class QuatroClientAdmissionForm extends ValidatorForm{
 		this.providerList = providerList;
 	}
 
-	public BedDemographic getBedDemographic() {
-		return bedDemographic;
+	public Integer getBedId() {
+		return bedId;
 	}
 
-	public void setBedDemographic(BedDemographic bedDemographic) {
-		this.bedDemographic = bedDemographic;
+	public void setBedId(Integer bedId) {
+		this.bedId = bedId;
 	}
 
 	public RoomDemographic getRoomDemographic() {

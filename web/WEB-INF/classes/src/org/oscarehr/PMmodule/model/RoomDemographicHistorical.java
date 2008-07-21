@@ -8,11 +8,13 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 
 
 	private Integer roomId;
+	private Integer bedId;
 	private Integer admissionId;
 	private Integer demographicNo;
 	private Calendar usageEnd;
 	private Calendar usageStart;
 	private String roomName;
+	private String bedName;
 
 	private String lastUpdateUser;
     private Calendar lastUpdateDate;
@@ -140,5 +142,21 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
+	}
+
+	public Integer getBedId() {
+		return bedId;
+	}
+
+	public void setBedId(Integer bedId) {
+		this.bedId = bedId;
+	}
+
+	public String getBedName() {
+		return bedName;
+	}
+
+	public void setBedName(String bedName) {
+		this.bedName = bedName;
 	}
 }

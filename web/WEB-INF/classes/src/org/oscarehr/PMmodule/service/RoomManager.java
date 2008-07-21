@@ -52,7 +52,6 @@ public class RoomManager {
     private RoomDAO roomDAO;
     private BedManager bedManager;
     private RoomDemographicManager roomDemographicManager;
-    private BedDemographicManager bedDemographicManager;
     private ProgramDao programDao;
     private BedDAO bedDAO;
     private FacilityDAO facilityDAO;
@@ -569,9 +568,4 @@ public class RoomManager {
         this.roomDemographicManager = roomDemographicManager;
     }
     
-    //@Required
-    public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-        this.bedDemographicManager = bedDemographicManager;
-    }
-
 }

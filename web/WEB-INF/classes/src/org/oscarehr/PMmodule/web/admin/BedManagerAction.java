@@ -388,41 +388,6 @@ public class BedManagerAction extends BaseFacilityAction {
         return mapping.findForward("editbed");
     }
 
-/*    
-    public ActionForward deleteBed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-    	
-    	BedManagerForm bForm = (BedManagerForm) form;
-
-        Integer bedId = Integer.valueOf((String)request.getParameter("bedId"));
-        // (1)Check whether any client is assigned to this bed ('bed_demographic' table)->
-        // if yes, disallow bed delete and display message.
-        // (2)if no client assigned, delete this bed ('bed' table)
-        ActionMessages messages = new ActionMessages();
-        try {
-
-            BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByBed(bedId);
-
-            if (bedDemographic != null) {
-                throw new BedReservedException("The bed has client assigned to it and cannot be removed.");
-            }
-
-            Bed bed = bedManager.getBedForDelete(bedId);
-            bedManager.deleteBed(bed);
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
-            saveMessages(request, messages);
-
-        }
-        catch (BedReservedException e) {
-           
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.reserved.error", e.getMessage()));
-            saveMessages(request, messages);
-        }
-
-        return managebed(mapping, form, request, response);
-    }
-*/
-
     public FacilityManager getFacilityManager() {
         return facilityManager;
     }

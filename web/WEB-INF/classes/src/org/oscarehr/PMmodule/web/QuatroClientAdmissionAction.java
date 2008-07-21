@@ -17,9 +17,6 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.BedDemographicHistorical;
-import org.oscarehr.PMmodule.model.BedDemographicPK;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
@@ -32,7 +29,6 @@ import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
@@ -59,7 +55,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    private LookupManager lookupManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
-   private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
    private BedManager bedManager;
@@ -246,10 +241,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              //add current bed in bed_demographic table to bed dropdown when change room (assignedBed=0) to room (assignBed=1) 
              if(currentDB_bed==null){
                Admission admission = clientForm.getAdmission();
-               BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByAdmissionId(admission.getId());
-               if(bedDemographic!=null){
-            	 if(!bedDemographic.getBedId().equals(curDB_BedId)){
-            	   currentDB_bed = bedManager.getBed(bedDemographic.getBedId());
+               RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByAdmissionId(admission.getId());
+               if(roomDemographic!=null){
+            	 Integer bedId = roomDemographic.getBedId(); 
+            	 if(bedId != null && !bedId.equals(curDB_BedId)){
+            	   currentDB_bed = bedManager.getBed(roomDemographic.getBedId());
             	   if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
             	 }
                }
@@ -384,16 +380,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            clientForm.setRoomDemographic(rdm);
            clientForm.setCurDB_RoomId(rdm.getId().getRoomId());
            curDB_RoomId = rdm.getId().getRoomId();
-         }
-         
-         BedDemographic bdm =null;
-         if(!FamilyIntakeType.equals("Y")){
-    	   bdm = bedDemographicManager.getBedDemographicByAdmissionId(Integer.valueOf(request.getParameter("admissionId")));
-    	   if(bdm!=null){
-    	     clientForm.setBedDemographic(bdm);
-    	     clientForm.setCurDB_BedId(bdm.getBedId());
-    	     curDB_BedId = bdm.getBedId();
-    	   }
+    	   clientForm.setCurDB_BedId(rdm.getBedId());
+    	   curDB_BedId = rdm.getBedId();
          }
        }
        
@@ -443,12 +431,13 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
              //add current bed in bed_demographic table to bed dropdown when change room (assignedBed=0) to room (assignBed=1) 
              if(currentDB_bed==null){
-               BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByAdmissionId(admission.getId());
-               if(bedDemographic!=null){
-            	 if(!bedDemographic.getBedId().equals(curDB_BedId)){
-            	   currentDB_bed = bedManager.getBed(bedDemographic.getBedId());
-            	   if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
-            	 }
+               RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByAdmissionId(admission.getId());
+               if(roomDemographic!=null){
+            	   Integer bedId = roomDemographic.getBedId();
+            	   if(!(bedId == null || bedId.equals(curDB_BedId))){
+            	      currentDB_bed = bedManager.getBed(bedId);
+            	      if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
+            	   }
                }
              }
 
@@ -514,14 +503,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          curDB_RoomId = rdm.getRoomId();
          request.setAttribute("historyRoomName", rdm.getRoomName());
        
-         BedDemographicHistorical bdm =null;
-         if(!FamilyIntakeType.equals("Y")){
-  	       bdm = admissionManager.getLatestBedDemographicHistory(admissionId, rdm.getUsageStart());
-  	       if(bdm!=null){
-  	         clientForm.setCurDB_BedId(bdm.getBedId());
-  	         curDB_BedId = bdm.getBedId();
-             request.setAttribute("historyBedName", bdm.getBedName());
-  	       }
+  	     if(rdm.getBedId() !=null){
+  	         clientForm.setCurDB_BedId(rdm.getBedId());
+  	         curDB_BedId = rdm.getBedId();
+             request.setAttribute("historyBedName", rdm.getBedName());
          }
        }
      }
@@ -714,8 +699,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  if(!clientForm.getFamilyIntakeType().equals("Y")){
     		 Room roomToSave = roomManager.getRoom(rdm.getId().getRoomId());  
     		 if(roomToSave.getAssignedBed().intValue()==1){
-    	       BedDemographic bdm = clientForm.getBedDemographic();
-    	       if(bdm.getBedId().intValue()==0){
+    	       Integer bedId = clientForm.getBedId();
+    	       if(bedId == null || bedId.intValue()==0){
     	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
       			     request.getContextPath()));
                   isError = true;
@@ -786,17 +771,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          return update(mapping, form, request, response);
        }
  	   
- 	   BedDemographic bedDemographic;
  	   if(!clientForm.getFamilyIntakeType().equals("Y") && "1".equals(request.getParameter("roomAssignedBed"))){  
- 	     bedDemographic = clientForm.getBedDemographic();
- 	     BedDemographicPK bdmPK= bedDemographic.getId();
- 	     bdmPK.setDemographicNo(admission.getClientId());
- 	     bedDemographic.setId(bdmPK);
- 	     bedDemographic.setBedId(bdmPK.getBedId());
- 	     bedDemographic.setProviderNo(providerNo);
- 	     bedDemographic.setReservationStart(new Date());
+ 	     Integer bedId = clientForm.getBedId();
+ 	     roomDemographic.setBedId(bedId);
   	   }else{
-  		 bedDemographic =null;  
+  		 roomDemographic.setBedId(null);  
   	   }
   	   
        if(admission.getId().intValue()==0){
@@ -816,10 +795,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 //    	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
 //   			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
     	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId,  
-       			  roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
+       			  roomDemographic,clientForm.getFamilyIntakeType().equals("Y"));
     	  admission.setId(newAdmissionId);
        }else{
-    	  admissionManager.updateAdmission(admission, roomDemographic,bedDemographic);
+    	  admissionManager.updateAdmission(admission, roomDemographic);
        }
        
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
@@ -827,15 +806,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
  	   clientForm.setAdmission(admission);
  	   clientForm.setRoomDemographic(roomDemographic);
- 	   clientForm.setBedDemographic(bedDemographic);
+ 	   clientForm.setBedId(roomDemographic.getBedId());
  	   clientForm.setCurDB_RoomId(roomDemographic.getId().getRoomId());
- 	   if(bedDemographic!=null) clientForm.setCurDB_BedId(bedDemographic.getBedId());
+ 	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
 
        return update(mapping, form, request, response);
-   }
-   
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
    }
 
    public void setClientManager(ClientManager clientManager) {

@@ -8,7 +8,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -22,7 +21,6 @@ public class QuatroClientHistoryAction  extends DispatchAction {
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
    private CaseManagementManager caseManagementManager;
-   private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
 
@@ -37,10 +35,6 @@ public class QuatroClientHistoryAction  extends DispatchAction {
 
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
-   }
-
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
    }
 
    public void setCaseManagementManager(CaseManagementManager caseManagementManager) {

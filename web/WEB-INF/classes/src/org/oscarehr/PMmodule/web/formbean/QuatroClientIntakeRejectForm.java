@@ -2,14 +2,6 @@ package org.oscarehr.PMmodule.web.formbean;
 
 import org.apache.struts.validator.ValidatorForm;
 import java.util.List;
-import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.BedDemographicPK;
-import org.oscarehr.PMmodule.model.QuatroIntake;
-import org.oscarehr.PMmodule.model.Room;
-import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.RoomDemographic;
-import org.oscarehr.PMmodule.model.RoomDemographicPK;
 
 
 public class QuatroClientIntakeRejectForm extends ValidatorForm{

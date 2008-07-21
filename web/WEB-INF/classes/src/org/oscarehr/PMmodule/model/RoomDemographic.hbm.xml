@@ -25,6 +25,9 @@
 		</composite-id>
 		<property name="providerNo" column="provider_no" type="string" not-null="true" length="6" />
 		<property name="admissionId" column="admission_id" />
+		<property name="bedId" column="bed_id" />
+		<property name="roomName" formula="(select r.name from room r where r.room_id=room_id)" /> 
+		<property name="bedName" formula="(select b.name from bed b where b.bed_id=bed_id)" /> 
 		<property name="assignStart" column="assign_start" type="date" not-null="true" length="10"  />
 		<property name="assignEnd" column="assign_end" type="date" not-null="false" length="10" />
 		<property name="comment" column="comments" type="string" not-null="false" length="50" />

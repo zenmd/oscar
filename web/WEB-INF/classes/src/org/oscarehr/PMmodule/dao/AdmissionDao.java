@@ -11,8 +11,6 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.BedDemographic;
-import org.oscarehr.PMmodule.model.BedDemographicHistorical;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientInfo;
 import org.oscarehr.PMmodule.model.RoomDemographic;
@@ -25,9 +23,7 @@ import com.quatro.util.Utility;
 public class AdmissionDao extends HibernateDaoSupport {
 	private MergeClientDao mergeClientDao;
 	private RoomDemographicDAO roomDemographicDAO;
-	private BedDemographicDAO bedDemographicDAO;
 	private RoomDemographicHistoricalDao roomDemographicHistoricalDao;
-	private BedDemographicHistoricalDao bedDemographicHistoricalDao;
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
@@ -93,18 +89,6 @@ public class AdmissionDao extends HibernateDaoSupport {
            	   	history.setUsageEnd(Calendar.getInstance());
                   roomDemographicHistoricalDao.saveOrUpdate(history);
               }
-  	      }
-  	      BedDemographic bdm = bedDemographicDAO.getBedDemographicByDemographic(admission.getClientId());
-  	      if(bdm!=null) {
-  	    	  bedDemographicDAO.deleteBedDemographic(bdm);
-  	    	  // update bed_history
-              Integer bedId = bdm.getId().getBedId();
-              BedDemographicHistorical history = bedDemographicHistoricalDao.findById(bedId, admission.getId());
-              if(history!=null){
-            	  history.setUsageEnd(Calendar.getInstance());
-                  bedDemographicHistoricalDao.saveOrUpdate(history);
-              }
-  	    	  
   	      }
         }  
     }
@@ -361,10 +345,6 @@ public class AdmissionDao extends HibernateDaoSupport {
 				admission.getDischargeNotes(),admission.getLastUpdateDate(),admission.getProviderNo(), admission.getId()});
     }
 
-	public void setBedDemographicDAO(BedDemographicDAO bedDemographicDAO) {
-		this.bedDemographicDAO = bedDemographicDAO;
-	}
-
 	public void setRoomDemographicDAO(RoomDemographicDAO roomDemographicDAO) {
 		this.roomDemographicDAO = roomDemographicDAO;
 	}
@@ -372,11 +352,6 @@ public class AdmissionDao extends HibernateDaoSupport {
 	public void setRoomDemographicHistoricalDao(
 			RoomDemographicHistoricalDao roomDemographicHistoricalDao) {
 		this.roomDemographicHistoricalDao = roomDemographicHistoricalDao;
-	}
-
-	public void setBedDemographicHistoricalDao(
-			BedDemographicHistoricalDao bedDemographicHistoricalDao) {
-		this.bedDemographicHistoricalDao = bedDemographicHistoricalDao;
 	}
 }
 

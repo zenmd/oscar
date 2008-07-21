@@ -70,12 +70,13 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
     public List getRoomDemographicByRoom(Integer roomId) {
         List roomDemographics = getHibernateTemplate().find("from RoomDemographic rd where rd.id.roomId = ?", roomId);
 
-        if(roomDemographics != null){
-        	log.debug("getRoomDemographicByRoom: roomDemographics.size()" + roomDemographics.size());
-        }
         return roomDemographics;
     }
+    public List getRoomDemographicByBed(Integer bedId){
+        List roomDemographics = getHibernateTemplate().find("from RoomDemographic rd where rd.bedId = ?", bedId);
 
+        return roomDemographics;
+    }
     /**
      * @see org.oscarehr.PMmodule.dao.RoomDemographicDAO#getRoomDemographicByDemographic(java.lang.Integer)
      */

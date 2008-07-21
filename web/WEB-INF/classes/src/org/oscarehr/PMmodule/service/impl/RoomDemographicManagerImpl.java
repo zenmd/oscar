@@ -26,12 +26,10 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.oscarehr.PMmodule.dao.BedDemographicDAO;
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.dao.RoomDemographicDAO;
-import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
@@ -44,7 +42,6 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	private static final Log log = LogFactory.getLog(RoomDemographicManagerImpl.class);
 	
 
-	private BedDemographicDAO bedDemographicDAO;
 	private RoomDemographicDAO roomDemographicDAO;
 	private ProviderDao providerDao;
 	private ClientDao clientDao;
@@ -56,10 +53,6 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 
 	public void setProviderDao(ProviderDao providerDao) {
 		this.providerDao = providerDao;
-	}
-
-	public void setBedDemographicDAO(BedDemographicDAO bedDemographicDAO) {
-		this.bedDemographicDAO = bedDemographicDAO;
 	}
 
 	public void setClientDao(ClientDao clientDao) {
@@ -139,18 +132,6 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 		}
 		if(!isNoRoomAssigned){
 			roomDemographicDAO.saveRoomDemographic(roomDemographic);
-		}
-	}
-
-	public void cleanUpBedTables(RoomDemographic roomDemographic){
-		
-		if(roomDemographic == null){
-			return;
-		}
-		BedDemographic bedDemographic = bedDemographicDAO.getBedDemographicByDemographic(
-				roomDemographic.getId().getDemographicNo());
-		if(bedDemographic != null){
-			bedDemographicDAO.deleteBedDemographic(bedDemographic);
 		}
 	}
 	

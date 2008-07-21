@@ -260,7 +260,7 @@ public class IncidentValue implements java.io.Serializable {
 	}
 
 	public String getIncidentDatex() {
-		String str = "Unknown";
+		String str = "";
     	if(incidentDate != null)
     		str = MyDateFormat.getStandardDate(incidentDate);
     		

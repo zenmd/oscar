@@ -23,19 +23,18 @@
 package org.oscarehr.PMmodule.service;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import org.oscarehr.PMmodule.dao.BedDAO;
-import org.oscarehr.PMmodule.dao.BedDemographicDAO;
+import org.oscarehr.PMmodule.dao.RoomDemographicDAO;
 import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.BedType;
 
 public class BedManager {
 
     private BedDAO bedDAO;
     private RoomDAO roomDAO;
-    private BedDemographicDAO bedDemographicDAO;
+    private RoomDemographicDAO roomDemographicDAO;
 
     public void setBedDAO(BedDAO bedDAO) {
         this.bedDAO = bedDAO;
@@ -132,12 +131,11 @@ public class BedManager {
         validateBedType(bed.getBedTypeId());
         validateRoom(bed.getRoomId());
         
-        if(bed.isActive()==false){
-        	BedDemographic bdm = bedDemographicDAO.getBedDemographicByBed(bed.getId());
-            if(bdm!=null)
+        if(!bed.isActive()){
+        	List bdm = roomDemographicDAO.getRoomDemographicByBed(bed.getId());
+            if(bdm.size() > 0)
           	  throw new IllegalStateException("bed can not be inactive with client occupied");
-        }  
-        
+        }        
     }
     
     void validateBedType(Integer bedTypeId) {
@@ -151,9 +149,5 @@ public class BedManager {
             throw new IllegalStateException("no room with id : " + roomId);
         }
     }
-
-	public void setBedDemographicDAO(BedDemographicDAO bedDemographicDAO) {
-		this.bedDemographicDAO = bedDemographicDAO;
-	}
 
 }

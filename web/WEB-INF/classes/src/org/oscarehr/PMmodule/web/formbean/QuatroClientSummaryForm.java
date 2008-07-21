@@ -2,23 +2,19 @@ package org.oscarehr.PMmodule.web.formbean;
 
 import org.apache.struts.validator.ValidatorForm;
 import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Bed;
-//import org.oscarehr.PMmodule.model.BedDemographicStatus;
 import org.oscarehr.PMmodule.model.Provider;            
 
 
 public class QuatroClientSummaryForm extends ValidatorForm{
 	private Admission admission;
-    private BedDemographic bedDemographic;
     private Demographic client;
     private Program program;
     private ClientReferral referral;
     private Bed[] unreservedBeds;
-//    private BedDemographicStatus[] bedDemographicStatuses;
     private Provider provider;            
 //    private String programWithIntakeId;
 
@@ -28,21 +24,6 @@ public class QuatroClientSummaryForm extends ValidatorForm{
 	public void setAdmission(Admission admission) {
 		this.admission = admission;
 	}
-	public BedDemographic getBedDemographic() {
-		return bedDemographic;
-	}
-	public void setBedDemographic(BedDemographic bedDemographic) {
-		this.bedDemographic = bedDemographic;
-	}
-/*	
-	public BedDemographicStatus[] getBedDemographicStatuses() {
-		return bedDemographicStatuses;
-	}
-	public void setBedDemographicStatuses(
-			BedDemographicStatus[] bedDemographicStatuses) {
-		this.bedDemographicStatuses = bedDemographicStatuses;
-	}
-*/	
 	public Demographic getClient() {
 		return client;
 	}

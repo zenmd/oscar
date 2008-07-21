@@ -12,24 +12,26 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.Room;
+import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
+import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.LogManager;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.IntakeManager;
+
+import org.oscarehr.PMmodule.web.admin.BedManagerForm;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientSummaryForm;
 
 public class QuatroClientSummaryAction extends BaseClientAction {
@@ -38,9 +40,9 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    private ClientManager clientManager;
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
-   private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
+   private BedManager bedManager;
    private IntakeManager intakeManager;
    private LogManager logManager;
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -123,17 +125,13 @@ public class QuatroClientSummaryAction extends BaseClientAction {
            
        /* bed reservation view */
        if(currentAdmissionList.size()>0){
-         BedDemographic bedDemographic = bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(demographicNo));
-         request.setAttribute("bedDemographic", bedDemographic);
-       
          RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
 		 Room room = null;
-
+		 Bed bed = null;
 		 if(roomDemographic != null){
-			Integer roomIdInt = roomDemographic.getId().getRoomId();
-			if(roomIdInt != null){
-				room = roomManager.getRoom(roomIdInt);
-			}
+			Integer roomId = roomDemographic.getId().getRoomId();
+			room = roomManager.getRoom(roomId);
+			if(roomDemographic.getBedId() != null) bed = bedManager.getBed(roomDemographic.getBedId()); 
 		 } 
 		 request.setAttribute("room", room);
        }
@@ -146,10 +144,6 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
-   }
-
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
    }
 
    public void setClientManager(ClientManager clientManager) {
@@ -168,6 +162,9 @@ public class QuatroClientSummaryAction extends BaseClientAction {
  	 this.roomManager = roomManager;
    }
 
+   public void setBedManager(BedManager bedManager) {
+	 	 this.bedManager = bedManager;
+	   }
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }

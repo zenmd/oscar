@@ -47,7 +47,6 @@ import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
-import org.oscarehr.PMmodule.model.BedDemographic;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
@@ -57,7 +56,6 @@ import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
@@ -99,7 +97,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
     private RoomDemographicManager roomDemographicManager;
 
-    private BedDemographicManager bedDemographicManager;
 
     private BedManager bedManager;
 
@@ -527,15 +524,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	}
 
 	/////////////////
-	
-    public ActionForward viewBedReservationChangeReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        Integer reservedBedId = Integer.valueOf(request.getParameter("reservedBedId"));
-        System.err.println(reservedBedId);
-        // BedDemographicChange[] bedDemographicChanges = bedDemographicManager.getBedDemographicChanges(reservedBedId)
-        request.setAttribute("bedReservationChanges", null);
-
-        return mapping.findForward("viewBedReservationChangeReport");
-    }
     
     public ActionForward batch_discharge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         log.info("do batch discharge");
@@ -665,22 +653,17 @@ public class ProgramManagerViewAction extends BaseProgramAction {
              if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {                 
             	  Integer clientIdx =Integer.valueOf(name.indexOf(":"));
               	  String clientId = name.substring(clientIdx.intValue()+1);
-                  BedDemographic bdObj =bedDemographicManager.getBedDemographicByDemographic(Integer.valueOf(clientId));
-            	 lstBeds.add(bdObj);     
+                  RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId));
+            	  if(rdObj.getBedId() != null) lstBeds.add(rdObj);  
             	 String admissionId = name.substring(8,clientIdx.intValue());
                  Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
                  lstAdmission.add(admission);
              }
          }
          try{
-		   	switchBed1 =((BedDemographic)lstBeds.get(0)).getBedId().toString();
-		   	switchBed2=((BedDemographic)lstBeds.get(1)).getBedId().toString();
+		   	switchBed1 =((RoomDemographic)lstBeds.get(0)).getBedId().toString();
+		   	switchBed2=((RoomDemographic)lstBeds.get(1)).getBedId().toString();
          }catch(Exception ex){;}
-    	if(bedManager == null  ||  bedDemographicManager == null  ||  roomDemographicManager == null){
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
-            saveMessages(request, messages);
-            return view(mapping, form, request, response);
-    	}
     	if(switchBed1 == null  ||  switchBed1.length() <= 0){
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
             saveMessages(request, messages);
@@ -696,94 +679,58 @@ public class ProgramManagerViewAction extends BaseProgramAction {
             saveMessages(request, messages);
             return view(mapping, form, request, response);
    		}
-   		BedDemographic bedDemographic1 = (BedDemographic)lstBeds.get(0);
-   		BedDemographic bedDemographic2 = (BedDemographic)lstBeds.get(1);
+   		RoomDemographic roomDemographic1 = (RoomDemographic)lstBeds.get(0);
+   		RoomDemographic roomDemographic2 = (RoomDemographic)lstBeds.get(1);
    		
-   		if(bedDemographic1 == null  ||  bedDemographic2 == null){
+   		if(roomDemographic1 == null  ||  roomDemographic2 == null){
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
             saveMessages(request, messages);
             return view(mapping, form, request, response);
    		}
-   		client1 = bedDemographic1.getId().getDemographicNo();
-   		client2 = bedDemographic2.getId().getDemographicNo();
+   		client1 = roomDemographic1.getId().getDemographicNo();
+   		client2 = roomDemographic2.getId().getDemographicNo();
+
+   		Integer roomId1 = roomDemographic1.getId().getRoomId();
+		Integer roomId2 = roomDemographic2.getId().getRoomId();
 		//System.out.println("ProgramManagerViewAction.switch_beds(): client1 = " + client1);    	
 		//System.out.println("ProgramManagerViewAction.switch_beds(): client2 = " + client2);    	
 
    		//Check whether both beds are from same room:
-   		if( bed1.getRoomId().intValue() == bed2.getRoomId().intValue() ){
+   		if( roomId1.intValue() == roomId2.intValue() ){
    			isSameRoom = true;
    		}
-   		Integer bedId1 =bedDemographic1.getBedId();
-		Integer bedId2=bedDemographic2.getBedId();
-		Integer roomId1 = new Integer(0);
-		Integer roomId2 = new Integer(0);
+   		Integer bedId1 =roomDemographic1.getBedId();
+		Integer bedId2=roomDemographic2.getBedId();
    		//System.out.println("ProgramManagerViewAction.switch_beds(): isSameRoom = " + isSameRoom);    	
-   		if(isSameRoom){//you can switch beds in same room for any client combination
-   			
-   			bedDemographicManager.deleteBedDemographic(bedDemographic1);
-   			bedDemographicManager.deleteBedDemographic(bedDemographic2);
 
-   			bedDemographic1.getId().setDemographicNo(client2); 			
-   			bedDemographic1.setReservationStart(today);
-   			bedDemographic1.setBedId(bedId1);
-   			bedDemographic2.getId().setDemographicNo(client1);   			
-   			bedDemographic2.setReservationStart(today);
-   			bedDemographic2.setBedId(bedId2);
-   			bedDemographicManager.saveBedDemographic(bedDemographic1);
-   			bedDemographicManager.saveBedDemographic(bedDemographic2);
-   		}else{//beds are from different rooms
-
-   			//please overwrite my code below. For family intake, suppose get from intakeManager. dawson May 26, 2008
-   			isFamilyHead1 = false;
-   			isFamilyHead2 = false;
-   			isFamilyDependent1 = false;
-   			isFamilyDependent2 = false;
+		//please overwrite my code below. For family intake, suppose get from intakeManager. dawson May 26, 2008
+		isFamilyHead1 = false;
+		isFamilyHead2 = false;
+		isFamilyDependent1 = false;
+		isFamilyDependent2 = false;
 		
-   			RoomDemographic roomDemographic1 = roomDemographicManager.getRoomDemographicByDemographic(client1);
-   			RoomDemographic roomDemographic2 = roomDemographicManager.getRoomDemographicByDemographic(client2);
-   			roomId1 =roomDemographic1.getId().getRoomId();
-   			roomId2 =roomDemographic2.getId().getRoomId();
-   			if(roomDemographic1 == null  ||  roomDemographic2 == null){
-   	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
-   	            saveMessages(request, messages);
-   	            return view(mapping, form, request, response);
-   			}
-   			Admission admObj1 =(Admission)lstAdmission.get(0);
-   			Admission admObj2 =(Admission)lstAdmission.get(1);
-   			if(null==admObj1.getIntakeHeadId()) isFamilyDependent1 =false;
-   			else if(admObj1.getIntakeId()==admObj1.getIntakeHeadId()) isFamilyHead1 =true;
-   			else if(admObj1.getIntakeId()!=admObj1.getIntakeHeadId()) isFamilyDependent1 =true;
-   			if(null==admObj2.getIntakeHeadId()) isFamilyDependent2 =false;
-   			else if(admObj2.getIntakeId()==admObj2.getIntakeHeadId()) isFamilyHead2 =true;
-   			else if(admObj2.getIntakeId()!=admObj2.getIntakeHeadId()) isFamilyDependent2 =true;
+   		Admission admObj1 =(Admission)lstAdmission.get(0);
+   		Admission admObj2 =(Admission)lstAdmission.get(1);
+   		if(null==admObj1.getIntakeHeadId()) isFamilyDependent1 =false;
+   		else if(admObj1.getIntakeId()==admObj1.getIntakeHeadId()) isFamilyHead1 =true;
+   		else if(admObj1.getIntakeId()!=admObj1.getIntakeHeadId()) isFamilyDependent1 =true;
+   		
+   		if(null==admObj2.getIntakeHeadId()) isFamilyDependent2 =false;
+   		else if(admObj2.getIntakeId()==admObj2.getIntakeHeadId()) isFamilyHead2 =true;
+   		else if(admObj2.getIntakeId()!=admObj2.getIntakeHeadId()) isFamilyDependent2 =true;
    			
-   			if(!isFamilyHead1  &&  !isFamilyDependent1){
+   		if(!isFamilyHead1  &&  !isFamilyDependent1){
    				isIndependent1 = true;
-   			}
-   			if(!isFamilyHead2  &&  !isFamilyDependent2){
-   				isIndependent2 = true;
-   			}
+   		}
+   		if(!isFamilyHead2  &&  !isFamilyDependent2){
+   			isIndependent2 = true;
+   		}
 
    			//System.out.println("ProgramManagerViewAction.switch_beds(): isIndependent1 = " + isIndependent1);    	
    			//System.out.println("ProgramManagerViewAction.switch_beds(): isIndependent2 = " + isIndependent2);    	
    			//Check whether both clients are indpendents
-   			if(isIndependent1  &&  isIndependent2){
+   		if(isIndependent1  &&  isIndependent2){
    				//Can switch beds and rooms
-   	   			bedDemographicManager.deleteBedDemographic(bedDemographic1);
-   	   			bedDemographicManager.deleteBedDemographic(bedDemographic2);
-   	   			
-   	   			bedDemographic1.getId().setDemographicNo(client2);   	   			
-   	   			bedDemographic1.setReservationStart(today);
-   	   			bedDemographic1.setProviderNo(providerNo);
-   	   			bedDemographic1.setBedId(bedId1);
-   	   			bedDemographic2.setProviderNo(providerNo);
-//   	   			bedDemographic1.setReservationEnd(bedDemographic2.getReservationEnd());
-   	   			bedDemographic2.getId().setDemographicNo(client1);   	   			
-   	   			bedDemographic2.setReservationStart(today);
-   	   			bedDemographic2.setBedId(bedId2);
-   	   			bedDemographicManager.saveBedDemographic(bedDemographic1);
-   	   			bedDemographicManager.saveBedDemographic(bedDemographic2);
-
    	   			roomDemographicManager.deleteRoomDemographic(roomDemographic1);
    	   			roomDemographicManager.deleteRoomDemographic(roomDemographic2);
    	   			
@@ -792,18 +739,18 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   		    roomDemographic1.setAssignStart(today);
    	   		    roomDemographic1.setProviderNo(providerNo);
    	   		    roomDemographic1.getId().setRoomId(roomId1);
+   	   		    roomDemographic1.setBedId(bedId1);
    	   		    roomDemographic2.setProviderNo(providerNo);
    	   		    roomDemographic1.setAssignEnd(roomDemographic2.getAssignEnd());
    	   			roomDemographic2.getId().setDemographicNo(client1);
    	   		    roomDemographic2.setAssignStart(today);
    	   		    roomDemographic2.setAssignEnd(assignEnd1);
    	   		    roomDemographic2.getId().setRoomId(roomId2);
-
+   	   		    roomDemographic2.setBedId(bedId2);
    	   			roomDemographicManager.saveRoomDemographic(roomDemographic1);
    	   			roomDemographicManager.saveRoomDemographic(roomDemographic2);
-   			}else{
-   				
-   				if(isFamilyHead1  && isFamilyHead2){//if either clients are family head
+   		}else{
+   			if(isFamilyHead1  && isFamilyHead2){//if either clients are family head
    					// very complicated!!!
    					//Switch Room and delete records from bed_demographic for two families 
    					List f1 =intakeManager.getClientFamilyByIntakeId(admObj1.getIntakeId().toString());
@@ -815,8 +762,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    						cIds +=f1Intake.getClientId()+",";
    					}
    					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic1.getId().getRoomId());
-   					//delete beds
-   					bedDemographicManager.deleteBedDemographic(cIds);
    					String[] clients=cIds.split(",");
    					for(int i=0;i<clients.length;i++){
    						RoomDemographic rdObj= new RoomDemographic();
@@ -835,7 +780,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    						cIds +=f2Intake.getClientId()+",";
    					}
    					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic2.getId().getRoomId());
-   					bedDemographicManager.deleteBedDemographic(cIds);
    					clients=cIds.split(",");
    					for(int i=0;i<clients.length;i++){
    						RoomDemographic rdObj= new RoomDemographic();
@@ -854,7 +798,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    		            saveMessages(request, messages);		            
    				}
    			}
-   		}
         return view(mapping, form, request, response);
     }
     
@@ -865,10 +808,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
     public void setAdmissionManager(AdmissionManager mgr) {
     	this.admissionManager = mgr;
-    }
-
-    public void setBedDemographicManager(BedDemographicManager demographicBedManager) {
-    	this.bedDemographicManager = demographicBedManager;
     }
 
     public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {

@@ -46,8 +46,10 @@ public class RoomDemographic implements Auditable, Serializable {
     private int hashCode = Integer.MIN_VALUE;// primary key
 
     private RoomDemographicPK id;// fields
-    private Integer demographicNo;
     private Integer admissionId;
+    private Integer bedId;
+    private String bedName;
+    private String roomName;
     private String providerNo;
     private Date assignStart;
     private Date assignEnd;
@@ -113,26 +115,6 @@ public class RoomDemographic implements Auditable, Serializable {
 		initialize();
 	}
 	
-/*
-	public void setRoomDemographicFromBedDemographic(BedDemographic bedDemographic) {
-	    
-		if(bedDemographic == null ){
-			return;
-		}
-		setRoomId(bedDemographic.getRoomId());
-		setDemographicNo(bedDemographic.getId().getDemographicNo());
-		setProviderNo(bedDemographic.getProviderNo());
-		setAssignStart(bedDemographic.getReservationStart());
-//		setAssignEnd(bedDemographic.getReservationEnd());
-		setComment(null);
-		
-		return; 
-    }
-*/
-	
-	public void setDemographicNo(Integer demographicNo){
-		this.demographicNo = demographicNo;
-	}
 	public void setProvider(Provider provider) {
 	    this.provider = provider;
     }
@@ -161,46 +143,13 @@ public class RoomDemographic implements Auditable, Serializable {
 		return provider.getFormattedName();
 	}
 
-	public void setProviderName(String providerName) {
-		// immutable
-		System.out.println("RoomDemographic.setProviderName()");
-	}
-
 	public void setRoomName(String roomName) {
-		// immutable
-		System.out.println("RoomDemographic.setRoomName()");
+		this.roomName = roomName;
 	}
 
 	public String getDemographicName() {
 		return demographic != null ? demographic.getFormattedName() : null;
 	}
-
-	public void setDemographicName(String demographicName) {
-		// immutable
-		System.out.println("RoomDemographic.setDemographicName()");
-	}
-/*
-	public String getProgramName() {
-		return room != null ? room.getProgramName() : null;
-	}
-
-	public void setProgramName(String programName) {
-		// immutable
-		System.out.println("RoomDemographic.setProgramName()");
-	}
-*/
-	// property adapted for view
-/*	
-	public Integer getRoomId() {
-		return getId().getRoomId();
-	}
-*/
-	// property adapted for view
-/*	
-	public void setRoomId(Integer roomId) {
-		getId().setRoomId(roomId);
-	}
-*/
 	// property adapted for view
 	public String getStrAssignEnd() {
 		return DateTimeFormatUtils.getStringFromDate(getAssignEnd());
@@ -329,5 +278,25 @@ public class RoomDemographic implements Auditable, Serializable {
 
 	public void setAdmissionId(Integer admissionId) {
 		this.admissionId = admissionId;
+	}
+
+	public Integer getBedId() {
+		return bedId;
+	}
+
+	public void setBedId(Integer bedId) {
+		this.bedId = bedId;
+	}
+
+	public String getBedName() {
+		return bedName;
+	}
+
+	public void setBedName(String bedName) {
+		this.bedName = bedName;
+	}
+
+	public String getRoomName() {
+		return roomName;
 	}
 }

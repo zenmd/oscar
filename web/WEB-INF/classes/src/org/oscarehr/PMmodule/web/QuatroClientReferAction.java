@@ -18,7 +18,6 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
-import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -37,7 +36,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
    private ProgramManager programManager;
    private AdmissionManager admissionManager;
    private CaseManagementManager caseManagementManager;
-   private BedDemographicManager bedDemographicManager;
    private RoomDemographicManager roomDemographicManager;
    private RoomManager roomManager;
    private BedManager bedManager;
@@ -287,10 +285,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 	
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
-   }
-
-   public void setBedDemographicManager(BedDemographicManager bedDemographicManager) {
-	 this.bedDemographicManager = bedDemographicManager;
    }
 
    public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
