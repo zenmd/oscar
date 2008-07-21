@@ -7,10 +7,6 @@
 		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/Home.jsp" />
 	</definition>
-	<definition name="page.admin.list"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		<put name="body" value="/admin/admin.jsp" />
-	</definition>
 	<definition name="page.mytask.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		<put name="body" value="/PMmodule/MyTaskList.jsp" />
 	</definition>
@@ -22,15 +18,6 @@
 	</definition>
 	<definition name="page.pmm.task.new"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/PMmodule/ticklerForm.jsp" />
-	</definition>
-	<definition name="page.tickler.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		<put name="body" value="/ticklerPlus/ticklerList.jsp" />
-	</definition>
-	<definition name="page.tickler.view"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		<put name="body" value="/ticklerPlus/ticklerView.jsp" />
-	</definition>
-	<definition name="page.tickler.edit"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		<put name="body" value="/ticklerPlus/ticklerForm.jsp" />
 	</definition>
 	<definition name="page.admin.lookup.tablelist"
 		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
@@ -137,11 +124,6 @@
 		 value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/PMmodule/ClientSearchForm.jsp" />
 	</definition>
-	<definition name="page.pmm.client.searchresults"
-		 path="/PMmodule/layout.jsp"> 
-		 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/PMmodule/ClientSearchResults.jsp" />
-	</definition>
 	<definition name="page.pmm.client.merge" path="/PMmodule/layout.jsp">
 		<put name="leftNav"  value="/PMmodule/navigation_client.jsp" />		
 		<put name="body" value="/PMmodule/MergeClient.jsp" />
@@ -228,10 +210,10 @@
 	</definition>
 	<definition name="page.quatro.pmm.incident.edit"  path="/PMmodule/layout.jsp"> 
 		<put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		<put name="body" value="/PMmodule/IncidentEdit.jsp" />
+		<put name="body" value="/PMmodule/Admin/ProgramView/incidentEdit.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.incident.list"  path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
-		<put name="body" value="/PMmodule/IncidentList.jsp" />
+		<put name="body" value="/PMmodule/Admin/ProgramView/incidentList.jsp" />
 	</definition>
 
 	<definition name="page.quatro.pmm.intakeedit"  path="/PMmodule/layout.jsp"> 
@@ -382,28 +364,6 @@
 		 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/domain-error.jsp" />
 	</definition>
-	<definition name="page.casemgmt.unlock.note"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/casemgmt/unlockNoteForm.jsp" />
-	</definition>
-	<definition name="page.casemgmt.unlock.note.success"  path="/PMmodule/layout.jsp">
-	 <put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/casemgmt/unlockNoteSuccess.jsp" />
-	</definition>
-	
-	<definition name="page.casemgmt.unlock.note.error"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/casemgmt/unlockNoteError.jsp" />
-	</definition>
-	
-	<definition name="page.casemgmt.unlock.ajax"  path="/PMmodule/layout.jsp">
-		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/casemgmt/unlockAjax.jsp" />
-	</definition>
-	<definition name="page.casemgmt.expired"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/casemgmt/expired.jsp" />
-	</definition>
 	<definition name="page.casemgmt.view.notes"  path="/PMmodule/layout.jsp"> 
 		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/viewNotes.jsp" />
@@ -433,10 +393,6 @@
 	<definition name="page.casemgmt.issue.list"  path="/PMmodule/layout.jsp"> 
 		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
 		<put name="body" value="/casemgmt/IssueList.jsp" />
-	</definition>
-	<definition name="page.casemgmt.no.issue.list"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
-		<put name="body" value="/casemgmt/noteIssueList.jsp" />
 	</definition>
 	<definition name="page.casemgmt.search"  path="/PMmodule/layout.jsp"> 
 		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
