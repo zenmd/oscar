@@ -142,7 +142,7 @@ function openHealthSafety(){
 <tr><td>
 <table wdith="100%" class="simple">
   <c:choose>
-	<c:when test="${bedDemographic == null}">
+	<c:when test="${bed == null}">
     <c:choose>
 	  <c:when test="${roomDemographic != null}">
 		<tr><th width="20%">Assigned Room:</th>
@@ -155,7 +155,7 @@ function openHealthSafety(){
 	  </c:otherwise>	
 	</c:choose>
 	</c:when>
-	<c:when test="${bedDemographic != null}">
+	<c:when test="${bed != null}">
 	  <tr><th width="20%">Assigned Room:</th>
 	  <td>
 	  <c:if test="${room!=null}">
@@ -163,7 +163,7 @@ function openHealthSafety(){
 	  </c:if>
 	   </td></tr>
 	  <tr><th width="20%">Assigned Bed:</th>
-	  <td><c:out value="${bedDemographic.bedName}" /></td></tr>
+	  <td><c:out value="${bed.name}" /></td></tr>
 	</c:when>
 	<c:otherwise>		
 	</c:otherwise>

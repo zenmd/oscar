@@ -218,7 +218,7 @@ function roomChanged()
 
 	    <c:if test="${quatroClientAdmissionForm.availableBeds!=null}">
 	      <tr><td>Assign Bed</td>
-     	  <td><html:select property="bedDemographic.id.bedId">
+     	  <td><html:select property="bedId">
               <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	        </html:select>
             <html:hidden property="curDB_BedId"/>

@@ -14,9 +14,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 <script type="text/javascript"
 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script lang="javascript">
-	
-	String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
-
 	function txtAreaLenChecker(obj, maxLen) {
 	   //counting each end of line as two characters
 	   
@@ -207,13 +204,10 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		}
 	}
 	function init() {
-		
 		var obj = document.getElementsByName("isStandards")[0];
-		
 		setStandard(obj);
 	}
-	window.onload = init;
-	
+	hasInit = true;	
 </script>
 
 <html-el:form action="/PMmodule/QuatroComplaint.do">

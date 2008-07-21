@@ -62,8 +62,8 @@ response.setHeader("Cache-Control", "no-cache");
 			</html:select></td>
 		</tr>
 		<tr>
-			<th ALIGN="right" width="20%">File Name</th>
-			<td><html:file property="attachmentText.imagefile" size="30" styleId="imagefile" >
+			<th ALIGN="right" width="20%">File Path</th>
+			<td><html:file property="attachmentText.imagefile" size="30" styleId="imagefile"  >
 			</html:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
 			<!-- html:submit value="Upload" property="method" />--></td>
 		</tr>
