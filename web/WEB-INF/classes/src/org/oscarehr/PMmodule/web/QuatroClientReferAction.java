@@ -16,6 +16,7 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedDemographicManager;
 import org.oscarehr.PMmodule.service.BedManager;
@@ -191,7 +192,9 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		refObj.setStatus(KeyConstants.STATUS_PENDING);
 		refObj.setAutoManual(KeyConstants.MANUAL);
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		refObj.setFromProgramId(intakeManager.getProgramIdByProvider(refObj.getClientId(), shelterId, refObj.getProviderNo()));
+		QuatroIntakeHeader qih =clientManager.getRecentIntakeByProvider(new Integer(cId), shelterId, refObj.getProviderNo());
+		refObj.setFromProgramId(qih.getProgramId());
+		refObj.setIntakeId(qih.getId());
 		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {

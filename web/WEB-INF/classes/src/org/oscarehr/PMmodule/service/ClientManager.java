@@ -22,27 +22,40 @@
 
 package org.oscarehr.PMmodule.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
+import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
+import org.oscarehr.PMmodule.dao.AdmissionDao;
 import com.quatro.common.KeyConstants;
+import com.quatro.dao.IntakeDao;
 
 public class ClientManager {
 
     private ClientDao dao;
     private ClientHistoryDao clientHistoryDao;
     private ClientReferralDAO referralDAO;
-    private ProgramQueueDao queueDao;
-   
-
+    private ProgramQueueDao queueDao; 
+    private AdmissionDao admissionDao;
+    private IntakeDao intakeDao;   
+    private ProgramDao programDao;
+    
     private boolean outsideOfDomainEnabled;
 
     public boolean isOutsideOfDomainEnabled() {
@@ -106,7 +119,31 @@ public class ClientManager {
     public ClientReferral getClientReferral(String id) {
         return referralDAO.getClientReferral(Integer.valueOf(id));
     }
-
+    public QuatroIntakeHeader getRecentIntakeByProvider(Integer clientId, Integer shelterId, String providerNo){
+		QuatroIntakeHeader  intake=new QuatroIntakeHeader();
+		List admLst=admissionDao.getAdmissionList(clientId, true, providerNo, shelterId);
+		if(!admLst.isEmpty()){
+			Admission admission =(Admission)admLst.get(0);
+			intake.setId(admission.getIntakeId());
+			intake.setProgramId(admission.getProgramId());
+			return intake;
+		}
+		List intakes=intakeDao.getQuatroIntakeHeaderListByFacility(clientId, shelterId,providerNo);
+		QuatroIntakeHeader intakeTmp = null;
+		if(!intakes.isEmpty()){
+			for(int i=0;i<intakes.size();i++)
+			{
+				intakeTmp =(QuatroIntakeHeader)intakes.get(i);
+				if(KeyConstants.PROGRAM_TYPE_Bed.equals(intake.getProgramType())){
+					return intakeTmp;					
+				}
+				else if(KeyConstants.PROGRAM_TYPE_Service.equals(intake.getProgramType()) 
+						&& intake.getEndDate().after(Calendar.getInstance())) intake=intakeTmp;
+				
+			}
+		}
+		return intake;
+	}
     public void saveClientReferral(ClientReferral referral) {
 
         referralDAO.saveClientReferral(referral);
@@ -255,6 +292,18 @@ public class ClientManager {
 
 	public void setClientHistoryDao(ClientHistoryDao clientHistoryDao) {
 		this.clientHistoryDao = clientHistoryDao;
+	}
+
+	public void setAdmissionDao(AdmissionDao admissionDao) {
+		this.admissionDao = admissionDao;
+	}
+
+	public void setIntakeDao(IntakeDao intakeDao) {
+		this.intakeDao = intakeDao;
+	}
+
+	public void setProgramDao(ProgramDao programDao) {
+		this.programDao = programDao;
 	}
 
 }
