@@ -38,7 +38,6 @@
 <input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <html:hidden property="referral.clientId" />
 <html:hidden property="referral.id" />
-<html:hidden property="referral.facilityId" />
 <html:hidden property="referral.programId" />
 <html:hidden property="referral.status"/>
 <input type="hidden" name="selectedProgramId"/>

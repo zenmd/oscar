@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -51,6 +52,13 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return result;
     }
 
+    public ProgramQueue getProgramQueueByIntakeId(Integer intakeId) {
+        String queryStr = " FROM ProgramQueue q WHERE q.fromIntakeId=?";
+        List results = getHibernateTemplate().find(queryStr, intakeId);
+        if(results.size()==0) return null;
+        return (ProgramQueue)results.get(0);
+    }
+    
     public List getProgramQueuesByReferralId(Integer referralId) {
         if (referralId == null) {
             throw new IllegalArgumentException();

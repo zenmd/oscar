@@ -18,8 +18,8 @@ public class QuatroIntakeDB implements Serializable {
     private Integer programId;
     private Calendar endDate;
     private String programType;
-    private Integer referralId;
-    private Integer queueId;
+//    private Integer referralId;
+//    private Integer queueId;
     private Calendar lastUpdateDate;
 
     public Calendar getLastUpdateDate() {
@@ -119,7 +119,7 @@ public class QuatroIntakeDB implements Serializable {
 	public void setProgramType(String programType) {
 		this.programType = programType;
 	}
-
+/*
 	public Integer getQueueId() {
 		return queueId;
 	}
@@ -135,7 +135,7 @@ public class QuatroIntakeDB implements Serializable {
 	public void setReferralId(Integer referralId) {
 		this.referralId = referralId;
 	}
-
+*/
 	public Calendar getEndDate() {
 		return endDate;
 	}

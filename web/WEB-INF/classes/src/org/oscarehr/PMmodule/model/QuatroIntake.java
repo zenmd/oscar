@@ -83,8 +83,8 @@ public class QuatroIntake {
 
     private String comments;
 
-    private Integer referralId;
-    private Integer queueId;
+//    private Integer referralId;
+//    private Integer queueId;
     private Calendar lastUpdateDate;
 
     public Calendar getLastUpdateDate() {
@@ -508,6 +508,7 @@ public class QuatroIntake {
 	public void setProgramType(String programType) {
 		this.programType = programType;
 	}
+/*	
 	public Integer getQueueId() {
 		return queueId;
 	}
@@ -520,6 +521,7 @@ public class QuatroIntake {
 	public void setReferralId(Integer referralId) {
 		this.referralId = referralId;
 	}
+*/	
 	public Integer getCurrentProgramId() {
 		return currentProgramId;
 	}

@@ -194,7 +194,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		QuatroIntakeHeader qih =clientManager.getRecentIntakeByProvider(new Integer(cId), shelterId, refObj.getProviderNo());
 		refObj.setFromProgramId(qih.getProgramId());
-		refObj.setIntakeId(qih.getId());
+		refObj.setFromIntakeId(qih.getId());
 		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {

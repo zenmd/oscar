@@ -36,6 +36,9 @@
 		<property name="ProviderFirstName" type="string" formula="(select p.first_name from provider p where p.provider_no = provider_no)" />
 		<property name="ClientLastName" type="string" formula="(select p.last_name from demographic p where p.demographic_no = client_id)" />
 		<property name="ClientFirstName" type="string" formula="(select p.first_name from demographic p where p.demographic_no = client_id)" />
+<!-- 
 		<property name="intakeId" type="java.lang.Integer" formula="(select q.intake_id from intake q where q.queue_id = queue_id)" />
+ -->
+		<property name="fromIntakeId" column="intake_id" />
 	</class>
 </hibernate-mapping>

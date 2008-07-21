@@ -16,11 +16,10 @@
 	<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 	<html:hidden property="intake.staffId" />
 	<html:hidden property="intake.intakeStatus" />
-	<html:hidden property="intake.referralId" />
-	<html:hidden property="intake.queueId" />
 	<html:hidden property="intake.clientId" />
 	<html:hidden property="intake.id" />
 	<html:hidden property="intake.createdOnTxt" />
+	<input type="hidden" name="fromManualReferralId" value="<c:out value="${fromManualReferralId}"/>" />
 	<input type="hidden" name="method" />
 	<input type="hidden" name="newClientChecked" value="N" />
 	<input type="hidden" name="scrollPosition"

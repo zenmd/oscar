@@ -312,9 +312,9 @@ public class IntakeManager {
 		return intakeDao.getQuatroIntakeDBByIntakeId(intakeId);
 	}
 	
-	public ArrayList saveQuatroIntake(QuatroIntake intake, Integer intakeHeadId, boolean isFamily) {
+	public ArrayList saveQuatroIntake(QuatroIntake intake, Integer intakeHeadId, boolean isFamily, Integer fromManualReferralId) {
 		historyDao.saveClientHistory(intake);
-		return intakeDao.saveQuatroIntake(intake, intakeHeadId, isFamily);
+		return intakeDao.saveQuatroIntake(intake, intakeHeadId, isFamily, fromManualReferralId);
 	}
 	public void saveQuatroIntakeFamilyHead(QuatroIntakeFamily intakeFamily) {
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
@@ -325,7 +325,7 @@ public class IntakeManager {
 		clientDao.saveClient(client);
 		intake.setClientId(client.getDemographicNo());
 		if(intake.getId().intValue()==0){
-		    List lst2 = intakeDao.saveQuatroIntake(intake, intakeHeadId, true);
+		    List lst2 = intakeDao.saveQuatroIntake(intake, intakeHeadId, true, null);
 		    intakeFamily.setIntakeId((Integer)lst2.get(0));
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
@@ -333,8 +333,15 @@ public class IntakeManager {
 		//remove referral# and queue# from old active intake,
 		//and set this familily member's intake queue#=0.
 		if(exist_intakeDB!=null){
-		  intakeDao.deleteReferralIdQueueId(exist_intakeDB.getReferralId(), exist_intakeDB.getQueueId());
-		  intakeDao.resetFamilyMemeberReferralIdQueueId(intake.getId(), intake.getReferralId());
+		  Integer exist_intakeDB_referralId = new Integer(0);
+		  Integer exist_intakeDB_programQueueId = new Integer(0);
+		  ClientReferral exist_intakeDB_referral = clientReferralDAO.getReferralByIntakeId(exist_intakeDB.getId());
+		  if(exist_intakeDB_referral!=null) exist_intakeDB_referralId= exist_intakeDB_referral.getId();
+		  ProgramQueue exist_intakeDB_programQueue = programQueueDao.getProgramQueueByIntakeId(exist_intakeDB.getId());
+		  if(exist_intakeDB_programQueue!=null) exist_intakeDB_programQueueId= exist_intakeDB_programQueue.getId();
+		  
+		  intakeDao.deleteReferralIdQueueId(exist_intakeDB_referralId, exist_intakeDB_programQueueId);
+//		  intakeDao.resetFamilyMemeberReferralIdQueueId(intake.getId(), intake.getReferralId());
 		}
 		
 		lst.add(intakeFamily.getIntakeHeadId());

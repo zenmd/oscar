@@ -69,7 +69,7 @@
     <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
     <display:column sortable="false">
     <c:choose>
-    <c:when test="${queue_entry.intakeId!=null}" >    	
+    <c:when test="${queue_entry.fromIntakeId!=null}" >    	
 	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
 	</c:when>
 	<c:otherwise>
@@ -87,7 +87,7 @@
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
     <display:column property="notes" sortable="true" title="Reason for Referral" />
     <display:column property="presentProblems" sortable="true" title="Present Problems"/>
-    <display:column property="intakeId" sortable="true" title="Intake ID"/>
+    <display:column property="fromIntakeId" sortable="true" title="From IntakeID"/>
 </display:table></div>
 </td>
 </tr>
