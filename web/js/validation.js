@@ -72,7 +72,7 @@ function trimInputBox()
        var elem = document.forms[0].elements[i];
        if (elem) {
            if (elem.type == 'textarea'|| elem.type=='text') {
-              elem.value = elem.value.trim();
+              elem.value = elem.value.trim().trim();
            }  
        }
     }

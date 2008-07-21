@@ -2,7 +2,6 @@
 <script type="text/javascript">
 	var hashVal0= "";
 	var needToConfirm = false;
-
 	
     function setReadOnly()
     {
@@ -46,11 +45,6 @@
        }
        return hashVal;
    	}
-	function initHash()
-	{
-		initPage();
-		hashVal0 = getHash();
-	}
 	function confirmClose() {
 		if(!needToConfirm) return;
 		var pageChangedBox = document.forms[0].pageChanged;
@@ -77,12 +71,16 @@
         setTimeout('resetFlag()', 750);
 	}	
     function resetFlag() { needToConfirm = true; } 
+	function init()
+	{
+		hashVal0 = getHash();
+	}
 </script>
 	<logic:notPresent name="isReadOnly">
 		<script type="text/javascript">
 			readOnly=false;
 			needToConfirm = true;
-			window.onload = initHash;
+			hasInit = true;
 		    window.onbeforeunload = confirmClose; 
 		</script>
 	</logic:notPresent>
@@ -98,7 +96,7 @@
 		<script type="text/javascript">
 			readOnly=false;
 			needToConfirm = true;
-			window.onload = initHash;
+			hasInit = true;
 		    window.onbeforeunload = confirmClose; 
 		</script>
 	</logic:equal>
