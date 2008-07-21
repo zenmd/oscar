@@ -121,7 +121,6 @@
  -->
     <bean id="admissionDao" class="org.oscarehr.PMmodule.dao.AdmissionDao" autowire="byName" />
     <bean id="mergeClientDao" class="org.oscarehr.PMmodule.dao.MergeClientDao" autowire="byName" />
-   <bean id="bedDemographicDAO" class="org.oscarehr.PMmodule.dao.BedDemographicDAO" autowire="byName"/>
     <bean id="roomDemographicDAO" class="org.oscarehr.PMmodule.dao.RoomDemographicDAO" autowire="byName"/>
     <bean id="providerDao" class="org.oscarehr.PMmodule.dao.ProviderDao" autowire="byName" />
     <bean id="uploadFileDao" class="com.quatro.dao.UploadFileDao" autowire="byName" />
@@ -300,16 +299,6 @@
     <bean id="admissionManager" parent="baseTransactionProxy" autowire="byName">
         <property name="target">
             <bean class="org.oscarehr.PMmodule.service.AdmissionManager" autowire="byName">
-            </bean>
-        </property>
-    </bean>
-    <bean id="bedDemographicManager" parent="baseTransactionProxy">
-        <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.impl.BedDemographicManagerImpl">
-            	<property name="providerDAO" ref="providerDao"></property>
-				<property name="bedDemographicDAO" ref="bedDemographicDAO"></property>
-				<property name="bedDAO" ref="bedDAO"></property>
-				<property name="demographicDAO" ref="clientDao"></property>
             </bean>
         </property>
     </bean>
@@ -572,6 +561,5 @@
     </bean>
     
     <bean id="roomDemographicHistoricalDao" class="org.oscarehr.PMmodule.dao.RoomDemographicHistoricalDao" autowire="byName" />
-    <bean id="bedDemographicHistoricalDao" class="org.oscarehr.PMmodule.dao.BedDemographicHistoricalDao" autowire="byName" />
     
 </beans>

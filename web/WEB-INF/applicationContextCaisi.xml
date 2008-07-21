@@ -25,8 +25,6 @@
  -->    
 
     <!-- audit strategy -->
-    <bean id="bedAuditStrategy" class="org.oscarehr.PMmodule.dao.BedAuditStrategy" autowire="byName"/>
-    <bean id="bedDemographicAuditStrategy" class="org.oscarehr.PMmodule.dao.BedDemographicAuditStrategy" autowire="byName"/>
     <bean id="roomAuditStrategy" class="org.oscarehr.PMmodule.dao.RoomAuditStrategy" lazy-init="default" autowire="byName"/>
 
     <!-- DAO -->    

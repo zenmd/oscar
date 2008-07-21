@@ -238,13 +238,11 @@
         <form-bean name="clientManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
             <form-property name="erconsent" type="org.oscarehr.PMmodule.web.formbean.ErConsentFormBean" />
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
             <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
@@ -263,18 +261,11 @@
         </form-bean>
         <form-bean name="quatroClientIntakeForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-<!-- 
-            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
- -->                 
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
-<!-- 
-            <form-property name="programWithIntakeId" type="java.lang.String" />
- -->                        
         </form-bean>
         <form-bean name="quatroClientFamilyIntakeForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm">
         </form-bean>
@@ -285,14 +276,10 @@
         <form-bean name="quatroClientReferForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="clientId" type="java.lang.String" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-<!-- 
-            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
- -->
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="formName" type="java.lang.String" />
@@ -308,12 +295,10 @@
 <!-- 
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
             <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
             <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="dischargeReason" type="java.lang.String"></form-property>
