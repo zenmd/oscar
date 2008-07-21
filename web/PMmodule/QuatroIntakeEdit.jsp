@@ -26,7 +26,6 @@
 	<input type="hidden" name="scrollPosition"
 		value='<c:out value="${scrPos}"/>' />
 	<script lang="javascript">
-String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 
 function submitForm(methodVal) {
 	trimInputBox();
