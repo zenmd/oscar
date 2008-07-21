@@ -290,14 +290,14 @@ Source:web/PMmodule/QuatroComplaint.jsp
 					<td>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
-								<td width="15%">Source of Complaint</td>
+								<td width="15%">Source of Complaint*</td>
 								<td width="45%"><html-el:select
 									property="complaint.source">
 									<html-el:option value=""></html-el:option>
 									<html-el:optionsCollection property="sources"
 										value="code" label="description" />
 								</html-el:select></td>
-								<td width="15%">Method of Contact</td>
+								<td width="15%">Method of Contact*</td>
 								<td width="35%"><html-el:select
 									property="complaint.method">
 									<html-el:option value=""></html-el:option>
@@ -306,9 +306,9 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								</html-el:select></td>
 							</tr>
 							<tr>
-								<td>Source's First Name</td>
+								<td>Source's First Name*</td>
 								<td><html-el:text property="complaint.firstname" maxlength="30"/></td>
-								<td>Source's Last Name</td>
+								<td>Source's Last Name*</td>
 								<td><html-el:text property="complaint.lastname" maxlength="30"/></td>
 							</tr>
 							
@@ -389,7 +389,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						<div class="tabs">
 							<table cellpadding="3" cellspacing="0" border="0">
 								<tr>
-									<th>Description of Complaint/Narrative</th>
+									<th>Description of Complaint/Narrative*</th>
 								</tr>
 							</table>
 						</div>
@@ -417,7 +417,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 					<td>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
-								<td width="20%">Was the complainant satisfied with the outcome?</td>
+								<td width="20%">Was the complainant satisfied with the outcome?*</td>
 								<td width="30%"><html-el:select
 									property="complaint.satisfiedWithOutcome">
 									<html-el:option value=""></html-el:option>
@@ -460,7 +460,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								<td>Date Completed</td>
 								<td><quatro:datePickerTag property="complaint.completedDatex"
 									width="70%" openerForm="quatroClientComplaintForm" onchange="javascript:confirmComplete();"/></td>
-								<td>Time Spent on Complaint</td>
+								<td>Time Spent on Complaint*</td>
 								<td><html-el:text property="complaint.duration" maxlength="10"/> minutes</td>
 							</tr>
 							<tr><td colspan="4"><br /></td></tr>
