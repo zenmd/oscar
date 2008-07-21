@@ -41,17 +41,17 @@ public class CaseManagementNote extends BaseObject {
     private Date update_date;
     private Date create_date;
     private Date observation_date;
-    private String demographic_no;
+    private Integer demographic_no;
     private String note;
     private boolean signed = false;
     private boolean includeissue = true;
     private String provider_no;
 
     private String signing_provider_no;
-    private String encounter_type = "";
+    private Integer encounter_type ;
     private String billing_code = "";
 
-    private String program_no;
+    private Integer program_no;
     private String reporter_caisi_role;
     private String reporter_program_team;
     private String history;
@@ -105,19 +105,19 @@ public class CaseManagementNote extends BaseObject {
         this.billing_code = billing_code;
     }
 
-    public String getDemographic_no() {
+    public Integer getDemographic_no() {
         return demographic_no;
     }
 
-    public void setDemographic_no(String demographic_no) {
+    public void setDemographic_no(Integer demographic_no) {
         this.demographic_no = demographic_no;
     }
 
-    public String getEncounter_type() {
+    public Integer getEncounter_type() {
         return encounter_type;
     }
 
-    public void setEncounter_type(String encounter_type) {
+    public void setEncounter_type(Integer encounter_type) {
         this.encounter_type = encounter_type;
     }
 
@@ -187,11 +187,11 @@ public class CaseManagementNote extends BaseObject {
     }
 
     //nys
-    public String getProgram_no() {
+    public Integer getProgram_no() {
         return program_no;
     }
 
-    public void setProgram_no(String program_no) {
+    public void setProgram_no(Integer program_no) {
         this.program_no = program_no;
     }
 

@@ -33,7 +33,7 @@ import org.caisi.model.BaseObject;
 
 public class CaseManagementIssue extends BaseObject {
 	private Integer id;
-	private String demographic_no;
+	private Integer demographic_no;
 	private Integer issue_id;
 	private boolean acute;
 	//private boolean medical_diagnosis;
@@ -45,6 +45,7 @@ public class CaseManagementIssue extends BaseObject {
 	private Date update_date;
 	private Set notes = new HashSet();
 	private String issueDesc;
+	private String lastUpdateUser;
 	
 	private Integer program_id=null;
 	
@@ -120,10 +121,10 @@ public class CaseManagementIssue extends BaseObject {
 	public void setCertain(boolean certain) {
 		this.certain = certain;
 	}
-	public String getDemographic_no() {
+	public Integer getDemographic_no() {
 		return demographic_no;
 	}
-	public void setDemographic_no(String demographic_no) {
+	public void setDemographic_no(Integer demographic_no) {
 		this.demographic_no = demographic_no;
 	}
 	public Integer getId() {
@@ -204,6 +205,16 @@ public class CaseManagementIssue extends BaseObject {
 
 	public void setIssueDesc(String issueDesc) {
 		this.issueDesc = issueDesc;
+	}
+
+
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+
+
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
 	}
 	
 }

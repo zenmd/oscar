@@ -593,8 +593,8 @@ public class CaseManagementManager {
     }
    
 
-    public void deleteTmpSave(String providerNo, String demographicNo, String programId) {
-        caseManagementTmpSaveDAO.delete(providerNo, Integer.valueOf(demographicNo), Integer.valueOf(programId));
+    public void deleteTmpSave(String providerNo, Integer demographicNo, Integer programId) {
+        caseManagementTmpSaveDAO.delete(providerNo, demographicNo, programId);
     }
 
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId) {
@@ -669,8 +669,8 @@ public class CaseManagementManager {
         while(it.hasNext()){
         	CaseManagementNote caseManagementNote = (CaseManagementNote)it.next();
         //for (CaseManagementNote caseManagementNote : notes) {
-            String programId = caseManagementNote.getProgram_no();
-            if (programId==null || programManager.hasAccessBasedOnFacility(currentFacilityId, Integer.valueOf(programId))) results.add(caseManagementNote);
+            Integer programId = caseManagementNote.getProgram_no();
+            if (programId==null || programId.intValue()==0 || programManager.hasAccessBasedOnFacility(currentFacilityId, programId)) results.add(caseManagementNote);
         }
 
         return results;

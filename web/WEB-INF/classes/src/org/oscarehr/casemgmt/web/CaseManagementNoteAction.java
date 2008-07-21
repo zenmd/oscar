@@ -90,15 +90,13 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		Integer shelterId = (Integer) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_SHELTERID);
 		Boolean restore = (Boolean) request.getAttribute("restore");
-		String programId = (String) request.getSession().getAttribute(
-				"case_program_id");
+		Integer programId = (Integer) request.getSession().getAttribute("case_program_id");
 		Integer currentFacilityId = (Integer) request.getSession()
 				.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		if (Utility.IsEmpty(programId)) {
+		if (null==programId || programId.intValue()==0) {
 			Integer demoInt = Integer.valueOf(demono);
 			programId = clientManager.getRecentProgramId(
-					Integer.valueOf(demono), providerNo, currentFacilityId)
-					.toString();
+					Integer.valueOf(demono), providerNo, currentFacilityId);
 		}
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
 		request.setAttribute("demoName", getDemoName(demono));
@@ -214,11 +212,11 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			Provider prov = new Provider();
 			prov.setProviderNo(providerNo);
 			note.setProvider(prov);
-			note.setDemographic_no(demono);
+			note.setDemographic_no(new Integer(demono));
 
 			this.insertReason(request, note);
 
-			resetTemp(providerNo, demono, programId);
+			resetTemp(providerNo, new Integer(demono), programId);
 
 		}
 		/*
@@ -262,7 +260,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 				Provider prov = new Provider();
 				prov.setProviderNo(providerNo);
 				note.setProvider(prov);
-				note.setDemographic_no(demono);
+				note.setDemographic_no(new Integer(demono));
 
 				this.insertReason(request, note);
 			}
@@ -279,6 +277,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
 		request.setAttribute("lstCaseStatus", super.lookupManager.LoadCodeList(
 				"CST", true, null, null));
+		request.setAttribute("lstEncounterType", super.lookupManager.LoadCodeList(
+				"CET", true, null, null));
 		/*
 		 * do the restore if(restore != null && restore.booleanValue() == true) {
 		 * String tmpsavenote =
@@ -364,7 +364,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		return mapping.findForward("view");
 	}
 
-	public void resetTemp(String providerNo, String demoNo, String programId) {
+	public void resetTemp(String providerNo, Integer demoNo, Integer programId) {
 		try {
 			this.caseManagementMgr.deleteTmpSave(providerNo, demoNo, programId);
 		} catch (Throwable e) {
@@ -395,7 +395,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		boolean newNote = false;
 		if (noteId.equals("0")) {
 			note = new CaseManagementNote();
-			note.setDemographic_no(demo);
+			note.setDemographic_no(new Integer(demo));
 			newNote = true;
 		} else {
 			note = this.caseManagementMgr.getNote(noteId);
@@ -412,8 +412,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		if (provider != null)
 			note.setProvider(provider);
 
-		String programId = (String) request.getSession().getAttribute(
-				"case_program_id");
+		Integer programId = (Integer) request.getSession().getAttribute("case_program_id");
 		note.setProgram_no(programId);
 
 		WebApplicationContext ctx = this.getSpringContext();
@@ -448,7 +447,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 					LookupCodeValue issue = this.caseManagementMgr
 							.getIssue(issue_id[idx]);
 					cIssue = this.newIssueToCIssue(demo, issue, Integer
-							.valueOf(programId));
+							.valueOf(programId),providerNo);
 					cIssue.setNotes(noteSet);
 				}
 				issueSet.add(cIssue);
@@ -549,11 +548,11 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		Integer currentFacilityId = (Integer) request.getSession()
 				.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		// if this is an update, don't overwrite the program id
-		if (Utility.IsEmpty(note.getProgram_no())) {
+		if (note.getProgram_no()==null ||note.getProgram_no().intValue()==0) {
 			try {
-				String programId = this.clientManager.getRecentProgramId(
-						Integer.valueOf(demo), providerNo, currentFacilityId)
-						.toString();
+				Integer programId = this.clientManager.getRecentProgramId(
+						Integer.valueOf(demo), providerNo, currentFacilityId);
+						
 				request.getSession().setAttribute("case_program_id", programId);
 				note.setProgram_no(programId);
 			} catch (Exception e) {
@@ -588,7 +587,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			CaseManagementIssue cmIss = new CaseManagementIssue();
 			Integer issId = Integer.valueOf(iss[i]);
 			cmIss.setIssue_id(issId);
-			cmIss.setDemographic_no(demo);
+			cmIss.setDemographic_no(new Integer(demo));
+			cmIss.setLastUpdateUser(providerNo); 
 			cmIss.setUpdate_date(now);
 			// cmIss.setIssue(caseManagementMgr.getIssue(issId.toString()));
 			issueset.add(cmIss);
@@ -798,7 +798,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		Date now = new Date();
 		if (noteId.substring(0, 1).equals("0")) {
 			note = new CaseManagementNote();
-			note.setDemographic_no(demo);
+			note.setDemographic_no(new Integer(demo));
 			history = "";
 		} else {
 			note = this.caseManagementMgr.getNote(request.getParameter("nId"));
@@ -817,8 +817,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		if (provider != null)
 			note.setProvider(provider);
 
-		String programId = (String) request.getSession().getAttribute(
-				"case_program_id");
+		Integer programId = (Integer) request.getSession().getAttribute("case_program_id");
 		note.setProgram_no(programId);
 
 		WebApplicationContext ctx = this.getSpringContext();
@@ -1116,11 +1115,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		notes = manageLockedNotes(notes, false, this
 				.getUnlockedNotesMap(request));
 
-		String programId = (String) request.getSession().getAttribute(
-				"case_program_id");
+		Integer programId = (Integer) request.getSession().getAttribute("case_program_id");
 
-		if (programId == null || programId.length() == 0) {
-			programId = "0";
+		if (programId == null) {
+			programId = new Integer("0");
 		}
 
 		for (int idx = notes.size() - 1; idx >= 0; --idx) {
@@ -1227,7 +1225,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			}
 
 			note.setNote(encounterText);
-			note.setEncounter_type(bean.encType);
+			//note.setEncounter_type(bean.encType);
 
 		} else if (reqStr != null && "new".equals(reqStr)) {
 			note.setNote("\n["

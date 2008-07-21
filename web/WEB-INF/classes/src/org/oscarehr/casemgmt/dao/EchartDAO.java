@@ -58,9 +58,9 @@ public class EchartDAO extends HibernateDaoSupport {
     }
 
     public String saveEchart(CaseManagementNote note, CaseManagementCPP cpp, String userName, String lastStr) {
-        String demoNo = note.getDemographic_no();
+        Integer demoNo = note.getDemographic_no();
         String sql = "from EChart e where e.demographicNo=? order by e.id";
-        List list = getHibernateTemplate().find(sql, new Integer(demoNo));
+        List list = getHibernateTemplate().find(sql,demoNo);
         EChart oldec;
         if (list.size() != 0) oldec = (EChart)list.get(list.size() - 1);
         else {
@@ -69,7 +69,7 @@ public class EchartDAO extends HibernateDaoSupport {
         }
 
         EChart ec = new EChart();
-        ec.setDemographicNo(new Integer(demoNo).intValue());
+        ec.setDemographicNo(demoNo);
         ec.setProviderNo(note.getProvider_no());
         ec.setSubject("");
         

@@ -241,12 +241,13 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		return rt+ "]\n";
 	}
         
-        protected CaseManagementIssue newIssueToCIssue(String demoNo, LookupCodeValue iss, Integer programId) {
+        protected CaseManagementIssue newIssueToCIssue(String demoNo, LookupCodeValue iss, Integer programId,String providerNo) {
             	CaseManagementIssue cIssue = new CaseManagementIssue();
 		// cIssue.setActive(true);
 		cIssue.setAcute(false);
 		cIssue.setCertain(false);
-		cIssue.setDemographic_no(demoNo);
+		cIssue.setDemographic_no(new Integer(demoNo));
+		cIssue.setLastUpdateUser(providerNo);
 
 		cIssue.setIssue_id(Integer.valueOf(iss.getCode()));
 
@@ -271,8 +272,8 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	/**
 	 * @param programId is optional, can be null for none.
 	 */
-	protected CaseManagementIssue newIssueToCIssue(CaseManagementEntryFormBean cform, LookupCodeValue iss, Integer programId) {
-            return newIssueToCIssue((String) cform.getDemoNo(),iss,programId);
+	protected CaseManagementIssue newIssueToCIssue(CaseManagementEntryFormBean cform, LookupCodeValue iss, Integer programId,String providerNo) {
+            return newIssueToCIssue((String) cform.getDemoNo(),iss,programId,providerNo);
 	}
 	
 	protected Map convertIssueListToMap(List issueList) {
