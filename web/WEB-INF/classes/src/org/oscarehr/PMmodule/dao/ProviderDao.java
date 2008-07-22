@@ -124,7 +124,7 @@ public class ProviderDao extends HibernateDaoSupport {
     		sql = "FROM  Provider p where p.Status='1'" +
 			" and p.ProviderNo in (select sr.providerNo from Secuserrole sr " +
 			" where sr.orgcd in (select o.code from LstOrgcd o, Secuserrole srb " +
-			" where o.fullcode like '%S'" + shelterId.toString()+ "'%' and o.fullcode like '%' || srb.orgcd || '%' and srb.providerNo =?))" + 
+			" where o.fullcode like '%S" + shelterId.toString()+ "'%' and o.fullcode like '%' || srb.orgcd || '%' and srb.providerNo =?))" + 
 			" ORDER BY p.LastName";
     	
     	ArrayList paramList = new ArrayList();
