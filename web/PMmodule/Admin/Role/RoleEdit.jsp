@@ -27,7 +27,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 		</logic:present> <logic:notPresent name="secroleForEdit">
 			<html:link href="javascript:submitForm('saveNew');"
-				style="color:Navy;text-decoration:none;">
+				style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
 				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 		</logic:notPresent></td>
 
@@ -91,13 +91,14 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 						<td><html:text property="roleName" size="50" maxlength="30" /></td>
 					</tr>
 				</logic:notPresent>
-
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
+				
 				<tr>
 					<td>Description:</td>
 					<td><html:text property="description" size="50" maxlength="60" /></td>
+				</tr>
+				<tr>
+					<td>Active:</td>
+					<td><html:checkbox property="active" /></td>
 				</tr>
 				<tr>
 					<td colspan="2">&nbsp;</td>
@@ -185,9 +186,9 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 						<table width="100%">
 							<tr>
 								<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
-									href="javascript:submitForm('addFunctionInEdit');">Add</a>&nbsp;&nbsp;&nbsp;|
+									href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
 								&nbsp;&nbsp;<a
-									href="javascript:submitForm('removeFunctionInEdit');">Remove</a>
+									href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a>
 								</td>
 							</tr>
 						</table>

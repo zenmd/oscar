@@ -363,6 +363,7 @@
 			<form-property name="roleNo" type="java.lang.Integer" />
             <form-property name="roleName" type="java.lang.String"></form-property>
             <form-property name="description" type="java.lang.String"></form-property>
+            <form-property name="active" type="java.lang.String"></form-property>
             <form-property name="functions" type="com.quatro.model.LookupCodeValue"></form-property>
             <form-property name="accessTypes" type="com.quatro.model.LookupCodeValue"></form-property>
             <form-property name="funSelectionList" type="java.util.ArrayList"></form-property>

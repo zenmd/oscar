@@ -35,9 +35,9 @@
 
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<tr>
-				<td align="left" class="clsHomePageHeader" colspan="5">
-				<h2>Add Functions to Role</h2>
-				</td>
+				<th align="left"  colspan="5">
+				Add Functions to Role
+				</th>
 			</tr>
 
 
@@ -50,23 +50,16 @@
 				<tr>
 					<td colspan="2">&nbsp;</td>
 				</tr>
-
 				<tr>
 					<td>Role Name:</td>
 					<td><html:text property="roleName" readonly="true"
 						style="border: none" /></td>
-				</tr>
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
+				</tr>				
 				<tr>
 					<td>Description:</td>
 					<td><html:text property="description" readonly="true"
 						style="border: none" /></td>
-				</tr>
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
+				</tr>				
 				<tr>
 					<td>Functions:</td>
 					<td width="650px">

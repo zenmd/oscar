@@ -48,7 +48,7 @@
 
 			<display:column property="description" sortable="true"
 				title="Description" />
-
+			<display:column title="Active" property="active"></display:column>
 		</display:table></div>
 		</td>
 	</tr>
