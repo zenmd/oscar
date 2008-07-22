@@ -41,7 +41,7 @@ public class EchartDAO extends HibernateDaoSupport {
         if (list.size() != 0) ec = (EChart)list.get(list.size() - 1);
         else {
             ec = new EChart();
-            ec.setDemographicNo(new Integer(demoNo).intValue());
+            ec.setDemographicNo(new Integer(demoNo));
             ec.setProviderNo(providerNo);
             ec.setEncounter("");
         }
