@@ -33,8 +33,8 @@
 	</head>
 	
 	<script type="text/javascript">
-		var gender='<%=request.getSession().getAttribute("clientGender")%>';
-		var age=<%=request.getSession().getAttribute("clientAge")%>;
+		var gender='<%=request.getSession(true).getAttribute("clientGender")%>';
+		var age=<%=request.getSession(true).getAttribute("clientAge")%>;
 		
 		var programMaleOnly=<%=session.getAttribute("programMaleOnly")%>;
         var programFemaleOnly=<%=session.getAttribute("programFemaleOnly")%>;

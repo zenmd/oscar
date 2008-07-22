@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 <script language="javascript" type="text/javascript">	
-	/* var gender='<%=request.getSession().getAttribute("clientGender")%>'; */
+	/* var gender='<%=request.getSession(true).getAttribute("clientGender")%>'; */
 	var age=<%=request.getAttribute("age")%>;
 		
 	var programMaleOnly=<%=session.getAttribute("programMaleOnly")%>;

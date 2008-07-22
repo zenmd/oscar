@@ -108,7 +108,7 @@
 				//check role:
 				//If the user don't have the role "perform bed assignments" for this program, then tab "perform bed assignments" won't show up.
 				if(OscarProperties.getInstance().isTorontoRFQ())  {
-                    Object pfb = request.getSession().getAttribute("performBedAssignments");
+                    Object pfb = request.getSession(true).getAttribute("performBedAssignments");
                     if((pfb != null) && !(((Boolean) pfb).booleanValue()) &&
                             "Bed Reservation".equalsIgnoreCase(ClientManagerFormBean.tabs[x]))
 						continue;					
@@ -120,7 +120,7 @@
 			<td style="background-color: #555;"><a href="javascript:void(0)" onclick="javascript:clickTab('<%=ClientManagerFormBean.tabs[x] %>'); return false;"><%=ClientManagerFormBean.tabs[x]%></a></td>
 			<%
 				} else {
-			        Integer facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+			        Integer facilityId=(Integer)request.getSession(true).getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 			        int demographicId=Integer.parseInt((String)request.getAttribute("id"));
 					AdmissionManager admissionManager=(AdmissionManager)SpringUtils.getBean("admissionManager");
 					boolean activeInFacility=admissionManager.isActiveInFacility(facilityId, demographicId);

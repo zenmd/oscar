@@ -81,7 +81,7 @@
 
 	<html:form action="/ClientImage" enctype="multipart/form-data">
 		<!-- input type="hidden" name="method" value="saveImage"/ -->
-		<%	request.getSession().setAttribute("clientId",request.getParameter("demographicNo")); %>
+		<%	request.getSession(true).setAttribute("clientId",request.getParameter("demographicNo")); %>
 		<tr valign="top"><td rowspan="2" ALIGN="right" valign="middle"> <font><b>Add Image
         </b></font></td>
 
