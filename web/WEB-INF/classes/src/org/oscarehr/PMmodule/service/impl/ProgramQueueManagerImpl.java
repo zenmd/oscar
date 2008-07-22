@@ -101,8 +101,6 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 		  }
 		}
 		
-		dao.delete(queue);
-		
         QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByQueueId(queueId);
         if(intakeDB!=null){
           List familyList = intakeDao.getClientIntakeFamily(intakeDB.getId().toString());
@@ -117,6 +115,8 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 	        dao.setIntakeRejectStatus(sIntakeIds.substring(1));
 		  }
         }
+
+		dao.delete(queue);
 	}
 
 	public void setIntakeDao(IntakeDao intakeDao) {
