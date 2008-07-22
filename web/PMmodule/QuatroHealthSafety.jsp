@@ -9,6 +9,7 @@
 <html>
 <head>
 	<title>Health and Safety</title>
+<script type="text/javascript" src="<html:rewrite page="/js/validation.js" />"></script>
 <script>
 	/* this funcion serves as a protocol call for pages independent of the layout.jsp */
 			 function initPage()
