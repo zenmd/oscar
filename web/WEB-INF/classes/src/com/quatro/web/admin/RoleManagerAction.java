@@ -26,6 +26,7 @@ import com.quatro.model.security.Secobjprivilege;
 import com.quatro.model.security.Secrole;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.RolesManager;
+import com.quatro.util.Utility;
 
 public class RoleManagerAction extends DispatchAction {
 
@@ -74,14 +75,14 @@ public class RoleManagerAction extends DispatchAction {
 
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
-		String roleNo = request.getParameter("roleNo");
+		String roleName = request.getParameter("roleName");
 
 		if (isCancelled(request)) {
 			return list(mapping, form, request, response);
 		}
 
-		if (roleNo != null) {
-			Secrole secrole = rolesManager.getRole(roleNo);
+		if (!Utility.IsEmpty(roleName)) {
+			Secrole secrole = rolesManager.getRoleByRolename(roleName);
 
 			if (secrole == null) {
 				ActionMessages messages = new ActionMessages();
@@ -92,7 +93,7 @@ public class RoleManagerAction extends DispatchAction {
 				return list(mapping, form, request, response);
 			}
 
-			secroleForm.set("roleNo", secrole.getRoleNo());
+			//secroleForm.set("roleNo", secrole.getRoleNo());
 			secroleForm.set("roleName", secrole.getRoleName());
 			secroleForm.set("description", secrole.getDescription());
 			request.setAttribute("secroleForEdit", secrole);
@@ -150,7 +151,7 @@ public class RoleManagerAction extends DispatchAction {
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		Secrole secrole = new Secrole();
-		secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
+		//secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
@@ -161,7 +162,7 @@ public class RoleManagerAction extends DispatchAction {
 		if (existRole == null) {
 			rolesManager.save(secrole);
 
-			secroleForm.set("roleNo", secrole.getRoleNo());
+		//	secroleForm.set("roleNo", secrole.getRoleNo());
 
 			LookupCodeValue functions = new LookupCodeValue();
 			secroleForm.set("functions", functions);
@@ -191,7 +192,7 @@ public class RoleManagerAction extends DispatchAction {
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		Secrole secrole = new Secrole();
-		secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
+		//secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
@@ -206,7 +207,7 @@ public class RoleManagerAction extends DispatchAction {
 			request.getContextPath()));
 			saveMessages(request,messages);				
 		}
-		secroleForm.set("roleNo", secrole.getRoleNo());
+	//	secroleForm.set("roleNo", secrole.getRoleNo());
 
 		LookupCodeValue functions = new LookupCodeValue();
 		secroleForm.set("functions", functions);

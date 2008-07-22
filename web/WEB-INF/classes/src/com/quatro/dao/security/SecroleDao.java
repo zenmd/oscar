@@ -81,10 +81,7 @@ public class SecroleDao extends HibernateDaoSupport {
         }
         
         getHibernateTemplate().saveOrUpdate(secrole);
-
-        if (log.isDebugEnabled()) {
-            log.debug("SecroleDao : save: " + secrole.getRoleNo());
-        }
+        
     }
 
 }

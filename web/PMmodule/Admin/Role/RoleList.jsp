@@ -42,7 +42,7 @@
 			requestURI="/PMmodule/Admin/RoleManager.do">
 
 			<display:column sortable="true" title="Role" sortProperty="roleName">
-				<a href="<html:rewrite action="/PMmodule/Admin/RoleManager.do"/>?method=edit&roleNo=<c:out value="${role.roleNo}" />">
+				<a href="<html:rewrite action="/PMmodule/Admin/RoleManager.do"/>?method=edit&roleName=<c:out value="${role.roleName}" />">
 				<c:out value="${role.roleName}" /> </a>
 			</display:column>
 

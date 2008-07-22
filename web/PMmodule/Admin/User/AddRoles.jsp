@@ -138,8 +138,8 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 					<table width="100%">
 						<tr>
 							<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
-								href="javascript:submitForm('addRole');">Add</a>&nbsp;&nbsp;&nbsp;|
-							&nbsp;&nbsp;<a href="javascript:submitForm('removeRole');">Remove</a>
+								href="javascript:submitForm('addRole');"  onclick="javascript:setNoConfirm()">Add</a>&nbsp;&nbsp;&nbsp;|
+							&nbsp;&nbsp;<a href="javascript:submitForm('removeRole');"  onclick="javascript:setNoConfirm()">Remove</a>
 							</td>
 						</tr>
 					</table>

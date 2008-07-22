@@ -7,7 +7,7 @@ public class Secrole implements java.io.Serializable {
 
 	// Fields
 
-	private Integer roleNo;
+	
 	private String roleName;
 	private String description;
 	private boolean active;   
@@ -62,13 +62,7 @@ public class Secrole implements java.io.Serializable {
 
 	// Property accessors
 
-	public Integer getRoleNo() {
-		return this.roleNo;
-	}
-
-	public void setRoleNo(Integer roleNo) {
-		this.roleNo = roleNo;
-	}
+	
 
 	public String getRoleName() {
 		return this.roleName;

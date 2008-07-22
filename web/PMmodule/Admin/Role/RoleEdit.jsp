@@ -74,11 +74,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 
 			<table>
 				<logic:present name="secroleForEdit">
-					<tr>
-						<td>Role No.:</td>
-						<td><html:text property="roleNo" readonly="true"
-							style="border: none" /></td>
-					</tr>
+					
 					<tr>
 						<td colspan="2">&nbsp;</td>
 					</tr>

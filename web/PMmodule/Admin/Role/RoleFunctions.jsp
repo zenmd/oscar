@@ -46,12 +46,7 @@
 		<html:form action="/PMmodule/Admin/RoleManager" method="post">
 			<html:hidden property="method" value="save" />
 			<table>
-
-				<tr>
-					<td>Role No.:</td>
-					<td><html:text property="roleNo" readonly="true"
-						style="border: none" /></td>
-				</tr>
+			
 				<tr>
 					<td colspan="2">&nbsp;</td>
 				</tr>
@@ -167,8 +162,8 @@
 					<table width="100%">
 						<tr>
 							<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
-								href="javascript:submitForm('addFunction');">Add</a>&nbsp;&nbsp;&nbsp;|
-							&nbsp;&nbsp;<a href="javascript:submitForm('removeFunction');">Remove</a>
+								href="javascript:submitForm('addFunction');" onclick="javascript:setNoConfirm()">Add</a>&nbsp;&nbsp;&nbsp;|
+							&nbsp;&nbsp;<a href="javascript:submitForm('removeFunction');"  onclick="javascript:setNoConfirm()">Remove</a>
 							</td>
 						</tr>
 					</table>
