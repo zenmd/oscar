@@ -80,7 +80,7 @@ public class DatePickerTag extends BaseInputTag{
 		int year = rightNow.get(Calendar.YEAR);
 		int month = rightNow.get(Calendar.MONTH) + 1;
 
-        prepareAttribute(results, "onclick", "openDatePickerCalendar('/" + sRootPath + "/calendar/quatroCalendarPopup.jsp?" + 
+        prepareAttribute(results, "onclick", "openDatePickerCalendar('/" + sRootPath + "/calendar/CalendarPopup.jsp?" + 
           "openerForm="+ openerForm + "&openerElement=" + sName + "&year=" + year + 
           "&month=" + month +"');");        
 
