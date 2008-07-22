@@ -29,7 +29,7 @@
 		<property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
 		<property name="bedOccupied" type="integer"  lazy="true"
-			formula="(select count(*) from bed_demographic t where t.bed_id=bed_id)" />
+			formula="(select count(*) from room_demographic t where t.bed_id=bed_id)" />
 	</class>
 </hibernate-mapping>
         
