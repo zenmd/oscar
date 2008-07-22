@@ -52,8 +52,8 @@
 <display:table class="simple" cellspacing="2" cellpadding="3" id="restriction" name="service_restrictions" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
     <display:setProperty name="paging.banner.placement" value="bottom" />
     <display:setProperty name="basic.msg.empty_list" value="No service restrictions currently in place for this program." />
-    <display:column property="id" sortable="true" title="Id" />
-    <display:column property="client.formattedName" sortable="true" title="Client" />
+    <display:column property="client.demographicNo" sortable="true" title="Client Id" />
+    <display:column property="client.formattedName" sortable="true" title="Client Name" />
     <display:column property="provider.formattedName" sortable="true" title="Restricted By"/>
     <display:column property="comments" sortable="true" title="Comments" />
     <display:column property="startDate.time" sortable="true" title="Start date" format="{0,date,yyyy/MM/dd}" />
