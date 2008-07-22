@@ -446,8 +446,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 				if (cIssue == null) {
 					LookupCodeValue issue = this.caseManagementMgr
 							.getIssue(issue_id[idx]);
-					cIssue = this.newIssueToCIssue(demo, issue, Integer
-							.valueOf(programId),providerNo);
+					cIssue = this.newIssueToCIssue(demo, issue, programId,providerNo);
 					cIssue.setNotes(noteSet);
 				}
 				issueSet.add(cIssue);
