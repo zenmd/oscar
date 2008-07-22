@@ -402,10 +402,10 @@ var XMLHttpRequestObject = false;
 			<td class="fieldTitle" width="40%">Encounter Type</td>
 			<td class="fieldValue"><html:select
 				property="caseNote.encounter_type">
-				<html:option value=""></html:option>
-				<html:option value="face to face encounter with client">face to face encounter with client</html:option>>
-				<html:option value="telephone encounter with client">telephone encounter with client</html:option>>
-				<html:option value="encounter without client">encounter without client</html:option>
+				<html-el:option value=""></html-el:option>
+				<html:options collection="lstEncounterType" property="code"
+					labelProperty="description"></html:options>
+				</html:select>
 			</html:select></td>
 		</tr>
 

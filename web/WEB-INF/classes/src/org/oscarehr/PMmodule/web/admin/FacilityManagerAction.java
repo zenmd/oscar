@@ -389,6 +389,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        String facilityId = request.getParameter("facilityId");
 	        Facility facility = facilityManager.getFacility(Integer.valueOf(facilityId));
 	        facility.setActive(false);
+	        facility.setLastUpdateDate(Calendar.getInstance());
+	        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+	        facility.setLastUpdateUser(providerNo); 
 	        facilityManager.saveFacility(facility);
 	        
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
@@ -439,6 +442,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
         }
 
         try {
+        	String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        	facility.setLastUpdateDate(Calendar.getInstance());
+        	facility.setLastUpdateUser(providerNo); 
             facilityManager.saveFacility(facility);
 
             ActionMessages messages = new ActionMessages();

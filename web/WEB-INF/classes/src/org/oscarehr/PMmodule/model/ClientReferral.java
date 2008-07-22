@@ -48,14 +48,7 @@ public class ClientReferral implements Serializable {
     private String programType;
 	private String autoManual;
 	private Integer fromProgramId;
-	private Integer intakeId;
-    public Integer getIntakeId() {
-		return intakeId;
-	}
-
-	public void setIntakeId(Integer intakeId) {
-		this.intakeId = intakeId;
-	}
+	private Integer fromIntakeId;    
 
 	public Integer getFromProgramId() {
 		return fromProgramId;
@@ -265,6 +258,14 @@ public class ClientReferral implements Serializable {
 
 	public void setAutoManual(String autoManual) {
 		this.autoManual = autoManual;
+	}
+
+	public Integer getFromIntakeId() {
+		return fromIntakeId;
+	}
+
+	public void setFromIntakeId(Integer fromIntakeId) {
+		this.fromIntakeId = fromIntakeId;
 	}
 
 }
