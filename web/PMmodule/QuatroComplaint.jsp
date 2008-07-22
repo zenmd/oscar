@@ -95,7 +95,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var duration = document.getElementsByName("complaint.duration")[0].value;
 		if(!isInteger(duration))
 		{
-			alert("Time Spent on Complaint should be a number");
+			alert("Time Spent on Complaint is manditory and should be a number");
 			document.getElementsByName("complaint.duration")[0].focus();
 			return;
 		}
