@@ -451,6 +451,7 @@ public class QuatroReportViewerAction extends Action {
   	
       try{
   	      crystalReportViewer.setReportSource(reportSource);
+  	      reportDocument1.close();
   	
   	      Fields fields = crystalReportViewer.getParameterFields();
   	      Fields fields2 = new Fields();
