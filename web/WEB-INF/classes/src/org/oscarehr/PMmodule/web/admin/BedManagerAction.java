@@ -23,6 +23,8 @@ import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.BaseFacilityAction;
+import org.springframework.dao.DataIntegrityViolationException;
+
 import com.quatro.common.KeyConstants;
 
 public class BedManagerAction extends BaseFacilityAction {
@@ -279,7 +281,12 @@ public class BedManagerAction extends BaseFacilityAction {
                 messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
                 saveMessages(request, messages);
             }catch(IllegalStateException ex){
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.inactive.error", request.getContextPath()));
+                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),ex.getMessage()));
+                saveMessages(request, messages);
+            }
+            catch(DataIntegrityViolationException ex)
+            {
+                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),"Duplicate Room Name Detected"));
                 saveMessages(request, messages);
             }
        	}
@@ -362,9 +369,15 @@ public class BedManagerAction extends BaseFacilityAction {
               messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
               saveMessages(request, messages);
             }catch(IllegalStateException ex){
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.inactive.error", request.getContextPath()));
+                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),ex.getMessage()));
                 saveMessages(request, messages);
             }
+            catch(DataIntegrityViolationException ex)
+            {
+                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),"Duplicate Bed Name Detected"));
+                saveMessages(request, messages);
+            }
+
        	}
        	
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));

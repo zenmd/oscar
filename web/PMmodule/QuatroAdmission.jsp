@@ -152,7 +152,7 @@ function roomChanged()
 <td width="5%">Tel</td>
 <td width="30%"><html:text property="admission.nextKinTelephone" style="width: 95%" maxlength="25" /></td></tr>
 <tr><td>Street 1</td>
-<td><html:text property="admission.nextKinNumber" maxlength="20" /></td>
+<td><html:text property="admission.nextKinNumber" maxlength="50" /></td>
 <td>Street 2</td>
 <td><html:text property="admission.nextKinStreet" style="width: 80%" maxlength="50" /></td>
 <td>City</td>
