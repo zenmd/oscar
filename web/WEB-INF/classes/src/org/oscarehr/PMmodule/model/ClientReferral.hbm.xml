@@ -37,6 +37,6 @@
 		<property column="present_problems" name="presentProblems" not-null="false" type="string" />
 		<property column="rejectionReason" length="10" name="rejectionReason" not-null="false" type="string"/>
 		<property name="fromProgramId" column="fromprogramid"  type="java.lang.Integer" />
-		<property name="intakeId" column="intake_id"></property>
+		<property name="fromIntakeId" column="intake_id"></property>
 	</class>
 </hibernate-mapping>
