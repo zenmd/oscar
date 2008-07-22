@@ -64,7 +64,7 @@ public class LookupCodeEditAction extends DispatchAction {
 		LookupTableDefValue tableDef = qform.getTableDef();
 		List fieldDefList = qform.getCodeFields();
 		boolean isNew = qform.isNewCode();
-		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Map map=request.getParameterMap();
 		String errMsg = "";
 		for(int i=0; i<fieldDefList.size(); i++)

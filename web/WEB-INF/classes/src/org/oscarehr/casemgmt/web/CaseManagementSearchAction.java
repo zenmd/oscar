@@ -89,7 +89,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
 
         if (session.getAttribute("userrole") != null) {
             CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
@@ -123,7 +123,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
 
     public ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-       // request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
+       // request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
 		
     	 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -152,7 +152,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 			}
 			else
 			{
-				request.getSession().setAttribute("casemgmt_DemoNo",demono);
+				request.getSession(true).setAttribute("casemgmt_DemoNo",demono);
 				return view(mapping,form,request, response);
 			}
 		}
@@ -166,12 +166,12 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         long start = System.currentTimeMillis();
         long current = 0;
-        Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        Integer currentFacilityId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;        
-        HttpSession se = request.getSession();
+        HttpSession se = request.getSession(true);
         if (se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO) == null) return mapping.findForward("expired");
         String cId=request.getParameter("clientId");
-        if(Utility.IsEmpty(cId)) cId=request.getSession().getAttribute("casemgmt_DemoNo").toString();
+        if(Utility.IsEmpty(cId)) cId=request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
@@ -184,7 +184,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
         if(providerNo==null || demoNo ==null) {
-         request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
+         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
         }        
         request.setAttribute("casemgmt_demoName", getDemoName(demoNo));
@@ -195,7 +195,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         // get client image
         request.setAttribute("image_filename", this.getImageFilename(demoNo, request));
 
-        String programId = (String) request.getSession().getAttribute("case_program_id");
+        String programId = (String) request.getSession(true).getAttribute("case_program_id");
 
         if (Utility.IsEmpty(programId)) {
         	List intakes = this.clientManager.getIntakeByFacility(new Integer(demoNo), currentFacilityId);
@@ -215,7 +215,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
             // filter the notes by the checked issues and date if set
             UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);         
-            Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+            Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
            
             if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
             else notes = caseManagementMgr.getNotes(demoNo, userProp,shelterId,providerNo);
@@ -224,7 +224,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
             log.info("FETCHED " + notes.size() + " NOTES");
             // apply role based access
-            // if(request.getSession().getAttribute("archiveView")!="true")
+            // if(request.getSession(true).getAttribute("archiveView")!="true")
             current = System.currentTimeMillis();
             log.debug("GET NOTES " + String.valueOf(current - start));
             start = current;
@@ -296,7 +296,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         se.setAttribute("casemgmt_VlCountry", vLocale.getCountry());
 
         // readonly access to define creat a new note button in jsp.
-        SecurityManager sec = (SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        SecurityManager sec = (SecurityManager) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
         boolean tmp = sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCASE,"P" + (String) se.getAttribute("case_program_id")).equals(SecurityManager.ACCESS_READ);
         Boolean readonly = new Boolean(tmp);
         se.setAttribute("readOnly", readonly);
@@ -310,8 +310,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         current = System.currentTimeMillis();
         log.debug("THE END " + String.valueOf(current - start));
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
-        String useNewCaseMgmt = (String) request.getSession().getAttribute("newCaseManagement");
-        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
+        String useNewCaseMgmt = (String) request.getSession(true).getAttribute("newCaseManagement");
+        request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
         if (useNewCaseMgmt != null && useNewCaseMgmt.equals("true")) return mapping.findForward("page.newcasemgmt.view");
       //  else return mapping.findForward("page.casemgmt.view");
         else return mapping.findForward("page.casemgmt.search");
@@ -323,7 +323,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         String cId = request.getParameter("clientId");
         if(Utility.IsEmpty(cId)){
-        	cId =request.getSession().getAttribute("casemgmt_DemoNo").toString();
+        	cId =request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
         }
 	    if(actionParam==null){
 	      actionParam = new HashMap();
@@ -369,7 +369,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         log.info("FETCHED " + notes.size() + " NOTES filtered by " + StringUtils.join(issueIds,","));
         log.info("REFERER " + request.getRequestURL().toString() + "?" + request.getQueryString());
         
-        String programId = (String) request.getSession().getAttribute("case_program_id");
+        String programId = (String) request.getSession(true).getAttribute("case_program_id");
 
         if (programId == null || programId.length() == 0) {
             programId = "0";
@@ -386,15 +386,15 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	//request.getSession().setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
-    	if(request.getSession().getAttribute("casemgmt_DemoNo")!=null) request.getSession().removeAttribute("casemgmt_DemoNo");
+    	//request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
+    	if(request.getSession(true).getAttribute("casemgmt_DemoNo")!=null) request.getSession(true).removeAttribute("casemgmt_DemoNo");
     	return mapping.findForward("client");
     }
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String programId = (String) request.getSession().getAttribute("case_program_id");
+        String programId = (String) request.getSession(true).getAttribute("case_program_id");
         String cId =request.getParameter("clientId");
         if(Utility.IsEmpty(cId)){
-        	cId =request.getSession().getAttribute("casemgmt_DemoNo").toString();
+        	cId =request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
         }
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -416,8 +416,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         //searchBean.setSearchText(caseForm.getSearchText());
         searchBean.setSearchCaseStatus(caseForm.getSearchCaseStatus());
         searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
-        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        Integer shelterId =(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        String providerNo = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         List results = this.caseManagementMgr.search(searchBean,shelterId,providerNo);
         List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));           
         // comment by lillian, it does not need apply for filter
@@ -481,7 +481,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if (success) {
             Map unlockedNoteMap = this.getUnlockedNotesMap(request);
             unlockedNoteMap.put(new Integer(noteId), new Boolean(success));
-            request.getSession().setAttribute("unlockedNoteMap", unlockedNoteMap);
+            request.getSession(true).setAttribute("unlockedNoteMap", unlockedNoteMap);
         }
 
         return mapping.findForward("unlock_ajax");
@@ -500,7 +500,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if (success) {
             Map unlockedNoteMap = this.getUnlockedNotesMap(request);
             unlockedNoteMap.put(new Integer(noteId), new Boolean(success));
-            request.getSession().setAttribute("unlockedNoteMap", unlockedNoteMap);
+            request.getSession(true).setAttribute("unlockedNoteMap", unlockedNoteMap);
             return mapping.findForward("unlockSuccess");
         }
         else {
@@ -510,7 +510,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     }
 
     protected Map getUnlockedNotesMap(HttpServletRequest request) {
-        Map map = (Map) request.getSession().getAttribute("unlockedNoteMap");
+        Map map = (Map) request.getSession(true).getAttribute("unlockedNoteMap");
         if (map == null) {
             map = new HashMap();
         }

@@ -50,13 +50,13 @@ public class QuatroReportRunnerAction extends Action {
         	templateNo=Integer.parseInt(param2); 
         		
 		QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
-		String loginId = (String)request.getSession().getAttribute("user");
+		String loginId = (String)request.getSession(true).getAttribute("user");
 
 		if(param2!=null)
-		  request.getSession().setAttribute(DataViews.REPORTTPL, param2);
+		  request.getSession(true).setAttribute(DataViews.REPORTTPL, param2);
 		else
-		  if(request.getSession().getAttribute(DataViews.REPORTTPL)==null) 
-			  request.getSession().setAttribute(DataViews.REPORTTPL, "0");
+		  if(request.getSession(true).getAttribute(DataViews.REPORTTPL)==null) 
+			  request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
 
         ArrayList lstExportFormat = myForm.getExportFormatList();
 
@@ -122,7 +122,7 @@ public class QuatroReportRunnerAction extends Action {
     
 	public void OnCriteriaTextChangedHandler(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
 	{
-		ReportValue rptVal = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+		ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
         ReportTempValue rptTemp = rptVal.getReportTemp();
         if (rptTemp == null)
         {
@@ -152,7 +152,7 @@ public class QuatroReportRunnerAction extends Action {
 
 		if(col!=2) return;
 		
-		ArrayList cris = (ArrayList) request.getSession().getAttribute(DataViews.REPORT_CRI);
+		ArrayList cris = (ArrayList) request.getSession(true).getAttribute(DataViews.REPORT_CRI);
 		Map map=request.getParameterMap();
 		QuatroReportManager rpt = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
         		getServlet().getServletContext()).getBean("quatroReportManager");
@@ -200,10 +200,10 @@ public class QuatroReportRunnerAction extends Action {
 	    rptCri.setVal("");
 		rptCri.setValDesc("");
 		
-		request.getSession().setAttribute(DataViews.REPORT_CRI, cris);
+		request.getSession(true).setAttribute(DataViews.REPORT_CRI, cris);
 		if(rptVal.getReportTemp()!=null){
 		  rptVal.getReportTemp().setTemplateCriteria(cris);
-  		  request.getSession().setAttribute(DataViews.REPORT, rptVal);
+  		  request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
 		}
 		myForm.setTemplateCriteriaList(cris);
 	}
@@ -245,7 +245,7 @@ public class QuatroReportRunnerAction extends Action {
 	    }
         
         try{
-            ReportValue rptVal = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+            ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
             
             rptVal.setExportFormatType(Integer.parseInt(myForm.getExportFormat()));
             rptVal.setPrint2Pdf(false); // this property is kept only for the customized prints 
@@ -266,8 +266,8 @@ public class QuatroReportRunnerAction extends Action {
               }
             }
 
-    		request.getSession().setAttribute(DataViews.REPORT, rptVal);
-    		request.getSession().setAttribute(DataViews.REPORT_OPTION, option);
+    		request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
+    		request.getSession(true).setAttribute(DataViews.REPORT_OPTION, option);
    		    myForm.setStrClientJavascript("showReport");//('" + request.getContextPath() + "/PMmodule/Reports/quatroReportViewer.do');");
         }
         catch (Exception ex)
@@ -285,9 +285,9 @@ public class QuatroReportRunnerAction extends Action {
 	        		getServlet().getServletContext()).getBean("quatroReportManager");
 
 	    rptVal = reportManager.GetReport(reportNo,templateNo, loginId);
-		request.getSession().setAttribute(DataViews.REPORT, rptVal);
+		request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
 
-		request.getSession().setAttribute(DataViews.REPORTTPL, String.valueOf(templateNo));
+		request.getSession(true).setAttribute(DataViews.REPORTTPL, String.valueOf(templateNo));
 
 		Refresh(myForm, loginId, reportNo, request, false);
 		
@@ -299,7 +299,7 @@ public class QuatroReportRunnerAction extends Action {
 			myForm.setStartField(rptTempVal.getStartPayPeriod());
 			myForm.setEndField(rptTempVal.getEndPayPeriod());
 		}
-		request.getSession().setAttribute(DataViews.REPORT_CRI, rptTempVal.getTemplateCriteria());
+		request.getSession(true).setAttribute(DataViews.REPORT_CRI, rptTempVal.getTemplateCriteria());
 		
 		myForm.setOrgSelectionList(rptTempVal.getOrgCodes());
 		myForm.setReportOption(String.valueOf(rptTempVal.getReportOptionID()));
@@ -313,12 +313,12 @@ public class QuatroReportRunnerAction extends Action {
 	        		getServlet().getServletContext()).getBean("quatroReportManager");
 		if(refreshFromDB==true){
 		   rptVal = reportManager.GetReport(reportNo, loginId);
-		   request.getSession().setAttribute(DataViews.REPORTTPL, "0");
+		   request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
 		}else{
-		   rptVal = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+		   rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 		}
 		
-		request.getSession().setAttribute(DataViews.REPORT, rptVal);
+		request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
         
         if (rptVal == null) return;
         
@@ -471,15 +471,15 @@ public class QuatroReportRunnerAction extends Action {
 
 	private void RefreshCriteria(QuatroReportRunnerForm myForm, HttpServletRequest request)
 	{
-        ReportValue rptVal = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+        ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 		myForm.setFilterFields((ArrayList)rptVal.getFilters());
 	}
 	
 	private void BuildTemplate(QuatroReportRunnerForm myForm, HttpServletRequest request) throws Exception
     {
-		String loginId = (String)request.getSession().getAttribute("user");
+		String loginId = (String)request.getSession(true).getAttribute("user");
 
-		ReportValue rptVal = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+		ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 		ReportTempValue repTemp = new ReportTempValue();
 	    int reportNo = rptVal.getReportNo();
         ReportOptionValue option = null;
@@ -605,7 +605,7 @@ public class QuatroReportRunnerAction extends Action {
         repTemp.setTemplateCriteria(tempCris);
         rptVal.setReportTemp(repTemp);
 
-        request.getSession().setAttribute(DataViews.REPORT, rptVal);
+        request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
 	    
 	    noCriteria = true;
 	      
@@ -774,8 +774,8 @@ public class QuatroReportRunnerAction extends Action {
     {
     	ArrayList obj= new ArrayList();
 		ArrayList cris = new ArrayList();
-		if(request.getSession().getAttribute(DataViews.REPORT_CRI)!=null)
-			 cris = (ArrayList) request.getSession().getAttribute(DataViews.REPORT_CRI);
+		if(request.getSession(true).getAttribute(DataViews.REPORT_CRI)!=null)
+			 cris = (ArrayList) request.getSession(true).getAttribute(DataViews.REPORT_CRI);
 
 		Map map=request.getParameterMap();
 		String[] obj2= (String[])map.get("lineno");
@@ -885,11 +885,11 @@ public class QuatroReportRunnerAction extends Action {
 			break;
 		}
 		myForm.setTemplateCriteriaList(obj);
-		request.getSession().setAttribute(DataViews.REPORT_CRI, obj);
-		ReportValue rptVal = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+		request.getSession(true).setAttribute(DataViews.REPORT_CRI, obj);
+		ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 		if(rptVal.getReportTemp()!=null){
 		  rptVal.getReportTemp().setTemplateCriteria(obj);
-  		  request.getSession().setAttribute(DataViews.REPORT, rptVal);
+  		  request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
 		}
     }
 	

@@ -96,9 +96,11 @@ public class RoleManagerAction extends DispatchAction {
 			//secroleForm.set("roleNo", secrole.getRoleNo());
 			secroleForm.set("roleName", secrole.getRoleName());
 			secroleForm.set("description", secrole.getDescription());
-			request.setAttribute("secroleForEdit", secrole);
-
-		
+			
+			if (secrole.isActive())
+				secroleForm.set("active", "on");
+			else secroleForm.set("active", "off");
+			request.setAttribute("secroleForEdit", secrole);		
 
 			ArrayList secobjprivilegeLst = new ArrayList();
 			ArrayList funLst = new ArrayList();
@@ -155,7 +157,7 @@ public class RoleManagerAction extends DispatchAction {
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
-
+		if("on".equals(secroleForm.get("active"))) secrole.setActive(true) ;
 		// check rolename, should be unique
 		Secrole existRole = rolesManager.getRoleByRolename(roleName);
 
@@ -196,6 +198,7 @@ public class RoleManagerAction extends DispatchAction {
 		String roleName = (String) secroleForm.get("roleName");
 		secrole.setRoleName(roleName);
 		secrole.setDescription((String) secroleForm.get("description"));
+		if("on".equals(secroleForm.get("active"))) secrole.setActive(true);
 		try{
 			rolesManager.save(secrole);
 			saveFunctions(mapping, form, request, response);
@@ -373,7 +376,7 @@ public class RoleManagerAction extends DispatchAction {
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		String roleName = (String) secroleForm.get("roleName");
-		String providerNo = (String) request.getSession().getAttribute("user");
+		String providerNo = (String) request.getSession(true).getAttribute("user");
 		
 		Map map = request.getParameterMap();
 		String[] arr_lineno = (String[]) map.get("lineno");

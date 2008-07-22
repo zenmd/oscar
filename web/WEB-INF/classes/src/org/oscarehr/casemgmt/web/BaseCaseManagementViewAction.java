@@ -94,7 +94,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	public String getDemographicNo(HttpServletRequest request) {
 		String demono= request.getParameter("demographicNo");
 		if (demono==null || "".equals(demono)) 
-			demono=(String)request.getSession().getAttribute("casemgmt_DemoNo");		
+			demono=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");		
 		/*    
 		if(null != request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)){
 		    	demono=((Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID)).toString();	
@@ -102,9 +102,9 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		    }
 		    */
 		else
-			request.getSession().setAttribute("casemgmt_DemoNo", demono);
+			request.getSession(true).setAttribute("casemgmt_DemoNo", demono);
 //		set for session use
-		request.getSession().setAttribute(KeyConstants.SESSION_KEY_CLIENTID,demono);
+		request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CLIENTID,demono);
 		return demono;
 	}
 	
@@ -126,7 +126,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	public String getProviderNo(HttpServletRequest request){
 		String providerNo=request.getParameter("providerNo");
 		if (Utility.IsEmpty(providerNo)) 
-			providerNo=(String)request.getSession().getAttribute("user");
+			providerNo=(String)request.getSession(true).getAttribute("user");
 		return providerNo;
 	}
 	public ProviderManager getProviderManager() {
@@ -148,7 +148,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		ClientImage img = clientImageMgr.getClientImage(demoNo);
 		
 		if(img != null) {
-			String path=request.getSession().getServletContext().getRealPath("/");
+			String path=request.getSession(true).getServletContext().getRealPath("/");
 			int encodedValue = (int)(Math.random()*Integer.MAX_VALUE);
 			String filename = "client" +encodedValue+"."+ img.getImage_type();
 			try {

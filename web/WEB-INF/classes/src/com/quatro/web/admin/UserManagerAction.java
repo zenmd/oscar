@@ -515,7 +515,7 @@ public class UserManagerAction extends DispatchAction {
 //       			request.getContextPath()));
 //		saveMessages(request,messages);
 		
-		request.getSession().setAttribute("secUserRoleLst",	secUserRoleLst);
+		request.getSession(true).setAttribute("secUserRoleLst",	secUserRoleLst);
 
 	}
 

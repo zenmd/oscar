@@ -96,9 +96,9 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	protected String getDemographicNo(HttpServletRequest request) {
 		String demono = request.getParameter("demographicNo");
 		if (demono == null || "".equals(demono)) {
-			demono = (String) request.getSession().getAttribute("casemgmt_DemoNo");
+			demono = (String) request.getSession(true).getAttribute("casemgmt_DemoNo");
 		} else {
-			request.getSession().setAttribute("casemgmt_DemoNo", demono);
+			request.getSession(true).setAttribute("casemgmt_DemoNo", demono);
 		}
 		return demono;
 	}
@@ -131,7 +131,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	protected String getProviderNo(HttpServletRequest request) {
 		String providerNo = request.getParameter("providerNo");
 		if (Utility.IsEmpty(providerNo)) {
-			providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+			providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		}
 		return providerNo;
 	}

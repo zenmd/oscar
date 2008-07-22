@@ -49,7 +49,7 @@ public class TopazSaveAction extends DispatchAction {
 		   out.flush();
 		   out.close(); 
 
-		   String providerNo = (String)request.getSession().getAttribute("user");
+		   String providerNo = (String)request.getSession(true).getAttribute("user");
 //		   tobj.setProviderNo(providerNo);
 		
 		   topazManager.saveTopazValue(tobj);

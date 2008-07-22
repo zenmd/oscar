@@ -52,12 +52,12 @@ public class QuatroReportViewerAction extends Action {
 	
 	public void Refresh(QuatroReportRunnerForm myForm, HttpServletRequest request, HttpServletResponse response){
 		
-	    _rptValue = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
-	    _rptOption = (ReportOptionValue)request.getSession().getAttribute(DataViews.REPORT_OPTION);
+	    _rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
+	    _rptOption = (ReportOptionValue)request.getSession(true).getAttribute(DataViews.REPORT_OPTION);
 	    try{
 			ReportTempValue rptTemp = _rptValue.getReportTemp();
 	        int reportNo = rptTemp.getReportNo();
-			String loginId = (String)request.getSession().getAttribute("user");
+			String loginId = (String)request.getSession(true).getAttribute("user");
 	        String datepartDis = "Date ";
 	        if ("M".equals(_rptValue.getDatePart()))
 	           datepartDis = "Month ";
@@ -117,12 +117,12 @@ public class QuatroReportViewerAction extends Action {
 			QuatroReportManager qrManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
 	        		getServlet().getServletContext()).getBean("quatroReportManager");
 			if ("D".equals(_rptValue.getDatePart())){
-				qrManager.SetReportDate(request.getSession().getId(), startDate, endDate);
+				qrManager.SetReportDate(request.getSession(true).getId(), startDate, endDate);
                 if (!Utility.IsEmpty(_rptValue.getSptorun()))
                 	qrManager.SetReportDateSp(_rptValue.getReportNo(), startDate, endDate, _rptValue.getSptorun());
 				PaintReport(request, response, startDate, endDate, orgs, criteria, dateRangeDis, orgDis, criteriaDis);
             }else{
-				qrManager.SetReportDate(request.getSession().getId(), startPayPeriod, endPayPeriod);
+				qrManager.SetReportDate(request.getSession(true).getId(), startPayPeriod, endPayPeriod);
                 if (!Utility.IsEmpty(_rptValue.getSptorun()))
                 	qrManager.SetReportDateSp(_rptValue.getReportNo(), startDate, endDate, _rptValue.getSptorun());
                PaintReport(request, response, startPayPeriod, endPayPeriod, orgs, criteria, dateRangeDis, orgDis, criteriaDis);
@@ -147,7 +147,7 @@ public class QuatroReportViewerAction extends Action {
         }
         String orgFilter = getOrgFilterString(fieldName, filterOrgs);
         filterOrgs.clear();
-        com.quatro.service.security.SecurityManager sm = (com.quatro.service.security.SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+        com.quatro.service.security.SecurityManager sm = (com.quatro.service.security.SecurityManager) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
         ArrayList orgAccessList = (ArrayList) sm.getUserOrgAccessList();
         for(int i=0; i<orgAccessList.size();i++)
         {
@@ -382,7 +382,7 @@ public class QuatroReportViewerAction extends Action {
     private void PaintReport(HttpServletRequest request, HttpServletResponse response, Date startDate, 
     		Date endDate, String orgs, String criteriaString, String dateRangeDis, String orgDis, String criteriaDis){
 
-    	String loginId = (String)request.getSession().getAttribute("user");
+    	String loginId = (String)request.getSession(true).getAttribute("user");
         String userName = _rptValue.getAuthor();
 
         String sStartDate = Utility.FormatDate(startDate);
@@ -541,7 +541,7 @@ public class QuatroReportViewerAction extends Action {
          	    fields2.add(pfield8);
       	    }else if(fieldName.equals("sessionid")){
          	    ParameterFieldDiscreteValue pfieldDV9 = new ParameterFieldDiscreteValue();
-        	    pfieldDV9.setValue(request.getSession().getId());
+        	    pfieldDV9.setValue(request.getSession(true).getId());
          	    Values vals9 = new Values();
          	    vals9.add(pfieldDV9);
         	    ParameterField pfield9 = new ParameterField();
@@ -640,7 +640,7 @@ public class QuatroReportViewerAction extends Action {
     private void PaintReport(HttpServletRequest request, HttpServletResponse response, String startPeriod, 
     		String endPeriod, String orgs, String criteriaString, String dateRangeDis, String orgDis, String criteriaDis){
 
-    	String loginId = (String)request.getSession().getAttribute("user");
+    	String loginId = (String)request.getSession(true).getAttribute("user");
         String userName = _rptValue.getAuthor();
 
 //        SetLogonInfo();
@@ -813,7 +813,7 @@ public class QuatroReportViewerAction extends Action {
            	     fields2.add(pfield8);
         	  }else if(fieldName.equals("sessionid")){
            	     ParameterFieldDiscreteValue pfieldDV9 = new ParameterFieldDiscreteValue();
-          	     pfieldDV9.setValue(request.getSession().getId());
+          	     pfieldDV9.setValue(request.getSession(true).getId());
            	     Values vals9 = new Values();
            	     vals9.add(pfieldDV9);
           	     ParameterField pfield9 = new ParameterField();

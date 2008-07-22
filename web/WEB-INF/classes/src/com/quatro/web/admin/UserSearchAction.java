@@ -62,8 +62,8 @@ public class UserSearchAction extends DispatchAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ArrayList roleList = (ArrayList)rolesManager.getRoles();	
-		request.getSession().setAttribute("roles", roleList);
-		request.setAttribute("secuserroles",request.getSession().getAttribute("secuserroles"));
+		request.getSession(true).setAttribute("roles", roleList);
+		request.setAttribute("secuserroles",request.getSession(true).getAttribute("secuserroles"));
 		return mapping.findForward("list");
 
 	}
@@ -101,7 +101,7 @@ public class UserSearchAction extends DispatchAction {
 			}
 
 		}
-		request.getSession().setAttribute("secuserroles", surlist); //session the list
+		request.getSession(true).setAttribute("secuserroles", surlist); //session the list
 		request.setAttribute("secuserroles", surlist);
 		logManager.log("read", "full secuserroles list", "", request);
 

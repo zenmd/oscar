@@ -47,7 +47,7 @@ public class QuatroReportListAction extends BaseAction {
 	
 	public ActionForward reportlist(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
-		String providerNo = (String)request.getSession().getAttribute("user");
+		String providerNo = (String)request.getSession(true).getAttribute("user");
 		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
         		getServlet().getServletContext()).getBean("quatroReportManager");
 		List reports = reportManager.GetReportGroupList(providerNo);

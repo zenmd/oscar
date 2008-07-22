@@ -24,13 +24,13 @@ public class QuatroReportTemplateAction extends Action {
 
 		QuatroReportSaveTemplateForm myForm = (QuatroReportSaveTemplateForm)form;
 
-		String param=(String)request.getSession().getAttribute(DataViews.REPORTTPL);
+		String param=(String)request.getSession(true).getAttribute(DataViews.REPORTTPL);
 		if(param!=null){
 		   if(Integer.parseInt(param)>0){
 			 myForm.setOptSaveAsSelected("optOld");
 			 String param2=(String)request.getParameter("postback");
 			 if(param2==null){  // not postback
-			   ReportValue rptValue = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+			   ReportValue rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 			   myForm.setTxtTitle(rptValue.getReportTemp().getDesc());
 			 }  
 		   }else{
@@ -45,7 +45,7 @@ public class QuatroReportTemplateAction extends Action {
 
 	public void btnSave_Click(QuatroReportSaveTemplateForm myForm, HttpServletRequest request)
 	{
-		ReportValue rptValue = (ReportValue)request.getSession().getAttribute(DataViews.REPORT);
+		ReportValue rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 
 		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
         		getServlet().getServletContext()).getBean("quatroReportManager");
@@ -66,7 +66,7 @@ public class QuatroReportTemplateAction extends Action {
 
         temp.setPrivateTemplate(myForm.getChkPrivate()!=null);
 
-		String userId = (String)request.getSession().getAttribute("user");
+		String userId = (String)request.getSession(true).getAttribute("user");
 
         ArrayList temps = (ArrayList)reportManager.GetReportTemplates(temp.getReportNo(), userId);
         for(int i=0;i<temps.size();i++){
@@ -81,7 +81,7 @@ public class QuatroReportTemplateAction extends Action {
 
         try{
             reportManager.SaveReportTemplate(temp);
-    		request.getSession().setAttribute(DataViews.REPORTTPL, String.valueOf(temp.getTemplateNo()));
+    		request.getSession(true).setAttribute(DataViews.REPORTTPL, String.valueOf(temp.getTemplateNo()));
 			myForm.setMsg(" The template saved successfully");
 		}
 		catch(Exception ex){
