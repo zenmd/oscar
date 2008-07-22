@@ -636,8 +636,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         boolean isIndependent2 = false;
         Integer bedDemographicStatusId1 = null;
         boolean latePass1 = false;
-        Date reservationEnd1 = null;
-        Date assignEnd1 = null;
+//        Date reservationEnd1 = null;
+//        Date assignEnd1 = null;
         Date today = DateTimeFormatUtils.getToday();
         //List<Integer> familyList = new ArrayList<Integer>();
 
@@ -734,17 +734,17 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   			roomDemographicManager.deleteRoomDemographic(roomDemographic1);
    	   			roomDemographicManager.deleteRoomDemographic(roomDemographic2);
    	   			
-   	   		    assignEnd1 = roomDemographic1.getAssignEnd();
+//   	   		    assignEnd1 = roomDemographic1.getAssignEnd();
    	   			roomDemographic1.getId().setDemographicNo(client2);
    	   		    roomDemographic1.setAssignStart(today);
    	   		    roomDemographic1.setProviderNo(providerNo);
    	   		    roomDemographic1.getId().setRoomId(roomId1);
    	   		    roomDemographic1.setBedId(bedId1);
    	   		    roomDemographic2.setProviderNo(providerNo);
-   	   		    roomDemographic1.setAssignEnd(roomDemographic2.getAssignEnd());
+//   	   		    roomDemographic1.setAssignEnd(roomDemographic2.getAssignEnd());
    	   			roomDemographic2.getId().setDemographicNo(client1);
    	   		    roomDemographic2.setAssignStart(today);
-   	   		    roomDemographic2.setAssignEnd(assignEnd1);
+//   	   		    roomDemographic2.setAssignEnd(assignEnd1);
    	   		    roomDemographic2.getId().setRoomId(roomId2);
    	   		    roomDemographic2.setBedId(bedId2);
    	   			roomDemographicManager.saveRoomDemographic(roomDemographic1);
@@ -765,7 +765,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    					String[] clients=cIds.split(",");
    					for(int i=0;i<clients.length;i++){
    						RoomDemographic rdObj= new RoomDemographic();
-   					 	rdObj.setAssignEnd(roomDemographic2.getAssignEnd());
+//   					 	rdObj.setAssignEnd(roomDemographic2.getAssignEnd());
    					 rdObj.getId().setDemographicNo(Integer.valueOf(clients[i]));
    	   	   			
    	   	   		    rdObj.setAssignStart(today);
@@ -783,7 +783,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    					clients=cIds.split(",");
    					for(int i=0;i<clients.length;i++){
    						RoomDemographic rdObj= new RoomDemographic();
-   					 	rdObj.setAssignEnd(roomDemographic1.getAssignEnd());
+//   					 	rdObj.setAssignEnd(roomDemographic1.getAssignEnd());
    					 rdObj.getId().setDemographicNo(Integer.valueOf(clients[i]));
    	   	   			
    	   	   		    rdObj.setAssignStart(today);

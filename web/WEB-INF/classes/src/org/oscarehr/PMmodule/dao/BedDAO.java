@@ -32,29 +32,15 @@ import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedType;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-/**
- * Hibernate implementation of BedDAO
- */
 public class BedDAO extends HibernateDaoSupport {
 
     private static final Log log = LogFactory.getLog(BedDAO.class);
 
-    /**
-     * Check for the existence of a bed with this ID.
-     * @param bedId
-     * @return
-     */
     public boolean bedExists(Integer bedId) {
 
         return (((Long) getHibernateTemplate().iterate("select count(*) from Bed where id = " + bedId).next()).intValue() == 1);
     }
 
-    /**
-     * Return if this is a valid bed type
-     *
-     * @param bedTypeId type of bed
-     * @return boolean
-     */
     public boolean bedTypeExists(Integer bedTypeId) {
         boolean exists = (((Long) getHibernateTemplate().iterate("select count(*) from BedType where id = " + bedTypeId).next()).intValue() == 1);
         log.debug("bedTypeExists: " + exists);
@@ -62,11 +48,6 @@ public class BedDAO extends HibernateDaoSupport {
         return exists;
     }
 
-    /**
-     * Return the bed associated with an id
-     * @param bedId bed id to look up
-     * @return the bed
-     */
     public Bed getBed(Integer bedId) {
         Bed bed = (Bed) getHibernateTemplate().get(Bed.class, bedId);
         log.debug("getBed: id " + bedId);
@@ -81,13 +62,6 @@ public class BedDAO extends HibernateDaoSupport {
         return bedType;
     }
 
-    /**
-     * All beds for a given room
-     * @param roomId the room id to look up
-     * @param active activity flag
-     * @return an array of beds
-     */
-    //@SuppressWarnings("unchecked")
     public Bed[] getBedsByRoom(Integer roomId, Boolean active) {
         String query = getBedsQuery(null, roomId, active);
         Object[] values = getBedsValues(null, roomId, active);
@@ -97,10 +71,6 @@ public class BedDAO extends HibernateDaoSupport {
         return (Bed[]) beds.toArray(new Bed[beds.size()]);
     }
 
-    /**
-     * @return all bed types
-     */
-    //@SuppressWarnings("unchecked")
     public BedType[] getBedTypes() {
         List bedTypes = getHibernateTemplate().find("from BedType bt");
         log.debug("getRooms: size: " + bedTypes.size());
@@ -108,13 +78,7 @@ public class BedDAO extends HibernateDaoSupport {
         return (BedType[]) bedTypes.toArray(new BedType[bedTypes.size()]);
     }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see org.oscarehr.PMmodule.dao.BedDAO#saveBed(org.oscarehr.PMmodule.model.Bed)
-      */
     public void saveBed(Bed bed) {
-//        updateHistory(bed);
         getHibernateTemplate().saveOrUpdate(bed);
         getHibernateTemplate().flush();
         getHibernateTemplate().refresh(bed);
@@ -123,14 +87,6 @@ public class BedDAO extends HibernateDaoSupport {
     }
 
 
-    /**
-     * Delete bed
-     *
-     * @param bedId
-     *            
-     * @throws BedReservedException
-     *             bed is inactive and reserved
-     */
     public void deleteBed(Bed bed) {
         log.debug("deleteBed: id " + bed.getId());
 
@@ -181,9 +137,5 @@ public class BedDAO extends HibernateDaoSupport {
     List getBeds(String query, Object[] values) {
         return (values.length > 0) ? getHibernateTemplate().find(query, values) : getHibernateTemplate().find(query);
     }
-/*
-    void updateHistory(Bed bed) {
-        // TODO IC Bedlog Historical - if room to bed association has changed, create historical record
-    }
-*/
+
 }

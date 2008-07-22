@@ -52,7 +52,6 @@ public class RoomDemographic implements Auditable, Serializable {
     private String roomName;
     private String providerNo;
     private Date assignStart;
-    private Date assignEnd;
     private String comment;
     private Provider provider;
 //    private Room room;
@@ -100,6 +99,7 @@ public class RoomDemographic implements Auditable, Serializable {
 	/**
 	 * Constructor for required fields
 	 */
+/*	
 	public RoomDemographic (
 		org.oscarehr.PMmodule.model.RoomDemographicPK id,
 		String providerNo,
@@ -114,6 +114,7 @@ public class RoomDemographic implements Auditable, Serializable {
 		this.setComment(comment);
 		initialize();
 	}
+*/
 	
 	public void setProvider(Provider provider) {
 	    this.provider = provider;
@@ -123,14 +124,16 @@ public class RoomDemographic implements Auditable, Serializable {
 	public void setDemographic(Demographic demographic) {
 	    this.demographic = demographic;
     }
-	
+/*	
 	public boolean isExpired() {
 		Date end = DateTimeFormatUtils.getDateFromDate(getAssignEnd());
 		Date today = DateTimeFormatUtils.getToday();
 		
 		return end.before(today);
 	}
-	
+*/	
+
+/*	
 	public boolean isValidAssign() {
 		Date start = DateTimeFormatUtils.getDateFromDate(getAssignStart());
 		Date end = DateTimeFormatUtils.getDateFromDate(getAssignEnd());
@@ -138,7 +141,8 @@ public class RoomDemographic implements Auditable, Serializable {
 
 		return start.before(end) && today.before(end);
 	}
-
+*/
+	
 	public String getProviderName() {
 		return provider.getFormattedName();
 	}
@@ -150,6 +154,8 @@ public class RoomDemographic implements Auditable, Serializable {
 	public String getDemographicName() {
 		return demographic != null ? demographic.getFormattedName() : null;
 	}
+	
+/*	
 	// property adapted for view
 	public String getStrAssignEnd() {
 		return DateTimeFormatUtils.getStringFromDate(getAssignEnd());
@@ -171,7 +177,8 @@ public class RoomDemographic implements Auditable, Serializable {
 			}
 		}
 	}
-
+*/
+	
 	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -224,21 +231,6 @@ public class RoomDemographic implements Auditable, Serializable {
      */
     public void setAssignStart (Date assignStart) {
         this.assignStart = assignStart;
-    }
-
-    /**
-	 * Return the value associated with the column: assign_end
-     */
-    public Date getAssignEnd () {
-        return assignEnd;
-    }
-
-    /**
-	 * Set the value related to the column: assign_end
-     * @param assignEnd the assign_end value
-     */
-    public void setAssignEnd (Date assignEnd) {
-        this.assignEnd = assignEnd;
     }
 
     public boolean equals (Object obj) {

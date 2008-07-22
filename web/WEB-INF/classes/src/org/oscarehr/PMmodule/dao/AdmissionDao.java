@@ -17,6 +17,8 @@ import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.ClientReferral;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
@@ -24,10 +26,13 @@ public class AdmissionDao extends HibernateDaoSupport {
 	private MergeClientDao mergeClientDao;
 	private RoomDemographicDAO roomDemographicDAO;
 	private RoomDemographicHistoricalDao roomDemographicHistoricalDao;
+	private ProgramQueueDao programQueueDao;
+    private ClientReferralDAO clientReferralDAO;
+	private ClientHistoryDao clientHisDao;
+
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
-	private ClientHistoryDao clientHisDao;
 	public void setClientHistoryDao(ClientHistoryDao clientHisDao)
 	{
 		this.clientHisDao = clientHisDao;
@@ -42,12 +47,14 @@ public class AdmissionDao extends HibernateDaoSupport {
 
         getHibernateTemplate().bulkUpdate("update QuatroIntakeDB q set q.intakeStatus='" +
         		KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?", intakeId);
-/*        
-        getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queueId);
 
+        ProgramQueue queue = programQueueDao.getProgramQueueByIntakeId(intakeId);
+        getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queue.getId());
+
+        ClientReferral referral = clientReferralDAO.getReferralByIntakeId(intakeId);
         getHibernateTemplate().bulkUpdate("update ClientReferral c set c.status='" +
-                KeyConstants.STATUS_ACCEPTED + "' where c.Id=?", referralId);
-*/                
+                KeyConstants.STATUS_ACCEPTED + "' where c.Id=?", referral.getId());
+                
     }
 
     public void updateAdmission(Admission admission) {
@@ -352,6 +359,12 @@ public class AdmissionDao extends HibernateDaoSupport {
 	public void setRoomDemographicHistoricalDao(
 			RoomDemographicHistoricalDao roomDemographicHistoricalDao) {
 		this.roomDemographicHistoricalDao = roomDemographicHistoricalDao;
+	}
+	public void setClientReferralDAO(ClientReferralDAO clientReferralDAO) {
+		this.clientReferralDAO = clientReferralDAO;
+	}
+	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
+		this.programQueueDao = programQueueDao;
 	}
 }
 

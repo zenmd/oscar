@@ -726,20 +726,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	   admission.setProviderNo(providerNo);
        admission.setAdmissionDate(MyDateFormat.getCalendarwithTime(admission.getAdmissionDateTxt()));
-//       admission.setFacilityId(shelterId);
        admission.setOvPassStartDate(MyDateFormat.getCalendar(admission.getOvPassStartDateTxt()));
        admission.setOvPassEndDate(MyDateFormat.getCalendar(admission.getOvPassEndDateTxt()));
        admission.setLastUpdateDate(new GregorianCalendar());
-       
-/*   	   
-       if(!"Y".equals(admission.getHasSignature())){
-  	     if(admission.getNotSignReason().equals("") && admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_ADMITTED)){
-  	        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_PENDING);
-  	      }else if(!admission.getNotSignReason().equals("") && admission.getAdmissionStatus().equals(KeyConstants.INTAKE_STATUS_PENDING)){
-    	     admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
-  	      }
-  	   }
-*/
        
        RoomDemographic roomDemographic = clientForm.getRoomDemographic();
  	   RoomDemographicPK rdmPK= roomDemographic.getId();

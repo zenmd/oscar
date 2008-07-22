@@ -161,15 +161,16 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	void validate(RoomDemographic roomDemographic) {
 		validateProvider(roomDemographic.getProviderNo());
 		validateRoom(roomDemographic.getId().getRoomId());
-		validateDemographic(roomDemographic.getId().getDemographicNo());
+//		validateDemographic(roomDemographic.getId().getDemographicNo());
 	}
 
+/*	
 	void validateRoomDemographic(RoomDemographic roomDemographic) {
 		if (!roomDemographic.isValidAssign()) {
 			throw new IllegalArgumentException("invalid Assignvation: " + roomDemographic.getAssignStart() + " - " + roomDemographic.getAssignEnd());
 		}
 	}
-
+*/
 	void validateProvider(String providerId) {
 		if (!providerDao.providerExists(providerId)) {
 			throw new IllegalArgumentException("no provider with id : " + providerId);

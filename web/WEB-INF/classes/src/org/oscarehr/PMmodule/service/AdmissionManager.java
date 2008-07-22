@@ -115,10 +115,10 @@ public class AdmissionManager {
     	  if(rdm!=null){
     		  Integer roomId = rdm.getId().getRoomId();
     		  Integer bedId = rdm.getBedId();
-    		  if (bedId == null) bedId = new Integer(0);
+//    		  if (bedId == null) bedId = new Integer(0);
     		  
     	    if(!(roomId.equals(roomDemographic.getId().getRoomId()) &&
-    	             bedId.equals(roomDemographic.getBedId()))) {
+    	    	((bedId==null && roomDemographic.getBedId()==null) || bedId.equals(roomDemographic.getBedId())))) {
       	      roomDemographicDAO.deleteRoomDemographic(rdm);
          	  
      	      // update room_history
@@ -130,8 +130,8 @@ public class AdmissionManager {
     	    }
     	  }else{
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
-      	    Room room = roomDAO.getRoom(roomDemographic.getId().getRoomId());
-      	    if(room!=null) roomName = room.getName();
+       	    roomName = roomDemographic.getRoomName();
+          	bedName = roomDemographic.getBedName();
     	  }
           // save room_history
           saveRoomDemographicHistory(admission, roomDemographic, cal);
@@ -160,9 +160,8 @@ public class AdmissionManager {
   	    if(rdm!=null){
   	    	Integer roomId = rdm.getId().getRoomId();
   	    	Integer bedId = rdm.getBedId();
-  	    	if(bedId == null) bedId = new Integer(0);
-  	        if(!roomId.equals(roomDemographic.getId().getRoomId()) || bedId.equals(roomDemographic.getBedId()))
-  	    	{
+	    	if(!(roomId.equals(roomDemographic.getId().getRoomId()) &&
+  	      	  ((bedId==null && roomDemographic.getBedId()==null) || bedId.equals(roomDemographic.getBedId())))) {
   	        	roomDemographicDAO.deleteRoomDemographic(rdm);
   	        	roomDemographicDAO.saveRoomDemographic(roomDemographic);
   	        	
