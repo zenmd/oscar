@@ -151,18 +151,20 @@ function roomChanged()
 <td width="20%"><html:text property="admission.nextKinRelationship" maxlength="20" /></td>
 <td width="5%">Tel</td>
 <td width="30%"><html:text property="admission.nextKinTelephone" style="width: 95%" maxlength="25" /></td></tr>
-<tr><td>Number</td>
+<tr><td>Street 1</td>
 <td><html:text property="admission.nextKinNumber" maxlength="20" /></td>
-<td>Street</td>
-<td colspan="3"><html:text property="admission.nextKinStreet" style="width: 80%" maxlength="50" /></td></tr>
-<tr><td>City</td>
-<td><html:text property="admission.nextKinCity" maxlength="20" /></td>
-<td>Province</td>
-<td><html:select property="admission.nextKinProvince">
-<html-el:optionsCollection property="provinceList" value="code" label="description"/>
-</html:select></td>
-<td>Postal</td>
-<td><html:text property="admission.nextKinPostal" style="width: 60%" maxlength="7" /></td></tr>
+<td>Street 2</td>
+<td><html:text property="admission.nextKinStreet" style="width: 80%" maxlength="50" /></td>
+<td>City</td>
+<td>
+	<html:text property="admission.nextKinCity" maxlength="20" /></td> </tr>
+<tr>	<td>Province</td>
+	<td><html:text property="admission.nextKinProvince"></html:text>
+	</td>
+	<td>Postal Code</td>
+	<td><html:text property="admission.nextKinPostal" style="width: 60%" maxlength="7" /></td>
+<td>Country</td><td><html:text property="admission.nextKinCountry" style="width:100%" maxlength="50"/></td>
+	</tr>
 </table>
 </td></tr>
 
@@ -218,7 +220,7 @@ function roomChanged()
 
 	    <c:if test="${quatroClientAdmissionForm.availableBeds!=null}">
 	      <tr><td>Assign Bed</td>
-     	  <td><html:select property="bedId">
+     	  <td><html:select property="roomDemographic.bedId">
               <html-el:optionsCollection property="availableBeds" value="id" label="name"/>
 	        </html:select>
             <html:hidden property="curDB_BedId"/>

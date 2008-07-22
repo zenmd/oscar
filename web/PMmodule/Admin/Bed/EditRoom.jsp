@@ -1,7 +1,6 @@
 <%@ include file="/taglibs.jsp"%>
 
 <script>
-String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
     function saveRoom(){
       	var name= document.getElementsByName("room.name")[0];
       	if(name.value.trim()==''){

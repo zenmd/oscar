@@ -39,7 +39,7 @@ import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientAdmissionForm;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-
+import com.quatro.util.Utility;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
@@ -699,7 +699,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  if(!clientForm.getFamilyIntakeType().equals("Y")){
     		 Room roomToSave = roomManager.getRoom(rdm.getId().getRoomId());  
     		 if(roomToSave.getAssignedBed().intValue()==1){
-    	       Integer bedId = clientForm.getBedId();
+    	       Integer bedId = rdm.getBedId();
     	       if(bedId == null || bedId.intValue()==0){
     	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.empty_bedId",
       			     request.getContextPath()));
@@ -772,22 +772,28 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
  	   
  	   if(!clientForm.getFamilyIntakeType().equals("Y") && "1".equals(request.getParameter("roomAssignedBed"))){  
- 	     Integer bedId = clientForm.getBedId();
- 	     roomDemographic.setBedId(bedId);
+// 	     Integer bedId = clientForm.getBedId();
+// 	     roomDemographic.setBedId(bedId);
   	   }else{
   		 roomDemographic.setBedId(null);  
   	   }
   	   
-       if(admission.getId().intValue()==0){
-    	  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
-    	  if(!topazManager.isSignatureExist(intakeId)){
-     	    messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.miss_signature",
-       			   request.getContextPath()));
-            isError = true;
-            saveMessages(request,messages);
-            return update(mapping, form, request, response);
-    	  }
-
+       boolean isNotSigned = Utility.IsEmpty(admission.getNotSignReason());
+ 	   if(isNotSigned) { 
+		  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
+		  isNotSigned = !topazManager.isSignatureExist(intakeId);
+	   }
+	   if(isNotSigned)
+	   {
+ 	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.miss_signature",
+   			   request.getContextPath()));
+          isError = true;
+          saveMessages(request,messages);
+          return update(mapping, form, request, response);
+	    }
+	    /* Saving the admission */
+	    if(admission.getId().intValue() == 0)
+	    {
     	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
 
 //		  clientReferral = clientReferralDao.getReferralByIntakeId(intake.getId());
