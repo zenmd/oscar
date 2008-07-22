@@ -4,14 +4,15 @@
 
 <hibernate-mapping>
     <class name="org.oscarehr.PMmodule.model.RoomDemographicHistorical" table="room_demographic_historical">
-        <composite-id >
-            <key-property name="roomId" type="integer">
+		<id name="recordId" type="integer" column="recordid" unsaved-value="0">
+			<generator class="native" />
+		</id>
+        <property name="roomId" type="integer">
                 <column name="room_id" />
-            </key-property>
-            <key-property name="admissionId" type="integer">
-                <column name="admission_id" />
-            </key-property>
-        </composite-id>
+        </property>
+        <property name="admissionId" type="integer">
+              <column name="admission_id" />
+        </property>
         <property name="demographicNo" type="integer">
             <column name="demographic_no" />
         </property>

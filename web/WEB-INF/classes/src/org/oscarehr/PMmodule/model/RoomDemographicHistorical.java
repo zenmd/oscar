@@ -6,7 +6,7 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 
 	// Fields
 
-
+	private Integer recordId;
 	private Integer roomId;
 	private Integer bedId;
 	private Integer admissionId;
@@ -43,6 +43,7 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 
 
 	public RoomDemographicHistorical(Integer roomId, Integer admissionId, Integer demographicNo, Calendar usageStart, Calendar usageEnd) {
+		this.recordId = new Integer(0);
 		this.roomId = roomId;
 		this.admissionId = admissionId;
 		this.demographicNo = demographicNo;
@@ -60,14 +61,7 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 			return false;
 		RoomDemographicHistorical castOther = (RoomDemographicHistorical) other;
 
-		return ((this.getAdmissionId() == castOther.getAdmissionId()) || (this
-				.getAdmissionId() != null
-				&& castOther.getAdmissionId() != null && this
-				.getAdmissionId().equals(castOther.getAdmissionId())))
-				&& ((this.getRoomId() == castOther.getRoomId()) || (this
-						.getRoomId() != null
-						&& castOther.getRoomId() != null && this
-						.getRoomId().equals(castOther.getRoomId())));
+		return this.getRecordId().equals(castOther.getRecordId());
 	}
 
 	public int hashCode() {
@@ -158,5 +152,13 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 
 	public void setBedName(String bedName) {
 		this.bedName = bedName;
+	}
+
+	public Integer getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(Integer recordId) {
+		this.recordId = recordId;
 	}
 }

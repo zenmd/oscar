@@ -49,6 +49,7 @@ public class Admission implements Serializable, Cloneable {
 	private String nextKinCity;
 	private String nextKinProvince;
 	private String nextKinPostal;
+	private String nextKinCountry;
 	private Calendar ovPassStartDate;
 	private String ovPassStartDateTxt;
 	private Calendar ovPassEndDate;
@@ -403,6 +404,14 @@ public class Admission implements Serializable, Cloneable {
 		diff = diff / 24; // days
 
 		return new Integer((int)diff);
+	}
+
+	public String getNextKinCountry() {
+		return nextKinCountry;
+	}
+
+	public void setNextKinCountry(String nextKinCountry) {
+		this.nextKinCountry = nextKinCountry;
 	}
 
 }

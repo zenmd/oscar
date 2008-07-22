@@ -34,6 +34,7 @@
 		<property name="nextKinCity" column="nextkin_city" />
 		<property name="nextKinProvince" column="nextkin_province" />
 		<property name="nextKinPostal" column="nextkin_postal" />
+		<property name="nextKinCountry" column="nextkin_country" />
 		<property name="ovPassStartDate" column="ovpass_startdate" />
 		<property name="ovPassEndDate" column="ovpass_enddate" />
 		<property name="notSignReason" column="notsign_reason" />
@@ -46,10 +47,6 @@
 	    <property name="providerName" lazy="true" formula="(select concat(p.last_name, concat(', ', p.first_name)) from Provider p where p.provider_no=provider_no)"></property> 
 
 		<property name="admissionNotes" column="admission_notes" />
-		
-		<property name="bedName" type="string" lazy="true"
-			formula="(select min(b.name) from bed b, bed_demographic bd where b.bed_id = bd.bed_id and bd.demographic_no = client_id )" />
-		
 		<property name="intakeHeadId" type="integer" lazy="true"
 			formula="(select if.intake_head_id from intake_family if where if.intake_id = intake_id)" />
 	</class>
