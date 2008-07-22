@@ -9,6 +9,8 @@
 <html>
 <head>
 	<title>Health and Safety</title>
+<script type="text/javascript" src="<html:rewrite page="/js/validation.js" />"></script>
+
 <script>
 function submitForm(form) {
  trimInputBox();
