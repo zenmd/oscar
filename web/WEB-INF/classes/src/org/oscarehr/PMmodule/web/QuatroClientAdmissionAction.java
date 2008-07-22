@@ -192,7 +192,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
        
        //setup rooms
-       Integer curDB_RoomId = clientForm.getCurDB_RoomId();
+       Integer curDB_RoomId = clientForm.getRoomDemographic().getId().getRoomId();//.getCurDB_RoomId();
+       clientForm.setCurDB_RoomId(curDB_RoomId);
        Room currentDB_room = null;
        if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
        ArrayList availableRoomLst = new ArrayList();
@@ -607,10 +608,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("client", client);
        String overrideYN =request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME);
        boolean canOverride=false;
+  	   Program program = programManager.getProgram(programId);
+	   canOverride=canOverwrite(request, program.getId().toString());
+
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
-      	   Program program = programManager.getProgram(programId);
 
            
     	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
@@ -620,21 +623,21 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
       	     //check gender conflict and age conflict
              Demographic client2= clientManager.getClientByDemographicNo(qif.getClientId().toString());
              if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)))
-               isWarning = validateConflict(request, program, client2,
+               isWarning = isWarning || validateConflict(request, program, client2,
               	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
-             
-       	     canOverride=canOverwrite(request, program.getId().toString());
-       	     if(isWarning){
-       	    	 if (!canOverride)  return update(mapping, form, request, response);
-       	    	 else{
-       	    		if(!"Y".equals(overrideYN)){
-       	    			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
-       	    			saveMessages(request,messages);
-       	    			return update(mapping, form, request, response);
-       	    		}
-       	    	 }
-       	     }
            }
+     	   if(isWarning){
+       	   	 if (!canOverride)  return update(mapping, form, request, response);
+       	   	 else{
+       	   		if(!"Y".equals(overrideYN)){
+       	   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
+       	   			saveMessages(request,messages);
+       	   			return update(mapping, form, request, response);
+       	   		}else{
+       	   			messages.clear();
+       	   		}
+       	   	 }
+       	   }
 
     	   //check client active in other program
            for(int i=0;i<lstFamily.size();i++){
@@ -653,11 +656,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
     	 }else{
   		   //check gender conflict and age conflict
-    	   Program program = programManager.getProgram(programId);
-//    	   isWarning = validateConflict(request, program, client,messages);
            isWarning = validateConflict(request, program, client,
                	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
-     	   canOverride=canOverwrite(request, program.getId().toString());
      	   
      	   if(isWarning){
      		  if (!canOverride)  return update(mapping, form, request, response);
@@ -666,6 +666,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	    	    	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
 	    	    	  saveMessages(request,messages);
 	    	    	  return update(mapping, form, request, response);
+    	    	  }else{
+    	    		  messages.clear(); 
     	    	  }
     	    	 }
      		}
@@ -691,12 +693,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          			request.getContextPath()));
          isError = true;
          saveMessages(request,messages);
+	     return update(mapping, form, request, response);
 //         clientForm.setFamilyIntakeType(familyIntakeType);
-         return update(mapping, form, request, response);
        }else{
     	  //check bedId selected for single person intake admission
     	  //admitted family member may not necessary be assigned bed on this page.  
-    	  if(!clientForm.getFamilyIntakeType().equals("Y")){
+    	  if(!clientForm.getFamilyIntakeType().equals("Y") && !"Y".equals(overrideYN)){
     		 Room roomToSave = roomManager.getRoom(rdm.getId().getRoomId());  
     		 if(roomToSave.getAssignedBed().intValue()==1){
     	       Integer bedId = rdm.getBedId();
@@ -705,19 +707,22 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
       			     request.getContextPath()));
                   isError = true;
                   saveMessages(request,messages);
-                  return update(mapping, form, request, response);
+          	      return update(mapping, form, request, response);
     	       }
     		 }else{
-                 Integer roomOccupancy = new Integer(roomDemographicManager.getRoomOccupanyByRoom(roomToSave.getId()));
-                 if(clientForm.getCurDB_RoomId().intValue()!=roomToSave.getId().intValue()){
-                   if(roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
-       	             messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.not_available_room_space",
+                Integer roomOccupancy = new Integer(roomDemographicManager.getRoomOccupanyByRoom(roomToSave.getId()));
+                if(roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
+     	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.not_available_room_space",
            			     request.getContextPath()));
-                     isError = true;
-                     saveMessages(request,messages);
-                     return update(mapping, form, request, response);
-            	   }
-                 }  
+                  isError = true;
+                  saveMessages(request,messages);
+            	  if (!canOverride)  return update(mapping, form, request, response);
+               	  else{
+               	    messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
+               	    saveMessages(request,messages);
+               	    return update(mapping, form, request, response);
+               	  }
+               	}
     		 }
     	  }   
        }
