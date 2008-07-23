@@ -653,18 +653,20 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 				caseManagementMgr.updateAppointment(sessionBean.appointmentNo,
 						sessionBean.status, "verify");
 		} else if (note.isSigned()) {
-			prop = ResourceBundle.getBundle("oscarResources", request
-					.getLocale());
-			String message = "["
-					+ prop
-							.getString("oscarEncounter.class.EctSaveEncounterAction.msgSigned")
+		//	prop = ResourceBundle.getBundle("oscarResources", request.getLocale());
+			String message = "[ Signed on "
+					/*
+				    + prop.getString("oscarEncounter.class.EctSaveEncounterAction.msgSigned")
 					+ " "
+					*/
 					+ UtilDateUtilities.DateToString(now, "dd-MMM-yyyy H:mm",
 							request.getLocale())
+					+ " by "
+					/*
+					+ prop.getString("oscarEncounter.class.EctSaveEncounterAction.msgSigBy")
 					+ " "
-					+ prop
-							.getString("oscarEncounter.class.EctSaveEncounterAction.msgSigBy")
-					+ " " + provider.getFormattedName() + "]";
+					*/ 
+					+ provider.getFormattedName() + " ]";
 			String n = note.getNote() + "\n" + message;
 			note.setNote(n);
 

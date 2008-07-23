@@ -81,8 +81,7 @@ public class ConsentDetail implements Serializable {
 	public String getEndDateStr() {
 		String eStr =endDateStr;
 		if(Utility.IsEmpty(eStr))
-		{
-			eStr="Unknown"; 
+		{			 
 			if(endDate!=null) eStr=MyDateFormat.getStandardDate(endDate);
 		}
 			
@@ -95,8 +94,7 @@ public class ConsentDetail implements Serializable {
 
 	public String getStartDateStr() {
 		String str = startDateStr;
-		if(Utility.IsEmpty(str)){
-			str="Unknown";
+		if(Utility.IsEmpty(str)){		
 			if (startDate != null)
 			str = MyDateFormat.getStandardDate(startDate);
 		}
@@ -330,7 +328,7 @@ public class ConsentDetail implements Serializable {
 	}
 
 	public String getDateSignedStr() {
-		String str = "Unknown";
+		String str = "";
 		if (dateSigned != null)
 			str = MyDateFormat.getStandardDate(dateSigned);
 		return str;
