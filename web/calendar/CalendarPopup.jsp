@@ -61,15 +61,15 @@ function typeCaisiDate(form_name,element_name,year1,month1,day1) {
       <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%">
   			<tr>
         	  <td BGCOLOR="#FFD7C4" width="50%" align="center" >
-			  <a href="quatroCalendarPopup.jsp?year=<%=year-1%>&month=<%=month%>&delta=0&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>"><img src="../images/previous.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Last Year" vspace="2">Last Year
+			  <a href="CalendarPopup.jsp?year=<%=year-1%>&month=<%=month%>&delta=0&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>"><img src="../images/previous.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Last Year" vspace="2">Last Year
               </a>  <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
-        <a href="quatroCalendarPopup.jsp?year=<%=year+1%>&month=<%=month%>&delta=0&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>">Next Year<img src="../images/next.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Next Month" vspace="2"></a></td>
+        <a href="CalendarPopup.jsp?year=<%=year+1%>&month=<%=month%>&delta=0&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>">Next Year<img src="../images/next.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Next Month" vspace="2"></a></td>
   			</TR>
   			<tr>
         	  <td BGCOLOR="#FFD7C4" width="50%" align="center" >
-			  <a href="quatroCalendarPopup.jsp?year=<%=year%>&month=<%=month%>&delta=-1&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>"><img src="../images/previous.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Last Month" vspace="2">Last Month
+			  <a href="CalendarPopup.jsp?year=<%=year%>&month=<%=month%>&delta=-1&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>"><img src="../images/previous.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Last Month" vspace="2">Last Month
               </a>&nbsp;  <b><span CLASS=title><%=year%>-<%=month%></span></b>&nbsp;
-        <a href="quatroCalendarPopup.jsp?year=<%=year%>&month=<%=month%>&delta=1&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>">Next Month<img src="../images/next.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Next Month" vspace="2"></a></td>
+        <a href="CalendarPopup.jsp?year=<%=year%>&month=<%=month%>&delta=1&openerForm=<%=openerForm%>&openerElement=<%=openerElement %>">Next Month<img src="../images/next.gif" WIDTH="10" HEIGHT="9" BORDER="0" ALT="View Next Month" vspace="2"></a></td>
   			</TR>
 		</table>
 <p>
