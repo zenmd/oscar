@@ -243,7 +243,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             log.debug("FILTER NOTES PROVIDER " + String.valueOf(current - start));
             start = current;
           */
-            List providers = getProviderManager().getActiveProviders(Integer.valueOf(programId));
+            List providers = getProviderManager().getActiveProviders(programId);
     		
             request.setAttribute("providers", providers);
             List caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
