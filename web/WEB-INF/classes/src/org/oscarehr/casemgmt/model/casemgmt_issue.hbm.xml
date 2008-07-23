@@ -17,9 +17,11 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-	<class name="org.oscarehr.casemgmt.model.CaseManagementIssue" table="casemgmt_issue">
-		<id name="id" column="id" unsaved-value="0">
-			<generator class="increment" />
+	<class name="org.oscarehr.casemgmt.model.CaseManagementIssue" table="casemgmt_issue">		
+		<id column="id" name="id" type="integer" unsaved-value="0">
+			<generator class="sequence">
+   			 <param name="sequence">seq_casemgmt_issue</param>
+			</generator>
 		</id>
 		<property name="demographic_no" />
 		<property name="issue_id" />

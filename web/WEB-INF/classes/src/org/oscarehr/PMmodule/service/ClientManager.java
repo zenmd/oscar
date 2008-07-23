@@ -134,11 +134,12 @@ public class ClientManager {
 			for(int i=0;i<intakes.size();i++)
 			{
 				intakeTmp =(QuatroIntakeHeader)intakes.get(i);
-				if(KeyConstants.PROGRAM_TYPE_Bed.equals(intake.getProgramType())){
+				Program program=programDao.getProgram(intakeTmp.getProgramId());
+				if(KeyConstants.PROGRAM_TYPE_Bed.equals(program.getType())){
 					return intakeTmp;					
 				}
-				else if(KeyConstants.PROGRAM_TYPE_Service.equals(intake.getProgramType()) 
-						&& intake.getEndDate().after(Calendar.getInstance())) intake=intakeTmp;
+				else if(KeyConstants.PROGRAM_TYPE_Service.equals(program.getType()) 
+						&& intakeTmp.getEndDate().after(Calendar.getInstance())) intake=intakeTmp;
 				
 			}
 		}

@@ -629,7 +629,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 				.getAttribute("EctSessionBean");
 		String verify = request.getParameter("verify");
 		ResourceBundle prop;
-
+		/*
 		if (verify != null && verify.equalsIgnoreCase("on")) {
 			prop = ResourceBundle.getBundle("oscarResources", request
 					.getLocale());
@@ -652,7 +652,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 					&& !sessionBean.appointmentNo.equals(""))
 				caseManagementMgr.updateAppointment(sessionBean.appointmentNo,
 						sessionBean.status, "verify");
-		} else if (note.isSigned()) {
+		} else
+		*/ 
+		if (note.isSigned()) {
 		//	prop = ResourceBundle.getBundle("oscarResources", request.getLocale());
 			String message = "[ Signed on "
 					/*

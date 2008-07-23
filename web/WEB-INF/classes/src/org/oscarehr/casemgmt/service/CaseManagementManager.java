@@ -596,18 +596,18 @@ public class CaseManagementManager {
     public void deleteTmpSave(String providerNo, Integer demographicNo, Integer programId) {
         caseManagementTmpSaveDAO.delete(providerNo, demographicNo, programId);
     }
-
+    /*
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId) {
         CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, Integer.valueOf(demographicNo), Integer.valueOf(programId));
         return obj;
     }
-    
+   
     //we want to load a temp saved note only if it's more recent than date
     public CaseManagementTmpSave restoreTmpSave(String providerNo, String demographicNo, String programId, Date date) {
         CaseManagementTmpSave obj = caseManagementTmpSaveDAO.load(providerNo, Integer.valueOf(demographicNo), Integer.valueOf(programId), date);
         return obj;
     }
-    
+    */
     public List getHistory(String note_id) {
             CaseManagementNote note = caseManagementNoteDAO.getNote(Integer.valueOf(note_id));
             return this.caseManagementNoteDAO.getHistory(note);

@@ -29,9 +29,14 @@
 	</table>	
 	<table width="400" border="0">
 		<tr>
-			<td class="fieldValue"><textarea name="caseNote_history"
+			<td class="fieldValue">
+			<div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
+                        width: 100%; height: 100%; overflow: auto">
+			<textarea name="caseNote_history"
 				cols="107" rows="29" wrap="soft"><nested:write
-				property="caseNote_history" /></textarea></td>
+				property="caseNote_history" /></textarea>
+			</div>	
+			</td>
 		</tr>
 		<br>
 
