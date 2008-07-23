@@ -134,18 +134,16 @@ public class AdmissionDao extends HibernateDaoSupport {
     
     public List getClientsListByProgram(Program program, ClientForm form){
     	Integer programId = program.getId();
-    	Integer facilityId = program.getFacilityId();
+//    	Integer facilityId = program.getFacilityId();
     	
     	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
-    		+ " c.FirstName, c.LastName, a.clientId, rm.name, a.bedName, " 
+    		+ " c.FirstName, c.LastName, a.clientId, rd.roomName, rd.bedName, " 
     		+ " a.intakeId, a.intakeHeadId "
-    		+ " FROM Admission a, Demographic c, RoomDemographic rd, Room rm" 
+    		+ " FROM Admission a, Demographic c, RoomDemographic rd" 
     		+ " WHERE a.programId=?"
     		+ " AND a.admissionStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "'"
     		+ " AND a.clientId = c.DemographicNo"
-    		+ " AND rd.id.demographicNo = a.clientId"
-    		+ " AND rd.id.roomId = rm.id"
-    		+ " AND rm.facilityId = '" + facilityId + "'";
+    		+ " AND rd.id.demographicNo = a.clientId";
     	if(form != null){
 	    	String fname = form.getFirstName();
 	    	if(fname != null && fname.length()>0){
