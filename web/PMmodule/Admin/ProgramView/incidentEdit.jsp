@@ -91,9 +91,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 								<td class="clsButtonBarText">
 									&nbsp;&nbsp;
 									<c:if test="${!isReadOnly}">
-										<a id="clientAdd" href="javascript:showLookup('CLN', '', '', 'programManagerViewForm','incidentForm.lstClient','', true, '<c:out value="${ctx}"/>');">Add</a>
+										<a id="clientAdd" href="javascript:showLookup('CLN', '', '', 'programManagerViewForm','incidentForm.lstClient','', true, '<c:out value="${ctx}"/>');" onclick="setNoConfirm();">Add</a>
 										&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;			
-										<a href="javascript:removeSel('incidentForm.lstClient')">Remove</a>
+										<a href="javascript:removeSel('incidentForm.lstClient')"  onclick="setNoConfirm();">Remove</a>
 									</c:if>	
 								</td>
 					        </tr>

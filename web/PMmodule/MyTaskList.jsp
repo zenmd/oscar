@@ -70,8 +70,8 @@ function submitForm(methodVal) {
 </c:choose>
 </display:column>
 <display:column sortable="true" sortProperty="tickler_no" title="Task ID">
- <html:link action='/PMmodule/Task.do?method=mytaskedit&clientId=<c:out value="${tickler.demographic_no}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />'>
-   <c:out value="${tickler.tickler_no}" /></html:link>
+ <a href='<html:rewrite page="/PMmodule/Task.do"/>?method=mytaskedit&clientId=<c:out value="${tickler.demographic_no}" />&ticklerNo=<c:out value="${tickler.tickler_no}" />'>
+   <c:out value="${tickler.tickler_no}" /></a>
 </display:column>
 <display:column property="status" sortable="true" title="Status" />
 <display:column property="provider.formattedName" sortable="true" sortProperty="provider.formattedName" title="Creator" />

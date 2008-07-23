@@ -14,11 +14,11 @@ function submitForm(methodVal) {
 <tr><td class="buttonBar2">
 	<html:link action="/Home.do"
 	style="color:Navy;text-decoration:none">&nbsp;
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+	<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/close16.png"/>' >&nbsp;Close&nbsp;&nbsp;|</html:link>
 	<html:link action="/PMmodule/Task.do?method=filter" style="color:Navy;text-decoration:none;">
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Tasks&nbsp;&nbsp;|</html:link>
+	<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/Back16.png"/>' >&nbsp;Back to Tasks&nbsp;&nbsp;|</html:link>
 	<a href='javascript:submitForm("mytasksave");' onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+	<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/Save16.png"/>' >&nbsp;Save&nbsp;&nbsp;</a>
 </td></tr>
 <tr><td align="left" class="message">
    <logic:messagesPresent message="true">
