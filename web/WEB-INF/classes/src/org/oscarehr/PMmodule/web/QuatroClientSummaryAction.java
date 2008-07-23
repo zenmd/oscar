@@ -83,8 +83,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        
-       List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-//       for(Object element: lst){
+       List lst = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
        QuatroIntakeHeader obj0 = null;
        Integer programId=null;
        if(lst.size()>0) {
@@ -126,14 +125,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        /* bed reservation view */
        if(currentAdmissionList.size()>0){
          RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
-		 Room room = null;
-		 Bed bed = null;
-		 if(roomDemographic != null){
-			Integer roomId = roomDemographic.getId().getRoomId();
-			room = roomManager.getRoom(roomId);
-			if(roomDemographic.getBedId() != null) bed = bedManager.getBed(roomDemographic.getBedId()); 
-		 } 
-		 request.setAttribute("room", room);
+		 request.setAttribute("roomDemographic", roomDemographic);
        }
    }
    

@@ -142,31 +142,15 @@ function openHealthSafety(){
 <tr><td>
 <table wdith="100%" class="simple">
   <c:choose>
-	<c:when test="${bed == null}">
-    <c:choose>
-	  <c:when test="${roomDemographic != null}">
-		<tr><th width="20%">Assigned Room:</th>
-		<td><c:out value="${roomDemographic.room.name}" /></td></tr>
-		<tr><th width="20%">Assigned Bed:</th>
-		<td>N/A</td></tr>
-	  </c:when>	
-	  <c:otherwise>
-		<tr><td>No bed or room reserved</td></tr>
-	  </c:otherwise>	
-	</c:choose>
-	</c:when>
-	<c:when test="${bed != null}">
+	<c:when test="${roomDemographic != null}">
 	  <tr><th width="20%">Assigned Room:</th>
-	  <td>
-	  <c:if test="${room!=null}">
-	  <c:out value="${room.name}" />
-	  </c:if>
-	   </td></tr>
+	  <td><c:out value="${roomDemographic.roomName}" /></td></tr>
 	  <tr><th width="20%">Assigned Bed:</th>
-	  <td><c:out value="${bed.name}" /></td></tr>
-	</c:when>
-	<c:otherwise>		
-	</c:otherwise>
+	  <td><c:out value="${roomDemographic.bedName}" /></td></tr>
+	</c:when>	
+	<c:otherwise>
+	  <tr><td>No bed or room reservedx</td></tr>
+	</c:otherwise>	
   </c:choose>
 </table>
 </td></tr>
