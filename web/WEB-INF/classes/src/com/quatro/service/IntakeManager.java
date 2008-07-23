@@ -266,6 +266,31 @@ public class IntakeManager {
         return lst2;
 	}
 
+	public List getActiveQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
+
+        List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
+
+        List lst2 = intakeDao.getActiveQuatroIntakeHeaderListByFacility(clientId, shelterId, providerNo);
+		for(int i=0;i<lst2.size();i++){
+          QuatroIntakeHeader obj2 = (QuatroIntakeHeader)lst2.get(i);
+          
+          Iterator it3 = lst.iterator();
+          while(it3.hasNext()){
+          	Object element3 = (Object)it3.next();
+            Object[] obj3 = (Object[])element3;
+            if(((Integer)obj3[0]).equals(obj2.getProgramId())){
+              obj2.setProgramName((String)obj3[1]);
+              obj2.setProgramType((String)obj3[2]);
+              break;
+            }
+          }
+          
+        }
+
+        return lst2;
+		
+	}
+
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
         List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
@@ -331,7 +356,6 @@ public class IntakeManager {
 		  if(exist_intakeDB_programQueue!=null) exist_intakeDB_programQueueId= exist_intakeDB_programQueue.getId();
 		  
 		  intakeDao.deleteReferralIdQueueId(exist_intakeDB_referralId, exist_intakeDB_programQueueId);
-//		  intakeDao.resetFamilyMemeberReferralIdQueueId(intake.getId(), intake.getReferralId());
 		}
 		
 		lst.add(intakeFamily.getIntakeHeadId());

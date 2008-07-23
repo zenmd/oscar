@@ -465,6 +465,18 @@ public class IntakeDao extends HibernateDaoSupport {
 	            "  order by i.createdOn desc");
 		return results;
 	}
+	public List getActiveQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
+
+		List results = null;
+		String clientIds=mergeClientDao.getMergedClientIds(clientId);
+	    String progSQL = com.quatro.util.Utility.getUserOrgQueryString(providerNo, shelterId);
+
+	    results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in " + clientIds+" and i.programId in " + progSQL +
+	    		" and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
+	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "')" +
+	            "  order by i.createdOn desc");
+		return results;
+	}
 	
 	public Integer getIntakeFamilyHeadId(String intakeId){
 		String sSQL="select a.intakeHeadId from QuatroIntakeFamily a " +
@@ -630,15 +642,6 @@ public class IntakeDao extends HibernateDaoSupport {
 		    intakeDb.setStaffId(intake.getStaffId());
 
 		    intakeDb.setProgramType(intake.getProgramType());
-
-		    //intake for bed program, add/update referral and queue records.
-//		    intakeDb.setReferralId(intake.getReferralId());
-//		    if(bFamilyMember){
-//		       intakeDb.setQueueId(new Integer(0));
-//		    }else{
-//		       intakeDb.setQueueId(intake.getQueueId());
-//		    }
-			
 			
 		   for(int i=1;i<IntakeConstant.TOTALITEMS;i++){
 			 obj.add(new QuatroIntakeAnswer(i, (String)hData.get(new Integer(i))));
@@ -735,9 +738,6 @@ public class IntakeDao extends HibernateDaoSupport {
 		}
       
         if(!bFamilyMember){
-//          if(referral.getId()!=null) intakeDb.setReferralId(new Integer(referral.getId().intValue()));
-//          if(queue.getId()!=null) intakeDb.setQueueId(new Integer(queue.getId().intValue()));
-
           lst.add(intakeDb.getId());
           if(clientReferral!=null){ 
         	 lst.add(clientReferral.getId());
@@ -766,8 +766,10 @@ public class IntakeDao extends HibernateDaoSupport {
 
 	//used for family intake add/remove family member
 	public void updateReferralIdQueueId(QuatroIntakeDB intake, Integer referralId, Integer queueId){
-        String sSQL="update QuatroIntakeDB q set q.referralId=?, q.queueId=? where q.id=?";
-		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, queueId, intake.getId()});
+        String sSQL="update ClientReferral r set r.Id=? where r.fromIntakeId=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, intake.getId()});
+        sSQL="update ProgramQueue q set q.Id=? where q.fromIntakeId=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{queueId, intake.getId()});
 	}
 	
 	private void updateFamilyProgramId(Integer intakeId, Integer programId){

@@ -149,7 +149,7 @@ function openHealthSafety(){
 	  <td><c:out value="${roomDemographic.bedName}" /></td></tr>
 	</c:when>	
 	<c:otherwise>
-	  <tr><td>No bed or room reservedx</td></tr>
+	  <tr><td>No bed or room reserved</td></tr>
 	</c:otherwise>	
   </c:choose>
 </table>
