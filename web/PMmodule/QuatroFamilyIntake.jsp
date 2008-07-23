@@ -7,6 +7,7 @@
 <html-el:form action="/PMmodule/QuatroFamilyIntake.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
+<input type="hidden" name="headclientId" value="<c:out value="${headclientId}" />"/>
 <input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
@@ -42,15 +43,15 @@ function checkExistClients(i){
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Family Intake</th></tr>
 	<tr>
-	<td>
-		<table width="100%" class="simple">
+	<td style="background: lavender">
+		<table width="100%" class="simple" cellspacing="2" cellpadding="3">
 			<tr>
 			<td style="width: 15%"><font><b>Client No.</b></font></td><td colspan="3"><font><b><c:out value="${client.demographicNo}" /></b></font></td>
 			</tr>
 			<tr>
 				<td style="width: 15%"<font><b>Name</b></font></td>
 				<td style="width: 35%"><font><b><c:out value="${client.formattedName}" /></b></font></td>
-				<td style="width: 15%"><font><b>Date of Birth </b></font></td>
+				<td style="width: 15%"><font><b>DOB</b></font></td>
 				<td style="width: 35%"><font><b><c:out value="${client.dob}" /></b></font></td>
 			</tr>
 		</table>
@@ -58,8 +59,10 @@ function checkExistClients(i){
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+        <c:if test="${isReadOnly==false}">
+		  <a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+         </c:if>
             <html:link action="/PMmodule/QuatroIntakeEdit.do?method=update" name="actionParam" style="color:Navy;text-decoration:none;">
             <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;</html:link></td>
 	</tr>
@@ -103,7 +106,7 @@ function checkExistClients(i){
 <td><c:out value="${quatroClientFamilyIntakeForm.familyHead.alias}" />
 <html:hidden property="familyHead.alias" /></td>
 <td>
-<a href="<c:out value="${ctx}"/>/PMmodule/QuatroIntakeEdit.do?method=update&intakeId=<c:out value="${quatroClientFamilyIntakeForm.intakeId}"/>&clientId=<c:out value="${clientId}"/>" style="color:Navy;text-decoration:underline;">View Family Head Intake</a>
+<a href="<c:out value="${ctx}"/>/PMmodule/QuatroIntakeEdit.do?method=update&intakeId=<c:out value="${intakeHeadId}"/>&clientId=<c:out value="${headclientId}"/>" style="color:Navy;text-decoration:underline;">View Family Head Intake</a>
 </td></tr>
 </table>
 </td></tr>
@@ -138,9 +141,11 @@ function checkExistClients(i){
      <html:hidden name="dependent" property="serviceRestriction" indexed="true" />
     </td>
     <td>
-      <a href="javascript:checkExistClients(<%=rIndex%>);" style="color:Navy;text-decoration:none;">
+      <c:if test="${isReadOnly==false}">
+      <a href="javascript:checkExistClients(<%=rIndex%>);" onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:none;">
        <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />
        </a>
+       </c:if>
        <html:text name="dependent" property="statusMsg" maxlength="20"  indexed="true" readonly="readonly" style="border: 0px;width: 20px"/>
     </td>
     <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true" style="width:90%" /></td>
@@ -171,13 +176,14 @@ function checkExistClients(i){
 
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
+<c:if test="${isReadOnly==false}">
 <c:if test="${quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
 &nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependent</a>
 &nbsp;|
 </c:if>
 &nbsp;
 <a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependent</a>
-
+</c:if>
 <c:choose>
 <c:when test="${bDupliDemographicNoApproved==false}">
 <input type=checkbox name="newClientConfirmed" value="Y">Confirm all new clients.

@@ -58,18 +58,9 @@ public class Admission implements Serializable, Cloneable {
     private String admissionNotes;
     private Calendar lastUpdateDate;
     
-    private String bedName;
     private Integer intakeHeadId;
-    
-    public String getBedName() {
-		return bedName;
-	}
 
-	public void setBedName(String bedName) {
-		this.bedName = bedName;
-	}
-
-	public String getAdmissionDateStr() {
+    public String getAdmissionDateStr() {
 		if(admissionDate==null) return "";
 		return MyDateFormat.getStandardDate(admissionDate);
 	}

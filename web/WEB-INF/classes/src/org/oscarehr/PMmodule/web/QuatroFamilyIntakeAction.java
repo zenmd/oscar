@@ -50,7 +50,14 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
-       request.setAttribute("intakeHeadId", intakeId);
+       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
+
+       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+    	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+      	 request.setAttribute("isReadOnly", Boolean.FALSE);
+       
        if(clientForm.getIntakeStatus()==null){
          QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
          clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
@@ -59,14 +66,16 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
+          actionParam.put("headclientId", request.getParameter("headclientId")); 
           actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       String demographicNo= (String)actionParam.get("headclientId");
+       request.setAttribute("headclientId", demographicNo);
+       request.setAttribute("clientId", (String)actionParam.get("clientId"));
+       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");
@@ -79,7 +88,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setRelationships(relationships);
        
 	   Demographic familyHead = intakeManager.getClientByDemographicNo(demographicNo);
-//	   for(Object element : genders){
 	   for(int i=0;i<genders.size();i++){
            LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
@@ -118,18 +126,27 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
-       request.setAttribute("intakeHeadId", intakeId);
+       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
+
+       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
+          actionParam.put("headclientId", request.getParameter("headclientId")); 
           actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       String demographicNo= (String)actionParam.get("headclientId");
+       request.setAttribute("headclientId", demographicNo);
+       request.setAttribute("clientId", (String)actionParam.get("clientId"));
+       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj3= new LookupCodeValue();
@@ -143,7 +160,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setRelationships(relationships);
 
 	   Demographic familyHead = clientForm.getFamilyHead();
-//	   for(Object element : genders){
 	   for(int i=0;i<genders.size();i++){
            LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
@@ -204,18 +220,27 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
        String intakeId = (String)clientForm.getIntakeId();
-       request.setAttribute("intakeHeadId", intakeId);
+       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
+
+       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+       
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
+          actionParam.put("headclientId", request.getParameter("headclientId")); 
           actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId")); 
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       String demographicNo= (String)actionParam.get("headclientId");
+       request.setAttribute("headclientId", demographicNo);
+       request.setAttribute("clientId", (String)actionParam.get("clientId"));
+       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
@@ -229,7 +254,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setRelationships(relationships);
        
 	   Demographic familyHead = clientForm.getFamilyHead();
-//	   for(Object element : genders){
 	   for(int i=0;i<genders.size();i++){
            LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
@@ -284,19 +308,29 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 
-       String intakeHeadId = (String)clientForm.getIntakeId();
-       request.setAttribute("intakeHeadId", intakeHeadId);
+       String intakeId = (String)clientForm.getIntakeId();
+       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
+
+       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+       
+       
 	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
+          actionParam.put("headclientId", request.getParameter("headclientId")); 
           actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", intakeHeadId); 
+          actionParam.put("intakeId", intakeId); 
        }
        request.setAttribute("actionParam", actionParam);
 
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+       String demographicNo= (String)actionParam.get("headclientId");
+       request.setAttribute("headclientId", demographicNo);
+       request.setAttribute("clientId", (String)actionParam.get("clientId"));
+       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj4= new LookupCodeValue();
        obj4.setCode("");
@@ -309,7 +343,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setRelationships(relationships);
        
 	   Demographic familyHead = intakeManager.getClientByDemographicNo(demographicNo);
-//	   for(Object element : genders){
 	   for(int i=0;i<genders.size();i++){
            LookupCodeValue obj= (LookupCodeValue)genders.get(i);
            if(obj.getCode().equals(familyHead.getSex())){
@@ -498,10 +531,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          client.setLastName(intakeFamily.getLastName());
          client.setFirstName(intakeFamily.getFirstName());
 
-//     	 String[] split = intakeFamily.getDob().split("/");
-//		 client.setYearOfBirth(MyDateFormat.formatMonthDay(split[0]));
-//		 client.setMonthOfBirth(MyDateFormat.formatMonthDay(split[1]));
-//		 client.setDateOfBirth(MyDateFormat.formatMonthDay(split[2]));
 		 client.setDateOfBirth(MyDateFormat.getCalendar(intakeFamily.getDob()));
          
          client.setSex(intakeFamily.getSex());
@@ -544,25 +573,17 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 }
      	 intake.setStaffId(providerNo);
      	 intake.setLastUpdateDate(new GregorianCalendar());
-//     	 intake.setReferralId(headIntake.getReferralId());
-//     	 intake.setQueueId(headIntake.getQueueId());
-//     	 intake.setQueueId(new Integer(0));
 
      	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
      	 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
      	 intakeFamily.setIntakeHeadId(headIntake.getId());
      	 intakeFamily.setLastUpdateUser(providerNo);
      	 intakeFamily.setLastUpdateDate(new GregorianCalendar());
-     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, Integer.valueOf(intakeHeadId), intake, newClient_intakeDBExist, intakeFamily);
+     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, Integer.valueOf(intakeFamilyHeadId), intake, newClient_intakeDBExist, intakeFamily);
      	 intakeFamily.setIntakeId((Integer)lst2.get(1));
      	 intakeFamily.setClientId((Integer)lst2.get(2));
   	   }
    
-
-//       if(isWarning){
-//     	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
-//           			request.getContextPath(), headIntake.getProgramName()));
-//  	   }else if(!(isWarning || isError)){
   	   if(!(isWarning || isError)){
   		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
 	   }else if(isWarning){
@@ -575,7 +596,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        //in case added same client in multiple family member lines,
        //the save method saved family member correctly, 
        //but need to remove duplicated family member line(s) by reading every family memeber from DB again.  
-       List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeHeadId);
+       List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeFamilyHeadId.toString());
        if(dependentsDB==null) dependentsDB = new ArrayList(); 
        for(int i=0;i<dependentsDB.size();i++){
      	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependentsDB.get(i);

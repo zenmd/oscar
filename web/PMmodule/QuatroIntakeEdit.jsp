@@ -149,7 +149,7 @@ function checkExistClients(){
 				<c:choose>
 					<c:when	test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
 	    	 			(quatroIntakeEditForm.intake.intakeStatus=='admitted' && intakeHeadId>0)}">
-	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${clientId}"/>"
+	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
 							style="color:Navy;text-decoration:none;"> 
 							<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake &nbsp;&nbsp;|</a>
 							<c:choose>
@@ -163,7 +163,7 @@ function checkExistClients(){
 					</c:when>
 					<c:when test="intakeHeadId gt 0">
               		<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>
-              				&clientId=<c:out value="${clientId}"/>"
+              				&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
 							style="color:Navy;text-decoration:none;"> 
 						<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake&nbsp;&nbsp;|</a>
 					</c:when>

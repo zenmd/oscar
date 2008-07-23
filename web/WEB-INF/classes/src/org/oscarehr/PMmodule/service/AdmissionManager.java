@@ -91,12 +91,10 @@ public class AdmissionManager {
    		     if(rdm!=null && !rdm.getId().getRoomId().equals(rdm2.getId().getRoomId())){
            	   roomDemographicDAO.deleteRoomDemographic(rdm);
           	   roomDemographicDAO.saveRoomDemographic(rdm2);
-          	   Room room = roomDAO.getRoom(rdm2.getId().getRoomId());
-          	   if(room!=null) roomName = room.getName();
+          	   roomName = rdm2.getRoomName();
       	     }else{
                roomDemographicDAO.saveRoomDemographic(rdm2);
-          	   Room room = roomDAO.getRoom(rdm2.getId().getRoomId());
-          	   if(room!=null) roomName = room.getName();
+          	   roomName = rdm2.getRoomName();
       	     }
              clientHistoryDao.saveClientHistory(admObj, roomName, bedName);
  

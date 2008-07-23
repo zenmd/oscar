@@ -49,10 +49,10 @@ public class AdmissionDao extends HibernateDaoSupport {
         		KeyConstants.INTAKE_STATUS_ADMITTED + "' where q.id=?", intakeId);
 
         ProgramQueue queue = programQueueDao.getProgramQueueByIntakeId(intakeId);
-        getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queue.getId());
+        if(queue!=null) getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?",queue.getId());
 
         ClientReferral referral = clientReferralDAO.getReferralByIntakeId(intakeId);
-        getHibernateTemplate().bulkUpdate("update ClientReferral c set c.status='" +
+        if(referral!=null) getHibernateTemplate().bulkUpdate("update ClientReferral c set c.status='" +
                 KeyConstants.STATUS_ACCEPTED + "' where c.Id=?", referral.getId());
                 
     }
