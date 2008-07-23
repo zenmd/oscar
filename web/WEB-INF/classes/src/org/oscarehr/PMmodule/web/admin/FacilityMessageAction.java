@@ -83,7 +83,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
         /*
          *  Lillian change Message related to Shelter not related to Facility 
          */
-		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_MESSAGE, shelterId);
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		List activeMessages = mgr.getMessagesByShelterId(shelterId);
@@ -116,9 +116,9 @@ public class FacilityMessageAction extends BaseFacilityAction {
 			
 		//List facilities = programProviderDAO.getFacilitiesInProgramDomain(providerNo);
 		//List facilities = new ArrayList();
-		//facilities.add((Facility)request.getSession().getAttribute("currentFacility"));
+		//facilities.add((Facility)request.getSession(true).getAttribute("currentFacility"));
 		
-		//request.getSession().setAttribute("facilities", facilities);
+		//request.getSession(true).setAttribute("facilities", facilities);
 		
 		if(messageId != null) {
 			FacilityMessage msg = mgr.getMessage(messageId);
@@ -134,7 +134,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
         request.setAttribute("msgTypepList", msgTypepList);
-        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PMM_FACILITY_MESSAGE, shelterId);
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("edit");
@@ -161,7 +161,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		msg.setFacilityName(facilityName);
 		try{
 			//after discussing with Tony, Lillian change this facility message to shelter ralated 
-			Integer shelterId =(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			msg.setFacilityId(shelterId);
 			mgr.saveFacilityMessage(msg);
 			ActionMessages messages = new ActionMessages();
@@ -181,9 +181,9 @@ public class FacilityMessageAction extends BaseFacilityAction {
 	
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		        
-		//String providerNo = (String)request.getSession().getAttribute("user");
+		//String providerNo = (String)request.getSession(true).getAttribute("user");
 		//List messages = programProviderDAO.getFacilityMessagesInProgramDomain(providerNo);
-		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		Integer shelterId = (Integer) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		List messages = mgr.getMessagesByShelterId(shelterId);
 		if(messages!=null && messages.size()>0) {
 			request.setAttribute("FacilityMessages",messages);

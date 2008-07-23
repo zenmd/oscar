@@ -39,7 +39,7 @@ public final class ShelterSelectionAction extends DispatchAction {
         	 return mapping.findForward("home");
          }
          
-    	String providerNo=(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	String providerNo=(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	List shelters=providerManager.getShelterIds(providerNo);
     	ActionMessages messages = new ActionMessages();
       
@@ -57,13 +57,13 @@ public final class ShelterSelectionAction extends DispatchAction {
          else if (shelters.size() == 1) {
              Integer shelterId = (Integer) shelters.get(0);
              LookupCodeValue shelter=lookupManager.GetLookupCode("SHL",String.valueOf(shelterId));
-             request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
-             request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);             
+             request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
+             request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);             
             // LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
          }
          else {
-             request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
-             request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
+             request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
+             request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
          }
         
          return mapping.findForward("home");
@@ -72,9 +72,9 @@ public final class ShelterSelectionAction extends DispatchAction {
     public void select(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
 		String shelter =request.getParameter("shelterId");
-		 request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(shelter));
+		 request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(shelter));
 		 LookupCodeValue shelterObj=lookupManager.GetLookupCode("SHL",shelter);
-         request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
+         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
         
     }
     public ApplicationContext getAppContext() {
@@ -86,7 +86,7 @@ public final class ShelterSelectionAction extends DispatchAction {
 	}
     protected SecurityManager getSecurityManager(HttpServletRequest request)
 	{
-		return (SecurityManager) request.getSession()
+		return (SecurityManager) request.getSession(true)
 		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 	}
     private void initMenu(HttpServletRequest request)
@@ -95,35 +95,35 @@ public final class ShelterSelectionAction extends DispatchAction {
 		if (sec==null) return;
 		//Client Management
 		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
-			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
+			request.getSession(true).setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
 		} else
-			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
+			request.getSession(true).setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
 	
 		//Program
 		if (sec.GetAccess("_pmm.programList", "").compareTo("r") >= 0) {
-			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
+			request.getSession(true).setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
 		} else
-			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
+			request.getSession(true).setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
 
 		//Facility Management
 		if (sec.GetAccess("_pmm.facilityList", "").compareTo("r") >= 0) {
-			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
+			request.getSession(true).setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
 		} else
-			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
+			request.getSession(true).setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
 
 		//Report Runner
 		if (sec.GetAccess("_reportRunner", "").compareTo("r") >= 0) {
-			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
+			request.getSession(true).setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
 		} else
-			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
+			request.getSession(true).setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);
 
 		//System Admin
 		if (OscarProperties.getInstance().isAdminOptionOn() && sec.GetAccess("_admin", "").compareTo("r") >= 0) {
-			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
+			request.getSession(true).setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_VIEW);
 		} else
-			request.getSession().setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
-		request.getSession().setAttribute(KeyConstants.MENU_HOME, KeyConstants.ACCESS_VIEW);
-		request.getSession().setAttribute(KeyConstants.MENU_TASK, KeyConstants.ACCESS_VIEW);
+			request.getSession(true).setAttribute(KeyConstants.MENU_ADMIN, KeyConstants.ACCESS_NULL);
+		request.getSession(true).setAttribute(KeyConstants.MENU_HOME, KeyConstants.ACCESS_VIEW);
+		request.getSession(true).setAttribute(KeyConstants.MENU_TASK, KeyConstants.ACCESS_VIEW);
 	}
 	
 }

@@ -129,7 +129,7 @@ public class RedirectLinkTrackingServlet extends javax.servlet.http.HttpServlet 
             }
 
             // get provider
-            String providerId = (String)request.getSession().getAttribute("user");
+            String providerId = (String)request.getSession(true).getAttribute("user");
 
             // track redirect
             redirectLinkTrackingDao.addInstanceOfRedirect(new Date(), providerId, redirectLinkId);

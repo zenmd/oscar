@@ -49,7 +49,7 @@ public class FrmSetupSelectAction extends Action {
         Collection formShownVector = hd.getFormShownVector();
         Collection formHiddenVector = hd.getFormHiddenVector();        
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         session.setAttribute( "formShownVector", formShownVector );   
         session.setAttribute( "formHiddenVector", formHiddenVector ); 
         

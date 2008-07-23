@@ -57,7 +57,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
-    	Integer shelterId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+    	Integer shelterId = (Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
     	List facilities =null;
     	if(shelterId.intValue()>0) facilities =	facilityManager.getFacilities(shelterId);
     	else facilities =	facilityManager.getFacilities();
@@ -189,7 +189,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         }
         request.setAttribute("actionParam", actionParam);
         
-        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
     	String idStr = request.getParameter("facilityId");
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityManager.getFacility(facilityId);
@@ -276,7 +276,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         }
         request.setAttribute("actionParam", actionParam);
         
-        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
     	String idStr = request.getParameter("facilityId");
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityManager.getFacility(facilityId);
@@ -390,7 +390,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        Facility facility = facilityManager.getFacility(Integer.valueOf(facilityId));
 	        facility.setActive(false);
 	        facility.setLastUpdateDate(Calendar.getInstance());
-	        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+	        String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 	        facility.setLastUpdateUser(providerNo); 
 	        facilityManager.saveFacility(facility);
 	        
@@ -436,13 +436,13 @@ public class FacilityManagerAction extends BaseFacilityAction {
         	facility.setActive(true);
         
         if (isCancelled(request)) {
-            request.getSession().removeAttribute("facilityManagerForm");
+            request.getSession(true).removeAttribute("facilityManagerForm");
 
             return list(mapping, form, request, response);
         }
 
         try {
-        	String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        	String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         	facility.setLastUpdateDate(Calendar.getInstance());
         	facility.setLastUpdateUser(providerNo); 
             facilityManager.saveFacility(facility);

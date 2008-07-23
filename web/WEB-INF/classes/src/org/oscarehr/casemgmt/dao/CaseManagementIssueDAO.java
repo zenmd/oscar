@@ -32,23 +32,23 @@ public class CaseManagementIssueDAO extends HibernateDaoSupport {
 
     
     public List getIssuesByDemographic(String demographic_no) {
-        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ?", new Object[] {demographic_no});
+        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ?", new Integer(demographic_no));
     }
 
     public List getIssuesByDemographicOrderActive(String demographic_no) {
-        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? order by cmi.resolved", new Object[] {demographic_no});
+        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? order by cmi.resolved", new Integer(demographic_no));
 
     }
 
 
     public List getActiveIssuesByDemographic(String demographic_no) {
-        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? and cmi.resolved=false", new Object[] {demographic_no});
+        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? and cmi.resolved=false", new Integer(demographic_no));
     }
     public List getAllIssuesByDemographic(String demographic_no) {
-        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? ", new Object[] {demographic_no});
+        return this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.demographic_no = ? ", new Integer(demographic_no));
     }
     public CaseManagementIssue getIssuebyId(String demo, String id) {
-        List list = this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.issue_id = ? and demographic_no = ?",new Object[]{new Integer(id),demo});
+        List list = this.getHibernateTemplate().find("from CaseManagementIssue cmi where cmi.issue_id = ? and demographic_no = ?",new Object[]{new Integer(id),new Integer(demo)});
         if( list != null && list.size() == 1 )
             return (CaseManagementIssue)list.get(0);
         

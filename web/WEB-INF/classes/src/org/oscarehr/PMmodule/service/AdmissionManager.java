@@ -112,6 +112,7 @@ public class AdmissionManager {
     	  //remove old room/bed assignment
     	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
           roomDemographic.setAdmissionId(admissionId);
+          roomDemographic.setLastUpdateDate(Calendar.getInstance());
     	  if(rdm!=null){
     		  Integer roomId = rdm.getId().getRoomId();
     		  Integer bedId = rdm.getBedId();

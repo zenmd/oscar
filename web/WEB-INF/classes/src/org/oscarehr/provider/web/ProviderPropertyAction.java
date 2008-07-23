@@ -103,7 +103,7 @@ public class ProviderPropertyAction extends DispatchAction {
                                HttpServletResponse response) {
                                
          DynaActionForm frm = (DynaActionForm)actionform;
-         String provider = (String) request.getSession().getAttribute("user");
+         String provider = (String) request.getSession(true).getAttribute("user");
          //System.out.println("provider # "+provider);
          UserProperty prop = this.userPropertyDAO.getProp(provider, UserProperty.MYDRUGREF_ID);
          //String propertyToSet = "";
@@ -136,7 +136,7 @@ public class ProviderPropertyAction extends DispatchAction {
                                ActionForm actionform,
                                HttpServletRequest request,
                                HttpServletResponse response) {
-         String provider = (String) request.getSession().getAttribute("user");
+         String provider = (String) request.getSession(true).getAttribute("user");
          //System.out.println("provider # "+provider);
          DynaActionForm frm = (DynaActionForm)actionform;
          UserProperty  UdrugrefId = (UserProperty)frm.get("dateProperty");         

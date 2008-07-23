@@ -164,8 +164,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 //        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 
         // check role permission
-        HttpSession se=request.getSession();        
-        String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        HttpSession se=request.getSession(true);        
+        String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         se.setAttribute("performAdmissions",hasAccess(request, programId, "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
         // need the queue to determine which tab to go to first
         if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
@@ -313,7 +313,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	String mthd = request.getParameter("mthd");
     	Integer pid = Integer.valueOf(programId);
     	
-    	HttpSession se=request.getSession();
+    	HttpSession se=request.getSession(true);
     	String providerNo = (String) se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
     	IncidentForm incidentForm = null;
@@ -536,7 +536,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         // get clients
         String dischargeReason = clientForm.getDischargeReason();
         String communityProgramCode = clientForm.getCommunityProgramCode();
-        String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
         Enumeration e = request.getParameterNames();
                 
@@ -641,7 +641,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         Date today = DateTimeFormatUtils.getToday();
         //List<Integer> familyList = new ArrayList<Integer>();
 
-        Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        Integer shelterId= (Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
     	String switchBed1 =""; 	// formBean.getSwitchBed1();
     	String switchBed2 = "";	// formBean.getSwitchBed2();
@@ -673,7 +673,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		//System.out.println("ProgramManagerViewAction.switch_beds(): switchBed2 = " + switchBed2);    	
    		bed1 = bedManager.getBed(Integer.valueOf(switchBed1));
    		bed2 = bedManager.getBed(Integer.valueOf(switchBed2));
-   		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+   		String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
    		if(bed1 == null  ||  bed2 == null){
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
             saveMessages(request, messages);
@@ -843,7 +843,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	}
 	private Boolean hasAccess(HttpServletRequest request, Integer programId, String function, String right)
 	{
-	    SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+	    SecurityManager sec = (SecurityManager)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 	    String orgCd = "P" + programId.toString();
 	    return new Boolean(sec.GetAccess(function,orgCd).compareTo(right) >= 0);
 	}

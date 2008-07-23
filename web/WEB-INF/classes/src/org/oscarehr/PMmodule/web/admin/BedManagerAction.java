@@ -42,7 +42,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	prepareLeftNav(request);
         
     	BedManagerForm bForm = (BedManagerForm) form;
-    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         Integer roomId = Integer.valueOf(request.getParameter("roomId"));
 
@@ -112,7 +112,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	prepareLeftNav(request);
         
     	BedManagerForm bForm = (BedManagerForm) form;
-    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
 
         bForm.setFacilityId(facilityId);
@@ -129,7 +129,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	prepareLeftNav(request);
         
     	BedManagerForm bForm = (BedManagerForm) form;
-    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
         Integer roomId = Integer.valueOf(request.getParameter("roomId"));
         request.setAttribute("roomId", roomId);
@@ -153,7 +153,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	prepareLeftNav(request);
     	
     	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-    	String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 
         Integer roomStatus = Integer.valueOf(request.getParameter("roomStatusFilter"));
         Integer roomFilteredProgram = Integer.valueOf(request.getParameter("bedProgramFilterForRoom"));
@@ -292,7 +292,7 @@ public class BedManagerAction extends BaseFacilityAction {
        	}
 
         Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        String providerNo = (String)(request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 
         ArrayList assignedBedLst= new ArrayList();
         assignedBedLst.add(new LabelValueBean("N", "0"));

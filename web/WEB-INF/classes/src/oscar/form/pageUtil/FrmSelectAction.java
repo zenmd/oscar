@@ -46,7 +46,7 @@ public class FrmSelectAction extends Action {
         throws ServletException, IOException
     {
         FrmSelectForm frm = (FrmSelectForm) form;                
-        request.getSession().setAttribute("FrmSelectForm", frm);
+        request.getSession(true).setAttribute("FrmSelectForm", frm);
                                 
         if(frm.getForward()!=null){
             try{

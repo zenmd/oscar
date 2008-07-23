@@ -1,0 +1,67 @@
+package com.quatro.model;
+
+import java.io.Serializable;
+import java.util.Calendar;
+
+public class ProgramOccupancy implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private int hashCode = Integer.MIN_VALUE;
+	private Integer recordId;
+	private Calendar occDate;
+	private Integer programId;
+	private Integer occupancy;
+	private Integer capacityActual;
+	private Integer capacityFunding;
+	private Integer queue;
+	private String lastUpdateUser;
+	public Integer getCapacityActual() {
+		return capacityActual;
+	}
+	public void setCapacityActual(Integer capacityActual) {
+		this.capacityActual = capacityActual;
+	}
+	public Integer getCapacityFunding() {
+		return capacityFunding;
+	}
+	public void setCapacityFunding(Integer capacityFunding) {
+		this.capacityFunding = capacityFunding;
+	}
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+	public Calendar getOccDate() {
+		return occDate;
+	}
+	public void setOccDate(Calendar occDate) {
+		this.occDate = occDate;
+	}
+	public Integer getOccupancy() {
+		return occupancy;
+	}
+	public void setOccupancy(Integer occupancy) {
+		this.occupancy = occupancy;
+	}
+	public Integer getProgramId() {
+		return programId;
+	}
+	public void setProgramId(Integer programId) {
+		this.programId = programId;
+	}
+	public Integer getQueue() {
+		return queue;
+	}
+	public void setQueue(Integer queue) {
+		this.queue = queue;
+	}
+	public Integer getRecordId() {
+		return recordId;
+	}
+	public void setRecordId(Integer recordId) {
+		this.recordId = recordId;
+	}
+
+}

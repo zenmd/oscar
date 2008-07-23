@@ -400,12 +400,11 @@ var XMLHttpRequestObject = false;
   <table width="90%">
 		<tr>
 			<td class="fieldTitle" width="40%">Encounter Type</td>
-			<td class="fieldValue"><html:select
-				property="caseNote.encounter_type">
+			<td class="fieldValue">
+			<html:select property="caseNote.encounter_type">
 				<html-el:option value=""></html-el:option>
 				<html:options collection="lstEncounterType" property="code"
 					labelProperty="description"></html:options>
-				</html:select>
 			</html:select></td>
 		</tr>
 

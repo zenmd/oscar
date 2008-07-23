@@ -145,7 +145,7 @@ public final class SiteCheckAction extends DispatchAction {
                 HttpSession session = request.getSession(false);
                 if (session != null) {
                     session.invalidate();
-                    session = request.getSession(); // Create a new session for this user
+                    session = request.getSession(true); // Create a new session for this user
                 }
 
                 _logger.info("Assigned new session for: " + strAuth[0] + " : " + strAuth[3] + " : " + strAuth[4]);
@@ -226,13 +226,13 @@ public final class SiteCheckAction extends DispatchAction {
                 else if (shelterIds.size() == 1) {
                     Integer shelterId = (Integer) shelterIds.get(0);
                     LookupCodeValue shelter=lookupManager.GetLookupCode("SHL",String.valueOf(shelterId));
-                    request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
-                    request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
+                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
+                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
                     LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
                 }
                 else {
-                    request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
-                    request.getSession().setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
+                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
+                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
                 }
             }
             // expired password

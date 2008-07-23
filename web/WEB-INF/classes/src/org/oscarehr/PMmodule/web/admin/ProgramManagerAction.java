@@ -102,7 +102,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         String searchFacilityId = (String) programForm.get("searchFacilityId");
 
         String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-   		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+   		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         
         List list =  null;
         if("".equals(searchStatus)) {
@@ -1190,7 +1190,7 @@ public class ProgramManagerAction extends BaseProgramAction {
    */
         }else{
 	        // signature part
-	        HttpSession se=request.getSession();
+	        HttpSession se=request.getSession(true);
 	        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	        ProgramSignature ps = new ProgramSignature();
 	        ps.setProviderName(providerManager.getProvider(providerNo).getFormattedName());

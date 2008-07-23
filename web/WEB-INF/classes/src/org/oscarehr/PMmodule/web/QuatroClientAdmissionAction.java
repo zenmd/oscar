@@ -235,7 +235,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	       if(clientForm.getRoomDemographic().getId().getRoomId().intValue()>0){
              Bed currentDB_bed = null;
              if(curDB_RoomId.equals(clientForm.getRoomDemographic().getId().getRoomId())){
-        	   if(curDB_BedId!=null) currentDB_bed = bedManager.getBed(curDB_BedId);
+        	   if(curDB_BedId!=null && curDB_BedId.intValue()>0) currentDB_bed = bedManager.getBed(curDB_BedId);
                if(currentDB_bed!=null) availableBedLst.add(currentDB_bed);
              }
 

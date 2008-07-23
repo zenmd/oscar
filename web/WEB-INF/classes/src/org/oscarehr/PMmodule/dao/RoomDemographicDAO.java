@@ -115,10 +115,14 @@ public class RoomDemographicDAO extends HibernateDaoSupport {
      */
     public void saveRoomDemographic(RoomDemographic roomDemographic) {
         //updateHistory(roomDemographic);
+    	try{
         getHibernateTemplate().saveOrUpdate(roomDemographic);
         getHibernateTemplate().flush();
         
         log.debug("saveRoomDemographic: " + roomDemographic);
+    	}catch(Exception ex){
+    		String a = ex.getMessage();
+    	}
     }
 
     public void deleteRoomDemographic(RoomDemographic roomDemographic) {

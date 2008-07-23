@@ -106,10 +106,10 @@ public final class FrmAction extends Action {
                     props.setProperty(name, request.getParameter(name));                    
                 }
 
-                props.setProperty("provider_no", (String) request.getSession().getAttribute("user"));
+                props.setProperty("provider_no", (String) request.getSession(true).getAttribute("user"));
                 newID = rec.saveFormRecord(props);
                 String ip = request.getRemoteAddr();
-                LogAction.addLog((String) request.getSession().getAttribute("user"), LogConst.ADD, request
+                LogAction.addLog((String) request.getSession(true).getAttribute("user"), LogConst.ADD, request
                         .getParameter("form_class"), "" + newID, ip);
 
             }
