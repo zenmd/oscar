@@ -763,14 +763,6 @@ public class IntakeDao extends HibernateDaoSupport {
 	public void saveQuatroIntakeFamilyRelation(QuatroIntakeFamily intakeFamily){
         getHibernateTemplate().saveOrUpdate(intakeFamily);
 	}
-
-	//used for family intake add/remove family member
-	public void updateReferralIdQueueId(QuatroIntakeDB intake, Integer referralId, Integer queueId){
-        String sSQL="update ClientReferral r set r.Id=? where r.fromIntakeId=?";
-		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, intake.getId()});
-        sSQL="update ProgramQueue q set q.Id=? where q.fromIntakeId=?";
-		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{queueId, intake.getId()});
-	}
 	
 	private void updateFamilyProgramId(Integer intakeId, Integer programId){
         String sSQL="update QuatroIntakeDB q set q.programId=? where q.id=?";
