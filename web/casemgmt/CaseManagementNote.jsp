@@ -262,9 +262,9 @@ var XMLHttpRequestObject = false;
 <body > <!-- onload="init()" -->
 <%
 	//get programId
-	String pId = (String) session.getAttribute("case_program_id");
+	Integer pId = (Integer) session.getAttribute("case_program_id");
 	if (pId == null)
-		pId = "";
+		pId = new Integer(0);
 %>
 <html:form action="/CaseManagementEntry2">
 	<html:hidden property="demographicNo" />
