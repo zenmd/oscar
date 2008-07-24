@@ -274,7 +274,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
              //add current bed in bed_demographic table to bed dropdown when change room (assignedBed=0) to room (assignBed=1) 
              if(currentDB_bed==null){
-//               Admission admission = clientForm.getAdmission();
                RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByAdmissionId(admission.getId());
                if(roomDemographic!=null){
             	 Integer bedId = roomDemographic.getBedId(); 
@@ -427,8 +426,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
        
-//       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
-//    		   clientId, FamilyIntakeType.equals("Y"));
        Room[] availableRooms;
        if(admission.getId().intValue()==0){
           //for new admission, family intake admission only takes empty rooms.
@@ -450,8 +447,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	   clientForm.setCurDB_RoomCapacity(currentDB_room.getCapacity());
 
        //setup beds
-       //family intake doesn't need assign beds, just room. 
-       if(!FamilyIntakeType.equals("Y")){
+       //new family intake admission doesn't need assign beds, just room. 
+       if(!FamilyIntakeType.equals("Y") || admission.getId().intValue()>0){
       	 if(currentDB_room==null){
     	   Bed emptyBed=new Bed();
     	   emptyBed.setId(new Integer(0));
@@ -659,8 +656,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        //don't check these if intake admitted.
        if(admissionId.intValue()==0){
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
-
-           
     	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
@@ -810,10 +805,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          return update(mapping, form, request, response);
        }
  	   
- 	   if(!clientForm.getFamilyIntakeType().equals("Y") && "1".equals(request.getParameter("roomAssignedBed"))){  
-// 	     Integer bedId = clientForm.getBedId();
-// 	     roomDemographic.setBedId(bedId);
-  	   }else{
+ 	   if(clientForm.getFamilyIntakeType().equals("Y") && admission.getId().intValue()==0){  
   		 roomDemographic.setBedId(null);  
   	   }
   	   
