@@ -215,7 +215,7 @@ function roomChanged()
     </c:otherwise>
     </c:choose>          
 	</td></tr>
-<c:if test="${quatroClientAdmissionForm.familyIntakeType!='Y' || quatroClientAdmissionForm.admission.id>0}">	
+<c:if test="${quatroClientAdmissionForm.familyIntakeType!='Y' || (quatroClientAdmissionForm.admission.id>0 && 'Y'!= newAdmissionSaved)}">	
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
