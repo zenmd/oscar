@@ -119,9 +119,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        List clientFamily = intakeManager.getClientFamilyByIntakeId(intakeId.toString());
        if(clientFamily==null){
          clientForm.setFamilyIntakeType("N");
+     	 request.setAttribute("isFamilyMember", "N");
          clientForm.setIntakeClientNum(new Integer(1));
        }else{
          clientForm.setFamilyIntakeType("Y");
+         Integer IntakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
+         if(IntakeFamilyHeadId==null || IntakeFamilyHeadId.equals(intakeId)){
+        	request.setAttribute("isFamilyMember", "N");
+         }else{
+         	request.setAttribute("isFamilyMember", "Y");
+         }
          clientForm.setIntakeClientNum(new Integer(clientFamily.size()));
        }
 
@@ -180,6 +187,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+
+       request.setAttribute("isFamilyMember", request.getParameter("isFamilyMember"));
        
        HashMap actionParam = new HashMap();
        actionParam.put("clientId", clientForm.getAdmission().getClientId());            
@@ -213,9 +222,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        //setup beds
        //family intake doesn't need assign beds, just room. 
-       if(!clientForm.getFamilyIntakeType().equals("Y")){
+       Admission admission = clientForm.getAdmission();
+       if(!clientForm.getFamilyIntakeType().equals("Y") ||
+    	(clientForm.getFamilyIntakeType().equals("Y") && admission!=null && admission.getId().intValue()>0)){
          Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getId().getRoomId());        	  
-//         Room newSelectedRoom = roomManager.getRoom(Integer.valueOf(request.getParameter("roomDemographic.id.roomId")));        	  
          
          if(newSelectedRoom==null){
       	   Bed emptyBed=new Bed();
@@ -241,7 +251,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
              //add current bed in bed_demographic table to bed dropdown when change room (assignedBed=0) to room (assignBed=1) 
              if(currentDB_bed==null){
-               Admission admission = clientForm.getAdmission();
+//               Admission admission = clientForm.getAdmission();
                RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByAdmissionId(admission.getId());
                if(roomDemographic!=null){
             	 Integer bedId = roomDemographic.getBedId(); 
@@ -343,28 +353,25 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
        request.setAttribute("actionParam", actionParam);
 
-
        Integer intakeId = admission.getIntakeId();
        String FamilyIntakeType="N";
        clientForm.setFamilyIntakeType("N");
-/*
-       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
-       if(intakeFamilyHeadId.intValue()==0){
-         clientForm.setFamilyIntakeType("N");
-         FamilyIntakeType="N";
-       }else{
-         clientForm.setFamilyIntakeType("Y");
-         FamilyIntakeType="Y";
-       }
-*/       
+
        List clientFamily = intakeManager.getClientFamilyByIntakeId(intakeId.toString());
        if(clientFamily==null){
          clientForm.setFamilyIntakeType("N");
          FamilyIntakeType="N";
+     	 request.setAttribute("isFamilyMember", "N");
          clientForm.setIntakeClientNum(new Integer(1));
        }else{
          clientForm.setFamilyIntakeType("Y");
          FamilyIntakeType="Y";
+         Integer IntakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
+         if(IntakeFamilyHeadId==null || IntakeFamilyHeadId.equals(intakeId)){
+        	request.setAttribute("isFamilyMember", "N");
+         }else{
+         	request.setAttribute("isFamilyMember", "Y");
+         }
          clientForm.setIntakeClientNum(new Integer(clientFamily.size()));
        }
        
@@ -404,7 +411,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }
        Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
        clientForm.setAvailableRooms(availableRooms2);
-       if(currentDB_room!=null && currentDB_room.getAssignedBed().intValue()==1) 
+       if(currentDB_room!=null && currentDB_room.getAssignedBed().intValue()==0) 
     	   clientForm.setCurDB_RoomCapacity(currentDB_room.getCapacity());
 
        //setup beds
@@ -587,7 +594,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   return !valid;
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {     
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
+       request.setAttribute("isFamilyMember", request.getParameter("isFamilyMember"));
+
+	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -773,11 +782,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	   }
   	   
        boolean isNotSigned = Utility.IsEmpty(admission.getNotSignReason());
- 	   if(isNotSigned) { 
-		  QuatroIntake intake = intakeManager.getQuatroIntake(intakeId);
-		  isNotSigned = !topazManager.isSignatureExist(intakeId);
-	   }
-	   if(isNotSigned)
+       // skip signature validation for family memeber
+ 	   if(request.getParameter("isFamilyMember").equals("Y")){
+ 		   isNotSigned=false; 
+ 	   }else{
+ 	 	   if(isNotSigned) { 
+ 			  isNotSigned = !topazManager.isSignatureExist(intakeId);
+ 		   }
+ 	   }
+	   
+ 	   if(isNotSigned)
 	   {
  	      messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.miss_signature",
    			   request.getContextPath()));
@@ -790,8 +804,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	    {
     	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
 
-//		  clientReferral = clientReferralDao.getReferralByIntakeId(intake.getId());
-//          programQueue = programQueueDao.getProgramQueueByIntakeId(intake.getId());
 //    	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId, intake.getQueueId(), 
 //   			  intake.getReferralId(),roomDemographic,bedDemographic, clientForm.getFamilyIntakeType().equals("Y"));
     	  Integer newAdmissionId = admissionManager.saveAdmission(admission, intakeId,  

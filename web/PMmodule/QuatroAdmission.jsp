@@ -9,6 +9,7 @@
 <html-el:form action="/PMmodule/QuatroAdmission.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
+<input type="hidden" name="isFamilyMember" value='<c:out value="${isFamilyMember}" />' />
 <html:hidden property="admission.clientId"/>
 <html:hidden property="admission.intakeId"/>
 <html:hidden property="familyIntakeType"/>
@@ -213,7 +214,7 @@ function roomChanged()
     </c:otherwise>
     </c:choose>          
 	</td></tr>
-<logic:notEqual name="quatroClientAdmissionForm" property="familyIntakeType" value="Y">
+<c:if test="${quatroClientAdmissionForm.familyIntakeType!='Y' || quatroClientAdmissionForm.admission.id>0}">	
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
@@ -228,8 +229,8 @@ function roomChanged()
 	      </td></tr>
 	   </c:if>
 	   <c:if test="${quatroClientAdmissionForm.availableBeds==null}">
-	      <tr><td>Room capacity</td>
-     	  <td><c:out value="${quatroClientAdmissionForm.curDB_RoomCapacity}"/>
+	      <tr><td></td>
+     	  <td>Room capacity: <c:out value="${quatroClientAdmissionForm.curDB_RoomCapacity}"/>
             <input type="hidden" name="roomAssignedBed" value="0">
      	  </td></tr>
 	   </c:if>
@@ -239,28 +240,43 @@ function roomChanged()
       <tr><td>Assign Bed</td><td><c:out value="${historyBedName}"/></td></tr>
     </c:otherwise>
     </c:choose>          
-
-</logic:notEqual>
+</c:if>
 	</table>
 </td></tr>
 
-<tr><td align="center">Reason for not signing&nbsp;
+<tr><td align="center"><br>
+<div id="signLink">
+<c:choose>
+<c:when test="${isFamilyMember=='N'}">
+  <c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
+    quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
+  <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+   <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>
+   <logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
+     |&nbsp;<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+      <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>
+   </logic:greaterThan>
+  </c:if>
+</c:when>
+<c:otherwise>Signature: Refer to Family Head.</c:otherwise>
+</c:choose>
+</div><br>
+<c:choose>
+<c:when test="${isFamilyMember=='N'}">
+Reason for not signing&nbsp;
 <html-el:select property="admission.notSignReason" onchange="setNoConfirm();checkSignLinkVisibility(this);">
   <option value=""></option>
   <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
 </html-el:select>
-<br/>
-<div id="signLink">
-<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-  quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
-<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
-<img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>
-<logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
-  |&nbsp;<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
-  <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>
-</logic:greaterThan>
-</c:if>
-</div>
+</c:when>
+<c:otherwise>
+Reason for not signing&nbsp;
+<html-el:select disabled="true" property="admission.notSignReason">
+  <option value=""></option>
+  <html-el:optionsCollection property="notSignReasonList" value="code" label="description"/>
+</html-el:select>
+</c:otherwise>
+</c:choose>
 <c:choose>
 <c:when test="${quatroClientAdmissionForm.admission.notSignReason==null ||
          quatroClientAdmissionForm.admission.notSignReason==''}">

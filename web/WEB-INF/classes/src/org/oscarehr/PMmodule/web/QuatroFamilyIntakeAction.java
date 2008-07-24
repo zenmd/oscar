@@ -52,11 +52,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        String intakeId = (String)clientForm.getIntakeId();
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
        request.setAttribute("intakeHeadId", intakeFamilyHeadId);
-
-       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-    	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-      	 request.setAttribute("isReadOnly", Boolean.FALSE);
        
        if(clientForm.getIntakeStatus()==null){
          QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
@@ -72,10 +67,18 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        }
        request.setAttribute("actionParam", actionParam);
        
-       String demographicNo= (String)actionParam.get("headclientId");
+       String demographicNo = (String)actionParam.get("headclientId");
        request.setAttribute("headclientId", demographicNo);
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
+       
+       if(demographicNo.equals((String)actionParam.get("clientId")))
+           request.setAttribute("isReadOnly", Boolean.FALSE);
+       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+         request.setAttribute("isReadOnly", Boolean.FALSE);
+       
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");
@@ -129,11 +132,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
        request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 
-       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-       	 request.setAttribute("isReadOnly", Boolean.FALSE);
-
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -147,6 +145,13 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("headclientId", demographicNo);
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
+
+       if(demographicNo.equals((String)actionParam.get("clientId")))
+           request.setAttribute("isReadOnly", Boolean.FALSE);
+       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+       	 request.setAttribute("isReadOnly", Boolean.FALSE);
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj3= new LookupCodeValue();
@@ -223,11 +228,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
        request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 
-       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-       	 request.setAttribute("isReadOnly", Boolean.FALSE);
-       
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -242,6 +242,13 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 
+       if(demographicNo.equals((String)actionParam.get("clientId")))
+           request.setAttribute("isReadOnly", Boolean.FALSE);
+       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+       
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");
@@ -312,12 +319,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
        request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 
-       if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-       	 request.setAttribute("isReadOnly", Boolean.FALSE);
-       
-       
 	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
@@ -331,6 +332,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("headclientId", demographicNo);
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
+       
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj4= new LookupCodeValue();
        obj4.setCode("");
@@ -596,6 +598,16 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        //in case added same client in multiple family member lines,
        //the save method saved family member correctly, 
        //but need to remove duplicated family member line(s) by reading every family memeber from DB again.  
+       intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
+
+       if(demographicNo.equals((String)actionParam.get("clientId")))
+           request.setAttribute("isReadOnly", Boolean.FALSE);
+       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
+      	 request.setAttribute("isReadOnly", Boolean.TRUE);
+       else
+       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+       
        List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeFamilyHeadId.toString());
        if(dependentsDB==null) dependentsDB = new ArrayList(); 
        for(int i=0;i<dependentsDB.size();i++){

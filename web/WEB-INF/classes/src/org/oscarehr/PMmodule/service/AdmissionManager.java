@@ -114,7 +114,6 @@ public class AdmissionManager {
     	  if(rdm!=null){
     		  Integer roomId = rdm.getId().getRoomId();
     		  Integer bedId = rdm.getBedId();
-//    		  if (bedId == null) bedId = new Integer(0);
     		  
     	    if(!(roomId.equals(roomDemographic.getId().getRoomId()) &&
     	    	((bedId==null && roomDemographic.getBedId()==null) || bedId.equals(roomDemographic.getBedId())))) {
