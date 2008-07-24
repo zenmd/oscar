@@ -736,7 +736,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        }else{
     	  //check bedId selected for single person intake admission
     	  //admitted family member may not necessary be assigned bed on this page.  
-    	  if(!clientForm.getFamilyIntakeType().equals("Y") && !"Y".equals(overrideYN)){
+    	  if((!clientForm.getFamilyIntakeType().equals("Y") && !"Y".equals(overrideYN)) ||
+    		 (clientForm.getFamilyIntakeType().equals("Y") && !"Y".equals(overrideYN) && admission.getId().intValue()>0)){
     		 Room roomToSave = roomManager.getRoom(rdm.getId().getRoomId());  
     		 if(roomToSave.getAssignedBed().intValue()==1){
     	       Integer bedId = rdm.getBedId();
