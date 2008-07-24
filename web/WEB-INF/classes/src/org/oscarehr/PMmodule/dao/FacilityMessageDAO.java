@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.oscarehr.PMmodule.model.FacilityMessage;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import com.quatro.util.Utility;
 
 public class FacilityMessageDAO extends HibernateDaoSupport  {
 	public FacilityMessage getMessage(Integer id) {
@@ -40,17 +41,10 @@ public class FacilityMessageDAO extends HibernateDaoSupport  {
 		this.getHibernateTemplate().saveOrUpdate(mesg);
 	}
 
-	public List getMessagesByShelterId(Integer shelterId) {
+	public List getMessagesByShelterId(String providerNo,Integer shelterId) {
+		String orgSql = Utility.getUserOrgStringByFac(providerNo, shelterId);
 		String sql;
-		if (shelterId.intValue() == 0) {
-			sql = "from FacilityMessage fm where fm.expiry_date >= sysdate order by fm.expiry_date desc";
-			return this.getHibernateTemplate().find(sql);
-		}
-		else 
-		{
-//			sql = "from FacilityMessage fm, LstOrgcd org where fm.expiry_date >=sysdate and  'F' || fm.facilityId  like '%' || org.fullcode || '%' and org.code = 'S' || ?  order by fm.expiry_date desc";
-			sql = "from FacilityMessage fm where fm.expiry_date >=sysdate and fm.facilityId = ?  order by fm.expiry_date desc";
-			return this.getHibernateTemplate().find(sql, shelterId);
-		}
+		sql = "from FacilityMessage fm where fm.expiry_date >=sysdate and fm.facilityId in " + orgSql + "  order by fm.facilityId, fm.expiry_date desc";
+		return this.getHibernateTemplate().find(sql);
 	}
 }

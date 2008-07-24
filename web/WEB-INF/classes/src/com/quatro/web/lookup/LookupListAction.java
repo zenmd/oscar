@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.service.LookupManager;
 
@@ -31,9 +32,6 @@ public class LookupListAction extends DispatchAction {
 		LookupListForm qform = (LookupListForm) form;
 		qform.setLookups(lst);
 		qform.setTableDef(tableDef);
-//		qform.setOpenerFormName(request.getParameter("openerFormName"));
-//		qform.setOpenerCodeElementName(request.getParameter("openerCodeElementName"));
-//		qform.setOpenerDescElementName(request.getParameter("openerDescElementName"));
 		return mapping.findForward("list");
 	}
 	

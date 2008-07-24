@@ -43,7 +43,7 @@
         <c:out value="${lookup.code}"/>
     </display:column>
     <display:column sortable="false" title="Description">
-        <a href='javascript:selectMe("<c:out value="${lookup.code}" />", "<c:out value="${lookup.description}" />", 
+        <a href='javascript:selectMe("<c:out value="${lookup.code}" />", "<c:out value="${lookup.descriptionJs}" />", 
         "<c:out value="${lookupListForm.openerForm}" />", 
         "<c:out value="${lookupListForm.codeName}" />", 
         "<c:out value="${lookupListForm.descName}" />");'><c:out value="${lookup.description}"/> </a>

@@ -46,6 +46,9 @@ public class LookupCodeValue {
 	public String getDescription() {
 		return description;
 	}
+	public String getDescriptionJs() {
+		return oscar.Misc.getStringJs(oscar.Misc.getStringJs(description));
+	}
 	public void setDescription(String description) {
 		this.description = description;
 	}

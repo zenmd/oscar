@@ -49,10 +49,7 @@ public class FacilityMessageManager {
 		return dao.getMessages();
 	}
 
-	public List getMessagesByShelterId(Integer shelterId) {
-		if (shelterId == null) {           
-        	return null;
-        }
-		return dao.getMessagesByShelterId(shelterId);
+	public List getMessagesByShelterId(String providerNo,Integer shelterId) {
+		return dao.getMessagesByShelterId(providerNo,shelterId);
 	}
 }
