@@ -30,22 +30,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.common.dao.Auditable;
 
-/**
- * RoomDemographic
- */
 public class RoomDemographic implements Auditable, Serializable {
 
 	private static final long serialVersionUID = 1L;
-    public static String REF = "RoomDemographic";
-    public static String PROP_PROVIDER_NO = "providerNo";
-    public static String PROP_ASSIGN_START = "assignStart";
-    public static String PROP_ASSIGN_END = "assignEnd";
-    public static String PROP_COMMENT = "comment";
-    public static String PROP_ID = "id";
+    private int hashCode = Integer.MIN_VALUE;
 
-    private int hashCode = Integer.MIN_VALUE;// primary key
-
-    private RoomDemographicPK id;// fields
+    private RoomDemographicPK id;
     private Integer admissionId;
     private Integer bedId;
     private String bedName;
@@ -54,7 +44,6 @@ public class RoomDemographic implements Auditable, Serializable {
     private Date assignStart;
     private String comment;
     private Provider provider;
-//    private Room room;
     private Demographic demographic;
     private Calendar lastUpdateDate;    
 
@@ -66,82 +55,20 @@ public class RoomDemographic implements Auditable, Serializable {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-
-    public static RoomDemographic create(Integer demographicNo, String providerNo) {
-		RoomDemographicPK id = new RoomDemographicPK();
-		id.setDemographicNo(demographicNo);
-
-		RoomDemographic roomDemographic = new RoomDemographic();
-		roomDemographic.setId(id);
-		roomDemographic.setProviderNo(providerNo);
-
-		// set assign start to today and assign end to today + duration
-		Date today = DateTimeFormatUtils.getToday();
-		
-		roomDemographic.setAssignStart(today);
-//		roomDemographic.setAssignEnd(today);
-		return roomDemographic;
-	}
-
-    // constructors
 	public RoomDemographic () {
-		initialize();
 	}
 
-	/**
-	 * Constructor for primary key
-	 */
 	public RoomDemographic (org.oscarehr.PMmodule.model.RoomDemographicPK id) {
 		this.setId(id);
-		initialize();
 	}
 
-	/**
-	 * Constructor for required fields
-	 */
-/*	
-	public RoomDemographic (
-		org.oscarehr.PMmodule.model.RoomDemographicPK id,
-		String providerNo,
-		java.util.Date assignStart,
-		java.util.Date assignEnd,
-		String comment) {
-		
-		this.setId(id);
-		this.setProviderNo(providerNo);
-		this.setAssignStart(assignStart);
-		this.setAssignEnd(assignEnd);
-		this.setComment(comment);
-		initialize();
-	}
-*/
-	
 	public void setProvider(Provider provider) {
 	    this.provider = provider;
     }
 	
-	
 	public void setDemographic(Demographic demographic) {
 	    this.demographic = demographic;
     }
-/*	
-	public boolean isExpired() {
-		Date end = DateTimeFormatUtils.getDateFromDate(getAssignEnd());
-		Date today = DateTimeFormatUtils.getToday();
-		
-		return end.before(today);
-	}
-*/	
-
-/*	
-	public boolean isValidAssign() {
-		Date start = DateTimeFormatUtils.getDateFromDate(getAssignStart());
-		Date end = DateTimeFormatUtils.getDateFromDate(getAssignEnd());
-		Date today = DateTimeFormatUtils.getToday();
-
-		return start.before(end) && today.before(end);
-	}
-*/
 	
 	public String getProviderName() {
 		return provider.getFormattedName();
@@ -155,80 +82,31 @@ public class RoomDemographic implements Auditable, Serializable {
 		return demographic != null ? demographic.getFormattedName() : null;
 	}
 	
-/*	
-	// property adapted for view
-	public String getStrAssignEnd() {
-		return DateTimeFormatUtils.getStringFromDate(getAssignEnd());
-	}
-
-	// property adapted for view
-	public void setStrAssignEnd(String strAssignEnd) {
-		setAssignEnd(DateTimeFormatUtils.getDateFromString(strAssignEnd));
-	}
-
-	public void setAssignEnd(Integer duration) {
-		if (duration != null && duration.intValue() > 0) {
-			Date startPlusDuration = DateTimeFormatUtils.getFuture(getAssignStart(), duration);
-			Date end = DateTimeFormatUtils.getDateFromDate(getAssignEnd());
-			
-			// start + duration > end
-			if (startPlusDuration.after(end)) {
-				setAssignEnd(startPlusDuration);
-			}
-		}
-	}
-*/
-	
-	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-    protected void initialize () {}
-
-    /**
-	 * Return the unique identifier of this class
-* @hibernate.id
-*/
     public RoomDemographicPK getId () {
         return id;
     }
 
-    /**
-	 * Set the unique identifier of this class
-     * @param id the new ID
-     */
     public void setId (RoomDemographicPK id) {
         this.id = id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
-    /**
-	 * Return the value associated with the column: provider_no
-     */
     public String getProviderNo () {
         return providerNo;
     }
 
-    /**
-	 * Set the value related to the column: provider_no
-     * @param providerNo the provider_no value
-     */
     public void setProviderNo (String providerNo) {
         this.providerNo = providerNo;
     }
 
-    /**
-	 * Return the value associated with the column: assign_start
-     */
     public Date getAssignStart () {
         return assignStart;
     }
 
-    /**
-	 * Set the value related to the column: assign_start
-     * @param assignStart the assign_start value
-     */
     public void setAssignStart (Date assignStart) {
         this.assignStart = assignStart;
     }
