@@ -250,12 +250,14 @@ public class BedManagerAction extends BaseFacilityAction {
     			if(room.getAssignedBed()==null ||room.getAssignedBed().intValue()==0)capActual+=room.getCapacity().intValue();
         		else if(room.getAssignedBed().intValue()>0 && bed!=null && bed.isActive()) capActual+=1;
     		}
-    		//  actual capacity minus original value
+    		//  for update only actual capacity minus original value
+    		
     		Room roomOld = roomManager.getRoom(room.getId());
-    		if(roomOld.isActive()){
+    		if(roomOld.isActive() && bed.getId().intValue()>0){
     			if(roomOld.getAssignedBed()==null ||roomOld.getAssignedBed().intValue()==0)capActual-=room.getCapacity().intValue();
         		else if(roomOld.getAssignedBed().intValue()>0 && bed!=null && bed.isActive()) capActual-=1;
     		}
+    		
     	}	    	
     	if(capActual>pObj.getCapacity_space().intValue()){
     		isValid = false;
@@ -361,8 +363,9 @@ public class BedManagerAction extends BaseFacilityAction {
     	Bed bed = bForm.getBed();
         Room room=roomManager.getRoom(bed.getRoomId());
 
-        boolean isValid = isRoomOverProgramCapacity(room, bed, request);
-        
+        boolean isValid = true;
+        //not need check for change bed inactive 
+        if(bed!=null && bed.isActive()) isValid =isRoomOverProgramCapacity(room, bed, request);        
        	if(isValid){
        		try{
            	  bedManager.saveBed(bed);           

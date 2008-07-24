@@ -150,4 +150,8 @@ public class BedManager {
         }
     }
 
+	public void setRoomDemographicDAO(RoomDemographicDAO roomDemographicDAO) {
+		this.roomDemographicDAO = roomDemographicDAO;
+	}
+
 }
