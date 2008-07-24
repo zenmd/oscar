@@ -42,9 +42,10 @@ public class RoomDemographicHistorical implements java.io.Serializable {
 	}
 
 
-	public RoomDemographicHistorical(Integer roomId, Integer admissionId, Integer demographicNo, Calendar usageStart, Calendar usageEnd) {
+	public RoomDemographicHistorical(Integer roomId, Integer bedId,Integer admissionId, Integer demographicNo, Calendar usageStart, Calendar usageEnd) {
 		this.recordId = new Integer(0);
 		this.roomId = roomId;
+		this.bedId = bedId;
 		this.admissionId = admissionId;
 		this.demographicNo = demographicNo;
 		this.usageEnd = usageEnd;

@@ -49,7 +49,7 @@ public class AdmissionManager {
 	}
 
 	private void saveRoomDemographicHistory(Admission admission, RoomDemographic rdm, Calendar currentTime){
-        RoomDemographicHistorical history = new RoomDemographicHistorical( rdm.getId().getRoomId(), admission.getId(), admission.getClientId(), currentTime, null);
+        RoomDemographicHistorical history = new RoomDemographicHistorical( rdm.getId().getRoomId(),rdm.getBedId(), admission.getId(), admission.getClientId(), currentTime, null);
         roomDemographicHistoricalDao.saveOrUpdate(history);
 	}
 	

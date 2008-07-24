@@ -118,7 +118,6 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("client", clientManager.getClientByDemographicNo(admObj.getClientId().toString()));
 
        return mapping.findForward("edit");
-//       return edit(mapping, form, request, response);
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        setListAttributes(form, request);
