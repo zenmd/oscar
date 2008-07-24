@@ -102,7 +102,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         if(results.size()==0) return null;
         return (ClientReferral)results.get(0);
     }
-    
+/*    
     public List getReferralsByFacility(Integer clientId, Integer shelterId) {
 
         if (clientId == null || clientId.intValue() <= 0) {
@@ -123,7 +123,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
        // results = displayResult(results);
         return results;
     }
-    
+*/    
     // [ 1842692 ] RFQ Feature - temp change for pmm referral history report
     // - suggestion: to add a new field to the table client_referral (Referring program/agency)
     public List displayResult(List lResult) {
@@ -202,30 +202,20 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     }
     // end of change
 
-    public List getActiveReferrals(Integer clientId, Integer shelterId) {
+    public List getActiveReferrals(Integer clientId,String providerNo,Integer shelterId) {
+
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-
-        List results;
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
-        if(shelterId==null){
-          results = this.getHibernateTemplate().find("from ClientReferral cr where cr.clientId in " +clientIds+" and (cr.status = '"+KeyConstants.STATUS_ACTIVE+"' or cr.status = '"+KeyConstants.STATUS_PENDING+"' or cr.status = '"+KeyConstants.STATUS_UNKNOWN+"')");
-        }else{
-          ArrayList paramList = new ArrayList();
-          String sSQL="from ClientReferral cr where cr.clientId in " +clientIds+" and (cr.status = '" + KeyConstants.STATUS_ACTIVE+"' or cr.status = '" + 
-          KeyConstants.STATUS_PENDING + "' or cr.status = '" + KeyConstants.STATUS_UNKNOWN + "')" + 
-            " and (cr.programId in (select s.id from Program s where s.shelterId=?))";
-        //  paramList.add(clientId);
-          paramList.add(shelterId);
-          Object params[] = paramList.toArray(new Object[paramList.size()]);
-          results = getHibernateTemplate().find(sSQL, params);
-        }
-        
+        String sql=	"from ClientReferral cr where cr.status='" + KeyConstants.STATUS_PENDING + "'" + 
+        		" and cr.clientId in " +clientIds 
+        	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
+        sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")";
+        List results = this.getHibernateTemplate().find(sql);
         if (log.isDebugEnabled()) {
-            log.debug("getActiveReferrals: clientId=" + clientId + ",# of results=" + results.size());
+            log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
         }
-
         return results;
     }
 

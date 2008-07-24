@@ -110,8 +110,8 @@ public class ClientManager {
         return referralDAO.getReferrals(Integer.valueOf(clientId),providerNo,shelterId);
     }
 
-    public List getActiveReferrals(String clientId, String sourceFacilityId) {
-        List results = referralDAO.getActiveReferrals(Integer.valueOf(clientId), Integer.valueOf(sourceFacilityId));
+    public List getActiveReferrals(String clientId,String providerNo, Integer shelterId) {
+        List results = referralDAO.getActiveReferrals(Integer.valueOf(clientId),providerNo, shelterId);
 
         return results;
     }

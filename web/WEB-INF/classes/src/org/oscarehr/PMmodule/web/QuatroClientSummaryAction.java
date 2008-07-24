@@ -118,7 +118,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
            HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
            request.setAttribute("healthsafety", healthsafety);
 
-           request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo, String.valueOf(shelterId)));
+           request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo,providerNo, shelterId));
 //       }
 
            
