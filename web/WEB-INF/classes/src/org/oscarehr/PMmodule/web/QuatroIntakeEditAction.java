@@ -95,8 +95,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	obj.setCreatedOn(Calendar.getInstance());
             obj.setId(new Integer(0));
             obj.setClientId(Integer.valueOf(qform.getClientId()));
-//            obj.setReferralId(new Integer(0));
-//            obj.setQueueId(new Integer(0));
             obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
     		obj.setStaffId((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
     		obj.setYouth(KeyConstants.CONSTANT_NO);
@@ -421,7 +419,21 @@ public class QuatroIntakeEditAction extends BaseClientAction {
             
     		if(isError){
                 saveMessages(request,messages);
-    			return mapping.findForward("edit");
+            	HashMap actionParam = new HashMap();
+            	actionParam.put("clientId", client.getDemographicNo()); 
+                actionParam.put("intakeId", intake.getId().toString()); 
+                Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
+                if(intakeHeadId.intValue()!=0){
+                  Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
+                  request.setAttribute("clientId", intakeHeadClientId); 
+                }else{
+                  request.setAttribute("clientId", client.getDemographicNo()); 
+                }
+                request.setAttribute("actionParam", actionParam);
+                request.setAttribute("client", client);
+            	intake.setClientId(client.getDemographicNo());
+    			
+                return mapping.findForward("edit");
     		}
           }
 		}
