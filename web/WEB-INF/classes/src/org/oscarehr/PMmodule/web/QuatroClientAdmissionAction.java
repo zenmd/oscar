@@ -189,6 +189,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
        request.setAttribute("isFamilyMember", request.getParameter("isFamilyMember"));
+       request.setAttribute("prevDB_RoomId", request.getParameter("prevDB_RoomId"));
        
        HashMap actionParam = new HashMap();
        actionParam.put("clientId", clientForm.getAdmission().getClientId());            
@@ -199,22 +200,45 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("clientId", clientId);
 	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
        request.setAttribute("actionParam", actionParam);
+
+       Admission admission = clientForm.getAdmission();
        
        //setup rooms
-       Integer curDB_RoomId = clientForm.getRoomDemographic().getId().getRoomId();//.getCurDB_RoomId();
+       Integer curDB_RoomId = clientForm.getRoomDemographic().getId().getRoomId();
+       Integer prevDB_RoomId = null;
+       if(!"".equals(request.getParameter("prevDB_RoomId")))
+         prevDB_RoomId = Integer.valueOf(request.getParameter("prevDB_RoomId"));  //previous value before dropdown value changed
        clientForm.setCurDB_RoomId(curDB_RoomId);
        Room currentDB_room = null;
        if(curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
+
+       Room prevDB_room = null;
+       if(prevDB_RoomId!=null && prevDB_RoomId.intValue()>0 && !prevDB_RoomId.equals(curDB_RoomId))
+    	   prevDB_room = roomManager.getRoom(prevDB_RoomId);
+       
        ArrayList availableRoomLst = new ArrayList();
 	   Room emptyRoom=new Room();
 	   emptyRoom.setId(new Integer(0));
 	   emptyRoom.setName(" ---- ");
 	   availableRoomLst.add(emptyRoom);
-       if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
-       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+
+	   if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
+       if(prevDB_room!=null) availableRoomLst.add(prevDB_room);
+       
+       Room[] availableRooms;
+       if(admission.getId().intValue()==0){
+          //for new admission, family intake admission only takes empty rooms.
+    	  availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
     		           clientId, clientForm.getFamilyIntakeType().equals("Y"));
+       }else{
+           //for existing admission, can take any rooms.
+           availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+		           clientId, false);
+       }
+       
        for(int i=0;i<availableRooms.length;i++){
-     	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
+     	   if((currentDB_room!=null && currentDB_room.equals(availableRooms[i])) ||
+   			  (prevDB_room!=null && prevDB_room.equals(availableRooms[i]))) continue; 
            availableRoomLst.add(availableRooms[i]);
        }
        Room[] availableRooms2 =  (Room[]) availableRoomLst.toArray(new Room[availableRoomLst.size()]);
@@ -222,7 +246,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        //setup beds
        //family intake doesn't need assign beds, just room. 
-       Admission admission = clientForm.getAdmission();
        if(!clientForm.getFamilyIntakeType().equals("Y") ||
     	(clientForm.getFamilyIntakeType().equals("Y") && admission!=null && admission.getId().intValue()>0)){
          Room newSelectedRoom = roomManager.getRoom(clientForm.getRoomDemographic().getId().getRoomId());        	  
@@ -387,6 +410,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
          if(rdm!=null){
            clientForm.setRoomDemographic(rdm);
            clientForm.setCurDB_RoomId(rdm.getId().getRoomId());
+           request.setAttribute("prevDB_RoomId", rdm.getId().getRoomId());
            curDB_RoomId = rdm.getId().getRoomId();
     	   clientForm.setCurDB_BedId(rdm.getBedId());
     	   curDB_BedId = rdm.getBedId();
@@ -403,8 +427,19 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   availableRoomLst.add(emptyRoom);
        if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
        
-       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
-    		   clientId, FamilyIntakeType.equals("Y"));
+//       Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+//    		   clientId, FamilyIntakeType.equals("Y"));
+       Room[] availableRooms;
+       if(admission.getId().intValue()==0){
+          //for new admission, family intake admission only takes empty rooms.
+    	  availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+    		           clientId, clientForm.getFamilyIntakeType().equals("Y"));
+       }else{
+           //for existing admission, can take any rooms.
+           availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+		           clientId, false);
+       }
+
        for(int i=0;i<availableRooms.length;i++){
      	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
            availableRoomLst.add(availableRooms[i]);
@@ -508,6 +543,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        RoomDemographicHistorical rdm= admissionManager.getLatestRoomDemographicHistory(admissionId);
        if(rdm!=null){
          clientForm.setCurDB_RoomId(rdm.getRoomId());
+         request.setAttribute("prevDB_RoomId", rdm.getRoomId());
          curDB_RoomId = rdm.getRoomId();
          request.setAttribute("historyRoomName", rdm.getRoomName());
        
@@ -820,6 +856,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setRoomDemographic(roomDemographic);
  	   clientForm.setBedId(roomDemographic.getBedId());
  	   clientForm.setCurDB_RoomId(roomDemographic.getId().getRoomId());
+       request.setAttribute("prevDB_RoomId", roomDemographic.getId().getRoomId());
  	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
 
        return update(mapping, form, request, response);

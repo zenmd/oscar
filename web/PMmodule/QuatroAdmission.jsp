@@ -206,7 +206,8 @@ function roomChanged()
 	      <html:select property="roomDemographic.id.roomId" onchange="javascript: setNoConfirm();roomChanged();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
-          <html:hidden property="curDB_RoomId"/>&nbsp;
+          <html:hidden property="curDB_RoomId"/>
+          <input type="hidden" name="prevDB_RoomId" value="<c:out value="${prevDB_RoomId}"/>">&nbsp;
           <c:out escapeXml="false" value="${properRoomMsg}"/>
     </c:when>
     <c:otherwise>
