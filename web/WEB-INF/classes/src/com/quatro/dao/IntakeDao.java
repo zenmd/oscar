@@ -743,10 +743,10 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
 	
 	public void deleteReferralIdQueueId(Integer referralId, Integer queueId){
-        String sSQL="delete ClientReferral r where r.Id=?";
-		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId});
-        sSQL="delete ProgramQueue q where q.Id=?";
+        String sSQL="delete ProgramQueue q where q.Id=?";
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{queueId});
+        sSQL="delete ClientReferral r where r.Id=?";
+		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId});
 	}
 	
 	public void removeInactiveIntakeFamilyMember(String sInactiveDependents){
