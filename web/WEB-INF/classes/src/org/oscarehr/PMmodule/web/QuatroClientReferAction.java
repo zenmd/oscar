@@ -134,7 +134,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
 		request.setAttribute("clientId", cId);		
 		try {
-			List lstRefers = clientManager.getReferrals(demographicNo,providerNo,shelterId);
+			List lstRefers = clientManager.getManualReferrals(demographicNo,providerNo,shelterId);
 			request.setAttribute("lstRefers", lstRefers);
 		} catch (Exception e) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(

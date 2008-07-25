@@ -89,27 +89,20 @@ public class ClientManager {
     public Integer getRecentProgramId(Integer clientId, String providerNo, Integer shelterId){
     	return dao.getRecentProgramId(clientId, providerNo, shelterId);
     }
+
 /*    
-    public java.util.Date getMostRecentIntakeCDate(String demographicNo) {
-        return dao.getMostRecentIntakeCDate(Integer.valueOf(demographicNo));
-    }
-
-    public String getMostRecentIntakeAProvider(String demographicNo) {
-        return dao.getMostRecentIntakeAProvider(Integer.valueOf(demographicNo));
-    }
-
-    public String getMostRecentIntakeCProvider(String demographicNo) {
-        return dao.getMostRecentIntakeCProvider(Integer.valueOf(demographicNo));
-    }
-*/
     public List getReferrals() {
         return referralDAO.getReferrals();
     }
-
+*/
     public List getReferrals(String clientId,String providerNo,Integer shelterId) {
         return referralDAO.getReferrals(Integer.valueOf(clientId),providerNo,shelterId);
     }
 
+    public List getManualReferrals(String clientId,String providerNo,Integer shelterId) {
+        return referralDAO.getManualReferrals(Integer.valueOf(clientId),providerNo,shelterId);
+    }
+    
     public List getActiveReferrals(String clientId,String providerNo, Integer shelterId) {
         List results = referralDAO.getActiveReferrals(Integer.valueOf(clientId),providerNo, shelterId);
 

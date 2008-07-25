@@ -44,7 +44,8 @@ public class ClientReferralDAO extends HibernateDaoSupport {
     public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
-
+    
+/*
 	public List getReferrals() {
         List results = this.getHibernateTemplate().find("from ClientReferral");
 
@@ -54,18 +55,14 @@ public class ClientReferralDAO extends HibernateDaoSupport {
 
         return results;
     }
-
+*/
+    
     public List getReferrals(Integer clientId,String providerNo,Integer shelterId) {
 
         if (clientId == null || clientId.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
-       /*
-        String sql="select cr.id,cr.clientId,cr.referralDate,cr.providerNo,cr.facilityId,cr.notes,cr.presentProblems,cr.radioRejectionReason, " +
-        		"cr.completionNotes,cr.programId,cr.status,cr.completionDate,cr.providerLastName,"+
-        		"cr.providerFirstName,cr.programName,cr.programType,cr.autoManual "+
-       */
         String sql=	"from ClientReferral cr where cr.clientId in " +clientIds 
         	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
         sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")";
@@ -73,14 +70,26 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
         }
-
-        // [ 1842692 ] RFQ Feature - temp change for pmm referral history report
-       // results = displayResult(results);
-        // end of change
-        
         return results;
     }
 
+    public List getManualReferrals(Integer clientId,String providerNo,Integer shelterId) {
+
+        if (clientId == null || clientId.intValue() <= 0) {
+            throw new IllegalArgumentException();
+        }
+        String clientIds =mergeClientDao.getMergedClientIds(clientId);
+        String sql=	"from ClientReferral cr where cr.clientId in " +clientIds 
+        	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
+        sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")" +
+             " and cr.autoManual='M'";
+        List results = this.getHibernateTemplate().find(sql);
+        if (log.isDebugEnabled()) {
+            log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
+        }
+        return results;
+    }
+    
     public ClientReferral getReferralByIntakeId(Integer intakeId) {
         String sSQL="from ClientReferral cr where cr.fromIntakeId = ?";
         List results = this.getHibernateTemplate().find(sSQL, intakeId);

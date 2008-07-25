@@ -707,11 +707,11 @@
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
-        
+<!-- 
         <action path="/PMmodule/ProviderInfo" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="view" path="page.pmm.provider.view" />
         </action>
-         
+ -->                 
         <action path="/PMmodule/HealthSafety" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="healthSafetyForm" validate="false">
             <forward name="edit" path="/PMmodule/HealthSafety.jsp" />
             <forward name="success" path="/PMmodule/HealthSafetyExit.jsp" />
