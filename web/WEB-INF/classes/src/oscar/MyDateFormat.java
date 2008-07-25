@@ -73,6 +73,7 @@ public class MyDateFormat {
 	}
 
 	public static String getStandardDate(Calendar cal) {
+		if (cal == null) return "";
 	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 	    return formatter.format(cal.getTime());
 	}

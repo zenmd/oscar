@@ -6,13 +6,15 @@
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 <script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
+<script type="text/javascript" src="<html:rewrite page="/js/checkDate.js" />" ></script>
 <script language="Javascript">
-
+	var readOnly = false;
+	var win = null;
 	function selectDuplicateClient(form_name, firstName, firstNameValue, 
 	   lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
 	   clientNo, clientNoValue, statusMsg, statusMsgValue, 
 	   newClientChecked,newClientCheckedValue, shortFlag) {
-	   var fromPage=document.getElementsByName("pageFrom")[0]; 	 
+	   var fromPage=document.forms[0].elements["pageFrom"]; 
   	   if(fromPage==null || fromPage.value=="") { 
 		   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
 		   eval(myexpr);
@@ -59,18 +61,7 @@
 	   self.close();
 	}
 function checkExistClients(shortFlagValue){
-   var lastName = document.getElementsByName("client.lastName")[0];
-   var firstName = document.getElementsByName("client.firstName")[0];
-   var dob = document.getElementsByName("client.dob")[0];
-   var sex = document.getElementsByName("client.sex")[0];
-   var alias = document.getElementsByName("client.alias")[0];
-   var shortFlag = document.getElementsByName("shortFlag")[0];
-   var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?' +
-     "var=" + "<c:out value="${var}"/>" + 
-     "&firstName=" + firstName.value + "&lastName=" + lastName.value + 
-     "&dob=" + dob.value + "&sex=" + sex.value +
-     "&alias=" + alias.value + "&shortFlag=" + shortFlag.value;
-   window.location =url;
+	document.forms[0].submit();
 }
 
 </script>
@@ -78,7 +69,7 @@ function checkExistClients(shortFlagValue){
 <body>
 <html:form action="/PMmodule/DuplicateClientCheck.do">
 <input type="hidden" name="var" value="<c:out value="${var}"/>" />
-<input type="hidden" name="pageFrom" />
+<input type="hidden" name="pageFrom" value="<c:out value="${pageFrom}"/>" />
 <input type="hidden" name="shortFlag" value="<c:out value="${shortFlag}"/>"/>
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs">
@@ -100,7 +91,7 @@ function checkExistClients(shortFlagValue){
 <td><html-el:text size="30" maxlength="70" property="client.alias"/></td>
 <td>
 <a href="javascript:checkExistClients();" style="color:Navy;text-decoration:none;">
-<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Filter&nbsp;&nbsp;
+<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;
 </a>
 </td>
 <td></td></tr>

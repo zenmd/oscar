@@ -120,11 +120,9 @@
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"	border="0">
 	<tr>
 		<td align="left" class="buttonBar2">
-			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
+			<a href='<html:rewrite page="/PMmodule/ProgramManagerView.do"/>?tab=General&programId=<c:out value="${programId}"/>' style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
-			</html:link>
-			<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;|</html:link>
+			</a>
  			<html:link	href="javascript:searchClients();"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;|</html:link>
 			<html:link	href="javascript:resetForm();"	style="color:Navy;text-decoration:none;">&nbsp;

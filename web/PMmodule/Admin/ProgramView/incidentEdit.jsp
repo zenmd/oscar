@@ -20,15 +20,11 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 	border="0">
 	<tr>
 		<td align="left" class="buttonBar2">
-		<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
+		<a href='<html:rewrite page="/PMmodule/ProgramManagerView.do"/>?tab=Incidents&programId=<c:out value="${programId}" />' style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
-		</html:link>
+		</a>
 		<html:link	href="javascript:clickTab('Incidents');" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Incidents&nbsp;&nbsp;|</html:link>
-		<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_WRITE%>">
-			<html:link	href="javascript:editIncident('new');"	style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
-		</security:oscarSec>	
 		<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">
 			<html:link href="javascript:editIncident('save');" onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
@@ -90,7 +86,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 						<bean:define id="lstClientSelection" name="programManagerViewForm" property="incidentForm.clientSelectionList"/>
 						<table width="100%" >
 					        <tr>
-					           <td><html:select property="incidentForm.lstClient" multiple="true" size="5" style="width:90%;">
+					           <td><html:select property="incidentForm.lstClient" multiple="true"  style="width:90%;height:65px;">
 					              <html:options collection="lstClientSelection" property="key" labelProperty="value"></html:options>
 					           </html:select>
 					           <html:hidden property="incidentForm.txtClientKeys" value="" />
@@ -115,7 +111,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 						<bean:define id="lstStaffSelection" name="programManagerViewForm" property="incidentForm.staffSelectionList"/>
 						<table width="100%" >
 					        <tr>
-					           <td><html:select property="incidentForm.lstStaff" multiple="true" size="5" style="width:90%;">
+					           <td><html:select property="incidentForm.lstStaff" multiple="true"  style="width:90%;height:65px;">
 					              <html:options collection="lstStaffSelection" property="key" labelProperty="value"></html:options>
 					           </html:select>
 					           <html:hidden property="incidentForm.txtStaffKeys" value="" />

@@ -25,42 +25,24 @@ public class DuplicateClientCheckAction extends DispatchAction {
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        DynaActionForm qform = (DynaActionForm) form;
-
+       Demographic client = (Demographic) qform.get("client");
+       
        ClientSearchFormBean criteria = new ClientSearchFormBean();
 	   criteria.setActive("");
 	   criteria.setAssignedToProviderNo("");
-       criteria.setLastName(request.getParameter("lastName"));
-       criteria.setFirstName(request.getParameter("firstName"));
-       criteria.setDob(request.getParameter("dob"));
-       criteria.setGender(request.getParameter("sex"));
+       criteria.setLastName(client.getLastName());
+       criteria.setFirstName(client.getFirstName());
+       criteria.setDob(client.getDob());
+       criteria.setGender(client.getSex());
 	   List lst = clientManager.search(criteria, false,false);
 
-	   Demographic obj= new Demographic();
-	   obj.setDemographicNo(new Integer(0));
-	   obj.setFirstName(request.getParameter("firstName"));
-	   obj.setLastName(request.getParameter("lastName"));
-	   if(request.getParameter("dob")!=null && !request.getParameter("dob").equals("")){
-		 obj.setDateOfBirth(MyDateFormat.getCalendar(request.getParameter("dob")));  
-//	     obj.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(request.getParameter("dob"))));
-//	     obj.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(request.getParameter("dob"))));
-//	     obj.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(request.getParameter("dob"))));
-	   }
-	   if(request.getParameter("sex")!=null && !request.getParameter("sex").equals("")){
-	     obj.setSex(request.getParameter("sex"));
-	     obj.setSexDesc(lookupManager.GetLookupCode("GEN", obj.getSex()).getDescription());
-	   }  
-	   obj.setAlias(request.getParameter("alias"));
-       qform.set("client", obj);
-
-	   if(request.getParameter("firstName") !=null && !(request.getParameter("firstName").equals("") &&
-		 request.getParameter("lastName").equals(""))){
-	     lst.add(0, obj);
+	   if(!Utility.IsEmpty(client.getFirstName())  && !Utility.IsEmpty(client.getLastName()))
+	   {
+	     lst.add(0, client);
 	   }
 	   
 	   request.setAttribute("clients", lst);
-	   String pageFrom=request.getParameter("pageFrom");
-	   if(Utility.IsEmpty(pageFrom) && request.getAttribute("pageForm")!=null) pageFrom=(String)request.getAttribute("pageForm");		   
-	   request.setAttribute("pageForm", pageFrom);
+	   request.setAttribute("pageFrom", request.getParameter("pageFrom"));
 	   request.setAttribute("var", request.getParameter("var"));
 	   request.setAttribute("shortFlag", request.getParameter("shortFlag"));
 	   if(!Utility.IsEmpty(request.getParameter("var"))){
@@ -81,8 +63,6 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   obj3.setDescription("");
 	   genders.add(0, obj3);
 	   qform.set("genders",genders);
-
-	   Demographic obj2= new Demographic();
  	   
 	   return mapping.findForward("edit");
    }
