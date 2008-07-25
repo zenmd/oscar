@@ -190,8 +190,8 @@ public class AdmissionManager {
 		return admissionDao.getAdmissionListByProgram(programId);
 	}
 
-	public List getClientsListByProgram(Program program, ClientForm form) {
-		return admissionDao.getClientsListByProgram(program, form);
+	public List getClientsListForBedProgram(Program program, ClientForm form) {
+	   return admissionDao.getClientsListForBedProgram(program, form);
 	}
 	
     public Admission getAdmissionByIntakeId(Integer intakeId){

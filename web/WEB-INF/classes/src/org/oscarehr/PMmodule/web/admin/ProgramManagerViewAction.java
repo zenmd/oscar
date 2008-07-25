@@ -255,9 +255,16 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	String mthd = request.getParameter("mthd");
     	ClientForm clientForm = formBean.getClientForm();
     	
-    	List clientsLst = admissionManager.getClientsListByProgram(program, clientForm);
+    	List clientsLst;
+    	if(KeyConstants.PROGRAM_TYPE_Bed.equals(program.getType())){
+    	  clientsLst = admissionManager.getClientsListForBedProgram(program, clientForm);
+    	}else{
+      	  clientsLst = intakeManager.getClientsListForServiceProgram(program, 
+      		clientForm.getFirstName(), clientForm.getLastName(), clientForm.getClientId());
+    	}
     	
     	request.setAttribute("clientsLst", clientsLst);
+    	request.setAttribute("programType", program.getType());
     	
  
  		if(mthd == null || mthd.equals("")){

@@ -1,5 +1,6 @@
 package com.quatro.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -14,17 +15,21 @@ import java.util.ArrayList;
 import com.quatro.common.KeyConstants;
 import com.quatro.web.intake.IntakeConstant;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.oscarehr.PMmodule.dao.MergeClientDao;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 
 import org.oscarehr.PMmodule.model.ClientReferral;
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.ProgramClientInfo;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.web.formbean.ClientForm;
 
 import oscar.MyDateFormat;
 
@@ -39,27 +44,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
         return getHibernateTemplate().find(sSQL);
 	}
-/*
-    public List checkExistBedIntakeByPrograms(Integer clientId, List programs){
-        StringBuffer sb = new StringBuffer();
-        Object[] obj= new Object[programs.size()];
-        obj[0]=((Program)programs.get(0)).getId();
-        sb.append("?");
-        for(int i=1;i<programs.size();i++){
-           sb.append(",?");
-           obj[i]=((Program)programs.get(i)).getId();
-        }
-        //client Merge
-        String clientIds=mergeClientDao.getMergedClientIds(clientId);
-    	String sSQL="from QuatroIntakeDB i where i.clientId in " +clientIds+ 
-		        " and i.programId in (" + sb.toString() + ") and i.intakeStatus='" + 
-		          KeyConstants.INTAKE_STATUS_ACTIVE + "'";
-		
-    	List result = getHibernateTemplate().find(sSQL, obj);
-	    return result;
-    }
-*/
-    public List checkExistBedIntakeByPrograms(Integer clientId, Integer programId){
+
+	public List checkExistBedIntakeByPrograms(Integer clientId, Integer programId){
         //client Merge
         String clientIds=mergeClientDao.getMergedClientIds(clientId);
     	String sSQL="from QuatroIntakeDB i where i.clientId in " +clientIds+ 
@@ -137,14 +123,6 @@ public class IntakeDao extends HibernateDaoSupport {
 	}
     
 	public QuatroIntake getQuatroIntake(Integer intakeId) {
-/*
-		List result = getHibernateTemplate().find("select i.id, i.clientId, " +
-			"i.staffId, i.createdOn, i.intakeStatus, p.type, i.programId," +
-			"i.referralId, i.queueId, i.answers " + 
-			" from QuatroIntakeDB i, Program p where i.id = ?" +
-			" and p.id=i.programId",
-		  new Object[] {intakeId});
-*/		
 		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?",
 			  new Object[] {intakeId});
 
@@ -194,9 +172,6 @@ public class IntakeDao extends HibernateDaoSupport {
     	    intake.setCreatedOnTxt(MyDateFormat.getStandardDateTime(cal));
             
     	    //intake for bed program, add/update referral and queue records.
-//    	    intake.setReferralId(intakeDb.getReferralId());
-//    	    intake.setQueueId(intakeDb.getQueueId());
-
 			Iterator it = intakeDb.getAnswers().iterator();
     	    while(it.hasNext()){
     	    	QuatroIntakeAnswer obj = (QuatroIntakeAnswer)it.next();
@@ -427,11 +402,6 @@ public class IntakeDao extends HibernateDaoSupport {
            obj[i]=Integer.valueOf(split[i]);
         }
         String clientIds =mergeClientDao.getMergedClientIds(clientId);
-/*        
-        String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
-        		" and i.programId in (" +
-          sb.toString() + ") order by i.intakeStatus, i.createdOn desc";
-*/          
 
         String sSQL="from QuatroIntakeHeader i where i.clientId in " + clientIds+
         		" and i.programId in (" +
@@ -801,6 +771,49 @@ public class IntakeDao extends HibernateDaoSupport {
         String sSQL="update QuatroIntakeDB q set q.queueId=0, q.referralId=? where q.id=?";
 		getHibernateTemplate().bulkUpdate(sSQL, new Object[]{referralId, intakeId});
 	}
+
+    public List getClientsListForServiceProgram(Program program, String firstName, 
+			String lastName, String clientId){
+    	Integer programId = program.getId();
+    	
+    	String queryStr = "SELECT a.createdOn, c.FirstName, c.LastName, a.clientId" 
+    		+ " FROM QuatroIntakeDB a, Demographic c" 
+    		+ " WHERE a.programId=?"
+    		+ " AND a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "'"
+    		+ " AND a.clientId = c.DemographicNo";
+
+    	if(firstName != null && firstName.length()>0){
+    		String fname = StringEscapeUtils.escapeSql(firstName).toLowerCase();
+    		queryStr = queryStr + " AND lower(c.FirstName) like '%" + fname + "%'";
+    	}
+    	if(lastName != null && lastName.length()>0){
+    		String lname = StringEscapeUtils.escapeSql(lastName).toLowerCase();
+    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
+    	}
+    	if(clientId != null && clientId.length()>0){
+    		String cId = StringEscapeUtils.escapeSql(clientId).toLowerCase();
+    		queryStr = queryStr + " AND lower(a.clientId) like '%" + cId + "%'";
+    	}
+	    	
+        List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
+
+        List clientsLst = new ArrayList();
+    	Iterator it = lst.iterator();
+    	while(it.hasNext()){
+    		Object[] objLst = (Object[])it.next();
+    		ProgramClientInfo pClient = new ProgramClientInfo();
+    		if(objLst[0]!=null){
+    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+    		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
+    		    pClient.setAdmissionDate(admissionDate);
+    		}
+    		pClient.setFirstName((String)objLst[1]);
+    		pClient.setLastName((String)objLst[2]);
+    		pClient.setClientId(objLst[3].toString());
+    		clientsLst.add(pClient);
+    	}
+    	return clientsLst;
+    }
 
 	public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;

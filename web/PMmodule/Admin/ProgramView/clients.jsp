@@ -178,34 +178,25 @@
 		<td>
 			<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge; height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 			<!--  show current clients -->
-			
+        <c:choose>
+          <c:when test="${programType=='Bed'}">
 			<display:table class="simple" cellspacing="2" cellpadding="3" id="clientInfo" name="clientsLst" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
 				<display:setProperty name="paging.banner.placement" value="bottom" />
 				<display:setProperty name="basic.msg.empty_list" value="No clients currently admitted to this program." />
-			
 				<display:column title="Select">
 					<logic:equal name="clientInfo" property="isHead" value="true" >
 						<logic:equal name="clientInfo" property="isDischargeable" value="1"> 
 							<input type="checkbox" name="checked_<c:out value="${clientInfo.admissionId}"/>:<c:out value="${clientInfo.clientId}"/>">
 						</logic:equal>
 					</logic:equal>	
-					
 				</display:column>
-			
 				<display:column property="clientId" sortable="true" title="Client No." />
-				
 				<display:column property="lastName" sortable="true" title="Last Name" />
-				
 				<display:column property="firstName" sortable="true" title="First Name" />
-				
 				<display:column property="admissionDate" sortable="true" title="Admission Date" />
-				
 				<display:column property="admissionNote" sortable="true" title="Admission Notes" />
-				
 				<display:column property="room" sortable="true" title="Room" />
-				
 				<display:column property="bed" sortable="true" title="Bed" />
-				
 				<display:column title="Late Pass">		
 					<logic:equal name="clientInfo" property="isLatepassHolder" value="0"> 
 						<input type="checkbox" disabled="disabled">
@@ -214,7 +205,6 @@
 						<input type="checkbox" checked="checked" disabled="disabled">
 					</logic:equal>
 				</display:column>
-				
 			</display:table>			
 			<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 			<logic:notEmpty name="clientsLst">				
@@ -252,6 +242,19 @@
 				</table>
 			</logic:notEmpty>
 			</security:oscarSec>
+        </c:when>
+        <c:otherwise>
+			<display:table class="simple" cellspacing="2" cellpadding="3" id="clientInfo" name="clientsLst" export="false" pagesize="0" requestURI="/PMmodule/ProgramManagerView.do">
+				<display:setProperty name="paging.banner.placement" value="bottom" />
+				<display:setProperty name="basic.msg.empty_list" value="No clients currently admitted to this program." />
+				<display:column property="clientId" sortable="true" title="Client No." />
+				<display:column property="lastName" sortable="true" title="Last Name" />
+				<display:column property="firstName" sortable="true" title="First Name" />
+				<display:column property="admissionDate" sortable="true" title="Intake Date" />
+			</display:table>			
+        </c:otherwise>
+      </c:choose>
+			
 			</div>
 		</td>
 	</tr>

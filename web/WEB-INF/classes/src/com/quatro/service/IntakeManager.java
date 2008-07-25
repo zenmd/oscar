@@ -27,6 +27,7 @@ import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.web.formbean.ClientForm;
 
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
@@ -143,8 +144,6 @@ public class IntakeManager {
 
     //for single person intake check
     public List checkExistBedIntakeByFacility(Integer clientId, Integer programId){
-//    	List programs =programDao.getAllPrograms(null, Program.BED_TYPE, null, providerNo, shelterId);
-//    	if(programs==null || programs.size()==0) return new ArrayList();
     	return intakeDao.checkExistBedIntakeByPrograms(clientId, programId);
     }
     
@@ -397,6 +396,11 @@ public class IntakeManager {
 		return lst;
 	}
 
+	public List getClientsListForServiceProgram(Program program, String firstName, 
+			String lastName, String clientId) {
+	   return intakeDao.getClientsListForServiceProgram(program, firstName, lastName, clientId);
+	}
+	
 	public ClientDao getClientDao() {
 		return clientDao;
 	}

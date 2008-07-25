@@ -132,9 +132,8 @@ public class AdmissionDao extends HibernateDaoSupport {
         return lst;
     }
     
-    public List getClientsListByProgram(Program program, ClientForm form){
+    public List getClientsListForBedProgram(Program program, ClientForm form){
     	Integer programId = program.getId();
-//    	Integer facilityId = program.getFacilityId();
     	
     	String queryStr = "SELECT a.admissionDate, a.admissionNotes, a.ovPassStartDate, a.ovPassEndDate, a.id, "
     		+ " c.FirstName, c.LastName, a.clientId, rd.roomName, rd.bedName, " 
@@ -157,18 +156,6 @@ public class AdmissionDao extends HibernateDaoSupport {
 	    		lname = lname.toLowerCase();
 	    		queryStr = queryStr + " AND lower(c.LastName) like '%" + lname + "%'";
 	    	}
-//	    	String bed = form.getBed();
-//	    	if(bed != null && bed.length()>0){
-//	    		bed = StringEscapeUtils.escapeSql(bed);
-//	    		bed = bed.toLowerCase();
-//	    		queryStr = queryStr + " AND lower(b.name) like '%" + bed + "%'";
-//	    	}
-//	    	String room = form.getRoom();
-//	    	if(room != null && room.length()>0){
-//	    		room = StringEscapeUtils.escapeSql(room);
-//	    		room = room.toLowerCase();
-//	    		queryStr = queryStr + " AND lower(rm.name) like '%" + room + "%'";
-//	    	}
 	    	String clientId = form.getClientId();
 	    	if(clientId != null && clientId.length()>0){
 	    		clientId = StringEscapeUtils.escapeSql(clientId);
@@ -185,7 +172,6 @@ public class AdmissionDao extends HibernateDaoSupport {
     		Object[] objLst = (Object[])it.next();
     		ProgramClientInfo pClient = new ProgramClientInfo();
     		if(objLst[0]!=null){
-//    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
     		    String admissionDate = formatter.format(((Calendar)objLst[0]).getTime());
     		    pClient.setAdmissionDate(admissionDate);
