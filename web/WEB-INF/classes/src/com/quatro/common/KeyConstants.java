@@ -87,8 +87,9 @@ public class KeyConstants {
   public static final String STATUS_REJECTED = "rejected";
   public static final String STATUS_REMOVED = "removed";
   public static final String STATUS_ACTIVE = "active";  
-  public static final String STATUS_CURRENT = "current";
-  public static final String STATUS_UNKNOWN = "unknown";
+  public static final String STATUS_INACTIVE = "inactive";  
+//  public static final String STATUS_CURRENT = "current";
+//  public static final String STATUS_UNKNOWN = "unknown";
   public static final String STATUS_PENDING = "pending";
   public static final String STATUS_WITHDRAW = "withdraw";
   public static final String STATUS_TERMEARLY="terminated early"; 
@@ -98,8 +99,8 @@ public class KeyConstants {
   public static final String STATUS_EXPIRED="expired";
   public static final String STATUS_SIGNED="signed";
   public static final String STATUS_UNSIGNED="unsigned";
-  public static final String STATUS_LOCKED="locked";
-  public static final String STATUS_UNLOCKED="unlocked";
+//  public static final String STATUS_LOCKED="locked";
+//  public static final String STATUS_UNLOCKED="unlocked";
   /*
   public static final String FUNCTION_INTAKE="intake";
   public static final String FUNCTION_ADMISSION="admission";

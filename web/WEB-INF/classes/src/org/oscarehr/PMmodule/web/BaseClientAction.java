@@ -163,6 +163,9 @@ public abstract class BaseClientAction extends BaseAction {
 	public boolean isReadOnly(HttpServletRequest request, String status,String funName,Integer programId){
 		boolean readOnly =false;
 		if(KeyConstants.STATUS_COMPLETED.equals(status)) readOnly =true;
+		else if(KeyConstants.STATUS_INACTIVE.equals(status)){
+			if(KeyConstants.FUN_PMM_CLIENTINTAKE.equals(funName))readOnly =true;	
+		}
 		else if(KeyConstants.STATUS_SIGNED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_DISCHARGED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_EXPIRED.equals(status)) readOnly =true;

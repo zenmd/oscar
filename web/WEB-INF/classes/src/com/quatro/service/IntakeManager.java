@@ -304,6 +304,11 @@ public class IntakeManager {
             if(((Integer)obj3[0]).equals(obj2.getProgramId())){
               obj2.setProgramName((String)obj3[1]);
               obj2.setProgramType((String)obj3[2]);
+              if(KeyConstants.PROGRAM_TYPE_Service.equals((String)obj3[2])){
+              	if(obj2.getEndDate()!=null && obj2.getEndDate().before(Calendar.getInstance())){
+              	   obj2.setIntakeStatus(KeyConstants.STATUS_INACTIVE);	
+              	}
+              }
               break;
             }
           }

@@ -462,6 +462,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	    		" and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
 	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
 	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_REJECTED + "'" +
+	    	    " or i.intakeStatus='" +  KeyConstants.STATUS_INACTIVE + "'" +
 	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_DISCHARGED + "')" +
 	            "  order by i.createdOn desc");
 		return results;
