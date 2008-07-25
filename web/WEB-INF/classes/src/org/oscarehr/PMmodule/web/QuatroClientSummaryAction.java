@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.HealthSafety;
@@ -19,6 +21,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.RoomDemographic;
+import org.oscarehr.PMmodule.model.ClientCurrentProgram;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
@@ -106,14 +109,35 @@ public class QuatroClientSummaryAction extends BaseClientAction {
            // only allow bed/service programs show up.(not external program)
            List currentAdmissionList = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
            List bedServiceList = new ArrayList();
-           for (Iterator ad = currentAdmissionList.iterator(); ad.hasNext();) {
-               Admission admission1 = (Admission) ad.next();
-               if ("External".equalsIgnoreCase(programManager.getProgram(admission1.getProgramId()).getType())) {
-                   continue;
-               }
-               bedServiceList.add(admission1);
+           for (int i=0;i<currentAdmissionList.size();i++) {
+               Admission admission1 = (Admission) currentAdmissionList.get(i);
+               ClientCurrentProgram ccp = new ClientCurrentProgram();
+               ccp.setProgramId(admission1.getProgramId());
+               ccp.setProgramName(admission1.getProgramName());
+               ccp.setProgramType(admission1.getProgramType());
+               ccp.setAdmissionDate(admission1.getAdmissionDate());
+               ccp.setDaysInProgram(admission1.getDaysInProgram());
+               bedServiceList.add(ccp);
            }
-           request.setAttribute("admissions", bedServiceList);
+           List currentServiceIntakeList = intakeManager.getActiveServiceIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+           Date today = new Date();
+           for (int i=0;i<currentServiceIntakeList.size();i++) {
+               QuatroIntakeHeader qih1 = (QuatroIntakeHeader) currentServiceIntakeList.get(i);
+               ClientCurrentProgram ccp = new ClientCurrentProgram();
+               ccp.setProgramId(qih1.getProgramId());
+               ccp.setProgramName(qih1.getProgramName());
+               ccp.setProgramType(qih1.getProgramType());
+               ccp.setAdmissionDate(qih1.getCreatedOn());
+        	   long diff = today.getTime() - qih1.getCreatedOn().getTime().getTime();
+        	   diff = diff / 1000; // seconds
+        	   diff = diff / 60; // minutes
+        	   diff = diff / 60; // hours
+        	   diff = diff / 24; // days
+               ccp.setDaysInProgram(new Integer((int)diff));
+               bedServiceList.add(ccp);
+           }
+
+           request.setAttribute("clientCurrentPrograms", bedServiceList);
 
            HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
            request.setAttribute("healthsafety", healthsafety);

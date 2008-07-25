@@ -314,6 +314,36 @@ public class IntakeManager {
 		
 	}
 
+	public List getActiveServiceIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
+
+        List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
+
+        List lst2 = intakeDao.getQuatroIntakeHeaderListByFacility(clientId, shelterId, providerNo);
+        ArrayList lst3= new ArrayList();
+		for(int i=0;i<lst2.size();i++){
+          QuatroIntakeHeader obj2 = (QuatroIntakeHeader)lst2.get(i);
+          
+          Iterator it3 = lst.iterator();
+          while(it3.hasNext()){
+          	Object element3 = (Object)it3.next();
+            Object[] obj3 = (Object[])element3;
+            if(((Integer)obj3[0]).equals(obj2.getProgramId())){
+              if(KeyConstants.PROGRAM_TYPE_Service.equals((String)obj3[2])){
+            	if(obj2.getEndDate()==null || 
+            	  (obj2.getEndDate()!=null && !(obj2.getEndDate().before(Calendar.getInstance())))){
+                   obj2.setProgramName((String)obj3[1]);
+                   obj2.setProgramType((String)obj3[2]);
+                   lst3.add(obj2);
+            	}
+                break;
+              }  
+            }
+          }
+          
+        }
+        return lst3;
+	}
+	
 	public QuatroIntake getQuatroIntake(Integer intakeId) {
 		return intakeDao.getQuatroIntake(intakeId);
 	}

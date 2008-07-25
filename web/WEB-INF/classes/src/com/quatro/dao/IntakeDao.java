@@ -451,6 +451,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		}
 		return progId;
 	}
+
 	public List getQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
 		List results = null;
@@ -465,6 +466,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	            "  order by i.createdOn desc");
 		return results;
 	}
+	
 	public List getActiveQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
 		List results = null;

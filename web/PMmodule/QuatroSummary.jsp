@@ -161,14 +161,14 @@ function openHealthSafety(){
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
+<display:table class="simple" cellspacing="2" cellpadding="3" id="clientCurrentProgram" name="clientCurrentPrograms" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="This client is not currently admitted to any programs." />
 	
-	<display:column property="programName" sortable="false" title="Program Name" />
-	<display:column property="programType" sortable="false" title="Program Type" />
-	<display:column property="admissionDate.time" sortable="false" title="Admission Date" format="{0,date,yyyy/MM/dd hh:mm a}" />
-	<display:column property="daysInProgram" sortable="false" title="Days in Program" />
+	<display:column property="programName" sortable="true" title="Program Name" />
+	<display:column property="programType" sortable="true" title="Program Type" />
+	<display:column property="admissionDate.time" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd hh:mm a}" />
+	<display:column property="daysInProgram" sortable="true" title="Days in Program" />
 </display:table>
 </td></tr>
 
