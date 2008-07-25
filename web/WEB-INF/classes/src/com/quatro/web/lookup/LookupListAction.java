@@ -13,6 +13,7 @@ import org.apache.struts.actions.DispatchAction;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 public class LookupListAction extends DispatchAction {
     private LookupManager lookupManager=null;
@@ -27,8 +28,11 @@ public class LookupListAction extends DispatchAction {
 	
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String tableId=request.getParameter("tableId");
+        String parentCode =request.getParameter("parentCode");
+        request.setAttribute("parentCode",parentCode);
+        String grandParentCode =request.getParameter("grandParentCode");
         LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId);
-		List lst = lookupManager.LoadCodeList(tableId, true, null, null);
+		List lst = lookupManager.LoadCodeList(tableId, true,parentCode, null, null);
 		LookupListForm qform = (LookupListForm) form;
 		qform.setLookups(lst);
 		qform.setTableDef(tableDef);
@@ -38,7 +42,9 @@ public class LookupListAction extends DispatchAction {
 	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		LookupListForm qform = (LookupListForm) form;
         String tableId=request.getParameter("tableId");
-		List lst = lookupManager.LoadCodeList(tableId, true, null, qform.getKeywordName());
+        String parentCode =request.getParameter("parentCode");
+        	if(Utility.IsEmpty(parentCode)) parentCode=qform.getParentCode();
+		List lst = lookupManager.LoadCodeList(tableId, true,parentCode, null, qform.getKeywordName());
 		 LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId);
 		qform.setLookups(lst);
 		qform.setTableDef(tableDef);

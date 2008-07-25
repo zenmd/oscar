@@ -6,6 +6,15 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 
 <%@ include file="/taglibs.jsp"%>
 <%@page import="com.quatro.common.KeyConstants;"%>
+<script type="text/javascript">
+	function checkExistClients(){	
+	   var varStr="programManagerViewForm," + "incidentForm.lstClient" ;
+	   var url='<c:out value="${ctx}" />/PMmodule/DuplicateClientCheck.do?'+
+		"pageFrom=inc";
+	   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
+	   win.focus();
+	}	
+</script>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
@@ -21,7 +30,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Incident&nbsp;&nbsp;|</html:link>
 		</security:oscarSec>	
 		<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">
-			<html:link href="javascript:editIncident('save');" onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
+			<html:link href="javascript:editIncident('save');" onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</security:oscarSec>
 		</td>
@@ -91,7 +100,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 								<td class="clsButtonBarText">
 									&nbsp;&nbsp;
 									<c:if test="${!isReadOnly}">
-										<a id="clientAdd" href="javascript:showLookup('CLN', '', '', 'programManagerViewForm','incidentForm.lstClient','', true, '<c:out value="${ctx}"/>');" onclick="setNoConfirm();">Add</a>
+										<!--  a id="clientAdd" href="javascript:showLookup('CLN', '', '', 'programManagerViewForm','incidentForm.lstClient','', true, '<c:out value="${ctx}"/>');" onclick="setNoConfirm();" -->
+										<a id="clientAdd" href="javascript:checkExistClients();" onclick="setNoConfirm();">
+											Add</a>
 										&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;			
 										<a href="javascript:removeSel('incidentForm.lstClient')"  onclick="setNoConfirm();">Remove</a>
 									</c:if>	
@@ -114,7 +125,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 								<td class="clsButtonBarText">
 									&nbsp;&nbsp;
 									<c:if test="${!isReadOnly}">
-										<a id="staffAdd" href="javascript:showLookup('USR', '', '', 'programManagerViewForm','incidentForm.lstStaff','', true, '<c:out value="${ctx}"/>')">Add</a>
+										<a id="staffAdd" href="javascript:showLookup('USR', '', 'programId', 'programManagerViewForm','incidentForm.lstStaff','', true, '<c:out value="${ctx}"/>')">Add</a>
 										&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 										<a href="javascript:removeSel('incidentForm.lstStaff')">Remove</a>
 									</c:if>	

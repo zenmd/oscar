@@ -97,7 +97,25 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		
 		return true;
 	}
-
+	function beforeToday(inputStr) {
+	if(inputStr==null || inputStr==''){
+		alert('Date is mandatory.');
+      	return false;
+	}
+	var date=new Date();
+	var myDate_array=inputStr.split("/");
+	date.setFullYear(myDate_array[0]);
+	date.setMonth(myDate_array[1]-1);
+	date.setDate(myDate_array[2]);
+	
+	var today = new Date();
+    if (today>date){
+      alert('Please select today or after.');
+      return false;
+    }	
+	else return true;	
+  } 
+	
 	function editIncident( mthd){
 		var flag = true;
 		if(mthd == "save"){
@@ -117,6 +135,22 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 			id = document.getElementById("incidentId").value;
 		}
 		
+		obj = document.getElementsByName("incidentForm.incidentDateStr")[0];
+	    if(obj!=null)
+	    {
+		    if(obj.value.trim()==""){
+		      alert("Incident Date is empty.");
+		      obj.value="";
+		      obj.focus();
+		      return; 
+		    }
+		
+		    if( beforeToday(obj.value)==false){
+		       obj.focus();
+		       return;
+		    }
+	    }
+	    
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		//alert(document.programManagerViewForm.action);
 		document.programManagerViewForm.tab.value = "Incidents";

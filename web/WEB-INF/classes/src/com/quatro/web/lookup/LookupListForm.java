@@ -13,6 +13,8 @@ public class LookupListForm extends ActionForm{
     String descName;
     String keywordName;
     String tableId;
+    String parentCode;
+    String grandParentCode;
     LookupTableDefValue tableDef;
     
 	public List getLookups() {
@@ -69,5 +71,21 @@ public class LookupListForm extends ActionForm{
 
 	public void setTableDef(LookupTableDefValue tableDef) {
 		this.tableDef = tableDef;
+	}
+
+	public String getGrandParentCode() {
+		return grandParentCode;
+	}
+
+	public void setGrandParentCode(String grandParentCode) {
+		this.grandParentCode = grandParentCode;
+	}
+
+	public String getParentCode() {
+		return parentCode;
+	}
+
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
 	}
 }

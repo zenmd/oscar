@@ -12,6 +12,8 @@ import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ClientManager;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
+
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.model.Demographic;
 import com.quatro.model.LookupCodeValue;
@@ -37,40 +39,42 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   obj.setDemographicNo(new Integer(0));
 	   obj.setFirstName(request.getParameter("firstName"));
 	   obj.setLastName(request.getParameter("lastName"));
-	   if(!request.getParameter("dob").equals("")){
+	   if(request.getParameter("dob")!=null && !request.getParameter("dob").equals("")){
 		 obj.setDateOfBirth(MyDateFormat.getCalendar(request.getParameter("dob")));  
 //	     obj.setYearOfBirth(String.valueOf(MyDateFormat.getYearFromStandardDate(request.getParameter("dob"))));
 //	     obj.setMonthOfBirth(String.valueOf(MyDateFormat.getMonthFromStandardDate(request.getParameter("dob"))));
 //	     obj.setDateOfBirth(String.valueOf(MyDateFormat.getDayFromStandardDate(request.getParameter("dob"))));
 	   }
-	   if(!request.getParameter("sex").equals("")){
+	   if(request.getParameter("sex")!=null && !request.getParameter("sex").equals("")){
 	     obj.setSex(request.getParameter("sex"));
 	     obj.setSexDesc(lookupManager.GetLookupCode("GEN", obj.getSex()).getDescription());
 	   }  
 	   obj.setAlias(request.getParameter("alias"));
        qform.set("client", obj);
 
-	   if(!(request.getParameter("firstName").equals("") &&
+	   if(request.getParameter("firstName") !=null && !(request.getParameter("firstName").equals("") &&
 		 request.getParameter("lastName").equals(""))){
 	     lst.add(0, obj);
 	   }
 	   
 	   request.setAttribute("clients", lst);
-	   
+	   String pageFrom=request.getParameter("pageFrom");
+	   if(Utility.IsEmpty(pageFrom) && request.getAttribute("pageForm")!=null) pageFrom=(String)request.getAttribute("pageForm");		   
+	   request.setAttribute("pageForm", pageFrom);
 	   request.setAttribute("var", request.getParameter("var"));
 	   request.setAttribute("shortFlag", request.getParameter("shortFlag"));
-	   
-	   String[] split= request.getParameter("var").split(",");
-	   request.setAttribute("formName", split[0]);
-	   request.setAttribute("firstName", split[1]);
-	   request.setAttribute("lastName", split[2]);
-	   request.setAttribute("sex", split[3]);
-	   request.setAttribute("dob", split[4]);
-	   request.setAttribute("alias", split[5]);
-	   request.setAttribute("clientNo", split[6]);
-	   request.setAttribute("statusMsg", split[7]);
-	   request.setAttribute("newClientChecked", split[8]);
-	   
+	   if(!Utility.IsEmpty(request.getParameter("var"))){
+		   String[] split= request.getParameter("var").split(",");
+		   request.setAttribute("formName", split[0]);
+		   request.setAttribute("firstName", split[1]);
+		   request.setAttribute("lastName", split[2]);
+		   request.setAttribute("sex", split[3]);
+		   request.setAttribute("dob", split[4]);
+		   request.setAttribute("alias", split[5]);
+		   request.setAttribute("clientNo", split[6]);
+		   request.setAttribute("statusMsg", split[7]);
+		   request.setAttribute("newClientChecked", split[8]);
+	   }
 	   List genders = lookupManager.LoadCodeList("GEN", true, null, null);
 	   LookupCodeValue obj3= new LookupCodeValue();
 	   obj3.setCode("");

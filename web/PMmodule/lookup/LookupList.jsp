@@ -23,6 +23,7 @@
 <html:hidden property="openerForm"/>
 <html:hidden property="codeName"/>
 <html:hidden property="descName"/>
+<html:hidden property="parentCode"/>
 <table width="100%" border="0">
 	<tr>
 		<th class="pageTitle" align="center"><span

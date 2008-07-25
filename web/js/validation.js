@@ -19,7 +19,24 @@ function validateRequiredField(fieldId, fieldName, maxLength)
 	
 	return(true);
 }
-
+function beforeToday(inputStr) {
+	if(inputStr==null || inputStr==''){
+		alert('Date is mandatory.');
+      	return false;
+	}
+	var date=new Date();
+	var myDate_array=inputStr.split("/");
+	date.setFullYear(myDate_array[0]);
+	date.setMonth(myDate_array[1]-1);
+	date.setDate(myDate_array[2]);
+	
+	var today = new Date();
+    if (today>date){
+      alert('Please select today or after.');
+      return false;
+    }	
+	else return true;	
+} 
 //for html tag on pages, added by Dawson
 function validateRequiredFieldByName(fieldName, fieldNameDisplayed, maxLength)
 {

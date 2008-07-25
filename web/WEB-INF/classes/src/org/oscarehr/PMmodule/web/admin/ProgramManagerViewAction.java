@@ -144,6 +144,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
            actionParam.put("programId", id); 
         }
         request.setAttribute("actionParam", actionParam);
+        request.setAttribute("programId", id);
         if (Utility.IsEmpty(viewTab)) {
         	viewTab =KeyConstants.TAB_PROGRAM_GENERAL;            
         }

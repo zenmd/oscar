@@ -5,53 +5,60 @@
 <title>Duplicate Client Check</title>
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
+<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
 <script language="Javascript">
-function selectDuplicateClient(form_name, firstName, firstNameValue, 
-   lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
-   clientNo, clientNoValue, statusMsg, statusMsgValue, 
-   newClientChecked,newClientCheckedValue, shortFlag) {
-   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
-   eval(myexpr);
-   myexpr = "opener.document." + form_name + ".elements['" + lastName +"'].value='" + lastNameValue + "'";
-   eval(myexpr);
 
-   var elSel= window.opener.document.getElementsByName(sex)[0]; 
-   for(var i=0;i<elSel.options.length;i++){
-      if(sexValue==elSel.options[i].value)
-      {
-         elSel.options[i].selected=true;
-         break;
-      }
-    }
-
-   myexpr = "opener.document." + form_name + ".elements['" + dob +"'].value='" + dobValue + "'";
-   eval(myexpr);
-   myexpr = "opener.document." + form_name + ".elements['" + alias +"'].value='" + aliasValue + "'";
-   eval(myexpr);
-   myexpr = "opener.document." + form_name + ".elements['" + clientNo +"'].value='" + clientNoValue + "'";
-   eval(myexpr);
-
-   myexpr = "opener.document." + form_name + ".elements['" + "clientId" +"'].value='" + clientNoValue + "'";
-   eval(myexpr);
-
-
-   var statusMsgValue2=statusMsgValue;
-   if(shortFlag=="Y"){
-     if(statusMsgValue=="(Existing Client)"){
-       statusMsgValue2="#";
-     }else{
-       statusMsgValue2="";
-     } 
-   }
-   myexpr = "opener.document." + form_name + ".elements['" + statusMsg +"'].value='" + statusMsgValue2 + "'";
-   eval(myexpr);
-
-   myexpr = "opener.document." + form_name + ".elements['" + newClientChecked +"'].value='" + newClientCheckedValue + "'";
-   eval(myexpr);
-   
-   self.close();
-}
-
+	function selectDuplicateClient(form_name, firstName, firstNameValue, 
+	   lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
+	   clientNo, clientNoValue, statusMsg, statusMsgValue, 
+	   newClientChecked,newClientCheckedValue, shortFlag) {
+	   var fromPage=document.getElementsByName("pageFrom")[0]; 
+	   alert(fromPage.value);
+  	   if(fromPage==null || fromPage.value=="") { 
+		   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
+		   eval(myexpr);
+		   myexpr = "opener.document." + form_name + ".elements['" + lastName +"'].value='" + lastNameValue + "'";
+		   eval(myexpr);
+		
+		   var elSel= window.opener.document.getElementsByName(sex)[0]; 
+		   for(var i=0;i<elSel.options.length;i++){
+		      if(sexValue==elSel.options[i].value)
+		      {
+		         elSel.options[i].selected=true;
+		         break;
+		      }
+		    }
+		
+		   myexpr = "opener.document." + form_name + ".elements['" + dob +"'].value='" + dobValue + "'";
+		   eval(myexpr);
+		   myexpr = "opener.document." + form_name + ".elements['" + alias +"'].value='" + aliasValue + "'";
+		   eval(myexpr);
+		   myexpr = "opener.document." + form_name + ".elements['" + clientNo +"'].value='" + clientNoValue + "'";
+		   eval(myexpr);
+		
+		   myexpr = "opener.document." + form_name + ".elements['" + "clientId" +"'].value='" + clientNoValue + "'";
+		   eval(myexpr);
+		
+		
+		   var statusMsgValue2=statusMsgValue;
+		   if(shortFlag=="Y"){
+		     if(statusMsgValue=="(Existing Client)"){
+		       statusMsgValue2="#";
+		     }else{
+		       statusMsgValue2="";
+		     } 
+		   }
+		   myexpr = "opener.document." + form_name + ".elements['" + statusMsg +"'].value='" + statusMsgValue2 + "'";
+		   eval(myexpr);
+		
+		   myexpr = "opener.document." + form_name + ".elements['" + newClientChecked +"'].value='" + newClientCheckedValue + "'";
+		   eval(myexpr);
+		}
+		else{
+			AddtoDropdown(clientNoValue, lastNameValue + ", " + firstNameValue, "incidentForm.lstClient");	   
+		}
+	   self.close();
+	}
 function checkExistClients(shortFlagValue){
    var lastName = document.getElementsByName("client.lastName")[0];
    var firstName = document.getElementsByName("client.firstName")[0];
@@ -72,6 +79,7 @@ function checkExistClients(shortFlagValue){
 <body>
 <html:form action="/PMmodule/DuplicateClientCheck.do">
 <input type="hidden" name="var" value="<c:out value="${var}"/>" />
+<input type="hidden" name="pageFrom" value="<c:out value="${pageFrom}"/>"/>
 <input type="hidden" name="shortFlag" value="<c:out value="${shortFlag}"/>"/>
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs">

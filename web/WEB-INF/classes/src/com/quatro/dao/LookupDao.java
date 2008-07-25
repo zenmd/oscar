@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Calendar;
 
+import org.caisi.dao.ProviderDAO;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -21,8 +22,10 @@ import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.model.LstOrgcd;
+import com.quatro.model.security.SecProvider;
 import com.quatro.util.Utility;
 
+import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.Facility;
 import java.util.Calendar;
@@ -34,7 +37,7 @@ public class LookupDao extends HibernateDaoSupport {
 	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree
 	 *  8 - Last Update User   9 - Last Update Date
 	 */
-	
+	private ProviderDao providerDao;
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
 	{
 	   return LoadCodeList(tableId,activeOnly,"",code,codeDesc);
@@ -54,6 +57,8 @@ public class LookupDao extends HibernateDaoSupport {
 
 	public List LoadCodeList(String tableId,boolean activeOnly,  String parentCode,String code, String codeDesc)
 	{
+		String pCd=parentCode;
+		if("USR".equals(tableId)) parentCode=null;
 		LookupTableDefValue tableDef = GetLookupTableDef(tableId);
 		List fields = LoadFieldDefList(tableId);
 		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[100];
@@ -151,6 +156,7 @@ public class LookupDao extends HibernateDaoSupport {
 	   
 	   DBPreparedHandler db = new DBPreparedHandler();
 	   ArrayList list = new ArrayList();
+	   
 	   try {
 		   ResultSet rs = db.queryResults(sSQL,pars);
 		   while (rs.next()) {
@@ -168,6 +174,19 @@ public class LookupDao extends HibernateDaoSupport {
 			   list.add(lv);
 			}
 			rs.close();
+			//filter by programId for user
+			if("USR".equals(tableId) && !Utility.IsEmpty(pCd)){
+				List userLst = providerDao.getActiveProviders(new Integer(pCd));	
+				ArrayList newLst=new ArrayList();
+				for(int n=0;n<userLst.size();n++){
+					SecProvider sp =(SecProvider)userLst.get(n);
+					for(int m=0;m<list.size();m++){
+						LookupCodeValue lv=(LookupCodeValue)list.get(m);					
+						if(lv.getCode().equals(sp.getProviderNo()))	newLst.add(lv);
+					}
+				}
+				list =newLst;
+			}
 	   }
 	   catch(SQLException e)
 	   {
@@ -176,7 +195,7 @@ public class LookupDao extends HibernateDaoSupport {
 	   finally
 	   {
 		   db.closeConn();
-	   }
+	   }	 
 	   return list;
 	}
 
@@ -598,5 +617,10 @@ public class LookupDao extends HibernateDaoSupport {
 		DBPreparedHandler db = new DBPreparedHandler();
 		db.procExecute(procName, params);
 		db.closeConn();
+	}
+	
+
+	public void setProviderDao(ProviderDao providerDao) {
+		this.providerDao = providerDao;
 	}
 }
