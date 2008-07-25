@@ -57,7 +57,7 @@ response.setHeader("Cache-Control", "no-cache");
 </html:form>
 	<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 450px; width: 100%; overflow: auto;" id="scrollBar">
-		<display:table class="simple" cellspacing="2" cellpadding="3" id="atth" name="att_files" export="false" pagesize="50"  requestURI="/PMmodule/UploadFile.do">
+		<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="atth" name="att_files" export="false" pagesize="50"  requestURI="/PMmodule/UploadFile.do">
 		  <display:setProperty name="paging.banner.placement" value="bottom"/>
 		  <display:setProperty name="basic.msg.empty_list" value="No attachment found." />
 		  <display:column sortable="false" title="">

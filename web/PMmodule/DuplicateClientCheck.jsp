@@ -99,7 +99,7 @@ function checkExistClients(shortFlagValue){
 <td></td></tr>
 </table>
 
-<display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/DuplicateClientCheck.do">
+<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/DuplicateClientCheck.do">
   <display:setProperty name="paging.banner.placement" value="bottom" />
   <display:setProperty name="basic.msg.empty_list" value="No clients found." />
   <display:column sortable="false" title="Client No">

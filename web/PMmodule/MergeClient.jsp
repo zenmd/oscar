@@ -212,7 +212,7 @@
 				<div
 					style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
-				<display:table class="simple" cellspacing="2" cellpadding="3"
+				<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
 					id="client" name="clients" export="false" pagesize="100"
 					requestURI="/PMmodule/MergeClient.do">
 					<display:setProperty name="paging.banner.placement" value="bottom" />

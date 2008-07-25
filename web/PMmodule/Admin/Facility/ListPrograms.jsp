@@ -62,7 +62,7 @@
 					</div>
 					<logic:empty name="associatedPrograms">No programs.<br /></logic:empty>  
 					<logic:notEmpty name="associatedPrograms">
-						<display:table class="simple" cellspacing="2" cellpadding="3"
+						<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
 							id="program" name="associatedPrograms" export="false"
 							requestURI="/PMmodule/FacilityManager.do">
 							<display:setProperty name="basic.msg.empty_list"

@@ -92,7 +92,7 @@
 				</table>
 
 				<!-- end room status & bed program filter --> 
-				<display:table class="simple" name="rooms"	id="room" requestURI="/PMmodule/BedManager.do">
+				<display:table class="simple" sort="list" name="rooms"	id="room" requestURI="/PMmodule/BedManager.do">
 					<display:column title="Program">
 						 <c:forEach var="program" items="${bedManagerForm.programs}">
 						 <c:if test="${program.id == room.programId}"><c:out value="${program.name}" /></c:if>

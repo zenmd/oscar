@@ -65,7 +65,7 @@
 							    </table>
 							</div>
 						
-						    <display:table class="simple" cellspacing="2" cellpadding="3" id="facility" name="facilities" export="false" pagesize="0" requestURI="/PMmodule/FacilityManager.do">
+						    <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="facility" name="facilities" export="false" pagesize="0" requestURI="/PMmodule/FacilityManager.do">
 						        <display:setProperty name="paging.banner.placement" value="bottom" />
 						        <display:setProperty name="paging.banner.item_name" value="agency" />
 						        <display:setProperty name="paging.banner.items_name" value="facilities" />

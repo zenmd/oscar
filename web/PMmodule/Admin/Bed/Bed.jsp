@@ -120,7 +120,7 @@
                  </table></div></td></tr>
                 
                 <tr><td>
-				<display:table class="simple" name="beds"	id="bed" requestURI="/PMmodule/BedManager.do" pagesize="20">
+				<display:table class="simple" sort="list" name="beds"	id="bed" requestURI="/PMmodule/BedManager.do" pagesize="20">
 				   <display:column title="Name" sortable="true" sortProperty="name">
 				    <a href="<html:rewrite action="/PMmodule/BedManager.do?method=editBed" />&facilityId=<c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>&bedId=<c:out value="${bed.id}"/>">
                       <c:out value="${bed.name}"/>

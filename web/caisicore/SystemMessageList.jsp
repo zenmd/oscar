@@ -69,7 +69,7 @@ String s = "debug";
 
 					
 					
-					<display:table class="simple" cellspacing="2" cellpadding="3" id="message" name="ActiveMessages" export="false" pagesize="0" requestURI="/SystemMessage.do?method=list">
+					<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="message" name="ActiveMessages" export="false" pagesize="0" requestURI="/SystemMessage.do?method=list">
 						        <display:setProperty name="paging.banner.placement" value="bottom" />
 						        <display:setProperty name="paging.banner.item_name" value="agency" />
 						        <display:setProperty name="paging.banner.items_name" value="messages" />

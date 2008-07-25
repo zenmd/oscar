@@ -57,7 +57,7 @@ function updateQuatroAdmission(clientId, admissionId) {
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="50" requestURI="/PMmodule/QuatroAdmission.do">
+<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="admission" name="admissions" export="false" pagesize="50" requestURI="/PMmodule/QuatroAdmission.do">
    <display:setProperty name="paging.banner.placement" value="bottom" />
    <display:setProperty name="basic.msg.empty_list" value="No admissions found." />
    <display:column property="programName" sortable="true" title="Program Name" />

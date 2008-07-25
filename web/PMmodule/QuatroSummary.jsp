@@ -178,7 +178,7 @@ function openHealthSafety(){
 </table></div></td></tr>
 
 <tr><td>
-<display:table class="simple" cellspacing="2" cellpadding="3" id="referral" name="referrals" export="false" pagesize="10" requestURI="/PMmodule/QuatroClientSummary.do">
+<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="referral" name="referrals" export="false" pagesize="10" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	
 	<display:column property="programName" sortable="true" title="Program Name" />

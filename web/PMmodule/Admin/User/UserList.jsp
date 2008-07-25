@@ -91,7 +91,7 @@
 			</tr>
 		</table>
 		</div>
-		<display:table class="simple" cellspacing="2" cellpadding="3"
+		<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
 			id="user" name="secuserroles" export="false" pagesize="100"
 			requestURI="/PMmodule/Admin/UserSearch.do">
 
