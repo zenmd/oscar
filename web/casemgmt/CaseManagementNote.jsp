@@ -389,9 +389,7 @@ var XMLHttpRequestObject = false;
 	<table width="90%" border="1">
 		<tr>
 			<td class="fieldValue" colspan="1">
-				<textarea
-					name="caseNote_note" id="caseNote_note" cols="60" rows="12"		wrap="hard" ><nested:write
-					property="caseNote.note" /></textarea>
+				<html:textarea  cols="60" rows="12"	property="caseNote.note" ></html:textarea>
 			</td>
 			<td class="fieldTitle"></td>
 

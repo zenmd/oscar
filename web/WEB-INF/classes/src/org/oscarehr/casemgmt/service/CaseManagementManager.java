@@ -189,6 +189,7 @@ public class CaseManagementManager {
     	for(int i=0;i<lft.length;i++){
     		if(lft[i]!="" || !lft[i].startsWith("\t"))tmpStr+=lft[i]+"\n";
     	}
+    	tmpStr=tmpStr.replaceAll("\t", "").trim();
     	return tmpStr;
     }
     public String saveNote(CaseManagementNote note, String cproviderNo, String lastStr) {

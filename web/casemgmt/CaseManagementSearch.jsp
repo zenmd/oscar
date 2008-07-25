@@ -147,6 +147,7 @@ response.setHeader("Cache-Control", "no-cache");
 		
 					</td>
 					<td><%	String demo = request.getParameter("demographicNo");	%>				
+						<!-- 
 						<c:choose>
 							<c:when test="${not empty image_filename}">
 								<img style="cursor: pointer;" id="ci"	src="<c:out value="${ctx}"/>/images/default_img.jpg"
@@ -161,7 +162,8 @@ response.setHeader("Cache-Control", "no-cache");
 									OnMouseOver="window.status='Click to upload new photo';return true"
 									onClick="popupUploadPage('<c:out value="${ctx}"/>/casemgmt/uploadimage.jsp',<%=demo%>);return false;" />
 							</c:otherwise>
-						</c:choose>			
+						</c:choose>	
+						-->		
 					</td>
 				</tr>
 			</table>		
