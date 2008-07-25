@@ -13,7 +13,7 @@
 	   clientNo, clientNoValue, statusMsg, statusMsgValue, 
 	   newClientChecked,newClientCheckedValue, shortFlag) {
 	   var fromPage=document.getElementsByName("pageFrom")[0]; 
-	  
+	   alert(fromPage.value);
   	   if(fromPage==null || fromPage.value=="") { 
 		   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
 		   eval(myexpr);
@@ -79,7 +79,7 @@ function checkExistClients(shortFlagValue){
 <body>
 <html:form action="/PMmodule/DuplicateClientCheck.do">
 <input type="hidden" name="var" value="<c:out value="${var}"/>" />
-<input type="hidden" name="pageFrom" value="<c:out value="${pageFrom}"/>"/>
+<input type="hidden" name="pageFrom" />
 <input type="hidden" name="shortFlag" value="<c:out value="${shortFlag}"/>"/>
 <table width="100%" class="edit">
 <tr><td colspan="4"><br><div class="tabs">
