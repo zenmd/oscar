@@ -13,7 +13,7 @@
 	   clientNo, clientNoValue, statusMsg, statusMsgValue, 
 	   newClientChecked,newClientCheckedValue, shortFlag) {
 	   var fromPage=document.getElementsByName("pageFrom")[0]; 
-	   alert(fromPage.value);
+	  
   	   if(fromPage==null || fromPage.value=="") { 
 		   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
 		   eval(myexpr);
