@@ -14,10 +14,6 @@
 		<property name="endDate" column="end_date" type="calendar" not-null="false" />
 		<property name="intakeStatus" column="intake_status"/>
 		<property name="programId" column="program_id" type="integer" not-null="true" />
-<!-- 
-		<property name="referralId" column="referral_id" type="integer" />
-		<property name="queueId" column="queue_id" type="integer" />
- -->
 		<property name="lastUpdateDate" column="lastupdatedate"></property>	
 		<set name="answers"
 			inverse="false"
