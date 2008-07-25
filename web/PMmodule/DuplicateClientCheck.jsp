@@ -12,8 +12,7 @@
 	   lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
 	   clientNo, clientNoValue, statusMsg, statusMsgValue, 
 	   newClientChecked,newClientCheckedValue, shortFlag) {
-	   var fromPage=document.getElementsByName("pageFrom")[0]; 
-	   alert(fromPage.value);
+	   var fromPage=document.getElementsByName("pageFrom")[0]; 	 
   	   if(fromPage==null || fromPage.value=="") { 
 		   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
 		   eval(myexpr);
