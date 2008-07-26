@@ -19,11 +19,16 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.oscarehr.util.SpringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.quatro.service.LookupManager;
+import com.quatro.model.LookupCodeValue;
+import java.util.List;
+
 public class LoginCheckLogin {
-    boolean bWAN = true;
+    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
 
     Properties pvar = null;
 
@@ -41,14 +46,9 @@ public class LoginCheckLogin {
         setOscarVariable();
     }
 
-    public boolean isBlock(String ip) {
-    	/*
+    public boolean isBlock(String userId) {
         boolean bBlock = false;
-
-        // judge the local network
-        if (ip.startsWith(pvar.getProperty("login_local_ip")))
-            bWAN = false;
-
+        
         GregorianCalendar now = new GregorianCalendar();
         while (llist == null) {
             llist = LoginList.getLoginListInstance(); // LoginInfoBean info =
@@ -57,7 +57,7 @@ public class LoginCheckLogin {
         String sTemp = null;
 
         // delete the old entry in the loginlist if time out
-        if (bWAN && !llist.isEmpty()) {
+        if (!llist.isEmpty()) {
             for (Enumeration e = llist.keys(); e.hasMoreElements();) {
                 sTemp = (String) e.nextElement();
                 linfo = (LoginInfoBean) llist.get(sTemp);
@@ -66,41 +66,10 @@ public class LoginCheckLogin {
             }
 
             // check if it is blocked
-            if (llist.get(ip) != null && ((LoginInfoBean) llist.get(ip)).getStatus() == 0)
+            if (llist.get(userId) != null && ((LoginInfoBean) llist.get(userId)).getStatus() == 0)
                 bBlock = true;
         }
-
         return bBlock;
-        */
-    	return false;
-    }
-
-    // lock username and ip
-    public boolean isBlock(String ip, String userName) {
-       /*
-    	if (!pvar.getProperty("login_lock", "").trim().equals("true")) {
-            return isBlock(ip);
-        }
-
-        // the following meets the requirment of epp
-        boolean bBlock = false;
-        // judge the local network
-        if (ip.startsWith(pvar.getProperty("login_local_ip")))
-            bWAN = false;
-
-        GregorianCalendar now = new GregorianCalendar();
-        while (llist == null) {
-            llist = LoginList.getLoginListInstance();
-        }
-        String sTemp = null;
-
-        // check if it is blocked
-        if (llist.get(userName) != null && ((LoginInfoBean) llist.get(userName)).getStatus() == 0)
-            bBlock = true;
-
-        return bBlock;
-        */
-    	return false;
     }
 
     // authenticate is used to check password
@@ -116,74 +85,46 @@ public class LoginCheckLogin {
     	}
     	return lb.authenticate(isOk,appContext); 
     }
-
-    public synchronized void updateLoginList(String ip, String userName) {
-        if (!pvar.getProperty("login_lock", "").trim().equals("true")) {
-            updateLoginList(ip);
-        } else {
-            updateLockList(userName);
-        }
-    }
-
+    
     // update login list if login failed
-    public synchronized void updateLoginList(String ip) {
-        if (bWAN) {
+    public synchronized void updateLoginList(String userId) {
             GregorianCalendar now = new GregorianCalendar();
-            if (llist.get(ip) == null) {
+            if (llist.get(userId) == null) {
                 linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("login_max_failed_times")), Integer
                         .parseInt(pvar.getProperty("login_max_duration")));
             } else {
-                linfo = (LoginInfoBean) llist.get(ip);
+                linfo = (LoginInfoBean) llist.get(userId);
                 linfo.updateLoginInfoBean(now, 1);
             }
-            llist.put(ip, linfo);
-            System.out.println(ip + "  status: " + ((LoginInfoBean) llist.get(ip)).getStatus() + " times: "
+            llist.put(userId, linfo);
+            System.out.println(userId + "  status: " + ((LoginInfoBean) llist.get(userId)).getStatus() + " times: "
                     + linfo.getTimes() + " time: ");
-        }
     }
 
     // lock update login list if login failed
-    public synchronized void updateLockList(String userName) {
-        if (bWAN) {
+    public synchronized void updateLockList(String userId) {
             GregorianCalendar now = new GregorianCalendar();
-            if (llist.get(userName) == null) {
+            if (llist.get(userId) == null) {
                 linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("login_max_failed_times")), Integer
                         .parseInt(pvar.getProperty("login_max_duration")));
             } else {
-                linfo = (LoginInfoBean) llist.get(userName);
+                linfo = (LoginInfoBean) llist.get(userId);
                 linfo.updateLoginInfoBean(now, 1);
             }
-            llist.put(userName, linfo);
-            System.out.println(userName + "  status: " + ((LoginInfoBean) llist.get(userName)).getStatus() + " times: "
+            llist.put(userId, linfo);
+            System.out.println(userId + "  status: " + ((LoginInfoBean) llist.get(userId)).getStatus() + " times: "
                     + linfo.getTimes() + " time: ");
-        }
     }
 
     public void setOscarVariable() {
     	pvar = (Properties) oscar.OscarProperties.getInstance();
-    	/*
-        pvar = new Properties();
-        pvar.setProperty("file_separator", System.getProperty("file.separator"));
-        pvar.setProperty("working_dir", System.getProperty("user.dir"));
-        char sep = pvar.getProperty("file_separator").toCharArray()[0];
-        try {
-            // This has been used to look in the users home directory that
-            // started tomcat
-            propFileName = System.getProperty("user.home") + sep + propFile;
-            FileInputStream fis = new FileInputStream(propFileName);
-
-            oscar.OscarProperties p = oscar.OscarProperties.getInstance();
-            p.loader(propFileName);
-            pvar.load(fis);
-            fis.close();
-        } catch (Exception e) {
-            System.out.println("*** No Property File ***");
-            System.out.println("Property file not found at:");
-            System.out.println(propFileName);
-            // e.printStackTrace();
-            propFileFound = false;
-        }
-   */
+    	
+    	List confKeyList = lookupManager.LoadCodeList("PRP", false, null,null);
+    	for(int i=0; i<confKeyList.size(); i++)
+    	{
+    		LookupCodeValue ckv = (LookupCodeValue) confKeyList.get(i);
+    		pvar.setProperty(ckv.getDescription(), ckv.getBuf1().toLowerCase());
+    	}
     }
 
     public Properties getOscarVariable() {
@@ -194,7 +135,7 @@ public class LoginCheckLogin {
         return lb.getPreferences();
     }
 
-    public boolean unlock(String userName) {
+    public boolean unlock(String userId) {
         boolean bBlock = false;
 
         while (llist == null) {
@@ -206,7 +147,7 @@ public class LoginCheckLogin {
         if (!llist.isEmpty()) {
             for (Enumeration e = llist.keys(); e.hasMoreElements();) {
                 sTemp = (String) e.nextElement();
-                if (sTemp.equals(userName)) {
+                if (sTemp.equals(userId)) {
                     llist.remove(sTemp);
                     bBlock = true;
                 }

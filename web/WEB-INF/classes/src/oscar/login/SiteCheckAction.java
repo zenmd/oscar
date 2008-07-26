@@ -126,7 +126,7 @@ public final class SiteCheckAction extends DispatchAction {
             }
 
             LoginCheckLogin cl = new LoginCheckLogin();
-            if (cl.isBlock(ip, userName)) {
+            if (cl.isBlock(userName)) {
                 _logger.info(LOG_PRE + " Blocked: " + userName);
                 return("error:Your account is locked. Please contact your administrator to unlock.");
             }
@@ -237,11 +237,11 @@ public final class SiteCheckAction extends DispatchAction {
             }
             // expired password
             else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
-                cl.updateLoginList(ip, userName);
+                cl.updateLoginList(userName);
                 return("error:Your account is expired. Please contact your administrator.");
             }
             else { // go to normal directory
-                cl.updateLoginList(ip, userName);
+                cl.updateLoginList(userName);
                 CRHelper.recordLoginFailure(userName, request);
                 return "error:Login failed, please try again";
             }

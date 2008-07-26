@@ -743,19 +743,17 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	   			roomDemographicManager.deleteRoomDemographic(roomDemographic2);
    	   			
 //   	   		    assignEnd1 = roomDemographic1.getAssignEnd();
-   	   			roomDemographic1.getId().setDemographicNo(client2);
    	   		    roomDemographic1.setAssignStart(today);
    	   		    roomDemographic1.setProviderNo(providerNo);
-   	   		    roomDemographic1.getId().setRoomId(roomId1);
-   	   		    roomDemographic1.setBedId(bedId1);
-   	   		    roomDemographic2.setProviderNo(providerNo);
-//   	   		    roomDemographic1.setAssignEnd(roomDemographic2.getAssignEnd());
-   	   			roomDemographic2.getId().setDemographicNo(client1);
+   	   		    roomDemographic1.getId().setRoomId(roomId2);
+   	   		    roomDemographic1.setBedId(bedId2);
+   	   		       	   		    
    	   		    roomDemographic2.setAssignStart(today);
-//   	   		    roomDemographic2.setAssignEnd(assignEnd1);
-   	   		    roomDemographic2.getId().setRoomId(roomId2);
-   	   		    roomDemographic2.setBedId(bedId2);
-   	   			roomDemographicManager.saveRoomDemographic(roomDemographic1);
+   	   		    roomDemographic2.setProviderNo(providerNo);
+   	   			roomDemographic2.getId().setRoomId(roomId1);
+   	   		    roomDemographic2.setBedId(bedId1);
+
+   	   		    roomDemographicManager.saveRoomDemographic(roomDemographic1);
    	   			roomDemographicManager.saveRoomDemographic(roomDemographic2);
    		}else{
    			if(isFamilyHead1  && isFamilyHead2){//if either clients are family head

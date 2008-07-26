@@ -2,13 +2,14 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" 
           "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="BarbecueReport" pageWidth="171" pageHeight="108" columnWidth="153" leftMargin="9" rightMargin="9" topMargin="27" bottomMargin="9">
+<jasperReport name="BarbecueReport" pageWidth="252" pageHeight="108" columnWidth="243" 
+    orientation="Landscape" leftMargin="5" rightMargin="4" topMargin="4" bottomMargin="5">
 	<import value="net.sourceforge.barbecue.BarcodeFactory"/>
 	<parameter name="demo" isForPrompting="true" class="java.lang.String"/>
 	<title>
 		<band height="72">
-			<image scaleImage="Clip" hAlign="Center">
-				<reportElement x="0" y="0" width="153" height="63"/>
+			<image scaleImage="FillFrame" hAlign="Left" vAlign="Middle">
+				<reportElement x="0" y="21" width="243" height="49"/>
 				<graphicElement/>
 				<imageExpression class="net.sf.jasperreports.engine.JRRenderable">
                  <![CDATA[new net.sf.jasperreports.renderers.BarbecueRenderer(BarcodeFactory.createCode128B($P{demo}))]]>

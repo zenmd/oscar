@@ -74,7 +74,7 @@ public final class LoginAction extends DispatchAction {
         }
 
         LoginCheckLogin cl = new LoginCheckLogin();
-        if (cl.isBlock(ip, userName)) {
+        if (cl.isBlock(userName)) {
             _logger.info(LOG_PRE + " Blocked: " + userName);
             // return mapping.findForward(where); //go to block page
             messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Your account is locked. Please contact your administrator to unlock."));
@@ -144,8 +144,8 @@ public final class LoginAction extends DispatchAction {
         }
         else { // go to normal directory
             // request.setAttribute("login", "failed");
-            // LogAction.addLog(userName, "failed", LogConst.CON_LOGIN, "", ip);
-            //cl.updateLoginList(ip, userName);
+            LogAction.addLog(userName, "failed", LogConst.CON_LOGIN, "", ip);
+            cl.updateLoginList(userName);
             CRHelper.recordLoginFailure(userName, request);
    	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
         }

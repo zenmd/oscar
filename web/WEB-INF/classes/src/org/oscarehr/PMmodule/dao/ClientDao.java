@@ -254,7 +254,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 		if(bean.getAssignedToProviderNo() != null && bean.getAssignedToProviderNo().length() > 0) {
 			assignedToProviderNo = bean.getAssignedToProviderNo();
-			sql = "demographic_no in (select client_id from admission where provider_no='" + assignedToProviderNo + "')"; 
+			sql = "demographic_no in (select client_id from admission where primaryWorker='" + assignedToProviderNo + "')"; 
 			criteria.add(Restrictions.sqlRestriction(sql));
 		}
 		
