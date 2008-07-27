@@ -51,12 +51,11 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        
        String intakeId = (String)clientForm.getIntakeId();
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       if (intakeFamilyHeadId.intValue() == 0) intakeFamilyHeadId = Integer.valueOf(intakeId);
        request.setAttribute("intakeHeadId", intakeFamilyHeadId);
        
-       if(clientForm.getIntakeStatus()==null){
-         QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
-         clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
-       }  
+       QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
+       clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
        
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
@@ -72,14 +71,15 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
        
-       if(demographicNo.equals((String)actionParam.get("clientId")))
-           request.setAttribute("isReadOnly", Boolean.FALSE);
-       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-         request.setAttribute("isReadOnly", Boolean.FALSE);
+   	   boolean readOnly=super.isReadOnly(request,headIntakeDB.getIntakeStatus(), KeyConstants.FUN_PMM_CLIENTINTAKE,headIntakeDB.getProgramId());
+   	   if (!readOnly)
+   	   {
+         if(!(intakeFamilyHeadId.toString().equals(intakeId))) readOnly = true;
+   	   }
+   	   request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+
+   	   List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        
-       List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");
        obj2.setDescription("");
@@ -146,12 +146,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 
-       if(demographicNo.equals((String)actionParam.get("clientId")))
-           request.setAttribute("isReadOnly", Boolean.FALSE);
-       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+   	   boolean readOnly=false;
+   	   request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj3= new LookupCodeValue();
@@ -242,12 +238,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 
-       if(demographicNo.equals((String)actionParam.get("clientId")))
-           request.setAttribute("isReadOnly", Boolean.FALSE);
-       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-       	 request.setAttribute("isReadOnly", Boolean.FALSE);
+   	   boolean readOnly=false;
+   	   request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
@@ -581,7 +573,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
      	 intakeFamily.setIntakeHeadId(headIntake.getId());
      	 intakeFamily.setLastUpdateUser(providerNo);
      	 intakeFamily.setLastUpdateDate(new GregorianCalendar());
-     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, Integer.valueOf(intakeFamilyHeadId), intake, newClient_intakeDBExist, intakeFamily);
+     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, intakeFamilyHeadId, intake, newClient_intakeDBExist, intakeFamily);
      	 intakeFamily.setIntakeId((Integer)lst2.get(1));
      	 intakeFamily.setClientId((Integer)lst2.get(2));
   	   }

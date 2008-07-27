@@ -36,11 +36,7 @@
 		   eval(myexpr);
 		   myexpr = "opener.document." + form_name + ".elements['" + clientNo +"'].value='" + clientNoValue + "'";
 		   eval(myexpr);
-		
-		   myexpr = "opener.document." + form_name + ".elements['" + "clientId" +"'].value='" + clientNoValue + "'";
-		   eval(myexpr);
-		
-		
+				
 		   var statusMsgValue2=statusMsgValue;
 		   if(shortFlag=="Y"){
 		     if(statusMsgValue=="(Existing Client)"){
@@ -61,6 +57,7 @@
 	   self.close();
 	}
 function checkExistClients(shortFlagValue){
+    document.forms[0].elements["method"].value="search";
 	document.forms[0].submit();
 }
 
@@ -69,6 +66,7 @@ function checkExistClients(shortFlagValue){
 <body>
 <html:form action="/PMmodule/DuplicateClientCheck.do">
 <input type="hidden" name="var" value="<c:out value="${var}"/>" />
+<input type="hidden" name="method" />
 <input type="hidden" name="pageFrom" value="<c:out value="${pageFrom}"/>" />
 <input type="hidden" name="shortFlag" value="<c:out value="${shortFlag}"/>"/>
 <table width="100%" class="edit">
@@ -87,9 +85,8 @@ function checkExistClients(shortFlagValue){
 <quatro:datePickerTag property="client.dob" width="65%" openerForm="duplicateClientCheckForm">
 </quatro:datePickerTag>
 </td></tr>
-<tr><td>Alias</td>
-<td><html-el:text size="30" maxlength="70" property="client.alias"/></td>
-<td>
+<tr>
+<td colspan="2">
 <a href="javascript:checkExistClients();" style="color:Navy;text-decoration:none;">
 <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;
 </a>

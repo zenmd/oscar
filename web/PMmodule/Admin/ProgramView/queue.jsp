@@ -46,11 +46,11 @@
 	border="0">
 <tr>
 		<td align="left" class="buttonBar2">
-			<a href='<html:rewrite page="/PMmodule/ProgramManagerView.do"/>?tab=General&programId=<c:out value="${programId}"/>' style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
-			</a>
-			<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;</html:link>
+			<a href="javascript:clickTab('General');"
+			style="color:Navy;text-decoration:none;">
+			<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
+			&nbsp;|&nbsp;<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;</html:link>
 		</td>
 </tr>
 <tr>

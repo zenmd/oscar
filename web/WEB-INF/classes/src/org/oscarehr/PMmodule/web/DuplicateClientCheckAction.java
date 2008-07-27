@@ -27,21 +27,20 @@ public class DuplicateClientCheckAction extends DispatchAction {
        DynaActionForm qform = (DynaActionForm) form;
        Demographic client = (Demographic) qform.get("client");
        
-       ClientSearchFormBean criteria = new ClientSearchFormBean();
-	   criteria.setActive("");
-	   criteria.setAssignedToProviderNo("");
-       criteria.setLastName(client.getLastName());
-       criteria.setFirstName(client.getFirstName());
-       criteria.setDob(client.getDob());
-       criteria.setGender(client.getSex());
-	   List lst = clientManager.search(criteria, false,false);
+       client.setFirstName(request.getParameter("firstName"));
+	   client.setLastName(request.getParameter("lastName"));
+	   client.setDob(request.getParameter("dob"));
+	   client.setSex( request.getParameter("sex"));
+	   client.setAlias(request.getParameter("alias"));
 
+	   List clients = getClientList(client);
 	   if(!Utility.IsEmpty(client.getFirstName())  && !Utility.IsEmpty(client.getLastName()))
 	   {
-	     lst.add(0, client);
+		   client.setDemographicNo(new Integer(0));
+		   clients.add(0, client);
 	   }
+	   request.setAttribute("clients", clients);
 	   
-	   request.setAttribute("clients", lst);
 	   request.setAttribute("pageFrom", request.getParameter("pageFrom"));
 	   request.setAttribute("var", request.getParameter("var"));
 	   request.setAttribute("shortFlag", request.getParameter("shortFlag"));
@@ -57,16 +56,55 @@ public class DuplicateClientCheckAction extends DispatchAction {
 		   request.setAttribute("statusMsg", split[7]);
 		   request.setAttribute("newClientChecked", split[8]);
 	   }
+	   setEditFields(request,qform);
+	   return mapping.findForward("edit");
+   }
+   public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       DynaActionForm qform = (DynaActionForm) form;
+       Demographic client = (Demographic) qform.get("client");
+       
+       List clients = getClientList(client);
+	   request.setAttribute("clients", clients);
+
+       setEditFields(request,qform);
+
+	   return mapping.findForward("edit");
+   }
+   private List getClientList(Demographic client)
+   {
+       ClientSearchFormBean criteria = new ClientSearchFormBean();
+       boolean hasCriteria = false;
+	   criteria.setActive("");
+	   criteria.setAssignedToProviderNo("");
+	   if (!Utility.IsEmpty(client.getLastName())) hasCriteria=true; 
+       criteria.setLastName(client.getLastName());
+	   if (!Utility.IsEmpty(client.getFirstName())) hasCriteria=true; 
+       criteria.setFirstName(client.getFirstName());
+	   if (!Utility.IsEmpty(client.getDob())) hasCriteria=true; 
+       criteria.setDob(client.getDob());
+       criteria.setGender(client.getSex());
+       if(hasCriteria) {
+    	   return clientManager.search(criteria, false,false);
+       }
+       else
+       {
+    	   return new java.util.ArrayList();
+       }
+   }
+   public void setEditFields(HttpServletRequest request, DynaActionForm qform)
+   {
 	   List genders = lookupManager.LoadCodeList("GEN", true, null, null);
 	   LookupCodeValue obj3= new LookupCodeValue();
 	   obj3.setCode("");
 	   obj3.setDescription("");
 	   genders.add(0, obj3);
 	   qform.set("genders",genders);
- 	   
-	   return mapping.findForward("edit");
-   }
 
+	   request.setAttribute("pageFrom", request.getParameter("pageFrom"));
+	   request.setAttribute("var", request.getParameter("var"));
+	   request.setAttribute("shortFlag", request.getParameter("shortFlag"));
+   }
+   
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
    }
