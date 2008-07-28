@@ -132,7 +132,8 @@ public class ClientManager {
 					return intakeTmp;					
 				}
 				else if(KeyConstants.PROGRAM_TYPE_Service.equals(program.getType()) 
-						&& intakeTmp.getEndDate().after(Calendar.getInstance())) intake=intakeTmp;
+						&& (intakeTmp.getEndDate()==null ||
+					(intakeTmp.getEndDate()!=null && intakeTmp.getEndDate().after(Calendar.getInstance())))) intake=intakeTmp;
 				
 			}
 		}
