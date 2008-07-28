@@ -146,10 +146,10 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         request.setAttribute("actionParam", actionParam);
         request.setAttribute("programId", id);
         if (Utility.IsEmpty(viewTab)) {
-        	viewTab =KeyConstants.TAB_PROGRAM_GENERAL;            
+        	viewTab =KeyConstants.TAB_PROGRAM_QUEUE;            
         }
         formBean.setTab(viewTab);
-
+      
         // find the program id       
         Integer programId = Integer.valueOf(id);
         Program program = programManager.getProgram(programId);
