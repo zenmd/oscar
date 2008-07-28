@@ -69,7 +69,7 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 			<display:table class="simple" cellspacing="2" cellpadding="3"
 				id="complaint" name="complaints" export="false" pagesize="0"
 				requestURI="/PMmodule/QuatroComplaint.do">
-				<display:column sortable="true" title="ComplaintID" >
+				<display:column sortable="true" title="Complaint ID" >
 					<a	href="<html:rewrite action="/PMmodule/QuatroComplaint.do"/>?method=edit&clientId=<c:out value="${complaint.clientId}" />&complaintId=<c:out value="${complaint.id}" />">
 					<c:out value="${complaint.id}" /> </a>
 				</display:column>

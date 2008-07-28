@@ -71,7 +71,7 @@
         setTimeout('resetFlag()', 750);
 	}	
     function resetFlag() { needToConfirm = true; } 
-	function init()
+	function initHash()
 	{
 		hashVal0 = getHash();
 	}
@@ -80,7 +80,6 @@
 		<script type="text/javascript">
 			readOnly=false;
 			needToConfirm = true;
-			hasInit = true;
 		    window.onbeforeunload = confirmClose; 
 		</script>
 	</logic:notPresent>
@@ -96,7 +95,6 @@
 		<script type="text/javascript">
 			readOnly=false;
 			needToConfirm = true;
-			hasInit = true;
 		    window.onbeforeunload = confirmClose; 
 		</script>
 	</logic:equal>

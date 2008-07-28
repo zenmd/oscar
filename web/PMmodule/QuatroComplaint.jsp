@@ -207,7 +207,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var obj = document.getElementsByName("isStandards")[0];
 		setStandard(obj);
 	}
-	hasInit = true;	
 </script>
 
 <html-el:form action="/PMmodule/QuatroComplaint.do">

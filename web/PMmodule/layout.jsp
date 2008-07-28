@@ -43,7 +43,6 @@
 		<script type="text/javascript">
 			var isInFrame = true;
 			var readOnly = false;
-			var hasInit = false;
 			function setDivPosition()
 			{
 				 var ele = document.getElementById("scrollBar");
@@ -69,7 +68,8 @@
 			 function initPage()
 			 {
 				setDivPosition();
-				if(hasInit) init();
+				if (typeof(init) == "function") eval("init()");
+				if (typeof(initHash) == "function") eval("initHash()");
 			 }
 		</script>
 				
