@@ -56,12 +56,15 @@ import org.oscarehr.common.model.UserProperty;
 import com.ibm.CORBA.iiop.Request;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
 
 public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
+    private IntakeManager intakeManager;
+    
     private static Log log = LogFactory.getLog(CaseManagementSearchAction.class);
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -310,6 +313,20 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         }
         current = System.currentTimeMillis();
         log.debug("THE END " + String.valueOf(current - start));
+        
+	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demoNo), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+    	   if(KeyConstants.INTAKE_STATUS_ADMITTED.equals(obj0.getIntakeStatus())){
+             request.setAttribute("currentAdmissionProgramId", obj0.getProgramId());
+    	   }else{
+             request.setAttribute("currentAdmissionProgramId", new Integer(0));
+    	   }
+	    }else{
+           request.setAttribute("currentAdmissionProgramId", new Integer(0));
+	    }
+        
+        
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
         String useNewCaseMgmt = (String) request.getSession(true).getAttribute("newCaseManagement");
         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
@@ -608,5 +625,9 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         return filteredNotes;
     }
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
 
 }

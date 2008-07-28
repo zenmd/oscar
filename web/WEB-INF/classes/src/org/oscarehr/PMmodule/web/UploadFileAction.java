@@ -13,11 +13,13 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.UploadFileManager;
 import com.quatro.util.Utility;
@@ -37,13 +39,16 @@ public class UploadFileAction extends BaseClientAction {
 	 protected AdmissionManager admissionManager;	
 	 protected ClientManager clientManager;
 	 protected ProgramManager programManager;
+     private IntakeManager intakeManager;
 
-		public void setClientManager(ClientManager clientManager) {
+	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
 	}
-		public void setAdmissionManager(AdmissionManager admMgr){
-			this.admissionManager = admMgr;
-		}
+	
+	public void setAdmissionManager(AdmissionManager admMgr){
+		this.admissionManager = admMgr;
+	}
+	
 	public void setUploadFileManager(UploadFileManager uploadFileManager) {
 		this.uploadFileManager = uploadFileManager;
 	}
@@ -68,6 +73,16 @@ public class UploadFileAction extends BaseClientAction {
 		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo=(String) request.getSession().getAttribute("user");
+
+			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+		    if(lstIntakeHeader.size()>0) {
+		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+		    }else{
+	           request.setAttribute("currentIntakeProgramId", new Integer(0));
+		    }
+			
 	       try {
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
@@ -229,6 +244,10 @@ public class UploadFileAction extends BaseClientAction {
 	}
 		public void setProgramManager(ProgramManager programManager) {
 			this.programManager = programManager;
+		}
+
+		public void setIntakeManager(IntakeManager intakeManager) {
+			this.intakeManager = intakeManager;
 		}
 
 }

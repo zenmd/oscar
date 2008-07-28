@@ -15,5 +15,7 @@
 		<property name="endDate" column="end_date" type="calendar" not-null="false" />
 		<property name="intakeStatus" column="intake_status"/>
 		<property name="programId" column="program_id" type="integer" not-null="true" length="11" />
+	    <property name="programType" lazy="false" formula="(select p.type from program p where p.program_Id=program_id)"></property> 
+	    <property name="programName" lazy="false" formula="(select p.name from program p where p.program_Id=program_id)"></property> 
 	</class>
 </hibernate-mapping>

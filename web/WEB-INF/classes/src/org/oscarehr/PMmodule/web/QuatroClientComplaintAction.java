@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ComplaintManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -24,6 +25,7 @@ import oscar.MyDateFormat;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.Complaint;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
@@ -34,6 +36,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 	private LookupManager lookupManager;
 	private ClientManager clientManager;
 	private ProgramManager programManager;
+    private IntakeManager intakeManager;
 	
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
@@ -67,6 +70,15 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 		request.setAttribute("complaints", complaints);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));
+
+	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(tmp), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+	    }else{
+           request.setAttribute("currentIntakeProgramId", new Integer(0));
+	    }
+		
 		return mapping.findForward("list");
 	}
 
@@ -266,6 +278,10 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 	public void setProgramManager(ProgramManager programManager) {
 		this.programManager = programManager;
+	}
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
 	}
 
 }

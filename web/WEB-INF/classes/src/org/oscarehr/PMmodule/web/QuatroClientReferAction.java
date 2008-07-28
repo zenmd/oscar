@@ -42,8 +42,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
    private IntakeManager intakeManager;
 
 	public void setIntakeManager(IntakeManager intakeManager) {
-	this.intakeManager = intakeManager;
-}
+	  this.intakeManager = intakeManager;
+    }
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -52,7 +52,46 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		setListAttributes(form, request);
+//		setListAttributes(form, request);
+		ActionMessages messages = new ActionMessages();
+		boolean isError = false;
+		boolean isWarning = false;
+		DynaActionForm clientForm = (DynaActionForm) form;
+
+		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		String cId = request.getParameter("clientId");
+		if (Utility.IsEmpty(cId)) {
+			cId = (String) request.getParameter("referral.clientId");
+		}
+		if (actionParam == null) {
+			actionParam = new HashMap();
+			actionParam.put("clientId", cId);
+		}
+		request.setAttribute("actionParam", actionParam);
+		String demographicNo = (String) actionParam.get("clientId");
+
+		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
+		request.setAttribute("clientId", cId);
+		
+	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+	    }else{
+           request.setAttribute("currentIntakeProgramId", new Integer(0));
+	    }
+		
+		try {
+			List lstRefers = clientManager.getManualReferrals(demographicNo,providerNo,shelterId);
+			request.setAttribute("lstRefers", lstRefers);
+		} catch (Exception e) {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.listRefer.failed", request.getContextPath()));
+			saveMessages(request, messages);
+		}
+		
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		return mapping.findForward("list");
 	}
@@ -106,11 +145,11 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("clientId", (String) clientForm.get("clientId"));
 
 		request.setAttribute("do_refer", Boolean.TRUE);
-//		request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 
 		return mapping.findForward("edit");
 	}
 
+/*	
 	private void setListAttributes(ActionForm form, HttpServletRequest request) {
 		ActionMessages messages = new ActionMessages();
 		boolean isError = false;
@@ -142,7 +181,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			saveMessages(request, messages);
 		}
 	}
-
+*/
+	
 	public ActionForward search_programs(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {

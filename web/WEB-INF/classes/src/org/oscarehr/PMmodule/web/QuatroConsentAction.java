@@ -25,6 +25,7 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -35,6 +36,7 @@ import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.TopazValue;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.TopazManager;
 import com.quatro.util.Utility;
@@ -47,7 +49,9 @@ public class QuatroConsentAction extends BaseClientAction {
     private ProviderManager providerManager;
     private ProgramManager programManager;
     private TopazManager topazManager;
-	public void setLookupManager(LookupManager lookupManager) {
+    private IntakeManager intakeManager;
+
+    public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}
 
@@ -56,8 +60,35 @@ public class QuatroConsentAction extends BaseClientAction {
 	}
 	
 	public ActionForward list(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
-		setListAttributes(form,request);
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
+//		setListAttributes(form,request);
+		DynaActionForm clientForm = (DynaActionForm) form;
+
+	    HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	    if(actionParam==null){
+	      actionParam = new HashMap();
+	      actionParam.put("clientId", request.getParameter("clientId")); 
+	    }
+	    request.setAttribute("actionParam", actionParam);
+	    String demographicNo= (String)actionParam.get("clientId");
+	       
+	    request.setAttribute("clientId", demographicNo);
+	    request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+
+	    String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	         
+	    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo);
+	    request.setAttribute("lstConsents", lstConsents);
+
+	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+	    }else{
+           request.setAttribute("currentIntakeProgramId", new Integer(0));
+	    }
+
+	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
 		return mapping.findForward("list");
 	}
 	public ActionForward edit(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
@@ -107,19 +138,12 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
 	       
-	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
-
-	      // Integer shelterId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-	       
 	       request.setAttribute("clientId", demographicNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	           
 	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo);
-	       //.getAdmissionList(Integer.valueOf(demographicNo), facilityId, providerNo2);
-	       
 	       request.setAttribute("lstConsents", lstConsents);
 	   }
 	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -335,6 +359,10 @@ public class QuatroConsentAction extends BaseClientAction {
 
 	public void setProgramManager(ProgramManager programManager) {
 		this.programManager = programManager;
+	}
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
 	}
 }
 

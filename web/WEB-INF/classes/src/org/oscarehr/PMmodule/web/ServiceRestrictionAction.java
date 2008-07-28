@@ -23,6 +23,7 @@ import org.oscarehr.PMmodule.exception.ClientAlreadyRestrictedException;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 
 import org.oscarehr.PMmodule.model.Provider;
 
@@ -41,6 +42,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
@@ -53,7 +55,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
    private ProgramManager programManager;
    private ClientRestrictionManager clientRestrictionManager;
    private LookupManager lookupManager;
-
+   private IntakeManager intakeManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   
@@ -80,16 +82,44 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        
        return list(mapping, form, request, response);
    }
-  //   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//       setEditAttributes(form, request);
-//       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
-//       return mapping.findForward("detail");
-//   }
+
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   setListAttributes(form, request);
-	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
+//	   setListAttributes(form, request);
+       DynaActionForm clientForm = (DynaActionForm) form;
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", request.getParameter("clientId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       String demographicNo= (String)actionParam.get("clientId");
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+       
+       request.setAttribute("clientId", demographicNo);
+       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+
+      
+       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
+             
+       /* service restrictions */
+       	 //  List proPrograms = providerManager.getProgramDomain(providerNo);
+           //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
+       Integer cId =Integer.valueOf(demographicNo);
+       request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(cId,providerNo,shelterId));
+	
+	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+	    }else{
+           request.setAttribute("currentIntakeProgramId", new Integer(0));
+	    }
+
+	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
        return mapping.findForward("list");
    }
+
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   
 	   ActionMessages messages = new ActionMessages();
@@ -356,6 +386,9 @@ private Boolean hasAccess(HttpServletRequest request, Integer programId, String 
     SecurityManager sec = (SecurityManager)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
     String orgCd = "P" + programId.toString();
     return new Boolean(sec.GetAccess(function,orgCd).compareTo(right) >= 0);
+}
+public void setIntakeManager(IntakeManager intakeManager) {
+	this.intakeManager = intakeManager;
 }
 
 }

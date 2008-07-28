@@ -20,6 +20,7 @@ import org.caisi.model.CustomFilter;
 import org.caisi.model.Tickler;
 import org.caisi.model.TicklerComment;
 import org.caisi.service.TicklerManager;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
@@ -28,12 +29,14 @@ import org.oscarehr.PMmodule.web.formbean.TicklerForm;
 import oscar.Misc;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 
 public class ClientTaskAction extends BaseClientAction{
     private ClientManager clientManager;
     private ProgramManager programManager;
     private TicklerManager ticklerManager;
     private ProviderManager providerManager;
+    private IntakeManager intakeManager;
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return list(mapping, form, request, response);
@@ -83,11 +86,6 @@ public class ClientTaskAction extends BaseClientAction{
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
 
-//		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-//		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-//        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
-//        ticklerForm.setProgramLst(programLst);
-        
         String tickler_no =  request.getParameter("ticklerNo");
         request.setAttribute("ticklerNo", tickler_no);
         Tickler tickler = ticklerManager.getTickler(tickler_no);
@@ -137,12 +135,19 @@ public class ClientTaskAction extends BaseClientAction{
         
         List programs=programManager.getBedPrograms(providerNo, shelterId);
         ticklerForm.setProgramLst(programs);
-//        request.setAttribute("programs", programs);
-        
         
         List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
 
         request.setAttribute("ticklers", ticklers);
+
+        String demographicNo = request.getParameter("clientId");
+	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+	    }else{
+           request.setAttribute("currentIntakeProgramId", new Integer(0));
+	    }
         
         return mapping.findForward("list");
     }
@@ -430,6 +435,10 @@ public class ClientTaskAction extends BaseClientAction{
 
 	public void setTicklerManager(TicklerManager ticklerManager) {
 		this.ticklerManager = ticklerManager;
+	}
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
 	}
 
 }

@@ -94,14 +94,16 @@ response.setHeader("Cache-Control", "no-cache");
 				<html:link	action="/CaseManagementView2.do?note_view=summary" paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
 					&nbsp;Case Summary&nbsp;&nbsp;|
 				</html:link> 
-				<html:link action="/CaseManagementView2.do?note_view=detailed"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;&nbsp;|
+				<html:link action="/CaseManagementView2.do?note_view=detailed"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;
 				</html:link> 
 				<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+			      <c:if test="${currentAdmissionProgramId>0}">
 					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
-						 New&nbsp;Note&nbsp;&nbsp;|
+						 |&nbsp;New;Note&nbsp;
 					</html:link> 
+				  </c:if>
 				</security:oscarSec>
-				<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">Print</a>
+				<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">|&nbsp;Print</a>
 				
 				</td>
 			</tr>
