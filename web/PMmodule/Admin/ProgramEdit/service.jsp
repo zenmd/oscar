@@ -55,9 +55,13 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 	<tr height="18px">
 		<td align="left" class="buttonBar2"><a href="javascript:clickTab('General')"
 			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
+			<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
+			&nbsp;|&nbsp;<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;
+			</html:link>			
+
 		<c:if test="${!isReadOnly}">
-			<html:link href="javascript:save();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+			&nbsp;|&nbsp;<html:link href="javascript:save();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</c:if>	
 		</td>

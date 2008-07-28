@@ -36,8 +36,11 @@
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"	border="0">
 	<tr>
 		<td align="left" class="buttonBar2">
-			<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">
-				<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>		
+			<a	href="javascript:clickTab('General');"	style="color:Navy;text-decoration:none;">
+				<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>		
+			&nbsp;|&nbsp;<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;
+			</html:link>			
 			<html:link href="javascript:searchStaff();"	style="color:Navy;text-decoration:none;">
 				<img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;</html:link>
 			<html:link href="javascript:resetForm();" 	style="color:Navy;text-decoration:none;">
@@ -96,15 +99,11 @@
 			</tr>
 		</table>
 		</div>
-		<display:table class="simple" cellspacing="2" cellpadding="3" id="pp"	name="existStaffLst" export="false" pagesize="0"	requestURI="/PMmodule/ProgramManager.do">
+		<display:table class="simple" cellspacing="2" cellpadding="3" id="pp"	name="existStaffLst" export="false" pagesize="0"	
+			requestURI="/PMmodule/ProgramManager.do" defaultsort="2">
 
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No staff currently in place for this program." />
-			<display:column title="Select">
-				<input type="checkbox"	name="p2<%=pageContext.getAttribute("pp_rowNum")%>"	value='<c:out value="${pp.id}"/>' />
-				<input type="hidden" name="lineno2"	value="<%=pageContext.getAttribute("pp_rowNum")%>" />
-				<input type="hidden" name="id<%=pageContext.getAttribute("pp_rowNum")%>" value='<c:out value="${pp.id}"/>' />
-			</display:column>
 
 			<display:column sortable="true" title="User No" property="providerNo" />
 
@@ -112,22 +111,8 @@
 
 			<display:column sortable="true" title="Role" property="roleName_desc" />
 
-		</display:table> <logic:empty name="existStaffLst">
-				No record to display.<br />
-		</logic:empty> <logic:notEmpty name="existStaffLst">
-			<c:if test="${!isReadOnly}">
-				<table width="100%">
-					<tr>
-						<td class="clsButtonBarText" width="5%">&nbsp;&nbsp;						
-								<a	href="javascript:submitForm('addStaff');">Add</a>
-						</td>
-						<td class="clsButtonBarText" width="95%">&nbsp;&nbsp;
-								<a	href="javascript:submitForm('removeExistStaff');">Remove</a>						
-						</td>
-					</tr>
-				</table>
-			</c:if>	
-		</logic:notEmpty> <br />
+		</display:table>
+		<br />
 
 		<logic:notEmpty name="newStaffLst">
 
@@ -193,16 +178,6 @@
 					</tr>
 				</logic:iterate>
 			</table>
-			<!-- 
-				<table width="100%">
-					<tr>
-						<td class="clsButtonBarText" width="100%">&nbsp;&nbsp;<a
-							href="javascript:submitForm('addStaff');">Add</a>&nbsp;&nbsp;&nbsp;|
-						&nbsp;&nbsp;<a href="javascript:submitForm('removeStaff');">Remove</a>
-						</td>
-					</tr>
-				</table>
-				 -->
 
 		</logic:notEmpty></div>
 

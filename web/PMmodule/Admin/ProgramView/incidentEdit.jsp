@@ -20,11 +20,9 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 	border="0">
 	<tr>
 		<td align="left" class="buttonBar2">
-		<a href='<html:rewrite page="/PMmodule/ProgramManagerView.do"/>?tab=Incidents&programId=<c:out value="${programId}" />' style="color:Navy;text-decoration:none;">&nbsp;
+		<a href="javascript:clickTab('Incidents');" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
 		</a>
-		<html:link	href="javascript:clickTab('Incidents');" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Incidents&nbsp;&nbsp;|</html:link>
 		<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">
 			<html:link href="javascript:editIncident('save');" onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
