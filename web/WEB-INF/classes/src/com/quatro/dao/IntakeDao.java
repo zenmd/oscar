@@ -448,7 +448,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	    results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in " + clientIds+" and i.programId in " + progSQL +
 	    		" and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
 	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "')" +
-	            "  order by i.createdOn desc");
+	            "  order by i.intakeStatus desc, i.programType, i.createdOn desc");
 		return results;
 	}
 	
