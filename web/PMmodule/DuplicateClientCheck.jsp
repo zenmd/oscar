@@ -161,6 +161,15 @@ function checkExistClients(shortFlagValue){
   <display:column sortable="false" title="Gender"><c:out value="${client.sexDesc}" /></display:column>                        
   <display:column sortable="false" title="Alias"><c:out value="${client.alias}" /></display:column>
 </display:table>
+<input type="hidden" name="formName" value="<c:out value="${formName}"/>">
+<input type="hidden" name="firstName" value="<c:out value="${firstName}"/>">
+<input type="hidden" name="lastName" value="<c:out value="${lastName}"/>">
+<input type="hidden" name="sex" value="<c:out value="${sex}"/>">
+<input type="hidden" name="dob" value="<c:out value="${dob}"/>">
+<input type="hidden" name="alias" value="<c:out value="${alias}"/>">
+<input type="hidden" name="clientNo" value="<c:out value="${clientNo}"/>">
+<input type="hidden" name="statusMsg" value="<c:out value="${statusMsg}"/>">
+<input type="hidden" name="newClientChecked" value="<c:out value="${newClientChecked}"/>">
 </html:form>
 </body>
 </html>

@@ -21,6 +21,7 @@ import org.oscarehr.PMmodule.dao.ProgramQueueDao;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 
 import org.oscarehr.PMmodule.model.ClientReferral;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientInfo;
 import org.oscarehr.PMmodule.model.ProgramQueue;

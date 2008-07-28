@@ -359,7 +359,9 @@ public class IntakeManager {
 		return intakeDao.getQuatroIntakeDBByIntakeId(intakeId);
 	}
 	
-	public ArrayList saveQuatroIntake(QuatroIntake intake, Integer intakeHeadId, boolean isFamily, Integer fromManualReferralId) {
+	public ArrayList saveQuatroIntake(Demographic client, QuatroIntake intake, Integer intakeHeadId, boolean isFamily, Integer fromManualReferralId) {
+		clientDao.saveClient(client);
+		intake.setClientId(client.getDemographicNo());
 		historyDao.saveClientHistory(intake);
 		return intakeDao.saveQuatroIntake(intake, intakeHeadId, isFamily, fromManualReferralId);
 	}

@@ -447,7 +447,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	return mapping.findForward("edit");
 		}
 	  }
-	  
+/*	  
 		clientManager.saveClient(client);
 
     	HashMap actionParam = new HashMap();
@@ -463,7 +463,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         request.setAttribute("actionParam", actionParam);
         request.setAttribute("client", client);
     	intake.setClientId(client.getDemographicNo());
-	  
+*/	  
 	  
 		if(intake.getCreatedOnTxt().equals("")==false){
 			intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake.getCreatedOnTxt()));
@@ -514,7 +514,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}else{
 			Integer fromManualReferralId = null;
 			if(!request.getParameter("fromManualReferralId").equals("")) fromManualReferralId = new Integer(request.getParameter("fromManualReferralId"));
-			ArrayList lst2 = intakeManager.saveQuatroIntake(intake, intakeHeadId, intakeHeadId.intValue()>0, fromManualReferralId);
+
+
+	        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
+			ArrayList lst2 = intakeManager.saveQuatroIntake(client, intake, intakeHeadId, intakeHeadId.intValue()>0, fromManualReferralId);
 			Integer intakeId = (Integer)lst2.get(0);
 			Integer queueId = new Integer(0);
 			if(lst2.get(2)!=null) queueId = (Integer)lst2.get(2);
@@ -525,6 +528,13 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	        request.setAttribute("queueId", queueId); 
 
 		}
+
+		HashMap actionParam = new HashMap();
+    	actionParam.put("clientId", client.getDemographicNo()); 
+        actionParam.put("intakeId", intake.getId().toString()); 
+        request.setAttribute("clientId", client.getDemographicNo()); 
+        request.setAttribute("actionParam", actionParam);
+        request.setAttribute("client", client);
 		
 		if(!(isWarning || isError)){
 			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));

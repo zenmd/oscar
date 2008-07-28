@@ -68,6 +68,16 @@ public class DuplicateClientCheckAction extends DispatchAction {
 
        setEditFields(request,qform);
 
+	   request.setAttribute("formName", request.getParameter("formName"));
+	   request.setAttribute("firstName", request.getParameter("firstName"));
+	   request.setAttribute("lastName", request.getParameter("lastName"));
+	   request.setAttribute("sex", request.getParameter("sex"));
+	   request.setAttribute("dob", request.getParameter("dob"));
+	   request.setAttribute("alias", request.getParameter("alias"));
+	   request.setAttribute("clientNo", request.getParameter("clientNo"));
+	   request.setAttribute("statusMsg", request.getParameter("statusMsg"));
+	   request.setAttribute("newClientChecked", request.getParameter("newClientChecked"));
+       
 	   return mapping.findForward("edit");
    }
    private List getClientList(Demographic client)
