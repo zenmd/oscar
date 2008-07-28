@@ -173,7 +173,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         if(intakeId.intValue()!=0){
         	intake=intakeManager.getQuatroIntake(intakeId);
         	if(KeyConstants.PROGRAM_TYPE_Service.equals(intake.getProgramType())){
-        	   if(intake.getEndDate().before(Calendar.getInstance())) intake.setIntakeStatus(KeyConstants.STATUS_INACTIVE);	
+        	   if(intake.getEndDate()!=null && intake.getEndDate().before(Calendar.getInstance())) intake.setIntakeStatus(KeyConstants.STATUS_INACTIVE);	
         	}
         	boolean readOnly=super.isReadOnly(request,intake.getIntakeStatus(), KeyConstants.FUN_PMM_CLIENTINTAKE,intake.getProgramId());
             request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
