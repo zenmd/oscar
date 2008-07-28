@@ -28,8 +28,8 @@ import com.quatro.model.Complaint;
 
 public class ComplaintManager {
 	private ComplaintDao complaintDao;
-	public List getComplaintsByClientId(Integer clientId) {
-		return complaintDao.findByClientId(clientId);
+	public List getComplaintsByClientId(Integer clientId, String providerNo, Integer shelterId) {
+		return complaintDao.findByClientId(clientId,providerNo, shelterId);
 	}
 
 	public Complaint getComplaint(Integer id) {

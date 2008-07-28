@@ -60,8 +60,10 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 		// String tmp = request.getParameter("id");
 		Integer clientId = Integer.valueOf(tmp);
+		String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		Integer shelterId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
-		List complaints = complaintManager.getComplaintsByClientId(clientId);
+		List complaints = complaintManager.getComplaintsByClientId(clientId, providerNo, shelterId);
 
 		request.setAttribute("complaints", complaints);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));

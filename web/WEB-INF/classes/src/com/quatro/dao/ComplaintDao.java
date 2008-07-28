@@ -177,11 +177,12 @@ public class ComplaintDao extends HibernateDaoSupport {
 		}
 	}
 
-	public List findByProperty(String propertyName, Object value) {
+	public List findByProperty(String propertyName, Object value, String providerNo, Integer shelterId) {
 		log.debug("finding Complaint instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
-			String queryString = "from Complaint as model where model."
+			String sqlOrg = com.quatro.util.Utility.getUserOrgQueryString(providerNo, shelterId);
+			String queryString = "from Complaint as model where programId in " + sqlOrg + " and model."
 					+ propertyName + "= ?"
 					+ " order by model.id desc";
 			if(CLIENT_ID.equals(propertyName)){
@@ -199,88 +200,84 @@ public class ComplaintDao extends HibernateDaoSupport {
 		}
 	}
 
-	public List findBySource(Object source) {
-		return findByProperty(SOURCE, source);
+	public List findBySource(Object source, String providerNo, Integer shelterId) {
+		return findByProperty(SOURCE, source, providerNo, shelterId);
 	}
 
-	public List findByMethod(Object method) {
-		return findByProperty(METHOD, method);
+	public List findByMethod(Object method, String providerNo, Integer shelterId) {
+		return findByProperty(METHOD, method, providerNo, shelterId);
 	}
 
-	public List findByFirstname(Object firstname) {
-		return findByProperty(FIRSTNAME, firstname);
+	public List findByFirstname(Object firstname, String providerNo, Integer shelterId) {
+		return findByProperty(FIRSTNAME, firstname, providerNo, shelterId);
 	}
 
-	public List findByLastname(Object lastname) {
-		return findByProperty(LASTNAME, lastname);
+	public List findByLastname(Object lastname, String providerNo, Integer shelterId) {
+		return findByProperty(LASTNAME, lastname, providerNo, shelterId);
 	}
 
-	public List findByStandards(Object standards) {
-		return findByProperty(STANDARDS, standards);
+	public List findByStandards(Object standards, String providerNo, Integer shelterId) {
+		return findByProperty(STANDARDS, standards, providerNo, shelterId);
 	}
 
-	public List findByDescription(Object description) {
-		return findByProperty(DESCRIPTION, description);
+	public List findByDescription(Object description, String providerNo, Integer shelterId) {
+		return findByProperty(DESCRIPTION, description, providerNo, shelterId);
 	}
 
-	public List findBySatisfiedWithOutcome(Object satisfiedWithOutcome) {
-		return findByProperty(SATISFIED_WITH_OUTCOME, satisfiedWithOutcome);
+	public List findBySatisfiedWithOutcome(Object satisfiedWithOutcome, String providerNo, Integer shelterId) {
+		return findByProperty(SATISFIED_WITH_OUTCOME, satisfiedWithOutcome, providerNo, shelterId);
 	}
 
-	public List findByStandardsBreached(Object standardsBreached) {
-		return findByProperty(STANDARDS_BREACHED, standardsBreached);
+	public List findByStandardsBreached(Object standardsBreached, String providerNo, Integer shelterId) {
+		return findByProperty(STANDARDS_BREACHED, standardsBreached, providerNo, shelterId);
 	}
 
-	public List findByOutstandingIssues(Object outstandingIssues) {
-		return findByProperty(OUTSTANDING_ISSUES, outstandingIssues);
+	public List findByOutstandingIssues(Object outstandingIssues, String providerNo, Integer shelterId) {
+		return findByProperty(OUTSTANDING_ISSUES, outstandingIssues, providerNo, shelterId);
 	}
 
-	public List findByStatus(Object status) {
-		return findByProperty(STATUS, status);
+	public List findByStatus(Object status, String providerNo, Integer shelterId) {
+		return findByProperty(STATUS, status, providerNo, shelterId);
 	}
 
-	public List findByDuration(Object duration) {
-		return findByProperty(DURATION, duration);
+	public List findByDuration(Object duration, String providerNo, Integer shelterId) {
+		return findByProperty(DURATION, duration, providerNo, shelterId);
 	}
 
-	public List findByPerson1(Object person1) {
-		return findByProperty(PERSON1, person1);
+	public List findByPerson1(Object person1, String providerNo, Integer shelterId) {
+		return findByProperty(PERSON1, person1, providerNo, shelterId);
 	}
 
-	public List findByTitle1(Object title1) {
-		return findByProperty(TITLE1, title1);
+	public List findByTitle1(Object title1, String providerNo, Integer shelterId) {
+		return findByProperty(TITLE1, title1, providerNo, shelterId);
 	}
 
-	public List findByPerson2(Object person2) {
-		return findByProperty(PERSON2, person2);
+	public List findByPerson2(Object person2, String providerNo, Integer shelterId) {
+		return findByProperty(PERSON2, person2, providerNo, shelterId);
 	}
 
-	public List findByTitle2(Object title2) {
-		return findByProperty(TITLE2, title2);
+	public List findByTitle2(Object title2, String providerNo, Integer shelterId) {
+		return findByProperty(TITLE2, title2, providerNo, shelterId);
 	}
 
-	public List findByPerson3(Object person3) {
-		return findByProperty(PERSON3, person3);
+	public List findByPerson3(Object person3, String providerNo, Integer shelterId) {
+		return findByProperty(PERSON3, person3, providerNo, shelterId);
 	}
 
-	public List findByTitle3(Object title3) {
-		return findByProperty(TITLE3, title3);
+	public List findByTitle3(Object title3, String providerNo, Integer shelterId) {
+		return findByProperty(TITLE3, title3, providerNo, shelterId);
 	}
 
-	public List findByPerson4(Object person4) {
-		return findByProperty(PERSON4, person4);
+	public List findByPerson4(Object person4, String providerNo, Integer shelterId) {
+		return findByProperty(PERSON4, person4, providerNo, shelterId);
 	}
 
-	public List findByTitle4(Object title4) {
-		return findByProperty(TITLE4, title4);
+	public List findByTitle4(Object title4, String providerNo, Integer shelterId) {
+		return findByProperty(TITLE4, title4, providerNo, shelterId);
 	}
 
-	public List findByClientId(Object clientId) {
-		return findByProperty(CLIENT_ID, clientId);
-	}
-
-	public List findByProgramId(Object programId) {
-		return findByProperty(PROGRAM_ID, programId);
+	public List findByClientId(Integer clientId, String providerNo, Integer shelterId) {
+		return findByProperty(CLIENT_ID, clientId, providerNo, shelterId);
 	}
 
 	public List findAll() {
