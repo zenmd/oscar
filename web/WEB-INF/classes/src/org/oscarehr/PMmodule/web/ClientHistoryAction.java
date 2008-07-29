@@ -66,7 +66,8 @@ public class ClientHistoryAction extends BaseClientAction {
 		Integer clientId = Integer.valueOf(tmp);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 			
-		List histories = historyManager.getClientHistory(clientId, providerNo);
+        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		List histories = historyManager.getClientHistory(clientId, providerNo, shelterId);
 
 		request.setAttribute("histories", histories);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));

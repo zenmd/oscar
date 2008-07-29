@@ -37,12 +37,14 @@ import com.quatro.dao.LookupDao;
 import com.quatro.model.LookupCodeValue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.Calendar;
+import com.quatro.util.Utility;
 public class ClientHistoryDao extends HibernateDaoSupport {
 
     private Log log = LogFactory.getLog(getClass());
     private MergeClientDao mergeClientDao;
     private LookupDao lookupDao; 
-    public List getClientHistories(Integer clientId, String providerNo) {
+
+    public List getClientHistories(Integer clientId, String providerNo, Integer shelterId) {
     	String clientIds =mergeClientDao.getMergedClientIds(clientId);
     	clientIds=clientIds.substring(1,clientIds.length()-1);
     	String[] cIds= clientIds.split(",");
@@ -50,8 +52,9 @@ public class ClientHistoryDao extends HibernateDaoSupport {
     	for(int i=0;i<cIds.length;i++){
     		clients[i] =Integer.valueOf(cIds[i]);
     	}
+    	String orgSql = Utility.getUserOrgSqlString(providerNo, shelterId);
         Criteria criteria = getSession().createCriteria(ClientHistory.class);
-        String sql = "'P' || program_id in (select a.code from lst_orgcd a, secuserrole b where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "')";
+        String sql = "(program_id in " + orgSql + " or program_id2 in " + orgSql + ")"; 
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.in("ClientId", clients));
         criteria.addOrder(Order.asc("ActionDate"));
@@ -88,8 +91,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setHistoryDate(Calendar.getInstance().getTime());
         history.setNotes(referral.getNotes());
         history.setProgramId(referral.getProgramId());
+        history.setProgramId2(referral.getFromProgramId());
         history.setProviderNo(referral.getProviderNo());
-       
         this.getHibernateTemplate().saveOrUpdate(history);
 
         if (log.isDebugEnabled()) {

@@ -44,8 +44,8 @@ public class ClientHistoryManager {
         this.clientHistoryDao= clientHistoryDao;
     }
     
-    public List getClientHistory(Integer clientId, String providerNo)
+    public List getClientHistory(Integer clientId, String providerNo, Integer shelterId)
     {
-    	return clientHistoryDao.getClientHistories(clientId, providerNo);
+    	return clientHistoryDao.getClientHistories(clientId, providerNo, shelterId);
     }
 }

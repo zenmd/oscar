@@ -10,6 +10,7 @@ public class ClientHistory  implements Serializable {
     private String _providerNo;
     private String _notes;
     private Integer _programId;
+    private Integer _programId2;
     private java.util.Date _historyDate; //last update date
     private String _providerLastName;
     private String _providerFirstName;
@@ -50,6 +51,12 @@ public class ClientHistory  implements Serializable {
 	}
 	public void setProgramId(Integer id) {
 		_programId = id;
+	}
+	public Integer getProgramId2() {
+		return _programId2;
+	}
+	public void setProgramId2(Integer id2) {
+		_programId2 = id2;
 	}
 	public String getProgramName() {
 		return _programName;

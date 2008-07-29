@@ -108,7 +108,7 @@
 				  <input type=hidden name="activebednum" value="<c:out value="${activebednum}"/>">
 				  </td></tr>
 				  <tr><td>Room Capacity</td>
-				  <td><html:text property="room.capacity" maxlength="10"></html:text></td></tr>
+				  <td><html:text property="room.capacity" maxlength="10"></html:text> (Only enforced when Assigned Beds=N)</td></tr>
 				  <tr><td>Program*</td>
 				  <td><html:select property="room.programId">
 				    <option value=""></option>
