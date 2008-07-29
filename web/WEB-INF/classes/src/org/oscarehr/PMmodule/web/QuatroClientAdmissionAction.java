@@ -750,7 +750,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	       }
     		 }else{
                 Integer roomOccupancy = new Integer(roomDemographicManager.getRoomOccupanyByRoom(roomToSave.getId()));
-                if(roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
+                RoomDemographic rdm_currentinDB = roomDemographicManager.getRoomDemographicByDemographic(clientId);
+                if(!rdm_currentinDB.getId().getRoomId().equals(roomToSave.getId()) && roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
      	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.not_available_room_space",
            			     request.getContextPath()));
                   isError = true;
