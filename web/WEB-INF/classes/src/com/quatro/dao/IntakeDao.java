@@ -73,6 +73,7 @@ public class IntakeDao extends HibernateDaoSupport {
     //from queueId of family intake, you may get any family memebr's intakeId, then get family head's intakeId and return it.
 	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
 		ProgramQueue queue = programQueueDao.getProgramQueue(queueId);
+		if(queue.getFromIntakeId()==null) return null;
 		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.id = ?" +
 					" and i.intakeStatus='" + 
 					KeyConstants.INTAKE_STATUS_ACTIVE + "'", 
@@ -690,10 +691,9 @@ public class IntakeDao extends HibernateDaoSupport {
 		  if(!bFamilyMember){
 	    	//from manual referral
 	    	if(fromManualReferralId!=null){
-	          //delete manual referral's referral# and queue# if this new intake selects non-bed program.
-	    	  //non-bed program intake don't have admission, so no referral# and queue#.	
+              getHibernateTemplate().bulkUpdate("update ClientReferral r set r.status='" + KeyConstants.STATUS_ACCEPTED + "' where r.Id=? and r.autoManual='" +  KeyConstants.MANUAL + "'", fromManualReferralId);
+              getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.ReferralId=?", fromManualReferralId);
 	    	  if(!intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-	             getHibernateTemplate().bulkUpdate("delete ClientReferral r where r.Id=?", fromManualReferralId);
 	             ProgramQueue exist_programQueue = programQueueDao.getProgramQueueByIntakeId(intakeDb.getId());
 	             if(exist_programQueue!=null) getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?", exist_programQueue.getId());
 	          }
