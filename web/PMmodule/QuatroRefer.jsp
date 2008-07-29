@@ -110,7 +110,14 @@
 	<td><html:textarea cols="60" rows="7" property="referral.notes" /></td></tr>
 	<tr><td width="20%">Presenting Problems</td>
 	<td><html:textarea cols="60" rows="7" property="referral.presentProblems" /></td></tr>
-	<tr><td colspan="2"><!-- input type="button" value="Process Referral" onclick="do_referral()" /> <input type="button" value="Cancel" onclick="document.clientManagerForm.submit()" / --></td></tr>
+	<tr><td width="20%">From Program</td>
+		<td><html:select property="referral.fromProgramId">
+				<html-el:option value=""></html-el:option>
+				<html:options collection="lstProgram" property="code"
+					labelProperty="description"></html:options>
+				</html:select>
+			</td>
+	</tr>
   </table>
 </td></tr>
 

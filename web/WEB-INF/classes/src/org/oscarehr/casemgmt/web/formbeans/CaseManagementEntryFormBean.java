@@ -52,6 +52,7 @@ public class CaseManagementEntryFormBean extends ActionForm {
 	private String lstIssue;
 	private String txtIssueKey;
 	private String txtIssueValue;
+	private Integer programId;
 	
         private String observation_date;
 	
@@ -253,6 +254,14 @@ public class CaseManagementEntryFormBean extends ActionForm {
 
 	public void setTxtIssueValue(String txtIssueValue) {
 		this.txtIssueValue = txtIssueValue;
+	}
+
+	public Integer getProgramId() {
+		return programId;
+	}
+
+	public void setProgramId(Integer programId) {
+		this.programId = programId;
 	}
 	
 }

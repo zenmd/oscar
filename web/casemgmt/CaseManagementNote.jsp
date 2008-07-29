@@ -70,7 +70,17 @@
 			
 	}
 	function validateEnounter(){
+	
 		if (document.caseManagementEntryForm.elements["caseNote.encounter_type"].value=="" ||document.caseManagementEntryForm.elements["caseNote.encounter_type"].value==" ")
+		{
+			return false;
+		}else{
+		 	return true;
+		}	
+	}
+	function validateProgram(){
+		var elSel= document.caseManagementEntryForm.elements["caseNote.program_no"];				
+		if (elSel==null ||elSel.value=="" ||elSel.value==" ")
 		{
 			return false;
 		}else{
@@ -126,15 +136,18 @@
 	}
 	function validateSave(){
 	
-		var str1="You cannot save a note when there is no issue checked, please add an issue or check a currently available issue before save." ;
+		var str1="please choose program before save." ;
 		var str2="Are you sure that you want to sign and save without changing the status of any of the issues?";
 		var str3="Please choose encounter type before saving the note.";
 		var str4="Are you sure that you want to save without signing?";
 		var str5="You cannot save a note when there is no Component of Service, please add a Component of Service before save." ;
 		if (!validateEnounter()){
 			alert(str3); return false;
+		}				
+		if(!validateProgram()){
+			alert(str1); return false;
 		}
-		/*
+		/*		
 		if (!validateIssuecheck()){
 			alert(str1); return false;
 		}
@@ -226,14 +239,14 @@ var XMLHttpRequestObject = false;
 			*/                        
 			var demographicNo = '<c:out value="${param.demographicNo}"/>';
                         var noteId = '<%=request.getParameter("noteId") != null ? request.getParameter("noteId") : request.getAttribute("noteId") != null ? request.getAttribute("noteId") : ""%>';
-			var programId = '<c:out value="${case_program_id}"/>';
-			XMLHttpRequestObject.send("method=autosave&demographicNo=" + demographicNo + "&programId=" + programId + "&note_id=" + noteId + "&note="  + escape(obj.value));
+			var program = '<c:out value="${case_program_id}"/>';
+			XMLHttpRequestObject.send("method=autosave&demographicNo=" + demographicNo + "&programId=" + program + "&note_id=" + noteId + "&note="  + escape(obj.value));
 						
 		}	
 		
-		setTimer();	
+	//	setTimer();	
 	}
-	
+	/*
 	function setTimer() {
 		setTimeout("autoSave()", 60000);
 	}
@@ -242,6 +255,7 @@ var XMLHttpRequestObject = false;
 		setTimer();
 		window.opener.location.reload(true);
 	}
+	*/
 
 	function restore() {
 		if(confirm('You have an unsaved note from a previous session.  Click ok to retrieve note.')) {
@@ -259,30 +273,13 @@ var XMLHttpRequestObject = false;
 </script>
 
 </head>
-<body > <!-- onload="init()" -->
-<%
-	//get programId
-	Integer pId = (Integer) session.getAttribute("case_program_id");
-	if (pId == null)
-		pId = new Integer(0);
-%>
+<body > 
 <html:form action="/CaseManagementEntry2">
-	<html:hidden property="demographicNo" />
-	<c:if test="${param.providerNo==null}">
-		<input type="hidden" name="providerNo"	value="<%=session.getAttribute("user")%>">
-	</c:if>
-	<c:if test="${param.providerNo!=null}">
-		<html:hidden property="providerNo" />
-	</c:if>
-	<input type="hidden" name="caseNote.program_no" value="<%=pId%>" />
+	<html:hidden property="demographicNo" />		
 	<input type="hidden" name="method" value="save" />
 	<c:if test="${param.from=='casemgmt'||requestScope.from=='casemgmt'}">
 		<input type="hidden" name="from" value="casemgmt" />
-	</c:if>
-	<input type="hidden" name="lineId" value="0" />
-	<input type="hidden" name="addIssue" value="null" />
-	<input type="hidden" name="deleteId" value="0" />
-	<input type="hidden" name="clientId" />
+	</c:if>	
 	<input type="hidden" name="noteId" />
 	<table width="100%">
 		<tr>
@@ -330,7 +327,17 @@ var XMLHttpRequestObject = false;
 			</td>
 		</tr>
 	</table>
-		
+	<table cellpadding="3" cellspacing="0" border="0" width="80%">
+		<tr>
+			<th style="width:40%">Program</th>
+			<td><html:select property="caseNote.program_no">
+				<html-el:option value=""></html-el:option>
+				<html:options collection="lstProgram" property="code"
+					labelProperty="description"></html:options>
+				</html:select>
+			</td>
+		</tr>
+	</table>
 	<table width="90%" border="0" cellpadding="0" cellspacing="1">
 	<tr>
 			<th>Components of Service</th>

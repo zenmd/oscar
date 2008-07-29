@@ -45,6 +45,7 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.dao.AdmissionDao;
 import com.quatro.common.KeyConstants;
 import com.quatro.dao.IntakeDao;
+import com.quatro.dao.LookupDao;
 
 public class ClientManager {
 
@@ -55,6 +56,7 @@ public class ClientManager {
     private AdmissionDao admissionDao;
     private IntakeDao intakeDao;   
     private ProgramDao programDao;
+    private LookupDao lookupDao;
     
     private boolean outsideOfDomainEnabled;
 
@@ -109,40 +111,47 @@ public class ClientManager {
         return results;
     }
 
-    public List getActiveManualReferrals(String clientId,String providerNo, Integer shelterId) {
+	public List getActiveManualReferrals(String clientId,String providerNo, Integer shelterId) {
         List results = referralDAO.getActiveManualReferrals(Integer.valueOf(clientId),providerNo, shelterId);
         return results;
     }
 
+
     public ClientReferral getClientReferral(String id) {
         return referralDAO.getClientReferral(Integer.valueOf(id));
     }
-    public QuatroIntakeHeader getRecentIntakeByProvider(Integer clientId, Integer shelterId, String providerNo){
-		QuatroIntakeHeader  intake=new QuatroIntakeHeader();
+    public List getRecentIntakeByProvider(Integer clientId, Integer shelterId, String providerNo){
+		
 		List admLst=admissionDao.getAdmissionList(clientId, true, providerNo, shelterId);
+		String progIds = "";
+		List programs=null;
 		if(!admLst.isEmpty()){
-			Admission admission =(Admission)admLst.get(0);
-			intake.setId(admission.getIntakeId());
-			intake.setProgramId(admission.getProgramId());
-			return intake;
+			for(int i=0;i<admLst.size();i++){
+			Admission admission =(Admission)admLst.get(i);			
+			progIds += admission.getProgramId()+",";
+			}			
+			programs = lookupDao.LoadCodeList("PRO", true, progIds, null);
+			return programs;
 		}
+		
 		List intakes=intakeDao.getQuatroIntakeHeaderListByFacility(clientId, shelterId,providerNo);
-		QuatroIntakeHeader intakeTmp = null;
+		
 		if(!intakes.isEmpty()){
 			for(int i=0;i<intakes.size();i++)
 			{
-				intakeTmp =(QuatroIntakeHeader)intakes.get(i);
+				QuatroIntakeHeader intakeTmp =(QuatroIntakeHeader)intakes.get(i);
 				Program program=programDao.getProgram(intakeTmp.getProgramId());
 				if(KeyConstants.PROGRAM_TYPE_Bed.equals(program.getType())){
-					return intakeTmp;					
+					progIds+=intakeTmp.getProgramId();					
 				}
 				else if(KeyConstants.PROGRAM_TYPE_Service.equals(program.getType()) 
 						&& (intakeTmp.getEndDate()==null ||
-					(intakeTmp.getEndDate()!=null && intakeTmp.getEndDate().after(Calendar.getInstance())))) intake=intakeTmp;
-				
+					(intakeTmp.getEndDate()!=null && intakeTmp.getEndDate().after(Calendar.getInstance()))))
+					progIds+=intakeTmp.getProgramId()+",";				
 			}
 		}
-		return intake;
+		programs = lookupDao.LoadCodeList("PRO", true, progIds, null);
+		return programs;
 	}
     public void saveClientReferral(ClientReferral referral) {
 
@@ -304,6 +313,10 @@ public class ClientManager {
 
 	public void setProgramDao(ProgramDao programDao) {
 		this.programDao = programDao;
+	}
+
+	public void setLookupDao(LookupDao lookupDao) {
+		this.lookupDao = lookupDao;
 	}
 
 }

@@ -127,6 +127,9 @@ public class QuatroClientReferAction  extends BaseClientAction {
 				.getClientByDemographicNo(cId));
 		
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
+		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		List lstProgram =clientManager.getRecentIntakeByProvider(new Integer(cId), shelterId, (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+		request.setAttribute("lstProgram", lstProgram);
 		return mapping.findForward("edit");
 	}
 	public ActionForward refer_select_program(ActionMapping mapping,
@@ -229,15 +232,19 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		refObj.setReferralDate(new Date());
 		refObj.setStatus(KeyConstants.STATUS_PENDING);
 		refObj.setAutoManual(KeyConstants.MANUAL);
-		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		QuatroIntakeHeader qih =clientManager.getRecentIntakeByProvider(new Integer(cId), shelterId, refObj.getProviderNo());
-		refObj.setFromProgramId(qih.getProgramId());
-		refObj.setFromIntakeId(qih.getId());
+		
 		if(refObj.getId().intValue()==0) refObj.setId(null);
 		if (refObj.getProgramId() == null
 				|| refObj.getProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.program", request.getContextPath()));
+			isError = true;
+			saveMessages(request, messages);			
+		}
+		if (refObj.getFromProgramId() == null
+				|| refObj.getFromProgramId().intValue() <= 0) {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.referral.from.program", request.getContextPath()));
 			isError = true;
 			saveMessages(request, messages);			
 		}
@@ -320,7 +327,10 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		}
 		
 		clientForm.set("referral", crObj);
-		request.setAttribute("referralStatus", crObj.getStatus());		
+		request.setAttribute("referralStatus", crObj.getStatus());	
+		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		List lstProgram =clientManager.getRecentIntakeByProvider(new Integer(cId), shelterId, providerNo);
+		request.setAttribute("lstProgram", lstProgram);
 	}
 	
    public void setAdmissionManager(AdmissionManager admissionManager) {

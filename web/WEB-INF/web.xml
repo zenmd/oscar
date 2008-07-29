@@ -42,12 +42,14 @@
 		<filter-name>DbConnectionFilter</filter-name>
 		<filter-class>org.oscarehr.util.DbConnectionFilter</filter-class>
 	</filter>
+	 
 	<filter>
 		<filter-name>LoginFilter</filter-name>
 		<filter-class>oscar.oscarSecurity.LoginFilter</filter-class>
-	</filter>
-<!-- 
+	</filter>	
+	<!-- 
 	<filter>
+
 		<filter-name>CRFilter</filter-name>
 		<display-name>CRFilter</display-name>
 		<filter-class>net.sf.cookierevolver.CRFilter</filter-class>
@@ -75,6 +77,7 @@
 			<param-name>cr.config.provider</param-name>
 			<param-value>oscar.oscarDB.OscarHibernateProperties</param-value>
 		</init-param>
+		
 		<init-param>
 			<param-name>hibernate.connection.pool_size</param-name>
 			<param-value>10</param-value>
@@ -84,7 +87,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
--->	
+	-->
 	<filter>
 		<filter-name>ResponseOverrideFilter</filter-name>
 		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
@@ -110,12 +113,12 @@
 		<filter-name>ResponseOverrideFilter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
-<!-- 
+	<!-- 
 	<filter-mapping>
 		<filter-name>CRFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
- -->		
+	-->
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -153,6 +156,11 @@
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
+	<servlet>
+        <servlet-name>scheduleProgramOccu</servlet-name>
+        <servlet-class>com.quatro.servlets.ScheduleProgramOccuServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
 <!-- 
 	<servlet>
 		<servlet-name>UploadDocument</servlet-name>
@@ -237,6 +245,10 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>scheduleProgramOccu</servlet-name>
+        <url-pattern>/scheduleProgramOccu</url-pattern>
+    </servlet-mapping>
 <!-- 
 	<servlet-mapping>
 		<servlet-name>UploadDocument</servlet-name>

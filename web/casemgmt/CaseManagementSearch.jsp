@@ -98,7 +98,7 @@ response.setHeader("Cache-Control", "no-cache");
 				</html:link> 
 				<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
-						 |&nbsp;New;Note&nbsp;
+						 |&nbsp;New Note&nbsp;
 					</html:link> 
 				</security:oscarSec>
 				<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">|&nbsp;Print</a>

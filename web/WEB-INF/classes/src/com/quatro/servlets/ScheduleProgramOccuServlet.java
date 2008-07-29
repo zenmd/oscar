@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.codehaus.janino.Java.ReturnStatement;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
 import org.oscarehr.util.DbConnectionFilter;
 import org.springframework.web.context.WebApplicationContext;
@@ -49,8 +50,8 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            	//get time from dataRetentionTimeMillis and get date from now
 	            	Calendar sDt = new GregorianCalendar(
 	            			today.YEAR,today.MONTH,today.DATE,
-	            			new Integer(startTime.substring(8,2)),
-	            			new Integer(startTime.substring(10)));
+	            			Integer.valueOf(startTime.substring(0,2)),
+	            			Integer.valueOf(startTime.substring(2)));
 	            	taskTime=sDt.getTimeInMillis();
 	            }
 	            try {
@@ -70,7 +71,18 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
 	    }
-
+	    private long getDelayTime(String startTime){
+	    	long delayTime=0;
+	    	Integer hr=Integer.valueOf(startTime.substring(0,2));
+        	Integer min=Integer.valueOf(startTime.substring(2));
+        	Calendar now=Calendar.getInstance();
+        	Calendar start=new GregorianCalendar(now.YEAR,now.MONTH,now.DATE,hr,min);
+        	if(start.after(now)) delayTime=start.getTimeInMillis()-now.getTimeInMillis();
+        	else{
+        		 delayTime=now.getTimeInMillis()-start.getTimeInMillis()+24*60*60*1000;
+        	}
+	    	return delayTime;
+	    }
 	    public void init(ServletConfig servletConfig) throws ServletException {
 	        super.init(servletConfig);
 
@@ -81,17 +93,14 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        logger.info("PROGRAM_OCCUPANCY_PERIOD=" + GERNERATE_PERIOD);
 
 	        String temp = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_STARTTIME"));
-	       
-	        
+	        //period configed by user
+	        String period = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_PERIOD"));
 	        if (temp != null) {
-	        	startTime=temp;
-	        	Calendar startDt=new GregorianCalendar(new Integer(temp.substring(0,4)),
-	        				new Integer(temp.substring(4,2)) , new Integer(temp.substring(6,2)),
-	        				new Integer(temp.substring(8,2)),new Integer(temp.substring(10)));
-	            dataRetentionTimeMillis = startDt.getTimeInMillis();
+	        	startTime=temp;	        	
+	            dataRetentionTimeMillis = this.getDelayTime(temp);
 	            programOccuTimerTask = new ProgramOccuTimerTask();
 		     //   programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, GERNERATE_PERIOD, GERNERATE_PERIOD);
-	            programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, 10000, 50000);
+	            programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, 10000, Long.valueOf(period).longValue());
 	        }	      
 	    }
 
