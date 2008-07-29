@@ -71,8 +71,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("=========== EDIT ========= in RoleManagerAction");
-
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
 		String roleName = request.getParameter("roleName");
@@ -188,8 +186,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward saveChange(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== SAVE Change ========= in RoleManagerAction");
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
@@ -222,8 +218,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("=========== preNew ========= in RoleManagerAction");
-
 		return mapping.findForward("edit");
 
 	}
@@ -231,8 +225,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward addFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== addFunction ========= in RoleManagerAction");
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		ChangeFunLstTable(2, secroleForm, request);
 
@@ -242,8 +234,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward addFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== addFunction ========= in RoleManagerAction");
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		ChangeFunLstTable(2, secroleForm, request);
 		request.setAttribute("secroleForEdit", "flag");
@@ -254,8 +244,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward removeFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== removeFunction ========= in RoleManagerAction");
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		ChangeFunLstTable(1, secroleForm, request);
 
@@ -265,8 +253,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward removeFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== removeFunction ========= in RoleManagerAction");
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		ChangeFunLstTable(1, secroleForm, request);
 		request.setAttribute("secroleForEdit", "flag");
@@ -363,8 +349,6 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward saveFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== saveFunction ========= in RoleManagerAction");
 		saveFunctions( mapping, form, request, response);
 		
 		return list(mapping, form, request, response);
