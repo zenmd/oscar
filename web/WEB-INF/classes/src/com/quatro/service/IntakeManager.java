@@ -265,7 +265,7 @@ public class IntakeManager {
 
 	public List getActiveQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
-        List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
+//        List lst= programDao.getProgramIdsByProvider(providerNo, shelterId);
 
         List lst2 = intakeDao.getActiveQuatroIntakeHeaderListByFacility(clientId, shelterId, providerNo);
 /*

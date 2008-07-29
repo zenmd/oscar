@@ -159,7 +159,7 @@ public class AdmissionManager {
   	    	Integer roomId = rdm.getId().getRoomId();
   	    	Integer bedId = rdm.getBedId();
 	    	if(!(roomId.equals(roomDemographic.getId().getRoomId()) &&
-  	      	  ((bedId==null && roomDemographic.getBedId()==null) || bedId.equals(roomDemographic.getBedId())))) {
+  	      	  ((bedId==null && roomDemographic.getBedId()==null) || roomDemographic.getBedId().equals(bedId)))) {
   	        	roomDemographicDAO.deleteRoomDemographic(rdm);
   	        	roomDemographicDAO.saveRoomDemographic(roomDemographic);
   	        	
