@@ -117,9 +117,7 @@
  
 <%@ include file="/taglibs.jsp"%>
 
-<table width="100%" cellpadding="0px" cellspacing="0px" height="10
-
-0%"	border="0">
+<table width="100%" cellpadding="0px" cellspacing="0px" height="100%"	border="0">
 	<tr>
 		<td align="left" class="buttonBar2">
 			<a href="javascript:clickTab('General');"
