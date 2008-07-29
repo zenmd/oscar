@@ -1,8 +1,6 @@
 package com.quatro.servlets;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,7 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.codehaus.janino.Java.ReturnStatement;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
 import org.oscarehr.util.DbConnectionFilter;
 import org.springframework.web.context.WebApplicationContext;
@@ -48,10 +45,9 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            if(now>dataRetentionTimeMillis) {
 	            	//taskTime=dataRetentionTimeMillis+1000*60*60*24;
 	            	//get time from dataRetentionTimeMillis and get date from now
-	            	Calendar sDt = new GregorianCalendar(
-	            			today.YEAR,today.MONTH,today.DATE,
-	            			Integer.valueOf(startTime.substring(0,2)),
-	            			Integer.valueOf(startTime.substring(2)));
+	            	Calendar sDt = Calendar.getInstance();
+	            	sDt.set(Calendar.HOUR_OF_DAY,Integer.valueOf(startTime.substring(0,2)).intValue());
+	            	sDt.set(Calendar.MINUTE, Integer.valueOf(startTime.substring(2)).intValue());
 	            	taskTime=sDt.getTimeInMillis();
 	            }
 	            try {
@@ -76,7 +72,9 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    	Integer hr=Integer.valueOf(startTime.substring(0,2));
         	Integer min=Integer.valueOf(startTime.substring(2));
         	Calendar now=Calendar.getInstance();
-        	Calendar start=new GregorianCalendar(now.YEAR,now.MONTH,now.DATE,hr,min);
+        	Calendar start = Calendar.getInstance();
+        	start.set(Calendar.HOUR_OF_DAY,hr.intValue());
+        	start.set(Calendar.MINUTE, min.intValue());
         	if(start.after(now)) delayTime=start.getTimeInMillis()-now.getTimeInMillis();
         	else{
         		 delayTime=now.getTimeInMillis()-start.getTimeInMillis()+24*60*60*1000;
