@@ -109,6 +109,11 @@ public class ClientManager {
         return results;
     }
 
+    public List getActiveManualReferrals(String clientId,String providerNo, Integer shelterId) {
+        List results = referralDAO.getActiveManualReferrals(Integer.valueOf(clientId),providerNo, shelterId);
+        return results;
+    }
+
     public ClientReferral getClientReferral(String id) {
         return referralDAO.getClientReferral(Integer.valueOf(id));
     }

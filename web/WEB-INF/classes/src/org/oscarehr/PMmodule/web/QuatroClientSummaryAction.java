@@ -133,7 +133,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
        request.setAttribute("healthsafety", healthsafety);
 
-       request.setAttribute("referrals", clientManager.getActiveReferrals(demographicNo,providerNo, shelterId));
+       request.setAttribute("referrals", clientManager.getActiveManualReferrals(demographicNo,providerNo, shelterId));
            
        // bed reservation view
        if(currentAdmissionList.size()>0){

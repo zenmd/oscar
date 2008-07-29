@@ -228,6 +228,21 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
 
+    public List getActiveManualReferrals(Integer clientId,String providerNo,Integer shelterId) {
+
+        if (clientId == null || clientId.intValue() <= 0) {
+            throw new IllegalArgumentException();
+        }
+        String clientIds =mergeClientDao.getMergedClientIds(clientId);
+        String sql=	"from ClientReferral cr where cr.status='" + KeyConstants.STATUS_PENDING + "'" + 
+        		" and cr.clientId in " +clientIds 
+        	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
+        sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")";
+        sql +=" and cr.autoManual='" +  KeyConstants.MANUAL + "'";
+        List results = this.getHibernateTemplate().find(sql);
+        return results;
+    }
+    
     public ClientReferral getClientReferral(Integer id) {
         if (id == null || id.intValue()<= 0) {
             throw new IllegalArgumentException();
