@@ -26,9 +26,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
                 "pr.v_actualCapacity,p.Capacity_funding,pq.v_queue,?,sysdate" +
                 "from program p,"+
                 "(select program_id, count(*) v_occupancy from admission where admission_status='admitted' group by program_id) ad,"+
-                "(select r.program_id, sum(decode(r.assigned_bed,0,r.occupancy,1,b.beds)) v_actualCapacity "+
-                "from room r, (select room_id, count(*) beds from bed where active=1 group by room_id) b "+
-                "where r.room_id = b.room_id(+) and r.active=1 group by r.program_id) pr,"+
+                "(select r.program_id, sum(r.beds) v_actualCapacity from v_room_beds r group by r.program_id) pr,"+
                 "(select program_id, count(*) v_queue from program_queue pq group by program_id) pq" +
                 " where p.program_id = ad.program_id and p.program_id=pr.program_id and p.program_id = pq.program_id(+)" ;
         SQLQuery query=getSession().createSQLQuery(sql);

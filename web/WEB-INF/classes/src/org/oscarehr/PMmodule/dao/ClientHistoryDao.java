@@ -136,8 +136,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         	LookupCodeValue provider = lookupDao.GetCode("USR", admission.getPrimaryWorker());
         	String notes = "";
         	if(provider != null) notes += " Primary Worker: " + provider.getDescription();
-        	if (room != null) notes += ", Room: " + room;
-        	if (bed != null) notes += ", Bed: " + bed;
+        	if (room != null) notes = Utility.append(notes,  "Room: " + room, ", ");
+        	if (bed != null) notes = Utility.append(notes,"Bed: " + bed,  ", ");
         	history.setNotes(notes);
         	history.setProgramId(admission.getProgramId());
         	history.setProviderNo(admission.getProviderNo());

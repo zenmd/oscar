@@ -255,6 +255,12 @@ public class Utility {
     	}
     	return sb.toString();
     }
+    public static String append(String str1, String str2, String sep)
+    {
+    	if (IsEmpty(str1)) return str2;
+    	if(IsEmpty(str2)) return str1;
+    	return str1 + sep + str2;
+    }
     public static String merge(String[] str, String sep)
     {
     	if (str == null || str.length ==0) return "";
