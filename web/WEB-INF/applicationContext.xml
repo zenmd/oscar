@@ -112,6 +112,7 @@
     <bean id="secSiteDao" class="com.quatro.dao.security.SecSiteDao" autowire="byName"/>
     <bean id="redirectLinkDao" class="org.caisi.dao.RedirectLinkDao" autowire="byName"/>
     <bean id="redirectLinkTrackingDao" class="org.caisi.dao.RedirectLinkTrackingDao" autowire="byName"/>
+    <bean id="programOccupancyDao" class="org.oscarehr.PMmodule.dao.ProgramOccupancyDao" autowire="byName"></bean>
     <bean id="programDao" class="org.oscarehr.PMmodule.dao.ProgramDao" autowire="byName"/>
     <bean id="programQueueDao" class="org.oscarehr.PMmodule.dao.ProgramQueueDao" autowire="byName"/>
     <bean id="clientReferralDAO" class="org.oscarehr.PMmodule.dao.ClientReferralDAO" autowire="byName"/>

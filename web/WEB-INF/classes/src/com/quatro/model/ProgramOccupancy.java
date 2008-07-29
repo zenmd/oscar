@@ -15,6 +15,10 @@ public class ProgramOccupancy implements Serializable {
 	private Integer capacityFunding;
 	private Integer queue;
 	private String lastUpdateUser;
+	private Integer admissionOccupancy;
+	private Integer programQueueCount;
+	
+	
 	public Integer getCapacityActual() {
 		return capacityActual;
 	}
@@ -62,6 +66,18 @@ public class ProgramOccupancy implements Serializable {
 	}
 	public void setRecordId(Integer recordId) {
 		this.recordId = recordId;
+	}
+	public Integer getAdmissionOccupancy() {
+		return admissionOccupancy;
+	}
+	public void setAdmissionOccupancy(Integer admissionOccupancy) {
+		this.admissionOccupancy = admissionOccupancy;
+	}
+	public Integer getProgramQueueCount() {
+		return programQueueCount;
+	}
+	public void setProgramQueueCount(Integer programQueueCount) {
+		this.programQueueCount = programQueueCount;
 	}
 
 }

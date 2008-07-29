@@ -1,0 +1,121 @@
+package com.quatro.servlets;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
+import org.oscarehr.util.DbConnectionFilter;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.quatro.common.KeyConstants;
+
+import oscar.OscarProperties;
+
+public class ScheduleProgramOccuServlet extends HttpServlet {
+	  private static final Logger logger = LogManager.getLogger(ScheduleProgramOccuServlet.class);
+
+	    private static final Timer programOccuTimer = new Timer(ScheduleProgramOccuServlet.class.getName(), true);
+
+	    private static final long GERNERATE_PERIOD = DateUtils.MILLIS_PER_DAY*24;
+	    private static long dataRetentionTimeMillis = -1;
+	    private static String startTime="";
+	    private static ProgramOccuTimerTask programOccuTimerTask = null;
+	   
+	    private static ProgramOccupancyDao programOccupancyDao = null;
+
+	    public static class ProgramOccuTimerTask extends TimerTask {
+	    	String providerNo="1111";
+	        public void run() {
+	            logger.debug("ProgramOccuTimerTask timerTask started.");
+	            long taskTime=dataRetentionTimeMillis;
+	            Calendar today = Calendar.getInstance();
+	            long now =today.getTimeInMillis(); 
+	            if(now>dataRetentionTimeMillis) {
+	            	//taskTime=dataRetentionTimeMillis+1000*60*60*24;
+	            	//get time from dataRetentionTimeMillis and get date from now
+	            	Calendar sDt = new GregorianCalendar(
+	            			today.YEAR,today.MONTH,today.DATE,
+	            			new Integer(startTime.substring(8,2)),
+	            			new Integer(startTime.substring(10)));
+	            	taskTime=sDt.getTimeInMillis();
+	            }
+	            try {
+	                if (Calendar.getInstance().getTimeInMillis()==taskTime) {
+	                // delete old redirect entries
+	                programOccupancyDao.deleteProgramOccupancy(Calendar.getInstance());
+	                programOccupancyDao.insertProgramOccupancy(providerNo, Calendar.getInstance());
+	                }
+	            }
+	            catch (Exception e) {
+	                logger.error("Unexpected error flushing html open queue.", e);
+	            }
+	            finally {
+	                DbConnectionFilter.releaseThreadLocalDbConnection();
+	            }
+
+	            logger.debug("ProgramOccuTimerTask timerTask completed.");
+	        }
+	    }
+
+	    public void init(ServletConfig servletConfig) throws ServletException {
+	        super.init(servletConfig);
+
+	        // yes I know I'm setting static variables in an instance method but it's okay.
+	        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());	       
+	        programOccupancyDao  = (ProgramOccupancyDao)webApplicationContext.getBean("programOccupancyDao");
+
+	        logger.info("PROGRAM_OCCUPANCY_PERIOD=" + GERNERATE_PERIOD);
+
+	        String temp = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_STARTTIME"));
+	       
+	        
+	        if (temp != null) {
+	        	startTime=temp;
+	        	Calendar startDt=new GregorianCalendar(new Integer(temp.substring(0,4)),
+	        				new Integer(temp.substring(4,2)) , new Integer(temp.substring(6,2)),
+	        				new Integer(temp.substring(8,2)),new Integer(temp.substring(10)));
+	            dataRetentionTimeMillis = startDt.getTimeInMillis();
+	            programOccuTimerTask = new ProgramOccuTimerTask();
+		     //   programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, GERNERATE_PERIOD, GERNERATE_PERIOD);
+	            programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, 10000, 50000);
+	        }	      
+	    }
+
+	    public void destroy() {
+	        programOccuTimerTask.cancel();	        
+	        super.destroy();
+	    }
+
+	    /**
+	     */
+	    public void doGet(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, javax.servlet.ServletException {
+	        try {
+	           	            
+	            // get provider
+	            String providerId = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	           
+	        }
+	        catch (Exception e) {
+	            logger.error("Error processing request. " + request.getRequestURL() + ", " + e.getMessage());
+	            logger.debug(e);
+	            response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+	            return;
+	        }
+	    }
+
+
+}

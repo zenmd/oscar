@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.quatro.model">
+	<class name="ProgramOccupancy" table="program_occupancy">		
+		<id column="recordid" name="recordId" type="java.lang.Integer" unsaved-value="0">
+			<generator class="sequence">
+   			 <param name="sequence">seq_program_occupancy</param>
+			</generator>
+		</id>	
+		<property column="occdate"  name="occDate" />
+		<property column="occupancy"  name="occupancy" />
+		<property column="program_id" name="programId" />
+		<property column="capacity_actual" name="capacityActual" />
+		<property column="capacity_funding"  name="capacityFunding" not-null="false" type="string" />		
+		<property column="queue"  name="queue" not-null="false" type="java.lang.Integer" />
+		<property column="lastupdateuser"  name="lastUpdateUser" not-null="false" type="string"/>
+	</class>
+</hibernate-mapping>
+
