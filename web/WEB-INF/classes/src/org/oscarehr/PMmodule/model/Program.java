@@ -46,6 +46,7 @@ public class Program implements Serializable {
     private Integer id;// fields
     private boolean userDefined = true;
     private Integer numOfMembers;
+    private Integer numOfIntakes;
     private Integer queueSize;
     private Integer maxAllowed;
     private String type;
@@ -745,6 +746,14 @@ public class Program implements Serializable {
 
 	public void setTotalUsedRoom(Integer totalUsedRoom) {
 		this.totalUsedRoom = totalUsedRoom;
+	}
+
+	public Integer getNumOfIntakes() {
+		return numOfIntakes;
+	}
+
+	public void setNumOfIntakes(Integer numOfIntakes) {
+		this.numOfIntakes = numOfIntakes;
 	}
     
 }

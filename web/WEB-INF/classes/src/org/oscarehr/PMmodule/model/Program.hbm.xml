@@ -25,6 +25,7 @@
 		<property name="shelterId" column="shelter_id" />
 		<property name="userDefined" column="userDefined" type="boolean" length="1" />
 		<property name="numOfMembers" lazy="true" type="integer" formula="(select count(*) from admission adm where adm.program_id = program_id and adm.admission_status in('admitted'))" />
+		<property name="numOfIntakes" lazy="true" type="integer" formula="(select count(*) from intake itk where itk.program_id = program_id and (sysdate between itk.creation_date and itk.end_date or itk.end_date is null))" />
 		<property name="queueSize" type="integer" formula="(select count(*) from program_queue pq where pq.program_id = program_id)" />
 		<property name="maxAllowed" column="max_allowed" type="integer" not-null="false" length="6" />
 		<property name="type" column="type" type="string" not-null="false" length="50" />

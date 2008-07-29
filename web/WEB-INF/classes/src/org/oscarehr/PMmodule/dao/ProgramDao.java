@@ -130,7 +130,6 @@ public class ProgramDao extends HibernateDaoSupport {
     		c.add(Restrictions.sqlRestriction(clientProgram));
     	}
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, shelterId)));
-    	List lst =c.list();
     	return 	c.list();
     }
     
