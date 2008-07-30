@@ -48,8 +48,9 @@
     <bean id="healthSafetyDao" class="org.oscarehr.PMmodule.dao.HealthSafetyDao" autowire="byName" />
     <bean id="logDAO" class="org.oscarehr.PMmodule.dao.LogDAO" autowire="byName" />
     <bean id="formsDAO" class="org.oscarehr.PMmodule.dao.FormsDAO" autowire="byName"/>
+<!-- 
     <bean id="populationReportDAO" class="org.oscarehr.common.dao.PopulationReportDAO" autowire="byName"/>
-    
+ -->    
 
     <!-- managers  -->    
     <bean id="issueAdminManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"

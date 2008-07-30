@@ -164,12 +164,6 @@
  -->
  
 <!-- 
-        <form-bean name="setProviderColour" type="org.apache.struts.action.DynaActionForm">
-            <form-property name="colour" type="java.lang.String" />
-        </form-bean>
-        <form-bean name="setProviderNoteStaleDateForm" type="org.apache.struts.action.DynaActionForm">
-            <form-property name="dateProperty" type="org.oscarehr.common.model.UserProperty" />
-        </form-bean>        
         <form-bean name="setMyOscarIdForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="myOscarLoginId" type="java.lang.String" />
             <form-property name="myOscarDomain" type="java.lang.String" />
@@ -214,18 +208,7 @@
             <form-property name="searchFacilityId" type="java.lang.String"></form-property>
             <form-property name="method" type="java.lang.String" />
         </form-bean>
-<!-- 
-        <form-bean name="agencyManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency" />
-            <form-property name="numRooms" type="java.lang.Integer" />
-            <form-property name="numBeds" type="java.lang.Integer" />
-            <form-property name="rooms" type="org.oscarehr.PMmodule.model.Room[]" />
-            <form-property name="roomTypes" type="org.oscarehr.PMmodule.model.RoomType[]" />
-            <form-property name="beds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="bedTypes" type="org.oscarehr.PMmodule.model.BedType[]" />
-            <form-property name="programs" type="org.oscarehr.PMmodule.model.Program[]" />
-        </form-bean>
- -->                
+
         <form-bean name="bedManagerForm" type="org.oscarehr.PMmodule.web.admin.BedManagerForm"/>
         <form-bean name="facilityManagerForm" type="org.oscarehr.PMmodule.web.admin.FacilityManagerForm"/>
         <form-bean name="clientSearchForm2" type="org.apache.struts.validator.DynaValidatorForm">
@@ -234,22 +217,6 @@
         <form-bean name="mergeClientForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="criteria" type="org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean" />
         </form-bean>
-<!-- 
-        <form-bean name="clientManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
-            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
-            <form-property name="erconsent" type="org.oscarehr.PMmodule.web.formbean.ErConsentFormBean" />
-            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
-            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
-            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
-            <form-property name="programWithIntakeId" type="java.lang.String" />
-            <form-property name="serviceRestriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction" />
-            <form-property name="serviceRestrictionLength" type="java.lang.Integer" />
-        </form-bean>
- -->        
          
         <form-bean name="duplicateClientCheckForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
@@ -292,20 +259,6 @@
         	<form-property name="id" type="java.lang.Integer"></form-property>
         </form-bean>
         <form-bean name="quatroClientDischargeForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientDischargeForm">
-<!-- 
-            <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
-            <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
-            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
-            <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
-            <form-property name="referral" type="org.oscarehr.PMmodule.model.ClientReferral" />
-            <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
-            <form-property name="programWithIntakeId" type="java.lang.String" />
-            <form-property name="dischargeReason" type="java.lang.String"></form-property>
-            <form-property name="dischargeNote" type="java.lang.String"></form-property>
-            <form-property name="dischargeTo" type="java.lang.String"></form-property>
-            <form-property name="transportationType" type="java.lang.String"></form-property>            
- -->                    
         </form-bean>
         <form-bean name="serviceRestrictionForm" type="org.apache.struts.validator.DynaValidatorForm" >
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
@@ -323,10 +276,13 @@
             <form-property name="facilityId" type="java.lang.String" />
             <form-property name="programId" type="java.lang.String" />
         </form-bean>
-
+        
+<!--
         <form-bean name="followUpForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="intake" type="org.oscarehr.PMmodule.model.FormFollowUp" />
         </form-bean>
+-->        
+
         <form-bean name="activityReportForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="form" type="org.oscarehr.PMmodule.web.formbean.ActivityReportFormBean" />
         </form-bean>
@@ -533,23 +489,6 @@
         </action>
 
 <!-- 
-        <action input="/provider/providerFax.jsp" name="editProviderFaxForm" path="/EditFaxNum" scope="request" type="oscar.oscarProvider.pageUtil.ProEditFaxNumAction">
-            <forward name="success" path="/provider/providerFax.jsp" />
-            <forward name="error" path="/provider/providerFaxErr.jsp" />
-            <forward name="eject" path="/index.jsp" />
-        </action>
-        <action input="/provider/providerColourPicker.jsp" name="setProviderColour" path="/setProviderColour" scope="request" type="oscar.oscarProvider.pageUtil.ProEditColourAction">
-            <forward name="success" path="/provider/providerColourPicker.jsp" />
-            <forward name="error" path="/provider/providerColourErr.jsp" />
-            <forward name="eject" path="/index.jsp" />
-        </action>
-        <action path="/setProviderStaleDate" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" input="/provider/setNoteStaleDate.jsp" name="setProviderNoteStaleDateForm">
-            <forward name="success" path="/provider/setNoteStaleDate.jsp" />
-            <forward name="gen"     path="/provider/setGenProperty.jsp"/>
-        </action>
- -->
-
-<!-- 
         <action path="/demographic/printDemoLabelAction" type="oscar.oscarDemographic.PrintDemoLabelAction" />
         <action path="/demographic/printDemoAddressLabelAction" type="oscar.oscarDemographic.PrintDemoAddressLabelAction" />
  -->    
@@ -572,13 +511,6 @@
             <forward name="service_restriction_error" path="page.pmm.program.service_restriction_error"/>
         </action>
 
-<!-- 
-        <action path="/PMmodule/AgencyManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="agencyManagerForm" scope="session">
-            <forward name="view" path="page.pmm.admin.agency.view" />
-            <forward name="edit" path="page.pmm.admin.agency.edit" />
-        </action>
- -->
-         
         <action path="/PMmodule/BedManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="bedManagerForm" scope="request">
             <forward name="manageroom" path="page.pmm.admin.rooms.manage"/>
             <forward name="editroom" path="page.pmm.admin.room.edit"/>
@@ -738,16 +670,22 @@
         </action>
 
         <!-- FORMS -->
+<!-- 
         <action path="/PMmodule/Forms/FollowUp" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="followUpForm" scope="request" input="/PMmodule/forms/FollowUp.jsp">
             <forward name="form" path="/PMmodule/forms/FollowUp.jsp" />
             <forward name="success" path="/PMmodule/ClientManager.do?method=edit" />
             <forward name="error" path="/PMmodule/ClientManager.do?method=edit" redirect="true" />
         </action>
+ -->
+ 
+<!-- 
         <action path="/PMmodule/Admin/DefaultRoleAccess" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="defaultRoleAccessForm" validate="false" scope="request">
             <forward name="list" path="page.pmm.admin.defaultroleaccess.list" />
             <forward name="form" path="page.pmm.admin.defaultroleaccess.form" />
             <forward name="rlist" path="/PMmodule/Admin/DefaultRoleAccess.do?method=list" redirect="true" />
         </action>
+ --> 
+         
         <!-- REPORTS -->
         <action path="/QuatroReport/ReportList" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroReportListForm" scope="request" validate="false" >
             <forward name="reportlist" path="page.report.quatroreportlist" />
@@ -784,7 +722,8 @@
               name="lookupCodeEditForm" scope="session" validate="false" input="/PMmodule/lookup/LookupCodeEdit.jsp">
             <forward name="edit" path="page.admin.lookup.codeedit" />
         </action>
-
+        
+<!-- 
         <action path="/PMmodule/Reports/ProgramActivityReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="activityReportForm" scope="request" validate="false">
             <forward name="form" path="page.report.activityform" />
             <forward name="report" path="page.report.activityreport" />
@@ -798,12 +737,12 @@
         <action path="/PMmodule/Reports/ExitInterviewReportDetailed" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
             <forward name="form" path="page.report.exitinterviewformdetailed" />
         </action>
+        
         <action path="/PMmodule/Reports/ClientListsReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientListsReportForm" scope="request" validate="false">
             <forward name="form" path="page.report.clientlistsreportform" />
             <forward name="report" path="page.report.clientlistsreport" />
         </action>
         
-<!-- 
         <action path="/ReceptionistReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/er/receptionist_report.jsp" />
         </action>
@@ -883,12 +822,6 @@
         </action>
  -->
  
-<!--
-        <action path="/VaccineProviderReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
-            <forward name="report" path="/PMmodule/vaccine/vaccine_provider_report.jsp" />
-        </action>
--->        
-               
         <!-- Population Report -->
 <!-- 
         <action path="/PopulationReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">

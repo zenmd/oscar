@@ -91,16 +91,9 @@
     <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >
     </bean>
-<!-- 
-    <bean name="/PMmodule/AgencyManager" class="org.oscarehr.PMmodule.web.admin.AgencyManagerAction" singleton="false" autowire="byName" />
- -->
     <bean name="/PMmodule/FacilityManager" class="org.oscarehr.PMmodule.web.admin.FacilityManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/BedManager" class="org.oscarehr.PMmodule.web.admin.BedManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ProviderSearch" class="org.oscarehr.PMmodule.web.ProviderSearchAction" singleton="false"  autowire="byName" />
-<!-- 
-    <bean name="/PMmodule/IntakeA" class="org.oscarehr.PMmodule.web.IntakeAAction2" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/IntakeC" class="org.oscarehr.PMmodule.web.IntakeCAction2" singleton="false" autowire="byName" />
- -->
     <bean name="/PMmodule/HealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Consent" class="org.oscarehr.PMmodule.web.ConsentAction" singleton="false"  autowire="byName" />
 <!-- 
@@ -117,8 +110,11 @@
     <bean name="/PMmodule/Reports/ExitInterviewReportDetailed" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportDetailedAction" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/Reports/ClientListsReport" class="org.oscarehr.PMmodule.web.reports.ClientListsReportAction" singleton="false" autowire="byName" />
  -->    
+ 
+ <!-- 
     <bean name="/PMmodule/Admin/DefaultRoleAccess" class="org.oscarehr.PMmodule.web.admin.DefaultRoleAccessAction" singleton="false"  autowire="byName" />
-
+ -->
+ 
     <!--  ER -->
 <!-- 
     <bean name="/ReceptionistReport" class="org.oscarehr.er.ReceptionistReportAction" singleton="false">
@@ -183,10 +179,12 @@
  -->    
      
     <!-- Population Report -->
+<!-- 
     <bean name="/PopulationReport" class="org.oscarehr.common.web.PopulationReportAction" singleton="false">
         <property name="populationReportManager" ref="populationReportManager"/>
     </bean>
-
+ -->
+ 
     <!-- Quatro Shelter Report -->
     <bean name="/QuatroReport/ReportList" class="com.quatro.web.report.QuatroReportListAction" singleton="false">
     </bean>
