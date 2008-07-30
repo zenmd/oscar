@@ -62,7 +62,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	   admObj.setProviderNo(providerNo);
 	   boolean isReferral=false;
 	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId().intValue()>0) {
-		   isReferral =true;
+//		   isReferral =true;
 		   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
 	   }
 

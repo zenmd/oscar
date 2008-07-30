@@ -564,17 +564,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
                 // lets see if there's room first
                 Program programToAdmit = null;
                 Demographic client = clientManager.getClientByDemographicNo(admission.getClientId().toString());
-                /*
-                if(communityProgramCode.length() > 0){
-                	programToAdmit = programManager.getProgram(communityProgramCode);
-                
-                	if (programToAdmit != null && programToAdmit.getNumOfMembers().intValue() >= programToAdmit.getMaxAllowed().intValue()) {
-	                	//client= clientManager.getClientByDemographicNo(admission.getClientId().toString());
-	                    message += "Program Full. Cannot admit " + client.getFormattedName() + "\n";
-	                    continue;
-                	}
-                }
-                */
+
                 admission.setDischargeDate(Calendar.getInstance());
                 admission.setDischargeNotes("Batch discharge");
                 admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
@@ -588,7 +578,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
                 
                 List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());
                 
-                admissionManager.dischargeAdmission(admission, communityProgramCode.equals(""), lstFamily);
+//                admissionManager.dischargeAdmission(admission, communityProgramCode.equals(""), lstFamily);
+                admissionManager.dischargeAdmission(admission, false, lstFamily);
                 
                 message += client.getFormattedName() + " has been discharged.<br>";
                 
