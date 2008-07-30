@@ -26,65 +26,14 @@
 <%@ page import="org.springframework.web.context.WebApplicationContext" %>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
 <%@ page import="org.caisi.service.Version" %>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 
 
 <%
-    String yearStr = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-    String mthStr = String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1);
-    String dayStr = String.valueOf(Calendar.getInstance().get(Calendar.DATE));
-
-    if (mthStr.length() == 1)
-        mthStr = "0" + mthStr;
-
-    if (dayStr.length() == 1)
-        dayStr = "0" + dayStr;
-
-    String dateStr = yearStr + "-" + mthStr + "-" + dayStr;
-    Version version=null;
-	WebApplicationContext ctx=null;
+//	WebApplicationContext ctx=null;
 %>
 
 <script type="text/javascript">
-    function getIntakeReport(type) {
-        var oneWeekAgo = new Date();
-        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-        var startDate = prompt("Please enter a start date in this format (e.g. 2000-01-01)", dojo.date.format(oneWeekAgo, {selector:'dateOnly', datePattern:'yyyy-MM-dd'}));
-        var endDate = prompt("Please enter the end date in this format (e.g. 2000-12-01)", dojo.date.format(new Date(), {selector:'dateOnly', datePattern:'yyyy-MM-dd'}));
-
-        if (!dojo.validate.isValidDate(startDate, 'YYYY-MM-DD')) {
-            alert("'" + startDate + "' is not a valid start date");
-            return false;
-        }
-
-        if (!dojo.validate.isValidDate(endDate, 'YYYY-MM-DD')) {
-            alert("'" + endDate + "' is not a valid end date");
-            return false;
-        }
-
-        alert("Generating report from " + startDate + " to " + endDate + "." + " " + "Please note: it is normal for the generation process to take up to a few minutes to complete, be patient.");
-
-        location.href = '<html:rewrite action="/PMmodule/GenericIntake/Report"/>?' + 'method=report' + '&type=' + type + '&startDate=' + startDate + '&endDate=' + endDate;
-
-        return false;
-    }
-
-    function createIntakeCReport1()
-    {
-        var startDate = prompt("Please enter the date in this format (e.g. 2006-01-01)", "<%=dateStr%>");
-
-        while (startDate.length != 10 || startDate.substring(4, 5) != "-" || startDate.substring(7, 8) != "-")
-        {
-            startDate = prompt("Please enter the date in this format (e.g. 2006-01-01)", "<%=dateStr%>");
-        }
-
-        alert('creating report until ' + startDate);
-
-        location.href = '<html:rewrite action="/PMmodule/IntakeCMentalHealthReportAction.do"/>?startDate=' + startDate;
-    }
-
     function popupPage2(varpage, windowname) {
         var page = "" + varpage;
         windowprops = "height=700,width=1000,location=no,"

@@ -6,8 +6,7 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px"
 	border="1" bordercolor="red">
 	<tr>
-		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">User Management - User
+		<th class="pageTitle" align="center"><span align="left">User Management - User
 		List</span></th>
 	</tr>
 	<tr height="23px">
@@ -31,8 +30,7 @@
 		<td align="left"></td>
 	</tr>
 	<tr>
-		<td><br />
-		<br />
+		<td>
 		<html:form action="/PMmodule/Admin/UserSearch">
 			<input type="hidden" name="method" value="search" />
 			<div class="axial">
@@ -84,7 +82,7 @@
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;" id="scrollBar">
 
-		<div class="tabs" id="tabs">
+		<br/><div class="tabs" id="tabs">
 		<table cellpadding="3" cellspacing="0" border="0">
 			<tr>
 				<th title="Programs">Users</th>

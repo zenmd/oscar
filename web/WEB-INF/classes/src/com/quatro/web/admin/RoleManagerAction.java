@@ -63,6 +63,13 @@ public class RoleManagerAction extends DispatchAction {
 		request.setAttribute("roles", list);
 		logManager.log("read", "full roles list", "", request);
 
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", scrollPosition);
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
+		
 		return mapping.findForward("list");
 
 	}
@@ -135,8 +142,15 @@ public class RoleManagerAction extends DispatchAction {
 			}
 			secroleForm.set("secobjprivilegeLst", secobjprivilegeLst);
 			
-/////////	
 		}
+
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", scrollPosition);
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
+
 		return mapping.findForward("edit");
 
 	}
@@ -161,8 +175,6 @@ public class RoleManagerAction extends DispatchAction {
 
 		if (existRole == null) {
 			rolesManager.save(secrole);
-
-		//	secroleForm.set("roleNo", secrole.getRoleNo());
 
 			LookupCodeValue functions = new LookupCodeValue();
 			secroleForm.set("functions", functions);
@@ -229,16 +241,23 @@ public class RoleManagerAction extends DispatchAction {
 		ChangeFunLstTable(2, secroleForm, request);
 
 		return mapping.findForward("functions");
-
 	}
+	
 	public ActionForward addFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		ChangeFunLstTable(2, secroleForm, request);
 		request.setAttribute("secroleForEdit", "flag");
-		return mapping.findForward("edit");
 
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", scrollPosition + 50);
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
+
+		return mapping.findForward("edit");
 	}
 
 	public ActionForward removeFunction(ActionMapping mapping, ActionForm form,
@@ -257,6 +276,13 @@ public class RoleManagerAction extends DispatchAction {
 		ChangeFunLstTable(1, secroleForm, request);
 		request.setAttribute("secroleForEdit", "flag");
 		
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", scrollPosition);
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
+
 		return mapping.findForward("edit");
 
 	}
