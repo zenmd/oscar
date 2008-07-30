@@ -23,10 +23,12 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 		<a href="javascript:clickTab('Incidents');" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
 		</a>
+		<c:if test="${programActive}">
 		<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">
 			<html:link href="javascript:editIncident('save');" onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</security:oscarSec>
+		</c:if>
 		</td>
 	</tr>
 	<tr>

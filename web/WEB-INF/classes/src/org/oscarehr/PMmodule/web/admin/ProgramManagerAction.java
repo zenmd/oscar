@@ -756,7 +756,8 @@ public class ProgramManagerAction extends BaseProgramAction {
         DynaActionForm programForm = (DynaActionForm) form;
 
         Program program = (Program) programForm.get("program");
-
+        program.setLastUpdateUser((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+        program.setLastUpdateDate(Calendar.getInstance());
         if (this.isCancelled(request)) {
             return list(mapping, form, request, response);
         }
