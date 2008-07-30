@@ -76,7 +76,7 @@
 					       </logic:equal>  
 					       <logic:equal name="field" property="fieldType" value="N">
 					       	   <logic:equal name="field" property="editable" value="true">
-					          	<html:text name="field" property="val" indexed="true" maxlength="80" />
+					          	<html:text name="field" property="val" indexed="true" maxlength="10" />
 					           </logic:equal>
 					       	   <logic:equal name="field" property="editable" value="false">
 					       	   	<bean:write name="field" property="val" /> 

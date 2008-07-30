@@ -7,10 +7,19 @@ public class LookupTableDefValue {
    String tableName;
    String description;
    boolean active;
+   boolean readonly;
    boolean tree;
    int treeCodeLength;
 
-   public boolean isActive() {
+   public boolean isReadonly() {
+	return readonly;
+}
+
+public void setReadonly(boolean readonly) {
+	this.readonly = readonly;
+}
+
+public boolean isActive() {
 	 return active;
    }
    

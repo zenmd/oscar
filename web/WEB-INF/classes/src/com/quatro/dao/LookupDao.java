@@ -250,7 +250,13 @@ public class LookupDao extends HibernateDaoSupport {
 					FieldDefValue fdv = (FieldDefValue) fs.get(i);
 					String val = db.getString(rs, i+1);
 					if("D".equals(fdv.getFieldType()))
-						val = MyDateFormat.getStandardDateTime(MyDateFormat.getCalendarwithTime(val));
+						if(fdv.isEditable()) {
+							val = MyDateFormat.getStandardDate(MyDateFormat.getCalendarwithTime(val));
+						}
+						else
+						{
+							val = MyDateFormat.getStandardDateTime(MyDateFormat.getCalendarwithTime(val));
+						}
 					fdv.setVal(val);
 				}
 			}
@@ -482,8 +488,13 @@ public class LookupDao extends HibernateDaoSupport {
 			}
 			else if ("D".equals(fdv.getFieldType()))
 			{
-//				for last update date Using calendar Instance
-				params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
+				if (fdv.isEditable()) {
+					params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendar(fdv.getVal()));
+				}
+				else
+				{
+					params[i] = new DBPreparedHandlerParam(MyDateFormat.getCalendarwithTime(fdv.getVal()));
+				}
 			}
 			else
 			{

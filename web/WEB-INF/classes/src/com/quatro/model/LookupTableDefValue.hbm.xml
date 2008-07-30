@@ -10,6 +10,7 @@
         <property name="tableName" column="table_name" /> 
         <property name="description" /> 
         <property name="active" column="activeyn" /> 
+		<property name="readonly" column="readonly" />
 		<property name="tree" column="istree" />
         <property name="treeCodeLength" column="treecode_length" />
         <property name="moduleId"/>

@@ -43,9 +43,9 @@
 				<tr>
 					<th align="left" width="20%">Status:</th>
 					<th align="left" width="80%"><html:select property="searchStatus">
-						<html:option value="Any" />
-						<html:option value="active" />
-						<html:option value="inactive" />
+						<html:option value="">Any </html:option>
+						<html:option value="1">Active</html:option>
+						<html:option value="0">Inactive</html:option>
 					</html:select></th>
 				</tr>
 				<tr>
@@ -110,7 +110,10 @@
 				</display:column>
 				<display:column property="descr" sortable="true" title="Description" />
 				<display:column property="type" sortable="true" title="Type" />
-				<display:column property="programStatus" sortable="true"	title="Status" />
+				<display:column sortable="true"	title="Status" sortName="program" sortProperty="programStatus">
+					<c:if test="${program.programStatus == '1'}"> Active</c:if>
+					<c:if test="${program.programStatus == '0'}"> Inactive</c:if>
+				</display:column>
 				<display:column property="facilityDesc" sortable="true" title="Facility" />				
 				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
 					<c:if test="${program.type == 'Bed'}">

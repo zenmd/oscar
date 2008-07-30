@@ -201,8 +201,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				<tr class="b">
 					<td width="20%">Status</td>
 					<td><html:select property="program.programStatus">
-						<html:option value="active" />
-						<html:option value="inactive" />
+						<html:option value="1"> Active</html:option>
+						<html:option value="0"> Inactive</html:option>
 					</html:select></td>
 				</tr>
 				
@@ -238,10 +238,12 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					</html-el:select></td>
 					
 				</tr>
+				<logic-el:present property="removetheboxe" name="programManagerForm">
 				<tr class="b">
 					<td width="20%">Bed Program Affiliated</td>
 					<td><html:checkbox property="program.bedProgramAffiliated" /></td>
 				</tr>
+				</logic-el:present>
 				<tr class="b">
 					<td width="20%">Minimum Age (inclusive)</td>
 					<td><html:text property="program.ageMin" size="8"
