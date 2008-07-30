@@ -321,7 +321,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	String mthd = request.getParameter("mthd");
     	Integer pid = Integer.valueOf(programId);
     	Program prog=programManager.getProgram(pid);
-    	request.setAttribute("programActive", prog.isActive());
+    	request.setAttribute("programActive", Boolean.valueOf(prog.isActive()));
     	HttpSession se=request.getSession(true);
     	String providerNo = (String) se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
