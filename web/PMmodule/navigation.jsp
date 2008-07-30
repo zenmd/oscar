@@ -26,6 +26,7 @@
 <%@ page import="org.springframework.web.context.WebApplicationContext" %>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
 <%@ page import="org.caisi.service.Version" %>
+<%@ page import="com.quatro.common.KeyConstants" %>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 
 <%
@@ -52,7 +53,7 @@
     <strong>Navigator</strong>
 </div>
 <div class="body">
-	<security:oscarSec  objectName="_pmm.clientSearch" rights="r">
+	<security:oscarSec  objectName="<%=KeyConstants.FUN_CLIENT %>" rights="r">
     	<div>
         <span>Client Management</span>
         <div>
@@ -66,7 +67,7 @@
         </security:oscarSec>
 	    </div>
     </security:oscarSec>
-    <security:oscarSec objectName="_reportRunner" rights="r">
+    <security:oscarSec objectName="<%=KeyConstants.FUN_REPORTS %>" rights="r">
 	    <div>
             <span>Reporting Tools</span>
 			<div>
@@ -74,7 +75,7 @@
 			</div>
         </div>
     </security:oscarSec>
-    <security:oscarSec objectName="_pmm.caseManagement" rights="r">
+    <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="r">
 		<div> 
             <span>Case Management</span>
         <div>
@@ -82,7 +83,7 @@
         </div>
         </div>
     </security:oscarSec>
-    <security:oscarSec objectName="_pmm.document" rights="r">
+    <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="r">
 		<div> 
             <span>Document Attachment</span>
         <div>
@@ -90,7 +91,7 @@
         </div>
         </div>
     </security:oscarSec>
-    <security:oscarSec objectName="_pmm.task" rights="r">
+    <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTTASKS %>" rights="r">
 		<div> 
             <span>Tasks</span>
         <div>
@@ -112,13 +113,13 @@
                 <html:link action="/PMmodule/AgencyManager.do">Agency Information</html:link>
             </div>
             </security:oscarSec>
-            <security:oscarSec objectName="_pmm.manageFacilities" rights="r">
+            <security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY %>" rights="r">
             <div>
                 <html:link action="/PMmodule/FacilityManager.do?method=list">Manage Facilities</html:link>
             </div>
             </security:oscarSec>
         </div>
-		<security:oscarSec objectName="_pmm.programList" rights="r">
+		<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM %>" rights="r">
         <div>
             <span>Program</span>
             <div>
@@ -127,7 +128,7 @@
         </div>
         </security:oscarSec>
 	</security:oscarSec>       
-    <security:oscarSec objectName="_admin" rights="r">
+    <security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN %>" rights="r">
         <div>
             <span>System Administration</span>
 
