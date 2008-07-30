@@ -201,15 +201,8 @@ public class RoleManagerAction extends DispatchAction {
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
-		Secrole secrole = new Secrole();
-		//secrole.setRoleNo((Integer) secroleForm.get("roleNo"));
-		String roleName = (String) secroleForm.get("roleName");
-		secrole.setRoleName(roleName);
-		secrole.setDescription((String) secroleForm.get("description"));
-		if("on".equals(secroleForm.get("active"))) secrole.setActive(true);
 		try{
-			rolesManager.save(secrole);
-			saveFunctions(mapping, form, request, response);
+			saveRoleAndFunctions(mapping, form, request, response, true);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 			request.getContextPath()));
 			saveMessages(request,messages);			
@@ -218,7 +211,6 @@ public class RoleManagerAction extends DispatchAction {
 			request.getContextPath()));
 			saveMessages(request,messages);				
 		}
-	//	secroleForm.set("roleNo", secrole.getRoleNo());
 
 		LookupCodeValue functions = new LookupCodeValue();
 		secroleForm.set("functions", functions);
@@ -367,26 +359,31 @@ public class RoleManagerAction extends DispatchAction {
 //		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.role.function.add",
 //       			request.getContextPath()));
 //		saveMessages(request,messages);
-		
-		
-
 	}
 
 	public ActionForward saveFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		saveFunctions( mapping, form, request, response);
+		saveRoleAndFunctions(mapping, form, request, response, false);
 		
 		return list(mapping, form, request, response);
 
 	}
-	public void saveFunctions(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+	public void saveRoleAndFunctions(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response, boolean saveRole) {
 
 		DynaActionForm secroleForm = (DynaActionForm) form;
-
+		
 		String roleName = (String) secroleForm.get("roleName");
 		String providerNo = (String) request.getSession(true).getAttribute("user");
+
+		Secrole secrole=null;
+		if(saveRole){
+		  secrole = new Secrole();
+		  secrole.setRoleName(roleName);
+		  secrole.setDescription((String) secroleForm.get("description"));
+		  if("on".equals(secroleForm.get("active"))) secrole.setActive(true);
+		}
 		
 		Map map = request.getParameterMap();
 		String[] arr_lineno = (String[]) map.get("lineno");
@@ -409,11 +406,10 @@ public class RoleManagerAction extends DispatchAction {
 				objNew.setProviderNo(providerNo);
 				objNew.setPriority(new Integer("0"));
 
-				//rolesManager.saveFunction(objNew);
 				listForSave.add(objNew);
 			}
 		}
-		rolesManager.saveFunctions(listForSave, roleName);
+		rolesManager.saveFunctions(secrole, listForSave, roleName);
 
 		
 	}

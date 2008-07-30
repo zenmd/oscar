@@ -31,9 +31,6 @@ import com.quatro.model.security.Secobjprivilege;
 import com.quatro.model.security.Secrole;
 import com.quatro.model.security.Secuserrole;
 
-
-
-
 public class RolesManager {
 
 	private SecroleDao secroleDao;
@@ -42,54 +39,42 @@ public class RolesManager {
 	public void setSecroleDao(SecroleDao dao) {
 		this.secroleDao = dao;
 	}
+
 	public List getRoles() {
 		return secroleDao.getRoles();
 	}
-	/*
-	public Secrole getRole(String id) {
-		return secroleDao.getRole(Integer.valueOf(id));
-	}
-	*/
+
 	public Secrole getRoleByRolename(String roleName) {
 		return secroleDao.getRoleByName(roleName);
 	}
+
 	public void save(Secrole secrole) {
 		secroleDao.save(secrole);
 	}
+
 	public void saveFunction(Secobjprivilege secobjprivilege) {
 		secobjprivilegeDao.save(secobjprivilege);
 	}
-//	public void saveFunctions(List list, String roleName) {
-//		secobjprivilegeDao.deleteByRoleName(roleName);
-//		secobjprivilegeDao.saveAll(list);
-//	}
-	public void saveFunctions(List list, String roleName) {
+
+	public void saveFunctions(Secrole secrole, List newLst, String roleName) {
+		if(secrole!=null) secroleDao.save(secrole);
 		List existLst = secobjprivilegeDao.getFunctions(roleName);
-		saveAll(list, existLst);
-	}
-	public void saveAll(List newLst, List existLst) {
+
 		ArrayList lstForDelete = new ArrayList();
-		if(existLst.size()>0){
-			
-			for(int i = 0; i < existLst.size(); i++){
-				boolean keepIt = false;
-				Secobjprivilege sur1 = (Secobjprivilege)existLst.get(i);
-				for(int j = 0; j < newLst.size(); j++){
-					Secobjprivilege sur2 = (Secobjprivilege)newLst.get(j);
-					if(compare(sur1, sur2)){
-						keepIt = true;
-						break;
-					}
-				}
-				if(!keepIt){
-					lstForDelete.add(sur1);
-				}
-				
+		for(int i = 0; i < existLst.size(); i++){
+		  boolean keepIt = false;
+		  Secobjprivilege sur1 = (Secobjprivilege)existLst.get(i);
+		  for(int j = 0; j < newLst.size(); j++){
+			Secobjprivilege sur2 = (Secobjprivilege)newLst.get(j);
+			if(compare(sur1, sur2)){
+			  keepIt = true;
+			  break;
 			}
-			for( int i = 0; i < lstForDelete.size(); i++){
-				secobjprivilegeDao.delete((Secobjprivilege)lstForDelete.get(i));				
-			}
-			
+		  }
+		  if(!keepIt) lstForDelete.add(sur1);
+		}
+		for( int i = 0; i < lstForDelete.size(); i++){
+		  secobjprivilegeDao.delete((Secobjprivilege)lstForDelete.get(i));				
 		}
 		
 		secobjprivilegeDao.saveAll(newLst);
@@ -104,10 +89,6 @@ public class RolesManager {
 		return isSame;
 	}
 	
-	
-	
-	
-	
 	public List getFunctions(String roleName) {
 		return secobjprivilegeDao.getFunctions(roleName);
 	}
@@ -119,6 +100,7 @@ public class RolesManager {
 	public String getAccessDesc(String accessType_code ) {
 		return secobjprivilegeDao.getAccessDesc(accessType_code);
 	}
+
 	public void setSecobjprivilegeDao(SecobjprivilegeDao secobjprivilegeDao) {
 		this.secobjprivilegeDao = secobjprivilegeDao;
 	}
