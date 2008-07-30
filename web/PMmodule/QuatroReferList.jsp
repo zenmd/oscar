@@ -1,5 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
 <%@page import="java.util.Date"%>
+<%@page import="org.oscarehr.PMmodule.model.ClientReferral"%>
 <%@page import="com.quatro.common.KeyConstants"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
@@ -72,8 +73,13 @@
 			    <display:column  title="Actions">
 					<c:choose>
 						<c:when test="${'M' eq refer.autoManual and (refer.status eq 'pending') }">
-							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
-						</c:when>						
+							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights='w'>
+								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
+							</security:oscarSec>
+							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights="w" reverse="true">
+								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
+							</security:oscarSec>
+						</c:when>					
 						<c:otherwise>
 							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 						</c:otherwise>
