@@ -57,7 +57,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		  <tr><td colspan="2">Functions:</td></tr>
 		  <tr><td colspan="2">
 			<table align="center" class="simple" width="100%">
-			  <tr><td align="center">Select</td>
+			  <tr style="background-color: #f0f0f0"><td align="center">Select</td>
 			  <td align="center">Function</td>
 			  <td align="center">AccessType</td></tr>
 			  <logic:iterate id="secobjprivilege" name="secroleForm" property="secobjprivilegeLst" indexId="rIndex">
