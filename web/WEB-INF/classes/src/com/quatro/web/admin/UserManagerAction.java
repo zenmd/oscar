@@ -121,10 +121,16 @@ public class UserManagerAction extends DispatchAction {
 
 		request.setAttribute("profilelist", profilelist);
 		secForm.set("secUserRoleLst", profilelist);
-		logManager.log("read", "full secuserroles list", "", request);
+//		logManager.log("read", "full secuserroles list", "", request);
+
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", scrollPosition);
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
 
 		return mapping.findForward("addRoles");
-
 	}
 
 	private void setLookupLists(HttpServletRequest request)
@@ -136,26 +142,20 @@ public class UserManagerAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response) {
 
 		return mapping.findForward("list");
-
 	}
 	
 
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("=========== preNew ========= in UserManagerAction");
-		
 		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
         request.setAttribute("titleLst", titleLst);
         
 		return mapping.findForward("edit");
-
 	}
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		System.out.println("=========== EDIT ========= in UserManagerAction");
 
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = request.getParameter("providerNo");
@@ -214,7 +214,6 @@ public class UserManagerAction extends DispatchAction {
 
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("=========== save ========= in UserManagerAction");
 		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
         request.setAttribute("titleLst", titleLst);
         
@@ -324,7 +323,6 @@ public class UserManagerAction extends DispatchAction {
 	
 	public ActionForward changePassword(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("=========== changePassword ========= in UserManagerAction");
 		
 		DynaActionForm secuserForm = (DynaActionForm) form;
 
@@ -336,7 +334,6 @@ public class UserManagerAction extends DispatchAction {
 	}
 	public ActionForward savePassword(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("=========== savePassword ========= in UserManagerAction");
 		
 		ActionMessages messages = new ActionMessages();
 
@@ -425,17 +422,12 @@ public class UserManagerAction extends DispatchAction {
 	public ActionForward addRole(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== addRole ========= in UserManagerAction");
-		
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = request.getParameter("providerNo");
 
 		if (isCancelled(request)) {
 			return list(mapping, form, request, response);
 		}
-
-	
 
 		SecProvider provider = usersManager
 				.getProviderByProviderNo(providerNo);
@@ -469,6 +461,13 @@ public class UserManagerAction extends DispatchAction {
 		
 		changeRoleLstTable(2, secuserForm, request);
 
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", String.valueOf(Integer.valueOf(scrollPosition).intValue()+ 50));
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
+				
 		return mapping.findForward("addRoles");
 
 	}
@@ -476,10 +475,15 @@ public class UserManagerAction extends DispatchAction {
 	public ActionForward removeRole(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out
-				.println("=========== removeRole ========= in UserManagerAction");
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		changeRoleLstTable(1, secroleForm, request);
+
+		String scrollPosition = (String) request.getParameter("scrollPosition");
+		if(null != scrollPosition) {
+			request.setAttribute("scrPos", scrollPosition);
+		}else{
+			request.setAttribute("scrPos", "0");
+		}
 
 		return mapping.findForward("addRoles");
 
@@ -488,10 +492,7 @@ public class UserManagerAction extends DispatchAction {
 	public void changeRoleLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
 		
-//		ActionMessages messages = new ActionMessages();
-		
 		ArrayList secUserRoleLst = new ArrayList();
-
 		
 		switch (operationType) {
 		
@@ -511,12 +512,7 @@ public class UserManagerAction extends DispatchAction {
 		}
 		myForm.set("secUserRoleLst", secUserRoleLst);
 		
-//		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
-//       			request.getContextPath()));
-//		saveMessages(request,messages);
-		
 		request.getSession(true).setAttribute("secUserRoleLst",	secUserRoleLst);
-
 	}
 
 	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
@@ -532,20 +528,14 @@ public class UserManagerAction extends DispatchAction {
 			lineno = arr_lineno.length;
 		
 		for (int i = 0; i < lineno; i++) {
-			
 			String[] isChecked = (String[]) map.get("p" + i);
 			if ((operationType == 1 && isChecked == null) || operationType != 1) {
-
 				Secuserrole objNew = new Secuserrole();
 				
-				String[] org_code = (String[]) map
-						.get("org_code" + i);
-				String[] org_description = (String[]) map
-						.get("org_description" + i);
-				String[] role_code = (String[]) map
-						.get("role_code" + i);
-				String[] role_description = (String[]) map
-						.get("role_description" + i);
+				String[] org_code = (String[]) map.get("org_code" + i);
+				String[] org_description = (String[]) map.get("org_description" + i);
+				String[] role_code = (String[]) map.get("role_code" + i);
+				String[] role_description = (String[]) map.get("role_description" + i);
 		
 				if (org_code != null)
 					objNew.setOrgcd(org_code[0]);
@@ -569,7 +559,6 @@ public class UserManagerAction extends DispatchAction {
 	public ActionForward saveRoles(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("=========== saveRoles ========= in UserManagerAction");
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = (String) secuserForm.get("providerNo");
 		ActionMessages messages = new ActionMessages();

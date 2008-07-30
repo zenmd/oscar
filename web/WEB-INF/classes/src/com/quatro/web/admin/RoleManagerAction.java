@@ -252,7 +252,7 @@ public class RoleManagerAction extends DispatchAction {
 
 		String scrollPosition = (String) request.getParameter("scrollPosition");
 		if(null != scrollPosition) {
-			request.setAttribute("scrPos", scrollPosition + 50);
+			request.setAttribute("scrPos", String.valueOf(Integer.valueOf(scrollPosition).intValue()+ 50));
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
