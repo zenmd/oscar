@@ -17,11 +17,13 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
 			&nbsp;|&nbsp;<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;
-			</html:link>			
-			<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+			</html:link>
+			<c:if test="${programActive}">			
+			<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_INCIDENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 				&nbsp;|&nbsp;<html:link	href="javascript:editIncident('new');"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;</html:link>
 			</security:oscarSec>
+			</c:if>
 			&nbsp;|&nbsp;<html:link	href="javascript:searchIncident();"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;</html:link>
 			&nbsp;|&nbsp;<html:link href="javascript:resetForm()"	style="color:Navy;text-decoration:none;">&nbsp;

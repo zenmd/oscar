@@ -114,8 +114,8 @@ public class ClientSearchAction2 extends BaseClientAction {
 			prgId =prg.getId().toString();
 		}
 		request.setAttribute("searchClient", "true");
-		super.setScreenMode(request, KeyConstants.FUN_PMM_CLIENTSEARCH);		
-		boolean isReadOnly=super.isReadOnly(request, KeyConstants.STATUS_ACTIVE, KeyConstants.FUN_PMM_CLIENTINTAKE, Integer.valueOf(prgId));
+		super.setScreenMode(request, KeyConstants.FUN_CLIENT);		
+		boolean isReadOnly=super.isReadOnly(request, KeyConstants.STATUS_ACTIVE, KeyConstants.FUN_CLIENTINTAKE, Integer.valueOf(prgId));
 		
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("form");

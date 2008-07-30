@@ -175,25 +175,25 @@ public abstract class BaseAction extends DispatchAction {
 		SecurityManager sec = getSecurityManager(request);
 		if (sec==null) return;		
 		//Client Management
-		if (sec.GetAccess(KeyConstants.FUN_PMM_CLIENTSEARCH, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_CLIENT, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
 	
 		//Program
-		if (sec.GetAccess(KeyConstants.FUN_PMM_PROGRAMLIST, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
 
 		//Facility Management
-		if (sec.GetAccess(KeyConstants.FUN_PMM_FACILITYLIST, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
 
 		//Report Runner
-		if (sec.GetAccess(KeyConstants.FUN_REPORTRUNNER, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_REPORTS, "").compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession().setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);

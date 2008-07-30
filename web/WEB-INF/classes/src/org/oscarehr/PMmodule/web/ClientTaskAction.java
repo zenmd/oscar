@@ -128,7 +128,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", request.getParameter("clientId"));
         request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
- 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
+ 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
 
         Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         String providerNo = (String)request.getSession().getAttribute("user");
@@ -162,7 +162,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
+ 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    
         ArrayList ampmLst = new ArrayList();
         LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
@@ -235,7 +235,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
+ 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    
  	    
         Tickler tickler = (Tickler) ticklerForm.getTickler();
@@ -300,7 +300,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
+ 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    
         ArrayList ampmLst = new ArrayList();
         LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
@@ -353,7 +353,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.FUN_TASKS);
+ 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    Tickler tickler = new Tickler();
         tickler.setTickler_no(new Integer(0));
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);

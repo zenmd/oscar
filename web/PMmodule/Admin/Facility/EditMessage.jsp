@@ -37,7 +37,7 @@ String s = "debug";
 						action="/FacilityMessage.do?method=list" name="actionParam"
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Messages&nbsp;&nbsp;!</html:link>
-					<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_FACILITY_MESSAGE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_MESSAGE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
 						<html:link href="javascript:submitForm();" 	style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 					</security:oscarSec>

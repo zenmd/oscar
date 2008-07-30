@@ -85,7 +85,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
     	   programId=obj0.getProgramId();
        }
       
-       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY, programId);
+       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
        request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
        
        for(int i=0;i<lst.size();i++){

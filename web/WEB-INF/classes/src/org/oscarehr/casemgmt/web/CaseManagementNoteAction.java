@@ -1081,7 +1081,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		String noteid = (String) request.getParameter("noteId");
 		if(Utility.IsEmpty(noteid) && request.getAttribute("noteId")!=null) noteid =request.getAttribute("noteId").toString();
 		CaseManagementNote note = caseManagementMgr.getNote(noteid);
-		super.setScreenMode(request, KeyConstants.FUN_PMM_CLIENTCASE);
+		super.setScreenMode(request, KeyConstants.FUN_CLIENTCASE);
 		request.setAttribute("history", note.getHistory());
 		request.setAttribute("client", clientManager
 				.getClientByDemographicNo(demono));

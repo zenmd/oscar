@@ -94,25 +94,25 @@ public final class ShelterSelectionAction extends DispatchAction {
 		SecurityManager sec = getSecurityManager(request);
 		if (sec==null) return;
 		//Client Management
-		if (sec.GetAccess("_pmm.clientSearch", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_CLIENT, "").compareTo("r") >= 0) {
 			request.getSession(true).setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession(true).setAttribute(KeyConstants.MENU_CLIENT, KeyConstants.ACCESS_NULL);
 	
 		//Program
-		if (sec.GetAccess("_pmm.programList", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM, "").compareTo("r") >= 0) {
 			request.getSession(true).setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession(true).setAttribute(KeyConstants.MENU_PROGRAM, KeyConstants.ACCESS_NULL);
 
 		//Facility Management
-		if (sec.GetAccess("_pmm.facilityList", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY, "").compareTo("r") >= 0) {
 			request.getSession(true).setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession(true).setAttribute(KeyConstants.MENU_FACILITY, KeyConstants.ACCESS_NULL);
 
 		//Report Runner
-		if (sec.GetAccess("_reportRunner", "").compareTo("r") >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_REPORTS, "").compareTo("r") >= 0) {
 			request.getSession(true).setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_VIEW);
 		} else
 			request.getSession(true).setAttribute(KeyConstants.MENU_REPORT, KeyConstants.ACCESS_NULL);

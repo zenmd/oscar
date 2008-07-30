@@ -13,7 +13,7 @@ public class BaseProgramAction extends BaseAction {
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
 		
-		if (sec.GetAccess(KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAMEDIT, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_GENERAL))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_CURRENT);
@@ -22,7 +22,7 @@ public class BaseProgramAction extends BaseAction {
 		
 		
 		// Queue
-		if (sec.GetAccess(KeyConstants.FUN_PMM_EDITPROGRAM_QUEUE, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM_QUEUE, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_QUEUE,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_QUEUE))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_QUEUE,	KeyConstants.ACCESS_CURRENT);
@@ -31,7 +31,7 @@ public class BaseProgramAction extends BaseAction {
 		
 		
 		// Clients
-		if (sec.GetAccess(KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS  , orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM_CLIENTS  , orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_CLIENTS,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_CLIENTS))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_CLIENTS,	KeyConstants.ACCESS_CURRENT);
@@ -40,7 +40,7 @@ public class BaseProgramAction extends BaseAction {
 		
 		
 		//	Incidents
-		if (sec.GetAccess(KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM_INCIDENT, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_INCIDENTS,KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_INCIDENTS))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_INCIDENTS,KeyConstants.ACCESS_CURRENT);
@@ -50,7 +50,7 @@ public class BaseProgramAction extends BaseAction {
 		
 		
 		//	Bed
-		if (sec.GetAccess(KeyConstants.FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_SEVICE))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_CURRENT);
@@ -58,7 +58,7 @@ public class BaseProgramAction extends BaseAction {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_NULL);
 		
 //		Staff
-		if (sec.GetAccess(KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM_STAFF, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_STAFF,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_STAFF))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_STAFF,	KeyConstants.ACCESS_CURRENT);

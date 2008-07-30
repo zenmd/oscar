@@ -51,7 +51,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            	taskTime=sDt.getTimeInMillis();
 	            }
 	            try {
-	                if (Calendar.getInstance().getTimeInMillis()==taskTime) {
+	                if (Math.abs(Calendar.getInstance().getTimeInMillis()-taskTime)<=2000) {
 	                // delete old redirect entries
 	                programOccupancyDao.deleteProgramOccupancy(Calendar.getInstance());
 	                programOccupancyDao.insertProgramOccupancy(providerNo, Calendar.getInstance());

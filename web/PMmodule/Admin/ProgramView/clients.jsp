@@ -206,7 +206,7 @@
 					</logic:equal>
 				</display:column>
 			</display:table>			
-			<security:oscarSec objectName="<%=KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+			<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_CLIENTS %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 			<logic:notEmpty name="clientsLst">				
 					<input type="button" value="Swap Beds" onclick="javascript:do_swap_beds();"/>
 					<br />

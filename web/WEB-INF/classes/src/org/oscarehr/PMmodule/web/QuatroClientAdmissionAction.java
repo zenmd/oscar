@@ -565,7 +565,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if("discharged".equalsIgnoreCase(admission.getAdmissionStatus())){
     	   request.setAttribute("isReadOnly", "true");
        }
-       boolean readOnly=super.isReadOnly(request,admission.getAdmissionStatus(), KeyConstants.FUN_PMM_CLIENTADMISSION,admission.getProgramId());
+       boolean readOnly=super.isReadOnly(request,admission.getAdmissionStatus(), KeyConstants.FUN_CLIENTADMISSION,admission.getProgramId());
        if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
@@ -577,7 +577,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 		//summary
 		if(programId==null) return false;
 		
-		return sec.GetAccess(KeyConstants.FUN_PMM_CLIENTADMISSION, programId).equals(KeyConstants.ACCESS_ALL);
+		return sec.GetAccess(KeyConstants.FUN_CLIENTADMISSION, programId).equals(KeyConstants.ACCESS_ALL);
    }
    private boolean validateConflict(HttpServletRequest request, Program program,Demographic client,
 		   Integer roomId, Integer clientNum, ActionMessages messages){

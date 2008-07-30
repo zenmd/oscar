@@ -167,13 +167,13 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         // check role permission
         HttpSession se=request.getSession(true);        
         String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        se.setAttribute("performAdmissions",hasAccess(request, programId, "_pmm_clientAdmission",SecurityManager.ACCESS_UPDATE));
+        se.setAttribute("performAdmissions",hasAccess(request, programId, KeyConstants.FUN_CLIENTADMISSION,SecurityManager.ACCESS_UPDATE));
         // need the queue to determine which tab to go to first
         if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
 	        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
 	        request.setAttribute("queue", queue);
 	        super.setScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_QUEUE, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_QUEUE, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	        HashSet genderConflict = new HashSet();
 	        HashSet ageConflict = new HashSet();
@@ -211,32 +211,32 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)) {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
             super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
         	processStaff( request, programId, formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_STAFF, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_STAFF, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }        
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
         	processClients( request, program, formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_CLIENTS, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_CLIENTS, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
         	processIncident( request, programId.toString(), formBean);
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_INCIDENT, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_INCIDENT, programId);
+	        if(isReadOnly || !program.isActive())request.setAttribute("isReadOnly", Boolean.TRUE);
         }
         else
         {
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PMM_EDITPROGRAM_GENERAL, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
         }
 
@@ -320,7 +320,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	String incidentId = request.getParameter("incidentId");
     	String mthd = request.getParameter("mthd");
     	Integer pid = Integer.valueOf(programId);
-    	
+    	Program prog=programManager.getProgram(pid);
+    	request.setAttribute("programActive", prog.isActive());
     	HttpSession se=request.getSession(true);
     	String providerNo = (String) se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         

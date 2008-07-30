@@ -301,7 +301,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         // readonly access to define creat a new note button in jsp.
         SecurityManager sec = (SecurityManager) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
        
-        boolean tmp = sec.GetAccess(KeyConstants.FUN_PMM_CLIENTCASE,"P" + programId.toString()).equals(SecurityManager.ACCESS_READ);
+        boolean tmp = sec.GetAccess(KeyConstants.FUN_CLIENTCASE,"P" + programId.toString()).equals(SecurityManager.ACCESS_READ);
         Boolean readonly = new Boolean(tmp);
         se.setAttribute("readOnly", readonly);
 

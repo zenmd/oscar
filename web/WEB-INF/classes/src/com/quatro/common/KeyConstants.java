@@ -125,12 +125,45 @@ public class KeyConstants {
   public static final String DEFAULT_TIME_ZONE = "GMT-05:00";
   
   /*Function Definition */
-  public static final String FUN_PMM_FACILITY_BED="_pmm_facility.bed";
-  public static final String FUN_PMM_FACILITY_EDIT="_pmm_facility.edit";
-  public static final String FUN_PMM_FACILITY_GENERAL="_pmm_facility.general";
-  public static final String FUN_PMM_FACILITY_MESSAGE="_pmm_facility.message";
-  public static final String FUN_PMM_FACILITY_PROGRAM="_pmm_facility.program";
-  public static final String FUN_PMM_CLIENTSEARCH="_pmm.clientSearch";
+  public static final String FUN_FACILITY_BED="_facility.bed";
+  public static final String FUN_FACILITY_EDIT="_facility.edit";
+  public static final String FUN_FACILITY_GENERAL="_facility.general";
+  public static final String FUN_FACILITY_MESSAGE="_facility.message";
+  public static final String FUN_FACILITY_PROGRAM="_facility.program";
+  public static final String FUN_CLIENT="_client";
+  
+  public static final String FUN_PROGRAM="_program";
+  public static final String FUN_PROGRAM_STAFF="_program.staff";
+  public static final String FUN_CLIENTTASKS="_clientTasks";
+  public static final String FUN_CLIENTDOCUMENT="_clientDocument";
+
+  public static final String FUN_ADMIN="_admin";
+  public static final String FUN_ADMIN_SECURITY="_admin.security";
+  public static final String FUN_ADMIN_SECURITYLOGREPORT="_admin.securityLogReport";
+  public static final String FUN_ADMIN_UNLOCKACCOUNT="_admin.unlockAccount";
+  public static final String FUN_ADMIN_COOKIEREVOLVER="_admin.cookieRevolver";
+  public static final String FUN_ADMIN_LOOKUPFIELDEDITOR="_admin.lookupFieldEditor";
+  public static final String FUN_DEMOGRAPHIC="_demographic";
+  public static final String FUN_REPORTS="_reports";
+  public static final String FUN_PROGRAMEDIT="_programEdit";
+  public static final String FUN_PROGRAMEDIT_STAFF="_programEdit.staff";  
+  public static final String FUN_PROGRAM_CLIENTS="_program.clients";
+  public static final String FUN_PROGRAM_QUEUE="_program.queue";
+  public static final String FUN_PROGRAM_INCIDENT="_program.incident";
+  public static final String FUN_PROGRAMEDIT_SERVICERESTRICTIONS="_programEdit.serviceRestrictions";
+ 
+  public static final String FUN_CLIENTADMISSION="_clientAdmission";
+  public static final String FUN_CLIENTCASE="_clientCase";
+  public static final String FUN_CLIENTCOMPLAINT="_clientComplaint";
+  public static final String FUN_CLIENTCONSENT="_clientConsent";
+  public static final String FUN_CLIENTDISCHARGE="_clientDischarge";
+  public static final String FUN_CLIENTHISTORY="_clientHistory";
+  public static final String FUN_CLIENTINTAKE="_clientIntake";
+  public static final String FUN_CLIENTREFER="_clientRefer";
+  public static final String FUN_CLIENTRESTRICTION="_clientRestriction";
+  public static final String FUN_FACILITY="_facility";
+  public static final String FUN_CLIENTHEALTHSAFETY="_clientHealthSafety";
+  
   public static final String FUN_ADMIN_FACILITYMESSAGE="_admin.facilityMessage";
   public static final String FUN_ADMIN_SYSTEMMESSAGE="_admin.systemMessage";
   public static final String FUN_PMM_ADDPROGRAM="_pmm.addProgram";
@@ -139,41 +172,10 @@ public class KeyConstants {
   public static final String FUN_PMM_GLOBALROLEACCESS="_pmm.globalRoleAccess";
   public static final String FUN_PMM_MANAGEFACILITIES="_pmm.manageFacilities";
   public static final String FUN_PMM_NEWCLIENT="_pmm.newClient";
-  public static final String FUN_PMM_PROGRAMLIST="_pmm.programList";
-  public static final String FUN_PMM_STAFFLIST="_pmm.staffList";
-  public static final String FUN_TASKS="_tasks";
-  public static final String FUN_PMM_DOCUMENT="_pmm.document";
-  public static final String FUN_PMM_TASK="_pmm.task";
-  public static final String FUN_ADMIN="_admin";
-  public static final String FUN_ADMIN_SECURITY="_admin.security";
-  public static final String FUN_ADMIN_SECURITYLOGREPORT="_admin.securityLogReport";
-  public static final String FUN_ADMIN_UNLOCKACCOUNT="_admin.unlockAccount";
-  public static final String FUN_ADMIN_COOKIEREVOLVER="_admin.cookieRevolver";
-  public static final String FUN_ADMIN_LOOKUPFIELDEDITOR="_admin.lookupFieldEditor";
-  public static final String FUN_DEMOGRAPHIC="_demographic";
-  public static final String FUN_REPORTRUNNER="_reportRunner";
-  public static final String FUN_REPORTWRITER="_reportWriter";
-  public static final String FUN_PMM_EDITPROGRAM_GENERAL="_pmm_editProgram.general";
-  public static final String FUN_PMM_EDITPROGRAM_STAFF="_pmm_editProgram.staff";
-  public static final String FUN_PMM_EDITPROGRAM_TEAMS="_pmm_editProgram.teams";
-  public static final String FUN_PMM_EDITPROGRAM_CLIENTS="_pmm_editProgram.clients";
-  public static final String FUN_PMM_EDITPROGRAM_QUEUE="_pmm_editProgram.queue";
-  public static final String FUN_PMM_EDITPROGRAM_INCIDENT="_pmm_editProgram.incident";
-  public static final String FUN_PMM_EDITPROGRAM_SERVICERESTRICTIONS="_pmm_editProgram.serviceRestrictions";
   public static final String FUN_ADMIN_PROVIDER="_admin.provider";
   public static final String FUN_PMM_MERGERECORDS="_pmm.mergeRecords";
   public static final String FUN_PMM_MANAGEMENT="_pmm_management";
-  public static final String FUN_PMM_CLIENTADMISSION="_pmm_clientAdmission";
-  public static final String FUN_PMM_CLIENTCASE="_pmm_clientCase";
-  public static final String FUN_PMM_CLIENTCOMPLAINT="_pmm_clientComplaint";
-  public static final String FUN_PMM_CLIENTCONSENT="_pmm_clientConsent";
-  public static final String FUN_PMM_CLIENTDISCHARGE="_pmm_clientDischarge";
-  public static final String FUN_PMM_CLIENTHISTORY="_pmm_clientHistory";
-  public static final String FUN_PMM_CLIENTINTAKE="_pmm_clientIntake";
-  public static final String FUN_PMM_CLIENTREFER="_pmm_clientRefer";
-  public static final String FUN_PMM_CLIENTRESTRICTION="_pmm_clientRestriction";
-  public static final String FUN_PMM_FACILITYLIST="_pmm.facilityList";
-  public static final String FUN_PMM_CLIENTHEALTHSAFETY="_pmm_clientHealthSafety";
+  public static final String FUN_PMM_TASK="_pmm.task";
   
   public static final String DEFAULT_FIELD_LENGTH_STRING="80";
   

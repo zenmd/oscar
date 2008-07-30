@@ -192,7 +192,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   Integer programId = cdObj.getProgramId();
 	    	   Program prog = programManager.getProgram(programId);
 		       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("SHL", prog.getShelterId().toString()).getDescription());
-		       boolean isReadOnly=super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_PMM_CLIENTCONSENT, cdObj.getProgramId());
+		       boolean isReadOnly=super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_CLIENTCONSENT, cdObj.getProgramId());
 	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	    	   TopazValue tv= topazManager.getTopazValue(cdObj.getId(),"consent");
 	    	   if(cdObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(cdObj.getEndDate()))

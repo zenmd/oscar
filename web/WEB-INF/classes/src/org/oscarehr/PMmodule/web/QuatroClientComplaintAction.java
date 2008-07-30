@@ -172,7 +172,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		if(null==complaint.getId() || complaint.getId().intValue()==0) {
 			complaint.setStatus("0");
 		}else{
-			boolean readOnly=super.isReadOnly(request,complaint.getComplaintStatus(), KeyConstants.FUN_PMM_CLIENTCOMPLAINT,complaint.getProgramId());
+			boolean readOnly=super.isReadOnly(request,complaint.getComplaintStatus(), KeyConstants.FUN_CLIENTCOMPLAINT,complaint.getProgramId());
 			if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		}
 		complaintForm.setComplaint(complaint);

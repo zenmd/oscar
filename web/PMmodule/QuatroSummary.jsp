@@ -77,7 +77,7 @@ function openHealthSafety(){
 	<td colspan="3"><c:out value="${client.alias}" /></td></tr>
 	<tr><td>Health and Safety</td>
 	<td colspan="3">&nbsp;
-        <security:oscarSec objectName="<%=KeyConstants.FUN_PMM_CLIENTHEALTHSAFETY%>" rights="<%=KeyConstants.ACCESS_READ%>">
+        <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTHEALTHSAFETY%>" rights="<%=KeyConstants.ACCESS_READ%>">
         <table width="100%" class="simple" style="background: #e0e0e0;" cellspacing="2" cellpadding="2">
 		<c:choose>
 		  <c:when test="${empty healthsafety and !isReadOnly}">
