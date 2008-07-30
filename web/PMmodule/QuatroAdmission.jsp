@@ -97,7 +97,7 @@ function roomChanged()
 		<td height="100%">
 		<div id="scrollBar"  onscroll="getDivPosition()"
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;" id="scrollBar">
+                    height: 100%; width: 100%; overflow: auto;">
 
 <!--  start of page content -->
 <table width="100%" class="edit">
