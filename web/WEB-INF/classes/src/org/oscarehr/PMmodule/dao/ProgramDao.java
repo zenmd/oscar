@@ -116,7 +116,7 @@ public class ProgramDao extends HibernateDaoSupport {
     public List getAllPrograms(String programStatus, String type, Integer facilityId, Integer clientId, String providerNo,Integer shelterId)
     {
     	Criteria c = getSession().createCriteria(Program.class);
-    	if (null != programStatus && !("Any".equals(programStatus) || "".equals(programStatus))) {
+    	if (!(Utility.IsEmpty(programStatus))) {
     		c.add(Restrictions.eq("programStatus", programStatus));
     	}
     	if (null != type && !("Any".equalsIgnoreCase(type) || "".equals(type))) {
@@ -130,6 +130,7 @@ public class ProgramDao extends HibernateDaoSupport {
     		c.add(Restrictions.sqlRestriction(clientProgram));
     	}
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, shelterId)));
+    	c.addOrder(Order.asc("name"));
     	return 	c.list();
     }
     
@@ -156,7 +157,7 @@ public class ProgramDao extends HibernateDaoSupport {
         return rs;
     }
     public List getProgramIdsByProvider(String providerNo, Integer shelterId){
-    	String sql = "select p.program_id, p.name, p.type  from program p where p.program_Id in " + Utility.getUserOrgSqlString(providerNo, shelterId);
+    	String sql = "select p.program_id, p.name, p.type  from program p where p.programStatus='1' and p.program_Id in " + Utility.getUserOrgSqlString(providerNo, shelterId);
     	Query query = getSession().createSQLQuery(sql);
     	((SQLQuery) query).addScalar("program_id", Hibernate.INTEGER); 
     	((SQLQuery) query).addScalar("name", Hibernate.STRING); 
@@ -213,7 +214,7 @@ public class ProgramDao extends HibernateDaoSupport {
             criteria.add(Expression.ne("type", "community"));
         }
 
-        criteria.add(Expression.eq("programStatus", "active"));
+        criteria.add(Expression.eq("programStatus", "1"));
 
         if (program.getManOrWoman() != null && program.getManOrWoman().length() > 0) {
             criteria.add(Expression.eq("manOrWoman", program.getManOrWoman()));
@@ -270,7 +271,7 @@ public class ProgramDao extends HibernateDaoSupport {
             criteria.add(Expression.ne("type", "community"));
         }
 
-        criteria.add(Expression.eq("programStatus", "active"));
+        criteria.add(Expression.eq("programStatus", "1"));
 
         if (program.getManOrWoman() != null && program.getManOrWoman().length() > 0) {
             criteria.add(Expression.eq("manOrWoman", program.getManOrWoman()));

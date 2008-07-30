@@ -24,6 +24,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.web.formbean.TicklerForm;
 
 import oscar.Misc;
@@ -49,7 +50,7 @@ public class ClientTaskAction extends BaseClientAction{
     	Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
         String providerNo = (String)request.getSession().getAttribute("user");
         
-        List programs=programManager.getPrograms(providerNo, shelterId);
+        List programs=programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE, providerNo, shelterId);
         ticklerForm.setProgramLst(programs);
         
         CustomFilter filter = ticklerForm.getFilter();

@@ -100,18 +100,12 @@ public class ProgramManagerAction extends BaseProgramAction {
         String searchStatus = (String) programForm.get("searchStatus");
         String searchType = (String) programForm.get("searchType");
         String searchFacilityId = (String) programForm.get("searchFacilityId");
-
+        if (Utility.IsEmpty(searchFacilityId)) searchFacilityId = "0";
         String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
    		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         
         List list =  null;
-        if("".equals(searchStatus)) {
-       		list = programManager.getPrograms(providerNo, shelterId);
-        }
-        else
-        {
-        	list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
-        }
+        list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
     	request.setAttribute("programs", list);
     	List lstFac=facilityDAO.getActiveFacilities(shelterId,providerNo);
         request.setAttribute("facilities",lstFac);

@@ -185,7 +185,7 @@ public class ClientSearchAction2 extends BaseClientAction {
 				KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
-		List allPrograms = programManager.getPrograms(providerNo, shelterId);
+		List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo, shelterId);
 
 		request.setAttribute("allBedPrograms", allPrograms);
 		List allProviders = providerManager.getActiveProviders(providerNo,

@@ -38,8 +38,8 @@ public class Program implements Serializable {
     public static final String COMMUNITY_TYPE = "community";
     public static final String SERVICE_TYPE = "Service";
     
-	public static final String PROGRAM_STATUS_ACTIVE = "active";
-	public static final String PROGRAM_STATUS_INACTIVE = "inactive";
+	public static final String PROGRAM_STATUS_ACTIVE = "1";
+	public static final String PROGRAM_STATUS_INACTIVE = "0";
 
     private int hashCode = Integer.MIN_VALUE;// primary key
 
@@ -196,7 +196,7 @@ public class Program implements Serializable {
     }
 
     public boolean isActive() {
-        return getProgramStatus().equalsIgnoreCase("active");
+        return PROGRAM_STATUS_ACTIVE.equals(programStatus);
     }
 
     public boolean isFull() {

@@ -73,7 +73,7 @@ public class BasicReportAction extends BaseAction {
 		Map map = new LinkedHashMap();
 		int total = 0, totalBed = 0, totalService = 0;
 		
-		List programs = programManager.getPrograms(KeyConstants.SYSTEM_USER_PROVIDER_NO, null);
+		List programs = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE, KeyConstants.SYSTEM_USER_PROVIDER_NO, null);
 		
 		for(Iterator iter = programs.iterator();iter.hasNext();) {
 			Program p = (Program)iter.next();

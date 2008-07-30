@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import com.quatro.common.KeyConstants;
@@ -59,7 +60,7 @@ public class ClientListsReportAction extends DispatchAction {
         request.setAttribute("providers", providers);
 
         
-        List programs = programManager.getPrograms(KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
+        List programs = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE, KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
         request.setAttribute("programs", programs);
 
         return mapping.findForward("form");

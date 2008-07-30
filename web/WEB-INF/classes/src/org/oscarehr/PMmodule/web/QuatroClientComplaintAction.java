@@ -15,6 +15,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ComplaintManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -180,7 +181,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		String providerNo = (String)request.getSession().getAttribute("user");
 		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		//List programs = programManager.getPrograms( clientId, providerNo, shelterId);
-		List programs = programManager.getPrograms(providerNo, shelterId);
+		List programs = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE, providerNo, shelterId);
 		complaintForm.setPrograms(programs);
 		
 		request.setAttribute("ComplaintForm_length", new Integer(length));
