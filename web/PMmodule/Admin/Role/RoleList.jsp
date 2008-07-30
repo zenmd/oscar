@@ -30,16 +30,18 @@
 
 
 
-		<div class="tabs" id="tabs">
+		<br/><div class="tabs" id="tabs">
 			<table cellpadding="3" cellspacing="0" border="0">
 				<tr>
 					<th title="Programs">Roles</th>
 				</tr>
 			</table>
 		</div>
-		<display:table class="simple" cellspacing="2" cellpadding="3"
-			id="role" name="roles" export="false" pagesize="0"
+		<display:table sort="list" class="simple" cellspacing="2" cellpadding="3"
+			id="role" name="roles" export="false" pagesize="10"
 			requestURI="/PMmodule/Admin/RoleManager.do">
+        <display:setProperty name="paging.banner.placement" value="bottom" />
+        <display:setProperty name="basic.msg.empty_list" value="No role found." />
 
 			<display:column sortable="true" title="Role" sortProperty="roleName">
 				<a href="<html:rewrite action="/PMmodule/Admin/RoleManager.do"/>?method=edit&roleName=<c:out value="${role.roleName}" />">
@@ -48,7 +50,7 @@
 
 			<display:column property="description" sortable="true"
 				title="Description" />
-			<display:column title="Active" property="active"></display:column>
+			<display:column title="Active" property="active" sortable="true"></display:column>
 		</display:table></div>
 		</td>
 	</tr>

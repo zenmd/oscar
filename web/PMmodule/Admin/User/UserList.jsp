@@ -90,9 +90,10 @@
 		</table>
 		</div>
 		<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
-			id="user" name="secuserroles" export="false" pagesize="100"
+			id="user" name="secuserroles" export="false" pagesize="13"
 			requestURI="/PMmodule/Admin/UserSearch.do">
 
+            <display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list"
 				value="Please enter a filter and click search." />
 
