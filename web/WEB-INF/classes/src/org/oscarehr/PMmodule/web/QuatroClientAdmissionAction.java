@@ -652,7 +652,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   canOverride=canOverwrite(request, program.getId().toString());
 
        //don't check these if intake admitted.
-       if(admissionId.intValue()==0){
+       if(admissionId.intValue()==0)
+       {
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
     	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
            for(int i=0;i<lstFamily.size();i++){
@@ -673,6 +674,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        	   			return update(mapping, form, request, response);
        	   		}else{
        	   			messages.clear();
+       	   			isWarning =false;
        	   		}
        	   	 }
        	   }
@@ -706,6 +708,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	    	    	  return update(mapping, form, request, response);
     	    	  }else{
     	    		  messages.clear(); 
+    	    		  isWarning=false;
     	    	  }
     	    	 }
      		}

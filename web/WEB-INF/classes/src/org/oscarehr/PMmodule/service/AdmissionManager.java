@@ -68,7 +68,8 @@ public class AdmissionManager {
    	    //to set RoomDemographicHistory:usageStart  
     	Calendar cal = Calendar.getInstance();
 
-    	if(bFamily){
+    	if(bFamily)
+    	{
     	   List lstFamily= intakeDao.getClientIntakeFamily(intakeId.toString());
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
@@ -101,7 +102,8 @@ public class AdmissionManager {
              saveRoomDemographicHistory(admObj, roomDemographic, cal);
                          
            }
-    	}else{
+    	}
+    	else{
 		  intakeDao.setIntakeStatusAdmitted(intakeId);
 		  admissionDao.saveAdmission(admission, intakeId);
 		  admissionId=admission.getId();
@@ -110,7 +112,9 @@ public class AdmissionManager {
     	  RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
           roomDemographic.setAdmissionId(admissionId);
           roomDemographic.setLastUpdateDate(Calendar.getInstance());
-    	  if(rdm!=null){
+          if(roomDemographic.getBedId()!=null && roomDemographic.getBedId().intValue()==0) roomDemographic.setBedId(null);
+    	  if(rdm!=null)
+    	  {
     		  Integer roomId = rdm.getId().getRoomId();
     		  Integer bedId = rdm.getBedId();
     		  
@@ -119,11 +123,10 @@ public class AdmissionManager {
       	      roomDemographicDAO.deleteRoomDemographic(rdm);
          	  
      	      // update room_history
-              updateRoomDemographicHistory(admission, rdm);
-              
+              updateRoomDemographicHistory(admission, rdm);             
      	      roomDemographicDAO.saveRoomDemographic(roomDemographic);
     	    }
-    	  }else{
+    	  }else{    		  
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
        	    roomName = roomDemographic.getRoomName();
           	bedName = roomDemographic.getBedName();
