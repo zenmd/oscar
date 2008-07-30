@@ -28,18 +28,25 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		var obj3 = document.getElementsByName('program.ageMin')[0];
 		var obj4 = document.getElementsByName('program.ageMax')[0];
 		var obj5 = document.getElementsByName('program.name')[0];
-		
+		var obj6 = document.getElementsByName('program.manOrWoman')[0];
+		var obj7 = document.getElementsByName('program.type')[0];		
 		obj5.value = trim(obj5.value);
 			
 		if(obj5.value == null || obj5.value == '') {
 			
 			alert('The program name can not be blank.');
+		} else if(obj7.value == null || obj7.value == '') {
+			
+			alert('The program type can not be blank.');
 		}else if(!isNumberInRange(obj1, 0, 'unlimit', 'Funding Capacity')){
 			//alert('1');
 			
 		}else if(!isNumberInRange(obj2, 0, 'unlimit', 'Space Capacity')){
 			//alert('2');
 			
+		} else if(obj6.value == null || obj6.value == '') {
+			
+			alert('The program Male/Female can not be blank.');
 		}else if(!isNumberInRange(obj3, 0, 200, 'Minimum Age')){
 			//alert('3');
 			
@@ -182,6 +189,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				<tr class="b">
 					<td width="20%">Type</td>
 					<td><html-el:select property="program.type">
+						<html-el:option value="">
+						</html-el:option>
 						<c:forEach var="pt" items="${programTypeLst}">
 							<html-el:option value="${pt.code}">
 								<c:out value="${pt.description}" />
@@ -205,6 +214,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					<td width="20%">Funding Capacity</td>
 					<td><html:text property="program.capacity_funding" size="8"		maxlength="8"  /></td>
 				</tr>
+				<logic-el:present property="removethe2boxes" name="programManagerForm">
 				<tr class="b">
 					<td width="20%">Allow Batch Admissions</td>
 					<td><html:checkbox property="program.allowBatchAdmission" /></td>
@@ -213,9 +223,13 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 					<td width="20%">Allow Batch Discharges</td>
 					<td><html:checkbox property="program.allowBatchDischarge" /></td>
 				</tr>
+				</logic-el:present>
 				<tr class="b">
 					<td width="20%">Male/Female</td>
 					<td><html-el:select property="program.manOrWoman">
+							<html-el:option value="">
+								
+							</html-el:option>
 						<c:forEach var="gen" items="${genderLst}">
 							<html-el:option value="${gen.code}">
 								<c:out value="${gen.buf1}" />
