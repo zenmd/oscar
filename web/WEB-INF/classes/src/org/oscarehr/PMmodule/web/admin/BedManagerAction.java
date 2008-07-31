@@ -259,7 +259,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	    		}
 	    		//  for update only actual capacity minus original value
 	    		Room roomOld = roomManager.getRoom(room.getId());
-	    		if(roomOld.isActive()){
+	    		if(roomOld!=null && roomOld.isActive()){
 	    			if(roomOld.getAssignedBed().intValue()==0)capActual-=room.getCapacity().intValue();
 	    		}
 	    	}
