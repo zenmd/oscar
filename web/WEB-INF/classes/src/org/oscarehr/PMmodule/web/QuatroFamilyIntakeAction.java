@@ -122,6 +122,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setDependentsSize(dependent.size());
        
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+       boolean readOnly=super.isReadOnly(clientForm.getIntakeStatus(), KeyConstants.FUNCTION_INTAKE);
+		if(readOnly) request.setAttribute("isReadOnly", readOnly);       
        return mapping.findForward("edit");
    }
 

@@ -237,6 +237,8 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        request.setAttribute("allPrograms", allPrograms);
 		clientForm.set("serviceRestriction", pcrObj);
 		request.setAttribute("serviceObj", pcrObj);
+		boolean readOnly =super.isReadOnly(pcrObj.getStatus(),KeyConstants.FUNCTION_SERVICE_RESTRICTION);
+		if(readOnly)request.setAttribute("isReadOnly", readOnly);
      //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
    }
