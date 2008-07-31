@@ -36,8 +36,8 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     }
     public void deleteProgramOccupancy(Calendar occDate) {
     	
-        String sql=" delete from program_occupancy" +
-                   "where trunc(occdate)=?";
+        String sql=" delete from program_occupancy " +
+                   " where trunc(occdate)=?";
            SQLQuery query=getSession().createSQLQuery(sql);
            query.setCalendar(0, DateUtils.truncate(occDate, Calendar.DATE));        
            query.executeUpdate();

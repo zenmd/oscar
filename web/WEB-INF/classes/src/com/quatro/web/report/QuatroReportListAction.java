@@ -12,6 +12,7 @@ import org.oscarehr.PMmodule.web.*;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.service.QuatroReportManager;
+import com.quatro.util.Utility;
 import com.quatro.common.KeyConstants;
 public class QuatroReportListAction extends BaseAction {
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -22,7 +23,7 @@ public class QuatroReportListAction extends BaseAction {
 	{
 		QuatroReportListForm myForm = (QuatroReportListForm) form;
 		String chkNo= myForm.getChkDel();
-		if(chkNo==null) return reportlist(mapping,form,request,response);
+		if(Utility.IsEmpty(chkNo) ) return reportlist(mapping,form,request,response);
 		
 		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
         		getServlet().getServletContext()).getBean("quatroReportManager");
