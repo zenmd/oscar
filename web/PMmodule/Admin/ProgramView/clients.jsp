@@ -92,8 +92,7 @@
 	function resetForm() {
 		document.getElementsByName("clientForm.firstName")[0].value = "";
 		document.getElementsByName("clientForm.lastName")[0].value = "";
-		document.getElementsByName("clientForm.room")[0].value = "";
-		document.getElementsByName("clientForm.bed")[0].value = "";
+		document.getElementsByName("clientForm.clientId")[0].value = "";		
 	}
 	
 	function searchClients(){

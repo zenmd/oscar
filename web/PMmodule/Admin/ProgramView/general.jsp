@@ -109,38 +109,13 @@
 					<td width="20%">Funding Capacity:</td>
 					<td><c:out value="${program.capacity_funding}" /></td>
 					
-				</tr>	
-			
-			
-				<tr class="b">
-					<td width="20%">Allow Batch Admissions:</td>
-					<td>
-						<logic:equal name="program" property="allowBatchAdmission" value="true">Yes</logic:equal>
-						<logic:equal name="program" property="allowBatchAdmission" value="false">No</logic:equal>
-					</td>
-				</tr>
-				<tr class="b">
-					<td width="20%">Allow Batch Discharges:</td>
-					<td>
-						<logic:equal name="program" property="allowBatchDischarge" value="true">Yes</logic:equal>
-						<logic:equal name="program" property="allowBatchDischarge" value="false">No</logic:equal>
-					</td>
-				</tr>
+				</tr>		
 				<tr class="b">
 					<td width="20%">Male/Female:</td>
 					<td>
-						<logic:equal name="program" property="manOrWoman" value="F">Female Only</logic:equal>
-						<logic:equal name="program" property="manOrWoman" value="M">Male Only</logic:equal>
-						<logic:equal name="program" property="manOrWoman" value="T">Unisex</logic:equal>
+						<c:out value="${program.genderDesc}" />
 					</td>
-				</tr>
-				<tr class="b">
-					<td width="20%">Bed Program Affiliated:</td>
-					<td>
-						<logic:equal name="program" property="bedProgramAffiliated" value="true">Yes</logic:equal>
-						<logic:equal name="program" property="bedProgramAffiliated" value="false">No</logic:equal>
-					</td>
-				</tr>
+				</tr>				
 				<tr class="b">
 					<td width="20%">Minimum Age:</td>
 					<td><c:out value="${program.ageMin}" /></td>
