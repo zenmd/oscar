@@ -74,7 +74,12 @@ public class ClientManager {
     public List getClients() {
         return dao.getClients();
     }
-
+    public Admission getCurrentAdmission(Integer clientId,String providerNo,Integer shelterId) {
+    	List lstAdm= admissionDao.getCurrentAdmissions(clientId, providerNo, shelterId);
+    	Admission admission=null;
+    	if(lstAdm.size()>0)admission=(Admission)lstAdm.get(0);
+    	return admission;
+    }
     public List search(ClientSearchFormBean criteria, boolean returnOptinsOnly,boolean excludeMerged) {
         return dao.search(criteria, returnOptinsOnly,excludeMerged);
     }

@@ -61,6 +61,15 @@ public class ConsentDetail implements Serializable {
 	private String programName;
 	private String lnkAction;
 	private Calendar lastUpdateDate;
+	private Integer shelterId;
+
+	public Integer getShelterId() {
+		return shelterId;
+	}
+
+	public void setShelterId(Integer shelterId) {
+		this.shelterId = shelterId;
+	}
 
 	public String getLnkAction() {
 		return lnkAction;

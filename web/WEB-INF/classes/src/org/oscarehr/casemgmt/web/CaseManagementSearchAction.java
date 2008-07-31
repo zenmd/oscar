@@ -45,6 +45,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
@@ -184,8 +185,11 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       String demoNo= (String)actionParam.get("clientId");
 	       request.setAttribute("clientId", demoNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-        String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        
+        String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);        
+        Admission curAdminssion=clientManager.getCurrentAdmission(new Integer(cId), providerNo, currentFacilityId);
+        boolean hasAdm=false;
+        if(curAdminssion!=null && curAdminssion.getId().intValue()>0) hasAdm=true;
+        request.setAttribute("hasAdmission", hasAdm);
         if(providerNo==null || demoNo ==null) {
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");

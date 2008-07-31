@@ -15,6 +15,13 @@ public class LookupCodeValue {
 	private String buf2;
 	private String lastUpdateUser;
 	private Calendar lastUpdateDate;
+	private String buf3;
+	private String buf4;
+	private String buf5;
+	private String buf6;
+	private String buf7;
+	private String buf8;
+	private String buf9;
 	
     private int orderByIndex;
     private List associates;
@@ -115,5 +122,47 @@ public class LookupCodeValue {
 	}
 	public void setLastUpdateUser(String lastUpdateUser) {
 		this.lastUpdateUser = lastUpdateUser;
+	}
+	public String getBuf3() {
+		return buf3;
+	}
+	public void setBuf3(String buf3) {
+		this.buf3 = buf3;
+	}
+	public String getBuf4() {
+		return buf4;
+	}
+	public void setBuf4(String buf4) {
+		this.buf4 = buf4;
+	}
+	public String getBuf5() {
+		return buf5;
+	}
+	public void setBuf5(String buf5) {
+		this.buf5 = buf5;
+	}
+	public String getBuf6() {
+		return buf6;
+	}
+	public void setBuf6(String buf6) {
+		this.buf6 = buf6;
+	}
+	public String getBuf7() {
+		return buf7;
+	}
+	public void setBuf7(String buf7) {
+		this.buf7 = buf7;
+	}
+	public String getBuf8() {
+		return buf8;
+	}
+	public void setBuf8(String buf8) {
+		this.buf8 = buf8;
+	}
+	public String getBuf9() {
+		return buf9;
+	}
+	public void setBuf9(String buf9) {
+		this.buf9 = buf9;
 	}
 }

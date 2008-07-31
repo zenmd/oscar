@@ -35,6 +35,7 @@ import org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.model.TopazValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
@@ -108,6 +109,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		       }
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
+	       LookupCodeValue shelter = new LookupCodeValue();
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       if("0".equals(rId))
 	       {
@@ -117,10 +119,12 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   consentObj.setProviderNo(providerNo);
 	       }
 	       else if(rId!=null && rId!="0"){
-	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));  	  
+	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
+	    	   shelter= lookupManager.GetLookupCode("SHL", consentObj.getShelterId().toString());
+	    	   request.setAttribute("shelter", shelter);
 	       }
 	       dForm.set("consentValue", consentObj);
-	       
+	       request.setAttribute("shelter", shelter);
 	       request.setAttribute("recordId",rId);
 		
 		setEditAttributes(form,request);

@@ -36,6 +36,7 @@ public class LookupDao extends HibernateDaoSupport {
 	 *  1 - Code 2 - Description 3 Active 
 	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree
 	 *  8 - Last Update User   9 - Last Update Date
+	 *  10 - 16 Buf3 - Buf9
 	 */
 	private ProviderDao providerDao;
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
@@ -62,11 +63,11 @@ public class LookupDao extends HibernateDaoSupport {
 		LookupTableDefValue tableDef = GetLookupTableDef(tableId);
 		List fields = LoadFieldDefList(tableId);
 		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[100];
-		String fieldNames [] = new String[9];
+		String fieldNames [] = new String[16];
 		String sSQL1 = "";
 		String sSQL="select distinct ";
 		boolean activeFieldExists = true;
-		for (int i = 1; i <= 9; i++)
+		for (int i = 1; i <= 16; i++)
 		{
 			boolean ok = false;
 			for (int j = 0; j<fields.size(); j++)
@@ -171,6 +172,13 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setCodeTree(db.getString(rs, 7));
 			   lv.setLastUpdateUser(db.getString(rs,8));
 			   lv.setLastUpdateDate(MyDateFormat.getCalendar(db.getString(rs, 9)));
+			   lv.setBuf3(db.getString(rs,10));
+			   lv.setBuf4(db.getString(rs,11));
+			   lv.setBuf5(db.getString(rs,12));
+			   lv.setBuf6(db.getString(rs,13));
+			   lv.setBuf7(db.getString(rs,14));
+			   lv.setBuf8(db.getString(rs,15));
+			   lv.setBuf9(db.getString(rs,16));
 			   list.add(lv);
 			}
 			rs.close();
@@ -398,6 +406,20 @@ public class LookupDao extends HibernateDaoSupport {
 			case 9:
 				fdv.setVal(MyDateFormat.getStandardDateTime(codeValue.getLastUpdateDate()));
 				break;
+			case 10:
+				fdv.setVal(codeValue.getBuf3());
+			case 11:
+				fdv.setVal(codeValue.getBuf4());
+			case 12:
+				fdv.setVal(codeValue.getBuf5());
+			case 13:
+				fdv.setVal(codeValue.getBuf6());
+			case 14:
+				fdv.setVal(codeValue.getBuf7());
+			case 15:
+				fdv.setVal(codeValue.getBuf8());
+			case 16:
+				fdv.setVal(codeValue.getBuf9());
 			}
 		}
 		if (isNew) 

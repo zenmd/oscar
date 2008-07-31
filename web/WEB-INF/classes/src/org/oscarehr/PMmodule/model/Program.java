@@ -24,6 +24,8 @@ package org.oscarehr.PMmodule.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import com.quatro.model.LookupCodeValue;
+
 /**
  * This is the object class that relates to the program table. Any customizations belong here.
  */
@@ -91,6 +93,7 @@ public class Program implements Serializable {
     private Integer totalUsedRoom = new Integer(0);
     private String lastUpdateUser;
     private Calendar lastUpdateDate;
+    private LookupCodeValue shelter;
 
     public Calendar getLastUpdateDate() {
 		return lastUpdateDate;
@@ -763,6 +766,14 @@ public class Program implements Serializable {
 
 	public void setGenderDesc(String genderDesc) {
 		this.genderDesc = genderDesc;
+	}
+
+	public LookupCodeValue getShelter() {
+		return shelter;
+	}
+
+	public void setShelter(LookupCodeValue shelter) {
+		this.shelter = shelter;
 	}
     
 }

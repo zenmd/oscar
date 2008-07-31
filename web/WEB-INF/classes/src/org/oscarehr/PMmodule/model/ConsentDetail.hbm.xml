@@ -29,6 +29,7 @@
 		<property name="programId" column="program_id"></property>
 		<property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="programName"  formula="(select p.name from program p where p.program_id = program_id)" />
+		<property name="shelterId" formula="(select p.shelter_id from program p where p.program_id = program_id)" ></property>
 	</class>
 </hibernate-mapping>
 
