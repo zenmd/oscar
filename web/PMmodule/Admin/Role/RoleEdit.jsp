@@ -5,6 +5,9 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
+<html:form action="/PMmodule/Admin/RoleManager" method="post">
+<html:hidden property="method" value="save" />
+<input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 <tr><th class="pageTitle" align="center"><span align="left">Role Management - <logic:present
 	name="secroleForEdit">Edit Role</logic:present>
@@ -24,10 +27,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 	<html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" /></html:messages>
 	<br /></logic:messagesPresent></td></tr>
 <tr><td align="left"></td></tr>
-<tr><td height="100%">
-  <div id="scrollBar" onscroll="getDivPosition()"
-	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-    height: 100%; width: 100%; overflow: auto;"><br />
+<tr><td>
     <div class="tabs" id="tabs">
    	 <table cellpadding="3" cellspacing="0" border="0">
 	  <tr><th title="Programs">
@@ -35,72 +35,78 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 	    <logic:notPresent name="secroleForEdit">Add Role</logic:notPresent></th></tr>
 	 </table>
 	</div>
+</td></tr>
 
-	<html:form action="/PMmodule/Admin/RoleManager" method="post">
-	  <html:hidden property="method" value="save" />
-      <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
-   	  <table width="100%">
-		<logic:present name="secroleForEdit">
-		  <tr><td>Role Name:</td>
-		  <td><html:text property="roleName" size="50" readonly="true" style="border: none" /></td></tr>
-		</logic:present>
-		<logic:notPresent name="secroleForEdit">
-		  <tr><td>Role Name:</td>
-		  <td><html:text property="roleName" size="50" maxlength="30" /></td></tr>
-		</logic:notPresent>
-		<tr><td>Description:</td>
-		<td><html:text property="description" size="50" maxlength="60" /></td></tr>
-		<tr><td>Active:</td>
-		<td><html:checkbox property="active" /></td></tr>
-		<tr><td colspan="2">&nbsp;</td></tr>
-		<logic:present name="secroleForEdit">
-		  <tr><td colspan="2">Functions:</td></tr>
-		  <tr><td colspan="2">
-			<table align="center" class="simple" width="100%">
-			  <tr style="background-color: #f0f0f0"><td align="center">Select</td>
-			  <td align="center">Function</td>
-			  <td align="center">AccessType</td></tr>
-			  <logic:iterate id="secobjprivilege" name="secroleForm" property="secobjprivilegeLst" indexId="rIndex">
-				<tr><td align="center" width="5%"><input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" />
- 				  <input type="checkbox" name="p<%=String.valueOf(rIndex)%>" value="" /></td>
-				<td width="70%">
-				  <table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
-					<tr><td style="border:0px;" width="1px">
-					  <input style="width:1px;" type="text"	name="function_code<%=String.valueOf(rIndex)%>"
-							value='<c:out value="${secobjprivilege.objectname_code}"/>'></td>
-					<td style="border:0px;" width="94%">
-					  <input style="width:99%;" type="text" name="function_description<%=String.valueOf(rIndex)%>"
-							value='<c:out value="${secobjprivilege.objectname_desc}"/>' readonly></td>
-					<td style="border:0px;" width="6%">
-					  <a onclick="showLookup('FUN', '', '', 'secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
-				      <img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
-				  </table>
-				</td>
-				<td width="25%">
-				  <table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
-					<tr><td style="border:0px;" width="1px"><input type="text"
-						style="width:1px;"	name="accessTypes_code<%=String.valueOf(rIndex)%>"
-						value='<c:out value="${secobjprivilege.privilege_code}"/>'></td>
-					<td style="border:0px;" width="85%"><input	style="width:96%;" type="text"
-						name="accessTypes_description<%=String.valueOf(rIndex)%>"
-						value='<c:out value="${secobjprivilege.privilege}"/>' readonly></td>
-					<td style="border:0px;" width="15%">
-					  <a onclick="showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
-					  <img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
-				   </table>
-				 </td></tr>
-			   </logic:iterate>
-			   <tr><td colspan="2" class="clsButtonBarText" width="100%">&nbsp;&nbsp;
-			     <a	href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
-				&nbsp;&nbsp;<a href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a></td></tr>
-			 </table>
-		  </td></tr>
-		</logic:present>
-		</table>
-		</html:form>
-		</div>
-		</td></tr>
+<tr><td>
+  <br />
+  <table width="100%">
+  <logic:present name="secroleForEdit">
+	<tr><td>Role Name:</td>
+	<td><html:text property="roleName" size="50" readonly="true" style="border: none" /></td></tr>
+  </logic:present>
+  
+  <logic:notPresent name="secroleForEdit">
+	<tr><td>Role Name:</td>
+	<td><html:text property="roleName" size="50" maxlength="30" /></td></tr>
+  </logic:notPresent>
+  
+  <tr><td>Description:</td>
+  <td><html:text property="description" size="50" maxlength="60" /></td></tr>
+  <tr><td>Active:</td>
+  <td><html:checkbox property="active" /></td></tr>
+  <tr><td colspan="2">&nbsp;</td></tr>
+  <tr><td colspan="2">Functions:</td></tr>
+  <tr><td colspan="2">
 </table>
+  </td></tr>
+  
+  <logic:present name="secroleForEdit">
+<tr><td height="100%">  
+     <div id="scrollBar" onscroll="getDivPosition()"
+	   style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
+        height: 100%; width: 100%; overflow: auto;">
+        <table align="center" class="simple" width="100%">
+		<tr style="background-color: #f0f0f0"><td align="center">Select</td>
+		<td align="center">Function</td>
+		<td align="center">AccessType</td></tr>
+		<logic:iterate id="secobjprivilege" name="secroleForm" property="secobjprivilegeLst" indexId="rIndex">
+		  <tr><td align="center" width="5%"><input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" />
+ 			<input type="checkbox" name="p<%=String.valueOf(rIndex)%>" value="" /></td>
+		  <td width="70%">
+			<table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
+			  <tr><td style="border:0px;" width="1px">
+				<input style="width:1px;" type="text"	name="function_code<%=String.valueOf(rIndex)%>"
+					value='<c:out value="${secobjprivilege.objectname_code}"/>'></td>
+			  <td style="border:0px;" width="94%">
+				<input style="width:99%;" type="text" name="function_description<%=String.valueOf(rIndex)%>"
+					value='<c:out value="${secobjprivilege.objectname_desc}"/>' readonly></td>
+			  <td style="border:0px;" width="6%">
+				<a onclick="showLookup('FUN', '', '', 'secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
+				<img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
+			</table></td>
+		  <td width="25%">
+			<table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
+			  <tr><td style="border:0px;" width="1px"><input type="text"
+				style="width:1px;"	name="accessTypes_code<%=String.valueOf(rIndex)%>"
+				value='<c:out value="${secobjprivilege.privilege_code}"/>'></td>
+			  <td style="border:0px;" width="85%"><input	style="width:96%;" type="text"
+				name="accessTypes_description<%=String.valueOf(rIndex)%>"
+				value='<c:out value="${secobjprivilege.privilege}"/>' readonly></td>
+			  <td style="border:0px;" width="15%">
+				<a onclick="showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
+				<img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
+			</table>
+		  </td></tr>
+		</logic:iterate>
+		<tr><td colspan="2" class="clsButtonBarText" width="100%">&nbsp;&nbsp;
+		   <a href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
+			&nbsp;&nbsp;<a href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a></td></tr>
+	  </table>
+	</div>
+	  </td></tr>
+	</logic:present>
+</table>
+</html:form>
 <%@ include file="/common/readonly.jsp" %>
 <script language="javascript" type="text/javascript">
 <!--
