@@ -67,6 +67,7 @@ public class Program implements Serializable {
     private Integer intakeProgram;
     private Integer bedProgramLinkId;
     private String manOrWoman;
+    private String genderDesc;
     private boolean transgender;
     private boolean firstNation;
     private boolean bedProgramAffiliated;
@@ -754,6 +755,14 @@ public class Program implements Serializable {
 
 	public void setNumOfIntakes(Integer numOfIntakes) {
 		this.numOfIntakes = numOfIntakes;
+	}
+
+	public String getGenderDesc() {
+		return genderDesc;
+	}
+
+	public void setGenderDesc(String genderDesc) {
+		this.genderDesc = genderDesc;
 	}
     
 }
