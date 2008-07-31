@@ -187,8 +187,10 @@ public abstract class BaseClientAction extends BaseAction {
 		if(programId==null) return true;
 		
 		String orgCd="";		
-		if(programId.intValue()!=0) orgCd=programId.toString();
-		if (sec.GetAccess(funName).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+		if(programId.intValue()!=0) {
+			orgCd="P" + programId.toString();
+		}
+		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) <= 0) 
 			readOnly=true;
 		return readOnly;
 	}

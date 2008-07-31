@@ -542,7 +542,7 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setCodeTree(fcd.getCodeTree() + programId);
 		pcd.setDescription(program.getName());
 		pcd.setBuf1(fullCode);
-		pcd.setActive(program.getProgramStatus().equalsIgnoreCase("active"));
+		pcd.setActive(Program.PROGRAM_STATUS_ACTIVE.equals(program.getProgramStatus()));
 		pcd.setOrderByIndex(0);
 		pcd.setLastUpdateDate(Calendar.getInstance());
 		pcd.setLastUpdateUser(program.getLastUpdateUser());
