@@ -26,7 +26,7 @@ import oscar.OscarProperties;
 public class ScheduleProgramOccuServlet extends HttpServlet {
 	  private static final Logger logger = LogManager.getLogger(ScheduleProgramOccuServlet.class);
 
-	    private static final Timer programOccuTimer = new Timer(ScheduleProgramOccuServlet.class.getName(), true);
+	    private static final Timer programOccuTimer = new Timer(true);
 
 	    private static final long GERNERATE_PERIOD = DateUtils.MILLIS_PER_DAY*24;
 	    private static long dataRetentionTimeMillis = -1;
@@ -51,7 +51,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            	taskTime=sDt.getTimeInMillis();
 	            }
 	            try {
-	                if (Math.abs(Calendar.getInstance().getTimeInMillis()-taskTime)<=2000) {
+	                if (Math.abs(Calendar.getInstance().getTimeInMillis()-taskTime)<=1000) {
 	                // delete old redirect entries
 	                programOccupancyDao.deleteProgramOccupancy(Calendar.getInstance());
 	                programOccupancyDao.insertProgramOccupancy(providerNo, Calendar.getInstance());

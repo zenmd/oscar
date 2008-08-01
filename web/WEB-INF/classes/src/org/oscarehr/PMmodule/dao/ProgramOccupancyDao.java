@@ -21,13 +21,13 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     public void insertProgramOccupancy(String providerNo,Calendar occDate) {
     	
      String sql=" insert into program_occupancy(recordid,occdate,program_id,occupancy," +
-                "capacity_actual,capacity_funding,queue,lastupdateuser,lastupdatedate)" +
+                "capacity_actual,capacity_funding,queue,lastupdateuser,lastupdatedate) " +
                 "select seq_program_occupancy.nextval,?,p.program_id,ad.v_occupancy,"+
-                "pr.v_actualCapacity,p.Capacity_funding,pq.v_queue,?,sysdate" +
-                "from program p,"+
+                "pr.v_actualCapacity,p.Capacity_funding,pq.v_queue,?,sysdate " +
+                " from program p,"+
                 "(select program_id, count(*) v_occupancy from admission where admission_status='admitted' group by program_id) ad,"+
                 "(select r.program_id, sum(r.beds) v_actualCapacity from v_room_beds r group by r.program_id) pr,"+
-                "(select program_id, count(*) v_queue from program_queue pq group by program_id) pq" +
+                "(select program_id, count(*) v_queue from program_queue group by program_id) pq " +
                 " where p.program_id = ad.program_id and p.program_id=pr.program_id and p.program_id = pq.program_id(+)" ;
         SQLQuery query=getSession().createSQLQuery(sql);
         query.setCalendar(0, occDate);
