@@ -38,7 +38,6 @@ import org.oscarehr.PMmodule.model.Provider;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import oscar.OscarProperties;
-import oscar.util.SqlUtils;
 public class ProviderDao extends HibernateDaoSupport {
 	private static Log log = LogFactory.getLog(ProviderDao.class);
 	
@@ -170,23 +169,6 @@ public class ProviderDao extends HibernateDaoSupport {
 		}
 
 		return results;
-	}
-	
-	public static void addProviderToFacility(String provider_no, int facilityId)
-	{
-	    try {
-            SqlUtils.update("insert into provider_facility values ('"+provider_no+"',"+facilityId+')');
-        }
-        catch (RuntimeException e) {
-            // chances are it's a duplicate unique entry exception so it's safe to ignore.
-            // this is still unexpected because duplicate calls shouldn't be made
-            log.warn("Unexpected exception occurred.", e);
-        }
-	}
-	
-	public static void removeProviderFromFacility(String provider_no, int facilityId)
-	{
-        SqlUtils.update("delete from provider_facility where provider_no='"+provider_no+"' and facility_id="+facilityId);
 	}
 	
 	public List getShelterIds(String provider_no)

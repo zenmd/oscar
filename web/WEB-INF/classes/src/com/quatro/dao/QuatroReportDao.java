@@ -224,17 +224,17 @@ public class QuatroReportDao extends HibernateDaoSupport {
          Session sess= getSessionFactory().openSession();
    		 Transaction tx=sess.beginTransaction();
    		 try {
-   			  Query query= sess.createQuery("delete ReportTempValue s where s.templateNo =?"); 
-    	  	  query.setInteger(0, iTempNo); 
-   	  	      query.executeUpdate(); 
-
-	  		  query= sess.createQuery("delete ReportTempOrgValue s where s.templateNo = ?"); 
+   			  Query  query= sess.createQuery("delete ReportTempOrgValue s where s.templateNo = ?"); 
     	  	  query.setInteger(0, iTempNo); 
   	  	      query.executeUpdate(); 
 
   	  		  query= sess.createQuery("delete ReportTempCriValue s where s.templateNo = ?"); 
     	  	  query.setInteger(0, iTempNo); 
   	  	      query.executeUpdate();
+  	  	      
+   			  query= sess.createQuery("delete ReportTempValue s where s.templateNo =?"); 
+    	  	  query.setInteger(0, iTempNo); 
+   	  	      query.executeUpdate(); 
 
   	  	      tx.commit();
    		 }catch(Exception e){

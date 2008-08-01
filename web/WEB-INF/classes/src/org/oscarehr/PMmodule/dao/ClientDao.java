@@ -22,55 +22,30 @@
 
 package org.oscarehr.PMmodule.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.JDBCException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SQLCriterion;
-import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.DemographicExt;
 //import org.oscarehr.PMmodule.model.caisi_ProgramProvider;
-import org.oscarehr.PMmodule.model.Provider;
-import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
-import org.oscarehr.PMmodule.service.ProgramManager;
-import org.oscarehr.PMmodule.web.formbean.ClientListsReportFormBean;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
-import org.oscarehr.util.DbConnectionFilter;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import oscar.MyDateFormat;
-import oscar.OscarProperties;
-import oscar.util.SqlUtils;
-import com.quatro.model.LstOrgcd;
 import com.quatro.util.Utility;
 
-import org.oscarehr.PMmodule.model.SecUserRole;
 public class ClientDao extends HibernateDaoSupport {
 
 	private Log log = LogFactory.getLog(ClientDao.class);
@@ -195,11 +170,6 @@ public class ClientDao extends HibernateDaoSupport {
 				/* invalid client no generates a empty search results */
 				results = new ArrayList();
 			}
-			if (returnOptinsOnly)
-			{
-				results=filterDemographicForDataSharingOptedIn(results);
-				log.debug("search: # of results after returnOptinsOnly filter =" + results.size());
-			}
 		    return results;
 		}
 		LogicalExpression condAlias1 = null;
@@ -279,14 +249,6 @@ public class ClientDao extends HibernateDaoSupport {
 		if (log.isDebugEnabled()) {
 			log.debug("search: # of results=" + results.size());
 		}
-
-		if (returnOptinsOnly)
-		{
-			results=filterDemographicForDataSharingOptedIn(results);
-			
-			log.debug("search: # of results after returnOptinsOnly filter =" + results.size());
-		}
-		
 		return results;
 	}
 
@@ -481,99 +443,6 @@ public class ClientDao extends HibernateDaoSupport {
 		return results;
 	}
 */
-	
-	/**
-	 * This method will remove any demographic whom has not
-	 * opted in or implicitly opted in.
-	 */
-	private List filterDemographicForDataSharingOptedIn(List demographics) {		
-		// The expectation is that this method is 
-		// called for search results and that the search results
-		// are generally a small list. We need 
-		// to process this in chunks because if we tried 
-		// it individually the system would be slow on say 200 entries
-		// as there would be 200 individual sql calls.
-		// If we tried it all at once the resulting sql string maybe too
-		// long as there's a limit on most systems (I think mysql defaults to 2k sql string size)		
-		
-		ArrayList optedIn=new ArrayList();
-		ArrayList tempList=new ArrayList();
-		
-//		for (Demographic demographic : demographics)
-		for (int i=0;i<demographics.size();i++)
-		{
-			Demographic demographic = (Demographic)demographics.get(i);
-			tempList.add(demographic);
-			
-			if (tempList.size()>=LIST_PROCESSING_CHUNK_SIZE)
-			{
-				populateDataSharingOptedIn(optedIn, tempList);
-				tempList=new ArrayList();
-			}
-		}
-			
-		if (tempList.size()>0) populateDataSharingOptedIn(optedIn, tempList);
-		
-		return(optedIn);		
-	}
-
-	/**
-	 * This method will go through the tempList and find who has opted in or implicity opted in 
-	 * to data sharing. It will then add those demographics to the optedIn list.
-	 * The tempList size should be <= LIST_PROCESSING_CHUNK_SIZE.
-	 */
-    private void populateDataSharingOptedIn(ArrayList optedIn, ArrayList tempList) {
-		if (tempList.size()>LIST_PROCESSING_CHUNK_SIZE) throw(new IllegalStateException("tempIds list size is too large, size="+tempList.size()));
-		
-		//--- get the list of demographicId's which are opted in ---
-        Connection c=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		String sqlCommand="select demographic_no from demographicExt where key_val=? and value in (?,?) and demographic_no in "+SqlUtils.constructInClauseForPreparedStatements(tempList.size());
-		
-		HashSet optInIds=new HashSet();
-		
-		try
-		{
-		    c=DbConnectionFilter.getThreadLocalDbConnection();
-			ps=c.prepareStatement(sqlCommand);
-
-			ps.setString(1, Demographic.CONSENT_GIVEN_KEY);
-			ps.setString(2, Demographic.ConsentGiven_ALL);
-			ps.setString(3, Demographic.ConsentGiven_CIRCLE_OF_CARE);
-//			ps.setString(2, Demographic.ConsentGiven.ALL.name());
-//			ps.setString(3, Demographic.ConsentGiven.CIRCLE_OF_CARE.name());
-			
-			int positionCounter=4;
-//			for (Demographic demographic : tempList)
-			for (int i=0;i<tempList.size();i++)
-			{
-				Demographic demographic = (Demographic)tempList.get(i);
-				ps.setInt(positionCounter, demographic.getDemographicNo().intValue());
-				positionCounter++;
-			}
-			
-			rs=ps.executeQuery();
-			while (rs.next()) optInIds.add(new Integer(rs.getInt(1)));
-		}
-        catch (SQLException e) {
-	        log.error("Error running sqlCommand : "+sqlCommand, e);
-	        throw(new JDBCException(sqlCommand, e));
-        }
-		finally
-		{
-			SqlUtils.closeResources(c, ps, rs);
-		}
-		
-		//--- add only the opted in people to the optedIn list ---
-		
-//		for (Demographic demographic : tempList)
-		for (int i=0;i<tempList.size();i++)
-		{
-			Demographic demographic = (Demographic)tempList.get(i);
-			if (optInIds.contains(demographic.getDemographicNo())) optedIn.add(demographic);
-		}
-	}
 	
 	public Date getMostRecentIntakeADate(Integer demographicNo) {
 

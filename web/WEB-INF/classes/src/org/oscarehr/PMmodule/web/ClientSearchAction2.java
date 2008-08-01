@@ -50,8 +50,6 @@ import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 import org.apache.struts.actions.DispatchAction;
 
-import oscar.oscarDemographic.data.DemographicMerged;
-
 public class ClientSearchAction2 extends BaseClientAction {
 
 	private LookupManager lookupManager;

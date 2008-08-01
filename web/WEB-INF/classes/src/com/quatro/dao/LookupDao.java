@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import oscar.MyDateFormat;
+import oscar.OscarProperties;
 import oscar.oscarDB.DBPreparedHandler;
 import oscar.oscarDB.DBPreparedHandlerParam;
 
@@ -365,6 +366,12 @@ public class LookupDao extends HibernateDaoSupport {
 		if ("OGN,SHL".indexOf(tableId)>=0)
 		{
 			SaveAsOrgCode(GetCode(tableId, id), tableId); 
+		}
+		if ("PRP".equals(tableId)) {
+			OscarProperties prp = OscarProperties.getInstance();
+			LookupCodeValue prpCd = GetCode(tableId,id);
+			if(prp.getProperty(prpCd.getDescription()) != null) prp.remove(prpCd.getDescription());
+	    	prp.setProperty(prpCd.getDescription(), prpCd.getBuf1().toLowerCase());
 		}
 		return id;
 	}

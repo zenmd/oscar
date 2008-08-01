@@ -28,8 +28,6 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 
-import oscar.oscarDemographic.data.DemographicMerged;
-
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
@@ -119,7 +117,6 @@ public class MergeClientAction extends BaseClientAction {
 		String action = request.getParameter("mergeAction");
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
-		DemographicMerged dmDAO = new DemographicMerged();
 
 		if (head != null && records.size() > 1
 				&& records.contains(head)) {

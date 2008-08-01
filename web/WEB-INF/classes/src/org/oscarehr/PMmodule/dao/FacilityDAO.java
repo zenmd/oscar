@@ -10,8 +10,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.util.Utility;
 
-import oscar.util.SqlUtils;
-
 /**
  * Data access object for retrieving, creating, and updating facilities.
  */
@@ -68,20 +66,6 @@ public class FacilityDAO extends HibernateDaoSupport {
         getHibernateTemplate().flush();
         getHibernateTemplate().refresh(facility);
     }
-    
-    public List getDistinctFacilityIdsByProgramId(int programId)
-    {
-        // select program_id,facility_id from room;
-        
-        String sqlCommand="select distinct facility_id from room where room.program_id="+programId;
-        return(SqlUtils.selectIntList(sqlCommand));
-    }
-    
-    public List getDistinctProgramIdsByFacilityId(int facilityId) {
-    	String sqlCommand = "select distinct program_id from room where room.facility_id=" + facilityId;
-    	return(SqlUtils.selectIntList(sqlCommand));
-    }
-    
    
     public static  boolean facilityHasIntersection(List providersFacilityIds, List noteFacilities) {
 //        for (Integer id : noteFacilities) {
