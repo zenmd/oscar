@@ -124,12 +124,12 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   
 	   ActionMessages messages = new ActionMessages();
 	   DynaActionForm clientForm = (DynaActionForm) form;
-       ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
-       ProgramClientRestriction servObj=(ProgramClientRestriction)request.getAttribute("serviceObj");
+       ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");       
 
        Integer days = (Integer) clientForm.get("serviceRestrictionLength");       
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
-       Program p = (Program) clientForm.get("program");     
+       
+       
        String providerNo=(String)request.getSession().getAttribute("user");
        restriction.setProviderNo(providerNo);       
        restriction.setEnabled(true);
@@ -140,14 +140,23 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 					"error.service.reason", request.getContextPath()));		
 			saveMessages(request, messages);	
       }
+     
        if (restriction.getProgramId() == null
 				|| restriction.getProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.program", request.getContextPath()));	
 			 hasError =true;
-			saveMessages(request, messages);	
-			 
+			saveMessages(request, messages);				 
 		}
+       else{
+    	   Program progObj=programManager.getProgram(restriction.getProgramId());
+    	   if(days>progObj.getMaximumServiceRestrictionDays()){
+    		 messages.add(ActionMessages.GLOBAL_MESSAGE, 
+    				 new ActionMessage("restrict.exceeds_maximum_days", request.getContextPath(),"1",progObj.getMaximumServiceRestrictionDays()));	
+   			 hasError =true;
+   			saveMessages(request, messages);
+    	   }
+       }
        if(hasError){
     	   setEditAttributes(form, request);		   
 		   return mapping.findForward("detail"); 
