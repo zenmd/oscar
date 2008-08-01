@@ -189,7 +189,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         Admission curAdminssion=clientManager.getCurrentAdmission(new Integer(cId), providerNo, currentFacilityId);
         boolean hasAdm=false;
         if(curAdminssion!=null && curAdminssion.getId().intValue()>0) hasAdm=true;
-        request.setAttribute("hasAdmission", hasAdm);
+        request.setAttribute("hasAdmission", Boolean.valueOf(hasAdm));
         if(providerNo==null || demoNo ==null) {
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
