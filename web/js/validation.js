@@ -19,6 +19,20 @@ function validateRequiredField(fieldId, fieldName, maxLength)
 	
 	return(true);
 }
+function validateLength(field, fieldNameDisplayed, maxLength, minLength){
+	
+	if (maxLength > 0 && field.value.length > maxLength){
+		alert('The value you entered for "'+ fieldNameDisplayed + '" is too long, maximum length allowed is '+maxLength+' characters.');
+		return(false);
+	}
+
+	if (minLength > 0 && field.value.length < minLength){
+		alert('The value you entered for "' + fieldNameDisplayed + '" is too short, minimum length allowed is ' + minLength+' characters.');
+		return(false);
+	}
+	
+	return(true);
+}
 function beforeToday(inputStr) {
 	if(inputStr==null || inputStr==''){
 		alert('Date is mandatory.');
