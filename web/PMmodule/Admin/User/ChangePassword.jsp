@@ -69,17 +69,17 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 
 				<tr>
 					<td>Old Password:</td>
-					<td><html:password property="oldPassword" tabindex="1" maxlength="20"/></td>
+					<td><html:password property="oldPassword" tabindex="1" maxlength="15"/></td>
 					
 				</tr>
 				<tr>
 					<td>New Password:</td>
-					<td><html:password property="password" tabindex="2" maxlength="20"/></td>
+					<td><html:password property="password" tabindex="2" maxlength="15"/></td>
 					
 				</tr>
 				<tr>
 					<td>Confirm New Password:</td>
-					<td><html:password property="confirmPassword"  tabindex="3" maxlength="20"/></td>
+					<td><html:password property="confirmPassword"  tabindex="3" maxlength="15"/></td>
 				</tr>
 			</table>
 		</html:form></div>
@@ -92,24 +92,27 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 function submitForm(func){
 	trimInputBox();
 	document.forms[0].method.value=func;
+
+	var v1 = false;
+	var v2 = false;
+	var v3 = false;
 	
 	var fld_password = document.getElementsByName('password')[0];
 	var fld_cPassword = document.getElementsByName('confirmPassword')[0];
 	
-	if ( validateRequired(fld_password, "New Password") && validateLength(fld_password, "Password", 20, 4)){
+	if ( validateRequired(fld_password, "New Password") && validateLength(fld_password, "Password", 15, 6)){
 		v1 = true;
 	}
-	if ( validateRequired(fld_cPassword, "Confirm New Password") && validateLength(fld_cPassword, "Confirm Password", 20, 4)){
+	if ( validateRequired(fld_cPassword, "Confirm New Password") && validateLength(fld_cPassword, "Confirm Password", 15, 6)){
 		v2 = true;
 	}
+	if(validatePwdMatch(fld_password, fld_cPassword)){
+		v3 = true;
+	}		
 				
-	if(v1 && v2){
+	if(v1 && v2 & v3){
 		if (fld_password == fld_cPassword) {
 			document.forms[0].submit();
-		}
-		else
-		{
-			alert("passwords not match");
 		}
 	}
 }
@@ -123,6 +126,30 @@ function validateRequired(field, fieldNameDisplayed ){
 	}
 	
 	return(true);
+}
+
+function validateLength(field, fieldNameDisplayed, maxlength, minlength){
+	field.value = trim(field.value);
+	
+	if (minlength>0 && (field.value == null || field.value == '')){
+		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' charactors long.');
+		return(false);
+	}
+    
+    if(field.value.length<minlength || field.value.length>maxlength){
+		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' charactors long.');
+		return(false);
+	}
+    	
+	return(true);
+}
+
+function validatePwdMatch(field, cfield){
+   if(trim(field.value)!=trim(cfield.value)){
+	  alert('New password and Confirm New Password do not match.');
+	  return(false);
+   }
+   return(true);
 }
 
 // trim leading and ending spaces
