@@ -23,7 +23,7 @@
 			<generator class="native" />
 		</id>
 		<property name="name" column="name" type="string" not-null="true" length="45" />
-		<property name="default" column="dflt" type="boolean" not-null="true" />
+		<property name="active" column="isactive" type="boolean" not-null="true" />
 		<property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
 	</class>

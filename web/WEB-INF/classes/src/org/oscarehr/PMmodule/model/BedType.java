@@ -37,7 +37,7 @@ public class BedType implements Serializable {
     private int hashCode = Integer.MIN_VALUE;// primary key
     private Integer id;// fields
     private String name;
-    private boolean m_default;
+    private boolean active;
     private String lastUpdateUser;
     private Calendar lastUpdateDate;
 
@@ -77,11 +77,11 @@ public class BedType implements Serializable {
 	public BedType (
 		Integer id,
 		String name,
-		boolean m_default) {
+		boolean active) {
 
 		this.setId(id);
 		this.setName(name);
-		this.setDefault(m_default);
+		this.setActive(active);
 		initialize();
 	}
 
@@ -129,16 +129,16 @@ public class BedType implements Serializable {
     /**
 	 * Return the value associated with the column: dflt
      */
-    public boolean isDefault () {
-        return m_default;
+    public boolean isActive () {
+        return active;
     }
 
     /**
 	 * Set the value related to the column: dflt
      * @param m_default the dflt value
      */
-    public void setDefault (boolean m_default) {
-        this.m_default = m_default;
+    public void setActive (boolean active) {
+        this.active = active;
     }
 
     public boolean equals (Object obj) {
