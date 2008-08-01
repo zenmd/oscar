@@ -75,14 +75,14 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			<table>
 
 				<tr>
-					<td>User ID:</td>
+					<td>User ID*:</td>
 					<td><html:text property="userName" tabindex="1" maxlength="30"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Email:</td>
-					<td><html:text property="email" tabindex="6" maxlength="320"/></td>
+					<td><html:text property="email" tabindex="6" maxlength="60"/></td>
 				</tr>
 				<tr>
-					<td>First Name:</td>
+					<td>First Name*:</td>
 					<td><html:text property="firstName" tabindex="2" maxlength="30"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Initial:</td>
@@ -90,7 +90,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 					
 				</tr>
 				<tr>
-					<td>Last Name:</td>
+					<td>Last Name*:</td>
 					<td><html:text property="lastName" tabindex="3" maxlength="30"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Title:</td>
@@ -104,15 +104,15 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 					</td>
 				</tr>
 				<tr>
-					<td>Password:</td>
-					<td><html:password property="password" tabindex="4" maxlength="20"/></td>
+					<td>Password*:</td>
+					<td><html:password property="password" tabindex="4" maxlength="15"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Job Title:</td>
 					<td><html:text property="jobTitle" tabindex="9" maxlength="100"/></td>
 				</tr>
 				<tr>
-					<td>Confirm Password:</td>
-					<td><html:password property="confirmPassword"  tabindex="5" maxlength="20"/></td>
+					<td>Confirm Password*:</td>
+					<td><html:password property="confirmPassword"  tabindex="5" maxlength="15"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Active:</td>
 					<td><html:checkbox property="status" tabindex="10" /></td>
@@ -173,8 +173,9 @@ function submitForm(func){
 		var v6 = false;
 		var v7 = false;
 		var v8 = false;
+		var v9 = false;
 				
-		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3)){
+		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 12, 6)){
 			v1 = true;
 		}
 		if ( validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2)){
@@ -183,12 +184,16 @@ function submitForm(func){
 		if ( validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2)){
 			v3 = true;
 		}	
-		if ( validateRequired(fld_password, "Password") && validateLength(fld_password, "Password", 20, 4)){
+		if ( validateRequired(fld_password, "Password") && validateLength(fld_password, "Password", 15, 6)){
 			v4 = true;
 		}
-		if ( validateRequired(fld_cPassword, "Confirm Password") && validateLength(fld_cPassword, "Confirm Password", 20, 4)){
+		if ( validateRequired(fld_cPassword, "Confirm Password") && validateLength(fld_cPassword, "Confirm Password", 15, 6)){
 			v5 = true;
 		}
+		if(validatePwdMatch(fld_password, fld_cPassword)){
+		   v9 = true;
+	    }		
+		
 		if ( validateRequired(fld_pin, "PIN") && validateLength(fld_pin, "PIN", 4, 4)){
 			v6 = true;
 		}
@@ -199,7 +204,7 @@ function submitForm(func){
 			v8 = true;
 		}	
 		
-		if(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8){
+		if(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8 && v9){
 			document.forms[0].submit();
 		}
 	
@@ -218,27 +223,30 @@ function validateRequired(field, fieldNameDisplayed ){
 	return(true);
 }
 
-/**
- * Textarea max length validation script. 
- */
-function validateLength(field, fieldNameDisplayed, maxLength, minLength){
+function validateLength(field, fieldNameDisplayed, maxlength, minlength){
+	field.value = trim(field.value);
 	
-	if (maxLength > 0 && field.value.length > maxLength){
-		alert('The value you entered for "'+ fieldNameDisplayed + '" is too long, maximum length allowed is '+maxLength+' characters.');
+	if (minlength>0 && (field.value == null || field.value == '')){
+		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' charactors long.');
 		return(false);
 	}
-
-	if (minLength > 0 && field.value.length < minLength){
-		alert('The value you entered for "' + fieldNameDisplayed + '" is too short, minimum length allowed is ' + minLength+' characters.');
+    
+    if(field.value.length<minlength || field.value.length>maxlength){
+		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' charactors long.');
 		return(false);
 	}
-	
+    	
 	return(true);
 }
 
-/**
- * email validation script. 
- */
+function validatePwdMatch(field, cfield){
+   if(trim(field.value)!=trim(cfield.value)){
+	  alert('New password and Confirm New Password do not match.');
+	  return(false);
+   }
+   return(true);
+}
+
 function emailChecker(str) {
 		str = trim(str);
 		
