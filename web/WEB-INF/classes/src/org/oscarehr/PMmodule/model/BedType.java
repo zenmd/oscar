@@ -57,90 +57,60 @@ public class BedType implements Serializable {
 		this.lastUpdateUser = lastUpdateUser;
 	}
 
-
+/*
    // constructors
 	public BedType () {
 		initialize();
 	}
 
-	/**
-	 * Constructor for primary key
-	 */
 	public BedType (Integer id) {
 		this.setId(id);
 		initialize();
 	}
 
-	/**
-	 * Constructor for required fields
-	 */
 	public BedType (
 		Integer id,
 		String name,
-		boolean active) {
+		boolean m_default) {
 
 		this.setId(id);
 		this.setName(name);
-		this.setActive(active);
+		this.setDefault(m_default);
 		initialize();
 	}
+*/
 
-	//@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
     protected void initialize () {}
 
-    /**
-	 * Return the unique identifier of this class
-* @hibernate.id
-*  generator-class="native"
-*  column="bed_type_id"
-*/
     public Integer getId () {
         return id;
     }
 
-    /**
-	 * Set the unique identifier of this class
-     * @param id the new ID
-     */
     public void setId (Integer id) {
         this.id = id;
         this.hashCode = Integer.MIN_VALUE;
     }
 
-    /**
-	 * Return the value associated with the column: name
-     */
     public String getName () {
         return name;
     }
 
-    /**
-	 * Set the value related to the column: name
-     * @param name the name value
-     */
     public void setName (String name) {
         this.name = name;
     }
 
-    /**
-	 * Return the value associated with the column: dflt
-     */
     public boolean isActive () {
         return active;
     }
 
-    /**
-	 * Set the value related to the column: dflt
-     * @param m_default the dflt value
-     */
     public void setActive (boolean active) {
         this.active = active;
     }
-
+    
     public boolean equals (Object obj) {
         if (null == obj) return false;
         if (!(obj instanceof BedType)) return false;
