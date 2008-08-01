@@ -70,6 +70,15 @@ if (props.getProperty("logintitle", "").equals("")) {
     windowprops = "height="+vheight+",width="+vwidth+",location=no,scrollbars=yes,menubars=no,toolbars=no,resizable=yes";
     var popup=window.open(page, "gpl", windowprops);
   }
+  
+  function checkLoginLength(){
+    var pwd = document.loginForm.password.value;
+    if(pwd.length<6){
+      alert("password should be 6- 15 characters long.");
+      return false;
+    }
+    return true;
+  }
   -->
         </script>
 
@@ -112,7 +121,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 
 
 <div align="center">
-<html:form action="login">
+<html:form action="login" onsubmit="return checkLoginLength();">
 <input
 						type="hidden" name="pin" size="15" maxlength="15"
 						autocomplete="off" value="1117"/>
@@ -128,7 +137,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 					Toronto</font></td>
 				</tr>
 				<tr>
-					<td align="center"><font size="1" face="Arial">Build: 2008-06-13 15:15</font>
+					<td align="center"><font size="1" face="Arial">Build: 2008-08-01 15:15</font>
 					</td>
 				</tr>
 			</table>
@@ -176,7 +185,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 								</b></font></td>
 								<td width="40%" align="center"><font size="2"
 									face="Arial"><b><input type="text" name="username"
-									size="50%" maxlength="15" autocomplete="off"  /></b></font></td>
+									size="50%" maxlength="12" autocomplete="off" /></b></font></td>
 								<td width="30%">&nbsp</td>
 							</tr>
 							<tr>
