@@ -221,37 +221,36 @@ public class RoomManager {
     	//however, even if room capacity is reached, the rooms will still be added if that particular client is 
     	//assigned to that particular room.
     	for(int i=0; rooms != null  &&  i < rooms.length; i++){
-    			int totalClientsInRoom = 0;
-				//get  all (multiple) demographicNo  from  table  'room_demographic' via rooms[i].id	
-				roomDemograhics = roomDemographicManager.getRoomDemographicByRoom(rooms[i].getId());
-				List roomDemographicNumbers = new ArrayList();
+    	  int totalClientsInRoom = 0;
+		  //get  all (multiple) demographicNo  from  table  'room_demographic' via rooms[i].id	
+		  roomDemograhics = roomDemographicManager.getRoomDemographicByRoom(rooms[i].getId());
+		  List roomDemographicNumbers = new ArrayList();
 				
-				if(emptyRoomRequired){
-				  if(roomDemograhics.size() == 0) availableRooms.add(rooms[i]);
-
-				}else{
-				  if(roomDemograhics != null){
-					totalClientsInRoom = roomDemograhics.size();
-					for(int j=0; j < roomDemograhics.size(); j++){
-						roomDemographicNumbers.add(((RoomDemographic)roomDemograhics.get(j)).getId().getDemographicNo() );
-					}
-				  }
-				  //if client is assigned to this room, even if capacity reached, still display room in dropdown
-				  if(isClientAssignedToThisRoom(Integer.valueOf(demographicNo), roomDemographicNumbers)){
-					availableRooms.add(rooms[i]);
-				  }else{
-					//if client not in this room, only display room if capacity is not reached(AssignedBed=N)
-				    //or have available bed(AssignedBed=Y)
-					if(rooms[i].getAssignedBed().intValue()==1){
-						Bed[] availableBeds = bedManager.getAvailableBedsByRoom(rooms[i].getId());
-						if(availableBeds.length>0) availableRooms.add(rooms[i]);
-					}else{
-					  if(rooms[i].getCapacity().intValue() -  totalClientsInRoom > 0){
-						 availableRooms.add(rooms[i]);
-					  }
-					}
-				  }
+		  if(emptyRoomRequired){
+		    if(roomDemograhics.size() == 0 && rooms[i].getAssignedBed().intValue()==0) availableRooms.add(rooms[i]);
+		  }else{
+			if(roomDemograhics != null){
+			  totalClientsInRoom = roomDemograhics.size();
+			  for(int j=0; j < roomDemograhics.size(); j++){
+				roomDemographicNumbers.add(((RoomDemographic)roomDemograhics.get(j)).getId().getDemographicNo() );
+			  }
+			}
+			//if client is assigned to this room, even if capacity reached, still display room in dropdown
+			if(isClientAssignedToThisRoom(Integer.valueOf(demographicNo), roomDemographicNumbers)){
+			  availableRooms.add(rooms[i]);
+			}else{
+			  //if client not in this room, only display room if capacity is not reached(AssignedBed=N)
+			  //or have available bed(AssignedBed=Y)
+			  if(rooms[i].getAssignedBed().intValue()==1){
+				Bed[] availableBeds = bedManager.getAvailableBedsByRoom(rooms[i].getId());
+				if(availableBeds.length>0) availableRooms.add(rooms[i]);
+			  }else{
+				if(rooms[i].getCapacity().intValue() -  totalClientsInRoom > 0){
+				  availableRooms.add(rooms[i]);
 				}
+			  }
+			}
+		  }
     			
     	}
     	
