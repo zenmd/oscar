@@ -535,6 +535,7 @@
         </action>
         <action path="/PMmodule/MergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
             <forward name="view" path="page.pmm.client.merge" />           
+            <forward name="findMerged" path="/PMModule/MergeClient.do" redirect="false" /> 
         </action>
         
 <!-- 
@@ -783,7 +784,6 @@
             <forward name="unlockSuccess" path="page.casemgmt.unlock.note.success" />
             <forward name="unlockError" path="page.casemgmt.unlock.note.error" />
             <forward name="unlock_ajax" path="page.casemgmt.unlock.ajax" />
-            <forward name="expired" path="/casemgmt/expired.jsp" />  
             <forward name="listNotes" path="page.casemgmt.view.notes"/>
             <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
         </action>
@@ -797,7 +797,6 @@
             <forward name="historyview" path="page.casemgmt.history.view" />
             <forward name="showHistory" path="page.casemgmt.show.history" />
             <forward name="issueAutoCompletion" path="page.casemgmt.issue.list" />
-            <forward name="expired" path="/casemgmt/expired.jsp" />            
         </action>
         <action path="/CaseManagementEntry" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementEntry.jsp" name="caseManagementEntryForm">
             <forward name="view" path="/casemgmt/CaseManagementEntry.jsp" />
@@ -810,12 +809,11 @@
             <forward name="showHistory" path="/casemgmt/showHistory.jsp" />
             <forward name="issueAutoCompletion" path="/casemgmt/IssueList.jsp" />
             <forward name="issueList_ajax" path="/casemgmt/noteIssueList.jsp" />
-            <forward name="expired" path="/casemgmt/expired.jsp" />            
+            <forward name="expired" path="/casemgmt/expired.jsp" />
         </action>
         <action path="/ClientImage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="clientImageForm">
             <forward name="success" path="/casemgmt/uploadimage.jsp" />
         </action>
-
 <!-- 
         <action path="/ArchiveView" type="org.springframework.web.struts.DelegatingActionProxy" scope="request" parameter="method">
             <forward name="view" path="/provider/providercontrol.jsp" redirect="true" />

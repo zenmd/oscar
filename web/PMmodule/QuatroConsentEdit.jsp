@@ -152,11 +152,7 @@
 									</b></font>
 								</td>
 								<td style="width: 30%">Shelter Name:<c:out value="${shelter.buf1}" /><br />
-									Shelter Mailing Address:<c:out value="${shelter.buf3}" />&nbsp;:
-									<c:out value="${shelter.buf4}" />
-									&nbsp;:<c:out value="${shelter.buf5}" />&nbsp;:
-									<c:out value="${shelter.buf6}" />&nbsp;:
-									<c:out value="${shelter.buf7}" />
+									Shelter Mailing Address:<c:out value="${shelter.buf3}"/>
 								</td>
 								<td style="width: 20%">Tel:<c:out value="${shelter.buf8}" /><br /> Fax:<c:out value="${shelter.buf9}" /></td>
 							</tr>

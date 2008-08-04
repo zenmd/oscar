@@ -110,8 +110,6 @@
 
     <!-- DAO -->
     <bean id="secSiteDao" class="com.quatro.dao.security.SecSiteDao" autowire="byName"/>
-    <bean id="redirectLinkDao" class="org.caisi.dao.RedirectLinkDao" autowire="byName"/>
-    <bean id="redirectLinkTrackingDao" class="org.caisi.dao.RedirectLinkTrackingDao" autowire="byName"/>
     <bean id="programOccupancyDao" class="org.oscarehr.PMmodule.dao.ProgramOccupancyDao" autowire="byName"></bean>
     <bean id="programDao" class="org.oscarehr.PMmodule.dao.ProgramDao" autowire="byName"/>
     <bean id="programQueueDao" class="org.oscarehr.PMmodule.dao.ProgramQueueDao" autowire="byName"/>
@@ -134,20 +132,12 @@
     <bean id="CaseManagementIssueDAO" class="org.oscarehr.casemgmt.dao.CaseManagementIssueDAO" autowire="byName"/>
     <bean id="CaseManagementNoteDAO" class="org.oscarehr.casemgmt.dao.CaseManagementNoteDAO" autowire="byName"/>
     <bean id="CaseManagementCPPDAO" class="org.oscarehr.casemgmt.dao.CaseManagementCPPDAO" autowire="byName"/>
-    <bean id="AllergyDAO" class="org.oscarehr.casemgmt.dao.AllergyDAO" autowire="byName"/>
-    <bean id="PrescriptionDAO" class="org.oscarehr.casemgmt.dao.PrescriptionDAO" autowire="byName"/>
-    <bean id="EncounterFormDAO" class="org.oscarehr.casemgmt.dao.EncounterFormDAO" autowire="byName"/>
-    <bean id="EchartDAO" class="org.oscarehr.casemgmt.dao.EchartDAO" autowire="byName"/>
-    <bean id="ApptDAO" class="org.oscarehr.casemgmt.dao.ApptDAO" autowire="byName"/>
-    <bean id="ProviderSignitureDao" class="org.oscarehr.casemgmt.dao.ProviderSignitureDao" autowire="byName"/>
     <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName"/>
     <bean id="ClientImageDAO" class="org.oscarehr.casemgmt.dao.ClientImageDAO" autowire="byName"/>
     <!--
 	<bean id="roleDAO" class="org.oscarehr.PMmodule.dao.RoleDAO" autowire="byName" />
-    -->
 	<bean id="CaseManagementTmpSaveDAO" class="org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO" autowire="byName"/>
     <bean id="programFunctionalUserDAO" class="org.oscarehr.PMmodule.dao.ProgramFunctionalUserDAO" autowire="byName"/>
-<!-- 
     <bean id="programAccessDAO" class="org.oscarehr.PMmodule.dao.ProgramAccessDAO" autowire="byName"/>
     <bean id="defaultRoleAccessDAO" class="org.oscarehr.PMmodule.dao.DefaultRoleAccessDAO" autowire="byName"/>
  -->
@@ -345,19 +335,11 @@
     <bean id="caseManagementManagerTarget" class="org.oscarehr.casemgmt.service.CaseManagementManager">
         <property name="caseManagementNoteDAO" ref="CaseManagementNoteDAO"/>
         <property name="caseManagementIssueDAO" ref="CaseManagementIssueDAO"/>
-        <property name="caseManagementCPPDAO" ref="CaseManagementCPPDAO"/>
-        <property name="allergyDAO" ref="AllergyDAO"/>
-        <property name="prescriptionDAO" ref="PrescriptionDAO"/>
-        <property name="encounterFormDAO" ref="EncounterFormDAO"/>
-        <property name="echartDAO" ref="EchartDAO"/>
-        <property name="apptDAO" ref="ApptDAO"/>
-        <property name="providerSignitureDao" ref="ProviderSignitureDao"/>
         <property name="providerDAO" ref="providerDao"/>
         <property name="intakeDAO" ref="intakeDao"/>
         <property name="demographicDAO" ref="clientDao"/>
         <property name="secroleDao" ref="secroleDao"/>
         <property name="clientImageDAO" ref="ClientImageDAO"/>
-        <property name="hashAuditDAO" ref="HashAuditDAO"/>
 <!-- 
         <property name="ectWindowDAO" ref="EncounterWindowDAO"/>
  -->
@@ -365,8 +347,6 @@
 		<!--
         <property name="roleManager" ref="roleManager"/>
 		-->
-        <property name="caseManagementTmpSaveDAO" ref="CaseManagementTmpSaveDAO"/>     
-        <property name="enabled" value="${casemgmt.note.password.enabled}"/>
         <property name="programManager" ref="programManager"/>
     </bean>
 	<!--

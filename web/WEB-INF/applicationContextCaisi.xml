@@ -32,7 +32,6 @@
 <!-- 
     <bean id="caisiRoleDAO" class="org.caisi.dao.CaisiRoleDAO" autowire="byName" />
  -->
-    <bean id="accessTypeDAO" class="org.caisi.dao.AccessTypeDAO" autowire="byName"/>
     <bean id="bedCheckTimeDAO" class="org.oscarehr.PMmodule.dao.BedCheckTimeDAO" autowire="byName" />
     <bean id="ratePageDao" class="org.oscarehr.PMmodule.dao.RatePageDao" autowire="byName" />
 <!-- 
@@ -47,7 +46,6 @@
     <bean id="consentDao" class="org.oscarehr.PMmodule.dao.ConsentDAO" autowire="byName" />
     <bean id="healthSafetyDao" class="org.oscarehr.PMmodule.dao.HealthSafetyDao" autowire="byName" />
     <bean id="logDAO" class="org.oscarehr.PMmodule.dao.LogDAO" autowire="byName" />
-    <bean id="formsDAO" class="org.oscarehr.PMmodule.dao.FormsDAO" autowire="byName"/>
 <!-- 
     <bean id="populationReportDAO" class="org.oscarehr.common.dao.PopulationReportDAO" autowire="byName"/>
  -->    
@@ -132,12 +130,6 @@
           dependency-check="default">
         <property name="target">
             <bean class="org.oscarehr.PMmodule.service.impl.OscarSecurityManagerImpl" autowire="byName"/>
-        </property>
-    </bean>
-    <bean id="formsManager" parent="baseTransactionProxy" lazy-init="default"
-          dependency-check="default">
-        <property name="target">
-            <bean class="org.oscarehr.PMmodule.service.impl.FormsManagerImpl" autowire="byName"/>
         </property>
     </bean>
 

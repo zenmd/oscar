@@ -123,7 +123,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 									<c:if test="${!isReadOnly}">
 										<a id="staffAdd" href="javascript:showLookup('USR', '', 'programId', 'programManagerViewForm','incidentForm.lstStaff','', true, '<c:out value="${ctx}"/>')"  onclick="setNoConfirm();">Add</a>
 										&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-										<a href="javascript:removeSel('incidentForm.lstStaff')">Remove</a>
+										<a href="javascript:removeSel('incidentForm.lstStaff')"  onclick="setNoConfirm();">Remove</a>
 									</c:if>	
 								</td>
 					        </tr>

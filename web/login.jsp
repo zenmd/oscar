@@ -154,48 +154,6 @@ if (props.getProperty("logintitle", "").equals("")) {
 				</tr>
 				<tr>
 					<td>
-<!--
-						<table cellspacing="2" border="0" style="BORDER-RIGHT:Gray 1px solid; BORDER-Top:Silver 1px solid; BORDER-LEFT:Silver 1px solid;BORDER-BOTTOM:Gray 1px solid" align="center" valing="center" background="images/Silver-background.gif"  width="70%">
-							<tr><td height="5"></td></tr>
-							<tr>
-								<td width="40%" align="right">
-									<font size="2" face="Arial"> <b><bean:message
-									key="loginApplication.formUserName" /> 
-								<%
-			 						if (oscar.oscarSecurity.CRHelper.isCRFrameworkEnabled()
-			 						&& !net.sf.cookierevolver.CRFactory.getManager()
-			 							.isMachineIdentified(request)) {
-			 					%> <img
-									src="gatekeeper/appid/?act=image&/empty<%=System.currentTimeMillis() %>.gif"
-									width='1' height='1'> <%
-			 					}
-			 					%>
-								</b></font></td>
-								<td width="20%" align="center"><font size="2"
-									face="Arial"><b><input type="text" name="username"
-									size="42%" maxlength="15" autocomplete="off" /></b></font></td>
-								<td width="40%">&nbsp</td>
-							</tr>
-							<tr>
-								<td align="right"><font
-									size="2" face="Arial"><b><bean:message
-									key="loginApplication.formPwd" /></b></font></td>
-								<td align="center"><font size="2"
-									face="Arial"><b><input type="password" name="password"
-									size="42%" maxlength="15" autocomplete="off" /></b></font></td>
-								<td>&nbsp;</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td align="center" valign="center" align=""><font face="Arial"
-									size="1"><input type="submit"
-									value="<bean:message key="index.btnSignIn"/>" />&nbsp; <input
-									type="reset" value="Reset"></font></td>
-									<td>&nbsp</td>
-							</tr>
-							<tr><td height="5"></td></tr>
-						</table>
--->
 						<object 
 							classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
 								width="300" height="500"

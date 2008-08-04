@@ -173,15 +173,6 @@ if (props.getProperty("logintitle", "").equals("")) {
 								<td width="40%" align="right">
 									<font size="2" face="Arial"> <b><bean:message
 									key="loginApplication.formUserName" /> 
-								<%
-			 						if (oscar.oscarSecurity.CRHelper.isCRFrameworkEnabled()
-			 						&& !net.sf.cookierevolver.CRFactory.getManager()
-			 							.isMachineIdentified(request)) {
-			 					%> <img
-									src="gatekeeper/appid/?act=image&/empty<%=System.currentTimeMillis() %>.gif"
-									width='1' height='1'> <%
-			 					}
-			 					%>
 								</b></font></td>
 								<td width="40%" align="center"><font size="2"
 									face="Arial"><b><input type="text" name="username"
