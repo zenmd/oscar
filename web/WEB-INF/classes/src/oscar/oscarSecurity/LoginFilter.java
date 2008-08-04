@@ -45,16 +45,14 @@ public class LoginFilter implements Filter {
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig config) throws ServletException {
-		if (!CRHelper.isCRFrameworkEnabled()) {
-			CRFactory.getConfig().setProperty("cr.disabled", "true");
-		}
+		CRFactory.getConfig().setProperty("cr.disabled", "true");
 	}
 
 	/*
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		if (!CRHelper.isCRFrameworkEnabled()) {
+		if (!true) {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 

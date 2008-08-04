@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 
 /**
  *
@@ -48,14 +48,14 @@ public class programExclusiveViewTag extends TagSupport {
     
     public int doStartTag() throws JspException    {
         try {
-            DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+            DBPreparedHandler db = new DBPreparedHandler();
             String sql = new String("SELECT exclusive_view FROM program WHERE program_id = (SELECT program_id FROM provider_default_program WHERE provider_no='" + providerNo + "')");
-            ResultSet rs = db.GetSQL(sql);
+            ResultSet rs = db.queryResults(sql);
 	    while (rs.next()) {
 		exclusiveView = db.getString(rs,1);
 	    }
             rs.close();
-            db.CloseConn();
+            db.closeConn();
         }      catch(SQLException e)        {
             e.printStackTrace(System.out);
         }

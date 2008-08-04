@@ -41,7 +41,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 import com.quatro.service.security.*;
 import com.quatro.common.KeyConstants;
 
@@ -108,9 +108,9 @@ public class SecurityTag implements Tag {
     private Vector getPrivilegeProp(String objName) {
         Vector ret = new Vector();
         Properties prop = new Properties();
-        DBHandler db =null;
+        DBPreparedHandler db =null;
         try {  
-        	db = new DBHandler(DBHandler.OSCAR_DATA);
+        	db = new DBPreparedHandler();
             java.sql.ResultSet rs;
             String [] objectNames  = getVecObjectName(objName);
             StringBuffer objectWhere = new StringBuffer();
@@ -124,7 +124,7 @@ public class SecurityTag implements Tag {
             
             String sql = new String("select roleUserGroup,privilege from secObjPrivilege where "+ objectWhere.toString() +" order by priority desc");
             //System.out.println("sql for roles: "+sql );
-            rs = db.GetSQL(sql);
+            rs = db.queryResults(sql);
             Vector roleInObj = new Vector();
             while (rs.next()) {
                 prop.setProperty(db.getString(rs,"roleUserGroup"), db.getString(rs,"privilege"));
@@ -134,7 +134,7 @@ public class SecurityTag implements Tag {
             ret.add(roleInObj);
             //System.out.println(roleInObj);
             rs.close();
-            db.CloseConn();
+            db.closeConn();
         } catch (java.sql.SQLException e) {
             e.printStackTrace(System.out);
         }        

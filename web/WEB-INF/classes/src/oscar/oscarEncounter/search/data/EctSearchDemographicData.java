@@ -28,7 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 
 public class EctSearchDemographicData
 {
@@ -157,10 +157,10 @@ public class EctSearchDemographicData
             vector = new Vector();
             try
             {
-                DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+                DBPreparedHandler db = new DBPreparedHandler();
                 ResultSet rs;
                 EctDemographicData demographicData;
-                for(rs = db.GetSQL(sql); rs.next(); vector.add(demographicData))
+                for(rs = db.queryResults(sql); rs.next(); vector.add(demographicData))
                 {
                     demographicData = new EctDemographicData();
                     demographicData.demographicNo = db.getString(rs,"demographic_no");
@@ -179,7 +179,7 @@ public class EctSearchDemographicData
                 }
 
                 rs.close();
-                db.CloseConn();
+                db.closeConn();
             }
             catch(SQLException e)
             {

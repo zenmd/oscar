@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.oscarehr.util.DbConnectionFilter;
+import org.oscarehr.util.SpringUtils;
 
 import oscar.OscarAction;
 import oscar.OscarDocumentCreator;
@@ -49,7 +49,7 @@ public class PrintDemoAddressLabelAction extends OscarAction {
         response.setHeader("Content-disposition", getHeader(response).toString());
         OscarDocumentCreator osc = new OscarDocumentCreator();
         try {
-            osc.fillDocumentStream(parameters, sos, "pdf", ins, DbConnectionFilter.getThreadLocalDbConnection());
+            osc.fillDocumentStream(parameters, sos, "pdf", ins, SpringUtils.getDbConnection());
         }
         catch (SQLException e) {
             e.printStackTrace();

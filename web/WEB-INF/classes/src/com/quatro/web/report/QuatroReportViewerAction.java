@@ -18,6 +18,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
 
+import cdsDt.ReportFormat;
+
 import com.crystaldecisions.report.web.viewer.CrPrintMode;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
 import com.crystaldecisions.reports.sdk.PrintOutputController;
@@ -436,7 +438,14 @@ public class QuatroReportViewerAction extends Action {
 		    try{
 		    	reportDocument1.open(path1,0);
 		    	if (!Utility.IsEmpty(criteriaString))  reportDocument1.setRecordSelectionFormula(criteriaString);
-		    	ViewReport(request, response, reportDocument1,orgDis, criteriaDis);
+		    	if (_rptValue.getExportFormatType()==ReportExportFormat._PDF)
+		    	{
+		    		ExportReport(request, response, reportDocument1,orgDis, criteriaDis);
+		    	}
+		    	else
+		    	{
+		    		ViewReport(request, response, reportDocument1,orgDis, criteriaDis);
+		    	}
 	      }catch(ReportSDKException ex){
 		      ReportSDKException ss=ex;
 	      }
@@ -496,13 +505,15 @@ public class QuatroReportViewerAction extends Action {
 		}
 		return fields2;
 	}
-	private void ExportReport(HttpServletRequest request, HttpServletResponse response,IReportSource reportSource)
+	private void ExportReport(HttpServletRequest request, HttpServletResponse response,ReportClientDocument reportDocument1, String orgDis, String criteriaDis)
 	{
 	      /* export using the ReportExportControl */
 		  ReportExportControl exportControl = new ReportExportControl();
 	      try{
-	    	  exportControl.setReportSource(reportSource);
-//	          exportControl.setParameterFields(fields2);
+	    	  String loginId = (String)request.getSession(true).getAttribute("user");
+	    	  String sessionId = request.getSession(true).getId();
+	    	  exportControl.setReportSource(reportDocument1.getReportSource());
+	          exportControl.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
 	  		  ExportOptions expOpts = new ExportOptions();
 	          switch (_rptValue.getExportFormatType()){
 	            case ReportExportFormat._PDF:
@@ -538,9 +549,6 @@ public class QuatroReportViewerAction extends Action {
 			String sessionId = request.getSession(true).getId();
         	crystalReportViewer.setReportSource(reportDocument1.getReportSource());
 	    	crystalReportViewer.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
-	    	
-//     	  crystalReportViewer.setPrintMode(CrPrintMode.PDF);
-	    	
         	crystalReportViewer.setOwnPage(true);
 	    	crystalReportViewer.setOwnForm(true);
 	    	crystalReportViewer.setDisplayGroupTree(true);

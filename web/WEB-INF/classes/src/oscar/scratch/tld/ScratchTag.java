@@ -47,16 +47,16 @@ public class ScratchTag extends TagSupport {
     public int doStartTag() throws JspException    {
 /*
     	try {
-            DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+            DBPreparedHandler db = new DBPreparedHandler();
             String sql = new String("SELECT scratch_text FROM scratch_pad WHERE provider_no = '" + providerNo + "' order by id desc limit 1");
-            ResultSet rs = db.GetSQL(sql);
+            ResultSet rs = db.queryResults(sql);
 	    while (rs.next()) {
 		if (rs.getString(1).trim().length()>0) scratchFilled = true;
 		else scratchFilled = false;
 	    }
 
             rs.close();
-            db.CloseConn();
+            db.closeConn();
         }      catch(SQLException e)        {
             e.printStackTrace(System.out);
         }

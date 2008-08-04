@@ -44,7 +44,6 @@ import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.casemgmt.dao.AllergyDAO;
-import org.oscarehr.casemgmt.dao.ApptDAO;
 import org.oscarehr.casemgmt.dao.CaseManagementCPPDAO;
 import org.oscarehr.casemgmt.dao.CaseManagementIssueDAO;
 import org.oscarehr.casemgmt.dao.CaseManagementNoteDAO;
@@ -87,7 +86,6 @@ public class CaseManagementManager {
     protected PrescriptionDAO prescriptionDAO;
     protected EncounterFormDAO encounterFormDAO;
     protected EchartDAO echartDAO;
-    protected ApptDAO apptDAO;
     protected ProviderDao providerDAO;
     protected ClientDao demographicDAO;
     protected ProviderSignitureDao providerSignitureDao;
@@ -100,7 +98,6 @@ public class CaseManagementManager {
     protected IntakeDao intakeDao;
     protected SecroleDao secroleDao;  
     protected LookupDao lookupDao;
-    private boolean enabled;
     
     /*
      *check to see if issue has been saved for this demo before
@@ -136,12 +133,6 @@ public class CaseManagementManager {
             if( providers == null ) providers = new ArrayList();
             note.setEditors(providers);
         }
-    }
-    
-    
-    public void updateAppointment(String apptId, String status, String type) {
-
-        apptDAO.updateAppointmentStatus(apptId, status, type);
     }
     
     public UserProperty getUserProperty(String provider_no, String name) {
@@ -180,8 +171,8 @@ public class CaseManagementManager {
     		return removeNoteAppend(newStr);
     	}
     	else{
-    		newStr=newStr.replace("]", "");
-    		newStr=newStr.replace("[", "");
+    		newStr=Utility.replace(newStr,"]", "");
+    		newStr=Utility.replace(newStr,"[", "");
     	}
     	String[] lft = newStr.split("\n");
     	//remove \n from string
@@ -189,7 +180,7 @@ public class CaseManagementManager {
     	for(int i=0;i<lft.length;i++){
     		if(lft[i]!="" || !lft[i].startsWith("\t"))tmpStr+=lft[i]+"\n";
     	}
-    	tmpStr=tmpStr.replaceAll("\t", "").trim();
+    	tmpStr=Utility.replace(tmpStr,"\t", "").trim();
     	return tmpStr;
     }
     public String saveNote(CaseManagementNote note, String cproviderNo, String lastStr) {
@@ -784,20 +775,8 @@ public class CaseManagementManager {
         */
     }
 
-    public boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public void setEchartDAO(EchartDAO echartDAO) {
         this.echartDAO = echartDAO;
-    }
-
-    public void setApptDAO(ApptDAO apptDAO) {
-        this.apptDAO = apptDAO;
     }
 
     public void setEncounterFormDAO(EncounterFormDAO dao) {

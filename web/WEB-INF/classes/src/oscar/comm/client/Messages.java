@@ -30,14 +30,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 import oscar.util.UtilMisc;
 import oscar.util.UtilXML;
 
 class Messages {
-    private DBHandler db;
+    private DBPreparedHandler db;
 
-    public Messages(DBHandler db) {
+    public Messages(DBPreparedHandler db) {
         this.db = db;
     }
 
@@ -62,12 +62,12 @@ class Messages {
                 + UtilMisc.mysqlEscape(msg.get("attachment"))     + "', '" 
                 + UtilMisc.mysqlEscape(msg.get("actionstatus"))   + "')";
                         
-            db.RunSQL(sql);
+            db.queryExecuteUpdate(sql);
 
             int msgId = -1;   
 
             sql = "SELECT LAST_INSERT_ID()";
-            ResultSet rs = db.GetSQL(sql);
+            ResultSet rs = db.queryResults(sql);
             if(rs.next()) {
                 msgId = rs.getInt(1);
             }
@@ -80,7 +80,7 @@ class Messages {
                 sql = "INSERT INTO messagelisttbl (message, provider_no, status, remotelocation) VALUES (" + msgId + ", '"
                 + pNo + "', 'new', '" + loc + "')";
 
-                db.RunSQL(sql);
+                db.queryExecuteUpdate(sql);
             }
         }
     }

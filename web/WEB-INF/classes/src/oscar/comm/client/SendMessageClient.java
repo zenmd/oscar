@@ -29,23 +29,23 @@ import java.sql.SQLException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 import oscar.util.UtilXML;
 
 public class SendMessageClient {
     public boolean sendMessage(String databaseURL, String databaseName, String messageXML)
             throws OscarCommClientException, java.sql.SQLException {
         boolean ret = false;
-        DBHandler db = null;
+        DBPreparedHandler db = null;
         String wsURL = null;
         WebServiceClient client = null;
 
         try {
-            db = new DBHandler(databaseURL, databaseName);
+            db = new DBPreparedHandler();
 
             //System.out.println("");
             String sql = "SELECT remoteServerURL FROM oscarcommlocations WHERE current1 = 1";
-            ResultSet rs = db.GetSQL(sql);
+            ResultSet rs = db.queryResults(sql);
             if(rs.next()) {
                 wsURL = db.getString(rs,"remoteServerURL");
             }
@@ -63,11 +63,11 @@ public class SendMessageClient {
             throw new OscarCommClientException("Send Message failed.", ex);
         }
 
-        db.CloseConn();
+        db.closeConn();
         return ret;
     }
 
-    private Element createRequest(DBHandler db, String messageXML) throws SQLException {
+    private Element createRequest(DBPreparedHandler db, String messageXML) throws SQLException {
         Document doc = UtilXML.newDocument();
         Element root = UtilXML.addNode(doc, "sendMessage");
         root.appendChild(new Location(db).getLocal(doc));

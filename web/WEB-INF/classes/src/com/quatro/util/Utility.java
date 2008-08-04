@@ -242,11 +242,28 @@ public class Utility {
         	return null;
         }
     }
+    public static String getEscapedPattern(String str)
+    {
+    	StringBuffer sb = new StringBuffer();
+    	for (int i=0; i< str.length(); i++)
+    	{
+    		String c  = str.substring(i,i+1); 
+    		if (c.equals("["))
+    		{
+    			sb.append("\\[");
+    		}
+    		else
+    		{
+       			sb.append(c);
+       		}
+    	}
+    	return sb.toString();
+    }
     public static String replace(String str, String pattern, String replaceTo)
     {
-    	String[] buff = str.split(pattern);
+    	String patternEsc = getEscapedPattern(pattern);
+    	String[] buff = str.split(patternEsc);
     	StringBuffer sb = new StringBuffer();
-    	
     	sb.append(buff[0]);
     	for(int i=1; i<buff.length;i++)
     	{

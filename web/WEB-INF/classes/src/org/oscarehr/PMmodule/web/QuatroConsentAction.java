@@ -121,6 +121,10 @@ public class QuatroConsentAction extends BaseClientAction {
 	       else if(rId!=null && rId!="0"){
 	    	   consentObj= consentManager.getConsentDetail(Integer.valueOf(rId));
 	    	   shelter= lookupManager.GetLookupCode("SHL", consentObj.getShelterId().toString());
+	    	   shelter.setBuf3(Utility.append(shelter.getBuf3(), shelter.getBuf4(), ", "));
+	    	   shelter.setBuf3(Utility.append(shelter.getBuf3(), shelter.getBuf5(), ", "));
+	    	   shelter.setBuf3(Utility.append(shelter.getBuf3(), shelter.getBuf6(), ", "));
+	    	   shelter.setBuf3(Utility.append(shelter.getBuf3(), shelter.getBuf7(), ", "));
 	    	   request.setAttribute("shelter", shelter);
 	       }
 	       dForm.set("consentValue", consentObj);

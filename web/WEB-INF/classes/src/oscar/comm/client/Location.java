@@ -29,20 +29,20 @@ import java.sql.SQLException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 import oscar.util.UtilXML;
 
 class Location {
-    private DBHandler db;
+    private DBPreparedHandler db;
 
-    public Location(DBHandler db) {
+    public Location(DBPreparedHandler db) {
         this.db = db;
     }
 
     public Element getLocal(Document doc) throws SQLException {
         Element local = doc.createElement("local");
 
-        ResultSet rs = db.GetSQL("SELECT * FROM oscarcommlocations WHERE current1 = 1");
+        ResultSet rs = db.queryResults("SELECT * FROM oscarcommlocations WHERE current1 = 1");
         if(rs.next()) {
             UtilXML.addNode(local, "locationId", String.valueOf(rs.getInt("locationId")));
             UtilXML.addNode(local, "locationDesc", db.getString(rs,"locationDesc"));
@@ -56,7 +56,7 @@ class Location {
     public Element getRemotes(Document doc) throws SQLException {
         Element remoteLocations = doc.createElement("recipients");
 
-        ResultSet rs = db.GetSQL("SELECT * FROM oscarcommlocations WHERE current1 = 0");
+        ResultSet rs = db.queryResults("SELECT * FROM oscarcommlocations WHERE current1 = 0");
         while(rs.next()) {
             UtilXML.addNode(remoteLocations, "remote").setAttribute("locationId", String.valueOf(rs.getInt("locationId")));
         }

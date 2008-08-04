@@ -42,8 +42,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import oscar.OscarProperties;
 import oscar.log.LogAction;
 import oscar.log.LogConst;
-import oscar.oscarDB.DBHandler;
-import oscar.oscarSecurity.CRHelper;
+import oscar.oscarDB.DBPreparedHandler;
 
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
@@ -73,6 +72,7 @@ public final class LoginAction extends DispatchAction {
             return mapping.getInputForward();
         }
 
+        userName = userName.toLowerCase();
         LoginCheckLogin cl = new LoginCheckLogin();
         if (cl.isBlock(userName)) {
             _logger.info(LOG_PRE + " Blocked: " + userName);
@@ -102,22 +102,12 @@ public final class LoginAction extends DispatchAction {
             }
 
             _logger.info("Assigned new session for: " + strAuth[0] + " : " + strAuth[3] + " : " + strAuth[4]);
-            LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
-
-            // initial db setting
-            Properties pvar = cl.getOscarVariable();
-            session.setAttribute("oscarVariables", pvar);
-            if (!DBHandler.isInit()) {
-                DBHandler.init(pvar.getProperty("db_name"), pvar.getProperty("db_driver"), pvar.getProperty("db_uri"), pvar.getProperty("db_username"), pvar.getProperty("db_password"));
-            }
+            LogAction.addLog(userName,strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
 
             String providerNo = strAuth[0];
-
-
             session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, strAuth[0]);
             session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, strAuth[2] + ", "+ strAuth[1]);
 
-            session.setAttribute("userrole", strAuth[4]);
             session.setAttribute("oscar_context_path", request.getContextPath());
             session.setAttribute("expired_days", strAuth[5]);
             
@@ -126,12 +116,7 @@ public final class LoginAction extends DispatchAction {
             
             SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
             session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
-            /*
-             * if (OscarProperties.getInstance().isTorontoRFQ()) { where = "caisiPMM"; }
-             */
-            CRHelper.recordLoginSuccess(userName, strAuth[0], request);
 
-            // setup caisi stuff
             String username = (String) session.getAttribute("user");
             Provider provider = providerManager.getProvider(username);
             session.setAttribute("provider", provider);
@@ -144,9 +129,8 @@ public final class LoginAction extends DispatchAction {
         }
         else { // go to normal directory
             // request.setAttribute("login", "failed");
-            LogAction.addLog(userName, "failed", LogConst.CON_LOGIN, "", ip);
+            LogAction.addLog(userName,null,"login", "failed", LogConst.CON_LOGIN,  ip);
             cl.updateLoginList(userName);
-            CRHelper.recordLoginFailure(userName, request);
    	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
         }
         saveMessages(request,messages);        

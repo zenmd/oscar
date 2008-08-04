@@ -34,7 +34,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
+import oscar.oscarDB.DBPreparedHandlerParam;
 
 /**
  create table scratch_pad (
@@ -55,10 +56,10 @@ public class ScratchData {
         Hashtable retval = null;
         try {
             //Get Provider from database
-            DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+            DBPreparedHandler db = new DBPreparedHandler();
             ResultSet rs;
             String sql = "SELECT * FROM scratch_pad WHERE provider_no = " + providerNo + " order by id  desc limit 1";
-            rs = db.GetSQL(sql);
+            rs = db.queryResults(sql);
    
             if (rs.next()){
                 retval = new Hashtable();
@@ -67,7 +68,7 @@ public class ScratchData {
                 retval.put("date",db.getString(rs,"date_time"));
             }
             rs.close();
-            db.CloseConn();
+            db.closeConn();
         } catch (SQLException e) {
            e.printStackTrace();
         }
@@ -78,17 +79,11 @@ public class ScratchData {
         String scratch_id = null;
         try {
             //Get Provider from database
-            DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
-            ResultSet rs;
+            DBPreparedHandler db = new DBPreparedHandler();
             String sql = "INSERT into scratch_pad (provider_no, scratch_text,date_time ) values ('" + providerNo + "','"+text+"',now())";
-            db.RunSQL(sql);
-            rs = db.GetSQL("SELECT LAST_INSERT_ID() ");
-   
-            if(rs.next()){
-               scratch_id = Integer.toString( rs.getInt(1) );
-            }
-            rs.close();
-            db.CloseConn();
+            int sId = db.queryExecuteInsertReturnId(sql);
+            scratch_id = Integer.toString(sId);
+            db.closeConn();
         } catch (SQLException e) {
            e.printStackTrace();
         }
@@ -100,21 +95,16 @@ public class ScratchData {
         String scratch_id = null;
         try {
             //Get Provider from database
-            DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+            DBPreparedHandler db = new DBPreparedHandler();
              String sql = "INSERT into scratch_pad (provider_no, scratch_text,date_time ) values (?,?,now())";
-             Connection conn = db.GetConnection();
-             PreparedStatement pstat = conn.prepareStatement(sql);
-              pstat.setString(1,providerNo);
-              pstat.setString(2,text);
-              pstat.executeUpdate();
+             DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[2];
+//             PreparedStatement pstat = conn.prepareStatement(sql);
+             params[0] = new DBPreparedHandlerParam(providerNo);
+             params[1] = new DBPreparedHandlerParam(text);
             
-              ResultSet rs = pstat.getGeneratedKeys();
-               if(rs.next()){
-                  scratch_id = ""+rs.getInt(1);
-               }
-              rs.close();
-             pstat.close();
-            db.CloseConn();
+             int sId = db.queryExecuteInsertReturnId(sql, params);
+             scratch_id = ""+sId;
+             db.closeConn();
         } catch (SQLException e) {
            e.printStackTrace();
         }

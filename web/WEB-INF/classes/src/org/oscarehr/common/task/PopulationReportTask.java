@@ -9,7 +9,6 @@ import java.util.TimerTask;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.log4j.Logger;
-import org.oscarehr.util.DbConnectionFilter;
 
 import oscar.OscarProperties;
 
@@ -71,8 +70,6 @@ public class PopulationReportTask extends TimerTask {
             logger.error("error running population report task", t);
         }
         finally {
-            DbConnectionFilter.releaseThreadLocalDbConnection();
-
             logger.info("end population report task");
         }
     }

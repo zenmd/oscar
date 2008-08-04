@@ -173,7 +173,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         Integer currentFacilityId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;        
         HttpSession se = request.getSession(true);
-        if (se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO) == null) return mapping.findForward("expired");
         String cId=request.getParameter("clientId");
         if(Utility.IsEmpty(cId)) cId=request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");

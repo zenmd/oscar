@@ -38,7 +38,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 
 /**
  *
@@ -62,15 +62,15 @@ public class NextApptTag extends TagSupport {
        Date nextApptDate = null;
        if (demoNo != null && !demoNo.equalsIgnoreCase("") && !demoNo.equalsIgnoreCase("null")){
            try {
-              DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+              DBPreparedHandler db = new DBPreparedHandler();
 //              String sql = "select * from appointment where demographic_no = '"+demoNo+"' and status not like '%C%' and appointment_date >= now() order by appointment_date limit 1";
               String sql = "select * from appointment where demographic_no = '"+demoNo+"' and status not like '%C%' and appointment_date >= now() order by appointment_date";
-              ResultSet rs = db.GetSQL(sql);
+              ResultSet rs = db.queryResults(sql);
               if (rs.next()) {
                  nextApptDate = rs.getDate("appointment_date");
               }
               rs.close();
-              db.CloseConn();
+              db.closeConn();
            }catch(SQLException e)        {
               e.printStackTrace(System.out);
            } 

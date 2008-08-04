@@ -30,13 +30,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 import oscar.util.UtilXML;
 
 class AddressBook {
-    private DBHandler db;
+    private DBPreparedHandler db;
 
-    public AddressBook(DBHandler db) {
+    public AddressBook(DBPreparedHandler db) {
         this.db = db;
     }
 
@@ -46,12 +46,12 @@ class AddressBook {
         Element addressBook = doc.createElement("addressBook");
         addressBook.appendChild(this.getChildren(doc, 0, ""));
 
-        ResultSet rs = db.GetSQL("SELECT addressBook FROM oscarcommlocations WHERE current1 = 1");
+        ResultSet rs = db.queryResults("SELECT addressBook FROM oscarcommlocations WHERE current1 = 1");
         if(rs.next()) {
             String newAddressBook = UtilXML.toXML(addressBook);
 
             if((db.getString(rs,"addressBook")==null) || (db.getString(rs,"addressBook").equals(newAddressBook)==false)) {
-                db.RunSQL("UPDATE oscarcommlocations SET addressBook = '" + newAddressBook + "' WHERE current1 = 1");
+                db.queryExecuteUpdate("UPDATE oscarcommlocations SET addressBook = '" + newAddressBook + "' WHERE current1 = 1");
             } else {
                 addressBook = null;
             }
@@ -77,7 +77,7 @@ class AddressBook {
         }
 
         String sql = "SELECT * FROM groups_tbl WHERE parentID = " + groupId;
-        ResultSet rs = db.GetSQL(sql);
+        ResultSet rs = db.queryResults(sql);
         while(rs.next()) {
             group.appendChild(getChildren(doc, rs.getInt("groupID"), db.getString(rs,"groupDesc")));
         }
@@ -86,7 +86,7 @@ class AddressBook {
         sql = "SELECT p.provider_no, p.last_name, p.first_name "
             + "FROM groupMembers_tbl g INNER JOIN provider p ON g.provider_No = p.provider_no "
             + "WHERE groupID = " + groupId + " ORDER BY p.last_name, p.first_name";
-        rs = db.GetSQL(sql);
+        rs = db.queryResults(sql);
         while(rs.next()) {
             Element address = UtilXML.addNode(group, "address");
             address.setAttribute("id", db.getString(rs,"provider_no"));
@@ -108,7 +108,7 @@ class AddressBook {
             String addressBook = UtilXML.toXML(location.getElementsByTagName("addressBook").item(0));
 
             String sql = "SELECT 1 FROM oscarcommlocations WHERE locationId = " + locationId;
-            ResultSet rs = db.GetSQL(sql);
+            ResultSet rs = db.queryResults(sql);
             if(rs.next()) {
                 sql = "UPDATE oscarcommlocations SET locationDesc = '"
                     + locationDesc + "', addressBook = '" + addressBook
@@ -119,7 +119,7 @@ class AddressBook {
             }
             rs.close();
 
-            db.RunSQL(sql);
+            db.queryExecuteUpdate(sql);
         }
     }
 }

@@ -147,9 +147,7 @@ public class MergeClientAction extends BaseClientAction {
 					"message.merge.success", request.getContextPath()));
 			saveMessages(request, messages);
 		}
-		//return mapping.findForward("view");
-		return mergedSearch(mapping, form, request, response);
-		
+		return mapping.findForward("findMerged");
 	}
 	
 	public ActionForward search(ActionMapping mapping, ActionForm form,

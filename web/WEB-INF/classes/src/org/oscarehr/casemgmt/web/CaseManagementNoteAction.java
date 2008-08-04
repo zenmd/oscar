@@ -39,7 +39,6 @@ import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
 import org.oscarehr.common.model.UserProperty;
 import org.springframework.web.context.WebApplicationContext;
 
-import oscar.oscarEncounter.pageUtil.EctSessionBean;
 import oscar.util.UtilDateUtilities;
 
 import com.quatro.common.KeyConstants;
@@ -62,10 +61,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		log.debug("edit");
-		if (request.getSession(true).getAttribute("userrole") == null) {
-			response.sendError(response.SC_FORBIDDEN);
-			return null;
-		}
 
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
 		Object reqForm = request.getParameter("form");
@@ -133,43 +128,12 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 						"")).trim().toUpperCase();
 			}
 
-			EctSessionBean bean = (EctSessionBean) request.getSession(true)
-					.getAttribute("casemgmt_oscar_bean");
-
-			// not sure casemgmt_oscar_bean
-			if (null == bean)
-				bean = new EctSessionBean();
-			if (bean.appointmentNo == null) {
-				bean.appointmentNo = "0";
-			}
-			String bsurl = (String) request.getSession(true).getAttribute(
-					"casemgmt_oscar_baseurl");
 			Date today = new Date();
 			Calendar todayCal = Calendar.getInstance();
 			todayCal.setTime(today);
 
 			String Hour = Integer.toString(todayCal.get(Calendar.HOUR));
 			String Min = Integer.toString(todayCal.get(Calendar.MINUTE));
-			// Lillian comment billing logic
-			/*
-			 * if ("BR".equals(ss)) { url = bsurl +
-			 * "/oscar/billing/procedimentoRealizado/init.do?appId=" +
-			 * bean.appointmentNo; } else { // StringEncoderUtils.a(); String
-			 * default_view = ""; if (oscarVariables != null) { default_view =
-			 * oscarVariables.getProperty("default_view", ""); } url = bsurl +
-			 * "/billing.do?billRegion=" + java.net.URLEncoder.encode(province,
-			 * "UTF-8") + "&billForm=" +
-			 * java.net.URLEncoder.encode(default_view, "UTF-8") + "&hotclick=" +
-			 * java.net.URLEncoder.encode("", "UTF-8") + "&appointment_no=" +
-			 * bean.appointmentNo + "&appointment_date=" + bean.appointmentDate +
-			 * "&start_time=" + Hour + ":" + Min + "&demographic_name=" +
-			 * java.net.URLEncoder.encode(bean.patientLastName + "," +
-			 * bean.patientFirstName, "UTF-8") + "&demographic_no=" +
-			 * bean.demographicNo + "&providerview=" + bean.curProviderNo +
-			 * "&user_no=" + bean.providerNo + "&apptProvider_no=" +
-			 * bean.curProviderNo + "&bNewForm=1&status=t"; }
-			 * request.getSession(true).setAttribute("billing_url", url);
-			 */
 		}
 
 		/* remove the remembered echart string */
@@ -636,38 +600,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		// Quatro Issue Logic
 		// issuelist = new ArrayList<CaseManagementIssue>();
 		caseManagementMgr.saveAndUpdateCaseIssues(issuelist);
-		// if (inCaisi) cpp.setOngoingConcerns(ongoing);
-
-		// update appointment and add verify message to note if verified
-		EctSessionBean sessionBean = (EctSessionBean) request.getSession(true)
-				.getAttribute("EctSessionBean");
-		String verify = request.getParameter("verify");
-		ResourceBundle prop;
-		/*
-		if (verify != null && verify.equalsIgnoreCase("on")) {
-			prop = ResourceBundle.getBundle("oscarResources", request
-					.getLocale());
-			String message = "["
-					+ prop
-							.getString("oscarEncounter.class.EctSaveEncounterAction.msgVerAndSig")
-					+ " "
-					+ UtilDateUtilities.DateToString(now, "dd-MMM-yyyy H:mm",
-							request.getLocale())
-					+ " "
-					+ prop
-							.getString("oscarEncounter.class.EctSaveEncounterAction.msgSigBy")
-					+ " " + provider.getFormattedName() + "]";
-			String n = note.getNote() + "\n" + message;
-			note.setNote(n);
-
-			// only update appt if there is one
-			// Lillian comments appointment logic,because sessionBean is null
-			if (sessionBean.appointmentNo != null
-					&& !sessionBean.appointmentNo.equals(""))
-				caseManagementMgr.updateAppointment(sessionBean.appointmentNo,
-						sessionBean.status, "verify");
-		} else
-		*/ 
 		if (note.isSigned()) {
 		//	prop = ResourceBundle.getBundle("oscarResources", request.getLocale());
 			String message = "[ Signed on "
@@ -746,8 +678,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		HttpSession session = request.getSession(true);
-		if (session == null || session.getAttribute("userrole") == null)
-			return mapping.findForward("expired");
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
 		String providerNo = getProviderNo(request);
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
@@ -803,8 +733,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 	public ActionForward ajaxsave(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		if (request.getSession(true).getAttribute("userrole") == null)
-			return mapping.findForward("expired");
 
 		String noteTxt = request.getParameter("noteTxt");
 		if (noteTxt == null || noteTxt.equals(""))
@@ -848,22 +776,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		ProgramManager programManager = (ProgramManager) ctx
 				.getBean("programManager");
 
-		/*
-		 * String role = null; try { role =
-		 * String.valueOf((programManager.getProgramProvider(note.getProvider_no(),
-		 * note.getProgram_no())).getRole().getId()); } catch (Throwable e) {
-		 * log.error(e); role = "0"; }
-		 * 
-		 * note.setReporter_caisi_role(role);
-		 * 
-		 * String team = null; try { team =
-		 * String.valueOf((admissionManager.getAdmission(note.getProgram_no(),
-		 * Integer.valueOf(note.getDemographic_no()))).getTeamId()); } catch
-		 * (Throwable e) { log.error(e); team = "0"; }
-		 * 
-		 * note.setReporter_program_team(team);
-		 * 
-		 */
 		List issuelist = new ArrayList();
 		Set issueset = new HashSet();
 		Set noteSet = new HashSet();
@@ -967,8 +879,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			throws Exception {
 		log.debug("saveandexit");
 		String providerNo = getProviderNo(request);
-		if (request.getSession(true).getAttribute("userrole") == null)
-			return mapping.findForward("expired");
 
 		request.setAttribute("change_flag", "false");
 
@@ -987,8 +897,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 	public ActionForward cancel(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		if (request.getSession(true).getAttribute("userrole") == null)
-			return mapping.findForward("expired");
 
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
 		String providerNo = getProviderNo(request);
@@ -1016,9 +924,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			throws Exception {
 		log.debug("addNewIssue");
 
-		if (request.getSession(true).getAttribute("userrole") == null)
-			return mapping.findForward("expired");
-
 		request.setAttribute("change_flag", "true");
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
 
@@ -1037,8 +942,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 	public ActionForward notehistory(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		if (request.getSession(true).getAttribute("userrole") == null)
-			return mapping.findForward("expired");
 
 		String demono = getDemographicNo(request);
 		request.setAttribute("demoName", getDemoName(demono));
@@ -1054,8 +957,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		log.debug("history");
-		if (request.getSession(true).getAttribute("userrole") == null)
-			return mapping.findForward("expired");
 
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -1188,80 +1089,18 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		}
 		return notes;
 	}
-
-	/*
-	 * Grab family physician or MRP for demo
-	 */
-	protected String getMRP(HttpServletRequest request) {
-		oscar.oscarEncounter.pageUtil.EctSessionBean bean = (oscar.oscarEncounter.pageUtil.EctSessionBean) request
-				.getSession().getAttribute("casemgmt_oscar_bean");
-		if (bean == null)
-			return new String("");
-
-		if (bean.familyDoctorNo.equals(""))
-			return new String("");
-
-		oscar.oscarEncounter.data.EctProviderData.Provider prov = new oscar.oscarEncounter.data.EctProviderData()
-				.getProvider(bean.familyDoctorNo);
-		String name = prov.getFirstName() + " " + prov.getSurname();
-		return name;
-	}
-
 	/*
 	 * Insert encounter reason for new note
 	 */
 	protected void insertReason(HttpServletRequest request,
 			CaseManagementNote note) {
-		oscar.oscarEncounter.pageUtil.EctSessionBean bean = (oscar.oscarEncounter.pageUtil.EctSessionBean) request
-				.getSession().getAttribute("casemgmt_oscar_bean");
 		String reqStr = request.getParameter("note_edit");
-		if (bean != null) {
-			String encounterText = "";
-			String apptDate = convertDateFmt(bean.appointmentDate);
-			if (bean.eChartTimeStamp == null) {
-				encounterText = "\n["
-						+ UtilDateUtilities.DateToString(bean.currentDate,
-								"dd-MMM-yyyy", request.getLocale()) + " .: "
-						+ bean.reason + "] \n";
-				// encounterText +="\n["+bean.appointmentDate+" .:
-				// "+bean.reason+"] \n";
-			} else { // if(bean.currentDate.compareTo(bean.eChartTimeStamp)>0){
-				// System.out.println("2curr Date "+
-				// oscar.util.UtilDateUtilities.DateToString(oscar.util.UtilDateUtilities.now(),"yyyy",java.util.Locale.CANADA)
-				// );
-				// encounterText
-				// +="\n__________________________________________________\n["+dateConvert.DateToString(bean.currentDate)+"
-				// .: "+bean.reason+"]\n";
-				encounterText = "\n["
-						+ ("".equals(bean.appointmentDate) ? UtilDateUtilities
-								.getToday("dd-MMM-yyyy") : apptDate) + " .: "
-						+ bean.reason + "]\n";
-			} /*
-				 * else if((bean.currentDate.compareTo(bean.eChartTimeStamp) ==
-				 * 0) && (bean.reason != null || bean.subject != null ) &&
-				 * !bean.reason.equals(bean.subject) ){ //encounterText
-				 * +="\n__________________________________________________\n["+dateConvert.DateToString(bean.currentDate)+" .:
-				 * "+bean.reason+"]\n"; encounterText ="\n["+apptDate+" .:
-				 * "+bean.reason+"]\n"; }
-				 */
-			// System.out.println("eChartTimeStamp" + bean.eChartTimeStamp+"
-			// bean.currentDate " +
-			// dateConvert.DateToString(bean.currentDate));//" diff
-			// "+bean.currentDate.compareTo(bean.eChartTimeStamp));
-			if (!bean.oscarMsg.equals("")) {
-				encounterText += "\n\n" + bean.oscarMsg;
-			}
-
-			note.setNote(encounterText);
-			//note.setEncounter_type(bean.encType);
-
-		} else if (reqStr != null && "new".equals(reqStr)) {
+		if (reqStr != null && "new".equals(reqStr)) {
 			note.setNote("\n["
 					+ UtilDateUtilities.DateToString(UtilDateUtilities.now(),
 							"dd-MMM-yyyy HH:mm:ss", request.getLocale())
 					+ " .: " + "] \n");
 		}
-
 	}
 
 	protected String convertDateFmt(String strOldDate) {

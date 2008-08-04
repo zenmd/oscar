@@ -142,7 +142,6 @@ public class LoginCheckLoginBean {
 
 	private String[] cleanNullObj(String errorMsg) {
 		_logger.info(errorMsg);
-		LogAction.addALog("", "failed", LogConst.CON_LOGIN, username, ip);
 		userpassword = null;
 		password = null;
 		return null;
@@ -150,7 +149,6 @@ public class LoginCheckLoginBean {
 
 	private String[] cleanNullObjExpire(String errorMsg) {
 		_logger.info(errorMsg);
-		LogAction.addALog("", "expired", LogConst.CON_LOGIN, username, ip);
 		userpassword = null;
 		password = null;
 		return new String[] { "expired" };
@@ -188,13 +186,13 @@ public class LoginCheckLoginBean {
 						+ secBean.getProviderNo() + "'";
 				rs = accessDB.queryResults(strSQL);
 				while (rs.next()) {
-					temp[0] = DBHelp.getString(rs, "start_hour");
-					temp[1] = DBHelp.getString(rs, "end_hour");
-					temp[2] = DBHelp.getString(rs, "every_min");
-					temp[3] = DBHelp.getString(rs, "mygroup_no");
-					temp[4] = DBHelp
+					temp[0] = accessDB.getString(rs, "start_hour");
+					temp[1] = accessDB.getString(rs, "end_hour");
+					temp[2] = accessDB.getString(rs, "every_min");
+					temp[3] = accessDB.getString(rs, "mygroup_no");
+					temp[4] = accessDB
 							.getString(rs, "new_tickler_warning_window");
-					temp[5] = DBHelp.getString(rs, "default_caisi_pmm");
+					temp[5] = accessDB.getString(rs, "default_caisi_pmm");
 				}
 				rs.close();
 				accessDB.closeConn();

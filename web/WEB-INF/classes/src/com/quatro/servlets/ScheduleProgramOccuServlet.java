@@ -15,7 +15,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
-import org.oscarehr.util.DbConnectionFilter;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -39,6 +38,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    	String providerNo="1111";
 	        public void run() {
 	            logger.debug("ProgramOccuTimerTask timerTask started.");
+	            
 	            long taskTime=dataRetentionTimeMillis;
 	            Calendar today = Calendar.getInstance();
 	            long now =today.getTimeInMillis(); 
@@ -60,10 +60,6 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            catch (Exception e) {
 	                logger.error("Unexpected error flushing html open queue.", e);
 	            }
-	            finally {
-	                DbConnectionFilter.releaseThreadLocalDbConnection();
-	            }
-
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
 	    }

@@ -43,7 +43,6 @@ public class LoginCheckLogin {
     boolean propFileFound = true;
 
     public LoginCheckLogin() {
-        setOscarVariable();
     }
 
     public boolean isBlock(String userId) {
@@ -90,8 +89,8 @@ public class LoginCheckLogin {
     public synchronized void updateLoginList(String userId) {
             GregorianCalendar now = new GregorianCalendar();
             if (llist.get(userId) == null) {
-                linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("login_max_failed_times")), Integer
-                        .parseInt(pvar.getProperty("login_max_duration")));
+                linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("LOGIN_MAX_FAILED_TIMES")), Integer
+                        .parseInt(pvar.getProperty("LOGIN_MAX_DURATION")));
             } else {
                 linfo = (LoginInfoBean) llist.get(userId);
                 linfo.updateLoginInfoBean(now, 1);
@@ -114,21 +113,6 @@ public class LoginCheckLogin {
             llist.put(userId, linfo);
             System.out.println(userId + "  status: " + ((LoginInfoBean) llist.get(userId)).getStatus() + " times: "
                     + linfo.getTimes() + " time: ");
-    }
-
-    public void setOscarVariable() {
-    	pvar = (Properties) oscar.OscarProperties.getInstance();
-    	
-    	List confKeyList = lookupManager.LoadCodeList("PRP", false, null,null);
-    	for(int i=0; i<confKeyList.size(); i++)
-    	{
-    		LookupCodeValue ckv = (LookupCodeValue) confKeyList.get(i);
-    		pvar.setProperty(ckv.getDescription(), ckv.getBuf1().toLowerCase());
-    	}
-    }
-
-    public Properties getOscarVariable() {
-        return pvar;
     }
 
     public String[] getPreferences() {

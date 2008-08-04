@@ -13,29 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.oscarehr.util.DbConnectionFilter;
 
 import oscar.OscarAction;
 import oscar.OscarDocumentCreator;
+import org.oscarehr.util.SpringUtils;
 
-
-import java.io.File;
-
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 public class PrintDemoLabelAction extends OscarAction {
 	
@@ -73,7 +55,7 @@ public class PrintDemoLabelAction extends OscarAction {
         response.setHeader("Content-disposition", getHeader(response).toString());
         OscarDocumentCreator osc = new OscarDocumentCreator();
         try {
-            osc.fillDocumentStream(parameters, sos, "pdf", ins, DbConnectionFilter.getThreadLocalDbConnection());
+            osc.fillDocumentStream(parameters, sos, "pdf", ins, SpringUtils.getDbConnection());
         }
         catch (SQLException e) {
             e.printStackTrace();

@@ -13,12 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.oscarehr.util.DbConnectionFilter;
 
 import oscar.OscarAction;
 import oscar.OscarDocumentCreator;
-import net.sourceforge.*;
-import net.sourceforge.barbecue.*;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 
 public class PrintBarcodeAction extends OscarAction {

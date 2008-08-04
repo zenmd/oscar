@@ -266,7 +266,7 @@ public class BedManagerAction extends BaseFacilityAction {
     	}
     	if(capActual>pObj.getCapacity_space().intValue()){
     		isValid = false;
-    		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.program.room.over", request.getContextPath(),Integer.valueOf(capActual),pObj.getName(),pObj.getCapacity_space()));
+    		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.program.room.over", request.getContextPath(),new Integer(capActual),pObj.getName(),pObj.getCapacity_space()));
   	        saveMessages(request, messages);
     	}    
     	return isValid;

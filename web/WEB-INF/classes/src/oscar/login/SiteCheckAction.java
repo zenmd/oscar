@@ -44,8 +44,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import oscar.OscarProperties;
 import oscar.log.LogAction;
 import oscar.log.LogConst;
-import oscar.oscarDB.DBHandler;
-import oscar.oscarSecurity.CRHelper;
+import oscar.oscarDB.DBPreparedHandler;
 
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.*;
@@ -149,14 +148,7 @@ public final class SiteCheckAction extends DispatchAction {
                 }
 
                 _logger.info("Assigned new session for: " + strAuth[0] + " : " + strAuth[3] + " : " + strAuth[4]);
-                LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
-
-                // initial db setting
-                Properties pvar = cl.getOscarVariable();
-                session.setAttribute("oscarVariables", pvar);
-                if (!DBHandler.isInit()) {
-                    DBHandler.init(pvar.getProperty("db_name"), pvar.getProperty("db_driver"), pvar.getProperty("db_uri"), pvar.getProperty("db_username"), pvar.getProperty("db_password"));
-                }
+                LogAction.addLog(userName,strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
 
                 // get View Type
                 String viewType = LoginViewTypeHlp.getInstance().getProperty(strAuth[3].toLowerCase());
@@ -209,10 +201,6 @@ public final class SiteCheckAction extends DispatchAction {
                 if (where.equals("provider") && default_pmm != null && "enabled".equals(default_pmm)) {
                     where = "caisiPMM";
                 }
-                /*
-                 * if (OscarProperties.getInstance().isTorontoRFQ()) { where = "caisiPMM"; }
-                 */
-                CRHelper.recordLoginSuccess(userName, strAuth[0], request);
 
                 // setup caisi stuff
                 String username = (String) session.getAttribute("user");
@@ -228,7 +216,7 @@ public final class SiteCheckAction extends DispatchAction {
                     LookupCodeValue shelter=lookupManager.GetLookupCode("SHL",String.valueOf(shelterId));
                     request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
                     request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
-                    LogAction.addLog(strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
+                    LogAction.addLog(userName,strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
                 }
                 else {
                     request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
@@ -242,7 +230,6 @@ public final class SiteCheckAction extends DispatchAction {
             }
             else { // go to normal directory
                 cl.updateLoginList(userName);
-                CRHelper.recordLoginFailure(userName, request);
                 return "error:Login failed, please try again";
             }
 

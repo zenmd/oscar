@@ -27,20 +27,19 @@ package oscar.oscarDB;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
-import java.util.Calendar;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import org.oscarehr.util.SpringUtils;
 
-import org.oscarehr.util.DbConnectionFilter;
+import org.oscarehr.util.SpringUtils;
 
 import oscar.OscarProperties;
 
 public class DBPreparedHandler {
 
-    DBHandler db = null;
     ResultSet rs = null;
     Statement stmt = null;
     PreparedStatement preparedStmt = null;
@@ -53,12 +52,9 @@ public class DBPreparedHandler {
     public Connection getConnection() throws SQLException {
     	if (connection == null || connection.isClosed())
     	{
-    		connection = DbConnectionFilter.getThreadLocalDbConnection();
+    		connection = SpringUtils.getDbConnection();
     	}
     	return connection;
-    }
-
-    public void init(String dbDriver, String dbUrl, String dbUser, String dbPwd) throws Exception, SQLException {
     }
 
     synchronized public void procExecute(String procName, String[] param) throws SQLException {

@@ -56,7 +56,7 @@ public final class UnlockAccountAction extends DispatchAction {
     	      String userName = request.getParameter("userName");
     	      vec.remove(userName);
     	      cl.unlock(userName);
-    		  LogAction.addLog(providerNo, "unlock", "adminUnlock", userName, ip);
+    		  LogAction.addLog(userName,providerNo, "unlock", "adminUnlock", userName, ip);
     	      msg = "The login account " + userName + " was unlocked.";
     	    }
     	  }

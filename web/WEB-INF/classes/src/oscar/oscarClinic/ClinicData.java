@@ -29,8 +29,8 @@
 
 package oscar.oscarClinic;
 import java.sql.SQLException;
+import oscar.oscarDB.*;
 
-import oscar.oscarDB.DBHandler;
 /**
  *
  * @author  Oscar
@@ -77,10 +77,10 @@ public class ClinicData {
     void fillClinicData(){
         if (!filled){
             try{
-               DBHandler db = new DBHandler(DBHandler.OSCAR_DATA);
+               DBPreparedHandler db = new DBPreparedHandler();
                java.sql.ResultSet rs;
                String sql = "select * from clinic ";
-               rs = db.GetSQL(sql);
+               rs = db.queryResults(sql);
                 
                if(rs.next()){
                  clinic_no              = db.getString(rs,"clinic_no"); 
@@ -97,7 +97,7 @@ public class ClinicData {
                   
                }
                
-                db.CloseConn();
+                db.closeConn();
             }
             catch(SQLException e)
             {

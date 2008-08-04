@@ -26,7 +26,7 @@ package oscar.comm.client;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 
 public class ScheduledClient {
 	Properties param = new Properties();
@@ -54,11 +54,9 @@ public class ScheduledClient {
     }
 
 	private synchronized void init (String file) throws java.sql.SQLException, java.io.IOException  {
-		DBHandler db = null; 
+		DBPreparedHandler db = null; 
 		param.load(new FileInputStream(file)); 
-		DBHandler.init(param.getProperty("db_name"),param.getProperty("db_driver"),param.getProperty("db_uri") ,param.getProperty("db_username"),param.getProperty("db_password") );
-		//DBHandler.init("oscar_sfhc", "org.gjt.mm.mysql.Driver","jdbc:mysql:///","root","liyi" );
-        db = new DBHandler(DBHandler.OSCAR_DATA);
+        db = new DBPreparedHandler();
 	}
 
 }

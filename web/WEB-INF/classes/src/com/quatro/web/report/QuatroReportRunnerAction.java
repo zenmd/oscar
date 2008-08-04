@@ -59,15 +59,17 @@ public class QuatroReportRunnerAction extends Action {
 			  request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
 
         ArrayList lstExportFormat = myForm.getExportFormatList();
+        KeyValueBean obj4= new KeyValueBean(String.valueOf(ReportExportFormat._PDF),"Portable Document Format (.pdf)");
+        lstExportFormat.add(obj4);
+
         KeyValueBean obj1= new KeyValueBean(String.valueOf(ReportExportFormat._crystalReports),"HTML - Crystal Report");
         lstExportFormat.add(obj1);
-/*
+
+        /*
         KeyValueBean obj2= new KeyValueBean(String.valueOf(ReportExportFormat._MSExcel),"Excel (.xls)");
         lstExportFormat.add(obj2);
         KeyValueBean obj3= new KeyValueBean(String.valueOf(ReportExportFormat._MSWord),"MS-Word (.doc)");
         lstExportFormat.add(obj3);
-        KeyValueBean obj4= new KeyValueBean(String.valueOf(ReportExportFormat._PDF),"Portable Document Format (.pdf)");
-        lstExportFormat.add(obj4);
         KeyValueBean obj5= new KeyValueBean(String.valueOf(ReportExportFormat._text),"Text (.txt)");
         lstExportFormat.add(obj5);
 */

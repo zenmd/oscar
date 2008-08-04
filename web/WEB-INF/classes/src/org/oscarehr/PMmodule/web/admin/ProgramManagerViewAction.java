@@ -552,9 +552,9 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         while (e.hasMoreElements()) {
             String name = (String) e.nextElement();
             if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {
-                Integer clientIdx =Integer.valueOf(name.indexOf(":"));
+                Integer clientIdx =new Integer(name.indexOf(":"));
             	String admissionId = name.substring(8,clientIdx.intValue());
-                Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
+                Admission admission = admissionManager.getAdmission(new Integer(admissionId));
                 if (admission == null) {
                     log.warn("admission #" + admissionId + " not found.");
                     continue;
@@ -651,12 +651,12 @@ public class ProgramManagerViewAction extends BaseProgramAction {
          while (e.hasMoreElements()) {
              String name = (String) e.nextElement();
              if (name.startsWith("checked_") && request.getParameter(name).equals("on")) {                 
-            	  Integer clientIdx =Integer.valueOf(name.indexOf(":"));
+            	  Integer clientIdx =new Integer(name.indexOf(":"));
               	  String clientId = name.substring(clientIdx.intValue()+1);
-                  RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(clientId));
+                  RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(new Integer(clientId));
             	  if(rdObj.getBedId() != null) lstBeds.add(rdObj);  
             	 String admissionId = name.substring(8,clientIdx.intValue());
-                 Admission admission = admissionManager.getAdmission(Integer.valueOf(admissionId));
+                 Admission admission = admissionManager.getAdmission(new Integer(admissionId));
                  lstAdmission.add(admission);
              }
          }

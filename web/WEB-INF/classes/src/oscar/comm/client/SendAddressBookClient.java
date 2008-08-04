@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import oscar.oscarDB.DBHandler;
+import oscar.oscarDB.DBPreparedHandler;
 import oscar.util.UtilXML;
 
 public class SendAddressBookClient {
@@ -38,15 +38,15 @@ public class SendAddressBookClient {
             throws OscarCommClientException, SQLException {
         boolean ret = false;
         String wsURL = null;
-        DBHandler db = null;
+        DBPreparedHandler db = null;
         WebServiceClient client = null;
 
         try {
-            db = new DBHandler(databaseURL, databaseName);
+            db = new DBPreparedHandler();
             System.out.println("");
 
             String sql = "SELECT remoteServerURL FROM oscarcommlocations WHERE current1 = 1";
-            ResultSet rs = db.GetSQL(sql);
+            ResultSet rs = db.queryResults(sql);
             if(rs.next()) {
                 wsURL = db.getString(rs,"remoteServerURL");
             }
@@ -72,12 +72,12 @@ public class SendAddressBookClient {
             throw new OscarCommClientException("Error occurred parsing response from web service.", ex);
         }
 
-        db.CloseConn();
+        db.closeConn();
 
         return ret;
     }
 
-    private Element createRequest(DBHandler db) throws SQLException {
+    private Element createRequest(DBPreparedHandler db) throws SQLException {
         Document doc = UtilXML.newDocument();
         Element root = UtilXML.addNode(doc, "request");
 
@@ -87,7 +87,7 @@ public class SendAddressBookClient {
         return root;
     }
 
-    private void parseResponse(Element response, DBHandler db) throws SQLException {
+    private void parseResponse(Element response, DBPreparedHandler db) throws SQLException {
         NodeList rootChildren = response.getChildNodes();
 
         for(int i=0; i<rootChildren.getLength(); i++) {
