@@ -769,7 +769,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     		 }else{
                 Integer roomOccupancy = new Integer(roomDemographicManager.getRoomOccupanyByRoom(roomToSave.getId()));
                 RoomDemographic rdm_currentinDB = roomDemographicManager.getRoomDemographicByDemographic(clientId);
-                if(!rdm_currentinDB.getId().getRoomId().equals(roomToSave.getId()) && roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1){
+                if(rdm_currentinDB!=null && (!rdm_currentinDB.getId().getRoomId().equals(roomToSave.getId()) && roomToSave.getCapacity().intValue()-roomOccupancy.intValue()<1)){
      	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.not_available_room_space",
            			     request.getContextPath()));
                   isError = true;
@@ -855,7 +855,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  request.setAttribute("newAdmissionSaved", "Y");
     	  admission.setId(newAdmissionId);
        }else{
-    	  admissionManager.updateAdmission(admission, roomDemographic);
+    	  if(!clientForm.getFamilyIntakeType().equals("Y")){
+     	     admissionManager.updateAdmission(admission, roomDemographic, false);
+    	  }else{
+    	     String isFamilyMember = request.getParameter("isFamilyMember");
+             if(isFamilyMember.equals("N")){
+    	       admissionManager.updateAdmission(admission, roomDemographic, true);
+             }else{
+      	       admissionManager.updateAdmission(admission, roomDemographic, false);
+             }
+    	  }
        }
        
 	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));

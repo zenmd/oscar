@@ -203,7 +203,7 @@ function roomChanged()
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
 	  <c:choose>
-	    <c:when test="${isFamilyMember!='Y'}">	 
+	    <c:when test="${quatroClientAdmissionForm.familyIntakeType!='Y'}">	 
 	      <html:select property="roomDemographic.id.roomId" onchange="javascript: setNoConfirm();roomChanged();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
@@ -212,11 +212,12 @@ function roomChanged()
           <c:out escapeXml="false" value="${properRoomMsg}"/>
         </c:when>
         <c:otherwise>
-	      <html:select property="roomDemographic.id.roomId" disabled="false">
+	      <html:select property="roomDemographic.id.roomId">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>
           <input type="hidden" name="prevDB_RoomId" value="<c:out value="${prevDB_RoomId}"/>">
+          <c:out escapeXml="false" value="${properRoomMsg}"/>
         </c:otherwise>
       </c:choose>
     </c:when>
