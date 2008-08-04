@@ -59,19 +59,19 @@ public class QuatroReportRunnerAction extends Action {
 			  request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
 
         ArrayList lstExportFormat = myForm.getExportFormatList();
-
-//        KeyValueBean obj1= new KeyValueBean(String.valueOf(ReportExportFormat._crystalReports),"Crystal Report");
-//        lstExportFormat.add(obj1);
-//        KeyValueBean obj2= new KeyValueBean(String.valueOf(ReportExportFormat._MSExcel),"Excel (.xls)");
-//        lstExportFormat.add(obj2);
-//        KeyValueBean obj3= new KeyValueBean(String.valueOf(ReportExportFormat._MSWord),"MS-Word (.doc)");
-//        lstExportFormat.add(obj3);
+        KeyValueBean obj1= new KeyValueBean(String.valueOf(ReportExportFormat._crystalReports),"HTML - Crystal Report");
+        lstExportFormat.add(obj1);
+/*
+        KeyValueBean obj2= new KeyValueBean(String.valueOf(ReportExportFormat._MSExcel),"Excel (.xls)");
+        lstExportFormat.add(obj2);
+        KeyValueBean obj3= new KeyValueBean(String.valueOf(ReportExportFormat._MSWord),"MS-Word (.doc)");
+        lstExportFormat.add(obj3);
         KeyValueBean obj4= new KeyValueBean(String.valueOf(ReportExportFormat._PDF),"Portable Document Format (.pdf)");
         lstExportFormat.add(obj4);
-//        KeyValueBean obj5= new KeyValueBean(String.valueOf(ReportExportFormat._text),"Text (.txt)");
-//        lstExportFormat.add(obj5);
-        myForm.setExportFormat(String.valueOf(ReportExportFormat._PDF));
-        
+        KeyValueBean obj5= new KeyValueBean(String.valueOf(ReportExportFormat._text),"Text (.txt)");
+        lstExportFormat.add(obj5);
+*/
+        myForm.setExportFormatList(lstExportFormat);
         if(param!=null){
 	        rptNo = Integer.parseInt(param);
             myForm.setReportNo(param);
@@ -268,6 +268,7 @@ public class QuatroReportRunnerAction extends Action {
 
     		request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
     		request.getSession(true).setAttribute(DataViews.REPORT_OPTION, option);
+    		
    		    myForm.setStrClientJavascript("showReport");//('" + request.getContextPath() + "/PMmodule/Reports/quatroReportViewer.do');");
         }
         catch (Exception ex)
