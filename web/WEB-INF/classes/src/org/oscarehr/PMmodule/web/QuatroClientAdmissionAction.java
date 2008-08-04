@@ -377,23 +377,28 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        String FamilyIntakeType="N";
        clientForm.setFamilyIntakeType("N");
 
+       String isFamilyMember;
        List clientFamily = intakeManager.getClientFamilyByIntakeId(intakeId.toString());
        if(clientFamily==null){
          clientForm.setFamilyIntakeType("N");
          FamilyIntakeType="N";
-     	 request.setAttribute("isFamilyMember", "N");
+         isFamilyMember="N";
+//     	 request.setAttribute("isFamilyMember", "N");
          clientForm.setIntakeClientNum(new Integer(1));
        }else{
          clientForm.setFamilyIntakeType("Y");
          FamilyIntakeType="Y";
          Integer IntakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId.toString());
          if(IntakeFamilyHeadId==null || IntakeFamilyHeadId.equals(intakeId)){
-        	request.setAttribute("isFamilyMember", "N");
+            isFamilyMember="N";
+//        	request.setAttribute("isFamilyMember", "N");
          }else{
-         	request.setAttribute("isFamilyMember", "Y");
+            isFamilyMember="Y";
+//         	request.setAttribute("isFamilyMember", "Y");
          }
          clientForm.setIntakeClientNum(new Integer(clientFamily.size()));
        }
+       request.setAttribute("isFamilyMember", isFamilyMember);
        
        Integer curDB_RoomId = new Integer(0);
        Integer curDB_BedId = new Integer(0);
@@ -418,13 +423,22 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Room currentDB_room = null;
        if(curDB_RoomId!=null && curDB_RoomId.intValue()>0) currentDB_room = roomManager.getRoom(curDB_RoomId);
        ArrayList availableRoomLst = new ArrayList();
-	   Room emptyRoom=new Room();
-	   emptyRoom.setId(new Integer(0));
-	   emptyRoom.setName(" ---- ");
-	   availableRoomLst.add(emptyRoom);
+       if(isFamilyMember.equals("N")){
+      	 Room emptyRoom=new Room();
+    	 emptyRoom.setId(new Integer(0));
+    	 emptyRoom.setName(" ---- ");
+    	 availableRoomLst.add(emptyRoom);
+       }
        if(currentDB_room!=null) availableRoomLst.add(currentDB_room);
        
        Room[] availableRooms;
+       if(isFamilyMember.equals("N")){
+ 	     availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
+	           clientId, clientForm.getFamilyIntakeType().equals("Y"));
+       }else{
+    	 availableRooms = new Room[0];
+       }
+/* 	   
        if(admission.getId().intValue()==0){
           //for new admission, family intake admission only takes empty rooms.
     	  availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
@@ -434,7 +448,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
 		           clientId, false);
        }
-
+*/
+ 	   
        for(int i=0;i<availableRooms.length;i++){
      	   if(currentDB_room!=null && currentDB_room.equals(availableRooms[i])) continue; 
            availableRoomLst.add(availableRooms[i]);

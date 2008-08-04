@@ -201,21 +201,31 @@ function roomChanged()
 	<td>
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='pending'}">
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
+	  <c:choose>
+	    <c:when test="${isFamilyMember!='Y'}">	 
 	      <html:select property="roomDemographic.id.roomId" onchange="javascript: setNoConfirm();roomChanged();">
            <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
           </html:select>
           <html:hidden property="curDB_RoomId"/>
           <input type="hidden" name="prevDB_RoomId" value="<c:out value="${prevDB_RoomId}"/>">&nbsp;
           <c:out escapeXml="false" value="${properRoomMsg}"/>
+        </c:when>
+        <c:otherwise>
+	      <html:select property="roomDemographic.id.roomId" disabled="false">
+           <html-el:optionsCollection property="availableRooms" value="id" label="name" /> 
+          </html:select>
+          <html:hidden property="curDB_RoomId"/>
+          <input type="hidden" name="prevDB_RoomId" value="<c:out value="${prevDB_RoomId}"/>">
+        </c:otherwise>
+      </c:choose>
     </c:when>
     <c:otherwise>
 	      <c:out value="${historyRoomName}"/>
     </c:otherwise>
     </c:choose>          
 	</td></tr>
-<c:if test="${quatroClientAdmissionForm.familyIntakeType!='Y' || (quatroClientAdmissionForm.admission.id>0 && 'Y'!= newAdmissionSaved)}">	
+<c:if test="${quatroClientAdmissionForm.familyIntakeType!='Y'}">	
 	<c:choose>
 	<c:when test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">
