@@ -35,7 +35,6 @@
 
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="clientId" /> 
-<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <html:hidden property="referral.clientId" />
 <html:hidden property="referral.id" />
 <html:hidden property="referral.programId" />
@@ -111,11 +110,17 @@
 	<tr><td width="20%">Presenting Problems</td>
 	<td><html:textarea cols="60" rows="7" property="referral.presentProblems" /></td></tr>
 	<tr><td width="20%">From Program</td>
+	  <c:choose>
+	  <c:when test="${isReadOnly==null || isReadOnly==false}">
 		<td><html:select property="referral.fromProgramId">
 				<html:options collection="lstProgram" property="code"
 					labelProperty="description"></html:options>
 				</html:select>
 			</td>
+   	  </c:when>
+   	  <c:otherwise><td><c:out value="${fromProgramName}"/></td>
+   	  </c:otherwise>
+   	  </c:choose>		
 	</tr>
   </table>
 </td></tr>

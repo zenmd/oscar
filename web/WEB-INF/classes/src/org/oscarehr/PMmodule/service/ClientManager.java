@@ -125,7 +125,7 @@ public class ClientManager {
     public ClientReferral getClientReferral(String id) {
         return referralDAO.getClientReferral(Integer.valueOf(id));
     }
-    public List getRecentIntakeByProvider(Integer clientId, Integer shelterId, String providerNo){
+    public List getProgramLookups(Integer clientId, Integer shelterId, String providerNo){
 		
 		List admLst=admissionDao.getAdmissionList(clientId, true, providerNo, shelterId);
 		String progIds = "";

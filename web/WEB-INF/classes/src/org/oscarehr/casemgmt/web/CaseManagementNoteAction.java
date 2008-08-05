@@ -165,7 +165,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		// this.caseManagementMgr.restoreTmpSave(providerNo, demono, programId,
 		// twoWeeksAgo);
 		
-		List lstProgram =clientManager.getRecentIntakeByProvider(new Integer(demono), shelterId, providerNo);
+		List lstProgram =clientManager.getProgramLookups(new Integer(demono), shelterId, providerNo);
 		request.setAttribute("lstProgram", lstProgram);
 		
 		if (request.getParameter("note_edit") != null
