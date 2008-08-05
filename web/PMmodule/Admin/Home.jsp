@@ -206,8 +206,8 @@ String _appPath = request.getContextPath();
 				<th></th>
 				<th style="vertical-align: middle">
 					<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_UNLOCKUSER %>" rights="<%=KeyConstants.ACCESS_READ%>">
-						<a id="lnkMergeClient"	href="<c:out value='${ctx}'/>/PMmodule/MergeClient.do"> 
-						<img ID="lnkMereg1" src="<%=_appPath%>/images/ClientMerge.gif" Height="60"
+						<a id="lnkUnlockAccount"	href="<c:out value='${ctx}'/>/PMmodule/Admin/UnlockAccount.do"> 
+						<img ID="lnkUnlockAccount" src="<%=_appPath%>/images/UnlockAccount.gif" Height="60"
 						Width="60" border="0" style="vertical-align: middle"/></a>
 					</security:oscarSec>		
 				</th>

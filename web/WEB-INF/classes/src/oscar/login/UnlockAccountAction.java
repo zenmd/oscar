@@ -39,7 +39,12 @@ public final class UnlockAccountAction extends DispatchAction {
     private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
     private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
 
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+    	return list(mapping, form, request, response);
+    }
+    
+    public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
     	String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     
@@ -60,6 +65,13 @@ public final class UnlockAccountAction extends DispatchAction {
     	      msg = "The login account " + userName + " was unlocked.";
     	    }
     	  }
-    	  return mapping.getInputForward();
+    	  return mapping.findForward("list");
     }
-}
+    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+  	  LoginCheckLogin cl = new LoginCheckLogin();
+	  Vector vec = cl.findLockList();
+	  if(vec == null) vec = new Vector();
+      return mapping.findForward("list");
+    }
+ }
