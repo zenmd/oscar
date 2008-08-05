@@ -435,6 +435,10 @@
 		
 		<put name="body" value="/PMmodule/Admin/User/UserList.jsp" />
 	</definition>
+	<definition name="page.admin.user.unlocklist"
+		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
+		<put name="body" value="/PMmodule/Admin/User/Unlock.jsp" />
+	</definition>
 	<definition name="page.admin.user.profile"
 		 path="/PMmodule/layout.jsp"> <put name="leftNav" value="/PMmodule/navigation_blank.jsp" />
 		

@@ -353,6 +353,10 @@
             <form-property name="criteria" type="com.quatro.web.admin.UserSearchFormBean" />
         </form-bean>
         
+        <form-bean name="userUnlockForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="users" type="java.lang.String" />
+        </form-bean>
+        
         <!-- Admin End -->
 
     </form-beans>
@@ -852,7 +856,9 @@
         </action>
         <action path="/PMmodule/Admin/UserSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="userSearchForm" scope="request" validate="false">
             <forward name="list" path="page.admin.user.list" />
-            
+        </action>
+        <action path="/PMmodule/Admin/UnlockAccount" type="org.springframework.web.struts.DelegatingActionProxy"  parameter="method" name="userUnlockForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.user.unlocklist" />
         </action>
         
     	<!-- admin End -->

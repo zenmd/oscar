@@ -252,6 +252,8 @@
 		<property name="logManager" ref="logManager"/>
 		<property name="usersManager" ref="usersManager"/>
 	</bean>
+	<bean name="/PMmodule/Admin/UnlockAccount" class="oscar.login.UnlockAccountAction" singleton="false">
+	</bean>
 	<!-- admin End -->
 	<bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
     	<property name="complaintManager" ref="complaintManager"/>
