@@ -132,6 +132,7 @@
     <bean id="CaseManagementIssueDAO" class="org.oscarehr.casemgmt.dao.CaseManagementIssueDAO" autowire="byName"/>
     <bean id="CaseManagementNoteDAO" class="org.oscarehr.casemgmt.dao.CaseManagementNoteDAO" autowire="byName"/>
     <bean id="CaseManagementCPPDAO" class="org.oscarehr.casemgmt.dao.CaseManagementCPPDAO" autowire="byName"/>
+    <bean id="EchartDAO" class="org.oscarehr.casemgmt.dao.EchartDAO" autowire="byName"/>
     <bean id="secroleDao" class="com.quatro.dao.security.SecroleDao" autowire="byName"/>
     <bean id="ClientImageDAO" class="org.oscarehr.casemgmt.dao.ClientImageDAO" autowire="byName"/>
     <!--
@@ -335,6 +336,7 @@
     <bean id="caseManagementManagerTarget" class="org.oscarehr.casemgmt.service.CaseManagementManager">
         <property name="caseManagementNoteDAO" ref="CaseManagementNoteDAO"/>
         <property name="caseManagementIssueDAO" ref="CaseManagementIssueDAO"/>
+        <property name="echartDAO" ref="EchartDAO"/>
         <property name="providerDAO" ref="providerDao"/>
         <property name="intakeDAO" ref="intakeDao"/>
         <property name="demographicDAO" ref="clientDao"/>
