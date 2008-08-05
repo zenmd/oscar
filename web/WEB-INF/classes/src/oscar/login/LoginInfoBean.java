@@ -29,31 +29,32 @@ package oscar.login;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import com.quatro.model.security.*;
 
 /**
  * Class LoginInfoBean : set login status when bWAN = true 2003-01-29
  */
 public final class LoginInfoBean {
     private GregorianCalendar starttime = null;
-    private int times = 1;
+    private int times = 0;
     private int status = 1; // 1 - normal, 0 - block out
 
     private int maxtimes = 3;
     private int maxduration = 10;
-
+    private Security user = null;
+    
     public LoginInfoBean() {
     }
 
-    public LoginInfoBean(GregorianCalendar starttime1, int maxtimes1, int maxduration1) {
+    public LoginInfoBean(GregorianCalendar starttime1, int maxtimes1, int maxduration1, Security user1) {
         starttime = starttime1;
         maxtimes = maxtimes1-1;
         maxduration = maxduration1;
+        user = user1;
     }
 
     public void initialLoginInfoBean(GregorianCalendar starttime1) {
         starttime = starttime1;
-        int times = 0;
-        int status = 1; // 1 - normal, 0 - block out
     }
 
     public void updateLoginInfoBean(GregorianCalendar now, int times1) {
@@ -64,7 +65,7 @@ public final class LoginInfoBean {
         }
         //else times++. if times out, status block
         ++times;
-        if (times > maxtimes)
+        if (times >= maxtimes)
             status = 0; // 1 - normal, 0 - block out
     }
 
@@ -102,4 +103,12 @@ public final class LoginInfoBean {
     public int getStatus() {
         return (status);
     }
+
+	public Security getUser() {
+		return user;
+	}
+
+	public void setUser(Security user) {
+		this.user = user;
+	}
 }

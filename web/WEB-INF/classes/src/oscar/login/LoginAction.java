@@ -43,10 +43,12 @@ import oscar.OscarProperties;
 import oscar.log.LogAction;
 import oscar.log.LogConst;
 import oscar.oscarDB.DBPreparedHandler;
+import oscar.util.UtilDateUtilities;
 
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.*;
+import com.quatro.model.security.*;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
 
@@ -74,67 +76,85 @@ public final class LoginAction extends DispatchAction {
 
         userName = userName.toLowerCase();
         LoginCheckLogin cl = new LoginCheckLogin();
-        if (cl.isBlock(userName)) {
-            _logger.info(LOG_PRE + " Blocked: " + userName);
-            // return mapping.findForward(where); //go to block page
-            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Your account is locked. Please contact your administrator to unlock."));
-            saveMessages(request,messages);
-            return mapping.getInputForward();
-        }
-        String[] strAuth;
+        Security user;
         ApplicationContext appContext = getAppContext();
         try {
-            strAuth = cl.auth(userName, password, pin, ip, appContext);
-        }
-        catch (Exception e) {
-            String newURL = mapping.findForward("error").getPath();
-            messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", "Server is temporarily unavailable, please try again later"));
-            saveMessages(request,messages);
-            return mapping.getInputForward();
-        }
-
-        if (strAuth != null && strAuth.length != 1) { // login successfully
-            // invalidate the existing sesson
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.invalidate();
-                session = request.getSession(); // Create a new session for this user
+            user = cl.auth(userName, password, pin, ip, appContext);
+	        String expired_days = "";
+	        if (user.getLoginStatus() == Security.LOGIN_SUCCESS) { // login successfully
+				// Give warning if the password will be expired in 10 days.
+	            cl.unlock(user.getUserName());
+				if (user.getBExpireset().intValue() == 1) {
+					long date_expireDate = user.getDateExpiredate().getTime();
+					long date_now = UtilDateUtilities.now().getTime();
+					long date_diff = (date_expireDate - date_now)
+							/ (24 * 3600 * 1000);
+	
+					if (user.getBExpireset().intValue() == 1 && date_diff < 11) {
+						expired_days = String.valueOf(date_diff);
+					}
+				}
+	            // invalidate the existing sesson
+	            HttpSession session = request.getSession(false);
+	            if (session != null) {
+	                session.invalidate();
+	                session = request.getSession(); // Create a new session for this user
+	            }
+	            
+	            String providerNo = user.getProviderNo();
+	            Provider provider = providerManager.getProvider(providerNo);
+	
+	            _logger.info("Assigned new session for: " + providerNo + " : " + provider.getLastName() + ", " + provider.getFirstName());
+	            LogAction.addLog(userName,providerNo, LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
+	
+	            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, user.getProviderNo());
+	            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, provider.getLastName() + ", "+ provider.getFirstName());
+	
+	            session.setAttribute("oscar_context_path", request.getContextPath());
+	            session.setAttribute("expired_days", expired_days);
+	            
+	            // initiate security manager
+	            UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
+	            
+	            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
+	            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
+	
+	            session.setAttribute("provider", provider);
+	            return mapping.findForward(where);
+	        }
+	        // expired password
+	        else if (user.getLoginStatus() == Security.PASSWORD_EXPIRED) {
+	           // cl.updateLoginList(ip, userName);
+	   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login",	"Your account is expired. Please contact your administrator."));
+	        }
+	        else if (user.getLoginStatus() == Security.ACCOUNT_BLOCKED) {
+                _logger.info(LOG_PRE + " Blocked: " + userName);
+                // return mapping.findForward(where); //go to block page
+                messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Your account is locked. Please contact your administrator to unlock."));
+                saveMessages(request,messages);
+                return mapping.getInputForward();
             }
-
-            _logger.info("Assigned new session for: " + strAuth[0] + " : " + strAuth[3] + " : " + strAuth[4]);
-            LogAction.addLog(userName,strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
-
-            String providerNo = strAuth[0];
-            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, strAuth[0]);
-            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, strAuth[2] + ", "+ strAuth[1]);
-
-            session.setAttribute("oscar_context_path", request.getContextPath());
-            session.setAttribute("expired_days", strAuth[5]);
-            
-            // initiate security manager
-            UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
-            
-            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
-            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
-
-            String username = (String) session.getAttribute("user");
-            Provider provider = providerManager.getProvider(username);
-            session.setAttribute("provider", provider);
-            return mapping.findForward(where);
+	        else { 
+	            // request.setAttribute("login", "failed");
+	            LogAction.addLog(userName,null,"login", "failed", LogConst.CON_LOGIN,  ip);
+	            if (cl.updateLoginList(user) == Security.ACCOUNT_BLOCKED) {
+	                messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login","Your account is locked. Please contact your administrator to unlock."));
+	            }
+	            else
+	            {
+	   	     		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
+	            }
+	        }
+	        saveMessages(request,messages);        
+	        return mapping.getInputForward();
         }
-        // expired password
-        else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
-           // cl.updateLoginList(ip, userName);
-   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login",	"Your account is expired. Please contact your administrator."));
+        catch (Exception e) 
+        {
+	        String newURL = mapping.findForward("error").getPath();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", "Server is temporarily unavailable, please try again later"));
+	        saveMessages(request,messages);
+	        return mapping.getInputForward();
         }
-        else { // go to normal directory
-            // request.setAttribute("login", "failed");
-            LogAction.addLog(userName,null,"login", "failed", LogConst.CON_LOGIN,  ip);
-            cl.updateLoginList(userName);
-   	     	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
-        }
-        saveMessages(request,messages);        
-        return mapping.getInputForward();
     }
     
 	public ApplicationContext getAppContext() {

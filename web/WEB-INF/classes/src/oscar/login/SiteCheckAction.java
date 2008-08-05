@@ -18,7 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
-
+import com.quatro.model.security.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +28,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 
 import com.quatro.model.LookupCodeValue;
@@ -45,6 +47,7 @@ import oscar.OscarProperties;
 import oscar.log.LogAction;
 import oscar.log.LogConst;
 import oscar.oscarDB.DBPreparedHandler;
+import oscar.util.UtilDateUtilities;
 
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.*;
@@ -130,111 +133,72 @@ public final class SiteCheckAction extends DispatchAction {
                 return("error:Your account is locked. Please contact your administrator to unlock.");
             }
 
-            String[] strAuth;
+            Security user = null;
+            String message = "";
             ApplicationContext appContext = getAppContext();
             try {
-                strAuth = cl.auth(userName, password, pin, ip, appContext);
+                user = cl.auth(userName, password, pin, ip, appContext);
+    	        String expired_days = "";
+    	        if (user.getLoginStatus() == Security.LOGIN_SUCCESS) { // login successfully
+    				// Give warning if the password will be expired in 10 days.
+    				if (user.getBExpireset().intValue() == 1) {
+    					long date_expireDate = user.getDateExpiredate().getTime();
+    					long date_now = UtilDateUtilities.now().getTime();
+    					long date_diff = (date_expireDate - date_now)
+    							/ (24 * 3600 * 1000);
+    	
+    					if (user.getBExpireset().intValue() == 1 && date_diff < 11) {
+    						expired_days = String.valueOf(date_diff);
+    					}
+    				}
+    	            // invalidate the existing sesson
+    	            HttpSession session = request.getSession(false);
+    	            if (session != null) {
+    	                session.invalidate();
+    	                session = request.getSession(); // Create a new session for this user
+    	            }
+    	            
+    	            String providerNo = user.getProviderNo();
+    	            Provider provider = providerManager.getProvider(providerNo);
+    	
+    	            _logger.info("Assigned new session for: " + providerNo + " : " + provider.getLastName() + ", " + provider.getFirstName());
+    	            LogAction.addLog(userName,providerNo, LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
+    	
+    	            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, user.getProviderNo());
+    	            session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, provider.getLastName() + ", "+ provider.getFirstName());
+    	
+    	            session.setAttribute("oscar_context_path", request.getContextPath());
+    	            session.setAttribute("expired_days", expired_days);
+    	            
+    	            // initiate security manager
+    	            UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
+    	            
+    	            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
+    	            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
+    	
+    	            String username = (String) session.getAttribute("user");
+    	            session.setAttribute("provider", provider);
+    	            return("confirmed:" + mapping.findForward(where).getPath());
+    	        }
+    	        // expired password
+    	        else if (user.getLoginStatus() == Security.PASSWORD_EXPIRED) {
+    	           // cl.updateLoginList(ip, userName);
+    	   	     	message = "Your account is expired. Please contact your administrator.";
+    	        }
+    	        else if(user.getLoginStatus() == Security.ACCOUNT_BLOCKED) 
+    	        { // failed
+    	            LogAction.addLog(userName,null,"login", "failed", LogConst.CON_LOGIN,  ip);
+    	                _logger.info(LOG_PRE + " Blocked: " + userName);
+    	                // return mapping.findForward(where); //go to block page
+    	            message="Your account is locked. Please contact your administrator to unlock.";
+    	        }
             }
-            catch (Exception e) {
-                return("error:Server is temporarily unavailable");
+            catch (Exception e) 
+            {
+    	        message =  e.getMessage();
             }
+	        return("failed"+message);        
 
-            if (strAuth != null && strAuth.length != 1) { // login successfully
-                // invalidate the existing sesson
-                HttpSession session = request.getSession(false);
-                if (session != null) {
-                    session.invalidate();
-                    session = request.getSession(true); // Create a new session for this user
-                }
-
-                _logger.info("Assigned new session for: " + strAuth[0] + " : " + strAuth[3] + " : " + strAuth[4]);
-                LogAction.addLog(userName,strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "", ip);
-
-                // get View Type
-                String viewType = LoginViewTypeHlp.getInstance().getProperty(strAuth[3].toLowerCase());
-                String providerNo = strAuth[0];
-
-//                session.setAttribute("user", strAuth[0]);
-//                session.setAttribute("userfirstname", strAuth[1]);
-//                session.setAttribute("userlastname", strAuth[2]);
-
-                session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNO, strAuth[0]);
-                session.setAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME, strAuth[2] + ", "+ strAuth[1]);
-                
-                session.setAttribute("userprofession", viewType);
-                session.setAttribute("userrole", strAuth[4]);
-                session.setAttribute("oscar_context_path", request.getContextPath());
-                session.setAttribute("expired_days", strAuth[5]);
-                
-                // initiate security manager
-                UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
-                SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
-                session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
-                
-                String default_pmm = null;
-                if (viewType.equalsIgnoreCase("receptionist") || viewType.equalsIgnoreCase("doctor")) {
-                    // get preferences from preference table
-                    String[] strPreferAuth = cl.getPreferences();
-                    session.setAttribute("starthour", strPreferAuth[0]);
-                    session.setAttribute("endhour", strPreferAuth[1]);
-                    session.setAttribute("everymin", strPreferAuth[2]);
-                    session.setAttribute("groupno", strPreferAuth[3]);
-                    if (org.oscarehr.common.IsPropertiesOn.isCaisiEnable()) {
-                        session.setAttribute("newticklerwarningwindow", strPreferAuth[4]);
-                        session.setAttribute("default_pmm", strPreferAuth[5]);
-                        default_pmm = strPreferAuth[5];
-                    }
-                }
-
-                if (viewType.equalsIgnoreCase("receptionist")) { // go to receptionist view
-                    // where =
-                    // "receptionist";//receptionistcontrol.jsp?year="+nowYear+"&month="+(nowMonth)+"&day="+(nowDay)+"&view=0&displaymode=day&dboperation=searchappointmentday";
-                    where = "provider";
-                }
-                else if (viewType.equalsIgnoreCase("doctor")) { // go to provider view
-                    where = "provider"; // providercontrol.jsp?year="+nowYear+"&month="+(nowMonth)+"&day="+(nowDay)+"&view=0&displaymode=day&dboperation=searchappointmentday";
-                }
-                else if (viewType.equalsIgnoreCase("admin")) { // go to admin view
-                    where = "admin";
-                }
-
-                if (where.equals("provider") && default_pmm != null && "enabled".equals(default_pmm)) {
-                    where = "caisiPMM";
-                }
-
-                // setup caisi stuff
-                String username = (String) session.getAttribute("user");
-                Provider provider = providerManager.getProvider(username);
-                session.setAttribute("provider", provider);
-
-                List shelterIds = providerManager.getShelterIds(provider.getProviderNo());
-                if (shelterIds.size() > 1) {
-                    return("confirmed:/QuatroShelter" + mapping.findForward("facilitySelection").getPath());
-                }
-                else if (shelterIds.size() == 1) {
-                    Integer shelterId = (Integer) shelterIds.get(0);
-                    LookupCodeValue shelter=lookupManager.GetLookupCode("SHL",String.valueOf(shelterId));
-                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID , shelterId);
-                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelter);
-                    LogAction.addLog(userName,strAuth[0], LogConst.LOGIN, LogConst.CON_LOGIN, "shelterId="+shelterId, ip);
-                }
-                else {
-                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
-                    request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
-                }
-            }
-            // expired password
-            else if (strAuth != null && strAuth.length == 1 && strAuth[0].equals("expired")) {
-                cl.updateLoginList(userName);
-                return("error:Your account is expired. Please contact your administrator.");
-            }
-            else { // go to normal directory
-                cl.updateLoginList(userName);
-                return "error:Login failed, please try again";
-            }
-
-//            return mapping.findForward(where);
-            return("confirmed:" + mapping.findForward(where).getPath());
         }
     
 	public ApplicationContext getAppContext() {

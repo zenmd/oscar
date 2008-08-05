@@ -52,8 +52,7 @@ public final class UnlockAccountAction extends DispatchAction {
     	  String msg = "Unlock";
     	  //LoginList llist = null;
     	  LoginCheckLogin cl = new LoginCheckLogin();
-    	  Vector vec = cl.findLockList();
-    	  if(vec == null) vec = new Vector();
+    	  LoginList vec = cl.findLockList();
     	  
     	  if (request.getParameter("submit") != null && request.getParameter("submit").equals("Unlock")) {
     	    // unlock
@@ -70,8 +69,8 @@ public final class UnlockAccountAction extends DispatchAction {
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
   	  LoginCheckLogin cl = new LoginCheckLogin();
-	  Vector vec = cl.findLockList();
-	  if(vec == null) vec = new Vector();
+	  LoginList users = cl.findLockList();
+	  request.setAttribute("users", users);
       return mapping.findForward("list");
     }
  }

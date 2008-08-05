@@ -13,26 +13,30 @@
  */
 package oscar.login;
 
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Properties;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.oscarehr.util.SpringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.apache.log4j.Logger;
+
+import oscar.util.UtilDateUtilities;
 
 import com.quatro.service.LookupManager;
 import com.quatro.model.LookupCodeValue;
 import java.util.List;
 
+import com.quatro.model.security.*;
+import com.quatro.service.security.*;
+
 public class LoginCheckLogin {
     private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
-
-    Properties pvar = null;
-
-    LoginCheckLoginBean lb = null;
 
     LoginInfoBean linfo = null;
 
@@ -41,6 +45,9 @@ public class LoginCheckLogin {
     String propFileName = "";
 
     boolean propFileFound = true;
+    
+    private static final Logger _logger = Logger.getLogger(LoginCheckLogin.class);
+    private static final String LOG_PRE = "Login!@#$: ";
 
     public LoginCheckLogin() {
     }
@@ -63,7 +70,6 @@ public class LoginCheckLogin {
                 if (linfo.getTimeOutStatus(now))
                     llist.remove(sTemp);
             }
-
             // check if it is blocked
             if (llist.get(userId) != null && ((LoginInfoBean) llist.get(userId)).getStatus() == 0)
                 bBlock = true;
@@ -72,51 +78,103 @@ public class LoginCheckLogin {
     }
 
     // authenticate is used to check password
-    public String[] auth(String user_name, String password, String pin, String ip, ApplicationContext appContext) throws Exception, SQLException {
-    	lb = new LoginCheckLoginBean();
-        lb.ini(user_name, password, pin, ip, pvar);
-
+    public Security auth(String userName, String password, String pin, String ip, ApplicationContext appContext) throws Exception, SQLException {
         boolean isOk = false;
+    	Security user = new Security();
+    	user.setUserName(userName);
+    	user.setPassword(password);
+    	user.setPin(pin);
+    	user.setLoginIP(ip);
+    	user.setLoginDate(Calendar.getInstance().getTime());
+    	if (isBlock(userName)) {
+    		user.setLoginStatus(Security.ACCOUNT_BLOCKED);
+    		return user;
+    	}
     	if ("yes".equals(oscar.OscarProperties.getInstance().getProperty("ldap_authentication")))
     	{
     		com.quatro.ldap.LdapAuthentication ldap = (com.quatro.ldap.LdapAuthentication) appContext.getBean("ldapAuthentication");
-    		isOk = ldap.authenticate(user_name, password);
+    		isOk = ldap.authenticate(userName, password);
     	}
-    	return lb.authenticate(isOk,appContext); 
+    	return authenticate(isOk,appContext,user); 
     }
-    
+
+	private Security authenticate(boolean isAuthenticated, ApplicationContext appContext,
+			 Security user) throws Exception, SQLException {
+		Security dbUser = getUser(user.getUserName(),appContext);
+		// the user is not in security table
+		if (dbUser == null) {
+			user.setLoginStatus(Security.USER_NOT_EXISTS);
+			return user;
+		}
+		if (dbUser.getBExpireset().intValue() == 1
+				&& (dbUser.getDateExpiredate() == null || 
+						dbUser.getDateExpiredate().before(UtilDateUtilities.now()))) {
+			user.setLoginStatus(Security.PASSWORD_EXPIRED);
+			return user;
+		}
+		if (!isAuthenticated) {
+			StringBuffer sbTemp = new StringBuffer();
+			MessageDigest md = MessageDigest.getInstance("SHA");
+			byte[] btTypeInPasswd = md.digest(user.getPassword().getBytes());
+			for (int i = 0; i < btTypeInPasswd.length; i++)
+				sbTemp = sbTemp.append(btTypeInPasswd[i]);
+			String password = sbTemp.toString();
+
+			String userpassword = dbUser.getPassword();
+			if (userpassword.length() < 20) {
+				sbTemp = new StringBuffer();
+				byte[] btDBPasswd = md.digest(userpassword.getBytes());
+				for (int i = 0; i < btDBPasswd.length; i++)
+					sbTemp = sbTemp.append(btDBPasswd[i]);
+				userpassword = sbTemp.toString();
+			}
+			isAuthenticated = password.equals(userpassword);
+		}
+		if (isAuthenticated) {
+			dbUser.setLoginStatus(Security.LOGIN_SUCCESS);
+			return dbUser;
+		} else {
+	    	if (isBlock(user.getUserName())) {
+	    		user.setLoginStatus(Security.ACCOUNT_BLOCKED);
+	    	}
+	    	else
+	    	{
+	    		user.setLoginStatus(Security.LOGIN_FAILED);
+	    	}
+			return user;
+		}
+	}
+	private com.quatro.model.security.Security getUser(String username,
+			ApplicationContext appContext) throws SQLException {
+		com.quatro.service.security.UsersManager um = (com.quatro.service.security.UsersManager) appContext
+				.getBean("usersManager");
+		Security dbUser = um.getUser(username);
+		if (dbUser == null)
+			return null;
+		com.quatro.model.security.SecProvider prov = um
+				.getProviderByProviderNo(dbUser.getProviderNo(),"1");
+		if(null==prov){
+			return null;
+		}
+		return dbUser;
+	}
+
     // update login list if login failed
-    public synchronized void updateLoginList(String userId) {
+    public synchronized int updateLoginList(Security user) {
+    		oscar.OscarProperties pvar = oscar.OscarProperties.getInstance();
             GregorianCalendar now = new GregorianCalendar();
-            if (llist.get(userId) == null) {
+            String userName = user.getUserName();
+            if (llist.get(userName) == null) {
                 linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("LOGIN_MAX_FAILED_TIMES")), Integer
-                        .parseInt(pvar.getProperty("LOGIN_MAX_DURATION")));
+                        .parseInt(pvar.getProperty("LOGIN_MAX_DURATION")),user);
             } else {
-                linfo = (LoginInfoBean) llist.get(userId);
+                linfo = (LoginInfoBean) llist.get(userName);
                 linfo.updateLoginInfoBean(now, 1);
             }
-            llist.put(userId, linfo);
-            System.out.println(userId + "  status: " + ((LoginInfoBean) llist.get(userId)).getStatus() + " times: "
+            llist.put(userName, linfo);
+            System.out.println(userName + "  status: " + ((LoginInfoBean) llist.get(userName)).getStatus() + " times: "
                     + linfo.getTimes() + " time: ");
-    }
-
-    // lock update login list if login failed
-    public synchronized void updateLockList(String userId) {
-            GregorianCalendar now = new GregorianCalendar();
-            if (llist.get(userId) == null) {
-                linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("login_max_failed_times")), Integer
-                        .parseInt(pvar.getProperty("login_max_duration")));
-            } else {
-                linfo = (LoginInfoBean) llist.get(userId);
-                linfo.updateLoginInfoBean(now, 1);
-            }
-            llist.put(userId, linfo);
-            System.out.println(userId + "  status: " + ((LoginInfoBean) llist.get(userId)).getStatus() + " times: "
-                    + linfo.getTimes() + " time: ");
-    }
-
-    public String[] getPreferences() {
-        return lb.getPreferences();
+            return isBlock(userName)?Security.ACCOUNT_BLOCKED:Security.LOGIN_FAILED;
     }
 
     public boolean unlock(String userId) {
@@ -137,27 +195,15 @@ public class LoginCheckLogin {
                 }
             }
         }
-
         return bBlock;
     }
 
-    public Vector findLockList() {
-        Vector ret = new Vector();
+    public LoginList findLockList() {
 
         while (llist == null) {
             llist = LoginList.getLoginListInstance();
         }
-        String sTemp = null;
-
-        // unlocl the entry in the loginlist
-        if (!llist.isEmpty()) {
-            for (Enumeration e = llist.keys(); e.hasMoreElements();) {
-                sTemp = (String) e.nextElement();
-                ret.add(sTemp);
-            }
-        }
-
-        return ret;
+        return llist;
     }
 
 	/**
