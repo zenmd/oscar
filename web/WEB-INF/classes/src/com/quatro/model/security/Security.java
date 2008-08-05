@@ -5,9 +5,12 @@ import java.util.Date;
 
 
 public class Security implements java.io.Serializable {
-
-	// Fields
-
+	public static final int LOGIN_SUCCESS = 0;
+	public static final int LOGIN_FAILED = 1;
+	public static final int USER_NOT_EXISTS = 2;
+	public static final int PASSWORD_EXPIRED = 3;
+	public static final int ACCOUNT_BLOCKED = 4;
+	
 	private Integer securityNo;
 	private String userName;
 	private String password;
@@ -19,9 +22,9 @@ public class Security implements java.io.Serializable {
 	private Integer BExpireset;
 	private String lastUpdateUser;
 	private Calendar lastUpdateDate;
-
-	// Constructors
-
+	private String loginIP = "";
+	private Date loginDate;
+	private int loginStatus = 0;
 	public Calendar getLastUpdateDate() {
 		return lastUpdateDate;
 	}
@@ -128,6 +131,30 @@ public class Security implements java.io.Serializable {
 
 	public void setBExpireset(Integer BExpireset) {
 		this.BExpireset = BExpireset;
+	}
+
+	public String getLoginIP() {
+		return loginIP;
+	}
+
+	public void setLoginIP(String loginIP) {
+		this.loginIP = loginIP;
+	}
+
+	public Date getLoginDate() {
+		return loginDate;
+	}
+
+	public void setLoginDate(Date loginDate) {
+		this.loginDate = loginDate;
+	}
+
+	public int getLoginStatus() {
+		return loginStatus;
+	}
+
+	public void setLoginStatus(int loginStatus) {
+		this.loginStatus = loginStatus;
 	}
 
 }

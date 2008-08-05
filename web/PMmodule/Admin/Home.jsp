@@ -206,8 +206,8 @@ String _appPath = request.getContextPath();
 				<th></th>
 				<th style="vertical-align: middle">
 					<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_UNLOCKUSER %>" rights="<%=KeyConstants.ACCESS_READ%>">
-						<a id="lnkUnlockAccount"	href="<c:out value='${ctx}'/>/PMmodule/Admin/UnlockAccount.do"> 
-						<img ID="lnkUnlockAccount" src="<%=_appPath%>/images/UnlockAccount.gif" Height="60"
+						<a id="lnkUnlockAccount1"	href="<c:out value='${ctx}'/>/PMmodule/Admin/UnlockAccount.do"> 
+						<img ID="imgUnlockAccount1" src="<%=_appPath%>/images/UnlockAccount.gif" Height="60"
 						Width="60" border="0" style="vertical-align: middle"/></a>
 					</security:oscarSec>		
 				</th>
@@ -216,7 +216,7 @@ String _appPath = request.getContextPath();
 					<tr>
 						<th align="left" style="vertical-align: middle" class="clsHomePageLabels">
 							<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_UNLOCKUSER  %>" rights="<%=KeyConstants.ACCESS_READ%>">
-							<a	id="lnkMerge2"	href="<c:out value='${ctx}'/>/PMmodule/MergeClient.do">
+							<a	id="lnkUnlockAccount2"	href="<c:out value='${ctx}'/>/PMmodule/Admin/UnlockAccount.do">
 								Unlock User</a>
 							</security:oscarSec>
 						</th>

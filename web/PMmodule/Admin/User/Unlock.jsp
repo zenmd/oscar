@@ -83,10 +83,11 @@
               <b>Role name</b>
             </td>
             <td>
+            <%String a = "1"; %>
 			  <select name="userId">
-						<c:forEach var="user" items="${users}">
-							<html-el:option value="${user}">
-								<c:out value="${user}" />
+						<c:forEach var="linfo" items="${users}">
+							<html-el:option value="${linfo.user.userName}">
+								<c:out value="${linfo.user.userName}" />
 							</html-el:option>
 						</c:forEach>
  			  </select>
