@@ -25,7 +25,7 @@
 
 <logic:equal name="quatroReportRunnerForm" property="strClientJavascript" value="showReport">
 <script language="JavaScript">
-showReport('<c:out value="${ctx}"/>/QuatroReport/ReportViewer.do');
+showReport('<c:out value="${ctx}"/>/QuatroReport/ReportViewer.do?ini=1');
 </script>
 </logic:equal>
 <logic:equal name="quatroReportRunnerForm" property="strClientJavascript" value="saveTemplate">
