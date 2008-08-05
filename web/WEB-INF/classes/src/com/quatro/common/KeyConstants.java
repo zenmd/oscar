@@ -59,6 +59,7 @@ public class KeyConstants {
   public static final String MENU_TASK="mnuTask";
   public static final String MENU_ADMIN="mnuAdmin";
   public static final String MENU_HOME="mnuHome";
+ 
   
   public static final String TAB_CLIENT_SUMMARY="tabSummary";
   public static final String TAB_CLIENT_DISCHARGE="tabDischarge";
@@ -165,7 +166,16 @@ public class KeyConstants {
   public static final String FUN_CLIENTHEALTHSAFETY="_clientHealthSafety";
   
   public static final String FUN_ADMIN_FACILITYMESSAGE="_admin.facilityMessage";
+  
   public static final String FUN_ADMIN_SYSTEMMESSAGE="_admin.systemMessage";
+  public static final String FUN_ADMIN_USER="_admin.user";
+  public static final String FUN_ADMIN_ROLE="_admin.role";
+  public static final String FUN_ADMIN_LOOKUP="_admin.lookup";
+  public static final String FUN_ADMIN_MERGECLIENT="_admin.mergeClient";
+  public static final String FUN_ADMIN_ORG="_admin.org";
+ // public static final String FUN_ADMIN_SYSMESSAGE="_admin.systemMesage";
+  public static final String FUN_ADMIN_UNLOCKUSER="_admin.unlockUser";
+  
   public static final String FUN_PMM_ADDPROGRAM="_pmm.addProgram";
   public static final String FUN_PMM_AGENCYINFORMATION="_pmm.agencyInformation";
  // public static final String FUN_PMM_CASEMANAGEMENT="_pmm.caseManagement";
