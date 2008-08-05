@@ -58,20 +58,22 @@ public class QuatroReportViewerAction extends Action {
     ReportOptionValue _rptOption;
 //	protected CrystalDecisions.CrystalReports.Engine.ReportDocument reportDocument1;
     String _dateRangeDis = "";
-	
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+			
 		QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
-		Refresh(myForm, request, response);		
-		ActionForward forward = mapping.findForward("donothing");
-		return forward;
+		Refresh(myForm, request, response);
+		return null;
 	}
 	
 	public void Refresh(QuatroReportRunnerForm myForm, HttpServletRequest request, HttpServletResponse response){
 		
 	    _rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 	    _rptOption = (ReportOptionValue)request.getSession(true).getAttribute(DataViews.REPORT_OPTION);
+	    if(request.getParameter("ini") == null) {
+	    	ViewReport(request,response);
+	    	return;
+	    }
 	    try{
 			ReportTempValue rptTemp = _rptValue.getReportTemp();
 	        int reportNo = rptTemp.getReportNo();
@@ -547,7 +549,9 @@ public class QuatroReportViewerAction extends Action {
         try{
 			String loginId = (String)request.getSession(true).getAttribute("user");
 			String sessionId = request.getSession(true).getId();
-        	crystalReportViewer.setReportSource(reportDocument1.getReportSource());
+			IReportSource reportSource = reportDocument1.getReportSource();
+			request.getSession().setAttribute("reportSource", reportSource);
+        	crystalReportViewer.setReportSource(reportSource);
 	    	crystalReportViewer.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
         	crystalReportViewer.setOwnPage(true);
 	    	crystalReportViewer.setOwnForm(true);
@@ -569,6 +573,34 @@ public class QuatroReportViewerAction extends Action {
          System.out.println(ex2.toString());
       }    
    }
+    //View catched version of the report for crystal export/print
+   private void ViewReport(HttpServletRequest request, HttpServletResponse response){
+    	CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
+        try{
+			String loginId = (String)request.getSession(true).getAttribute("user");
+			String sessionId = request.getSession(true).getId();
+        	crystalReportViewer.setReportSource(request.getSession().getAttribute("reportSource"));
+        	crystalReportViewer.setOwnPage(true);
+	    	crystalReportViewer.setOwnForm(true);
+	    	crystalReportViewer.setDisplayGroupTree(true);
+//	    	crystalReportViewer.setGroupTreeWidth(50);
+	    	crystalReportViewer.setHasExportButton(true);
+	    	crystalReportViewer.setHasSearchButton(false);
+	    	crystalReportViewer.setHasPageBottomToolbar(false);
+	    	crystalReportViewer.setHasRefreshButton(true);
+	    	crystalReportViewer.setHasToggleGroupTreeButton(false);
+	    	crystalReportViewer.setHasZoomFactorList(true);
+	    	crystalReportViewer.setHasLogo(false);
+	    	crystalReportViewer.setEnableDrillDown(true);
+	    	crystalReportViewer.setEnableParameterPrompt(true);
+//    	  crystalReportViewer.setRenderAsHTML32(true);
+           	crystalReportViewer.processHttpRequest(request, response, getServlet().getServletContext(), null);
+            crystalReportViewer.dispose(); 
+      }catch(Exception ex2) {
+         System.out.println(ex2.toString());
+      }    
+   }
+
    private String getDateSql(String startPeriod, String endPeriod)
    {
 		String sDateSQL = "";
