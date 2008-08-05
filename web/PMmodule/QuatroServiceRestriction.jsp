@@ -72,7 +72,6 @@
     }
     
 </script>
-<% String s = "debug"; %>
 	<input type="hidden" name="clientId"
 		value="<c:out value='${clientId}'/>" />
 	<input type="hidden" name="method" value="save" />

@@ -152,7 +152,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
     	   Program progObj=programManager.getProgram(restriction.getProgramId());
     	   if(days.intValue()>progObj.getMaximumServiceRestrictionDays().intValue()){
     		 messages.add(ActionMessages.GLOBAL_MESSAGE, 
-    				 new ActionMessage("restrict.exceeds_maximum_days", request.getContextPath(),"1",progObj.getMaximumServiceRestrictionDays()));	
+    				 new ActionMessage("restrict.exceeds_maximum_days", request.getContextPath(), progObj.getMaximumServiceRestrictionDays()));	
    			 hasError =true;
    			saveMessages(request, messages);
     	   }
@@ -231,20 +231,22 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        if ("0".equals(rId) || rId==null) {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
-			clientForm.set("serviceRestrictionLength", new Integer(180));			
+//	        Integer days = (Integer) clientForm.get("serviceRestrictionLength");       
+//			clientForm.set("serviceRestrictionLength", new Integer(180));			
 			pcrObj.setId(null);			
 		} else if (!Utility.IsEmpty(rId)) 
 		{			
 			pcrObj =  clientRestrictionManager.find(Integer.valueOf(rId));
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
+			clientForm.set("serviceRestriction", pcrObj);
 			boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_CLIENTRESTRICTION, pcrObj.getProgramId());
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		}
 
        List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
        request.setAttribute("allPrograms", allPrograms);
-		clientForm.set("serviceRestriction", pcrObj);
+//		clientForm.set("serviceRestriction", pcrObj);
 		request.setAttribute("serviceObj", pcrObj);
      //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
