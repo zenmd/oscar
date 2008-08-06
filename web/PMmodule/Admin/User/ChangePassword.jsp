@@ -108,10 +108,9 @@ function submitForm(func){
 	}
 	if(validatePwdMatch(fld_password, fld_cPassword)){
 		v3 = true;
-	}		
-				
-	if(v1 && v2 & v3){
-		if (fld_password == fld_cPassword) {
+	}						
+	if(v1 && v2 && v3){	
+		if (fld_password.value == fld_cPassword.value) {
 			document.forms[0].submit();
 		}
 	}
