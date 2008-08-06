@@ -42,8 +42,24 @@ function submitForm(methodVal) {
     }
 */    
 	trimInputBox();
-	document.forms[0].method.value = methodVal;
-	document.forms[0].submit();
+	var ovPassStartDateTxt = document.getElementsByName("admission.ovPassStartDateTxt")[0];
+	var ovPassEndDateTxt = document.getElementsByName("admission.ovPassEndDateTxt")[0];
+	if((ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value=='') ||
+	  (ovPassStartDateTxt.value!='' && ovPassEndDateTxt.value=='')){
+	  document.forms[0].method.value = methodVal;
+	  document.forms[0].submit();
+	}else if(ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value!=''){
+      alert("Please input Overnight Pass start date.");
+      ovPassStartDateTxt.focus();	
+	}else{
+	  if(!isBefore(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
+        alert("Overnight Pass end date must be after start date.");
+        ovPassEndDateTxt.focus();
+	  }else{
+	    document.forms[0].method.value = methodVal;
+	    document.forms[0].submit();
+	  }
+	}  
 }
 
 function signSignature(){
