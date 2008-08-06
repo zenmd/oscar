@@ -25,7 +25,7 @@
 
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Tasksx</th></tr>
+<tr><th>Tasks</th></tr>
 </table></div></td></tr>
 
 <tr><td>
