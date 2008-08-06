@@ -100,9 +100,9 @@ public class TicklerDAO extends HibernateDaoSupport {
 */
     	String query;
     	if(filter!=null && filter.getProgramId()!=null && !"".equals(filter.getProgramId())){
-            query = "from Tickler t where t.program_id = " + filter.getProgramId();
+            query = "from Tickler t where t.task_assigned_to=" + providerNo + " and t.program_id = " + filter.getProgramId();
         }else{
-            query = "from Tickler t where t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
+            query = "from Tickler t where t.task_assigned_to=" + providerNo + " and t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
         }
     	
         if(filter==null){

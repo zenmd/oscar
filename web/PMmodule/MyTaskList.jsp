@@ -75,8 +75,8 @@ function submitForm(methodVal) {
 </display:column>
 <display:column property="status" sortable="true" title="Status" />
 <display:column property="provider.formattedName" sortable="true" sortProperty="provider.formattedName" title="Creator" />
-<display:column property="service_date.time" sortable="true" title="Date" format="{0, date, yyyy/MM/dd hh:mm:ss}"  />
-<display:column property="assignee.formattedName" sortable="true" sortProperty="assignee.lastName"	title="Assigned To" />
+<display:column property="service_date.time" sortable="true" title="Date" format="{0, date, yyyy/MM/dd hh:mm:ss a}"  />
+<display:column property="demographic.formattedName" sortable="true" sortProperty="demographic.lastName" title="Client" />
 <display:column property="program.name" sortable="true"	title="Program" />
 </display:table> 
 </td></tr>

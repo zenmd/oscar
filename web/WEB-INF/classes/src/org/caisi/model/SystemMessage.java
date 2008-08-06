@@ -126,12 +126,12 @@ public class SystemMessage extends BaseObject {
 	}
 	
 	public String getFormattedCreationDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
 		return formatter.format(getCreation_date());
 	}
 	
 	public String getFormattedExpiryDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
 		return formatter.format(getExpiry_date());
 	}
 	
