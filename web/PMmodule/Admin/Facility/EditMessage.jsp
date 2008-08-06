@@ -157,7 +157,13 @@ String s = "debug";
 <!--
 	function submitForm(){
 		trimInputBox();
-		document.forms[0].submit();
+		var expiry_day = document.getElementsByName("facility_message.expiry_day")[0];
+		if(isBeforeToday(expiry_day.value)){
+          alert("Expiry Day must not be earlier than today.");
+          expiry_day.focus();
+		}else{
+		  document.forms[0].submit();
+		}  
 	}
 	
 	function txtAreaLenChecker(obj, maxLen) {

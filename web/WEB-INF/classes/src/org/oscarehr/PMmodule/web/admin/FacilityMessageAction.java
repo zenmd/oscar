@@ -87,7 +87,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-		List activeMessages = mgr.getMessagesByShelterId(providerNo, shelterId);
+		List activeMessages = mgr.getMessagesByFacilityId(providerNo, facilityId);
 		if(activeMessages!=null && activeMessages.size() >0)
 			request.setAttribute("ActiveFacilityMessages",activeMessages);
 		return mapping.findForward("list");

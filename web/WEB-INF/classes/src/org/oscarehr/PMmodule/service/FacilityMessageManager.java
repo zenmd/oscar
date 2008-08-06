@@ -52,4 +52,9 @@ public class FacilityMessageManager {
 	public List getMessagesByShelterId(String providerNo,Integer shelterId) {
 		return dao.getMessagesByShelterId(providerNo,shelterId);
 	}
+
+	public List getMessagesByFacilityId(String providerNo,Integer facilityId) {
+		return dao.getMessagesByFacilityId(providerNo,facilityId);
+	}
+	
 }

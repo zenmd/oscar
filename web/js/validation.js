@@ -51,6 +51,21 @@ function beforeToday(inputStr) {
     }	
 	else return true;	
 } 
+
+function isBeforeToday(inputStr) {
+	var date=new Date();
+	var myDate_array=inputStr.split("/");
+	date.setFullYear(myDate_array[0]);
+	date.setMonth(myDate_array[1]-1);
+	date.setDate(myDate_array[2]);
+	
+	var today = new Date();
+    if (today>date){
+      return true;
+    }	
+	else return false;	
+} 
+
 //for html tag on pages, added by Dawson
 function validateRequiredFieldByName(fieldName, fieldNameDisplayed, maxLength)
 {

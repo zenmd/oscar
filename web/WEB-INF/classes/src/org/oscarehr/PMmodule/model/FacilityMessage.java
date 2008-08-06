@@ -150,18 +150,18 @@ public class FacilityMessage extends BaseObject {
 	}
 	
 	public String getFormattedCreationDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
 		return formatter.format(getCreation_date());
 	}
 	
 	public String getFormattedExpiryDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
 		return formatter.format(getExpiry_date());
 	}
 	
 	public boolean getActive() {
 		Date now = new Date();
-		if(now.before(getExpiry_date())) {
+		if(!now.after(getExpiry_date())) {
 			return true;
 		}
 		return false;
