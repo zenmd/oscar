@@ -525,6 +525,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.saved_with_warning"));
 		}
         saveMessages(request,messages);
+        request.setAttribute("pageChanged","");
 
         request.setAttribute("intakeHeadId", request.getParameter("intakeHeadId")); 
 

@@ -35,7 +35,7 @@
 
 <html-el:form action="/PMmodule/QuatroRefer.do">
 <input type="hidden" name="clientId" /> 
-<input type="hidden" name="pageChanged" id="pageChanged"/> 
+<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />'/> 
 <html:hidden property="referral.clientId" />
 <html:hidden property="referral.id" />
 <html:hidden property="referral.programId" />

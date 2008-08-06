@@ -867,7 +867,10 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	  }
        }
        
-	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	   if(!(isWarning || isError)) {
+		   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	       request.setAttribute("pageChanged","");
+	   }
        saveMessages(request,messages);
 
  	   clientForm.setAdmission(admission);
@@ -876,7 +879,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setCurDB_RoomId(roomDemographic.getId().getRoomId());
        request.setAttribute("prevDB_RoomId", roomDemographic.getId().getRoomId());
  	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
-
+ 	   
        return update(mapping, form, request, response);
    }
 

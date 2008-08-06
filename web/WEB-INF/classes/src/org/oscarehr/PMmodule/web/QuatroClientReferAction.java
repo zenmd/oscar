@@ -266,13 +266,14 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		}
 		clientManager.saveClientReferral(refObj);
 		refForm.set("referral", refObj);
-		if (!(isWarning || isError))
+		if (!(isWarning || isError)) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.save.success", request.getContextPath()));
+		    request.setAttribute("pageChanged","");
+		}
 		saveMessages(request, messages);
 		setEditAttributes(form, request);
 		//return  edit(mapping,form,request,response);
-		
 		return mapping.findForward("edit");
 	}
 
