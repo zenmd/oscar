@@ -125,15 +125,15 @@
 								</tr>
 								<tr class="b">
 									<td width="20%">Primary Contact Name:</td>
-									<td><html:text property="facility.contactName" /></td>
+									<td><html:text property="facility.contactName" maxlength="80" /></td>
 								</tr>
 								<tr class="b">
 									<td width="20%">Primary Contact Email:</td>
-									<td><html:text property="facility.contactEmail" /></td>
+									<td><html:text property="facility.contactEmail"  maxlength="80"/></td>
 								</tr>
 								<tr class="b">
 									<td width="20%">Primary Contact Phone:</td>
-									<td><html:text property="facility.contactPhone" /></td>
+									<td><html:text property="facility.contactPhone" maxlength="30" /></td>
 								</tr>
 								<%
 									Integer orgId = (Integer) request.getAttribute("orgId");
