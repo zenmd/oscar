@@ -335,8 +335,7 @@
     </bean>
     <bean id="caseManagementManagerTarget" class="org.oscarehr.casemgmt.service.CaseManagementManager">
         <property name="caseManagementNoteDAO" ref="CaseManagementNoteDAO"/>
-        <property name="caseManagementIssueDAO" ref="CaseManagementIssueDAO"/>
-        <property name="echartDAO" ref="EchartDAO"/>
+        <property name="caseManagementIssueDAO" ref="CaseManagementIssueDAO"/>       
         <property name="providerDAO" ref="providerDao"/>
         <property name="intakeDAO" ref="intakeDao"/>
         <property name="demographicDAO" ref="clientDao"/>

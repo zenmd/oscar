@@ -689,13 +689,22 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		request.setAttribute("demoDOB", getDemoDOB(demono));
 
 		request.setAttribute("from", request.getParameter("from"));
+		boolean hasError =false; 
 		if(cform.getCaseNote().getProgram_no()==null ||cform.getCaseNote().getProgram_no().intValue()==0)
 		{
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.message.save.case.program", request.getContextPath()));
 			saveMessages(request, messages);
-			return edit(mapping, form, request, response);
+			hasError = true;
 		}
+		if(Utility.IsEmpty(cform.getCaseNote().getNote()))
+		{
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.message.save.case.note", request.getContextPath()));
+			saveMessages(request, messages);
+			hasError = true;
+		}
+		if(hasError)return edit(mapping, form, request, response);
 		Integer noteId = noteSave(cform, request);
 		request.setAttribute("noteId", noteId.toString());
 		/* prepare the message */

@@ -49,7 +49,7 @@ import org.oscarehr.casemgmt.dao.CaseManagementIssueDAO;
 import org.oscarehr.casemgmt.dao.CaseManagementNoteDAO;
 import org.oscarehr.casemgmt.dao.CaseManagementTmpSaveDAO;
 import org.oscarehr.casemgmt.dao.ClientImageDAO;
-import org.oscarehr.casemgmt.dao.EchartDAO;
+//import org.oscarehr.casemgmt.dao.EchartDAO;
 import org.oscarehr.casemgmt.dao.EncounterFormDAO;
 //import org.oscarehr.casemgmt.dao.EncounterWindowDAO;
 import org.oscarehr.casemgmt.dao.HashAuditDAO;
@@ -85,7 +85,7 @@ public class CaseManagementManager {
     protected AllergyDAO allergyDAO;
     protected PrescriptionDAO prescriptionDAO;
     protected EncounterFormDAO encounterFormDAO;
-    protected EchartDAO echartDAO;
+  //  protected EchartDAO echartDAO;
     protected ProviderDao providerDAO;
     protected ClientDao demographicDAO;
     protected ProviderSignitureDao providerSignitureDao;
@@ -220,7 +220,7 @@ public class CaseManagementManager {
             hashAuditDAO.saveHash(hashAudit);
         }
         */      
-        return echartDAO.saveEchart(note, null, userName, lastStr);       
+        return tmpString;       
     }
     
     /*
@@ -339,7 +339,7 @@ public class CaseManagementManager {
     public void saveCPP(CaseManagementCPP cpp, String providerNo) {
         cpp.setProvider_no(providerNo);    // added because nothing else was setting providerNo; not sure this is the right place to do this -- rwd        
         caseManagementCPPDAO.saveCPP(cpp);
-        echartDAO.saveCPPIntoEchart(cpp, providerNo);
+       // echartDAO.saveCPPIntoEchart(cpp, providerNo);
     }
 
     public void addNewIssueToConcern(String demoNo, String issueName) {
@@ -353,7 +353,7 @@ public class CaseManagementManager {
         cpp.setOngoingConcerns(ongoing);
         cpp.setUpdate_date(new Date());
         caseManagementCPPDAO.saveCPP(cpp);
-        echartDAO.updateEchartOngoing(cpp);
+       // echartDAO.updateEchartOngoing(cpp);
 
     }
     
@@ -380,7 +380,7 @@ public class CaseManagementManager {
             cpp.setOngoingConcerns(newOngoing);
             cpp.setUpdate_date(new Date());
             caseManagementCPPDAO.saveCPP(cpp);
-            echartDAO.updateEchartOngoing(cpp);
+          //  echartDAO.updateEchartOngoing(cpp);
         }
     }
 
@@ -407,7 +407,7 @@ public class CaseManagementManager {
             cpp.setOngoingConcerns(newOngoing);
             cpp.setUpdate_date(new Date());
             caseManagementCPPDAO.saveCPP(cpp);
-            echartDAO.updateEchartOngoing(cpp);
+          //  echartDAO.updateEchartOngoing(cpp);
         }                
         
     }
@@ -428,7 +428,7 @@ public class CaseManagementManager {
         cpp.setOngoingConcerns(ongoing);
         cpp.setUpdate_date(new Date());
         caseManagementCPPDAO.saveCPP(cpp);
-        echartDAO.updateEchartOngoing(cpp);
+      //  echartDAO.updateEchartOngoing(cpp);
     }
 
     /* get the filtered Notes by caisi role */
@@ -775,9 +775,11 @@ public class CaseManagementManager {
         */
     }
 
+    /*
     public void setEchartDAO(EchartDAO echartDAO) {
         this.echartDAO = echartDAO;
     }
+    */
 
     public void setEncounterFormDAO(EncounterFormDAO dao) {
         this.encounterFormDAO = dao;
