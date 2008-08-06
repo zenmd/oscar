@@ -1,6 +1,6 @@
 <%@ include file="/taglibs.jsp"%>
 
-
+<%@page import="com.quatro.common.KeyConstants" %>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
@@ -9,8 +9,10 @@
 	<tr>
 		<td align="left" class="buttonBar2">
 		<logic:notEqual value="true" name="lookupCodeListForm" property="tableDef.readonly">
+		<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_LOOKUP %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 		<html:link  action="/Lookup/LookupCodeEdit.do" paramName="lookupCodeListForm" paramProperty="tableDef.tableId" paramId="id">
 		<img src="../images/New16.png" border="0"/> Add</html:link>&nbsp;|&nbsp;</logic:notEqual>
+		</security:oscarSec>
 		<html:link action="/Lookup/LookupTableList.do"> <img src="../images/Back16.png" border="0"/> Back to Lookup Fields</html:link>
 </td>
 

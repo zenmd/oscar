@@ -55,6 +55,7 @@ public class MergeClientAction extends BaseClientAction {
 		/* do the search */
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_UNMERGE);
 		request.setAttribute("clients", mergeClientManager.searchMerged(formBean));
+		request.setAttribute("method", "mergedSearch");
 		setLookupLists(request);
 
 		return mapping.findForward("view");
@@ -147,7 +148,8 @@ public class MergeClientAction extends BaseClientAction {
 					"message.merge.success", request.getContextPath()));
 			saveMessages(request, messages);
 		}
-		return mapping.findForward("findMerged");
+		return mapping.findForward("unmerge");
+		//return mergedSearch(mapping, form, request, response);
 	}
 	
 	public ActionForward search(ActionMapping mapping, ActionForm form,

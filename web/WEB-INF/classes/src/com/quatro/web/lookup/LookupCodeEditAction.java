@@ -18,6 +18,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.service.LookupManager;
+import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
 public class LookupCodeEditAction extends DispatchAction {
@@ -55,6 +56,12 @@ public class LookupCodeEditAction extends DispatchAction {
 		qform.setCodeFields(codeFields);
 		qform.setNewCode(isNew);
 		qform.setErrMsg("");
+		boolean isReadOnly =false;		
+		SecurityManager sec = (SecurityManager) request.getSession()
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);	
+		if (sec.GetAccess(KeyConstants.FUN_ADMIN_LOOKUP, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+			isReadOnly=true;
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
 		return mapping.findForward("edit");
 	}
 

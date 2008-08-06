@@ -1,4 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
+<%@page import="com.quatro.common.KeyConstants"  %>
 <%
 		if (session.getValue("user") == null)
 		response.sendRedirect("../login.htm");
@@ -132,6 +133,7 @@
 					<img border=0	src=<html:rewrite page="/images/search16.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
 				<a	style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();"> 
 					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>
+				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_MERGECLIENT %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 				<c:choose>
 					<c:when test="${mergeAction eq 'unmerge'}">				
 						<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 				
@@ -142,6 +144,7 @@
 							&nbsp;Merge&nbsp;&nbsp;|</a>
 					</c:otherwise>					
 				</c:choose>
+				</security:oscarSec>
 				<html:link action="/PMmodule/Admin/SysAdmin.do"  style="color:Navy;text-decoration:none;">				
 					<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				</td>
@@ -209,22 +212,41 @@
 		<c:if test="${requestScope.clients != null}">			
 			<tr style="height: 100%">
 				<td>
-				<div
-					style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
-                        width: 100%; height: 100%; overflow: auto">
-				<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
-					id="client" name="clients" export="false" pagesize="100"
-					requestURI="/PMmodule/MergeClient.do">
-					<display:setProperty name="paging.banner.placement" value="bottom" />
-					<display:setProperty name="basic.msg.empty_list"
-						value="No clients found." />
-					<c:choose>	
-						<c:when test="${mergeAction eq 'unmerge'}">
+				<div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;   width: 100%; height: 100%; overflow: auto">
+				<c:choose>	
+						<c:when test="${mergeAction eq 'unmerge'}">				
+							<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"	id="client" name="clients" export="false" pagesize="100"
+							requestURI="/PMmodule/UnmergeClient.do" >
+							<display:setProperty name="paging.banner.placement" value="bottom" />
+							<display:setProperty name="basic.msg.empty_list"
+								value="No clients found." />					
 							<display:column title="">																
 									<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">														
 							</display:column>
-						</c:when>
-						<c:otherwise>
+							<display:column sortable="true" title="Client No">
+								<c:out	value="${client.demographicNo}" />
+							</display:column>
+							<display:column sortable="true" title="Name">
+								<c:out	value="${client.formattedName}" />
+							</display:column>
+							<display:column sortable="true" title="Date of Birth">
+								<c:out value="${client.dob}" />
+							</display:column>
+							<display:column sortable="true" title="Gender">
+								<c:out value="${client.sexDesc}" />
+							</display:column>
+							<display:column sortable="true" title="Active">
+								<logic:equal value="0" property="activeCount" name="client">No</logic:equal>
+								<logic:notEqual value="0" property="activeCount" name="client">Yes</logic:notEqual>
+							</display:column>					
+						</display:table>
+					</c:when>
+					<c:otherwise>
+							<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"	id="client" name="clients" export="false" pagesize="100"
+							requestURI="/PMmodule/MergeClient.do" >
+							<display:setProperty name="paging.banner.placement" value="bottom" />
+							<display:setProperty name="basic.msg.empty_list"
+								value="No clients found." />
 							<display:column title="">										
 								<c:choose>
 										<c:when test="${client.merged}">
@@ -240,26 +262,27 @@
 								 	<input type="radio" name="head"
 											value="<c:out value='${client.demographicNo}'/>">
 								</c:if>		
-							</display:column>							
-						</c:otherwise>
-					</c:choose>		
-					<display:column sortable="true" title="Client No">
-						<c:out	value="${client.demographicNo}" />
-					</display:column>
-					<display:column sortable="true" title="Name">
-						<c:out	value="${client.formattedName}" />
-					</display:column>
-					<display:column sortable="true" title="Date of Birth">
-						<c:out value="${client.dob}" />
-					</display:column>
-					<display:column sortable="true" title="Gender">
-						<c:out value="${client.sexDesc}" />
-					</display:column>
-					<display:column sortable="true" title="Active">
-						<logic:equal value="0" property="activeCount" name="client">No</logic:equal>
-						<logic:notEqual value="0" property="activeCount" name="client">Yes</logic:notEqual>
-					</display:column>					
-				</display:table></div>
+							</display:column>	
+							<display:column sortable="true" title="Client No">
+								<c:out	value="${client.demographicNo}" />
+							</display:column>
+							<display:column sortable="true" title="Name">
+								<c:out	value="${client.formattedName}" />
+							</display:column>
+							<display:column sortable="true" title="Date of Birth">
+								<c:out value="${client.dob}" />
+							</display:column>
+							<display:column sortable="true" title="Gender">
+								<c:out value="${client.sexDesc}" />
+							</display:column>
+							<display:column sortable="true" title="Active">
+								<logic:equal value="0" property="activeCount" name="client">No</logic:equal>
+								<logic:notEqual value="0" property="activeCount" name="client">Yes</logic:notEqual>
+							</display:column>					
+						</display:table>						
+					</c:otherwise>
+				</c:choose>		
+				</div>
 				</td>
 			</tr>
 	</table>	

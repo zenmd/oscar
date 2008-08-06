@@ -9,20 +9,25 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 <html:hidden property="method" value="save" />
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
-<tr><th class="pageTitle" align="center"><span align="left">Role Management - <logic:present
-	name="secroleForEdit">Edit Role</logic:present>
-	<logic:notPresent name="secroleForEdit">Add Role</logic:notPresent> </span></th></tr>
+<tr><th class="pageTitle" align="center">
+	<span align="left">Role Management - 
+		<logic:present	name="secroleForEdit">Edit Role</logic:present>
+		<logic:notPresent name="secroleForEdit">Add Role</logic:notPresent> </span></th></tr>
 <tr><td align="left" class="buttonBar2">
   <html:link	action="/PMmodule/Admin/RoleManager.do" style="color:Navy;text-decoration:none;">
   <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Role List&nbsp;&nbsp;|</html:link>
-  <logic:present name="secroleForEdit">
-	<html:link href="javascript:submitForm('saveChange');" onclick="javascript:setNoConfirm();" 	style="color:Navy;text-decoration:none;">
-	<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-  </logic:present>
-  <logic:notPresent name="secroleForEdit">
-	<html:link href="javascript:submitForm('saveNew');"	style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
-	<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-  </logic:notPresent></td></tr>
+  
+  <c:if test="${!isReadOnly}" >
+	  <logic:present name="secroleForEdit">
+		<html:link href="javascript:submitForm('saveChange');" onclick="javascript:setNoConfirm();" 	style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+	  </logic:present>
+	  <logic:notPresent name="secroleForEdit">
+		<html:link href="javascript:submitForm('saveNew');"	style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+	  </logic:notPresent>
+  </c:if>
+  </td></tr>
 <tr><td align="left" class="message"><logic:messagesPresent	message="true"><br />
 	<html:messages id="message" message="true" bundle="pmm"><c:out escapeXml="false" value="${message}" /></html:messages>
 	<br /></logic:messagesPresent></td></tr>
@@ -99,8 +104,11 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		  </td></tr>
 		</logic:iterate>
 		<tr><td colspan="2" class="clsButtonBarText" width="100%">&nbsp;&nbsp;
+			<c:if test=${!isReadOnly }>
 		   <a href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
-			&nbsp;&nbsp;<a href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a></td></tr>
+			&nbsp;&nbsp;<a href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a>
+			</c:if>	
+			</td></tr>
 	  </table>
 	</div>
 	  </td></tr>

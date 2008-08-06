@@ -40,7 +40,9 @@ import org.apache.struts.actions.DispatchAction;
 import org.caisi.model.SystemMessage;
 import org.caisi.service.SystemMessageManager;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
+import com.quatro.service.security.SecurityManager;
 
 public class SystemMessageAction extends DispatchAction {
 
@@ -83,7 +85,12 @@ public class SystemMessageAction extends DispatchAction {
 		
 		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
         request.setAttribute("msgTypepList", msgTypepList);
-        
+        boolean isReadOnly =false;		
+		SecurityManager sec = (SecurityManager) request.getSession()
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);	
+		if (sec.GetAccess(KeyConstants.FUN_ADMIN_SYSTEMMESSAGE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+			isReadOnly=true;
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
 		return mapping.findForward("edit");
 	}
 

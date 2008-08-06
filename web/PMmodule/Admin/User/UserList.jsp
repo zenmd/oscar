@@ -1,8 +1,7 @@
 <!-- Source:web/PMmodule/Admin/User/UserList.jsp -->
 
 <%@ include file="/taglibs.jsp"%>
-
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px"
 	border="1" bordercolor="red">
 	<tr>
@@ -14,9 +13,11 @@
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16t.png"/> />&nbsp;Close&nbsp;|</html:link>
-		<html:link action="/PMmodule/Admin/UserManager.do?method=preNew"
-			style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;|</html:link>
+			<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_USER %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+			<html:link action="/PMmodule/Admin/UserManager.do?method=preNew"
+				style="color:Navy;text-decoration:none;">&nbsp;
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;|</html:link>
+			</security:oscarSec>	
 		<html:link href="javascript:submitForm('search')"
 			style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;|</html:link>

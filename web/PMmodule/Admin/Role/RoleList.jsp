@@ -1,7 +1,7 @@
 <!-- Source:web/PMmodule/Admin/Role/RoleList.jsp -->
 
 <%@ include file="/taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
@@ -13,9 +13,11 @@
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-		<html:link action="/PMmodule/Admin/RoleManager.do?method=preNew"
-			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
+			<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_ROLE %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
+				<html:link action="/PMmodule/Admin/RoleManager.do?method=preNew"
+					style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;|</html:link>
+			</security:oscarSec>
 		</td>
 
 	</tr>

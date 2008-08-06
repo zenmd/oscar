@@ -1,4 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
+<%@page import="com.quatro.common.KeyConstants"  %>
 <%
 		if (session.getValue("user") == null)
 		response.sendRedirect("../login.htm");
@@ -51,7 +52,7 @@
 
 <script>
 	function resetClientFields() {
-		var form = document.clientSearchForm2;
+		var form = document.mergeClientForm;
 		form.elements['criteria.demographicNo'].value='';
 		form.elements['criteria.firstName'].value='';
 		form.elements['criteria.lastName'].value='';
@@ -62,8 +63,8 @@
 		// form.elements['criteria.searchUsingSoundex'].checked = true;
 		// form.elements['criteria.dateFrom'].value=''; 
 		// form.elements['criteria.dateTo'].value=''; 
-		form.elements['criteria.bedProgramId'].selectedIndex = 0;
-		form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
+		// form.elements['criteria.bedProgramId'].selectedIndex = 0;
+		// form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
@@ -112,29 +113,40 @@
         
         function popupWindow(page) {
             windowprops="height=660, width=960, location=no, scrollbars=yes, menubars=no, toolbars=no, resizable=yes, top=0, left=0";
-            var popup = window.open(page, "labreport", windowprops);
-            popup.focus();
+            if(win!=null) win.close();
+            win = window.open(page, "labreport", windowprops);
+            win.focus();
         }
 </script>
-<html:form action="/PMmodule/MergeClient.do">
+<html:form action="/PMmodule/UnmergeClient.do">
 	<input type="hidden" name="method" />
 	<input type="hidden" name="mergeAction" />
 	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
 		<tr>
-			<th class="pageTitle">Merged Search<c:out value="${moduleName}" /></th>
+			<th class="pageTitle">Merge Search<c:out value="${moduleName}" /></th>
 		</tr>
 		<tr>
 			<td class="buttonBar2" align="left" height="18px">
 				<a	href="javascript:submitForm('search')"	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Search&nbsp;&nbsp;|</a> 
 				<a	style="color:Navy;text-decoration:none;"	href="javascript:submitForm('mergedSearch');"> 
-					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
+					<img border=0	src=<html:rewrite page="/images/search16.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
 				<a	style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();"> 
-					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>				
-				<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 
-					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
+					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>
+				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_MERGECLIENT %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
+				<c:choose>
+					<c:when test="${mergeAction eq 'unmerge'}">				
+						<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 				
+							<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
+					</c:when>
+					<c:otherwise>
+						<a	href="javascript:submitForm('merge')"	style="color:Navy;text-decoration:none;"> 
+							&nbsp;Merge&nbsp;&nbsp;|</a>
+					</c:otherwise>					
+				</c:choose>
+				</security:oscarSec>
 				<html:link action="/PMmodule/Admin/SysAdmin.do"  style="color:Navy;text-decoration:none;">				
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
+					<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 				</td>
 		</tr>
 		<tr height="18px">
@@ -165,11 +177,11 @@
 				</tr>
 
 				<tr>
-					<th><bean-el:message key="ClientSearch.dateOfBirth"
-						bundle="pmm" /> <br>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
 					(yyyy/mm/dd)</th>
-					<td><quatro:datePickerTag property="criteria.dob"
-						openerForm="clientSearchForm2"></quatro:datePickerTag></td>
+					<th align="left" width="80%">
+					<quatro:datePickerTag property="criteria.dob" openerForm="mergeClientForm" width="180px"></quatro:datePickerTag>
+					</th>
 				</tr>
 				<tr>
 					<th><bean-el:message key="ClientSearch.active" bundle="pmm" /></th>
@@ -205,31 +217,35 @@
                         width: 100%; height: 100%; overflow: auto">
 				<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
 					id="client" name="clients" export="false" pagesize="100"
-					requestURI="/PMmodule/MergeClient.do">
+					requestURI="/PMmodule/UnmergeClient.do" >
 					<display:setProperty name="paging.banner.placement" value="bottom" />
 					<display:setProperty name="basic.msg.empty_list"
 						value="No clients found." />
-					<display:column title="">										
-						<c:choose>
-								<c:when test="${client.subRecordEmpty}">
-								 	&nbsp;
-								</c:when>								
-								<c:otherwise>
-									<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
-								</c:otherwise>
-					   	</c:choose>						
-					</display:column>
-					<display:column title="Main Record">
-						<c:choose>
-								<c:when test="${client.subRecordEmpty}">
-								 	&nbsp;
-								</c:when>								
-								<c:otherwise>
-									<input type="radio" name="head"
-										value="<c:out value='${client.demographicNo}'/>">
-								</c:otherwise>
-						</c:choose>				
-					</display:column>
+					<c:choose>	
+						<c:when test="${mergeAction eq 'unmerge'}">
+							<display:column title="">																
+									<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">														
+							</display:column>
+						</c:when>
+						<c:otherwise>
+							<display:column title="">										
+								<c:choose>
+										<c:when test="${client.merged}">
+										 	&nbsp;
+										</c:when>								
+										<c:otherwise>
+											<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
+										</c:otherwise>
+							   	</c:choose>						
+							</display:column>
+							<display:column title="Main Record">						
+								<c:if test="${!client.merged}">
+								 	<input type="radio" name="head"
+											value="<c:out value='${client.demographicNo}'/>">
+								</c:if>		
+							</display:column>							
+						</c:otherwise>
+					</c:choose>		
 					<display:column sortable="true" title="Client No">
 						<c:out	value="${client.demographicNo}" />
 					</display:column>

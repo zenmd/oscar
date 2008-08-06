@@ -2,7 +2,7 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ include file="../../../taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 
 
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/menuExpandable.js'></script>
@@ -49,12 +49,16 @@
 
 		<table width="100%" border="0">
 			<tr>
-				<td colspan="2"><menu:useMenuDisplayer name="ListMenu"
-					repository="tree">
-					<c:forEach var="menu" items="${tree.topMenus}">
-						<menu-el:displayMenu name="${menu.name}" />
-					</c:forEach>
-				</menu:useMenuDisplayer></td>
+				<td colspan="2">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_ORG %>" rights="<%=KeyConstants.ACCESS_READ%>">
+						<menu:useMenuDisplayer name="ListMenu"
+							repository="tree">
+							<c:forEach var="menu" items="${tree.topMenus}">
+								<menu-el:displayMenu name="${menu.name}" />
+							</c:forEach>
+						</menu:useMenuDisplayer>
+					</security:oscarSec>
+				</td>
 			</tr>
 		</table>
 		</div>

@@ -22,10 +22,11 @@ public class MergeClientDao extends HibernateDaoSupport {
 	 public void merge(ClientMerge cmObj) {
 	        if (cmObj == null) {
 	            throw new IllegalArgumentException();
-	        }
+	        }	       	     
 	        this.getHibernateTemplate().saveOrUpdate(cmObj);
 	        String sql = "update Demographic a set a.merged=1 where a.DemographicNo=?";
 	        getHibernateTemplate().bulkUpdate(sql, cmObj.getClientId());
+	      
 	    }
 	
 	    public void unMerge(ClientMerge cmObj){		    	

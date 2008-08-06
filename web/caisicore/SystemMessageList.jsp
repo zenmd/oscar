@@ -3,7 +3,7 @@
 String s = "debug";
 %>
 
-
+<%@page import="com.quatro.common.KeyConstants" %>
 <html:form action="/SystemMessage.do" >
 	<input type="hidden" name="method" value="list" />
     <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
@@ -27,10 +27,12 @@ String s = "debug";
 					<td align="left" class="buttonBar2">
 						<html:link	action="/PMmodule/Admin/SysAdmin.do" style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+					<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_SYSTEMMESSAGE %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 						<html:link
 						action="/SystemMessage.do?method=edit" 
 						style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+					</security:oscarSec>
 					</td>
 				</tr>
 

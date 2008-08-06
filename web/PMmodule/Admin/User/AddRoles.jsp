@@ -16,9 +16,11 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
  <tr><td align="left" class="buttonBar2">
 	<html:link	href="javascript:submitForm('edit');" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User Profile&nbsp;&nbsp;|</html:link>
+	<c:if test="${!isReadOnly}">
 	<html:link href="javascript:submitForm('saveRoles');" onclick="javascript: setNoConfirm();getFunctionsList();"
 		style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+	</c:if>
   </td></tr>
   <tr><td align="left" class="message">
       <logic:messagesPresent message="true"><br />
@@ -82,8 +84,10 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 		  </TD></TR>
 		</logic:iterate>
 	    <tr><td colspan="3">&nbsp;
-		    <a href="javascript:submitForm('addRole');"  onclick="javascript:setNoConfirm()">Add</a>&nbsp;&nbsp;&nbsp;|
-			&nbsp;&nbsp;<a href="javascript:submitForm('removeRole');"  onclick="javascript:setNoConfirm()">Remove</a>
+	    	<c:if test="${!isReadOnly}">
+			    <a href="javascript:submitForm('addRole');"  onclick="javascript:setNoConfirm()">Add</a>&nbsp;&nbsp;&nbsp;|
+				&nbsp;&nbsp;<a href="javascript:submitForm('removeRole');"  onclick="javascript:setNoConfirm()">Remove</a>
+			</c:if>
 	     </td></tr>
 	  </table>
 	  </div>

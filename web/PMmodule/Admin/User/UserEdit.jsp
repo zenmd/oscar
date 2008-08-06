@@ -5,8 +5,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
-
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
@@ -17,24 +16,24 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			action="/PMmodule/Admin/UserSearch.do"
 			style="color:Navy;text-decoration:none;">
 			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User List&nbsp;&nbsp;|</html:link>
+			
 			<logic:present	name="userForEdit">
-				<html:link href="javascript:submitForm('saveEdit');"
-				style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-				<html:link href="javascript:submitForm('profile');"
-				style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
+				<c:if test="${!isReadOnly}" >
+					<html:link href="javascript:submitForm('saveEdit');"
+						style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>								
+					<html:link href="javascript:submitForm('profile');" 	style="color:Navy;text-decoration:none;">
+						<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
+				</c:if>	
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
-				<html:link href="javascript:submitForm('saveNew');"
-				style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
-				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
-			</logic:notPresent>
-			
+				<c:if test="${!isReadOnly}" >
+					<html:link href="javascript:submitForm('saveNew');"	style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+					<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
+				</c:if>	
+			</logic:notPresent>			
 		</td>
-
 	</tr>
-
 	<tr>
 		<td align="left" class="message">
 			<br />

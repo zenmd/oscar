@@ -16,6 +16,7 @@ import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.apache.struts.actions.DispatchAction;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.DataViews;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.ReportFilterValue;
@@ -26,6 +27,7 @@ import com.quatro.model.security.Secobjprivilege;
 import com.quatro.model.security.Secrole;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.RolesManager;
+import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
 public class RoleManagerAction extends DispatchAction {
@@ -150,7 +152,12 @@ public class RoleManagerAction extends DispatchAction {
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
-
+		boolean isReadOnly =false;		
+		SecurityManager sec = (SecurityManager) request.getSession()
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);	
+		if (sec.GetAccess(KeyConstants.FUN_ADMIN_ROLE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+			isReadOnly=true;
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
 		return mapping.findForward("edit");
 
 	}

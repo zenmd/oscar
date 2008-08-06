@@ -28,6 +28,7 @@ import com.quatro.model.security.Secuserrole;
 import com.quatro.service.LookupManager;
 import com.quatro.service.ORGManager;
 import com.quatro.service.security.RolesManager;
+import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UsersManager;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
@@ -95,8 +96,7 @@ public class UserManagerAction extends DispatchAction {
 			user = (Security) ulist.get(0);
 
 			secuserForm.set("securityNo", user.getSecurityNo());
-			secuserForm.set("userName", user.getUserName());
-
+			secuserForm.set("userName", user.getUserName());		
 			request.setAttribute("userForEdit", user);
 		}
 		
@@ -129,7 +129,8 @@ public class UserManagerAction extends DispatchAction {
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
-
+		boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
+		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
 		return mapping.findForward("addRoles");
 	}
 
@@ -153,6 +154,19 @@ public class UserManagerAction extends DispatchAction {
         
 		return mapping.findForward("edit");
 	}
+	private SecurityManager getSecurityManager(HttpServletRequest request)
+	{
+		return (SecurityManager) request.getSession()
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+	}
+	public boolean isReadOnly(HttpServletRequest request,String funName){
+		boolean readOnly =false;
+		
+		SecurityManager sec = getSecurityManager(request);		
+		if (sec.GetAccess(funName, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+			readOnly=true;
+		return readOnly;
+	}
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -166,8 +180,7 @@ public class UserManagerAction extends DispatchAction {
 
 		if (providerNo != null) {
 
-			SecProvider provider = usersManager
-					.getProviderByProviderNo(providerNo);
+			SecProvider provider = usersManager.getProviderByProviderNo(providerNo);
 
 			if (provider != null) {
 				secuserForm.set("providerNo", providerNo);
@@ -196,9 +209,10 @@ public class UserManagerAction extends DispatchAction {
 
 					secuserForm.set("securityNo", user.getSecurityNo());
 					secuserForm.set("userName", user.getUserName());
-
+					boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
+					if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 					request.setAttribute("userForEdit", user);
-				}
+				}				
 			}
 
 		} else {
