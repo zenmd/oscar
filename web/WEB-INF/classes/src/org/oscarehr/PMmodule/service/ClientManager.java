@@ -147,7 +147,10 @@ public class ClientManager {
 				QuatroIntakeHeader intakeTmp =(QuatroIntakeHeader)intakes.get(i);
 				Program program=programDao.getProgram(intakeTmp.getProgramId());
 				if(KeyConstants.PROGRAM_TYPE_Bed.equals(program.getType())){
-					progIds+=intakeTmp.getProgramId();					
+					if(progIds.equals(""))
+					  progIds +=intakeTmp.getProgramId();
+					else
+					  progIds +="," + intakeTmp.getProgramId();
 				}
 				else if(KeyConstants.PROGRAM_TYPE_Service.equals(program.getType()) 
 						&& (intakeTmp.getEndDate()==null ||
