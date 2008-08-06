@@ -96,7 +96,7 @@
 	</tr>
 	<tr><td><c:out value="${program.name }" /></td>
 	<td><c:out value="${program.type }" /></td>
-	<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" /> (<c:out value="${program.queueSize}" /> waiting)</td>
+	<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" /> <c:out value="${program.queueSize}" /> (waiting)</td>
 	<td><c:out value="${program.phone }" /></td>
 	<td><c:out value="${program.email }" /></td>
 	

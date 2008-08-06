@@ -255,7 +255,14 @@ public class MyDateFormat {
     	 return null;
        }
     }
-    
+
+	public static boolean isBefore(Calendar cal1, Calendar cal2){
+       String str1= getStandardDate(cal1);
+       String str2= getStandardDate(cal2);
+
+       return str1.compareTo(str2)<0;
+	}
+	
 	public static Calendar getCalendar(java.util.Date date){
 		Calendar cal= Calendar.getInstance();
 		cal.setTime(date);

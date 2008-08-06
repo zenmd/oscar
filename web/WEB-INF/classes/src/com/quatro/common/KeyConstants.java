@@ -13,6 +13,7 @@ public class KeyConstants {
   public static final String CONST_GENDER_Transgender = "T";
   
   public static final String BED_PROGRAM_TYPE="Bed";
+  public static final String SERVICE_PROGRAM_TYPE="Service";
 
   public static final String CONSTANT_YES = "1";
   public static final String CONSTANT_NO = "0";

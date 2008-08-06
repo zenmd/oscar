@@ -428,8 +428,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.overwrite_conflict",
           			request.getContextPath()));
             saveMessages(request,messages);
-
-            saveMessages(request,messages);
         	HashMap actionParam = new HashMap();
         	actionParam.put("clientId", client.getDemographicNo()); 
             actionParam.put("intakeId", intake.getId().toString()); 
@@ -447,6 +445,31 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	return mapping.findForward("edit");
 		}
 	  }
+
+
+	    //check service program end date
+		if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
+		  if(intake.getEndDate()!=null && MyDateFormat.isBefore(intake.getEndDate(),Calendar.getInstance())){
+	       	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.serviceprogram_enddate",
+	         			request.getContextPath()));
+            saveMessages(request,messages);
+        	HashMap actionParam = new HashMap();
+        	actionParam.put("clientId", client.getDemographicNo()); 
+            actionParam.put("intakeId", intake.getId().toString()); 
+            Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
+            if(intakeHeadId.intValue()!=0){
+              Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
+              request.setAttribute("clientId", intakeHeadClientId); 
+            }else{
+              request.setAttribute("clientId", client.getDemographicNo()); 
+            }
+            request.setAttribute("actionParam", actionParam);
+            request.setAttribute("client", client);
+        	intake.setClientId(client.getDemographicNo());
+
+        	return mapping.findForward("edit");
+		  }
+		}
 	  
 		if(intake.getCreatedOnTxt().equals("")==false){
 			intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake.getCreatedOnTxt()));

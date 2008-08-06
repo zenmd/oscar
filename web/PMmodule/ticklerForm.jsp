@@ -8,32 +8,27 @@ function submitForm(methodVal) {
 	   var serviceDate = document.ticklerForm.elements['tickler.serviceDate'];
 	   if(serviceDate.value == '') {
 		  alert('Please provide a service date.');
-	      document.forms[0].method.value = 'changeProgram';
-	      document.forms[0].submit();
+		  return;
+	   }else if(isBeforeToday(serviceDate.value)){
+		  alert('Service date should not be before today.');
 		  return;
 	   }
 
 	   var task_assigned_to = document.ticklerForm.elements['tickler.program_id'];
 	   if(task_assigned_to.value == '') {
 		  alert('Please select a program.');
-	      document.forms[0].method.value = 'changeProgram';
-	      document.forms[0].submit();
 		  return;
 	   }
 
 	   var task_assigned_to = document.ticklerForm.elements['tickler.task_assigned_to'];
 	   if(task_assigned_to.value == '') {
 		  alert('Please assign the task to a valid provider.');
-	      document.forms[0].method.value = 'changeProgram';
-	      document.forms[0].submit();
 		  return;
 	   }
 
 	   var message = document.ticklerForm.elements['tickler.message'];
 	   if(message.value == '') {
 		  alert('You must provide a message');
-	      document.forms[0].method.value = 'changeProgram';
-	      document.forms[0].submit();
 		  return;
 	   }
 
