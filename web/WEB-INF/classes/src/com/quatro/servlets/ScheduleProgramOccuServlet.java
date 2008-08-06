@@ -37,11 +37,11 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    public static class ProgramOccuTimerTask extends TimerTask {
 	    	String providerNo="1111";
 	        public void run() {
-	            logger.debug("ProgramOccuTimerTask timerTask started.");
-	            
+	            logger.debug("ProgramOccuTimerTask timerTask started.");	
+	            setDelayTime();
 	            long taskTime=dataRetentionTimeMillis;
 	            Calendar today = Calendar.getInstance();
-	            long now =today.getTimeInMillis(); 
+	            long now =today.getTimeInMillis();	            
 	            if(now>dataRetentionTimeMillis) {
 	            	//taskTime=dataRetentionTimeMillis+1000*60*60*24;
 	            	//get time from dataRetentionTimeMillis and get date from now
@@ -55,7 +55,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	                // delete old redirect entries
 	                programOccupancyDao.deleteProgramOccupancy(Calendar.getInstance());
 	                programOccupancyDao.insertProgramOccupancy(providerNo, Calendar.getInstance());
-	                }
+	                }	               
 	            }
 	            catch (Exception e) {
 	                logger.error("Unexpected error flushing html open queue.", e);
@@ -63,7 +63,14 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
 	    }
-	    private long getDelayTime(String startTime){
+	    private static void setDelayTime(){
+	    	 String temp = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_STARTTIME"));		        
+		        if (temp != null) {
+		        	startTime=temp;	        	
+		            dataRetentionTimeMillis = getDelayTime(temp);
+		        }
+	    }
+	    private static long getDelayTime(String startTime){
 	    	long delayTime=0;
 	    	Integer hr=Integer.valueOf(startTime.substring(0,2));
         	Integer min=Integer.valueOf(startTime.substring(2));
@@ -91,10 +98,12 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        String period = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_PERIOD"));
 	        if (temp != null) {
 	        	startTime=temp;	        	
-	            dataRetentionTimeMillis = this.getDelayTime(temp);
-	            programOccuTimerTask = new ProgramOccuTimerTask();
-		     //   programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, GERNERATE_PERIOD, GERNERATE_PERIOD);
-	            programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, 10000, Long.valueOf(period).longValue());
+	           // dataRetentionTimeMillis = this.getDelayTime(temp);
+	            programOccuTimerTask = new ProgramOccuTimerTask();		
+	            Calendar sDt = Calendar.getInstance();
+            	sDt.set(Calendar.HOUR_OF_DAY,Integer.valueOf(startTime.substring(0,2)).intValue());
+            	sDt.set(Calendar.MINUTE, Integer.valueOf(startTime.substring(2)).intValue());	          
+	           programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, 10000, Long.valueOf(period).longValue());
 	        }	      
 	    }
 
