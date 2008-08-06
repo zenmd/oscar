@@ -207,10 +207,10 @@ if (props.getProperty("logintitle", "").equals("")) {
 	<tr><td height=70></td></tr>
 	<tr>
 		<td  height="41" align="center"><img border="0"
-			src="images/QuatroGroup-Logo.gif" width="120" height="20">&nbsp;&nbsp;&nbsp;&nbsp;
-		<img border="0" src="images/SMIS-Logo.gif"  width="120" height="20">&nbsp;&nbsp;&nbsp;&nbsp;
-		<img border="0" src="images/Caisi-Logo.gif" width="120" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<img border="0" src="images/OSCAR-LOGO.gif" width="80" height="25"></td>
+			src="images/QuatroGroup-Logo.gif" >&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/SMIS-Logo.gif"  >&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/Caisi-Logo.gif" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/OSCAR-LOGO.gif" ></td>
 	</tr>
 	<tr><td height=30></td></tr>
 	<tr>
