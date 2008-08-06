@@ -166,8 +166,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		    intake.setEndDate(edt);
 		    if (null != edt) {
 		    	intake.setEndDateTxt(String.valueOf(edt.get(Calendar.YEAR)) + "/" +
-  				  String.valueOf(edt.get(Calendar.MONTH)+1) + "/" +  
-				  String.valueOf(edt.get(Calendar.DATE)));
+  				  MyDateFormat.formatMonthDay(String.valueOf(edt.get(Calendar.MONTH)+1)) + "/" +  
+  				MyDateFormat.formatMonthDay(String.valueOf(edt.get(Calendar.DATE))));
 		    }
 		    intake.setCreatedOn(intakeDb.getCreatedOn());
     	    Calendar cal= intakeDb.getCreatedOn();
