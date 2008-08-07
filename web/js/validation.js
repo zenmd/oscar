@@ -91,6 +91,31 @@ function isBefore(inputStr1, inputStr2) {
 	else return false;	
 } 
 
+function isBeforeorEqual(inputStr1, inputStr2) {
+	var date1=new Date();
+	var myDate_array1=inputStr1.split("/");
+	date1.setFullYear(myDate_array1[0]);
+	date1.setMonth(myDate_array1[1]-1);
+	date1.setDate(myDate_array1[2]);
+	date1.setHours(0);
+	date1.setMinutes(0);
+	date1.setSeconds(0);
+    
+	var date2=new Date();
+	var myDate_array2=inputStr2.split("/");
+	date2.setFullYear(myDate_array2[0]);
+	date2.setMonth(myDate_array2[1]-1);
+	date2.setDate(myDate_array2[2]);
+	date2.setHours(0);
+	date2.setMinutes(0);
+	date2.setSeconds(0);
+    
+    if (date1<=date2){
+      return true;
+    }	
+	else return false;	
+} 
+
 //for html tag on pages, added by Dawson
 function validateRequiredFieldByName(fieldName, fieldNameDisplayed, maxLength)
 {

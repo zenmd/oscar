@@ -52,8 +52,11 @@ function submitForm(methodVal) {
       alert("Please input Overnight Pass start date.");
       ovPassStartDateTxt.focus();	
 	}else{
-	  if(!isBefore(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
-        alert("Overnight Pass end date must be after start date.");
+	  if(isBeforeToday(ovPassStartDateTxt.value)){
+        alert("Overnight Pass start date must not be earlier than today.");
+        ovPassEndDateTxt.focus();
+	  }else if(!isBeforeorEqual(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
+        alert("Overnight Pass end date must not be before start date.");
         ovPassEndDateTxt.focus();
 	  }else{
 	    document.forms[0].method.value = methodVal;
