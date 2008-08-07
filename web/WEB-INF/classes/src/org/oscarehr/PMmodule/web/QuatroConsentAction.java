@@ -81,7 +81,8 @@ public class QuatroConsentAction extends BaseClientAction {
 	    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo);
 	    request.setAttribute("lstConsents", lstConsents);
 
-	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	    //for new consent, as long as there is a intake for this client before.
+	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
 	    if(lstIntakeHeader.size()>0) {
 	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
            request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
