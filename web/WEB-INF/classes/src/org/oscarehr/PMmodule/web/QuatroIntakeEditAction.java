@@ -156,6 +156,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
           request.setAttribute("intakeHeadId", new Integer(0)); //intakeHeadId: for intake stauts='discharged' or 'rejected' to view family details. 
         }
 
+		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+        
         Demographic client;
         if(Integer.parseInt(clientId)>0){
 		  client= clientManager.getClientByDemographicNo(clientId);
@@ -300,6 +302,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         qform.setOriginalCountry(originalCountry);
         
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+        request.setAttribute("Manual_Referal", "Y");
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         return mapping.findForward("edit");
 	}
@@ -335,6 +338,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	     actionParam2.put("clientId", intake.getClientId()); 
              actionParam2.put("intakeId", intake.getId().toString()); 
              request.setAttribute("actionParam", actionParam2);
+     		 request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
 		     return mapping.findForward("edit");
  		   }  
 		}
@@ -419,7 +423,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
                 request.setAttribute("actionParam", actionParam);
                 request.setAttribute("client", client);
             	intake.setClientId(client.getDemographicNo());
-    			
+        		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
                 return mapping.findForward("edit");
     		}
           }
@@ -441,7 +445,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
             request.setAttribute("actionParam", actionParam);
             request.setAttribute("client", client);
         	intake.setClientId(client.getDemographicNo());
-
+    		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
         	return mapping.findForward("edit");
 		}
 	  }
@@ -466,7 +470,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
             request.setAttribute("actionParam", actionParam);
             request.setAttribute("client", client);
         	intake.setClientId(client.getDemographicNo());
-
+    		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
         	return mapping.findForward("edit");
 		  }
 		}
@@ -541,6 +545,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         request.setAttribute("clientId", client.getDemographicNo()); 
         request.setAttribute("actionParam", actionParam);
         request.setAttribute("client", client);
+		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
 		
 		if(!(isWarning || isError)){
 			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
