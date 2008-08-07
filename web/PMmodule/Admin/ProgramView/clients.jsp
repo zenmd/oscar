@@ -207,7 +207,7 @@
 			</display:table>			
 			<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_CLIENTS %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 			<logic:notEmpty name="clientsLst">				
-					<input type="button" value="Swap Beds" onclick="javascript:do_swap_beds();"/>
+					<input type="button" value="Swap Rooms/Beds" onclick="javascript:do_swap_beds();"/>
 					<br />
 				<table align="left" width="100%">
 					<tr>

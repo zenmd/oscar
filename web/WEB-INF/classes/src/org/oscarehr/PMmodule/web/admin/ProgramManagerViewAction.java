@@ -608,46 +608,24 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     }
     
     public ActionForward switch_beds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        /*
-    	 *	(1)Check whether both clients are from same program //??? probably not necessary ???
-    	 *	(1.1)If not, disallow bed switching
-		 *
-    	 *	(2)Check whether both beds are from same room:
-    	 *	(2.1)If beds are from same room: you can switch beds in any circumstances
-    	 *
-    	 *	(2.2)If beds are from different rooms:
-    	 *	(2.2.1)Only 2 indpendent clients can switch beds between different rooms.
-    	 *	(2.2.2)If either client is a dependent, disallow switching beds of different rooms
-    	 *	???(2.2.3)If 2 clients are family heads, allow switching beds with different rooms with conditions:
-    	 *	(2.2.3.1)all dependents have to switch together ???
-    	 *
-    	 *	(3)Save changes to the 'bed' table ??? <- not implemented yet
-		*/
-    	//ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
         ActionMessages messages = new ActionMessages();
-       // Bed[] reservedBeds = formBean.getReservedBeds();
+
         Bed bed1 = null;
         Bed bed2 = null;
         Integer client1 = null;
         Integer client2 = null;
-        boolean isSameRoom = false;
+
         boolean isFamilyHead1 = false;
         boolean isFamilyHead2 = false;
         boolean isFamilyDependent1 = false;
         boolean isFamilyDependent2 = false;
         boolean isIndependent1 = false;
         boolean isIndependent2 = false;
-        Integer bedDemographicStatusId1 = null;
-        boolean latePass1 = false;
-//        Date reservationEnd1 = null;
-//        Date assignEnd1 = null;
+
         Date today = DateTimeFormatUtils.getToday();
-        //List<Integer> familyList = new ArrayList<Integer>();
 
         Integer shelterId= (Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
-    	String switchBed1 =""; 	// formBean.getSwitchBed1();
-    	String switchBed2 = "";	// formBean.getSwitchBed2();
     	Enumeration e = request.getParameterNames();
         ArrayList lstBeds = new ArrayList();
         ArrayList lstAdmission = new ArrayList();
@@ -657,31 +635,15 @@ public class ProgramManagerViewAction extends BaseProgramAction {
             	  Integer clientIdx =new Integer(name.indexOf(":"));
               	  String clientId = name.substring(clientIdx.intValue()+1);
                   RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(new Integer(clientId));
-            	  if(rdObj.getBedId() != null) lstBeds.add(rdObj);  
+            	  lstBeds.add(rdObj);  
             	 String admissionId = name.substring(8,clientIdx.intValue());
                  Admission admission = admissionManager.getAdmission(new Integer(admissionId));
                  lstAdmission.add(admission);
              }
          }
-         try{
-		   	switchBed1 =((RoomDemographic)lstBeds.get(0)).getBedId().toString();
-		   	switchBed2=((RoomDemographic)lstBeds.get(1)).getBedId().toString();
-         }catch(Exception ex){;}
-    	if(switchBed1 == null  ||  switchBed1.length() <= 0){
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
-            saveMessages(request, messages);
-            return view(mapping, form, request, response);
-    	}
-		//System.out.println("ProgramManagerViewAction.switch_beds(): switchBed1 = " + switchBed1);    	
-		//System.out.println("ProgramManagerViewAction.switch_beds(): switchBed2 = " + switchBed2);    	
-   		bed1 = bedManager.getBed(Integer.valueOf(switchBed1));
-   		bed2 = bedManager.getBed(Integer.valueOf(switchBed2));
+         
    		String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-   		if(bed1 == null  ||  bed2 == null){
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
-            saveMessages(request, messages);
-            return view(mapping, form, request, response);
-   		}
+
    		RoomDemographic roomDemographic1 = (RoomDemographic)lstBeds.get(0);
    		RoomDemographic roomDemographic2 = (RoomDemographic)lstBeds.get(1);
    		
@@ -690,21 +652,18 @@ public class ProgramManagerViewAction extends BaseProgramAction {
             saveMessages(request, messages);
             return view(mapping, form, request, response);
    		}
+
+   		if(roomDemographic1.getBedId()!=null) bed1 = bedManager.getBed(roomDemographic1.getBedId());
+   		if(roomDemographic2.getBedId()!=null) bed2 = bedManager.getBed(roomDemographic2.getBedId());
+   		
    		client1 = roomDemographic1.getId().getDemographicNo();
    		client2 = roomDemographic2.getId().getDemographicNo();
 
    		Integer roomId1 = roomDemographic1.getId().getRoomId();
 		Integer roomId2 = roomDemographic2.getId().getRoomId();
-		//System.out.println("ProgramManagerViewAction.switch_beds(): client1 = " + client1);    	
-		//System.out.println("ProgramManagerViewAction.switch_beds(): client2 = " + client2);    	
 
-   		//Check whether both beds are from same room:
-   		if( roomId1.intValue() == roomId2.intValue() ){
-   			isSameRoom = true;
-   		}
-   		Integer bedId1 =roomDemographic1.getBedId();
-		Integer bedId2=roomDemographic2.getBedId();
-   		//System.out.println("ProgramManagerViewAction.switch_beds(): isSameRoom = " + isSameRoom);    	
+   		Integer bedId1 = roomDemographic1.getBedId();
+		Integer bedId2 = roomDemographic2.getBedId();
 
 		//please overwrite my code below. For family intake, suppose get from intakeManager. dawson May 26, 2008
 		isFamilyHead1 = false;
@@ -723,86 +682,71 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    		else if(admObj2.getIntakeId()!=admObj2.getIntakeHeadId()) isFamilyDependent2 =true;
    			
    		if(!isFamilyHead1  &&  !isFamilyDependent1){
-   				isIndependent1 = true;
+   			isIndependent1 = true;
    		}
    		if(!isFamilyHead2  &&  !isFamilyDependent2){
    			isIndependent2 = true;
    		}
 
-   			//System.out.println("ProgramManagerViewAction.switch_beds(): isIndependent1 = " + isIndependent1);    	
-   			//System.out.println("ProgramManagerViewAction.switch_beds(): isIndependent2 = " + isIndependent2);    	
-   			//Check whether both clients are indpendents
+   		//Check whether both clients are indpendents
    		if(isIndependent1  &&  isIndependent2){
-   				//Can switch beds and rooms
-   	   			roomDemographicManager.deleteRoomDemographic(roomDemographic1);
-   	   			roomDemographicManager.deleteRoomDemographic(roomDemographic2);
    	   			
-//   	   		    assignEnd1 = roomDemographic1.getAssignEnd();
-   	   		    roomDemographic1.setAssignStart(today);
-   	   		    roomDemographic1.setProviderNo(providerNo);
-   	   		    roomDemographic1.getId().setRoomId(roomId2);
-   	   		    roomDemographic1.setBedId(bedId2);
+   	   	    roomDemographic1.setAssignStart(today);
+   	   	    roomDemographic1.setProviderNo(providerNo);
+   	   	    roomDemographic1.getId().setRoomId(roomId2);
+   	   	    roomDemographic1.setBedId(bedId2);
    	   		       	   		    
-   	   		    roomDemographic2.setAssignStart(today);
-   	   		    roomDemographic2.setProviderNo(providerNo);
-   	   			roomDemographic2.getId().setRoomId(roomId1);
-   	   		    roomDemographic2.setBedId(bedId1);
+   	   	    roomDemographic2.setAssignStart(today);
+   	   	    roomDemographic2.setProviderNo(providerNo);
+   	   		roomDemographic2.getId().setRoomId(roomId1);
+   	   	    roomDemographic2.setBedId(bedId1);
 
-   	   		    roomDemographicManager.saveRoomDemographic(roomDemographic1);
-   	   			roomDemographicManager.saveRoomDemographic(roomDemographic2);
-   		}else{
-   			if(isFamilyHead1  && isFamilyHead2){//if either clients are family head
-   					// very complicated!!!
-   					//Switch Room and delete records from bed_demographic for two families 
-   					List f1 =intakeManager.getClientFamilyByIntakeId(admObj1.getIntakeId().toString());
-   					List f2 =intakeManager.getClientFamilyByIntakeId(admObj2.getIntakeId().toString());
-   					String cIds="";   	   	   			
-   					Iterator f1Items =f1.iterator();   					
-   					while(f1Items.hasNext()){
-   						QuatroIntakeFamily f1Intake =(QuatroIntakeFamily)f1Items.next();
-   						cIds +=f1Intake.getClientId()+",";
-   					}
-   					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic1.getId().getRoomId());
-   					String[] clients=cIds.split(",");
-   					for(int i=0;i<clients.length;i++){
-   						RoomDemographic rdObj= new RoomDemographic();
-//   					 	rdObj.setAssignEnd(roomDemographic2.getAssignEnd());
-   					 rdObj.getId().setDemographicNo(Integer.valueOf(clients[i]));
-   	   	   			
-   	   	   		    rdObj.setAssignStart(today);
-   	   	   		    rdObj.setProviderNo(providerNo);   	   	   		    
-   	   	   		    rdObj.getId().setRoomId(roomId1);
-   	   	   		    roomDemographicManager.saveRoomDemographic(rdObj); 
-   					}
-   					Iterator f2Items =f2.iterator();
-   					cIds="";
-   					while(f2Items.hasNext()){
-   						QuatroIntakeFamily f2Intake =(QuatroIntakeFamily)f2Items.next();
-   						cIds +=f2Intake.getClientId()+",";
-   					}
-   					roomDemographicManager.deleteRoomDemographic(cIds, roomDemographic2.getId().getRoomId());
-   					clients=cIds.split(",");
-   					for(int i=0;i<clients.length;i++){
-   						RoomDemographic rdObj= new RoomDemographic();
-//   					 	rdObj.setAssignEnd(roomDemographic1.getAssignEnd());
-   					 rdObj.getId().setDemographicNo(Integer.valueOf(clients[i]));
-   	   	   			
-   	   	   		    rdObj.setAssignStart(today);
-   	   	   		    rdObj.setProviderNo(providerNo);   	   	   		    
-   	   	   		    rdObj.getId().setRoomId(roomId2);
-   	   	   		    roomDemographicManager.saveRoomDemographic(rdObj); 
-   					}
-   		            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.familyHead_switch"));
-   		            saveMessages(request, messages);   		           
-   				}else{
-   					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.dependent_disallowed"));
-   		            saveMessages(request, messages);		            
-   				}
+   	   	    roomDemographicManager.saveRoomDemographic(roomDemographic1);
+   	   		roomDemographicManager.saveRoomDemographic(roomDemographic2);
+   		    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.swap_room_success"));
+   		    saveMessages(request, messages);   		           
+   		}else if(!isIndependent1  &&  !isIndependent2){
+  			List f1 =intakeManager.getClientFamilyByIntakeId(admObj1.getIntakeId().toString());
+   			List f2 =intakeManager.getClientFamilyByIntakeId(admObj2.getIntakeId().toString());
+   			String cIds="";   	   	   			
+   			Iterator f1Items =f1.iterator();   					
+   			while(f1Items.hasNext()){
+   				QuatroIntakeFamily f1Intake =(QuatroIntakeFamily)f1Items.next();
+   				cIds +=f1Intake.getClientId()+",";
    			}
+   			String[] clients=cIds.split(",");
+   			for(int i=0;i<clients.length;i++){
+                RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(new Integer(clients[i]));
+   	   	   			
+   	   	   	    rdObj.setAssignStart(today);
+   	   	   	    rdObj.setProviderNo(providerNo);   	   	   		    
+   	   	   	    rdObj.getId().setRoomId(roomId2);
+   	   	   	    roomDemographicManager.saveRoomDemographic(rdObj); 
+  			}
+
+   			Iterator f2Items =f2.iterator();
+   			cIds="";
+   			while(f2Items.hasNext()){
+   				QuatroIntakeFamily f2Intake =(QuatroIntakeFamily)f2Items.next();
+   				cIds +=f2Intake.getClientId()+",";
+   			}
+   			clients=cIds.split(",");
+   			for(int i=0;i<clients.length;i++){
+                RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(new Integer(clients[i]));
+   	   	   	    rdObj.setAssignStart(today);
+   	   	   	    rdObj.setProviderNo(providerNo);   	   	   		    
+   	   	   	    rdObj.getId().setRoomId(roomId1);
+   	   	   	    roomDemographicManager.saveRoomDemographic(rdObj); 
+   			}
+   		    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.swap_room_success"));
+   		    saveMessages(request, messages);   		           
+   		}else{
+   			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error_person_type"));
+   		    saveMessages(request, messages);		            
+   		}
         return view(mapping, form, request, response);
     }
     
-    //@Required
     public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
         this.clientRestrictionManager = clientRestrictionManager;
     }
