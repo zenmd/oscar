@@ -184,11 +184,25 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       String demoNo= (String)actionParam.get("clientId");
 	       request.setAttribute("clientId", demoNo);
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-        String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);        
+        String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        
+/*
+        //for new button security
         Admission curAdminssion=clientManager.getCurrentAdmission(new Integer(cId), providerNo, currentFacilityId);
         boolean hasAdm=false;
         if(curAdminssion!=null && curAdminssion.getId().intValue()>0) hasAdm=true;
         request.setAttribute("hasAdmission", Boolean.valueOf(hasAdm));
+*/
+        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(cId), shelterId, providerNo);
+	    if(lstIntakeHeader.size()>0) {
+	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+	    }else{
+           request.setAttribute("currentIntakeProgramId", new Integer(0));
+	    }
+        
+        
         if(providerNo==null || demoNo ==null) {
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
@@ -221,7 +235,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
             // filter the notes by the checked issues and date if set
             UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);         
-            Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+//            Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
            
             if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
             else notes = caseManagementMgr.getNotes(demoNo, userProp,shelterId,providerNo);
