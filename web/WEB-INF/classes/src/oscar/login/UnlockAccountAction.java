@@ -23,7 +23,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.validator.DynaValidatorForm;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.util.SpringUtils;
 
@@ -46,30 +49,31 @@ public final class UnlockAccountAction extends DispatchAction {
     
     public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-    	String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-    
-    	String ip = request.getRemoteAddr();
+    	DynaValidatorForm myForm = (DynaValidatorForm) form;
+    	String [] userIds = myForm.getString("userId").split(",");
+    	
     	  String msg = "Unlock";
     	  //LoginList llist = null;
     	  LoginCheckLogin cl = new LoginCheckLogin();
     	  LoginList vec = cl.findLockList();
     	  
-    	  if (request.getParameter("submit") != null && request.getParameter("submit").equals("Unlock")) {
     	    // unlock
-    	    if(request.getParameter("userName") != null && request.getParameter("userName").length()>0) {
-    	      String userName = request.getParameter("userName");
+    	  for(int i=0; i<userIds.length; i++)
+    	  {
+    		  String userName = userIds[i];
+    		  if (userName.equals("")) continue;
     	      vec.remove(userName);
     	      cl.unlock(userName);
-    		  LogAction.addLog(userName,providerNo, "unlock", "adminUnlock", userName, ip);
-    	      msg = "The login account " + userName + " was unlocked.";
-    	    }
     	  }
-    	  return mapping.findForward("list");
+    	  ActionMessages messages = new ActionMessages();
+    	  messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("Selected Users are successfully unlocked "));
+    	  saveMessages(request, messages);
+    	  return list(mapping, form, request, response);
     }
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
   	  LoginCheckLogin cl = new LoginCheckLogin();
-	  List users = cl.getLockList();
+	  List users = cl.getLockUserList();
 	  request.setAttribute("users", users);
       return mapping.findForward("list");
     }

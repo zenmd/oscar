@@ -205,7 +205,7 @@ public class LoginCheckLogin {
         return llist;
     }
 
-    public ArrayList getLockList() {
+    public ArrayList getLockUserList() {
 
         while (llist == null) {
             llist = LoginList.getLoginListInstance();
@@ -214,7 +214,7 @@ public class LoginCheckLogin {
         for (Enumeration e = llist.keys(); e.hasMoreElements();) {
         	String key = (String) e.nextElement();
             LoginInfoBean lb = (LoginInfoBean)llist.get(key) ;
-            userList.add(lb);
+            userList.add(lb.getUser());
         }
         return userList;
     }
