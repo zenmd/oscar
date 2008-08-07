@@ -452,7 +452,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 
 	    //check service program end date
-		if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
+//		if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
 		  if(intake.getEndDate()!=null && MyDateFormat.isBefore(intake.getEndDate(),Calendar.getInstance())){
 	       	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.serviceprogram_enddate",
 	         			request.getContextPath()));
@@ -473,7 +473,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
         	return mapping.findForward("edit");
 		  }
-		}
+//		}
 	  
 		if(intake.getCreatedOnTxt().equals("")==false){
 			intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake.getCreatedOnTxt()));
