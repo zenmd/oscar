@@ -103,8 +103,8 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 			</table>
 		  </td></tr>
 		</logic:iterate>
-		<tr><td colspan="2" class="clsButtonBarText" width="100%">&nbsp;&nbsp;
-			<c:if test=${!isReadOnly }>
+		<tr><td colspan="2" class="clsButtonBarText" width="100%">&nbsp;&nbsp;			
+			<c:if test="${!isReadOnly}" >
 		   <a href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
 			&nbsp;&nbsp;<a href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a>
 			</c:if>	
