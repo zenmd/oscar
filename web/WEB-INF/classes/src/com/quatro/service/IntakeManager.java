@@ -135,6 +135,9 @@ public class IntakeManager {
     public Integer getProgramIdByProvider(Integer clientId, Integer shelterId, String providerNo){
      return intakeDao.getProgramIdByProvider(clientId, shelterId, providerNo);
     }
+    public List getActiveIntakeByProgram(Integer programId){
+    	return intakeDao.getActiveIntakeByProgram(programId);
+    }
 	public Demographic getClientByDemographicNo(String demographicNo) {
         if (demographicNo == null || demographicNo.length() == 0) {
             return null;

@@ -65,6 +65,7 @@ import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.Secuserrole;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.UsersManager;
 import com.quatro.util.Utility;
@@ -81,6 +82,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     private ProgramQueueManager programQueueManager;
     private UsersManager usersManager;
     private LookupManager lookupManager;
+    private IntakeManager intakeManager;
 
     private static final int REMOVE = 1;
     private static final int ADD = 2;
@@ -795,11 +797,10 @@ public class ProgramManagerAction extends BaseProgramAction {
         request.setAttribute("oldProgram",program);
 
         //if a program has a client in it, you cannot make it inactive
-        if (request.getParameter("program.programStatus").equals("inactive")) {
-            if(!("External".equals(request.getParameter("program.type")))) {
+        if ("0".equals(program.getProgramStatus()) && program.getId().intValue()>0) {            
                 //Admission ad = admissionManager.getAdmission(Long.valueOf(request.getParameter("id")));
-                List admissions = admissionManager.getCurrentAdmissionsByProgramId(String.valueOf(program.getId()));
-                if(admissions.size()>0){
+                List intakes = intakeManager.getActiveIntakeByProgram(program.getId());
+                if(intakes.size()>0){
                     ActionMessages messages = new ActionMessages();
                     messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_program", program.getName()));
                     saveMessages(request, messages);
@@ -812,10 +813,9 @@ public class ProgramManagerAction extends BaseProgramAction {
                     messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_queue", program.getName(), String.valueOf(numQueue)));
                     saveMessages(request, messages);
                     setEditAttributes(request, String.valueOf(program.getId()));
-                    return edit(mapping,form,request,response);
+                    return edit(mapping,form,request,response);                
                 }
             }
-        }
 
 
         if (!program.getType().equalsIgnoreCase("bed") && program.isHoldingTank()) {
@@ -1436,6 +1436,10 @@ public class ProgramManagerAction extends BaseProgramAction {
 	}
 	public void setUsersManager(UsersManager usersManager) {
 		this.usersManager = usersManager;
+	}
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
 	}
 
 }

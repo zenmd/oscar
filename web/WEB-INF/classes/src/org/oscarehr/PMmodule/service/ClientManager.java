@@ -134,7 +134,8 @@ public class ClientManager {
 			for(int i=0;i<admLst.size();i++){
 			Admission admission =(Admission)admLst.get(i);			
 			progIds += admission.getProgramId()+",";
-			}			
+			}	
+			if(progIds.endsWith(",")) progIds=progIds.substring(0,progIds.length()-1);
 			programs = lookupDao.LoadCodeList("PRO", true, progIds, null);
 			return programs;
 		}
@@ -158,6 +159,7 @@ public class ClientManager {
 					progIds+=intakeTmp.getProgramId()+",";				
 			}
 		}
+		if(progIds.endsWith(",")) progIds=progIds.substring(0,progIds.length()-1);
 		programs = lookupDao.LoadCodeList("PRO", true, progIds, null);
 		return programs;
 	}

@@ -129,6 +129,7 @@ public class LookupDao extends HibernateDaoSupport {
 		    	params[i++] = new DBPreparedHandlerParam(codes[0]);
 		    	for(int k = 1; k<codes.length; k++)
 		    	{
+		    		if(codes[k].equals("")) continue;
 		    		sSQL += ",?";
 			    	params[i++] = new DBPreparedHandlerParam(codes[k]);
 		    	}
