@@ -75,6 +75,7 @@ public final class LoginAction extends DispatchAction {
         }
 
         userName = userName.toLowerCase();
+        request.setAttribute("userName", userName);
         LoginCheckLogin cl = new LoginCheckLogin();
         Security user;
         ApplicationContext appContext = getAppContext();

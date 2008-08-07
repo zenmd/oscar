@@ -141,7 +141,26 @@ function resetForm(){
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.roleName'].selectedIndex = 0;
 }
-
+				function init()
+				{
+					var form = document.forms[0];
+					form.elements['criteria.userName'].focus();
+					form.onkeypress=function() {keypress(event);}
+				}
+				function keypress(event)
+				{
+					var keynum;
+					if(window.event) // IE
+			  		{
+			  			keynum = event.keyCode;
+			  		}
+					else if(event.which) // Netscape/Firefox/Opera
+			  		{
+			  			keynum = event.which;
+			  		}
+					if (keynum==13) submitForm('search');
+					return true;
+				}
 
 
 //-->

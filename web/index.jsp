@@ -72,9 +72,10 @@ if (props.getProperty("logintitle", "").equals("")) {
   }
   
   function checkLoginLength(){
+    var usr = document.loginForm.username.value;
     var pwd = document.loginForm.password.value;
-    if(pwd.length<6){
-      alert("password should be 6- 15 characters long.");
+    if(usr.length==0 || pwd.length == 0){
+      alert("User Id and password are required");
       return false;
     }
     return true;
@@ -117,9 +118,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 </head>
 
 
-<body>
-
-
+<body onfocus="javascript:return setfocus();">
 <div align="center">
 <html:form action="login" onsubmit="return checkLoginLength();">
 <input
@@ -175,8 +174,8 @@ if (props.getProperty("logintitle", "").equals("")) {
 									key="loginApplication.formUserName" /> 
 								</b></font></td>
 								<td width="40%" align="center"><font size="2"
-									face="Arial"><b><input type="text" name="username"
-									size="50%" maxlength="12" autocomplete="off" /></b></font></td>
+									face="Arial"><b><input type="text" name="username" value='<c:out value="${userName}" />'
+									size="50%" maxlength="12" autocomplete="off" id="username" /></b></font></td>
 								<td width="30%">&nbsp</td>
 							</tr>
 							<tr>

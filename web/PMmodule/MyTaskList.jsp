@@ -5,6 +5,27 @@ function submitForm(methodVal) {
   	document.forms[0].method.value = methodVal;
   	document.forms[0].submit();
 }
+				function init()
+				{
+					var form = document.forms[0];
+					form.elements['filter.startDate'].focus();
+					form.onkeypress=function() {keypress(event);}
+				}
+				function keypress(event)
+				{
+					var keynum;
+					if(window.event) // IE
+			  		{
+			  			keynum = event.keyCode;
+			  		}
+					else if(event.which) // Netscape/Firefox/Opera
+			  		{
+			  			keynum = event.which;
+			  		}
+					if (keynum==13) submitForm('filter');
+					return true;
+				}
+
 </script>
 <html:form action="/PMmodule/Task.do">
 <table border="0" cellspacing="0" cellpadding="1" width="100%">

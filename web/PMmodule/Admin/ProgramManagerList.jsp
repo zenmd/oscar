@@ -158,6 +158,25 @@
 					document.getElementsByName("searchFacilityId")[0].value="0";
 					//document.programManagerForm.submit()
 				}
+				function init()
+				{
+					var form = document.forms[0];
+					form.onkeypress=function() {keypress(event);}
+				}
+				function keypress(event)
+				{
+					var keynum;
+					if(window.event) // IE
+			  		{
+			  			keynum = event.keyCode;
+			  		}
+					else if(event.which) // Netscape/Firefox/Opera
+			  		{
+			  			keynum = event.which;
+			  		}
+					if (keynum==13) submitForm('list');
+					return true;
+				}
 			</script> 
 		
 		<!-- Page Content End -->
