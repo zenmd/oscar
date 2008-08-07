@@ -90,7 +90,7 @@ public class SystemMessageAction extends DispatchAction {
 		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);	
 		if (sec.GetAccess(KeyConstants.FUN_ADMIN_SYSTEMMESSAGE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
 			isReadOnly=true;
-		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("edit");
 	}
 

@@ -130,7 +130,7 @@ public class UserManagerAction extends DispatchAction {
 			request.setAttribute("scrPos", "0");
 		}
 		boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
-		if(isReadOnly) request.setAttribute("isReadOnly", isReadOnly);
+		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("addRoles");
 	}
 
