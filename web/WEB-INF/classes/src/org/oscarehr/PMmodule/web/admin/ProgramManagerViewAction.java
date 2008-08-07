@@ -228,10 +228,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         }
         
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
-        	processIncident( request, programId.toString(), formBean);
+        	processIncident( request, programId.toString(), formBean);  
         	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_INCIDENT, programId);
-	        if(isReadOnly || !program.isActive())request.setAttribute("isReadOnly", Boolean.TRUE);
         }
         else
         {
@@ -385,6 +383,11 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     		}
     		formBean.setIncidentForm(incidentForm);
     	}
+    	
+        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_INCIDENT, pid);
+        isReadOnly=isReadOnly || !prog.isActive() || "1".equals(incidentForm.getIncident().getReportCompleted());
+        if(isReadOnly)
+         request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        
     }
 
 	public void changeLstTable(int operationType, ActionForm myForm,
