@@ -354,7 +354,7 @@
         </form-bean>
         
         <form-bean name="userUnlockForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="users" type="java.lang.String" />
+            <form-property name="userId" type="java.lang.String" />
         </form-bean>
         
         <!-- Admin End -->

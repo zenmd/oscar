@@ -20,91 +20,87 @@
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-  <html:html locale="true">
-    <head>
-      <title>
-        Unlock
-      </title>
-      <meta http-equiv="Expires" content="Monday, 8 Aug 88 18:18:18 GMT"/>
-      <meta http-equiv="Cache-Control" content="no-cache"/>
-      <script type="text/javascript" language="JavaScript">
-
-      <!--
-		function setfocus() {
-		  this.focus();
-		}
-	    function onSearch() {
-	    }
+<script type="text/javascript">
+<!--
+function submitForm(func){
+	var userIds = getUserIds();
+	if (userIds == "") {
+			alert("Please select the user you want to unlock");
+	}
+	else
+	{
+		document.forms[0].method.value=func;
+		document.forms[0].userId.value=userIds;
+		document.forms[0].submit();
+	}
+}
+function getUserIds()
+{
+		var userIds  = "";
+		var elements = document.userUnlockForm.elements;
+		for(var i=0;i<elements.length;i++) {
+			if(elements[i].type == 'checkbox' && elements[i].name.substring(0,8) == 'checked_') {
+				if(elements[i].checked == true) {
+					var idx =elements[i].name.indexOf("_");
+					var userId = elements[i].name.substring(idx+1);
+					userIds +="," + userId;
+				}
+			}
+		}		
+		return userIds; 
+}
 //-->
-
-      </script>
-    </head>
-    <body bgcolor="ivory" onLoad="setfocus()" style="margin: 0px">
-    <security:oscarSec objectName="_admin" rights="w" reverse="<%=true%>" >
-   		<table width="100%">
-   		<tr>
-   			<td>
-   				Sorry, insufficient privilege to unlock user accounts. 
-   			</td>
-   		</tr>
-   		</table>
-	</security:oscarSec>
-    <security:oscarSec objectName="_admin" rights="w">
-      <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%">
-        <tr>
-          <td align="left">
-            &nbsp;109079
-          </td>
-        </tr>
-      </table>
-
-      <center>
-      <table BORDER="1" CELLPADDING="0" CELLSPACING="0" WIDTH="80%">
-        <tr BGCOLOR="#CCFFFF">
-          <th>
-            <c:out value"${msg}" />
-          </th>
-        </tr>
-      </table>
-      </center>
-      <form method="post" name="baseurl" action="unLock.jsp">
-      <table width="100%" border="0" cellspacing="2" cellpadding="2">
-          <tr>
-            <td>
-              &nbsp;
-            </td>
-          </tr>
-          <tr>
-            <td align="right">
-              <b>Role name</b>
-            </td>
-            <td>
-            <%String a = "1"; %>
-			  <html-el:select property="userId">
-			  	  <html-el:options collection="users" labelProperty="user.userName" property="user.userName">
-				  </html-el:options>
- 			  </html-el:select>
-              
-              <input type="submit" name="submit" value="Unlock" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              &nbsp;
-            </td>
-            <td>
-              &nbsp;
-            </td>
-          </tr>
-          <tr>
-            <td align="center" bgcolor="#CCCCFF" colspan="2">
-              <input type="button" name="Cancel" value="<bean:message key="admin.resourcebaseurl.btnExit"/>" onClick="window.close()"/>
-            </td>
-          </tr>
-      </table>
-      </security:oscarSec>
-      </form>
-    </body>
-  </html:html>
+</script>
+<html:form action="/PMmodule/Admin/UnlockAccount.do"  method="post">
+<html:hidden property="userId" styleId="userId"/>
+<input type="hidden" id="method" name="method" />
+<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
+	<tr>
+		<th class="pageTitle" align="center"><span
+			id="_ctl0_phBody_lblTitle" align="left">Unlock User Accounts</span></th>
+	</tr>
+	<tr height="18px">
+		<td align="left" class="buttonBar2"><html:link
+			action="/PMmodule/Admin/SysAdmin.do"
+			style="color:Navy;text-decoration:none;">
+			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+		    <security:oscarSec objectName="_admin.unlockUser" rights="w">
+			<html:link href="javascript:submitForm('unlock');"
+				style="color:Navy;text-decoration:none;">
+				<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Unlock&nbsp;&nbsp;|</html:link>
+			</security:oscarSec>
+		</td>
+	</tr>
+    <tr>
+      <td align="left">
+        &nbsp;
+      </td>
+    </tr>
+	<tr>
+		<td align="left" class="message">
+			<br />
+			<logic:messagesPresent
+			message="true">
+			<html:messages id="message" message="true" bundle="pmm">
+				<c:out escapeXml="false" value="${message}" />
+			</html:messages>
+		</logic:messagesPresent>
+		<br /></td>
+	</tr>
+       <tr height="100%">
+           <td>
+				<display:table class="simple" cellspacing="2" cellpadding="3" id="user" name="users" export="false" 
+					pagesize="0" requestURI="/PMmodule/Admin/UnlockAccount.do">
+					<display:setProperty name="paging.banner.placement" value="bottom" />
+					<display:setProperty name="basic.msg.empty_list" value="No users are blocked" />
+					<display:column title="Select">
+						<input type="checkbox" name='checked_<c:out value="${user.userName}"/>' />
+					</display:column>
+					<display:column property="userName" sortable="true" title="Login Id" />
+					<display:column property="loginIP" sortable="true" title="Login from IP" />
+					<display:column property="loginDate" sortable="true" title="Last Try Date"  format="{0, date, yyyy/MM/dd hh:mm:ss a}"/>
+				</display:table>			
+           </td>
+         </tr>
+   </table>
+ </html:form>

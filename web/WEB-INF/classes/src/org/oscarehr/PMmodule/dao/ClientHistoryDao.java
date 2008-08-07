@@ -59,6 +59,34 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         criteria.add(Restrictions.in("ClientId", clients));
         criteria.addOrder(Order.asc("ActionDate"));
         criteria.addOrder(Order.asc("Action"));
+        criteria.addOrder(Order.asc("HistoryDate"));
+        List results = criteria.list();
+        
+        if (log.isDebugEnabled()) {
+            log.debug("getReferrals: # of results=" + results.size());
+        }
+
+        return results;
+    }
+    
+    public List getClientHistories(ClientHistory his) {
+    	String clientIds =mergeClientDao.getMergedClientIds(his.getClientId());
+    	clientIds=clientIds.substring(1,clientIds.length()-1);
+    	String[] cIds= clientIds.split(",");
+    	Object[] clients=new Object[cIds.length];
+    	for(int i=0;i<cIds.length;i++){
+    		clients[i] =Integer.valueOf(cIds[i]);
+    	}
+    	String orgSql = Utility.getUserOrgSqlString(his.getProviderNo(), new Integer(0));
+        Criteria criteria = getSession().createCriteria(ClientHistory.class);
+        String sql = "(program_id in " + orgSql + " or program_id2 in " + orgSql + ")"; 
+        criteria.add(Restrictions.sqlRestriction(sql));
+        criteria.add(Restrictions.in("ClientId", clients));
+        criteria.add(Restrictions.eq("Action", his.getAction()));
+        criteria.add(Restrictions.eq("ActionDate", his.getActionDate()));
+        criteria.add(Restrictions.eq("Notes", his.getNotes()));
+        criteria.add(Restrictions.eq("ProviderNo", his.getProviderNo()));
+
         List results = criteria.list();
         
         if (log.isDebugEnabled()) {
@@ -72,6 +100,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         if (history == null) {
             throw new IllegalArgumentException();
         }
+        List lhis = getClientHistories(history);
+        if (lhis.size() > 0) return;
 
         this.getHibernateTemplate().saveOrUpdate(history);
 
