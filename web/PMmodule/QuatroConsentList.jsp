@@ -70,38 +70,27 @@
 			<td>
 				<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 500px; width: 100%; overflow: auto;" id="scrollBar">
-		 		<table class="simple" cellspacing="2" cellpadding="3">
-					<tr>
-						<th>Staff</th>							
-						<th>Signed Date</th>
-						<th>Start Date</th>
-						<th>End Date</th>	
-						<th>Status</th>					
-						<th>Actions</th>
-					</tr>
-				
-					<logic-el:iterate id="consentDetail" collection="${lstConsents}">					
-					<tr>				
-						<td><c:out value="${consentDetail.providerFormattedName}"></c:out>	</td>				
-						<td><c:out value="${consentDetail.dateSignedStr}" /></td>
-						<td><c:out value="${consentDetail.startDateStr}" /></td>
-						<td><c:out value="${consentDetail.endDateStr}" /></td>	
-						<td><c:out value="${consentDetail.status}" /></td>			
-						<td> 						
-							<c:choose>
-								<c:when test="${consentDetail.lnkAction eq 'Withdraw' or consentDetail.lnkAction eq 'withdraw'}">
-								 	<a href="javascript:withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" >Withdraw</a>
-								 	<a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
-								</c:when>
-								<c:when test="${consentDetail.lnkAction eq 'View' or consentDetail.lnkAction eq 'view'}">
-									<a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
-								</c:when>
-								<c:otherwise>&nbsp;</c:otherwise>
-						   </c:choose>
-						</td>
-					</tr>
-					</logic-el:iterate>
-				</table>
+               <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="consentDetail" name="lstConsents" export="false" pagesize="50" requestURI="/PMmodule/QuatroConsent.do">
+    		    <display:setProperty name="paging.banner.placement" value="bottom" />
+    			<display:setProperty name="basic.msg.empty_list" value="No Consents found." />
+			    <display:column property="providerFormattedName" sortable="true" title="Staff" />
+ 			    <display:column property="dateSignedStr" sortable="true" title="Signed Date" format="{0,date,yyyy/MM/dd}" />
+			    <display:column property="startDateStr" sortable="true" title="Start Date" />
+			    <display:column property="endDateStr" sortable="true" title="End Date" />
+			    <display:column property="status" sortable="true" title="Status" />
+			    <display:column sortable="true" title="Actions" sortProperty="lnkAction">
+				  <c:choose>
+					<c:when test="${consentDetail.lnkAction eq 'Withdraw' or consentDetail.lnkAction eq 'withdraw'}">
+					  <a href="javascript:withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" >Withdraw</a>
+					  <a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
+					</c:when>
+					<c:when test="${consentDetail.lnkAction eq 'View' or consentDetail.lnkAction eq 'view'}">
+					  <a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
+					</c:when>
+					<c:otherwise>&nbsp;</c:otherwise>
+				  </c:choose>
+			    </display:column>
+    		   </display:table>
 				</div>
 			</td>
 		</tr>		
