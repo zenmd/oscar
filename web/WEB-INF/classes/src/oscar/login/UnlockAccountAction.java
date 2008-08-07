@@ -69,7 +69,7 @@ public final class UnlockAccountAction extends DispatchAction {
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
   	  LoginCheckLogin cl = new LoginCheckLogin();
-	  LoginList users = cl.findLockList();
+	  List users = cl.getLockList();
 	  request.setAttribute("users", users);
       return mapping.findForward("list");
     }

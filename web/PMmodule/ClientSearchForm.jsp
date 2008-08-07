@@ -53,8 +53,28 @@
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
+	function init()
+	{
+		var form = document.clientSearchForm2;
+		form.elements['criteria.demographicNo'].focus();
+		form.onkeypress=function() {keypress(event);}
+	}
+	function keypress(event)
+	{
+		var keynum;
+		if(window.event) // IE
+  		{
+  			keynum = event.keyCode;
+  		}
+		else if(event.which) // Netscape/Firefox/Opera
+  		{
+  			keynum = event.which;
+  		}
+		if (keynum==13) submitForm('search');
+		return true;
+	}
 </script>
-<html:form	action="/PMmodule/ClientSearch2.do">
+<html:form	action="/PMmodule/ClientSearch2.do" >
 	<input type="hidden" name="method"  />
 	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
 		<tr>
@@ -90,7 +110,7 @@
 				</tr>
 		
 				<tr>
-					<th width="20%" align="right"><bean-el:message key="ClientSearch.lastName"  bundle="pmm"/>
+					<th width="20%" align="right"><bean-el:message key="ClientSearch.lastName"  bundle="pmm" />
 					</th>
 					<th align="left" width="80%"><html:text property="criteria.lastName" size="15" /></th>
 				</tr>

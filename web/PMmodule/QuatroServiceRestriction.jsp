@@ -20,11 +20,11 @@
     	var validReason = document.getElementsByName("serviceRestriction.commentId")[0].value.length > 0;
     	
     	if(!validProgram){
-    		alert("Please select 'Program' before save.");
+    		alert("Please select 'Program' before saving.");
     		return;
     	}
     	if(!validReason){
-    		alert("Please select 'Reason for service restriction' before save.");
+    		alert("Please select 'Reason for service restriction' before saving.");
     		return;
     	}    	
 	    if(validProgram && validReason && validateLength()){

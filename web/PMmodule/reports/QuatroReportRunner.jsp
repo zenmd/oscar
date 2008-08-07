@@ -166,7 +166,7 @@ function submitForm(mthd)
     <td width="50%">
       <table width="100%" >
         <tr>
-           <td class="clsMenuLables" valign="top" width="50%">ORGANIZATION</td>
+           <td class="clsMenuLables" valign="top" width="50%">ORG</td>
         </tr>
         <tr>
            <td><html:select property="lstOrg" multiple="true" size="5" style="width:90%;" styleId="lstOrg">

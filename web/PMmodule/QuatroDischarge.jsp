@@ -42,7 +42,7 @@
 
 	function validateSave(){
 	
-		var str1=" Please select 'Discharge Disposition' and 'Discharge Reason' before save." ;
+		var str1=" Please select 'Discharge Disposition' and 'Discharge Reason' before saving." ;
 		
 		if (!validateProgram()){
 			alert(str1); 

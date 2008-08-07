@@ -197,13 +197,26 @@ public class LoginCheckLogin {
         }
         return bBlock;
     }
-
     public LoginList findLockList() {
 
         while (llist == null) {
             llist = LoginList.getLoginListInstance();
         }
         return llist;
+    }
+
+    public ArrayList getLockList() {
+
+        while (llist == null) {
+            llist = LoginList.getLoginListInstance();
+        }
+        ArrayList userList = new ArrayList();
+        for (Enumeration e = llist.keys(); e.hasMoreElements();) {
+        	String key = (String) e.nextElement();
+            LoginInfoBean lb = (LoginInfoBean)llist.get(key) ;
+            userList.add(lb);
+        }
+        return userList;
     }
 
 	/**

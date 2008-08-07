@@ -32,14 +32,14 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		trimInputBox();
 		var validSource = document.getElementsByName("complaint.source")[0].value.length > 0;
 		if(!validSource){
-			alert("Please select Source of Complaint before save.");
+			alert("Please select Source of Complaint before saving.");
 			document.getElementsByName("complaint.source")[0].focus();
 			return;
 		}
 		var validMethod = document.getElementsByName("complaint.method")[0].value.length > 0;
 		if(!validMethod){
 			document.getElementsByName("complaint.method")[0].focus();
-			alert("Please select Method of Contact before save.");
+			alert("Please select Method of Contact before saving.");
 			return;
 		}
 		//name
@@ -70,25 +70,25 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		
 		var validProgram = document.getElementsByName("complaint.programId")[0].value.length > 0;
 		if(!validProgram){
-			alert("Please select program before save.");
+			alert("Please select program before saving.");
 			document.getElementsByName("complaint.programId")[0].focus();
 			return;
 		}
 		//standards
 		var validStandards = validateStandards();
 		if(!validStandards){
-			alert("Please select select Toronto Shelter Standards before save.");
+			alert("Please select Toronto Shelter Standards before saving.");
 			return;
 		}
 		var validDescription = document.getElementsByName("complaint.description")[0].value.length > 0;
 		if(!validDescription){
-			alert("Please enter the Description of Complaint before save.");
+			alert("Please enter the Description of Complaint before saving.");
 			document.getElementsByName("complaint.description")[0].focus();
 			return;
 		}
 		var validOutcome = document.getElementsByName("complaint.satisfiedWithOutcome")[0].value.length > 0;
 		if(!validOutcome){
-			alert("Please specify if the complainant was satisfied with the outcome before save.");
+			alert("Please specify if the complainant was satisfied with the outcome before saving.");
 			document.getElementsByName("complaint.satisfiedWithOutcome")[0].focus();
 			return;
 		}
@@ -103,7 +103,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var completeStatus = document.getElementsByName("complaint.status")[0].checked == true;
 		var completeDate = document.getElementsByName("complaint.completedDatex")[0].value;
 		if(completeStatus && completeDate.length == 0){
-			alert("Please specify the complete date before save.");
+			alert("Please specify the complete date before saving.");
 			document.getElementsByName("complaint.completedDatex")[0].focus();
 			return;
 		}
@@ -136,7 +136,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	}
 	
 	function confirmComplete(){
-		var result = confirm("Complaint is about to be completed. \nNo further changes to the complaint will be allowed.\nAre you sure to complete this complaint?");
+		var result = confirm("Complaint is about to be completed. \nNo further changes to the complaint will be allowed.\nAre you sure you want to complete this complaint?");
 		if(!result){
 			document.getElementsByName("complaint.completedDatex")[0].value = '';
 			document.getElementsByName("complaint.status")[0].checked=false;

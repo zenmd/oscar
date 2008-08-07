@@ -17,8 +17,7 @@
  * <OSCAR Service Group>
  */
 -->
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
-<%@ page errorPage="../errorpage.jsp" %>
+<%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -52,12 +51,11 @@
    		</tr>
    		</table>
 	</security:oscarSec>
-
     <security:oscarSec objectName="_admin" rights="w">
       <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%">
         <tr>
           <td align="left">
-            &nbsp;
+            &nbsp;109079
           </td>
         </tr>
       </table>
@@ -66,7 +64,7 @@
       <table BORDER="1" CELLPADDING="0" CELLSPACING="0" WIDTH="80%">
         <tr BGCOLOR="#CCFFFF">
           <th>
-            <c:out value"${msg}">
+            <c:out value"${msg}" />
           </th>
         </tr>
       </table>
@@ -84,13 +82,10 @@
             </td>
             <td>
             <%String a = "1"; %>
-			  <select name="userId">
-						<c:forEach var="linfo" items="${users}">
-							<html-el:option value="${linfo.user.userName}">
-								<c:out value="${linfo.user.userName}" />
-							</html-el:option>
-						</c:forEach>
- 			  </select>
+			  <html-el:select property="userId">
+			  	  <html-el:options collection="users" labelProperty="user.userName" property="user.userName">
+				  </html-el:options>
+ 			  </html-el:select>
               
               <input type="submit" name="submit" value="Unlock" />
             </td>
