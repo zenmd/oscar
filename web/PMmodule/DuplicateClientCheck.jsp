@@ -96,7 +96,7 @@ function checkExistClients(shortFlagValue){
 
 <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/DuplicateClientCheck.do">
   <display:setProperty name="paging.banner.placement" value="bottom" />
-  <display:setProperty name="basic.msg.empty_list" value="No clients found." />
+  <display:setProperty name="basic.msg.empty_list" value="At least a First name, Last name or Date of birth must be entered." />
   <display:column sortable="false" title="Client No">
     <c:choose>
       <c:when test="${client.demographicNo==0}">

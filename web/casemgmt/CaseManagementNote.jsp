@@ -175,10 +175,10 @@
                 var elements = new Array(0);
                 
                 // Your form elements that you want to have spell checked                
-                elements[elements.length] = document.caseManagementEntryForm.caseNote_note;                
-                       
+                elements[elements.length] =  document.caseManagementEntryForm.elements["caseNote_note"];
+               // alert(document.caseManagementEntryForm.elements["caseNote.note"].value);            
                 // Start the spell checker
-                  startSpellCheck('<c:out value="${ctx}"/>/jspspellcheck/',elements);
+                startSpellCheck('<c:out value="${ctx}"/>/jspspellcheck/',elements);
                 
        }
  	function getIssueList(){
@@ -396,7 +396,7 @@ var XMLHttpRequestObject = false;
 	<table width="90%" border="1">
 		<tr>
 			<td class="fieldValue" colspan="1">
-				<html:textarea  cols="60" rows="12"	property="caseNote.note" ></html:textarea>
+				<html:textarea  cols="60" rows="12"	property="caseNote_note"  ></html:textarea>				
 			</td>
 			<td class="fieldTitle"></td>
 
