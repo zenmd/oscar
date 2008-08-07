@@ -94,7 +94,7 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 		  ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
 		  if(referral != null) {
 			 referral.setStatus(KeyConstants.STATUS_REJECTED);
-			 referral.setCompletionDate(new Date());
+			 referral.setCompletionDate(java.util.Calendar.getInstance());
 			 referral.setCompletionNotes(notes);			
 			 referral.setRejectionReason(rejectionReason);			
 			 this.referralDAO.saveClientReferral(referral);

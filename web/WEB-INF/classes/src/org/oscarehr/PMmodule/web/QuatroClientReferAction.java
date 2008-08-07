@@ -148,7 +148,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("clientId", (String) clientForm.get("clientId"));
 
 		request.setAttribute("do_refer", Boolean.TRUE);
-
 		return mapping.findForward("edit");
 	}
 
@@ -227,9 +226,10 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		String cId = (String) actionParam.get("clientId");
 		request.setAttribute("clientId", cId);
 		Provider p = (Provider) request.getSession().getAttribute("provider");
-		refObj.setCompletionDate(new Date());
+		if (refObj.getId() == 0) {
+			refObj.setReferralDate(java.util.Calendar.getInstance());
+		}
 		refObj.setProviderNo(p.getProviderNo());
-		refObj.setReferralDate(new Date());
 		refObj.setStatus(KeyConstants.STATUS_PENDING);
 		refObj.setAutoManual(KeyConstants.MANUAL);
 		

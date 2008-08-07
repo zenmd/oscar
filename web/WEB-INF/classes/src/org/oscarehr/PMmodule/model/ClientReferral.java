@@ -21,8 +21,12 @@
  */
 package org.oscarehr.PMmodule.model;
 
+import java.awt.GradientPaint;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+
+import oscar.MyDateFormat;
 /**
  * This is the object class that relates to the client_referral table. Any customizations belong here.
  */
@@ -32,7 +36,7 @@ public class ClientReferral implements Serializable {
 
     private Integer id;
     private Integer clientId;
-    private java.util.Date referralDate;
+    private java.util.Calendar referralDate;
     private String providerNo;
 //    private Integer facilityId;
     private String notes;
@@ -41,7 +45,7 @@ public class ClientReferral implements Serializable {
     private String completionNotes;
     private Integer programId;
     private String status;
-    private java.util.Date completionDate;
+    private java.util.Calendar completionDate;
     private String providerLastName;
     private String providerFirstName;   
     private String programName;
@@ -100,12 +104,19 @@ public class ClientReferral implements Serializable {
         this.clientId = _clientId;
     }
 
-    public java.util.Date getReferralDate() {
+    public Calendar getReferralDate() {
         return referralDate;
     }
 
-    public void setReferralDate(java.util.Date _referralDate) {
+    public void setReferralDate(Calendar _referralDate) {
         this.referralDate = _referralDate;
+    }
+    public String getReferralDateTxt() {
+        return MyDateFormat.getStandardDateTime(referralDate);
+    }
+
+    public void setReferralDateTxt(String _referralDate) {
+        this.referralDate = MyDateFormat.getCalendarwithTime(_referralDate);
     }
 
     public String getProviderNo() {
@@ -164,12 +175,20 @@ public class ClientReferral implements Serializable {
         this.status = _status;
     }
 
-    public java.util.Date getCompletionDate() {
+    public java.util.Calendar getCompletionDate() {
         return completionDate;
     }
 
-    public void setCompletionDate(java.util.Date _completionDate) {
+    public void setCompletionDate(java.util.Calendar _completionDate) {
         this.completionDate = _completionDate;
+    }
+    
+    public String getCompletionDateTxt() {
+        return MyDateFormat.getStandardDateTime(completionDate);
+    }
+
+    public void setCompletionDateTxt(String _completionDate) {
+        this.completionDate = MyDateFormat.getCalendarwithTime(_completionDate);
     }
 
     public String getProviderLastName() {
@@ -238,7 +257,7 @@ public class ClientReferral implements Serializable {
     }
 */
     public Integer getDaysCreated(){
-		Date referralDate = getReferralDate();
+		Date referralDate = getReferralDate().getTime();
 		Date currentDate = new Date();
 			
 		long referralDiff = currentDate.getTime() - referralDate.getTime();

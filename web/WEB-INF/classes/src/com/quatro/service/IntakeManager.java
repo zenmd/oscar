@@ -111,7 +111,7 @@ public class IntakeManager {
             	referral.setFromProgramId(intake.getProgramId());
             }
             referral.setProviderNo(intake.getStaffId());
-            referral.setReferralDate(new Date());
+            referral.setReferralDate(Calendar.getInstance());
             referral.setStatus(KeyConstants.STATUS_PENDING);
             referral.setAutoManual(KeyConstants.AUTOMATIC);
             referral.setFromIntakeId(intake.getId());
@@ -123,7 +123,7 @@ public class IntakeManager {
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
             queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-            queue.setReferralDate(referral.getReferralDate());
+            queue.setReferralDate(referral.getReferralDate().getTime());
             queue.setFromIntakeId(intake.getId());
             
             queue.setReferralId(referral.getId());

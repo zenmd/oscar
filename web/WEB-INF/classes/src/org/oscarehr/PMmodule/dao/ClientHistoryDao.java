@@ -117,18 +117,17 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         ClientHistory history = new ClientHistory();
         history.setClientId(referral.getClientId());
         history.setAction("Referral");
-        history.setActionDate(referral.getReferralDate());
+        history.setActionDate(referral.getReferralDate().getTime());
         history.setHistoryDate(Calendar.getInstance().getTime());
         history.setNotes(referral.getNotes());
         history.setProgramId(referral.getProgramId());
         history.setProgramId2(referral.getFromProgramId());
         history.setProviderNo(referral.getProviderNo());
-        this.getHibernateTemplate().saveOrUpdate(history);
+        saveClientHistory(history);
 
         if (log.isDebugEnabled()) {
             log.debug("saveClientReferral: id=" + history.getId());
         }
-
     }
     
     public void saveClientHistory(QuatroIntake intake) {
@@ -145,7 +144,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setProgramId(intake.getProgramId());
         history.setProviderNo(intake.getStaffId());
        
-        this.getHibernateTemplate().saveOrUpdate(history);
+        saveClientHistory(history);
 
         if (log.isDebugEnabled()) {
             log.debug("saveClientReferral: id=" + history.getId());
@@ -187,7 +186,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             history.setProviderNo(admission.getProviderNo());
         }
         history.setHistoryDate(Calendar.getInstance().getTime());
-        this.getHibernateTemplate().saveOrUpdate(history);
+        saveClientHistory(history);
 
         if (log.isDebugEnabled()) {
             log.debug("saveClientReferral: id=" + history.getId());

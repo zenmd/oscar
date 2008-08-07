@@ -676,7 +676,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	         clientReferral.setNotes("Intake Automated referral");
 	         if(intake.getProgramId()!=null) clientReferral.setProgramId(intake.getProgramId());
 	         clientReferral.setProviderNo(intake.getStaffId());
-	         clientReferral.setReferralDate(new Date());          
+	         clientReferral.setReferralDate(Calendar.getInstance()); 
 	         clientReferral.setStatus(KeyConstants.STATUS_PENDING);
 	         clientReferral.setAutoManual(KeyConstants.AUTOMATIC);
 	         clientReferral.setFromProgramId(intake.getProgramId());
@@ -688,7 +688,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	    	 programQueue.setNotes(clientReferral.getNotes());
 	    	 programQueue.setProgramId(clientReferral.getProgramId());
 	    	 programQueue.setProviderNo(Integer.valueOf(clientReferral.getProviderNo()));
-	    	 programQueue.setReferralDate(clientReferral.getReferralDate());
+	    	 programQueue.setReferralDate(clientReferral.getReferralDate().getTime());
 	    	 programQueue.setReferralId(clientReferral.getId());
 	      }
 		  

@@ -296,7 +296,7 @@ public class AdmissionManager {
 		  referral.setProgramId(admission.getBedProgramId());
 		  referral.setFromProgramId(admission.getBedProgramId());
 		  referral.setProviderNo(admission.getProviderNo());
-		  referral.setReferralDate(new Date());
+		  referral.setReferralDate(Calendar.getInstance());
 		  referral.setStatus(KeyConstants.STATUS_PENDING);
 		  referral.setAutoManual(KeyConstants.AUTOMATIC);
 	      clientReferralDAO.saveClientReferral(referral);
@@ -306,7 +306,7 @@ public class AdmissionManager {
 	      queue.setNotes(referral.getNotes());
 	      queue.setProgramId(referral.getProgramId());
 		  queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-		  queue.setReferralDate(referral.getReferralDate());
+		  queue.setReferralDate(referral.getReferralDate().getTime());
 	      queue.setReferralId(referral.getId());
 	      queue.setPresentProblems(referral.getPresentProblems());
 		  queue.setReferralId(referral.getId());
@@ -318,7 +318,7 @@ public class AdmissionManager {
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
 		    queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-		    queue.setReferralDate(referral.getReferralDate());
+		    queue.setReferralDate(referral.getReferralDate().getTime());
             queue.setReferralId(referral.getId());
             queue.setPresentProblems(referral.getPresentProblems());
 	        queue.setReferralId(referral.getId());

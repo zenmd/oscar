@@ -40,6 +40,8 @@
 <html:hidden property="referral.id" />
 <html:hidden property="referral.programId" />
 <html:hidden property="referral.status"/>
+<html:hidden property="referral.referralDateTxt" />
+<html:hidden property="referral.completionDateTxt" />
 <input type="hidden" name="selectedProgramId"/>
 <input type="hidden" name="rId" />
 <input type="hidden" name="method" />

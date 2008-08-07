@@ -176,7 +176,7 @@ public class ClientManager {
             queue.setNotes(referral.getNotes());
             queue.setProgramId(referral.getProgramId());
             queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-            queue.setReferralDate(referral.getReferralDate());
+            queue.setReferralDate(referral.getReferralDate().getTime());
             queue.setReferralId(referral.getId());
             queue.setPresentProblems(referral.getPresentProblems());
           }else{
@@ -187,7 +187,7 @@ public class ClientManager {
                queue.setNotes(referral.getNotes());
                queue.setProgramId(referral.getProgramId());
                queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-               queue.setReferralDate(referral.getReferralDate());
+               queue.setReferralDate(referral.getReferralDate().getTime());
                queue.setReferralId(referral.getId());
                queue.setPresentProblems(referral.getPresentProblems());
         	}else{
@@ -196,7 +196,7 @@ public class ClientManager {
                queue.setNotes(referral.getNotes());
                queue.setProgramId(referral.getProgramId());
                queue.setProviderNo(Integer.valueOf(referral.getProviderNo()));
-               queue.setReferralDate(referral.getReferralDate());
+               queue.setReferralDate(referral.getReferralDate().getTime());
                queue.setReferralId(referral.getId());
                queue.setPresentProblems(referral.getPresentProblems());
         	}

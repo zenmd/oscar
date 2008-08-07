@@ -183,7 +183,7 @@ function openHealthSafety(){
 	
 	<display:column property="programName" sortable="true" title="Program Name" />
 	<display:column property="programType" sortable="true" title="Program Type" />
-	<display:column property="referralDate" format="{0, date, yyyy/MM/dd hh:mm a}" sortable="true" title="Referral Date" />
+	<display:column property="referralDate.time" format="{0, date, yyyy/MM/dd hh:mm a}" sortable="true" title="Referral Date" />
 	<display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
 	<display:column property="daysCreated" sortable="true" title="Days in Queue">
 	</display:column>
