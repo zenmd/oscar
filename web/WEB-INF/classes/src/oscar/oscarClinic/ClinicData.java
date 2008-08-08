@@ -76,8 +76,8 @@ public class ClinicData {
     
     void fillClinicData(){
         if (!filled){
+            DBPreparedHandler db = new DBPreparedHandler();
             try{
-               DBPreparedHandler db = new DBPreparedHandler();
                java.sql.ResultSet rs;
                String sql = "select * from clinic ";
                rs = db.queryResults(sql);
@@ -96,13 +96,15 @@ public class ClinicData {
                  clinic_delim_fax       = db.getString(rs,"clinic_delim_fax"); 
                   
                }
-               
-                db.closeConn();
             }
             catch(SQLException e)
             {
                 System.out.println(e.getMessage());
-            } 
+            }
+            finally
+            {
+            	db.closeConn();
+            }
             filled = true;
         }
     }

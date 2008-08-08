@@ -40,9 +40,8 @@ public class SendMessageClient {
         String wsURL = null;
         WebServiceClient client = null;
 
+        db = new DBPreparedHandler();
         try {
-            db = new DBPreparedHandler();
-
             //System.out.println("");
             String sql = "SELECT remoteServerURL FROM oscarcommlocations WHERE current1 = 1";
             ResultSet rs = db.queryResults(sql);
@@ -52,6 +51,10 @@ public class SendMessageClient {
             rs.close();
         } catch (Exception ex) {
             throw new OscarCommClientException("Could not connect to database: " + databaseURL + databaseName, ex);
+        }
+        finally
+        {
+        	db.closeConn();
         }
 
         client = new WebServiceClient(wsURL);

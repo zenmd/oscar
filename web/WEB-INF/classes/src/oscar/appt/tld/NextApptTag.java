@@ -61,8 +61,8 @@ public class NextApptTag extends TagSupport {
     public int doStartTag() throws JspException    {
        Date nextApptDate = null;
        if (demoNo != null && !demoNo.equalsIgnoreCase("") && !demoNo.equalsIgnoreCase("null")){
+           DBPreparedHandler db = new DBPreparedHandler();
            try {
-              DBPreparedHandler db = new DBPreparedHandler();
 //              String sql = "select * from appointment where demographic_no = '"+demoNo+"' and status not like '%C%' and appointment_date >= now() order by appointment_date limit 1";
               String sql = "select * from appointment where demographic_no = '"+demoNo+"' and status not like '%C%' and appointment_date >= now() order by appointment_date";
               ResultSet rs = db.queryResults(sql);
@@ -70,10 +70,13 @@ public class NextApptTag extends TagSupport {
                  nextApptDate = rs.getDate("appointment_date");
               }
               rs.close();
-              db.closeConn();
            }catch(SQLException e)        {
               e.printStackTrace(System.out);
            } 
+           finally
+           {
+               db.closeConn();
+           }
        }    
        String s = "";
        try{

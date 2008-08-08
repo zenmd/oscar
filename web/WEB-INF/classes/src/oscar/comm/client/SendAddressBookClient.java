@@ -41,8 +41,8 @@ public class SendAddressBookClient {
         DBPreparedHandler db = null;
         WebServiceClient client = null;
 
+        db = new DBPreparedHandler();
         try {
-            db = new DBPreparedHandler();
             System.out.println("");
 
             String sql = "SELECT remoteServerURL FROM oscarcommlocations WHERE current1 = 1";
@@ -53,6 +53,10 @@ public class SendAddressBookClient {
             rs.close();
         } catch (Exception ex) {
             throw new OscarCommClientException("Could not connect to database: " + databaseURL + databaseName, ex);
+        }
+        finally
+        {
+        	db.closeConn();
         }
 
         client = new WebServiceClient(wsURL);

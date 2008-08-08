@@ -109,8 +109,8 @@ public class SecurityTag implements Tag {
         Vector ret = new Vector();
         Properties prop = new Properties();
         DBPreparedHandler db =null;
+    	db = new DBPreparedHandler();
         try {  
-        	db = new DBPreparedHandler();
             java.sql.ResultSet rs;
             String [] objectNames  = getVecObjectName(objName);
             StringBuffer objectWhere = new StringBuffer();
@@ -134,10 +134,13 @@ public class SecurityTag implements Tag {
             ret.add(roleInObj);
             //System.out.println(roleInObj);
             rs.close();
-            db.closeConn();
         } catch (java.sql.SQLException e) {
             e.printStackTrace(System.out);
-        }        
+        }
+        finally
+        {
+        	db.closeConn();
+        }
         return ret;
     }
     /**

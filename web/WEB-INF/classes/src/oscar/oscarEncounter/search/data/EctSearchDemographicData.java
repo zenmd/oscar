@@ -155,9 +155,9 @@ public class EctSearchDemographicData
         if(sql != null)
         {
             vector = new Vector();
+            DBPreparedHandler db = new DBPreparedHandler();
             try
             {
-                DBPreparedHandler db = new DBPreparedHandler();
                 ResultSet rs;
                 EctDemographicData demographicData;
                 for(rs = db.queryResults(sql); rs.next(); vector.add(demographicData))
@@ -179,11 +179,14 @@ public class EctSearchDemographicData
                 }
 
                 rs.close();
-                db.closeConn();
             }
             catch(SQLException e)
             {
                 System.out.println(e.getMessage());
+            }
+            finally
+            {
+                db.closeConn();
             }
         }
         return vector;

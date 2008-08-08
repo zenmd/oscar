@@ -54,9 +54,9 @@ public class ScratchData {
     
     public Hashtable getLatest(String providerNo){
         Hashtable retval = null;
+        DBPreparedHandler db = new DBPreparedHandler();
         try {
             //Get Provider from database
-            DBPreparedHandler db = new DBPreparedHandler();
             ResultSet rs;
             String sql = "SELECT * FROM scratch_pad WHERE provider_no = " + providerNo + " order by id  desc limit 1";
             rs = db.queryResults(sql);
@@ -68,24 +68,30 @@ public class ScratchData {
                 retval.put("date",db.getString(rs,"date_time"));
             }
             rs.close();
-            db.closeConn();
         } catch (SQLException e) {
            e.printStackTrace();
+        }
+        finally
+        {
+            db.closeConn();
         }
         return retval;
     }
     
     public String insert2(String providerNo,String text){
         String scratch_id = null;
+        DBPreparedHandler db = new DBPreparedHandler();
         try {
             //Get Provider from database
-            DBPreparedHandler db = new DBPreparedHandler();
             String sql = "INSERT into scratch_pad (provider_no, scratch_text,date_time ) values ('" + providerNo + "','"+text+"',now())";
             int sId = db.queryExecuteInsertReturnId(sql);
             scratch_id = Integer.toString(sId);
-            db.closeConn();
         } catch (SQLException e) {
            e.printStackTrace();
+        }
+        finally
+        {
+            db.closeConn();
         }
         return scratch_id;
     }
@@ -93,9 +99,9 @@ public class ScratchData {
     
     public String insert(String providerNo,String text){
         String scratch_id = null;
+        DBPreparedHandler db = new DBPreparedHandler();
         try {
             //Get Provider from database
-            DBPreparedHandler db = new DBPreparedHandler();
              String sql = "INSERT into scratch_pad (provider_no, scratch_text,date_time ) values (?,?,now())";
              DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[2];
 //             PreparedStatement pstat = conn.prepareStatement(sql);
@@ -104,9 +110,12 @@ public class ScratchData {
             
              int sId = db.queryExecuteInsertReturnId(sql, params);
              scratch_id = ""+sId;
-             db.closeConn();
         } catch (SQLException e) {
            e.printStackTrace();
+        }
+        finally
+        {
+            db.closeConn();
         }
         return scratch_id;
     }
