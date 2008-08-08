@@ -200,8 +200,9 @@ public class AdmissionManager {
   	    	roomDemographicDAO.saveRoomDemographic(roomDemographic);
             saveRoomDemographicHistory(admission, roomDemographic, cal);            
   	      }
-   	      roomName = roomDemographic.getRoomName();
-   	      bedName = roomDemographic.getBedName();
+  	      rdm = roomDemographicDAO.getRoomDemographicByDemographic(roomDemographic.getId().getDemographicNo());
+   	      roomName = rdm.getRoomName();
+   	      bedName = rdm.getBedName();
   	      clientHistoryDao.saveClientHistory(admission, roomName, bedName);
     	}
     }
