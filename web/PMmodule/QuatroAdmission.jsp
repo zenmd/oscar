@@ -55,7 +55,7 @@ function submitForm(methodVal) {
 	  if(isBeforeToday(ovPassStartDateTxt.value)){
         alert("Overnight Pass start date must not be earlier than today.");
         ovPassEndDateTxt.focus();
-	  }else if(!isBefore(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
+	  }else if(!isBeforeorEqual(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
         alert("Overnight Pass end date must be after start date.");
         ovPassEndDateTxt.focus();
 	  }else{
