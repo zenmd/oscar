@@ -13,8 +13,56 @@
 <html:hidden property="intakeId" />
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
+function isName(str) 
+{ 
+    var reg = new RegExp(/^[\s\'\-a-zA-Z]+$/); 
+    var flag = reg.test(str);
+    if(flag){
+		var len = str.length;
+		var startChar = str.substring(0,1);
+		var endChar = str.substring(len-1);
+		if(startChar == "'" || startChar == "-" || endChar == "'" || endChar == "-" || str.indexOf("''") >= 0 || str.indexOf("--") >= 0|| str.indexOf("  ") >= 0){
+			flag = false	
+		}	
+	}
+	return flag;
+}
+
 function submitForm(methodVal) {
 	trimInputBox();
+
+    var lineNum = document.getElementsByName("dependentsSize")[0].value;
+    var lastName;
+    var firstName;
+    
+    for(var i=0;i<lineNum;i++){
+      lastName = document.getElementsByName("dependent[" + i + "].lastName")[0];
+      firstName = document.getElementsByName("dependent[" + i + "].firstName")[0];
+      if(firstName.value.trim()==""){
+        alert("First name is empty.");
+        firstName.value="";
+        firstName.focus();
+        return; 
+      }
+      if(!isName(firstName.value.trim())){
+        alert("First name contains illegal character!");
+        firstName.focus();
+        return; 
+      }
+      if(lastName.value.trim()==""){
+        alert("Last name is empty.");
+        lastName.value="";
+        lastName.focus();
+        return; 
+      }
+      if(!isName(lastName.value.trim())){
+        alert("Last name contains illegal character!");
+        lastName.focus();
+        return; 
+      }
+      
+    }
+
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
