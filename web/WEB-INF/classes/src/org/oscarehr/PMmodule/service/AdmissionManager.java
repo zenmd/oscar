@@ -273,8 +273,10 @@ public class AdmissionManager {
 			if(admLoc != null && admLoc.getId().intValue()!=admission.getId().intValue()){ 
 				admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
 				admLoc.setDischargeDate(Calendar.getInstance());
-			  	admLoc.setDischargeNotes(admission.getDischargeNotes());	
+			  	admLoc.setDischargeNotes(admission.getDischargeNotes());			  	
 				admLoc.setCommunityProgramCode(admission.getCommunityProgramCode());
+				admLoc.setDischargeReason(admission.getDischargeReason());
+				admLoc.setTransportationType(admission.getTransportationType());
 			  	admissionDao.updateDischargeInfo(admLoc);
 				RoomDemographic rdm2 = roomDemographicDAO.getRoomDemographicByDemographic(admLoc.getClientId());
 				if(rdm2!=null){ 
