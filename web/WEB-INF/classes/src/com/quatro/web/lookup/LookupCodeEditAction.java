@@ -50,6 +50,14 @@ public class LookupCodeEditAction extends DispatchAction {
         LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId);
         
 		List codeFields = lookupManager.GetCodeFieldValues(tableDef, code);
+		boolean editable=false;
+		for(int i=0;i<codeFields.size();i++){
+			FieldDefValue fdv =(FieldDefValue)codeFields.get(i);
+			if(fdv.isEditable()){
+				editable=true;
+				break;
+			}
+		}
 		LookupCodeEditForm qform = (LookupCodeEditForm) form;
 		
 		qform.setTableDef(tableDef);
@@ -61,6 +69,7 @@ public class LookupCodeEditAction extends DispatchAction {
 		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);	
 		if (sec.GetAccess(KeyConstants.FUN_ADMIN_LOOKUP, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
 			isReadOnly=true;
+		if(!editable) isReadOnly = true;
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("edit");
 	}
