@@ -345,11 +345,17 @@ public class LookupDao extends HibernateDaoSupport {
 		String sql = "select max(" + idFieldName + ")";
 		sql += " from " + tableName;
 		DBPreparedHandler db = new DBPreparedHandler();
-		ResultSet rs = db.queryResults(sql);
-		int id = 0;
-		if (rs.next()) 
-			 id = rs.getInt(1);
-		return id + 1;
+		try {
+			ResultSet rs = db.queryResults(sql);
+			int id = 0;
+			if (rs.next()) 
+				 id = rs.getInt(1);
+			return id + 1;
+		}
+		finally
+		{
+			db.closeConn();
+		}
 	}
 	
 	public String SaveCodeValue(boolean isNew, LookupTableDefValue tableDef, List fieldDefList) throws SQLException

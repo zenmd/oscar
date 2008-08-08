@@ -111,8 +111,8 @@ public class ORGDao extends HibernateDaoSupport {
 		   pars[j] = params[j];
 	   }
 	   
-	   DBPreparedHandler db = new DBPreparedHandler();
 	   ArrayList list = new ArrayList();
+	   DBPreparedHandler db = new DBPreparedHandler();
 	   try {
 		   ResultSet rs = db.queryResults(sSQL,pars);
 		   while (rs.next()) {
@@ -132,6 +132,10 @@ public class ORGDao extends HibernateDaoSupport {
 	   catch(SQLException e)
 	   {
 		   System.out.println(e.getStackTrace().toString());
+	   }
+	   finally
+	   {
+		   db.closeConn();
 	   }
 	   return list;
 	}
