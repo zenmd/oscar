@@ -122,13 +122,9 @@ public class AdmissionManager {
     	    }
     	  }else{    		  
        	    roomDemographicDAO.saveRoomDemographic(roomDemographic);
-//       	    roomName = roomDemographic.getRoomName();
-//          	bedName = roomDemographic.getBedName();
     	  }
-//     	  roomName = roomDAO.getRoom(roomDemographic.getId().getRoomId()).getName();
-   	      roomName = roomDemographic.getRoomName();
-          bedName = roomDemographic.getBedName();
-//      	  if (roomDemographic.getBedId() != null) bedName = bedDAO.getBed(roomDemographic.getBedId()).getName();
+     	  roomName = roomDAO.getRoom(roomDemographic.getId().getRoomId()).getName();
+      	  if (roomDemographic.getBedId() != null) bedName = bedDAO.getBed(roomDemographic.getBedId()).getName();
           saveRoomDemographicHistory(admission, roomDemographic, cal);
           clientHistoryDao.saveClientHistory(admission,roomName, bedName);
     	}

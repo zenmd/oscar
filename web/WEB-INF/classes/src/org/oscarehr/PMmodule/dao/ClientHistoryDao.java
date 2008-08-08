@@ -100,8 +100,8 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         if (history == null) {
             throw new IllegalArgumentException();
         }
-        List lhis = getClientHistories(history);
-        if (lhis.size() > 0) return;
+//        List lhis = getClientHistories(history);
+//        if (lhis.size() > 0) return;
 
         this.getHibernateTemplate().saveOrUpdate(history);
 
