@@ -36,7 +36,7 @@ import com.quatro.model.security.*;
 import com.quatro.service.security.*;
 
 public class LoginCheckLogin {
-    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
+//    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
 
     LoginInfoBean linfo = null;
 

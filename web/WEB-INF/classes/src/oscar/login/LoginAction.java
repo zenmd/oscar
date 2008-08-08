@@ -56,10 +56,13 @@ public final class LoginAction extends DispatchAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
     private static final String LOG_PRE = "Login!@#$: ";
 
-    private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
-    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
+//    private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
+//    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
 
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private ProviderManager providerManager;
+    private LookupManager lookupManager;
+    
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ActionMessages messages = new ActionMessages();
         String ip = request.getRemoteAddr();
@@ -160,5 +163,13 @@ public final class LoginAction extends DispatchAction {
     
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
+	}
+
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
+	}
+
+	public void setProviderManager(ProviderManager providerManager) {
+		this.providerManager = providerManager;
 	}
 }
