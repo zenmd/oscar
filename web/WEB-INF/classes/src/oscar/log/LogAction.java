@@ -43,6 +43,10 @@ public class LogAction {
             _logger.error("failed to insert into logging table userId" + userId + "(" + provider_no + "), action " + action
                     + ", content " + content + ", contentId " + contentId + ", ip " + ip);
         }
+        finally
+        {
+        	db.closeConn();
+        }
         return ret;
     }
 }
