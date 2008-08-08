@@ -47,17 +47,20 @@ public class programExclusiveViewTag extends TagSupport {
     }
     
     public int doStartTag() throws JspException    {
+        DBPreparedHandler db = new DBPreparedHandler();
         try {
-            DBPreparedHandler db = new DBPreparedHandler();
             String sql = new String("SELECT exclusive_view FROM program WHERE program_id = (SELECT program_id FROM provider_default_program WHERE provider_no='" + providerNo + "')");
             ResultSet rs = db.queryResults(sql);
-	    while (rs.next()) {
-		exclusiveView = db.getString(rs,1);
-	    }
+            while (rs.next()) {
+            	exclusiveView = db.getString(rs,1);
+            }
             rs.close();
-            db.closeConn();
-        }      catch(SQLException e)        {
+        } catch(SQLException e)        {
             e.printStackTrace(System.out);
+        }
+        finally
+        {
+            db.closeConn();
         }
 	
 	/* For the time being, only the Appointment/Oscar view can be set exclusive.

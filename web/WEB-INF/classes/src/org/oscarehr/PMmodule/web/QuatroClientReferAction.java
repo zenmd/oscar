@@ -226,7 +226,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		String cId = (String) actionParam.get("clientId");
 		request.setAttribute("clientId", cId);
 		Provider p = (Provider) request.getSession().getAttribute("provider");
-		if (refObj.getId() == 0) {
+		if (refObj.getId().intValue() == 0) {
 			refObj.setReferralDate(java.util.Calendar.getInstance());
 		}
 		refObj.setProviderNo(p.getProviderNo());
