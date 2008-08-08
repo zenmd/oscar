@@ -3,6 +3,7 @@
 String s = "debug";
 %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
+<%@page import="com.quatro.common.KeyConstants;"%>
 <bean:define id="facility" name="facilityManagerForm"
 	property="facility" />
 
@@ -35,8 +36,10 @@ String s = "debug";
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;|</html:link>
 						<c:if test="${!isReadOnly}">
+							 <security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_MESSAGE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 							<html:link	action="/FacilityMessage.do?method=edit" name="actionParam" 	style="color:Navy;text-decoration:none;">
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New&nbsp;&nbsp;</html:link>
+							</security:oscarSec>
 						</c:if>	
 					</td>
 				</tr>

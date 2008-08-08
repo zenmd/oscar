@@ -73,15 +73,17 @@
 			    <display:column  title="Actions">
 					<c:choose>
 						<c:when test="${'M' eq refer.autoManual and (refer.status eq 'pending') }">
-							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights='w'>
+							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights="<%KeyConstants.ACCESS_UPDATE %>" >
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
 							</security:oscarSec>
-							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights="w" reverse="true">
+							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights="<%KeyConstants.ACCESS_READ %>" reverse="true">
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 							</security:oscarSec>
 						</c:when>					
 						<c:otherwise>
+							<security:oscarSec objectName="_clientRefer" orgCd="<%='P' + ((ClientReferral)refer).getFromProgramId().toString()%>" rights="<%KeyConstants.ACCESS_READ %>" reverse="true">
 							<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
+							</security:oscarSec>
 						</c:otherwise>
 				   </c:choose>
 			    </display:column>

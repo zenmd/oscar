@@ -1,5 +1,5 @@
 <%@ include file="/taglibs.jsp"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <script>
     function ConfirmDelete(name)
     {
@@ -48,8 +48,10 @@
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
 		<c:if test="${!isReadOnly}">
+		 <security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_BED %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 		  <a href='<html:rewrite action="/PMmodule/BedManager.do?method=editBed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>&bedId=0' style="color:Navy;text-decoration:none">
 		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add Bed&nbsp;&nbsp;|</a>
+		</security:oscarSec>
 		</c:if>	
 
 		<html:link action="/Home.do"	style="color:Navy;text-decoration:none">&nbsp;

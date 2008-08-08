@@ -146,10 +146,11 @@
 							</c:choose>
 						</display:column>
 						<display:column sortable="true" title="">
-							<input type="button"
-								<%=allowTerminateEarly?"":"disabled=\"disabled\""%>
-								value="Terminate Early"
-								onclick="terminateEarly(<%=temp.getId()%>, <%=request.getAttribute("clientId") %>)" />
+						   <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTRESTRICTION %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
+								<input type="button" <%=allowTerminateEarly?"":"disabled=\"disabled\""%>
+									value="Terminate Early"
+									onclick="terminateEarly(<%=temp.getId()%>, <%=request.getAttribute("clientId") %>)" />
+								</security:oscarSec>
 						</display:column>
 						
 					</display:table></td>

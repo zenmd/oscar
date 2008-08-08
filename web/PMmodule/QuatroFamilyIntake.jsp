@@ -1,6 +1,6 @@
 <%@ include file="/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
  
@@ -226,13 +226,13 @@ function checkExistClients(i){
 
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
-<c:if test="${isReadOnly==false}">
-<c:if test="${quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
+<c:if test="${isReadOnly && quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
+<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE%>" rights="<%=KeyConstants.ACCESS_WRITE %>">								
 &nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependent</a>
 &nbsp;|
-</c:if>
 &nbsp;
-<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependent</a>
+	<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependent</a>
+</security:oscarSec>
 </c:if>
 <c:choose>
 <c:when test="${bDupliDemographicNoApproved==false}">

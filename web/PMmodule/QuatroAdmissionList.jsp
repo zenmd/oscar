@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="org.oscarehr.PMmodule.model.Admission"%>
 <%@page import="java.util.Date"%>
-
+<%@page import="com.quatro.common.KeyConstants;"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
  
 <html-el:form action="/PMmodule/QuatroAdmission.do">
@@ -65,9 +65,12 @@ function updateQuatroAdmission(clientId, admissionId) {
    <display:column property="providerName" sortable="true" title="Staff" />
    <display:column property="admissionStatus" sortable="true" title="Status" />
    <display:column sortable="false" title="Actions" >
-	<c:choose>								
+	<c:choose>	
+	 
 	  <c:when test="${admission.admissionStatus == 'admitted'}">
+	  <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
           <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
+       </security:oscarSec> 
 	  </c:when>
 	  <c:otherwise>
         <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>

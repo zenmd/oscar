@@ -68,12 +68,16 @@ response.setHeader("Cache-Control", "no-cache");
 		  		Delete
 		  	</html:link>		  	
 		  	-->
+		  	 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
 		  	<a title="Delete" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=delete&id=<c:out value="${atth.id}" />">
 				Delete </a>
+			</security:oscarSec>	
 		  </display:column>	
 		  <display:column sortable="false" title="">
+		   <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
 		  	<a title="Edit" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=edit&id=<c:out value="${atth.id}" />">
 				Edit </a>
+			</security:oscarSec>	
 		  </display:column>		  
 		  <display:column  sortable="true" title="File Name">
 		 

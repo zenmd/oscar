@@ -71,10 +71,14 @@ function updateQuatroIntake(clientId, intakeId) {
 			<display:column title="Actions">
 	<c:choose>								
 	<c:when test="${intake.intakeStatus == 'active' || intake.intakeStatus == 'admitted'}">
+	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
 	  <a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >Update</a>			
+	</security:oscarSec>
 	</c:when>
 	<c:otherwise>
-	  <a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >View</a>			
+	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_READ %>">								
+	  <a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >View</a>	
+	 </security:oscarSec>		
 	</c:otherwise>
 	</c:choose>		
 			</display:column>

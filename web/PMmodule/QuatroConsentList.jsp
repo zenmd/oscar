@@ -81,11 +81,15 @@
 			    <display:column sortable="true" title="Actions" sortProperty="lnkAction">
 				  <c:choose>
 					<c:when test="${consentDetail.lnkAction eq 'Withdraw' or consentDetail.lnkAction eq 'withdraw'}">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCONSENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
 					  <a href="javascript:withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" >Withdraw</a>
 					  <a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
+					</security:oscarSec>
 					</c:when>
 					<c:when test="${consentDetail.lnkAction eq 'View' or consentDetail.lnkAction eq 'view'}">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCONSENT%>" rights="<%=KeyConstants.ACCESS_READ %>">								
 					  <a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
+					</security:oscarSec>
 					</c:when>
 					<c:otherwise>&nbsp;</c:otherwise>
 				  </c:choose>
