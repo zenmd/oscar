@@ -37,7 +37,7 @@ function submitForm(methodVal) {
     }
     if(!isName(obj.value.trim())){
       alert("First name contains illegal character!");
-      obj.value="";
+//      obj.value="";
       obj.focus();
       return; 
     }
@@ -51,7 +51,7 @@ function submitForm(methodVal) {
     }
     if(!isName(obj.value.trim())){
       alert("Last name contains illegal character!");
-      obj.value="";
+//      obj.value="";
       obj.focus();
       return; 
     }
