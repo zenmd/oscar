@@ -235,6 +235,11 @@
 -->
 
 	<!-- Admin Start -->
+	<bean name="/login" class="oscar.login.LoginAction" singleton="false">
+		<property name="providerManager" ref="providerManager"/>
+		<property name="lookupManager" ref="lookupManager"/>
+	</bean>
+
 	<bean name="/PMmodule/Admin/ShowORGTree" class="com.quatro.web.admin.ShowORGTreeAction" singleton="false">
         <property name="orgManager" ref="orgManager"/>
 	</bean>
