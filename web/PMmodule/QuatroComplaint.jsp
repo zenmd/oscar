@@ -114,6 +114,11 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			document.getElementsByName("complaint.completedDatex")[0].focus();
 			return;
 		}
+		if(isBeforeToday(completeDate)){
+			alert("Date Completed - Should be today's date or after.");
+			document.getElementsByName("complaint.completedDatex")[0].focus();
+			return;
+		}
 		
 	 	document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
