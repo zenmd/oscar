@@ -379,6 +379,7 @@ public class IntakeManager {
 		intake.setClientId(client.getDemographicNo());
 		if(intake.getId().intValue()==0){
 		    List lst2 = intakeDao.saveQuatroIntake(intake, intakeHeadId, true, null);
+			historyDao.saveClientHistory(intake);
 		    intakeFamily.setIntakeId((Integer)lst2.get(0));
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
