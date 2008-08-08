@@ -134,6 +134,7 @@ public class DBPreparedHandler {
     	finally
     	{
     		conn.setAutoCommit(ac);
+            conn.close();
     	}
     }
 

@@ -394,7 +394,10 @@
             <forward name="edit" path="page.pmm.admin.facility.message.edit" />
         </action>
         <!-- Login -->
+<!-- 
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
+ -->
+        <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
             <forward name="caisiPMM" path="/Home.do" />
  			<forward name="shelterSelection" path="/shelterSelection.do"/> 
  			<forward name="error" path="/index.jsp"></forward> 			
