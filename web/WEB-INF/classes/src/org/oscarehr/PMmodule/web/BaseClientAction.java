@@ -31,6 +31,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.ibm.ws.http.HttpRequest;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
@@ -194,7 +195,14 @@ public abstract class BaseClientAction extends BaseAction {
 			readOnly=true;
 		return readOnly;
 	}
-
+	public String getAccess(HttpServletRequest request, String fucName,Integer programId){
+		String orgCd="";
+		if(programId.intValue()!=0) {
+			orgCd="P" + programId.toString();
+		}
+		SecurityManager sec = super.getSecurityManager(request);
+		return sec.GetAccess(fucName, orgCd);
+	}
 	public CaseManagementManager getCaseManagementManager() {
 		return (CaseManagementManager) getAppContext().getBean(
 				"caseManagementManager");

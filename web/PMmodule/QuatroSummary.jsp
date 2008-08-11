@@ -22,6 +22,9 @@ function openHealthSafety(){
  
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
 <input type="hidden" name="method" value="edit" />
+<input type="hidden" name="accessTypeRead" />
+<input type="hidden" name="accessTypeWrite" />
+<input type="hidden" name="accessTypeUpdate" />
 <input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
@@ -77,31 +80,43 @@ function openHealthSafety(){
 	<td colspan="3"><c:out value="${client.alias}" /></td></tr>
 	<tr><td>Health and Safety</td>
 	<td colspan="3">&nbsp;
-        <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTHEALTHSAFETY%>" rights="<%=KeyConstants.ACCESS_READ%>">
+      <c:if test="${accessTypeRead}">
         <table width="100%" class="simple" style="background: #e0e0e0;" cellspacing="2" cellpadding="2">
 		<c:choose>
 		  <c:when test="${empty healthsafety and !isReadOnly}">
 			<tr><td>None found</td>
-			<td><a href="javascript:openHealthSafety()">New Health and Safety</a></td></tr>
+			<td>
+			<c:if test="${accessTypeWrite}">
+				<a href="javascript:openHealthSafety()">New Health and Safety</a>
+			</c:if>
+			</td></tr>
 		  </c:when>
 	      <c:when test="${empty healthsafety.message and !isReadOnly}">
 			<tr><td>None found</td>
-			<td><a href="javascript:openHealthSafety()">New Health and Safety</a></td></tr>
+			<td> 
+				 <c:if test="${accessTypeWrite}">
+					<a href="javascript:openHealthSafety()">New Health and Safety</a>
+				</c:if>			
+			</td></tr>
 		  </c:when>
 		  <c:otherwise>
 			<tr><td colspan="3"><c:out value="${healthsafety.message}" /></td></tr>
 			<tr><td width="50%">User Name: <c:out value="${healthsafety.userName}" /></td>
 			<td width="30%">Date: <fmt:formatDate value="${healthsafety.updateDate}" pattern="yyyy/MM/dd" /></td>
 			<td width="20%">
-			<c:if test="${not isReadOnly}">
-			 	<a href="javascript:openHealthSafety()">Edit</a>
-			 	<a href="submitForm('deleteHS')"> Delete </a>
+			<c:if test="${!isReadOnly}">				 
+				  <c:if test="${accessTypeUpdate}">
+			 		<a href="javascript:openHealthSafety()">Edit</a>
+			 	</c:if>
+			 	 <c:if test="${accessTypeWrite}">
+			 		<a href="submitForm('deleteHS')"> &nbsp;&nbsp;Delete </a>
+			 	</c:if>				 	
 			 </c:if>
 			</td></tr>
 		  </c:otherwise>
 		</c:choose>
        </table>
- 	   </security:oscarSec>
+	</c:if>
  	</td></tr>
 	<tr>
 		<td>SDMT Benefit Unit Status</td>

@@ -52,6 +52,38 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        return edit(mapping, form, request, response);
    }
 
+   private void setAccessType(HttpServletRequest request, List intakeHeadList){
+	   QuatroIntakeHeader obj0=null;
+	   Integer programId = null;
+	   String accessType="";
+	   for(int i=0; i<intakeHeadList.size() ; i++) {
+    	   obj0=  (QuatroIntakeHeader)intakeHeadList.get(i);
+    	   programId=obj0.getProgramId();
+    	   accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
+    	   if(accessType.compareTo(KeyConstants.ACCESS_READ)>=0){
+    		  request.setAttribute("accessTypeRead",Boolean.TRUE);
+    		  break;
+    	   }
+       }
+	   for(int i=0; i<intakeHeadList.size() ; i++) {
+    	   obj0=  (QuatroIntakeHeader)intakeHeadList.get(i);
+    	   programId=obj0.getProgramId();
+    	   accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
+    	   if(accessType.compareTo(KeyConstants.ACCESS_UPDATE)>=0){
+    		  request.setAttribute("accessTypeUpdate",Boolean.TRUE);
+    		  break;
+    	   }
+       }
+	   for(int i=0; i<intakeHeadList.size() ; i++) {
+    	   obj0=  (QuatroIntakeHeader)intakeHeadList.get(i);
+    	   programId=obj0.getProgramId();
+    	   accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
+    	   if(accessType.compareTo(KeyConstants.ACCESS_WRITE)>=0){
+    		  request.setAttribute("accessTypeWrite",Boolean.TRUE);
+    		  break;
+    	   }
+       }
+   }
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_SUMMARY);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -80,15 +112,19 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
        QuatroIntakeHeader obj0 = null;
        Integer programId=null;
-       boolean readOnly = true;
+       boolean readOnly = true;        
        for(int i=0; i<lst.size() ; i++) {
     	   obj0=  (QuatroIntakeHeader)lst.get(i);
     	   programId=obj0.getProgramId();
            readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
-    	   if (!readOnly) break;
-       }
+    	   if (!readOnly) {
+    		   //accessTypeWrite=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
+    		   break;
+    		   
+    	   }
+       }       
        request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
-       
+       this.setAccessType(request, lst);
        for(int i=0;i<lst.size();i++){
     	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
     	 if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){

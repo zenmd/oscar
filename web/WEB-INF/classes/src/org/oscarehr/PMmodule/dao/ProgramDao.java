@@ -229,7 +229,7 @@ public class ProgramDao extends HibernateDaoSupport {
         }
 
         if (program.getAgeMax().intValue()>=0) {
-            criteria.add(Expression.ge("ageMax", program.getAgeMax()));
+            criteria.add(Expression.le("ageMax", program.getAgeMax()));
         }
          criteria.addOrder(Order.asc("name"));
 
