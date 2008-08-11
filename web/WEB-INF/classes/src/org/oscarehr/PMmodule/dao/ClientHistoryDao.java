@@ -57,9 +57,9 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         String sql = "(program_id in " + orgSql + " or program_id2 in " + orgSql + ")"; 
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.in("ClientId", clients));
+        criteria.addOrder(Order.asc("HistoryDate"));
         criteria.addOrder(Order.asc("ActionDate"));
         criteria.addOrder(Order.asc("Action"));
-        criteria.addOrder(Order.asc("HistoryDate"));
         List results = criteria.list();
         
         if (log.isDebugEnabled()) {
