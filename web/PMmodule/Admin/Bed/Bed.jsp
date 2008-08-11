@@ -83,13 +83,13 @@
 				<tr><td width="100%">								
 				<table width="100%" class="simple">
 				  <tr>
-				  <td width="25%">Program</td>
-				  <td width="25%">Room Name</td>
-				  <td width="10%">Floor</td>
-				  <td width="15%">Type</td>
-				  <td width="10%">Assigned Beds</td>
-				  <td width="10%">Room Capacity</td>
-				  <td width="5%">Active</td>
+				  <th style="background-color: #eee" width="25%">Program</th>
+				  <th style="background-color: #eee" width="25%">Room Name</th>
+				  <th style="background-color: #eee" width="10%">Floor</th>
+				  <th style="background-color: #eee" width="15%">Type</th>
+				  <th style="background-color: #eee" width="10%">Assigned Beds</th>
+				  <th style="background-color: #eee" width="10%">Room Capacity</th>
+				  <th style="background-color: #eee" width="5%">Active</th>
 				  </tr>
 
 				  <tr>
