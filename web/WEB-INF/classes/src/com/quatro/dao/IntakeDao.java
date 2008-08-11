@@ -436,15 +436,9 @@ public class IntakeDao extends HibernateDaoSupport {
 	    String progSQL = com.quatro.util.Utility.getUserOrgQueryString(providerNo, shelterId);
 
 	    results = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in " + clientIds+" and i.programId in " + progSQL +
-	    		" and (i.intakeStatus = '" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
-	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "'" +
-	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_REJECTED + "'" +
-	    	    " or i.intakeStatus='" +  KeyConstants.STATUS_INACTIVE + "'" +
-	    	    " or i.intakeStatus='" +  KeyConstants.INTAKE_STATUS_DISCHARGED + "')" +
 	            "  order by i.createdOn desc");
 		return results;
 	}
-	
 	public List getActiveQuatroIntakeHeaderListByFacility(Integer clientId, Integer shelterId, String providerNo) {
 
 		List results = null;

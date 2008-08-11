@@ -53,6 +53,18 @@ public class HealthSafetyDao extends HibernateDaoSupport {
 
         return result;
     }
+	public void deleteHealthSafetyByDemographic(Integer demographicNo) {
+        if (demographicNo == null || demographicNo.intValue() <= 0) {
+            throw new IllegalArgumentException();
+        }
+        HealthSafety hs = getHealthSafetyByDemographic(demographicNo);
+        getHibernateTemplate().delete(hs);
+
+        if (log.isDebugEnabled()) {
+            log.debug("delteHealthSafetyByDemographic:id=" + demographicNo);
+        }
+        return;
+    }
 
     public void saveHealthSafetyByDemographic(HealthSafety healthsafety) {
         if (healthsafety == null) {

@@ -4,13 +4,9 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
- 
-<html-el:form action="/PMmodule/QuatroClientSummary.do">
-<input type="hidden" name="method" value="edit" />
-<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
-<input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <script lang="javascript">
-function submitForm(methodVal) {
+<!--
+	function submitForm(methodVal) {
 	trimInputBox();
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
@@ -21,9 +17,13 @@ function openHealthSafety(){
 		url += '?method=form&clientId='+ '<c:out value="${client.demographicNo}"/>';
 	win=window.open(url,'HealthSafety', 'scrollbars=1,width=800,height=450');
 }	
-
+// -->
 </script>
-
+ 
+<html-el:form action="/PMmodule/QuatroClientSummary.do">
+<input type="hidden" name="method" value="edit" />
+<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
+<input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Summary</th></tr>
 	<tr>
@@ -95,6 +95,7 @@ function openHealthSafety(){
 			<td width="20%">
 			<c:if test="${not isReadOnly}">
 			 	<a href="javascript:openHealthSafety()">Edit</a>
+			 	<a href="submitForm('deleteHS')"> Delete </a>
 			 </c:if>
 			</td></tr>
 		  </c:otherwise>

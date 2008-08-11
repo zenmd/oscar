@@ -40,6 +40,10 @@ public class HealthSafetyManager {
 	public HealthSafety getHealthSafetyByDemographic(Integer demographicNo) {
 		return healthSafetyDao.getHealthSafetyByDemographic(demographicNo);
 	}
+	
+	public void deleteHealthSafetyByDemographic(Integer demographicNo) {
+		healthSafetyDao.deleteHealthSafetyByDemographic(demographicNo);
+	}
 
     public void saveHealthSafetyByDemographic(HealthSafety healthsafety) {
     	healthSafetyDao.saveHealthSafetyByDemographic(healthsafety);

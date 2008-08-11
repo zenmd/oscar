@@ -77,15 +77,16 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
        
-       List lst = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+       List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
        QuatroIntakeHeader obj0 = null;
        Integer programId=null;
-       if(lst.size()>0) {
-    	   obj0=  (QuatroIntakeHeader)lst.get(0);
+       boolean readOnly = true;
+       for(int i=0; i<lst.size() ; i++) {
+    	   obj0=  (QuatroIntakeHeader)lst.get(i);
     	   programId=obj0.getProgramId();
+           readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
+    	   if (!readOnly) break;
        }
-      
-       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
        request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
        
        for(int i=0;i<lst.size();i++){
@@ -145,6 +146,13 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 
        return mapping.findForward("edit");
    }
+   public ActionForward deleteHS(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+   {
+	   String clientId=request.getParameter("clientId");
+	   healthSafetyManager.deleteHealthSafetyByDemographic(Integer.valueOf(clientId));
+	   return  edit(mapping, form, request, response);
+   }
+
 /*
    private void setEditAttributes(ActionForm form, HttpServletRequest request, String demographicNo) {
        
