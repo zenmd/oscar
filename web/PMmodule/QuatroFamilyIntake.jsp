@@ -226,10 +226,12 @@ function checkExistClients(i){
 
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
-<c:if test="${isReadOnly && quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
+<c:if test="${!isReadOnly}">
 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE%>" rights="<%=KeyConstants.ACCESS_WRITE %>">								
+<c:if test= "${quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
 &nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependent</a>
 &nbsp;|
+</c:if>
 &nbsp;
 	<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependent</a>
 </security:oscarSec>
