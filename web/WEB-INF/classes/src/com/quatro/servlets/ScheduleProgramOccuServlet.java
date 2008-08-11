@@ -23,52 +23,38 @@ import com.quatro.common.KeyConstants;
 import oscar.OscarProperties;
 
 public class ScheduleProgramOccuServlet extends HttpServlet {
+	 
 	  private static final Logger logger = LogManager.getLogger(ScheduleProgramOccuServlet.class);
 
 	    private static final Timer programOccuTimer = new Timer(true);
-
-	    private static final long GERNERATE_PERIOD = DateUtils.MILLIS_PER_DAY*24;
-	    private static long dataRetentionTimeMillis = -1;
-	    private static String startTime="";
 	    private static ProgramOccuTimerTask programOccuTimerTask = null;
-	   
+	    private static boolean runAsPrevousDay = true;
 	    private static ProgramOccupancyDao programOccupancyDao = null;
 
 	    public static class ProgramOccuTimerTask extends TimerTask {
 	    	String providerNo="1111";
 	        public void run() {
 	            logger.debug("ProgramOccuTimerTask timerTask started.");	
-	            setDelayTime();
-	            long taskTime=dataRetentionTimeMillis;
-	            Calendar today = Calendar.getInstance();
-	            long now =today.getTimeInMillis();	            
-	            if(now>dataRetentionTimeMillis) {
-	            	//taskTime=dataRetentionTimeMillis+1000*60*60*24;
-	            	//get time from dataRetentionTimeMillis and get date from now
-	            	Calendar sDt = Calendar.getInstance();
-	            	sDt.set(Calendar.HOUR_OF_DAY,Integer.valueOf(startTime.substring(0,2)).intValue());
-	            	sDt.set(Calendar.MINUTE, Integer.valueOf(startTime.substring(2)).intValue());
-	            	taskTime=sDt.getTimeInMillis();
-	            }
 	            try {
-	                if (Math.abs(Calendar.getInstance().getTimeInMillis()-taskTime)<=1000) {
-	                // delete old redirect entries
-	                programOccupancyDao.deleteProgramOccupancy(Calendar.getInstance());
-	                programOccupancyDao.insertProgramOccupancy(providerNo, Calendar.getInstance());
-	                }	               
+	            	Calendar dt = Calendar.getInstance();
+	            	if(runAsPrevousDay) dt.add(Calendar.DATE, -1);
+
+	            	// delete old redirect entries if any
+	                programOccupancyDao.deleteProgramOccupancy(dt);
+	                programOccupancyDao.insertProgramOccupancy(providerNo, dt);
+	                
+	                //schedule next run
+	                programOccuTimerTask.cancel();
+	                scheduleNextRun();
 	            }
 	            catch (Exception e) {
-	                logger.error("Unexpected error flushing html open queue.", e);
+	                logger.error("Error to generate the occupancy records. Re-scheduled to run in 5 minutes", e);
+	                Calendar cal = Calendar.getInstance();
+	                cal.add(Calendar.MINUTE, 5);
+	                scheduleNextRun(cal);
 	            }
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
-	    }
-	    private static void setDelayTime(){
-	    	 String temp = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_STARTTIME"));		        
-		        if (temp != null) {
-		        	startTime=temp;	        	
-		            dataRetentionTimeMillis = getDelayTime(temp);
-		        }
 	    }
 	    private static long getDelayTime(String startTime){
 	    	long delayTime=0;
@@ -86,29 +72,15 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    }
 	    public void init(ServletConfig servletConfig) throws ServletException {
 	        super.init(servletConfig);
-
+	        System.setProperty("log4j.configuration","log4j.properties");
 	        // yes I know I'm setting static variables in an instance method but it's okay.
 	        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());	       
 	        programOccupancyDao  = (ProgramOccupancyDao)webApplicationContext.getBean("programOccupancyDao");
-
-	        logger.info("PROGRAM_OCCUPANCY_PERIOD=" + GERNERATE_PERIOD);
-
-	        String temp = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_STARTTIME"));
-	        //period configed by user
-	        String period = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_PERIOD"));
-	        if (temp != null) {
-	        	startTime=temp;	        	
-	           // dataRetentionTimeMillis = this.getDelayTime(temp);
-	            programOccuTimerTask = new ProgramOccuTimerTask();		
-	            Calendar sDt = Calendar.getInstance();
-            	sDt.set(Calendar.HOUR_OF_DAY,Integer.valueOf(startTime.substring(0,2)).intValue());
-            	sDt.set(Calendar.MINUTE, Integer.valueOf(startTime.substring(2)).intValue());	          
-	           programOccuTimer.scheduleAtFixedRate(programOccuTimerTask, 10000, Long.valueOf(period).longValue());
-	        }	      
+	        scheduleNextRun();
 	    }
 
 	    public void destroy() {
-	        programOccuTimerTask.cancel();	        
+	        programOccuTimer.cancel();
 	        super.destroy();
 	    }
 
@@ -118,8 +90,8 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        try {
 	           	            
 	            // get provider
-	            String providerId = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	           
+	            //String providerId = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	           return;
 	        }
 	        catch (Exception e) {
 	            logger.error("Error processing request. " + request.getRequestURL() + ", " + e.getMessage());
@@ -128,6 +100,41 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            return;
 	        }
 	    }
-
-
+	    
+	    private static void scheduleNextRun()
+	    {
+	        String sTime = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_STARTTIME"));
+	        String previousDay = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("PROGRAM_OCCUPANCY_PREVIOUSDAY"));
+	        if (sTime == null) return;
+	        runAsPrevousDay = previousDay.toLowerCase().startsWith("y");
+	        // dataRetentionTimeMillis = this.getDelayTime(temp);
+	        String sHr = "";
+	        String sMi = "";
+	        if(sTime.indexOf(':')>0) {
+	        	sHr=sTime.substring(0,2);
+	        	sMi = sTime.substring(3);
+	        }
+	        else
+	        {
+	        	sHr=sTime.substring(0,2);
+	        	sMi = sTime.substring(2);
+	        }
+            Calendar sDt = Calendar.getInstance();
+        	sDt.set(Calendar.HOUR_OF_DAY,Integer.valueOf(sHr).intValue());
+        	sDt.set(Calendar.MINUTE, Integer.valueOf(sMi).intValue());
+        	sDt.set(Calendar.SECOND, 0);
+        	sDt.set(Calendar.MILLISECOND, 0);
+        	Calendar now = Calendar.getInstance();
+        	if ((now.getTimeInMillis() - sDt.getTimeInMillis()) > 0) {
+        		sDt.add(Calendar.DATE, 1);
+        	}
+            	
+	        programOccuTimerTask = new ProgramOccuTimerTask();		
+	        programOccuTimer.schedule(programOccuTimerTask,sDt.getTime());
+	    }
+	    private static void scheduleNextRun(Calendar startDate)
+	    {
+	        programOccuTimerTask = new ProgramOccuTimerTask();		
+	        programOccuTimer.schedule(programOccuTimerTask,startDate.getTime());
+	    }
 }
