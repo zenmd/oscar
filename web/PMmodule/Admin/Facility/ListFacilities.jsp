@@ -71,8 +71,10 @@
 						        <display:setProperty name="paging.banner.items_name" value="facilities" />
 						        <display:setProperty name="basic.msg.empty_list" value="No facilities found." />
 						
-						        <display:column sortable="false" title="">						        	
+						        <display:column sortable="false" title="">	
+						        <security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_READ %>">						        	
 						          <a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=edit&facilityId=<c:out value="${facility.id}" />"> Edit </a>						        						        	
+						        </security:oscarSec>
 						        </display:column>
 						        
 								<display:column sortable="true" title="Name" sortProperty="name" sortName="facility">
