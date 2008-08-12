@@ -42,4 +42,11 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
            query.setCalendar(0, DateUtils.truncate(occDate, Calendar.DATE));        
            query.executeUpdate();
     }
+    
+    public void insertSdmtOut(){
+    	String sql ="select max(batch_no) from sdmt_out";
+    	SQLQuery query=getSession().createSQLQuery(sql);
+    	//query.e
+    }
+    
 }

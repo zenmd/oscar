@@ -353,7 +353,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
           admission = admissionManager.getAdmissionByAdmissionId(admissionId);
           admission.setAdmissionDateTxt(MyDateFormat.getStandardDateTime(admission.getAdmissionDate()));
     	  if(admission.getOvPassStartDate()!=null) admission.setOvPassStartDateTxt(MyDateFormat.getStandardDate(admission.getOvPassStartDate()));
-    	  if(admission.getOvPassStartDate()!=null) admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassEndDate()));
+    	  if(admission.getOvPassEndDate()!=null) admission.setOvPassEndDateTxt(MyDateFormat.getStandardDate(admission.getOvPassEndDate()));
           clientForm.setAdmission(admission);
        }else{
           admissionId = clientForm.getAdmission().getId();

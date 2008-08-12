@@ -129,7 +129,7 @@ public class KeyConstants {
   /*Function Definition */
   public static final String FUN_FACILITY_BED="_facility.bed";
   public static final String FUN_FACILITY_EDIT="_facility.edit";
-  public static final String FUN_FACILITY_GENERAL="_facility.general";
+  //public static final String FUN_FACILITY_GENERAL="_facility.general";
   public static final String FUN_FACILITY_MESSAGE="_facility.message";
   public static final String FUN_FACILITY_PROGRAM="_facility.program";
   public static final String FUN_CLIENT="_client";

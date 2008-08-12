@@ -454,8 +454,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	    //check service program end date
 //		if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
 		  if(intake.getEndDate()!=null && MyDateFormat.isBefore(intake.getEndDate(),Calendar.getInstance())){
-	       	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.serviceprogram_enddate",
+			  if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE))
+				  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.serviceprogram_enddate",
 	         			request.getContextPath()));
+			  else if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE))  
+				  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.bedprogram_enddate",
+		         			request.getContextPath()));
             saveMessages(request,messages);
         	HashMap actionParam = new HashMap();
         	actionParam.put("clientId", client.getDemographicNo()); 
