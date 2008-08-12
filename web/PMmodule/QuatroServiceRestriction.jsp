@@ -61,14 +61,10 @@
     }	
     
     function programFilter(){
-    	return;
-//       var method= document.getElementsByName("method")[0];
-//       method.value='edit';
-       
+//    	return;
 		document.forms[0].action = '<html:rewrite action="/PMmodule/QuatroServiceRestriction.do" />';
 		document.forms[0].method.value = "edit";
 		serviceRestrictionForm.submit();
-		
     }
     
 </script>
@@ -153,28 +149,12 @@
 								</c:forEach>
 							</html:select></td>
 						</tr>
-						<!-- tr>
-							<td width="35%">Start Date</td>
-							<td width="65%"><quatro:datePickerTag
-								property="serviceRestriction.startDateStr" width="120px"
-								openerForm="serviceRestrictionForm"></quatro:datePickerTag></td>
-						</tr-->
 						<tr>
 							<td width="35%">Length of restriction (in days)</td>
 							<td width="65%"><html:text size="12" maxlength="11"	property="serviceRestrictionLength" /> 
 								<html:hidden property="maxLength" />
 								<html:hidden property="serviceRestriction.startDateStr" />
-								
-								<!--  
-								(from 1 to 
-								<logic:equal name="serviceRestrictionForm" property="maxLength" value="0">
-									Unlimit
-								</logic:equal>
-								<logic:notEqual name="serviceRestrictionForm" property="maxLength" value="0">
-									<bean:write name="serviceRestrictionForm" property="maxLength" />
-								</logic:notEqual>
-								)-->
-								</td>
+							</td>
 						</tr>
 						<tr>
 							<td width="35%">Notes</td>
