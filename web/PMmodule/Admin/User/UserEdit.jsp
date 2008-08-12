@@ -75,7 +75,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 
 				<tr>
 					<td>User ID*:</td>
-					<td><html:text property="userName" tabindex="1" maxlength="30"/></td>
+					<td><html:text property="userName" tabindex="1" maxlength="12"/></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Email:</td>
 					<td><html:text property="email" tabindex="6" maxlength="60"/></td>
@@ -226,12 +226,12 @@ function validateLength(field, fieldNameDisplayed, maxlength, minlength){
 	field.value = trim(field.value);
 	
 	if (minlength>0 && (field.value == null || field.value == '')){
-		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' charactors long.');
+		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' characters long.');
 		return(false);
 	}
     
     if(field.value.length<minlength || field.value.length>maxlength){
-		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' charactors long.');
+		alert('The field "' + fieldNameDisplayed + '" should be ' + minlength + ' to ' + maxlength  + ' characters long.');
 		return(false);
 	}
     	
