@@ -15,12 +15,14 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
@@ -34,6 +36,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;
+   private ProgramQueueManager programQueueManager;
    private AdmissionManager admissionManager;
    private CaseManagementManager caseManagementManager;
    private RoomDemographicManager roomDemographicManager;
@@ -151,40 +154,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		return mapping.findForward("edit");
 	}
 
-/*	
-	private void setListAttributes(ActionForm form, HttpServletRequest request) {
-		ActionMessages messages = new ActionMessages();
-		boolean isError = false;
-		boolean isWarning = false;
-		DynaActionForm clientForm = (DynaActionForm) form;
-
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		String cId = request.getParameter("clientId");
-		if (Utility.IsEmpty(cId)) {
-			cId = (String) request.getParameter("referral.clientId");
-		}
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("clientId", cId);
-		}
-		request.setAttribute("actionParam", actionParam);
-		String demographicNo = (String) actionParam.get("clientId");
-
-		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
-		request.setAttribute("clientId", cId);		
-		try {
-			List lstRefers = clientManager.getManualReferrals(demographicNo,providerNo,shelterId);
-			request.setAttribute("lstRefers", lstRefers);
-		} catch (Exception e) {
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"error.listRefer.failed", request.getContextPath()));
-			saveMessages(request, messages);
-		}
-	}
-*/
-	
 	public ActionForward search_programs(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -239,28 +208,38 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.program", request.getContextPath()));
 			isError = true;
-			saveMessages(request, messages);			
+//			saveMessages(request, messages);			
 		}
 		if (refObj.getFromProgramId() == null
 				|| refObj.getFromProgramId().intValue() <= 0) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.from.program", request.getContextPath()));
 			isError = true;
-			saveMessages(request, messages);			
+//			saveMessages(request, messages);			
 		}
 		if(refObj.getNotes()!=null && refObj.getNotes().length()>4000){
 			isError = true;			
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.reason", request.getContextPath()));			
-			saveMessages(request, messages);
+//			saveMessages(request, messages);
 		}
 		if(refObj.getPresentProblems()!=null && refObj.getPresentProblems().length()>4000){
 			isError = true;			
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.problem", request.getContextPath()));			
-			saveMessages(request, messages);
+//			saveMessages(request, messages);
 		}
+
+		//check if any queue exists for same clienId and programId
+		List queues = programQueueManager.getProgramQueuesByClientIdProgramId(refObj.getClientId(), refObj.getProgramId());
+		if(queues.size()>0){
+			isError = true;			
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.referral.duplicated_queue", request.getContextPath()));			
+		}
+
 		if(isError){
+			saveMessages(request, messages);			
 			setEditAttributes(form, request);
 			return mapping.findForward("edit");
 		}
@@ -368,5 +347,9 @@ public class QuatroClientReferAction  extends BaseClientAction {
    public void setBedManager(BedManager bedManager) {
 	 this.bedManager = bedManager;
    }
+
+public void setProgramQueueManager(ProgramQueueManager programQueueManager) {
+	this.programQueueManager = programQueueManager;
+}
    
 }
