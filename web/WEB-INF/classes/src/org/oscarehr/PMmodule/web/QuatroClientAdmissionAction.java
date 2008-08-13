@@ -704,7 +704,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
         	   sb2.append("," + admission_exist.getId());
                if(sb2.length()>0){
                  //auto-discharge from other program   
-                 admissionManager.dischargeAdmission(sb2.substring(1));
+                 admissionManager.dischargeAdmission(sb2.substring(1), "");
                }
              }
            }
@@ -736,7 +736,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
         	 sb.append("," + admission_exist.getId());
              if(sb.length()>0){
                //auto-discharge from other program   
-               admissionManager.dischargeAdmission(sb.substring(1));
+               admissionManager.dischargeAdmission(sb.substring(1),"");
              }
            }
     	 }

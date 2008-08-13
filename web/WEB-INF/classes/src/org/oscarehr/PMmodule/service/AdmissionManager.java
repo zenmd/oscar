@@ -131,8 +131,8 @@ public class AdmissionManager {
     	return admissionId;
     }
 
-    public void dischargeAdmission(String admissionIds) {
-    	admissionDao.dischargeAdmission(admissionIds);
+    public void dischargeAdmission(String admissionIds, String comment) {
+    	admissionDao.dischargeAdmission(admissionIds, comment);
     }
     
 

@@ -9,6 +9,7 @@
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <input type="hidden" name="headclientId" value="<c:out value="${headclientId}" />"/>
 <input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
+<input type="hidden" name="isFamilyAdmitted" value="<c:out value="${isFamilyAdmitted}" />"/>
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
@@ -27,42 +28,77 @@ function isName(str)
 	}
 	return flag;
 }
-
-function submitForm(methodVal) {
+function submitForm(methodVal) 
+{
 	trimInputBox();
 
     var lineNum = document.getElementsByName("dependentsSize")[0].value;
     var lastName;
     var firstName;
-    
-    for(var i=0;i<lineNum;i++){
-      lastName = document.getElementsByName("dependent[" + i + "].lastName")[0];
-      firstName = document.getElementsByName("dependent[" + i + "].firstName")[0];
-      if(firstName.value.trim()==""){
-        alert("First name is empty.");
-        firstName.value="";
-        firstName.focus();
-        return; 
-      }
-      if(!isName(firstName.value.trim())){
-        alert("First name contains illegal character!");
-        firstName.focus();
-        return; 
-      }
-      if(lastName.value.trim()==""){
-        alert("Last name is empty.");
-        lastName.value="";
-        lastName.focus();
-        return; 
-      }
-      if(!isName(lastName.value.trim())){
-        alert("Last name contains illegal character!");
-        lastName.focus();
-        return; 
-      }
-      
-    }
-
+	var dob;
+	var gender;
+	var relation;
+	var ans;
+	var famAdmitted = document.getElementsByName("isFamilyAdmitted")[0];
+	if (famAdmitted.value) 
+	{
+		ans = confirm("The family is already admitted. New members will be automatically admitted when you save. Any active admision will be discharged, To proceed, click OK");	
+	}
+	else
+	{
+		and = true;
+	}
+	if(methodVal == "add") 
+	{
+		if (!ans) return;
+	}
+    else if (methodVal == "save") 
+    {	    
+	    for(var i=0;i<lineNum;i++){
+	      lastName = document.getElementsByName("dependent[" + i + "].lastName")[0];
+	      firstName = document.getElementsByName("dependent[" + i + "].firstName")[0];
+	      dob = document.getElementsByName("dependent[" + i + "].dob")[0];
+	      gender = document.getElementsByName("dependent[" + i + "].sex")[0];
+	      relation = document.getElementsByName("dependent[" + i + "].relationship")[0];
+	      if(firstName.value.trim()==""){
+	        alert("First name is empty.");
+	        firstName.value="";
+	        firstName.focus();
+	        return; 
+	      }
+	      if(!isName(firstName.value.trim())){
+	        alert("First name contains illegal character!");
+	        firstName.focus();
+	        return; 
+	      }
+	      if(lastName.value.trim()==""){
+	        alert("Last name is empty.");
+	        lastName.value="";
+	        lastName.focus();
+	        return; 
+	      }
+	      if(!isName(lastName.value.trim())){
+	        alert("Last name contains illegal character!");
+	        lastName.focus();
+	        return; 
+	      }
+	      if (dob.value==null || dob.value=='')
+		  {
+			alert('The field Date of Birth is required.');
+			return;
+		  }
+	      if (gender.value==null || gender.value=='')
+		  {
+			alert('The field Gender is required.');
+			return;
+		  }
+	      if (relation.value==null || relation.value=='')
+		  {
+			alert('The field Relationship is required.');
+			return;
+		  }
+	    }
+	}
 	document.forms[0].method.value = methodVal;
 	document.forms[0].submit();
 }
