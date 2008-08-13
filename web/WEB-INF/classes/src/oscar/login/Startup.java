@@ -49,8 +49,8 @@ public class Startup implements ServletContextListener {
 		
 		String contextPath = "";
 		try {
-			String webInfDir = sc.getServletContext().getResource("/WEB-INF").getPath();
-	        System.setProperty("log4j.configuration",webInfDir + "log4j.properties");
+//			String webInfDir = sc.getServletContext().getResource("/WEB-INF").getPath();
+	        System.setProperty("log4j.configuration","log4j.properties");
 
 	        String url = sc.getServletContext().getResource("/").getPath();
             int idx = url.lastIndexOf('/');

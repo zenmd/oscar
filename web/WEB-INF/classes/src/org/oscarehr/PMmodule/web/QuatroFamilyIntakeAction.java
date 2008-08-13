@@ -112,6 +112,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        for(int i=0;i<dependent.size();i++){
     	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependent.get(i);
     	  if(obj.getIntakeHeadId().equals(obj.getIntakeId())){
+    		 Boolean isFamilyAdmitted = Boolean.valueOf(obj.getAdmissionId() != null); 
+    		 request.setAttribute("isFamilyAdmitted", isFamilyAdmitted);
     		 dependent.remove(obj);
     		 break;
     	  }
@@ -178,6 +180,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	   boolean bDupliDemographicNoApproved=true;
        List dependents = buildDependentList(request, clientForm);       
        bDupliDemographicNoApproved = checkDuplicateDemographicNo(dependents,newClientConfirmed);
+       boolean familyAdmitted = Boolean.valueOf(request.getParameter("isFamilyAdmitted")).booleanValue();
        
        if(!bDupliDemographicNoApproved){
 		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.duplicated_client",
@@ -246,28 +249,30 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
            sb.append("," + obj3.getIntakeId().toString());
            client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
          }
-         client.setDateOfBirth(MyDateFormat.getCalendar(obj3.getDob()));
-         client.setSex(obj3.getSex());
-		 if(clientRestrictionManager.checkGenderConflict(program, client)){
-         	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
-             isWarning = true;
-		 }
-		 if(clientRestrictionManager.checkAgeConflict(program, client)){
-         	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
-             isWarning = true;
-		 }
-    	   
-  	     //check service restriction
-    	 obj3.setServiceRestriction("N");
-         if(obj3.getClientId().intValue()>0){
-           ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
-        		 headIntake.getProgramId(), obj3.getClientId(), new Date());
-           if (restrInPlace != null) {
-     	     obj3.setServiceRestriction("Y");
-        	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
-             			request.getContextPath(), headIntake.getProgramName()));
-       		 isWarning = true;
-           }
+	     if (obj3.getAdmissionId() == null) {
+	         client.setDateOfBirth(MyDateFormat.getCalendar(obj3.getDob()));
+	         client.setSex(obj3.getSex());
+			 if(clientRestrictionManager.checkGenderConflict(program, client)){
+	         	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
+	             isWarning = true;
+			 }
+			 if(clientRestrictionManager.checkAgeConflict(program, client)){
+	         	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
+	             isWarning = true;
+			 }
+	    	   
+	  	     //check service restriction
+	    	 obj3.setServiceRestriction("N");
+	         if(obj3.getClientId().intValue()>0){
+	           ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
+	        		 headIntake.getProgramId(), obj3.getClientId(), new Date());
+	           if (restrInPlace != null) {
+	     	     obj3.setServiceRestriction("Y");
+	        	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
+	             			request.getContextPath(), headIntake.getProgramName()));
+	       		 isWarning = true;
+	           }
+	         }
          }
        }
        
@@ -287,65 +292,71 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        }else{
          intakeManager.removeInactiveIntakeFamilyMember("", headIntake.getId());
        }
-
        for(int i=0;i<dependents.size();i++){
-       	 Demographic client = new Demographic();
-         QuatroIntakeFamily intakeFamily = (QuatroIntakeFamily)dependents.get(i);
-         client.setDemographicNo(intakeFamily.getClientId());
-         client.setLastName(intakeFamily.getLastName());
-         client.setFirstName(intakeFamily.getFirstName());
-
-		 client.setDateOfBirth(MyDateFormat.getCalendar(intakeFamily.getDob()));
-         
-         client.setSex(intakeFamily.getSex());
-         client.setAlias(intakeFamily.getAlias());
-         client.setProviderNo(providerNo);
-         client.setLastUpdateDate(new GregorianCalendar());
-         client.setEffDate(MyDateFormat.getCalendar(intakeFamily.getEffDate()).getTime());
-         
-     	 //check if this client has any existing active intake with same program before create new intake
-         QuatroIntakeDB newClient_intakeDBExist = null;
-     	 if(intakeFamily.getIntakeId().intValue()==0){
-     		newClient_intakeDBExist = intakeManager.findQuatroIntakeDB(intakeFamily.getClientId(), headIntake.getProgramId());
-      	    if(newClient_intakeDBExist!=null) intakeFamily.setIntakeId(newClient_intakeDBExist.getId());
-     	 }
-  		 
-  		 QuatroIntake intake = new QuatroIntake();
-     	 intake.setClientId(client.getDemographicNo());
-     	 intake.setId(intakeFamily.getIntakeId());
-     	 intake.setProgramId(headIntake.getProgramId());
-     	 //copy head intake to new client intake
-    
-     	 if(intake.getId().intValue()==0){
-     	 //  intake.setStaffId(providerNo);
-     	   intake.setCreatedOn(Calendar.getInstance());
-       	   intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
-
-       	   intake.setReferredBy(headIntake.getReferredBy());
-       	   intake.setContactName(headIntake.getContactName());
-       	   intake.setContactNumber(headIntake.getContactNumber());
-       	   intake.setContactEmail(headIntake.getContactEmail());
-
-       	   intake.setLanguage(headIntake.getLanguage());
-       	   intake.setAboriginal(headIntake.getAboriginal());
-       	   intake.setAboriginalOther(headIntake.getAboriginalOther());
-       	   intake.setVAW(headIntake.getVAW());
-       	   intake.setCurSleepArrangement(headIntake.getCurSleepArrangement());
-       	   intake.setOriginalCountry(headIntake.getOriginalCountry());
-     	 }else{
-           intake.setIntakeStatus(headIntake.getIntakeStatus());
-     	 }
-     	 intake.setStaffId(providerNo);
-     	 intake.setLastUpdateDate(new GregorianCalendar());
-
-     	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
-     	 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
-     	 intakeFamily.setIntakeHeadId(headIntake.getId());
-     	 intakeFamily.setLastUpdateUser(providerNo);
-     	 intakeFamily.setLastUpdateDate(new GregorianCalendar());
-     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(client, intakeFamilyHeadId, intake, newClient_intakeDBExist, intakeFamily);
-     	 intakeFamily.setIntakeId((Integer)lst2.get(1));
-     	 intakeFamily.setClientId((Integer)lst2.get(2));
+           QuatroIntakeFamily intakeFamily = (QuatroIntakeFamily)dependents.get(i);
+           if (intakeFamily.getAdmissionId() == null) {
+		       	 Demographic client = new Demographic();
+		         client.setDemographicNo(intakeFamily.getClientId());
+		         client.setLastName(intakeFamily.getLastName());
+		         client.setFirstName(intakeFamily.getFirstName());
+		
+				 client.setDateOfBirth(MyDateFormat.getCalendar(intakeFamily.getDob()));
+		         
+		         client.setSex(intakeFamily.getSex());
+		         client.setAlias(intakeFamily.getAlias());
+		         client.setProviderNo(providerNo);
+		         client.setLastUpdateDate(new GregorianCalendar());
+		         client.setEffDate(MyDateFormat.getCalendar(intakeFamily.getEffDate()).getTime());
+		         
+		     	 //check if this client has any existing active intake with same program before create new intake
+		         QuatroIntakeDB newClient_intakeDBExist = null;
+		     	 if(intakeFamily.getIntakeId().intValue()==0){
+		     		newClient_intakeDBExist = intakeManager.findQuatroIntakeDB(intakeFamily.getClientId(), headIntake.getProgramId());
+		      	    if(newClient_intakeDBExist!=null) intakeFamily.setIntakeId(newClient_intakeDBExist.getId());
+		     	 }
+		  		 
+		  		 QuatroIntake intake = new QuatroIntake();
+		     	 intake.setClientId(client.getDemographicNo());
+		     	 intake.setId(intakeFamily.getIntakeId());
+		     	 intake.setProgramId(headIntake.getProgramId());
+		     	 //copy head intake to new client intake
+		    
+		     	 if(intake.getId().intValue()==0){
+		     	 //  intake.setStaffId(providerNo);
+		     	   intake.setCreatedOn(Calendar.getInstance());
+				    if(familyAdmitted) {
+				    	intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+				    }
+				    else
+				    {
+				    	intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+				    }
+		       	   intake.setReferredBy(headIntake.getReferredBy());
+		       	   intake.setContactName(headIntake.getContactName());
+		       	   intake.setContactNumber(headIntake.getContactNumber());
+		       	   intake.setContactEmail(headIntake.getContactEmail());
+		
+		       	   intake.setLanguage(headIntake.getLanguage());
+		       	   intake.setAboriginal(headIntake.getAboriginal());
+		       	   intake.setAboriginalOther(headIntake.getAboriginalOther());
+		       	   intake.setVAW(headIntake.getVAW());
+		       	   intake.setCurSleepArrangement(headIntake.getCurSleepArrangement());
+		       	   intake.setOriginalCountry(headIntake.getOriginalCountry());
+		     	 }else{
+		           intake.setIntakeStatus(headIntake.getIntakeStatus());
+		     	 }
+		     	 intake.setStaffId(providerNo);
+		     	 intake.setLastUpdateDate(new GregorianCalendar());
+		
+		     	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
+				 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+		     	 intakeFamily.setIntakeHeadId(headIntake.getId());
+		     	 intakeFamily.setLastUpdateUser(providerNo);
+		     	 intakeFamily.setLastUpdateDate(new GregorianCalendar());
+		     	 ArrayList lst2 = intakeManager.saveQuatroIntakeFamily(familyAdmitted, client, intakeFamilyHeadId, intake, newClient_intakeDBExist, intakeFamily);
+		     	 intakeFamily.setIntakeId((Integer)lst2.get(1));
+		     	 intakeFamily.setClientId((Integer)lst2.get(2));
+           }
   	   }
    
   	   if(!(isWarning || isError)){
@@ -390,7 +401,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	   String newClientConfirmed= request.getParameter("newClientConfirmed");
 	   
        for(int i=0;i<dependentsSize;i++){
- 	      if(request.getParameter("dependent[" + i +"].select")==null){
+ 	      if(!("delete".equals(request.getParameter("method")) && request.getParameter("dependent[" + i +"].select")!=null)){
 	 		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
 	 		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
 	 		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
@@ -482,7 +493,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 
    	   boolean readOnly=false;
    	   request.setAttribute("isReadOnly", request.getParameter("isReadOnly"));
-       
+   	   request.setAttribute("isFamilyAdmitted", request.getParameter("isFamilyAdmitted"));
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");

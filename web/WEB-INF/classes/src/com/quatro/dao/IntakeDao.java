@@ -659,7 +659,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		//new intake
         }else{
 		  getHibernateTemplate().save(intakeDb);
-
+		  intake.setId(intakeDb.getId());
 		  clientReferral = new ClientReferral();
 	      if(!bFamilyMember){
 	         if(intake.getClientId()!=null) clientReferral.setClientId(intake.getClientId());

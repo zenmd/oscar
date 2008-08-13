@@ -13,8 +13,10 @@ import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientInfo;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicHistorical;
+import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.oscarehr.PMmodule.model.ProgramQueue;
@@ -56,6 +58,54 @@ public class AdmissionDao extends HibernateDaoSupport {
                 KeyConstants.STATUS_ACCEPTED + "' where c.Id=?", referral.getId());
                 
     }
+	public List saveAdmission(QuatroIntake intake, Integer intakeHeadId){
+        if (intake == null) {
+            throw new IllegalArgumentException();
+        }
+        List adms = getAdmissionList(intake.getClientId(), true,intake.getStaffId(), new Integer(0));
+        if(adms.size() > 0) {
+        	Admission adm0 = (Admission) adms.get(0);
+        	dischargeAdmission(adm0.getId().toString(), "Joined in a family");
+        }
+        
+        ArrayList lst = new ArrayList();
+        Admission adm = new Admission();
+        adm.setClientId(intake.getClientId());
+        adm.setIntakeId(intake.getId());
+        adm.setIntakeHeadId(intakeHeadId);
+        adm.setAdmissionDate(Calendar.getInstance());
+        adm.setAdmissionNotes("Admitted directly from family join in" );
+        adm.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
+        adm.setProgramId(intake.getProgramId());
+        adm.setFamilyMember(true);
+        adm.setId(new Integer(0));
+        adm.setLastUpdateDate(Calendar.getInstance());
+        adm.setNotSignReason("FH");
+        adm.setProviderNo(intake.getStaffId());
+        
+        getHibernateTemplate().saveOrUpdate(adm);
+        Integer admissionId = adm.getId();
+       
+        Admission admHead = getAdmissionByIntakeId(intakeHeadId);
+        RoomDemographic rdmHead = roomDemographicDAO.getRoomDemographicByAdmissionId(admHead.getId());
+        
+    	RoomDemographic room = new RoomDemographic();
+    	room.setAdmissionId(admissionId);
+    	room.setAssignStart(Calendar.getInstance().getTime());
+    	room.setBedId(null);
+    	room.setComment("Join a family");
+    	room.setProviderNo(intake.getStaffId());
+    	RoomDemographicPK id = new RoomDemographicPK();
+    	id.setDemographicNo(intake.getClientId());
+    	id.setRoomId(rdmHead.getId().getRoomId());
+    	room.setId(id);
+    	room.setLastUpdateDate(intake.getLastUpdateDate());
+    	roomDemographicDAO.saveRoomDemographic(room);
+    	
+    	lst.add(adm);
+    	lst.add(room);
+    	return lst;
+    }
 
     public void updateAdmission(Admission admission) {
         if (admission == null) {
@@ -65,9 +115,9 @@ public class AdmissionDao extends HibernateDaoSupport {
         getHibernateTemplate().update(admission);
     }
 
-    public void dischargeAdmission(String admissionIds) {
+    public void dischargeAdmission(String admissionIds, String comments) {
     	if(admissionIds==null || admissionIds.length()==0) return;
-        
+    	if (Utility.IsEmpty(comments)) comments = "auto-discharge for other intake admission";
            	
     	Calendar cal = Calendar.getInstance();
         String[] split= admissionIds.split(",");
@@ -81,7 +131,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 
     	  getHibernateTemplate().bulkUpdate("update Admission q set q.admissionStatus='" +
         		KeyConstants.INTAKE_STATUS_DISCHARGED + "'," + 
-                " q.dischargeNotes='auto-discharge for other intake admission'," +
+                " q.dischargeNotes='" + comments + "'," +
                 " q.dischargeReason='" + KeyConstants.AUTO_DISCHARGE_REASON + "'," +
                 " q.communityProgramCode='" + KeyConstants.AUTO_DISCHARGE_DISPOSITION + "'," +  
                 " q.dischargeDate=? where q.id=?", new Object[]{cal, Integer.valueOf(split[i])});

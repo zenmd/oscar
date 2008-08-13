@@ -10,6 +10,7 @@ import java.util.HashMap;
 import com.quatro.dao.IntakeDao;
 import com.quatro.dao.LookupDao;
 import org.oscarehr.PMmodule.dao.ClientDao;
+import org.oscarehr.PMmodule.dao.AdmissionDao;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import com.quatro.web.intake.OptionList;
 import com.quatro.model.QuatroIntakeOptionValue;
@@ -17,12 +18,15 @@ import com.quatro.web.intake.IntakeConstant;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.model.RoomDemographic;
+import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
@@ -37,6 +41,7 @@ import oscar.MyDateFormat;
 
 public class IntakeManager {
     private IntakeDao intakeDao;
+    private AdmissionDao admissionDao;
     private ClientReferralDAO clientReferralDAO;
     private ProgramQueueDao programQueueDao;
 
@@ -48,9 +53,16 @@ public class IntakeManager {
 	public IntakeDao getIntakeDao() {
 		return intakeDao;
 	}
-
 	public void setIntakeDao(IntakeDao intakeDao) {
 		this.intakeDao = intakeDao;
+	}
+	public AdmissionDao getAdmissionDao()
+	{
+		return admissionDao;
+	}
+	public void setAdmissionDao(AdmissionDao admissionDao)
+	{
+		this.admissionDao = admissionDao;
 	}
 	public void setClientHistoryDao(ClientHistoryDao historyDao) {
 		this.historyDao = historyDao;
@@ -349,14 +361,21 @@ public class IntakeManager {
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 	}
 
-	public ArrayList saveQuatroIntakeFamily(Demographic client, Integer intakeHeadId, QuatroIntake intake, QuatroIntakeDB exist_intakeDB, QuatroIntakeFamily intakeFamily) {
+	public ArrayList saveQuatroIntakeFamily(boolean familyAdmitted,Demographic client, Integer intakeHeadId, QuatroIntake intake, QuatroIntakeDB exist_intakeDB, QuatroIntakeFamily intakeFamily) {
 		ArrayList lst = new ArrayList();
 		clientDao.saveClient(client);
 		intake.setClientId(client.getDemographicNo());
 		if(intake.getId().intValue()==0){
-		    List lst2 = intakeDao.saveQuatroIntake(intake, intakeHeadId, true, null);
+	    	List lst2 = intakeDao.saveQuatroIntake(intake, intakeHeadId, true, null);
 			historyDao.saveClientHistory(intake);
 		    intakeFamily.setIntakeId((Integer)lst2.get(0));
+		}
+		if(familyAdmitted)
+		{
+	    	List admLst = admissionDao.saveAdmission(intake, intakeHeadId);
+	    	Admission adm = (Admission) admLst.get(0); 
+	    	RoomDemographic rdm = (RoomDemographic) admLst.get(1);
+	    	historyDao.saveClientHistory(adm, rdm.getRoomName(), "");
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 		

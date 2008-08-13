@@ -160,7 +160,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setClientId(admission.getClientId());
         if ("admitted".equals(admission.getAdmissionStatus())) {
         	history.setAction("Admit/Bed Assignment");
-        	history.setActionDate(admission.getAdmissionDate().getTime());
+        	history.setActionDate(Calendar.getInstance().getTime());
         	history.setHistoryDate(Calendar.getInstance().getTime());
         	LookupCodeValue provider = lookupDao.GetCode("USR", admission.getPrimaryWorker());
         	String notes = "";

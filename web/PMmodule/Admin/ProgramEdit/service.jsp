@@ -90,11 +90,11 @@ The following parameters will be applied on new service restrictions for this pr
 <table width="100%" border="1" cellspacing="2" cellpadding="3">
 	<tr class="b">
 		<td width="20%">Maximum length of service restriction (in days):</td>
-		<td><html:text property="program.maximumServiceRestrictionDays" size="4" maxlength="4"/>&nbsp;(empty or zero means no maximum)</td>
+		<td><html-el:text property="program.maximumServiceRestrictionDays" size="4" maxlength="4"/>&nbsp;(empty or zero means no maximum)</td>
 	</tr>
 	<tr class="b">
 		<td width="20%">Default service restriction length (in days):</td>
-		<td><html:text property="program.defaultServiceRestrictionDays" size="4" maxlength="4"/></td>
+		<td><html-el:text property="program.defaultServiceRestrictionDays" size="4" maxlength="4"/></td>
 	</tr>
 </table>
 <br/>
