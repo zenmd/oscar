@@ -15,5 +15,7 @@
 		<property name="leaveFamilyDate" column="leave_family_date" type="calendar" />
 		<property name="lastUpdateDate" column="lastupdatedate"></property>
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
+		<property name="clientId" formula="(select b.client_id from intake b where b.intake_id=intake_id)"> </property>
+		<property name="admissionId" formula="(select c.am_id from Admission c where c.intake_id=intake_id)"> </property>
 	</class>
 </hibernate-mapping>

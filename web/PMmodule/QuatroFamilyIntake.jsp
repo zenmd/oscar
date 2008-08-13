@@ -107,7 +107,7 @@ function checkExistClients(i){
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-        <c:if test="${isReadOnly==false}">
+        <c:if test="${!isReadOnly}">
 		  <a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
          </c:if>
@@ -183,6 +183,7 @@ function checkExistClients(i){
     <tr><td>
      <html:checkbox name="dependent" property="select" indexed="true" />
      <html:hidden name="dependent" property="intakeId" indexed="true" />
+     <html:hidden name="dependent" property="admissionId" indexed="true" />
      <html:hidden name="dependent" property="clientId" indexed="true" />
      <html:hidden name="dependent" property="effDate" indexed="true" />
      <html:hidden name="dependent" property="joinFamilyDateTxt" indexed="true" />
@@ -190,45 +191,82 @@ function checkExistClients(i){
      <html:hidden name="dependent" property="duplicateClient" indexed="true" />
      <html:hidden name="dependent" property="serviceRestriction" indexed="true" />
     </td>
+    <logic:empty name="dependent" property="admissionId">
     <td>
-      <c:if test="${isReadOnly==false}">
+	  <c:if test="${!isReadOnly}">
       <a href="javascript:checkExistClients(<%=rIndex%>);" onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:none;">
        <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />
        </a>
        </c:if>
-       <html:text name="dependent" property="statusMsg" maxlength="20"  indexed="true" readonly="readonly" style="border: 0px;width: 20px"/>
+       <html:text name="dependent" property="statusMsg" maxlength="20"  indexed="true"  style="border: 0px;width: 20px"/>
     </td>
-    <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true" style="width:90%" /></td>
-    <td><html:text name="dependent" property="firstName" maxlength="30" indexed="true" style="width:90%" /></td>
+    <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true"  style="width:90%" /></td>
+    <td><html:text name="dependent" property="firstName" maxlength="30" indexed="true"  style="width:90%" /></td>
     <td><quatro:datePickerTag name="dependent" property="dob" indexed="true" openerForm="quatroClientFamilyIntakeForm" style="width:90%"></quatro:datePickerTag></td>
-    <td><html:select name="dependent" property="sex" indexed="true" style="width:90%">
+    <td><html:select name="dependent" property="sex" indexed="true" style="width:90%" >
        <html:optionsCollection property="genders" value="code" label="description"/>
       </html:select>
     </td>
     <td><html:text name="dependent" property="alias" maxlength="70" indexed="true" style="width:95%" /></td>
-    <td><html:select name="dependent" property="relationship" indexed="true" style="width:90%">
+    <td><html:select name="dependent" property="relationship" indexed="true"  style="width:90%">
        <html:optionsCollection property="relationships" value="code" label="description"/>
       </html:select>
     </td></tr>
-    <tr><td></td><td colspan="6">
     <logic:equal name="dependent" property="clientId" value="0">
        <logic:equal name="dependent" property="duplicateClient" value="Y">
-       <font color="#ff0000">This new client may be an existing client.</font>
+       <tr><td></td><td colspan="6">
+       		<font color="#ff0000">This new client may be an existing client.</font>
+       </td></tr>
        </logic:equal>
     </logic:equal>
     <logic:notEqual name="dependent" property="clientId" value="0">
        <logic:equal name="dependent" property="serviceRestriction" value="Y">
+       <tr><td></td><td colspan="6">
        <font color="#ff0000">Service Restriction applied.<br></font>
+       </td></tr>
        </logic:equal>
     </logic:notEqual>
+</logic:empty>
+<logic:notEmpty name="dependent" property="admissionId">
+	<html:hidden name="dependent" property="statusMsg"  indexed="true" />
+	<html:hidden name="dependent" property="lastName"  indexed="true" />
+	<html:hidden name="dependent" property="firstName"  indexed="true" />
+	<html:hidden name="dependent" property="dob"  indexed="true" />
+	<html:hidden name="dependent" property="sex"  indexed="true" />
+	<html:hidden name="dependent" property="alias"  indexed="true" />
+	<html:hidden name="dependent" property="relationship"  indexed="true" />
+    <td>
+       <html:text name="dependent" property="statusMsg" maxlength="20"  disabled="true" style="border: 0px;width: 20px"/>
+    </td>
+    <td><html:text name="dependent" property="lastName" maxlength="30" style="width:90%"  disabled="true"/></td>
+    <td><html:text name="dependent" property="firstName" maxlength="30" style="width:90%" disabled="true"/></td>
+    <td><html:text name="dependent" property="dob" style="width:90%"  disabled="true"></html:text></td>
+    <td><html:select name="dependent" property="sex" style="width:90%"  disabled="true">
+       <html:optionsCollection property="genders" value="code" label="description"/>
+      </html:select>
+    </td>
+    <td><html:text name="dependent" property="alias" maxlength="70" style="width:95%"  disabled="true"/></td>
+    <td><html:select name="dependent" property="relationship" indexed="true" style="width:90%"  disabled="true">
+       <html:optionsCollection property="relationships" value="code" label="description"/>
+      </html:select>
     </td></tr>
+    <logic:notEqual name="dependent" property="clientId" value="0">
+       <logic:equal name="dependent" property="serviceRestriction" value="Y">
+       <tr><td></td><td colspan="6"> &nbsp;
+       <font color="#ff0000">Service Restriction applied.<br></font>
+       <tr><td></td><td colspan="6"> &nbsp;
+       </logic:equal>
+    </logic:notEqual>
+    </td>
+</logic:notEmpty>
+    </tr>
 </logic:iterate>
 
 <tr><td colspan="8" class="buttonBar4">
 <html:hidden property="dependentsSize"/>
 <c:if test="${!isReadOnly}">
 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE%>" rights="<%=KeyConstants.ACCESS_WRITE %>">								
-<c:if test= "${quatroClientFamilyIntakeForm.intakeStatus=='active'}" >
+<c:if test= "${quatroClientFamilyIntakeForm.intakeStatus=='active' or quatroClientFamilyIntakeForm.intakeStatus=='admitted'}" >
 &nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependent</a>
 &nbsp;|
 </c:if>

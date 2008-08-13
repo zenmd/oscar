@@ -480,12 +480,8 @@ public class IntakeDao extends HibernateDaoSupport {
 		if(lst.size()==0) return new ArrayList();
 		
 		Integer intakeHeadId = (Integer)lst.get(0);
-		
-		String sSQL2="select new org.oscarehr.PMmodule.model.QuatroIntakeFamily(" +
-		  " b.clientId, a.intakeHeadId, a.intakeId, a.relationship," +
-		  "a.joinFamilyDate) " +
-		  " from QuatroIntakeFamily a, QuatroIntakeHeader b "+
-		  " WHERE a.intakeHeadId = ? and a.intakeId = b.id order by a.relationship";
+		String sSQL2="from QuatroIntakeFamily "+
+		  " WHERE intakeHeadId = ?  order by relationship desc";
 
 		List result = getHibernateTemplate().find(sSQL2, new Object[] {intakeHeadId});
 		return result;

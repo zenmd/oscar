@@ -33,6 +33,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 public class QuatroFamilyIntakeAction extends BaseClientAction {
 
@@ -128,80 +129,14 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
-       String intakeId = (String)clientForm.getIntakeId();
-       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
-       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
-
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("headclientId", request.getParameter("headclientId")); 
-          actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", request.getParameter("intakeId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
+       setEditFields(request, clientForm);
        
-       String demographicNo= (String)actionParam.get("headclientId");
-       request.setAttribute("headclientId", demographicNo);
-       request.setAttribute("clientId", (String)actionParam.get("clientId"));
-       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
-
-   	   boolean readOnly=false;
-   	   request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
-
-       List genders = lookupManager.LoadCodeList("GEN",true, null, null);
-       LookupCodeValue obj3= new LookupCodeValue();
-       obj3.setCode("");
-       obj3.setDescription("");
-       genders.add(0,obj3);
-       clientForm.setGenders(genders);
-
-       List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
-       relationships.add(0,obj3);
-       clientForm.setRelationships(relationships);
-
-	   Demographic familyHead = clientForm.getFamilyHead();
-	   for(int i=0;i<genders.size();i++){
-           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
-           if(obj.getCode().equals(familyHead.getSex())){
-        	 familyHead.setSexDesc(obj.getDescription());
-		     break;
-           }  
-	   }
-       clientForm.setFamilyHead(familyHead);
-       
-       ArrayList dependents = new ArrayList();
-	   int dependentsSize=clientForm.getDependentsSize();
-
-	   for(int i=0;i<dependentsSize;i++){
-	      QuatroIntakeFamily obj = new QuatroIntakeFamily();	
-		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
-		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		  obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
-		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
-		  obj.setDob(request.getParameter("dependent[" + i +"].dob"));
-		  obj.setSex(request.getParameter("dependent[" + i +"].sex"));
-		  obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
-		  obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
-		  obj.setSelect(request.getParameter("dependent[" + i +"].select"));
-		  obj.setNewClientChecked(request.getParameter("dependent[" + i +"].newClientChecked"));
-		  obj.setDuplicateClient(request.getParameter("dependent[" + i +"].duplicateClient"));
-		  obj.setServiceRestriction(request.getParameter("dependent[" + i +"].serviceRestriction"));
-		  obj.setEffDate(request.getParameter("dependent[" + i +"].effDate"));
-		  obj.setJoinFamilyDateTxt(request.getParameter("dependent[" + i +"].joinFamilyDateTxt"));
-		  if(obj.getClientId().intValue()>0){
-		     obj.setStatusMsg("#");
-		  }else{
-			obj.setStatusMsg("");
-		  }
-		  dependents.add(obj);
-	    }
-       
+       List dependents = buildDependentList(request, clientForm);
         QuatroIntakeFamily obj2 = new QuatroIntakeFamily();
         obj2.setClientId(new Integer(0));
 		obj2.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
         obj2.setIntakeId(new Integer(0));
+        obj2.setAdmissionId(null);
         String currentDateTxt = MyDateFormat.getSysDateString(new Date());
     	obj2.setDuplicateClient("N");  
 		obj2.setNewClientChecked("N");
@@ -213,90 +148,18 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
         clientForm.setDependents(dependents);
         clientForm.setDependentsSize(dependents.size());
        
-        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
        return mapping.findForward("edit");
    }
 
    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
-       String intakeId = (String)clientForm.getIntakeId();
-       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
-       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("headclientId", request.getParameter("headclientId")); 
-          actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", request.getParameter("intakeId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       
-       String demographicNo= (String)actionParam.get("headclientId");
-       request.setAttribute("headclientId", demographicNo);
-       request.setAttribute("clientId", (String)actionParam.get("clientId"));
-       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
-
-   	   boolean readOnly=false;
-   	   request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
-       
-       List genders = lookupManager.LoadCodeList("GEN",true, null, null);
-       LookupCodeValue obj2= new LookupCodeValue();
-       obj2.setCode("");
-       obj2.setDescription("");
-       genders.add(0,obj2);
-       clientForm.setGenders(genders);
-
-       List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
-       relationships.add(0,obj2);
-       clientForm.setRelationships(relationships);
-       
-	   Demographic familyHead = clientForm.getFamilyHead();
-	   for(int i=0;i<genders.size();i++){
-           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
-           if(obj.getCode().equals(familyHead.getSex())){
-        	 familyHead.setSexDesc(obj.getDescription());
-		     break;
-           }  
-	   }
-       clientForm.setFamilyHead(familyHead);
-
-       ArrayList dependents = new ArrayList();
-	   int dependentsSize=clientForm.getDependentsSize();
-
-	   for(int i=0;i<dependentsSize;i++){
-	      if(request.getParameter("dependent[" + i +"].select")==null){
-		    QuatroIntakeFamily obj = new QuatroIntakeFamily();	
-		    obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-			obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
-		    obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		    obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
-		    obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
-		    obj.setDob(request.getParameter("dependent[" + i +"].dob"));
-		    obj.setSex(request.getParameter("dependent[" + i +"].sex"));
-		    obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
-		    obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
-		    obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		    obj.setSelect(request.getParameter("dependent[" + i +"].select"));
-			obj.setNewClientChecked(request.getParameter("dependent[" + i +"].newClientChecked"));
-			obj.setDuplicateClient(request.getParameter("dependent[" + i +"].duplicateClient"));
-			obj.setServiceRestriction(request.getParameter("dependent[" + i +"].serviceRestriction"));
-			obj.setEffDate(request.getParameter("dependent[" + i +"].effDate"));
-			obj.setJoinFamilyDateTxt(request.getParameter("dependent[" + i +"].joinFamilyDateTxt"));
-		    if(obj.getClientId().intValue()>0){
-			  obj.setStatusMsg("#");
-		    }else{
-			  obj.setStatusMsg("");
-		    }
-		    dependents.add(obj);
-	      }
-	    }
+       List dependents = buildDependentList(request, clientForm);
 
        clientForm.setDependents(dependents);
        clientForm.setDependentsSize(dependents.size());
-	   
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+       setEditFields(request, clientForm);
        return mapping.findForward("edit");
    }
 
@@ -306,111 +169,16 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        boolean isWarning = false;
 
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
+       setEditFields(request, clientForm);
 
        String intakeId = (String)clientForm.getIntakeId();
        Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
-       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
-
-	   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("headclientId", request.getParameter("headclientId")); 
-          actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", intakeId); 
-       }
-       request.setAttribute("actionParam", actionParam);
-
-       String demographicNo= (String)actionParam.get("headclientId");
-       request.setAttribute("headclientId", demographicNo);
-       request.setAttribute("clientId", (String)actionParam.get("clientId"));
-       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
        
-       List genders = lookupManager.LoadCodeList("GEN",true, null, null);
-       LookupCodeValue obj4= new LookupCodeValue();
-       obj4.setCode("");
-       obj4.setDescription("");
-       genders.add(0,obj4);
-       clientForm.setGenders(genders);
-
-       List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
-       relationships.add(0,obj4);
-       clientForm.setRelationships(relationships);
-       
-	   Demographic familyHead = intakeManager.getClientByDemographicNo(demographicNo);
-	   for(int i=0;i<genders.size();i++){
-           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
-           if(obj.getCode().equals(familyHead.getSex())){
-        	 familyHead.setSexDesc(obj.getDescription());
-		     break;
-           }  
-	   }
-       clientForm.setFamilyHead(familyHead);
-	   
-       ArrayList dependents = new ArrayList();
-	   int dependentsSize=clientForm.getDependentsSize();
-       
-	   boolean bDupliDemographicNoApproved=true;
 	   String newClientConfirmed= request.getParameter("newClientConfirmed");
-	   
-       StringBuffer sb = new StringBuffer();
-       for(int i=0;i<dependentsSize;i++){
-		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
-		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
-		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
-          obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		  if(obj.getIntakeId().intValue()>0){
-			sb.append("," + obj.getIntakeId().toString());
-		  }
-          obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
-		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
-		  obj.setDob(request.getParameter("dependent[" + i +"].dob"));
-		  obj.setSex(request.getParameter("dependent[" + i +"].sex"));
-		  obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
-		  obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
-		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
-		  obj.setSelect(request.getParameter("dependent[" + i +"].select"));
-		  obj.setNewClientChecked(request.getParameter("dependent[" + i +"].newClientChecked"));
-		  if(newClientConfirmed==null || newClientConfirmed.equals("N")){
-			  obj.setDuplicateClient(request.getParameter("dependent[" + i +"].duplicateClient"));
-		  }else{
-			  obj.setDuplicateClient("N");
-		  }
-		  obj.setServiceRestriction("N");  //don't check service restriction until no duplicate client.
-		  obj.setEffDate(request.getParameter("dependent[" + i +"].effDate"));
-		  obj.setJoinFamilyDateTxt(request.getParameter("dependent[" + i +"].joinFamilyDateTxt"));
-
-		  if(obj.getClientId().intValue()>0){
-			obj.setStatusMsg("#");
-		  }else{
-			obj.setStatusMsg("");
-		  }
-
-		  
-		  //check duplicate client for intakeId==0 && clientId==0 
-		  if(obj.getIntakeId().intValue()==0 && obj.getClientId().intValue()==0){
-			if(newClientConfirmed == null || newClientConfirmed.equals("N")){
-		       ClientSearchFormBean criteria = new ClientSearchFormBean();
-	           criteria.setLastName(obj.getLastName());
-	           criteria.setFirstName(obj.getFirstName());
-	           criteria.setDob(obj.getDob());
-	           criteria.setGender(obj.getSex());
-		       List lst = clientManager.search(criteria, false,true);
-	           if(lst.size()>0){
-	             obj.setDuplicateClient("Y");
-		         obj.setNewClientChecked("N");
-				 obj.setStatusMsg("?");
-	             bDupliDemographicNoApproved=false;
-	           }else{
-		         obj.setDuplicateClient("N");
-		         obj.setNewClientChecked("Y");
-		         obj.setStatusMsg("");
-	           }
-			}
-		  }
-		  
-	      dependents.add(obj);
-	   }
-	   
+	   boolean bDupliDemographicNoApproved=true;
+       List dependents = buildDependentList(request, clientForm);       
+       bDupliDemographicNoApproved = checkDuplicateDemographicNo(dependents,newClientConfirmed);
+       
        if(!bDupliDemographicNoApproved){
 		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.duplicated_client",
           			request.getContextPath()));
@@ -430,7 +198,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        if(KeyConstants.INTAKE_STATUS_ACTIVE.equals(clientForm.getIntakeStatus())){
   	     //intakeFamily is null before a family created
     	 List intakeFamily = intakeManager.getClientFamilyByIntakeId(headIntakeId.toString());
-         for(int i=0;i<dependentsSize;i++){
+         for(int i=0;i<dependents.size();i++){
            QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
            int j=-1;
            if(intakeFamily!=null){
@@ -466,7 +234,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
  	   QuatroIntake headIntake = intakeManager.getQuatroIntake(headIntakeId);
 	   Program program = programManager.getProgram(headIntake.getProgramId());
-       for(int i=0;i<dependentsSize;i++){
+	   StringBuffer sb = new StringBuffer();
+       for(int i=0;i<dependents.size();i++){
          QuatroIntakeFamily obj3 = (QuatroIntakeFamily)dependents.get(i);
 
    		 //check gender conflict and age conflict
@@ -474,6 +243,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          if(obj3.getClientId().intValue()==0){
            client = new Demographic();
          }else{
+           sb.append("," + obj3.getIntakeId().toString());
            client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
          }
          client.setDateOfBirth(MyDateFormat.getCalendar(obj3.getDob()));
@@ -518,7 +288,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
          intakeManager.removeInactiveIntakeFamilyMember("", headIntake.getId());
        }
 
-       for(int i=0;i<dependentsSize;i++){
+       for(int i=0;i<dependents.size();i++){
        	 Demographic client = new Demographic();
          QuatroIntakeFamily intakeFamily = (QuatroIntakeFamily)dependents.get(i);
          client.setDemographicNo(intakeFamily.getClientId());
@@ -585,21 +355,12 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	   }
        saveMessages(request,messages);
 	   
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-	
        //in case added same client in multiple family member lines,
        //the save method saved family member correctly, 
        //but need to remove duplicated family member line(s) by reading every family memeber from DB again.  
        intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
        request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 
-       if(demographicNo.equals((String)actionParam.get("clientId")))
-           request.setAttribute("isReadOnly", Boolean.FALSE);
-       else if(!(intakeFamilyHeadId.toString().equals(intakeId)))
-      	 request.setAttribute("isReadOnly", Boolean.TRUE);
-       else
-       	 request.setAttribute("isReadOnly", Boolean.FALSE);
-       
        List dependentsDB = intakeManager.getClientFamilyByIntakeId(intakeFamilyHeadId.toString());
        if(dependentsDB==null) dependentsDB = new ArrayList(); 
        for(int i=0;i<dependentsDB.size();i++){
@@ -621,8 +382,130 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 
        return mapping.findForward("edit");
    }
-
+   private List buildDependentList(HttpServletRequest request, QuatroClientFamilyIntakeForm clientForm)
+   {
+	   ArrayList dependents = new ArrayList();
+	   int dependentsSize=clientForm.getDependentsSize();
+	   StringBuffer sb = new StringBuffer();
+	   String newClientConfirmed= request.getParameter("newClientConfirmed");
+	   
+       for(int i=0;i<dependentsSize;i++){
+ 	      if(request.getParameter("dependent[" + i +"].select")==null){
+	 		  QuatroIntakeFamily obj = new QuatroIntakeFamily();	
+	 		  obj.setClientId(Integer.valueOf(request.getParameter("dependent[" + i +"].clientId")));
+	 		  obj.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
+	          obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
+	          String admissionId = request.getParameter("dependent[" + i +"].admissionId");
+	          if(!Utility.IsEmpty(admissionId)) {
+	        	  obj.setAdmissionId(Integer.valueOf(admissionId));
+ 	      	  }
+	          if(obj.getIntakeId().intValue()>0){
+	 			 sb.append("," + obj.getIntakeId().toString());
+	 		  }
+	          obj.setLastName(request.getParameter("dependent[" + i +"].lastName"));
+	 		  obj.setFirstName(request.getParameter("dependent[" + i +"].firstName"));
+	 		  obj.setDob(request.getParameter("dependent[" + i +"].dob"));
+	 		  obj.setSex(request.getParameter("dependent[" + i +"].sex"));
+	 		  obj.setAlias(request.getParameter("dependent[" + i +"].alias"));
+	 		  obj.setRelationship(request.getParameter("dependent[" + i +"].relationship"));
+	 		  obj.setIntakeId(Integer.valueOf(request.getParameter("dependent[" + i +"].intakeId")));
+	 		  obj.setSelect(request.getParameter("dependent[" + i +"].select"));
+	 		  obj.setNewClientChecked(request.getParameter("dependent[" + i +"].newClientChecked"));
+	 		  if(newClientConfirmed==null || newClientConfirmed.equals("N")){
+	 			  obj.setDuplicateClient(request.getParameter("dependent[" + i +"].duplicateClient"));
+	 		  }else{
+	 			  obj.setDuplicateClient("N");
+	 		  }
+	 		  obj.setServiceRestriction("N");  //don't check service restriction until no duplicate client.
+	 		  obj.setEffDate(request.getParameter("dependent[" + i +"].effDate"));
+	 		  obj.setJoinFamilyDateTxt(request.getParameter("dependent[" + i +"].joinFamilyDateTxt"));
+	
+	 		  if(obj.getClientId().intValue()>0){
+	 			obj.setStatusMsg("#");
+	 		  }else{
+	 			obj.setStatusMsg("");
+	 		  }
+	 	      dependents.add(obj);
+ 	      }
+ 	   }
+       return dependents;
+   }
+   private boolean checkDuplicateDemographicNo(List dependents,String newClientConfirmed)
+   {
+	   //check duplicate client for intakeId==0 && clientId==0 
+	   boolean bDupliDemographicNoApproved = true;
+	   for(int i=0; i<dependents.size(); i++) {
+	 		QuatroIntakeFamily obj = (QuatroIntakeFamily) dependents.get(i);	
+	 		if(obj.getIntakeId().intValue()==0 && obj.getClientId().intValue()==0){
+	 			if(newClientConfirmed == null || newClientConfirmed.equals("N")){
+			       ClientSearchFormBean criteria = new ClientSearchFormBean();
+		           criteria.setLastName(obj.getLastName());
+		           criteria.setFirstName(obj.getFirstName());
+		           criteria.setDob(obj.getDob());
+		           criteria.setGender(obj.getSex());
+			       List lst = clientManager.search(criteria, false,true);
+		           if(lst.size()>0){
+		             obj.setDuplicateClient("Y");
+			         obj.setNewClientChecked("N");
+					 obj.setStatusMsg("?");
+		             bDupliDemographicNoApproved=false;
+		           }else{
+			         obj.setDuplicateClient("N");
+			         obj.setNewClientChecked("Y");
+			         obj.setStatusMsg("");
+		           }
+	 			}
+	 		}
+	   	}
+	   return bDupliDemographicNoApproved;
+   	}
    
+   private void setEditFields(HttpServletRequest request, QuatroClientFamilyIntakeForm clientForm)
+   {
+       String intakeId = (String)clientForm.getIntakeId();
+       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
+
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){ 
+    	  actionParam = new HashMap();
+          actionParam.put("headclientId", request.getParameter("headclientId")); 
+          actionParam.put("clientId", request.getParameter("clientId")); 
+          actionParam.put("intakeId", request.getParameter("intakeId")); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       
+       String demographicNo= (String)actionParam.get("headclientId");
+       request.setAttribute("headclientId", demographicNo);
+       request.setAttribute("clientId", (String)actionParam.get("clientId"));
+       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
+
+   	   boolean readOnly=false;
+   	   request.setAttribute("isReadOnly", request.getParameter("isReadOnly"));
+       
+       List genders = lookupManager.LoadCodeList("GEN",true, null, null);
+       LookupCodeValue obj2= new LookupCodeValue();
+       obj2.setCode("");
+       obj2.setDescription("");
+       genders.add(0,obj2);
+       clientForm.setGenders(genders);
+
+       List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
+       relationships.add(0,obj2);
+       clientForm.setRelationships(relationships);
+       
+	   Demographic familyHead = clientForm.getFamilyHead();
+	   for(int i=0;i<genders.size();i++){
+           LookupCodeValue obj= (LookupCodeValue)genders.get(i);
+           if(obj.getCode().equals(familyHead.getSex())){
+        	 familyHead.setSexDesc(obj.getDescription());
+		     break;
+           }  
+	   }
+       clientForm.setFamilyHead(familyHead);
+       
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+   }
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }

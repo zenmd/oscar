@@ -9,6 +9,7 @@ public class QuatroIntakeFamily implements Serializable{
 
     private Integer intakeHeadId;
     private Integer intakeId;
+    private Integer admissionId;
     private String memberStatus;
     private String relationship;
     private String relationshipDesc;
@@ -59,11 +60,12 @@ public class QuatroIntakeFamily implements Serializable{
     }
 
     public QuatroIntakeFamily(Integer clientId, Integer intakeHeadId, 
-    		Integer intakeId, String relationship, Calendar joinFamilyDate)
+    		Integer intakeId, Integer admissionId, String relationship, Calendar joinFamilyDate)
     {
        this.clientId = clientId;
        this.intakeHeadId = intakeHeadId;
        this.intakeId = intakeId;
+       this.admissionId = admissionId;
        this.relationship = relationship;
        this.joinFamilyDate=joinFamilyDate;
    	   this.select="sel";
@@ -259,6 +261,14 @@ public class QuatroIntakeFamily implements Serializable{
 
 	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	public Integer getAdmissionId() {
+		return admissionId;
+	}
+
+	public void setAdmissionId(Integer admissionId) {
+		this.admissionId = admissionId;
 	}
 
 }
