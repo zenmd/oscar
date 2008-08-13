@@ -12,6 +12,7 @@ public class LookupCodeValue {
 	private String parentCode;
 	private String buf1;
 	private String codeTree;
+	private String codecsv;
 	private String buf2;
 	private String lastUpdateUser;
 	private Calendar lastUpdateDate;
@@ -164,5 +165,11 @@ public class LookupCodeValue {
 	}
 	public void setBuf9(String buf9) {
 		this.buf9 = buf9;
+	}
+	public String getCodecsv() {
+		return codecsv;
+	}
+	public void setCodecsv(String codecsv) {
+		this.codecsv = codecsv;
 	}
 }

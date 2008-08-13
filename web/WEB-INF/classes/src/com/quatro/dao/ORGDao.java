@@ -19,7 +19,7 @@ public class ORGDao extends HibernateDaoSupport {
 
 	/* Column property mappings defined by the generic idx 
 	 *  1 - Code 2 - Description 3 Active 
-	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree
+	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree 8 - codecsv
 	 */
 	
 	public LookupTableDefValue GetLookupTableDef(String tableId)
@@ -59,7 +59,7 @@ public class ORGDao extends HibernateDaoSupport {
 		String fieldNames [] = new String[7];
 		String sSQL1 = "";
 		String sSQL="select distinct ";
-		for (int i = 1; i <= 7; i++)
+		for (int i = 1; i <= 8; i++)
 		{
 			boolean ok = false;
 			for (int j = 0; j<fields.size(); j++)
@@ -125,6 +125,7 @@ public class ORGDao extends HibernateDaoSupport {
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
 			   lv.setCodeTree(db.getString(rs, 7));
+			   lv.setCodecsv(db.getString(rs, 8));
 			   list.add(lv);
 			}
 			rs.close();

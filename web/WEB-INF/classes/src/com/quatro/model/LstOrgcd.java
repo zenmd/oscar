@@ -39,13 +39,14 @@ public class LstOrgcd implements java.io.Serializable {
 
 	/** full constructor */
 	public LstOrgcd(String code, String description, Integer activeyn,
-			Integer orderbyindex, String codetree, String fullcode) {
+			Integer orderbyindex, String codetree, String fullcode,String codecsv) {
 		this.code = code;
 		this.description = description;
 		this.activeyn = activeyn;
 		this.orderbyindex = orderbyindex;
 		this.codetree = codetree;
 		this.fullcode = fullcode;
+		this.codecsv=codecsv;
 	}
 
 	// Property accessors

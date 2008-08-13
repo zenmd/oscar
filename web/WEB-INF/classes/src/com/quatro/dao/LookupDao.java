@@ -172,6 +172,7 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
 			   lv.setCodeTree(db.getString(rs, 7));
+			   lv.setCodecsv(db.getString(rs, 10));
 			   lv.setLastUpdateUser(db.getString(rs,8));
 			   lv.setLastUpdateDate(MyDateFormat.getCalendar(db.getString(rs, 9)));
 			   lv.setBuf3(db.getString(rs,10));
@@ -421,7 +422,8 @@ public class LookupDao extends HibernateDaoSupport {
 				fdv.setVal(MyDateFormat.getStandardDateTime(codeValue.getLastUpdateDate()));
 				break;
 			case 10:
-				fdv.setVal(codeValue.getBuf3());
+				if("ORG".equals(tableDef.getTableId())) fdv.setValDesc(codeValue.getCodecsv());
+				else fdv.setVal(codeValue.getBuf3());
 			case 11:
 				fdv.setVal(codeValue.getBuf4());
 			case 12:
@@ -433,7 +435,7 @@ public class LookupDao extends HibernateDaoSupport {
 			case 15:
 				fdv.setVal(codeValue.getBuf8());
 			case 16:
-				fdv.setVal(codeValue.getBuf9());
+				fdv.setVal(codeValue.getBuf9());				
 			}
 		}
 		if (isNew) 
@@ -576,6 +578,7 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setPrefix("ORG");
 		pcd.setCode("P" + program.getId());
 		pcd.setCodeTree(fcd.getCodeTree() + programId);
+		pcd.setCodecsv(fcd.getCodecsv()+programId+",");
 		pcd.setDescription(program.getName());
 		pcd.setBuf1(fullCode);
 		pcd.setActive(Program.PROGRAM_STATUS_ACTIVE.equals(program.getProgramStatus()));
@@ -617,6 +620,7 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setPrefix("ORG");
 		fcd.setCode("F" + facility.getId());
 		fcd.setCodeTree(ocd.getCodeTree() + facilityId);
+		fcd.setCodecsv(ocd.getCodecsv()+facilityId+",");
 		fcd.setDescription(facility.getName());
 		fcd.setBuf1(fullCode);
 		fcd.setActive(facility.getActive());
@@ -651,6 +655,7 @@ public class LookupDao extends HibernateDaoSupport {
 		ocd.setPrefix("ORG");
 		ocd.setCode(orgCd);
 		ocd.setCodeTree(pCd.getCodeTree() + orgId);
+		ocd.setCodecsv(pCd.getCodecsv()+orgId+",");
 		ocd.setDescription(orgVal.getDescription());
 		ocd.setBuf1(pCd.getBuf1()+ orgCd);
 		ocd.setActive(orgVal.isActive());
