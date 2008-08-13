@@ -43,4 +43,5 @@ public interface ProgramQueueManager
 	
 	public List getProgramQueuesByClientId(Integer clientId);
 
+	public List getProgramQueuesByClientIdProgramId(Integer clientId, Integer programId);
 }
