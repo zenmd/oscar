@@ -546,7 +546,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         // copy over modified attributes
         realProgram.setDefaultServiceRestrictionDays(defaultRestrictionDays);
-        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0)
+       // if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0)
             realProgram.setMaximumServiceRestrictionDays(maxRestrictionDays);
         
         // save program & sign the modification of the program

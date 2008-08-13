@@ -16,8 +16,17 @@ public class LstOrgcd implements java.io.Serializable {
 	private Integer orderbyindex;
 	private String codetree;
 	private String fullcode;
+	private String codecsv;
 
 	// Constructors
+
+	public String getCodecsv() {
+		return codecsv;
+	}
+
+	public void setCodecsv(String codecsv) {
+		this.codecsv = codecsv;
+	}
 
 	/** default constructor */
 	public LstOrgcd() {

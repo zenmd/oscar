@@ -183,10 +183,10 @@ public class Utility {
     	String progSQL="";
     	if (shelterId  == null || shelterId.intValue() == 0) {
 			progSQL = "(select p.id from Program p where 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.providerNo='" + providerNo + "'))";				
 		}	else {
 			progSQL = "(select p.id from Program p where p.shelterId =" + shelterId.toString() + " and 'P' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.providerNo='" + providerNo + "'))";				
 		}
     	return progSQL;
     }
@@ -194,10 +194,10 @@ public class Utility {
     	String progSQL="";
     	if (shelterId == null || shelterId.intValue() == 0) {
 			progSQL = "(select p.program_id from program p where 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.provider_no='" + providerNo + "'))";				
 		}	else {
 			progSQL = "(select p.program_id from program p where p.shelter_id =" + shelterId.toString() + " and 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.provider_no='" + providerNo + "'))";				
 		}
     	return progSQL;
     }
@@ -205,10 +205,10 @@ public class Utility {
     	String progSQL="";
     	if (shelterId == null || shelterId.intValue() == 0) {
 			progSQL = "(select p.id from facility p where 'F' || p.id in (select a.code from lst_orgcd a, secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.provider_no='" + providerNo + "'))";				
 		}	else {
 			progSQL = "(select p.id from facility p where p.org_id =" + shelterId.toString() + " and 'F' || p.id in (select a.code from lst_orgcd a, secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.provider_no='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.provider_no='" + providerNo + "'))";				
 		}
     	return progSQL;
     }
@@ -216,10 +216,10 @@ public class Utility {
     	String progSQL="";
     	if (shelterId == null || shelterId.intValue() == 0) {
 			progSQL = "(select p.id from Facility p where 'F' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.providerNo='" + providerNo + "'))";				
 		}	else {
 			progSQL = "(select p.id from Facility p where p.orgId =" + shelterId + " and 'F' || p.id in (select a.code from LstOrgcd a, Secuserrole b " +
-		       " where a.fullcode like '%' || b.orgcd || '%' and b.providerNo='" + providerNo + "'))";				
+		       " where a.codecsv like '%' || b.orgcd || ',%' and b.providerNo='" + providerNo + "'))";				
 		}
     	return progSQL;
     }

@@ -25,5 +25,6 @@
         <property name="fullcode" type="java.lang.String">
             <column name="FULLCODE" length="80" />
         </property>
+        <property name="codecsv"></property>
     </class>
 </hibernate-mapping>
