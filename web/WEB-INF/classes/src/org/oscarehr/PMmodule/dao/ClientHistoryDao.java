@@ -24,8 +24,8 @@ package org.oscarehr.PMmodule.dao;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -40,7 +40,7 @@ import java.util.Calendar;
 import com.quatro.util.Utility;
 public class ClientHistoryDao extends HibernateDaoSupport {
 
-    private Log log = LogFactory.getLog(getClass());
+    private Logger log = LogManager.getLogger(getClass());
     private MergeClientDao mergeClientDao;
     private LookupDao lookupDao; 
 

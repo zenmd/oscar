@@ -28,8 +28,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -46,7 +46,7 @@ import com.quatro.service.security.SecurityManager;
 
 public class SystemMessageAction extends DispatchAction {
 
-	private static Log log = LogFactory.getLog(SystemMessageAction.class);
+	private static Logger log = LogManager.getLogger(SystemMessageAction.class);
 	
 	protected SystemMessageManager mgr = null;
 	private LookupManager lookupManager;

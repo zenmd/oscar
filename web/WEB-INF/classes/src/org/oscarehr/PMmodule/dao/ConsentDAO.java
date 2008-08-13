@@ -27,8 +27,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.model.Consent;
 import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -38,7 +38,7 @@ import com.quatro.common.KeyConstants;
 
 public class ConsentDAO extends HibernateDaoSupport {
 
-    private Log log = LogFactory.getLog(ConsentDAO.class);
+    private Logger log = LogManager.getLogger(ConsentDAO.class);
     private MergeClientDao mergeClientDao;
 
     public void setMergeClientDao(MergeClientDao mergeClientDao) {

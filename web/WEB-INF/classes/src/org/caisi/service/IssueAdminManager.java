@@ -24,13 +24,13 @@ package org.caisi.service;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.caisi.dao.IssueAdminDAO;
 import org.caisi.model.IssueAdmin;
 
 public class IssueAdminManager {
-    private static Log log = LogFactory.getLog(IssueAdminManager.class);
+    private static Logger log = LogManager.getLogger(IssueAdminManager.class);
     private IssueAdminDAO dao;
 
     public void setIssueAdminDAO(IssueAdminDAO dao) {

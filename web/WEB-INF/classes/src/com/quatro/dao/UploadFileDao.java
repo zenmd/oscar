@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,7 +20,7 @@ import com.quatro.util.Utility;
 
 public class UploadFileDao extends HibernateDaoSupport {
 
-	private static Log log = LogFactory.getLog(CaseManagementNoteDAO.class);
+	private static Logger log = LogManager.getLogger(CaseManagementNoteDAO.class);
 	private MergeClientDao mergeClientDao;
 	public void saveAttachementText(AttachmentText rtv) {
 		getHibernateTemplate().saveOrUpdate(rtv);

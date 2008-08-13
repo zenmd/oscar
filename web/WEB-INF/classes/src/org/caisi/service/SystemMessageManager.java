@@ -25,14 +25,14 @@ package org.caisi.service;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.caisi.dao.SystemMessageDAO;
 import org.caisi.model.SystemMessage;
 
 public class SystemMessageManager {
 
-	private static Log log = LogFactory.getLog(SystemMessageManager.class);
+	private static Logger log = LogManager.getLogger(SystemMessageManager.class);
 	
 	
 	private SystemMessageDAO dao = null;

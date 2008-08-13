@@ -2,8 +2,8 @@ package com.quatro.dao.security;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
@@ -19,7 +19,7 @@ import com.quatro.model.security.SecProvider;
  */
 
 public class SecProviderDao extends HibernateDaoSupport {
-	private static final Log log = LogFactory.getLog(SecProviderDao.class);
+	private static final Logger log = LogManager.getLogger(SecProviderDao.class);
 	// property constants
 	public static final String LAST_NAME = "lastName";
 	public static final String FIRST_NAME = "firstName";

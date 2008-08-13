@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -47,7 +47,7 @@ import com.quatro.util.*;
 
 public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
-	private static Log log = LogFactory.getLog(CaseManagementNoteAction.class);
+	private static Logger log = LogManager.getLogger(CaseManagementNoteAction.class);
 
 	ActionMessages messages = new ActionMessages();
 

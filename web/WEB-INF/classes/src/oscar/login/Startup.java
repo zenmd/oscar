@@ -32,8 +32,8 @@ import java.io.InputStream;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * This ContextListener is used to Initialize classes at startup - Initialize the DBConnection Pool.
@@ -41,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jay Gallagher
  */
 public class Startup implements ServletContextListener {
-        private static Log log = LogFactory.getLog(Startup.class);
+        private static Logger log = LogManager.getLogger(Startup.class);
 	public Startup() {}
 
 	public void contextInitialized(ServletContextEvent sc) {
@@ -49,9 +49,10 @@ public class Startup implements ServletContextListener {
 		
 		String contextPath = "";
 		try {
-			// Anyone know a better way to do this?
-			String url = sc.getServletContext().getResource("/").getPath();
-                        log.info(url);
+			String webInfDir = sc.getServletContext().getResource("/WEB-INF").getPath();
+	        System.setProperty("log4j.configuration",webInfDir + "log4j.properties");
+
+	        String url = sc.getServletContext().getResource("/").getPath();
             int idx = url.lastIndexOf('/');
 			url = url.substring(0,idx);
 
@@ -68,8 +69,8 @@ public class Startup implements ServletContextListener {
 		
 		String propName = contextPath + ".properties";
         oscar.OscarProperties p = oscar.OscarProperties.getInstance();
-		try { 
-	        log.info("looking up  /WEB-INF/" + propName);
+		try {
+	        log.info("looking up  /WEB-INF" + propName);
 			InputStream pf = sc.getServletContext().getResource("/WEB-INF/" + propName).openStream();
 			p.loader(pf);
 	        log.info("loading properties from /WEB-INF/" + propName);

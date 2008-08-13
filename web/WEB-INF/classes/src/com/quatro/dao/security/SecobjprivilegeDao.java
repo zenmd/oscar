@@ -23,9 +23,9 @@
 package com.quatro.dao.security;
 
 import java.util.List;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -33,7 +33,7 @@ import com.quatro.model.security.Secobjprivilege;
 
 public class SecobjprivilegeDao extends HibernateDaoSupport {
 
-//    private Log log = LogFactory.getLog(SecobjprivilegeDao.class);
+    private Logger log = LogManager.getLogger(SecobjprivilegeDao.class);
 
   
     public void save(Secobjprivilege secobjprivilege) {
@@ -42,14 +42,14 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
         }
         
         getHibernateTemplate().saveOrUpdate(secobjprivilege);
-/*
+
         if (log.isDebugEnabled()) {
             log.debug("SecobjprivilegeDao : save: " + secobjprivilege.getRoleusergroup() + ":" + secobjprivilege.getObjectname());
         }
-*/        
+        
     }
     public void saveAll(List list) {
-//		log.debug("saving ALL Secobjprivilege instances");
+		log.debug("saving ALL Secobjprivilege instances");
 		try {
 			for(int i =0; i< list.size(); i++){
 				Secobjprivilege obj = (Secobjprivilege)list.get(i);
@@ -62,14 +62,14 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 				
 			}
 						
-//			log.debug("save ALL successful");
+			log.debug("save ALL successful");
 		} catch (RuntimeException re) {
-//			log.error("save ALL failed", re);
+			log.error("save ALL failed", re);
 			throw re;
 		}
 	}
     public int update(Secobjprivilege instance) {
-//		log.debug("update Secobjprivilege instance");
+		log.debug("update Secobjprivilege instance");
 		try {
 			String queryString = "update Secobjprivilege as model set model.providerNo ='" + instance.getProviderNo() + "'"
 				+ " where model.objectname ='" + instance.getObjectname() + "'"
@@ -81,29 +81,29 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 			return queryObject.executeUpdate();
 						
 		} catch (RuntimeException re) {
-//			log.error("Update failed", re);
+			log.error("Update failed", re);
 			throw re;
 		}
 	}
     public int deleteByRoleName(String roleName) {
-//		log.debug("deleting Secobjprivilege by roleName");
+		log.debug("deleting Secobjprivilege by roleName");
 		try {
 			
 			return getHibernateTemplate().bulkUpdate("delete Secobjprivilege as model where model.roleusergroup =?", roleName);
 			
 		} catch (RuntimeException re) {
-//			log.error("delete failed", re);
+			log.error("delete failed", re);
 			throw re;
 		}
 	}
     public void delete(Secobjprivilege persistentInstance) {
-//		log.debug("deleting Secobjprivilege instance");
+		log.debug("deleting Secobjprivilege instance");
 		try {
 			//getSession().delete(persistentInstance);
 			getHibernateTemplate().delete(persistentInstance);
-//			log.debug("delete successful");
+			log.debug("delete successful");
 		} catch (RuntimeException re) {
-//			log.error("delete failed", re);
+			log.error("delete failed", re);
 			throw re;
 		}
 	}
@@ -117,7 +117,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 			else
 				return "";
 		} catch (RuntimeException re) {
-//			log.error("find by property name failed", re);
+			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
@@ -131,7 +131,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 			else
 				return "";
 		} catch (RuntimeException re) {
-//			log.error("find by property name failed", re);
+			log.error("find by property name failed", re);
 			throw re;
 		}
 	}
@@ -141,16 +141,14 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
         }
         
         List result = findByProperty("roleusergroup", roleName);
-/*
         if (log.isDebugEnabled()) {
             log.debug("SecobjprivilegeDao : getFunctions: ");
         }
-*/        
         return result;
     }
     public List findByProperty(String propertyName, Object value) {
-//		log.debug("finding Secobjprivilege instance with property: " + propertyName
-//				+ ", value: " + value);
+		log.debug("finding Secobjprivilege instance with property: " + propertyName
+				+ ", value: " + value);
 		try {
 			String queryString = "from Secobjprivilege as model where model."
 					+ propertyName + "= ?";
@@ -158,7 +156,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 			queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
-//			log.error("find by property name failed", re);
+			log.error("find by property name failed", re);
 			throw re;
 		}
 	}

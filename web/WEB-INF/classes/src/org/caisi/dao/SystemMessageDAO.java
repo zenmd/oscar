@@ -24,14 +24,14 @@ package org.caisi.dao;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.caisi.model.SystemMessage;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class SystemMessageDAO extends HibernateDaoSupport  {
 
-	private static Log log = LogFactory.getLog(SystemMessageDAO.class);
+	private static Logger log = LogManager.getLogger(SystemMessageDAO.class);
 	
 	public SystemMessage getMessage(Integer id) {
 		return (SystemMessage)this.getHibernateTemplate().get(SystemMessage.class,id);

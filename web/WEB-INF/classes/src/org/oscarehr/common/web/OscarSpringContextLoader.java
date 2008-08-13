@@ -22,8 +22,8 @@ package org.oscarehr.common.web;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.oscarehr.util.SpringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
@@ -41,7 +41,7 @@ import oscar.OscarProperties;
  */
 public class OscarSpringContextLoader extends ContextLoader {
 	
-	private final Log log = LogFactory.getLog(OscarSpringContextLoader.class);
+	private final Logger log = LogManager.getLogger(OscarSpringContextLoader.class);
 	private final String CONTEXTNAME = "WEB-INF/applicationContext";
 	private final String PROPERTYNAME = "ModuleNames";
 

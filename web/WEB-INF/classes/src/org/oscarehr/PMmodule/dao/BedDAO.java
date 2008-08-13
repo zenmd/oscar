@@ -25,8 +25,8 @@ package org.oscarehr.PMmodule.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.exception.BedReservedException;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.BedType;
@@ -34,7 +34,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class BedDAO extends HibernateDaoSupport {
 
-    private static final Log log = LogFactory.getLog(BedDAO.class);
+    private static final Logger log = LogManager.getLogger(BedDAO.class);
 
     public boolean bedExists(Integer bedId) {
 

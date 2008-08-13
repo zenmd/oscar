@@ -20,14 +20,14 @@
  */
 package org.oscarehr.common.web;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
 
 public class OscarSpringContextLoaderListener extends ContextLoaderListener {
 
-	private static Log log = LogFactory.getLog(OscarSpringContextLoaderListener.class);
+	private static Logger log = Logger.getLogger(OscarSpringContextLoaderListener.class);
 
 	protected ContextLoader createContextLoader() {
 		log.info("Creating OscarContextLoader");

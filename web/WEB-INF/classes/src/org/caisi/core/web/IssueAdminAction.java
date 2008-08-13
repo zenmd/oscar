@@ -28,8 +28,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -43,7 +43,7 @@ import org.caisi.service.IssueAdminManager;
 
 // use your IDE to handle imports
 public class IssueAdminAction extends DispatchAction {
-    private static Log log = LogFactory.getLog(IssueAdminAction.class);
+    private static Logger log = LogManager.getLogger(IssueAdminAction.class);
     private IssueAdminManager mgr = null;
 //    private CaisiRoleManager caisiRoleMgr = null;
 

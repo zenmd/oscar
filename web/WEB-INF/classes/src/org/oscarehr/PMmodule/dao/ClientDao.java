@@ -29,8 +29,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Expression;
@@ -48,7 +48,7 @@ import com.quatro.util.Utility;
 
 public class ClientDao extends HibernateDaoSupport {
 
-	private Log log = LogFactory.getLog(ClientDao.class);
+	private Logger log = LogManager.getLogger(ClientDao.class);
 
 	private static final int LIST_PROCESSING_CHUNK_SIZE=64;
 

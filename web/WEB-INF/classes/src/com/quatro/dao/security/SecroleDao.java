@@ -25,15 +25,15 @@ package com.quatro.dao.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.quatro.model.security.Secrole;
 
 public class SecroleDao extends HibernateDaoSupport {
 
-    private Log log = LogFactory.getLog(SecroleDao.class);
+    private Logger log = LogManager.getLogger(SecroleDao.class);
 
     public List getRoles() {
         List results = this.getHibernateTemplate().find("from Secrole r");

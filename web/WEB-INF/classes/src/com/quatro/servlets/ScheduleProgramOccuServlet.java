@@ -72,7 +72,6 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    }
 	    public void init(ServletConfig servletConfig) throws ServletException {
 	        super.init(servletConfig);
-	        System.setProperty("log4j.configuration","log4j.properties");
 	        // yes I know I'm setting static variables in an instance method but it's okay.
 	        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());	       
 	        programOccupancyDao  = (ProgramOccupancyDao)webApplicationContext.getBean("programOccupancyDao");

@@ -3,8 +3,8 @@ package com.quatro.dao.security;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Example;
@@ -27,7 +27,7 @@ import com.quatro.model.security.Secuserrole;
  */
 
 public class SecuserroleDao extends HibernateDaoSupport {
-	private static final Log log = LogFactory.getLog(SecuserroleDao.class);
+	private static final Logger log = LogManager.getLogger(SecuserroleDao.class);
 	// property constants
 	public static final String PROVIDER_NO = "providerNo";
 	public static final String ROLE_NAME = "roleName";

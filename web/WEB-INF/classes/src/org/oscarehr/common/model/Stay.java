@@ -2,14 +2,14 @@ package org.oscarehr.common.model;
 
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 public class Stay {
 	
-	private static final Log LOG = LogFactory.getLog(Stay.class);
+	private static final Logger LOG = LogManager.getLogger(Stay.class);
 
 	private Interval interval;
 

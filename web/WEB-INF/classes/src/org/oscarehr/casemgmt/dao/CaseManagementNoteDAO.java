@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 //TODO import java.util.UUID;
 import com.ibm.ws.util.UUID;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -54,7 +54,7 @@ import oscar.OscarProperties;
 
 public class CaseManagementNoteDAO extends HibernateDaoSupport {
 	
-	private static Log log = LogFactory.getLog(CaseManagementNoteDAO.class);   
+	private static Logger log = LogManager.getLogger(CaseManagementNoteDAO.class);   
 	private MergeClientDao mergeClientDao;	
         
         public List getEditors(CaseManagementNote note) {
