@@ -11,7 +11,7 @@
 			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|
 			</html:link>			
-			<security:oscarSec  objectName="<%=KeyConstants.FUN_PROGRAM %>"  rights="<%=KeyConstants.ACCESS_WRITE %>">
+			<security:oscarSec  objectName="<%=KeyConstants.FUN_PROGRAMEDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE %>">
 				<html:link	href="javascript:submitForm('add');"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Program&nbsp;|
 				</html:link>
@@ -99,9 +99,11 @@
 				<display:setProperty name="paging.banner.items_name" value="programs" />
 				<display:setProperty name="basic.msg.empty_list" value="No programs found." />
 
-				<display:column sortable="false" title="">					
+				<display:column sortable="false" title="">		
+					<security:oscarSec  objectName="<%=KeyConstants.FUN_PROGRAMEDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE %>">			
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&programId=<c:out value="${program.id}" />">
 							Edit </a>
+					</security:oscarSec>		
 				</display:column>
 					
 				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">

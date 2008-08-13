@@ -146,7 +146,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         request.setAttribute("actionParam", actionParam);
         request.setAttribute("programId", id);
         if (Utility.IsEmpty(viewTab)) {
-        	viewTab =KeyConstants.TAB_PROGRAM_QUEUE;            
+        	viewTab =KeyConstants.TAB_PROGRAM_GENERAL;            
         }
         formBean.setTab(viewTab);
       

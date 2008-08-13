@@ -15,7 +15,7 @@
 		String selectedTab = request.getParameter("tab");
 			
 		if (selectedTab == null || selectedTab.trim().equals("")) {
-			selectedTab = ProgramManagerViewFormBean.tabs[1];
+			selectedTab = ProgramManagerViewFormBean.tabs[0];
 		}
 	%>
 	<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
