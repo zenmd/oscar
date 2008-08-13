@@ -35,23 +35,7 @@
 				<c:otherwise>
 							&nbsp;
 				</c:otherwise>
-			</c:choose>
-			<c:choose>
-				<c:when test="${'C' eq Staff}">
-					<div><b>Staff</b></div>
-				</c:when>
-				<c:when test="${'V' eq Staff}">
-					<div><html:link
-						action="/PMmodule/ProgramManager.do?method=edit&view.tab=Staff" name="actionParam"  
-						style="color:Navy;text-decoration:none;">Staff</html:link></div>
-				</c:when>
-				<c:otherwise>
-							&nbsp;
-				</c:otherwise>
-			</c:choose>
-			
-			
-			
+			</c:choose>			
 			<!-- 
 				<div><a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('General');return false;">General</a></div>
 			<div><a href="javascript:void(0)" style="color:Navy;text-decoration:none;" onclick="javascript:clickTab('service_restrictions');return false;">Service Restriction</a></div>

@@ -172,7 +172,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
 	        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
 	        request.setAttribute("queue", queue);
-	        super.setScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
+	        super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_QUEUE, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	        HashSet genderConflict = new HashSet();
@@ -210,31 +210,31 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         }
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)) {
             request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
-            super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, programId);
+            super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_SERVICERESTRICTIONS, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
         	processStaff( request, programId, formBean);
-        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
+        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_STAFF, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }        
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
         	processClients( request, program, formBean);
-        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
+        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
 	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_CLIENTS, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
         
         else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
         	processIncident( request, programId.toString(), formBean);  
-        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
+        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
         }
         else
         {
-        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
+        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
+	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM, programId);
 	        if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
         }
 

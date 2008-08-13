@@ -167,19 +167,13 @@ public class ProgramManagerAction extends BaseProgramAction {
         ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
         view.setTab(viewTab);  
        
-        if (view.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
-        	processStaff( request, programId, view);
-        	super.setScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
-            boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAM_STAFF, programId);
-            if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-             
-        }else if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
-        	 super.setScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
+        if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
+        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
              if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        	
         }
         else{
-        	 super.setScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
+        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
              if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }

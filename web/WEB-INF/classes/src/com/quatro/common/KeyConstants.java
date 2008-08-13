@@ -148,11 +148,12 @@ public class KeyConstants {
   public static final String FUN_DEMOGRAPHIC="_demographic";
   public static final String FUN_REPORTS="_reports";
   public static final String FUN_PROGRAMEDIT="_programEdit";
-  public static final String FUN_PROGRAMEDIT_STAFF="_programEdit.staff";  
+ // public static final String FUN_PROGRAMEDIT_STAFF="_programEdit.staff";  
   public static final String FUN_PROGRAM_CLIENTS="_program.clients";
   public static final String FUN_PROGRAM_QUEUE="_program.queue";
   public static final String FUN_PROGRAM_INCIDENT="_program.incident";
   public static final String FUN_PROGRAMEDIT_SERVICERESTRICTIONS="_programEdit.serviceRestrictions";
+  public static final String FUN_PROGRAM_SERVICERESTRICTIONS="_program.serviceRestrictions";
  
   public static final String FUN_CLIENTADMISSION="_clientAdmission";
   public static final String FUN_CLIENTCASE="_clientCase";
