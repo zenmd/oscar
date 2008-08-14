@@ -500,7 +500,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	
 	public List getClientIntakeFamilyHistory(Integer intakeHeadId){
 
-		String sSQL2="from QuatroIntakeFamily "+
+		String sSQL2="from QuatroIntakeFamilyHis "+
 		  " WHERE intakeHeadId = ?  order by joinFamilyDate, intakeId  desc";
 
 		List result = getHibernateTemplate().find(sSQL2, new Object[] {intakeHeadId});

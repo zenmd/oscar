@@ -26,6 +26,7 @@ import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
+import org.oscarehr.PMmodule.model.QuatroIntakeFamilyHis;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
@@ -251,7 +252,7 @@ public class IntakeManager {
 		List lst =  intakeDao.getClientIntakeFamilyHistory(intakeHeadId);
 		for(int i=0; i<lst.size();i++)
 		{
-			QuatroIntakeFamily obj = (QuatroIntakeFamily) lst.get(i);
+			QuatroIntakeFamilyHis obj = (QuatroIntakeFamilyHis) lst.get(i);
 			Demographic dmg = clientDao.getClientByDemographicNo(obj.getClientId());
 				
 	 	    obj.setFirstName(dmg.getFirstName());

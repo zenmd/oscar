@@ -25,7 +25,8 @@
 <tr><th>Family Members</th></tr>
 </table></div></td></tr>
 <tr><td>
-<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="dependent" name="dependents" export="false" pagesize="50" requestURI="/PMmodule/QuatroDischarge.do">
+<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="dependent" name="dependents" export="false" pagesize="50" 
+requestURI="/PMmodule/QuatroFamilyIntake.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No record found." />
             <display:column property="lastName" sortable="true" title="Last Name"/>

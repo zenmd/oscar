@@ -133,17 +133,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 
        Integer intakeFamilyHeadId = Integer.valueOf(request.getParameter("intakeHeadId"));
        
-   	   List genders = lookupManager.LoadCodeList("GEN",true, null, null);       
-       LookupCodeValue obj2= new LookupCodeValue();
-       obj2.setCode("");
-       obj2.setDescription("");
-       genders.add(0,obj2);
-       request.setAttribute("genders",genders);
-
-       List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
-       relationships.add(0,obj2);
-       request.setAttribute("relationships", relationships);
-
        List dependents = intakeManager.getClientIntakeFamilyHistory(intakeFamilyHeadId);
        request.setAttribute("dependents",dependents);
        
