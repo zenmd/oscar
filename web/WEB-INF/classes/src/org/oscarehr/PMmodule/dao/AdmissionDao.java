@@ -62,7 +62,7 @@ public class AdmissionDao extends HibernateDaoSupport {
         if (intake == null) {
             throw new IllegalArgumentException();
         }
-        List adms = getAdmissionList(intake.getClientId(), true,intake.getStaffId(), new Integer(0));
+        List adms = getCurrentAdmissions(intake.getClientId(), KeyConstants.SYSTEM_USER_PROVIDER_NO, new Integer(0));
         if(adms.size() > 0) {
         	Admission adm0 = (Admission) adms.get(0);
         	dischargeAdmission(adm0.getId().toString(), "Joined in a family");
