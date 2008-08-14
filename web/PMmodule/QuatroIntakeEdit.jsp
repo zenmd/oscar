@@ -22,77 +22,80 @@
 	<input type="hidden" name="fromManualReferralId" value="<c:out value="${fromManualReferralId}"/>" />
 	<input type="hidden" name="method" />
 	<input type="hidden" name="newClientChecked" value="N" />
-	<input type="hidden" name="scrollPosition"
-		value='<c:out value="${scrPos}"/>' />
+    <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
+
 	<script lang="javascript">
 
 function submitForm(methodVal) {
 	trimInputBox();
-    var obj = document.getElementsByName("client.firstName")[0];
-    if(obj.value.trim()==""){
-      alert("First name is empty.");
-      obj.value="";
-      obj.focus();
-      return; 
-    }
-    if(!isName(obj.value.trim())){
-      alert("First name contains illegal character!");
-//      obj.value="";
-      obj.focus();
-      return; 
-    }
+	if(methodVal=='programChange'){
+
+	}else{
+      var obj = document.getElementsByName("client.firstName")[0];
+      if(obj.value.trim()==""){
+        alert("First name is empty.");
+        obj.value="";
+        obj.focus();
+        return; 
+      }
+      if(!isName(obj.value.trim())){
+        alert("First name contains illegal character!");
+        obj.focus();
+        return; 
+      }
     
-    obj = document.getElementsByName("client.lastName")[0];
-    if(obj.value.trim()==""){
-      alert("Last name is empty.");
-      obj.value="";
-      obj.focus();
-      return; 
-    }
-    if(!isName(obj.value.trim())){
-      alert("Last name contains illegal character!");
-//      obj.value="";
-      obj.focus();
-      return; 
-    }
+      obj = document.getElementsByName("client.lastName")[0];
+      if(obj.value.trim()==""){
+        alert("Last name is empty.");
+        obj.value="";
+        obj.focus();
+        return; 
+      }
+      if(!isName(obj.value.trim())){
+        alert("Last name contains illegal character!");
+        obj.focus();
+        return; 
+      }
     
-    obj = document.getElementsByName("client.sex")[0];
-    if(obj.value.trim()==""){
-      alert("Gender is empty.");
-      obj.value="";
-      obj.focus();
-      return; 
+      obj = document.getElementsByName("client.sex")[0];
+      if(obj.value.trim()==""){
+        alert("Gender is empty.");
+        obj.value="";
+        obj.focus();
+        return; 
+      }
+
+      obj = document.getElementsByName("dob")[0];
+      if(obj.value.trim()==""){
+        alert("Date of birth is empty.");
+        obj.value="";
+        obj.focus();
+        return; 
+      }
+
+      if(validateBirthDay(obj.value)==false){
+        obj.focus();
+        return;
+      }
+    
+      obj = document.getElementsByName("intake.livedBefore")[0];
+      if(obj.value.trim()==""){
+        alert("Lived the last 12 months is empty.");
+        obj.focus();
+        return; 
+      }
+
+      obj = document.getElementsByName("intake.programId")[0];
+      if(obj.value.trim()==""){
+        alert("No program selected.");
+        obj.focus();
+        return; 
+      }
     }
 
-    obj = document.getElementsByName("dob")[0];
-    if(obj.value.trim()==""){
-      alert("Date of birth is empty.");
-      obj.value="";
-      obj.focus();
-      return; 
-    }
-
-    if(validateBirthDay(obj.value)==false){
-       obj.focus();
-       return;
-    }
-    
-    obj = document.getElementsByName("intake.livedBefore")[0];
-    if(obj.value.trim()==""){
-      alert("Lived the last 12 months is empty.");
-      obj.focus();
-      return; 
-    }
-
-    obj = document.getElementsByName("intake.programId")[0];
-    if(obj.value.trim()==""){
-      alert("No program selected.");
-      obj.focus();
-      return; 
-    }
 	if(methodVal=="save" && noChanges())
 	{
-		alert("There is no changes detected to save");
+		alert("There are no changes detected to save");
 	}
 	else
 	{
@@ -188,7 +191,7 @@ function checkExistClients(){
 			<td height="100%">
 			<div id="scrollBar" onscroll="getDivPosition()"
 				style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
-                    height: 100%; width: 100%; overflow: auto;"	id="scrollBar"><!--  start of page content -->
+                    height: 100%; width: 100%; overflow: auto;"><!--  start of page content -->
 			<table width="100%">
 				<tr>
 					<td>
@@ -710,7 +713,7 @@ function checkExistClients(){
 							</c:when>
 							<c:otherwise>
 							<html-el:hidden	property="intake.currentProgramId" /> 
-								<html-el:select	property="intake.programId">
+								<html-el:select	property="intake.programId" onchange="setNoConfirm();submitForm('programChange')">
 								<option value=""></option>
 								<html-el:optionsCollection property="programList" value="value"
 									label="label" />
