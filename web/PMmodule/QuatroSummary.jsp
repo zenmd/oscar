@@ -79,11 +79,10 @@ function openHealthSafety(){
 	<tr><td>Alias</td>
 	<td colspan="3"><c:out value="${client.alias}" /></td></tr>
 	<tr><td>Health and Safety</td>
-	<td colspan="3">&nbsp;
-      <c:if test="${accessTypeRead}">
+	<td colspan="3">&nbsp;      
         <table width="100%" class="simple" style="background: #e0e0e0;" cellspacing="2" cellpadding="2">
 		<c:choose>
-		  <c:when test="${empty healthsafety and !isReadOnly}">
+		  <c:when test="${empty healthsafety}">
 			<tr><td>None found</td>
 			<td>
 			<c:if test="${accessTypeWrite}">
@@ -91,7 +90,7 @@ function openHealthSafety(){
 			</c:if>
 			</td></tr>
 		  </c:when>
-	      <c:when test="${empty healthsafety.message and !isReadOnly}">
+	      <c:when test="${empty healthsafety.message}">
 			<tr><td>None found</td>
 			<td> 
 				 <c:if test="${accessTypeWrite}">
@@ -103,20 +102,18 @@ function openHealthSafety(){
 			<tr><td colspan="3"><c:out value="${healthsafety.message}" /></td></tr>
 			<tr><td width="50%">User Name: <c:out value="${healthsafety.userName}" /></td>
 			<td width="30%">Date: <fmt:formatDate value="${healthsafety.updateDate}" pattern="yyyy/MM/dd" /></td>
-			<td width="20%">
-			<c:if test="${!isReadOnly}">				 
-				  <c:if test="${accessTypeUpdate}">
+			<td width="20%">							 
+				  <c:if test="${accessTypeWrite}">
 			 		<a href="javascript:openHealthSafety()">Edit</a>
 			 	</c:if>
 			 	 <c:if test="${accessTypeWrite}">
 			 		<a href="javascript:submitForm('deleteHS')"> &nbsp;&nbsp;Delete </a>
-			 	</c:if>				 	
-			 </c:if>
+			 	</c:if>			
 			</td></tr>
 		  </c:otherwise>
 		</c:choose>
        </table>
-	</c:if>
+
  	</td></tr>
 	<tr>
 		<td>SDMT Benefit Unit Status</td>
