@@ -59,8 +59,15 @@ function submitForm(methodVal) {
         alert("Overnight Pass end date must be after start date.");
         ovPassEndDateTxt.focus();
 	  }else{
-	    document.forms[0].method.value = methodVal;
-	    document.forms[0].submit();
+	  		if(methodVal=="save" && noChanges())
+			{
+				alert("There is no changes detected to save");
+			}
+			else
+			{
+			    document.forms[0].method.value = methodVal;
+	    		document.forms[0].submit();
+	    	}
 	  }
 	}  
 }

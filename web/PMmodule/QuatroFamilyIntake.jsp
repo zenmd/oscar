@@ -6,6 +6,7 @@
  
 <html-el:form action="/PMmodule/QuatroFamilyIntake.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <input type="hidden" name="headclientId" value="<c:out value="${headclientId}" />"/>
 <input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
@@ -38,21 +39,14 @@ function submitForm(methodVal)
 	var dob;
 	var gender;
 	var relation;
-	var ans;
+	var ans = true;
 	var famAdmitted = document.getElementsByName("isFamilyAdmitted")[0];
-	if (famAdmitted.value) 
+	if (famAdmitted.value && methodVal == "add") 
 	{
 		ans = confirm("The family is already admitted. New members will be automatically admitted when you save. Any active admision will be discharged, To proceed, click OK");	
 	}
-	else
-	{
-		and = true;
-	}
-	if(methodVal == "add") 
-	{
-		if (!ans) return;
-	}
-    else if (methodVal == "save") 
+	if (!ans) return;
+    if (methodVal == "save") 
     {	    
 	    for(var i=0;i<lineNum;i++){
 	      lastName = document.getElementsByName("dependent[" + i + "].lastName")[0];
@@ -99,8 +93,15 @@ function submitForm(methodVal)
 		  }
 	    }
 	}
-	document.forms[0].method.value = methodVal;
-	document.forms[0].submit();
+	if(methodVal=="save" && noChanges())
+	{
+		alert("There is no changes detected to save");
+	}
+	else
+	{
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
+	}
 }
 
 function checkExistClients(i){

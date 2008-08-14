@@ -142,7 +142,14 @@
           alert("Expiry Day must not be earlier than today.");
           expiry_day.focus();
 		}else{
-		  document.forms[0].submit();
+			if(noChanges())
+			{
+				alert("There is no changed detected to save");
+			}
+			else
+			{
+			  document.forms[0].submit();
+			}
 		}  
 	}
 	

@@ -27,8 +27,15 @@
     
     function submitForm(methodVal) {
 		trimInputBox();
-		document.forms[0].method.value = methodVal;
-		document.forms[0].submit();
+		if(methodVal=="save" && noChanges())
+		{
+			alert("Please make you changes and then Save");
+		}
+		else
+		{
+			document.forms[0].method.value = methodVal;
+			document.forms[0].submit();
+		}
 	}
     
 </script>

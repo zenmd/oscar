@@ -45,6 +45,20 @@
        }
        return hashVal;
    	}
+   	function noChanges()
+   	{
+		var pageChangedBox = document.forms[0].pageChanged;
+		var pageChanged = "";
+		if (pageChangedBox != null) 
+		{
+			pageChanged = pageChangedBox.value;
+		}
+		if (pageChanged == "") {
+	        var hashVal1 = getHash();
+	        if(hashVal1 != hashVal0) pageChanged = "1";
+     	}
+     	return pageChanged == "";
+   	}
 	function confirmClose() {
 		if(!needToConfirm) return;
 		var pageChangedBox = document.forms[0].pageChanged;

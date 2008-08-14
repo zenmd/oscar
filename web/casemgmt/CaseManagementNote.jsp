@@ -266,9 +266,16 @@ var XMLHttpRequestObject = false;
 	function submitForm(methodValue)
 	{
 		trimInputBox();
-		getIssueList();
-		document.forms[0].method.value=methodValue;
-		document.forms[0].submit();
+		if(methodVal=="save" && noChanges())
+		{
+			alert("There is no changes detected to save");
+		}
+		else
+		{
+			getIssueList();
+			document.forms[0].method.value=methodValue;
+			document.forms[0].submit();
+		}
 	}
 </script>
 
