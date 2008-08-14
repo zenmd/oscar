@@ -73,10 +73,13 @@ function updateQuatroIntake(clientId, intakeId) {
 	<c:when test="${intake.intakeStatus == 'active' || intake.intakeStatus == 'admitted'}">
 		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
 		  <a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >Update</a>			
+          <c:set var="acc_update" value="Y" scope="request"/>
 		</security:oscarSec>
+		<c:if test="${acc_update!='Y'}">
 		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_READ %>">								
 	  		<a href="javascript:updateQuatroIntake('<c:out value="${client.demographicNo}" />', '<c:out value="${intake.id}" />')" >View</a>	
 		</security:oscarSec>
+		</c:if>
 	</c:when>
 	<c:otherwise>
 	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_READ %>">								

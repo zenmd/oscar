@@ -47,7 +47,7 @@ function submitForm(methodVal) {
 	if((ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value=='') ||
 	  (ovPassStartDateTxt.value!='' && ovPassEndDateTxt.value=='')){
 	   if(methodVal=="save" && noChanges()){
-		 alert("There is no changes detected to save");
+		 alert("There are no changes detected to save");
 	   }else{
 	     document.forms[0].method.value = methodVal;
 	     document.forms[0].submit();
@@ -65,7 +65,7 @@ function submitForm(methodVal) {
 	  }else{
 	  		if(methodVal=="save" && noChanges())
 			{
-				alert("There is no changes detected to save");
+				alert("There are no changes detected to save");
 			}
 			else
 			{

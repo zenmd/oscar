@@ -268,7 +268,7 @@ var XMLHttpRequestObject = false;
 		trimInputBox();
 		if(methodValue=="save" && noChanges())
 		{
-			alert("There is no changes detected to save");
+			alert("There are no changes detected to save");
 		}
 		else
 		{
