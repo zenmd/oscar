@@ -107,15 +107,23 @@ public class QuatroClientReferAction  extends BaseClientAction {
 	public ActionForward selectProgram(ActionMapping mapping, ActionForm form, 
 		 HttpServletRequest request, HttpServletResponse response) {
 
+		ActionMessages messages = new ActionMessages();
 		DynaActionForm clientForm = (DynaActionForm) form;
 		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
+		
+		//check if any queue exists for same clienId and programId
+		List queues = programQueueManager.getProgramQueuesByClientIdProgramId(crObj.getClientId(), crObj.getProgramId());
+		if(queues.size()>0){
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"error.referral.duplicated_queue", request.getContextPath()));			
+			saveMessages(request, messages);			
+		}
 
 		String programId = request.getParameter("selectedProgramId");
 		Program program = (Program) clientForm.get("program");
 		if (!Utility.IsEmpty(programId)) {
 			program = programManager.getProgram(programId);
 			crObj.setProgramId(Integer.valueOf(programId));
-//			crObj.setFacilityId(program.getFacilityId());
 			request.setAttribute("program", program);
 		}
 		String cId = request.getParameter("clientId");
