@@ -90,7 +90,7 @@
 				<html:link action="/PMmodule/QuatroServiceRestriction.do"
 				name="actionParam" style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Service Restrictions&nbsp;&nbsp;|</html:link>
-         <c:if test="${serviceObjStatus!='completed'}">				
+         <c:if test="${serviceObjStatus!='completed' && !isReadOnly}">				
 			<a	href="javaScript:submitForm('save')" onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;"> 
 			<img style="vertical-align: middle" border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
          </c:if>				

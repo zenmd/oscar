@@ -62,7 +62,9 @@ public abstract class BaseClientAction extends BaseAction {
 			request.setAttribute(KeyConstants.TAB_CLIENT_COMPLAINT, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_CASE, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_ATTCHMENT, KeyConstants.ACCESS_NULL);
-			request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);			
+			request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);	
+			request.setAttribute(KeyConstants.TAB_CLIENT_PRINTLABEL, KeyConstants.ACCESS_NULL);
+			
 		}
 		else
 		{
@@ -143,6 +145,12 @@ public abstract class BaseClientAction extends BaseAction {
 				if (currentTab.equals(KeyConstants.TAB_CLIENT_TASK))request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_CURRENT);
 			}
 			else request.setAttribute(KeyConstants.TAB_CLIENT_TASK, KeyConstants.ACCESS_NULL);
+//			Print Label
+			if (sec.GetAccess(KeyConstants.FUN_CLIENTPRINTLABEL).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+				request.setAttribute(KeyConstants.TAB_CLIENT_PRINTLABEL, KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_CLIENT_PRINTLABEL))request.setAttribute(KeyConstants.TAB_CLIENT_PRINTLABEL, KeyConstants.ACCESS_CURRENT);
+			}
+			else request.setAttribute(KeyConstants.TAB_CLIENT_PRINTLABEL, KeyConstants.ACCESS_NULL);
 		}
 	}
 	private String getProgramIdByClient(HttpServletRequest request){

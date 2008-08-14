@@ -21,10 +21,12 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 				<c:if test="${!isReadOnly}" >
 					<html:link href="javascript:submitForm('saveEdit');"
 						style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
-						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>								
+						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>						
+				</c:if>	
+				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_USER %>" rights="<%=KeyConstants.ACCESS_READ %>">
 					<html:link href="javascript:submitForm('profile');" 	style="color:Navy;text-decoration:none;">
 						<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
-				</c:if>	
+				</security:oscarSec>
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
 				<c:if test="${!isReadOnly}" >

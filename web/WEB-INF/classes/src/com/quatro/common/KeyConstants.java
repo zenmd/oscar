@@ -166,6 +166,7 @@ public class KeyConstants {
   public static final String FUN_CLIENTRESTRICTION="_clientRestriction";
   public static final String FUN_FACILITY="_facility";
   public static final String FUN_CLIENTHEALTHSAFETY="_clientHealthSafety";
+  public static final String FUN_CLIENTPRINTLABEL="_clientPrintLabel";
   
   public static final String FUN_ADMIN_FACILITYMESSAGE="_admin.facilityMessage";
   

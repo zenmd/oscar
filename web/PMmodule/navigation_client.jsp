@@ -163,14 +163,17 @@ function popupLabel(page) { //open a new popup window
 	</c:otherwise>
 </c:choose>
 <c:choose>
-<c:when test="${'N' eq tabSummary or null eq tabSummary}">
-		&nbsp;
-</c:when>
-<c:otherwise>
+	<c:when test="${'C' eq tabPrintLabel}">
+			<div><b>Print Label</b></div>
+	</c:when>
+	<c:when test="${'V' eq tabPrintLabel}">
 		<div>
 			<a href='javascript:popupLabel(&quot;<html:rewrite page="/demographic/printBarcodeAction.do?clientId="/><c:out value="${clientId}"></c:out>&quot;)'> Print Label</a>
 		</div>
-</c:otherwise>
+	</c:when>
+	<c:otherwise>
+			&nbsp;
+	</c:otherwise>
 </c:choose>
 </div>
 </div></div>
