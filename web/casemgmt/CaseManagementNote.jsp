@@ -266,7 +266,7 @@ var XMLHttpRequestObject = false;
 	function submitForm(methodValue)
 	{
 		trimInputBox();
-		if(methodVal=="save" && noChanges())
+		if(methodValue=="save" && noChanges())
 		{
 			alert("There is no changes detected to save");
 		}
