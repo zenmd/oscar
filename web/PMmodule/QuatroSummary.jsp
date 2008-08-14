@@ -109,7 +109,7 @@ function openHealthSafety(){
 			 		<a href="javascript:openHealthSafety()">Edit</a>
 			 	</c:if>
 			 	 <c:if test="${accessTypeWrite}">
-			 		<a href="submitForm('deleteHS')"> &nbsp;&nbsp;Delete </a>
+			 		<a href="javascript:submitForm('deleteHS')"> &nbsp;&nbsp;Delete </a>
 			 	</c:if>				 	
 			 </c:if>
 			</td></tr>
