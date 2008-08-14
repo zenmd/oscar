@@ -12,6 +12,8 @@ import com.quatro.dao.LookupDao;
 import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.AdmissionDao;
 import org.oscarehr.PMmodule.dao.ProgramDao;
+import org.oscarehr.PMmodule.dao.RoomDAO;
+
 import com.quatro.web.intake.OptionList;
 import com.quatro.model.QuatroIntakeOptionValue;
 import com.quatro.web.intake.IntakeConstant;
@@ -25,12 +27,14 @@ import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.model.RoomDemographicPK;
 import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.formbean.ClientForm;
 
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
@@ -44,7 +48,7 @@ public class IntakeManager {
     private AdmissionDao admissionDao;
     private ClientReferralDAO clientReferralDAO;
     private ProgramQueueDao programQueueDao;
-
+    private RoomDAO roomDAO;
     private LookupDao lookupDao;
     private ClientDao clientDao;
     private ProgramDao programDao;
@@ -242,7 +246,10 @@ public class IntakeManager {
     	}
         return lst;	
     }
-
+	public List getClientIntakeFamilyHistory(Integer intakeHeadId)
+	{
+		return intakeDao.getClientIntakeFamilyHistory(intakeHeadId);
+	}
 	public OptionList LoadOptionsList() {
         List lst=intakeDao.LoadOptionsList();
         OptionList lst2= new OptionList();
@@ -379,7 +386,8 @@ public class IntakeManager {
 	    	List admLst = admissionDao.saveAdmission(intake, intakeHeadId);
 	    	Admission adm = (Admission) admLst.get(0); 
 	    	RoomDemographic rdm = (RoomDemographic) admLst.get(1);
-	    	historyDao.saveClientHistory(adm, rdm.getRoomName(), "");
+	    	Room rm = roomDAO.getRoom(rdm.getId().getRoomId());
+	    	historyDao.saveClientHistory(adm, rm.getName(), null);
 		}  
 		intakeDao.saveQuatroIntakeFamilyRelation(intakeFamily);
 		
@@ -433,6 +441,9 @@ public class IntakeManager {
 
 	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
 		this.programQueueDao = programQueueDao;
+	}
+	public void setRoomDAO(RoomDAO roomDAO) {
+		this.roomDAO = roomDAO;
 	}
 
 }

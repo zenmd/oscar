@@ -498,6 +498,15 @@ public class IntakeDao extends HibernateDaoSupport {
 		return result;
 	}
 	
+	public List getClientIntakeFamilyHistory(Integer intakeHeadId){
+
+		String sSQL2="from QuatroIntakeFamily "+
+		  " WHERE intakeHeadId = ?  order by joinFamilyDate, intakeId  desc";
+
+		List result = getHibernateTemplate().find(sSQL2, new Object[] {intakeHeadId});
+		return result;
+	}
+	
 	//bFamilyMember=true for family member intake
 	//bFamilyMember=false for individual person or family head intake
 	public ArrayList saveQuatroIntake(QuatroIntake intake, Integer intakeHeadId, boolean bFamilyMember, Integer fromManualReferralId){

@@ -128,6 +128,30 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        return mapping.findForward("edit");
    }
 
+   public ActionForward history(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
+
+       Integer intakeFamilyHeadId = Integer.valueOf(request.getParameter("intakeHeadId"));
+       
+   	   List genders = lookupManager.LoadCodeList("GEN",true, null, null);       
+       LookupCodeValue obj2= new LookupCodeValue();
+       obj2.setCode("");
+       obj2.setDescription("");
+       genders.add(0,obj2);
+       request.setAttribute("genders",genders);
+
+       List relationships = lookupManager.LoadCodeList("FRA",true, null, null);
+       relationships.add(0,obj2);
+       request.setAttribute("relationships", relationships);
+
+       List dependents = intakeManager.getClientIntakeFamilyHistory(intakeFamilyHeadId);
+       request.setAttribute("dependents",dependents);
+       
+       super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+       return mapping.findForward("history");
+   }
+   
+   
    public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
        
