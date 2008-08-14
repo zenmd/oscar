@@ -149,7 +149,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
         dependents.add(obj2);
         clientForm.setDependents(dependents);
         clientForm.setDependentsSize(dependents.size());
-       
+        request.setAttribute("pageChanged", "1");
        return mapping.findForward("edit");
    }
 
@@ -162,6 +162,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        clientForm.setDependents(dependents);
        clientForm.setDependentsSize(dependents.size());
        setEditFields(request, clientForm);
+       request.setAttribute("pageChanged", "1");
        return mapping.findForward("edit");
    }
 
@@ -390,7 +391,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        }
        clientForm.setDependents(dependentsDB);
        clientForm.setDependentsSize(dependentsDB.size());
-
+       request.setAttribute("pageChanged", "");
        return mapping.findForward("edit");
    }
    private List buildDependentList(HttpServletRequest request, QuatroClientFamilyIntakeForm clientForm)
