@@ -316,6 +316,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	QuatroIntake intake= qform.getIntake();
     	Demographic client= qform.getClient();
 
+     if(!clientId.equals("")){
     	List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
     	for(int i=0;i<intakeHeads.size();i++){
     		QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeHeads.get(i);
@@ -333,7 +334,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
                break;
     		}
     	}
-
+     }
 
 		HashMap actionParam = new HashMap();
     	actionParam.put("clientId", client.getDemographicNo()); 
