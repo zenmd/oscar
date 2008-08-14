@@ -148,6 +148,8 @@ function checkExistClients(i){
 		  <a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
          </c:if>
+		  <a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();" target="_blank">
+			<img border=0 src=<html:rewrite page="/images/history.gif"/> />&nbsp;History&nbsp;&nbsp;</a>|
             <html:link action="/PMmodule/QuatroIntakeEdit.do?method=update" name="actionParam" style="color:Navy;text-decoration:none;">
             <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;</html:link></td>
 	</tr>
@@ -171,10 +173,10 @@ function checkExistClients(i){
 <table class="simple" cellpadding="3" cellspacing="0" border="0">
 <tr><td width="3%"></td>
 <td width="6%"></td>
-<td width="15%">Last Name*</td>
-<td width="15%">First Name*</td>
+<td width="15%">Last Name</td>
+<td width="15%">First Name</td>
 <td width="16%">DOB</td>
-<td width="14%">Gender*</td>
+<td width="14%">Gender</td>
 <td width="14%">Alias(es)</td>
 <td width="18%"></td></tr>
 <tr><td></td>
@@ -273,16 +275,16 @@ function checkExistClients(i){
 	<html:hidden name="dependent" property="alias"  indexed="true" />
 	<html:hidden name="dependent" property="relationship"  indexed="true" />
     <td>
-       <html:text name="dependent" property="statusMsg" maxlength="20"  disabled="true" style="border: 0px;width: 20px"/>
+       <html:text name="dependent" property="statusMsg" maxlength="20" readonly="true" style="border: 0px;width: 20px"/>
     </td>
-    <td><html:text name="dependent" property="lastName" maxlength="30" style="width:90%"  disabled="true"/></td>
-    <td><html:text name="dependent" property="firstName" maxlength="30" style="width:90%" disabled="true"/></td>
-    <td><html:text name="dependent" property="dob" style="width:90%"  disabled="true"></html:text></td>
+    <td><html:text name="dependent" property="lastName" maxlength="30" style="width:90%" readonly="true"/></td>
+    <td><html:text name="dependent" property="firstName" maxlength="30" style="width:90%" readonly="true"/></td>
+    <td><html:text name="dependent" property="dob" style="width:90%"  readonly="true"></html:text></td>
     <td><html:select name="dependent" property="sex" style="width:90%"  disabled="true">
        <html:optionsCollection property="genders" value="code" label="description"/>
       </html:select>
     </td>
-    <td><html:text name="dependent" property="alias" maxlength="70" style="width:95%"  disabled="true"/></td>
+    <td><html:text name="dependent" property="alias" maxlength="70" style="width:95%"  readonly="true"/></td>
     <td><html:select name="dependent" property="relationship" indexed="true" style="width:90%"  disabled="true">
        <html:optionsCollection property="relationships" value="code" label="description"/>
       </html:select>

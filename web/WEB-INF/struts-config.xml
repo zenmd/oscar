@@ -573,6 +573,7 @@
         </action>
         <action path="/PMmodule/QuatroFamilyIntake" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="quatroClientFamilyIntakeForm" validate="false">
             <forward name="edit" path="page.quatro.pmm.familyintake" />
+            <forward name="history" path="/PMmodule/QuatroFamilyHistory.jsp" />
         </action>
         <action path="/PMmodule/QuatroHealthSafety" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="healthSafetyForm" validate="false">
             <forward name="edit" path="/PMmodule/QuatroHealthSafety.jsp" />

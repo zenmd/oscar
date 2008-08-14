@@ -248,7 +248,27 @@ public class IntakeManager {
     }
 	public List getClientIntakeFamilyHistory(Integer intakeHeadId)
 	{
-		return intakeDao.getClientIntakeFamilyHistory(intakeHeadId);
+		List lst =  intakeDao.getClientIntakeFamilyHistory(intakeHeadId);
+		for(int i=0; i<lst.size();i++)
+		{
+			QuatroIntakeFamily obj = (QuatroIntakeFamily) lst.get(i);
+			Demographic dmg = clientDao.getClientByDemographicNo(obj.getClientId());
+				
+	 	    obj.setFirstName(dmg.getFirstName());
+	   	    obj.setLastName(dmg.getLastName());
+	   	    obj.setSex(dmg.getSex());
+	   	    obj.setSexDesc(dmg.getSexDesc());
+	   	    obj.setDob(MyDateFormat.getStandardDate(dmg.getDateOfBirth()));
+	   	    obj.setAlias(dmg.getAlias());
+	  		obj.setEffDate(MyDateFormat.getSysDateString(dmg.getEffDate()));
+	  		LookupCodeValue rel = lookupDao.GetCode("FRA", obj.getRelationship());
+	  		if(rel == null) 
+	  			obj.setRelationshipDesc("Family Head");
+	  		else
+	  			obj.setRelationshipDesc(rel.getDescription());
+	  			
+		}
+  		return lst;
 	}
 	public OptionList LoadOptionsList() {
         List lst=intakeDao.LoadOptionsList();
