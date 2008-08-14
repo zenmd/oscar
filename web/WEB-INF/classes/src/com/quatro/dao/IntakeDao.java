@@ -58,7 +58,7 @@ public class IntakeDao extends HibernateDaoSupport {
 	    return result;
     }
 
-	public QuatroIntakeDB findQuatroIntakeDB(Integer clientId, Integer programId) {
+	public QuatroIntakeDB findActiveQuatroIntakeDB(Integer clientId, Integer programId) {
 		String clientIds=mergeClientDao.getMergedClientIds(clientId);
 		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.clientId in "+clientIds +
 					" and i.programId=? and i.intakeStatus='" + 
@@ -69,13 +69,24 @@ public class IntakeDao extends HibernateDaoSupport {
 		  return null;
 		
 	}
-    public List getActiveIntakeByProgram(Integer programId){
+
+	public List getActiveIntakeByProgramByClient(Integer clientId, Integer programId) {
+		String clientIds=mergeClientDao.getMergedClientIds(clientId);
+		List result = getHibernateTemplate().find("from QuatroIntakeHeader i where i.clientId in "+clientIds +
+				" and i.programId = ?" + 
+				" and i.intakeStatus in ('" + 
+				KeyConstants.INTAKE_STATUS_ACTIVE + "','"+KeyConstants.INTAKE_STATUS_ADMITTED+"')", programId);
+	    return result;
+	}
+	
+	public List getActiveIntakeByProgram(Integer programId){
     	List result = getHibernateTemplate().find("from QuatroIntakeHeader i where i.programId = ?" +
 				" and i.intakeStatus in ('" + 
 				KeyConstants.INTAKE_STATUS_ACTIVE + "','"+KeyConstants.INTAKE_STATUS_ADMITTED+"')", programId);
     	return result;
     }
-    //from queueId of family intake, you may get any family memebr's intakeId, then get family head's intakeId and return it.
+
+	//from queueId of family intake, you may get any family memebr's intakeId, then get family head's intakeId and return it.
 	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
 		ProgramQueue queue = programQueueDao.getProgramQueue(queueId);
 		if(queue.getFromIntakeId()==null) return null;
