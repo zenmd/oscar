@@ -345,7 +345,23 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
 
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-		return mapping.findForward("edit");
+        if(clientId.equals("")){
+           request.setAttribute("pageChanged","1");
+        }else{
+        	if(intake.getId().intValue()==0){
+               request.setAttribute("pageChanged","1");
+        	}else{
+        		QuatroIntake cur_intake =intakeManager.getQuatroIntake(intake.getId());
+        		if(intake.getProgramId().equals(cur_intake.getProgramId())){
+         	       request.setAttribute("pageChanged","");
+        		}else{
+        	       request.setAttribute("pageChanged","1");
+        		}
+        	}
+           request.setAttribute("pageChanged","1");
+        }
+
+        return mapping.findForward("edit");
     }
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

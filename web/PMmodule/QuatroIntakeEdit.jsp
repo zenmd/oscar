@@ -479,14 +479,14 @@ function checkExistClients(){
 						</tr>
 						<tr>
 							<td>Social Insurance No.</td>
-							<td><html-el:text property="intake.SIN" size="20"
+							<td><html-el:text property="intake.SIN" size="9"
 								maxlength="30" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.SINYN" value="1" /></td>
 						</tr>
 						<tr>
 							<td>Health card No.</td>
-							<td><html-el:text property="intake.healthCardNo" size="20"
+							<td><html-el:text property="intake.healthCardNo" size="10"
 								maxlength="30" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.healthCardNoYN"
