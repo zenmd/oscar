@@ -519,7 +519,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
        	return mapping.findForward("edit");
 	  }
 	  
-  	  List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
+  	if(!clientId.equals("")){
+	  List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
 	  for(int i=0;i<intakeHeads.size();i++){
 		QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeHeads.get(i);
 		if(qih.getId().equals(intake.getId())) continue;
@@ -551,7 +552,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		   return mapping.findForward("edit");
 		}
 	  }
-
+  	}
+  	
 		if(intake.getCreatedOnTxt().equals("")==false){
 			intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake.getCreatedOnTxt()));
 		}else{
@@ -594,8 +596,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		
         Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
-		//no more than one mannual referral exists for same clientId and programId. 
+        //no more than one mannual referral exists for same clientId and programId. 
 		boolean intakeExist=false; //flag for same clientId and programId
+	 if(!clientId.equals("")){
         List queues = programQueueManager.getProgramQueuesByClientIdProgramId(Integer.valueOf(clientId), intake.getProgramId());
 		if(queues.size()>0){
 			ProgramQueue queue = (ProgramQueue)queues.get(0);
@@ -605,7 +608,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				if(intake.getId()!=null && intake.getId().intValue()>0 && !queue.getFromIntakeId().equals(intake.getId())) intakeExist=true;
 			}
 		}
-        
+	 }
+	
 		if(intake.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(intake.getClientId(), intake.getProgramId()).size()>0){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
           			request.getContextPath()));
