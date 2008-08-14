@@ -37,7 +37,7 @@ public class LookupDao extends HibernateDaoSupport {
 	 *  1 - Code 2 - Description 3 Active 
 	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree
 	 *  8 - Last Update User   9 - Last Update Date
-	 *  10 - 16 Buf3 - Buf9
+	 *  10 - 16 Buf3 - Buf9   17 - CodeCSV
 	 */
 	private ProviderDao providerDao;
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
@@ -64,11 +64,11 @@ public class LookupDao extends HibernateDaoSupport {
 		LookupTableDefValue tableDef = GetLookupTableDef(tableId);
 		List fields = LoadFieldDefList(tableId);
 		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[100];
-		String fieldNames [] = new String[16];
+		String fieldNames [] = new String[17];
 		String sSQL1 = "";
 		String sSQL="select distinct ";
 		boolean activeFieldExists = true;
-		for (int i = 1; i <= 16; i++)
+		for (int i = 1; i <= 17; i++)
 		{
 			boolean ok = false;
 			for (int j = 0; j<fields.size(); j++)
@@ -172,7 +172,6 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setParentCode(db.getString(rs, 5));
 			   lv.setBuf1(db.getString(rs,6));
 			   lv.setCodeTree(db.getString(rs, 7));
-			   lv.setCodecsv(db.getString(rs, 10));
 			   lv.setLastUpdateUser(db.getString(rs,8));
 			   lv.setLastUpdateDate(MyDateFormat.getCalendar(db.getString(rs, 9)));
 			   lv.setBuf3(db.getString(rs,10));
@@ -182,6 +181,7 @@ public class LookupDao extends HibernateDaoSupport {
 			   lv.setBuf7(db.getString(rs,14));
 			   lv.setBuf8(db.getString(rs,15));
 			   lv.setBuf9(db.getString(rs,16));
+			   lv.setCodecsv(db.getString(rs, 17));
 			   list.add(lv);
 			}
 			rs.close();
@@ -422,8 +422,7 @@ public class LookupDao extends HibernateDaoSupport {
 				fdv.setVal(MyDateFormat.getStandardDateTime(codeValue.getLastUpdateDate()));
 				break;
 			case 10:
-				if("ORG".equals(tableDef.getTableId())) fdv.setValDesc(codeValue.getCodecsv());
-				else fdv.setVal(codeValue.getBuf3());
+				fdv.setVal(codeValue.getBuf3());
 			case 11:
 				fdv.setVal(codeValue.getBuf4());
 			case 12:
@@ -435,7 +434,9 @@ public class LookupDao extends HibernateDaoSupport {
 			case 15:
 				fdv.setVal(codeValue.getBuf8());
 			case 16:
-				fdv.setVal(codeValue.getBuf9());				
+				fdv.setVal(codeValue.getBuf9());
+			case 17:
+				fdv.setVal(codeValue.getCodecsv());
 			}
 		}
 		if (isNew) 
@@ -578,7 +579,7 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setPrefix("ORG");
 		pcd.setCode("P" + program.getId());
 		pcd.setCodeTree(fcd.getCodeTree() + programId);
-		pcd.setCodecsv(fcd.getCodecsv()+programId+",");
+		pcd.setCodecsv(fcd.getCodecsv()+ "P" + program.getId()+",");
 		pcd.setDescription(program.getName());
 		pcd.setBuf1(fullCode);
 		pcd.setActive(Program.PROGRAM_STATUS_ACTIVE.equals(program.getProgramStatus()));
@@ -620,7 +621,7 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setPrefix("ORG");
 		fcd.setCode("F" + facility.getId());
 		fcd.setCodeTree(ocd.getCodeTree() + facilityId);
-		fcd.setCodecsv(ocd.getCodecsv()+facilityId+",");
+		fcd.setCodecsv(ocd.getCodecsv()+"F" + facility.getId()+",");
 		fcd.setDescription(facility.getName());
 		fcd.setBuf1(fullCode);
 		fcd.setActive(facility.getActive());
@@ -655,7 +656,7 @@ public class LookupDao extends HibernateDaoSupport {
 		ocd.setPrefix("ORG");
 		ocd.setCode(orgCd);
 		ocd.setCodeTree(pCd.getCodeTree() + orgId);
-		ocd.setCodecsv(pCd.getCodecsv()+orgId+",");
+		ocd.setCodecsv(pCd.getCodecsv()+orgCd+",");
 		ocd.setDescription(orgVal.getDescription());
 		ocd.setBuf1(pCd.getBuf1()+ orgCd);
 		ocd.setActive(orgVal.isActive());
