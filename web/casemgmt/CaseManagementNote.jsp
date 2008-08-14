@@ -306,9 +306,11 @@ var XMLHttpRequestObject = false;
 			-->
 			<html:link action="/CaseManagementView2.do"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Case Management&nbsp;&nbsp;|
-			</html:link>	
-			<a onclick="javascript: return validateSave();" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+			</html:link>
+			<c:if test="${!isReadOnly }">	
+				<a onclick="javascript: return validateSave();" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
+			</c:if>	
 			</td>
 		</tr>
 		<tr height="18px">
@@ -326,22 +328,22 @@ var XMLHttpRequestObject = false;
 	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
 			<th style="width:40%">Case Status</th>
-			<td><html:select property="caseNote.caseStatusId">
+			<td><html-el:select property="caseNote.caseStatusId">
 				<html-el:option value=""></html-el:option>
-				<html:options collection="lstCaseStatus" property="code"
-					labelProperty="description"></html:options>
-				</html:select>
+				<html-el:options collection="lstCaseStatus" property="code"
+					labelProperty="description"></html-el:options>
+				</html-el:select>
 			</td>
 		</tr>
 	</table>
 	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
 			<th style="width:40%">Program</th>
-			<td><html:select property="caseNote.program_no">
+			<td><html-el:select property="caseNote.program_no">
 				<html-el:option value=""></html-el:option>
-				<html:options collection="lstProgram" property="code"
-					labelProperty="description"></html:options>
-				</html:select>
+				<html-el:options collection="lstProgram" property="code"
+					labelProperty="description"></html-el:options>
+				</html-el:select>
 			</td>
 		</tr>
 	</table>
@@ -350,10 +352,10 @@ var XMLHttpRequestObject = false;
 			<th>Components of Service</th>
 		</tr>
 		<tr>
-			<td width="60%"><html:select property="lstIssue" multiple="true" size="3"	 style="width:100%;">
-				<html:options collection="lstIssueSelection" property="code"
-					labelProperty="description"></html:options>
-			</html:select>
+			<td width="60%"><html-el:select property="lstIssue" multiple="true" size="3"	 style="width:100%;">
+				<html-el:options collection="lstIssueSelection" property="code"
+					labelProperty="description"></html-el:options>
+			</html-el:select>
 			 <html:hidden property="txtIssueKey" value="" />
 			 <html:hidden	property="txtIssueValue" value="" />
 			</td>		
@@ -403,7 +405,7 @@ var XMLHttpRequestObject = false;
 	<table width="90%" border="1">
 		<tr>
 			<td class="fieldValue" colspan="1">
-				<html:textarea  cols="60" rows="12"	property="caseNote_note"  ></html:textarea>				
+				<html-el:textarea  cols="60" rows="12"	property="caseNote_note"  ></html-el:textarea>				
 			</td>
 			<td class="fieldTitle"></td>
 
@@ -413,11 +415,11 @@ var XMLHttpRequestObject = false;
 		<tr>
 			<td class="fieldTitle" width="40%">Encounter Type</td>
 			<td class="fieldValue">
-			<html:select property="caseNote.encounter_type">
+			<html-el:select property="caseNote.encounter_type">
 				<html-el:option value=""></html-el:option>
-				<html:options collection="lstEncounterType" property="code"
-					labelProperty="description"></html:options>
-			</html:select></td>
+				<html-el:options collection="lstEncounterType" property="code"
+					labelProperty="description"></html-el:options>
+			</html-el:select></td>
 		</tr>
 
 		<!-- tr>
@@ -427,7 +429,7 @@ var XMLHttpRequestObject = false;
 
 		<tr>
 			<td class="fieldTitle" width="40%">Sign</td>
-			<td class="fieldValue"><html:checkbox property="sign" /></td>
+			<td class="fieldValue"><html-el:checkbox property="sign" /></td>
 		</tr>
 <!-- 
 		<tr>

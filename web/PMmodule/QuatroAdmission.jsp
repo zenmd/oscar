@@ -105,8 +105,8 @@ function roomChanged()
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-		<c:if test="${quatroClientAdmissionForm.admission.admissionStatus=='active' ||
-		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' || quatroClientAdmissionForm.admission.admissionStatus=='pending'}">		 
+		<c:if test="${!isReadOnly &&(quatroClientAdmissionForm.admission.admissionStatus=='active' ||
+		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' || quatroClientAdmissionForm.admission.admissionStatus=='pending')}">		 
 		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
         </c:if>       

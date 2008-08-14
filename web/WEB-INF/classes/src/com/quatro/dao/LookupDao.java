@@ -90,9 +90,15 @@ public class LookupDao extends HibernateDaoSupport {
 				}
 			}
 			if (!ok) {
-				sSQL += " null field" + i + ",";
+				if (i==3) {
+					activeFieldExists = false;
+					sSQL += " 1 field" + i + ",";
+				}
+				else
+				{				
+					sSQL += " null field" + i + ",";
+				}
 				fieldNames[i-1] = "field" + i;
-				if (i==3) activeFieldExists = false;
 			}
 		}
 		sSQL = sSQL.substring(0,sSQL.length()-1);

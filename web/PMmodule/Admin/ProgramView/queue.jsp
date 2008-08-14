@@ -4,7 +4,7 @@
 <%@page import="org.apache.commons.lang.time.DateFormatUtils"%>
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <%@page import="org.oscarehr.PMmodule.model.Demographic"%>
-
+<%@page import="com.quatro.common.KeyConstants"  %>
 
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
@@ -69,16 +69,22 @@
     <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
     <display:column sortable="false">
     <c:choose>
-    <c:when test="${queue_entry.fromIntakeId!=null}" >    	
-	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+    <c:when test="${queue_entry.fromIntakeId!=null}" >    
+    	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_WRITE %>">									
+	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+	  	</security:oscarSec>	
 	</c:when>
 	<c:otherwise>
-	  <a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeEdit.do?method=manualreferral&intakeId=0&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Intake</a>
+		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">									
+	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeEdit.do?method=manualreferral&intakeId=0&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Intake</a>
+		</security:oscarSec>
 	</c:otherwise>
 	</c:choose>		
 	</display:column>
-    <display:column sortable="false">   
-    	<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Reject</a>	
+    <display:column sortable="false">  
+    	<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_REJECT %>" rights="<%=KeyConstants.ACCESS_WRITE %>"> 
+    		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>' >Reject</a>	
+    	</security:oscarSec>	
     </display:column>
     
     <display:column sortable="true" property="clientLastName" title="Last Name"/>

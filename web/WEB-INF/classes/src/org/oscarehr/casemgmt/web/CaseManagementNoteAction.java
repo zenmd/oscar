@@ -96,6 +96,8 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		}
 		*/
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
+		boolean isReadOnly =super.isReadOnly(request, "", KeyConstants.FUN_CLIENTCASE, new Integer(0));
+		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.TRUE);
 		request.setAttribute("demoName", getDemoName(demono));
 		request.setAttribute("demoAge", getDemoAge(demono));
 		request.setAttribute("demoDOB", getDemoDOB(demono));

@@ -166,7 +166,7 @@ public class LoginCheckLogin {
             String userName = user.getUserName();
             if (llist.get(userName) == null) {
                 linfo = new LoginInfoBean(now, Integer.parseInt(pvar.getProperty("LOGIN_MAX_FAILED_TIMES")), Integer
-                        .parseInt(pvar.getProperty("LOGIN_MAX_DURATION")),user);
+                        .parseInt(pvar.getProperty("USER_LOCK_MAX_DURATION")),user);
             } else {
                 linfo = (LoginInfoBean) llist.get(userName);
                 linfo.updateLoginInfoBean(now, 1);

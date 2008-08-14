@@ -260,14 +260,14 @@ response.setHeader("Cache-Control", "no-cache");
 									<td>
 										<c:choose>				
 											<c:when test="${(!note.signed)}">
-											 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
+											 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
 												<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 													&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
 												<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
 											</security:oscarSec>
 											</c:when>				
 											<c:when test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
-												 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
+												 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
 													<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 														&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
 													<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
@@ -356,7 +356,7 @@ response.setHeader("Cache-Control", "no-cache");
 												</a>
 												</c:if>
 												<c:if test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
-													 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
+													 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
 													<a href="<html:rewrite name="actionParam" action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 														&noteId=<c:out value="${note.id}"/>" >	Edit and Sign
 													</a>
