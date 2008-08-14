@@ -317,7 +317,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 							</tr>
 							
 								<tr>
-									<td>Program</td>
+									<td>Program*</td>
 									<td colspan="3">
 										<html:select property="complaint.programId"	name="quatroClientComplaintForm">
 											<html-el:option value=""></html-el:option>
@@ -461,7 +461,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 							</tr>
 	
 							<tr>
-								<td>Date Completed</td>
+								<td>Date Completed*</td>
 								<td><quatro:datePickerTag property="complaint.completedDatex"
 									width="70%" openerForm="quatroClientComplaintForm" onchange="javascript:confirmComplete();"/></td>
 								<td>Time Spent on Complaint*</td>

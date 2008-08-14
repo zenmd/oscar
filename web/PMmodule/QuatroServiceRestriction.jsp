@@ -136,7 +136,7 @@
 					<td>
 					<table wdith="100%" class="edit">
 						<tr>
-							<td width="35%">Program</td>
+							<td width="35%">Program*</td>
 							<td width="65%">
 							<html:select onchange="javascript:setNoConfirm(); programFilter();"
 								property="serviceRestriction.programId">
@@ -146,7 +146,7 @@
 							</html:select></td>
 						</tr>
 						<tr>
-							<td width="35%">Reason for service restriction</td>
+							<td width="35%">Reason for service restriction*</td>
 							<td width="65%"><html:select
 								property="serviceRestriction.commentId">
 								<html:option value=""></html:option>
