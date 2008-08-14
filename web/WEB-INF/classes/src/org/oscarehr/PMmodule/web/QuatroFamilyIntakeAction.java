@@ -311,7 +311,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		     	 //check if this client has any existing active intake with same program before create new intake
 		         QuatroIntakeDB newClient_intakeDBExist = null;
 		     	 if(intakeFamily.getIntakeId().intValue()==0){
-		     		newClient_intakeDBExist = intakeManager.findQuatroIntakeDB(intakeFamily.getClientId(), headIntake.getProgramId());
+		     		newClient_intakeDBExist = intakeManager.findActiveQuatroIntakeDB(intakeFamily.getClientId(), headIntake.getProgramId());
 		      	    if(newClient_intakeDBExist!=null) intakeFamily.setIntakeId(newClient_intakeDBExist.getId());
 		     	 }
 		  		 

@@ -163,10 +163,14 @@ public class IntakeManager {
     }
     
     //for family member intake check
-	public QuatroIntakeDB findQuatroIntakeDB(Integer clientId, Integer programId){
-    	return intakeDao.findQuatroIntakeDB(clientId, programId);
+	public QuatroIntakeDB findActiveQuatroIntakeDB(Integer clientId, Integer programId){
+    	return intakeDao.findActiveQuatroIntakeDB(clientId, programId);
     }
 
+	public List getActiveIntakeByProgramByClient(Integer clientId, Integer programId) {
+    	return intakeDao.getActiveIntakeByProgramByClient(clientId, programId);
+	}
+		
 	public Integer getIntakeFamilyHeadId(String intakeId){
 		return intakeDao.getIntakeFamilyHeadId(intakeId);
 	}

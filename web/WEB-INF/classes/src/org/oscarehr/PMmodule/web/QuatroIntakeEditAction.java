@@ -21,6 +21,7 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -307,10 +308,50 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         return mapping.findForward("edit");
 	}
 
+    public ActionForward programChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ActionMessages messages = new ActionMessages();
+
+        QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
+    	String clientId = qform.getClientId();
+    	QuatroIntake intake= qform.getIntake();
+    	Demographic client= qform.getClient();
+
+    	List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
+    	for(int i=0;i<intakeHeads.size();i++){
+    		QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeHeads.get(i);
+    		if(qih.getId().equals(intake.getId())) continue;
+    		if(qih.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
+               if(qih.getEndDate()!=null && qih.getEndDate().before(Calendar.getInstance())) continue;
+      	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_intake",
+           			request.getContextPath(), qih.getProgramName()));
+               saveMessages(request,messages);
+               break;
+    		}else if(qih.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+       	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_intake",
+              			request.getContextPath(), qih.getProgramName()));
+               saveMessages(request,messages);
+               break;
+    		}
+    	}
+
+
+		HashMap actionParam = new HashMap();
+    	actionParam.put("clientId", client.getDemographicNo()); 
+        actionParam.put("intakeId", intake.getId().toString()); 
+        request.setAttribute("clientId", client.getDemographicNo()); 
+        request.setAttribute("actionParam", actionParam);
+        request.setAttribute("client", client);
+		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+
+        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+		return mapping.findForward("edit");
+    }
+    
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ActionMessages messages = new ActionMessages();
         boolean isError = false;
         boolean isWarning = false;
+        Integer duplicatedReferralId = new Integer(0);
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
     	String clientId = qform.getClientId();
@@ -451,34 +492,65 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	  }
 
 
-	    //check service program end date
-//		if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
-		  if(intake.getEndDate()!=null && MyDateFormat.isBefore(intake.getEndDate(),Calendar.getInstance())){
-			  if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE))
-				  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.serviceprogram_enddate",
-	         			request.getContextPath()));
-			  else if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE))  
-				  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.bedprogram_enddate",
-		         			request.getContextPath()));
-            saveMessages(request,messages);
-        	HashMap actionParam = new HashMap();
-        	actionParam.put("clientId", client.getDemographicNo()); 
-            actionParam.put("intakeId", intake.getId().toString()); 
-            Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
-            if(intakeHeadId.intValue()!=0){
-              Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
-              request.setAttribute("clientId", intakeHeadClientId); 
-            }else{
-              request.setAttribute("clientId", client.getDemographicNo()); 
-            }
-            request.setAttribute("actionParam", actionParam);
-            request.setAttribute("client", client);
-        	intake.setClientId(client.getDemographicNo());
-    		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
-        	return mapping.findForward("edit");
-		  }
-//		}
+	  //check service program end date
+	  if(intake.getEndDate()!=null && MyDateFormat.isBefore(intake.getEndDate(),Calendar.getInstance())){
+		if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE))
+		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.serviceprogram_enddate",
+	    		request.getContextPath()));
+		else if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE))  
+		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.bedprogram_enddate",
+				request.getContextPath()));
+        saveMessages(request,messages);
+        HashMap actionParam = new HashMap();
+        actionParam.put("clientId", client.getDemographicNo()); 
+        actionParam.put("intakeId", intake.getId().toString()); 
+        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
+        if(intakeHeadId.intValue()!=0){
+          Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
+          request.setAttribute("clientId", intakeHeadClientId); 
+        }else{
+          request.setAttribute("clientId", client.getDemographicNo()); 
+        }
+        request.setAttribute("actionParam", actionParam);
+        request.setAttribute("client", client);
+      	intake.setClientId(client.getDemographicNo());
+   		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+       	return mapping.findForward("edit");
+	  }
 	  
+  	  List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
+	  for(int i=0;i<intakeHeads.size();i++){
+		QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeHeads.get(i);
+		if(qih.getId().equals(intake.getId())) continue;
+		if(qih.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE)){
+           if(qih.getEndDate()!=null && qih.getEndDate().before(Calendar.getInstance())) continue;
+  	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_intake",
+       			request.getContextPath(), qih.getProgramName()));
+           saveMessages(request,messages);
+   	
+           HashMap actionParam = new HashMap();
+    	   actionParam.put("clientId", client.getDemographicNo()); 
+           actionParam.put("intakeId", intake.getId().toString()); 
+           request.setAttribute("clientId", client.getDemographicNo()); 
+           request.setAttribute("actionParam", actionParam);
+           request.setAttribute("client", client);
+		   request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+		   return mapping.findForward("edit");
+		}else if(qih.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+   	       messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_intake",
+          			request.getContextPath(), qih.getProgramName()));
+           saveMessages(request,messages);
+           HashMap actionParam = new HashMap();
+    	   actionParam.put("clientId", client.getDemographicNo()); 
+           actionParam.put("intakeId", intake.getId().toString()); 
+           request.setAttribute("clientId", client.getDemographicNo()); 
+           request.setAttribute("actionParam", actionParam);
+           request.setAttribute("client", client);
+		   request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+		   return mapping.findForward("edit");
+		}
+	  }
+
 		if(intake.getCreatedOnTxt().equals("")==false){
 			intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake.getCreatedOnTxt()));
 		}else{
@@ -520,16 +592,33 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		qform.setOriginalCountry(originalCountry);
 		
         Integer shelterId= (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+
+		//no more than one mannual referral exists for same clientId and programId. 
+		boolean intakeExist=false; //flag for same clientId and programId
+        List queues = programQueueManager.getProgramQueuesByClientIdProgramId(Integer.valueOf(clientId), intake.getProgramId());
+		if(queues.size()>0){
+			ProgramQueue queue = (ProgramQueue)queues.get(0);
+			if(queue.getFromIntakeId()==null){
+				duplicatedReferralId=queue.getReferralId();
+			}else{
+				if(intake.getId()!=null && intake.getId().intValue()>0 && !queue.getFromIntakeId().equals(intake.getId())) intakeExist=true;
+			}
+		}
         
 		if(intake.getId().intValue()==0 && intakeManager.checkExistBedIntakeByFacility(intake.getClientId(), intake.getProgramId()).size()>0){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicate_bedprogram_intake",
+          			request.getContextPath()));
+        	isError = true;
+		}else if(intakeExist){	
+  			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.referral.duplicated_queue",
           			request.getContextPath()));
         	isError = true;
 		}else{
 			Integer fromManualReferralId = null;
 			if(!request.getParameter("fromManualReferralId").equals("")) fromManualReferralId = new Integer(request.getParameter("fromManualReferralId"));
 
-
+			if(duplicatedReferralId.intValue()>0 && fromManualReferralId==null) fromManualReferralId=duplicatedReferralId;
+				
 	        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
 			ArrayList lst2 = intakeManager.saveQuatroIntake(client, intake, intakeHeadId, intakeHeadId.intValue()>0, fromManualReferralId);
 			Integer intakeId = (Integer)lst2.get(0);
@@ -540,7 +629,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			qform.setIntake(intake);
 	        request.setAttribute("programId", intake.getProgramId()); 
 	        request.setAttribute("queueId", queueId); 
-
+	        
 		}
 
 		HashMap actionParam = new HashMap();
@@ -552,9 +641,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
 		
 		if(!(isWarning || isError)){
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+		   if(duplicatedReferralId.intValue()>0)
+			 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.intake.saved_with_duplicated_queue", request.getContextPath()));
+		   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
 		}else if(isWarning){
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.saved_with_warning"));
+		   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.saved_with_warning"));
 		}
         saveMessages(request,messages);
         request.setAttribute("pageChanged","");
