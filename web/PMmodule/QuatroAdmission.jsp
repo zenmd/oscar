@@ -46,8 +46,12 @@ function submitForm(methodVal) {
 	var ovPassEndDateTxt = document.getElementsByName("admission.ovPassEndDateTxt")[0];
 	if((ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value=='') ||
 	  (ovPassStartDateTxt.value!='' && ovPassEndDateTxt.value=='')){
-	  document.forms[0].method.value = methodVal;
-	  document.forms[0].submit();
+	   if(methodVal=="save" && noChanges()){
+		 alert("There is no changes detected to save");
+	   }else{
+	     document.forms[0].method.value = methodVal;
+	     document.forms[0].submit();
+	   }   
 	}else if(ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value!=''){
       alert("Please input Overnight Pass start date.");
       ovPassStartDateTxt.focus();	

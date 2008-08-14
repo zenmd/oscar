@@ -29,7 +29,7 @@
 		trimInputBox();
 		if(methodVal=="save" && noChanges())
 		{
-			alert("Please make you changes and then Save");
+		    alert("There is no changes detected to save");
 		}
 		else
 		{
