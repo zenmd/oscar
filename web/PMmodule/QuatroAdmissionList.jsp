@@ -70,10 +70,13 @@ function updateQuatroAdmission(clientId, admissionId) {
 	  <c:when test="${admission.admissionStatus == 'admitted'}">
 		  <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
 	          <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">Update</a>
+              <c:set var="acc_update" value="Y" scope="request"/>
 	       </security:oscarSec> 
+		   <c:if test="${acc_update!='Y'}">
 	        <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_READ %>">								
 	       		<a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>
 	       	</security:oscarSec>	
+	       </c:if>
 	  </c:when>
 	  <c:otherwise>
         <a href="javascript:updateQuatroAdmission('<c:out value="${clientId}" />', '<c:out value="${admission.id}" />')">View</a>

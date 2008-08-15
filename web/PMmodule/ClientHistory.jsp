@@ -37,6 +37,22 @@ function submitForm(methodVal) {
         </html:messages> 
       </logic:messagesPresent>
 	</td></tr>
+
+    <tr><td>
+	<table border="0" cellspacing="2" cellpadding="3">
+	  <tr><th>Action Date</th>
+	  <td><quatro:datePickerTag property="actionDateTxt" /></td></tr>
+	  <tr><th>Action</th>
+	  <td><html:select property="action">
+		<html:optionsCollection property="actions" value="id" label="name" />
+	  </html:select></td></tr>
+ 	  <tr><th>Program</th>
+	  <td><html:select property="programId">
+		<html:optionsCollection property="programs" value="id" label="name" />
+	  </html:select></td></tr>
+	</table>
+	</td></tr>
+
 	<tr>
 		<td height="100%">
 		<div
