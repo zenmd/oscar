@@ -1,11 +1,13 @@
 package org.oscarehr.PMmodule.dao;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SQLQuery;
+import org.hibernate.Transaction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -19,8 +21,8 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 
 
     public void insertProgramOccupancy(String providerNo,Calendar occDate) {
-    	
-     String sql=" insert into program_occupancy(recordid,occdate,program_id,occupancy," +
+    	//Transaction tx = getSession().beginTransaction();
+    	String sql=" insert into program_occupancy(recordid,occdate,program_id,occupancy," +
                 "capacity_actual,capacity_funding,queue,lastupdateuser,lastupdatedate) " +
                 "select seq_program_occupancy.nextval,?,p.program_id,ad.v_occupancy,"+
                 "pr.v_actualCapacity,p.Capacity_funding,pq.v_queue,?,sysdate " +
@@ -33,6 +35,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
         query.setCalendar(0, occDate);
         query.setString(1, providerNo);
         query.executeUpdate();
+     //  tx.commit();
     }
     public void deleteProgramOccupancy(Calendar occDate) {
     	
@@ -45,8 +48,16 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     
     public void insertSdmtOut(){
     	String sql ="select max(batch_no) from sdmt_out";
-    	SQLQuery query=getSession().createSQLQuery(sql);
-    	//query.e
+    	SQLQuery q = getSession().createSQLQuery(sql);    			
+    	Integer result = (Integer)q.uniqueResult();
+    	if(result==null) result = new Integer(0);
+    	result+=1;
+    	sql =" insert into sdmt_out(recordid,batch_no,batch_date,first_name,last_name,dob,sin,health_card_no,client_id,sdmt_id,sdmt_ben_unit_id) ";
+		sql+=" select seq_sdmt_out.nextval,"+result.intValue()+",sysdate,d.first_name,d.last_name,d.dob,ltrim(rtrim(ri.sin)),";
+		sql+=" ri.healthcardno,d.demographic_no,'0',0 from demographic d,admission a,report_intake ri ";
+		sql+=" where a.client_id=a.client_id and a.intake_id=ri.intake_id and a.admission_status='admitted'";    	
+    	q=getSession().createSQLQuery(sql);
+    	q.executeUpdate();    
     }
     
 }

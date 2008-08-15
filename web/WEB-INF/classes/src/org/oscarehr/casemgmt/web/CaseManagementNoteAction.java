@@ -167,8 +167,22 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		// this.caseManagementMgr.restoreTmpSave(providerNo, demono, programId,
 		// twoWeeksAgo);
 		
-		List lstProgram =clientManager.getProgramLookups(new Integer(demono), shelterId, providerNo);
-		request.setAttribute("lstProgram", lstProgram);
+		
+		 List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demono),providerNo,shelterId);
+	     List programs = null;
+	     if (programIds.size() > 0) {
+		     String progs = ((Integer)programIds.get(0)).toString();
+		     for (int i=1; i<programIds.size(); i++)
+		     {
+		   	   progs += "," + ((Integer)programIds.get(i)).toString();
+		     }
+		     programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
+	      }
+	      else
+	      {
+	    	 programs = new ArrayList();
+	      }
+		request.setAttribute("lstProgram", programs);
 		
 		if (request.getParameter("note_edit") != null
 				&& request.getParameter("note_edit").equals("new")) {

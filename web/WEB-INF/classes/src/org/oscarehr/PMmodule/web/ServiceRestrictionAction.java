@@ -108,7 +108,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        Integer cId =Integer.valueOf(demographicNo);
        request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(cId,providerNo,shelterId));
 	
-	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(cId), shelterId, providerNo);	  
 	    if(lstIntakeHeader.size()>0) {
 	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
            request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
@@ -304,14 +304,27 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			
 		}
 
-       List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
-       request.setAttribute("allPrograms", allPrograms);
+       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
+	     List programs = null;
+	     if (programIds.size() > 0) {
+		     String progs = ((Integer)programIds.get(0)).toString();
+		     for (int i=1; i<programIds.size(); i++)
+		     {
+		   	   progs += "," + ((Integer)programIds.get(i)).toString();
+		     }
+		     programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
+	      }
+	      else
+	      {
+	    	 programs = new ArrayList();
+	      }
+       request.setAttribute("allPrograms", programs);
 
 //       if (pcrObj.getProgramId() == null || pcrObj.getProgramId().intValue() <= 0) {
 //    	   if(allPrograms.size() > 0)
 //    		   pcrObj.setProgramId(((Program)allPrograms.get(0)).getId());
 //       }
-       if(allPrograms.size() > 0 && pcrObj.getProgramId()!=null && pcrObj.getProgramId().intValue()!=0){
+       if(programs.size() > 0 && pcrObj.getProgramId()!=null && pcrObj.getProgramId().intValue()!=0){
     	   Program program = programManager.getProgram(pcrObj.getProgramId().toString());
 //    	   Integer defaultDays = program.getDefaultServiceRestrictionDays();
 //    	   if( defaultDays == null || defaultDays.intValue() < 1)

@@ -1,5 +1,6 @@
 package org.oscarehr.PMmodule.web;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		request.setAttribute("complaints", complaints);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));
 
-	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(tmp), shelterId, providerNo);
+	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(tmp), shelterId, providerNo);
 	    if(lstIntakeHeader.size()>0) {
 	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
            request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
@@ -180,8 +181,20 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		Integer clientId = Integer.valueOf(tmp);
 		String providerNo = (String)request.getSession().getAttribute("user");
 		Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		//List programs = programManager.getPrograms( clientId, providerNo, shelterId);
-		List programs = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE, providerNo, shelterId);
+		 List programIds =clientManager.getRecentProgramIds(clientId,providerNo,shelterId);
+	     List programs = null;
+	     if (programIds.size() > 0) {
+		     String progs = ((Integer)programIds.get(0)).toString();
+		     for (int i=1; i<programIds.size(); i++)
+		     {
+		   	   progs += "," + ((Integer)programIds.get(i)).toString();
+		     }
+		     programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
+	      }
+	      else
+	      {
+	    	 programs = new ArrayList();
+	      }
 		complaintForm.setPrograms(programs);
 		
 		request.setAttribute("ComplaintForm_length", new Integer(length));

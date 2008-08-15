@@ -3,7 +3,7 @@ package org.oscarehr.PMmodule.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
-public class SdmtDetail implements Serializable {
+public class SdmtIn implements Serializable {
 	 private static final long serialVersionUID = 1L;
 	 private Integer batchNumber;
 	 private Calendar batchDate;

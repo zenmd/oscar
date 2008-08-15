@@ -127,21 +127,9 @@ public class ClientManager {
     }
     public List getProgramLookups(Integer clientId, Integer shelterId, String providerNo){
 		
-		List admLst=admissionDao.getAdmissionList(clientId, true, providerNo, shelterId);
 		String progIds = "";
-		List programs=null;
-		if(!admLst.isEmpty()){
-			for(int i=0;i<admLst.size();i++){
-			Admission admission =(Admission)admLst.get(i);			
-			progIds += admission.getProgramId()+",";
-			}	
-			if(progIds.endsWith(",")) progIds=progIds.substring(0,progIds.length()-1);
-			programs = lookupDao.LoadCodeList("PRO", true, progIds, null);
-			return programs;
-		}
-		
-		List intakes=intakeDao.getQuatroIntakeHeaderListByFacility(clientId, shelterId,providerNo);
-		
+		List programs =new ArrayList();
+		List intakes=intakeDao.getActiveQuatroIntakeHeaderListByFacility(clientId, shelterId,providerNo);		
 		if(!intakes.isEmpty()){
 			for(int i=0;i<intakes.size();i++)
 			{

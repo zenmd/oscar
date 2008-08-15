@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import org.oscarehr.PMmodule.model.FieldDefinition;
-import org.oscarehr.PMmodule.model.SdmtDetail;
+import org.oscarehr.PMmodule.model.SdmtIn;
 
 import org.oscarehr.casemgmt.model.ClientImage;
 import org.oscarehr.util.SpringUtils;
@@ -94,7 +94,7 @@ public class ImportFile extends HttpServlet {
 			FileWriter fstream = new FileWriter(path	+ "/out/" + filename);
 		    BufferedWriter out = new BufferedWriter(fstream);
 		    for(int i=0;i<clientInfo.size();i++){  
-		    	SdmtDetail sdVal = (SdmtDetail)clientInfo.get(i);
+		    	SdmtIn sdVal = (SdmtIn)clientInfo.get(i);
 		    	ArrayList tempLst = getTemplate(request, "/out/template/", "sdmt_out_template.txt");
 		    	//out.write();
 		    }		      

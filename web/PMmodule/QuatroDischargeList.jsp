@@ -77,13 +77,15 @@
 						  <c:when test="${discharge.familyMember == false}">
 						  	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDISCHARGE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
 						    	<a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >Discharge</a>
-						 	</security:oscarSec>
-						 	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDISCHARGE %>" rights="<%=KeyConstants.ACCESS_READ %>">								
-						  	 	<a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >View</a>
-							</security:oscarSec>
+						 	</security:oscarSec>						 	
 						  </c:when>
 						  <c:otherwise>Family Member</c:otherwise>
 					  </c:choose>
+					</c:when>
+					<c:when test="${discharge.admissionStatus == 'discharged'}">
+						<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDISCHARGE %>" rights="<%=KeyConstants.ACCESS_READ %>">								
+						  	 	<a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >View</a>
+							</security:oscarSec>
 					</c:when>
 					<c:otherwise>
 					<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDISCHARGE %>" rights="<%=KeyConstants.ACCESS_READ %>">								

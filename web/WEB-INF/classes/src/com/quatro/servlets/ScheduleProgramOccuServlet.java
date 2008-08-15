@@ -15,6 +15,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
+import org.oscarehr.PMmodule.service.ProgramOccupancyManager;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -29,7 +30,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    private static final Timer programOccuTimer = new Timer(true);
 	    private static ProgramOccuTimerTask programOccuTimerTask = null;
 	    private static boolean runAsPrevousDay = true;
-	    private static ProgramOccupancyDao programOccupancyDao = null;
+	    private static ProgramOccupancyManager programOccupancyManager = null;
 
 	    public static class ProgramOccuTimerTask extends TimerTask {
 	    	String providerNo="1111";
@@ -40,8 +41,8 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            	if(runAsPrevousDay) dt.add(Calendar.DATE, -1);
 
 	            	// delete old redirect entries if any
-	                programOccupancyDao.deleteProgramOccupancy(dt);
-	                programOccupancyDao.insertProgramOccupancy(providerNo, dt);
+	                programOccupancyManager.deleteProgramOccupancy(dt);
+	                programOccupancyManager.insertProgramOccupancy(providerNo, dt);
 	                
 	                //schedule next run
 	                programOccuTimerTask.cancel();
@@ -74,7 +75,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        super.init(servletConfig);
 	        // yes I know I'm setting static variables in an instance method but it's okay.
 	        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());	       
-	        programOccupancyDao  = (ProgramOccupancyDao)webApplicationContext.getBean("programOccupancyDao");
+	        programOccupancyManager  = (ProgramOccupancyManager)webApplicationContext.getBean("programOccupancyManager");
 	        scheduleNextRun();
 	    }
 

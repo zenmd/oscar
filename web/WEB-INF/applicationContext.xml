@@ -200,7 +200,12 @@
     <bean id="lookupManager" class="com.quatro.service.LookupManager"  autowire="byName">
         <property name="lookupDao" ref="lookupDao"/>
     </bean>
-
+    <bean id="programOccupancyManager" parent="baseTransactionProxy">
+    	<property name="target">
+            <bean class="org.oscarehr.PMmodule.service.ProgramOccupancyManager" autowire="byName">
+            </bean>
+        </property>    
+    </bean>
     <bean id="userAccessManager" parent="baseTransactionProxy">
         <property name="target">
             <bean class="com.quatro.service.security.UserAccessManager" autowire="byName">
