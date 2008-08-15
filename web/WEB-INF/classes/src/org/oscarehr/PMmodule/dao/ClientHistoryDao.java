@@ -69,10 +69,10 @@ public class ClientHistoryDao extends HibernateDaoSupport {
             criteria.add(Restrictions.eq("ProgramId", filter.getProgramId()));
         }
         if(filter.getActionStartDate()!=null){
-            criteria.add(Restrictions.ge("ActionDate", filter.getActionStartDate().getTime()));
+            criteria.add(Restrictions.ge("ActionDate", filter.getActionStartDate()));
         }
         if(filter.getActionEndDate()!=null){
-            criteria.add(Restrictions.le("ActionDate", filter.getActionEndDate().getTime()));
+            criteria.add(Restrictions.le("ActionDate", filter.getActionEndDate()));
         }
         criteria.addOrder(Order.asc("HistoryDate"));
         criteria.addOrder(Order.asc("ActionDate"));
@@ -170,7 +170,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         ClientHistory history = new ClientHistory();
         history.setClientId(referral.getClientId());
         history.setAction("Referral");
-        history.setActionDate(referral.getReferralDate().getTime());
+        history.setActionDate(referral.getReferralDate());
         history.setHistoryDate(Calendar.getInstance().getTime());
         history.setNotes(referral.getNotes());
         history.setProgramId(referral.getProgramId());
@@ -190,7 +190,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         ClientHistory history = new ClientHistory();
         history.setClientId(intake.getClientId());
         history.setAction("Intake");
-        history.setActionDate(intake.getCreatedOn().getTime());
+        history.setActionDate(intake.getCreatedOn());
         history.setHistoryDate(Calendar.getInstance().getTime());
         LookupCodeValue referedBy = lookupDao.GetCode("RFB", intake.getReferredBy()); 
         if (referedBy != null) history.setNotes("Referred by: " + referedBy.getDescription());
@@ -213,7 +213,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         history.setClientId(admission.getClientId());
         if ("admitted".equals(admission.getAdmissionStatus())) {
         	history.setAction("Admit/Bed Assignment");
-        	history.setActionDate(Calendar.getInstance().getTime());
+        	history.setActionDate(Calendar.getInstance());
         	history.setHistoryDate(Calendar.getInstance().getTime());
         	LookupCodeValue provider = lookupDao.GetCode("USR", admission.getPrimaryWorker());
         	String notes = "";
@@ -227,7 +227,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         else if("discharged".equals(admission.getAdmissionStatus()))
         {
             history.setAction("Discharge");
-            if(admission.getDischargeDate()!=null) history.setActionDate(admission.getDischargeDate().getTime());
+            if(admission.getDischargeDate()!=null) history.setActionDate(admission.getDischargeDate());
             history.setHistoryDate(Calendar.getInstance().getTime());
             LookupCodeValue dischargeReason = lookupDao.GetCode("DRN", admission.getDischargeReason());
             if(dischargeReason!=null){

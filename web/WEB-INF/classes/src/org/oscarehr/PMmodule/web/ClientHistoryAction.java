@@ -81,7 +81,7 @@ public class ClientHistoryAction extends BaseClientAction {
         String actionStartDateTxt = (String)clientForm.get("actionStartDateTxt"); 
         if(!actionStartDateTxt.equals("")) filter.setActionStartDate(MyDateFormat.getCalendar(actionStartDateTxt));
         String actionEndDateTxt = (String)clientForm.get("actionEndDateTxt"); 
-        if(!actionEndDateTxt.equals("")) filter.setActionStartDate(MyDateFormat.getCalendar(actionEndDateTxt));
+        if(!actionEndDateTxt.equals("")) filter.setActionEndDate(MyDateFormat.getCalendar(actionEndDateTxt));
         String actionTxt = (String)clientForm.get("actionTxt"); 
         if(!actionTxt.equals("")) filter.setActionTxt(actionTxt);
         String programId = (String)clientForm.get("programId"); 

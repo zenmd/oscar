@@ -6,7 +6,7 @@ public class ClientHistory  implements Serializable {
     private Integer _id;// fields
     private Integer _clientId;
     private String _action;
-    private java.util.Date _actionDate;
+    private java.util.Calendar _actionDate;
     private String _providerNo;
     private String _notes;
     private Integer _programId;
@@ -16,10 +16,11 @@ public class ClientHistory  implements Serializable {
     private String _providerFirstName;
     private String _programName;
     private String _programType;
-	public java.util.Date getActionDate() {
+
+    public java.util.Calendar getActionDate() {
 		return _actionDate;
 	}
-	public void setActionDate(java.util.Date date) {
+	public void setActionDate(java.util.Calendar date) {
 		_actionDate = date;
 	}
 	public Integer getClientId() {

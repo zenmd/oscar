@@ -31,7 +31,7 @@ function submitForm(methodVal) {
 		<html:link action="/PMmodule/ClientSearch2.do" 
 		style="color:Navy;text-decoration:none;">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-		&nbsp;<a href='javascript:submitForm("list");' style="color:Navy;text-decoration:none;">
+		<a href='javascript:submitForm("list");' style="color:Navy;text-decoration:none;">
         &nbsp;<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Filter&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">
@@ -78,7 +78,7 @@ function submitForm(methodVal) {
 <display:table class="simple" cellspacing="2" cellpadding="3" id="history" name="histories"  requestURI="/PMmodule/ClientHistory.do" >
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No client history available" />
-	<display:column property="actionDate" format="{0, date, yyyy/MM/dd}" sortable="true" title="Action Date" />
+	<display:column property="actionDate.time" format="{0, date, yyyy/MM/dd}" sortable="true" title="Action Date" />
 	<display:column property="action" sortable="true" title="Action" />
 	<display:column property="notes" sortable="false" title="Reference" />
     <display:column property="programName" sortable="true" title="Program" />
