@@ -225,6 +225,10 @@
         <form-bean name="quatroClientSummaryForm" type="org.oscarehr.PMmodule.web.formbean.QuatroClientSummaryForm">
         </form-bean>
         <form-bean name="clientHistoryForm" type="org.apache.struts.validator.DynaValidatorForm">
+           <form-property name="actionStartDateTxt" type="java.lang.String" />
+           <form-property name="actionEndDateTxt" type="java.lang.String" />
+           <form-property name="actionTxt" type="java.lang.String" />
+           <form-property name="programId" type="java.lang.String" />
         </form-bean>
         <form-bean name="quatroClientIntakeForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />

@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.oscarehr.PMmodule.model.ClientHistory;
+import org.oscarehr.PMmodule.model.ClientHistoryFilter;
 import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 
 /**
@@ -44,8 +45,13 @@ public class ClientHistoryManager {
         this.clientHistoryDao= clientHistoryDao;
     }
     
-    public List getClientHistory(Integer clientId, String providerNo, Integer shelterId)
+    public List getClientHistory(Integer clientId, String providerNo, Integer shelterId, ClientHistoryFilter filter)
     {
-    	return clientHistoryDao.getClientHistories(clientId, providerNo, shelterId);
+    	return clientHistoryDao.getClientHistories(clientId, providerNo, shelterId, filter);
+    }
+
+    public List getClientHistoryPrograms(Integer clientId, String providerNo, Integer shelterId, ClientHistoryFilter filter)
+    {
+    	return clientHistoryDao.getClientHistoryPrograms(clientId, providerNo, shelterId, filter);
     }
 }

@@ -3,21 +3,27 @@ package org.oscarehr.PMmodule.web;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.util.LabelValueBean;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.model.ClientHistoryFilter;
 import org.oscarehr.PMmodule.service.ClientHistoryManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ComplaintManager;
 import org.oscarehr.PMmodule.service.IncidentManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.web.formbean.IncidentForm;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientComplaintForm;
 
@@ -28,10 +34,13 @@ import com.quatro.model.IncidentValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.common.KeyConstants;
+
 public class ClientHistoryAction extends BaseClientAction {
 
 	private ClientHistoryManager historyManager;
 	private ClientManager clientManager;
+	private ProgramManager programManager;
+
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
 	}
@@ -41,8 +50,6 @@ public class ClientHistoryAction extends BaseClientAction {
 		this.historyManager = historyManager;
 	}
 	
-	public static final String ID = "id";
-
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		
@@ -67,11 +74,41 @@ public class ClientHistoryAction extends BaseClientAction {
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 			
         Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		List histories = historyManager.getClientHistory(clientId, providerNo, shelterId);
+
+        ClientHistoryFilter filter = new ClientHistoryFilter();
+        DynaActionForm clientForm = (DynaActionForm) form;
+
+        String actionStartDateTxt = (String)clientForm.get("actionStartDateTxt"); 
+        if(!actionStartDateTxt.equals("")) filter.setActionStartDate(MyDateFormat.getCalendar(actionStartDateTxt));
+        String actionEndDateTxt = (String)clientForm.get("actionEndDateTxt"); 
+        if(!actionEndDateTxt.equals("")) filter.setActionStartDate(MyDateFormat.getCalendar(actionEndDateTxt));
+        String actionTxt = (String)clientForm.get("actionTxt"); 
+        if(!actionTxt.equals("")) filter.setActionTxt(actionTxt);
+        String programId = (String)clientForm.get("programId"); 
+        if(!programId.equals("")) filter.setProgramId(Integer.valueOf(programId));
+        
+        
+        List histories = historyManager.getClientHistory(clientId, providerNo, shelterId, filter);
 
 		request.setAttribute("histories", histories);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
+
+		List programs = historyManager.getClientHistoryPrograms(clientId, providerNo, shelterId, filter);
+		request.setAttribute("programs", programs);
+
+		ArrayList actions = new ArrayList();
+		actions.add(new LabelValueBean("", ""));
+		actions.add(new LabelValueBean("Intake", "Intake"));
+		actions.add(new LabelValueBean("Admit/Bed Assignment", "Admit/Bed Assignment"));
+		actions.add(new LabelValueBean("Referral", "Referral"));
+		actions.add(new LabelValueBean("Discharge", "Discharge"));
+		request.setAttribute("actions", actions);
+
 		return mapping.findForward("list");
+	}
+
+	public void setProgramManager(ProgramManager programManager) {
+		this.programManager = programManager;
 	}
 
 }

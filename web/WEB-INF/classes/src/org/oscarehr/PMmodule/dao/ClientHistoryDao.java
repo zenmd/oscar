@@ -23,6 +23,7 @@
 package org.oscarehr.PMmodule.dao;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -30,6 +31,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.ClientHistory;
+import org.oscarehr.PMmodule.model.ClientHistoryFilter;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.Admission;
@@ -38,13 +40,16 @@ import com.quatro.model.LookupCodeValue;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.Calendar;
 import com.quatro.util.Utility;
+import org.apache.struts.util.LabelValueBean;
+
 public class ClientHistoryDao extends HibernateDaoSupport {
 
     private Logger log = LogManager.getLogger(getClass());
     private MergeClientDao mergeClientDao;
     private LookupDao lookupDao; 
 
-    public List getClientHistories(Integer clientId, String providerNo, Integer shelterId) {
+    public List getClientHistories(Integer clientId, String providerNo, 
+    		Integer shelterId, ClientHistoryFilter filter) {
     	String clientIds =mergeClientDao.getMergedClientIds(clientId);
     	clientIds=clientIds.substring(1,clientIds.length()-1);
     	String[] cIds= clientIds.split(",");
@@ -57,6 +62,18 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         String sql = "(program_id in " + orgSql + " or program_id2 in " + orgSql + ")"; 
         criteria.add(Restrictions.sqlRestriction(sql));
         criteria.add(Restrictions.in("ClientId", clients));
+        if(filter.getActionTxt()!=null){
+          criteria.add(Restrictions.eq("Action", filter.getActionTxt()));
+        }
+        if(filter.getProgramId()!=null){
+            criteria.add(Restrictions.eq("ProgramId", filter.getProgramId()));
+        }
+        if(filter.getActionStartDate()!=null){
+            criteria.add(Restrictions.ge("ActionDate", filter.getActionStartDate().getTime()));
+        }
+        if(filter.getActionEndDate()!=null){
+            criteria.add(Restrictions.le("ActionDate", filter.getActionEndDate().getTime()));
+        }
         criteria.addOrder(Order.asc("HistoryDate"));
         criteria.addOrder(Order.asc("ActionDate"));
         criteria.addOrder(Order.asc("Action"));
@@ -68,7 +85,43 @@ public class ClientHistoryDao extends HibernateDaoSupport {
 
         return results;
     }
-    
+
+    public List getClientHistoryPrograms(Integer clientId, String providerNo, 
+    		Integer shelterId, ClientHistoryFilter filter) {
+    	String clientIds =mergeClientDao.getMergedClientIds(clientId);
+    	clientIds=clientIds.substring(1,clientIds.length()-1);
+    	String[] cIds= clientIds.split(",");
+    	Object[] clients=new Object[cIds.length];
+    	for(int i=0;i<cIds.length;i++){
+    		clients[i] =Integer.valueOf(cIds[i]);
+    	}
+    	String orgSql = Utility.getUserOrgSqlString(providerNo, shelterId);
+    	String programIds="";
+    	List programIdLst = getSession().createSQLQuery(orgSql).list();
+    	for(int i=0;i<programIdLst.size();i++){
+    		if(i==0){
+    		  programIds = programIdLst.get(i).toString();
+    		}else{
+      		  programIds += "," + programIdLst.get(i).toString();
+    		}
+    	}
+
+    	if(!programIds.equals("")){
+    	  String sql = "select distinct h.ProgramId, h.ProgramName from ClientHistory h where ClientId=? and (h.ProgramId in (" + programIds + ") or h.ProgramId2 in (" + programIds + ")) order by h.ProgramName"; 
+          List results = getHibernateTemplate().find(sql, clientId);
+          ArrayList lst = new ArrayList();
+          lst.add(new LabelValueBean("", ""));
+          for(int i=0;i<results.size();i++){
+        	Object oo[] = (Object[]) results.get(i); 
+            lst.add(new LabelValueBean((String)oo[1], ((Integer)oo[0]).toString()));
+       	  }
+          return lst;
+    	}else{
+          return new ArrayList();    	  
+    	}
+
+    }
+
     public List getClientHistories(ClientHistory his) {
     	String clientIds =mergeClientDao.getMergedClientIds(his.getClientId());
     	clientIds=clientIds.substring(1,clientIds.length()-1);

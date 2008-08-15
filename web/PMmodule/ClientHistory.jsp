@@ -7,6 +7,7 @@
  
 <html-el:form action="/PMmodule/ClientHistory.do">
 <input type="hidden" name="method"/>
+<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>" />
 <script lang="javascript">
 function submitForm(methodVal) {
    trimInputBox();
@@ -29,7 +30,9 @@ function submitForm(methodVal) {
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 		<html:link action="/PMmodule/ClientSearch2.do" 
 		style="color:Navy;text-decoration:none;">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;</html:link></td>
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+		&nbsp;<a href='javascript:submitForm("list");' style="color:Navy;text-decoration:none;">
+        &nbsp;<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Filter&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
@@ -39,19 +42,28 @@ function submitForm(methodVal) {
 	</td></tr>
 
     <tr><td>
-	<table border="0" cellspacing="2" cellpadding="3">
-	  <tr><th>Action Date</th>
-	  <td><quatro:datePickerTag property="actionDateTxt" /></td></tr>
+	<table border="0" cellspacing="2" cellpadding="2" width="100%">
+	  <tr><th width="20%">Action Date</th>
+	  <td width="10%">Start</td>
+	  <td width="25%"><quatro:datePickerTag property="actionStartDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
+	  <td width="10%">End</td>
+	  <td width="25%"><quatro:datePickerTag property="actionEndDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
+	  <td width="10%"></td></tr>
 	  <tr><th>Action</th>
-	  <td><html:select property="action">
-		<html:optionsCollection property="actions" value="id" label="name" />
+	  <td colspan="5"><html:select property="actionTxt">
+		<html-el:optionsCollection name="actions" value="value" label="label" />
 	  </html:select></td></tr>
  	  <tr><th>Program</th>
-	  <td><html:select property="programId">
-		<html:optionsCollection property="programs" value="id" label="name" />
+	  <td colspan="5"><html:select property="programId">
+		<html-el:optionsCollection name="programs" value="value" label="label" />
 	  </html:select></td></tr>
 	</table>
 	</td></tr>
+
+<tr><td><div class="tabs">
+<table cellpadding="3" cellspacing="0" border="0">
+<tr><th>Client History</th></tr>
+</table></div></td></tr>
 
 	<tr>
 		<td height="100%">
@@ -61,10 +73,6 @@ function submitForm(methodVal) {
 
 <!--  start of page content -->
 <table width="100%" class="edit">
-<tr><td><br><div class="tabs">
-<table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Client History</th></tr>
-</table></div></td></tr>
 
 <tr><td>
 <display:table class="simple" cellspacing="2" cellpadding="3" id="history" name="histories"  requestURI="/PMmodule/ClientHistory.do" >
