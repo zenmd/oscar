@@ -13,7 +13,7 @@ response.setHeader("Cache-Control", "no-cache");
 	{
 		trimInputBox();
 		if(document.forms[0].imagefile.value=="") {
-			alert ("Please browse a file for upload first");
+			alert ("Please browse a file to upload first");
 			return;
 		}
 		document.forms[0].method.value=methodValue;
