@@ -136,7 +136,7 @@
 	}
 	function validateSave(){
 	
-		var str1="please choose program before saving." ;
+		var str1="Please choose program before saving." ;
 		var str2="Are you sure that you want to sign and save without changing the status of any of the issues?";
 		var str3="Please choose encounter type before saving the note.";
 		var str4="Are you sure that you want to save without signing?";
