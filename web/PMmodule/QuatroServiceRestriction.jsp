@@ -31,7 +31,7 @@
 
 			if(methodVal=="save" && noChanges())
 			{
-				alert("Please make you changes and then Save");
+				alert("There are no changes detected to save");
 			}
 			else
 			{
