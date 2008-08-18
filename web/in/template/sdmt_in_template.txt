@@ -1,0 +1,21 @@
+---template file definition field name(30),field legth(5),filed type(1)
+batch_no                          8N    1
+batch_date                       12D    9
+first_name                       25S   21
+last_name                        25S   46
+dob                               8D   71
+ben_unit_status                   7S   79
+program                          10S   80
+office                           50S
+termination_date                  8D
+last_ben_month                    6S
+total_payment                    10N
+basic_amount                     10N
+housing_amount                   10N
+paid_date                         8D
+address                          70S
+status                            9S
+role	                         15S
+sdmt_ben_unit_id	              9N
+client_id                         9N
+recordid                         15N

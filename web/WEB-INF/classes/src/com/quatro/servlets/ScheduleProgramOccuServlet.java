@@ -43,6 +43,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    private static boolean runAsPrevousDay = true;
 	    private static ProgramOccupancyManager programOccupancyManager = null;
 	    private static String path= "";
+	    private static int batchNo=0;
 	    public static class ProgramOccuTimerTask extends TimerTask {
 	    	String providerNo="1111";
 	        public void run() {
@@ -56,7 +57,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	                programOccupancyManager.insertProgramOccupancy(providerNo, dt);
 	                programOccupancyManager.insertSdmtOut();
 	                this.outputSDMT(path, programOccupancyManager.getSdmtOutList(dt, true));
-	                //schedule next run
+	                if(batchNo>0) programOccupancyManager.updateSdmtOut(batchNo);
 	                programOccuTimerTask.cancel();
 	                scheduleNextRun();
 	            }
@@ -104,38 +105,49 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 
 				return list;
 			}
-
+	        protected static void inputSDMT(String pathLoc){
+	        	int year = Calendar.getInstance().get(Calendar.YEAR);
+				int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+				int day = Calendar.getInstance().get(Calendar.DATE);
+				int hour = Calendar.getInstance().get(Calendar.HOUR);
+				int min = Calendar.getInstance().get(Calendar.MINUTE);
+				String filename = Utility.FormatIntNoWithZero(year, 4)+ Utility.FormatIntNoWithZero(month,2) + Utility.FormatIntNoWithZero(day,2) + Utility.FormatIntNoWithZero(hour,2) + Utility.FormatIntNoWithZero(min,2) + ".in";
+				BeanUtilHlp buHlp = new BeanUtilHlp();
+	        }
 			protected static void outputSDMT(String pathLoc, List clientInfo) {				
-				String year = (new Integer(Calendar.getInstance().get(Calendar.YEAR))).toString();
-				String month = (new Integer(Calendar.getInstance().get(Calendar.MONTH)+1)).toString();
-				String day = (new Integer(Calendar.getInstance().get(Calendar.DATE))).toString();
-				String hour = (new Integer(Calendar.getInstance().get(Calendar.HOUR))).toString();
-				String min = (new Integer(Calendar.getInstance().get(Calendar.MINUTE))).toString();
-				String filename = Utility.FormatNumber(year, 4)+ Utility.FormatNumber(month,2) + Utility.FormatNumber(day,2) + Utility.FormatNumber(hour,2) + Utility.FormatNumber(min,2) + ".out";
+				int year = Calendar.getInstance().get(Calendar.YEAR);
+				int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+				int day = Calendar.getInstance().get(Calendar.DATE);
+				int hour = Calendar.getInstance().get(Calendar.HOUR);
+				int min = Calendar.getInstance().get(Calendar.MINUTE);
+				String filename = Utility.FormatIntNoWithZero(year, 4)+ Utility.FormatIntNoWithZero(month,2) + Utility.FormatIntNoWithZero(day,2) + Utility.FormatIntNoWithZero(hour,2) + Utility.FormatIntNoWithZero(min,2) + ".out";
 				BeanUtilHlp buHlp = new BeanUtilHlp();
 				try {
 					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
 					// "/out/" + filename);
 					FileWriter fstream = new FileWriter(pathLoc + "/out/" + filename);
 					BufferedWriter out = new BufferedWriter(fstream);
-					StringBuffer sb = new StringBuffer();
+					//StringBuffer sb = new StringBuffer();
+					
 					ArrayList tempLst = getTemplate(pathLoc, "/out/template/","sdmt_out_template.txt");
 					for (int i = 0; i < clientInfo.size(); i++) {
-						SdmtOut sdVal = (SdmtOut) clientInfo.get(i);						
+						SdmtOut sdVal = (SdmtOut) clientInfo.get(i);
+						String outStr="";
 						for (int j = 0; j < tempLst.size(); j++) {
 							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
 							String value = buHlp.getPropertyValue(sdVal, fd.getFieldName());
-							/*
-							if("D".equals(fd.getFieldType())) value=Utility.FormatDate(value, fd.getFieldLength());
-							else
-							*/
+							
+							if("batchNumber".equals(fd.getFieldName())) 
+								{
+									batchNo=new Integer(value).intValue();								
+								}							
 							if("S".equals(fd.getFieldType())) value=Utility.FormatString(value, fd.getFieldLength());
 							else if("N".equals(fd.getFieldType())) value=Utility.FormatNumber(value, fd.getFieldLength());
-							sb.append(value);
-						}
-						sb.append("\n");
-					}
-					out.write(sb.toString());
+							outStr+=value;
+						}	
+						out.write(outStr);
+						out.newLine(); 						
+					}					
 					out.close();
 				} catch (Exception e) {
 					String err=e.getMessage();

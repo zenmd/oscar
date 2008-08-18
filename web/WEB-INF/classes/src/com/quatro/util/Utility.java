@@ -238,12 +238,12 @@ public class Utility {
     	today.setTimeInMillis(timeStam.longValue());
     	//yyyymmddHHMM
     	if(len.intValue()==12){
-    		Integer yr=new Integer(today.get(Calendar.YEAR));
-    		Integer mon = new Integer(today.get(Calendar.MONTH)+1);
-    		Integer day=new Integer(today.get(Calendar.DATE));
-    		Integer hr = new Integer(today.get(Calendar.HOUR));
-    		Integer min=new Integer(today.get(Calendar.MINUTE));
-    		retVal =yr.toString()+FormatNumber(mon, 2)+FormatNumber(day, 2)+FormatNumber(hr, 2)+FormatNumber(min, 2);
+    		int yr=today.get(Calendar.YEAR);
+    		int mon = today.get(Calendar.MONTH)+1;
+    		int day=today.get(Calendar.DATE);
+    		int hr = today.get(Calendar.HOUR);
+    		int min=today.get(Calendar.MINUTE);
+    		retVal =FormatIntNoWithZero(yr,4)+FormatIntNoWithZero(mon, 2)+FormatIntNoWithZero(day, 2)+FormatIntNoWithZero(hr, 2)+FormatIntNoWithZero(min, 2);
     	}
     	return retVal ;
     }
@@ -259,7 +259,7 @@ public class Utility {
     public static String FormatNumber(String pNumber,Integer tolLen){
     	if(pNumber==null) pNumber="";
     	String retVal=pNumber;
-    	for(int i=0;i<tolLen.intValue();i++){
+    	for(int i=0;i<tolLen.intValue()-pNumber.length();i++){
     		retVal=" "+retVal;
     	}
     	return retVal;
@@ -272,9 +272,13 @@ public class Utility {
     	}
     	return retVal;
     }
-    public static String FormatIntNumber(int pNumber,Integer tolLen){    	
+    public static String FormatIntNoWithZero(int pNumber,Integer tolLen){    	
     	Integer pNo =new Integer(pNumber);    	
-    	return FormatNumber(pNo, tolLen);
+    	String retVal=pNo.toString();
+    	for(int i=0;i<tolLen.intValue()-pNo.toString().length();i++){
+    		retVal="0"+retVal;
+    	}
+    	return retVal;
     }
     public static String FormatDate(Date pDate, String fStr) //throws Exception
     {

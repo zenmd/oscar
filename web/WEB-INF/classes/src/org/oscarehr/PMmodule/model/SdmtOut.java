@@ -12,7 +12,7 @@ public class SdmtOut implements Serializable {
 	 private Calendar batchDateStr;
 	 private String firstName;
 	 private String lastName;
-	 private Calendar dob;
+	 private Calendar dobStr;
 	 private String sin;
 	 private String healthCardNo;	 
 	 private Integer recordId;
@@ -36,9 +36,9 @@ public class SdmtOut implements Serializable {
 	}
 	public String getBatchDate() {
 		String retVal="";
-		retVal=Utility.FormatIntNumber(batchDateStr.get(Calendar.YEAR),4)+Utility.FormatIntNumber(batchDateStr.get(Calendar.MONTH),2)+
-		Utility.FormatIntNumber(batchDateStr.get(Calendar.DATE),2)+Utility.FormatIntNumber(batchDateStr.get(Calendar.HOUR),2)+
-		Utility.FormatIntNumber(batchDateStr.get(Calendar.MINUTE),2);
+		retVal=Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.YEAR),4)+Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.MONTH)+1,2)+
+		Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.DATE),2)+Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.HOUR),2)+
+		Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.MINUTE),2);
 		return retVal;
 	}
 	
@@ -49,12 +49,13 @@ public class SdmtOut implements Serializable {
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
 	}
-	public Calendar getDob() {
-		return dob;
+	public String getDob() {
+		String retVal="";
+		retVal=Utility.FormatIntNoWithZero(dobStr.get(Calendar.YEAR),4)+Utility.FormatIntNoWithZero(dobStr.get(Calendar.MONTH)+1,2)+
+		Utility.FormatIntNoWithZero(dobStr.get(Calendar.DATE),2);
+		return retVal;
 	}
-	public void setDob(Calendar dob) {
-		this.dob = dob;
-	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -108,6 +109,12 @@ public class SdmtOut implements Serializable {
 	}
 	public void setBatchDateStr(Calendar batchDateStr) {
 		this.batchDateStr = batchDateStr;
+	}
+	public Calendar getDobStr() {
+		return dobStr;
+	}
+	public void setDobStr(Calendar dobStr) {
+		this.dobStr = dobStr;
 	}
 	
 }

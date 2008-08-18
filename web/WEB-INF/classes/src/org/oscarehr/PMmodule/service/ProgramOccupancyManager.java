@@ -25,4 +25,7 @@ public class ProgramOccupancyManager {
 	public List getSdmtOutList(Calendar today,boolean includeSendout){
 		return programOccupancyDao.getSdmtOutList(today, includeSendout);
 	}
+	public void updateSdmtOut(int batchNo){
+		programOccupancyDao.updateSdmtOut(batchNo);
+	}
 }

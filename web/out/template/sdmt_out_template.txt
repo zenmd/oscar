@@ -1,0 +1,10 @@
+batchNumber                       8N
+batchDate                        12D
+firstName                        25S
+lastName                         25S
+dob                               8D
+sin                               9S
+healthCardNo                     10S
+clientId                          9N
+recordId                         15N
+sdmtBenUnitId	                  9N
