@@ -678,7 +678,24 @@ public class LookupDao extends HibernateDaoSupport {
 		db.closeConn();
 	}
 	
+	public int getCountOfActiveClient(String orgCd) throws SQLException{
+		String sql = "select count(*) from admission where  'P' || program_id in (" +
+				" select code from lst_orgcd  where codecsv like '%' || '" +  orgCd  + ",' || '%')";
+		DBPreparedHandler db = new DBPreparedHandler();
+		try {
+			ResultSet rs = db.queryResults(sql);
+			int id = 0;
+			if (rs.next()) 
+				 id = rs.getInt(1);
+			return id + 1;
+		}
+		finally
+		{
+			db.closeConn();
+		}
+	}
 
+	
 	public void setProviderDao(ProviderDao providerDao) {
 		this.providerDao = providerDao;
 	}
