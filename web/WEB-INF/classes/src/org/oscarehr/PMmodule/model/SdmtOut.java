@@ -3,11 +3,13 @@ package org.oscarehr.PMmodule.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import com.quatro.util.Utility;
+
 public class SdmtOut implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	 private Integer batchNumber;
-	 private Calendar batchDate;
+	 private Calendar batchDateStr;
 	 private String firstName;
 	 private String lastName;
 	 private Calendar dob;
@@ -18,18 +20,28 @@ public class SdmtOut implements Serializable {
 	 private Integer sdmtBenUnitId;
 	 private Integer clientId;
 	 private Integer maxBatchNo;
+	 private boolean sendOut;
+	
+	public boolean isSendOut() {
+		return sendOut;
+	}
+	public void setSendOut(boolean sendOut) {
+		this.sendOut = sendOut;
+	}
 	public Integer getMaxBatchNo() {
 		return maxBatchNo;
 	}
 	public void setMaxBatchNo(Integer maxBatchNo) {
 		this.maxBatchNo = maxBatchNo;
 	}
-	public Calendar getBatchDate() {
-		return batchDate;
+	public String getBatchDate() {
+		String retVal="";
+		retVal=Utility.FormatIntNumber(batchDateStr.get(Calendar.YEAR),4)+Utility.FormatIntNumber(batchDateStr.get(Calendar.MONTH),2)+
+		Utility.FormatIntNumber(batchDateStr.get(Calendar.DATE),2)+Utility.FormatIntNumber(batchDateStr.get(Calendar.HOUR),2)+
+		Utility.FormatIntNumber(batchDateStr.get(Calendar.MINUTE),2);
+		return retVal;
 	}
-	public void setBatchDate(Calendar batchDate) {
-		this.batchDate = batchDate;
-	}
+	
 	
 	public Integer getClientId() {
 		return clientId;
@@ -90,6 +102,12 @@ public class SdmtOut implements Serializable {
 	}
 	public void setBatchNumber(Integer batchNumber) {
 		this.batchNumber = batchNumber;
+	}
+	public Calendar getBatchDateStr() {
+		return batchDateStr;
+	}
+	public void setBatchDateStr(Calendar batchDateStr) {
+		this.batchDateStr = batchDateStr;
 	}
 	
 }

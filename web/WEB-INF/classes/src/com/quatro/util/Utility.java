@@ -3,6 +3,7 @@ package com.quatro.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
@@ -222,6 +223,58 @@ public class Utility {
 		       " where a.codecsv like '%' || b.orgcd || ',%' and b.providerNo='" + providerNo + "'))";				
 		}
     	return progSQL;
+    }
+    public static String FormatDate(String pDate,Integer len){
+    	String retVal="";
+    	
+    	if(pDate==null){
+    		for(int i=0;i<len.intValue();i++){
+    			retVal+=" ";
+    		}
+    		return retVal;
+    	}
+    	Long timeStam=new Long(pDate);
+    	Calendar today=new GregorianCalendar();
+    	today.setTimeInMillis(timeStam.longValue());
+    	//yyyymmddHHMM
+    	if(len.intValue()==12){
+    		Integer yr=new Integer(today.get(Calendar.YEAR));
+    		Integer mon = new Integer(today.get(Calendar.MONTH)+1);
+    		Integer day=new Integer(today.get(Calendar.DATE));
+    		Integer hr = new Integer(today.get(Calendar.HOUR));
+    		Integer min=new Integer(today.get(Calendar.MINUTE));
+    		retVal =yr.toString()+FormatNumber(mon, 2)+FormatNumber(day, 2)+FormatNumber(hr, 2)+FormatNumber(min, 2);
+    	}
+    	return retVal ;
+    }
+    public static String FormatString(String pStr,Integer tolLen){
+    	
+    	if(pStr==null) pStr="";
+    	String retVal=pStr;
+    	for(int i=0;i<tolLen.intValue()-pStr.length();i++){
+    		retVal=" "+retVal; 
+    	}
+    	return retVal;
+    }
+    public static String FormatNumber(String pNumber,Integer tolLen){
+    	if(pNumber==null) pNumber="";
+    	String retVal=pNumber;
+    	for(int i=0;i<tolLen.intValue();i++){
+    		retVal=" "+retVal;
+    	}
+    	return retVal;
+    }
+    public static String FormatNumber(Integer pNumber,Integer tolLen){
+    	if(pNumber==null) pNumber=new Integer(0);
+    	String retVal=pNumber.toString();
+    	for(int i=0;i<tolLen.intValue()-pNumber.toString().length();i++){
+    		retVal=" "+retVal;
+    	}
+    	return retVal;
+    }
+    public static String FormatIntNumber(int pNumber,Integer tolLen){    	
+    	Integer pNo =new Integer(pNumber);    	
+    	return FormatNumber(pNo, tolLen);
     }
     public static String FormatDate(Date pDate, String fStr) //throws Exception
     {

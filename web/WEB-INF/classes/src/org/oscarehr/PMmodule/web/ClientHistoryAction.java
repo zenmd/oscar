@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.model.ClientHistory;
 import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ClientHistoryFilter;
 import org.oscarehr.PMmodule.service.ClientHistoryManager;
@@ -89,7 +90,14 @@ public class ClientHistoryAction extends BaseClientAction {
         
         
         List histories = historyManager.getClientHistory(clientId, providerNo, shelterId, filter);
-
+        if(!histories.isEmpty()){
+        	for(int i=0;i<histories.size();i++){
+        		ClientHistory ch = (ClientHistory)histories.get(i);
+        		if("Referral".equals(ch.getAction())){
+        			ch.setNotes(ch.getProgramName2());
+        		}
+        	}
+        }
 		request.setAttribute("histories", histories);
 		request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
 

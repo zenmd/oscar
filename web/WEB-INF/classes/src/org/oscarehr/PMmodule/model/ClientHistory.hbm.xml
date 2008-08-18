@@ -32,6 +32,7 @@
 		<property name="ProviderLastName" type="string" formula="(select p.last_name from provider p where p.provider_no = provider_no)" />
 		<property name="ProviderFirstName" type="string" formula="(select p.first_name from provider p where p.provider_no = provider_no)" />
 		<property name="ProgramName" type="string" formula="(select p.name from program p where p.program_id = program_id)" />
+		<property name="ProgramName2" type="string" formula="(select p.name from program p where p.program_id = program_id2)" ></property>
 		<property name="programType" type="string" formula="(select p.type from program p where p.program_id = program_id)" />
 	</class>
 </hibernate-mapping>

@@ -1,6 +1,7 @@
 package org.oscarehr.PMmodule.service;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
 
@@ -21,5 +22,7 @@ public class ProgramOccupancyManager {
 	public void setProgramOccupancyDao(ProgramOccupancyDao programOccupancyDao) {
 		this.programOccupancyDao = programOccupancyDao;
 	}
-	 
+	public List getSdmtOutList(Calendar today,boolean includeSendout){
+		return programOccupancyDao.getSdmtOutList(today, includeSendout);
+	}
 }

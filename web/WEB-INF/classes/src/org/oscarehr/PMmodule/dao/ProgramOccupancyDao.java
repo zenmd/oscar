@@ -1,6 +1,8 @@
 package org.oscarehr.PMmodule.dao;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -49,15 +51,30 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     public void insertSdmtOut(){
     	String sql ="select max(batch_no) from sdmt_out";
     	SQLQuery q = getSession().createSQLQuery(sql);    			
-    	Integer result = (Integer)q.uniqueResult();
-    	if(result==null) result = new Integer(0);
-    	result+=1;
+    	BigDecimal result = (BigDecimal)q.uniqueResult();
+    	if(result==null) result = new BigDecimal(0);
+    	
+    	int batchNo=result.intValue()+1;
     	sql =" insert into sdmt_out(recordid,batch_no,batch_date,first_name,last_name,dob,sin,health_card_no,client_id,sdmt_id,sdmt_ben_unit_id) ";
-		sql+=" select seq_sdmt_out.nextval,"+result.intValue()+",sysdate,d.first_name,d.last_name,d.dob,ltrim(rtrim(ri.sin)),";
+		sql+=" select seq_sdmt_out.nextval,"+batchNo+",sysdate,d.first_name,d.last_name,d.dob,ltrim(rtrim(ri.sin)),";
 		sql+=" ri.healthcardno,d.demographic_no,'0',0 from demographic d,admission a,report_intake ri ";
-		sql+=" where a.client_id=a.client_id and a.intake_id=ri.intake_id and a.admission_status='admitted'";    	
+		sql+=" where  d.demographic_no=a.client_id and a.intake_id=ri.intake_id and a.admission_status='admitted'";    	
     	q=getSession().createSQLQuery(sql);
     	q.executeUpdate();    
     }
+    public List getSdmtOutList(Calendar today,boolean includeSendout){
+    	Object[] params ;
+    	String sql="from SdmtOut i where ";
+    	List result =null;    	
+    	Calendar sDt=new GregorianCalendar(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE),0,0,0);
+    	Calendar eDt=new GregorianCalendar(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE),23,59,59);
+    	params= new Object[]{sDt,eDt};
+    	if(includeSendout)
+    		sql+="i.batchDateStr between ? and ? ";    	
+    	else 
+    		sql+="(i.batchDateStr between ? and ?) and sendOut=0";    		
     
+    	result =getHibernateTemplate().find(sql,params);
+    	return result;
+    }    
 }

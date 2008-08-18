@@ -15,6 +15,7 @@ public class ClientHistory  implements Serializable {
     private String _providerLastName;
     private String _providerFirstName;
     private String _programName;
+    private String _programName2;
     private String _programType;
 
     public java.util.Calendar getActionDate() {
@@ -98,5 +99,11 @@ public class ClientHistory  implements Serializable {
 	}
 	public void setAction(String _action) {
 		this._action = _action;
+	}
+	public String getProgramName2() {
+		return _programName2;
+	}
+	public void setProgramName2(String name2) {
+		_programName2 = name2;
 	}
 }

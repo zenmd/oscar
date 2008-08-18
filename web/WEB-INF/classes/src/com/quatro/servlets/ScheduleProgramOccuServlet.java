@@ -1,6 +1,13 @@
 package com.quatro.servlets;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,13 +22,17 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
+import org.oscarehr.PMmodule.model.FieldDefinition;
+import org.oscarehr.PMmodule.model.SdmtOut;
 import org.oscarehr.PMmodule.service.ProgramOccupancyManager;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.util.Utility;
 
 import oscar.OscarProperties;
+import oscar.util.BeanUtilHlp;
 
 public class ScheduleProgramOccuServlet extends HttpServlet {
 	 
@@ -31,7 +42,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    private static ProgramOccuTimerTask programOccuTimerTask = null;
 	    private static boolean runAsPrevousDay = true;
 	    private static ProgramOccupancyManager programOccupancyManager = null;
-
+	    private static String path= "";
 	    public static class ProgramOccuTimerTask extends TimerTask {
 	    	String providerNo="1111";
 	        public void run() {
@@ -40,10 +51,11 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            	Calendar dt = Calendar.getInstance();
 	            	if(runAsPrevousDay) dt.add(Calendar.DATE, -1);
 
-	            	// delete old redirect entries if any
+	            	// delete old redirect entries if any	            	
 	                programOccupancyManager.deleteProgramOccupancy(dt);
 	                programOccupancyManager.insertProgramOccupancy(providerNo, dt);
-	                
+	                programOccupancyManager.insertSdmtOut();
+	                this.outputSDMT(path, programOccupancyManager.getSdmtOutList(dt, true));
 	                //schedule next run
 	                programOccuTimerTask.cancel();
 	                scheduleNextRun();
@@ -56,6 +68,81 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            }
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
+	        protected static ArrayList getTemplate(String pathLoc,String dir,String filename) {
+				FieldDefinition fDev = null; // clientImageMgr.getClientImage(demoNo);
+				ArrayList list = new ArrayList();
+
+				try {
+
+					BufferedReader in = null;                    
+					try {
+						in = new BufferedReader(new FileReader(pathLoc + "/" + dir + "/"
+								+ filename));
+						String str;
+						while ((str = in.readLine()) != null) {
+							fDev = new FieldDefinition();
+							fDev.setFieldName(str.substring(0, 30).trim());
+							fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
+							fDev.setFieldType(str.substring(35, 36));
+							list.add(fDev);
+						}
+						in.close();
+
+					} catch (IOException e) {
+						// catch io errors from FileInputStream or readLine()
+						System.out.println("Uh oh, got an IOException error!"
+								+ e.getMessage());
+
+					} finally {
+						if (in != null)
+							in.close();
+					}
+
+				} catch (Exception e) {
+					// log.warn(e);
+				}
+
+				return list;
+			}
+
+			protected static void outputSDMT(String pathLoc, List clientInfo) {				
+				String year = (new Integer(Calendar.getInstance().get(Calendar.YEAR))).toString();
+				String month = (new Integer(Calendar.getInstance().get(Calendar.MONTH)+1)).toString();
+				String day = (new Integer(Calendar.getInstance().get(Calendar.DATE))).toString();
+				String hour = (new Integer(Calendar.getInstance().get(Calendar.HOUR))).toString();
+				String min = (new Integer(Calendar.getInstance().get(Calendar.MINUTE))).toString();
+				String filename = Utility.FormatNumber(year, 4)+ Utility.FormatNumber(month,2) + Utility.FormatNumber(day,2) + Utility.FormatNumber(hour,2) + Utility.FormatNumber(min,2) + ".out";
+				BeanUtilHlp buHlp = new BeanUtilHlp();
+				try {
+					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
+					// "/out/" + filename);
+					FileWriter fstream = new FileWriter(pathLoc + "/out/" + filename);
+					BufferedWriter out = new BufferedWriter(fstream);
+					StringBuffer sb = new StringBuffer();
+					ArrayList tempLst = getTemplate(pathLoc, "/out/template/","sdmt_out_template.txt");
+					for (int i = 0; i < clientInfo.size(); i++) {
+						SdmtOut sdVal = (SdmtOut) clientInfo.get(i);						
+						for (int j = 0; j < tempLst.size(); j++) {
+							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
+							String value = buHlp.getPropertyValue(sdVal, fd.getFieldName());
+							/*
+							if("D".equals(fd.getFieldType())) value=Utility.FormatDate(value, fd.getFieldLength());
+							else
+							*/
+							if("S".equals(fd.getFieldType())) value=Utility.FormatString(value, fd.getFieldLength());
+							else if("N".equals(fd.getFieldType())) value=Utility.FormatNumber(value, fd.getFieldLength());
+							sb.append(value);
+						}
+						sb.append("\n");
+					}
+					out.write(sb.toString());
+					out.close();
+				} catch (Exception e) {
+					String err=e.getMessage();
+				}
+
+			}
+
 	    }
 	    private static long getDelayTime(String startTime){
 	    	long delayTime=0;
@@ -76,6 +163,13 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        // yes I know I'm setting static variables in an instance method but it's okay.
 	        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());	       
 	        programOccupancyManager  = (ProgramOccupancyManager)webApplicationContext.getBean("programOccupancyManager");
+	        try {
+	        	path=getServletContext().getResource("/").getPath();
+	        }
+	        catch(Exception e)
+	        {
+	        	;
+	        }
 	        scheduleNextRun();
 	    }
 
@@ -137,4 +231,5 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        programOccuTimerTask = new ProgramOccuTimerTask();		
 	        programOccuTimer.schedule(programOccuTimerTask,startDate.getTime());
 	    }
+	   
 }
