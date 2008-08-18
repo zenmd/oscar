@@ -247,7 +247,21 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		}
 
-       List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
+//       List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
+       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
+	    List allPrograms = null;
+	     if (programIds.size() > 0) {
+		     String progs = ((Integer)programIds.get(0)).toString();
+		     for (int i=1; i<programIds.size(); i++)
+		     {
+		   	   progs += "," + ((Integer)programIds.get(i)).toString();
+		     }
+		     allPrograms =  lookupManager.LoadCodeList("PRO", true, progs, null);
+	      }
+	      else
+	      {
+	    	  allPrograms = new ArrayList();
+	      }
        request.setAttribute("allPrograms", allPrograms);
 //		clientForm.set("serviceRestriction", pcrObj);
 		request.setAttribute("serviceObj", pcrObj);

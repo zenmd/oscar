@@ -131,7 +131,6 @@
 					</div>
 					</td>
 				</tr>
-
 				<tr>
 					<td>
 					<table wdith="100%" class="edit">
@@ -141,8 +140,8 @@
 							<html:select onchange="javascript:setNoConfirm(); programFilter();"
 								property="serviceRestriction.programId">
 								<html:option value=""></html:option>
-								<html:options collection="allPrograms" property="id"
-									labelProperty="name" />
+								<html:options collection="allPrograms" property="code"
+									labelProperty="description" />
 							</html:select></td>
 						</tr>
 						<tr>
