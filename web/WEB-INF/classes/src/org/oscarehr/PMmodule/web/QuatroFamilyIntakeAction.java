@@ -152,7 +152,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		obj2.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
         obj2.setIntakeId(new Integer(0));
         obj2.setAdmissionId(null);
-        String currentDateTxt = MyDateFormat.getSysDateString(new Date());
+        String currentDateTxt = MyDateFormat.getStandardDateTime(Calendar.getInstance());
     	obj2.setDuplicateClient("N");  
 		obj2.setNewClientChecked("N");
 		obj2.setServiceRestriction("N");
@@ -362,7 +362,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		     	 intake.setStaffId(providerNo);
 		     	 intake.setLastUpdateDate(new GregorianCalendar());
 		
-		     	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendar(intakeFamily.getJoinFamilyDateTxt()));
+		     	 intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendarwithTime(intakeFamily.getJoinFamilyDateTxt()));
 				 intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 		     	 intakeFamily.setIntakeHeadId(headIntake.getId());
 		     	 intakeFamily.setLastUpdateUser(providerNo);
