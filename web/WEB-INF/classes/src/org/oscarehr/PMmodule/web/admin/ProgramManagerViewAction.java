@@ -83,6 +83,7 @@ import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UsersManager;
+import com.quatro.util.KeyValueBean;
 import com.quatro.util.Utility;
 
 public class ProgramManagerViewAction extends BaseProgramAction {
@@ -353,6 +354,37 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	    					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 	        						"error.investigate.date.failed", request.getContextPath()));
 	        				saveMessages(request, messages);
+
+	        				String strClients = "";
+	        				if(incidentForm.getTxtClientKeys()!=null) strClients = incidentForm.getTxtClientKeys() + "/" + incidentForm.getTxtClientValues(); 
+	        				if(strClients.length() > 1){
+	        					ArrayList clientSelectionList = new ArrayList();
+	        					int sep = strClients.indexOf("/");
+	        					String keys = strClients.substring(0, sep);
+	        					String values = strClients.substring(sep + 1);
+	        					String[] k = keys.split(":");
+	        					String[] v = values.split(":");
+	        					for(int i = 0; i < k.length; i++){
+	        						clientSelectionList.add(new KeyValueBean(k[i],v[i]));
+	        					}
+	        					incidentForm.setClientSelectionList(clientSelectionList);
+	        				}
+	        				String strStaffs = "";
+	        				if(incidentForm.getTxtStaffKeys()!=null) strStaffs = incidentForm.getTxtStaffKeys() + "/" + incidentForm.getTxtStaffValues(); 
+	        				if(strStaffs.length() > 1){
+	        					ArrayList staffSelectionList = new ArrayList();
+	        					int sep = strStaffs.indexOf("/");
+	        					String keys = strStaffs.substring(0, sep);
+	        					String values = strStaffs.substring(sep + 1);
+	        					String[] k = keys.split(":");
+	        					String[] v = values.split(":");
+	        					for(int i = 0; i < k.length; i++){
+	        						staffSelectionList.add(new KeyValueBean(k[i],v[i]));
+	        					}
+	        					incidentForm.setStaffSelectionList(staffSelectionList);
+	        				}
+	        				
+	        				
 	        				formBean.setIncidentForm(incidentForm);
 	        				return;
 	        				
