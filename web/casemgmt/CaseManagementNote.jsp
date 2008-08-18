@@ -134,8 +134,13 @@
 			return false;
 		}
 	}
-	function validateSave(){
+	function validateSave(methodValue){
 	
+		if(methodValue=="save" && noChanges())
+		{
+			return;
+		}
+
 		var str1="Please choose program before saving." ;
 		var str2="Are you sure that you want to sign and save without changing the status of any of the issues?";
 		var str3="Please choose encounter type before saving the note.";
@@ -308,7 +313,7 @@ var XMLHttpRequestObject = false;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Case Management&nbsp;&nbsp;|
 			</html:link>
 			<c:if test="${!isReadOnly }">	
-				<a onclick="javascript: return validateSave();" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+				<a onclick="javascript: return validateSave('save');" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 			</c:if>	
 			</td>
