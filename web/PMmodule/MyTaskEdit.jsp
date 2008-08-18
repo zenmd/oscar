@@ -3,8 +3,15 @@
 <script type="text/javascript">
 function submitForm(methodVal) {
 	trimInputBox();
-   	document.forms[0].method.value = methodVal;
-   	document.forms[0].submit();
+	if(methodVal == "mytasksave" && noChanges())
+	{
+		alert("There is no changes detected to save");
+	}
+	else
+	{
+   		document.forms[0].method.value = methodVal;
+   		document.forms[0].submit();
+   	}
 }
 </script>
 

@@ -29,7 +29,14 @@
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
 		if(isOk){
-			document.forms[0].submit();
+			if(noChanges())
+			{
+				alert("There is no changes detected to save");
+			}
+			else
+			{
+				document.forms[0].submit();
+			}
 		}
 	}
 	// trim leading and ending spaces

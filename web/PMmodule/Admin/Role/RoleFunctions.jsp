@@ -190,8 +190,15 @@
 <!--
 function submitForm(mthd){
 	trimInputBox();
-	document.forms[0].method.value=mthd;
-	document.forms[0].submit();
+	if(mthd == "saveFunction" && noChanges())
+	{
+		alert("There is no changes detected to save");
+	}
+	else
+	{
+		document.forms[0].method.value=mthd;
+		document.forms[0].submit();
+	}
 }
 
 function gotoRoleList(){
@@ -231,24 +238,6 @@ function getFunctionsList(){
   alert(txtKey.value + "====" + txtValue.value);
   
   return true;
-}
-function submitForm2(){
-	trimInputBox();
-	document.forms[0].method.value="save";
-	document.forms[0].submit();
-/*
-/////////////////////////////////
-// code for using TAG quatro:lookupTag
-Functions:<bean:define id="functions" name="secroleForm"
-				property="functions" type="com.quatro.model.LookupCodeValue" />
-			<quatro:lookupTag name="functions" tableName="FUN"
-				formProperty="secroleForm" codeProperty="code"
-				bodyProperty="description" width="500px" codeWidth="200px"
-				showCode="true" />
-/////////////////////////////////				
-				
-
-*/
 }
 //-->
 </script>

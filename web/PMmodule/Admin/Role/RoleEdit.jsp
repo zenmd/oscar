@@ -125,11 +125,18 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		trimInputBox();
 		var roleName = document.getElementsByName("roleName")[0].value;
 		roleName = trim(roleName);
-		if(roleName.length > 0){
+		if(roleName.length == 0){
+			alert("'Role Name' field can not be empty!");
+			return;
+		}
+		if((mthd == "saveChange" || mthd=="saveNew") && noChanges())
+		{
+			alert("There is no changes detected to save");
+		}
+		else
+		{
 			document.forms[0].method.value=mthd;
 			document.forms[0].submit();
-		}else{
-			alert("'Role Name' field can not be empty!");
 		}
 	}
 

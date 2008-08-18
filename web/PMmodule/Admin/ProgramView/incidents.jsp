@@ -126,6 +126,11 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 				alert("Please add client in 'Clients Involved' field or add staff in 'Staff Involved' field.");
 				return;
 			}
+			if(noChanges()) 
+			{
+				alert("There are no changes detected to save");
+				return;
+			}
 		}
 
 		var	id;
@@ -150,7 +155,6 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		       return;
 		    }
 	    }
-	    
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		//alert(document.programManagerViewForm.action);
 		document.programManagerViewForm.tab.value = "Incidents";

@@ -99,8 +99,15 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 <!--
 function submitForm(mthd){
 	trimInputBox();
-	document.forms[0].method.value=mthd;
-	document.forms[0].submit();
+	if(mthd == "saveRoles" && noChanges())
+	{
+		alert("There is no changes detected to save");
+	}
+	else
+	{
+		document.forms[0].method.value=mthd;
+		document.forms[0].submit();
+	}
 }
 
 function showLookup2(id, tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot){

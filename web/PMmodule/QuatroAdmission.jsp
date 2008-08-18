@@ -31,16 +31,6 @@ function checkSignLinkVisibility(objSel) {
 }
 
 function submitForm(methodVal) {
-/*
-    if(methodVal=='save'){
-      var primaryWorker = document.getElementsByName("admission.primaryWorker")[0];
-      if(primaryWorker.value==''){
-        alert("Please select Primary Worker.");
-        primaryWorker.focus();
-        return;
-      }
-    }
-*/    
 	trimInputBox();
 	var ovPassStartDateTxt = document.getElementsByName("admission.ovPassStartDateTxt")[0];
 	var ovPassEndDateTxt = document.getElementsByName("admission.ovPassEndDateTxt")[0];

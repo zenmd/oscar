@@ -29,8 +29,15 @@ function submitForm(form) {
    return false;
  }  
 			
-  form.submit();
-  opener.document.quatroClientSummaryForm.submit();
+ if(noChanges())
+ {
+	 alert("There is no changes detected to save");
+ }
+ else
+ {
+  	form.submit();
+  	opener.document.quatroClientSummaryForm.submit();
+ }
 }
 </script>	
 </head>

@@ -152,20 +152,6 @@ function submitForm(func){
 	
 	if(func == 'saveNew' || func == 'saveEdit'){
 		document.forms[0].method.value="save";
-/*
-		if(validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 30, 3) &&
-			validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2) &&
-			validateRequired(fld_lastName, "Last Name") && validateLength(fld_lastName, "Last Name", 30, 2) &&
-			validateRequired(fld_password, "Password")&& validateLength(fld_password, "Password", 20, 4)&&
-			validateRequired(fld_cPassword, "Confirm Password")&& validateLength(fld_cPassword, "Confirm Password", 20, 4)&&
-			validateRequired(fld_pin, "PIN")&& validateLength(fld_pin, "PIN", 4, 4)&&
-			validateRequired(fld_cPin, "Confirm PIN")&& validateLength(fld_cPin, "Confirm PIN", 4, 4))
-			
-			document.forms[0].submit();
-	}
-	else if(func == 'saveEdit'){
-		document.forms[0].method.value="save";
-*/	
 		var v1 = false;
 		var v2 = false;
 		var v3 = false;
@@ -210,7 +196,14 @@ function submitForm(func){
 		}
 	
 	} else {
-		document.forms[0].submit();
+		if((func == "saveEdit" || func=="saveNew") && noChanges())
+		{
+			alert("There is no changes detected to save");
+		}
+		else
+		{
+			document.forms[0].submit();
+		}
 	}
 }
 

@@ -9,22 +9,13 @@ response.setHeader("Cache-Control", "no-cache");
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.quatro.common.KeyConstants" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" } />
-<script type="text/javascript">
-
-	function submitForm(methodValue)
-	{
-		trimInputBox();
-		document.forms[0].method.value=methodValue;
-		document.forms[0].submit();
-	}	
-    
+<script type="text/javascript">    
 	function popupUploadPage(varpage,dn) {
         var page = "" + varpage+"?id="+dn;
         windowprops = "height=500,width=500,location=no,"
           + "scrollbars=no,menubars=no,toolbars=no,resizable=yes,top=50,left=50";
          var popup=window.open(page, "", windowprops);
          popup.focus();
-        
     }	    
 </script>
 
@@ -51,7 +42,6 @@ response.setHeader("Cache-Control", "no-cache");
 					</html:link>		
 				  </c:if>	
 				</security:oscarSec>
-				<!-- a href="javascript:submitForm('close')" style="color:Navy;text-decoration:none;">&nbsp;&nbsp;|&nbsp;Close&nbsp;&nbsp;!</a -->
 			</td>
 		</tr>
 	</table>
