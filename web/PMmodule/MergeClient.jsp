@@ -262,7 +262,7 @@
 						</display:table>
 					</c:when>
 					<c:otherwise>
-							<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"	id="client" name="clients" export="false" pagesize="100"
+							<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"	id="client" name="clients" export="false"
 							requestURI="/PMmodule/MergeClient.do" >
 							<display:setProperty name="paging.banner.placement" value="bottom" />
 							<display:setProperty name="basic.msg.empty_list"
