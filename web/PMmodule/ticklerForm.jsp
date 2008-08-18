@@ -5,6 +5,12 @@
 function submitForm(methodVal) {
 	trimInputBox();
     if(methodVal=='save'){
+	   if(methodVal=="save" && noChanges())
+	   {
+		  alert("There are no changes detected to save");
+		  return;
+	   }
+
 	   var serviceDate = document.ticklerForm.elements['tickler.serviceDate'];
 	   if(serviceDate.value == '') {
 		  alert('Please provide a service date.');
@@ -32,15 +38,15 @@ function submitForm(methodVal) {
 		  return;
 	   }
 
-	   if(methodVal=="save" && noChanges())
-	   {
-		  alert("There are no changes detected to save");
-	   }
-	   else
-	   {
+//	   if(methodVal=="save" && noChanges())
+//	   {
+//		  alert("There are no changes detected to save");
+//	   }
+//	   else
+//	   {
 	      document.forms[0].method.value = methodVal;
 	      document.forms[0].submit();
-       }	   
+//       }	   
     }else{
 	   if(methodVal=="save" && noChanges())
 	   {
