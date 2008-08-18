@@ -1,19 +1,11 @@
 package com.quatro.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import oscar.oscarDB.DBPreparedHandler;
-import oscar.oscarDB.DBPreparedHandlerParam;
-
-import com.quatro.model.FieldDefValue;
-import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
-import com.quatro.util.Utility;
+import com.quatro.dao.LookupDao;
 
 public class ORGDao extends HibernateDaoSupport {
 
@@ -22,18 +14,15 @@ public class ORGDao extends HibernateDaoSupport {
 	 *  4 - Display Order, 5 - ParentCode 6 - Buf1 7 - CodeTree 8 - codecsv
 	 */
 	
+	private LookupDao lookupDao;
+	
+	public void setLookupDao(LookupDao lookupDao) {
+		this.lookupDao = lookupDao;
+	}
+
 	public LookupTableDefValue GetLookupTableDef(String tableId)
 	{
-		ArrayList paramList = new ArrayList();
-
-		String sSQL="from LookupTableDefValue s where s.tableId= ?";		
-	    paramList.add(tableId);
-	    Object params[] = paramList.toArray(new Object[paramList.size()]);
-	    try{
-	      return (LookupTableDefValue)getHibernateTemplate().find(sSQL ,params).get(0);
-	    }catch(Exception ex){
-	    	return null;
-	    }
+		return lookupDao.GetLookupTableDef(tableId);
 	}
 	
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
@@ -43,102 +32,12 @@ public class ORGDao extends HibernateDaoSupport {
 
 	public List LoadFieldDefList(String tableId) 
 	{
-		String sSql = "from FieldDefValue s where s.tableId=? order by s.fieldIndex ";
-		ArrayList paramList = new ArrayList();
-	    paramList.add(tableId);
-	    Object params[] = paramList.toArray(new Object[paramList.size()]);
-		
-	    return getHibernateTemplate().find(sSql,params);
+		return lookupDao.LoadFieldDefList(tableId);
 	}
 
 	public List LoadCodeList(String tableId,boolean activeOnly,  String parentCode,String code, String codeDesc)
 	{
-		LookupTableDefValue tableDef = GetLookupTableDef(tableId);
-		List fields = LoadFieldDefList(tableId);
-		DBPreparedHandlerParam [] params = new DBPreparedHandlerParam[4];
-		String fieldNames [] = new String[7];
-		String sSQL1 = "";
-		String sSQL="select distinct ";
-		for (int i = 1; i <= 8; i++)
-		{
-			boolean ok = false;
-			for (int j = 0; j<fields.size(); j++)
-			{
-				FieldDefValue fdef = (FieldDefValue)fields.get(j);
-				if (fdef.getGenericIdx()== i)
-				{
-					sSQL += "s." + fdef.getFieldSQL() + ",";
-					fieldNames[i-1]=fdef.getFieldSQL();
-					ok = true;
-					break;
-				}
-			}
-			if (!ok) {
-				sSQL += " null field" + i + ",";
-				fieldNames[i-1] = "field" + i;
-			}
-		}
-		sSQL = sSQL.substring(0,sSQL.length()-1);
-	    sSQL +=" from " + tableDef.getTableName() ;
-		sSQL1 = oscar.Misc.replace(sSQL,"s.", "a.") + " a,";	    
-		sSQL += " s where 1=1";
-	    int i= 0;
-        if (activeOnly) {
-	    	sSQL += " and " + fieldNames[2] + "=?"; 
-	    	params[i++] = new DBPreparedHandlerParam(1);
-        }
-	   if (!Utility.IsEmpty(parentCode)) {
-	    	sSQL += " and " + fieldNames[4] + "=?"; 
-	    	params[i++]= new DBPreparedHandlerParam(parentCode);
-	   }
-	   if (!Utility.IsEmpty(code)) {
-	    	sSQL += " and " + fieldNames[0] + "=?"; 
-	    	params[i++] = new DBPreparedHandlerParam(code);
-	   }
-	   if (!Utility.IsEmpty(codeDesc)) {
-	    	sSQL += " and " + fieldNames[1] + " like ?"; 
-	    	params[i++]= new DBPreparedHandlerParam("%" + codeDesc + "%");
-	   }	
-	   
-	   if (tableDef.isTree()) {
-		 sSQL = sSQL1 + "(" + sSQL + ") b";
-		 sSQL += " where b." + fieldNames[6] + " like a." + fieldNames[6] + "||'%'";
-	   }
-	   sSQL += " order by 7,1";
-	   DBPreparedHandlerParam [] pars = new DBPreparedHandlerParam[i];
-	   for(int j=0; j<i;j++)
-	   {
-		   pars[j] = params[j];
-	   }
-	   
-	   ArrayList list = new ArrayList();
-	   DBPreparedHandler db = new DBPreparedHandler();
-	   try {
-		   ResultSet rs = db.queryResults(sSQL,pars);
-		   while (rs.next()) {
-			   LookupCodeValue lv = new LookupCodeValue();
-			   lv.setPrefix(tableId);
-			   lv.setCode(rs.getString(1));
-			   lv.setDescription(db.getString(rs, 2));
-			   lv.setActive(1 == Integer.valueOf("0" + db.getString(rs, 3)).intValue());
-			   lv.setOrderByIndex(Integer.valueOf("0" + db.getString(rs,4)).intValue());
-			   lv.setParentCode(db.getString(rs, 5));
-			   lv.setBuf1(db.getString(rs,6));
-			   lv.setCodeTree(db.getString(rs, 7));
-			   lv.setCodecsv(db.getString(rs, 8));
-			   list.add(lv);
-			}
-			rs.close();
-	   }
-	   catch(SQLException e)
-	   {
-		   System.out.println(e.getStackTrace().toString());
-	   }
-	   finally
-	   {
-		   db.closeConn();
-	   }
-	   return list;
+	   return lookupDao.LoadCodeList(tableId, activeOnly, parentCode,code, codeDesc);
 	}
 	
 	public void delete(String orgcd) {
@@ -152,6 +51,5 @@ public class ORGDao extends HibernateDaoSupport {
 			throw re;
 		}
 	}
-
 	
 }
