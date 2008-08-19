@@ -820,6 +820,7 @@ public class ProgramManagerAction extends BaseProgramAction {
             return edit(mapping,form,request,response);
         }
         
+        
         if(program.getDefaultServiceRestrictionDays() == null)
         	program.setDefaultServiceRestrictionDays(new Integer(1));
         
@@ -840,8 +841,6 @@ public class ProgramManagerAction extends BaseProgramAction {
         programManager.saveProgram(program);
     }
     public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	System.out.println("========== add Staff ==========");
-    	 
     	String programId = request.getParameter("programId");
 
         if (programId == null) {
@@ -873,8 +872,6 @@ public class ProgramManagerAction extends BaseProgramAction {
 
 	public ActionForward saveStaff(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		System.out.println("=========== saveStaff ========= in ProgramManagerViewAction");
 		
 		String programId = request.getParameter("programId");
         if (programId == null) {
@@ -934,7 +931,6 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward removeStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
-        System.out.println("========== remove Staff ==========");
         String programId = request.getParameter("programId");
 
         if (programId == null) {
@@ -962,7 +958,6 @@ public class ProgramManagerAction extends BaseProgramAction {
     
     public ActionForward removeExistStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
-        System.out.println("========== remove Existing Staff ==========");
         String programId = request.getParameter("programId");
 
         if (programId == null) {
