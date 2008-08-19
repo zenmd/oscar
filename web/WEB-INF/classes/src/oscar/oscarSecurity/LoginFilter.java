@@ -47,7 +47,7 @@ public class LoginFilter implements Filter {
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig config) throws ServletException {
-		CRFactory.getConfig().setProperty("cr.disabled", "true");
+//		CRFactory.getConfig().setProperty("cr.disabled", "true");
 	}
 
 	/*
