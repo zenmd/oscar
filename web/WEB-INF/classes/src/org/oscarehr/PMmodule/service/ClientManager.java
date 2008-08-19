@@ -87,9 +87,7 @@ public class ClientManager {
 	public List getIntakeByFacility(Integer demographicNo, Integer shelterId){
 		return dao.getIntakeByShelter(demographicNo, shelterId);
 	}
-    public java.util.Date getMostRecentIntakeADate(String demographicNo) {
-        return dao.getMostRecentIntakeADate(Integer.valueOf(demographicNo));
-    }
+
     public List getRecentProgramIds(Integer clientId, String providerNo, Integer shelterId){
     	return dao.getRecentProgramIds(clientId, providerNo, shelterId);
     }

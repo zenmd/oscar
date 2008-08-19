@@ -18,6 +18,7 @@ import oscar.OscarProperties;
 import oscar.oscarDB.DBPreparedHandler;
 import oscar.oscarDB.DBPreparedHandlerParam;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.Attachment;
 import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupCodeValue;
@@ -592,7 +593,36 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setOrderByIndex(0);
 		pcd.setLastUpdateDate(Calendar.getInstance());
 		pcd.setLastUpdateUser(program.getLastUpdateUser());
+		if(!isNew) this.updateOrgTree(pcd.getCode(), pcd);
 		this.SaveCodeValue(isNew,pcd);
+	}
+	private void updateOrgTree(String orgCd, LookupCodeValue newCd) throws SQLException
+	{
+		LookupCodeValue oldCd = GetCode("ORG", orgCd);
+		if(!oldCd.getCodecsv().equals(newCd.getCodecsv())) {
+			String oldFullCode = oldCd.getBuf1();
+			String oldTreeCode = oldCd.getCodeTree();
+			String oldCsv = oldCd.getCodecsv();
+			
+			String newFullCode = newCd.getBuf1();
+			String newTreeCode = newCd.getCodeTree();
+			String newCsv = newCd.getCodecsv();
+			String sql = "update lst_orgcd set fullcode =replace(fullcode,'" + oldFullCode + "','" + newFullCode + "')" + 
+											  ",codetree =replace(codetree,'" + oldTreeCode + "','" + newTreeCode + "')" + 
+						                       ",codecsv =replace(codecsv,'" + oldCsv + "','" + newCsv + "')" + 
+						 " where codecsv like '" + oldCsv + "_%'";
+
+			DBPreparedHandler db = new DBPreparedHandler();
+			try{
+				db.queryExecuteUpdate(sql);
+			}
+			finally
+			{
+				db.closeConn();
+			}
+		}
+	
+		
 	}
 	public boolean inOrg(String org1,String org2){
 		boolean isInString=false;
@@ -634,6 +664,7 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setOrderByIndex(0);
 		fcd.setLastUpdateDate(Calendar.getInstance());
 		fcd.setLastUpdateUser(facility.getLastUpdateUser());
+		if(!isNew) this.updateOrgTree(fcd.getCode(), fcd);
 		this.SaveCodeValue(isNew,fcd);
 	}
 	public void SaveAsOrgCode(LookupCodeValue orgVal, String tableId) throws SQLException
@@ -669,6 +700,7 @@ public class LookupDao extends HibernateDaoSupport {
 		ocd.setOrderByIndex(0);
 		ocd.setLastUpdateDate(Calendar.getInstance());
 		ocd.setLastUpdateUser(orgVal.getLastUpdateUser());
+		if(!isNew) this.updateOrgTree(ocd.getCode(), ocd);
 		this.SaveCodeValue(isNew,ocd);
 	}
 	public void runProcedure(String procName, String [] params) throws SQLException
@@ -679,7 +711,7 @@ public class LookupDao extends HibernateDaoSupport {
 	}
 	
 	public int getCountOfActiveClient(String orgCd) throws SQLException{
-		String sql = "select count(*) from admission where  'P' || program_id in (" +
+		String sql = "select count(*) from admission where admission_status='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "' and  'P' || program_id in (" +
 				" select code from lst_orgcd  where codecsv like '%' || '" +  orgCd  + ",' || '%')";
 		DBPreparedHandler db = new DBPreparedHandler();
 		try {

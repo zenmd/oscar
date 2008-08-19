@@ -50,4 +50,9 @@ public class LookupManager {
 	{
 		return lookupDao.SaveCodeValue(isNew, tableDef, fieldDefList);
 	}
+	
+	public int getCountOfActiveClient(String orgCd) throws SQLException{
+   	    return lookupDao.getCountOfActiveClient(orgCd); 
+	}
+
 }
