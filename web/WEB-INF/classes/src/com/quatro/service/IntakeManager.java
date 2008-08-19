@@ -196,7 +196,7 @@ public class IntakeManager {
         	Object element = (Object)it.next();
         
        	  QuatroIntakeFamily obj=(QuatroIntakeFamily)element;
-       	  obj.setJoinFamilyDateTxt(MyDateFormat.getStandardDate(obj.getJoinFamilyDate()));
+       	  obj.setJoinFamilyDateTxt(MyDateFormat.getStandardDateTime(obj.getJoinFamilyDate()));
        	  Iterator it2 = relationships.iterator();
        	  while(it2.hasNext()){
         	Object element2 = (Object)it2.next();
