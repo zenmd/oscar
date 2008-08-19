@@ -108,7 +108,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        Integer cId =Integer.valueOf(demographicNo);
        request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(cId,providerNo,shelterId));
 	
-	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(cId), shelterId, providerNo);	  
+	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(cId, shelterId, providerNo);	  
 	    if(lstIntakeHeader.size()>0) {
 	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
            request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
