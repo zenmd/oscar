@@ -150,7 +150,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 					while((rStr=in.readLine())!=null) {
 						for (int j = 0; j < tempLst.size(); j++) {
 							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
-							String value =rStr.substring(fd.getFieldStartIndex()-1,fd.getFieldLength()+fd.getFieldStartIndex()-1).trim();
+							String value =rStr.substring(fd.getFieldStartIndex().intValue()-1,fd.getFieldLength().intValue()+fd.getFieldStartIndex().intValue()-1).trim();
 							buHlp.setPropertyValue(sdVal, fd.getFieldName(),fd.getFieldType(), value);
 						}	
 						programOccupancyManager.insertSdmtIn(sdVal);
@@ -189,8 +189,8 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 								{
 									batchNo=new Integer(value).intValue();								
 								}							
-							if("S".equals(fd.getFieldType())) value=Utility.FormatString(value, fd.getFieldLength());
-							else if("N".equals(fd.getFieldType())) value=Utility.FormatNumber(value, fd.getFieldLength());
+							if("S".equals(fd.getFieldType())) value=Utility.FormatString(value, fd.getFieldLength().intValue());
+							else if("N".equals(fd.getFieldType())) value=Utility.FormatNumber(value, fd.getFieldLength().intValue());
 							outStr+=value;
 						}	
 						out.write(outStr);
