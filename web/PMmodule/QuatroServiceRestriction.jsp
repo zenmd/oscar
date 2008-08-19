@@ -76,6 +76,7 @@
     }
     
 </script>
+<%String a="1"; %>
 	<input type="hidden" name="clientId"
 		value="<c:out value='${clientId}'/>" />
 	<input type="hidden" name="method" value="save" />
