@@ -243,7 +243,7 @@ public class Utility {
     		int day=today.get(Calendar.DATE);
     		int hr = today.get(Calendar.HOUR);
     		int min=today.get(Calendar.MINUTE);
-    		retVal =FormatIntNoWithZero(yr,new Integer(4))+FormatIntNoWithZero(mon, new Integer(2))+FormatIntNoWithZero(day, new Integer(2))+FormatIntNoWithZero(hr, new Integer(2))+FormatIntNoWithZero(min, new Integer(2));
+    		retVal =FormatIntNoWithZero(yr,4)+FormatIntNoWithZero(mon, 2)+FormatIntNoWithZero(day, 2)+FormatIntNoWithZero(hr, 2)+FormatIntNoWithZero(min, 2);
     	}
     	return retVal ;
     }
@@ -272,10 +272,10 @@ public class Utility {
     	}
     	return retVal;
     }
-    public static String FormatIntNoWithZero(int pNumber,Integer tolLen){    	
+    public static String FormatIntNoWithZero(int pNumber,int tolLen){    	
     	Integer pNo =new Integer(pNumber);    	
     	String retVal=pNo.toString();
-    	for(int i=0;i<tolLen.intValue()-pNo.toString().length();i++){
+    	for(int i=0;i<tolLen-pNo.toString().length();i++){
     		retVal="0"+retVal;
     	}
     	return retVal;

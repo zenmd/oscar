@@ -36,9 +36,9 @@ public class SdmtOut implements Serializable {
 	}
 	public String getBatchDate() {
 		String retVal="";
-		retVal=Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.YEAR),new Integer(4))+Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.MONTH)+1,new Integer(2))+
-		Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.DATE),new Integer(2))+Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.HOUR),new Integer(2))+
-		Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.MINUTE),new Integer(2));
+		retVal=Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.YEAR),4)+Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.MONTH)+1,2)+
+		Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.DATE),2)+Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.HOUR),2)+
+		Utility.FormatIntNoWithZero(batchDateStr.get(Calendar.MINUTE),2);
 		return retVal;
 	}
 	
@@ -51,8 +51,8 @@ public class SdmtOut implements Serializable {
 	}
 	public String getDob() {
 		String retVal="";
-		retVal=Utility.FormatIntNoWithZero(dobStr.get(Calendar.YEAR),new Integer(4))+Utility.FormatIntNoWithZero(dobStr.get(Calendar.MONTH)+1,new Integer(2))+
-		Utility.FormatIntNoWithZero(dobStr.get(Calendar.DATE),new Integer(2));
+		retVal=Utility.FormatIntNoWithZero(dobStr.get(Calendar.YEAR),4)+Utility.FormatIntNoWithZero(dobStr.get(Calendar.MONTH)+1,2)+
+		Utility.FormatIntNoWithZero(dobStr.get(Calendar.DATE),2);
 		return retVal;
 	}
 	

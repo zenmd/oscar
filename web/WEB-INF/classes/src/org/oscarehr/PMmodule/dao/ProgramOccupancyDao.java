@@ -80,6 +80,6 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     public void updateSdmtOut(int batchNo){
     	
     	String sql="update SdmtOut set sendOut=1 where batchNumber=? ";
-    	getHibernateTemplate().bulkUpdate(sql, batchNo);
+    	getHibernateTemplate().bulkUpdate(sql, new Integer(batchNo));
     }
 }
