@@ -32,6 +32,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.quatro.common.KeyConstants;
+
 import net.sf.cookierevolver.CRFactory;
 
 /**
@@ -52,11 +54,11 @@ public class LoginFilter implements Filter {
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		if (!true) {
+		if (true) {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-			if (httpRequest.getSession().getAttribute("user") == null) {
+			if (httpRequest.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO) == null) {
 				String requestURI = httpRequest.getRequestURI();
 				String contextPath = httpRequest.getContextPath();
 
