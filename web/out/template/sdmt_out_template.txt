@@ -7,4 +7,4 @@ sin                               9S
 healthCardNo                     10S
 clientId                          9N
 recordId                         15N
-sdmtBenUnitId	                  9N
+sdmtBenUnitId                     9N

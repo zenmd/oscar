@@ -7,6 +7,7 @@ public class FieldDefinition implements Serializable {
 	 private String fieldName;
 	 private Integer fieldLength;
 	 private String fieldType;
+	 private Integer fieldStartIndex;
 	public Integer getFieldLength() {
 		return fieldLength;
 	}
@@ -24,5 +25,11 @@ public class FieldDefinition implements Serializable {
 	}
 	public void setFieldType(String fieldType) {
 		this.fieldType = fieldType;
+	}
+	public Integer getFieldStartIndex() {
+		return fieldStartIndex;
+	}
+	public void setFieldStartIndex(Integer fieldStartIndex) {
+		this.fieldStartIndex = fieldStartIndex;
 	}
 }

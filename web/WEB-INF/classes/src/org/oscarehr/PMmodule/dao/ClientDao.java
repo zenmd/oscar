@@ -44,6 +44,8 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import oscar.MyDateFormat;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 
 public class ClientDao extends HibernateDaoSupport {
@@ -308,7 +310,12 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 		return result;
 	}
-
+	public void updateClientBenUnitStatus(Demographic client){
+		if (client == null) {
+			throw new IllegalArgumentException();
+		}
+		 getHibernateTemplate().bulkUpdate("update Demographic r set r.benefitUnitStatus='" + client.getBenefitUnitStatus() + "' where r.DemographicNo=? ", client.getDemographicNo());
+	}
 	public void updateDemographicExt(DemographicExt de) {
 		if (de == null) {
 			throw new IllegalArgumentException();

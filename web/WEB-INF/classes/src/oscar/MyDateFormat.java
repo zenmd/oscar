@@ -271,8 +271,10 @@ public class MyDateFormat {
 
 	public static Calendar getCalendar(String pDate)
     {
+		//date format yyyymmddHHMM or yyyymmdd or yyyy/mm/dd or yyyy-mm-dd
         if (pDate == null || "".equals(pDate)) return null;
         if ("TODAY".equals(pDate.toUpperCase())) return Calendar.getInstance();
+        int len =pDate.length();
         try
         {
         	char sep = '-';
@@ -284,10 +286,18 @@ public class MyDateFormat {
         	}
         	bnosep = idx < 0;
         	int day, month, year;
-        	if(bnosep) {
+        	int hour=0,min=0;
+        	if(bnosep && len==8) {
                 year = Integer.parseInt(pDate.substring(0, 4));
                 month = Integer.parseInt(pDate.substring(4, 6));
                 day= Integer.parseInt(pDate.substring(6, 8));
+        	}
+        	else if(bnosep && len==12){
+        		year = Integer.parseInt(pDate.substring(0, 4));
+                month = Integer.parseInt(pDate.substring(4, 6));
+                day= Integer.parseInt(pDate.substring(6, 8));
+                hour =Integer.parseInt(pDate.substring(8, 10));
+                min =Integer.parseInt(pDate.substring(10, 12));
         	}
         	else
         	{
@@ -302,7 +312,9 @@ public class MyDateFormat {
         	if(month>0){
         		month = month - 1;
         	}
-            GregorianCalendar cal = new GregorianCalendar(year, month, day);
+            GregorianCalendar cal = null;
+            if(hour>0) cal=new GregorianCalendar(year, month, day,hour,min);
+            else cal=new GregorianCalendar(year, month, day);
             return cal;
         }
         catch (Exception e)

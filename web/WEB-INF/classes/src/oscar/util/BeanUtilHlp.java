@@ -29,6 +29,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.quatro.util.Utility;
+
+import oscar.MyDateFormat;
+
 /**
  * <p>Title:BeanUtil </p>
  *
@@ -47,22 +51,44 @@ public class BeanUtilHlp {
  * @param fieldName String
  * @return String
  */
-public String getPropertyValue(Object bean, String fieldName) {
-  BeanUtils ut = new BeanUtils();
-  String value = "";
-  try {
-    value = ut.getProperty(bean, fieldName);
-  }
-  catch (NoSuchMethodException ex) {
-    ex.printStackTrace();
-  }
-  catch (InvocationTargetException ex) {
-    ex.printStackTrace();
-  }
-  catch (IllegalAccessException ex) {
-    ex.printStackTrace();
-  }
-  return value;
-}
+	public String getPropertyValue(Object bean, String fieldName) {
+		  BeanUtils ut = new BeanUtils();
+		  String value = "";
+		  try {
+		    value = ut.getProperty(bean, fieldName);
+		  }
+		  catch (NoSuchMethodException ex) {
+		    ex.printStackTrace();
+		  }
+		  catch (InvocationTargetException ex) {
+		    ex.printStackTrace();
+		  }
+		  catch (IllegalAccessException ex) {
+		    ex.printStackTrace();
+		  }
+		  return value;
+	}
+	
+	public void setPropertyValue(Object bean,String fieldName,String fieldType, String val){
+		BeanUtils ut = new BeanUtils();
+		try {
+			Object inputVal=null;
+			if("D".equals(fieldType)) inputVal=MyDateFormat.getCalendar(val);
+			else if("N".equals(fieldType)){
+				if(val.indexOf(".")>0) inputVal = new Double(val);
+				else if(Utility.IsEmpty(val)) inputVal = new Integer(0);
+				else inputVal = new Integer(val);
+			}
+			else inputVal=val;
+			
+			ut.setProperty(bean, fieldName, inputVal);
+		}		  
+		  catch (InvocationTargetException ex) {
+		    ex.printStackTrace();
+		  }
+		  catch (IllegalAccessException ex) {
+		    ex.printStackTrace();
+		  }
+	}
 
 }

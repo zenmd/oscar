@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.SQLQuery;
 import org.hibernate.Transaction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.SdmtIn;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -20,7 +21,7 @@ import com.quatro.model.ProgramOccupancy;
 
 public class ProgramOccupancyDao extends HibernateDaoSupport {
 	private Log log = LogFactory.getLog(ProgramOccupancyDao.class);
-
+	
 
     public void insertProgramOccupancy(String providerNo,Calendar occDate) {
     	//Transaction tx = getSession().beginTransaction();
@@ -77,9 +78,16 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     	result =getHibernateTemplate().find(sql,params);
     	return result;
     }    
-    public void updateSdmtOut(int batchNo){
-    	
+    public void updateSdmtOut(int batchNo){    	
     	String sql="update SdmtOut set sendOut=1 where batchNumber=? ";
     	getHibernateTemplate().bulkUpdate(sql, new Integer(batchNo));
+    }
+    public void insertSdmtIn(SdmtIn sdVal){
+    	try{
+    	  if(sdVal.getRecordId()==null) sdVal.setRecordId(new Integer(0));	
+    	  getHibernateTemplate().saveOrUpdate(sdVal);
+    	}catch(Exception e){
+    		System.out.print("DAO" + e.getMessage());
+    	}
     }
 }

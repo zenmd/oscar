@@ -3,11 +3,15 @@ package org.oscarehr.PMmodule.service;
 import java.util.Calendar;
 import java.util.List;
 
+import org.oscarehr.PMmodule.dao.ClientDao;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
+import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.SdmtIn;
 
 public class ProgramOccupancyManager {
 	
 	private ProgramOccupancyDao  programOccupancyDao;	
+	private ClientDao clientDao;
 	
 	public void insertProgramOccupancy(String providerNo,Calendar occDate) {
 		programOccupancyDao.insertProgramOccupancy(providerNo, occDate);
@@ -27,5 +31,15 @@ public class ProgramOccupancyManager {
 	}
 	public void updateSdmtOut(int batchNo){
 		programOccupancyDao.updateSdmtOut(batchNo);
+	}
+	 public void insertSdmtIn(SdmtIn sdVal){
+		 programOccupancyDao.insertSdmtIn(sdVal);
+		 Demographic client=new Demographic();
+		 client.setDemographicNo(sdVal.getClientId());
+		 client.setBenefitUnitStatus(sdVal.getBenefitUnitStatus());
+		 clientDao.updateClientBenUnitStatus(client);
+	 }
+	public void setClientDao(ClientDao clientDao) {
+		this.clientDao = clientDao;
 	}
 }
