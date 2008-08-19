@@ -2,6 +2,7 @@ package com.quatro.servlets;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
 import org.oscarehr.PMmodule.model.FieldDefinition;
+import org.oscarehr.PMmodule.model.SdmtIn;
 import org.oscarehr.PMmodule.model.SdmtOut;
 import org.oscarehr.PMmodule.service.ProgramOccupancyManager;
 import org.springframework.web.context.WebApplicationContext;
@@ -58,6 +60,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	                programOccupancyManager.insertSdmtOut();
 	                this.outputSDMT(path, programOccupancyManager.getSdmtOutList(dt, true));
 	                if(batchNo>0) programOccupancyManager.updateSdmtOut(batchNo);
+	                inputSDMT(path);
 	                programOccuTimerTask.cancel();
 	                scheduleNextRun();
 	            }
@@ -72,20 +75,30 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        protected static ArrayList getTemplate(String pathLoc,String dir,String filename) {
 				FieldDefinition fDev = null; // clientImageMgr.getClientImage(demoNo);
 				ArrayList list = new ArrayList();
-
+				String fileDir=pathLoc + "/" + dir + "/"+ filename;
 				try {
 
 					BufferedReader in = null;                    
 					try {
-						in = new BufferedReader(new FileReader(pathLoc + "/" + dir + "/"
-								+ filename));
+						in = new BufferedReader(new FileReader(fileDir));
 						String str;
-						while ((str = in.readLine()) != null) {
-							fDev = new FieldDefinition();
-							fDev.setFieldName(str.substring(0, 30).trim());
-							fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
-							fDev.setFieldType(str.substring(35, 36));
-							list.add(fDev);
+						if(fileDir.indexOf("/in/")>-1){
+							while ((str = in.readLine()) != null) {
+								fDev = new FieldDefinition();
+								fDev.setFieldName(str.substring(0, 30).trim());
+								fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
+								fDev.setFieldType(str.substring(35, 36));
+								fDev.setFieldStartIndex(new Integer(str.substring(36, 41).trim()));
+								list.add(fDev);
+							}
+						}else{
+							while ((str = in.readLine()) != null) {
+								fDev = new FieldDefinition();
+								fDev.setFieldName(str.substring(0, 30).trim());
+								fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
+								fDev.setFieldType(str.substring(35, 36));
+								list.add(fDev);
+							}
 						}
 						in.close();
 
@@ -94,7 +107,12 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 						System.out.println("Uh oh, got an IOException error!"
 								+ e.getMessage());
 
-					} finally {
+					} 
+					catch(Exception ex){
+						System.out.println(" from read template!"
+								+ ex.getMessage());
+					}
+					finally {
 						if (in != null)
 							in.close();
 					}
@@ -105,14 +123,44 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 
 				return list;
 			}
-	        protected static void inputSDMT(String pathLoc){
-	        	int year = Calendar.getInstance().get(Calendar.YEAR);
-				int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-				int day = Calendar.getInstance().get(Calendar.DATE);
-				int hour = Calendar.getInstance().get(Calendar.HOUR);
-				int min = Calendar.getInstance().get(Calendar.MINUTE);
-				String filename = Utility.FormatIntNoWithZero(year, 4)+ Utility.FormatIntNoWithZero(month,2) + Utility.FormatIntNoWithZero(day,2) + Utility.FormatIntNoWithZero(hour,2) + Utility.FormatIntNoWithZero(min,2) + ".in";
+	        protected static void inputSDMT(String pathLoc){	        	
+				String filename = "";
+				File dir = new File(pathLoc+ "/in/");
+			    String[] list = dir.list();
+			        
+			    for (int i = 0; i < list.length; i++) {
+			        if(list[i].indexOf(".in")>0) 
+			        {
+			        	filename =list[i];
+			        	break;
+			        }
+			    }
+			    if(Utility.IsEmpty(filename)) return;
 				BeanUtilHlp buHlp = new BeanUtilHlp();
+				try {
+					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
+					// "/out/" + filename);
+					FileReader fstream = new FileReader(pathLoc + "/in/" + filename);
+					BufferedReader in = new BufferedReader(fstream);
+					//StringBuffer sb = new StringBuffer();
+					
+					ArrayList tempLst = getTemplate(pathLoc, "/in/template/","sdmt_in_template.txt");
+					String rStr="";
+					SdmtIn sdVal = new SdmtIn();
+					while((rStr=in.readLine())!=null) {
+						for (int j = 0; j < tempLst.size(); j++) {
+							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
+							String value =rStr.substring(fd.getFieldStartIndex()-1,fd.getFieldLength()+fd.getFieldStartIndex()-1).trim();
+							buHlp.setPropertyValue(sdVal, fd.getFieldName(),fd.getFieldType(), value);
+						}	
+						programOccupancyManager.insertSdmtIn(sdVal);
+					}
+					in.close();
+				}
+		        catch (Exception e) {
+		        	
+					System.out.println("Sdmt in:" +e.getMessage());
+				}
 	        }
 			protected static void outputSDMT(String pathLoc, List clientInfo) {				
 				int year = Calendar.getInstance().get(Calendar.YEAR);

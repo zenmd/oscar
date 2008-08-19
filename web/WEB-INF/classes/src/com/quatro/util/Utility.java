@@ -247,27 +247,27 @@ public class Utility {
     	}
     	return retVal ;
     }
-    public static String FormatString(String pStr,Integer tolLen){
+    public static String FormatString(String pStr,int tolLen){
     	
     	if(pStr==null) pStr="";
     	String retVal=pStr;
-    	for(int i=0;i<tolLen.intValue()-pStr.length();i++){
+    	for(int i=0;i<tolLen-pStr.length();i++){
     		retVal=" "+retVal; 
     	}
     	return retVal;
     }
-    public static String FormatNumber(String pNumber,Integer tolLen){
+    public static String FormatNumber(String pNumber,int tolLen){
     	if(pNumber==null) pNumber="";
     	String retVal=pNumber;
-    	for(int i=0;i<tolLen.intValue()-pNumber.length();i++){
+    	for(int i=0;i<tolLen-pNumber.length();i++){
     		retVal=" "+retVal;
     	}
     	return retVal;
     }
-    public static String FormatNumber(Integer pNumber,Integer tolLen){
+    public static String FormatNumber(Integer pNumber,int tolLen){
     	if(pNumber==null) pNumber=new Integer(0);
     	String retVal=pNumber.toString();
-    	for(int i=0;i<tolLen.intValue()-pNumber.toString().length();i++){
+    	for(int i=0;i<tolLen-pNumber.toString().length();i++){
     		retVal=" "+retVal;
     	}
     	return retVal;
