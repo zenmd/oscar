@@ -8,6 +8,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 <html:form action="/PMmodule/Admin/RoleManager" method="post">
 <html:hidden property="method" value="save" />
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
+<input type="hidden" id="pageChanged" name="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 <tr><th class="pageTitle" align="center">
 	<span align="left">Role Management - 

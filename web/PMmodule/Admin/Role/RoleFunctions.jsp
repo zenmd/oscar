@@ -1,5 +1,5 @@
 <!-- Source:web/PMmodule/Admin/Role/Functions.jsp -->
-
+<!--  this page was not in use, see RoleEdit.jsp instead -->
 <%@ include file="/taglibs.jsp"%>
 
 <bean:define id="lstFUNSelection" name="secroleForm"
@@ -45,7 +45,7 @@
 
 		<html:form action="/PMmodule/Admin/RoleManager" method="post">
 			<html:hidden property="method" value="save" />
-			<input id="pageChanged" value='<c:out value="${pageChanged}"/>
+			<input  type="hidden"  id="pageChanged" name="pageChanged" value='<c:out value="${pageChanged}"/>' />
 			<table>
 				<tr>
 					<td colspan="2">&nbsp;</td>
