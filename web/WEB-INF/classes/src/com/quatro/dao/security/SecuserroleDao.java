@@ -180,8 +180,8 @@ public class SecuserroleDao extends HibernateDaoSupport {
 		//return findByProperty(ORGCD, orgcd);
 		/* SQL:
 		select * from secuserrole s,
-		(select fullcode from lst_orgcd where code = 'P200011') b
-		where b.fullcode like '%' || s.orgcd || '%'
+		(select codecsv from lst_orgcd where code = 'P200011') b
+		where b.codecsv like '%' || s.orgcd || ',%'
 		and not (s.orgcd like 'R%' or s.orgcd like 'O%')
 		
 		*/
@@ -193,7 +193,7 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			if (activeOnly) queryString += " and p.status='1'";
 
 			queryString = queryString 	
-				+ " and b.fullcode like '%' || a.orgcd || '%'"
+				+ " and b.codecsv like '%' || a.orgcd || ',%'"
 				+ " and not (a.orgcd like 'R%' or a.orgcd like 'O%')";
 						
 						
@@ -219,7 +219,7 @@ public class SecuserroleDao extends HibernateDaoSupport {
 			
 			String queryString = "select a from Secuserrole a, LstOrgcd b"
 				+ " where b.code ='" + orgcd + "'"
-				+ " and b.fullcode like '%' || a.orgcd || '%'"
+				+ " and b.codecsv like '%' || a.orgcd || ',%'"
 				+ " and not (a.orgcd like 'R%' or a.orgcd like 'O%')";
 			
 			String fname = staffForm.getFirstName();

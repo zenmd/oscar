@@ -237,7 +237,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management - Complaints</th>
-			
 		</tr>
 		<tr>
 			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
@@ -246,18 +245,15 @@ Source:web/PMmodule/QuatroComplaint.jsp
 			<td align="left" class="buttonBar2">
 			<html:link	action="/PMmodule/QuatroComplaint.do" name="actionParam"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Complaints&nbsp;&nbsp;|</html:link>
+
 					<c:if test="${quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null}">	
 					<a href="javascript:submitForm('save');" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 					</c:if>	
 			</td>
-				
-		</tr>
-		
-		
+		</tr>		
 		<tr>
 			<td align="left" class="message">
-			
 				<logic:messagesPresent
 					message="true">
 					<br />
@@ -321,8 +317,8 @@ Source:web/PMmodule/QuatroComplaint.jsp
 									<td colspan="3">
 										<html:select property="complaint.programId"	name="quatroClientComplaintForm">
 											<html-el:option value=""></html-el:option>
-											<html:optionsCollection property="programs" value="id"
-												label="name" />
+											<html:optionsCollection property="programs" value="code"
+												label="description" />
 										</html:select>
 									</td>
 								</tr>	

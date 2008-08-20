@@ -213,6 +213,7 @@ public class RoleManagerAction extends DispatchAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 			request.getContextPath()));
 			saveMessages(request,messages);			
+			request.setAttribute("pageChanged","");
 		}catch(Exception e){
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
 			request.getContextPath()));
@@ -255,7 +256,7 @@ public class RoleManagerAction extends DispatchAction {
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
-
+		request.setAttribute("pageChanged","1");
 		return mapping.findForward("edit");
 	}
 
@@ -281,7 +282,7 @@ public class RoleManagerAction extends DispatchAction {
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
-
+		request.setAttribute("pageChanged","1");
 		return mapping.findForward("edit");
 
 	}

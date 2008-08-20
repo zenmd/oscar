@@ -1,10 +1,4 @@
 <%@ include file="/taglibs.jsp" %>
-<html:html locale="true">
-<head>
-<html:base />
-</head>
-
-<body>
 <table border="0" style="width:100%">
 	<tr>
 	<td >
@@ -22,6 +16,4 @@
 	</td>
 	</tr>
 </table>		
-</body>
-</html:html>
 

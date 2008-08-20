@@ -137,11 +137,22 @@
 <!--
 	function submitForm(){
 		trimInputBox();
+		var message = document.getElementsByName("system_message.message")[0];
+		if(message.value == '') 
+		{
+			alert ("Message is required");
+			message.focus();
+			return;
+		}
 		var expiry_day = document.getElementsByName("system_message.expiry_day")[0];
-		if(isBeforeToday(expiry_day.value)){
+		var expiry_hour = document.getElementsByName("system_message.expiry_hour")[0];
+		var expiry_min = document.getElementsByName("system_message.expiry_minute")[0];
+		if(expiry_day.value=='' || isBeforeNow(expiry_day.value,expiry_hour.value,expiry_min.value )){
           alert("Expiry Day must not be earlier than today.");
           expiry_day.focus();
-		}else{
+        }
+		else
+		{
 			if(noChanges())
 			{
 				alert("There is no changed detected to save");

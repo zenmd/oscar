@@ -45,8 +45,8 @@
 
 		<html:form action="/PMmodule/Admin/RoleManager" method="post">
 			<html:hidden property="method" value="save" />
+			<input id="pageChanged" value='<c:out value="${pageChanged}"/>
 			<table>
-			
 				<tr>
 					<td colspan="2">&nbsp;</td>
 				</tr>
@@ -185,7 +185,7 @@
 		</td>
 	</tr>
 </table>
-
+<%@ include file="/common/readonly.jsp" %>
 <script language="javascript" type="text/javascript">
 <!--
 function submitForm(mthd){

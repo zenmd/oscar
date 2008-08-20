@@ -51,6 +51,24 @@ function beforeToday(inputStr) {
     }	
 	else return true;	
 } 
+function isBeforeNow(inputDay, inputHour, inputMinute) {
+	if(inputDay==null || inputDay==''){
+      	return false;
+	}
+	var now = new Date();
+	var date=new Date();
+	var myDate_array=inputDay.split("/");
+	date.setFullYear(myDate_array[0]);
+	date.setMonth(myDate_array[1]-1);
+	date.setDate(myDate_array[2]);
+	if (!(inputHour==null || inputHour =='')) date.setHours(inputHour);
+	if (!(inputMinute==null || inputMinute =='')) date.setMinutes(inputMinute);
+	date.setSeconds(59.999);
+    if (now < date){
+      return false;
+    }	
+	else return true;	
+} 
 
 function isBeforeToday(inputStr) {
 	var date=new Date();

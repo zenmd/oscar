@@ -157,8 +157,17 @@ String s = "debug";
 <!--
 	function submitForm(){
 		trimInputBox();
+		var message = document.getElementsByName("facility_message.message")[0];
+		if(message.value == '') 
+		{
+			alert ("Message is required");
+			message.focus();
+			return;
+		}
 		var expiry_day = document.getElementsByName("facility_message.expiry_day")[0];
-		if(isBeforeToday(expiry_day.value)){
+		var expiry_hour = document.getElementsByName("facility_message.expiry_hour")[0];
+		var expiry_min = document.getElementsByName("facility_message.expiry_minute")[0];
+		if(expiry_day.value=='' || isBeforeNow(expiry_day.value,expiry_hour.value,expiry_min.value )){
           alert("Expiry Day must not be earlier than today.");
           expiry_day.focus();
 		}else{

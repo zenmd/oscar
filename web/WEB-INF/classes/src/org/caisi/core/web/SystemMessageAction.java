@@ -60,7 +60,8 @@ public class SystemMessageAction extends DispatchAction {
 	}
 		
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		List activeMessages = mgr.getMessages();
+//		List activeMessages = mgr.getMessages();
+		List activeMessages = mgr.getActiveMessages();
 		request.setAttribute("ActiveMessages",activeMessages);
 		return mapping.findForward("list");
 	}

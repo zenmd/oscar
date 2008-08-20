@@ -12,7 +12,7 @@ public class UserAccessDao extends HibernateDaoSupport {
 	  
 	  public List GetUserOrgAccessList(String providerNo)
 	  {
-		  String sSQL="select distinct o.fullcode from UserAccessValue s, LstOrgcd o where s.providerNo= ? and s.privilege>='r' and s.orgCd=o.code order by o.fullcode";		
+		  String sSQL="select distinct o.codecsv from UserAccessValue s, LstOrgcd o where s.providerNo= ? and s.privilege>='r' and s.orgCd=o.code order by o.codecsv";		
 		  return getHibernateTemplate().find(sSQL ,providerNo);
 	  }
 }
