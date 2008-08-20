@@ -30,14 +30,18 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		var obj5 = document.getElementsByName('program.name')[0];
 		var obj6 = document.getElementsByName('program.manOrWoman')[0];
 		var obj7 = document.getElementsByName('program.type')[0];		
+		var obj8 = document.getElementsByName('program.facilityId')[0];		
 		obj5.value = trim(obj5.value);
 			
-		if(obj5.value == null || obj5.value == '') {
-			
+		if(obj8.value == null || obj8.value == '') {
+			alert('Facility can not be blank.');
+			obj8.focus();
+		}else if(obj5.value == null || obj5.value == '') {
 			alert('The program name can not be blank.');
+			obj5.focus();
 		} else if(obj7.value == null || obj7.value == '') {
-			
 			alert('The program type can not be blank.');
+			obj7.focus();
 		}else if(!isNumberInRange(obj1, 0, 'unlimit', 'Funding Capacity')){
 			//alert('1');
 			
@@ -45,8 +49,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			//alert('2');
 			
 		} else if(obj6.value == null || obj6.value == '') {
-			
 			alert('The program Male/Female can not be blank.');
+			obj6.focus();
 		}else if(!isNumberInRange(obj3, 0, 200, 'Minimum Age')){
 			//alert('3');
 			
@@ -170,6 +174,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				<tr class="b">
 					<td width="20%">Facility</td>
 					<td><html-el:select property="program.facilityId">
+					    <option value=""></option>
 						<c:forEach var="facility" items="${facilities}">
 							<html-el:option value="${facility.id}">
 								<c:out value="${facility.name}" />
