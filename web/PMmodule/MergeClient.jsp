@@ -249,7 +249,7 @@
 			</div>
 			</td>
 		</tr>
-		
+		<% String a="1"; %>
 		<c:if test="${requestScope.clients != null}">			
 			<tr style="height: 100%">
 				<td>
@@ -261,14 +261,16 @@
 							<display:setProperty name="paging.banner.placement" value="bottom" />
 							<display:setProperty name="basic.msg.empty_list"
 								value="No clients found." />							
-							<c:choose>
-										<c:when test="${!client.merged}">
-										 	&nbsp;
+							<display:column title="">	
+								<c:choose>
+										<c:when test="${client.merged}">
+										 	<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
 										</c:when>								
 										<c:otherwise>
-											<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
+											&nbsp;
 										</c:otherwise>
 							   	</c:choose>
+							   	</display:column>
 							<display:column sortable="true" title="Client No">
 								<c:out	value="${client.demographicNo}" />
 							</display:column>
