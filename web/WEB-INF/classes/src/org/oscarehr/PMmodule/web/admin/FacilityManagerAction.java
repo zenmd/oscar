@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -195,7 +196,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         Facility facility = facilityManager.getFacility(facilityId);
 
         // Get program list by facility id in table room.
-        List programs = programManager.getBedProgramsInFacility(providerNo,facilityId);
+        List programs = programManager.getProgramsInFacility(providerNo,facilityId);
         
 
         request.setAttribute(BEAN_ASSOCIATED_PROGRAMS, programs);
@@ -430,10 +431,6 @@ public class FacilityManagerAction extends BaseFacilityAction {
         else
         	facility.setHic(true);
         
-        if (request.getParameter("facility.active") == null) 
-        	facility.setActive(false);
-        else
-        	facility.setActive(true);
         
         if (isCancelled(request)) {
             request.getSession(true).removeAttribute("facilityManagerForm");
@@ -441,6 +438,45 @@ public class FacilityManagerAction extends BaseFacilityAction {
             return list(mapping, form, request, response);
         }
 
+        if (request.getParameter("facility.active") == null){ 
+        	facility.setActive(false);
+        	int clientCount =0;
+        	try{
+            	clientCount = lookupManager.getCountOfActiveClient("F" + facility.getId().toString());
+            }catch(SQLException ex){clientCount =-1;}
+            
+            if(clientCount>0){
+        	  ActionMessages messages = new ActionMessages();
+              messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("facility.client_in_the_facility", facility.getName()));
+              saveMessages(request, messages);
+              request.setAttribute("facility", facility);
+        	  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+              if(actionParam==null) actionParam = new HashMap();
+              actionParam.put("facilityId", facility.getId()); 
+              request.setAttribute("actionParam", actionParam);
+            
+              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
+              request.setAttribute("facilityId", facility.getId());
+              return edit(mapping, form, request, response);
+            }else if(clientCount<0){
+          	  ActionMessages messages = new ActionMessages();
+              messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("facility.client_in_the_facility_SqlException"));
+              saveMessages(request, messages);
+              request.setAttribute("facility", facility);
+        	  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+              if(actionParam==null) actionParam = new HashMap();
+              actionParam.put("facilityId", facility.getId()); 
+              request.setAttribute("actionParam", actionParam);
+            
+              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
+              request.setAttribute("facilityId", facility.getId());
+              return edit(mapping, form, request, response);
+            }
+        }else{
+        	facility.setActive(true);
+        }
+
+        
         try {
         	String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         	facility.setLastUpdateDate(Calendar.getInstance());

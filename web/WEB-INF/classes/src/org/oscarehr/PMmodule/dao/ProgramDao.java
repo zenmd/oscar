@@ -144,6 +144,15 @@ public class ProgramDao extends HibernateDaoSupport {
     	return 	c.list();
     }
 
+    public List getProgramsInFacility(String providerNo,Integer facilityId)
+    {
+    	Criteria c = getSession().createCriteria(Program.class);
+    	c.add(Restrictions.eq("programStatus","1"));
+    	c.add(Restrictions.eq("facilityId",facilityId));
+    	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, null)));
+    	return 	c.list();
+    }
+    
     public List getActiveUserDefinedPrograms() {
         List rs = getHibernateTemplate().find("FROM Program p WHERE p.userDefined = ? and p.programStatus = '1'", new Boolean[] { Boolean.TRUE });
         return rs;

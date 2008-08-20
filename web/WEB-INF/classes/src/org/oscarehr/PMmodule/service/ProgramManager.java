@@ -113,6 +113,10 @@ public class ProgramManager {
         return programDao.getBedProgramsInFacility(providerNo, facilityId);
     }
     
+    public List getProgramsInFacility(String providerNo, Integer facilityId) {
+        return programDao.getProgramsInFacility(providerNo, facilityId);
+    }
+
     public List getCommunityPrograms(String providerNo,Integer shelterId) {
         return programDao.getAllPrograms(Program.PROGRAM_STATUS_ACTIVE, Program.COMMUNITY_TYPE,null,providerNo,shelterId);
     }
