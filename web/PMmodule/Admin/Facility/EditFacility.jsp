@@ -4,7 +4,9 @@
 	function validateRequiredField(fieldId, fieldName, maxLength)
 	{
 		var field=document.getElementById(fieldId);
-	
+		if(field==null){
+			field = document.getElementsByName(fieldId)[0];
+		}
 		field.value = trim(field.value);
 
 		if (field.value==null || field.value=='')
@@ -34,6 +36,7 @@
 		var isOk = false;
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
+		if (isOk) isOk = validateRequiredField('facility.sectorId', 'Sector', 3);
 		var obj1 = document.getElementsByName('facility.orgId')[0];
 		if(obj1.value == null || obj1.value == '') {
 		    isOk=false;
@@ -179,8 +182,8 @@
 								</tr>
 								<tr class="b">
 									<td width="20%">Sector:</td>
-									<td><select name="facility.sectorId">
-										<option value="0">&nbsp;</option>
+									<td><select name="facility.sectorId" >
+										<option value="">&nbsp;</option>
 										<c:forEach var="sector" items="${sectorList}">
 											<c:choose>
 												<c:when test="${sectorId == sector.code }">
