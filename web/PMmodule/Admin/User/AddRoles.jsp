@@ -101,7 +101,7 @@ function submitForm(mthd){
 	trimInputBox();
 	if(mthd == "saveRoles" && noChanges())
 	{
-		alert("There is no changes detected to save");
+		alert("There are no changes detected to save");
 	}
 	else
 	{

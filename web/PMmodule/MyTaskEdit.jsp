@@ -5,7 +5,7 @@ function submitForm(methodVal) {
 	trimInputBox();
 	if(methodVal == "mytasksave" && noChanges())
 	{
-		alert("There is no changes detected to save");
+		alert("There are no changes detected to save");
 	}
 	else
 	{

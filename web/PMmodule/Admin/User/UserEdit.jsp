@@ -198,7 +198,7 @@ function submitForm(func){
 	} else {
 		if((func == "saveEdit" || func=="saveNew") && noChanges())
 		{
-			alert("There is no changes detected to save");
+			alert("There are no changes detected to save");
 		}
 		else
 		{

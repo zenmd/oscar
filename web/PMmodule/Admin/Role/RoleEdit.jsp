@@ -131,7 +131,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		}
 		if((mthd == "saveChange" || mthd=="saveNew") && noChanges())
 		{
-			alert("There is no changes detected to save");
+			alert("There are no changes detected to save");
 		}
 		else
 		{
