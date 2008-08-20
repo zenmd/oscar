@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.model.ClientMerge;
+import org.oscarehr.PMmodule.model.Program;
 
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.MergeClientManager;
@@ -52,6 +53,23 @@ public class UnMergeClientAction extends BaseClientAction {
 		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
 		/* do the search */
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_UNMERGE);
+		if ("MyP".equals(formBean.getBedProgramId())) {
+			Integer shelterId = (Integer) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_SHELTERID);
+			String providerNo = (String) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_PROVIDERNO);
+			//List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+			List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
+			String prgId = "";
+//			for (Program prg : allBedPrograms) {
+			for (int i=0;i<allPrograms.size();i++) {
+				Program prg = (Program)allPrograms.get(i);
+				prgId += prg.getId().toString() + ",";
+			}
+			if (!"".equals(prgId))
+				prgId = prgId.substring(0, prgId.length() - 1);
+			formBean.setBedProgramId(prgId);
+		}
 		request.setAttribute("clients", mergeClientManager.searchMerged(formBean));
 		request.setAttribute("method", "mergedSearch");
 		setLookupLists(request);

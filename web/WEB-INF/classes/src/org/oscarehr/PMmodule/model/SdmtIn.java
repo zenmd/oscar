@@ -25,6 +25,21 @@ public class SdmtIn implements Serializable {
 	 private String role;
 	 private Integer sdmtBenUnitId;
 	 private Integer clientId;
+	 private String lastUpdateUser;
+	 private Calendar lastUpdateDate;
+	 
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
 	public String getAddress() {
 		return address;
 	}

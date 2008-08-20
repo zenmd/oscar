@@ -141,7 +141,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		String clientNo = bean.getDemographicNo(); 
 		//exclude merged client 
-		if(excludeMerged)criteria.add(Expression.eq("merged", Boolean.FALSE));
+		//if(excludeMerged)criteria.add(Expression.eq("merged", Boolean.FALSE));
 		if (clientNo != null && !"".equals(clientNo))
 		{
 			if (com.quatro.util.Utility.IsInt(clientNo) ) {

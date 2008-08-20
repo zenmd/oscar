@@ -1,11 +1,17 @@
 package com.quatro.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
+
+import org.oscarehr.PMmodule.model.FieldDefinition;
 
 import com.quatro.common.KeyConstants;
 
@@ -361,5 +367,59 @@ public class Utility {
 
         return isDST;
       } 
+    public static ArrayList getTemplate(String pathLoc,String dir,String filename) {
+		FieldDefinition fDev = null; // clientImageMgr.getClientImage(demoNo);
+		ArrayList list = new ArrayList();
+		String fileDir=pathLoc + "/" + dir + "/"+ filename;
+		try {
+
+			BufferedReader in = null;                    
+			try {
+				in = new BufferedReader(new FileReader(fileDir));
+				String str;
+				if(fileDir.indexOf("/in/")>-1){
+					while ((str = in.readLine()) != null) {
+						fDev = new FieldDefinition();
+						fDev.setFieldName(str.substring(0, 30).trim());
+						fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
+						fDev.setFieldType(str.substring(35, 36));
+						fDev.setFieldStartIndex(new Integer(str.substring(36, 41).trim()));
+						if(str.length()>41)fDev.setDateFormatStr(str.substring(41,53).trim());
+						list.add(fDev);
+					}
+				}else{
+					while ((str = in.readLine()) != null) {
+						fDev = new FieldDefinition();
+						fDev.setFieldName(str.substring(0, 30).trim());
+						fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
+						fDev.setFieldType(str.substring(35, 36));
+						if(str.length()>36)fDev.setDateFormatStr(str.substring(36,48).trim());
+						list.add(fDev);
+					}
+				}
+				in.close();
+
+			} catch (IOException e) {
+				// catch io errors from FileInputStream or readLine()
+				System.out.println("Uh oh, got an IOException error!"
+						+ e.getMessage());
+
+			} 
+			catch(Exception ex){
+				System.out.println(" from read template!"
+						+ ex.getMessage());
+			}
+			finally {
+				if (in != null)
+					in.close();
+			}
+
+		} catch (Exception e) {
+			// log.warn(e);
+		}
+
+		return list;
+	}
+    
 
 }

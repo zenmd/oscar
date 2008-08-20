@@ -3,6 +3,7 @@
 <%
     String url ="/PMmodule/QuatroClientSummary.do";
 %>
+<%@page import="org.displaytag.decorator.TableDecorator"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" />
 <script type="text/javascript"	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
 <script>
@@ -74,6 +75,7 @@
 		return true;
 	}
 </script>
+
 <html:form	action="/PMmodule/ClientSearch2.do" >
 	<input type="hidden" name="method"  />
 	<table width="100%" height="100%" cellpadding="1px" cellspacing="1px">
@@ -177,9 +179,11 @@
                     <div style="color: Black; background-color: White; border-style: ridge; border-width: 1px;
                         width: 100%; height: 100%; overflow: auto">
             <display:table class="simple" cellspacing="2" cellpadding="3" id="client" name="clients" 
-            export="false"   pagesize="100"   requestURI="/PMmodule/ClientSearch2.do" sort="list" defaultsort="2">            
+            export="false"   pagesize="100"   requestURI="/PMmodule/ClientSearch2.do" sort="list" 
+             defaultsort="2">            
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list" value="No clients found." />
+			
 			<display:column sortable="true" title=" First Name" sortProperty="firstName" sortName="client">
                  <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.firstName}" /></a>
 			</display:column>

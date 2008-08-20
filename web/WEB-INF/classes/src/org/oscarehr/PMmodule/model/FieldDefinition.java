@@ -8,6 +8,7 @@ public class FieldDefinition implements Serializable {
 	 private Integer fieldLength;
 	 private String fieldType;
 	 private Integer fieldStartIndex;
+	 private String dateFormatStr;
 	public Integer getFieldLength() {
 		return fieldLength;
 	}
@@ -31,5 +32,11 @@ public class FieldDefinition implements Serializable {
 	}
 	public void setFieldStartIndex(Integer fieldStartIndex) {
 		this.fieldStartIndex = fieldStartIndex;
+	}
+	public String getDateFormatStr() {
+		return dateFormatStr;
+	}
+	public void setDateFormatStr(String dateFormatStr) {
+		this.dateFormatStr = dateFormatStr;
 	}
 }

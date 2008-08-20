@@ -72,58 +72,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            }
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
-	        protected static ArrayList getTemplate(String pathLoc,String dir,String filename) {
-				FieldDefinition fDev = null; // clientImageMgr.getClientImage(demoNo);
-				ArrayList list = new ArrayList();
-				String fileDir=pathLoc + "/" + dir + "/"+ filename;
-				try {
-
-					BufferedReader in = null;                    
-					try {
-						in = new BufferedReader(new FileReader(fileDir));
-						String str;
-						if(fileDir.indexOf("/in/")>-1){
-							while ((str = in.readLine()) != null) {
-								fDev = new FieldDefinition();
-								fDev.setFieldName(str.substring(0, 30).trim());
-								fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
-								fDev.setFieldType(str.substring(35, 36));
-								fDev.setFieldStartIndex(new Integer(str.substring(36, 41).trim()));
-								list.add(fDev);
-							}
-						}else{
-							while ((str = in.readLine()) != null) {
-								fDev = new FieldDefinition();
-								fDev.setFieldName(str.substring(0, 30).trim());
-								fDev.setFieldLength(new Integer(str.substring(30, 35).trim()));
-								fDev.setFieldType(str.substring(35, 36));
-								list.add(fDev);
-							}
-						}
-						in.close();
-
-					} catch (IOException e) {
-						// catch io errors from FileInputStream or readLine()
-						System.out.println("Uh oh, got an IOException error!"
-								+ e.getMessage());
-
-					} 
-					catch(Exception ex){
-						System.out.println(" from read template!"
-								+ ex.getMessage());
-					}
-					finally {
-						if (in != null)
-							in.close();
-					}
-
-				} catch (Exception e) {
-					// log.warn(e);
-				}
-
-				return list;
-			}
-	        protected static void inputSDMT(String pathLoc){	        	
+	       protected static void inputSDMT(String pathLoc){	        	
 				String filename = "";
 				File dir = new File(pathLoc+ "/in/");
 			    String[] list = dir.list();
@@ -144,15 +93,17 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 					BufferedReader in = new BufferedReader(fstream);
 					//StringBuffer sb = new StringBuffer();
 					
-					ArrayList tempLst = getTemplate(pathLoc, "/in/template/","sdmt_in_template.txt");
+					ArrayList tempLst = Utility.getTemplate(pathLoc, "/in/template/","sdmt_in_template.txt");
 					String rStr="";
 					SdmtIn sdVal = new SdmtIn();
 					while((rStr=in.readLine())!=null) {
 						for (int j = 0; j < tempLst.size(); j++) {
 							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
 							String value =rStr.substring(fd.getFieldStartIndex().intValue()-1,fd.getFieldLength().intValue()+fd.getFieldStartIndex().intValue()-1).trim();
-							buHlp.setPropertyValue(sdVal, fd.getFieldName(),fd.getFieldType(), value);
+							buHlp.setPropertyValue(sdVal, fd.getFieldName(),fd.getFieldType(),fd.getDateFormatStr(), value);
 						}	
+						sdVal.setLastUpdateUser("1111");
+						sdVal.setLastUpdateDate(Calendar.getInstance());
 						programOccupancyManager.insertSdmtIn(sdVal);
 					}
 					in.close();
@@ -177,7 +128,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 					BufferedWriter out = new BufferedWriter(fstream);
 					//StringBuffer sb = new StringBuffer();
 					
-					ArrayList tempLst = getTemplate(pathLoc, "/out/template/","sdmt_out_template.txt");
+					ArrayList tempLst = Utility.getTemplate(pathLoc, "/out/template/","sdmt_out_template.txt");
 					for (int i = 0; i < clientInfo.size(); i++) {
 						SdmtOut sdVal = (SdmtOut) clientInfo.get(i);
 						String outStr="";

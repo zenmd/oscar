@@ -28,6 +28,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.quatro.common.KeyConstants;
+
 public class MyDateFormat {
 	//private int aDateTime;
 	public MyDateFormat() {
@@ -268,7 +270,35 @@ public class MyDateFormat {
 		cal.setTime(date);
 		return cal;
 	}
-
+	public static Calendar getCalendar(String pDate,String dateFormat){
+		if (pDate == null || "".equals(pDate)) return null;
+		 GregorianCalendar cal = null;
+		int day, month, year;
+		if(KeyConstants.DATE_YYYYMMDD.equals(dateFormat.toUpperCase()) ||
+				KeyConstants.DATE_YYYYMMDDHHMM.equals(dateFormat.toUpperCase()))
+			return getCalendar(pDate);
+		else if(KeyConstants.DATE_DDMMYYYY.equals(dateFormat.toUpperCase())) 
+		{
+			 year = Integer.parseInt(pDate.substring(4, 8));
+             month = Integer.parseInt(pDate.substring(2, 4));
+             day= Integer.parseInt(pDate.substring(0, 2));
+             if(month>0){
+         		month = month - 1;
+         	}            
+              cal=new GregorianCalendar(year, month, day);
+		}
+		else if(KeyConstants.DATE_MMDDYYYY.equals(dateFormat.toUpperCase())) 
+		{
+			 year = Integer.parseInt(pDate.substring(4, 8));
+             day = Integer.parseInt(pDate.substring(2, 4));
+             month= Integer.parseInt(pDate.substring(0, 2));
+             if(month>0){
+         		month = month - 1;
+         	}            
+              cal=new GregorianCalendar(year, month, day);
+		}
+		return cal;
+	}
 	public static Calendar getCalendar(String pDate)
     {
 		//date format yyyymmddHHMM or yyyymmdd or yyyy/mm/dd or yyyy-mm-dd

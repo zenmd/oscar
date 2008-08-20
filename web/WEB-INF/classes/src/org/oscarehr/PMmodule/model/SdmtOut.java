@@ -50,9 +50,10 @@ public class SdmtOut implements Serializable {
 		this.clientId = clientId;
 	}
 	public String getDob() {
+		//mmddyyyy
 		String retVal="";
-		retVal=Utility.FormatIntNoWithZero(dobStr.get(Calendar.YEAR),4)+Utility.FormatIntNoWithZero(dobStr.get(Calendar.MONTH)+1,2)+
-		Utility.FormatIntNoWithZero(dobStr.get(Calendar.DATE),2);
+		retVal=Utility.FormatIntNoWithZero(dobStr.get(Calendar.MONTH)+1,2)+
+			Utility.FormatIntNoWithZero(dobStr.get(Calendar.DATE),2)+Utility.FormatIntNoWithZero(dobStr.get(Calendar.YEAR),4);
 		return retVal;
 	}
 	

@@ -1,8 +1,8 @@
 batchNumber                       8N
-batchDate                        12D
+batchDate                        12DYYYYMMDDHHMM
 firstName                        25S
 lastName                         25S
-dob                               8D
+dob                               8D    MMDDYYYY
 sin                               9S
 healthCardNo                     10S
 clientId                          9N

@@ -28,38 +28,61 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 
-
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
 public class MergeClientAction extends BaseClientAction {
-	
+
 	private ClientManager clientManager;
 
 	private ProviderManager providerManager;
 
-	private ProgramManager programManager;	
+	private ProgramManager programManager;
+
 	private LookupManager lookupManager;
+
 	private MergeClientManager mergeClientManager;
+
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {	
-		//return search(mapping, form, request, response);
+			HttpServletRequest request, HttpServletResponse response) {
+		// return search(mapping, form, request, response);
 		setLookupLists(request);
 		return mapping.findForward("view");
 	}
+
 	public ActionForward mergedSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm searchForm = (DynaActionForm) form;
-		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
+		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm
+				.get("criteria");
 		/* do the search */
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_UNMERGE);
-		request.setAttribute("clients", mergeClientManager.searchMerged(formBean));
+		if ("MyP".equals(formBean.getBedProgramId())) {
+			Integer shelterId = (Integer) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_SHELTERID);
+			String providerNo = (String) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_PROVIDERNO);
+			//List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+			List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
+			String prgId = "";
+//			for (Program prg : allBedPrograms) {
+			for (int i=0;i<allPrograms.size();i++) {
+				Program prg = (Program)allPrograms.get(i);
+				prgId += prg.getId().toString() + ",";
+			}
+			if (!"".equals(prgId))
+				prgId = prgId.substring(0, prgId.length() - 1);
+			formBean.setBedProgramId(prgId);
+		}
+		request.setAttribute("clients", mergeClientManager
+				.searchMerged(formBean));
 		request.setAttribute("method", "mergedSearch");
 		setLookupLists(request);
 
 		return mapping.findForward("view");
 	}
+
 	public ActionForward unmerge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionMessages messages = new ActionMessages();
@@ -70,37 +93,40 @@ public class MergeClientAction extends BaseClientAction {
 			saveMessages(request, messages);
 			return mapping.findForward("view");
 		}
-		boolean isSuccess=true;
-		ArrayList records = new ArrayList(Arrays.asList(request.getParameterValues("records")));
-		
-		String providerNo = (String) request.getSession().getAttribute(	KeyConstants.SESSION_KEY_PROVIDERNO);
-		if (records.size() > 0) {				
-				for (int i = 0; i < records.size(); i++) {
-					String demographic_no = (String) records.get(i);
-					try {					
-						ClientMerge cmObj = new ClientMerge(); 
-						cmObj.setClientId(Integer.valueOf(demographic_no));						
-						cmObj.setProviderNo(providerNo);
-						cmObj.setLastUpdateDate(new GregorianCalendar());
-						mergeClientManager.unMerge(cmObj);
-					} catch (Exception e) {
-						isSuccess=false;
-					}
+		boolean isSuccess = true;
+		ArrayList records = new ArrayList(Arrays.asList(request
+				.getParameterValues("records")));
+
+		String providerNo = (String) request.getSession().getAttribute(
+				KeyConstants.SESSION_KEY_PROVIDERNO);
+		if (records.size() > 0) {
+			for (int i = 0; i < records.size(); i++) {
+				String demographic_no = (String) records.get(i);
+				try {
+					ClientMerge cmObj = new ClientMerge();
+					cmObj.setClientId(Integer.valueOf(demographic_no));
+					cmObj.setProviderNo(providerNo);
+					cmObj.setLastUpdateDate(new GregorianCalendar());
+					mergeClientManager.unMerge(cmObj);
+				} catch (Exception e) {
+					isSuccess = false;
 				}
+			}
 		}
-		if(!isSuccess){
+		if (!isSuccess) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.unmerge.errors", request.getContextPath()));
 			saveMessages(request, messages);
-		}else{
+		} else {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.success", request.getContextPath()));
 			saveMessages(request, messages);
 		}
-		//return mapping.findForward("view");
+		// return mapping.findForward("view");
 		return search(mapping, form, request, response);
 
 	}
+
 	public ActionForward merge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionMessages messages = new ActionMessages();
@@ -109,24 +135,32 @@ public class MergeClientAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors.select", request.getContextPath()));
 			saveMessages(request, messages);
-			return mapping.findForward("view");			
+			return mapping.findForward("view");
 		}
 		boolean isSuccess = true;
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
-		ArrayList records = new ArrayList(Arrays.asList(request.getParameterValues("records")));
+		ArrayList records = new ArrayList(Arrays.asList(request
+				.getParameterValues("records")));
 		String head = request.getParameter("head");
 		String action = request.getParameter("mergeAction");
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
 
-		if (head != null && records.size() > 1
-				&& records.contains(head)) {
-
-			for (int i = 0; i < records.size(); i++) {
-				if (!((String) records.get(i)).equals(head))
+		if (head != null && records.size() > 1 && records.contains(head)) {
+			for (int i = 0; i < records.size(); i++) 
+			{
+				if (!((String) records.get(i)).equals(head)){					
+					Integer mergeClientNo = Integer.valueOf((String) records.get(i));
+					Demographic mClient =clientManager.getClientByDemographicNo((String) records.get(i));
+					if(mClient.isActive()){
+						messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+								"message.merge.errors.active.client", request.getContextPath()));
+						saveMessages(request, messages);
+						return mapping.findForward("view");
+					}
 					try {
-						ClientMerge cmObj = new ClientMerge(); 
-						cmObj.setClientId(Integer.valueOf((String) records.get(i)));
+						ClientMerge cmObj = new ClientMerge();
+						cmObj.setClientId(mergeClientNo);
 						cmObj.setMergedToClientId(Integer.valueOf(head));
 						cmObj.setProviderNo(providerNo);
 						cmObj.setLastUpdateDate(new GregorianCalendar());
@@ -134,60 +168,87 @@ public class MergeClientAction extends BaseClientAction {
 					} catch (Exception e) {
 						isSuccess = false;
 					}
+				}
 			}
 
-			} else {
+		} else {
 			isSuccess = false;
 		}
-		if(!isSuccess){
+		if (!isSuccess) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors", request.getContextPath()));
 			saveMessages(request, messages);
-		}else{
+		} else {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.success", request.getContextPath()));
 			saveMessages(request, messages);
 		}
 		return mapping.findForward("unmerge");
-		//return mergedSearch(mapping, form, request, response);
+		// return mergedSearch(mapping, form, request, response);
 	}
-	
+
 	public ActionForward search(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response){
+			HttpServletRequest request, HttpServletResponse response) {
 		DynaActionForm searchForm = (DynaActionForm) form;
-		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm.get("criteria");
-			
+		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm
+				.get("criteria");
+
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
-		List clients=clientManager.search(formBean,false,false);
+		if ("MyP".equals(formBean.getBedProgramId())) {
+			Integer shelterId = (Integer) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_SHELTERID);
+			String providerNo = (String) request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_PROVIDERNO);
+			//List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+			List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
+			String prgId = "";
+//			for (Program prg : allBedPrograms) {
+			for (int i=0;i<allPrograms.size();i++) {
+				Program prg = (Program)allPrograms.get(i);
+				prgId += prg.getId().toString() + ",";
+			}
+			if (!"".equals(prgId))
+				prgId = prgId.substring(0, prgId.length() - 1);
+			formBean.setBedProgramId(prgId);
+		}
+		List clients = clientManager.search(formBean, false, false);
 		request.setAttribute("clients", clients);
-		setLookupLists(request);		
+		setLookupLists(request);
 		return mapping.findForward("view");
 	}
+
 	private void setLookupLists(HttpServletRequest request) {
-		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-		List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
-
+		Integer shelterId = (Integer) request.getSession().getAttribute(
+				KeyConstants.SESSION_KEY_SHELTERID);
+		String providerNo = (String) request.getSession().getAttribute(
+				KeyConstants.SESSION_KEY_PROVIDERNO);
+		List allBedPrograms = programManager.getBedPrograms(providerNo,
+				shelterId);
 		request.setAttribute("allBedPrograms", allBedPrograms);
-
-		request.setAttribute("allBedPrograms", allBedPrograms);
-		List allProviders = providerManager.getActiveProviders(providerNo,shelterId);
+		List allProviders = providerManager.getActiveProviders(providerNo,
+				shelterId);
 		request.setAttribute("allProviders", allProviders);
-		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,	null, null));
-		request.setAttribute("moduleName", " - Client Management");		
+		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,
+				null, null));
+		request.setAttribute("moduleName", " - Client Management");
 	}
+
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
 	}
+
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}
+
 	public void setProgramManager(ProgramManager programManager) {
 		this.programManager = programManager;
 	}
+
 	public void setProviderManager(ProviderManager providerManager) {
 		this.providerManager = providerManager;
 	}
+
 	public void setMergeClientManager(MergeClientManager mergeClientManager) {
 		this.mergeClientManager = mergeClientManager;
 	}

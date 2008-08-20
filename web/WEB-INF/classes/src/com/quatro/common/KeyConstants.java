@@ -51,7 +51,11 @@ public class KeyConstants {
   public static final String ACCESS_WRITE = "w";
   public static final String ACCESS_ALL = "x";
   public static final String AUTOMATIC ="A";
-  public static final String MANUAL ="M";
+  public static final String MANUAL ="M"; 
+  public static final String DATE_YYYYMMDDHHMM="YYYYMMDDHHMM";
+  public static final String DATE_YYYYMMDD="YYYYMMDD";
+  public static final String DATE_MMDDYYYY="MMDDYYYY";
+  public static final String DATE_DDMMYYYY="DDMMYYYY";
   
   public static final String MENU_CLIENT="mnuClient";
   public static final String MENU_PROGRAM="mnuProg";

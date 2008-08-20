@@ -69,18 +69,19 @@ public class BeanUtilHlp {
 		  return value;
 	}
 	
-	public void setPropertyValue(Object bean,String fieldName,String fieldType, String val){
+	public void setPropertyValue(Object bean,String fieldName,String fieldType,String dateFormat, String val){
 		BeanUtils ut = new BeanUtils();
 		try {
 			Object inputVal=null;
-			if("D".equals(fieldType)) inputVal=MyDateFormat.getCalendar(val);
+			if("D".equals(fieldType)) {
+				inputVal=MyDateFormat.getCalendar(val,dateFormat);
+			}
 			else if("N".equals(fieldType)){
 				if(val.indexOf(".")>0) inputVal = new Double(val);
 				else if(Utility.IsEmpty(val)) inputVal = new Integer(0);
 				else inputVal = new Integer(val);
 			}
-			else inputVal=val;
-			
+			else inputVal=val;			
 			ut.setProperty(bean, fieldName, inputVal);
 		}		  
 		  catch (InvocationTargetException ex) {

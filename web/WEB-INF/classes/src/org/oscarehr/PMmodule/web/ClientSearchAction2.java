@@ -138,12 +138,12 @@ public class ClientSearchAction2 extends BaseClientAction {
 					KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
-			List allBedPrograms = programManager
-					.getBedPrograms(providerNo, shelterId);
+			//List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+			List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
 			String prgId = "";
 //			for (Program prg : allBedPrograms) {
-			for (int i=0;i<allBedPrograms.size();i++) {
-				Program prg = (Program)allBedPrograms.get(i);
+			for (int i=0;i<allPrograms.size();i++) {
+				Program prg = (Program)allPrograms.get(i);
 				prgId += prg.getId().toString() + ",";
 			}
 			if (!"".equals(prgId))

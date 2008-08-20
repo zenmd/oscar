@@ -1,17 +1,17 @@
 batchNumber                       8N    1
-batchDate                        12D    9
+batchDate                        12D    9YYYYMMDDHHMM
 firstName                        25S   21
 lastName                         25S   46
-dob                               8D   71
+dob                               8D   71    MMDDYYYY
 benefitUnitStatus                 7S   79
 program                          10S   86
 office                           50S   96
-terminationDate                   8D  146
+terminationDate                   8D  146    DDMMYYYY
 lastBenMonth                      6S  154
 totalPayment                     10N  160
 basicAmount                      10N  170
 housingAmount                    10N  180
-paidDate                          8D  190
+paidDate                          8D  190    DDMMYYYY
 address                          70S  198
 status                            9S  268
 role                             15S  277

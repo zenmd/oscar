@@ -45,6 +45,7 @@ public class MergeClientManager {
 					Integer cId=(Integer)subs.next();
 					Demographic mergedClient= clientDao.getClientByDemographicNo(cId); 
 					result.add(mergedClient);
+					result.add(client);
 				}				
 			}
 		}

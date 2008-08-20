@@ -63,8 +63,8 @@
 		// form.elements['criteria.searchUsingSoundex'].checked = true;
 		// form.elements['criteria.dateFrom'].value=''; 
 		// form.elements['criteria.dateTo'].value=''; 
-		// form.elements['criteria.bedProgramId'].selectedIndex = 0;
-		// form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
+		form.elements['criteria.bedProgramId'].selectedIndex = 0;
+		form.elements['criteria.assignedToProviderNo'].selectedIndex = 0;
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
@@ -222,7 +222,28 @@
 						</c:forEach>
 					</html-el:select></td>
 				</tr>
-				
+				<tr>
+					<th  align="right"><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
+			          <th align="left" >
+			            <html:select property="criteria.assignedToProviderNo">
+			                <html:option value="">
+			                </html:option>
+			              	<html:options collection="allProviders" property="providerNo" labelProperty="fullName" />
+			            </html:select>
+			          </th>
+				</tr>
+				<tr>
+					<th  align="right"><bean-el:message key="ClientSearch.program"  bundle="pmm"/> </th>
+			          <th align="left" >
+			            <html:select property="criteria.bedProgramId">
+			                <html:option value="">
+			                </html:option>
+			                <html:option value="MyP">My Programs
+			                </html:option>
+			              	<html:options collection="allBedPrograms" property="id" labelProperty="name" />
+			            </html:select>
+			          </th>
+				</tr>
 			</table>
 			</div>
 			</div>
@@ -239,10 +260,15 @@
 							requestURI="/PMmodule/UnmergeClient.do" >
 							<display:setProperty name="paging.banner.placement" value="bottom" />
 							<display:setProperty name="basic.msg.empty_list"
-								value="No clients found." />					
-							<display:column title="">																
-									<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">														
-							</display:column>
+								value="No clients found." />							
+							<c:choose>
+										<c:when test="${!client.merged}">
+										 	&nbsp;
+										</c:when>								
+										<c:otherwise>
+											<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
+										</c:otherwise>
+							   	</c:choose>
 							<display:column sortable="true" title="Client No">
 								<c:out	value="${client.demographicNo}" />
 							</display:column>
