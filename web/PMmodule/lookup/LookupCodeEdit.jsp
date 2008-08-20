@@ -10,12 +10,24 @@
 		}
 		else
 		{
+		    var obj1 = document.getElementsByName('tableId')[0];
+		    if(obj1.value=='SHL'){
+		      var obj2 = document.getElementsByName('field[4].val')[0];
+              if(obj2.value=='0' && !confirm("Deactivating this shelter will also deactivate facilities and programs in the shelter. Select Ok to proceed or Cancel to cancel."))
+              return;
+		    }
+		    if(obj1.value=='OGN'){
+		      var obj2 = document.getElementsByName('field[2].val')[0];
+              if(obj2.value=='0' && !confirm("Deactivating this organization will also deactivate shelters, facilities and programs in the organization. Select Ok to proceed or Cancel to cancel."))
+              return;
+		    }
 			document.forms[0].submit();
 		}
 	}
 </script>
 <html:form action="/Lookup/LookupCodeEdit">
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
+<input type="hidden" name="tableId" value='<c:out value="${lookupCodeEditForm.tableDef.tableId}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span

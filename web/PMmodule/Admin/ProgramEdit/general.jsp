@@ -61,7 +61,12 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			//alert('5');
 			
 		}else{
-			//alert('6');
+		  var obj9 = document.getElementsByName('program.programStatus')[0];
+		  if(!obj9.value=='0'){
+            if(!confirm("you are going to deactivate this program. Select Ok to proceed or Cancel to cancel."))
+            return;
+		  }
+
 			document.programManagerForm.method.value="save";
 			document.programManagerForm.submit();
 		}

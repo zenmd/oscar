@@ -34,18 +34,6 @@ public class FacilityManager {
         facilityDAO.saveFacility(facility);
         try {
         	lookupDao.SaveAsOrgCode(facility);
-        	if(!facility.getActive()){
-              List programs = programDao.getProgramsInFacilityForInactive(facility.getId());
-              StringBuilder sb = new StringBuilder();
-              for(int i=0;i<programs.size();i++){
-            	Program program = (Program)programs.get(i);
-            	if(i==0) 
-            	 sb.append(program.getId());
-            	else
-               	 sb.append("," + program.getId());
-              }
-              programDao.inactivePrograms(sb.toString());
-        	}
         }
         catch (Exception e)
         {

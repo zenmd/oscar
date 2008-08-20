@@ -24,6 +24,12 @@
 
 
 	function submitForm(){
+		var obj2 = document.getElementsByName('facility.active')[0];
+		if(!obj2.checked){
+          if(!confirm("Deactivating this facility will also deactivate programs in the facility. Select Ok to proceed or Cancel to cancel."))
+            return;
+		}
+
 		trimInputBox();
 		var isOk = false;
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
