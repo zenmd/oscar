@@ -45,8 +45,8 @@ function beforeToday(inputStr) {
 	date.setDate(myDate_array[2]);
 	
 	var today = new Date();
-    if (today>date){
-      alert('Please select today or after.');
+    if (today<date){
+      alert('Please select today or earlier.');
       return false;
     }	
 	else return true;	

@@ -97,24 +97,6 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		
 		return true;
 	}
-	function beforeToday(inputStr) {
-	if(inputStr==null || inputStr==''){
-		alert('Date is mandatory.');
-      	return false;
-	}
-	var date=new Date();
-	var myDate_array=inputStr.split("/");
-	date.setFullYear(myDate_array[0]);
-	date.setMonth(myDate_array[1]-1);
-	date.setDate(myDate_array[2]);
-	
-	var today = new Date();
-    if (today>date){
-      alert('Please select today or after.');
-      return false;
-    }	
-	else return true;	
-  } 
 	
 	function editIncident( mthd){
 		var flag = true;
@@ -154,6 +136,17 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		       obj.focus();
 		       return;
 		    }
+	    }
+		invDt = document.getElementsByName("incidentForm.investigationDateStr")[0];
+	    if(invDt!=null)
+	    {
+		    if(invDt.value.trim()!=""){
+			    if(isBefore(invDt.value,obj.value)){
+			       alert("investigation date should be later than incident date");
+			       invDt.focus();
+			       return;
+		    	}
+	    	}
 	    }
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		//alert(document.programManagerViewForm.action);
