@@ -152,6 +152,14 @@ public class ProgramDao extends HibernateDaoSupport {
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, null)));
     	return 	c.list();
     }
+
+    public List getProgramsInFacilityForInactive(Integer facilityId)
+    {
+    	Criteria c = getSession().createCriteria(Program.class);
+    	c.add(Restrictions.eq("programStatus","1"));
+    	c.add(Restrictions.eq("facilityId",facilityId));
+    	return 	c.list();
+    }
     
     public List getActiveUserDefinedPrograms() {
         List rs = getHibernateTemplate().find("FROM Program p WHERE p.userDefined = ? and p.programStatus = '1'", new Boolean[] { Boolean.TRUE });
@@ -189,6 +197,11 @@ public class ProgramDao extends HibernateDaoSupport {
         }
     }
 
+    //used only when you inactivate shelter/facility.
+    public void inactivePrograms(String programIds) {
+       getHibernateTemplate().bulkUpdate("update Program p set p.programStatus='0' where p.id in (" + programIds + ")");
+  	}
+    
     public void removeProgram(Integer programId) {
         if (programId == null || programId.intValue() <= 0) {
             throw new IllegalArgumentException();

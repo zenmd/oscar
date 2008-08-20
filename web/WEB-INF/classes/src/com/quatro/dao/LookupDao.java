@@ -719,7 +719,7 @@ public class LookupDao extends HibernateDaoSupport {
 			int id = 0;
 			if (rs.next()) 
 				 id = rs.getInt(1);
-			return id + 1;
+			return id;
 		}
 		finally
 		{
