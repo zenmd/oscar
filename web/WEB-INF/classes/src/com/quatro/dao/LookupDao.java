@@ -593,7 +593,10 @@ public class LookupDao extends HibernateDaoSupport {
 		pcd.setOrderByIndex(0);
 		pcd.setLastUpdateDate(Calendar.getInstance());
 		pcd.setLastUpdateUser(program.getLastUpdateUser());
-		if(!isNew) this.updateOrgTree(pcd.getCode(), pcd);
+		if(!isNew){
+			this.updateOrgTree(pcd.getCode(), pcd);
+			this.updateOrgStatus(pcd.getCode(), pcd);
+		}
 		this.SaveCodeValue(isNew,pcd);
 	}
 	private void updateOrgTree(String orgCd, LookupCodeValue newCd) throws SQLException
@@ -611,6 +614,27 @@ public class LookupDao extends HibernateDaoSupport {
 											  ",codetree =replace(codetree,'" + oldTreeCode + "','" + newTreeCode + "')" + 
 						                       ",codecsv =replace(codecsv,'" + oldCsv + "','" + newCsv + "')" + 
 						 " where codecsv like '" + oldCsv + "_%'";
+
+			DBPreparedHandler db = new DBPreparedHandler();
+			try{
+				db.queryExecuteUpdate(sql);
+			}
+			finally
+			{
+				db.closeConn();
+			}
+		}
+	
+		
+	}
+
+	private void updateOrgStatus(String orgCd, LookupCodeValue newCd) throws SQLException
+	{
+		LookupCodeValue oldCd = GetCode("ORG", orgCd);
+		if(!newCd.isActive()) {
+			String oldCsv = oldCd.getCodecsv();
+			
+			String sql = "update lst_orgcd set activeyn ='0' where codecsv like '" + oldCsv + "_%'";
 
 			DBPreparedHandler db = new DBPreparedHandler();
 			try{
@@ -664,7 +688,10 @@ public class LookupDao extends HibernateDaoSupport {
 		fcd.setOrderByIndex(0);
 		fcd.setLastUpdateDate(Calendar.getInstance());
 		fcd.setLastUpdateUser(facility.getLastUpdateUser());
-		if(!isNew) this.updateOrgTree(fcd.getCode(), fcd);
+		if(!isNew){
+			this.updateOrgTree(fcd.getCode(), fcd);
+			this.updateOrgStatus(fcd.getCode(), fcd);
+		}
 		this.SaveCodeValue(isNew,fcd);
 	}
 	public void SaveAsOrgCode(LookupCodeValue orgVal, String tableId) throws SQLException
@@ -700,7 +727,10 @@ public class LookupDao extends HibernateDaoSupport {
 		ocd.setOrderByIndex(0);
 		ocd.setLastUpdateDate(Calendar.getInstance());
 		ocd.setLastUpdateUser(orgVal.getLastUpdateUser());
-		if(!isNew) this.updateOrgTree(ocd.getCode(), ocd);
+		if(!isNew){
+			this.updateOrgTree(ocd.getCode(), ocd);
+			this.updateOrgStatus(ocd.getCode(), ocd);
+		}
 		this.SaveCodeValue(isNew,ocd);
 	}
 	public void runProcedure(String procName, String [] params) throws SQLException
