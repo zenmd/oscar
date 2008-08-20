@@ -62,8 +62,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			
 		}else{
 		  var obj9 = document.getElementsByName('program.programStatus')[0];
-		  if(!obj9.value=='0'){
-            if(!confirm("you are going to deactivate this program. Select Ok to proceed or Cancel to cancel."))
+		  if(obj9.value=='0'){
+            if(!confirm("You are going to deactivate this program. Select Ok to proceed or Cancel to cancel."))
             return;
 		  }
 
