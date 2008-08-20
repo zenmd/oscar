@@ -96,7 +96,7 @@
 				</tr>
 				<tr class="b">
 					<td width="20%">Status:</td>
-					<td><c:out value="${program.programStatus}" /></td>
+					<td><c:out value="${program.programStatusTxt}" /></td>
 					
 				</tr>
 				

@@ -546,6 +546,13 @@ public class Program implements Serializable {
         return programStatus;
     }
 
+    public String getProgramStatusTxt() {
+        if(programStatus.equals("1"))
+    	  return "Active";
+        else
+      	  return "Inactive";
+    }
+
     /**
      * Set the value related to the column: program_status
      * 
