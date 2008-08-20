@@ -28,6 +28,13 @@
 		var isOk = false;
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
+		var obj1 = document.getElementsByName('facility.orgId')[0];
+		if(obj1.value == null || obj1.value == '') {
+		    isOk=false;
+			alert('Shelter can not be blank.');
+			obj1.focus();
+        }
+        
 		if(isOk){
 			if(noChanges())
 			{
@@ -149,6 +156,7 @@
 								<tr class="b">
 									<td width="20%">Shelter:</td>
 									<td><select name="facility.orgId">										
+									   <option value=""></option>
 										<c:forEach var="org" items="${orgList}">
 											<c:choose>
 												<c:when test="${orgId == org.code }">
