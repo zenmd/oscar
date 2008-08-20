@@ -3,7 +3,9 @@
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
 <tr><th  class="pageTitle">Client Management - Tasks</th></tr>
 <input type="hidden" name="method" value="save" />
-
+<tr>
+			<td class="simple" style="background: lavender"><%@ include file="ClientInfo.jsp" %></td>
+		</tr>
 <tr><td class="buttonBar2">
 	<html:link action="/Home.do" style="color:Navy;text-decoration:none">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
