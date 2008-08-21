@@ -51,7 +51,7 @@
 			<c:choose>
         	<c:when test="${'V' eq sessionScope.mnuTask}">
         		<td  class="clsMenuCell2" nowrap="nowrap" >
-						<div class="clsMenu"><html:link action="/PMmodule/Task.do?method=filter"
+						<div><html:link action="/PMmodule/Task.do?method=filter"
 							 styleClass="clsMenu">My Tasks</html:link>
 						</div>
 		</td>
