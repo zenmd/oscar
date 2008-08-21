@@ -27,12 +27,10 @@
 -->
 <html:html locale="true">
 
-<html>
 
 <head>
    <html:errors/>
 </head>
 
-<html>
 
 </html:html>
