@@ -145,7 +145,7 @@ public class MergeClientAction extends BaseClientAction {
 		String action = request.getParameter("mergeAction");
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
-
+		setLookupLists(request);
 		if (head != null && records.size() > 1 && records.contains(head)) {
 			for (int i = 0; i < records.size(); i++) 
 			{
@@ -156,7 +156,7 @@ public class MergeClientAction extends BaseClientAction {
 						messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 								"message.merge.errors.active.client", request.getContextPath()));
 						saveMessages(request, messages);
-						return mapping.findForward("view");
+						return search(mapping,form,request,response);
 					}
 					try {
 						ClientMerge cmObj = new ClientMerge();

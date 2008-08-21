@@ -73,8 +73,9 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
 	       protected static void inputSDMT(String pathLoc){	        	
-				String filename = "";
-				File dir = new File(pathLoc+ "/in/");
+				String filename = "";	
+				String inPath =StringUtils.trimToNull(OscarProperties.getInstance().getProperty("SDMT_IN_PATH"));
+				File dir = new File(inPath);
 			    String[] list = dir.list();
 			        
 			    for (int i = 0; i < list.length; i++) {
@@ -89,7 +90,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 				try {
 					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
 					// "/out/" + filename);
-					FileReader fstream = new FileReader(pathLoc + "/in/" + filename);
+					FileReader fstream = new FileReader(inPath + filename);
 					BufferedReader in = new BufferedReader(fstream);
 					//StringBuffer sb = new StringBuffer();
 					
@@ -124,7 +125,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 				try {
 					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
 					// "/out/" + filename);
-					FileWriter fstream = new FileWriter(pathLoc + "/out/" + filename);
+					FileWriter fstream = new FileWriter(StringUtils.trimToNull(OscarProperties.getInstance().getProperty("SDMT_OUT_PATH")) + filename);
 					BufferedWriter out = new BufferedWriter(fstream);
 					//StringBuffer sb = new StringBuffer();
 					

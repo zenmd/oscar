@@ -138,6 +138,7 @@
 					return true;
 				}
 </script>
+	<% String a="1"; %>
 <html:form action="/PMmodule/MergeClient.do">
 	<input type="hidden" name="method" />
 	<input type="hidden" name="mergeAction" />
@@ -249,7 +250,7 @@
 			</div>
 			</td>
 		</tr>
-		<% String a="1"; %>
+	
 		<c:if test="${requestScope.clients != null}">			
 			<tr style="height: 100%">
 				<td>
