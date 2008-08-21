@@ -212,10 +212,10 @@ function checkExistClients(){
 							<td width="15%">First name*</td>
 							<td width="35%"><html:hidden property="client.effDateTxt" />
 							<html-el:text property="client.firstName" size="20"
-								maxlength="30" /></td>
+								maxlength="25" /></td>
 							<td width="19%">Last name*</td>
 							<td width="31%"><html-el:text property="client.lastName" size="20"
-								maxlength="30" /></td>
+								maxlength="25" /></td>
 						</tr>
 						<tr>
 							<td>Gender*</td>
@@ -231,7 +231,7 @@ function checkExistClients(){
 						</tr>
 						<tr>
 							<td>Alias</td>
-							<td><html-el:text size="30" maxlength="70"
+							<td><html-el:text size="30" maxlength="30"
 								property="client.alias" /></td>
 							<td><c:if test="${newClientFlag=='true'}">
 								<html:link href="javascript:checkExistClients();" onclick="javascript:setNoConfirm();"style="color:Navy;text-decoration:none;">
@@ -278,7 +278,7 @@ function checkExistClients(){
 						<tr>
 							<td>Contact name</td>
 							<td><html-el:text style="width: 50%"
-								property="intake.contactName" maxlength="80" /></td>
+								property="intake.contactName" maxlength="50" /></td>
 						</tr>
 						<tr>
 							<td>Contact number</td>
@@ -480,14 +480,14 @@ function checkExistClients(){
 						<tr>
 							<td>Social Insurance No.</td>
 							<td><html-el:text property="intake.SIN" size="9"
-								maxlength="30" /></td>
+								maxlength="9" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.SINYN" value="1" /></td>
 						</tr>
 						<tr>
 							<td>Health card No.</td>
 							<td><html-el:text property="intake.healthCardNo" size="10"
-								maxlength="30" /></td>
+								maxlength="10" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.healthCardNoYN"
 								value="1" /></td>
@@ -495,7 +495,7 @@ function checkExistClients(){
 						<tr>
 							<td>Driver's License No.</td>
 							<td><html-el:text property="intake.driverLicenseNo"
-								size="20" maxlength="30" /></td>
+								size="17" maxlength="17" /></td>
 							<td>On file?</td>
 							<td width="53"><html-el:checkbox
 								property="intake.driverLicenseNoYN" value="1" /></td>

@@ -384,6 +384,21 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        					incidentForm.setStaffSelectionList(staffSelectionList);
 	        				}
 	        				
+	        				List clientIssuesLst = lookupManager.LoadCodeList("ICI", true,
+	        						null, null);
+	        				List dispositionLst = lookupManager.LoadCodeList("IDS", true,
+	        						null, null);
+	        				List natureLst = lookupManager.LoadCodeList("INI",
+	        						true, null, null);
+	        				List othersLst = lookupManager.LoadCodeList("IOI",
+	        						true, null, null);
+
+	        						
+	        				incidentForm.setClientIssuesLst(clientIssuesLst);
+	        				incidentForm.setDispositionLst(dispositionLst);
+	        				incidentForm.setNatureLst(natureLst);
+	        				incidentForm.setOthersLst(othersLst);
+	        				
 	        				
 	        				formBean.setIncidentForm(incidentForm);
 	        				return;

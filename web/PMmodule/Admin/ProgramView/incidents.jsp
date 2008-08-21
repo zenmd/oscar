@@ -137,6 +137,8 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		       return;
 		    }
 	    }
+	    
+/*	    
 		invDt = document.getElementsByName("incidentForm.investigationDateStr")[0];
 	    if(invDt!=null)
 	    {
@@ -148,6 +150,8 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		    	}
 	    	}
 	    }
+*/
+	    
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		//alert(document.programManagerViewForm.action);
 		document.programManagerViewForm.tab.value = "Incidents";
