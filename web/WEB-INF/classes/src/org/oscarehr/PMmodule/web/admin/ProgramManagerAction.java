@@ -161,7 +161,7 @@ public class ProgramManagerAction extends BaseProgramAction {
             //request.setAttribute("programSignatures",programManager.getProgramSignatures(Integer.valueOf(id)));
         }
 
-        setEditAttributes(request, id);
+        setEditAttributes(request, form);
         String viewTab=request.getParameter("view.tab");
         if(Utility.IsEmpty(viewTab)) viewTab=KeyConstants.TAB_PROGRAM_GENERAL;
         ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
@@ -344,7 +344,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         saveMessages(request, messages);
         logManager.log("write", "edit program - delete function user", String.valueOf(program.getId()), request);
 
-        this.setEditAttributes(request, String.valueOf(program.getId()));
+        this.setEditAttributes(request, form);
 
         return edit(mapping, form, request, response);
     }
@@ -410,13 +410,13 @@ public class ProgramManagerAction extends BaseProgramAction {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.missing"));
             saveMessages(request, messages);
-            setEditAttributes(request, String.valueOf(program.getId()));
+            setEditAttributes(request, form);
             return edit(mapping, form, request, response);
         }
         programForm.set("function", pfu);
         request.setAttribute("providerName", pfu.getProvider().getFormattedName());
 
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request, form);
 
         return mapping.findForward("edit");
     }
@@ -485,7 +485,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         logManager.log("write", "edit program - queue removal", String.valueOf(program.getId()), request);
 
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request, form);
 
         return mapping.findForward("edit");
     }
@@ -539,7 +539,7 @@ public class ProgramManagerAction extends BaseProgramAction {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", defaultRestrictionDays, maxRestrictionDays));
             saveMessages(request, messages);
-            setEditAttributes(request, String.valueOf(program.getId()));
+            setEditAttributes(request, form);
 
             return edit(mapping, form, request, response);
         }
@@ -559,7 +559,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         logManager.log("write", "edit program", String.valueOf(program.getId()), request);
 
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request, form);
 
         return edit(mapping, form, request, response);
     }
@@ -798,7 +798,7 @@ public class ProgramManagerAction extends BaseProgramAction {
                     ActionMessages messages = new ActionMessages();
                     messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_program", program.getName()));
                     saveMessages(request, messages);
-                    setEditAttributes(request, String.valueOf(program.getId()));
+                    setEditAttributes(request, form);
                     return mapping.findForward("edit");
                 }
                 int numQueue = programQueueManager.getProgramQueuesByProgramId(program.getId()).size();
@@ -806,8 +806,9 @@ public class ProgramManagerAction extends BaseProgramAction {
                     ActionMessages messages = new ActionMessages();
                     messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_queue", program.getName(), String.valueOf(numQueue)));
                     saveMessages(request, messages);
-                    setEditAttributes(request, String.valueOf(program.getId()));
-                    return edit(mapping,form,request,response);                
+                    setEditAttributes(request, form);
+                   // return edit(mapping,form,request,response);  
+                    return mapping.findForward("edit");
                 }
             }
 
@@ -816,11 +817,25 @@ public class ProgramManagerAction extends BaseProgramAction {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_holding_tank"));
             saveMessages(request, messages);
-            setEditAttributes(request, String.valueOf(program.getId()));
-            return edit(mapping,form,request,response);
+            setEditAttributes(request,form);
+           // return edit(mapping,form,request,response);
+            return mapping.findForward("edit");
         }
         
-        
+        if(program.getId()!=null && program.getId().intValue()>0){
+        	Integer actCap = programManager.getProgram(program.getId()).getCapacity_actual();
+        	if((program.getCapacity_space()!=null && actCap!=null
+        			&& actCap.intValue()>program.getCapacity_space().intValue())
+        		|| (program.getCapacity_space()==null && actCap!=null 
+        				&& actCap.intValue()>0)	
+        	){
+        		ActionMessages messages = new ActionMessages();
+                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_capacity_space",request.getContextPath(),actCap.intValue(),program.getCapacity_space().intValue()));
+                saveMessages(request, messages);
+                setEditAttributes(request, form);
+                return mapping.findForward("edit");
+        	}        	
+        }
         if(program.getDefaultServiceRestrictionDays() == null)
         	program.setDefaultServiceRestrictionDays(new Integer(1));
         
@@ -832,7 +847,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         logManager.log("write", "edit program", String.valueOf(program.getId()), request);
 
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request, form);
 
         return edit(mapping,form,request,response);
     }
@@ -1065,7 +1080,8 @@ public class ProgramManagerAction extends BaseProgramAction {
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.duplicate", program.getName()));
             saveMessages(request, messages);
             programForm.set("function", new ProgramFunctionalUser());
-            setEditAttributes(request, String.valueOf(program.getId()));
+       //     setEditAttributes(request, String.valueOf(program.getId()));
+            setEditAttributes(request, form);
             return mapping.findForward("edit");
         }
         programManager.saveFunctionalUser(function);
@@ -1077,7 +1093,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         logManager.log("write", "edit program - save function user", String.valueOf(program.getId()), request);
 
         programForm.set("function", new ProgramFunctionalUser());
-        setEditAttributes(request, String.valueOf(program.getId()));        
+        setEditAttributes(request, form);        
         return mapping.findForward("edit");
     }
 /*
@@ -1145,12 +1161,14 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("edit");
     }
 */
-    private void setEditAttributes(HttpServletRequest request, String programId) {
+    private void setEditAttributes(HttpServletRequest request, ActionForm form) {
     	ArrayList programSignatureLst = new ArrayList();
-        if (programId != null) {
+    	 DynaActionForm programForm = (DynaActionForm) form;
+    	Program program = (Program) programForm.get("program");
+        if (program.getId() != null) {
 
-        	request.setAttribute("programId", programId);
-            request.setAttribute("programName", programManager.getProgram(programId).getName());
+        	request.setAttribute("programId", program.getId());
+            request.setAttribute("programName", program.getName());
 /*            request.setAttribute("providers", programManager.getProgramProviders(programId));
             request.setAttribute("functional_users", programManager.getFunctionalUsers(programId));
             List teams = programManager.getProgramTeams(programId);
@@ -1214,7 +1232,7 @@ public class ProgramManagerAction extends BaseProgramAction {
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.status.not_empty", program.getName()));
             saveMessages(request, messages);
 
-            this.setEditAttributes(request, String.valueOf(program.getId()));
+            this.setEditAttributes(request, form);
             return edit(mapping, form, request, response);
         }
 
@@ -1224,7 +1242,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
         saveMessages(request, messages);
 
-        this.setEditAttributes(request, String.valueOf(program.getId()));
+        this.setEditAttributes(request, form);
         programForm.set("function", new ProgramFunctionalUser());
 
         return edit(mapping, form, request, response);
@@ -1241,11 +1259,11 @@ public class ProgramManagerAction extends BaseProgramAction {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_status.missing"));
             saveMessages(request, messages);
-            setEditAttributes(request, String.valueOf(program.getId()));
+            setEditAttributes(request, form);
             return edit(mapping, form, request, response);
         }
         programForm.set("client_status", pt);
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request, form);
 
         return mapping.findForward("edit");
     }
@@ -1265,7 +1283,7 @@ public class ProgramManagerAction extends BaseProgramAction {
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_status.duplicate", status.getName()));
             saveMessages(request, messages);
             programForm.set("client_status", new ProgramClientStatus());
-            setEditAttributes(request, String.valueOf(program.getId()));
+            setEditAttributes(request, form);
             return mapping.findForward("edit");
         }
 
@@ -1277,7 +1295,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
         saveMessages(request, messages);
         programForm.set("client_status", new ProgramClientStatus());
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request, form);
 
         return mapping.findForward("edit");
     }
@@ -1300,7 +1318,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         logManager.log("write", "edit program - assign client to status", String.valueOf(program.getId()), request);
 
-        setEditAttributes(request, String.valueOf(program.getId()));
+        setEditAttributes(request,form);
 
         return mapping.findForward("edit");
     }
