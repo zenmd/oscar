@@ -80,7 +80,7 @@ public class Program implements Serializable {
     private boolean housing;
     private String exclusiveView;
     private Integer ageMin= new Integer(0);
-    private Integer ageMax= new Integer(200);
+    private Integer ageMax= new Integer(100);
     private Integer maximumServiceRestrictionDays;
     private Integer defaultServiceRestrictionDays;
     private Integer shelterId;

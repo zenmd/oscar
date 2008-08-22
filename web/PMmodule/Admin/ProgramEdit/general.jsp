@@ -51,10 +51,10 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		} else if(obj6.value == null || obj6.value == '') {
 			alert('The program Male/Female can not be blank.');
 			obj6.focus();
-		}else if(!isNumberInRange(obj3, 0, 200, 'Minimum Age')){
+		}else if(!isNumberInRange(obj3, 0, 100, 'Minimum Age')){
 			//alert('3');
 			
-		}else if( !isNumberInRange(obj4, 0, 200, 'Maximum Age')){
+		}else if( !isNumberInRange(obj4, 0, 100, 'Maximum Age')){
 			//alert('4');
 			
 		}else if(!compareNumber(obj3.value, obj4.value, 'Maximum Age field must be greater or equal to Minimum Age field.')){

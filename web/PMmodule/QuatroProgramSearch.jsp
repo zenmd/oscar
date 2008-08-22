@@ -47,7 +47,7 @@
 		//var manOrWomanEl = form.elements['program.manOrWoman'];
 		//manOrWomanEl.options[manOrWomanEl.selectedIndex].value='';
  		form.elements['program.ageMin'].value='1';
- 		form.elements['program.ageMax'].value='200'; 		
+ 		form.elements['program.ageMax'].value='100'; 		
 			
 	}
 	function selectProgram(clientId,id,type,gender) {
