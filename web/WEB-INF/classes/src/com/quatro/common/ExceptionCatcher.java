@@ -108,15 +108,6 @@ public class ExceptionCatcher extends ExceptionHandler{
 	    }else if(ex.getClass()==NullPointerException.class){
 	    	NullPointerException ex5= (NullPointerException)ex;
   		    Logger log = Logger.getLogger(NullPointerException.class);
-/*  		    
-  		    StackTraceElement[] lst = ex5.getStackTrace();
-  		    StringBuilder sb= new StringBuilder();
-  		    for(int i=0;i<lst.length;i++){
-  		    	sb.append(lst[i].getClassName() + "." +
-  		    			lst[i].getMethodName() + "(" +
-  		    			lst[i].getFileName() + ":" + String.valueOf(lst[i].getLineNumber()) + ")" + cr);
-  		    }
-*/  		    
   	        if(!URL.equals(""))
 	   	       	log.error(cr + "URL is " + URL + cr + cr + cr +  
 	   	       		"java.lang.NullPointerException" + cr +  getStackTrace(ex5) + cr);

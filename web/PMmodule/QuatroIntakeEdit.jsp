@@ -472,7 +472,7 @@ function checkExistClients(){
 						<tr>
 							<td width="30%">Birth Certificate</td>
 							<td width="50%"><html-el:text
-								property="intake.birthCertificate" size="20" maxlength="30" /></td>
+								property="intake.birthCertificate" size="14" maxlength="14" /></td>
 							<td width="10%">On file?</td>
 							<td width="10%"><html-el:checkbox
 								property="intake.birthCertificateYN" value="1" /></td>
@@ -502,8 +502,8 @@ function checkExistClients(){
 						</tr>
 						<tr>
 							<td>Canadian Citizenship Card</td>
-							<td><html-el:text property="intake.citizenCardNo" size="20"
-								maxlength="30" /></td>
+							<td><html-el:text property="intake.citizenCardNo" size="7"
+								maxlength="7" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.citizenCardNoYN"
 								value="1" /></td>
@@ -511,7 +511,7 @@ function checkExistClients(){
 						<tr>
 							<td>Native Reserve Card</td>
 							<td><html-el:text property="intake.nativeReserveNo"
-								size="20" maxlength="30" /></td>
+								size="20" maxlength="20" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.nativeReserveNoYN"
 								value="1" /></td>

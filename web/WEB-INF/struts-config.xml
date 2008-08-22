@@ -364,12 +364,20 @@
         <!-- Admin End -->
 
     </form-beans>
-    
+ 
+    <global-exceptions> 
+      <exception key="error1.required" type="java.lang.Exception"
+              path="/failure.jsp" 
+              handler="com.quatro.common.ExceptionCatcher"
+              scope="request" />
+    </global-exceptions>
+       
     <global-forwards>
         <forward name="Logout" path="/logout.jsp" redirect="true" />
         <forward name="SessionTimeOut" path="/sessiontimeout.jsp" redirect="true" />
         <forward name="failure" path="/failure.jsp" redirect="true" />
     </global-forwards>
+
     
     <action-mappings>
 

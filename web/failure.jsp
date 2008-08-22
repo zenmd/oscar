@@ -1,5 +1,6 @@
 <%@ page session="true" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <!--  
 /*
  * 
@@ -29,8 +30,12 @@
 
 
 <head>
-   <html:errors/>
 </head>
+<body>
 
+<c:out escapeXml="false" value="${message}" />
+<br><br>
+<a href="javascript:history.back();">Back</a>
+</body>
 
 </html:html>
