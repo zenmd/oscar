@@ -94,7 +94,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
        criteria.setDob(client.getDob());
        criteria.setGender(client.getSex());
        if(hasCriteria) {
-    	   return clientManager.search(criteria, false,false);
+    	   return clientManager.search(criteria, false,true);
        }
        else
        {
