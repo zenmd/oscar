@@ -830,7 +830,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         				&& actCap.intValue()>0)	
         	){
         		ActionMessages messages = new ActionMessages();
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_capacity_space",request.getContextPath(),actCap.intValue(),program.getCapacity_space().intValue()));
+                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_capacity_space",request.getContextPath(),actCap,program.getCapacity_space()));
                 saveMessages(request, messages);
                 setEditAttributes(request, form);
                 return mapping.findForward("edit");

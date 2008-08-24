@@ -28,7 +28,7 @@ public class ExceptionCatcher extends ExceptionHandler{
     	try {
     		String URL=request.getRequestURI();
     		Map map = request.getParameterMap();
-    		StringBuilder sb= new StringBuilder();
+    		StringBuffer sb= new StringBuffer();
     		String cr = Character.toString((char)13) + Character.toString((char)10);
     		for (Iterator it=map.entrySet().iterator(); it.hasNext(); ) {
     		  Map.Entry entry = (Map.Entry)it.next();
@@ -138,7 +138,7 @@ public class ExceptionCatcher extends ExceptionHandler{
     private String getStackTrace(Exception ex){
 		String cr = Character.toString((char)13) + Character.toString((char)10);
 	    StackTraceElement[] lst = ex.getStackTrace();
-        StringBuilder sb= new StringBuilder();
+        StringBuffer sb= new StringBuffer();
 	    for(int i=0;i<lst.length;i++){
 	    	sb.append(lst[i].getClassName() + "." +
   			lst[i].getMethodName() + "(" +
