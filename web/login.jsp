@@ -178,14 +178,14 @@ if (props.getProperty("logintitle", "").equals("")) {
 			</table>
 		</td>
 	</tr>
-	<tr><td height=30></td></tr>
-	<tr valign="middle">
-		<td align="center"><img src="images/QuatroGroup-Logo160.gif">&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/SMIS-Logo-White.gif" >&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/Caisi-Logo.gif" >&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/Oscar-Logo.gif" ></td>
+	<tr><td height=70></td></tr>
+	<tr>
+		<td  height="41" align="center"><img border="0"
+			src="images/QuatroGroup-Logo.gif" >&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/SMIS-Logo.gif"  >&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/Caisi-Logo.gif" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<img border="0" src="images/OSCAR-LOGO.gif" ></td>
 	</tr>
-	
 	<tr><td height=30></td></tr>
 	<tr>
 		<td height="25" align="center" style="BORDER-TOP:Gray 1px solid; BORDER-right:Silver 1px solid; BORDER-LEFT:Gray 1px solid" background="images/Silver-background.gif">
