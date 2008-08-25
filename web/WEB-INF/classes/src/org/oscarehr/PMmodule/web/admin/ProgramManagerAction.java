@@ -168,12 +168,12 @@ public class ProgramManagerAction extends BaseProgramAction {
         view.setTab(viewTab);  
        
         if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
-        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
+        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, programId);
              if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        	
         }
         else{
-        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
+        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
              if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
         }
