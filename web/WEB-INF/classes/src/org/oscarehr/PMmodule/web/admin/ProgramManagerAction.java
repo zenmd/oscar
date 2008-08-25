@@ -197,7 +197,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         
         request.setAttribute("pageTitle","Program Management - New Program");
         
-        setEditAttributes(request, null);
+        setEditAttributes(request, form);
 
         return mapping.findForward("edit");
     }
