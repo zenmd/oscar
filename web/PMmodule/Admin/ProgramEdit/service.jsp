@@ -33,7 +33,8 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 
 <%@ include file="/taglibs.jsp"%>
 <script>
-	function save() {
+	function submitForm(){
+     	trimInputBox();
 		var maxDays = document.programManagerForm.elements['program.maximumServiceRestrictionDays'].value;
 		if(maxDays != undefined && isNaN(maxDays)) {
 			alert("Maximum length of service restriction '" + maxDays + "' is not a number");
@@ -61,7 +62,7 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 			</html:link>			
 
 		<c:if test="${!isReadOnly}">
-			&nbsp;|&nbsp;<html:link href="javascript:save();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+			&nbsp;|&nbsp;<html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</c:if>	
 		</td>

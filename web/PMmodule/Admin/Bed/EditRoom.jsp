@@ -1,7 +1,8 @@
 <%@ include file="/taglibs.jsp"%>
 
 <script>
-    function saveRoom(){
+    function submitForm(){
+    	trimInputBox();
       	var name= document.getElementsByName("room.name")[0];
       	if(name.value.trim()==''){
       	   alert("Please input Room Name.");
@@ -59,7 +60,7 @@
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
 		<c:if test="${!isReadOnly}">
-		  <html:link href="javascript:saveRoom();" style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+		  <html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
 		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room&nbsp;&nbsp;|</html:link>
 		</c:if>	
 <c:if test="${bedManagerForm.room.assignedBed=='1'}">

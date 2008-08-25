@@ -1,7 +1,8 @@
 <%@ include file="/taglibs.jsp"%>
 
 <script>
-    function saveBed(){
+    function submitForm(){
+      trimInputBox();
       	var name= document.getElementsByName("bed.name")[0];
       	if(name.value.trim()==''){
       	   alert("Please input Bed Name.");
@@ -33,7 +34,7 @@
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
 		<c:if test="${!isReadOnly}">
-		  <html:link href="javascript:saveBed();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+		  <html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Bed&nbsp;&nbsp;|</html:link>
 		</c:if>	
 
