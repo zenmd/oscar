@@ -128,7 +128,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         String id = request.getParameter("programId");
         if(id == null || id.equals(""))
-        	id = (String)request.getAttribute("programId");
+        	id = ((Integer)request.getAttribute("programId")).toString();
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
         if(actionParam==null){
      	  actionParam = new HashMap();
