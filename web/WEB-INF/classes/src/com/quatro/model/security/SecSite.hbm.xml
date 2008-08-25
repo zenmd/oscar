@@ -13,7 +13,7 @@
         <property name="active" type="boolean" />
         <property name="siteKey" type="int">
         </property>
-        <property name="createdBy" type="java.util.Date"/>
+        <property name="createdBy" type="java.lang.String"/>
         <property name="createdDate" type="java.util.Date" />
         <property name="lastAccessed" type="java.util.Date" />
     </class>

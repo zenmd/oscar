@@ -29,12 +29,12 @@ import com.quatro.service.security.SecurityManager;
 
 public abstract class BaseFacilityAction extends BaseAction {
 
-	protected void setScreenMode(HttpServletRequest request, String currentTab,Integer orgId) {
+	protected void setScreenMode(HttpServletRequest request, String currentTab) {
 		super.setMenu(request, KeyConstants.MENU_FACILITY);
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
 		
-		if (sec.GetAccess(KeyConstants.FUN_FACILITY, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_GENERAL))
 				request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_CURRENT);
@@ -43,7 +43,7 @@ public abstract class BaseFacilityAction extends BaseAction {
 		
 		
 		// program
-		if (sec.GetAccess(KeyConstants.FUN_FACILITY_PROGRAM, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY_PROGRAM, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_PROGRAM))
 				request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_CURRENT);
@@ -52,7 +52,7 @@ public abstract class BaseFacilityAction extends BaseAction {
 		
 		
 		// message
-		if (sec.GetAccess(KeyConstants.FUN_FACILITY_MESSAGE  , orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY_MESSAGE  , null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_MESSAGE))
 				request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,	KeyConstants.ACCESS_CURRENT);
@@ -61,7 +61,7 @@ public abstract class BaseFacilityAction extends BaseAction {
 		
 		
 		//	Edit
-		if (sec.GetAccess(KeyConstants.FUN_FACILITY_EDIT, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY_EDIT, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_EDIT))
 				request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_CURRENT);
@@ -71,7 +71,7 @@ public abstract class BaseFacilityAction extends BaseAction {
 		
 		
 		//	Bed
-		if (sec.GetAccess(KeyConstants.FUN_FACILITY_BED, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_FACILITY_BED, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_BED))
 				request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_CURRENT);

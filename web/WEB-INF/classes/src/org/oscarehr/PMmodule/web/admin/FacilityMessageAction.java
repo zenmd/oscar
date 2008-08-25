@@ -79,7 +79,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getId());      
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);      
         /*
          *  Lillian change Message related to Shelter not related to Facility 
          */
@@ -110,7 +110,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
     		facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
 		DynaActionForm facilityMessageForm = (DynaActionForm)form;
 		String messageId = request.getParameter("id");
 		
@@ -175,7 +175,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 		Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
         return edit(mapping, form, request, response);
 	}
 	

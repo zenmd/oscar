@@ -68,12 +68,12 @@ public class BaseProgramAction extends BaseAction {
 		
 	}
 	
-	protected void setEditScreenMode(HttpServletRequest request, String currentTab,Integer orgId) {
+	protected void setEditScreenMode(HttpServletRequest request, String currentTab) {
 		super.setMenu(request, KeyConstants.MENU_PROGRAM);
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
 		
-		if (sec.GetAccess(KeyConstants.FUN_PROGRAM, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_GENERAL))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_CURRENT);
@@ -81,7 +81,7 @@ public class BaseProgramAction extends BaseAction {
 		else request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_NULL);			
 		
 		
-		if (sec.GetAccess(KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, orgId.toString()).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_SEVICE))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_CURRENT);

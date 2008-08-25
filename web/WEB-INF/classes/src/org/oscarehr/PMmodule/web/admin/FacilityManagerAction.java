@@ -177,7 +177,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("facilityId", facility.getId());
         request.setAttribute("facility", facility);
         facilityForm.setFacility(facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL,facility.getId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL);
         return mapping.findForward(FORWARD_VIEW);
     }
     
@@ -262,7 +262,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("facilityId", facility.getId());
         
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM,facility.getId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM);
         return mapping.findForward(FORWARD_PROGRAM);
     }
     /*
@@ -377,7 +377,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
         boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_FACILITY_EDIT, facility.getId());
         if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
         return mapping.findForward(FORWARD_EDIT);
@@ -455,7 +455,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
               actionParam.put("facilityId", facility.getId()); 
               request.setAttribute("actionParam", actionParam);
             
-              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
+              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
               request.setAttribute("facilityId", facility.getId());
               return edit(mapping, form, request, response);
             }else if(clientCount<0){
@@ -468,7 +468,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
               actionParam.put("facilityId", facility.getId()); 
               request.setAttribute("actionParam", actionParam);
             
-              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
+              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
               request.setAttribute("facilityId", facility.getId());
               return edit(mapping, form, request, response);
             }
@@ -507,7 +507,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         actionParam.put("facilityId", facility.getId()); 
         request.setAttribute("actionParam", actionParam);
         
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getOrgId());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT);
         return edit(mapping, form, request, response);
     }
 
