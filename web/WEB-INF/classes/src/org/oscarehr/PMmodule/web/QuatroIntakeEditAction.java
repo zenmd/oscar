@@ -35,6 +35,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
+import com.quatro.util.Utility;
 
 public class QuatroIntakeEditAction extends BaseClientAction {
     private ClientManager clientManager;
@@ -315,6 +316,16 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	String clientId = qform.getClientId();
     	QuatroIntake intake= qform.getIntake();
     	Demographic client= qform.getClient();
+    	String cd = request.getParameter("language_code");    	
+    	if(!Utility.IsEmpty(cd)){
+    		LookupCodeValue lcv= lookupManager.GetLookupCode("LNG", cd);
+    		qform.setLanguage(lcv);
+    	}
+    	cd = request.getParameter("originalCountry_code");
+    	if(!Utility.IsEmpty(cd)){
+    		LookupCodeValue lcv= lookupManager.GetLookupCode("CNT", cd);
+    		qform.setOriginalCountry(lcv);
+    	}
 
      if(!clientId.equals("") && !"0".equals(clientId)){
     	List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
@@ -601,6 +612,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		intake.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
 		intake.setStaffId(providerNo);
 		intake.setLastUpdateDate(new GregorianCalendar());
+		String sourceIncome = request.getParameter("intake.sourceIncome");
+		if(Utility.IsEmpty(sourceIncome)){
+			intake.setSourceIncome(new String[]{});
+		}
         LookupCodeValue language = new LookupCodeValue();
         language.setCode(request.getParameter("language_code"));
         language.setDescription(request.getParameter("language_description"));

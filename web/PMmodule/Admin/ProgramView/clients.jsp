@@ -54,11 +54,24 @@
 		}
 	
 		if(confirm(msg)) {	
+			if(!validateDischarge()){
+				alert("Discharge Reason and Discharge Disposition are mandatory fields!"); 
+				return false;			
+			}
 			document.programManagerViewForm.method.value='batch_discharge';
 			document.programManagerViewForm.submit();
 		}
 	}
-	
+	function validateDischarge(){
+		var disReason =	document.programManagerViewForm.elements['clientForm.dischargeReason'].value;
+		var disProg =	document.programManagerViewForm.elements['clientForm.communityProgramCode'].value;
+		if (disReason=="" ||disReason==" " || disProg=="" || disProg==" ")
+		{
+			return false;
+		}else{
+		 	return true;
+		}
+	}
 	function do_swap_beds() {
 	
 		//get clients

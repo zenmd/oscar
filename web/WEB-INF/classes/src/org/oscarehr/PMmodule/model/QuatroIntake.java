@@ -62,7 +62,7 @@ public class QuatroIntake {
     private String idOther;
 
 //    private String sourceIncome;
-    private String[] sourceIncome = new String[0];;
+    private String[] sourceIncome ={};
     private String income;
     private String incomeWorkerName1;
     private String incomeWorkerPhone1;

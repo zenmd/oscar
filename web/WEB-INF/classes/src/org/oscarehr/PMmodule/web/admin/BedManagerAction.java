@@ -367,7 +367,7 @@ public class BedManagerAction extends BaseFacilityAction {
 
     	Bed bed = bForm.getBed();
         Room room=roomManager.getRoom(bed.getRoomId());
-
+        boolean isNew = bed.getId().intValue()==0;
         boolean isValid = true;
         //not need check for change bed inactive 
         if(bed!=null && bed.isActive()) isValid =isRoomOverProgramCapacity(room, bed, request);        
@@ -382,6 +382,7 @@ public class BedManagerAction extends BaseFacilityAction {
             }
             catch(DataIntegrityViolationException ex)
             {
+            	if(isNew) bed.setId(0);
                 messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),"Duplicate Bed Name Detected"));
                 saveMessages(request, messages);
             }
