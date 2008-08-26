@@ -124,7 +124,7 @@ public class AdmissionDao extends HibernateDaoSupport {
         for(int i=0;i<split.length;i++){
           Admission  admission = this.getAdmission(Integer.valueOf(split[i]));
 	      admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
-          
+          admission.setDischargeReason(oscar.OscarProperties.getInstance().getProperty("AUTO_DISCHARGE_REASON_CODE"));
     	  getHibernateTemplate().bulkUpdate("update QuatroIntakeDB i set i.intakeStatus='" +
           		KeyConstants.INTAKE_STATUS_DISCHARGED + "'" + 
                   " where i.id=?", new Object[]{admission.getIntakeId()});
@@ -147,6 +147,7 @@ public class AdmissionDao extends HibernateDaoSupport {
                   roomDemographicHistoricalDao.saveOrUpdate(history);
               }
   	      }
+  	      clientHisDao.saveClientHistory(admission, null, null);
         }  
     }
     

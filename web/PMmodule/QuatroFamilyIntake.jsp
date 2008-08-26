@@ -43,7 +43,7 @@ function submitForm(methodVal)
 	var famAdmitted = document.getElementsByName("isFamilyAdmitted")[0];
 	if (famAdmitted.value && methodVal == "add") 
 	{
-		ans = confirm("The family is already admitted. New members will be automatically admitted when you save. Any active admission will be discharged. To proceed, click OK");	
+		ans = confirm("New members added to the family will be discharged from other shelters if they are currently admitted to those shelters. To proceed, click OK.");	
 	}
 	if (!ans) return;
     if (methodVal == "save") 
