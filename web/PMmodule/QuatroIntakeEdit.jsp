@@ -99,6 +99,7 @@ function submitForm(methodVal) {
 	}
 	else
 	{
+		document.getElementById("btnSave").disabled=true;
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
@@ -150,7 +151,7 @@ function checkExistClients(){
 
 			<c:if	test="${!isReadOnly && (quatroIntakeEditForm.intake.intakeStatus=='active' ||
 			 	quatroIntakeEditForm.intake.intakeStatus=='admitted')}">
-				<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">&nbsp; 
+				<a id="btnSave" href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">&nbsp; 
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 	         </c:if> 
 	         <c:if	test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">

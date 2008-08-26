@@ -410,12 +410,9 @@
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
  -->
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
-            <forward name="caisiPMM" path="/Home.do" />
  			<forward name="shelterSelection" path="/shelterSelection.do"/> 
- 			<forward name="error" path="/index.jsp"></forward> 			
         </action>     
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
-            <forward name="caisiPMM" path="/Home.do" />
  			<forward name="shelterSelection" path="/shelterSelection.do"/>
         </action>   
         <action path="/shelterSelection" scope="request" type="oscar.login.ShelterSelectionAction" validate="true">

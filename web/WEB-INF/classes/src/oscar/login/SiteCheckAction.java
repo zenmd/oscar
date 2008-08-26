@@ -91,7 +91,7 @@ public final class SiteCheckAction extends DispatchAction {
 	     	    }
 	     	    else
 	     	    {
-		     	    sendMessage(response,"error:" + "Your computer is not autorized to access QuatroShelter, please contact system administrator");
+		     	    sendMessage(response,"error:" + "Your computer is not authorized to access QuatroShelter.<br> Please contact your system administrator for help.");
 	     	    }
  	    	}catch(Exception e){ 
  	    		sendMessage(response,"error:" + e.getMessage());

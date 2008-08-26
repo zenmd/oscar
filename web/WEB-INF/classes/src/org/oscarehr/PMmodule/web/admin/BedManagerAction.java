@@ -382,7 +382,7 @@ public class BedManagerAction extends BaseFacilityAction {
             }
             catch(DataIntegrityViolationException ex)
             {
-            	if(isNew) bed.setId(0);
+            	if(isNew) bed.setId(new Integer(0));
                 messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),"Duplicate Bed Name Detected"));
                 saveMessages(request, messages);
             }

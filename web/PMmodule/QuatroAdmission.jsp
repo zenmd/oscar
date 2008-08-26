@@ -34,37 +34,32 @@ function submitForm(methodVal) {
 	trimInputBox();
 	var ovPassStartDateTxt = document.getElementsByName("admission.ovPassStartDateTxt")[0];
 	var ovPassEndDateTxt = document.getElementsByName("admission.ovPassEndDateTxt")[0];
-	if((ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value=='') ||
-	  (ovPassStartDateTxt.value!='' && ovPassEndDateTxt.value=='')){
-	   if(methodVal=="save" && noChanges()){
-		 alert("There are no changes detected to save");
-	   }else{
-	     document.forms[0].method.value = methodVal;
-	     document.forms[0].submit();
-	   }   
-	}else if(ovPassStartDateTxt.value=='' && ovPassEndDateTxt.value!=''){
-      alert("Please input Overnight Pass start date.");
-      ovPassStartDateTxt.focus();	
-	}else{
-	  if(isBeforeToday(ovPassStartDateTxt.value)){
-        alert("Overnight Pass start date must not be earlier than today.");
-        ovPassStartDateTxt.focus();
-	  }else if(!isBefore(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
-        alert("Overnight Pass end date must be after start date.");
-        ovPassEndDateTxt.focus();
-	  }else{
-	  		if(methodVal=="save" && noChanges())
-			{
-				alert("There are no changes detected to save");
-			}
-			else
-			{
-			    document.forms[0].method.value = methodVal;
-	    		document.forms[0].submit();
-	    	}
+	if(ovPassEndDateTxt.value!='')
+	{
+	  if(ovPassStartDateTxt.value=='') {
+	      alert("Please input Overnight Pass start date.");
+    	  ovPassStartDateTxt.focus();
+      	  return;
+      } else {
+	    if(isBeforeToday(ovPassStartDateTxt.value)){
+           alert("Overnight Pass start date must not be earlier than today.");
+           ovPassStartDateTxt.focus();
+           return;
+	    }else if(!isBefore(ovPassStartDateTxt.value, ovPassEndDateTxt.value)){
+           alert("Overnight Pass end date must be after start date.");
+           ovPassEndDateTxt.focus();
+           return;
+	    }
 	  }
-	}  
-}
+	}
+	if(methodVal=="save" && noChanges()){
+		alert("There are no changes detected to save");
+	}else{   
+		document.getElementById("btnSave").disabled=true;
+		document.forms[0].method.value = methodVal;
+	    document.forms[0].submit();
+	}
+}  
 
 function signSignature(){
    var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
@@ -101,7 +96,7 @@ function roomChanged()
 		<td align="left" class="buttonBar2">
 		<c:if test="${!isReadOnly &&(quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' || quatroClientAdmissionForm.admission.admissionStatus=='pending')}">		 
-		<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+		<a id="btnSave" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
         </c:if>       
 		<html:link action="/PMmodule/QuatroAdmission.do" name="actionParam" style="color:Navy;text-decoration:none;">
