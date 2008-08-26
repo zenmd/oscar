@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
 import com.quatro.model.security.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +77,7 @@ public final class SiteCheckAction extends DispatchAction {
  	    }
  	    catch(Exception ex)
  	    {
- 	    	sendMessage(response,"error");
+ 	    	sendMessage(response,"error:" + ex.getMessage());
  	    	return null;
  	    }
 	    ois.close();
@@ -93,7 +94,7 @@ public final class SiteCheckAction extends DispatchAction {
 		     	    sendMessage(response,"error:" + "Your computer is not autorized to access QuatroShelter, please contact system administrator");
 	     	    }
  	    	}catch(Exception e){ 
- 	    		sendMessage(response,"error");
+ 	    		sendMessage(response,"error:" + e.getMessage());
  	    	}
 	    	return null;
  	    }
@@ -118,7 +119,7 @@ public final class SiteCheckAction extends DispatchAction {
     {
             String ip = request.getRemoteAddr();
 
-            String where = "failure";
+            String where = "shelterSelection";
             // String userName, password, pin, propName;
             String userName = ssv.getUserName();
             String password = ssv.getPassword();
@@ -141,6 +142,7 @@ public final class SiteCheckAction extends DispatchAction {
     	        String expired_days = "";
     	        if (user.getLoginStatus() == Security.LOGIN_SUCCESS) { // login successfully
     				// Give warning if the password will be expired in 10 days.
+    	            cl.unlock(user.getUserName());
     				if (user.getBExpireset().intValue() == 1) {
     					long date_expireDate = user.getDateExpiredate().getTime();
     					long date_now = UtilDateUtilities.now().getTime();
@@ -176,29 +178,37 @@ public final class SiteCheckAction extends DispatchAction {
     	            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
     	            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
     	
-    	            String username = (String) session.getAttribute("user");
     	            session.setAttribute("provider", provider);
-    	            return("confirmed:" + mapping.findForward(where).getPath());
+    	            String appPath = oscar.OscarProperties.getInstance().getProperty("contextPath");
+    	            return("confirmed:" +  "/" + appPath  + mapping.findForward(where).getPath());
     	        }
     	        // expired password
     	        else if (user.getLoginStatus() == Security.PASSWORD_EXPIRED) {
     	           // cl.updateLoginList(ip, userName);
     	   	     	message = "Your account is expired. Please contact your administrator.";
     	        }
-    	        else if(user.getLoginStatus() == Security.ACCOUNT_BLOCKED) 
-    	        { // failed
+    	        else if (user.getLoginStatus() == Security.ACCOUNT_BLOCKED) {
+                    _logger.info(LOG_PRE + " Blocked: " + userName);
+                    // return mapping.findForward(where); //go to block page
+                    message="Your account is locked. Please contact your administrator to unlock.";
+                }
+    	        else { 
+    	            // request.setAttribute("login", "failed");
     	            LogAction.addLog(userName,null,"login", "failed", LogConst.CON_LOGIN,  ip);
-    	                _logger.info(LOG_PRE + " Blocked: " + userName);
-    	                // return mapping.findForward(where); //go to block page
-    	            message="Your account is locked. Please contact your administrator to unlock.";
+    	            if (cl.updateLoginList(user) == Security.ACCOUNT_BLOCKED) {
+    	                message="Your account is locked. Please contact your administrator to unlock.";
+    	            }
+    	            else
+    	            {
+    	   	     		message="Invalid Login or Password";
+    	            }
     	        }
             }
             catch (Exception e) 
             {
     	        message =  e.getMessage();
             }
-	        return("failed"+message);        
-
+	        return("failed:"+message);        
         }
     
 	public ApplicationContext getAppContext() {

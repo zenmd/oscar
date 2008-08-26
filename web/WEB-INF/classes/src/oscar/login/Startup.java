@@ -73,6 +73,7 @@ public class Startup implements ServletContextListener {
 	        log.info("looking up  /WEB-INF" + propName);
 			InputStream pf = sc.getServletContext().getResource("/WEB-INF/" + propName).openStream();
 			p.loader(pf);
+			p.setProperty("contextPath", contextPath);
 	        log.info("loading properties from /WEB-INF/" + propName);
 		}
 		catch(java.io.FileNotFoundException e)
