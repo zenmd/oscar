@@ -2,11 +2,11 @@ package com.quatro.model.security;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SecSiteValue implements Serializable{
+public class SecSiteValue implements Serializable {
 	String siteId;
 	int siteKey;
 	String userName;
-	String password;
+	char [] password;
 	String pin;
 	String description;
 	String createdBy;
@@ -55,10 +55,10 @@ public class SecSiteValue implements Serializable{
 	public void setSiteKey(int siteKey) {
 		this.siteKey = siteKey;
 	}
-	public String getPassword() {
+	public char[] getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public void setPassword(char[] password) {
 		this.password = password;
 	}
 	public String getUserName() {
