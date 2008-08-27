@@ -481,7 +481,7 @@ public class UserManagerAction extends DispatchAction {
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
-				
+		request.setAttribute("pageChanged", "1");
 		return mapping.findForward("addRoles");
 
 	}
@@ -498,7 +498,7 @@ public class UserManagerAction extends DispatchAction {
 		}else{
 			request.setAttribute("scrPos", "0");
 		}
-
+		request.setAttribute("pageChanged", "1");
 		return mapping.findForward("addRoles");
 
 	}
@@ -591,6 +591,7 @@ public class UserManagerAction extends DispatchAction {
 				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 				request.getContextPath()));
 				saveMessages(request,messages);			
+				request.setAttribute("pageChanged", "");
 			}catch(Exception e){
 				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed",
 				request.getContextPath()));
