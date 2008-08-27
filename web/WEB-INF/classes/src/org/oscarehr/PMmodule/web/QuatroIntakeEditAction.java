@@ -179,6 +179,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	if(KeyConstants.PROGRAM_TYPE_Service.equals(intake.getProgramType())){
         	   if(intake.getEndDate()!=null && intake.getEndDate().before(Calendar.getInstance())) intake.setIntakeStatus(KeyConstants.STATUS_INACTIVE);	
         	}
+        	if(KeyConstants.INTAKE_STATUS_ADMITTED.equals(intake.getIntakeStatus())){
+        		request.setAttribute("ageGenderReadOnly", true);
+        	}
         	boolean readOnly=super.isReadOnly(request,intake.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE,intake.getProgramId());
             request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
         }else{
@@ -326,8 +329,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     		LookupCodeValue lcv= lookupManager.GetLookupCode("CNT", cd);
     		qform.setOriginalCountry(lcv);
     	}
-
-     if(!clientId.equals("") && !"0".equals(clientId)){
+    	if(KeyConstants.INTAKE_STATUS_ADMITTED.equals(intake.getIntakeStatus())){
+    		request.setAttribute("ageGenderReadOnly", true);
+    	}	
+    	if(!clientId.equals("") && !"0".equals(clientId)){
     	List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
     	for(int i=0;i<intakeHeads.size();i++){
     		QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeHeads.get(i);

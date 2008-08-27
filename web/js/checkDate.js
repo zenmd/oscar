@@ -198,8 +198,11 @@ function validateBirthDay(myDate){
       return false;
     }
 
-    date.setDate(date.getDate()+100*365);       
-    if (date < today){
+    // date.setDate(date.getDate()+100*365);  
+    date.setFullYear(date.getFullYear()+100);  
+    date.setMonth(date.getMonth());
+	date.setDate(date.getDate());   
+    if (date < today){   
       alert('Date of birth may not be older than 100 years.');
       return false;
     }

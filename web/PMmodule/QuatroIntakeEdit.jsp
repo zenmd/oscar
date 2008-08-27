@@ -220,15 +220,32 @@ function checkExistClients(){
 						</tr>
 						<tr>
 							<td>Gender*</td>
-							<td><html-el:select property="client.sex">
-								<html-el:optionsCollection property="optionList.gender"
-									value="value" label="label" />
-							</html-el:select></td>
+							<td>
+							<c:choose>
+								<c:when	 test="${!ageGenderReadOnly}">
+									<html-el:select property="client.sex">
+									<html-el:optionsCollection property="optionList.gender"
+										value="value" label="label" />
+								</html-el:select>
+								</c:when>
+								<c:otherwise>
+									<html-el:text property="client.sexDesc" readonly="true" />
+								</c:otherwise>
+							</c:choose>
+							</td>
 							<td>Date of birth*<br>
 							(yyyy/mm/dd)</td>
-							<td><quatro:datePickerTag property="dob" width="65%"
-								openerForm="quatroIntakeEditForm">
-							</quatro:datePickerTag></td>
+							<td>
+							<c:choose>
+								<c:when	 test="${!ageGenderReadOnly}">
+									<quatro:datePickerTag property="dob" width="65%" openerForm="quatroIntakeEditForm">
+									</quatro:datePickerTag>
+								</c:when>
+								<c:otherwise>
+									<html-el:text property="dob" readonly="true" />									
+								</c:otherwise>	
+							</c:choose>	
+							</td>
 						</tr>
 						<tr>
 							<td>Alias</td>
