@@ -237,6 +237,9 @@ function checkExistClients(i){
        <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />
        </a>
        </c:if>
+       <logic:greaterThan name="dependent" property="clientId" value="0">
+	       <c:out value="${dependent.clientId}" />
+       </logic:greaterThan>
        <html:text name="dependent" property="statusMsg" maxlength="20"  indexed="true"  style="border: 0px;width: 20px"/>
     </td>
     <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true"  style="width:90%" /></td>
@@ -275,6 +278,9 @@ function checkExistClients(i){
 	<html:hidden name="dependent" property="alias"  indexed="true" />
 	<html:hidden name="dependent" property="relationship"  indexed="true" />
     <td>
+       <logic:greaterThan name="dependent" property="clientId" value="0">
+	       <c:out value="${dependent.clientId}" />
+		</logic:greaterThan>
        <html:text name="dependent" property="statusMsg" maxlength="20" readonly="true" style="border: 0px;width: 20px"/>
     </td>
     <td><html:text name="dependent" property="lastName" maxlength="30" style="width:90%" readonly="true"/></td>

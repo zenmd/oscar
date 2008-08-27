@@ -137,7 +137,7 @@ function openHealthSafety(){
 <display:table class="simple" cellspacing="2" cellpadding="3"  id="member" name="family" export="false" requestURI="/PMmodule/QuatroClientSummary.do">
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No family member exists." />
-	
+	<display:column property="clientId" sortable="true" title="Client Id" />
 	<display:column property="lastName" sortable="true" title="Last Name" />
 	<display:column property="firstName" sortable="true" title="First Name" />
 	<display:column property="dob" sortable="true" title="DOB" />
