@@ -32,10 +32,35 @@
 <head>
 </head>
 <body>
-
-<c:out escapeXml="false" value="${message}" />
-<br><br>
-<a href="javascript:history.back();">Back</a>
+<table align="center" border="0" cellspacing="0" width="100%" height="100%">
+	<tr>
+		<td>
+			<table align="center">
+				<tr>
+					<td align="center"><html:img src="images/QuatroShelter-Logo400.gif" height="80" width="400" /></td>
+				</tr>
+				<tr>
+					<Td align="center"><font size="3" face="Arial">City of Toronto</font></td>
+				</tr>
+				<tr>
+					<td align="center"><font size="1" face="Arial">Build: 2008-08-11 13:15</font>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr><td  align="left">
+		<a href="javascript:history.back();">Back</a>
+	</td></tr>
+	<tr><td align="center">
+		<c:out escapeXml="false" value="${message}" />
+		<br><br>
+	</tr>
+	<tr><td>&nbsp;</td>
+	</tr>
+	<tr><td  align="center">
+		<a href="javascript:history.back();">Back</a>
+	</td></tr>
+	</table>
 </body>
-
 </html:html>
