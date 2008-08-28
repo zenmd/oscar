@@ -43,17 +43,17 @@ function submitForm(methodVal) {
 
     <tr><td>
 	<table border="0" cellspacing="2" cellpadding="2" width="100%">
-	  <tr><th width="20%">Action Date</th>
-	  <td width="10%">Start</td>
-	  <td width="25%"><quatro:datePickerTag property="actionStartDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
-	  <td width="10%">End</td>
-	  <td width="25%"><quatro:datePickerTag property="actionEndDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
+	  <tr><th width="20%" align="right">Action Date</th>
+	  <td width="10%" align="right">Start</td>
+	  <td width="25%" align="left"><quatro:datePickerTag property="actionStartDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
+	  <td width="10%" align="right">End</td>
+	  <td width="25%" align="left"><quatro:datePickerTag property="actionEndDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
 	  <td width="10%"></td></tr>
-	  <tr><th>Action</th>
+	  <tr><th align="right">Action</th>
 	  <td colspan="5"><html:select property="actionTxt">
 		<html-el:optionsCollection name="actions" value="value" label="label" />
 	  </html:select></td></tr>
- 	  <tr><th>Program</th>
+ 	  <tr><th align="right">Program</th>
 	  <td colspan="5"><html:select property="programId">
 		<html-el:optionsCollection name="programs" value="value" label="label" />
 	  </html:select></td></tr>

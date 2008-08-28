@@ -806,7 +806,7 @@
             <forward name="listNotes" path="page.casemgmt.view.notes"/>
             <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
         </action>
-        <action path="/CaseManagementEntry2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session"  name="caseManagementEntryForm">
+        <action path="/CaseManagementEntry2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request"  name="caseManagementEntryForm">
             <forward name="view" path="page.casemgmt.note.edit" />
             <forward name="list" path="/CaseManagementView.do?method=view" redirect="true" />
             <forward name="listCPPNotes" path="/CaseManagementView.do" redirect="true" />

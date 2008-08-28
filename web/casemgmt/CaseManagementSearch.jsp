@@ -99,12 +99,10 @@ response.setHeader("Cache-Control", "no-cache");
 			    <c:if test="${currentIntakeProgramId>0}">
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
-						 |&nbsp;New Note&nbsp;
+						 |<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Note&nbsp;
 					</html:link> 
 				</security:oscarSec>
-				</c:if>
-				<a	href="javascript:window.print();" style="color:Navy;text-decoration:none;">|&nbsp;Print</a>
-				
+				</c:if>				
 				</td>
 			</tr>
 		</table>

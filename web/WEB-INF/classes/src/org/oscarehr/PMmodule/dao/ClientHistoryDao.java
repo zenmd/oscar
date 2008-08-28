@@ -42,6 +42,8 @@ import java.util.Calendar;
 import com.quatro.util.Utility;
 import org.apache.struts.util.LabelValueBean;
 
+import oscar.MyDateFormat;
+
 public class ClientHistoryDao extends HibernateDaoSupport {
 
     private Logger log = LogManager.getLogger(getClass());
@@ -68,11 +70,13 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         if(filter.getProgramId()!=null){
             criteria.add(Restrictions.eq("ProgramId", filter.getProgramId()));
         }
+        String sDt = MyDateFormat.getStandardDateTime(filter.getActionStartDate());
+        String eDt = MyDateFormat.getStandardDateTime(filter.getActionEndDate());
         if(filter.getActionStartDate()!=null){
-            criteria.add(Restrictions.ge("ActionDate", filter.getActionStartDate()));
+            criteria.add(Restrictions.ge("ActionDate", MyDateFormat.getDayStart(filter.getActionStartDate())));
         }
         if(filter.getActionEndDate()!=null){
-            criteria.add(Restrictions.le("ActionDate", filter.getActionEndDate()));
+            criteria.add(Restrictions.le("ActionDate", MyDateFormat.getDayEnd(filter.getActionEndDate())));
         }
         criteria.addOrder(Order.asc("HistoryDate"));
         criteria.addOrder(Order.asc("ActionDate"));

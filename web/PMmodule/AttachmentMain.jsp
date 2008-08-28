@@ -34,11 +34,11 @@ response.setHeader("Cache-Control", "no-cache");
 				<html:link action="/Home.do" style="color:Navy;text-decoration:none">&nbsp;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 				<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;</html:link>
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
 			      <c:if test="${currentIntakeProgramId>0}">
 					<html:link	action="/PMmodule/UploadFile.do?method=addNew" name="actionParam"	style="color:Navy;text-decoration:none;">
-						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />|&nbsp;Add&nbsp;&nbsp;
+						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add&nbsp;&nbsp;
 					</html:link>		
 				  </c:if>	
 				</security:oscarSec>

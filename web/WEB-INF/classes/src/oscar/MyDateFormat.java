@@ -418,7 +418,18 @@ public class MyDateFormat {
 		}
 		return temp;
 	}
-
+	 public static Calendar getDayStart(Calendar pDate){
+	    	int year =pDate.get(Calendar.YEAR);
+	    	int month = pDate.get(Calendar.MONTH);
+	    	int day = pDate.get(Calendar.DATE);
+	    	return new GregorianCalendar(year,month,day,0,0,0);
+	    }
+    public static Calendar getDayEnd(Calendar pDate){
+    	int year =pDate.get(Calendar.YEAR);
+    	int month = pDate.get(Calendar.MONTH);
+    	int day = pDate.get(Calendar.DATE);
+    	return new GregorianCalendar(year,month,day,23,59,59);
+    }
 	public static int getAge(int year, int month, int date) {
   	GregorianCalendar now=new GregorianCalendar();
     int curYear = now.get(Calendar.YEAR);
