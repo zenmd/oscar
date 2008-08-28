@@ -45,6 +45,7 @@ function submitForm(methodVal) {
 		<html:hidden property="tickler.creator" />
 		<html:hidden property="tickler.demographic_no" />
 		<html:hidden property="tickler.tickler_no" />
+		<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 		
 		<tr><td width="10%">Client:</td>
 		<td width="50%"><c:out value="${client.formattedName}"/></td>

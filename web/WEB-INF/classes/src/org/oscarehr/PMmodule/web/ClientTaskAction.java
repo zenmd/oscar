@@ -72,8 +72,10 @@ public class ClientTaskAction extends BaseClientAction{
         String tickler_no = tickler.getTickler_no().toString();
         String status = tickler.getStatus();
     	ticklerManager.addComment(tickler_no, providerNo, newComment,status);
-    	
- 	    messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+    	{
+    		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+    		request.setAttribute("pageChanged", "");
+    	}
         saveMessages(request,messages);
         
         return mytaskedit(mapping, form, request, response);
@@ -285,9 +287,13 @@ public class ClientTaskAction extends BaseClientAction{
         List providerLst = providerManager.getActiveProviders(ticklerForm.getTickler().getProgram_id());
         ticklerForm.setProviderLst(providerLst);
 
- 	    if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-        saveMessages(request,messages);
-
+ 	    if(!(isWarning || isError)) 
+ 	    {
+ 	    	messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+ 	    	request.setAttribute("pageChanged", "");
+ 	    }
+ 	    	saveMessages(request,messages);
+        
        return mapping.findForward("add");
     }
     
@@ -340,7 +346,7 @@ public class ClientTaskAction extends BaseClientAction{
         
         List providerLst = providerManager.getActiveProviders(ticklerForm.getTickler().getProgram_id());
         ticklerForm.setProviderLst(providerLst);
-
+        request.setAttribute("pageChanged", "1");
         return mapping.findForward("add");
     }
     
