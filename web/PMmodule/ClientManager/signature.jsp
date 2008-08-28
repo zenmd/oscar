@@ -12,16 +12,16 @@
 <br><br>
 <table border="2" bordercolor="#000000" cellpadding="0" cellspacing="0" ><tr><td align="center" style="background-color: #c0c0c0;">
 <OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
-    width="500" height="300" align="baseline"
+    width="450" height="200" align="baseline"
     codebase="http://java.sun.com/products/plugin/1.4/jinstall-14-win32.cab#Version=1,4,0,mn">
-    <PARAM NAME="code" VALUE="com.quatro.SigPlusApp.class">
+    <PARAM NAME="code" VALUE="com.quatro.model.signaturePad.SigPlusApp.class">
     <PARAM NAME="archive" VALUE="topazApplet.jar, SigPlus2_51.jar, comm.jar">
     <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.4">
     <PARAM NAME="rid" VALUE="<%=request.getParameter("rid")%>">
     <PARAM NAME="moduleName" VALUE="<%=request.getParameter("moduleName")%>">
     <COMMENT>
-        <EMBED type="application/x-java-applet;jpi-version=1.4" width="500"
-           height="200" align="baseline" code="com.quatro.SigPlusApp.class" 
+        <EMBED type="application/x-java-applet;jpi-version=1.4" width="450"
+           height="200" align="baseline" code="com.quatro.model.signaturePad.SigPlusApp.class" 
            archive="topazApplet.jar, SigPlus2_51.jar, comm.jar" 
            pluginspage="http://java.sun.com/j2se/1.4/download.html">
             <NOEMBED>

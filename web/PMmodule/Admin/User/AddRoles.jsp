@@ -8,6 +8,7 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 
 <html:form action="/PMmodule/Admin/UserManager" method="post">
 <html:hidden property="method" value="save" />
+<input type="hidden" id="pageChanged" name="pageChanged" value='<c:out value="${pageChanged}"/>' />
 <html:hidden property="providerNo" />
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 
@@ -17,7 +18,7 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 	<html:link	href="javascript:submitForm('edit');" style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User Profile&nbsp;&nbsp;|</html:link>
 	<c:if test="${!isReadOnly}">
-	<html:link href="javascript:submitForm('saveRoles');" onclick="javascript: setNoConfirm();getFunctionsList();"
+	<html:link href="javascript:submitForm('saveRoles');" onclick="javascript: setNoConfirm();"
 		style="color:Navy;text-decoration:none;">
 	<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 	</c:if>

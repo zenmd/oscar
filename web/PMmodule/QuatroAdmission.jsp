@@ -66,7 +66,8 @@ function signSignature(){
      "rid=<c:out value="${quatroClientAdmissionForm.admission.intakeId}" />" + 
      "&moduleName=admission";
    if(win!=null) win.close();
-   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
+   document.forms[0].pageChanged.value="1";
+   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=520,height=320");
    win.focus();
 }
 function viewSignature(){

@@ -1,4 +1,4 @@
-package com.quatro.model;
+package com.quatro.model.signaturePad;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

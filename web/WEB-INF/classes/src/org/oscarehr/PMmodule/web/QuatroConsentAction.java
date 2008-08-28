@@ -36,7 +36,7 @@ import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
-import com.quatro.model.TopazValue;
+import com.quatro.model.signaturePad.TopazValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.TopazManager;

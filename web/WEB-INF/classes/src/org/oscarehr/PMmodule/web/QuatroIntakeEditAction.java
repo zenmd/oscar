@@ -180,7 +180,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	   if(intake.getEndDate()!=null && intake.getEndDate().before(Calendar.getInstance())) intake.setIntakeStatus(KeyConstants.STATUS_INACTIVE);	
         	}
         	if(KeyConstants.INTAKE_STATUS_ADMITTED.equals(intake.getIntakeStatus())){
-        		request.setAttribute("ageGenderReadOnly", true);
+        		request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
         	}
         	boolean readOnly=super.isReadOnly(request,intake.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE,intake.getProgramId());
             request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
@@ -330,7 +330,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     		qform.setOriginalCountry(lcv);
     	}
     	if(KeyConstants.INTAKE_STATUS_ADMITTED.equals(intake.getIntakeStatus())){
-    		request.setAttribute("ageGenderReadOnly", true);
+    		request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
     	}	
     	if(!clientId.equals("") && !"0".equals(clientId)){
     	List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());

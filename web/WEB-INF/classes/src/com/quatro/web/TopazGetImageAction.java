@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import com.quatro.service.TopazManager;
 
-import com.quatro.model.TopazValue;
+import com.quatro.model.signaturePad.TopazValue;
 
 public class TopazGetImageAction extends DispatchAction{
 	

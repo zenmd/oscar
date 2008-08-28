@@ -1,7 +1,7 @@
 package com.quatro.service;
 
 import com.quatro.dao.TopazDao;
-import com.quatro.model.TopazValue;
+import com.quatro.model.signaturePad.TopazValue;
 
 public class TopazManager {
     private TopazDao topazDao;

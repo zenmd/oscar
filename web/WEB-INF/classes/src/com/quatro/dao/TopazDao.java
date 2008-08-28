@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.quatro.model.TopazValue;
+import com.quatro.model.signaturePad.TopazValue;
 
 public class TopazDao extends HibernateDaoSupport{
   public void saveTopazValue(TopazValue rtv){
