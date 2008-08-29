@@ -125,7 +125,9 @@ public class AdmissionDao extends HibernateDaoSupport {
           Admission  admission = this.getAdmission(Integer.valueOf(split[i]));
 	      admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
           admission.setDischargeReason(oscar.OscarProperties.getInstance().getProperty("AUTO_DISCHARGE_REASON_CODE"));
-    	  getHibernateTemplate().bulkUpdate("update QuatroIntakeDB i set i.intakeStatus='" +
+    	  admission.setDischargeDate(Calendar.getInstance());
+    	  admission.setAutomaticDischarge(true);
+          getHibernateTemplate().bulkUpdate("update QuatroIntakeDB i set i.intakeStatus='" +
           		KeyConstants.INTAKE_STATUS_DISCHARGED + "'" + 
                   " where i.id=?", new Object[]{admission.getIntakeId()});
 
