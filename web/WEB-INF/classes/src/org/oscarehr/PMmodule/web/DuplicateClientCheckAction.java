@@ -34,7 +34,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   client.setAlias(request.getParameter("alias"));
 
 	   List clients = getClientList(client);
-	   if(!Utility.IsEmpty(client.getFirstName())  && !Utility.IsEmpty(client.getLastName()))
+	   if((!Utility.IsEmpty(client.getFirstName())  && !Utility.IsEmpty(client.getLastName())) && clients.size()<1)
 	   {
 		   client.setDemographicNo(new Integer(0));
 		   clients.add(0, client);
