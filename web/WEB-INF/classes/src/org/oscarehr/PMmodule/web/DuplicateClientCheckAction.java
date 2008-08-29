@@ -91,7 +91,7 @@ public class DuplicateClientCheckAction extends DispatchAction {
 	   if (!Utility.IsEmpty(client.getFirstName())) hasCriteria=true; 
        criteria.setFirstName(client.getFirstName());
 	   if (!Utility.IsEmpty(client.getDob())) hasCriteria=true; 
-       criteria.setDob(client.getDob());
+//       criteria.setDob(client.getDob());
        criteria.setGender(client.getSex());
        if(hasCriteria) {
     	   return clientManager.search(criteria, false,true);

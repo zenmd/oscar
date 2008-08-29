@@ -155,7 +155,7 @@
 		{
 			if(noChanges())
 			{
-				alert("There is no changed detected to save");
+				alert("There are no changes detected to save");
 			}
 			else
 			{

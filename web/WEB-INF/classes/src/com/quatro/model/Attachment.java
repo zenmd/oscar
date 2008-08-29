@@ -38,7 +38,7 @@ public class Attachment implements Serializable {
 	private String viewRefNo;
 
 	private Calendar revDate;
-
+	private Integer fileSize;
 	private AttachmentText attText;
 
 	private String providerDesc;
@@ -47,6 +47,14 @@ public class Attachment implements Serializable {
 	private String docDesc;
 	private String moduleDesc;
 	private Integer refProgramId;
+	private Integer fileCount;
+	public Integer getFileCount() {
+		return fileCount;
+	}
+
+	public void setFileCount(Integer fileCount) {
+		this.fileCount = fileCount;
+	}
 
 	public Integer getRefProgramId() {
 		return refProgramId;
@@ -243,6 +251,14 @@ public class Attachment implements Serializable {
 			}
 		}
 		return this.hashCode;
+	}
+
+	public Integer getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(Integer fileSize) {
+		this.fileSize = fileSize;
 	}
 
 }

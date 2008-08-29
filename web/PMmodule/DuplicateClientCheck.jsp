@@ -97,19 +97,38 @@ function checkExistClients(shortFlagValue){
 <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/DuplicateClientCheck.do">
   <display:setProperty name="paging.banner.placement" value="bottom" />
   <display:setProperty name="basic.msg.empty_list" value="At least a First name, Last name or Date of birth must be entered." />
+  <display:column sortable="false" title="Action">    
+        <c:choose>
+	      <c:when test="${client.demographicNo==0}">
+	        <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
+	        '<c:out value="${firstName}"/>', '<c:out value="${client.firstName}"/>',
+	        '<c:out value="${lastName}"/>', '<c:out value="${client.lastName}"/>',
+	        '<c:out value="${sex}"/>', '<c:out value="${client.sex}"/>',
+	        '<c:out value="${dob}"/>', '<c:out value="${client.dob}"/>',
+	        '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
+	        '<c:out value="${clientNo}"/>','0',
+	        '<c:out value="${statusMsg}"/>', '(New Client)',
+	        '<c:out value="${newClientChecked}"/>', 'Y', '<c:out value="${shortFlag}"/>');">
+	         Add New Client</a>
+	      </c:when>
+	      <c:otherwise>
+	        <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
+	        '<c:out value="${firstName}"/>', '<c:out value="${client.firstName}"/>',
+	        '<c:out value="${lastName}"/>', '<c:out value="${client.lastName}"/>',
+	        '<c:out value="${sex}"/>', '<c:out value="${client.sex}"/>',
+	        '<c:out value="${dob}"/>', '<c:out value="${client.dob}"/>',
+	        '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
+	        '<c:out value="${clientNo}"/>','<c:out value="${client.demographicNo}"/>',
+	        '<c:out value="${statusMsg}"/>', '(Existing Client)',
+	        '<c:out value="${newClientChecked}"/>', 'N', '<c:out value="${shortFlag}"/>');">
+	          Add Existing</a>
+	      </c:otherwise>
+    </c:choose>   
+  </display:column>	
   <display:column sortable="false" title="Client No">
     <c:choose>
       <c:when test="${client.demographicNo==0}">
-        <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
-        '<c:out value="${firstName}"/>', '<c:out value="${client.firstName}"/>',
-        '<c:out value="${lastName}"/>', '<c:out value="${client.lastName}"/>',
-        '<c:out value="${sex}"/>', '<c:out value="${client.sex}"/>',
-        '<c:out value="${dob}"/>', '<c:out value="${client.dob}"/>',
-        '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
-        '<c:out value="${clientNo}"/>','0',
-        '<c:out value="${statusMsg}"/>', '(New Client)',
-        '<c:out value="${newClientChecked}"/>', 'Y', '<c:out value="${shortFlag}"/>');">
-        New Client</a>
+        &nbsp;
       </c:when>
       <c:otherwise>
         <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
@@ -128,16 +147,7 @@ function checkExistClients(shortFlagValue){
   <display:column sortable="false" title="Name">
     <c:choose>
       <c:when test="${client.demographicNo==0}">
-        <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
-        '<c:out value="${firstName}"/>', '<c:out value="${client.firstName}"/>',
-        '<c:out value="${lastName}"/>', '<c:out value="${client.lastName}"/>',
-        '<c:out value="${sex}"/>', '<c:out value="${client.sex}"/>',
-        '<c:out value="${dob}"/>', '<c:out value="${client.dob}"/>',
-        '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
-        '<c:out value="${clientNo}"/>','0',
-        '<c:out value="${statusMsg}"/>', '(New Client)',
-        '<c:out value="${newClientChecked}"/>', 'Y', '<c:out value="${shortFlag}"/>');">
-        <c:out value="${client.formattedName}" /></a>
+        <c:out value="${client.formattedName}" />
       </c:when>
       <c:otherwise>
         <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',

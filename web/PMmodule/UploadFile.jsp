@@ -22,7 +22,7 @@ response.setHeader("Cache-Control", "no-cache");
 </script>
 
 <html:form action="/PMmodule/UploadFile.do"
-	enctype="multipart/form-data">
+	enctype="multipart/form-data" >
 	<input type="hidden" name="method" />
 	<html-el:hidden property="attachmentValue.refNo" />
 	<html-el:hidden property="attachmentValue.id" />
@@ -63,7 +63,8 @@ response.setHeader("Cache-Control", "no-cache");
 		</tr>
 		<tr>
 			<th ALIGN="right" width="20%">File Path</th>
-			<td><html:file property="attachmentText.imagefile" size="30" styleId="imagefile"  >
+			<td><html:file property="attachmentText.imagefile" maxlength="1024" size="30" styleId="imagefile"  >
+			
 			</html:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
 			<!-- html:submit value="Upload" property="method" />--></td>
 		</tr>

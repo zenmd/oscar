@@ -190,6 +190,7 @@ public class UploadFileAction extends BaseClientAction {
 		 	ActionMessages messages = new ActionMessages();
 	        boolean isError = false;
 	        boolean isWarning = false;
+	        String dupMessage ="";
 			HttpSession session = request.getSession(true);	
 			//only for client module 
 			Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
@@ -203,9 +204,14 @@ public class UploadFileAction extends BaseClientAction {
 			log.info("attachment client upload id: id="  + cId);
 			FormFile formFile = attTextObj.getImagefile();			
 			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1);
-						
+			int count=0;		
 			log.info("extension = " + type);
-			
+			if(Utility.IsEmpty(formFile.getContentType()) || formFile.getFileSize()==0){
+				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment", request.getContextPath()));
+		        saveMessages(request,messages);
+				//return mapping.findForward("edit");	
+		        return edit(mapping,form,request,response);
+			}
 			try {
 				byte[] imageData = formFile.getFileData();
 				Byte[] imageData2 = new Byte[imageData.length];
@@ -221,6 +227,7 @@ public class UploadFileAction extends BaseClientAction {
 				attObj.setRefNo(cId.toString());
 				attObj.setRefProgramId(new Integer(programId));
 				attObj.setRevDate(new GregorianCalendar());
+				attObj.setFileSize(new Integer(formFile.getFileSize()));
 				attObj.setAttText(attTextObj);
 				if(attObj.getId().intValue()==0) attObj.setId(null);
 				uploadFileManager.saveAttachment(attObj);				
@@ -230,7 +237,9 @@ public class UploadFileAction extends BaseClientAction {
 				log.error(e);
 				//post error to page
 			}
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+			count=uploadFileManager.getAttachment(cId.toString(), formFile.getFileName(), formFile.getFileSize());
+			if(count>1) dupMessage="Duplicate file name detected";
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.attachment.success", request.getContextPath(),dupMessage));
 	        saveMessages(request,messages);
 			//return mapping.findForward("edit");	
 	        return edit(mapping,form,request,response);

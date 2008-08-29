@@ -91,7 +91,8 @@ public class MergeClientAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors.select", request.getContextPath()));
 			saveMessages(request, messages);
-			return mapping.findForward("view");
+			setLookupLists(request);
+			return mergedSearch(mapping, form, request, response);
 		}
 		boolean isSuccess = true;
 		ArrayList records = new ArrayList(Arrays.asList(request
@@ -117,6 +118,7 @@ public class MergeClientAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.unmerge.errors", request.getContextPath()));
 			saveMessages(request, messages);
+		//	return mergedSearch(mapping, form, request, response);
 		} else {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.success", request.getContextPath()));

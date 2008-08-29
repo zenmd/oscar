@@ -66,14 +66,21 @@ response.setHeader("Cache-Control", "no-cache");
 		  <display:column sortable="false" title="">
 		   <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
 		  	<a title="Edit" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=edit&id=<c:out value="${atth.id}" />">
-				Edit </a>
+				Replace </a>
 			</security:oscarSec>	
 		  </display:column>		  
 		  <display:column  sortable="true" title="File Name">
-		 
-		  	<a href="javascript:popupUploadPage('<c:out value="${ctx}"/>/PMmodule/ShowFile.do',<c:out value="${atth.id}"/>);">		  
-		  		<c:out value="${atth.fileName}"/>
-		  	</a>
+		    <c:choose>
+		    <c:when test="${atth.fileCount>1 }">
+		    		<a href="javascript:popupUploadPage('<c:out value="${ctx}"/>/PMmodule/ShowFile.do',<c:out value="${atth.id}"/>);">		  
+		  			<c:out value="${atth.fileName}"/>(*)</a>
+		    </c:when>
+		    <c:otherwise>
+			  	<a href="javascript:popupUploadPage('<c:out value="${ctx}"/>/PMmodule/ShowFile.do',<c:out value="${atth.id}"/>);">		  
+			  		<c:out value="${atth.fileName}"/>
+			  	</a>
+		  	</c:otherwise>
+		  	</c:choose>
 		  </display:column>
 		  <display:column property="docDesc" sortable="true" title="Category"></display:column>
 		  <display:column property="providerDesc" sortable="true" title="Last Update Provider"/>

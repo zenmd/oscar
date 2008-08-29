@@ -19,7 +19,9 @@ public class UploadFileManager {
 	public void setUploadFileDao(UploadFileDao uploadFileDao) {
         this.uploadFileDao = uploadFileDao;
     }
-
+	public int getAttachment(String refNo, String fileName, int fileSize){
+		return uploadFileDao.getAttachment(refNo, fileName, fileSize);
+	}
     public AttachmentText getAttachmentText(Integer docId){
         return uploadFileDao.getAttachmentText(docId);
     }
