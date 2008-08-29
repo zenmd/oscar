@@ -52,7 +52,7 @@ public class UploadFileDao extends HibernateDaoSupport {
 	public int getAttachment(String refNo, String fileName, int fileSize){
 		String clientIds=mergeClientDao.getMergedClientIds(Integer.valueOf(refNo));		
 		String hql = " from Attachment t where t.refNo in "+ clientIds+ " and t.fileName=? and t.fileSize=? " ;
-		List lst =getHibernateTemplate().find(hql,	new Object[]{fileName,fileSize});
+		List lst =getHibernateTemplate().find(hql,	new Object[]{fileName,new Integer(fileSize)});
 	 int count=0;
 	 if(lst.size()>0) count=lst.size();
 		return count;
