@@ -128,8 +128,10 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        for(int i=0;i<lst.size();i++){
     	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
     	 if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-    		List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
-   		    request.setAttribute("family", lst2);
+    		 if(obj.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE) || obj.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
+    			 List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
+    			 request.setAttribute("family", lst2);
+    		 }
    		    break;
     	 }
        }
