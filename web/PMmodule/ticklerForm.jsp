@@ -16,7 +16,7 @@ function submitForm(methodVal) {
 		  alert('Please provide a service date.');
 		  return;
 	   }else if(isBeforeToday(serviceDate.value)){
-		  alert('Service date should not be before today.');
+		  alert('Service date and (or) time should not be before today.');
 		  return;
 	   }
 
