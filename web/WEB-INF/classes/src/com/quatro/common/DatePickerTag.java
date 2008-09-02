@@ -63,7 +63,9 @@ public class DatePickerTag extends BaseInputTag{
         prepareAttribute(results, "name", sName);
         prepareAttribute(results, "maxlength", "10");
         prepareAttribute(results, "tabindex", getTabindex());
-        prepareAttribute(results, "onblur", "check_date('" + sName + "');");        
+        prepareAttribute(results, "onblur", "onCalBlur('" + sName + "');");        
+        prepareAttribute(results, "onkeypress", "onCalKeyPress(event,'" + sName + "');");        
+        prepareAttribute(results, "onfocus", "onCalFocus('" + sName + "');");        
         prepareValue(results);
         results.append(this.prepareEventHandlers());
         results.append(this.prepareStyles());
