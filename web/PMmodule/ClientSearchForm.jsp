@@ -26,14 +26,18 @@
 		form.elements['criteria.active'].selectedIndex = 0;
 		form.elements['criteria.gender'].selectedIndex = 0;
 	}
-		function hasAnyFilter() {
+	function hasAnyFilter() {
 		var form = document.clientSearchForm2;
+		var dateValid = true;
 		if(form == null) alert ('form is null');
 		if (form.elements == null) alert('elements is null');
+		if (form.elements['criteria.dob'].value!='') {
+			dateValid = check_date('criteria.dob');
+			return dateValid;
+		}
 		if (form.elements['criteria.demographicNo'].value!='') return true;
 		if (form.elements['criteria.firstName'].value !='') return true;
 		if (form.elements['criteria.lastName'].value !='') return true;
-		if (form.elements['criteria.dob'].value!='') return true;
 		// form.elements['criteria.healthCardNumber'].value='';
 		// form.elements['criteria.healthCardVersion'].value='';
 		// form.elements['criteria.searchOutsideDomain'].checked = true;
@@ -44,11 +48,13 @@
 		if (form.elements['criteria.assignedToProviderNo'].selectedIndex > 0) return true;
 //		if (form.elements['criteria.active'].selectedIndex > 0) return true;
 //		if (form.elements['criteria.gender'].selectedIndex > 0) return true;
-		alert('Please enter at least one of the following: Client No, First Name, Last Name, Date of Birth, Assigned To or Program and then click on Search.');
+		if(dateValid) 
+			alert('Please enter at least one of the following: Client No, First Name, Last Name, Date of Birth, Assigned To or Program and then click on Search.');
 		return false; 
 	}	
 
 	function submitForm(methodVal) {
+	    if(timerId != 0) clearTimeout(timerId);
 		trimInputBox();
 		if (!hasAnyFilter()) return;
 		document.forms[0].method.value = methodVal;

@@ -1,3 +1,5 @@
+var timerId = 0;
+var isValid = true;
 
 function check_date_for_oracle(checkedDate) 
 { 
@@ -15,10 +17,56 @@ function check_date_for_oracle(checkedDate)
 
 function openDatePickerCalendar(url){
   if(readOnly==true) return;
+  if(timerId != 0) clearTimeout(timerId);
   if(win!=null) win.close();
   win=window.open(url, '', 'width=310,height=310'); 
 }
-
+function setDate(form_name,element_name,year1,month1,day1) {
+	  win.close();
+  	  var dtElement = document.getElementsByName(element_name)[0];
+      var val = getFormatedDate(year1,month1,day1);
+      dtElement.value =  val;
+	  dtElement.style.backgroundColor='#ffffff';
+}
+function onCalBlur(checkedDateName)
+{
+	if(isValid) 
+	{
+    	timerId = setTimeout("check_date('" + checkedDateName + "')", 200); 
+    }
+}
+function onCalFocus(checkedDateName)
+{
+	isValid = true;
+}
+function onCalKeyPress(event, checkedDateName)
+{
+//    var nav4;
+//    var keyPressed;
+    
+//    var nav4 = window.Event ? true : false;
+//	keyPressed = nav4 ? event.which : event.keyCode;
+		
+//    if (keyPressed == 13)
+	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
+	checkedDateObj.style.backgroundColor='#ffffff';
+}
+function getFormatedDate(year1, month1,day1)
+{
+	// date format defined as YYYY/MM/DD
+	var sM = month1;
+	if (month1 < 10) sM = "0" + sM;
+	var sD = day1;
+	if (day1 < 10) sD = "0" + sD;
+	return year1 + "/" + sM + "/" + sD;
+}
+function setInvalid(checkedDateObj)
+{
+		isValid = false;
+    	alert('Date entered is not valid.');
+  	    checkedDateObj.style.backgroundColor='#ff0000';
+		checkedDateObj.focus();
+}
 function check_date(checkedDateName) 
 {	
 	//eg. checkedDate = '21-09-2007'
@@ -26,19 +74,16 @@ function check_date(checkedDateName)
    	//var pattern = new RegExp([0-3][0-9]-0|1[0-9]-19|20[0-9]{2});
    	//pattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	 //'21-09-2007'
    	
-   	if(readOnly==true) return;
+   	if(readOnly==true) return true;
    	
    	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
    	var checkedDate = checkedDateObj.value;
    	if(checkedDate==''){
-       checkedDateObj.style.backgroundColor='#ffffff';
    	   return true;
     }
     
    	if(checkedDate.length!=10){
-        alert('Date entered is not valid.');
-      	checkedDateObj.focus();
-      	checkedDateObj.style.backgroundColor='#ff0000';
+   		setInvalid(checkedDateObj);
        	return false;
     }
    	 
@@ -54,22 +99,16 @@ function check_date(checkedDateName)
 		source_date = new Date(year,month,day);
 		if(year != source_date.getFullYear() || day != source_date.getDate() || month != source_date.getMonth() )
       	{
-      	    alert('Date entered is not valid.');
-         	checkedDateObj.focus();
-      	    checkedDateObj.style.backgroundColor='#ff0000';
+			setInvalid(checkedDateObj);
          	return false;
      	}	
     }
    	else
    	{
-      	alert('Date entered is not valid.');
-       	checkedDateObj.focus();
-  	    checkedDateObj.style.backgroundColor='#ff0000';
+		setInvalid(checkedDateObj);
       	return false;
    	}
-
-   checkedDateObj.style.backgroundColor='#ffffff';
-   return true;
+    return true;
 }
 
 

@@ -22,15 +22,6 @@
 function setfocus() {
   this.focus();
 }
-function getFormatedDate(year1, month1,day1)
-{
-	// date format defined as YYYY/MM/DD
-	var sM = month1;
-	if (month1 < 10) sM = "0" + sM;
-	var sD = day1;
-	if (day1 < 10) sD = "0" + sD;
-	return year1 + "/" + sM + "/" + sD;
-}
 function typeInDate(year1,month1,day1) {
   self.close();
   opener.document.serviceform.xml_vdate.value=getFormatedDate(year1,month1,day1);
@@ -40,15 +31,6 @@ function typeSrvDate(year1,month1,day1) {
   opener.document.serviceform.xml_appointment_date.value=getFormatedDate(year1,month1,day1);
 }
 
-function typeCaisiDate(form_name,element_name,year1,month1,day1) {
-  self.close();
-  var test = "opener.document." + form_name + ".elements['" + element_name +"'].value";
-  var val = "'" + getFormatedDate(year1,month1,day1) + "'";
-  var myexpr = test + "=" + val;
-  eval(myexpr);
-  var test = "opener.document." + form_name + ".elements['" + element_name +"'].style.backgroundColor='#ffffff'";
-  eval(myexpr);
-}
 //-->
 </script>
 </head>
@@ -92,7 +74,7 @@ function typeCaisiDate(form_name,element_name,year1,month1,day1) {
                   else {
                     now.add(Calendar.DATE, 1);
                  %>
-                     <td align="center" bgcolor='#FBECF3'><a href="#" onClick="typeCaisiDate('<%=openerForm %>','<%=openerElement %>',<%=year%>,<%=month%>,<%= dateGrid[i][j] %>)">
+                     <td align="center" bgcolor='#FBECF3'><a href="#" onClick="opener.setDate('<%=openerForm %>','<%=openerElement %>',<%=year%>,<%=month%>,<%= dateGrid[i][j] %>)">
                       <%= dateGrid[i][j] %> </a>
                      </td>
                  <%
