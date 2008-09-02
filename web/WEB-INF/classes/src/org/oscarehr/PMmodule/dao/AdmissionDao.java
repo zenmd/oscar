@@ -217,7 +217,7 @@ public class AdmissionDao extends HibernateDaoSupport {
 	    	}
 	    	
     	}
-    	queryStr = queryStr + " ORDER BY a.intakeId";
+    	queryStr = queryStr + " ORDER BY a.intakeHeadId,a.intakeId";
         List  lst= getHibernateTemplate().find(queryStr, new Object[] { programId});
     	List clientsLst = new ArrayList();
     	Iterator it = lst.iterator();

@@ -16,14 +16,14 @@ response.setHeader("Cache-Control", "no-cache");
 			alert ("Please browse a file to upload first");
 			return;
 		}
+		alert(methodValue);
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
 	}
 </script>
 
-<html:form action="/PMmodule/UploadFile.do"
-	enctype="multipart/form-data" >
-	<input type="hidden" name="method" />
+<html:form action="/PMmodule/UploadFile.do"	enctype="multipart/form-data" >
+	<input type="hidden" name="method" value="save"/>
 	<html-el:hidden property="attachmentValue.refNo" />
 	<html-el:hidden property="attachmentValue.id" />
 	<table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -63,9 +63,9 @@ response.setHeader("Cache-Control", "no-cache");
 		</tr>
 		<tr>
 			<th ALIGN="right" width="20%">File Path</th>
-			<td><html:file property="attachmentText.imagefile" maxlength="1024" size="30" styleId="imagefile"  >
+			<td><html-el:file property="attachmentText.imagefile"  size="30" styleId="imagefile"  >
 			
-			</html:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
+			</html-el:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
 			<!-- html:submit value="Upload" property="method" />--></td>
 		</tr>
 	</table>

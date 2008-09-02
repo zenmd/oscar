@@ -2,9 +2,15 @@
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro" %>
 <%@page import="com.quatro.common.KeyConstants;"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+
 <head>
  	<link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 	<link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
+	<script type="text/javascript">
+	function winClose() {		
+		window.close();
+	}
+	</script>
 </head>
 <html-el:form action="/PMmodule/QuatroFamilyIntake.do">
 <input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
@@ -13,7 +19,7 @@
 	<tr><th class="pageTitle" align="center">Client Management - Family Intake History</th></tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-            <a style="color:Navy;text-decoration:none;" href="javascript:window.close();">
+            <a style="color:Navy;text-decoration:none;" href="javascript:winClose();">
 	            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;</a>
 	    </td>
 	</tr>
