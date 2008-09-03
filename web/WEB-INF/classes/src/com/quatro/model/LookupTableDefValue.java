@@ -10,6 +10,8 @@ public class LookupTableDefValue {
    boolean readonly;
    boolean tree;
    int treeCodeLength;
+   boolean hasActive;
+   boolean hasDisplayOrder;
 
    public boolean isReadonly() {
 	return readonly;
@@ -80,6 +82,22 @@ public boolean isActive() {
 
 	public void setTree(boolean tree) {
 		this.tree = tree;
+	}
+
+	public boolean isHasActive() {
+		return hasActive;
+	}
+
+	public void setHasActive(boolean hasActive) {
+		this.hasActive = hasActive;
+	}
+
+	public boolean isHasDisplayOrder() {
+		return hasDisplayOrder;
+	}
+
+	public void setHasDisplayOrder(boolean hasDisplayOrder) {
+		this.hasDisplayOrder = hasDisplayOrder;
 	}
 
 }

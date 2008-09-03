@@ -44,7 +44,13 @@
 <tr><td colspan="2">&nbsp;</td>
 </tr>
 <tr>
-	<th>ID</th><th>Description</th><th>Active</th><th>Display Order</th>
+	<th>ID</th><th>Description</th>
+	<logic:equal name="lookupCodeListForm" property="tableDef.hasActive" value="true">
+	<th>Active</th>
+	</logic:equal>
+	<logic:equal name="lookupCodeListForm" property="tableDef.hasDisplayOrder" value="true">
+	<th>Display Order</th>
+	</logic:equal>
 </tr>
 
 <logic:iterate id="lkCode" name="lookupCodeListForm" property="codes">
@@ -59,6 +65,7 @@
  			<bean:write name="lkCode" property="description" />
 	 	</html:link>
  	</td>
+	<logic:equal name="lookupCodeListForm" property="tableDef.hasActive" value="true">
  	<td>
  		<logic:equal value="true" name="lkCode" property="active">
  			Yes
@@ -67,9 +74,12 @@
  			No
  		</logic:equal>
  	</td>
+ 	</logic:equal>
+ 	<logic:equal name="lookupCodeListForm" property="tableDef.hasDisplayOrder" value="true">
  	<td>
  		<bean:write name="lkCode" property="orderByIndex" />
  	</td>
+ 	</logic:equal>
 </tr> 	
 	</logic:iterate>
 
