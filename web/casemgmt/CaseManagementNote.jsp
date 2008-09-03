@@ -310,7 +310,7 @@ var XMLHttpRequestObject = false;
 			&nbsp;| </span>
 			-->
 			<html:link action="/CaseManagementView2.do"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Case Management&nbsp;&nbsp;|
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 			</html:link>
 			<c:if test="${!isReadOnly }">	
 				<a onclick="javascript: return validateSave('save');" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
