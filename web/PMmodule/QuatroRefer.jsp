@@ -64,7 +64,7 @@
 	<tr>
 		<td align="left" class="buttonBar2">
 		<html:link action="/PMmodule/QuatroRefer.do" name="actionParam" style="color:Navy;text-decoration:none;">
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Referrals&nbsp;&nbsp;|</html:link>
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 		<c:if test="${!isReadOnly && (referralStatus=='' || referralStatus=='pending') }">
 				<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>				
@@ -117,7 +117,7 @@
   <table class="edit" cellspacing="2" cellpadding="3">
 	<tr><td width="20%">Reason for referral</td>
 	<td><html:textarea cols="60" rows="7" property="referral.notes" /></td></tr>
-	<tr><td width="20%">Presenting Problems</td>
+	<tr><td width="20%">Notes</td>
 	<td><html:textarea cols="60" rows="7" property="referral.presentProblems" /></td></tr>
 	<tr><td width="20%">From Program</td>
 	  <c:choose>

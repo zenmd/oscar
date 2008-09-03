@@ -77,13 +77,13 @@
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
+				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">
+					<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
 		       <c:if test="${!isReadOnly && (quatroClientDischargeForm.admission.admissionStatus!='discharged' &&
 		          	quatroClientDischargeForm.admission.admissionStatus!='rejected')}">
 					<a onclick='javascript: setNoConfirm();return validateSave();'	href='javascript:submitForm("save");'	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
 		         </c:if>			
-				<a href='javascript:submitForm("list");'	style="color:Navy;text-decoration:none;">
-					<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
 				</td>
 		</tr>
 		<tr>

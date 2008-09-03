@@ -73,12 +73,12 @@ function submitForm(methodVal) {
 </c:choose>
 
 <tr><td class="buttonBar2">
+	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
+	<img border=0 src='<html:rewrite page="/images/close16.png"/>' >&nbsp;Close&nbsp;&nbsp;</html:link>
    <c:if test="${viewTickler!='Y'}">
      <a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 		<img border=0 src='<html:rewrite page="/images/Save16.png"/>' >&nbsp;Save&nbsp;&nbsp;</a>|
    </c:if>		
-	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
-	<img border=0 src='<html:rewrite page="/images/Back16.png"/>' >&nbsp;Close&nbsp;&nbsp;</html:link>
 </td></tr>
 <tr><td align="left" class="message">
    <logic:messagesPresent message="true">

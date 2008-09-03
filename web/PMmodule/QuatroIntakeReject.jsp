@@ -18,7 +18,7 @@ function submitForm(methodVal) {
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
-		<th class="pageTitle" align="center">Client Management - Intake Rejection</th>
+		<th class="pageTitle" align="center">Client Management - Admission Rejection</th>
 	</tr>
 	<tr>
 	<td>
@@ -37,11 +37,10 @@ function submitForm(methodVal) {
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-		<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
-		  
 		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link></td>
+		<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>|
+		<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
+		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
@@ -59,7 +58,7 @@ function submitForm(methodVal) {
 <table width="100%" class="edit">
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Intake Rejection</th></tr>
+<tr><th>Admission Rejection</th></tr>
 </table></div></td></tr>
 
 <tr><td>

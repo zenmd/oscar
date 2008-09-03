@@ -19,11 +19,8 @@ function submitForm(methodVal) {
 <tr><th  class="pageTitle">My Tasks -Update Task</th></tr>
 
 <tr><td class="buttonBar2">
-	<html:link action="/Home.do"
-	style="color:Navy;text-decoration:none">&nbsp;
-	<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/close16.png"/>' >&nbsp;Close&nbsp;&nbsp;|</html:link>
 	<html:link action="/PMmodule/Task.do?method=filter" style="color:Navy;text-decoration:none;">
-	<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/Back16.png"/>' >&nbsp;Back to Tasks&nbsp;&nbsp;|</html:link>
+	<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/close16.png"/>' >&nbsp;Close&nbsp;&nbsp;|</html:link>
 	<c:if test="${!isReadOnly }" >
 		<a href='javascript:submitForm("mytasksave");' onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src='<html:rewrite page="/images/Save16.png"/>' >&nbsp;Save&nbsp;&nbsp;</a>

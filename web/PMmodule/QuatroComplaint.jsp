@@ -95,7 +95,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		var duration = document.getElementsByName("complaint.duration")[0].value;
 		if(!isInteger(duration))
 		{
-			alert("Time Spent on Complaint is manditory and should be a number");
+			alert("Time Spent on Complaint is mandatory and should be a number");
 			document.getElementsByName("complaint.duration")[0].focus();
 			return;
 		}
@@ -244,7 +244,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		<tr>
 			<td align="left" class="buttonBar2">
 			<html:link	action="/PMmodule/QuatroComplaint.do" name="actionParam"	style="color:Navy;text-decoration:none;">
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Complaints&nbsp;&nbsp;|</html:link>
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 
 					<c:if test="${quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null}">	
 					<a href="javascript:submitForm('save');" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
@@ -279,7 +279,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 						<div class="tabs">
 							<table cellpadding="3" cellspacing="0" border="0">
 								<tr>
-									<th>Source of Complaint</th>
+									<th>Complainant</th>
 								</tr>
 							</table>
 						</div>
@@ -290,15 +290,15 @@ Source:web/PMmodule/QuatroComplaint.jsp
 					<td>
 						<table class="simple" cellspacing="2" cellpadding="3">
 							<tr>
-								<td width="15%">Source of Complaint*</td>
-								<td width="45%"><html-el:select
+								<td width="18%">Source*</td>
+								<td width="32%"><html-el:select
 									property="complaint.source">
 									<html-el:option value=""></html-el:option>
 									<html-el:optionsCollection property="sources"
 										value="code" label="description" />
 								</html-el:select></td>
-								<td width="15%">Method of Contact*</td>
-								<td width="35%"><html-el:select
+								<td width="18%">Method of Contact*</td>
+								<td width="32%"><html-el:select
 									property="complaint.method">
 									<html-el:option value=""></html-el:option>
 									<html-el:optionsCollection property="methods"
@@ -306,12 +306,11 @@ Source:web/PMmodule/QuatroComplaint.jsp
 								</html-el:select></td>
 							</tr>
 							<tr>
-								<td>Source's First Name*</td>
-								<td><html-el:text property="complaint.firstname" maxlength="30"/></td>
-								<td>Source's Last Name*</td>
-								<td><html-el:text property="complaint.lastname" maxlength="30"/></td>
+								<td>First Name*</td>
+								<td><html-el:text property="complaint.firstname" maxlength="30" style="{width:96%;}" /></td>
+								<td>Last Name*</td>
+								<td><html-el:text property="complaint.lastname" maxlength="30" style="{width:96%;}" /></td>
 							</tr>
-							
 								<tr>
 									<td>Program*</td>
 									<td colspan="3">
