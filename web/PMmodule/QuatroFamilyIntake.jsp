@@ -145,7 +145,7 @@ function checkExistClients(i){
 	<tr>
 		<td align="left" class="buttonBar2">
         <html:link action="/PMmodule/QuatroIntakeEdit.do?method=update" name="actionParam" style="color:Navy;text-decoration:none;">
-        <img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close</html:link></td>
+        <img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close</html:link>
         <c:if test="${!isReadOnly}">
 		  &nbsp;|&nbsp;<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save</a>

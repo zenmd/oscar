@@ -379,7 +379,44 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
         return mapping.findForward("edit");
     }
-    
+    private boolean validateDuplicate(QuatroIntake intake,Demographic client,HttpServletRequest request,ActionMessages messages){
+    	boolean valid = true;
+    	
+     	   ClientSearchFormBean criteria = new ClientSearchFormBean();
+     	   criteria.setActive("");
+     	   criteria.setAssignedToProviderNo("");
+     	   criteria.setLastName(request.getParameter("client.lastName"));
+     	   criteria.setFirstName(request.getParameter("client.firstName"));
+     	   criteria.setDob(request.getParameter("dob"));
+     	   criteria.setGender(request.getParameter("client.sex"));
+     	   List lst = clientManager.search(criteria, false,true);
+  		   if(lst.size()>0){
+     	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_client",
+           			request.getContextPath()));              
+              saveMessages(request,messages);  
+              return false;
+              
+  		   }    	
+  		 return valid;
+    	
+    }
+    private boolean validateInputWarning(QuatroIntake intake,Demographic client,HttpServletRequest request,ActionMessages messages){
+    	boolean hasWarning = false;
+//    	check gender conflict and age conflict
+	    if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+		   Program program = programManager.getProgram(intake.getProgramId());
+		   if(clientRestrictionManager.checkGenderConflict(program, client)){
+          	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
+              hasWarning = true;
+		   }
+		   if(clientRestrictionManager.checkAgeConflict(program, client)){
+          	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
+              hasWarning = true;
+		   }
+	    }
+  		 return hasWarning;
+    	
+    }
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ActionMessages messages = new ActionMessages();
         boolean isError = false;
@@ -393,28 +430,15 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	QuatroIntake intake= qform.getIntake();
     	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	//check for new client duplication
-    	if(intake.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N")){
-    	   ClientSearchFormBean criteria = new ClientSearchFormBean();
-    	   criteria.setActive("");
-    	   criteria.setAssignedToProviderNo("");
-    	   criteria.setLastName(request.getParameter("client.lastName"));
-    	   criteria.setFirstName(request.getParameter("client.firstName"));
-    	   criteria.setDob(request.getParameter("dob"));
-    	   criteria.setGender(request.getParameter("client.sex"));
-    	   List lst = clientManager.search(criteria, false,true);
- 		   if(lst.size()>0){
-    	     messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.duplicated_client",
-          			request.getContextPath()));
-             isError = true;
-             saveMessages(request,messages);
+    	if(intake.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N") &&
+    	 !validateDuplicate(intake, client, request, messages)){
              request.setAttribute("newClientFlag", "true");
        	     HashMap actionParam2 = new HashMap();
     	     actionParam2.put("clientId", intake.getClientId()); 
              actionParam2.put("intakeId", intake.getId().toString()); 
              request.setAttribute("actionParam", actionParam2);
      		 request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
-		     return mapping.findForward("edit");
- 		   }  
+		     return mapping.findForward("edit"); 		   
 		}
     	client.setDemographicNo(intake.getClientId());
 		client.setDateOfBirth(MyDateFormat.getCalendar(qform.getDob()));
@@ -440,27 +464,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			  break;
 			}
 		}
-
+	  // boolean programChange = 	!intake.getCurrentProgramId().equals(intake.getProgramId());
 	  if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)) &&
-		KeyConstants.INTAKE_STATUS_ACTIVE.equals(intake.getIntakeStatus()) &&
-		(intake.getId().intValue()==0 || 
-		(intake.getId().intValue()>0 && !intake.getCurrentProgramId().equals(intake.getProgramId())))){
-
-	    //check gender conflict and age conflict
-	    if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-		   Program program = programManager.getProgram(intake.getProgramId());
-		   if(clientRestrictionManager.checkGenderConflict(program, client)){
-          	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
-              isWarning = true;
-		   }
-		   if(clientRestrictionManager.checkAgeConflict(program, client)){
-          	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
-              isWarning = true;
-		   }
-		}
-		
+		KeyConstants.INTAKE_STATUS_ACTIVE.equals(intake.getIntakeStatus())){
+		  isWarning = validateInputWarning(intake,client,request,messages);		
 		//check service restriction
-		if(!intake.getProgramId().equals(intake.getCurrentProgramId())){
+	//	if(programChange){
           ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(
         		intake.getProgramId(), intake.getClientId(), new Date());
           if (restrInPlace != null && request.getParameter("skipError")==null) {
@@ -501,7 +510,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
                 return mapping.findForward("edit");
     		}
           }
-		}
+		//}
 		if(isWarning){
   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.overwrite_conflict",
           			request.getContextPath()));

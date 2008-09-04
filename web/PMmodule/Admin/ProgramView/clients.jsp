@@ -131,11 +131,8 @@
 
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"	border="0">
 	<tr>
-		<td align="left" class="buttonBar2">
-			<a href="javascript:clickTab('General');"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
-			&nbsp;|&nbsp;<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
+		<td align="left" class="buttonBar2">			
+			<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;</html:link>
  			&nbsp;|&nbsp;<html:link	href="javascript:searchClients();"	style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;</html:link>
@@ -202,7 +199,9 @@
 						</logic:equal>
 					</logic:equal>	
 				</display:column>
-				<display:column property="clientId" sortable="true" title="Client No." />
+				<display:column  sortable="true" title="Client No." >
+					 <a href="<html:rewrite action="/PMmodule/QuatroClientSummary.do"/>?clientId=<c:out value="${clientInfo.clientId}"/>"><c:out value="${clientInfo.clientId}" /></a>
+				</display:column>
 				<display:column property="lastName" sortable="true" title="Last Name" />
 				<display:column property="firstName" sortable="true" title="First Name" />
 				<display:column property="admissionDate" sortable="true" title="Admission Date" />

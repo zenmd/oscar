@@ -355,6 +355,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		       	   intake.setAboriginalOther(headIntake.getAboriginalOther());
 		       	   intake.setVAW(headIntake.getVAW());
 		       	   intake.setCurSleepArrangement(headIntake.getCurSleepArrangement());
+		       	   intake.setLivedBefore(headIntake.getLivedBefore());
 		       	   intake.setOriginalCountry(headIntake.getOriginalCountry());
 		     	 }else{
 		           intake.setIntakeStatus(headIntake.getIntakeStatus());

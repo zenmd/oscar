@@ -37,10 +37,7 @@
 	border="0">
 	<tr height="18px">
 		<td align="left" class="buttonBar2">
-			<a href="javascript:clickTab('General');"
-			style="color:Navy;text-decoration:none;">
-			<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</a>
-			&nbsp;|&nbsp;<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
+			<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Programs&nbsp;&nbsp;</html:link>
 
 <!-- 			<html:link

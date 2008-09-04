@@ -69,13 +69,22 @@ public class UploadFileAction extends BaseClientAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
+	       if(Utility.IsEmpty(demographicNo)){
+	    	   ActionMessages messages= new ActionMessages();
+	    	   
+	    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment", request.getContextPath()));
+		        saveMessages(request,messages);
+				//return mapping.findForward("edit");		        
+	    	   return edit(mapping,form,request,response);
+	       }
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo=(String) request.getSession().getAttribute("user");
 
 			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+		    
+			List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
 		    if(lstIntakeHeader.size()>0) {
 		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
 	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());

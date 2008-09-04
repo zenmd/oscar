@@ -9,6 +9,7 @@
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
 <html:hidden property="queueId" />
+<input type="hidden" name="programId" value="<c:out value="${programId}"/>"/>
 <script lang="javascript">
 function submitForm(methodVal) {
 	trimInputBox();
@@ -37,8 +38,8 @@ function submitForm(methodVal) {
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-		<html:link action="/PMmodule/QuatroClientSummary.do" name="actionParam" style="color:Navy;text-decoration:none;">
-		<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>|
+		<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
+		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Program&nbsp;&nbsp;</html:link>|
 		<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 	</tr>

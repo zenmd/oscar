@@ -27,10 +27,7 @@
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
 	<tr>
-		<td align="left" class="buttonBar2">
-			<html:link action="/Home.do" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
-			</html:link>
+		<td align="left" class="buttonBar2">			
 			<html:link
 			action="/PMmodule/ProgramManager.do"
 			style="color:Navy;text-decoration:none;">&nbsp;
@@ -73,7 +70,11 @@
 				</tr>
 				<tr class="b">
 					<td width="20%">Facility:</td>
-					<td><c:out value="${facilityName}" /></td>
+					<td>					
+					<a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=view&facilityId=<c:out value="${program.facilityId}" />">
+						<c:out value="${facilityName}" />					
+					</a>
+					</td>
 				</tr>
 				<tr class="b">
 					<td width="20%">Description:</td>

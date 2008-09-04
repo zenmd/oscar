@@ -1,8 +1,9 @@
 package org.oscarehr.PMmodule.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class QuatroIntake {
+public class QuatroIntake implements Serializable,Cloneable {
     private Integer id;// fields
     private Integer clientId;
     private String staffId;

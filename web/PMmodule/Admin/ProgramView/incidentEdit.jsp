@@ -21,7 +21,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 	<tr>
 		<td align="left" class="buttonBar2">
 		<a href="javascript:clickTab('Incidents');" style="color:Navy;text-decoration:none;">&nbsp;
-			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Incident List&nbsp;&nbsp;|
 		</a>
 		<c:if test="${programActive && !isReadOnly}">
 		<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">

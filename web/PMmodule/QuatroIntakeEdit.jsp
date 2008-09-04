@@ -58,7 +58,7 @@ function submitForm(methodVal) {
       }
     
       obj = document.getElementsByName("client.sex")[0];
-      if(obj.value.trim()==""){
+      if(obj !=null && obj.value.trim()==""){
         alert("Gender is empty.");
         obj.value="";
         obj.focus();
@@ -66,7 +66,7 @@ function submitForm(methodVal) {
       }
 
       obj = document.getElementsByName("dob")[0];
-      if(obj.value.trim()==""){
+      if(obj!=null && obj.value.trim()==""){
         alert("Date of birth is empty.");
         obj.value="";
         obj.focus();
@@ -721,7 +721,10 @@ function checkExistClients(){
 							<td width="30%">
 							<c:choose>
 							<c:when test="${quatroIntakeEditForm.intake.intakeStatus=='admitted' ||
-							(Manual_Referal=='Y' || quatroIntakeEditForm.intake.intakeStatus=='active' && !(intakeHeadId=='0' || intakeHeadId==null || intakeHeadId=='') && intakeHeadId!=quatroIntakeEditForm.intake.id)}">
+							(Manual_Referal=='Y' || 
+							  quatroIntakeEditForm.intake.intakeStatus=='active' && 
+							  !(intakeHeadId=='0' || intakeHeadId==null || intakeHeadId=='')
+							   || intakeHeadId!=quatroIntakeEditForm.intake.id)}">
 							<html-el:hidden	property="intake.currentProgramId" /> 
 								<html-el:select	property="intake.programId" disabled="true">
 								<option value=""></option>

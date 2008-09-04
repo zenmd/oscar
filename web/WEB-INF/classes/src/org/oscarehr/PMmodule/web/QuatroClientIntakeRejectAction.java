@@ -12,31 +12,43 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.service.ClientManager;
+import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientIntakeRejectForm;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 
-public class QuatroClientIntakeRejectAction extends BaseClientAction {
+public class QuatroClientIntakeRejectAction extends BaseProgramAction {
    private ClientManager clientManager;
    private ProgramQueueManager programQueueManager;
    private LookupManager lookupManager;
+   private ProgramManager programManager;
 	   
-   public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public void setProgramManager(ProgramManager programManager) {
+	this.programManager = programManager;
+}
+
+public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return edit(mapping, form, request, response);
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
+	   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;	   
+	   String viewTab=request.getParameter("tab");
+       String id = request.getParameter("programId");
+       if(id == null || id.equals(""))
+       	id = (String)request.getAttribute("programId");
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
+          actionParam.put("programId", id); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
+       request.setAttribute("programId", id);
+       request.setAttribute("program", programManager.getProgram(new Integer(id)));
+       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));      
+       String demographicNo= request.getParameter("clientId");
        
        request.setAttribute("clientId", demographicNo);
        
@@ -49,7 +61,18 @@ public class QuatroClientIntakeRejectAction extends BaseClientAction {
 
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        ActionMessages messages = new ActionMessages();
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
+       String id = request.getParameter("programId");
+       if(id == null || id.equals(""))
+       	id = (String)request.getAttribute("programId");
+       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+       if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("programId", id); 
+       }
+       request.setAttribute("actionParam", actionParam);
+       request.setAttribute("programId", id);
+       request.setAttribute("program", programManager.getProgram(new Integer(id)));
+       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));
        boolean isError = false;
        boolean isWarning = false;
 	   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;
