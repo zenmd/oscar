@@ -36,11 +36,12 @@
 	<tr>
 		<td  align="left" class="buttonBar2">
 		<input type="hidden" id="method" name="method"></input>
+		<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> 
+		<img src="../images/close16.png" border="0"/> Close</html:link>
 		<c:if test="${!isReadOnly}">
-			<a href="javascript:submitForm();" onclick="javascript:setNoConfirm();">
-			<img src="../images/Save16.png" border="0"/> Save </a> &nbsp;|&nbsp;
+			 &nbsp;|&nbsp; <a href="javascript:submitForm();" onclick="javascript:setNoConfirm();">
+			<img src="../images/Save16.png" border="0"/> Save </a>
 		</c:if>	
-			<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> <img src="../images/Back16.png" border="0"/> Back to List</html:link>
 			
 		</td>
  	</tr>

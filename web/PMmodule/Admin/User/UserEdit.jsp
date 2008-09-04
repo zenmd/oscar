@@ -25,7 +25,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 				</c:if>	
 				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_USER %>" rights="<%=KeyConstants.ACCESS_READ %>">
 					<html:link href="javascript:submitForm('profile');" 	style="color:Navy;text-decoration:none;">
-						<img border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
+						<img border=0 src=<html:rewrite page="/images/greenarrow.gif"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
 				</security:oscarSec>
 			</logic:present> 
 			<logic:notPresent name="userForEdit">

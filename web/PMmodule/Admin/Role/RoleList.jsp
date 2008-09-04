@@ -12,7 +12,7 @@
 		<td align="left" class="buttonBar2"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 			<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_ROLE %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 				<html:link action="/PMmodule/Admin/RoleManager.do?method=preNew"
 					style="color:Navy;text-decoration:none;">

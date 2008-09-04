@@ -31,6 +31,7 @@ function checkSignLinkVisibility(objSel) {
 }
 
 function submitForm(methodVal) {
+	if(!isDateValid) return;
 	trimInputBox();
 	var ovPassStartDateTxt = document.getElementsByName("admission.ovPassStartDateTxt")[0];
 	var ovPassEndDateTxt = document.getElementsByName("admission.ovPassEndDateTxt")[0];

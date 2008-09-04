@@ -4,7 +4,7 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables &nbsp;-&nbsp;<bean:write name="lookupCodeListForm" property="tableDef.description"/></span></th>
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Table &nbsp;-&nbsp;<bean:write name="lookupCodeListForm" property="tableDef.description"/></span></th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">

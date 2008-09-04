@@ -59,16 +59,16 @@
 	 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%" 	border="0">
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
-		<c:if test="${!isReadOnly}">
-		  <html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
-		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room&nbsp;&nbsp;|</html:link>
-		</c:if>	
-<c:if test="${bedManagerForm.room.assignedBed=='1'}">
-		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=managebed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>' style="color:Navy;text-decoration:none">
-		<img border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;Beds&nbsp;&nbsp;|</a>
-</c:if>
 		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=manageroom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>' style="color:Navy;text-decoration:none">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close</a>
+		<c:if test="${!isReadOnly}">
+		  &nbsp;|&nbsp;<html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Room</html:link>
+		</c:if>	
+		<c:if test="${bedManagerForm.room.assignedBed=='1'}">
+		&nbsp;|&nbsp;<a href='<html:rewrite action="/PMmodule/BedManager.do?method=managebed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>' style="color:Navy;text-decoration:none">
+		<img border="0" src="<html:rewrite page="/images/greenarrow.gif"/>" />&nbsp;Beds</a>
+		</c:if>
 	  </td></tr>
 
 	  <!-- messages -->

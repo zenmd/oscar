@@ -23,7 +23,7 @@
 		<tr>
 			<td align="left" class="buttonBar"><html:link
 				action="/CaseManagementView2.do"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">
-				<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|
+				<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 			</html:link></td>
 		</tr>
 	</table>	

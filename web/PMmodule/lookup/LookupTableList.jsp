@@ -4,15 +4,14 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables
-			Lookup Table List Form
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Fields
 			</span></th>
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2"><html:link
 			action="/PMmodule/Admin/SysAdmin.do"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 		</td>
 
 	</tr>

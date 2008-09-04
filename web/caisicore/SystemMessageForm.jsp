@@ -26,7 +26,7 @@
 				<tr>
 					<td align="left" class="buttonBar2">
 					<html:link	action="/SystemMessage.do?method=list"		style="color:Navy;text-decoration:none;">
-						<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
+						<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 					<c:if test="${!isReadOnly}" >
 					<html:link href="javascript:submitForm();"  onclick="javascript:setNoConfirm();"
 						style="color:Navy;text-decoration:none;">

@@ -29,10 +29,10 @@
 						<td align="left" class="buttonBar2"><html:link
 							action="/Home.do"
 							style="color:Navy;text-decoration:none">&nbsp;
-							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;|</html:link>					
+							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close</html:link>					
 							<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
-								<html:link action="/PMmodule/FacilityManager.do?method=add"	style="color:Navy;text-decoration:none">&nbsp;
-								<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility&nbsp;</html:link>
+								&nbsp;|&nbsp;<html:link action="/PMmodule/FacilityManager.do?method=add"	style="color:Navy;text-decoration:none">&nbsp;
+								<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility</html:link>
 							</security:oscarSec>
 						</td>
 					</tr>

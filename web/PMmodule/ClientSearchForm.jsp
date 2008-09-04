@@ -31,10 +31,7 @@
 		var dateValid = true;
 		if(form == null) alert ('form is null');
 		if (form.elements == null) alert('elements is null');
-		if (form.elements['criteria.dob'].value!='') {
-			dateValid = check_date('criteria.dob');
-			return dateValid;
-		}
+		if (form.elements['criteria.dob'].value!='') return true;
 		if (form.elements['criteria.demographicNo'].value!='') return true;
 		if (form.elements['criteria.firstName'].value !='') return true;
 		if (form.elements['criteria.lastName'].value !='') return true;
@@ -51,14 +48,31 @@
 		if(dateValid) 
 			alert('Please enter at least one of the following: Client No, First Name, Last Name, Date of Birth, Assigned To or Program and then click on Search.');
 		return false; 
-	}	
-
+	}
+	function searchClicked()
+	{
+		if(deferSubmit) {
+			setTimeout("submitForm('search')", 200);
+		}
+		else
+		{
+			submitForm("search");
+		}
+	}
 	function submitForm(methodVal) {
-	    if(timerId != 0) clearTimeout(timerId);
 		trimInputBox();
+		if(!isDateValid) return;		
 		if (!hasAnyFilter()) return;
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
+	}
+	function void1()
+	{
+		;
+	}
+	function onCalFocus()
+	{
+		;
 	}
 	function init()
 	{
@@ -97,7 +111,7 @@
 				<html:link	action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;|</html:link>
 			</security:oscarSec>	
-			<a href="javascript:submitForm('search')" style="color:Navy;text-decoration:none;">&nbsp;
+			<a href="javascript:void1();" onclick="javascript:searchClicked();" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;|</a>
 			<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;</a>		

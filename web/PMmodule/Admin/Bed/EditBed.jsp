@@ -33,13 +33,14 @@
 	 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%" 	border="0">
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
+		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=managebed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>' style="color:Navy;text-decoration:none">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close</a>
+
 		<c:if test="${!isReadOnly}">
-		  <html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
-		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Bed&nbsp;&nbsp;|</html:link>
+		  &nbsp;|&nbsp;<html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save Bed</html:link>
 		</c:if>	
 
-		<a href='<html:rewrite action="/PMmodule/BedManager.do?method=managebed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>' style="color:Navy;text-decoration:none">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>
 	  </td></tr>
 
 	  <!-- messages -->

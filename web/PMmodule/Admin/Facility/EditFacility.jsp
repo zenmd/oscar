@@ -87,11 +87,8 @@
 				<!-- submenu -->
 				<tr>
 					<td align="left" class="buttonBar2">
-						<html:link action="/Home.do"
-						style="color:Navy;text-decoration:none">&nbsp;
-						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 						<html:link	action="/PMmodule/FacilityManager.do?method=list"	style="color:Navy;text-decoration:none;">
-						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Facilities&nbsp;&nbsp;|</html:link>
+						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|</html:link>
 						<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">						
 							<html:link	href="javascript:submitForm();"	onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>

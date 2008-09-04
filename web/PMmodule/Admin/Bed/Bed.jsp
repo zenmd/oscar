@@ -47,17 +47,14 @@
 	 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%" 	border="0">
 	 <!-- submenu -->
 	  <tr><td align="left" class="buttonBar2">
+		<a href="<html:rewrite action="/PMmodule/BedManager.do?method=editRoom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>" style="color:Navy;text-decoration:none;">
+		<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Room</a>
 		<c:if test="${!isReadOnly}">
 		 <security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_BED %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
-		  <a href='<html:rewrite action="/PMmodule/BedManager.do?method=editBed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>&bedId=0' style="color:Navy;text-decoration:none">
-		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add Bed&nbsp;&nbsp;|</a>
+		  &nbsp;|&nbsp;<a href='<html:rewrite action="/PMmodule/BedManager.do?method=editBed&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>&bedId=0' style="color:Navy;text-decoration:none">
+		  <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add Bed</a>
 		</security:oscarSec>
 		</c:if>	
-
-		<html:link action="/Home.do"	style="color:Navy;text-decoration:none">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
-		<a href="<html:rewrite action="/PMmodule/BedManager.do?method=editRoom&facilityId="/><c:out value="${bedManagerForm.facilityId}"/>&roomId=<c:out value="${roomId}"/>" style="color:Navy;text-decoration:none;">
-		<img border="0" src="<html:rewrite page="/images/Back16.png"/>" />&nbsp;Back to Room&nbsp;&nbsp;</a>
 	  </td></tr>
 
 	  <!-- messages -->

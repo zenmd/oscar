@@ -20,7 +20,7 @@
 	<tr>
 		<td align="left" class="buttonBar2">
             <a style="color:Navy;text-decoration:none;" href="javascript:winClose();">
-	            <img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Close&nbsp;</a>
+	            <img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;</a>
 	    </td>
 	</tr>
 	<tr>
