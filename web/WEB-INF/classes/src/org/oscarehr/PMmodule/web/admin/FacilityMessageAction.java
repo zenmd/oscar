@@ -121,6 +121,8 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 		//request.getSession(true).setAttribute("facilities", facilities);
 		
+        Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
 		if(messageId != null) {
 			FacilityMessage msg = mgr.getMessage(messageId);
 			
@@ -131,12 +133,11 @@ public class FacilityMessageAction extends BaseFacilityAction {
 				return list(mapping,form,request,response);
 			}
 			facilityMessageForm.set("facility_message",msg);
+			isReadOnly = isReadOnly || msg.getExpired();
 		}
 		
 		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
         request.setAttribute("msgTypepList", msgTypepList);
-        Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-        boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("edit");
 	}
