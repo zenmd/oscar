@@ -145,13 +145,14 @@ function checkExistClients(i){
 	<tr>
 		<td align="left" class="buttonBar2">
         <html:link action="/PMmodule/QuatroIntakeEdit.do?method=update" name="actionParam" style="color:Navy;text-decoration:none;">
-        <img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;</html:link></td>
+        <img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close</html:link></td>
         <c:if test="${!isReadOnly}">
-		  <a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
-			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
+		  &nbsp;|&nbsp;<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save</a>
          </c:if>
-		  <a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();" target="_blank">
-			<img border=0 src=<html:rewrite page="/images/history.gif"/> />&nbsp;History&nbsp;&nbsp;</a>|
+		  &nbsp;|&nbsp;<a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();" target="_blank">
+			<img border=0 src=<html:rewrite page="/images/history.gif"/> />&nbsp;History&nbsp;&nbsp;</a>
+		</td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">
