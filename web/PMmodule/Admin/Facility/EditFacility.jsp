@@ -160,7 +160,7 @@
 									Integer sectorId = (Integer) request.getAttribute("sectorID");
 								%>
 								<tr class="b">
-									<td width="20%">Shelter:</td>
+									<td width="20%">Shelter: *</td>
 									<td><select name="facility.orgId">										
 									   <option value=""></option>
 										<c:forEach var="org" items="${orgList}">
@@ -178,7 +178,7 @@
 									</select></td>
 								</tr>
 								<tr class="b">
-									<td width="20%">Sector:</td>
+									<td width="20%">Sector: *</td>
 									<td><select name="facility.sectorId" >
 										<option value="">&nbsp;</option>
 										<c:forEach var="sector" items="${sectorList}">
