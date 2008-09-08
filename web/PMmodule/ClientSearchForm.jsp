@@ -66,10 +66,6 @@
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
-	function void1()
-	{
-		;
-	}
 	function init()
 	{
 		var form = document.clientSearchForm2;
