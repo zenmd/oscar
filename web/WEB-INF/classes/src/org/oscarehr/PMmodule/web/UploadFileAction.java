@@ -84,7 +84,8 @@ public class UploadFileAction extends BaseClientAction {
 
 			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		    
-			List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+			// is client in scope
+			List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
 		    if(lstIntakeHeader.size()>0) {
 		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
 	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());

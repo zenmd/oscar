@@ -1,6 +1,31 @@
 /* This method will return true if valid, false otherwise (and present an alert box). */ 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
 
+function isName(str) 
+{ 
+    var reg = new RegExp(/^[\s\'\-a-zA-Z]+$/); 
+    var flag = reg.test(str);
+    if(flag){
+		var len = str.length;
+		var startChar = str.substring(0,1);
+		var endChar = str.substring(len-1);
+		if(startChar == "'" || startChar == "-" || endChar == "'" || endChar == "-" || str.indexOf("''") >= 0 || str.indexOf("--") >= 0|| str.indexOf("  ") >= 0){
+			flag = false	
+		}	
+	}
+	return flag;
+}
+function isUserId(str) 
+{ 
+    var reg = new RegExp(/^[\sa-zA-Z0-9]+$/); 
+    var flag = reg.test(str);
+    if(!flag){
+    	alert("User ID should be alphanumeric");
+	}
+	return flag;
+}
+
+
 function validateRequiredField(fieldId, fieldName, maxLength)
 {
 	var field=document.getElementById(fieldId);

@@ -19,6 +19,7 @@
 	<html:hidden property="intake.clientId" />
 	<html:hidden property="intake.id" />
 	<html:hidden property="intake.createdOnTxt" />
+	<html:hidden property="client.active" />
 	<input type="hidden" name="fromManualReferralId" value="<c:out value="${fromManualReferralId}"/>" />
 	<input type="hidden" name="method" />
 	<input type="hidden" name="newClientChecked" value="N" />
@@ -105,20 +106,6 @@ function submitForm(methodVal) {
 	}
 }
 
-function isName(str) 
-{ 
-    var reg = new RegExp(/^[\s\'\-a-zA-Z]+$/); 
-    var flag = reg.test(str);
-    if(flag){
-		var len = str.length;
-		var startChar = str.substring(0,1);
-		var endChar = str.substring(len-1);
-		if(startChar == "'" || startChar == "-" || endChar == "'" || endChar == "-" || str.indexOf("''") >= 0 || str.indexOf("--") >= 0|| str.indexOf("  ") >= 0){
-			flag = false	
-		}	
-	}
-	return flag;
-}
 
 function checkExistClients(){
    var lastName = document.getElementsByName("client.lastName")[0];
@@ -134,6 +121,17 @@ function checkExistClients(){
    win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=750,height=600");
    win.focus();
 }
+
+function confirmActive()
+{
+   	var isActive = document.getElementsByName("client.active")[0];
+	if(isActive){
+		return confirm("The client is currently admitted in another program. If you admit the client now, this will cause an automatic discharge. Click OK to proceed?");
+	}
+	else
+		return true;
+}
+
 </script>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
@@ -165,7 +163,7 @@ function checkExistClients(){
 							<c:choose>
 								<c:when	test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
                						(intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
-               						<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
+               						<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
 									style="color:Navy;text-decoration:none;"> 
 									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
 								</c:when>

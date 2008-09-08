@@ -106,7 +106,7 @@ public class LookupTag extends BaseInputTag {
         prepareAttribute(results, "style", "border:0px;");
         prepareAttribute(results, "width", "35px");
         results.append(this.getElementClose());
-        results.append("<a ");
+        results.append("<a href='javascript:void1();' ");
         prepareAttribute(results, "onclick", "showLookup('" + tableName + "', '', '', " +
            "'" + formProperty  + "','" +  
            prepareName(codeProperty, name) + "','" + prepareName(bodyProperty, name) + "', true, '" + sRootPath + "');");        

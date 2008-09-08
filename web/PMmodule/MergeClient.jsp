@@ -72,8 +72,19 @@
 	function popupHelp(type) {
 		alert('not yet implemented... will show term definitions');
 	}
+	function searchClicked()
+	{
+		if(deferSubmit) {
+			setTimeout("submitForm('search')", 200);
+		}
+		else
+		{
+			submitForm("search");
+		}
+	}
 	function submitForm(methodVal) {
 		trimInputBox();
+		if(!isDateValid) return;		
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
@@ -134,8 +145,7 @@
 			  		{
 			  			keynum = event.which;
 			  		}
-					if (keynum==13) submitForm('search');
-					return true;
+					if (keynum==13) searchClicked();
 				}
 </script>
 	<% String a="1"; %>

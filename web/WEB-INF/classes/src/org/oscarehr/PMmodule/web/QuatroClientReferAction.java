@@ -110,15 +110,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm clientForm = (DynaActionForm) form;
 		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
-		
-		//check if any queue exists for same clienId and programId
-		List queues = programQueueManager.getProgramQueuesByClientIdProgramId(crObj.getClientId(), crObj.getProgramId());
-		if(queues.size()>0){
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"error.referral.duplicated_queue", request.getContextPath()));			
-			saveMessages(request, messages);			
-		}
-
 		String programId = request.getParameter("selectedProgramId");
 		Program program = (Program) clientForm.get("program");
 		if (!Utility.IsEmpty(programId)) {
@@ -136,7 +127,19 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("referralStatus", crObj.getStatus());		
 		request.setAttribute("client", clientManager
 				.getClientByDemographicNo(cId));
+		crObj.setClientId(Integer.valueOf(cId));
 		
+		//check if any queue exists for same clienId and programId
+		/* do not check in this place
+		if(!programId.equals(crObj.getProgramId().toString())) {
+			List queues = programQueueManager.getProgramQueuesByClientIdProgramId(Integer.valueOf(cId),Integer.valueOf(programId));
+			if(queues.size()>0){
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+						"error.referral.duplicated_queue", request.getContextPath()));
+				saveMessages(request, messages);	
+			}
+		}
+		*/
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		List lstProgram =clientManager.getProgramLookups(new Integer(cId), shelterId, (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
@@ -240,7 +243,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 		//check if any queue exists for same clienId and programId
 		List queues = programQueueManager.getProgramQueuesByClientIdProgramId(refObj.getClientId(), refObj.getProgramId());
-		if(queues.size()>0){
+		if(refObj.getId() == null && queues.size()>0) {
 			isError = true;			
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.referral.duplicated_queue", request.getContextPath()));			

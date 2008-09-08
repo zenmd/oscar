@@ -96,6 +96,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>Title:</td>
 					<td><html-el:select property="title" tabindex="8">
+						<html-el:option value=""></html-el:option>
 						<c:forEach var="title" items="${titleLst}">
 							<html-el:option value="${title.code}">
 								<c:out value="${title.description}" />
@@ -165,6 +166,8 @@ function submitForm(func){
 		if (validateRequired(fld_userName, "UserID") && validateLength(fld_userName, "UserID", 12, 6)){
 			v1 = true;
 		}
+		v1 = v1 &&  isUserId(fld_userName.value);
+		 
 		if ( validateRequired(fld_firstName, "First Name") && validateLength(fld_firstName, "First Name", 30, 2)){
 			v2 = true;
 		}
@@ -242,6 +245,9 @@ function validatePwdMatch(field, cfield){
 }
 
 function emailChecker(str) {
+	// the email checking is disabled -- client requested
+	return true;
+	
 		str = trim(str);
 		
 		var at="@";

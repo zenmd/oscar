@@ -70,10 +70,6 @@
 	{
 		;
 	}
-	function onCalFocus()
-	{
-		;
-	}
 	function init()
 	{
 		var form = document.clientSearchForm2;
@@ -91,8 +87,9 @@
   		{
   			keynum = event.which;
   		}
-		if (keynum==13) submitForm('search');
-		return true;
+		if (keynum==13) {
+			searchClicked();
+		}
 	}
 </script>
 

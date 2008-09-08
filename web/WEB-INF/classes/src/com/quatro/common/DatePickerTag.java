@@ -65,7 +65,6 @@ public class DatePickerTag extends BaseInputTag{
         prepareAttribute(results, "tabindex", getTabindex());
         prepareAttribute(results, "onblur", "onCalBlur('" + sName + "');");        
         prepareAttribute(results, "onkeypress", "onCalKeyPress(event,'" + sName + "');");        
-        prepareAttribute(results, "onfocus", "onCalFocus('" + sName + "');");        
         prepareValue(results);
         results.append(this.prepareEventHandlers());
         results.append(this.prepareStyles());
@@ -76,7 +75,7 @@ public class DatePickerTag extends BaseInputTag{
         prepareAttribute(results, "style", "border:0px;");
         prepareAttribute(results, "width", "28px");
         results.append(this.getElementClose());
-        results.append("<a ");
+        results.append("<a href='javascript:void1();' ");
 
         Calendar rightNow = Calendar.getInstance();
 		int year = rightNow.get(Calendar.YEAR);

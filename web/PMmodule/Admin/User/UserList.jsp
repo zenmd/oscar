@@ -1,5 +1,5 @@
 <!-- Source:web/PMmodule/Admin/User/UserList.jsp -->
-
+<%String a = "1"; %>
 <%@ include file="/taglibs.jsp"%>
 <%@page import="com.quatro.common.KeyConstants;"%>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px"
@@ -96,7 +96,7 @@
 
             <display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:setProperty name="basic.msg.empty_list"
-				value="Please enter a filter and click search." />
+				value="No records found, please enter a filter and click search." />
 
 			<display:column sortable="true" title="User ID" sortProperty="userName">
 				<a
@@ -104,10 +104,19 @@
 				<c:out value="${user.userName}" /> </a>
 			</display:column>
 
-			<display:column sortable="true" title="Name" sortProperty="fullName">
+			<display:column sortable="true" title="First Name" sortProperty="providerFName">
 				<a
 					href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
-				<c:out value="${user.fullName}" /> </a>
+				<c:out value="${user.providerFName}" /> </a>
+			</display:column>
+			<display:column sortable="true" title="Last Name" sortProperty="providerLName">
+				<a
+					href="<html:rewrite action="/PMmodule/Admin/UserManager.do"/>?method=edit&providerNo=<c:out value="${user.providerNo}" />">
+				<c:out value="${user.providerLName}" /> </a>
+			</display:column>
+			<display:column sortable="true" title="Active" sortProperty="activeyn">
+				<c:if test="${user.activeyn == 1 }"> Yes </c:if>
+				<c:if test="${user.activeyn == 0}"> No </c:if>
 			</display:column>
 		</display:table></div>
 		</td>

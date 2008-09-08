@@ -39,7 +39,7 @@
               }  
               else
               {
-                 hashVal += elem.value;
+                 hashVal += " " + elem.value;
               }
           }
        }

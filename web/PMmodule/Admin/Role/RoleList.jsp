@@ -52,7 +52,15 @@
 
 			<display:column property="description" sortable="true"
 				title="Description" />
-			<display:column title="Active" property="active" sortable="true"></display:column>
+
+			<display:column title="Active" sortable="true" sortProperty="active">
+				<logic:equal name="role" property="active" value="true">
+					Yes
+				</logic:equal>
+				<logic:equal name="role" property="active" value="false">
+					No
+				</logic:equal>
+			</display:column>
 		</display:table></div>
 		</td>
 	</tr>

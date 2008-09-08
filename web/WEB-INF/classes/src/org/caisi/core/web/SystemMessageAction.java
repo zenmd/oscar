@@ -61,7 +61,7 @@ public class SystemMessageAction extends DispatchAction {
 		
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 //		List activeMessages = mgr.getMessages();
-		List activeMessages = mgr.getActiveMessages();
+		List activeMessages = mgr.getMessages();
 		request.setAttribute("ActiveMessages",activeMessages);
 		return mapping.findForward("list");
 	}
@@ -71,7 +71,7 @@ public class SystemMessageAction extends DispatchAction {
 		String messageId = request.getParameter("id");
 		if(messageId == null)
 			messageId = (String)request.getAttribute("systemMsgId");
-		
+        boolean isReadOnly =false;		
 		if(messageId != null) {
 			SystemMessage msg = mgr.getMessage(messageId);
 			
@@ -81,16 +81,19 @@ public class SystemMessageAction extends DispatchAction {
 				saveErrors(request,webMessage);
 				return list(mapping,form,request,response);
 			}
+			isReadOnly = msg.getExpired();
 			systemMessageForm.set("system_message",msg);
 		}
 		
 		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
         request.setAttribute("msgTypepList", msgTypepList);
-        boolean isReadOnly =false;		
 		SecurityManager sec = (SecurityManager) request.getSession()
-		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);	
-		if (sec.GetAccess(KeyConstants.FUN_ADMIN_SYSTEMMESSAGE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
-			isReadOnly=true;
+		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+		if (!isReadOnly)
+		{
+			if (sec.GetAccess(KeyConstants.FUN_ADMIN_SYSTEMMESSAGE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+				isReadOnly=true;
+		}
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		return mapping.findForward("edit");
 	}

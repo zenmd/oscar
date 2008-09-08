@@ -62,9 +62,10 @@ public class SecurityDao extends HibernateDaoSupport {
 		log.debug("All User list");
 		try {
 			// String queryString = "select securityNo, userName, providerNo from Security";
-			String queryString =  "select s.securityNo, s.userName, p.lastName, p.firstName, p.providerNo"
+			String queryString =  "select s.securityNo, s.userName, p.lastName, p.firstName, p.providerNo, p.status"
 				+ " from Security s, SecProvider p"
-				+ " where s.providerNo = p.providerNo";
+				+ " where s.providerNo = p.providerNo"
+				+ " order by 3,4";
 				
 			return this.getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
@@ -92,7 +93,7 @@ public class SecurityDao extends HibernateDaoSupport {
 			String sql3 = "";
 			String sql4 = "";
 			
-			String queryString =  "select s.securityNo, s.userName, p.lastName, p.firstName, p.providerNo"
+			String queryString =  "select s.securityNo, s.userName, p.lastName, p.firstName, p.providerNo, p.status"
 				+ " from Security s, SecProvider p"
 				+ " where s.providerNo = p.providerNo";
 			
@@ -100,7 +101,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				userName = bean.getUserName();
 				userName = StringEscapeUtils.escapeSql(userName);
 				userName = userName.toLowerCase();
-				sql0 = "lower(s.userName) like '%" + userName + "%'";
+				sql0 = "lower(s.userName) like '" + userName + "%'";
 				
 			}
 			
@@ -109,7 +110,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				firstName = StringEscapeUtils.escapeSql(firstName);
 				firstName = firstName.toLowerCase();
 				
-				sql1 = "lower(p.firstName) like '%" + firstName + "%'";
+				sql1 = "lower(p.firstName) like '" + firstName + "%'";
 				
 			}
 			
@@ -118,7 +119,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				lastName = StringEscapeUtils.escapeSql(lastName);
 				lastName = lastName.toLowerCase();
 				
-				sql2 = "lower(p.lastName) like '%" + lastName + "%'";
+				sql2 = "lower(p.lastName) like '" + lastName + "%'";
 				
 			}
 			
@@ -159,7 +160,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				queryString = queryString + AND + sql4;
 			}
 			
-			
+			queryString += " order by 3,4";
 			
 			return this.getHibernateTemplate().find(queryString);
 

@@ -36,6 +36,15 @@
             form.method.value='quatroAdmit';
         }
     }
+	function confirmActive()
+	{
+	   	var isActive = document.getElementsByName("client.active")[0];
+		if(isActive){
+			return confirm("The client is currently admitted in another program. If you admit the client now, this will cause an automatic discharge. Click OK to proceed?");
+		}
+		else
+			return true;
+	}
 </script>
 <html:hidden property="clientId" />
 <html:hidden property="queueId" />
@@ -68,7 +77,12 @@
     <c:choose>
     <c:when test="${queue_entry.fromIntakeId!=null}" >    
     	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_WRITE %>">									
+			<logic:equal value="true" name="queue_entry" property="clentActive">
+	  		<a onclick="javascript: return confirmActive();" href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+			</logic:equal>
+			<logic:equal value="false" name="queue_entry" property="clentActive">
 	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+			</logic:equal>
 	  	</security:oscarSec>	
 	</c:when>
 	<c:otherwise>

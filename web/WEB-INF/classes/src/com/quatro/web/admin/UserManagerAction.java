@@ -32,7 +32,7 @@ import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UsersManager;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
-
+import com.quatro.util.*;
 public class UserManagerAction extends DispatchAction {
 
 	private LogManager logManager;
@@ -577,17 +577,40 @@ public class UserManagerAction extends DispatchAction {
 		String providerNo = (String) secuserForm.get("providerNo");
 		ActionMessages messages = new ActionMessages();
 		List secUserRoleLst = getRowList(request, form, 0);
-		ArrayList LstforSave = new ArrayList();
+		Hashtable hsforSave = new Hashtable();
 		
 		Iterator it = secUserRoleLst.iterator();
-		while(it.hasNext()){
-			Secuserrole tmp = (Secuserrole)it.next();
-			if(tmp.getOrgcd() != null && tmp.getOrgcd().length() > 0 && tmp.getRoleName() != null && tmp.getRoleName().length() > 0)
-				LstforSave.add(tmp);
+		boolean hasDuplicates = false;
+		boolean hasBlanks = false;
+		String duplicateItem = "";
+		try {
+			while(it.hasNext()){
+				Secuserrole tmp = (Secuserrole)it.next();
+				if(Utility.IsEmpty(tmp.getOrgcd()) || Utility.IsEmpty(tmp.getRoleName()))
+				{
+					hasBlanks = true;
+					break;
+				}
+				if(hsforSave.containsKey(tmp.getOrgcd() + tmp.getRoleName()))
+				{
+					hasDuplicates = true;
+					duplicateItem="Org: " + tmp.getOrgcd() + " Role: " + tmp.getRoleName(); 
+					break;
+				}
+				else
+				{
+					hsforSave.put(tmp.getOrgcd() + tmp.getRoleName(), "duplicate detector");
+				}
+			}
 		}
-		if(LstforSave.size() == secUserRoleLst.size()){
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+			// duplicate detected;
+		}
+		if(!(hasBlanks || hasDuplicates)){
 			try{
-				usersManager.saveRolesToUser(LstforSave, providerNo);
+				usersManager.saveRolesToUser(secUserRoleLst, providerNo);
 				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 				request.getContextPath()));
 				saveMessages(request,messages);			
@@ -598,8 +621,15 @@ public class UserManagerAction extends DispatchAction {
 				saveMessages(request,messages);				
 			}
 		}else{
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed.emptyField",
-			request.getContextPath()));
+			if(hasBlanks) {
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed.emptyField",
+						request.getContextPath()));
+			}
+			else
+			{
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed.duplicateItem",
+						request.getContextPath(),duplicateItem));
+			}
 			saveMessages(request,messages);	
 			secuserForm.set("secUserRoleLst", secUserRoleLst);
 			return mapping.findForward("profile");

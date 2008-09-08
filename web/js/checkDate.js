@@ -1,55 +1,59 @@
 var timerId = 0;
-var isValid = true;
-
-function check_date_for_oracle(checkedDate) 
-{ 
-	var date1 = convert_date(checkedDate);
-	if(date1!=null) {	
-		if(check_date_format1(date1) ) {						
-			return check_date(date1);
-		} else {
-		return false;
-		}
-	} else {		
-		return false;
-	}
-}		
+var isDateValid = true;
+var doOnBlur = true;
+var deferSubmit = false;
 
 function openDatePickerCalendar(url){
-  if(readOnly==true) return;
-  if(timerId != 0) clearTimeout(timerId);
-  if(win!=null) win.close();
-  win=window.open(url, '', 'width=310,height=310'); 
+  	if(readOnly==true) return;
+  	cancelOnCalBlur();
+  	if(win!=null) win.close();
+  	win=window.open(url, '', 'width=310,height=310'); 
 }
+function onCalBlur(checkedDateName)
+{
+	isDateValid = true;
+	if(doOnBlur)
+	{
+		deferSubmit = true;
+	    timerId = setTimeout("check_date('" + checkedDateName + "')", 100);
+	}
+	doOnBlur = true;
+}
+
+function cancelOnCalBlur()
+{
+	if(timerId > 0) clearTimeout(timerId);
+	deferSubmit = false;
+	doBlurCount = false;
+}
+
+function onCalKeyPress(e, checkedDateName)
+{
+    var keyPressed;
+    var nav4 = window.event ? true : false;
+	if (nav4) e = window.event;
+	keyPressed = nav4 ? e.which : e.keyCode;
+	if (keyPressed == 13) {
+		doOnBlur = false;
+		if(!check_date(checkedDateName)) {
+			if(nav4) e.stopPropagation();
+			e.cancelBubble=true;
+		}
+	}
+	else
+	{
+		doOnBlur = true;
+		var checkedDateObj = document.getElementsByName(checkedDateName)[0];
+		checkedDateObj.style.backgroundColor='#ffffff';
+	}
+}
+
 function setDate(form_name,element_name,year1,month1,day1) {
 	  win.close();
   	  var dtElement = document.getElementsByName(element_name)[0];
       var val = getFormatedDate(year1,month1,day1);
       dtElement.value =  val;
 	  dtElement.style.backgroundColor='#ffffff';
-}
-function onCalBlur(checkedDateName)
-{
-	if(isValid) 
-	{
-    	timerId = setTimeout("check_date('" + checkedDateName + "')", 200); 
-    }
-}
-function onCalFocus(checkedDateName)
-{
-	isValid = true;
-}
-function onCalKeyPress(event, checkedDateName)
-{
-//    var nav4;
-//    var keyPressed;
-    
-//    var nav4 = window.Event ? true : false;
-//	keyPressed = nav4 ? event.which : event.keyCode;
-		
-//    if (keyPressed == 13)
-	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
-	checkedDateObj.style.backgroundColor='#ffffff';
 }
 function getFormatedDate(year1, month1,day1)
 {
@@ -62,7 +66,7 @@ function getFormatedDate(year1, month1,day1)
 }
 function setInvalid(checkedDateObj)
 {
-		isValid = false;
+		isDateValid = false;
     	alert('Date entered is not valid.');
   	    checkedDateObj.style.backgroundColor='#ff0000';
 		checkedDateObj.focus();
@@ -75,7 +79,6 @@ function check_date(checkedDateName)
    	//pattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	 //'21-09-2007'
    	
    	if(readOnly==true) return true;
-   	
    	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
    	var checkedDate = checkedDateObj.value;
    	if(checkedDate==''){

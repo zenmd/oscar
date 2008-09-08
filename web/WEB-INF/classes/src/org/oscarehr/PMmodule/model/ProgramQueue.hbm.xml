@@ -40,5 +40,6 @@
 		<property name="intakeId" type="java.lang.Integer" formula="(select q.intake_id from intake q where q.queue_id = queue_id)" />
  -->
 		<property name="fromIntakeId" column="intake_id" />
+		<property name="ClientActive" type="boolean"  formula="(select count(*) from admission t where t.admission_status='admitted' and t.client_id=client_id)"/> 
 	</class>
 </hibernate-mapping>

@@ -92,11 +92,13 @@ public class UserSearchAction extends DispatchAction {
 				Object[] tmp = (Object[]) userlist.get(i);
 
 				Secuserrole sur = new Secuserrole();
-				sur.setId((Integer) tmp[0]);
+				sur.setId((Integer) tmp[0]);  // provider No
 				sur.setUserName((String) tmp[1]);
+				sur.setProviderFName((String) tmp[3]);
+				sur.setProviderLName((String) tmp[2]);
 				sur.setFullName((String) tmp[2] + ", " + (String) tmp[3]);
 				sur.setProviderNo((String) tmp[4]);
-
+				sur.setActiveyn(Integer.valueOf((String) tmp[5]));
 				surlist.add(sur);
 			}
 

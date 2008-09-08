@@ -67,16 +67,22 @@ String s = "debug";
 					</table>
 					</div>
 										
-					<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="message" name="ActiveMessages" export="false" pagesize="0" requestURI="/SystemMessage.do?method=list">
+					<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="message" name="ActiveMessages" export="false" pagesize="30" requestURI="/SystemMessage.do?method=list">
 						        <display:setProperty name="paging.banner.placement" value="bottom" />
 						        <display:setProperty name="paging.banner.item_name" value="agency" />
 						        <display:setProperty name="paging.banner.items_name" value="messages" />
 						        <display:setProperty name="basic.msg.empty_list" value="No message found." />
-						
-						        <display:column sortable="false" title="">
-						        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > Edit </a>
-						        </display:column>
-						        
+								
+								<logic:equal value="true" name="message" property="expired">
+							        <display:column sortable="false" title="">
+							        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > View </a>
+							        </display:column>
+						        </logic:equal>
+								<logic:equal value="false" name="message" property="expired">
+							        <display:column sortable="false" title="">
+							        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > Edit </a>
+							        </display:column>
+								<logic:equal value="true" name="message" property="expired">
 								
 						        <display:column property="formattedCreationDate" sortable="true" title="Creation Date"/>
 						        <display:column property="formattedExpiryDate" sortable="true" title="Expiry Date" />
