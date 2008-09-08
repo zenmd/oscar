@@ -151,7 +151,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 				+ ", value: " + value);
 		try {
 			String queryString = "from Secobjprivilege as model where model."
-					+ propertyName + "= ?";
+					+ propertyName + "= ? order by objectname";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();

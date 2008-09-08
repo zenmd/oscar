@@ -65,6 +65,17 @@ function showLookup(tableId, grandParentName, parentName, openerFormName, codeFi
 	top.childWin.focus();
 	return false;
 }
+function showLookup2(id, tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot){
+	// lookup with parents
+	var orgFld = document.getElementById(id);
+	
+	if(orgFld.value.length >0){
+		showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot);
+	}else{
+		alert("Please select ORG first!");
+	}
+	return false; 
+}
 
 function showLookupTree(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
     var grandParentCode = null;

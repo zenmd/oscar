@@ -66,8 +66,11 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 			<td style="border:0px;" width="70%"><input id="ORGfld<%=String.valueOf(rIndex)%>" 
 				style="width:99%;" type="text" name="org_description<%=String.valueOf(rIndex)%>"
 				value='<c:out value="${secUserRole.orgcd_desc}"/>' readonly></td>
-			<td style="border:0px;" width="10%"><a onclick="showLookupTree('ORG', '', '', 'secuserForm','org_code<%=String.valueOf(rIndex)%>','org_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
-			    <img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
+			<td style="border:0px;" width="10%"><a href="javascript:void1();" onclick="return showLookupTree('ORG', '', '', 'secuserForm','org_code<%=String.valueOf(rIndex)%>','org_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
+			    <img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif" border="0"></a>
+				<a href="javascript:void1();" onclick="return clearLookupValue('secuserForm','org_code<%=String.valueOf(rIndex)%>','org_description<%=String.valueOf(rIndex)%>');">
+				    <img src="<c:out value="${ctx}"/>/images/Reset16.gif" border="0"></a>			    
+			    </td></tr>
 		    </table>
 		  </TD>
 		  <TD width="40%">
@@ -79,8 +82,12 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 		       <input style="width:99%;" type="text" 
 				  name="role_description<%=String.valueOf(rIndex)%>"
 				  value='<c:out value="${secUserRole.roleName}"/>' readonly></td>
-			<td style="border:0px;" width="15%"><a onclick="showLookup2('ORGfld<%=String.valueOf(rIndex)%>','ROL', '', '', 'secuserForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
-			  <img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
+			<td style="border:0px;" width="15%">
+			<a href="javascript:void1()" onclick="return showLookup2('ORGfld<%=String.valueOf(rIndex)%>','ROL', '', '', 'secuserForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
+			  <img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif" border="0"></a>
+			<a href="javascript:void1()" onclick="return clearLookupValue('secuserForm','role_code<%=String.valueOf(rIndex)%>','role_description<%=String.valueOf(rIndex)%>');">
+			  <img src="<c:out value="${ctx}"/>/images/Reset16.gif" border="0"></a>			  
+			  </td></tr>
 			</table>
 		  </TD></TR>
 		</logic:iterate>
@@ -111,16 +118,6 @@ function submitForm(mthd){
 	}
 }
 
-function showLookup2(id, tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot){
-	var orgFld = document.getElementById(id);
-	
-	if(orgFld.value.length >0){
-		showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot);
-	}else{
-		alert("Please select ORG first!");
-	}
-	 
-}
 //-->
 </script>
 

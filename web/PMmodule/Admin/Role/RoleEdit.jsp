@@ -86,9 +86,16 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 			  <td style="border:0px;" width="94%">
 				<input style="width:99%;" type="text" name="function_description<%=String.valueOf(rIndex)%>"
 					value='<c:out value="${secobjprivilege.objectname_desc}"/>' readonly></td>
-			  <td style="border:0px;" width="6%">
-				<a onclick="showLookup('FUN', '', '', 'secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
-				<img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
+			  <td style="border:0px;" width="70px">
+				<a href="javascript:void1();"
+				onclick="return showLookup('FUN', '', '', 'secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
+				<img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif" border="0"></a>
+				<a href="javascript:void1();"
+				onclick="return clearLookupValue('secroleForm','function_code<%=String.valueOf(rIndex)%>','function_description<%=String.valueOf(rIndex)%>');"><img
+				src="<c:out value="${ctx}"/>/images/Reset16.gif" border="0"></a>											
+				
+				
+				</td></tr>
 			</table></td>
 		  <td width="25%">
 			<table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
@@ -98,9 +105,14 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 			  <td style="border:0px;" width="85%"><input	style="width:96%;" type="text"
 				name="accessTypes_description<%=String.valueOf(rIndex)%>"
 				value='<c:out value="${secobjprivilege.privilege}"/>' readonly></td>
-			  <td style="border:0px;" width="15%">
-				<a onclick="showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
-				<img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif"></a></td></tr>
+			  <td style="border:0px;" width="70px">
+				<a href="javascript:void1();"
+				onclick="return showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
+				<img src="<c:out value="${ctx}"/>/images/microsoftsearch.gif" border="0"></a>
+				<a href="javascript:void1();"
+				onclick="return clearLookupValue('secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>');">
+				<img src="<c:out value="${ctx}"/>/images/Reset16.gif" border="0"></a>				
+				</td></tr>
 			</table>
 		  </td></tr>
 		</logic:iterate>

@@ -16,6 +16,10 @@ response.setHeader("Cache-Control", "no-cache");
           + "scrollbars=no,menubars=no,toolbars=no,resizable=yes,top=50,left=50";
          var popup=window.open(page, "", windowprops);
          popup.focus();
+    }
+    function confirmDelete() 
+    {
+    	return confirm("Are you sure you want to delete this file? Click OK to continue.");
     }	    
 </script>
 
@@ -57,7 +61,7 @@ response.setHeader("Cache-Control", "no-cache");
 		  	</html:link>		  	
 		  	-->
 		  	 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
-		  	<a title="Delete" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=delete&id=<c:out value="${atth.id}" />">
+		  	<a title="Delete" onclick="javascript: return confirmDelete();" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=delete&id=<c:out value="${atth.id}" />">
 				Delete </a>
 			</security:oscarSec>	
 		  </display:column>	
