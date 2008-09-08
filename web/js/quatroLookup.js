@@ -63,7 +63,7 @@ function showLookup(tableId, grandParentName, parentName, openerFormName, codeFi
 	delaySearch =false;
 	top.childWin = window.open(lookupURL,"_blank","resizable=yes,scrollbars=yes,status=yes,width=600,height=450,top=120, left=200");
 	top.childWin.focus();
-	
+	return false;
 }
 
 function showLookupTree(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
@@ -111,7 +111,7 @@ function showLookupTree(tableId, grandParentName, parentName, openerFormName, co
 	delaySearch =false;
 	top.childWin = window.open(lookupURL,"_blank","resizable=yes,scrollbars=yes,status=yes,width=600,height=450,top=120, left=200");
 	top.childWin.focus();
-	
+	return false;
 }
 
 function selectMe(code, Desc, form_name, code_element_name, Desc_element_name) {
@@ -134,6 +134,7 @@ function clearLookupValue(form_name, code_element_name, desc_element_name) {
    eval(myexpr);
    myexpr = "document." + form_name + ".elements['" + desc_element_name +"'].value=''";
    eval(myexpr);
+	return false;
 }
 
 function AddtoDropdown(key, value, element_name){

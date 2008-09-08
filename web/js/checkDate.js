@@ -8,6 +8,7 @@ function openDatePickerCalendar(url){
   	cancelOnCalBlur();
   	if(win!=null) win.close();
   	win=window.open(url, '', 'width=310,height=310'); 
+  	return false;
 }
 function onCalBlur(checkedDateName)
 {
