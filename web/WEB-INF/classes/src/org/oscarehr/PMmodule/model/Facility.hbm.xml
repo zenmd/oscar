@@ -61,6 +61,10 @@
                 length="10"
                 />
         <property
+                name="orgDesc"
+				formula="(select shl.name from lst_shelter shl where shl.id=org_id)"
+                />
+        <property
                 name="sectorId"
                 column="sector_id"
                 type="integer"

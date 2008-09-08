@@ -30,7 +30,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		var obj5 = document.getElementsByName('program.name')[0];
 		var obj6 = document.getElementsByName('program.manOrWoman')[0];
 		var obj7 = document.getElementsByName('program.type')[0];		
-		var obj8 = document.getElementsByName('program.facilityId')[0];		
+		var obj8 = document.getElementsByName('programManagerForm_program.facilityId')[0];		
 		obj5.value = trim(obj5.value);
 			
 		if(obj8.value == null || obj8.value == '') {
@@ -178,14 +178,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</tr>
 				<tr class="b">
 					<td width="20%">Facility</td>
-					<td><html-el:select property="program.facilityId">
-					    <option value=""></option>
-						<c:forEach var="facility" items="${facilities}">
-							<html-el:option value="${facility.id}">
-								<c:out value="${facility.name}" />
-							</html-el:option>
-						</c:forEach>
-					</html-el:select></td>
+					<td><quatro:lookupTag tableName="FAC" name="programManagerForm" formProperty="programManagerForm" bodyProperty="program.facilityDesc" codeProperty="program.facilityId" showCode="false"></quatro:lookupTag>
+					</td>
 				</tr>
 				<tr class="b">
 					<td width="20%">Description</td>

@@ -16,6 +16,7 @@ public class Facility implements Serializable {
     private boolean hic;   
     private boolean active;
     private Integer orgId;
+    private String orgDesc;
     private Integer sectorId;
     private String shelter;
     private String sector;
@@ -158,5 +159,13 @@ public class Facility implements Serializable {
 
 	public void setShelter(String shelter) {
 		this.shelter = shelter;
+	}
+
+	public String getOrgDesc() {
+		return orgDesc;
+	}
+
+	public void setOrgDesc(String orgDesc) {
+		this.orgDesc = orgDesc;
 	}
 }

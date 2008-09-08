@@ -37,7 +37,7 @@
 		isOk = validateRequiredField('facilityName', 'Facility Name', 32);
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
 		if (isOk) isOk = validateRequiredField('facility.sectorId', 'Sector', 3);
-		var obj1 = document.getElementsByName('facility.orgId')[0];
+		var obj1 = document.getElementsByName('facilityManagerForm_facility.orgId')[0];
 		if(obj1.value == null || obj1.value == '') {
 		    isOk=false;
 			alert('Shelter can not be blank.');
@@ -161,21 +161,9 @@
 								%>
 								<tr class="b">
 									<td width="20%">Shelter: *</td>
-									<td><select name="facility.orgId">										
-									   <option value=""></option>
-										<c:forEach var="org" items="${orgList}">
-											<c:choose>
-												<c:when test="${orgId == org.code }">
-													<option value="<c:out value="${org.code}"/>" selected><c:out
-														value="${org.description}" /></option>
-												</c:when>
-												<c:otherwise>
-													<option value="<c:out value="${org.code}"/>"><c:out
-														value="${org.description}" /></option>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</select></td>
+									<td>
+										<quatro:lookupTag name="facilityManagerForm" tableName="SHL" formProperty="facilityManagerForm" bodyProperty="facility.orgDesc" codeProperty="facility.orgId" showCode="false"></quatro:lookupTag>
+									</td>
 								</tr>
 								<tr class="b">
 									<td width="20%">Sector: *</td>

@@ -481,6 +481,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         	String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
         	facility.setLastUpdateDate(Calendar.getInstance());
         	facility.setLastUpdateUser(providerNo); 
+        	facility.setOrgId(Integer.valueOf(request.getParameter("facilityManagerForm_facility.orgId")));
             facilityManager.saveFacility(facility);
 
             ActionMessages messages = new ActionMessages();

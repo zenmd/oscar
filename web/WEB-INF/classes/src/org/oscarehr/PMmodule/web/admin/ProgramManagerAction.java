@@ -753,7 +753,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         }
         
         try {
-            program.setFacilityId(Integer.valueOf(request.getParameter("program.facilityId")));
+            program.setFacilityId(Integer.valueOf(request.getParameter("programManagerForm_program.facilityId")));
         }
         catch (NumberFormatException e) {
             e.printStackTrace();
