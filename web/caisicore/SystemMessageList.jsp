@@ -82,7 +82,7 @@ String s = "debug";
 							        <display:column sortable="false" title="">
 							        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > Edit </a>
 							        </display:column>
-								<logic:equal value="true" name="message" property="expired">
+								</logic:equal>
 								
 						        <display:column property="formattedCreationDate" sortable="true" title="Creation Date"/>
 						        <display:column property="formattedExpiryDate" sortable="true" title="Expiry Date" />
