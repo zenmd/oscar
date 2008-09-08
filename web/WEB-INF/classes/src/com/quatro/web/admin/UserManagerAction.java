@@ -230,7 +230,7 @@ public class UserManagerAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
         request.setAttribute("titleLst", titleLst);
-        
+        request.setAttribute("scrPos", request.getParameter("scrollPosition"));
 		ActionMessages messages = new ActionMessages();
 
 		DynaActionForm secuserForm = (DynaActionForm) form;
@@ -476,7 +476,7 @@ public class UserManagerAction extends DispatchAction {
 		changeRoleLstTable(2, secuserForm, request);
 
 		String scrollPosition = (String) request.getParameter("scrollPosition");
-		if(null != scrollPosition) {
+		if(!"".equals(scrollPosition)) {
 			request.setAttribute("scrPos", String.valueOf(Integer.valueOf(scrollPosition).intValue()+ 50));
 		}else{
 			request.setAttribute("scrPos", "0");
@@ -578,6 +578,7 @@ public class UserManagerAction extends DispatchAction {
 		ActionMessages messages = new ActionMessages();
 		List secUserRoleLst = getRowList(request, form, 0);
 		Hashtable hsforSave = new Hashtable();
+        request.setAttribute("scrPos", request.getParameter("scrollPosition"));
 		
 		Iterator it = secUserRoleLst.iterator();
 		boolean hasDuplicates = false;
