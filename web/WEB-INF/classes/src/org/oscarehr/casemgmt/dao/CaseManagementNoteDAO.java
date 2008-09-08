@@ -189,7 +189,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		for(int i=0;i<cIds.length;i++){
 			demoIds[i] = new Integer(cIds[i]);
 		}
-		criteria.add(Expression.in("demographic_no", demoIds));
+		criteria.add(Expression.in("demographic_no", demoIds));		
 		if(!Utility.IsEmpty(searchBean.getSearchProviderNo()))
 		{
 			criteria.add(Expression.eq("provider_no", String.valueOf(searchBean.getSearchProviderNo())));

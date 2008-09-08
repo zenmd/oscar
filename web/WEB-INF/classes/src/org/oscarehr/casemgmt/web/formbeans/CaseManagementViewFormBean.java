@@ -52,6 +52,7 @@ public class CaseManagementViewFormBean extends ActionForm {
 	private String searchEncounterType;
 	private String searchServiceComponent;
 	private String searchCaseStatus;
+	private String searchCaseWorker;
 	private String note_sort = null;
 	private String filter_provider = "";
         private String filter_providers[];
@@ -280,5 +281,13 @@ public class CaseManagementViewFormBean extends ActionForm {
 
 	public void setSearchServiceComponent(String searchServiceComponent) {
 		this.searchServiceComponent = searchServiceComponent;
+	}
+
+	public String getSearchCaseWorker() {
+		return searchCaseWorker;
+	}
+
+	public void setSearchCaseWorker(String searchCaseWorker) {
+		this.searchCaseWorker = searchCaseWorker;
 	}
 }

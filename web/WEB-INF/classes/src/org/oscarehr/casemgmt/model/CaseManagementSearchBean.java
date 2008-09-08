@@ -35,7 +35,16 @@ public class CaseManagementSearchBean {
 	private String searchEncounterType;
 	private String searchServiceComponent;
 	private String searchCaseStatus;
+	private String searchCaseWorker;
 	
+	public String getSearchCaseWorker() {
+		return searchCaseWorker;
+	}
+
+	public void setSearchCaseWorker(String searchCaseWorker) {
+		this.searchCaseWorker = searchCaseWorker;
+	}
+
 	public String getSearchCaseStatus() {
 		return searchCaseStatus;
 	}

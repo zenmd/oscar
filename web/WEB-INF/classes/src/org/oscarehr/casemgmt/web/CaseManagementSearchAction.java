@@ -47,6 +47,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
+import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.CaseManagementSearchBean;
@@ -65,6 +66,7 @@ import com.quatro.util.Utility;
 public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
     private IntakeManager intakeManager;
+    private AdmissionManager admissionManager;
     
     private static Logger log = LogManager.getLogger(CaseManagementSearchAction.class);
 
@@ -167,6 +169,19 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     /*
      * Session variables : case_program_id casemgmt_DemoNo casemgmt_VlCountry casemgmt_msgBeans readonly
      */
+    public String getAdmissionPrimaryWorks(List admissions) {    	
+    	
+    	String cds="";    	
+    	for(int i=0;i<admissions.size();i++){
+    		Admission admission= (Admission)admissions.get(i);
+    		if(!Utility.IsEmpty(admission.getPrimaryWorker()) && cds.indexOf(admission.getPrimaryWorker()+"',")<0){
+    			cds+= admission.getPrimaryWorker()+",";
+    		}
+    	}
+    	if(cds.endsWith(",")) cds=cds.substring(0,cds.length()-1);    	    	
+		return cds ;
+
+    }
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         long start = System.currentTimeMillis();
         long current = 0;
@@ -263,18 +278,18 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             log.debug("FILTER NOTES PROVIDER " + String.valueOf(current - start));
             start = current;
           */
-            List providers = getProviderManager().getActiveProviders(programId);
-    		
-            request.setAttribute("providers", providers);
+           
             List caseStatus=lookupMgr.LoadCodeList("CST", true, null, null);
             request.setAttribute("caseStatusList", caseStatus);
             
             List issues = this.lookupMgr.LoadCodeList("ISS", true,null,null);
             request.setAttribute("issues", issues);
             
+            List admis = admissionManager.getAdmissions(Integer.valueOf(demoNo),providerNo, shelterId);
+            List caseWorkers = this.lookupMgr.LoadCodeList("USR", true,getAdmissionPrimaryWorks(admis),null);
+            request.setAttribute("caseWorkers", caseWorkers);            
             
             this.caseManagementMgr.getEditors(notes);
-
             /*
              * Notes are by default sorted from the past to the most recent So we sort only if preference is set in form or site wide setting in oscar.properties
              */
@@ -437,6 +452,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         searchBean.setSearchStartDate(caseForm.getSearchStartDate());
         //searchBean.setSearchText(caseForm.getSearchText());
         searchBean.setSearchCaseStatus(caseForm.getSearchCaseStatus());
+        searchBean.setSearchCaseWorker(caseForm.getSearchCaseWorker());
         searchBean.setSearchServiceComponent(caseForm.getSearchServiceComponent());
         String providerNo = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
@@ -632,6 +648,10 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+	}
+
+	public void setAdmissionManager(AdmissionManager admissionManager) {
+		this.admissionManager = admissionManager;
 	}
 
 }

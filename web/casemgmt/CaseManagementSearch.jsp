@@ -29,6 +29,7 @@ response.setHeader("Cache-Control", "no-cache");
 		form.elements['searchEndDate'].value='';
 		form.elements['searchProviderNo'].selectedIndex = 0;
 		form.elements['searchCaseStatus'].selectedIndex = 0;
+		form.elements['searchCaseWorker'].selectedIndex = 0;
 		}
 	function clickTab(name) {
 		document.caseManagementViewForm.tab.value=name;
@@ -123,23 +124,7 @@ response.setHeader("Cache-Control", "no-cache");
 						<tr>
 							<th>DOB</th>
 							<td><c:out value="${casemgmt_demoDOB}" /></td>
-						</tr>
-		
-						<%
-						if (!OscarProperties.getInstance().isTorontoRFQ()) {
-						%>
-		
-						<tr>
-							<th nowrap>Primary Health Care Provider</th>
-							<td><c:out value="${cpp.primaryPhysician}" /></td>
-						</tr>
-						<%
-						}
-						%>
-						<tr>
-							<th>Primary Counsellor/Caseworker</th>
-							<td><c:out value="${cpp.primaryCounsellor}" /></td>
-						</tr>
+						</tr>						
 					</table>
 		
 					</td>
@@ -178,10 +163,10 @@ response.setHeader("Cache-Control", "no-cache");
 					<tr>
 						<th width="30%" align="right"><bean-el:message key="CaseSearch.provider" bundle="pmm"	nowrap /></th>
 						<td width="20%">
-							<html:select property="searchProviderNo">
-								<html:option value="">		</html:option>
-								<html:options collection="providers" property="providerNo"	labelProperty="fullName" nowrap />
-							</html:select>
+							<html:select property="searchProviderNo">								
+								<html:option value="">Any</html:option>
+								<html:options collection="caseWorkers" property="code"	labelProperty="description" />
+							</html:select>						
 						</td>
 						<th width="20%" align="right"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"		nowrap /></th>
 						<td>
@@ -199,8 +184,10 @@ response.setHeader("Cache-Control", "no-cache");
 								<html:options collection="issues" property="code"	labelProperty="description" />
 							</html:select>
 						</td>
-						<td width="20%">&nbsp;</td>
-						<td>&nbsp;</td>
+						<td width="20%"></td>						
+						<td>
+							&nbsp;
+						</td>
 					</tr>
 					<tr>
 						<td align="left" colspan="4">
