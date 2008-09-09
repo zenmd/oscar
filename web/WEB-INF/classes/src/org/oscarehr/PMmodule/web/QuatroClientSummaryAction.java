@@ -108,34 +108,38 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
+       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
+       request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
        
        List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
        QuatroIntakeHeader obj0 = null;
-       Integer programId=null;
-       boolean readOnly = true;        
+       boolean isAdmitted = false;
        for(int i=0; i<lst.size() ; i++) {
     	   obj0=  (QuatroIntakeHeader)lst.get(i);
-    	   programId=obj0.getProgramId();
-           readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
-    	   if (!readOnly) {
-    		   //accessTypeWrite=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
-    		   break;
-    		   
-    	   }
+  		   isAdmitted = obj0.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED);
+    	   if(isAdmitted) break;
        }       
-       request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
        this.setAccessType(request, lst);
-       for(int i=0;i<lst.size();i++){
-    	 QuatroIntakeHeader obj = (QuatroIntakeHeader)lst.get(i);
-    	 if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-    		 if(obj.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE) || obj.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
-    			 List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
-    			 request.setAttribute("family", lst2);
-    		 }
-   		    break;
-    	 }
+
+       QuatroIntakeHeader obj = null;
+       if(isAdmitted) {
+    	   obj = obj0;
        }
-       
+       else
+       {
+    	   for(int i=0;i<lst.size();i++){
+    		   obj = (QuatroIntakeHeader)lst.get(i);
+    		   if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+    			   if(obj.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE) || obj.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
+    				   break;
+    			   }
+    		   }
+    	   }
+       }
+       if (obj != null) {
+    	   List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
+    	   request.setAttribute("family", lst2);
+       }
        // only allow bed/service programs show up.(not external program)
        List currentAdmissionList = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
        List bedServiceList = new ArrayList();
