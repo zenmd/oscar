@@ -44,7 +44,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
         getHibernateTemplate().saveOrUpdate(secobjprivilege);
 
         if (log.isDebugEnabled()) {
-            log.debug("SecobjprivilegeDao : save: " + secobjprivilege.getRoleusergroup() + ":" + secobjprivilege.getObjectname());
+            log.debug("SecobjprivilegeDao : save: " + secobjprivilege.getRoleusergroup() + ":" + secobjprivilege.getObjectname_desc());
         }
         
     }
@@ -72,8 +72,8 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 		log.debug("update Secobjprivilege instance");
 		try {
 			String queryString = "update Secobjprivilege as model set model.providerNo ='" + instance.getProviderNo() + "'"
-				+ " where model.objectname ='" + instance.getObjectname() + "'"
-				+ " and model.privilege ='" + instance.getPrivilege() + "'"
+				+ " where model.objectname_code ='" + instance.getObjectname_code() + "'"
+				+ " and model.privilege_code ='" + instance.getPrivilege_code() + "'"
 				+ " and model.roleusergroup ='" + instance.getRoleusergroup() + "'";
 			
 			Query queryObject = getSession().createQuery(queryString);
@@ -151,7 +151,7 @@ public class SecobjprivilegeDao extends HibernateDaoSupport {
 				+ ", value: " + value);
 		try {
 			String queryString = "from Secobjprivilege as model where model."
-					+ propertyName + "= ? order by objectname";
+					+ propertyName + "= ? order by objectname_code";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();

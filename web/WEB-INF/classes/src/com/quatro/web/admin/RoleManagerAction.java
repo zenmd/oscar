@@ -1,6 +1,7 @@
 package com.quatro.web.admin;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -121,15 +122,15 @@ public class RoleManagerAction extends DispatchAction {
 								
 				Secobjprivilege objNew = (Secobjprivilege) funLst.get(i);
 
-				String accessType_code = objNew.getPrivilege();
+				String accessType_code = objNew.getPrivilege_code();
 				String accessType_description = rolesManager.getAccessDesc(accessType_code );
-				String function_code = objNew.getObjectname();
+				String function_code = objNew.getObjectname_code();
 				String function_description = rolesManager.getFunctionDesc(function_code );
 
 				if (accessType_code != null)
 					objNew.setPrivilege_code(accessType_code);
 				if (accessType_description != null)
-					objNew.setPrivilege(accessType_description);
+					objNew.setPrivilege_desc(accessType_description);
 				if (function_code != null)
 					objNew.setObjectname_code(function_code);
 				if (function_description != null)
@@ -208,8 +209,14 @@ public class RoleManagerAction extends DispatchAction {
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm secroleForm = (DynaActionForm) form;
 
+		LookupCodeValue functions = new LookupCodeValue();
+		secroleForm.set("functions", functions);
+
+
 		try{
-			saveRoleAndFunctions(mapping, form, request, response, true);
+			if (!saveRoleAndFunctions(mapping, form, request, response, true)) {
+				return mapping.findForward("edit");
+			}
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success",
 			request.getContextPath()));
 			saveMessages(request,messages);			
@@ -219,9 +226,6 @@ public class RoleManagerAction extends DispatchAction {
 			request.getContextPath()));
 			saveMessages(request,messages);				
 		}
-
-		LookupCodeValue functions = new LookupCodeValue();
-		secroleForm.set("functions", functions);
 
 		return edit(mapping, form, request, response);
 
@@ -251,7 +255,7 @@ public class RoleManagerAction extends DispatchAction {
 		request.setAttribute("secroleForEdit", "flag");
 
 		String scrollPosition = (String) request.getParameter("scrollPosition");
-		if(null != scrollPosition) {
+		if(!Utility.IsEmpty(scrollPosition)) {
 			request.setAttribute("scrPos", String.valueOf(Integer.valueOf(scrollPosition).intValue()+ 50));
 		}else{
 			request.setAttribute("scrPos", "0");
@@ -322,7 +326,7 @@ public class RoleManagerAction extends DispatchAction {
 					if (accessType_code != null)
 						objNew.setPrivilege_code(accessType_code[0]);
 					if (accessType_description != null)
-						objNew.setPrivilege(accessType_description[0]);
+						objNew.setPrivilege_desc(accessType_description[0]);
 					if (function_code != null)
 						objNew.setObjectname_code(function_code[0]);
 					if (function_description != null)
@@ -350,7 +354,7 @@ public class RoleManagerAction extends DispatchAction {
 				if (accessType_code != null)
 					objNew.setPrivilege_code(accessType_code[0]);
 				if (accessType_description != null)
-					objNew.setPrivilege(accessType_description[0]);
+					objNew.setPrivilege_desc(accessType_description[0]);
 				if (function_code != null)
 					objNew.setObjectname_code(function_code[0]);
 				if (function_description != null)
@@ -372,14 +376,15 @@ public class RoleManagerAction extends DispatchAction {
 	public ActionForward saveFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		saveRoleAndFunctions(mapping, form, request, response, false);
-		
-		return list(mapping, form, request, response);
-
+		if (saveRoleAndFunctions(mapping, form, request, response, false))
+			return list(mapping, form, request, response);
+		else
+			return mapping.findForward("list");
 	}
-	public void saveRoleAndFunctions(ActionMapping mapping, ActionForm form,
+	public boolean saveRoleAndFunctions(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response, boolean saveRole) {
 
+		ActionMessages messages = new ActionMessages();
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		
 		String roleName = (String) secroleForm.get("roleName");
@@ -391,6 +396,7 @@ public class RoleManagerAction extends DispatchAction {
 		  secrole.setRoleName(roleName);
 		  secrole.setDescription((String) secroleForm.get("description"));
 		  if("on".equals(secroleForm.get("active"))) secrole.setActive(true);
+		  request.setAttribute("secroleForEdit", secrole);		
 		}
 		
 		Map map = request.getParameterMap();
@@ -398,28 +404,61 @@ public class RoleManagerAction extends DispatchAction {
 		int lineno = 0;
 		if (arr_lineno != null)
 			lineno = arr_lineno.length;
+		boolean hasBlank = false;
+		boolean hasDuplicates = false;
+		String duplicateItem = "";
 		ArrayList listForSave = new ArrayList();
+		Hashtable hashDup = new Hashtable(); 
 		for (int i = 0; i < lineno; i++) {
 			String[] function_code = (String[]) map.get("function_code" + i);
 			String[] accessType_code = (String[]) map.get("accessTypes_code" + i);
-			if (function_code != null && function_code[0].length() > 0 && accessType_code!=null && accessType_code[0].length()>0) {
+			String[] accessType_desc = (String[]) map.get("accessTypes_description" + i);
+			String[] function_desc = (String[]) map.get("function_description"+i);
 				Secobjprivilege objNew = new Secobjprivilege();
-				objNew.setObjectname(function_code[0]);
+				objNew.setObjectname_code(function_code[0]);
+				objNew.setObjectname_desc(function_desc[0]);
 				objNew.setRoleusergroup(roleName);
-
 				//String[] accessType_code = (String[]) map.get("accessTypes_code" + i);
-				if (accessType_code != null)
-					objNew.setPrivilege(accessType_code[0]);
-				
+				if (accessType_code != null) {
+					objNew.setPrivilege_code(accessType_code[0]);
+					objNew.setPrivilege_desc(accessType_desc[0]);
+				}
 				objNew.setProviderNo(providerNo);
 				objNew.setPriority(new Integer("0"));
 
 				listForSave.add(objNew);
-			}
+				if (function_code == null || function_code[0].length() == 0 || accessType_code ==null || accessType_code[0].length()==0)
+				{
+					hasBlank = true;
+				}
+				else if(hashDup.containsKey(objNew.getObjectname_code())) {
+					hasDuplicates = true;
+					duplicateItem = "Function: " + objNew.getObjectname_desc();
+				}
+				else
+				{
+					hashDup.put(objNew.getObjectname_code(), "duplicate detector");
+				}
 		}
-		rolesManager.saveFunctions(secrole, listForSave, roleName);
-
-		
+		if(!(hasBlank || hasDuplicates)) {
+			rolesManager.saveFunctions(secrole, listForSave, roleName);
+			return true;
+		}
+		else
+		{
+			if(hasBlank) {
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed.emptyField",
+						request.getContextPath()));
+			}
+			else
+			{
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed.duplicateItem",
+						request.getContextPath(),duplicateItem));
+			}
+			saveMessages(request,messages);	
+			secroleForm.set("secobjprivilegeLst", listForSave);
+			return false;
+		}
 	}
 
 }

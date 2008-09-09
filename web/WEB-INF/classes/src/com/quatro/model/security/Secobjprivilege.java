@@ -7,19 +7,15 @@ public class Secobjprivilege implements java.io.Serializable {
 	// private SecobjprivilegeId id;
 	private String roleusergroup;
 
-	private String objectname;
-
-	private String privilege;
-
 	private Integer priority;
-
 	private String providerNo;
 
 	private String privilege_code;
-
-	private String objectname_desc;
+	private String privilege_desc;
 
 	private String objectname_code;
+	private String objectname_desc;
+
 
 	// Constructors
 
@@ -31,20 +27,17 @@ public class Secobjprivilege implements java.io.Serializable {
 	public Secobjprivilege(String roleusergroup, String objectname,
 			String privilege, Integer priority, String providerNo) {
 		this.roleusergroup = roleusergroup;
-		this.objectname = objectname;
-		this.privilege = privilege;
+		this.objectname_code = objectname;
+		this.privilege_code = privilege;
 		this.priority = priority;
 		this.providerNo = providerNo;
 	}
 
-	// Property accessors
-
-	public String getPrivilege() {
-		return this.privilege;
+	public String getPrivilege_desc() {
+		return privilege_desc;
 	}
-
-	public void setPrivilege(String privilege) {
-		this.privilege = privilege;
+	public void setPrivilege_desc(String privilegeDesc) {
+		this.privilege_desc = privilegeDesc;
 	}
 
 	public Integer getPriority() {
@@ -95,14 +88,6 @@ public class Secobjprivilege implements java.io.Serializable {
 		this.roleusergroup = roleusergroup;
 	}
 
-	public String getObjectname() {
-		return objectname;
-	}
-
-	public void setObjectname(String objectname) {
-		this.objectname = objectname;
-	}
-
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -116,10 +101,10 @@ public class Secobjprivilege implements java.io.Serializable {
 				.getRoleusergroup() != null
 				&& castOther.getRoleusergroup() != null && this
 				.getRoleusergroup().equals(castOther.getRoleusergroup())))
-				&& ((this.getObjectname() == castOther.getObjectname()) || (this
-						.getObjectname() != null
-						&& castOther.getObjectname() != null && this
-						.getObjectname().equals(castOther.getObjectname())));
+				&& ((this.getObjectname_code() == castOther.getObjectname_code()) || (this
+						.getObjectname_code() != null
+						&& castOther.getObjectname_code() != null && this
+						.getObjectname_code().equals(castOther.getObjectname_code())));
 	}
 
 	public int hashCode() {
@@ -131,7 +116,7 @@ public class Secobjprivilege implements java.io.Serializable {
 						.hashCode());
 		result = 37
 				* result
-				+ (getObjectname() == null ? 0 : this.getObjectname()
+				+ (getObjectname_code() == null ? 0 : this.getObjectname_code()
 						.hashCode());
 		return result;
 	}

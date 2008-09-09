@@ -3,23 +3,23 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.quatro.model.security.Secobjprivilege" table="SECOBJPRIVILEGE">
+    <class name="com.quatro.model.security.Secobjprivilege" table="secobjprivilege">
         <composite-id >
             <key-property name="roleusergroup" type="java.lang.String">
-                <column name="ROLEUSERGROUP" length="30" />
+                <column name="roleusergroup" length="30" />
             </key-property>
-            <key-property name="objectname" type="java.lang.String">
-                <column name="OBJECTNAME" length="100" />
+            <key-property name="objectname_code" type="java.lang.String">
+                <column name="objectname" length="100" />
             </key-property>
         </composite-id>
-        <property name="privilege" type="java.lang.String">
-            <column name="PRIVILEGE" length="100" />
+        <property name="privilege_code" type="java.lang.String">
+            <column name="privilege" length="100" />
         </property>
         <property name="priority" type="java.lang.Integer">
-            <column name="PRIORITY" precision="2" scale="0" />
+            <column name="priority" precision="2" scale="0" />
         </property>
         <property name="providerNo" type="java.lang.String">
-            <column name="PROVIDER_NO" length="6" />
+            <column name="provider_no" length="6" />
         </property>
     </class>
 </hibernate-mapping>

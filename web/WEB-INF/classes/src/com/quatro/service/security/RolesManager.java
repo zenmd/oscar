@@ -82,8 +82,8 @@ public class RolesManager {
 	
 	public boolean compare(Secobjprivilege sur1, Secobjprivilege sur2){
 		boolean isSame = false;
-		if(sur1.getObjectname().equals(sur2.getObjectname()) && 
-				sur1.getPrivilege().equals(sur2.getPrivilege()) && 
+		if(sur1.getObjectname_code().equals(sur2.getObjectname_code()) && 
+				sur1.getPrivilege_code().equals(sur2.getPrivilege_code()) && 
 				sur1.getRoleusergroup().equals(sur2.getRoleusergroup()))
 			isSame = true;
 		return isSame;

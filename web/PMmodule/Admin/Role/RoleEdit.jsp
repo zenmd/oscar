@@ -5,6 +5,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
+<%String a="debug"; %>
 <html:form action="/PMmodule/Admin/RoleManager" method="post">
 <html:hidden property="method" value="save" />
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
@@ -104,7 +105,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				value='<c:out value="${secobjprivilege.privilege_code}"/>'></td>
 			  <td style="border:0px;" width="85%"><input	style="width:96%;" type="text"
 				name="accessTypes_description<%=String.valueOf(rIndex)%>"
-				value='<c:out value="${secobjprivilege.privilege}"/>' readonly></td>
+				value='<c:out value="${secobjprivilege.privilege_desc}"/>' readonly></td>
 			  <td style="border:0px;" width="70px">
 				<a href="javascript:void1();"
 				onclick="return showLookup('PRV', '', '', 'secroleForm','accessTypes_code<%=String.valueOf(rIndex)%>','accessTypes_description<%=String.valueOf(rIndex)%>', true, '<c:out value="${ctx}"/>');">
