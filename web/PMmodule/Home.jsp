@@ -6,7 +6,8 @@ String _appPath = request.getContextPath();
 response.setHeader("Cache-Control", "max-age=60");
 %>
 
-<%@ include file="/taglibs.jsp"%>
+<%@ include file="/taglibs.jsp" %>
+
 
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px" style="border-width: 1px; border-style: solid; bordercolor: black">
 	<tr>

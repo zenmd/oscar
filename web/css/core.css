@@ -35,7 +35,7 @@ TH {
 	border-width:1px;
 	border-style:Solid;	
 	font-family:Tahoma,Verdana,Arial;
-	cursor:hand;
+	cursor:default;
 	padding-left:8px;
 	padding-right:8px;
 	padding-top:4px;
@@ -48,7 +48,7 @@ TH {
 	border-width:1px;
 	border-style:Solid;	
 	font-family:Tahoma,Verdana,Arial;
-	cursor:hand;
+	cursor:default;
 	padding-left:8px;
 	padding-right:8px;
 	padding-top:2px;
