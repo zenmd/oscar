@@ -191,7 +191,7 @@ public class RoleManagerAction extends DispatchAction {
            			request.getContextPath(), roleName));
 			saveMessages(request,messages);
 			
-			return addFunction(mapping, form, request, response);//mapping.findForward("functions");
+			return edit(mapping, form, request, response);
 		} else {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.role.exist",
            			request.getContextPath(), roleName));

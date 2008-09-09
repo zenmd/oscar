@@ -124,8 +124,8 @@ function checkExistClients(){
 
 function confirmActive()
 {
-   	var isActive = document.getElementsByName("client.active")[0];
-	if(isActive){
+   	var isActive = document.getElementsByName("client.active")[0].value;
+	if(isActive == "true"){
 		return confirm("The client is currently admitted in another program. If you admit the client now, this will cause an automatic discharge. Click OK to proceed?");
 	}
 	else
@@ -718,11 +718,7 @@ function confirmActive()
 							<td width="20%">Program*</td>
 							<td width="30%">
 							<c:choose>
-							<c:when test="${quatroIntakeEditForm.intake.intakeStatus=='admitted' ||
-							(Manual_Referal=='Y' || 
-							  quatroIntakeEditForm.intake.intakeStatus=='active' && 
-							  !(intakeHeadId=='0' || intakeHeadId==null || intakeHeadId=='')
-							   || intakeHeadId!=quatroIntakeEditForm.intake.id)}">
+							<c:when test="${programEditable ne true}">
 							<html-el:hidden	property="intake.currentProgramId" /> 
 								<html-el:select	property="intake.programId" disabled="true">
 								<option value=""></option>

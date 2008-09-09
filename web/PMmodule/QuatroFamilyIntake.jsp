@@ -41,7 +41,7 @@ function submitForm(methodVal)
 	var relation;
 	var ans = true;
 	var famAdmitted = document.getElementsByName("isFamilyAdmitted")[0];
-	if (famAdmitted.value && methodVal == "add") 
+	if (famAdmitted.value=="true" && methodVal == "add") 
 	{
 		ans = confirm("New members added to the family will be discharged from other shelters if they are currently admitted to those shelters. To proceed, click OK.");	
 	}
@@ -81,6 +81,12 @@ function submitForm(methodVal)
 			alert('The field Date of Birth is required.');
 			return;
 		  }
+		  
+	      if(validateBirthDay(dob.value)==false){
+    	    dob.focus();
+        	return;
+      	  }
+		  
 	      if (gender.value==null || gender.value=='')
 		  {
 			alert('The field Gender is required.');

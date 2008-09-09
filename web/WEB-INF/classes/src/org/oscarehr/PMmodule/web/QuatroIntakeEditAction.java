@@ -131,6 +131,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
         request.setAttribute("newClientFlag", "true");
         request.setAttribute("isReadOnly", Boolean.FALSE);
+        setProgramEditable(request, obj, null);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 		return mapping.findForward("edit");
     }
@@ -237,6 +238,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         qform.setLanguage(language);
         qform.setOriginalCountry(originalCountry);
         
+        setProgramEditable(request, intake, intakeHeadId);
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);       
         return mapping.findForward("edit");
@@ -305,9 +307,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         
         qform.setLanguage(language);
         qform.setOriginalCountry(originalCountry);
+
+        setProgramEditable(request, intake, null);
         
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
-        request.setAttribute("Manual_Referal", "Y");
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         return mapping.findForward("edit");
 	}
@@ -317,6 +320,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
         QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
     	String clientId = qform.getClientId();
+    	if(Utility.IsEmpty(clientId)) clientId = "0";
     	QuatroIntake intake= qform.getIntake();
     	Demographic client= qform.getClient();
     	String cd = request.getParameter("language_code");    	
@@ -353,13 +357,17 @@ public class QuatroIntakeEditAction extends BaseClientAction {
      }
 
 		HashMap actionParam = new HashMap();
-    	actionParam.put("clientId", client.getDemographicNo()); 
+    	actionParam.put("clientId", clientId); 
         actionParam.put("intakeId", intake.getId().toString()); 
-        request.setAttribute("clientId", client.getDemographicNo()); 
+        request.setAttribute("clientId", clientId); 
         request.setAttribute("actionParam", actionParam);
         request.setAttribute("client", client);
 		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
-
+		String intakeHeadId = request.getParameter("intakeHeadId");
+		request.setAttribute("intakeHeadId", intakeHeadId);
+		if(Utility.IsEmpty(intakeHeadId)) intakeHeadId = "0";
+		setProgramEditable(request, intake, Integer.valueOf(intakeHeadId));
+		
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         if(clientId.equals("")){
            request.setAttribute("pageChanged","1");
@@ -378,6 +386,19 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         }
 
         return mapping.findForward("edit");
+    }
+    private void setProgramEditable(HttpServletRequest request, QuatroIntake intake, Integer intakeHeadId)
+    {
+    	boolean isEditable = true;
+    	if (!intake.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE))
+    	{
+    		isEditable = false;
+    	}
+    	else
+    	{
+    		isEditable = (intakeHeadId == null || intakeHeadId.intValue() == 0 || intake.getId().equals(intakeHeadId));
+    	}
+    	request.setAttribute("programEditable", Boolean.valueOf(isEditable));
     }
     private boolean validateDuplicate(QuatroIntake intake,Demographic client,HttpServletRequest request,ActionMessages messages){
     	boolean valid = true;
@@ -429,6 +450,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	Demographic client= qform.getClient();
     	QuatroIntake intake= qform.getIntake();
     	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	Integer intakeHeadId = new Integer(0);
+    	if (request.getParameter("intakeheadId") != null)
+    		intakeHeadId = Integer.valueOf(request.getParameter("intakeHeadId"));
+   		setProgramEditable(request, intake, intakeHeadId);
+
     	//check for new client duplication
     	if(intake.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N") &&
     	 !validateDuplicate(intake, client, request, messages)){
@@ -496,7 +522,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
             	HashMap actionParam = new HashMap();
             	actionParam.put("clientId", client.getDemographicNo()); 
                 actionParam.put("intakeId", intake.getId().toString()); 
-                Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
                 if(intakeHeadId.intValue()!=0){
                   Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
                   request.setAttribute("clientId", intakeHeadClientId); 
@@ -518,7 +543,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         	HashMap actionParam = new HashMap();
         	actionParam.put("clientId", client.getDemographicNo()); 
             actionParam.put("intakeId", intake.getId().toString()); 
-            Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
             if(intakeHeadId.intValue()!=0){
               Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
               request.setAttribute("clientId", intakeHeadClientId); 
@@ -529,7 +553,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
             request.setAttribute("client", client);
         	intake.setClientId(client.getDemographicNo());
     		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
-        	return mapping.findForward("edit");
+    		return mapping.findForward("edit");
 		}
 	  }
 
@@ -546,7 +570,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         HashMap actionParam = new HashMap();
         actionParam.put("clientId", client.getDemographicNo()); 
         actionParam.put("intakeId", intake.getId().toString()); 
-        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
         if(intakeHeadId.intValue()!=0){
           Integer intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
           request.setAttribute("clientId", intakeHeadClientId); 
@@ -557,7 +580,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         request.setAttribute("client", client);
       	intake.setClientId(client.getDemographicNo());
    		request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
-       	return mapping.findForward("edit");
+   		setProgramEditable(request, intake, intakeHeadId);
+   		return mapping.findForward("edit");
 	  }
 	  
   	if(!clientId.equals("") && !"0".equals(clientId)){
@@ -669,7 +693,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 			if(duplicatedReferralId.intValue()>0 && fromManualReferralId==null) fromManualReferralId=duplicatedReferralId;
 				
-	        Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intake.getId().toString());
 			ArrayList lst2 = intakeManager.saveQuatroIntake(client, intake, intakeHeadId, intakeHeadId.intValue()>0, fromManualReferralId);
 			Integer intakeId = (Integer)lst2.get(0);
 			Integer queueId = new Integer(0);
@@ -703,6 +726,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         request.setAttribute("intakeHeadId", request.getParameter("intakeHeadId")); 
 
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+   		setProgramEditable(request, intake, intakeHeadId);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
         return mapping.findForward("edit");
 	}

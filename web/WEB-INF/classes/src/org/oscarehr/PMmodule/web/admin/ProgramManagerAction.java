@@ -53,6 +53,7 @@ import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.ProgramSignature;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedCheckTimeManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -179,12 +180,12 @@ public class ProgramManagerAction extends BaseProgramAction {
 
              if(!isReadOnly)
              {
-            	 List admissions = admissionManager.getAdmissionListByProgram(programId);
-            	 if(admissions.size() > 0) {
+            	 List intakes = intakeManager.getIntakesByProgram(programId);
+            	 if(intakes.size() > 0) {
             		 request.setAttribute("typeEditable", Boolean.FALSE);
             	 }
-            	 List intakes = intakeManager.getActiveIntakeByProgram(programId); 
-            	 if(intakes.size() > 0) {
+            	 List activeIntakes = intakeManager.getActiveIntakeByProgram(programId); 
+            	 if(activeIntakes.size() > 0) {
             		 request.setAttribute("statusEditable", Boolean.FALSE);
             	 }
              }

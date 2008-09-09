@@ -192,7 +192,11 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				
 				<tr class="b">
 					<td width="20%">Type</td>
-					<td><html-el:select property="program.type">
+					<td>
+					<c:choose>
+					<c:when test="${typeEditable eq false}">  
+					<html:hidden property="program.type" /> 
+					<html-el:select property="program.type"  disabled="true">
 						<html-el:option value="">
 						</html-el:option>
 						<c:forEach var="pt" items="${programTypeLst}">
@@ -200,14 +204,41 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 								<c:out value="${pt.description}" />
 							</html-el:option>
 						</c:forEach>
-					</html-el:select></td>
+					</html-el:select>
+					</c:when>
+					<c:otherwise>
+					<html-el:select property="program.type">
+						<html-el:option value="">
+						</html-el:option>
+						<c:forEach var="pt" items="${programTypeLst}">
+							<html-el:option value="${pt.code}">
+								<c:out value="${pt.description}" />
+							</html-el:option>
+						</c:forEach>
+					</html-el:select>
+					</c:otherwise>
+					</c:choose>
+					</td>
 				</tr>
 				<tr class="b">
 					<td width="20%">Status</td>
-					<td><html:select property="program.programStatus">
+					<td>
+					<c:choose>
+					<c:when test="${statusEditable eq false}">  
+					<html:hidden property="program.programStatus"/>
+					<html:select property="program.programStatus" disabled="true">
 						<html:option value="1"> Active</html:option>
 						<html:option value="0"> Inactive</html:option>
-					</html:select></td>
+					</html:select>
+					</c:when>
+					<c:otherwise>
+						<html:select property="program.programStatus">
+						<html:option value="1"> Active</html:option>
+						<html:option value="0"> Inactive</html:option>
+					</html:select>
+					</c:otherwise>
+					</c:choose>
+					</td>
 				</tr>
 				
 				<tr class="b">

@@ -155,6 +155,9 @@ public class IntakeManager {
     public List getActiveIntakeByProgram(Integer programId){
     	return intakeDao.getActiveIntakeByProgram(programId);
     }
+	public List getIntakesByProgram(Integer programId){
+    	return intakeDao.getIntakesByProgram(programId);
+	}
 	public Demographic getClientByDemographicNo(String demographicNo) {
         if (demographicNo == null || demographicNo.length() == 0) {
             return null;

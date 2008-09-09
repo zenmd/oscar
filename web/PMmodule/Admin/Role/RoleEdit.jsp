@@ -79,7 +79,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		<logic:iterate id="secobjprivilege" name="secroleForm" property="secobjprivilegeLst" indexId="rIndex">
 		  <tr><td align="center" width="5%"><input type="hidden" name="lineno" value="<%=String.valueOf(rIndex)%>" />
  			<input type="checkbox" name="p<%=String.valueOf(rIndex)%>" value="" /></td>
-		  <td width="70%">
+		  <td width="60%">
 			<table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
 			  <tr><td style="border:0px;" width="1px">
 				<input style="width:1px;" type="text"	name="function_code<%=String.valueOf(rIndex)%>"
@@ -98,7 +98,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 				
 				</td></tr>
 			</table></td>
-		  <td width="25%">
+		  <td>
 			<table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
 			  <tr><td style="border:0px;" width="1px"><input type="text"
 				style="width:1px;"	name="accessTypes_code<%=String.valueOf(rIndex)%>"
