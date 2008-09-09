@@ -176,6 +176,18 @@ public class ProgramManagerAction extends BaseProgramAction {
         	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL);
              boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
              if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+
+             if(!isReadOnly)
+             {
+            	 List admissions = admissionManager.getAdmissionListByProgram(programId);
+            	 if(admissions.size() > 0) {
+            		 request.setAttribute("typeEditable", Boolean.FALSE);
+            	 }
+            	 List intakes = intakeManager.getActiveIntakeByProgram(programId); 
+            	 if(intakes.size() > 0) {
+            		 request.setAttribute("statusEditable", Boolean.FALSE);
+            	 }
+             }
         }
         
         return mapping.findForward("edit");
