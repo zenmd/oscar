@@ -57,4 +57,8 @@ public class FacilityMessageManager {
 		return dao.getMessagesByFacilityId(providerNo,facilityId);
 	}
 	
+	public List getActiveMessagesByFacilityId(String providerNo,Integer facilityId) {
+		return dao.getActiveMessagesByFacilityId(providerNo,facilityId);
+	}
+	
 }
