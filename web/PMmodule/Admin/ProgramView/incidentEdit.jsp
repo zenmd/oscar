@@ -121,7 +121,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 								<td class="clsButtonBarText">
 									&nbsp;&nbsp;
 									<c:if test="${!isReadOnly}">
-										<a id="staffAdd" href="javascript:showLookup('USR', '', 'programId', 'programManagerViewForm','incidentForm.lstStaff','', true, '<c:out value="${ctx}"/>')"  onclick="setNoConfirm();">Add</a>
+										<a id="staffAdd" href="javascript:void1();" onclick="setNoConfirm();return showLookup('USR', '', 'programId', 'programManagerViewForm','incidentForm.lstStaff','', true, '<c:out value="${ctx}"/>')">Add</a>
 										&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 										<a href="javascript:removeSel('incidentForm.lstStaff')"  onclick="setNoConfirm();">Remove</a>
 									</c:if>	
