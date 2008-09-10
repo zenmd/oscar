@@ -14,6 +14,7 @@ delaySearch= false;
 emptyDate = new Date("01/01/1901");
 function void1()
 {
+	alert("To developer: this should never be called, please return false in your click event handler");
 	// this function do nothing but was used in the href attribute of a <a> tag, cause the hand be displayed when mouse over
 }
 function showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {

@@ -333,6 +333,7 @@ function confirmActive()
 								codeWidth="1px" showCode="false" /></td>
 							<td width="19%">Youth</td>
 							<td width="27%"><html-el:select property="intake.youth">
+								<html-el:option value=""></html-el:option>
 								<html-el:option value="1">Yes</html-el:option>
 								<html-el:option value="0">No</html-el:option>
 							</html-el:select></td>
@@ -350,6 +351,7 @@ function confirmActive()
 						<tr>
 							<td>VAW</td>
 							<td><html-el:select property="intake.VAW">
+								<html-el:option value=""></html-el:option>
 								<html-el:option value="1">Yes</html-el:option>
 								<html-el:option value="0">No</html-el:option>
 							</html-el:select></td>
@@ -369,8 +371,9 @@ function confirmActive()
 						<tr>
 							<td>Have you stayed in a shelter before?</td>
 							<td><html-el:select property="intake.inShelterBefore">
-								<html-el:option value="1" key="1">Yes</html-el:option>
-								<html-el:option value="1" key="0">No</html-el:option>
+								<html-el:option value=""></html-el:option>
+								<html-el:option value="1">Yes</html-el:option>
+								<html-el:option value="0">No</html-el:option>
 							</html-el:select></td>
 							<td></td>
 							<td></td>

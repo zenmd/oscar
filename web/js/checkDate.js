@@ -1,7 +1,3 @@
-var timerId = 0;
-var isDateValid = true;
-var doOnBlur = true;
-var deferSubmit = false;
 
 function openDatePickerCalendar(url){
   	if(readOnly==true) return;

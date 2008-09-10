@@ -58,6 +58,7 @@
 		{
 			submitForm("search");
 		}
+		return false;
 	}
 	function submitForm(methodVal) {
 		trimInputBox();
@@ -104,7 +105,7 @@
 				<html:link	action="/PMmodule/QuatroIntakeEdit.do?method=create&intakeId=0&clientId=0"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> height="16px" width="16px"/>&nbsp;New Client&nbsp;|</html:link>
 			</security:oscarSec>	
-			<a href="javascript:void1();" onclick="javascript:searchClicked();" style="color:Navy;text-decoration:none;">&nbsp;
+			<a href="javascript:void1()" onclick="javascript:return searchClicked();" style="color:Navy;text-decoration:none;">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> height="16px" width="16px"/>&nbsp;Search&nbsp;|</a>
 			<a style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();">&nbsp;
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/searchreset.gif" /> height="16px" width="16px"/>&nbsp;Reset&nbsp;</a>		

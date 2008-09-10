@@ -43,6 +43,13 @@
 		<script type="text/javascript">
 			var isInFrame = true;
 			var readOnly = false;
+			/* date picker variables */
+			var timerId = 0;
+			var isDateValid = true;
+			var doOnBlur = true;
+			var deferSubmit = false;
+			/* end of datepicker variables */
+			
 			function setDivPosition()
 			{
 				 var ele = document.getElementById("scrollBar");
