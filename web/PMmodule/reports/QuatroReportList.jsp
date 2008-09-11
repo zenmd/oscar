@@ -64,7 +64,12 @@
 									<c:out value="${report.title}" /> - <c:out	value="${report.description}" /> </a></li>
 								<logic:iterate id="template" property="childList" name="report"	indexId="rIndex3">
 									<ul>
-										<input type="checkbox" name='p<c:out value="${rIndex1}"></c:out>_<c:out value="${rIndex2}"></c:out>_<c:out value="${rIndex3}"></c:out>' value="<c:out value="${template.templateNo}" />">
+										<logic:equal name="template" property="deleteable" value="true">
+											<input type="checkbox" name='p<c:out value="${rIndex1}"></c:out>_<c:out value="${rIndex2}"></c:out>_<c:out value="${rIndex3}"></c:out>' value="<c:out value="${template.templateNo}" />">
+										</logic:equal>
+										<logic:equal name="template" property="deleteable" value="false">
+											<input type="checkbox" disabled="true" name='p<c:out value="${rIndex1}"></c:out>_<c:out value="${rIndex2}"></c:out>_<c:out value="${rIndex3}"></c:out>' value="<c:out value="${template.templateNo}" />">
+										</logic:equal>
 										<%
 										   str.append("," + String.valueOf(rIndex1) + "_" + String.valueOf(rIndex2) + "_" + String.valueOf(rIndex3)); 
 										   

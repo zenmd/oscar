@@ -16,7 +16,6 @@ response.setHeader("Cache-Control", "no-cache");
 			alert ("Please browse a file to upload first");
 			return;
 		}
-		alert(methodValue);
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
 	}

@@ -21,8 +21,16 @@ public class ReportTempValue {
     private ArrayList orgDescs;  //used to disaplay org desc on JSP page option element
     private int index;
     private String userName;
+    private boolean deleteable;
     public String ErrMsg = "";
     
+    
+	public boolean isDeleteable() {
+		return deleteable;
+	}
+	public void setDeleteable(boolean deleteable) {
+		this.deleteable = deleteable;
+	}
 	public String getCriteriaDis() {
 		return criteriaDis;
 	}

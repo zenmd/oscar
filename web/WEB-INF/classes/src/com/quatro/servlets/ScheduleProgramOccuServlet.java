@@ -30,6 +30,7 @@ import org.oscarehr.PMmodule.service.ProgramOccupancyManager;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.ibm.xmi.mod.FileNotFoundException;
 import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 
@@ -77,7 +78,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 				String inPath =StringUtils.trimToNull(OscarProperties.getInstance().getProperty("SDMT_IN_PATH"));
 				File dir = new File(inPath);
 			    String[] list = dir.list();
-			        
+			    if(list == null) return;
 			    for (int i = 0; i < list.length; i++) {
 			        if(list[i].indexOf(".in")>0) 
 			        {
@@ -87,11 +88,18 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 			    }
 			    if(Utility.IsEmpty(filename)) return;
 				BeanUtilHlp buHlp = new BeanUtilHlp();
+				FileReader fstream = null;
+				try {
+					fstream = new FileReader(inPath + filename);
+				}
+				catch(java.io.FileNotFoundException e)
+				{
+					return;
+				}
+				BufferedReader in = new BufferedReader(fstream);
 				try {
 					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
 					// "/out/" + filename);
-					FileReader fstream = new FileReader(inPath + filename);
-					BufferedReader in = new BufferedReader(fstream);
 					//StringBuffer sb = new StringBuffer();
 					
 					ArrayList tempLst = Utility.getTemplate(pathLoc, "/in/template/","sdmt_in_template.txt");
@@ -107,12 +115,22 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 						sdVal.setLastUpdateDate(Calendar.getInstance());
 						programOccupancyManager.insertSdmtIn(sdVal);
 					}
-					in.close();
 				}
 		        catch (Exception e) {
-		        	
+		        	logger.error("Sdmt import: " + e.getMessage());
 					System.out.println("Sdmt in:" +e.getMessage());
-				}
+		        }
+		        finally
+		        {
+		        	try 
+		        	{
+		        		in.close();
+		        	}
+		        	catch(IOException e)
+		        	{
+		        		;
+		        	}
+		        }
 	        }
 			protected static void outputSDMT(String pathLoc, List clientInfo) {				
 				int year = Calendar.getInstance().get(Calendar.YEAR);

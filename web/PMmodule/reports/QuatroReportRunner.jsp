@@ -1,6 +1,8 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="com.quatro.model.*" %>
+<%@ page import="com.quatro.common.KeyConstants" %>
+
 <%@ include  file="/taglibs.jsp" %>
 
 <bean:define id="lstExportFormat" name="quatroReportRunnerForm" property="exportFormatList"/>
@@ -89,12 +91,12 @@ function submitForm(mthd)
 
 	<tr class="buttonBar2"><td align="left" class="buttonBar2">
 		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">Back to Reports</html:link>
-		<img src="../images/Save16.png"/>
-		<a href="javascript:submitForm('Save');">Save Template</a>&nbsp;|&nbsp;
+		<security:oscarSec objectName="<%=KeyConstants.FUN_REPORTS"%> rights="<%=KeyConstants.ACCESS_UPDATE%>">
+		&nbsp;|&nbsp;
+		<a href="javascript:submitForm('Save');"><img src="../images/Save16.png"/> Save Template</a>
+		</security:oscarSec>
 		<img src="../images/Print16x16.gif"/>
-		
-		<a href="javascript:submitForm('Run');">Run Report</a>&nbsp;|&nbsp;
-
+		&nbsp;|&nbsp;<a href="javascript:submitForm('Run');">Run Report</a>
 		</td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
@@ -179,7 +181,7 @@ function submitForm(mthd)
            <td class="clsButtonBarText">
                <div style="<%=orgSelectionProperty.getVisible()%>">
                &nbsp;&nbsp;<!-- <a id="orgAdd" href="javascript:showOrgLookup('ORG')"> -->
-              <a id="orgAdd" href="javascript:showLookupTree('ORG', '', '', 'quatroReportRunnerForm','lstOrg','', true, '<c:out value="${ctx}"/>')">               
+              <a id="orgAdd" href="javascript:void1();" onclick="javascript:return showLookupTree('ORG', '', '', 'quatroReportRunnerForm','lstOrg','', true, '<c:out value="${ctx}"/>')">               
                Add</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
                     <a href="javascript:removeSel('lstOrg')">Remove</a>
                 </div>

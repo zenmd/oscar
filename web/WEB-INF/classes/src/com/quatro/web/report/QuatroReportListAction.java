@@ -51,7 +51,9 @@ public class QuatroReportListAction extends BaseAction {
 		String providerNo = (String)request.getSession(true).getAttribute("user");
 		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
         		getServlet().getServletContext()).getBean("quatroReportManager");
-		List reports = reportManager.GetReportGroupList(providerNo);
+		com.quatro.service.security.SecurityManager sm = (com.quatro.service.security.SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+		boolean hasXRights = (sm.GetAccess(KeyConstants.FUN_REPORTS).compareTo(KeyConstants.ACCESS_ALL)>=0);
+		List reports = reportManager.GetReportGroupList(providerNo, hasXRights);
 		QuatroReportListForm qform = (QuatroReportListForm) form;
 		qform.setReportGroups(reports);
 		qform.setProvider(providerNo);

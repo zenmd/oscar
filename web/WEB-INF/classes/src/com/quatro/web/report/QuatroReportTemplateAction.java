@@ -68,12 +68,12 @@ public class QuatroReportTemplateAction extends Action {
 
 		String userId = (String)request.getSession(true).getAttribute("user");
 
-        ArrayList temps = (ArrayList)reportManager.GetReportTemplates(temp.getReportNo(), userId);
+        ArrayList temps = (ArrayList)reportManager.GetReportTemplates(temp.getReportNo(), userId, true);
         for(int i=0;i<temps.size();i++){
           ReportTempValue rtv = (ReportTempValue)temps.get(i);	
           if (temp.getTemplateNo() != rtv.getTemplateNo()){
             if (rtv.getDesc().toLowerCase().equals(temp.getDesc().toLowerCase())){
-            	myForm.setMsg("The Description is already been taken by another template.");
+            	myForm.setMsg("Duplicate Description is detected, please try to re-wording your descrition.");
         		return;
             }
           }

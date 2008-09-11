@@ -46,7 +46,7 @@ public class QuatroReportManager {
 		ArrayList filters= (ArrayList)quatroReportDao.GetFilterFieldList(rptNo);
 		reportValue.setFilters(filters);
 
-		ReportTempValue rptTempValue=quatroReportDao.GetReportTemplate(templateNo, loginId);
+		ReportTempValue rptTempValue=quatroReportDao.GetReportTemplate(templateNo, loginId, true);
 		reportValue.setReportTemp(rptTempValue);
 		
 		return reportValue;
@@ -77,7 +77,7 @@ public class QuatroReportManager {
 //		return quatroReportDao.GetReportList(providerNo);
 	}
 
-	public List GetReportGroupList(String providerNo) 
+	public List GetReportGroupList(String providerNo, boolean withXRights) 
 	{
 		List rgs = quatroReportDao.GetReportGroupList(providerNo);
 		for (int i=0; i<rgs.size(); i++){
@@ -92,7 +92,12 @@ public class QuatroReportManager {
 			  obj2.setTitle(obj1.getTitle());
 			  obj2.setDescription(obj1.getDescription());
 			  obj2.setTemplateNo("");
-			  List lst2 = quatroReportDao.GetReportTemplates(obj1.getReportNo(), providerNo);
+			  List lst2 = quatroReportDao.GetReportTemplates(obj1.getReportNo(), providerNo,withXRights);
+			  for(int k=0; k<lst2.size(); k++)
+			  {
+				  ReportTempValue obj3 = (ReportTempValue)lst2.get(k);
+				  obj3.setDeleteable(withXRights || obj3.isPrivateTemplate());
+			  }
 			  obj2.setChildList(lst2);
 		      lst3.add(obj2);
 			}
@@ -113,8 +118,8 @@ public class QuatroReportManager {
 		quatroReportDao.SetReportDateSp(reportNo, startDate, endDate, spToRun);
 	}
 	
-	public List GetReportTemplates(int reportNo, String userId){
-		return quatroReportDao.GetReportTemplates(reportNo, userId);
+	public List GetReportTemplates(int reportNo, String userId, boolean withXRights){
+		return quatroReportDao.GetReportTemplates(reportNo, userId, withXRights);
 	}
 
 	public void SaveReportTemplate(ReportTempValue rtv){

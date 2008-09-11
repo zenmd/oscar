@@ -3,7 +3,7 @@ package org.oscarehr.PMmodule.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.util.Hashtable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
+import org.apache.struts.upload.MultipartRequestHandler;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
@@ -25,6 +26,7 @@ import com.quatro.service.UploadFileManager;
 import com.quatro.util.Utility;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.GregorianCalendar;
 import com.quatro.model.Attachment;
@@ -54,21 +56,27 @@ public class UploadFileAction extends BaseClientAction {
 	}
 
 	 public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		String mthd=request.getParameter("method");
-		if("save".equals(mthd)) return save(mapping, form, request, response);
 		 return list(mapping, form, request, response);
-	    }
+	 }
 	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
 		 List atts=null;
-		
+		 DynaActionForm myform = (DynaActionForm)form;
+		 String clientId = myform.getString("clientId");
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
+         if(actionParam==null){
+    	  actionParam = new HashMap();
+          actionParam.put("clientId", clientId); 
+         }
+	     request.setAttribute("actionParam", actionParam);
+	     Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);
+		 if(exc != null && exc.equals(Boolean.TRUE)) {
+	    	   ActionMessages messages= new ActionMessages();
+	    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment_toolarge", request.getContextPath()));
+		        saveMessages(request,messages);
+			   return edit(mapping,form,request,response);
+		  }
+	      String demographicNo= (String)actionParam.get("clientId");
 	       if(Utility.IsEmpty(demographicNo)){
 	    	   ActionMessages messages= new ActionMessages();
 	    	   
@@ -107,8 +115,9 @@ public class UploadFileAction extends BaseClientAction {
 		}
 	 public ActionForward addNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 DynaActionForm attForm = (DynaActionForm) form;
+		 attForm.set("clientId",request.getParameter("clientId"));
 		 Attachment attObj =(Attachment)attForm.get("attachmentValue");
-		 
+		 attObj.setId(null);
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
@@ -140,12 +149,19 @@ public class UploadFileAction extends BaseClientAction {
 		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
 		 Attachment attObj = (Attachment)attForm.get("attachmentValue");
 		 String clientId =request.getParameter("clientId");
+		 if(clientId == null) clientId = attForm.getString("clientId");
+		 attForm.set("clientId",clientId);
+
 		 Integer aId = null;
 		 if(null!=request.getParameter("id")) {
 			 aId= new Integer(request.getParameter("id"));
 			 if(aId.intValue()>0)
 			 attObj = uploadFileManager.getAttachmentDetail(aId);
 			 attForm.set("attachmentValue", attObj);
+		 }
+		 else
+		 {
+			 aId = attObj.getId();
 		 }
 		 attForm.set("attachmentText",attTextObj);
 		 
@@ -155,15 +171,14 @@ public class UploadFileAction extends BaseClientAction {
 	    	  actionParam = new HashMap();
 	          actionParam.put("clientId",clientId ); 
 	       }
-	       request.setAttribute("actionParam", actionParam);
-		
+	     request.setAttribute("actionParam", actionParam);
+		 request.setAttribute("clientId", clientId);
 		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		 ActionMessages messages= new ActionMessages();
-		 String demoNo =(String)actionParam.get("clientId");
-		 Integer cId=Integer.valueOf(demoNo) ;       
+		 Integer cId=Integer.valueOf(clientId) ;       
 		 Integer moduleId =KeyConstants.MODULE_ID_CLIENT;  //(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-		 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-		 request.setAttribute("clientId", demoNo);
+		 request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+		 request.setAttribute("clientId", clientId);
 		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
 		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 		 request.setAttribute("lstDocType", lst);
@@ -248,8 +263,14 @@ public class UploadFileAction extends BaseClientAction {
 				//post error to page
 			}
 			count=uploadFileManager.getAttachment(cId.toString(), formFile.getFileName(), formFile.getFileSize());
-			if(count>1) dupMessage="Duplicate file name detected";
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.attachment.success", request.getContextPath(),dupMessage));
+			if(count>1) {
+				dupMessage="Duplicate file name detected";
+				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.attachment.success_dup", request.getContextPath(),dupMessage));
+			}
+			else
+			{
+				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.attachment.success", request.getContextPath()));
+			}
 	        saveMessages(request,messages);
 			//return mapping.findForward("edit");	
 	        return edit(mapping,form,request,response);

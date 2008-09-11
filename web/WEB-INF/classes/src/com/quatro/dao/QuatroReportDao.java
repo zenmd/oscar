@@ -119,22 +119,36 @@ public class QuatroReportDao extends HibernateDaoSupport {
           getHibernateTemplate().saveOrUpdate(rdsv);
   	  }
 
-  	  public List GetReportTemplates(int reportNo, String loginId){
+  	  public List GetReportTemplates(int reportNo, String loginId, boolean withXRights){
           ArrayList paramList = new ArrayList();
 	      paramList.add(new Integer(reportNo));
-	      paramList.add(loginId);
-	      Object params[] = paramList.toArray(new Object[paramList.size()]);          
-		  String sSQL="from ReportTempValue s WHERE s.reportNo=? AND (s.loginId=? or s.privateTemplate=true)";
+		  String sSQL = "";
+		  if(withXRights) {
+			  sSQL="from ReportTempValue s WHERE s.reportNo=?";
+		  }
+		  else
+		  {
+		      paramList.add(loginId);
+			  sSQL="from ReportTempValue s WHERE s.reportNo=? AND (s.loginId=? or s.privateTemplate=false)";			  
+		  }
+	      Object params[] = paramList.toArray(new Object[paramList.size()]);
 	      return  getHibernateTemplate().find(sSQL,params);
   	  }
 
-  	  public ReportTempValue GetReportTemplate(int templateNo, String loginId){
+  	  public ReportTempValue GetReportTemplate(int templateNo, String loginId, boolean withXRights){
           ArrayList paramList = new ArrayList();
 	      paramList.add(new Integer(templateNo));
-	      paramList.add(loginId);
-	      Object params[] = paramList.toArray(new Object[paramList.size()]);          
-		  String sSQL="from ReportTempValue s WHERE s.templateNo=? AND (s.loginId=? or s.privateTemplate=true)";
-	      ReportTempValue rptTempVal= (ReportTempValue)getHibernateTemplate().find(sSQL,params).get(0);
+		  String sSQL = "";
+		  if(withXRights) {
+			  sSQL="from ReportTempValue s WHERE s.templateNo=?";
+		  }
+		  else
+		  {
+		      paramList.add(loginId);
+			  sSQL="from ReportTempValue s WHERE s.templateNo=? AND (s.loginId=? or s.privateTemplate=false)";
+		  }
+	      Object params[] = paramList.toArray(new Object[paramList.size()]);
+		  ReportTempValue rptTempVal= (ReportTempValue)getHibernateTemplate().find(sSQL,params).get(0);
 	      
 	      paramList.clear();
 	      paramList.add(new Integer(templateNo));
