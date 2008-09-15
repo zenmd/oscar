@@ -85,13 +85,15 @@ public class MergeClientAction extends BaseClientAction {
 
 	public ActionForward unmerge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		
+		setLookupLists(request);
+
 		ActionMessages messages = new ActionMessages();
 		request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
 		if (request.getParameterValues("records") == null) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors.select", request.getContextPath()));
 			saveMessages(request, messages);
-			setLookupLists(request);
 			return mergedSearch(mapping, form, request, response);
 		}
 		boolean isSuccess = true;
@@ -110,7 +112,10 @@ public class MergeClientAction extends BaseClientAction {
 					cmObj.setLastUpdateDate(new GregorianCalendar());
 					mergeClientManager.unMerge(cmObj);
 				} catch (Exception e) {
-					isSuccess = false;
+					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+							"error.unmerge.failed", request.getContextPath(),e.getMessage()));
+					saveMessages(request, messages);
+					return mergedSearch(mapping,form,request,response);
 				}
 			}
 		}
@@ -131,6 +136,9 @@ public class MergeClientAction extends BaseClientAction {
 
 	public ActionForward merge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		
+		setLookupLists(request);
+
 		ActionMessages messages = new ActionMessages();
 		String test = request.getParameter("records");
 		if (request.getParameterValues("records") == null) {
@@ -147,7 +155,6 @@ public class MergeClientAction extends BaseClientAction {
 		String action = request.getParameter("mergeAction");
 		String providerNo = (String) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_PROVIDERNO);
-		setLookupLists(request);
 		if (head != null && records.size() > 1 && records.contains(head)) {
 			for (int i = 0; i < records.size(); i++) 
 			{
@@ -168,7 +175,10 @@ public class MergeClientAction extends BaseClientAction {
 						cmObj.setLastUpdateDate(new GregorianCalendar());
 						mergeClientManager.merge(cmObj);
 					} catch (Exception e) {
-						isSuccess = false;
+						messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+								"error.merge.failed", request.getContextPath(),e.getMessage()));
+						saveMessages(request, messages);
+						return search(mapping,form,request,response);
 					}
 				}
 			}

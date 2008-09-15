@@ -32,6 +32,7 @@ function isName(str)
 function submitForm(methodVal) 
 {
 	trimInputBox();
+	if(!isDateValid) return;
 
     var lineNum = document.getElementsByName("dependentsSize")[0].value;
     var lastName;
@@ -153,10 +154,10 @@ function checkExistClients(i){
         <html:link action="/PMmodule/QuatroIntakeEdit.do?method=update" name="actionParam" style="color:Navy;text-decoration:none;">
         <img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close</html:link>
         <c:if test="${!isReadOnly}">
-		  &nbsp;|&nbsp;<a href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+		  &nbsp;|&nbsp;<a href="javascript:void1();"  style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return deferedSubmit('save');">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save</a>
          </c:if>
-		  &nbsp;|&nbsp;<a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();" target="_blank">
+		  &nbsp;|&nbsp;<a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return isDateValid;" target="_blank">
 			<img border=0 src=<html:rewrite page="/images/history.gif"/> />&nbsp;History&nbsp;&nbsp;</a>
 		</td>
 	</tr>

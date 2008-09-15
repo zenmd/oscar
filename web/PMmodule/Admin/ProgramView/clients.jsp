@@ -45,12 +45,18 @@
 				}
 			}
 		}
-		
-		var msg = 'You are about to discharge ' + numClients + ' client(s).' + '\n' +
-					'Are you sure you would like to continue?';
 		if(numClients == 0) {
 			alert('You have to select the clients');
 			return;
+		}
+		if(numClients == 1) {
+			var msg = 'You are about to discharge ' + numClients + ' client/family.' + '\n' +
+					'Are you sure you would like to continue?';
+		}
+		else
+		{
+			var msg = 'You are about to discharge ' + numClients + ' clients/families' + '\n' +
+					'Are you sure you would like to continue?';
 		}
 	
 		if(confirm(msg)) {	

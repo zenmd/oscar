@@ -29,6 +29,7 @@
 
 function submitForm(methodVal) {
 	trimInputBox();
+	if(!isDateValid) return;
 	if(methodVal=='programChange'){
 
 	}else{
@@ -126,7 +127,8 @@ function confirmActive()
 {
    	var isActive = document.getElementsByName("client.active")[0].value;
 	if(isActive == "true"){
-		return confirm("The client is currently admitted in another program. If you admit the client now, this will cause an automatic discharge. Click OK to proceed?");
+		var ans = confirm("The client is currently admitted in another program. If you admit the client now, this will cause an automatic discharge. Click OK to proceed?");
+		return ans && isDateValid;
 	}
 	else
 		return true;
@@ -149,7 +151,7 @@ function confirmActive()
 
 			<c:if	test="${!isReadOnly && (quatroIntakeEditForm.intake.intakeStatus=='active' ||
 			 	quatroIntakeEditForm.intake.intakeStatus=='admitted')}">
-				<a id="btnSave" href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">&nbsp; 
+				<a id="btnSave" href='javascript:void1();' onclick="javascript: setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">&nbsp; 
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 	         </c:if> 
 	         <c:if	test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
@@ -158,7 +160,7 @@ function confirmActive()
 	    	 			(quatroIntakeEditForm.intake.intakeStatus=='admitted' && intakeHeadId>0) ||
 	    	 			(quatroIntakeEditForm.intake.id==intakeHeadId && intakeHeadId>0)}">
 	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
-							style="color:Navy;text-decoration:none;"> 
+							style="color:Navy;text-decoration:none;" onclick="javascript: return isDateValid;"> 
 							<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake &nbsp;&nbsp;|</a>
 							<c:choose>
 								<c:when	test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
@@ -172,7 +174,7 @@ function confirmActive()
 					<c:when test="intakeHeadId gt 0">
               		<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>
               				&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
-							style="color:Navy;text-decoration:none;"> 
+							style="color:Navy;text-decoration:none;" onclick="return isDateValid;"> 
 						<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake&nbsp;&nbsp;|</a>
 					</c:when>
 				</c:choose>

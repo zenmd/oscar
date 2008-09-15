@@ -71,6 +71,7 @@ function getOrgList(){
 }
 function submitForm(mthd)
 {
+	if(!isDateValid) return;
 	document.forms[0].method.value=mthd;
 	getOrgList();
 	document.forms[0].submit();
@@ -93,10 +94,10 @@ function submitForm(mthd)
 		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">Back to Reports</html:link>
 		<security:oscarSec objectName="<%=KeyConstants.FUN_REPORTS"%> rights="<%=KeyConstants.ACCESS_UPDATE%>">
 		&nbsp;|&nbsp;
-		<a href="javascript:submitForm('Save');"><img src="../images/Save16.png"/> Save Template</a>
+		<a href="javascript:void1() onclick="return deferedSubmit('Save');"><img src="../images/Save16.png"/> Save Template</a>
 		</security:oscarSec>
 		<img src="../images/Print16x16.gif"/>
-		&nbsp;|&nbsp;<a href="javascript:submitForm('Run');">Run Report</a>
+		&nbsp;|&nbsp;<a href="javascript:void1();" onclick="return deferedSubmit('Run');">Run Report</a>
 		</td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>

@@ -42,7 +42,6 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		document.getElementsByName("incidentForm.clientId")[0].value = ""; 
 		document.getElementsByName("incidentForm.clientName")[0].value = "";
 		document.getElementsByName("incidentForm.incDateStr")[0].value = "";
-
 	}
 	
 	function removeSel(str) {
@@ -98,8 +97,9 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		return true;
 	}
 	
-	function editIncident( mthd){
+	function submitForm( mthd){
 		var flag = true;
+		if(!isDateValid) return;
 		if(mthd == "save"){
 			getList();
 			var txtKey= document.getElementsByName("incidentForm.txtStaffKeys")[0];

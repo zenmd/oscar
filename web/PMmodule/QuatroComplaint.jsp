@@ -30,6 +30,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	
 	function submitForm(methodVal) {
 		trimInputBox();
+		if(!isDateValid) return;
 		var validSource = document.getElementsByName("complaint.source")[0].value.length > 0;
 		if(!validSource){
 			alert("Please select Source of Complaint before saving.");
@@ -247,7 +248,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 
 					<c:if test="${quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null}">	
-					<a href="javascript:submitForm('save');" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+					<a href="javascript:void1();"  style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return deferedSubmit('save');">
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 					</c:if>	
 			</td>

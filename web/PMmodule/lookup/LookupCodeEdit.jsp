@@ -3,6 +3,7 @@
 	function submitForm()
 	{
 		trimInputBox();
+		if(!isDateValid) return;
  		document.forms[0].method.value="save";
 		if(noChanges())
 		{
@@ -39,7 +40,7 @@
 		<html:link action="/Lookup/LookupCodeList.do" paramId="id" paramName="lookupCodeEditForm" paramProperty="tableDef.tableId"> 
 		<img src="../images/close16.png" border="0"/> Close</html:link>
 		<c:if test="${!isReadOnly}">
-			 &nbsp;|&nbsp; <a href="javascript:submitForm();" onclick="javascript:setNoConfirm();">
+			 &nbsp;|&nbsp; <a href="javascript:void1();" onclick="javascript:setNoConfirm();return deferedSubmit('');">
 			<img src="../images/Save16.png" border="0"/> Save </a>
 		</c:if>	
 			

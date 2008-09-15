@@ -56,7 +56,8 @@
 		}
 	   self.close();
 	}
-function checkExistClients(shortFlagValue){
+function submitForm(shortFlagValue){
+	if(!isDateValid) return;
     document.forms[0].elements["method"].value="search";
 	document.forms[0].submit();
 }
@@ -87,7 +88,7 @@ function checkExistClients(shortFlagValue){
 </td></tr>
 <tr>
 <td colspan="2">
-<a href="javascript:checkExistClients();" style="color:Navy;text-decoration:none;">
+<a href="javascript:void1();" onclick="return deferedSubmit('');" style="color:Navy;text-decoration:none;">
 <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;
 </a>
 </td>

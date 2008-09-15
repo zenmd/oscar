@@ -271,6 +271,7 @@ var XMLHttpRequestObject = false;
 	function submitForm(methodValue)
 	{
 		trimInputBox();
+		if(!isDateValid) return;
 		if(methodValue=="save" && noChanges())
 		{
 			alert("There are no changes detected to save");
@@ -313,7 +314,7 @@ var XMLHttpRequestObject = false;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|
 			</html:link>
 			<c:if test="${!isReadOnly }">	
-				<a onclick="javascript: return validateSave('save');" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;">
+				<a onclick="javascript: return validateSave('save');;return deferedSubmit('save');" href='javascript:void1();' style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 			</c:if>	
 			</td>

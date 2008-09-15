@@ -1,6 +1,28 @@
-
+function deferedSubmit(methodName)
+{
+	if(deferSubmit) {
+		if(methodName == '') {
+			setTimeout("submitForm()", 200);
+		}
+		else
+		{
+			setTimeout("submitForm('" + methodName + "')", 200);
+		}
+	}
+	else
+	{
+		if(methodName == '') {
+			submitForm();
+		}
+		else
+		{
+			submitForm(methodName);
+		}
+	}
+	return false;
+}
 function openDatePickerCalendar(url){
-  	if(readOnly==true) return;
+  	if(readOnly==true) return false;
   	cancelOnCalBlur();
   	if(win!=null) win.close();
   	win=window.open(url, '', 'width=310,height=310'); 
@@ -9,37 +31,43 @@ function openDatePickerCalendar(url){
 function onCalBlur(checkedDateName)
 {
 	isDateValid = true;
+	deferSubmit = true;
 	if(doOnBlur)
 	{
-		deferSubmit = true;
 	    timerId = setTimeout("check_date('" + checkedDateName + "')", 100);
 	}
-	doOnBlur = true;
 }
 
 function cancelOnCalBlur()
 {
 	if(timerId > 0) clearTimeout(timerId);
 	deferSubmit = false;
-	doBlurCount = false;
 }
 
-function onCalKeyPress(e, checkedDateName)
+function onCalKeyPress(event, checkedDateName)
 {
-    var keyPressed;
-    var nav4 = window.event ? true : false;
-	if (nav4) e = window.event;
-	keyPressed = nav4 ? e.which : e.keyCode;
-	if (keyPressed == 13) {
-		doOnBlur = false;
+	var keynum;
+	if(window.event) // IE
+ 	{
+ 		keynum = event.keyCode;
+ 	}
+	else if(event.which) // Netscape/Firefox/Opera
+ 	{
+ 		keynum = event.which;
+ 	}
+	if (keynum == 13) {
 		if(!check_date(checkedDateName)) {
-			if(nav4) e.stopPropagation();
-			e.cancelBubble=true;
+			if(event.stopPropagation) {
+				event.stopPropagation();
+			}
+			else
+			{
+				event.cancelBubble=true;
+			}
 		}
 	}
 	else
 	{
-		doOnBlur = true;
 		var checkedDateObj = document.getElementsByName(checkedDateName)[0];
 		checkedDateObj.style.backgroundColor='#ffffff';
 	}
@@ -51,6 +79,7 @@ function setDate(form_name,element_name,year1,month1,day1) {
       var val = getFormatedDate(year1,month1,day1);
       dtElement.value =  val;
 	  dtElement.style.backgroundColor='#ffffff';
+	  dtElement.focus();
 }
 function getFormatedDate(year1, month1,day1)
 {
@@ -64,9 +93,11 @@ function getFormatedDate(year1, month1,day1)
 function setInvalid(checkedDateObj)
 {
 		isDateValid = false;
+		doOnBlur = false;
     	alert('Date entered is not valid.');
   	    checkedDateObj.style.backgroundColor='#ff0000';
 		checkedDateObj.focus();
+		doOnBlur = true;
 }
 function check_date(checkedDateName) 
 {	

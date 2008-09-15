@@ -17,7 +17,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 			</html:link>
 			<c:if test="${programActive}">			
 			<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_INCIDENT %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
-				&nbsp;|&nbsp;<html:link	href="javascript:editIncident('new');"	style="color:Navy;text-decoration:none;">&nbsp;
+				&nbsp;|&nbsp;<html:link	href="javascript:submitForm('new');"	style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Incident&nbsp;</html:link>
 			</security:oscarSec>
 			</c:if>

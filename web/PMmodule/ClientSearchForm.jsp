@@ -49,6 +49,13 @@
 			alert('Please enter at least one of the following: Client No, First Name, Last Name, Date of Birth, Assigned To or Program and then click on Search.');
 		return false; 
 	}
+	function submitForm(methodVal) {
+		trimInputBox();
+		if(!isDateValid) return;		
+		if (!hasAnyFilter()) return;
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
+	}
 	function searchClicked()
 	{
 		if(deferSubmit) {
@@ -59,13 +66,6 @@
 			submitForm("search");
 		}
 		return false;
-	}
-	function submitForm(methodVal) {
-		trimInputBox();
-		if(!isDateValid) return;		
-		if (!hasAnyFilter()) return;
-		document.forms[0].method.value = methodVal;
-		document.forms[0].submit();
 	}
 	function init()
 	{
@@ -135,7 +135,7 @@
 					<th width="20%" align="right"><bean-el:message key="ClientSearch.dateOfBirth"  bundle="pmm"/> <br>
 					(yyyy/mm/dd)</th>
 					<th align="left" width="80%">
-					<quatro:datePickerTag property="criteria.dob" openerForm="clientSearchForm2" width="180px"></quatro:datePickerTag>
+					<quatro:datePickerTag property="criteria.dob" openerForm="clientSearchForm2" width="150px"></quatro:datePickerTag>
 					</th>
 				</tr>
 				<tr>

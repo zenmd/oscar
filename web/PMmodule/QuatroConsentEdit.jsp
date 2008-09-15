@@ -28,6 +28,8 @@
 	}
 	function submitForm(methodVal) {
 		trimInputBox();
+		if(!isDateValid) return;
+		if(methodVal=="save" && !validateSave()) return;
 		if(methodVal=="save" && noChanges())
 		{
 			alert("There are no changes detected to save");
@@ -111,7 +113,7 @@
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>|
 			
 				<c:if test="${(signed==null || 'N'==signed) && !isReadOnly}" >		
-					<a href='javaScript:submitForm("save");'  onclick="javascript: setNoConfirm();return validateSave();"	style="color:Navy;text-decoration:none;">
+					<a href='javaScript:void1();'  onclick="javascript: setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 				</c:if>
 				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">		  			

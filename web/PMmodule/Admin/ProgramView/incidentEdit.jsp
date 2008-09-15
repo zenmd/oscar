@@ -25,7 +25,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 		</a>
 		<c:if test="${programActive && !isReadOnly}">
 		<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_INCIDENT%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">
-			<html:link href="javascript:editIncident('save');" onclick="javascript:setNoConfirm();"	style="color:Navy;text-decoration:none;">
+			<html:link href="javascript:void1();" onclick="javascript:setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</security:oscarSec>
 		</c:if>

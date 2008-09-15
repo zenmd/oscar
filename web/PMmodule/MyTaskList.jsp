@@ -1,31 +1,59 @@
 <%@ include file="/taglibs.jsp"%>
 <script lang="javascript">
-function submitForm(methodVal) {
-	trimInputBox();
-  	document.forms[0].method.value = methodVal;
-  	document.forms[0].submit();
+function validate()
+{
+		var form = document.ticklerForm;
+		var startDt = form.elements['filter.startDate'];
+		var endDt = form.elements['filter.endDate'];
+		if(startDt.value != "" && endDt.value != "") {
+			if(!isBefore(startDt.value, endDt.value))
+			{
+				alert("start date must be before end date");
+				startDt.focus();
+				return false;
+			}
+		}
+		return true;
 }
-				function init()
-				{
-					var form = document.forms[0];
-					form.elements['filter.startDate'].focus();
-					form.onkeypress=function() {keypress(event);}
-				}
-				function keypress(event)
-				{
-					var keynum;
-					if(window.event) // IE
-			  		{
-			  			keynum = event.keyCode;
-			  		}
-					else if(event.which) // Netscape/Firefox/Opera
-			  		{
-			  			keynum = event.which;
-			  		}
-					if (keynum==13) submitForm('filter');
-					return true;
-				}
-
+	function submitForm(methodVal) {
+		trimInputBox();
+		if(!isDateValid) return;		
+		if (!validate()) return;
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
+	}
+	function searchClicked()
+	{
+		if(deferSubmit) {
+			setTimeout("submitForm('filter')", 200);
+		}
+		else
+		{
+			submitForm("filter");
+		}
+		return false;
+	}
+	function init()
+	{
+		var form = document.ticklerForm;
+		form.elements['filter.startDate'].focus();
+		form.onkeypress=function() {keypress(event);}
+	}
+	function keypress(event)
+	{
+		var keynum;
+		if(window.event) // IE
+  		{
+  			keynum = event.keyCode;
+  		}
+		else if(event.which) // Netscape/Firefox/Opera
+  		{
+  			keynum = event.which;
+  		}
+		if (keynum==13) {
+			searchClicked();
+		}
+	}
 </script>
 <html:form action="/PMmodule/Task.do">
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
@@ -35,7 +63,7 @@ function submitForm(methodVal) {
 <tr><td class="buttonBar2">
 	<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-	<a href='javascript:submitForm("filter");' style="color:Navy;text-decoration:none;">
+	<a href="javascript:void1();" onclick="return searchClicked();" style="color:Navy;text-decoration:none;">
 	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;</a>
 
 </td></tr>
@@ -93,7 +121,7 @@ function submitForm(methodVal) {
 </display:column>
 <display:column property="status" sortable="true" title="Status" />
 <display:column property="provider.formattedName" sortable="true" sortProperty="provider.formattedName" title="Creator" />
-<display:column property="service_date.time" sortable="true" title="Date" format="{0, date, yyyy/MM/dd hh:mm:ss a}"  />
+<display:column property="service_date.time" sortable="true" title="Service Date" format="{0, date, yyyy/MM/dd hh:mm:ss a}"  />
 <display:column property="demographic.formattedName" sortable="true" sortProperty="demographic.lastName" title="Client" />
 <display:column property="program.name" sortable="true"	title="Program" />
 </display:table> 

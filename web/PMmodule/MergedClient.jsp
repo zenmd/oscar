@@ -74,6 +74,7 @@
 	}
 	function submitForm(methodVal) {
 		trimInputBox();
+		if(!isDateValid) return;
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
@@ -129,7 +130,7 @@
 			<td class="buttonBar2" align="left" height="18px">
 				<a	href="javascript:submitForm('search')"	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Search&nbsp;&nbsp;|</a> 
-				<a	style="color:Navy;text-decoration:none;"	href="javascript:submitForm('mergedSearch');"> 
+				<a	style="color:Navy;text-decoration:none;"	href="javascript:void1()" onclick="return deferedSubmit('mergedSearch');"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
 				<a	style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();"> 
 					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>

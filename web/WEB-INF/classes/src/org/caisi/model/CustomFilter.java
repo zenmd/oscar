@@ -42,7 +42,6 @@ public class CustomFilter extends BaseObject {
 	
 	public CustomFilter() {
 		setStatus("");
-		this.setEnd_date(new Date());
 	}
 
 	public String getStatus() {
@@ -68,7 +67,7 @@ public class CustomFilter extends BaseObject {
 		if(getStart_date() != null) {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 			String ret= formatter.format(getStart_date());
-			if(ret.equals("1900/01/01")) return "";
+			if(ret.equals("1900/01/01")) ret =  "";
 			return ret;
 		}
 		return "";
@@ -89,7 +88,9 @@ public class CustomFilter extends BaseObject {
 	public String getEndDate() {
 		if(getEnd_date() != null) {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-			return formatter.format(getEnd_date());
+			String ret = formatter.format(getEnd_date());
+			if(ret.equals("8888/12/31")) ret= "";
+			return ret;
 		}
 		return "";
 	}

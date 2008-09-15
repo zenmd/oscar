@@ -36,7 +36,7 @@ String s = "debug";
 						style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close</html:link>
 						<c:if test="${!isReadOnly }" >
-						&nbsp;|&nbsp;<html:link href="javascript:submitForm();" 	style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+						&nbsp;|&nbsp;<html:link href="javascript:void1();" 	style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return deferedSubmit('');">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save</html:link>
 						</c:if>
 					</td>
@@ -78,7 +78,7 @@ String s = "debug";
 							<td><quatro:datePickerTag property="facility_message.expiry_day" 
 									width="150px" openerForm="facilityMessageForm" />
 							</td>
-							
+														
 						</tr>
 						<tr class="b">
 							<td>Expiry Time:&nbsp;</td>
@@ -155,6 +155,7 @@ String s = "debug";
 <!--
 	function submitForm(){
 		trimInputBox();
+		if(!isDateValid) return;
 		var message = document.getElementsByName("facility_message.message")[0];
 		if(message.value == '') 
 		{
@@ -192,6 +193,9 @@ String s = "debug";
 	   }
 	
 	}
-	
+	function trythis()
+	{
+		;
+	}
 //-->
 </script>

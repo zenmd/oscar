@@ -11,6 +11,7 @@
 <script lang="javascript">
 function submitForm(methodVal) {
    trimInputBox();
+   if(!isDateValid) return;
    document.forms[0].method.value = methodVal;
    document.forms[0].submit();
 }
@@ -27,9 +28,9 @@ function submitForm(methodVal) {
 		<td align="left" class="buttonBar2">
 		<html:link action="/PMmodule/ClientSearch2.do" 
 		style="color:Navy;text-decoration:none;">&nbsp;
-		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-		<a href='javascript:submitForm("list");' style="color:Navy;text-decoration:none;">
-        &nbsp;<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Filter&nbsp;&nbsp;</a></td>
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search</html:link>
+		&nbsp;|&nbsp;<a href='javascript:void1();" onclick="return deferedSubmit('list');" style="color:Navy;text-decoration:none;">
+        &nbsp;<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">
       <logic:messagesPresent message="true">

@@ -70,10 +70,30 @@ public class DatePickerTag extends BaseInputTag{
         results.append(this.prepareStyles());
         prepareOtherAttributes(results);
         results.append(this.getElementClose());
-        
+        results.append("</td>");
+
         results.append("<td");
-        prepareAttribute(results, "style", "border:0px;");
-        prepareAttribute(results, "width", "28px");
+        prepareAttribute(results, "style", "border:0px;display:none");
+        prepareAttribute(results, "width", "1px");
+        results.append(this.getElementClose());
+
+        results.append("<input");
+        prepareAttribute(results, "style", "width:1px;display:none");
+        prepareAttribute(results, "type", "text");
+        String sName1=prepareName(property, name) + "_cal1";
+        prepareAttribute(results, "name", sName1);
+        prepareAttribute(results, "maxlength", "1px");
+        prepareAttribute(results, "tabindex", getTabindex());
+        prepareValue(results);
+        results.append(this.prepareEventHandlers());
+        results.append(this.prepareStyles());
+        prepareOtherAttributes(results);
+        results.append(this.getElementClose());
+        results.append("</td>");
+        	       
+        results.append("<td");
+        prepareAttribute(results, "style", "border:0px");
+        prepareAttribute(results, "width", "1px");
         results.append(this.getElementClose());
         results.append("<a href='javascript:void1();' ");
 

@@ -34,15 +34,15 @@
                
             }
 		</style>
-		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar.js" />" ></script>
-		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/lang/calendar-en.js" />"></script>
-		<script type="text/javascript" src="<html:rewrite page="/jsCalendar/calendar-setup.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/js/validation.js" />"></script>
+		<script type="text/javascript" src="<html:rewrite page="/js/checkDate.js" />"></script>
 
 		<script type="text/javascript">
 			var isInFrame = true;
 			var readOnly = false;
+		    var win=null;
+			
 			/* date picker variables */
 			var timerId = 0;
 			var isDateValid = true;
@@ -78,31 +78,12 @@
 				if (typeof(init) == "function") eval("init()");
 				if (typeof(initHash) == "function") eval("initHash()");
 			 }
-		</script>
-				
-		<script type="text/javascript">
-		    var win=null;
 		
-			var djConfig = {
-				isDebug: false,
-				parseWidgets: false,
-				searchIds: ["addPopupTimePicker"]
-			};
 			
 			function unloadMe(){
 			  	if(win!=null) win.close();
 			}
 		</script>
-	    
-		<!--  script type="text/javascript" src="<html:rewrite page="/dojoAjax/dojo.js" />">
-		</script -->
-		
-		<!-- script type="text/javascript" language="JavaScript">
-            dojo.require("dojo.date.format");
-			dojo.require("dojo.widget.*");
-			dojo.require("dojo.validate.*");
-		</script -->
-		
 		<html:base />
 	</head>
 	<body onload="initPage()"  onunload="unloadMe()">

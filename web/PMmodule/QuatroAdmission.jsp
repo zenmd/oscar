@@ -100,7 +100,7 @@ function roomChanged()
 		<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</html:link>
 		<c:if test="${!isReadOnly &&(quatroClientAdmissionForm.admission.admissionStatus=='active' ||
 		 quatroClientAdmissionForm.admission.admissionStatus=='admitted' || quatroClientAdmissionForm.admission.admissionStatus=='pending')}">		 
-		<a id="btnSave" href='javascript:submitForm("save");' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+		<a id="btnSave" href="javascript:void1();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return deferedSubmit('save');">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>|
         </c:if>       
         </td>

@@ -4,6 +4,7 @@
 <script type="text/javascript">
 function submitForm(methodVal) {
 	trimInputBox();
+	if(!isDateValid) return;
     if(methodVal=='save'){
 	   if(methodVal=="save" && noChanges())
 	   {
@@ -76,7 +77,7 @@ function submitForm(methodVal) {
 	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
 	<img border=0 src='<html:rewrite page="/images/close16.png"/>' >&nbsp;Close&nbsp;&nbsp;</html:link>
    <c:if test="${viewTickler!='Y'}">
-     <a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
+     <a href="javascript:void1();"  onclick="javascript: setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">
 		<img border=0 src='<html:rewrite page="/images/Save16.png"/>' >&nbsp;Save&nbsp;&nbsp;</a>|
    </c:if>		
 </td></tr>

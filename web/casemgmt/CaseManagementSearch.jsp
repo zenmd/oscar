@@ -17,6 +17,7 @@ response.setHeader("Cache-Control", "no-cache");
 	function submitForm(methodValue)
 	{
 		trimInputBox();
+		if(!isDateValid) return;
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
 	}
@@ -191,7 +192,7 @@ response.setHeader("Cache-Control", "no-cache");
 					</tr>
 					<tr>
 						<td align="left" colspan="4">
-							<input type="button" name="search"	value="search" onclick="submitForm('search')" />&nbsp; 
+							<input type="button" name="search"	value="search" onclick="return deferedSubmit('search')" />&nbsp; 
 							<input	type="button" name="reset" value="reset"	onclick="resetClientFields()" />
 						</td>
 					</tr>

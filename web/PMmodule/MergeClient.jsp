@@ -160,18 +160,18 @@
 			<td class="buttonBar2" align="left" height="18px">
 				<a	href="javascript:submitForm('search')"	style="color:Navy;text-decoration:none;"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Search&nbsp;&nbsp;|</a> 
-				<a	style="color:Navy;text-decoration:none;"	href="javascript:submitForm('mergedSearch');"> 
+				<a	style="color:Navy;text-decoration:none;" href="javascript:void1();" onclick="return deferedSubmit('mergedSearch');"> 
 					<img border=0	src=<html:rewrite page="/images/search16.gif" /> height="16px"	width="16px" />&nbsp;Search Merged Records&nbsp;&nbsp;</a> 
 				<a	style="color:Navy;text-decoration:none;" href="javascript:resetClientFields();"> 
 					<img border=0	src=<html:rewrite page="/images/searchreset.gif" /> height="16px"	width="16px" />&nbsp;Reset&nbsp;&nbsp;|</a>
 				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_MERGECLIENT %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 				<c:choose>
 					<c:when test="${mergeAction eq 'unmerge'}">				
-						<a	href="javascript:submitForm('unmerge')"	style="color:Navy;text-decoration:none;"> 				
+						<a	href="javascript:void1();" onclick="return deferedSubmit('unmerge')"	style="color:Navy;text-decoration:none;"> 				
 							<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
 					</c:when>
 					<c:otherwise>
-						<a	href="javascript:submitForm('merge')"	style="color:Navy;text-decoration:none;"> 
+						<a	href="javascript:void1();" onclick="return deferedSubmit('merge')"	style="color:Navy;text-decoration:none;"> 
 							&nbsp;Merge&nbsp;&nbsp;|</a>
 					</c:otherwise>					
 				</c:choose>

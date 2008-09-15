@@ -113,7 +113,7 @@ function openBrWindow(theURL,winName,features) {
 				
 				<tr>
 					<td class="fieldValue" colspan="3">
-						<html:submit>Save</html:submit>
+						<input type="button" value="Save" onclick="return deferedSubmit('');" />
 						<input type="button" value="Cancel" onclick="location.href='FacilityMessage.do'"/>
 					</td>
 				</tr>
