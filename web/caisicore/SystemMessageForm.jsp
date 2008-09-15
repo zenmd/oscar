@@ -28,7 +28,7 @@
 					<html:link	action="/SystemMessage.do?method=list"		style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;</html:link>
 					<c:if test="${!isReadOnly}" >
-					<html:link href="javascript:submitForm();"  onclick="javascript:setNoConfirm();"
+					<html:link href="javascript:void1()"  onclick="javascript:setNoConfirm();return deferedSubmit('');"
 						style="color:Navy;text-decoration:none;">
 						<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 					</c:if>
@@ -137,6 +137,7 @@
 <!--
 	function submitForm(){
 		trimInputBox();
+		if(!isDateValid) return;
 		var message = document.getElementsByName("system_message.message")[0];
 		if(message.value == '') 
 		{
