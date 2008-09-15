@@ -308,6 +308,7 @@
             <form-property name="clientImage" type="org.oscarehr.casemgmt.web.formbeans.ClientImageFormBean" />
         </form-bean>
         <form-bean name="attachmentForm" type="org.apache.struts.action.DynaActionForm">
+          <form-property name="clientId" type="java.lang.String"></form-property>
           <form-property name="attachmentValue" type="com.quatro.model.Attachment"></form-property>
           <form-property name="attachmentText" type="com.quatro.model.AttachmentText"></form-property>
         </form-bean>
@@ -780,7 +781,8 @@
             <forward name="expired" path="/casemgmt/expired.jsp" />  
             <forward name="listNotes" path="/casemgmt/viewNotes.jsp"/>
         </action>
-         <action path="/PMmodule/UploadFile" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="attachmentForm" >
+         <action path="/PMmodule/UploadFile" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="attachmentForm" 
+         	input="page.attachment.edit">
             <forward name="list" path="page.attachment.list" />
             <forward name="edit" path="page.attachment.edit"></forward>  
             <forward name="success" path="page.attachment.edit" />           
