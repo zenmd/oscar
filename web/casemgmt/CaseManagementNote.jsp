@@ -370,7 +370,7 @@ var XMLHttpRequestObject = false;
 			<table width="100%">
 			 <tr>
 			 	<td>
-					<a id="issAdd" 	href="javascript:void1();" onclick="setNoConfirm();showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">	Add</a>			 
+					<a id="issAdd" 	href="javascript:void1();" onclick="setNoConfirm();return showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">	Add</a>			 
 				</td>
 			</tr>
 			<tr>
