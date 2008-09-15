@@ -179,8 +179,8 @@ public class ProviderDao extends HibernateDaoSupport {
 		sql += " where code in (select orgcd from secuserrole where provider_no=?)";
 		sql += " and fullcode like '%S%'";
 		*/
-		String sql ="select distinct c.id as shelter_id from lst_shelter c, lst_orgcd a, secuserrole b  where instr('RO',substr(b.orgcd,1,1)) = 0 and a.fullcode like '%' || b.orgcd || '%'" + 
-				" and b.provider_no=? and a.codecsv like '%S' || c.id || ',%'";
+		String sql ="select distinct c.id as shelter_id from lst_shelter c, lst_orgcd a, secuserrole b  where instr('RO',substr(b.orgcd,1,1)) = 0 and a.codecsv like '%' || b.orgcd || ',%'" + 
+				" and b.provider_no=? and a.code like 'S' || c.id || '%'";
 	
 		Query query = getSession().createSQLQuery(sql);
     	((SQLQuery) query).addScalar("shelter_id", Hibernate.INTEGER); 
