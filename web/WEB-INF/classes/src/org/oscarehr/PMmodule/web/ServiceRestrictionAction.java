@@ -350,7 +350,20 @@ public class ServiceRestrictionAction  extends BaseClientAction {
     		   clientForm.set("maxLength", new Integer(0));
     	   else
     		   clientForm.set("maxLength", maxDays);
+ 
+    	   if(Utility.IsEmpty(rId)) {
+	    	   Integer defDays = program.getDefaultServiceRestrictionDays();
+	    	   if(defDays != null)
+	    		   clientForm.set("serviceRestrictionLength", defDays);
+	    	   else
+	    		   clientForm.set("serviceRestrictionLength", null);
+    	   }
        }
+       else
+       {
+    	   if(Utility.IsEmpty(rId)) clientForm.set("serviceRestrictionLength", null);
+       }
+    	   
 //       if (!Utility.IsEmpty(rId) && !("0".equals(rId))){
 //    	   int length = MyDateFormat.getDaysDiff(pcrObj.getStartDate(), pcrObj.getEndDate());
 //    	   clientForm.set("serviceRestrictionLength", new Integer(length));
