@@ -4,7 +4,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>
- 
+
 <html-el:form action="/PMmodule/ClientHistory.do">
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId" value="<c:out value="${clientId}"/>" />
@@ -29,7 +29,7 @@ function submitForm(methodVal) {
 		<html:link action="/PMmodule/ClientSearch2.do" 
 		style="color:Navy;text-decoration:none;">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search</html:link>
-		&nbsp;|&nbsp;<a href='javascript:void1();" onclick="return deferedSubmit('list');" style="color:Navy;text-decoration:none;">
+		&nbsp;|&nbsp;<a href='javascript:void1();' onclick="return deferedSubmit('list');" style="color:Navy;text-decoration:none;">
         &nbsp;<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">

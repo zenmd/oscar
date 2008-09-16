@@ -5,6 +5,8 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+<script type="text/javascript" src='<c:out value="${ctx}"/>/js/validation.js'></script> 
 <script language="javascript" type="text/javascript">	
 	/* var gender='<%=request.getSession(true).getAttribute("clientGender")%>'; */
 	var age=<%=request.getAttribute("age")%>;
