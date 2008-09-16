@@ -353,7 +353,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
  
     	   if(Utility.IsEmpty(rId)) {
 	    	   Integer defDays = program.getDefaultServiceRestrictionDays();
-	    	   if(defDays != null)
+	    	   if(defDays != null && defDays.intValue() > 0)
 	    		   clientForm.set("serviceRestrictionLength", defDays);
 	    	   else
 	    		   clientForm.set("serviceRestrictionLength", null);

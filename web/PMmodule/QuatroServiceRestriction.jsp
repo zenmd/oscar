@@ -46,21 +46,22 @@
 		var maxLengthStr = document.getElementsByName("maxLength")[0].value;
 		var maxLength = parseInt( maxLengthStr );
 		
-		if(isNaN(length.value)){
-			length.value="";
-			alert("Please enter digital characters for 'Length of restriction' only.");
+		if(isNaN(length.value) || !isInt(length.value)){
+			alert("Please enter a whole number of days for Length of Restriction.");
 			return false;
-		}  
+		} 
+		else
+		{
+			length.value = parseInt(length.value);
+		} 
 	
 		if(length.value < 1 ){
-			length.value="";
-			alert("'Length of restriction' must be greater or equal 1 day.");
+			alert("'Length of restriction' must be greater or equal to 1 day.");
 			return false;
 		}
 		
 		if(maxLength > 0 && length.value > maxLength){
-			length.value="";
-			alert("'Length of restriction' must be less or equal " + maxLength + " days.");
+			alert("'Length of restriction' must be less or equal to " + maxLength + " days.");
 			return false;
 		}
 		

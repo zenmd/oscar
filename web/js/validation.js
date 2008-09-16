@@ -1,6 +1,11 @@
 /* This method will return true if valid, false otherwise (and present an alert box). */ 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/, ''); };
-
+function isInt(str)
+{
+	var iv =  parseInt(str);
+	var fv = parseFloat(str);
+	return iv == fv;
+}
 function isName(str) 
 { 
     var reg = new RegExp(/^[\s\'\-a-zA-Z]+$/); 

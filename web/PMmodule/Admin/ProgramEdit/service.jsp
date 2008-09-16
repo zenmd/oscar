@@ -35,20 +35,28 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 <script>
 	function submitForm(){
      	trimInputBox();
-		var maxDays = document.programManagerForm.elements['program.maximumServiceRestrictionDays'].value;
-		if(maxDays != undefined && isNaN(maxDays)) {
-			alert("Maximum length of service restriction '" + maxDays + "' is not a number");
+		var maxDays = document.programManagerForm.elements['program.maximumServiceRestrictionDays'];
+		if("" != maxDays.value && (isNaN(maxDays.value) || !isInt(maxDays.value))) {
+			alert("Maximum length of service restriction '" + maxDays.value + "' must be a whole number");
 			return false;
 		}
-
-        var defDays = document.programManagerForm.elements['program.defaultServiceRestrictionDays'].value;
-		if(isNaN(defDays)) {
-			alert("Default length of service restrcition '" + defDays + "' is not a number");
-			return false;
+		else
+		{
+			if("" != maxDays.value) maxDays.value = parseInt(maxDays.value);
 		}
 
+        var defDays = document.programManagerForm.elements['program.defaultServiceRestrictionDays'];
+		if(""!=defDays.value && (isNaN(defDays.value) || !isInt(defDays.value))) {
+			alert("Default length of service restrcition '" + defDays.value + "' must be a whole number");
+			return false;
+		}
+		else
+		{
+			if("" != defDays.value) defDays.value = parseInt(defDays.value);
+		}
         document.programManagerForm.method.value='save_restriction_settings';
 		document.programManagerForm.submit()
+		return false;
 	}
 
 </script>
@@ -60,7 +68,7 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 			</html:link>			
 
 		<c:if test="${!isReadOnly}">
-			&nbsp;|&nbsp;<html:link href="javascript:submitForm();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+			&nbsp;|&nbsp;<html:link href="javascript:void1();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return submitForm();">
 			<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 		</c:if>	
 		</td>
@@ -89,11 +97,11 @@ The following parameters will be applied on new service restrictions for this pr
 <table width="100%" border="1" cellspacing="2" cellpadding="3">
 	<tr class="b">
 		<td width="20%">Maximum length of service restriction (in days):</td>
-		<td><html-el:text property="program.maximumServiceRestrictionDays" size="4" maxlength="4"/>&nbsp;(empty or zero means no maximum)</td>
+		<td><html-el:text property="program.maximumServiceRestrictionDays" size="4" maxlength="4"/>&nbsp;(zero means no maximum)</td>
 	</tr>
 	<tr class="b">
 		<td width="20%">Default service restriction length (in days):</td>
-		<td><html-el:text property="program.defaultServiceRestrictionDays" size="4" maxlength="4"/></td>
+		<td><html-el:text property="program.defaultServiceRestrictionDays" size="4" maxlength="4"/>&nbsp;(zero means no default)</td>
 	</tr>
 </table>
 <br/>
