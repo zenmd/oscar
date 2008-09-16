@@ -128,9 +128,10 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        else
        {
     	   for(int i=0;i<lst.size();i++){
-    		   obj = (QuatroIntakeHeader)lst.get(i);
-    		   if(obj.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-    			   if(obj.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE) || obj.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
+    		   QuatroIntakeHeader obj1 = (QuatroIntakeHeader)lst.get(i);
+    		   if(obj1.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+    			   if(obj1.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE) || obj1.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
+    				   obj = obj1;
     				   break;
     			   }
     		   }
