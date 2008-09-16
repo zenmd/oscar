@@ -131,7 +131,13 @@ public class ProgramDao extends HibernateDaoSupport {
     	}
     	c.add(Restrictions.sqlRestriction("program_id in " + Utility.getUserOrgSqlString(providerNo, shelterId)));
     	c.addOrder(Order.asc("name"));
-    	return 	c.list();
+    	List list = c.list();
+    	for(int i=0; i<list.size(); i++)
+    	{
+    		Program p = (Program) list.get(i);
+    		if(p.getType().equals(KeyConstants.PROGRAM_TYPE_Service)) p.setNumOfMembers(p.getNumOfIntakes());
+    	}
+    	return 	list;
     }
     
     public List getBedProgramsInFacility(String providerNo,Integer facilityId)

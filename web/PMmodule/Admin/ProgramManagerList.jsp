@@ -118,12 +118,7 @@
 				</display:column>
 				<display:column property="facilityDesc" sortable="true" title="Facility" />				
 				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
-					<c:if test="${program.type == 'Bed'}">
-						<c:out value="${program.numOfMembers}" />
-					</c:if>
-					<c:if test="${program.type == 'Service'}">
-						<c:out value="${program.numOfIntakes}" />
-					</c:if>
+					<c:out value="${program.numOfMembers}" />
 				</display:column>
 				<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize">
 					<c:if test="${program.type == 'Bed'}">
