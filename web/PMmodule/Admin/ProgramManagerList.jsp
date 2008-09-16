@@ -155,8 +155,8 @@
 				}
 				function resetForm()
 				{
-					document.getElementsByName("searchStatus")[0].value="Any";
-					document.getElementsByName("searchType")[0].value="Any";
+					document.getElementsByName("searchStatus")[0].selectedIndex = 0;
+					document.getElementsByName("searchType")[0].selectedIndex = 0;
 					document.getElementsByName("searchFacilityId")[0].value="0";
 					//document.programManagerForm.submit()
 				}

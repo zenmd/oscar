@@ -91,10 +91,10 @@ function submitForm(mthd)
 	</tr>
 
 	<tr class="buttonBar2"><td align="left" class="buttonBar2">
-		<img src="../images/Back16.png"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">Back to Reports</html:link>
-		<security:oscarSec objectName="<%=KeyConstants.FUN_REPORTS"%> rights="<%=KeyConstants.ACCESS_UPDATE%>">
+		<img src="../images/Back16.png" border="0"/>&nbsp;<html:link action="/QuatroReport/ReportList.do">Back to Reports</html:link>
+		<security:oscarSec objectName="<%=KeyConstants.FUN_REPORTS%>" rights="<%=KeyConstants.ACCESS_UPDATE%>">
 		&nbsp;|&nbsp;
-		<a href="javascript:void1() onclick="return deferedSubmit('Save');"><img src="../images/Save16.png"/> Save Template</a>
+		<a href="javascript:void1();" onclick="return deferedSubmit('Save');"><img src="../images/Save16.png" border="0"/> Save Template</a>
 		</security:oscarSec>
 		<img src="../images/Print16x16.gif"/>
 		&nbsp;|&nbsp;<a href="javascript:void1();" onclick="return deferedSubmit('Run');">Run Report</a>

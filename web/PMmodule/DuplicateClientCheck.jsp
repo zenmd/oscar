@@ -10,6 +10,7 @@
 <script language="Javascript">
 	var readOnly = false;
 	var win = null;
+
 	function selectDuplicateClient(form_name, firstName, firstNameValue, 
 	   lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
 	   clientNo, clientNoValue, statusMsg, statusMsgValue, 
@@ -57,7 +58,6 @@
 	   self.close();
 	}
 function submitForm(shortFlagValue){
-	if(!isDateValid) return;
     document.forms[0].elements["method"].value="search";
 	document.forms[0].submit();
 }
@@ -82,13 +82,13 @@ function submitForm(shortFlagValue){
    <html-el:optionsCollection property="genders" value="code" label="description"/>
 </html-el:select></td></tr>
 <tr><td>Last name*</td><td><html-el:text property="client.lastName" size="20" maxlength="30" /></td>
-<td>Date of birth<br>(yyyy/mm/dd)</td><td>
+<td style="{display:none}">Date of birth<br>(yyyy/mm/dd)</td><td style="{display:none}">
 <quatro:datePickerTag property="client.dob" width="65%" openerForm="duplicateClientCheckForm">
 </quatro:datePickerTag>
 </td></tr>
 <tr>
 <td colspan="2">
-<a href="javascript:void1();" onclick="return deferedSubmit('');" style="color:Navy;text-decoration:none;">
+<a href="javascript:submitForm('');" style="color:Navy;text-decoration:none;">
 <img border="0" src="<html:rewrite page="/images/search16.gif"/>" />&nbsp;Search&nbsp;&nbsp;
 </a>
 </td>
@@ -97,7 +97,7 @@ function submitForm(shortFlagValue){
 
 <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/DuplicateClientCheck.do">
   <display:setProperty name="paging.banner.placement" value="bottom" />
-  <display:setProperty name="basic.msg.empty_list" value="At least a First name, Last name or Date of birth must be entered." />
+  <display:setProperty name="basic.msg.empty_list" value="First name or Last name must be entered." />
   <display:column sortable="false" title="Action">    
         <c:choose>
 	      <c:when test="${client.demographicNo==0}">

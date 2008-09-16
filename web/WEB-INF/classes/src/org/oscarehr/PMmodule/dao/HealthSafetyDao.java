@@ -57,9 +57,14 @@ public class HealthSafetyDao extends HibernateDaoSupport {
         if (demographicNo == null || demographicNo.intValue() <= 0) {
             throw new IllegalArgumentException();
         }
-        HealthSafety hs = getHealthSafetyByDemographic(demographicNo);
-        getHibernateTemplate().delete(hs);
-
+        //hack: this is for preparing a history of HS records. Delete all for now 
+        while(true)
+        {
+        	HealthSafety hs = getHealthSafetyByDemographic(demographicNo);
+        	if (hs == null) break;
+        	getHibernateTemplate().delete(hs);
+        }
+        
         if (log.isDebugEnabled()) {
             log.debug("delteHealthSafetyByDemographic:id=" + demographicNo);
         }

@@ -424,7 +424,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     private boolean validateInputWarning(QuatroIntake intake,Demographic client,HttpServletRequest request,ActionMessages messages){
     	boolean hasWarning = false;
 //    	check gender conflict and age conflict
-	    if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+//	    if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
 		   Program program = programManager.getProgram(intake.getProgramId());
 		   if(clientRestrictionManager.checkGenderConflict(program, client)){
           	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
@@ -434,7 +434,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
           	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
               hasWarning = true;
 		   }
-	    }
+//	    }
   		 return hasWarning;
     	
     }
@@ -445,13 +445,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
         Integer duplicatedReferralId = new Integer(0);
     	QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
-    	String clientId = qform.getClientId();
         
     	Demographic client= qform.getClient();
     	QuatroIntake intake= qform.getIntake();
     	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	Integer intakeHeadId = new Integer(0);
-    	if (request.getParameter("intakeheadId") != null)
+    	if (request.getParameter("intakeHeadId") != null)
     		intakeHeadId = Integer.valueOf(request.getParameter("intakeHeadId"));
    		setProgramEditable(request, intake, intakeHeadId);
 
@@ -482,13 +481,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	}
     	intake.setLastUpdateDate(Calendar.getInstance());
 		//get program type
-    	ArrayList lst= (ArrayList)qform.getProgramTypeList();
-		for(int i=0;i<lst.size();i++){
-			LabelValueBean obj2= (LabelValueBean)lst.get(i);
-			if(Integer.valueOf(obj2.getValue()).equals(intake.getProgramId())){
-			  intake.setProgramType(obj2.getLabel());
-			  break;
-			}
+    	Program prog = programManager.getProgram(intake.getProgramId());
+    	if(prog != null)
+    	{
+			  intake.setProgramType(prog.getType());
 		}
 	  // boolean programChange = 	!intake.getCurrentProgramId().equals(intake.getProgramId());
 	  if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)) &&
@@ -584,8 +580,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
    		return mapping.findForward("edit");
 	  }
 	  
-  	if(!clientId.equals("") && !"0".equals(clientId)){
-	  List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(Integer.valueOf(clientId), intake.getProgramId());
+  	if(!intake.getClientId().equals("") && !"0".equals(intake.getClientId())){
+	  List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(intake.getClientId(), intake.getProgramId());
 	  for(int i=0;i<intakeHeads.size();i++){
 		QuatroIntakeHeader qih = (QuatroIntakeHeader)intakeHeads.get(i);
 		if(qih.getId().equals(intake.getId())) continue;
@@ -667,8 +663,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
         //no more than one mannual referral exists for same clientId and programId. 
 		boolean intakeExist=false; //flag for same clientId and programId
-	 if(!clientId.equals("")){
-        List queues = programQueueManager.getProgramQueuesByClientIdProgramId(Integer.valueOf(clientId), intake.getProgramId());
+	 if(!intake.getClientId().equals("")){
+        List queues = programQueueManager.getProgramQueuesByClientIdProgramId(intake.getClientId(), intake.getProgramId());
 		if(queues.size()>0){
 			ProgramQueue queue = (ProgramQueue)queues.get(0);
 			if(queue.getFromIntakeId()==null){
