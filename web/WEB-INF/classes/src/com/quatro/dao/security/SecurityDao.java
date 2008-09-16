@@ -110,7 +110,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				firstName = StringEscapeUtils.escapeSql(firstName);
 				firstName = firstName.toLowerCase();
 				
-				sql1 = "lower(p.firstName) like '" + firstName + "%'";
+				sql1 = "(lower(p.firstName) like '" + firstName + "%' or lower(p.lastName) like '" + firstName + "%')";
 				
 			}
 			
@@ -119,7 +119,7 @@ public class SecurityDao extends HibernateDaoSupport {
 				lastName = StringEscapeUtils.escapeSql(lastName);
 				lastName = lastName.toLowerCase();
 				
-				sql2 = "lower(p.lastName) like '" + lastName + "%'";
+				sql2 = "(lower(p.lastName) like '" + lastName + "%' or lower(p.firstName) like '" + lastName + "%')";
 				
 			}
 			
