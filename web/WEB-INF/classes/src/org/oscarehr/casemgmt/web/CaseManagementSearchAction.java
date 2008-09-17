@@ -286,7 +286,15 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             request.setAttribute("issues", issues);
             
             List admis = admissionManager.getAdmissions(Integer.valueOf(demoNo),providerNo, shelterId);
-            List caseWorkers = this.lookupMgr.LoadCodeList("USR", true,getAdmissionPrimaryWorks(admis),null);
+            String workerIds = getAdmissionPrimaryWorks(admis);
+            List caseWorkers;
+            if(!Utility.IsEmpty(workerIds)) {
+            	caseWorkers = this.lookupMgr.LoadCodeList("USR", true,getAdmissionPrimaryWorks(admis),null);
+            }
+            else
+            {
+            	caseWorkers = new ArrayList();
+            }
             request.setAttribute("caseWorkers", caseWorkers);            
             
             this.caseManagementMgr.getEditors(notes);
