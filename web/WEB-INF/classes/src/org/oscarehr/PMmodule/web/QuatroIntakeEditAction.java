@@ -450,9 +450,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
     	QuatroIntake intake= qform.getIntake();
     	String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     	Integer intakeHeadId = new Integer(0);
-    	if (request.getParameter("intakeHeadId") != null)
+    	if (!Utility.IsEmpty(request.getParameter("intakeHeadId")))
     		intakeHeadId = Integer.valueOf(request.getParameter("intakeHeadId"));
-   		setProgramEditable(request, intake, intakeHeadId);
+        request.setAttribute("intakeHeadId", request.getParameter("intakeHeadId")); 
+
+        setProgramEditable(request, intake, intakeHeadId);
 
     	//check for new client duplication
     	if(intake.getClientId().intValue()==0 && request.getParameter("newClientChecked").equals("N") &&
@@ -718,9 +720,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}
         saveMessages(request,messages);
         request.setAttribute("pageChanged","");
-
-        request.setAttribute("intakeHeadId", request.getParameter("intakeHeadId")); 
-
         request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
    		setProgramEditable(request, intake, intakeHeadId);
         super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);

@@ -30,7 +30,7 @@ response.setHeader("Cache-Control", "no-cache");
 		form.elements['searchEndDate'].value='';
 		form.elements['searchProviderNo'].selectedIndex = 0;
 		form.elements['searchCaseStatus'].selectedIndex = 0;
-		form.elements['searchCaseWorker'].selectedIndex = 0;
+//		form.elements['searchCaseWorker'].selectedIndex = 0;
 		}
 	function clickTab(name) {
 		document.caseManagementViewForm.tab.value=name;
