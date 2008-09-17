@@ -138,6 +138,7 @@
 	
 		if(methodValue=="save" && noChanges())
 		{
+			alert("There are no changes detected to save");
 			return;
 		}
 
