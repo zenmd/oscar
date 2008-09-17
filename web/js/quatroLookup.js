@@ -132,7 +132,7 @@ function selectMe(code, desc, form_name, code_element_name, desc_element_name) {
       var descElement = opener.document.getElementsByName(desc_element_name)[0];
       
       codeElement.value = code;
-      descElement.value = desc;
+      descElement.value = replaceQuote(desc);
 	  if(false) {
      	var myexpr = "opener.document." + form_name + ".elements['" + code_element_name +"'].value='" + code +"'";
     	 eval(myexpr);
@@ -140,7 +140,7 @@ function selectMe(code, desc, form_name, code_element_name, desc_element_name) {
     	 eval(myexpr);
       }
    }else{
-     AddtoDropdown(code, desc, code_element_name);
+     AddtoDropdown(code, replaceQuote(desc), code_element_name);
    }
    self.close();
 }
@@ -181,4 +181,8 @@ function AddtoDropdown(key, value, element_name){
     }
 
   }
+}
+function replaceQuote(str)
+{
+	return str.replace(/&#34;/g,"\"");
 }
