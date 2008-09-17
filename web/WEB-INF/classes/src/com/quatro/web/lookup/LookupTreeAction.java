@@ -84,8 +84,8 @@ public class LookupTreeAction extends DispatchAction {
    	      String title = obj.getDescription();
    	      mc.setTitle(title);
    	      
-   	      String location = "javascript:selectMe('" +  obj.getCode() + "','" + 
-   	   oscar.Misc.getStringJs(obj.getDescription()) + "','" + request.getParameter("openerForm") + "','"
+   	      String location = "javascript:selectMe('" +  obj.getCode() + "','" 
+   	         + obj.getDescriptionJs() + "','" + request.getParameter("openerForm") + "','"
    	         + request.getParameter("codeName") + "','" 
    	         + oscar.Misc.getStringJs(request.getParameter("descName")) + "');";
    	      mc.setLocation(location);

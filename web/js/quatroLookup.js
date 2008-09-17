@@ -126,14 +126,21 @@ function showLookupTree(tableId, grandParentName, parentName, openerFormName, co
 	return false;
 }
 
-function selectMe(code, Desc, form_name, code_element_name, Desc_element_name) {
-   if(Desc_element_name!=""){  //for both lookup tag and html dropdown
-      var myexpr = "opener.document." + form_name + ".elements['" + code_element_name +"'].value='" + code +"'";
-      eval(myexpr);
-      myexpr = "opener.document." + form_name + ".elements['" + Desc_element_name +"'].value='" + Desc + "'";
-      eval(myexpr);
+function selectMe(code, desc, form_name, code_element_name, desc_element_name) {
+   if(desc_element_name!=""){  //for both lookup tag and html dropdown
+      var codeElement = opener.document.getElementsByName(code_element_name)[0];
+      var descElement = opener.document.getElementsByName(desc_element_name)[0];
+      
+      codeElement.value = code;
+      descElement.value = desc;
+	  if(false) {
+     	var myexpr = "opener.document." + form_name + ".elements['" + code_element_name +"'].value='" + code +"'";
+    	 eval(myexpr);
+	     myexpr = "opener.document." + form_name + ".elements['" + desc_element_name +"'].value='" + desc + "'";
+    	 eval(myexpr);
+      }
    }else{
-     AddtoDropdown(code, Desc, code_element_name);
+     AddtoDropdown(code, desc, code_element_name);
    }
    self.close();
 }

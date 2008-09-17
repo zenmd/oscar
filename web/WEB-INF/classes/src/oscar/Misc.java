@@ -484,13 +484,16 @@ public static String space(int i) {
     		sb.append(replaceTo);
     		sb.append(buff[i]);
     	}
+    	if(str.endsWith(pattern)) sb.append(replaceTo);
+    	
     	return sb.toString();
     }
 
     public static String getStringJs(Object s)
     {
     	if (s==null) return "";
-    	return replace((String) s,"'","\\'");
+    	String s1 = replace((String) s,"'","\\'");
+    	return replace((String) s1,"\"","&#34;");
     	//return ((String) s).replace("'", "\\'");
     }
 

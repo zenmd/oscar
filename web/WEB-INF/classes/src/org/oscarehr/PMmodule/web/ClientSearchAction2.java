@@ -94,6 +94,7 @@ public class ClientSearchAction2 extends BaseClientAction {
 				KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
 			formBean.setBedProgramId("MyP");
 		}
+		/*
 		if (null != request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_CLIENTID)) {
 			String cId = request.getSession().getAttribute(
@@ -102,6 +103,7 @@ public class ClientSearchAction2 extends BaseClientAction {
 			lst.add(this.clientManager.getClientByDemographicNo(cId));
 			request.setAttribute("clients", lst);
 		}
+		*/
 		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		//check new Client link
