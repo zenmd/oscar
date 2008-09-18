@@ -99,6 +99,25 @@ function isBeforeNow(inputDay, inputHour, inputMinute) {
     }	
 	else return true;	
 } 
+function isBeforeNowxMin(inputDay, inputHour, inputMinute, allowedMinutes) {
+	if(inputDay==null || inputDay==''){
+      	return false;
+	}
+	var now = new Date();
+	var date=new Date();
+	var myDate_array=inputDay.split("/");
+	date.setFullYear(myDate_array[0]);
+	date.setMonth(myDate_array[1]-1);
+	date.setDate(myDate_array[2]);
+	if (!(inputHour==null || inputHour =='' || inputHour == 0)) date.setHours(inputHour);
+	if (!(inputMinute==null || inputMinute =='' || inputMinute == 0)) date.setMinutes(inputMinute);
+	date.setSeconds(0.0);
+	now.setSeconds(0.0);
+    if ((now.getTime() - date.getTime()) > allowedMinutes*60000) {
+      return true;
+    }	
+	else return false;
+} 
 
 function isBeforeToday(inputStr) {
 	var date=new Date();
@@ -134,6 +153,30 @@ function isBefore(inputStr1, inputStr2) {
 	date2.setSeconds(0);
     
     if (date1<date2){
+      return true;
+    }	
+	else return false;	
+} 
+function isAfter(inputStr1, inputStr2) {
+	var date1=new Date();
+	var myDate_array1=inputStr1.split("/");
+	date1.setFullYear(myDate_array1[0]);
+	date1.setMonth(myDate_array1[1]-1);
+	date1.setDate(myDate_array1[2]);
+	date1.setHours(0);
+	date1.setMinutes(0);
+	date1.setSeconds(0);
+    
+	var date2=new Date();
+	var myDate_array2=inputStr2.split("/");
+	date2.setFullYear(myDate_array2[0]);
+	date2.setMonth(myDate_array2[1]-1);
+	date2.setDate(myDate_array2[2]);
+	date2.setHours(0);
+	date2.setMinutes(0);
+	date2.setSeconds(0);
+    
+    if (date1>date2){
       return true;
     }	
 	else return false;	

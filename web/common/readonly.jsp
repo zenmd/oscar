@@ -22,6 +22,18 @@
            }
         }
     }
+	function getListVal(elSel)
+	{
+		var str = "";
+		for(var i=0; i < elSel.options.length; i++){
+			if(str == ""){
+			   str = elSel.options[i].value;
+			}else{  
+			   str  += elSel.options[i].value;
+			}
+		}
+		return str;
+	}
 
     function getHash()
     {
@@ -37,6 +49,9 @@
               if (elem.type == 'checkbox' || elem.type == 'radio') {
                  hashVal += elem.checked;
               }  
+              else if (elem.type == 'select-multiple') {
+              	hashVal += getListVal(elem);
+              }
               else
               {
                  hashVal += " " + elem.value;
