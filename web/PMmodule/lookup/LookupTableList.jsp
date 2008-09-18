@@ -4,7 +4,7 @@
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
-			id="_ctl0_phBody_lblTitle" align="left">Lookup Fields
+			id="_ctl0_phBody_lblTitle" align="left">Lookup Tables Management
 			</span></th>
 	</tr>
 	<tr>
