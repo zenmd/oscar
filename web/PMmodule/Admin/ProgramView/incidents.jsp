@@ -54,7 +54,7 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 	}
 	function getList(){
 	
-		var elSel= document.getElementsByName("incidentForm.lstStaff")[0]; 
+		var elSel= document.getElementsByName("incidentForm.lstStaff")[0];
 		var txtKey= document.getElementsByName("incidentForm.txtStaffKeys")[0]; 
 		var txtValue= document.getElementsByName("incidentForm.txtStaffValues")[0]; 
 		txtKey.value="";
@@ -137,20 +137,30 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		       return;
 		    }
 	    }
-	    
-/*	    
+	        
 		invDt = document.getElementsByName("incidentForm.investigationDateStr")[0];
 	    if(invDt!=null)
 	    {
 		    if(invDt.value.trim()!=""){
 			    if(isBefore(invDt.value,obj.value)){
-			       alert("investigation date should be later than incident date");
+			       alert("Investigation date should be later than incident date");
 			       invDt.focus();
 			       return;
 		    	}
 	    	}
 	    }
-*/
+		followupDt = document.getElementsByName("incidentForm.followupDateStr")[0];
+	    if(followupDt!=null)
+	    {
+		    if(followupDt.value.trim()!=""){
+			    if(isBefore(followupDt.value,obj.value)){
+			       alert("Fllow up date should be later than incident date");
+			       invDt.focus();
+			       return;
+		    	}
+	    	}
+	    }
+
 	    
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?incidentId=" + id + "&mthd=" + mthd;
 		//alert(document.programManagerViewForm.action);
@@ -187,12 +197,11 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 	}
 	
 	function searchIncident(){
-
+		trimInputBox();
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?mthd=search";
 		//alert(document.programManagerViewForm.action);
 		document.programManagerViewForm.tab.value = "Incidents";
 		document.programManagerViewForm.submit();
-		
 	
 	}
 	

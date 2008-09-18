@@ -198,7 +198,7 @@ public class ClientSearchAction2 extends BaseClientAction {
 				KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
 			request.setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION,
 					"cv");
-			request.setAttribute("moduleName", " - Case Management");
+//			request.setAttribute("moduleName", " - Case Management");
 		}
 	}
 

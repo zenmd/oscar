@@ -206,8 +206,8 @@ public class ClientTaskAction extends BaseClientAction{
         Tickler tickler = ticklerManager.getTickler(tickler_no);
         Calendar service_date = Calendar.getInstance();
         service_date.setTime(tickler.getService_date());
-        tickler.setService_hour(String.valueOf(service_date.get(Calendar.HOUR)));
-        tickler.setService_minute(String.valueOf(service_date.get(Calendar.MINUTE)));
+        tickler.setService_hour(Misc.forwardZero(String.valueOf(service_date.get(Calendar.HOUR)),2));
+        tickler.setService_minute(Misc.forwardZero(String.valueOf(service_date.get(Calendar.MINUTE)),2));
         if(service_date.get(Calendar.AM_PM)==0){
           tickler.setService_ampm("AM");
         }else{

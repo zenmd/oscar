@@ -2,6 +2,7 @@
 <%@ include file="/taglibs.jsp"%>
 	
 <script type="text/javascript">
+
 function submitForm(methodVal) {
 	trimInputBox();
 	if(!isDateValid) return;
@@ -13,11 +14,15 @@ function submitForm(methodVal) {
 	   }
 
 	   var serviceDate = document.ticklerForm.elements['tickler.serviceDate'];
+	   var serviceHour = parseInt(document.ticklerForm.elements['tickler.service_hour'].value);
+	   var serviceMinute = parseInt(document.ticklerForm.elements['tickler.service_minute'].value);
+	   var serviceAmpm = document.ticklerForm.elements['tickler.service_ampm'].value;
+	   if ("PM" == serviceAmpm) serviceHour = parseInt(serviceHour) + 12;
 	   if(serviceDate.value == '') {
 		  alert('Please provide a service date.');
 		  return;
-	   }else if(isBeforeToday(serviceDate.value)){
-		  alert('Service date and (or) time should not be before today.');
+	   }else if(isBeforeNowxMin(serviceDate.value, serviceHour, serviceMinute,5)){
+		  alert('Service date/time should not be before now for more than 5 minutes.');
 		  return;
 	   }
 

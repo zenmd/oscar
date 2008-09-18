@@ -16,6 +16,8 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 	}	
 </script>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
+<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
+
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
 	<tr>

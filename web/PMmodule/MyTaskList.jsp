@@ -6,9 +6,9 @@ function validate()
 		var startDt = form.elements['filter.startDate'];
 		var endDt = form.elements['filter.endDate'];
 		if(startDt.value != "" && endDt.value != "") {
-			if(!isBefore(startDt.value, endDt.value))
+			if(isBefore(endDt.value,startDt.value))
 			{
-				alert("start date must be before end date");
+				alert("start date must be before or equal to end date");
 				startDt.focus();
 				return false;
 			}
