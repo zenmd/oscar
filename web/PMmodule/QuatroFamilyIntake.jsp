@@ -252,7 +252,7 @@ function checkExistClients(i){
     </td>
     <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true"  style="width:90%" /></td>
     <td><html:text name="dependent" property="firstName" maxlength="30" indexed="true"  style="width:90%" /></td>
-    <td><quatro:datePickerTag name="dependent" property="dob" indexed="true" openerForm="quatroClientFamilyIntakeForm" style="width:90%"></quatro:datePickerTag></td>
+    <td><quatro:datePickerTag name="dependent" property="dob" indexed="true" openerForm="quatroClientFamilyIntakeForm"></quatro:datePickerTag></td>
     <td><html:select name="dependent" property="sex" indexed="true" style="width:90%" >
        <html:optionsCollection property="genders" value="code" label="description"/>
       </html:select>
