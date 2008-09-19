@@ -185,6 +185,12 @@ public class RoomDAO extends HibernateDaoSupport {
 
 		return (RoomType[]) roomTypes.toArray(new RoomType[roomTypes.size()]);
 	}
+    public RoomType[] getActiveRoomTypes() {
+		List roomTypes = getHibernateTemplate().find("from RoomType rt where rt.active=?", Boolean.TRUE);
+		log.debug("getRooms: size: " + roomTypes.size());
+
+		return (RoomType[]) roomTypes.toArray(new RoomType[roomTypes.size()]);
+	}
 
 
 	/**

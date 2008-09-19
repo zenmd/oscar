@@ -108,6 +108,10 @@ public class BedManager {
     public BedType[] getBedTypes() {
         return bedDAO.getBedTypes();
     }
+    public BedType[] getActiveBedTypes() {
+        return bedDAO.getActiveBedTypes();
+    }
+
 
     public void saveBed(Bed bed) throws IllegalStateException{
         validate(bed);

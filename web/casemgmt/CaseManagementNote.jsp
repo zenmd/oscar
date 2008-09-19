@@ -367,8 +367,9 @@ var XMLHttpRequestObject = false;
 			 <html:hidden	property="txtIssueValue" value="" />
 			</td>		
 		
-			<td align="left">
-			<table width="100%">
+			<td align="left" valign="top">&nbsp;
+			<c:if test="${!isReadOnly }">	
+			<table width="100%" border="0">
 			 <tr>
 			 	<td>
 					<a id="issAdd" 	href="javascript:void1();" onclick="setNoConfirm();return showLookup('ISS', '', '', 'caseManagementEntryForm','lstIssue','', true, '<c:out value="${ctx}"/>')">	Add</a>			 
@@ -379,6 +380,7 @@ var XMLHttpRequestObject = false;
 				</td>
 			</tr>
 			</table>
+			</c:if>
 			</td>
 		</tr>
 	</table>

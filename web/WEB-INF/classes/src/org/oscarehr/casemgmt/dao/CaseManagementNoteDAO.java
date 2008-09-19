@@ -224,7 +224,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
 		}
 		criteria.addOrder(Order.desc("observation_date"));
 		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-		List lst=criteria.list();
+//		List lst=criteria.list();
 		return criteria.list();
 		
 	}

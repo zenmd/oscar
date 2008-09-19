@@ -747,8 +747,9 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 
 		// this.caseManagementMgr.saveNote();
 		if ("on".equals(cform.getSign()) && cform.getCaseNote().getCaseStatusId().intValue() == 1){
-			request.setAttribute("noteId", noteId);
-			return history(mapping, form, request, response);
+//			request.setAttribute("noteId", noteId);
+//			return history(mapping, form, request, response);
+			request.setAttribute("isReadOnly", Boolean.TRUE);
 		}
 		return edit(mapping, form, request, response);
 		

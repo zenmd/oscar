@@ -93,8 +93,8 @@ public class BedManagerAction extends BaseFacilityAction {
         request.setAttribute("roomId", roomId);
         request.setAttribute("bedId", bedId);
 
-        request.setAttribute("roomTypes", roomManager.getRoomTypes());
-        request.setAttribute("bedTypes", bedManager.getBedTypes());
+        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
+        request.setAttribute("bedTypes", bedManager.getActiveBedTypes());
         
         Bed bed;
         if(bedId.intValue()>0){

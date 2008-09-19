@@ -18,8 +18,21 @@ response.setHeader("Cache-Control", "no-cache");
 	{
 		trimInputBox();
 		if(!isDateValid) return;
+		if(!validate()) return;
 		document.forms[0].method.value=methodValue;
 		document.forms[0].submit();
+	}
+	function validate() {
+		var form = document.caseManagementViewForm;
+		var stdt = form.elements['searchStartDate'].value;
+		var endt = form.elements['searchEndDate'].value;
+		if (endt != "" && stdt != "") {
+			if(isBefore(endt,stdt)) {
+				alert ("From date should not be after the To date");
+				return false;
+			}
+		}
+		return true;
 	}
 	function resetClientFields() {
 		var form = document.caseManagementViewForm;
@@ -31,7 +44,8 @@ response.setHeader("Cache-Control", "no-cache");
 		form.elements['searchProviderNo'].selectedIndex = 0;
 		form.elements['searchCaseStatus'].selectedIndex = 0;
 //		form.elements['searchCaseWorker'].selectedIndex = 0;
-		}
+	}
+	
 	function clickTab(name) {
 		document.caseManagementViewForm.tab.value=name;
 		document.caseManagementViewForm.submit();
@@ -106,70 +120,26 @@ response.setHeader("Cache-Control", "no-cache");
 			</tr>
 		</table>
 	</td></tr>
-	<tr height="100%">
+	<tr>
 	<td>
-		<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;   height: 550px; width: 100%; overflow: auto;" id="scrollBar">
-				<div id="clientInfo" class="axial">
-				<table width="100%">
-				<tr>
-					<td width="65%">
-						<table with="100%" class="simple" cellspacing="2" cellpadding="3">
-						<tr>
-							<th>Client Name</th>
-							<td><c:out value="${casemgmt_demoName}" /></td>
-						</tr>
-						<tr>
-							<th>Age</th>
-							<td><c:out value="${casemgmt_demoAge}" /></td>
-						</tr>
-						<tr>
-							<th>DOB</th>
-							<td><c:out value="${casemgmt_demoDOB}" /></td>
-						</tr>						
-					</table>
-		
-					</td>
-					<td><%	String demo = request.getParameter("demographicNo");	%>				
-						<!-- 
-						<c:choose>
-							<c:when test="${not empty image_filename}">
-								<img style="cursor: pointer;" id="ci"	src="<c:out value="${ctx}"/>/images/default_img.jpg"
-									alt="id_photo" height="100" title="Click to upload new photo."
-									OnMouseOver="document.getElementById('ci').src='<c:out value="${ctx}"/>/images/<c:out value="${image_filename}"/>'"
-									OnMouseOut="delay(5000)" window.status='Click to upload new photo'; 
-									return	true;" onClick="popupUploadPage('<html:rewrite page="/casemgmt/uploadimage.jsp"/>',<%=demo%>);return false;" />
-							</c:when>
-							<c:otherwise>
-								<img style="cursor: pointer;"	src="<c:out value="${ctx}"/>/images/defaultR_img.jpg"
-									alt="No_Id_Photo" height="100" title="Click to upload new photo."
-									OnMouseOver="window.status='Click to upload new photo';return true"
-									onClick="popupUploadPage('<c:out value="${ctx}"/>/casemgmt/uploadimage.jsp',<%=demo%>);return false;" />
-							</c:otherwise>
-						</c:choose>	
-						-->		
-					</td>
-				</tr>
-			</table>		
-			</div>
-			<br />				
 			<div class="axial">
-				<table border="0" cellspacing="2" cellpadding="3" width="100%">
+				<table border="0" cellspacing="1" cellpadding="3" width="100%">
 					<tr>
-						<th width="30%"><bean-el:message key="CaseSearch.dateRangeFrom"	bundle="pmm" nowrap /></th>
-						<td width="20%"><quatro:datePickerTag property="searchStartDate" openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
-						<th style="width:20%;" align="right" ><bean-el:message key="CaseSearch.dateRangeTo" 	bundle="pmm" /></th>
+						<th width="35%"><bean-el:message key="CaseSearch.dateRangeFrom"	bundle="pmm" nowrap /></th>
+						<td width="15%"><quatro:datePickerTag property="searchStartDate" openerForm="caseManagementViewForm" width="120px"></quatro:datePickerTag></td>
+						<th width="35%"><bean-el:message key="CaseSearch.dateRangeTo" 	bundle="pmm" /></th>
 						<td><quatro:datePickerTag property="searchEndDate" width="120px" openerForm="caseManagementViewForm"></quatro:datePickerTag></td>
 					</tr>
 			
 					<tr>
-						<th width="30%" align="right"><bean-el:message key="CaseSearch.provider" bundle="pmm"	nowrap /></th>
-						<td width="20%">
+						<th><bean-el:message key="CaseSearch.provider" bundle="pmm"	nowrap /></th>
+						<td>
 							<html:select property="searchProviderNo">								
 								<html:option value="">Any</html:option>
 								<html:options collection="caseWorkers" property="code"	labelProperty="description" />
 							</html:select>						
 						</td>
-						<th width="20%" align="right"><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"		nowrap /></th>
+						<th><bean-el:message key="CaseSearch.caseStatus" bundle="pmm"		nowrap /></th>
 						<td>
 							<html:select property="searchCaseStatus">
 								<html:option value="">	</html:option>
@@ -178,69 +148,31 @@ response.setHeader("Cache-Control", "no-cache");
 						</td>
 					</tr>
 					<tr>
-						<th width="30%"><bean-el:message key="CaseSearch.componentsOfService"	bundle="pmm" nowrap /></th>
-						<td width="20%">
+						<th><bean-el:message key="CaseSearch.componentsOfService"	bundle="pmm" nowrap /></th>
+						<td>
 							<html:select property="searchServiceComponent">
 								<html:option value="">	</html:option>
 								<html:options collection="issues" property="code"	labelProperty="description" />
 							</html:select>
 						</td>
-						<td width="20%"></td>						
+						<th>&nbsp;</th>						
 						<td>
-							&nbsp;
-						</td>
-					</tr>
-					<tr>
-						<td align="left" colspan="4">
 							<input type="button" name="search"	value="search" onclick="return deferedSubmit('search')" />&nbsp; 
 							<input	type="button" name="reset" value="reset"	onclick="resetClientFields()" />
 						</td>
 					</tr>
 				</table>
-				</div>
-				<c:if test="${not empty Notes}">
-				    <!-- for sort align right purpose -->
-				    <c:if test="${note_view!='detailed'}">
-				    	<table width="100%">
-							<tr align="right">
-								<td style="width: 20%">&nbsp;
-								</td>
-								<td style="width: 20%">&nbsp;</td>	
-								<td style="width: 20%">&nbsp;</td>
-								<td style="width: 25%;">&nbsp;</td>									
-								<td  align="right">
-								Sort
-									<html:select property="note_sort" onchange="document.caseManagementViewForm.method.value='view';document.caseManagementViewForm.submit()">
-										<html:option value="update_date">Date</html:option>
-										<html:option value="providerName">Staff</html:option>
-										<html:option value="programName">Program</html:option>							
-									</html:select>
-								</td>
-							</tr>
-						</table>
-					</c:if>
-					<c:if test="${note_view!='detailed'}">					
-						<table id="test" width="100%" border="0" cellspacing="2"	cellpadding="3" class="simple">							
-							<tr>
-								<td style="background-color:#EEEEFF"></td>
-								<th style="background-color:#EEEEFF">Date</thd>
-								<th style="background-color:#EEEEFF">Provider</th>
-								<th style="background-color:#EEEEFF">Status</th>
-								<th style="background-color:#EEEEFF">Program</th>					
-							</tr>
-			
-							<%	int index = 0; String bgcolor = "white"; %>				
-							<c:forEach var="note" items="${Notes}">
-								<%
-									if (index++ % 2 != 0) {
-										bgcolor = "white";
-									} else {
-										bgcolor = "#EEEEFF";
-									}
-								%>
-			
-								<tr bgcolor="<%=bgcolor %>" align="center">
-									<td>
+			</div>
+	</td>
+	</tr>
+	<tr height="100%">
+		<td>
+		<div	style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;   height: 100%; width: 100%; overflow: auto;" id="scrollBar">
+			<c:if test="${note_view!='detailed'}">
+						<display:table class="simple" cellspacing="2" cellpadding="3" id="note" name="Notes"  requestURI="/CaseManagementView2.do" >
+							<display:setProperty name="paging.banner.placement" value="bottom" />
+							<display:setProperty name="basic.msg.empty_list" value="No notes available" />
+							<display:column>
 										<c:choose>				
 											<c:when test="${(!note.signed)}">
 											 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
@@ -248,7 +180,7 @@ response.setHeader("Cache-Control", "no-cache");
 													&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
 												<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
 											</security:oscarSec>
-											</c:when>				
+											</c:when>			
 											<c:when test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
 												 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
 													<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
@@ -274,28 +206,25 @@ response.setHeader("Cache-Control", "no-cache");
 										</c:choose>
 										<c:choose>
 											<c:when test="${note.locked}">
-												<a style="color:Navy;text-decoration:none;"	href="<html:rewrite name="actionParam"  action="/CaseManagementView2.do?method=unlock" />
-													&noteId=<c:out value="${note.id}"/>
-													<img border="0" src="<c:out value="${ctx}"/>/images/ulock.gif"		title="Unlock"  />
+												<a style="color:Navy;text-decoration:none;"	href='<html:rewrite name="actionParam"  action="/CaseManagementView2.do"/>?method=unlock&noteId=<c:out value="${note.id}"/>'> 
+													<img border="0" src='<c:out value="${ctx}"/>/images/ulock.gif'	title="Unlock"  />
 												</a>
 											</c:when>
 											<c:otherwise>
 												<img src="<c:out value="${ctx}"/>/images/transparent_icon.gif" title=""/>
 											</c:otherwise>	
 										</c:choose>
-									</td>
-									<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm a" value="${note.observation_date}" /></td>
-									<td><c:out value="${note.providerName}" /></td>
-									<td><c:out value="${note.status}" /></td>
-									<td><c:out value="${note.programName}" /></td>						
-								</tr>
-							</c:forEach>				
-						</table>
-						</div>
-					</c:if>
-					<c:if test="${note_view=='detailed'}">
-						
-						<table id="test" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
+	
+							</display:column>
+							<display:column property="observation_date" format="{0, date, yyyy/MM/dd}" sortable="true" title="Date" />
+							<display:column property="providerName" sortable="true" title="Staff" />
+							<display:column property="status" sortable="true" title="Status" />
+						    <display:column property="programName" sortable="true" title="Program" />
+						</display:table>
+				</c:if>
+				<c:if test="${note_view=='detailed'}">
+					<c:if test="${not empty Notes}">
+ 						<table id="test" width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#C0C0C0">
 							<%
 								int index1 = 0;
 								String bgcolor1 = "white";
@@ -361,7 +290,8 @@ response.setHeader("Cache-Control", "no-cache");
 										</tr>
 										<tr bgcolor="<%=bgcolor1 %>">
 											<td width="7%">Note</td>
-											<td width="93%"><c:choose>
+											<td width="93%">
+												<c:choose>
 												<c:when test="${note.locked}">
 													<span style="color:red"><i>Contents Hidden</i></span>
 												</c:when>
@@ -376,11 +306,9 @@ response.setHeader("Cache-Control", "no-cache");
 							</c:forEach>				
 						</table>						
 					</c:if>
-					<br />
 				</c:if>
-				
 			</div>
-		</td></tr>
-		</table>		
+		</td>
+	</tr>
+	</table>		
 </html:form>
-

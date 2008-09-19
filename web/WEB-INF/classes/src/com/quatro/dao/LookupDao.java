@@ -554,9 +554,6 @@ public class LookupDao extends HibernateDaoSupport {
 		try {
 			db.queryExecuteUpdate(sql, params);
 		}
-		catch(Exception ex){
-			;
-		}
 		finally
 		{
 			db.closeConn();

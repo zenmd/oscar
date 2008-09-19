@@ -77,6 +77,12 @@ public class BedDAO extends HibernateDaoSupport {
 
         return (BedType[]) bedTypes.toArray(new BedType[bedTypes.size()]);
     }
+    public BedType[] getActiveBedTypes() {
+        List bedTypes = getHibernateTemplate().find("from BedType bt where bt.active=?", Boolean.TRUE);
+        log.debug("getRooms: size: " + bedTypes.size());
+
+        return (BedType[]) bedTypes.toArray(new BedType[bedTypes.size()]);
+    }
 
     public void saveBed(Bed bed) {
         getHibernateTemplate().saveOrUpdate(bed);

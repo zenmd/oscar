@@ -405,6 +405,9 @@ public class RoomManager {
     public RoomType[] getRoomTypes() {
         return roomDAO.getRoomTypes();
     }
+    public RoomType[] getActiveRoomTypes() {
+        return roomDAO.getActiveRoomTypes();
+    }
 
     /**
      * Add new rooms
