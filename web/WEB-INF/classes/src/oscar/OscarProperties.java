@@ -171,4 +171,7 @@ public class OscarProperties extends Properties {
      public String getDbDriver(){
     	 return getProperty("db_driver");
      }
+     public String getBuildDate(){
+    	 return getProperty("builddate");
+     }
 }
