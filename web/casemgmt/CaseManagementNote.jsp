@@ -331,7 +331,6 @@ var XMLHttpRequestObject = false;
 			</td>
 		</tr>
 	</table>		
-	<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;  height: 520px; width: 100%; overflow: auto">
 	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
 			<th style="width:40%">Case Status</th>
@@ -447,7 +446,6 @@ var XMLHttpRequestObject = false;
 		</tr>	
 -->				 
 	</table>
-	</div>
 	<%@ include file="/common/readonly.jsp" %>
 </html:form>
 </body>

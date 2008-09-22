@@ -26,32 +26,32 @@
  * Ontario, Canada 
  */
 -->
+<%@page import="oscar.LoginInfoBean"%>
+<%@page import="oscar.OscarProperties"%>
 <html:html locale="true">
 
 
 <head>
 </head>
 <body>
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <table align="center" border="0" cellspacing="0" width="100%" height="100%">
 	<tr>
 		<td>
 			<table align="center">
 				<tr>
-					<td align="center"><html:img src="images/QuatroShelter-Logo400.gif" height="80" width="400" /></td>
+					<td align="center"><html:img src='<c:out value="${ctx}"/>/images/QuatroShelter-Logo400.gif' height="80" width="400" /></td>
 				</tr>
 				<tr>
 					<Td align="center"><font size="3" face="Arial">City of Toronto</font></td>
 				</tr>
 				<tr>
-					<td align="center"><font size="1" face="Arial">Build: 2008-08-11 13:15</font>
+					<td align="center"><font size="1" face="Arial">Build: <%=OscarProperties.getInstance().getBuildDate()%></font>
 					</td>
 				</tr>
 			</table>
 		</td>
 	</tr>
-	<tr><td  align="left">
-		<a href="javascript:history.back();">Back</a>
-	</td></tr>
 	<tr><td align="center">
 		<c:out escapeXml="false" value="${message}" />
 		<br><br>

@@ -869,9 +869,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			if (duplicatedReferralId.intValue() > 0
 					&& fromManualReferralId == null)
 				fromManualReferralId = duplicatedReferralId;
-
+			boolean isFamilyMember = (intake.getId().intValue() != intakeHeadId.intValue());
+//			boolean isFamilityMember = (intakeHeadId.intValue() > 0);
 			ArrayList lst2 = intakeManager.saveQuatroIntake(client, intake,
-					intakeHeadId, intakeHeadId.intValue() > 0,
+					intakeHeadId, isFamilyMember,
 					fromManualReferralId);
 			Integer intakeId = (Integer) lst2.get(0);
 			Integer queueId = new Integer(0);

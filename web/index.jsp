@@ -136,7 +136,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 					Toronto</font></td>
 				</tr>
 				<tr>
-					<td align="center"><font size="1" face="Arial">Build: 2008-08-11 13:15</font>
+					<td align="center"><font size="1" face="Arial">Build: <%=OscarProperties.getInstance().getBuildDate() %></font>
 					</td>
 				</tr>
 			</table>

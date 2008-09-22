@@ -1,6 +1,6 @@
 <%@page import="java.util.Calendar"%>
 <%@ include file="/taglibs.jsp"%>
-	
+<%String a="debug"; %>	
 <script type="text/javascript">
 
 function submitForm(methodVal) {
@@ -148,8 +148,8 @@ function submitForm(methodVal) {
 		</td></tr>
 		<tr><td>Status:</td>
 		<td colspan="2"><html:select property="tickler.status">
-			<option value="Active">Active</option>
-			<option value="Completed">Completed</option>
+			<html:option value="Active">Active</html:option>
+			<html:option value="Completed">Completed</html:option>
 			</html:select>
 		</td></tr>
 		<tr><td>Message:</td>
