@@ -211,7 +211,7 @@
 				<display:column property="lastName" sortable="true" title="Last Name" />
 				<display:column property="firstName" sortable="true" title="First Name" />
 				<display:column property="admissionDate" sortable="true" title="Admission Date" />
-				<display:column property="admissionNote" sortable="true" title="Admission Notes" />
+				<!-- display:column property="admissionNote" sortable="true" title="Admission Notes" /-->
 				<display:column property="room" sortable="true" title="Room" />
 				<display:column property="bed" sortable="true" title="Bed" />
 				<display:column title="Late Pass">		
