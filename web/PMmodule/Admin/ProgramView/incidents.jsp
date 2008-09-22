@@ -154,7 +154,7 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 	    {
 		    if(followupDt.value.trim()!=""){
 			    if(isBefore(followupDt.value,obj.value)){
-			       alert("Fllow up date should be later than incident date");
+			       alert("Follow up date should be later than incident date");
 			       invDt.focus();
 			       return;
 		    	}
