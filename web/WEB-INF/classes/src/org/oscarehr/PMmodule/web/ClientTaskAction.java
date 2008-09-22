@@ -54,6 +54,9 @@ public class ClientTaskAction extends BaseClientAction{
         ticklerForm.setProgramLst(programs);
         
         CustomFilter filter = ticklerForm.getFilter();
+        if("".equals(filter.getStatus())) {
+        	filter.setStatus("Active");
+        }
         List ticklers = ticklerManager.getTicklers(filter, shelterId, providerNo);
 
         request.setAttribute("ticklers", ticklers);

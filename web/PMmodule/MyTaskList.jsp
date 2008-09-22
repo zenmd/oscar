@@ -80,12 +80,12 @@ function validate()
 <td width="5%">End:</td>
 <td width="40%"><quatro:datePickerTag property="filter.endDate" openerForm="ticklerForm" width="45%" /></td></tr>
 <tr><td colspan="2">Status: <html:select property="filter.status">
-	<html:option value="">All</html:option>
+	<html:option value="Any">Any</html:option>
 	<html:option value="Active">Active</html:option>
 	<html:option value="Completed">Completed</html:option>
 </html:select></td>
 <td colspan="3">Program: <html:select property="filter.programId">
-	<html:option value="">All</html:option>
+	<html:option value="">Any</html:option>
     <html:optionsCollection property="programLst" value="id" label="name"/>
 </html:select></td></tr>
 </table>

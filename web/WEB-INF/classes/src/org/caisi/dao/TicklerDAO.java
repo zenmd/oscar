@@ -152,7 +152,7 @@ public class TicklerDAO extends HibernateDaoSupport {
 
 //      if (filter.getProvider() == null || filter.getProvider().equals("All Providers")) includeProviderClause=false;
 //      if (filter.getClient() == null || filter.getClient().equals("All Clients")) includeClientClause=false;
-      if (filter.getStatus().equals("")) includeStatusClause = false;
+      if (filter.getStatus().equals("Any")) includeStatusClause = false;
 
       query = query + " and t.service_date >= ? and t.service_date <= ?";
 	  paramList.add(filter.getStart_date());
