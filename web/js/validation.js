@@ -63,24 +63,7 @@ function validateLength(field, fieldNameDisplayed, maxLength, minLength){
 	
 	return(true);
 }
-function beforeToday(inputStr) {
-	if(inputStr==null || inputStr==''){
-		alert('Date is mandatory.');
-      	return false;
-	}
-	var date=new Date();
-	var myDate_array=inputStr.split("/");
-	date.setFullYear(myDate_array[0]);
-	date.setMonth(myDate_array[1]-1);
-	date.setDate(myDate_array[2]);
-	
-	var today = new Date();
-    if (today<date){
-      alert('Please select today or earlier.');
-      return false;
-    }	
-	else return true;	
-} 
+ 
 function isBeforeNow(inputDay, inputHour, inputMinute) {
 	if(inputDay==null || inputDay==''){
       	return false;
@@ -120,91 +103,86 @@ function isBeforeNowxMin(inputDay, inputHour, inputMinute, allowedMinutes) {
 } 
 
 function isBeforeToday(inputStr) {
-	var date=new Date();
 	var myDate_array=inputStr.split("/");
-	date.setFullYear(myDate_array[0]);
-	date.setMonth(myDate_array[1]-1);
-	date.setDate(myDate_array[2]);
+	var myDate_array1=inputStr1.split("/");
+	var yr1 = myDate_array1[0];
+	var m1 = myDate_array1[1]-1;
+	var d1 = myDate_array1[2];
 	
 	var today = new Date();
-    if (today>date){
-      return true;
-    }	
-	else return false;	
+	var yr2 = today.getFullYear();
+	var m2 = today.getMonth();
+	var d2 = today.getDate();
+
+	if (yr1 > yr2) return false;
+	if (yr1 < yr2) return true;
+	
+	if(m1 > m2) return false;
+	if(m1 < m2) return true; 	
+
+	return d1 < d2;
 } 
 
 function isBefore(inputStr1, inputStr2) {
-	var date1=new Date();
 	var myDate_array1=inputStr1.split("/");
-	date1.setFullYear(myDate_array1[0]);
-	date1.setMonth(myDate_array1[1]-1);
-	date1.setDate(myDate_array1[2]);
-	date1.setHours(0);
-	date1.setMinutes(0);
-	date1.setSeconds(0);
-    
-	var date2=new Date();
+	var yr1 = myDate_array1[0];
+	var m1 = myDate_array1[1]-1;
+	var d1 = myDate_array1[2];
+
 	var myDate_array2=inputStr2.split("/");
-	date2.setFullYear(myDate_array2[0]);
-	date2.setMonth(myDate_array2[1]-1);
-	date2.setDate(myDate_array2[2]);
-	date2.setHours(0);
-	date2.setMinutes(0);
-	date2.setSeconds(0);
-    
-    if (date1<date2){
-      return true;
-    }	
-	else return false;	
+	var yr2 = myDate_array2[0];
+	var m2 = myDate_array2[1]-1;
+	var d2 = myDate_array2[2];
+	
+
+	if (yr1 > yr2) return false;
+	if (yr1 < yr2) return true;
+	
+	if(m1 > m2) return false;
+	if(m1 < m2) return true; 	
+
+	return d1 < d2;
 } 
 function isAfter(inputStr1, inputStr2) {
-	var date1=new Date();
 	var myDate_array1=inputStr1.split("/");
-	date1.setFullYear(myDate_array1[0]);
-	date1.setMonth(myDate_array1[1]-1);
-	date1.setDate(myDate_array1[2]);
-	date1.setHours(0);
-	date1.setMinutes(0);
-	date1.setSeconds(0);
-    
-	var date2=new Date();
+	var yr1 = myDate_array1[0];
+	var m1 = myDate_array1[1]-1;
+	var d1 = myDate_array1[2];
+
 	var myDate_array2=inputStr2.split("/");
-	date2.setFullYear(myDate_array2[0]);
-	date2.setMonth(myDate_array2[1]-1);
-	date2.setDate(myDate_array2[2]);
-	date2.setHours(0);
-	date2.setMinutes(0);
-	date2.setSeconds(0);
-    
-    if (date1>date2){
-      return true;
-    }	
-	else return false;	
+	var yr2 = myDate_array2[0];
+	var m2 = myDate_array2[1]-1;
+	var d2 = myDate_array2[2];
+	
+
+	if (yr1 < yr2) return false;
+	if (yr1 > yr2) return true;
+	
+	if(m1 < m2) return false;
+	if(m1 > m2) return true; 	
+
+	return d1 > d2;
 } 
 
 function isBeforeorEqual(inputStr1, inputStr2) {
-	var date1=new Date();
 	var myDate_array1=inputStr1.split("/");
-	date1.setFullYear(myDate_array1[0]);
-	date1.setMonth(myDate_array1[1]-1);
-	date1.setDate(myDate_array1[2]);
-	date1.setHours(0);
-	date1.setMinutes(0);
-	date1.setSeconds(0);
-    
-	var date2=new Date();
+	var yr1 = myDate_array1[0];
+	var m1 = myDate_array1[1]-1;
+	var d1 = myDate_array1[2];
+
 	var myDate_array2=inputStr2.split("/");
-	date2.setFullYear(myDate_array2[0]);
-	date2.setMonth(myDate_array2[1]-1);
-	date2.setDate(myDate_array2[2]);
-	date2.setHours(0);
-	date2.setMinutes(0);
-	date2.setSeconds(0);
-    
-    if (date1<=date2){
-      return true;
-    }	
-	else return false;	
+	var yr2 = myDate_array2[0];
+	var m2 = myDate_array2[1]-1;
+	var d2 = myDate_array2[2];
+	
+
+	if (yr1 > yr2) return false;
+	if (yr1 < yr2) return true;
+	
+	if(m1 > m2) return false;
+	if(m1 < m2) return true; 	
+
+	return d1 <= d2;
 } 
 
 //for html tag on pages, added by Dawson

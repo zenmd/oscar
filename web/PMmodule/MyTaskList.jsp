@@ -15,6 +15,7 @@ function validate()
 		}
 		return true;
 }
+
 	function submitForm(methodVal) {
 		trimInputBox();
 		if(!isDateValid) return;		

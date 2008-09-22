@@ -132,7 +132,7 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		      return; 
 		    }
 		
-		    if( beforeToday(obj.value)==false){
+		    if( isBeforeToday(obj.value)==false){
 		       obj.focus();
 		       return;
 		    }

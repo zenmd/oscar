@@ -63,7 +63,7 @@ function assignStatus(id,selectBox) {
 	</display:column>
 	<display:column property="client.formattedName" sortable="true" title="Name" />
 	<display:column property="admissionDate" sortable="true" title="Admission Date" format="{0,date,yyyy/MM/dd}" />
-	<display:column property="admissionNotes" sortable="true" title="Admission Notes" />
+	<!-- display:column property="admissionNotes" sortable="true" title="Admission Notes" / -->
 	<display:column property="teamName" sortable="true" title="Team" />
 	<display:column sortable="false" title="" >
 		<select name="x" onchange="assignTeam('<c:out value="${admission.id}"/>',this);">

@@ -26,8 +26,9 @@
 
 <table style="width:100%">
 <tr><th class="pageTitle">Access Denied</th></tr>
-<tr><td class="buttonBar"><html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;&nbsp;Close&nbsp;&nbsp;
-</html:link>
+<tr><td class="buttonBar">	<html:link action="/PMmodule/ClientSearch2.do" 
+		style="color:Navy;text-decoration:none;">&nbsp;
+		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search</html:link>
 </td>
 </table>
 

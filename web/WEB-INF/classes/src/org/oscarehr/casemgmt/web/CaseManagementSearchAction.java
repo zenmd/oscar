@@ -235,6 +235,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         if (programId==null || programId.intValue()==0) {
         	List intakes = this.clientManager.getIntakeByFacility(new Integer(demoNo), currentFacilityId);
         	if (intakes.size() == 0) {
+                super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
                 return mapping.findForward("domain-error");             
         	}
         	else
