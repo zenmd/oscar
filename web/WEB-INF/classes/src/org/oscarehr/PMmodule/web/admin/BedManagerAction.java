@@ -55,7 +55,7 @@ public class BedManagerAction extends BaseFacilityAction {
 
         request.setAttribute("roomId", roomId);
 
-        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
         
         Room room;
         if(roomId.intValue()>0){
@@ -201,7 +201,7 @@ public class BedManagerAction extends BaseFacilityAction {
         	
         request.setAttribute("rooms", roomLst);
         
-        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
 
         ArrayList assignedBedLst= new ArrayList();
         assignedBedLst.add(new LabelValueBean("0", "N"));
@@ -228,7 +228,7 @@ public class BedManagerAction extends BaseFacilityAction {
         	
         request.setAttribute("beds", bedLst);
         
-        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
         request.setAttribute("bedTypes", bedManager.getBedTypes());
     }
 
@@ -307,7 +307,7 @@ public class BedManagerAction extends BaseFacilityAction {
         request.setAttribute("assignedBedLst", assignedBedLst);
 
         request.setAttribute("roomId", room.getId());
-        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
 
         List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
         bForm.setPrograms(pLst);
@@ -402,7 +402,7 @@ public class BedManagerAction extends BaseFacilityAction {
         request.setAttribute("roomId", roomId);
         request.setAttribute("bedId", bedId);
 
-        request.setAttribute("roomTypes", roomManager.getRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
         request.setAttribute("bedTypes", bedManager.getBedTypes());
         
         bForm.setBed(bed);
