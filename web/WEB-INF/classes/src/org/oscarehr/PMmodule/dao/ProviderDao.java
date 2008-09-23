@@ -180,7 +180,7 @@ public class ProviderDao extends HibernateDaoSupport {
 		sql += " and fullcode like '%S%'";
 		*/
 		String sql ="select distinct c.id as shelter_id from lst_shelter c, lst_orgcd a, secuserrole b  where instr('RO',substr(b.orgcd,1,1)) = 0 and a.codecsv like '%' || b.orgcd || ',%'" + 
-				" and b.provider_no=? and a.code like 'S' || c.id || '%'";
+				" and b.provider_no=? and a.code = 'S' || c.id ";
 	
 		Query query = getSession().createSQLQuery(sql);
     	((SQLQuery) query).addScalar("shelter_id", Hibernate.INTEGER); 
