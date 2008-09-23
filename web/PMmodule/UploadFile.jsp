@@ -67,6 +67,10 @@ response.setHeader("Cache-Control", "no-cache");
 			</html-el:file> <!-- 	accept="*.gif,*.jpg" /> --> <br />
 			<!-- html:submit value="Upload" property="method" />--></td>
 		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>Maximum Size: <%=oscar.OscarProperties.getInstance().getProperty("maxfilesize")%></td>
+		</tr>
 	</table>
 	<%@ include file="/common/readonly.jsp" %>
 </html:form>
