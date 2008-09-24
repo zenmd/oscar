@@ -51,7 +51,7 @@
    <c:out value="${tickler.tickler_no}" /></a>
 </display:column>
 <display:column property="status" sortable="true" title="Status" />
-<display:column property="provider.formattedName" sortable="true" sortProperty="provider.lastName, provider.firstName" title="Creator" />
+<display:column property="provider.formattedName" sortable="true" title="Creator" />
 <display:column property="service_date.time" sortable="true" title="Date" format="{0, date, yyyy/MM/dd hh:mm a}"  />
 <display:column property="assignee.formattedName" sortable="true" sortProperty="assignee.lastName"	title="Assigned To" />
 <display:column property="program.name" sortable="true"	title="Program" />
