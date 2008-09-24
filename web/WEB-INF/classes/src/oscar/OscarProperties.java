@@ -152,6 +152,12 @@ public class OscarProperties extends Properties {
      {
          return getBooleanProperty("log_accesses_of_program", "yes") || getBooleanProperty("log_accesses_of_program", "true");
      }
+     public boolean isAccountLockingEnabled()
+     {
+    	 String val = getProperty("ENABLE_ACCOUNT_LOCKING");
+    	 if (val == null) return false;
+         return val.toUpperCase().startsWith("Y") || val.toUpperCase().startsWith("T");
+     }
      public String getDbType()
      {
     	 return getProperty("db_type");

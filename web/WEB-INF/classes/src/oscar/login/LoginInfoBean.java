@@ -29,6 +29,9 @@ package oscar.login;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import oscar.OscarProperties;
+
 import com.quatro.model.security.*;
 
 /**
@@ -64,7 +67,9 @@ public final class LoginInfoBean {
             return;
         }
         //else times++. if times out, status block
-        ++times;
+        if (OscarProperties.getInstance().isAccountLockingEnabled())	
+        	++times;
+
         if (times >= maxtimes)
             status = 0; // 1 - normal, 0 - block out
     }
