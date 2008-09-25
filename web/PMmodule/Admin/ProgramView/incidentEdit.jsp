@@ -78,8 +78,37 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 						</table>
 					</td>
 					<td colspan="2"><b>Time of Incident</b> 
-						<html-el:text property="incidentForm.hour" style="width:40px" size="2" maxlength="2" onchange="javascript:checkHour(this);"/><b>:</b>
-						<html-el:text property="incidentForm.minute" style="width:40px" size="2" maxlength="2" onchange="javascript:checkMinute(this);" />&nbsp;&nbsp;
+						<html-el:select property="incidentForm.hour" style="width:40px" size="1">
+							<html:option value="00">&nbsp;</html:option>
+							<html:option value="01">01</html:option>
+							<html:option value="02">02</html:option>
+							<html:option value="03">03</html:option>
+							<html:option value="04">04</html:option>
+							<html:option value="05">05</html:option>
+							<html:option value="06">06</html:option>
+							<html:option value="07">07</html:option>
+							<html:option value="08">08</html:option>
+							<html:option value="09">09</html:option>
+							<html:option value="10">10</html:option>
+							<html:option value="11">11</html:option>
+							<html:option value="12">12</html:option>
+						</html-el:select>
+						<b>:</b>
+						<html-el:select property="incidentForm.minute" style="width:40px" size="1" >
+							<html:option value="00">00</html:option>
+							<html:option value="05">05</html:option>
+							<html:option value="10">10</html:option>
+							<html:option value="15">15</html:option>
+							<html:option value="20">20</html:option>
+							<html:option value="25">25</html:option>
+							<html:option value="30">30</html:option>
+							<html:option value="35">35</html:option>
+							<html:option value="40">40</html:option>
+							<html:option value="45">45</html:option>
+							<html:option value="50">50</html:option>
+							<html:option value="55">55</html:option>
+						</html-el:select>
+						&nbsp;&nbsp;
 						<html-el:radio property="incidentForm.ampm" value="AM">AM</html-el:radio>
 						<html-el:radio property="incidentForm.ampm" value="PM">PM</html-el:radio></td>
 				</tr>

@@ -115,7 +115,7 @@
 	}
 	
 	function searchClients(){
-
+		trimInputBox();
 		document.programManagerViewForm.action = document.programManagerViewForm.action + "?mthd=search";
 		//alert(document.programManagerViewForm.action);
 		document.programManagerViewForm.tab.value = "Clients";

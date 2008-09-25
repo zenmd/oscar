@@ -123,6 +123,20 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		}
 		
 		obj = document.getElementsByName("incidentForm.incidentDateStr")[0];
+		var hr = document.getElementsByName("incidentForm.hour")[0].value;
+		var min = document.getElementsByName("incidentForm.minute")[0].value;
+		var pm = document.getElementsByName("incidentForm.ampm")[1];
+		if(hr == "") hr = "0";
+		var hrs = parseInt(hr);
+		var mins = parseInt(min);
+		if(!pm.checked){
+			if (hrs == 12) hrs = 0;
+		}
+		else
+		{	
+			
+			if(hrs < 12) hrs += 12;
+		}
 	    if(obj!=null)
 	    {
 		    if(obj.value.trim()==""){
@@ -131,8 +145,9 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 		      obj.focus();
 		      return; 
 		    }
-		
-		    if( isBeforeToday(obj.value)==false){
+			
+		    if(isBeforeNowxMin(obj.value,hrs,mins,1)==false){
+		       alert("Incident Date should be before now");
 		       obj.focus();
 		       return;
 		    }
