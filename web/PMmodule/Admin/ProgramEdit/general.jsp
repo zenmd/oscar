@@ -10,6 +10,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 <script type="text/javascript">
 <!--
 	function save() {
+	    trimInputBox();
 		if(noChanges()) {
 			alert("There is no changes detected");
 			return false;
