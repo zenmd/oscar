@@ -465,7 +465,7 @@ public class LookupDao extends HibernateDaoSupport {
 		String sql = "insert into  " + tableName + "("; 
 		for(int i=0; i< fieldDefList.size(); i++) {
 			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
-			sql += fdv.getFieldName() + ",";
+			sql += fdv.getFieldSQL() + ",";
 			phs +="?,"; 
 			if (fdv.getGenericIdx() == 1) {
 				if (fdv.isAuto())
@@ -527,7 +527,7 @@ public class LookupDao extends HibernateDaoSupport {
 				idFieldVal = fdv.getVal();
 			}
 			
-			sql += fdv.getFieldName() + "=?,";
+			sql += fdv.getFieldSQL() + "=?,";
 			if ("S".equals(fdv.getFieldType()))
 			{
 				params[i] = new DBPreparedHandlerParam(fdv.getVal());
