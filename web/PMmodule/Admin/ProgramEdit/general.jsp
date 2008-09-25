@@ -10,19 +10,10 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 <script type="text/javascript">
 <!--
 	function save() {
-		/*
-		var maxAllowed = document.programManagerForm.elements['program.maxAllowed'].value;		
-		if(isNaN(maxAllowed)) {
-			alert("Maximum participants '" + maxAllowed + "' is not a number");
+		if(noChanges()) {
+			alert("There is no changes detected");
 			return false;
 		}
-		if(document.programManagerForm.elements['program.maxAllowed'].value <= 0) {
-			alert('Maximum participants must be a positive integer');
-			return false;
-		}
-		*/
-		//alert(document.getElementsByName('program.name')[0].value);
-		//alert(document.getElementsByName('program.name')[0].value.length);
 		var obj1 = document.getElementsByName('program.capacity_funding')[0];
 		var obj2 = document.getElementsByName('program.capacity_space')[0];
 		var obj3 = document.getElementsByName('program.ageMin')[0];
@@ -64,13 +55,13 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		  var obj9 = document.getElementsByName('program.programStatus')[0];
 		  if(obj9.value=='0'){
             if(!confirm("You are going to deactivate this program. Select Ok to proceed or Cancel to cancel."))
-            return;
+            return false;
 		  }
 
 			document.programManagerForm.method.value="save";
 			document.programManagerForm.submit();
 		}
-		
+		return false;
 	}
 	
 	function getProgramSignatures(id) {
@@ -138,7 +129,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			<html:link	action="/PMmodule/ProgramManager.do"	style="color:Navy;text-decoration:none;">
 			<img border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close &nbsp;&nbsp;</html:link>
 			<c:if test="${!isReadOnly}">
-				<html:link href="javascript:save();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+				<html:link href="javascript:void1();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return save();">
 				<img border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 			</c:if>
 		</td>

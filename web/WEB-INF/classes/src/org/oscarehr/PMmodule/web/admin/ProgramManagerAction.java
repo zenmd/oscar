@@ -115,9 +115,6 @@ public class ProgramManagerAction extends BaseProgramAction {
         List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
         request.setAttribute("programTypeLst", programTypeLst);
         
-        programForm.set("searchStatus",searchStatus);
-        programForm.set("searchType", searchType);
-        programForm.set("searchFacilityId", searchFacilityId);
 
         logManager.log("read", "full program list", "", request);
         super.setMenu(request, KeyConstants.MENU_PROGRAM);
@@ -162,7 +159,6 @@ public class ProgramManagerAction extends BaseProgramAction {
             //request.setAttribute("programSignatures",programManager.getProgramSignatures(Integer.valueOf(id)));
         }
 
-        setEditAttributes(request, form);
         String viewTab=request.getParameter("view.tab");
         if(Utility.IsEmpty(viewTab)) viewTab=KeyConstants.TAB_PROGRAM_GENERAL;
         ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
@@ -175,20 +171,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         }
         else{
         	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL);
-             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
-             if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-
-             if(!isReadOnly)
-             {
-            	 List intakes = intakeManager.getIntakesByProgram(programId);
-            	 if(intakes.size() > 0) {
-            		 request.setAttribute("typeEditable", Boolean.FALSE);
-            	 }
-            	 List activeIntakes = intakeManager.getActiveIntakeByProgram(programId); 
-            	 if(activeIntakes.size() > 0) {
-            		 request.setAttribute("statusEditable", Boolean.FALSE);
-            	 }
-             }
+             setEditAttributes(request, form);
         }
         
         return mapping.findForward("edit");
@@ -1178,31 +1161,10 @@ public class ProgramManagerAction extends BaseProgramAction {
     	ArrayList programSignatureLst = new ArrayList();
     	 DynaActionForm programForm = (DynaActionForm) form;
     	Program program = (Program) programForm.get("program");
-        if (program.getId() != null) {
-
-        	request.setAttribute("programId", program.getId());
+    	Integer programId = program.getId(); 
+        if (programId != null) {
+        	request.setAttribute("programId", programId);
             request.setAttribute("programName", program.getName());
-/*            request.setAttribute("providers", programManager.getProgramProviders(programId));
-            request.setAttribute("functional_users", programManager.getFunctionalUsers(programId));
-            List teams = programManager.getProgramTeams(programId);
-
-            for (Object team1 : teams) {
-                ProgramTeam team = (ProgramTeam) team1;
-
-                team.setProviders(programManager.getAllProvidersInTeam(Integer.valueOf(programId), team.getId()));
-                team.setAdmissions(programManager.getAllClientsInTeam(Integer.valueOf(programId), team.getId()));
-            }
-
-            request.setAttribute("teams", teams);
-            
-            request.setAttribute("client_statuses", programManager.getProgramClientStatuses(new Integer(programId)));
-
-            request.setAttribute("admissions", admissionManager.getCurrentAdmissionsByProgramId(programId));
-            //request.setAttribute("accesses", programManager.getProgramAccesses(programId));
-            request.setAttribute("queue", programQueueManager.getProgramQueuesByProgramId(Integer.valueOf(programId)));
-            request.setAttribute("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(programId)));
-            programSignatureLst = (ArrayList)programManager.getProgramSignatures(Integer.valueOf(programId));
-   */
         }else{
 	        // signature part
 	        HttpSession se=request.getSession(true);
@@ -1213,7 +1175,6 @@ public class ProgramManagerAction extends BaseProgramAction {
 	        ps.setUpdateDate(Calendar.getInstance());
 	        programSignatureLst.add(ps);
         }
-        
         request.setAttribute("programSignatureLst", programSignatureLst);
         
         List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
@@ -1221,15 +1182,22 @@ public class ProgramManagerAction extends BaseProgramAction {
         List genderLst = lookupManager.LoadCodeList("GEN", true, null, null);
         request.setAttribute("genderLst", genderLst);
         
-//
-//        request.setAttribute("roles", roleManager.getRoles());
-//        request.setAttribute("functionalUserTypes", programManager.getFunctionalUserTypes());
-//
-//
-//        request.setAttribute("accessTypes", programManager.getAccessTypes());
-//        request.setAttribute("bed_programs",programManager.getBedPrograms());
-
         request.setAttribute("facilities",facilityDAO.getActiveFacilities());
+        
+        boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
+        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+
+        if(!isReadOnly)
+        {
+       	 List intakes = intakeManager.getIntakesByProgram(programId);
+       	 if(intakes.size() > 0) {
+       		 request.setAttribute("typeEditable", Boolean.FALSE);
+       	 }
+       	 List activeIntakes = intakeManager.getActiveIntakeByProgram(programId); 
+       	 if(activeIntakes.size() > 0) {
+       		 request.setAttribute("statusEditable", Boolean.FALSE);
+       	 }
+        }
     }
 
 
