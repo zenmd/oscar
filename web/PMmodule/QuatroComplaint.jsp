@@ -111,10 +111,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		if(!completeStatus && completeDate.length > 0){
 			confirmComplete();
 		}
-		if(completeDate.length > 0 && !validateCompleteDate(completeDate)){
-			document.getElementsByName("complaint.completedDatex")[0].focus();
-			return;
-		}
 		if(isBeforeToday(completeDate)){
 			alert("Date Completed - Should be today's date or after.");
 			document.getElementsByName("complaint.completedDatex")[0].focus();
@@ -161,20 +157,6 @@ Source:web/PMmodule/QuatroComplaint.jsp
 	}
 	function cancelComplete(){
 			document.getElementsByName("complaint.completedDatex")[0].value = '';
-	}
-	function validateCompleteDate(myDate){
-		var date=new Date();
-		var myDate_array=myDate.split("/");
-		date.setFullYear(myDate_array[0]);
-		date.setMonth(myDate_array[1]-1);
-		date.setDate(myDate_array[2]);
-		
-		var today = new Date;
-	    if (date > today){
-	      alert('Complete Date can not be after the current date.');
-	      return false;
-	    }
-	    return true;
 	}
 	function validateStandards(){
 		var result = false;

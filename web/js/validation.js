@@ -103,6 +103,7 @@ function isBeforeNowxMin(inputDay, inputHour, inputMinute, allowedMinutes) {
 } 
 
 function isBeforeToday(inputStr) {
+	if(inputStr == null || inputStr == '') return false;
 	var myDate_array=inputStr.split("/");
 	var yr1 = myDate_array[0];
 	var m1 = myDate_array[1]-1;
