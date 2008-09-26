@@ -146,8 +146,8 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 					if(hrs < 12) hrs += 12;
 				}
 			    if(isBeforeNowxMin(obj.value,hrs,mins,-1)==false){
-			    	alert(obj.value + hrs.toString() + mins.toString());
-			    	alert(obj.value + hr + min);
+//			    	alert(obj.value + hrs.toString() + mins.toString());
+//			    	alert(obj.value + hr + min);
 			       alert("Incident Date should be before now");
 			       obj.focus();
 			       return;
