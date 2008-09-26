@@ -204,7 +204,7 @@
 	}
 	
 	function searchStaff(){
-
+		trimInputBox();
 		document.forms[0].method.value = "edit";
 		document.forms[0].mthd.value = "search";
 		document.forms[0].elements["view.tab"].value = "Staff";
