@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Restrictions;
 import org.oscarehr.PMmodule.model.Facility;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -25,9 +26,10 @@ public class FacilityDAO extends HibernateDaoSupport {
         return getHibernateTemplate().find(query);
     }
     
-    public List getFacilities(Integer shelterId) {
-        String query = "from Facility f where orgId=? order by name";
-        return getHibernateTemplate().find(query,shelterId);
+    public List getFacilities(String providerNo,Integer shelterId) {
+
+    	String query = "from Facility f where f.id in "+Utility.getUserOrgStringByFac(providerNo, shelterId)+" order by name";
+        return getHibernateTemplate().find(query);
     }
 
     //@SuppressWarnings("unchecked")

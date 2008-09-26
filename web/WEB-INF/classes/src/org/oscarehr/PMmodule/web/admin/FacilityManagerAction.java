@@ -59,9 +59,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         
     	Integer shelterId = (Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-    	List facilities =null;
-    	if(shelterId.intValue()>0) facilities =	facilityManager.getFacilities(shelterId);
-    	else facilities =	facilityManager.getFacilities();
+    	String providerNo = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    	List facilities =null; 
+    	facilities =	facilityManager.getFacilities(providerNo,shelterId);
      
         request.setAttribute(BEAN_FACILITIES, facilities);
         

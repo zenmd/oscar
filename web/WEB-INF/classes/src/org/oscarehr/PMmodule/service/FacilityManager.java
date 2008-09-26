@@ -25,8 +25,8 @@ public class FacilityManager {
     public List getFacilities() {
         return facilityDAO.getFacilities();
     }
-    public List getFacilities(Integer shelterId) {
-        return facilityDAO.getFacilities(shelterId);
+    public List getFacilities(String providerNo,Integer shelterId) {
+        return facilityDAO.getFacilities(providerNo,shelterId);
     }
     
 
