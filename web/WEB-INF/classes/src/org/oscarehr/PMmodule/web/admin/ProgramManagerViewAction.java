@@ -334,6 +334,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     			lst = incidentManager.search(incidentForm);
     		}else{
     			incidentForm = new IncidentForm();
+    			incidentForm.setAmpm("AM");
     			formBean.setIncidentForm(incidentForm);
     			lst = incidentManager.getIncidentsByProgramId(pid);
     		}
