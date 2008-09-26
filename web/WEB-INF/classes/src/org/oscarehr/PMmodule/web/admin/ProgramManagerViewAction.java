@@ -428,6 +428,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     			incidentForm.getIncident().setProviderNo(providerNo);
     			SecProvider provider = incidentManager.findProviderById(providerNo);
     			incidentForm.setProviderName(provider.getFirstName() + " " + provider.getLastName() );
+    			incidentForm.setAmpm("AM");
     		}
     		formBean.setIncidentForm(incidentForm);
     	}
