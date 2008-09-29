@@ -1186,18 +1186,21 @@ public class ProgramManagerAction extends BaseProgramAction {
         
         boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
         if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+ 		request.setAttribute("typeEditable", Boolean.TRUE);
+   		request.setAttribute("statusEditable", Boolean.TRUE);
 
-        if(!isReadOnly)
-        {
-       	 List intakes = intakeManager.getIntakesByProgram(programId);
-       	 if(intakes.size() > 0) {
-       		 request.setAttribute("typeEditable", Boolean.FALSE);
-       	 }
-       	 List activeIntakes = intakeManager.getActiveIntakeByProgram(programId); 
-       	 if(activeIntakes.size() > 0) {
-       		 request.setAttribute("statusEditable", Boolean.FALSE);
-       	 }
-        }
+        if(programId != null && !isReadOnly )
+	    {
+	       	 List intakes = intakeManager.getIntakesByProgram(programId);
+	       	 if(intakes.size() > 0) {
+	       		 request.setAttribute("typeEditable", Boolean.FALSE);
+	       	 }
+	       	 List activeIntakes = intakeManager.getActiveIntakeByProgram(programId); 
+	       	 if(activeIntakes.size() > 0) {
+	       		 request.setAttribute("statusEditable", Boolean.FALSE);
+	       	 }
+	    }
+        
     }
 
 
