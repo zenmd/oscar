@@ -29,6 +29,10 @@
 			name="actionParam" style="color:Navy;text-decoration:none;">Room/Bed</html:link>
 		</div>
 	</c:when>
+	<c:when test="${'VN' eq tabBed}">
+		<div>Room/Bed (N/A)
+		</div>
+	</c:when>
 	<c:otherwise>
 				&nbsp;
 			</c:otherwise>
