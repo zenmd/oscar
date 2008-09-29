@@ -17,6 +17,7 @@
 </script>
 
 <html-el:form action="/PMmodule/QuatroRefer.do">
+		<% int a=1; %>
 <input type="hidden" name="method"/>
 <input type="hidden" name="clientId"/>
 <table width="100%"  cellpadding="0px" cellspacing="0px">
@@ -32,9 +33,11 @@
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;</html:link>
 		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTREFER %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
           <c:if test="${currentIntakeProgramId>0}">
-			<html:link	action="/PMmodule/QuatroRefer.do?method=edit&rId=0" paramId="clientId"  paramName="clientId" style="color:Navy;text-decoration:none;">|&nbsp;
-			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Referral&nbsp;&nbsp;
-			</html:link>
+            <security:oscarSec objectName="_clientRefer" orgCd='<%=((Integer)request.getAttribute("currentIntakeProgramId")).toString() %>'  rights="<%=KeyConstants.ACCESS_UPDATE %>" >
+				<html:link	action="/PMmodule/QuatroRefer.do?method=edit&rId=0" paramId="clientId"  paramName="clientId" style="color:Navy;text-decoration:none;">|&nbsp;
+				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Referral&nbsp;&nbsp;
+				</html:link>
+			</security:oscarSec>
           </c:if>
 		</security:oscarSec>	
 		</td>
@@ -54,12 +57,12 @@
                 <tr><th>Referrals</th></tr>
               </table></div>
        </td></tr>
-		<% int a=1; %>
 		<tr>
 			<td>
 				<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 500px; width: 100%; overflow: auto;" id="scrollBar">
                <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="refer" name="lstRefers" export="false" pagesize="50" requestURI="/PMmodule/QuatroRefer.do">
+				<bean:define id="fromProgramIdVal" name="refer" property="fromProgramId"></bean:define>>
 			    <display:setProperty name="paging.banner.placement" value="bottom" />
     			<display:setProperty name="basic.msg.empty_list" value="No Referrals found." />
 			    <display:column property="programName" sortable="true" title="Program Name" />
@@ -69,12 +72,12 @@
 			    <display:column  title="Actions">
 					<c:choose>
 						<c:when test="${'M' eq refer.autoManual and (refer.status eq 'pending') }">
-							<security:oscarSec objectName="_clientRefer"  rights="<%KeyConstants.ACCESS_UPDATE %>" >
+							<security:oscarSec objectName="_clientRefer" orgCd="<%=((Integer)fromProgramIdVal).toString() %>"  rights="<%=KeyConstants.ACCESS_UPDATE %>" >
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
                                 <c:set var="acc_update" value="Y" scope="request"/>
 							</security:oscarSec>
 		                    <c:if test="${acc_update!='Y'}">
-							<security:oscarSec objectName="_clientRefer"  rights="<%KeyConstants.ACCESS_READ %>" >
+							<security:oscarSec objectName="_clientRefer"  orgCd="refer.fromProgramId" rights="<%KeyConstants.ACCESS_READ %>" >
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 							</security:oscarSec>
 							</c:if>
