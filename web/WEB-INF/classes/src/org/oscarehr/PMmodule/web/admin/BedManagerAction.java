@@ -201,7 +201,7 @@ public class BedManagerAction extends BaseFacilityAction {
         	
         request.setAttribute("rooms", roomLst);
         
-        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
+        request.setAttribute("roomTypes", roomManager.getRoomTypes());
 
         ArrayList assignedBedLst= new ArrayList();
         assignedBedLst.add(new LabelValueBean("0", "N"));
