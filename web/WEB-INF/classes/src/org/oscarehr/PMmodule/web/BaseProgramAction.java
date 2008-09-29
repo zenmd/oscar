@@ -97,7 +97,7 @@ public class BaseProgramAction extends BaseAction {
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
 		String orgCd="";
-		if(programId!=null ||programId.intValue()!=0) orgCd=programId.toString();
+		if(programId!=null && programId.intValue()!=0) orgCd=programId.toString();
 		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) <= 0) 
 			readOnly=true;
 		return readOnly;

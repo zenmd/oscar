@@ -240,27 +240,43 @@ public class BedManagerAction extends BaseFacilityAction {
     	Program pObj=programManager.getProgram(pId);
     	int capActual=pObj.getCapacity_actual().intValue();
     	if (bed != null) {
-    		if (bed.isActive()) capActual+=1;
-    		if(bed.getId().intValue() > 0)
-    		{
-    			Bed bedOld  = bedManager.getBed(bed.getId());
-    			if (bedOld.isActive()) capActual -= 1;
+    		if (room.isActive()) { // saving a bed in a inactive room has no effects on capacity
+	    		if (bed.isActive()) capActual+=1;
+	    		if(bed.getId().intValue() > 0)
+	    		{
+	    			Bed bedOld  = bedManager.getBed(bed.getId());
+	    			if (bedOld.isActive()) capActual -= 1;
+	    		}
     		}
     	}
     	else
     	{
-	    	//for new room 
+	    	//for new room
 	    	if((room.getId()==null|| room.getId().intValue()==0)&&room.isActive()){
 	    		if(room.getAssignedBed().intValue()==0)capActual+=room.getCapacity().intValue();
 	    	}else{ // existing room
 	    		//actual capacity plus changed value
-	    		if(room.isActive()){
-	    			if(room.getAssignedBed().intValue()==0)capActual+=room.getCapacity().intValue();
-	    		}
-	    		//  for update only actual capacity minus original value
 	    		Room roomOld = roomManager.getRoom(room.getId());
+	    		int beds = 0;
+	    		if(roomOld != null)	beds = roomOld.getBedNum().intValue();
 	    		if(roomOld!=null && roomOld.isActive()){
-	    			if(roomOld.getAssignedBed().intValue()==0)capActual-=room.getCapacity().intValue();
+		    		if(roomOld.getAssignedBed().intValue() ==1) {
+		    			capActual-= beds;
+		    		}	
+		    		else 
+		    		{
+		    			capActual-= roomOld.getCapacity().intValue();
+		    		}
+	    		}
+	    		if(room.isActive())
+	    		{
+		    		if(room.getAssignedBed().intValue() ==1) {
+		    			capActual += beds;
+		    		}	
+		    		else 
+		    		{
+		    			capActual += room.getCapacity().intValue();
+		    		}
 	    		}
 	    	}
     	}

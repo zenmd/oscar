@@ -509,9 +509,11 @@ public class RoomManager {
         validateRoomType(room.getRoomTypeId());
         validateProgram(room.getProgramId());
         if(room.isActive()==false){
-          Bed[] bed=bedDAO.getBedsByRoom(room.getId(), Boolean.TRUE);
-          if(bed!=null && bed.length>0)
-        	  throw new IllegalStateException("room can not be inactive with active beds");
+          /* allow deactive a room as long as no occupancy 
+        	Bed[] bed=bedDAO.getBedsByRoom(room.getId(), Boolean.TRUE);
+           	if(bed!=null && bed.length>0)
+        	  	throw new IllegalStateException("room can not be inactive with active beds");
+          */
           List rdm = roomDemographicManager.getRoomDemographicByRoom(room.getId());
           if(rdm.size()>0)
         	  throw new IllegalStateException("room can not be inactive with client occupied");
