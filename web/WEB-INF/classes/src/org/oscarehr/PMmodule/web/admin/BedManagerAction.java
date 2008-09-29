@@ -213,6 +213,7 @@ public class BedManagerAction extends BaseFacilityAction {
         	ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.program.not.exist", request.getContextPath()));
             saveMessages(request, messages);
+            request.setAttribute("isReadOnly",Boolean.TRUE);
         }
         bForm.setPrograms(pLst);
         Map statusNames = new HashMap();
@@ -456,7 +457,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	    request.setAttribute("actionParam", actionParam);
 	    Facility facility=facilityManager.getFacility(Integer.valueOf(facilityId));
 	    request.setAttribute("facility", facility);
-	    super.setScreenMode(request, KeyConstants.TAB_FACILITY_BED);
+	    super.setScreenMode(request, KeyConstants.TAB_FACILITY_BED,facility.getActive());
 	    boolean isReadOnly= super.isReadOnly(request, KeyConstants.FUN_FACILITY_BED, facility.getId());
 	    if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	   

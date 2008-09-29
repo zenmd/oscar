@@ -24,12 +24,14 @@ package org.oscarehr.PMmodule.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tools.ant.taskdefs.condition.IsFileSelected;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.service.security.SecurityManager;
 
 public abstract class BaseFacilityAction extends BaseAction {
 
-	protected void setScreenMode(HttpServletRequest request, String currentTab) {
+	protected void setScreenMode(HttpServletRequest request, String currentTab, boolean isFacilityActive) {
 		super.setMenu(request, KeyConstants.MENU_FACILITY);
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
@@ -72,9 +74,15 @@ public abstract class BaseFacilityAction extends BaseAction {
 		
 		//	Bed
 		if (sec.GetAccess(KeyConstants.FUN_FACILITY_BED, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
-			request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_VIEW);
-			if (currentTab.equals(KeyConstants.TAB_FACILITY_BED))
-				request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_CURRENT);
+			if(isFacilityActive) {
+				request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_VIEW);
+				if (currentTab.equals(KeyConstants.TAB_FACILITY_BED))
+					request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_CURRENT);
+			}
+			else
+			{
+				request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_VIEW_NOCLICK);
+			}
 		} else
 			request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_NULL);
 		

@@ -79,13 +79,14 @@ public class FacilityMessageAction extends BaseFacilityAction {
         Integer facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);      
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());      
         /*
          *  Lillian change Message related to Shelter not related to Facility 
          */
 		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
+		isReadOnly = (!facility.getActive()) || isReadOnly;
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 		List activeMessages = mgr.getMessagesByFacilityId(providerNo, facilityId);
 		if(activeMessages!=null && activeMessages.size() >0)
@@ -110,7 +111,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
     		facilityId = Integer.valueOf(idStr);
         Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());
 		DynaActionForm facilityMessageForm = (DynaActionForm)form;
 		String messageId = request.getParameter("id");
 		
@@ -176,7 +177,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 		Facility facility = facilityMgr.getFacility(facilityId);
         request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE);
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());
         return edit(mapping, form, request, response);
 	}
 	

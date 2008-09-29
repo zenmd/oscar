@@ -43,6 +43,7 @@ public class KeyConstants {
   public static final String FAMILY_HEAD_CODE = "AA";
   public static final String FAMILY_HEAD_DESC = "Family Head";
   public static final String ACCESS_VIEW="V";
+  public static final String ACCESS_VIEW_NOCLICK="VN";
   public static final String ACCESS_NULL="N";
   public static final String ACCESS_CURRENT="C";
   public static final String ACCESS_NONE = "o";
