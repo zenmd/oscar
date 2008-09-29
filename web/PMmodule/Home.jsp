@@ -157,7 +157,9 @@ response.setHeader("Cache-Control", "max-age=60");
 								<tr>
 									<th></th>
 									<th style="vertical-align: middle"> 
-									<img src="<%=_appPath%>/images/mytasks60.gif" height="60" width="60" border="0" style="vertical-align: middle"></th>
+									<html:link action="/PMmodule/Task.do?method=filter">
+									<img src="<%=_appPath%>/images/mytasks60.gif" height="60" width="60" border="0" style="vertical-align: middle">
+									</html:link></th>
 									<th style="vertical-align: middle">
 									<table>
 										<tr align="left">

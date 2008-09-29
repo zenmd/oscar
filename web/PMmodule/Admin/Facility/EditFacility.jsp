@@ -75,7 +75,7 @@
 
 		<!-- Title -->
 		<tr>
-			<th class="pageTitle" align="center">Facility Management</th>
+			<th class="pageTitle" align="center">Facility Management - Edit</th>
 		</tr>
 
 		<!-- body start -->
