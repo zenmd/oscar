@@ -15,7 +15,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 		<td align="left" class="buttonBar2"><html:link
 			action="/PMmodule/Admin/UserSearch.do"
 			style="color:Navy;text-decoration:none;">
-			<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to User List&nbsp;&nbsp;|</html:link>
+			<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 			
 			<logic:present	name="userForEdit">
 				<c:if test="${!isReadOnly}" >
