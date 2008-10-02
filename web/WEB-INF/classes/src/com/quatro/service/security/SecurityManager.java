@@ -37,8 +37,8 @@ public class SecurityManager {
     {
         String privilege = this.ACCESS_NONE;
         LookupCodeValue lcv=lookupManager.GetLookupCode("ORG", orgcd);
-        String fullcode="";
-        if(lcv !=null)   fullcode= lcv.getBuf1();
+        String codecsv="";
+        if(lcv !=null)   codecsv= lcv.getCodecsv();
         
         try
         {
@@ -51,7 +51,7 @@ public class SecurityManager {
 	            	UserAccessValue uav = (UserAccessValue)it.next();            
 	            	if (uav.isOrgApplicable()) 
 	            	{
-	            		if ("".equals(orgcd) || Utility.IsEmpty(uav.getOrgCd()) || fullcode.startsWith(uav.getOrgCd()))
+	            		if ("".equals(orgcd) || Utility.IsEmpty(uav.getOrgCd()) || codecsv.startsWith(uav.getOrgCdcsv()))
 		            	{
 		            		privilege = uav.getPrivilege();
 		            		break;

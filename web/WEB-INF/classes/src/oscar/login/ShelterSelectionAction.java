@@ -24,6 +24,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
+import com.quatro.service.security.UserAccessManager;
 
 public final class ShelterSelectionAction extends DispatchAction {
 
@@ -65,6 +66,11 @@ public final class ShelterSelectionAction extends DispatchAction {
              request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(0));
              request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
          }
+         // initiate security manager
+         UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
+         
+         SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,null,lookupManager);
+         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
         
          return mapping.findForward("home");
             	
@@ -72,10 +78,17 @@ public final class ShelterSelectionAction extends DispatchAction {
     public void select(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
 		String shelter =request.getParameter("shelterId");
-		 request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID, new Integer(shelter));
+		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		Integer shelterId = new Integer(shelter);
+		 request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID,shelterId );
 		 LookupCodeValue shelterObj=lookupManager.GetLookupCode("SHL",shelter);
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
         
+         // initiate security manager
+         UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
+         
+         SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,shelterId,lookupManager);
+         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
     }
     public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet()

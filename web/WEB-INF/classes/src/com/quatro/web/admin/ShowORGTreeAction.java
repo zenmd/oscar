@@ -40,7 +40,7 @@ public class ShowORGTreeAction extends DispatchAction {
 		
 		LookupTableDefValue tableDef = orgManager.GetLookupTableDef(tableId);
 
-		List lst = orgManager.LoadCodeList(tableId, false, null, null);
+		List lst = orgManager.LoadCodeList(tableId, true, null, null);
 	
 		MenuRepository repository = setMenu(lst, request);
 

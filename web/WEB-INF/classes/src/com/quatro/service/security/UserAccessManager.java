@@ -10,31 +10,36 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import oscar.OscarProperties;
 
 import com.quatro.dao.security.UserAccessDao;
+import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.*;
 public class UserAccessManager
 {
     private UserAccessDao _dao=null;
-    public SecurityManager getUserUserSecurityManager(String providerNo,LookupManager lkManager)
+    public SecurityManager getUserSecurityManager(String providerNo,Integer shelterId, LookupManager lkManager)
     {
     	// _list is ordered by Function, privilege (desc) and the org
     	SecurityManager secManager = new SecurityManager();
     	secManager.setLookupManager(lkManager);
+
     	Hashtable functionList = new Hashtable();
-        List list = _dao.GetUserAccessList(providerNo);
+        List list = _dao.GetUserAccessList(providerNo,shelterId);
     	if (list.size()>0) {
 	    	int startIdx = 0;
 	    	List orgList = getAccessListForFunction(list,startIdx);
-	    	functionList.put(((UserAccessValue)list.get(startIdx)).getFunctionCd(), list);
+	    	UserAccessValue uav = (UserAccessValue)list.get(startIdx);
+	    	functionList.put(uav.getFunctionCd(), orgList);
 	
 	    	while(orgList != null && startIdx + orgList.size()<list.size())
 	    	{
 	    		startIdx += orgList.size();
 	        	orgList = getAccessListForFunction(list,startIdx);
-	        	functionList.put(((UserAccessValue)list.get(startIdx)).getFunctionCd(), orgList);
+	        	
+		    	uav = (UserAccessValue)list.get(startIdx);
+		    	functionList.put(uav.getFunctionCd(), orgList);
 	    	}
     	}
     	secManager.setUserFunctionAccessList(functionList);
-    	List orgs = _dao.GetUserOrgAccessList(providerNo);
+    	List orgs = _dao.GetUserOrgAccessList(providerNo,shelterId);
     	if(orgs.size() > 0 && OscarProperties.getInstance().getProperty("ORGROOT").equals((String) orgs.get(0))) 
     	{
     		orgs.clear();

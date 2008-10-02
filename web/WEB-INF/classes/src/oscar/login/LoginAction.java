@@ -117,11 +117,6 @@ public final class LoginAction extends DispatchAction {
 	            session.setAttribute("oscar_context_path", request.getContextPath());
 	            session.setAttribute("expired_days", expired_days);
 	            
-	            // initiate security manager
-	            UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
-	            
-	            SecurityManager secManager = userAccessManager.getUserUserSecurityManager(providerNo,lookupManager);
-	            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
 	
 	            session.setAttribute("provider", provider);
 	            return mapping.findForward(where);
