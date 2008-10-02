@@ -62,7 +62,6 @@
 				<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 500px; width: 100%; overflow: auto;" id="scrollBar">
                <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="refer" name="lstRefers" export="false" pagesize="50" requestURI="/PMmodule/QuatroRefer.do">
-				<bean:define id="fromProgramIdVal" name="refer" property="fromProgramId"></bean:define>>
 			    <display:setProperty name="paging.banner.placement" value="bottom" />
     			<display:setProperty name="basic.msg.empty_list" value="No Referrals found." />
 			    <display:column property="programName" sortable="true" title="Program Name" />
@@ -72,18 +71,18 @@
 			    <display:column  title="Actions">
 					<c:choose>
 						<c:when test="${'M' eq refer.autoManual and (refer.status eq 'pending') }">
-							<security:oscarSec objectName="_clientRefer" orgCd="<%=((Integer)fromProgramIdVal).toString() %>"  rights="<%=KeyConstants.ACCESS_UPDATE %>" >
+							<security:oscarSec objectName="_clientRefer" orgCd="<%=((ClientReferral)refer).getFromProgramId().toString() %>"  rights="<%=KeyConstants.ACCESS_UPDATE %>" >
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >Update</a>
                                 <c:set var="acc_update" value="Y" scope="request"/>
 							</security:oscarSec>
 		                    <c:if test="${acc_update!='Y'}">
-							<security:oscarSec objectName="_clientRefer"  orgCd="refer.fromProgramId" rights="<%KeyConstants.ACCESS_READ %>" >
+							<security:oscarSec objectName="_clientRefer"  orgCd="refer.fromProgramId" rights="<%=KeyConstants.ACCESS_READ %>" >
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 							</security:oscarSec>
 							</c:if>
 						</c:when>					
 						<c:otherwise>
-							<security:oscarSec objectName="_clientRefer"  rights="<%KeyConstants.ACCESS_READ %>" >
+							<security:oscarSec objectName="_clientRefer"  rights="<%=KeyConstants.ACCESS_READ %>" >
 								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 							</security:oscarSec>
 						</c:otherwise>

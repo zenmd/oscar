@@ -97,7 +97,7 @@ function submitForm(shortFlagValue){
 
 <display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="client" name="clients" export="false" pagesize="10" requestURI="/PMmodule/DuplicateClientCheck.do">
   <display:setProperty name="paging.banner.placement" value="bottom" />
-  <display:setProperty name="basic.msg.empty_list" value="First name or Last name must be entered." />
+  <display:setProperty name="basic.msg.empty_list" value="No records found (First or Last Name is required for search.)" />
   <display:column sortable="false" title="Action">    
         <c:choose>
 	      <c:when test="${client.demographicNo==0}">

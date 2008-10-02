@@ -278,7 +278,7 @@
 										 	<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
 										</c:when>								
 										<c:otherwise>
-											&nbsp;
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Merged to
 										</c:otherwise>
 							   	</c:choose>
 							   	</display:column>
@@ -316,11 +316,16 @@
 										</c:otherwise>
 							   	</c:choose>						
 							</display:column>
-							<display:column title="Main Record">						
-								<c:if test="${!client.merged}">
+							<display:column title="As main record">						
+								<c:choose>
+								<c:when test="${!client.merged}">
 								 	<input type="radio" name="head"
 											value="<c:out value='${client.demographicNo}'/>">
-								</c:if>		
+								</c:when>
+								<c:otherwise>
+											(been merged)
+								</c:otherwise>
+								</c:choose>		
 							</display:column>	
 							<display:column sortable="true" title="Client No">
 								<c:out	value="${client.demographicNo}" />

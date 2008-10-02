@@ -6,8 +6,13 @@
       	var name= document.getElementsByName("room.name")[0];
       	if(name.value.trim()==''){
       	   alert("Please input Room Name.");
-      	   name.value='';
       	   name.focus();
+      	   return;
+      	}
+      	var rmtype= document.getElementsByName("room.roomTypeId")[0];
+      	if(rmtype.value.trim()==''){
+      	   alert("Please select Room Type.");
+      	   rmtype.focus();
       	   return;
       	}
  

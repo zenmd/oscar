@@ -232,14 +232,14 @@
 							<display:column title="">										
 								<c:choose>
 										<c:when test="${client.merged}">
-										 	&nbsp;
+										 		(Being Merged)
 										</c:when>								
 										<c:otherwise>
 											<input type="checkbox" name="records"	value="<c:out value='${client.demographicNo}'/>">
 										</c:otherwise>
 							   	</c:choose>						
 							</display:column>
-							<display:column title="Main Record">						
+							<display:column title="As main record">						
 								<c:if test="${!client.merged}">
 								 	<input type="radio" name="head"
 											value="<c:out value='${client.demographicNo}'/>">

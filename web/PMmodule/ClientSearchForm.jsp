@@ -220,9 +220,17 @@
 				<logic:equal value="0" property="hsAlertCount" name="client">No</logic:equal>
 				<logic:notEqual value="0" property="hsAlertCount" name="client">Yes</logic:notEqual>
 			</display:column>                         
+			<c:if test="${client.currentRecord == client.demographicNo}" >
 			<display:column sortable="true" title="Client No" sortProperty="demographicNo" sortName="client">
                  <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /></a>
             </display:column>
+            </c:if>
+			<c:if test="${client.currentRecord != client.demographicNo}" >
+			<display:column sortable="true" title="Client No" sortProperty="demographicNo" sortName="client">
+                 <a href="<html:rewrite action="<%=url%>"/>?clientId=<c:out value="${client.currentRecord}"/>"><c:out value="${client.demographicNo}" /> merged to <c:out value="${client.currentRecord}"/></a>
+            </display:column>
+            </c:if>
+            
 		</display:table>
 
 		</div>
