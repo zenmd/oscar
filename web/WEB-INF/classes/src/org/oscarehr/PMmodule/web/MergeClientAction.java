@@ -96,7 +96,6 @@ public class MergeClientAction extends BaseClientAction {
 			saveMessages(request, messages);
 			return mergedSearch(mapping, form, request, response);
 		}
-		boolean isSuccess = true;
 		ArrayList records = new ArrayList(Arrays.asList(request
 				.getParameterValues("records")));
 
@@ -106,29 +105,42 @@ public class MergeClientAction extends BaseClientAction {
 			for (int i = 0; i < records.size(); i++) {
 				String demographic_no = (String) records.get(i);
 				try {
-					ClientMerge cmObj = new ClientMerge();
-					cmObj.setClientId(Integer.valueOf(demographic_no));
-					cmObj.setProviderNo(providerNo);
-					cmObj.setLastUpdateDate(new GregorianCalendar());
-					mergeClientManager.unMerge(cmObj);
+					Integer clientId = Integer.valueOf(demographic_no);
+					ClientMerge cmObj =  mergeClientManager.getClientMerge(clientId);
+					if(cmObj == null) {
+						messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+								"error.unmerge.failed", request.getContextPath(),"The client " + demographic_no + " is not currently merged to anyone"));
+					}
 				} catch (Exception e) {
 					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 							"error.unmerge.failed", request.getContextPath(),e.getMessage()));
+				}
+				if (messages.size() > 0) {
 					saveMessages(request, messages);
 					return mergedSearch(mapping,form,request,response);
 				}
 			}
+			if (records.size() > 0) {
+				for (int i = 0; i < records.size(); i++) {
+					String demographic_no = (String) records.get(i);
+					try {
+						Integer clientId = Integer.valueOf(demographic_no);
+						ClientMerge cmObj =  mergeClientManager.getClientMerge(clientId);
+						cmObj.setProviderNo(providerNo);
+						cmObj.setLastUpdateDate(new GregorianCalendar());
+						mergeClientManager.unMerge(cmObj);
+					} catch (Exception e) {
+						messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+								"error.unmerge.failed", request.getContextPath(),e.getMessage()));
+						saveMessages(request, messages);
+						return mergedSearch(mapping,form,request,response);
+					}
+				}
+			}
 		}
-		if (!isSuccess) {
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"message.unmerge.errors", request.getContextPath()));
-			saveMessages(request, messages);
-		//	return mergedSearch(mapping, form, request, response);
-		} else {
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"message.merge.success", request.getContextPath()));
-			saveMessages(request, messages);
-		}
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+				"message.merge.success", request.getContextPath()));
+		saveMessages(request, messages);
 		// return mapping.findForward("view");
 		return search(mapping, form, request, response);
 
@@ -167,8 +179,17 @@ public class MergeClientAction extends BaseClientAction {
 						saveMessages(request, messages);
 						return search(mapping,form,request,response);
 					}
+					ClientMerge	cmObj = mergeClientManager.getClientMerge(mergeClientNo);
+					if( cmObj != null && !cmObj.isDeleted())
+					{
+						messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+								"message.merge.errors.merged.client", request.getContextPath(),cmObj.getMergedToClientFormattedName() + "(" + cmObj.getMergedToClientId() +  ")"));
+						saveMessages(request, messages);
+						return search(mapping,form,request,response);
+					}
 					try {
-						ClientMerge cmObj = new ClientMerge();
+						if(cmObj == null) cmObj = new ClientMerge();
+						cmObj.setDeleted(false);
 						cmObj.setClientId(mergeClientNo);
 						cmObj.setMergedToClientId(Integer.valueOf(head));
 						cmObj.setProviderNo(providerNo);

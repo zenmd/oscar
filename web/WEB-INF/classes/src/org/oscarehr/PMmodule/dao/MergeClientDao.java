@@ -48,6 +48,14 @@ public class MergeClientDao extends HibernateDaoSupport {
 	        return lst;
 	        
 	    }
+	    public ClientMerge getClientMerge(Integer demographic_no)
+	    {
+	        String queryStr = "FROM ClientMerge a WHERE a.clientId =?";
+	        List lst = getHibernateTemplate().find(queryStr, new Object[] {demographic_no });
+	        if(lst.size() == 0) return null;
+	        ClientMerge cmObj= (ClientMerge)lst.get(0);     
+	        return cmObj;
+	    }
 	    public String getMergedClientIds(Integer clientNo){
 	    	String sql="select clientId from ClientMerge where mergedToClientId = ? and deleted = 0";
 	    	List lst = getHibernateTemplate().find(sql, clientNo);

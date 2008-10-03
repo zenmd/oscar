@@ -167,11 +167,11 @@
 				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_MERGECLIENT %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 				<c:choose>
 					<c:when test="${mergeAction eq 'unmerge'}">				
-						<a	href="javascript:void1();" onclick="return deferedSubmit('unmerge')"	style="color:Navy;text-decoration:none;"> 				
+						<a	href="javascript:void1();" onclick="this.disabled=true;return deferedSubmit('unmerge')"	style="color:Navy;text-decoration:none;"> 				
 							<img border=0	src=<html:rewrite page="/images/search16.gif"/> height="16px" 	width="16px" />&nbsp;Unmerge&nbsp;&nbsp;|</a> 	 
 					</c:when>
 					<c:otherwise>
-						<a	href="javascript:void1();" onclick="return deferedSubmit('merge')"	style="color:Navy;text-decoration:none;"> 
+						<a	href="javascript:void1();" onclick="this.disabled=true;return deferedSubmit('merge')"	style="color:Navy;text-decoration:none;"> 
 							&nbsp;Merge&nbsp;&nbsp;|</a>
 					</c:otherwise>					
 				</c:choose>
