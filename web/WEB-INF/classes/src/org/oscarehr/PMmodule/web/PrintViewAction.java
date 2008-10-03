@@ -48,7 +48,8 @@ public class PrintViewAction extends DispatchAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {	
     	PaintReport(request, response);
-		return mapping.findForward("view");
+		return null;
+    	// return mapping.findForward("view");
 	}
     private void paintReportTest(HttpServletRequest request, HttpServletResponse response){
         final String reportName = "setResultsetDatasource.rpt";    
@@ -112,8 +113,9 @@ public class PrintViewAction extends DispatchAction {
     try{
     	rptPath = getServlet().getServletContext().getResource("/").getPath();
     	String reqPath=request.getContextPath();
-    	String path=rptPath  + "print/" + module+".rpt";
-        if(path.substring(2, 3).equals(":")){  //for Windows System
+//    	String path=rptPath  + "print/" + module+".rpt";
+    	String path="/print/" + module+".rpt";
+    	if(path.substring(2, 3).equals(":")){  //for Windows System
         	path=path.substring(1);
         }
         reportDocument1.open(path,0);
@@ -147,6 +149,8 @@ public class PrintViewAction extends DispatchAction {
         oReportExportControl.setExportAsAttachment(true);
         oReportExportControl.setDatabaseLogonInfos(connInfos);
         oReportExportControl.setParameterFields(parameterFields);
+        oReportExportControl.setEnableParameterPrompt(true);
+      //  oReportExportControl.refresh();
         oReportExportControl.processHttpRequest(request, response, getServlet().getServletContext(), null); 
         /*
         CrystalReportViewer crViewer = new CrystalReportViewer();
