@@ -78,7 +78,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	    String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	         
-	    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo);
+	    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
 	    request.setAttribute("lstConsents", lstConsents);
 
 	    //for new consent, as long as there is a intake for this client before.
@@ -151,8 +151,8 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	           
-	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo);
+	       Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);   
+	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
 	       request.setAttribute("lstConsents", lstConsents);
 	   }
 	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

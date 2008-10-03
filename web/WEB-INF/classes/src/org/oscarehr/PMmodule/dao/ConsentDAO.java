@@ -35,6 +35,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.oscarehr.PMmodule.model.ConsentDetail;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.util.Utility;
 
 public class ConsentDAO extends HibernateDaoSupport {
 
@@ -44,10 +45,10 @@ public class ConsentDAO extends HibernateDaoSupport {
     public void setMergeClientDao(MergeClientDao mergeClientDao) {
 		this.mergeClientDao = mergeClientDao;
 	}
-	public List getConsentsDetailList(Integer clientNo,String providerNo){
+	public List getConsentsDetailList(Integer clientNo,String providerNo, Integer shelterId){
     	String clientIds = mergeClientDao.getMergedClientIds(clientNo);
-    	
-		List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo in " +clientIds+" and a.providerNo=?",providerNo);
+    	String progSQL = Utility.getUserOrgQueryString(providerNo, shelterId);
+		List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo in " +clientIds+" and a.programId in " + progSQL);
     	if(results.size()>0){
     		Iterator items=results.iterator();
     		Calendar today =new GregorianCalendar();

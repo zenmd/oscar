@@ -50,8 +50,8 @@ public class ConsentManager {
         return dao.getConsentByDemographic(demographicNo);
     }
     
-    public List getConsentDetailByClient(Integer clientNo,String providerNo){
-    	return dao.getConsentsDetailList(clientNo,providerNo);
+    public List getConsentDetailByClient(Integer clientNo,String providerNo, Integer shelterId){
+    	return dao.getConsentsDetailList(clientNo,providerNo,shelterId);
     }
     public ConsentDetail getConsentDetail(Integer rId){
     	return dao.getConsentDetail(rId);
