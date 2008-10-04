@@ -211,12 +211,13 @@ public class MergeClientAction extends BaseClientAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.errors", request.getContextPath()));
 			saveMessages(request, messages);
+			return search(mapping,form,request,response);
 		} else {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"message.merge.success", request.getContextPath()));
 			saveMessages(request, messages);
+			return mapping.findForward("unmerge");
 		}
-		return mapping.findForward("unmerge");
 		// return mergedSearch(mapping, form, request, response);
 	}
 
