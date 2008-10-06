@@ -25,7 +25,7 @@ public class MergeClientDao extends HibernateDaoSupport {
 	        }	       	     
 	        this.getHibernateTemplate().saveOrUpdate(cmObj);
 	        
-	        String sql = "update Demographic_merged a set a.merged_to=? where a.merged_to=?";
+	        String sql = "update ClientMerge a set a.mergedToClientId=? where a.mergedToClientId=?";
 	        getHibernateTemplate().bulkUpdate(sql, new Object[] {cmObj.getMergedToClientId(),cmObj.getClientId()});
 
 	        sql = "update Demographic a set a.merged=1 where a.DemographicNo=?";
