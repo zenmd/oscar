@@ -102,7 +102,7 @@
 				  <td><html:text property="room.name" maxlength="45"></html:text></td></tr>
 				  <tr><td>Floor</td>
 				  <td><html:text property="room.floor" maxlength="45"></html:text></td></tr>
-				  <tr><td>Type</td>
+				  <tr><td>Type*</td>
 				  <td><html:select property="room.roomTypeId">
 				    <html:option value=""></html:option>
 				    <html:optionsCollection name="roomTypes" value="id"	label="name" />
