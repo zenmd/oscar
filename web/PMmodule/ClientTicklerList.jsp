@@ -9,13 +9,13 @@
 <tr><td class="buttonBar2">
 	<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">&nbsp;
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
-	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTTASKS %>" rights="<%=KeyConstants.ACCESS_WRITE %>">		
-	  <c:if test="${currentIntakeProgramId>0}">
+	<c:if test="${currentIntakeProgramId>0}">
+		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTTASKS %>"   orgCd='<%=((Integer) request.getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">		
 		<html:link action="/PMmodule/Task.do?method=add" name="actionParam"
 				style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
-	  </c:if>
-	</security:oscarSec>
+		</security:oscarSec>
+	</c:if>
 </td></tr>
 <tr><td align="left" class="message">
    <logic:messagesPresent message="true">

@@ -168,20 +168,20 @@
 	</tr>
 	
 	<tr>
-		<td>
-			<div class="axial">
-				<table border="0" cellspacing="2" cellpadding="3">
+		<td width="100%" class="app">
+			<div  >
+				<table border="0" cellspacing="1" cellpadding="1" width="100%"  style="background-image: /images/tablebg.gif">
 					<tr>
-						<th>Client No.</th>
-						<td><html:text property="clientForm.clientId" size="20" maxlength="10"/></td>
+						<th style="width:20%">Client No.</th>
+						<th style="width:80%"><html:text property="clientForm.clientId" size="20" maxlength="10"/></th>
 					</tr>
 					<tr>
-						<th>First Name</th>
-						<td><html:text property="clientForm.firstName" size="20" maxlength="30"/></td>
+						<th style="width:20%">First Name</th>
+						<th><html:text property="clientForm.firstName" size="20" maxlength="30"/></th>
 					</tr>
 					<tr>
-						<th>Last Name</th>
-						<td><html:text property="clientForm.lastName" size="20" maxlength="30"/></td>
+						<th style="width:20%">Last Name</th>
+						<th><html:text property="clientForm.lastName" size="20" maxlength="30"/></th>
 					</tr>
 				
 				</table>

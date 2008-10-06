@@ -81,14 +81,14 @@
 	<tr>
 		<td>
 			<div class="axial">
-				<table border="0" cellspacing="2" cellpadding="3">
+				<table border="0" cellspacing="1" cellpadding="1" width="100%">
 					<tr>
-						<th>First Name:</th>
-						<td><html:text property="staffForm.firstName" size="20" maxlength="30"/></td>
+						<th width="20%" align="right">First Name:</th>
+						<td align="left" width="80%"><html:text property="staffForm.firstName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
-						<th>Last Name:</th>
-						<td><html:text property="staffForm.lastName" size="20" maxlength="30"/></td>
+						<th width="20%" align="right">Last Name:</th>
+						<td align="left" width="80%"><html:text property="staffForm.lastName" size="20" maxlength="30"/></td>
 					</tr>
 					
 				

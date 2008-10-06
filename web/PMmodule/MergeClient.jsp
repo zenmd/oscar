@@ -192,19 +192,19 @@
 			<td>
 			<div id="projecthome" class="app">
 			<div class="axial">
-			<table border="0" cellspacing="2" cellpadding="3">
+			<table border="0" cellspacing="1" cellpadding="1" width="100%">
 				<tr>
-					<th><bean-el:message key="ClientSearch.clientNo" bundle="pmm" /></th>
-					<td><html:text property="criteria.demographicNo" size="15" /></td>
+					<th align="right" width="20%"><bean-el:message key="ClientSearch.clientNo" bundle="pmm" /></th>
+					<td align="left" width="80%"><html:text property="criteria.demographicNo" size="15" /></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.firstName" bundle="pmm" /></th>
-					<td><html:text property="criteria.firstName" size="15" /></td>
+					<th align="right" width="20%"><bean-el:message key="ClientSearch.firstName" bundle="pmm" /></th>
+					<td align="left" width="80%"><html:text property="criteria.firstName" size="15" /></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.lastName" bundle="pmm" />
+					<th align="right" width="20%"><bean-el:message key="ClientSearch.lastName" bundle="pmm" />
 					</th>
-					<td><html:text property="criteria.lastName" size="15" /></td>
+					<td align="left" width="80%"><html:text property="criteria.lastName" size="15" /></td>
 				</tr>
 
 				<tr>
@@ -215,16 +215,16 @@
 					</th>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.active" bundle="pmm" /></th>
-					<td><html:select property="criteria.active">
+					<th align="right" width="20%"><bean-el:message key="ClientSearch.active" bundle="pmm" /></th>
+					<td align="left" width="80%"><html:select property="criteria.active">
 						<html:option value="">Any</html:option>
 						<html:option value="1">Yes</html:option>
 						<html:option value="0">No</html:option>
 					</html:select></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="ClientSearch.gender" bundle="pmm" /></th>
-					<td><html-el:select property="criteria.gender">
+					<th align="right" width="20%"><bean-el:message key="ClientSearch.gender" bundle="pmm" /></th>
+					<td align="left" width="80%"><html-el:select property="criteria.gender">
 						<html-el:option value="">Any</html-el:option>
 						<c:forEach var="gen" items="${genders}">
 							<html-el:option value="${gen.code}">
@@ -234,8 +234,8 @@
 					</html-el:select></td>
 				</tr>
 				<tr>
-					<th  align="right"><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
-			          <th align="left" >
+					<th  align="right" width="20%"><bean-el:message key="ClientSearch.assignedTo"  bundle="pmm"/> </th>
+			          <th align="left" width="80%">
 			            <html:select property="criteria.assignedToProviderNo">
 			                <html:option value="">
 			                </html:option>
@@ -244,8 +244,8 @@
 			          </th>
 				</tr>
 				<tr>
-					<th  align="right"><bean-el:message key="ClientSearch.program"  bundle="pmm"/> </th>
-			          <th align="left" >
+					<th  align="right" width="20%"><bean-el:message key="ClientSearch.program"  bundle="pmm"/> </th>
+			          <th align="left" width="80%" >
 			            <html:select property="criteria.bedProgramId">
 			                <html:option value="">
 			                </html:option>
@@ -323,7 +323,7 @@
 											value="<c:out value='${client.demographicNo}'/>">
 								</c:when>
 								<c:otherwise>
-											(been merged)
+											(merged)
 								</c:otherwise>
 								</c:choose>		
 							</display:column>	

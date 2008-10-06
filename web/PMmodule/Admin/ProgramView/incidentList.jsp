@@ -45,19 +45,19 @@ Source: web/PMmodule/Admin/ProgramView/incidentList.jsp
 	<tr>
 		<td>
 			<div class="axial">
-				<table border="0" cellspacing="2" cellpadding="3">
+				<table border="0" cellspacing="1" cellpadding="1" width="100%">
 					<tr>
-						<th>Client ID</th>
-						<td><html:text property="incidentForm.clientId" size="20" maxlength="10"/></td>
+						<th width="20%" align="right">Client ID</th>
+						<td align="left" width="80%"><html:text property="incidentForm.clientId" size="20" maxlength="10"/></td>
 					</tr>
 					<tr>
-						<th>First or Last Name</th>
-						<td><html:text property="incidentForm.clientName" size="20" maxlength="30"/></td>
+						<th width="20%" align="right">First or Last Name</th>
+						<td align="left" width="80%"><html:text property="incidentForm.clientName" size="20" maxlength="30"/></td>
 					</tr>
 					<tr>
-						<th>Incident Date</th>
-						<td><quatro:datePickerTag property="incidentForm.incDateStr"
-											width="90%" openerForm="programManagerViewForm" /></td>
+						<th width="20%" align="right">Incident Date</th>
+						<td align="left" width="80%"><quatro:datePickerTag property="incidentForm.incDateStr"
+											width="20%" openerForm="programManagerViewForm" /></td>
 					</tr>
 				
 				</table>

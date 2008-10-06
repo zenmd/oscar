@@ -1,4 +1,4 @@
-/* $Id: tigris.css,v 1.2.4.1 2008-09-19 18:38:57 tonywzt1 Exp $
+/* $Id: tigris.css,v 1.2.4.2 2008-10-06 21:19:58 tonywzt1 Exp $
 	
 	This file defines basic default formatting for HTML conforming to Tigris application style. To extend or override these rules for your instance, edit inst.css instead of this file. */
 
@@ -214,12 +214,12 @@ body.docs {
 }
 
 .axial th {
-	background-color: #ddd;
+	background-color: #bbb;
 	color: black;
 }
 
 .axial td {
-	background-color: #ddd;
+	background-color: #bbb;
 	color: black;
 }
 

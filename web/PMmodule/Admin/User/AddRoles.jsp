@@ -111,10 +111,29 @@ function submitForm(mthd){
 	{
 		alert("There are no changes detected to save");
 	}
+	else if(mthd=="removeRole" && !getChecks())
+	{
+		alert ("Please select the line you wang to remove");
+	}
 	else
 	{
 		document.forms[0].method.value=mthd;
 		document.forms[0].submit();
+	}
+}
+function getChecks()
+{
+	for(var i=0; i<1000; i++) 
+	{
+		var cs = document.getElementsByName("p" + i.toString());
+		var c = cs[0];
+		if (c) {
+			if (c.checked) return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 

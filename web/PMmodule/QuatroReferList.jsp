@@ -31,15 +31,15 @@
 		<td align="left" class="buttonBar2">
 		<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;</html:link>
-		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTREFER %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
-          <c:if test="${currentIntakeProgramId>0}">
+        <c:if test="${currentIntakeProgramId>0}">
+		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTREFER %>"   orgCd='<%=((Integer) request.getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
             <security:oscarSec objectName="_clientRefer" orgCd='<%=((Integer)request.getAttribute("currentIntakeProgramId")).toString() %>'  rights="<%=KeyConstants.ACCESS_UPDATE %>" >
 				<html:link	action="/PMmodule/QuatroRefer.do?method=edit&rId=0" paramId="clientId"  paramName="clientId" style="color:Navy;text-decoration:none;">|&nbsp;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Referral&nbsp;&nbsp;
 				</html:link>
 			</security:oscarSec>
-          </c:if>
 		</security:oscarSec>	
+        </c:if>
 		</td>
 	</tr>
 	<tr height="18px">

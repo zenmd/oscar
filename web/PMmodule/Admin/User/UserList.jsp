@@ -35,23 +35,23 @@
 		<html:form action="/PMmodule/Admin/UserSearch">
 			<input type="hidden" name="method" value="search" />
 			<div class="axial">
-			<table border="0" cellspacing="2" cellpadding="3">
+			<table border="0" cellspacing="1" cellpadding="1" width="100%">
 				<tr>
-					<th><bean-el:message key="UserSearch.userName" bundle="pmm" /></th>
-					<td><html:text property="criteria.userName" size="20" maxlength="30"/></td>
+					<th align="right" width="20%"><bean-el:message key="UserSearch.userName" bundle="pmm" /></th>
+					<td align="left" width="80%"><html:text property="criteria.userName" size="20" maxlength="30"/></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="UserSearch.lastName" bundle="pmm" />
+					<th align="right" width="20%"><bean-el:message key="UserSearch.lastName" bundle="pmm" />
 					</th>
-					<td><html:text property="criteria.lastName" size="20" maxlength="30"/></td>
+					<td align="left" width="80%"><html:text property="criteria.lastName" size="20" maxlength="30"/></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="UserSearch.firstName" bundle="pmm" /></th>
-					<td><html:text property="criteria.firstName" size="20" maxlength="30"/></td>
+					<th align="right" width="20%"><bean-el:message key="UserSearch.firstName" bundle="pmm" /></th>
+					<td align="left" width="80%"><html:text property="criteria.firstName" size="20" maxlength="30"/></td>
 				</tr>
 				<tr>
-					<th><bean-el:message key="UserSearch.active" bundle="pmm" /></th>
-					<td><html:select property="criteria.active">
+					<th align="right" width="20%"><bean-el:message key="UserSearch.active" bundle="pmm" /></th>
+					<td align="left" width="80%"><html:select property="criteria.active">
 						<html:option value="">Any</html:option>
 						<html:option value="1">Yes</html:option>
 						<html:option value="0">No</html:option>
@@ -59,8 +59,8 @@
 				</tr>
 
 				<tr>
-					<th><bean-el:message key="UserSearch.roleName" bundle="pmm" /></th>
-					<td><html-el:select property="criteria.roleName">
+					<th align="right" width="20%"><bean-el:message key="UserSearch.roleName" bundle="pmm" /></th>
+					<td align="left" width="80%"><html-el:select property="criteria.roleName">
 						<html-el:option value="">Any</html-el:option>
 						<c:forEach var="role" items="${roles}">
 							<html-el:option value="${role.roleName}">

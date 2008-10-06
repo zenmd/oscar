@@ -104,10 +104,15 @@ Source:web/PMmodule/Admin/ProgramView/incident.jsp
 			getList();
 			var txtKey= document.getElementsByName("incidentForm.txtStaffKeys")[0];
 			var txtKey2= document.getElementsByName("incidentForm.txtClientKeys")[0];
-			if(txtKey.value.length == 0 && txtKey2.value.length == 0){
-				alert("Please add client in 'Clients Involved' field or add staff in 'Staff Involved' field.");
+			if(txtKey.value.length == 0){
+				alert("Please add client in 'Clients Involved' field");
 				return;
 			}
+			if(txtKey2.value.length == 0){
+				alert("Please add staff in 'Staff Involved' field.");
+				return;
+			}
+			
 			if(noChanges()) 
 			{
 				alert("There are no changes detected to save");
