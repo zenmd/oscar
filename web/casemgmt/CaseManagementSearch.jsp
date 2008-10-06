@@ -110,7 +110,7 @@ response.setHeader("Cache-Control", "no-cache");
 				<html:link action="/CaseManagementView2.do?note_view=detailed"  paramId="clientId" paramName="clientId"	style="color:Navy;text-decoration:none;">&nbsp;Case Detailed&nbsp;
 				</html:link>
 			    <c:if test="${currentIntakeProgramId>0}">
-				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" orgCd='<%=((Integer) request.getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
 					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
 						 |<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Note&nbsp;
 					</html:link> 
