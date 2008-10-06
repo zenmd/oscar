@@ -96,7 +96,8 @@ public class QuatroReportManager {
 			  for(int k=0; k<lst2.size(); k++)
 			  {
 				  ReportTempValue obj3 = (ReportTempValue)lst2.get(k);
-				  obj3.setDeleteable(withXRights || obj3.isPrivateTemplate());
+				  obj3.setDeleteable(withXRights || obj3.isPrivateTemplate() || 
+						  (!obj3.isPrivateTemplate() && providerNo.equals(obj3.getLoginId())));
 			  }
 			  obj2.setChildList(lst2);
 		      lst3.add(obj2);
