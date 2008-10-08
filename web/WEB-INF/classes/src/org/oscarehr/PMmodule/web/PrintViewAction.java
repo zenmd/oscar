@@ -150,7 +150,7 @@ public class PrintViewAction extends DispatchAction {
         oReportExportControl.setDatabaseLogonInfos(connInfos);
         oReportExportControl.setParameterFields(parameterFields);
         oReportExportControl.setEnableParameterPrompt(true);
-      //  oReportExportControl.refresh();
+        //oReportExportControl.refresh();
         oReportExportControl.processHttpRequest(request, response, getServlet().getServletContext(), null); 
         /*
         CrystalReportViewer crViewer = new CrystalReportViewer();

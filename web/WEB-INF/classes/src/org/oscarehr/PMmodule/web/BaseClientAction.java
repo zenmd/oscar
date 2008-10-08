@@ -180,12 +180,11 @@ public abstract class BaseClientAction extends BaseAction {
 		else if(KeyConstants.STATUS_EXPIRED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_TERMEARLY.equals(status)) readOnly =true;
 		
-		else if(KeyConstants.STATUS_ACCEPTED.equals(status) || KeyConstants.STATUS_REJECTED.equals(status)){			
+		else if(KeyConstants.STATUS_ACCEPTED.equals(status)){			
 		//	if(KeyConstants.FUNCTION_INTAKE.equals(funName))readOnly =true;
 		//	else if(KeyConstants.FUNCTION_ADMISSION.equals(funName))readOnly =true;	
 			if(KeyConstants.FUN_CLIENTREFER.equals(funName))readOnly =true;	
 		}
-		
 		else if(KeyConstants.STATUS_READONLY.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_REJECTED.equals(status)) {
 			readOnly =true;

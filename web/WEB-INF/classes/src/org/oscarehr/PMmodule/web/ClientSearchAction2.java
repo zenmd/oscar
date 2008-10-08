@@ -148,8 +148,13 @@ public class ClientSearchAction2 extends BaseClientAction {
 				Program prg = (Program)allPrograms.get(i);
 				prgId += prg.getId().toString() + ",";
 			}
-			if (!"".equals(prgId))
+			if (!"".equals(prgId)) {
 				prgId = prgId.substring(0, prgId.length() - 1);
+			}
+			else
+			{
+				prgId = "1";
+			}
 			formBean.setBedProgramId(prgId);
 		}
 
