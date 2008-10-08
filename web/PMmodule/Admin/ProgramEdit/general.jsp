@@ -12,7 +12,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 	function save() {
 	    trimInputBox();
 		if(noChanges()) {
-			alert("There is no changes detected");
+			alert("There are no changes detected");
 			return false;
 		}
 		var obj1 = document.getElementsByName('program.capacity_funding')[0];
