@@ -53,7 +53,22 @@ public class Utility {
     	{
     		Integer i = Integer.valueOf(pStr);
     		isInt = (i != null);
-    		if(i.intValue()<0) isInt=false;
+    		if(i.intValue()<=0) isInt=false;
+    	}
+    	catch (Exception e)
+    	{
+    		isInt = false;
+    	}
+    	return isInt;
+    }
+    public static boolean IsIntLessThanZero(String pStr)
+    {
+    	boolean isInt = true;
+    	try 
+    	{
+    		Integer i = Integer.valueOf(pStr);
+    		isInt = (i != null);
+    		if(i.intValue()>=0) isInt=false;
     	}
     	catch (Exception e)
     	{
