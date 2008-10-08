@@ -81,7 +81,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		qform.setClient(client);
 
 		com.quatro.web.intake.OptionList optionValues = intakeManager
-				.LoadOptionsList();
+				.LoadOptionsList(true);
 		qform.setOptionList(optionValues);
 
 		Integer shelterId = (Integer) request.getSession().getAttribute(
@@ -210,10 +210,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}
 		qform.setClient(client);
 		request.setAttribute("client", client);
-		com.quatro.web.intake.OptionList optionValues = intakeManager
-				.LoadOptionsList();
-		qform.setOptionList(optionValues);
 
+		boolean readOnly = false;
 		QuatroIntake intake;
 		if (intakeId.intValue() != 0) {
 			intake = intakeManager.getQuatroIntake(intakeId);
@@ -227,7 +225,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					.getIntakeStatus())) {
 				request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
 			}
-			boolean readOnly = super.isReadOnly(request, intake
+			readOnly = super.isReadOnly(request, intake
 					.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE, intake
 					.getProgramId());
 			request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
@@ -243,6 +241,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setVAW(KeyConstants.CONSTANT_NO);
 			request.setAttribute("isReadOnly", Boolean.FALSE);
 		}
+		com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList(!readOnly);
+		qform.setOptionList(optionValues);
 
 		Integer shelterId = (Integer) request.getSession().getAttribute(
 				KeyConstants.SESSION_KEY_SHELTERID);
@@ -331,7 +331,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		request.setAttribute("client", client);
 
 		com.quatro.web.intake.OptionList optionValues = intakeManager
-				.LoadOptionsList();
+				.LoadOptionsList(true);
 		qform.setOptionList(optionValues);
 
 		QuatroIntake intake;

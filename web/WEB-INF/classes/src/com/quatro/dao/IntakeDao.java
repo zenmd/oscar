@@ -41,9 +41,14 @@ public class IntakeDao extends HibernateDaoSupport {
 	private ProgramQueueDao programQueueDao;
     private ClientReferralDAO clientReferralDao;
     
-	public List LoadOptionsList() {
-		String sSQL="from QuatroIntakeOptionValue s order by s.prefix, s.displayOrder";		
-        return getHibernateTemplate().find(sSQL);
+	public List LoadOptionsList(boolean activeOnly) {
+		String sSQL="from QuatroIntakeOptionValue s ";	
+		if (activeOnly)
+		{
+			sSQL += " where s.active = 1 ";
+		}
+		sSQL += " order by s.prefix, s.displayOrder";
+		return getHibernateTemplate().find(sSQL);
 	}
 
 	public List checkExistBedIntakeByPrograms(Integer clientId, Integer programId){

@@ -274,8 +274,8 @@ public class IntakeManager {
 		}
   		return lst;
 	}
-	public OptionList LoadOptionsList() {
-        List lst=intakeDao.LoadOptionsList();
+	public OptionList LoadOptionsList(boolean activeOnly) {
+        List lst=intakeDao.LoadOptionsList(activeOnly);
         OptionList lst2= new OptionList();
         HashMap map= IntakeConstant.getPrefixDefined();
 
