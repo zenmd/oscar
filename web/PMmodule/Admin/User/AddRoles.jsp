@@ -113,7 +113,7 @@ function submitForm(mthd){
 	}
 	else if(mthd=="removeRole" && !getChecks())
 	{
-		alert ("Please select the line you wang to remove");
+		alert ("Please select a line to remove");
 	}
 	else
 	{
