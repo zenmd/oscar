@@ -79,7 +79,7 @@
 										value="${facilityManagerForm.facility.description}" /></td>
 								</tr>
 								<tr class="b">
-									<td width="20%">Heath Information Custodian:</td>
+									<td width="20%">Health Information Custodian:</td>
 									<td><c:out value="${facilityManagerForm.facility.hic}" /></td>
 								</tr>
 								<tr class="b">
