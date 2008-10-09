@@ -13,6 +13,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.MyDateFormat;
@@ -227,11 +229,14 @@ public class QuatroReportRunnerAction extends Action {
 
 	public void btnSave_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
 	{
-        try
+		ActionMessages messages = new ActionMessages();
+		try
         {
         	BuildTemplate(myForm, request); 
         }catch (Exception ex){
-            return;        
+   		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("report", request.getContextPath(),ex.getMessage()));
+          saveMessages(request,messages);
+          return;        
 	    }
 		myForm.setStrClientJavascript("saveTemplate");
 	}
@@ -243,6 +248,7 @@ public class QuatroReportRunnerAction extends Action {
         {
         	BuildTemplate(myForm, request); 
         }catch (Exception ex){
+        	
             return;        
 	    }
         
@@ -541,7 +547,7 @@ public class QuatroReportRunnerAction extends Action {
 		    }
 		  }
 		}
-
+    	
 		if (rptVal.isOrgApplicable()){
 		  ArrayList orgCodes = new ArrayList();
 		  if(myForm.getTxtOrgKey()!=null){
@@ -617,22 +623,24 @@ public class QuatroReportRunnerAction extends Action {
 		    noCriteria = (tempCris.size() == 0);
 		    if (!noCriteria){
 		      sError=ValidateCriteriaString(reportNo, tempCris);
-		      if("".equals(sError)){
-		    	myForm.setLblError("");
-		      }else{
-		    	myForm.setLblError("Error: " + sError);
-		      }
 		    }
 		  }
 		 
 		  hasAnyCriteria = !(noDateRange && noOrgs && noCriteria);
 
-		  if (!hasAnyCriteria || !("".equals(sError))) errMsg = "Please specify criteria for the report<br>" + sError;
+		  if (!hasAnyCriteria || !("".equals(sError))) {
+			  if(!errMsg.equals("")) errMsg += "<br>";
+			  errMsg = errMsg +  "Errors detected in the criteria string:<br>" + sError;
+		  }
 
-		  if (!Utility.IsEmpty(errMsg))
-		    throw new Exception(errMsg);
-		  else
-		    return;// repTemp;
+		  if (Utility.IsEmpty(errMsg))
+		  {
+		    	myForm.setLblError("");
+		  }else{
+		    	myForm.setLblError("Error: " + errMsg);
+		    	throw new Exception(errMsg);
+		  }
+		  return;// repTemp;
     }
 	
     public String ValidateCriteriaString(int reportNo, ArrayList criterias){
