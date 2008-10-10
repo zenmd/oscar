@@ -100,7 +100,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        String demographicNo= (String)actionParam.get("clientId");
 
        request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CLIENT);
-	   logManager.log("read", "Client", demographicNo, request);
+	   logManager.log("read", "client", demographicNo, request);
        
 //       setEditAttributes(form, request, demographicNo);
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
