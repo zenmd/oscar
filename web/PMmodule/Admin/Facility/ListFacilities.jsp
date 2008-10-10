@@ -82,7 +82,7 @@
 								</display:column>
 						        
 						        <display:column property="description" sortable="true" title="Description" />
-						        <display:column property="contactName" sortable="true" title="Contact name" />
+						        <display:column property="contactName" sortable="true" title="Contact Name" />
 						        <display:column sortable="true" title="HIC?" >
 							        <logic:equal name="facility" property="hic" value="true">Yes</logic:equal>
 									<logic:equal name="facility" property="hic" value="false">No</logic:equal>
