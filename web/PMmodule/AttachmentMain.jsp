@@ -66,7 +66,7 @@ response.setHeader("Cache-Control", "no-cache");
 			</security:oscarSec>	
 		  </display:column>	
 		  <display:column sortable="false" title="">
-		   <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
+		   <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
 		  	<a title="Edit" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=edit&id=<c:out value="${atth.id}" />">
 				Replace </a>
 			</security:oscarSec>	
