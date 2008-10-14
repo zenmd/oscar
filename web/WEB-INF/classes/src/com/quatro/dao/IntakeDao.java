@@ -12,6 +12,7 @@ import java.util.HashMap;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.ArrayList;
 
+import com.ibm.ws.channel.commands.CreateChainCommand;
 import com.quatro.common.KeyConstants;
 import com.quatro.web.intake.IntakeConstant;
 
@@ -662,19 +663,35 @@ public class IntakeDao extends HibernateDaoSupport {
           programQueue = programQueueDao.getProgramQueueByIntakeId(intakeDb.getId());
 		  
 		  //always update programId in referral and queue record in case program changed on intake_edit jsp page.
-		  if(KeyConstants.INTAKE_STATUS_ACTIVE.equals(intakeDb.getIntakeStatus()) &&
-	        intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-	        	
-            if(programQueue!=null){
-		      programQueue.setProgramId(intakeDb.getProgramId());
-		      programQueueDao.saveProgramQueue(programQueue);
-		    }
-
-            if(clientReferral!=null){
-		      clientReferral.setProgramId(intakeDb.getProgramId());	        	
-		      clientReferralDao.saveClientReferral(clientReferral);
-		    }
+		  if(KeyConstants.INTAKE_STATUS_ACTIVE.equals(intakeDb.getIntakeStatus()))
+		  { 
+			if ( intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE))
+			{
+		        if(clientReferral!=null){
+	  		      clientReferral.setProgramId(intakeDb.getProgramId());	        	
+		  		}
+		        else
+		        {
+		  		  clientReferral =  createReferral(intake);	        	
+		        }
+			    clientReferralDao.saveClientReferral(clientReferral);
+		        
+	            if(programQueue!=null){
+			      programQueue.setProgramId(intakeDb.getProgramId());
+			    }
+	            else
+	            {
+	            	programQueue = createProgramQueue(clientReferral);
+	            }
+			    programQueueDao.saveProgramQueue(programQueue);
+			  }
+			else
+			{
+				if(programQueue != null) programQueueDao.delete(programQueue);
+				if(clientReferral != null) clientReferralDao.delete(clientReferral);
+			}
 		  }
+         
 
 		  //update family member programId if family head programId changed
           if(bFamilyMember && intakeHeadId.intValue()==intakeDb.getId().intValue() && programChangedForFamily==true){
@@ -689,38 +706,18 @@ public class IntakeDao extends HibernateDaoSupport {
         }else{
 		  getHibernateTemplate().save(intakeDb);
 		  intake.setId(intakeDb.getId());
-		  clientReferral = new ClientReferral();
 	      if(!bFamilyMember){
-	         if(intake.getClientId()!=null) clientReferral.setClientId(intake.getClientId());
-	         clientReferral.setNotes("Intake Automated referral");
-	         if(intake.getProgramId()!=null) clientReferral.setProgramId(intake.getProgramId());
-	         clientReferral.setProviderNo(intake.getStaffId());
-	         clientReferral.setReferralDate(Calendar.getInstance()); 
-	         clientReferral.setStatus(KeyConstants.STATUS_PENDING);
-	         clientReferral.setAutoManual(KeyConstants.AUTOMATIC);
-	         clientReferral.setFromProgramId(intake.getProgramId());
-	      }
-	        
-	      programQueue = new ProgramQueue();
-	      if(!bFamilyMember){
-	    	 programQueue.setClientId(clientReferral.getClientId());
-	    	 programQueue.setNotes(clientReferral.getNotes());
-	    	 programQueue.setProgramId(clientReferral.getProgramId());
-	    	 programQueue.setProviderNo(Integer.valueOf(clientReferral.getProviderNo()));
-	    	 programQueue.setReferralDate(clientReferral.getReferralDate().getTime());
-	    	 programQueue.setReferralId(clientReferral.getId());
-	      }
-		  
-		  //do this for single person intake and family head only. 
-		  if(!bFamilyMember){
-	    	//from manual referral
-	    	if(fromManualReferralId!=null){
-              getHibernateTemplate().bulkUpdate("update ClientReferral r set r.status='" + KeyConstants.STATUS_ACCEPTED + "' where r.Id=? and r.autoManual='" +  KeyConstants.MANUAL + "'", fromManualReferralId);
-              getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.ReferralId=?", fromManualReferralId);
-	    	  if(!intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-	             ProgramQueue exist_programQueue = programQueueDao.getProgramQueueByIntakeId(intakeDb.getId());
-	             if(exist_programQueue!=null) getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?", exist_programQueue.getId());
-	          }
+	    	  clientReferral = createReferral(intake);
+	    	  programQueue = createProgramQueue(clientReferral);
+
+	    	  //from manual referral
+	    	  if(fromManualReferralId!=null){
+	    		  getHibernateTemplate().bulkUpdate("update ClientReferral r set r.status='" + KeyConstants.STATUS_ACCEPTED + "' where r.Id=? and r.autoManual='" +  KeyConstants.MANUAL + "'", fromManualReferralId);
+	    		  getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.ReferralId=?", fromManualReferralId);
+	    		  if(!intakeDb.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
+	    			  ProgramQueue exist_programQueue = programQueueDao.getProgramQueueByIntakeId(intakeDb.getId());
+	    			  if(exist_programQueue!=null) getHibernateTemplate().bulkUpdate("delete ProgramQueue q where q.Id=?", exist_programQueue.getId());
+	    		  }
 	    	//new intake not from manual referral
 	    	}
 		    
@@ -757,7 +754,32 @@ public class IntakeDao extends HibernateDaoSupport {
         }
         return lst;
 	}
-
+	private ClientReferral createReferral(QuatroIntake intake)
+	{
+		ClientReferral clientReferral = new ClientReferral();
+        if(intake.getClientId()!=null) clientReferral.setClientId(intake.getClientId());
+        clientReferral.setNotes("Intake Automated referral");
+        if(intake.getProgramId()!=null) clientReferral.setProgramId(intake.getProgramId());
+        clientReferral.setProviderNo(intake.getStaffId());
+        clientReferral.setReferralDate(Calendar.getInstance()); 
+        clientReferral.setStatus(KeyConstants.STATUS_PENDING);
+        clientReferral.setAutoManual(KeyConstants.AUTOMATIC);
+        clientReferral.setFromProgramId(intake.getProgramId());
+        clientReferral.setFromIntakeId(intake.getId());
+		return clientReferral;
+	}
+	private ProgramQueue createProgramQueue(ClientReferral clientReferral)
+	{
+		 ProgramQueue programQueue = new ProgramQueue(); 
+	   	 programQueue.setClientId(clientReferral.getClientId());
+		 programQueue.setNotes(clientReferral.getNotes());
+		 programQueue.setProgramId(clientReferral.getProgramId());
+		 programQueue.setProviderNo(Integer.valueOf(clientReferral.getProviderNo()));
+		 programQueue.setReferralDate(clientReferral.getReferralDate().getTime());
+		 programQueue.setReferralId(clientReferral.getId());
+	     programQueue.setFromIntakeId(clientReferral.getFromIntakeId());
+		 return programQueue;
+	}
 	public void saveQuatroIntakeFamilyRelation(QuatroIntakeFamily intakeFamily){
         getHibernateTemplate().saveOrUpdate(intakeFamily);
 	}

@@ -1,5 +1,6 @@
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
+<%@page import="com.quatro.common.KeyConstants;" %>
 <bean:define id="language" name="quatroIntakeEditForm"
 	property="language" type="com.quatro.model.LookupCodeValue" />
 <bean:define id="originalCountry" name="quatroIntakeEditForm"
@@ -162,6 +163,7 @@ function confirmActive()
 	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
 							style="color:Navy;text-decoration:none;" onclick="javascript: return isDateValid;"> 
 							<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake &nbsp;&nbsp;|</a>
+							<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>"   orgCd='<%=((Integer) request.getAttribute("programId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
 							<c:choose>
 								<c:when	test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
                						(intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
@@ -170,6 +172,7 @@ function confirmActive()
 									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
 								</c:when>
 							</c:choose>
+							</security:oscarSec>
 					</c:when>
 					<c:when test="intakeHeadId gt 0">
               		<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>
