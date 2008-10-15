@@ -68,6 +68,7 @@ function showLookup(tableId, grandParentName, parentName, openerFormName, codeFi
 }
 function showLookup2(id, tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot){
 	// lookup with parents
+    if(readOnly == true) return false;
 	var orgFld = document.getElementById(id);
 	
 	if(orgFld.value.length >0){
@@ -79,6 +80,7 @@ function showLookup2(id, tableId, grandParentName, parentName, openerFormName, c
 }
 
 function showLookupTree(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
+    if(readOnly == true) return false;
     var grandParentCode = null;
     var parentCode = null;   
 
