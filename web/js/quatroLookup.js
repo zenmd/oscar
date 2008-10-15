@@ -18,7 +18,7 @@ function void1()
 	// this function do nothing but was used in the href attribute of a <a> tag, cause the hand be displayed when mouse over
 }
 function showLookup(tableId, grandParentName, parentName, openerFormName, codeFieldName, descFieldName, displayCode, appRoot) {
-    if(readOnly == true) return;
+    if(readOnly == true) return false;
     
     var grandParentCode = null;
     var parentCode = null;   
@@ -147,7 +147,7 @@ function selectMe(code, desc, form_name, code_element_name, desc_element_name) {
 
 //for lookup tag java code use
 function clearLookupValue(form_name, code_element_name, desc_element_name) {
-   if(readOnly == true) return;
+   if(readOnly == true) return false;
 
    var myexpr = "document." + form_name + ".elements['" + code_element_name +"'].value=''";
    eval(myexpr);
