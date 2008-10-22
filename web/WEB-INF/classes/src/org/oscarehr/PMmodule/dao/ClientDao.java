@@ -314,7 +314,10 @@ public class ClientDao extends HibernateDaoSupport {
 		if (client == null) {
 			throw new IllegalArgumentException();
 		}
-		 getHibernateTemplate().bulkUpdate("update Demographic r set r.benefitUnitStatus='" + client.getBenefitUnitStatus() + "' where r.DemographicNo=? ", client.getDemographicNo());
+		 getHibernateTemplate().bulkUpdate("update Demographic r set r.benefitUnitStatus='" + client.getBenefitUnitStatus() + "', " +
+				 "r.Pin='" + client.getPin() + "'," +
+				 "r.Hin='" + client.getHin() + "'" +
+				 " where r.DemographicNo=? ", client.getDemographicNo());
 	}
 	public void updateDemographicExt(DemographicExt de) {
 		if (de == null) {

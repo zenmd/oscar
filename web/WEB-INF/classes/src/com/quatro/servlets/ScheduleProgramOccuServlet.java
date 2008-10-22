@@ -55,13 +55,19 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            	Calendar dt = Calendar.getInstance();
 	            	if(runAsPrevousDay) dt.add(Calendar.DATE, -1);
 
+	            	
 	            	// delete old redirect entries if any	            	
 	                programOccupancyManager.deleteProgramOccupancy(dt);
 	                programOccupancyManager.insertProgramOccupancy(providerNo, dt);
+
+	            	// READ INPUT FROM SDMT
+	                inputSDMT(path);
+	                
+	                // WRITE OUTPUT FOR SDMT
 	                programOccupancyManager.insertSdmtOut();
 	                this.outputSDMT(path, programOccupancyManager.getSdmtOutList(dt, true));
 	                if(batchNo>0) programOccupancyManager.updateSdmtOut(batchNo);
-	                inputSDMT(path);
+
 	                programOccuTimerTask.cancel();
 	                scheduleNextRun();
 	            }

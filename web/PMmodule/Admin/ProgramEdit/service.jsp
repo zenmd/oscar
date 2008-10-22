@@ -36,13 +36,20 @@ Source:web/PMmodule/Admin/ProgramEdit/service_restrictions.jsp
 	function submitForm(){
      	trimInputBox();
 		var maxDays = document.programManagerForm.elements['program.maximumServiceRestrictionDays'];
-		if("" != maxDays.value && (isNaN(maxDays.value) || !isInt(maxDays.value))) {
-			alert("Maximum length of service restriction '" + maxDays.value + "' must be a whole number");
-			return false;
-		}
-		else
-		{
-			if("" != maxDays.value) maxDays.value = parseInt(maxDays.value);
+		if("" != maxDays.value) {
+			if(isNaN(maxDays.value) || !isInt(maxDays.value)) {
+				alert("Maximum length of service restriction '" + maxDays.value + "' must be a whole number");
+				return false;
+			}
+			else
+			{
+				var mds = parseInt(maxDays.value);
+				if(mds > 1825) {
+					alert("Maximum length of service restriction '" + maxDays.value + "' should be less than 1825 days (5 years)");
+					return false;
+				}
+				maxDays.value = mds;
+			}
 		}
 
         var defDays = document.programManagerForm.elements['program.defaultServiceRestrictionDays'];

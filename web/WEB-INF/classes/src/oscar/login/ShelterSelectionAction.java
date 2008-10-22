@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
 import oscar.log.LogAction;
+import oscar.log.LogConst;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
@@ -30,6 +33,8 @@ public final class ShelterSelectionAction extends DispatchAction {
 
     private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
     private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
+    private static final Logger _logger = Logger.getLogger(LoginAction.class);
+    private static final String LOG_PRE = "Login!@#$: ";
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
@@ -80,15 +85,17 @@ public final class ShelterSelectionAction extends DispatchAction {
 		String shelter =request.getParameter("shelterId");
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Integer shelterId = new Integer(shelter);
-		 request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID,shelterId );
-		 LookupCodeValue shelterObj=lookupManager.GetLookupCode("SHL",shelter);
-         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
+		request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTERID,shelterId );
+		LookupCodeValue shelterObj=lookupManager.GetLookupCode("SHL",shelter);
+        request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
         
-         // initiate security manager
-         UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
+        // initiate security manager
+        UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
          
-         SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,shelterId,lookupManager);
-         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
+        SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,shelterId,lookupManager);
+        request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
+        String ip = request.getRemoteAddr();
+        LogAction.addLog(providerNo,providerNo, LogConst.CON_LOGIN, LogConst.SHELTER_SELECTION, shelterId.toString(), ip);
     }
     public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
