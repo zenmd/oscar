@@ -60,11 +60,11 @@
 			return false;
 		}
 		
-		if(maxLength > 0 && length.value > maxLength){
+		if(maxLength == 0) maxLength = 1825;
+		if( length.value > maxLength ){
 			alert("'Length of restriction' must be less or equal to " + maxLength + " days.");
 			return false;
 		}
-		
 		
 		return true;
     }	
