@@ -174,7 +174,7 @@
 	<servlet>
         <servlet-name>scheduleProgramOccu</servlet-name>
         <servlet-class>com.quatro.servlets.ScheduleProgramOccuServlet</servlet-class>
-        <load-on-startup>3</load-on-startup>
+        <load-on-startup>4</load-on-startup>
     </servlet>
 <!-- 
 	<servlet>
@@ -357,11 +357,4 @@
        <taglib-uri>/WEB-INF/struts-menu-el.tld</taglib-uri>    
        <taglib-location>/WEB-INF/struts-menu-el.tld</taglib-location> 
      </taglib> 
- 	 <env-entry> 
-    	<env-entry-name>jdbc/QGSHELTER</env-entry-name> 
-    	<env-entry-value> 
-    		!oracle.jdbc.OracleDriver!jdbc:oracle:thin:@216.94.75.98:1521:smis
-    	</env-entry-value> 
-    	<env-entry-type>java.lang.String</env-entry-type> 
-	 </env-entry>
 </web-app>
