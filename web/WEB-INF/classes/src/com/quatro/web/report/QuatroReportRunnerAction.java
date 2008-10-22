@@ -776,11 +776,11 @@ public class QuatroReportRunnerAction extends Action {
 			}
 			else if(op.equals("I"))
 		    {
-			  operators.add(new KeyValueBean("Any of","IN"));
+			  operators.add(new KeyValueBean("IN","Any of"));
 			}
 			else if(op.equals("L"))
 		    {
-			  operators.add(new KeyValueBean("Like","LIKE"));
+			  operators.add(new KeyValueBean("LIKE","Like"));
 			}
 
 		}
