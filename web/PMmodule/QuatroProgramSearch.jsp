@@ -158,20 +158,24 @@
 		
 		<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="program" name="programs" pagesize="200" requestURI="/PMmodule/QuatroProgramSearch.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
-			<display:column sortable="true" title="Name">
+			<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
 				<a href="#javascript:void(0);" onclick="selectProgram('<c:out value="${clientId}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />','<c:out value="${gender}" />');" >
 						<c:out value="${program.name}" /></a>
 			</display:column>
 			<display:column property="type" sortable="true" title="Type"></display:column>
-			<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
+			<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers" style="{text-align:right}">
 				<c:out value="${program.numOfMembers}" />
 			</display:column>
-			<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize">
+			<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize" style="{text-align:right}">
 				<c:out value="${program.queueSize}" />
 			</display:column>
-			<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual">
+			<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual" style="{text-align:right}">
 				<c:out value="${program.capacity_actual}" />
 			</display:column>
-			<display:column property="descr" sortable="false" title="Description"></display:column>
+			<display:column sortable="false" title="Vacancy" style="{text-align:right}">
+				<c:if test="${program.type == 'Bed'}">
+					<c:out value="${program.capacity_actual - program.numOfMembers}" />
+				</c:if>
+			</display:column>
 		</display:table>	
 

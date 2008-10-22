@@ -110,27 +110,31 @@
 					<a	href="<html:rewrite action="/PMmodule/ProgramManagerView.do"/>?programId=<c:out value="${program.id}" />">
 					<c:out value="${program.name}" /> </a>
 				</display:column>
-				<display:column property="descr" sortable="true" title="Description" />
 				<display:column property="type" sortable="true" title="Type" />
 				<display:column sortable="true"	title="Status" sortName="program" sortProperty="programStatus">
 					<c:if test="${program.programStatus == '1'}"> Active</c:if>
 					<c:if test="${program.programStatus == '0'}"> Inactive</c:if>
 				</display:column>
 				<display:column property="facilityDesc" sortable="true" title="Facility" />				
-				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers">
+				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers"  style="{text-align:right}">
 					<c:out value="${program.numOfMembers}" />
 				</display:column>
-				<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize">
+				<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize"  style="{text-align:right}">
 					<c:if test="${program.type == 'Bed'}">
 						<c:out value="${program.queueSize}" />
 					</c:if>
 				</display:column>
 				
-				<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual">
+				<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual"  style="{text-align:right}">
 					<c:out value="${program.capacity_actual}" />
 				</display:column>
-				<display:column sortable="true" title="Capacity (funding)" sortName="program" sortProperty="capacity_funding">
+				<display:column sortable="true" title="Capacity (funding)" sortName="program" sortProperty="capacity_funding"  style="{text-align:right}">
 					<c:out value="${program.capacity_funding}" />
+				</display:column>
+				<display:column sortable="false" title="Vacancy"  style="{text-align:right}">
+					<c:if test="${program.type == 'Bed'}">
+						<c:out value="${program.capacity_actual - program.numOfMembers}" />
+					</c:if>
 				</display:column>
 			</display:table>  
 			
