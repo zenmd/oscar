@@ -285,7 +285,7 @@ public class QuatroReportViewerAction extends Action {
                     criteriaSQL += "{" + tableName + filter.getFieldSQL() + "}";
                 	
                 }
-                r_criteriaDis += filter.getFieldName();
+                r_criteriaDis += filter.getFieldDesc();
 
                 criteriaSQL += " " + op + " ";
                 r_criteriaDis += " " + op + " ";
@@ -514,6 +514,8 @@ public class QuatroReportViewerAction extends Action {
 	      try{
 	    	  String loginId = (String)request.getSession(true).getAttribute("user");
 	    	  String sessionId = request.getSession(true).getId();
+	    	  String userName = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME);
+	    	  _rptValue.setAuthor(userName);
 	    	  exportControl.setReportSource(reportDocument1.getReportSource());
 	          exportControl.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
 	  		  ExportOptions expOpts = new ExportOptions();

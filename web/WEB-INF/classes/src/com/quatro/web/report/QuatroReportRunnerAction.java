@@ -696,7 +696,7 @@ public class QuatroReportRunnerAction extends Action {
             ReportFilterValue filter = reportManager.GetFilterField(reportNo, fieldNo);
             String FieldType = filter.getFieldType();
             criteriaSQL += "{" + tableName + filter.getFieldSQL() + "}";
-            criteriaDis += filter.getFieldName();
+            criteriaDis += filter.getFieldDesc();
 
             criteriaSQL += " " + op + " ";
             criteriaDis += " " + op + " ";
