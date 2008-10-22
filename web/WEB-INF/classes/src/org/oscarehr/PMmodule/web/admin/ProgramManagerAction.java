@@ -204,6 +204,9 @@ public class ProgramManagerAction extends BaseProgramAction {
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
 	    	DynaActionForm programForm = (DynaActionForm) form;
+	    	Program prog = new Program();
+	    	Integer maxDays = new Integer(oscar.OscarProperties.getInstance().getProperty("maximum_service_restriction_days_default","90"));
+	    	prog.setMaximumServiceRestrictionDays(maxDays);
 	        programForm.set("program", new Program());
 	        
 	        request.setAttribute("pageTitle","Program Management - New Program");
@@ -570,19 +573,22 @@ public class ProgramManagerAction extends BaseProgramAction {
 	
 	        Integer maxRestrictionDays = program.getMaximumServiceRestrictionDays();
 	        Integer defaultRestrictionDays = program.getDefaultServiceRestrictionDays();
-	        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0 && defaultRestrictionDays.intValue() > maxRestrictionDays.intValue()) {
+
+	        if(maxRestrictionDays == null) maxRestrictionDays = new Integer(0);
+	        if(defaultRestrictionDays == null) defaultRestrictionDays = new Integer(0);
+
+	        if (maxRestrictionDays.intValue() != 0 && defaultRestrictionDays.intValue() > maxRestrictionDays.intValue()) {
 	            ActionMessages messages = new ActionMessages();
-	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", defaultRestrictionDays, maxRestrictionDays));
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", request.getContextPath(),defaultRestrictionDays, maxRestrictionDays));
 	            saveMessages(request, messages);
 	            setEditAttributes(request, form);
 	
 	            return edit(mapping, form, request, response);
 	        }
-	
 	        // copy over modified attributes
 	        realProgram.setDefaultServiceRestrictionDays(defaultRestrictionDays);
 	       // if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0)
-	            realProgram.setMaximumServiceRestrictionDays(maxRestrictionDays);
+	        realProgram.setMaximumServiceRestrictionDays(maxRestrictionDays);
 	        
 	        // save program & sign the modification of the program
 	        programManager.saveProgram(realProgram);
