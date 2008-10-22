@@ -333,16 +333,19 @@ public class BedManagerAction extends BaseFacilityAction {
 	        boolean isValid = isRoomOverProgramCapacity(room,null, request);
 	        
 	       	if(isValid){
+	        	Integer rid = room.getId();
 	            try{
 	            	roomManager.saveRoom(room);
 	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
 	                saveMessages(request, messages);
 	            }catch(IllegalStateException ex){
+	            	room.setId(rid);
 	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),ex.getMessage()));
 	                saveMessages(request, messages);
 	            }
 	            catch(DataIntegrityViolationException ex)
 	            {
+	            	room.setId(rid);
 	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),"Duplicate Room Name Detected"));
 	                saveMessages(request, messages);
 	            }
