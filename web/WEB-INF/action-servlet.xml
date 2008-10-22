@@ -17,7 +17,6 @@
 	<bean name="/siteCheckLogin" class="oscar.login.SiteCheckAction" singleton="false">
 		<property name="secSiteManager" ref="secSiteManager" />
 	</bean>
-	<bean name="/Admin" class="com.quatro.web.admin.AdminAction" singleton="true" />
 <!-- 
     <bean name="/Tickler" class="org.caisi.tickler.web.TicklerAction" singleton="false">
         <property name="ticklerManager" ref="ticklerManagerT"/>
@@ -48,10 +47,10 @@
     <bean name="/CaisiRole" class="org.caisi.core.web.RoleAction" singleton="false"  autowire="byName" />
  -->
     <bean name="/PMmodule/ClientSearch2" class="org.oscarehr.PMmodule.web.ClientSearchAction2" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/MergeClient" class="org.oscarehr.PMmodule.web.MergeClientAction" singleton="false"  autowire="byName">
+    <bean name="/PMmodule/MergeClient" class="org.oscarehr.PMmodule.web.admin.MergeClientAction" singleton="false"  autowire="byName">
     </bean>
     
-    <bean name="/PMmodule/UnmergeClient" class="org.oscarehr.PMmodule.web.UnMergeClientAction" singleton="false"  autowire="byName">
+    <bean name="/PMmodule/UnmergeClient" class="org.oscarehr.PMmodule.web.admin.UnMergeClientAction" singleton="false"  autowire="byName">
     </bean>
 <!-- 
     <bean name="/PMmodule/ClientManager" class="org.oscarehr.PMmodule.web.ClientManagerAction" singleton="false" autowire="byName">

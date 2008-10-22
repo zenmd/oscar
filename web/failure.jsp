@@ -53,7 +53,14 @@
 		</td>
 	</tr>
 	<tr><td align="center">
-		<c:out escapeXml="false" value="${message}" />
+		<c:choose>
+			<c:when test="${message == null}">
+				NoAccessException - No enough privilege to access the requested page
+			</c:when>
+			<c:otherwise>
+				<c:out escapeXml="false" value="${message}" />
+			</c:otherwise>
+		</c:choose>
 		<br><br>
 	</tr>
 	<tr><td>&nbsp;</td>

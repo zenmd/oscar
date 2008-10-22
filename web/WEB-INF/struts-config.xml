@@ -365,14 +365,12 @@
         <!-- Admin End -->
 
     </form-beans>
- 
     <global-exceptions> 
       <exception key="error1.required" type="java.lang.Exception"
               path="/failure.jsp" 
               handler="com.quatro.common.ExceptionCatcher"
               scope="request" />
     </global-exceptions>
-       
     <global-forwards>
         <forward name="Logout" path="/logout.jsp" redirect="true" />
         <forward name="SessionTimeOut" path="/sessiontimeout.jsp" redirect="true" />
@@ -392,9 +390,6 @@
         <!-- caisi core action -->
 		<action path="/Home" type="org.oscarehr.PMmodule.web.HomeAction" scope="request"  validate="false">
             <forward name="home" path="page.home" />
-		</action>
-		<action path="/Admin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/admin/admin.jsp" validate="false">
-            <forward name="list" path="page.admin.list" />
 		</action>
         <action path="/SystemMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/caisicore/SystemMessageForm.jsp" validate="false">
             <forward name="view" path="/caisicore/SystemMessage.jsp" />
