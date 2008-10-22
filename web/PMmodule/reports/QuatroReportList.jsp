@@ -18,7 +18,7 @@
 
 <html:form action="/QuatroReport/ReportList.do">
 	<input type="hidden" name="method" />
-	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
 
 		<!-- Title -->
 		<tr>
@@ -37,17 +37,9 @@
 			</td>
 		</tr>
 		<tr><td>&nbsp;</td></tr>
-	</table>
-	<div class="tabs" id="tabs">
-	<table cellpadding="3" cellspacing="0" border="0">
-		<tr>
-			<th title="Reports">Reports</th>
-		</tr>
-	</table>
-	</div>
-
-
-
+	<tr height="100%">
+		<td>
+   			<div style="color: Black; background-color: White; border-style: ridge; border-width: 1px; width: 100%; height: 100%; overflow: auto">
 	<table width="100%">
 		<tr>
 			<td>
@@ -86,6 +78,9 @@
 			</td>
 		</tr>
 	</table>
+	</div>
+</td></tr>
+</table>
 </html:form>
 </body>
 </html>
