@@ -298,6 +298,9 @@ function submitForm(mthd)
           <logic:equal name="tplCriteria" property="filter.fieldType" value="N">
              <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
           </logic:equal>  
+          <logic:equal name="tplCriteria" property="filter.fieldType" value="I">
+             <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
+          </logic:equal>  
         </logic:notEmpty>
 	</TD>  
    	</TR>

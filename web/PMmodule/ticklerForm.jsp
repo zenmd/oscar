@@ -17,6 +17,7 @@ function submitForm(methodVal) {
 	   var serviceHour = parseInt(document.ticklerForm.elements['tickler.service_hour'].value);
 	   var serviceMinute = parseInt(document.ticklerForm.elements['tickler.service_minute'].value);
 	   var serviceAmpm = document.ticklerForm.elements['tickler.service_ampm'].value;
+	   
 	   if ("PM" == serviceAmpm) serviceHour = parseInt(serviceHour) + 12;
 	   if(serviceDate.value == '') {
 		  alert('Please provide a service date.');
