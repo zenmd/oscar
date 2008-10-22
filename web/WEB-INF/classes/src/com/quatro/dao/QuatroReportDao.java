@@ -28,7 +28,15 @@ public class QuatroReportDao extends HibernateDaoSupport {
 	      paramList.add(new Integer(rptNo));
 	      paramList.add(providerNo);
 	      Object params[] = paramList.toArray(new Object[paramList.size()]);
-	      return (ReportValue)getHibernateTemplate().find(sSQL ,params).get(0);
+	      List lst = getHibernateTemplate().find(sSQL ,params);
+	      if(lst.size() > 0)
+	      {
+	    	  return (ReportValue)getHibernateTemplate().find(sSQL ,params).get(0);
+	      }
+	      else
+	      {
+	    	  return null;
+	      }
 	  }
 
 	  public List GetReportOptionList(int rptNo)

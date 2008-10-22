@@ -43,6 +43,7 @@ import com.quatro.util.Utility;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.TopazManager;
@@ -67,7 +68,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    }
 
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+	   try {
+	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
@@ -85,11 +87,17 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("admissions", lstAdmission);
 
        return mapping.findForward("list");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
    }
    
    //from queue page 
    public ActionForward queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
- 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+	   try {
+	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
        Integer programId=null;
        Integer intakeId = null;
@@ -180,10 +188,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
    }
    
    //from quatroClientAdmission.jsp room change event 
    public ActionForward roomchange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   try {
  	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
@@ -339,10 +353,16 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
    }
    	
    public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
+	   try {
+	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
       // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
@@ -584,6 +604,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
      
    }
 
@@ -640,7 +665,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   return !valid;
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {     
-       request.setAttribute("isFamilyMember", request.getParameter("isFamilyMember"));
+	   try {
+	   request.setAttribute("isFamilyMember", request.getParameter("isFamilyMember"));
 
 	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -881,6 +907,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
  	   
        return update(mapping, form, request, response);
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
    }
 
    public void setClientManager(ClientManager clientManager) {

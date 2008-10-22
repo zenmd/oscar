@@ -36,6 +36,7 @@ import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.model.signaturePad.TopazValue;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
@@ -62,39 +63,45 @@ public class QuatroConsentAction extends BaseClientAction {
 	
 	public ActionForward list(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
 //		setListAttributes(form,request);
-		DynaActionForm clientForm = (DynaActionForm) form;
-
-	    HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	    if(actionParam==null){
-	      actionParam = new HashMap();
-	      actionParam.put("clientId", request.getParameter("clientId")); 
-	    }
-	    request.setAttribute("actionParam", actionParam);
-	    String demographicNo= (String)actionParam.get("clientId");
-	       
-	    request.setAttribute("clientId", demographicNo);
-	    request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
-	    String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-	         
-	    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
-	    request.setAttribute("lstConsents", lstConsents);
-
-	    //for new consent, as long as there is a intake for this client before.
-	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-	    if(lstIntakeHeader.size()>0) {
-	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-	    }else{
-           request.setAttribute("currentIntakeProgramId", new Integer(0));
-	    }
-
-	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
-		return mapping.findForward("list");
+		try {
+			DynaActionForm clientForm = (DynaActionForm) form;
+	
+		    HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		    if(actionParam==null){
+		      actionParam = new HashMap();
+		      actionParam.put("clientId", request.getParameter("clientId")); 
+		    }
+		    request.setAttribute("actionParam", actionParam);
+		    String demographicNo= (String)actionParam.get("clientId");
+		       
+		    request.setAttribute("clientId", demographicNo);
+		    request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+	
+		    String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+		         
+		    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
+		    request.setAttribute("lstConsents", lstConsents);
+	
+		    //for new consent, as long as there is a intake for this client before.
+		    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+		    if(lstIntakeHeader.size()>0) {
+		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+		    }else{
+	           request.setAttribute("currentIntakeProgramId", new Integer(0));
+		    }
+	
+		    super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
+			return mapping.findForward("list");
+	       }
+	       catch(NoAccessException e)
+	       {
+		       return mapping.findForward("failure");
+	       }
 	}
 	public ActionForward edit(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
-
+		try {
 		   DynaActionForm dForm = (DynaActionForm) form;
 	       ConsentDetail consentObj = (ConsentDetail)dForm.get("consentValue");
 	       String  rId=(String)request.getAttribute("rId");
@@ -132,9 +139,14 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("shelter", shelter);
 	       request.setAttribute("recordId",rId);
 		
-		setEditAttributes(form,request);
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
-		return mapping.findForward("edit");
+	       setEditAttributes(form,request);
+	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
+	       return mapping.findForward("edit");
+       }
+       catch(NoAccessException e)
+       {
+	       return mapping.findForward("failure");
+       }
 	}
 	 private void setListAttributes(ActionForm form, HttpServletRequest request) {
 		   DynaActionForm clientForm = (DynaActionForm) form;
@@ -180,7 +192,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		       return edit(mapping, form, request, response);
 		   
 	   }
-	 private void setEditAttributes(ActionForm form, HttpServletRequest request) {
+	 private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
 		   DynaActionForm dForm = (DynaActionForm) form;
 		   ConsentDetail cdObj =(ConsentDetail)dForm.get("consentValue");
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -242,102 +254,114 @@ public class QuatroConsentAction extends BaseClientAction {
 	      // request.setAttribute("signed","N");
 	   }
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		DynaActionForm consentForm = (DynaActionForm)form;
-		
-		String id = request.getParameter("id");
-		String formName = request.getParameter("formName");
-		String formMapping = getRandomForm();
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
-		String gotoStr = request.getParameter("goto");
-		
-		if(id == null) {
-			return mapping.findForward("error");
-		}
-				
-		Demographic demographic = clientManager.getClientByDemographicNo(id);
-		
-		if(demographic == null) {
-			return mapping.findForward("error");
-		}
-		
-		ConsentDetail consent = consentManager.getConsentDetail(Integer.valueOf(id));
-		if(consent != null) {
-			ConsentDetail newConsent = new ConsentDetail();
-			try {
-				BeanUtils.copyProperties(newConsent,consent);
-				newConsent.setId(null);
-			}catch(Exception e) {log.warn(e);}
-			consentForm.set("consentValue", consent);
-			formMapping = consent.getFormName();
-		}
-		request.setAttribute("id",id);
-		request.setAttribute("clientName", demographic.getFirstName() + " " + demographic.getLastName());
-		
-		if(gotoStr != null && !gotoStr.equals("")) {
-			return new ActionForward(gotoStr);
-		}
-		
-		if(formName != null) {
-			return mapping.findForward("form" + formName.toUpperCase());
-		}
-		
-//        return mapping.findForward(formMapping);
-		return mapping.findForward("formA");
+		try {
+			DynaActionForm consentForm = (DynaActionForm)form;
+			
+			String id = request.getParameter("id");
+			String formName = request.getParameter("formName");
+			String formMapping = getRandomForm();
+			super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
+			String gotoStr = request.getParameter("goto");
+			
+			if(id == null) {
+				return mapping.findForward("error");
+			}
+					
+			Demographic demographic = clientManager.getClientByDemographicNo(id);
+			
+			if(demographic == null) {
+				return mapping.findForward("error");
+			}
+			
+			ConsentDetail consent = consentManager.getConsentDetail(Integer.valueOf(id));
+			if(consent != null) {
+				ConsentDetail newConsent = new ConsentDetail();
+				try {
+					BeanUtils.copyProperties(newConsent,consent);
+					newConsent.setId(null);
+				}catch(Exception e) {log.warn(e);}
+				consentForm.set("consentValue", consent);
+				formMapping = consent.getFormName();
+			}
+			request.setAttribute("id",id);
+			request.setAttribute("clientName", demographic.getFirstName() + " " + demographic.getLastName());
+			
+			if(gotoStr != null && !gotoStr.equals("")) {
+				return new ActionForward(gotoStr);
+			}
+			
+			if(formName != null) {
+				return mapping.findForward("form" + formName.toUpperCase());
+			}
+			
+	//        return mapping.findForward(formMapping);
+			return mapping.findForward("formA");
+	       }
+	       catch(NoAccessException e)
+	       {
+		       return mapping.findForward("failure");
+	       }
 	}
 	
 	public ActionForward save(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
-		log.debug("Saving Consent");
-		ActionMessages messages = new ActionMessages();
-		 boolean isError = false;
-	     boolean isWarning = false;
-		DynaActionForm consentForm = (DynaActionForm)form;
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
-		ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
-		String rId=request.getParameter("recordId");
-		if(Utility.IsEmpty(rId) && consent.getId()!=null) rId=consent.getId().toString();
-		consent.setId(Integer.valueOf(rId));
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", consent.getDemographicNo().toString()); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	       request.setAttribute("clientId", consent.getDemographicNo().toString());
-	       
-		Provider p =  (Provider)request.getSession().getAttribute("provider");
-		consent.setProviderNo(p.getProviderNo());
-		//consent.setProviderName(p.getFormattedName());		
-		
-		consent.setDateSigned(new GregorianCalendar());
-		consent.setStartDate(new GregorianCalendar());
-		String eDt = consent.getEndDateStr();
-		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
-		consent.setHardCopy(true);
-		consent.setStatus(KeyConstants.STATUS_ACTIVE);
-		consent.setLastUpdateDate(new GregorianCalendar());
-		consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
-		if(Utility.IsEmpty(consent.getEndDateStr()) ||null== consent.getEndDate()){
-			isError =true;
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.consent.date.failed", request.getContextPath()));
-	        saveMessages(request,messages);
-		}
-		else if(consent.getEndDate().before(consent.getStartDate())){
-			isError =true;
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.date.compare.failed", request.getContextPath()));
-	        saveMessages(request,messages);
-		}
-		if(!isError){
-			consentManager.saveConsentDetail(consent);
-			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-	        saveMessages(request,messages);
-	        request.setAttribute("rId", String.valueOf(consent.getId()));
-	        return edit(mapping, form,request, response);
-		}
-		else
-		{
-			setEditAttributes(form,request);
-			return mapping.findForward("edit");
-		}
+		try {
+			log.debug("Saving Consent");
+			ActionMessages messages = new ActionMessages();
+			 boolean isError = false;
+		     boolean isWarning = false;
+			DynaActionForm consentForm = (DynaActionForm)form;
+			super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
+			ConsentDetail consent= (ConsentDetail)consentForm.get("consentValue");
+			String rId=request.getParameter("recordId");
+			if(Utility.IsEmpty(rId) && consent.getId()!=null) rId=consent.getId().toString();
+			consent.setId(Integer.valueOf(rId));
+			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		       if(actionParam==null){
+		    	  actionParam = new HashMap();
+		          actionParam.put("clientId", consent.getDemographicNo().toString()); 
+		       }
+		       request.setAttribute("actionParam", actionParam);
+		       request.setAttribute("clientId", consent.getDemographicNo().toString());
+		       
+			Provider p =  (Provider)request.getSession().getAttribute("provider");
+			consent.setProviderNo(p.getProviderNo());
+			//consent.setProviderName(p.getFormattedName());		
+			
+			consent.setDateSigned(new GregorianCalendar());
+			consent.setStartDate(new GregorianCalendar());
+			String eDt = consent.getEndDateStr();
+			consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
+			consent.setHardCopy(true);
+			consent.setStatus(KeyConstants.STATUS_ACTIVE);
+			consent.setLastUpdateDate(new GregorianCalendar());
+			consent.setEndDate(MyDateFormat.getCalendar(consent.getEndDateStr()));
+			if(Utility.IsEmpty(consent.getEndDateStr()) ||null== consent.getEndDate()){
+				isError =true;
+				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.consent.date.failed", request.getContextPath()));
+		        saveMessages(request,messages);
+			}
+			else if(consent.getEndDate().before(consent.getStartDate())){
+				isError =true;
+				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.date.compare.failed", request.getContextPath()));
+		        saveMessages(request,messages);
+			}
+			if(!isError){
+				consentManager.saveConsentDetail(consent);
+				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+		        saveMessages(request,messages);
+		        request.setAttribute("rId", String.valueOf(consent.getId()));
+		        return edit(mapping, form,request, response);
+			}
+			else
+			{
+				setEditAttributes(form,request);
+				return mapping.findForward("edit");
+			}
+       }
+       catch(NoAccessException e)
+       {
+	       return mapping.findForward("failure");
+       }
 	}
 	
 	private String getRandomForm() {

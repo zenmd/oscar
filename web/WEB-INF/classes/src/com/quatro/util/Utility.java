@@ -187,7 +187,7 @@ public class Utility {
         if (pDate.equals(Utility.SetDate(1,1,1))) return "";
         else{
 //            return pDate.ToString("dd/MM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo);
-   		   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+   		   SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
    		   return formatter.format(pDate);
         }
         }catch(Exception ex){
@@ -313,8 +313,7 @@ public class Utility {
    		   return formatter.format(pDate);
         }
         else{
-   		   SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-   		   return formatter.format(pDate);
+        	return FormatDate(pDate);
         }
         }catch(Exception ex){
         	return null;

@@ -77,6 +77,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Secuserrole;
 import com.quatro.service.IntakeManager;
@@ -134,117 +135,123 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
     //@SuppressWarnings("unchecked")
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
-        String viewTab=request.getParameter("tab");
-        String id = request.getParameter("programId");
-        if(id == null || id.equals(""))
-        	id = (String)request.getAttribute("programId");
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("programId", id); 
-        }
-        request.setAttribute("actionParam", actionParam);
-        request.setAttribute("programId", id);
-        if (Utility.IsEmpty(viewTab)) {
-        	viewTab =KeyConstants.TAB_PROGRAM_GENERAL;            
-        }
-        formBean.setTab(viewTab);
-      
-        // find the program id       
-        Integer programId = Integer.valueOf(id);
-        Program program = programManager.getProgram(programId);
-        request.setAttribute("program", program);
-        Facility facility=facilityDAO.getFacility(program.getFacilityId());
-        if(facility!=null) request.setAttribute("facilityName", facility.getName());
-
-        String demographicNo = request.getParameter("clientId");
-        if (demographicNo != null) {
-            request.setAttribute("clientId", demographicNo);
-        }
-
-//        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
-
-        // check role permission
-        HttpSession se=request.getSession(true);        
-        String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        se.setAttribute("performAdmissions",hasAccess(request, programId, KeyConstants.FUN_CLIENTADMISSION,SecurityManager.ACCESS_UPDATE));
-        // need the queue to determine which tab to go to first
-        if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
-	        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
-	        request.setAttribute("queue", queue);
-	        super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_QUEUE, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-	        HashSet genderConflict = new HashSet();
-	        HashSet ageConflict = new HashSet();
-	//        for (ProgramQueue programQueue : queue) {
-	        for (int i=0;i<queue.size();i++) {
-	        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
-	            Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
-	            
-	            if (program.getManOrWoman()!=null && demographic.getSex()!=null)
-	            {
-	                if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))
-	                {
-	                    genderConflict.add(programQueue.getClientId());
-	                }
-	                if ("Woman".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex()))
-	                {
-	                    genderConflict.add(programQueue.getClientId());
-	                }
-	                if ("Transgendered".equals(program.getManOrWoman()) && !"T".equals(demographic.getSex()))
-	                {
-	                    genderConflict.add(programQueue.getClientId());
-	                }
-	            }
-	            
-	            if (demographic != null && demographic.getAge()!=null)
-	            {
-	                int age=Integer.parseInt(demographic.getAge());
-	                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
-	            }
+    	try {
+	    	ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
+	        String viewTab=request.getParameter("tab");
+	        String id = request.getParameter("programId");
+	        if(id == null || id.equals(""))
+	        	id = (String)request.getAttribute("programId");
+	        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	        if(actionParam==null){
+	     	  actionParam = new HashMap();
+	           actionParam.put("programId", id); 
+	        }
+	        request.setAttribute("actionParam", actionParam);
+	        request.setAttribute("programId", id);
+	        if (Utility.IsEmpty(viewTab)) {
+	        	viewTab =KeyConstants.TAB_PROGRAM_GENERAL;            
+	        }
+	        formBean.setTab(viewTab);
+	      
+	        // find the program id       
+	        Integer programId = Integer.valueOf(id);
+	        Program program = programManager.getProgram(programId);
+	        request.setAttribute("program", program);
+	        Facility facility=facilityDAO.getFacility(program.getFacilityId());
+	        if(facility!=null) request.setAttribute("facilityName", facility.getName());
+	
+	        String demographicNo = request.getParameter("clientId");
+	        if (demographicNo != null) {
+	            request.setAttribute("clientId", demographicNo);
 	        }
 	
-	        request.setAttribute("genderConflict", genderConflict);
-	        request.setAttribute("ageConflict", ageConflict);
-        }
-        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)) {
-            request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
-            super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_SERVICERESTRICTIONS, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-        }
-        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
-        	processStaff( request, programId, formBean);
-        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_STAFF, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-        }        
-        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
-        	processClients( request, program, formBean);
-        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_CLIENTS, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-        }
-        
-        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
-        	processIncident( request, programId.toString(), formBean);  
-        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
-        }
-        else
-        {
-        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
-	        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM, programId);
-	        if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
-        }
-
-        logManager.log("view", "program", programId.toString(), request);
-
-        request.setAttribute("programId", programId);
-        request.setAttribute("programManagerViewFormBean", formBean);
-
-        return mapping.findForward("view");
+	//        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
+	
+	        // check role permission
+	        HttpSession se=request.getSession(true);        
+	        String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	        se.setAttribute("performAdmissions",hasAccess(request, programId, KeyConstants.FUN_CLIENTADMISSION,SecurityManager.ACCESS_UPDATE));
+	        // need the queue to determine which tab to go to first
+	        if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
+		        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
+		        request.setAttribute("queue", queue);
+		        super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
+		        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_QUEUE, programId);
+		        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+		        HashSet genderConflict = new HashSet();
+		        HashSet ageConflict = new HashSet();
+		//        for (ProgramQueue programQueue : queue) {
+		        for (int i=0;i<queue.size();i++) {
+		        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
+		            Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
+		            
+		            if (program.getManOrWoman()!=null && demographic.getSex()!=null)
+		            {
+		                if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))
+		                {
+		                    genderConflict.add(programQueue.getClientId());
+		                }
+		                if ("Woman".equals(program.getManOrWoman()) && !"F".equals(demographic.getSex()))
+		                {
+		                    genderConflict.add(programQueue.getClientId());
+		                }
+		                if ("Transgendered".equals(program.getManOrWoman()) && !"T".equals(demographic.getSex()))
+		                {
+		                    genderConflict.add(programQueue.getClientId());
+		                }
+		            }
+		            
+		            if (demographic != null && demographic.getAge()!=null)
+		            {
+		                int age=Integer.parseInt(demographic.getAge());
+		                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
+		            }
+		        }
+		
+		        request.setAttribute("genderConflict", genderConflict);
+		        request.setAttribute("ageConflict", ageConflict);
+	        }
+	        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)) {
+	            request.setAttribute("service_restrictions", clientRestrictionManager.getActiveRestrictionsForProgram(programId, new Date()));
+	            super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE, programId);
+		        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_SERVICERESTRICTIONS, programId);
+		        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        }
+	        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_STAFF)) {
+	        	processStaff( request, programId, formBean);
+	        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_STAFF, programId);
+		        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_STAFF, programId);
+		        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        }        
+	        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_CLIENTS)) {
+	        	processClients( request, program, formBean);
+	        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_CLIENTS, programId);
+		        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_CLIENTS, programId);
+		        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+	        }
+	        
+	        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
+	        	processIncident( request, programId.toString(), formBean);  
+	        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
+	        }
+	        else
+	        {
+	        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL, programId);
+		        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM, programId);
+		        if(isReadOnly)request.setAttribute("isReadOnly",Boolean.valueOf(isReadOnly));
+	        }
+	
+	        logManager.log("view", "program", programId.toString(), request);
+	
+	        request.setAttribute("programId", programId);
+	        request.setAttribute("programManagerViewFormBean", formBean);
+	
+	        return mapping.findForward("view");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     
@@ -315,7 +322,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	
     }
     
-    private void processIncident(HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean){
+    private void processIncident(HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean) throws NoAccessException{
     	String incidentId = request.getParameter("incidentId");
     	String mthd = request.getParameter("mthd");
     	Integer pid = Integer.valueOf(programId);

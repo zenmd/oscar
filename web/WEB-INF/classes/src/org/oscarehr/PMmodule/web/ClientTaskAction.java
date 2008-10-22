@@ -30,6 +30,7 @@ import org.oscarehr.PMmodule.web.formbean.TicklerForm;
 import oscar.Misc;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.IntakeManager;
 
 public class ClientTaskAction extends BaseClientAction{
@@ -95,6 +96,11 @@ public class ClientTaskAction extends BaseClientAction{
         String tickler_no =  request.getParameter("ticklerNo");
         request.setAttribute("ticklerNo", tickler_no);
         Tickler tickler = ticklerManager.getTickler(tickler_no);
+
+        /* check if the task is assigned to current user */
+        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        if(tickler == null || !tickler.getTask_assigned_to().equals(providerNo)) return mapping.findForward("failure");
+        
         java.util.Date service_date = tickler.getService_date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(service_date);
@@ -126,104 +132,129 @@ public class ClientTaskAction extends BaseClientAction{
     }
     
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	TicklerForm ticklerForm = (TicklerForm) form;
-
-    	HashMap actionParam = new HashMap();
-        actionParam.put("clientId", request.getParameter("clientId")); 
-        request.setAttribute("actionParam", actionParam);
-
-        request.setAttribute("clientId", request.getParameter("clientId"));
-        request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
- 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
-
-        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
-        String providerNo = (String)request.getSession().getAttribute("user");
-        
-        List programs=programManager.getBedPrograms(providerNo, shelterId);
-        ticklerForm.setProgramLst(programs);
-        
-        List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
-
-        request.setAttribute("ticklers", ticklers);
-
-        String demographicNo = request.getParameter("clientId");
-	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-	    if(lstIntakeHeader.size()>0) {
-	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-	    }else{
-           request.setAttribute("currentIntakeProgramId", new Integer(0));
-	    }
-        
-        return mapping.findForward("list");
+    	try {
+	    	TicklerForm ticklerForm = (TicklerForm) form;
+	
+	    	HashMap actionParam = new HashMap();
+	        actionParam.put("clientId", request.getParameter("clientId")); 
+	        request.setAttribute("actionParam", actionParam);
+	
+	        request.setAttribute("clientId", request.getParameter("clientId"));
+	        request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
+	 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
+	
+	        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
+	        String providerNo = (String)request.getSession().getAttribute("user");
+	        
+	        List programs=programManager.getBedPrograms(providerNo, shelterId);
+	        ticklerForm.setProgramLst(programs);
+	        
+	        List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
+	
+	        request.setAttribute("ticklers", ticklers);
+	
+	        String demographicNo = request.getParameter("clientId");
+		    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+		    Integer programId = null;
+		    if(lstIntakeHeader.size()>0) {
+		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+		       programId = obj0.getProgramId();
+		    }else{
+	           programId =  new Integer(0);
+		    }
+		    request.setAttribute("currentIntakeProgramId",programId);
+//		    super.isReadOnly(request, "", KeyConstants.FUN_CLIENTTASKS, programId);
+	        return mapping.findForward("list");
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
     }
     
-    public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	TicklerForm ticklerForm = (TicklerForm) form;
-    	
-    	String clientId = request.getParameter("clientId");
-    	HashMap actionParam = new HashMap();
-        actionParam.put("clientId", clientId); 
-        request.setAttribute("actionParam", actionParam);
-
-        request.setAttribute("clientId", clientId);
-        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
- 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
- 	    
-        ArrayList ampmLst = new ArrayList();
-        LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
-        ampmLst.add(lvb1);
-        LabelValueBean lvb2 = new LabelValueBean("PM", "PM");
-        ampmLst.add(lvb2);
-        ticklerForm.setAmpmLst(ampmLst);
-
-        ArrayList serviceHourLst = new ArrayList();
-        for(int i=1;i<=12;i++){
-          LabelValueBean lvb3 = new LabelValueBean(Misc.forwardZero(String.valueOf(i),2), Misc.forwardZero(String.valueOf(i),2));
-          serviceHourLst.add(lvb3);
-        }
-        ticklerForm.setServiceHourLst(serviceHourLst);
-
-        ArrayList serviceMinuteLst = new ArrayList();
-        for(int i=0;i<60;i++){
-          LabelValueBean lvb4 = new LabelValueBean(Misc.forwardZero(String.valueOf(i),2), Misc.forwardZero(String.valueOf(i),2));
-          serviceMinuteLst.add(lvb4);
-        }
-        ticklerForm.setServiceMinuteLst(serviceMinuteLst);
-        
-        ArrayList priorityLst = new ArrayList();
-        LabelValueBean lvb5 = new LabelValueBean("High", "High");
-        priorityLst.add(lvb5);
-        LabelValueBean lvb6 = new LabelValueBean("Normal", "Normal");
-        priorityLst.add(lvb6);
-        LabelValueBean lvb7 = new LabelValueBean("Low", "Low");
-        priorityLst.add(lvb7);
-        ticklerForm.setPriorityLst(priorityLst);
-
-		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
-        ticklerForm.setProgramLst(programLst);
-        
-        String tickler_no =  request.getParameter("ticklerNo");
-        Tickler tickler = ticklerManager.getTickler(tickler_no);
-        Calendar service_date = Calendar.getInstance();
-        service_date.setTime(tickler.getService_date());
-        tickler.setService_hour(Misc.forwardZero(String.valueOf(service_date.get(Calendar.HOUR)),2));
-        tickler.setService_minute(Misc.forwardZero(String.valueOf(service_date.get(Calendar.MINUTE)),2));
-        if(service_date.get(Calendar.AM_PM)==0){
-          tickler.setService_ampm("AM");
-        }else{
-          tickler.setService_ampm("PM");
-        }
-        ticklerForm.setTickler(tickler);
-        request.setAttribute("viewTickler", "Y");
-        request.setAttribute("isReadOnly", Boolean.valueOf(true));
-
-        List providerLst = providerManager.getActiveProviders(tickler.getProgram_id());
-        ticklerForm.setProviderLst(providerLst);
-        
-        return mapping.findForward("add");
+    public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    	try {
+	    	TicklerForm ticklerForm = (TicklerForm) form;
+	    	
+	    	String clientId = request.getParameter("clientId");
+	    	HashMap actionParam = new HashMap();
+	        actionParam.put("clientId", clientId); 
+	        request.setAttribute("actionParam", actionParam);
+	
+	        request.setAttribute("clientId", clientId);
+	        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+	 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
+	 	    
+	        ArrayList ampmLst = new ArrayList();
+	        LabelValueBean lvb1 = new LabelValueBean("AM", "AM");
+	        ampmLst.add(lvb1);
+	        LabelValueBean lvb2 = new LabelValueBean("PM", "PM");
+	        ampmLst.add(lvb2);
+	        ticklerForm.setAmpmLst(ampmLst);
+	
+	        ArrayList serviceHourLst = new ArrayList();
+	        for(int i=1;i<=12;i++){
+	          LabelValueBean lvb3 = new LabelValueBean(Misc.forwardZero(String.valueOf(i),2), Misc.forwardZero(String.valueOf(i),2));
+	          serviceHourLst.add(lvb3);
+	        }
+	        ticklerForm.setServiceHourLst(serviceHourLst);
+	
+	        ArrayList serviceMinuteLst = new ArrayList();
+	        for(int i=0;i<60;i++){
+	          LabelValueBean lvb4 = new LabelValueBean(Misc.forwardZero(String.valueOf(i),2), Misc.forwardZero(String.valueOf(i),2));
+	          serviceMinuteLst.add(lvb4);
+	        }
+	        ticklerForm.setServiceMinuteLst(serviceMinuteLst);
+	        
+	        ArrayList priorityLst = new ArrayList();
+	        LabelValueBean lvb5 = new LabelValueBean("High", "High");
+	        priorityLst.add(lvb5);
+	        LabelValueBean lvb6 = new LabelValueBean("Normal", "Normal");
+	        priorityLst.add(lvb6);
+	        LabelValueBean lvb7 = new LabelValueBean("Low", "Low");
+	        priorityLst.add(lvb7);
+	        ticklerForm.setPriorityLst(priorityLst);
+	
+			Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+	        ticklerForm.setProgramLst(programLst);
+	        
+	        String tickler_no =  request.getParameter("ticklerNo");
+	        Tickler tickler = ticklerManager.getTickler(tickler_no);
+	        
+	        /* check security */
+	        if(tickler==null)
+	        {
+	        	return mapping.findForward("failure");
+	        }
+	        else
+	        {
+	        	super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, tickler.getProgram_id());
+	        }
+	        
+	        Calendar service_date = Calendar.getInstance();
+	        service_date.setTime(tickler.getService_date());
+	        tickler.setService_hour(Misc.forwardZero(String.valueOf(service_date.get(Calendar.HOUR)),2));
+	        tickler.setService_minute(Misc.forwardZero(String.valueOf(service_date.get(Calendar.MINUTE)),2));
+	        if(service_date.get(Calendar.AM_PM)==0){
+	          tickler.setService_ampm("AM");
+	        }else{
+	          tickler.setService_ampm("PM");
+	        }
+	        ticklerForm.setTickler(tickler);
+	        request.setAttribute("viewTickler", "Y");
+	        request.setAttribute("isReadOnly", Boolean.valueOf(true));
+	
+	        List providerLst = providerManager.getActiveProviders(tickler.getProgram_id());
+	        ticklerForm.setProviderLst(providerLst);
+	        
+	        return mapping.findForward("add");
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
     }
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

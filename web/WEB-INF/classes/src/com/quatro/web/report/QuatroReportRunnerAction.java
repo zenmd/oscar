@@ -27,6 +27,7 @@ import com.quatro.model.ReportOptionValue;
 import com.quatro.model.ReportTempCriValue;
 import com.quatro.model.ReportTempValue;
 import com.quatro.model.ReportValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.HTMLPropertyBean;
@@ -42,86 +43,90 @@ public class QuatroReportRunnerAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		String param=(String)request.getParameter("id");
-		String param2=(String)request.getParameter("templateNo");
-		int rptNo;
-        int templateNo = 0;
-        if (param2!=null && param2.length()>0) 
-        	templateNo=Integer.parseInt(param2); 
-        		
-		QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
-		String loginId = (String)request.getSession(true).getAttribute("user");
-
-		if(param2!=null)
-		  request.getSession(true).setAttribute(DataViews.REPORTTPL, param2);
-		else
-		  if(request.getSession(true).getAttribute(DataViews.REPORTTPL)==null) 
-			  request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
-
-        ArrayList lstExportFormat = myForm.getExportFormatList();
-        KeyValueBean obj4= new KeyValueBean(String.valueOf(ReportExportFormat._PDF),"Portable Document Format (.pdf)");
-        lstExportFormat.add(obj4);
-
-        KeyValueBean obj1= new KeyValueBean(String.valueOf(ReportExportFormat._crystalReports),"HTML - Crystal Report");
-        lstExportFormat.add(obj1);
-
-        /*
-        KeyValueBean obj2= new KeyValueBean(String.valueOf(ReportExportFormat._MSExcel),"Excel (.xls)");
-        lstExportFormat.add(obj2);
-        KeyValueBean obj3= new KeyValueBean(String.valueOf(ReportExportFormat._MSWord),"MS-Word (.doc)");
-        lstExportFormat.add(obj3);
-        KeyValueBean obj5= new KeyValueBean(String.valueOf(ReportExportFormat._text),"Text (.txt)");
-        lstExportFormat.add(obj5);
-*/
-        myForm.setExportFormatList(lstExportFormat);
-        if(param!=null){
-	        rptNo = Integer.parseInt(param);
-            myForm.setReportNo(param);
-	        if (param2!=null && templateNo > 0)
-	            Refresh(myForm, loginId, rptNo, templateNo, request);
+	{
+		try {
+			String param=(String)request.getParameter("id");
+			String param2=(String)request.getParameter("templateNo");
+			int rptNo;
+	        int templateNo = 0;
+	        if (param2!=null && param2.length()>0) 
+	        	templateNo=Integer.parseInt(param2); 
+	        		
+			QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
+			String loginId = (String)request.getSession(true).getAttribute("user");
+	
+			if(param2!=null)
+			  request.getSession(true).setAttribute(DataViews.REPORTTPL, param2);
+			else
+			  if(request.getSession(true).getAttribute(DataViews.REPORTTPL)==null) 
+				  request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
+	
+	        ArrayList lstExportFormat = myForm.getExportFormatList();
+	        KeyValueBean obj4= new KeyValueBean(String.valueOf(ReportExportFormat._PDF),"Portable Document Format (.pdf)");
+	        lstExportFormat.add(obj4);
+	
+	        KeyValueBean obj1= new KeyValueBean(String.valueOf(ReportExportFormat._crystalReports),"HTML - Crystal Report");
+	        lstExportFormat.add(obj1);
+	
+	        /*
+	        KeyValueBean obj2= new KeyValueBean(String.valueOf(ReportExportFormat._MSExcel),"Excel (.xls)");
+	        lstExportFormat.add(obj2);
+	        KeyValueBean obj3= new KeyValueBean(String.valueOf(ReportExportFormat._MSWord),"MS-Word (.doc)");
+	        lstExportFormat.add(obj3);
+	        KeyValueBean obj5= new KeyValueBean(String.valueOf(ReportExportFormat._text),"Text (.txt)");
+	        lstExportFormat.add(obj5);
+	*/
+	        myForm.setExportFormatList(lstExportFormat);
+	        if(param!=null){
+		        rptNo = Integer.parseInt(param);
+	            myForm.setReportNo(param);
+		        if (param2!=null && templateNo > 0)
+		            Refresh(myForm, loginId, rptNo, templateNo, request);
+		        else
+		            Refresh(myForm, loginId, rptNo, request, true);
+	
+		        ActionForward forward = mapping.findForward("success");
+				return forward;
+			}
+			//postback form
 	        else
-	            Refresh(myForm, loginId, rptNo, request, true);
-
-	        ActionForward forward = mapping.findForward("success");
-			return forward;
+			{
+				rptNo=Integer.parseInt(myForm.getReportNo());
+	            //
+				String method = (String)request.getParameter("method");
+				if("Run".equals(method))
+				{
+					btnRun_Click(rptNo, myForm, request);
+				}
+				else if("Save".equals(method))
+				{
+					btnSave_Click(rptNo, myForm, request);
+				}
+				else if("AddTplCri".equals(method))
+				{
+					btnAddTplCri_Click(rptNo, myForm, request);
+				}
+				else if("InsertTplCri".equals(method))
+				{
+					btnInsertTplCri_Click(rptNo, myForm, request);
+				}
+				else if("RemoveTplCri".equals(method))
+				{
+					btnRemoveTplCri_Click(rptNo, myForm, request);
+				}
+				else if(method.startsWith("tplCriteria"))
+				{
+					OnCriteriaTextChangedHandler(rptNo, myForm, request);
+				}
+			    Refresh(myForm, loginId, rptNo, request, false);
+	            ActionForward forward = mapping.findForward("success");
+	     	    return forward;
+			}
 		}
-		//postback form
-        else
-		{
-			rptNo=Integer.parseInt(myForm.getReportNo());
-            //
-			String method = (String)request.getParameter("method");
-			if("Run".equals(method))
-			{
-				btnRun_Click(rptNo, myForm, request);
-			}
-			else if("Save".equals(method))
-			{
-				btnSave_Click(rptNo, myForm, request);
-			}
-			else if("AddTplCri".equals(method))
-			{
-				btnAddTplCri_Click(rptNo, myForm, request);
-			}
-			else if("InsertTplCri".equals(method))
-			{
-				btnInsertTplCri_Click(rptNo, myForm, request);
-			}
-			else if("RemoveTplCri".equals(method))
-			{
-				btnRemoveTplCri_Click(rptNo, myForm, request);
-			}
-			else if(method.startsWith("tplCriteria"))
-			{
-				OnCriteriaTextChangedHandler(rptNo, myForm, request);
-			}
-		    Refresh(myForm, loginId, rptNo, request, false);
-            ActionForward forward = mapping.findForward("success");
-     	    return forward;
-		}
-
+        catch (NoAccessException e)
+        {
+        	return mapping.findForward("failure");
+        }
 	}
     
 	public void OnCriteriaTextChangedHandler(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
@@ -286,7 +291,7 @@ public class QuatroReportRunnerAction extends Action {
         
 	}
 	
-	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, int templateNo, HttpServletRequest request)
+	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, int templateNo, HttpServletRequest request) throws NoAccessException
 	{
 		ReportValue rptVal=null;
 		
@@ -294,6 +299,7 @@ public class QuatroReportRunnerAction extends Action {
 	        		getServlet().getServletContext()).getBean("quatroReportManager");
 
 	    rptVal = reportManager.GetReport(reportNo,templateNo, loginId);
+	    if(rptVal == null) throw new NoAccessException();
 		request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
 
 		request.getSession(true).setAttribute(DataViews.REPORTTPL, String.valueOf(templateNo));
@@ -314,7 +320,7 @@ public class QuatroReportRunnerAction extends Action {
 		myForm.setReportOption(String.valueOf(rptTempVal.getReportOptionID()));
 	}
 	
-	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, HttpServletRequest request, boolean refreshFromDB)
+	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, HttpServletRequest request, boolean refreshFromDB) throws NoAccessException
 	{
 		ReportValue rptVal=null;
 		
@@ -329,7 +335,7 @@ public class QuatroReportRunnerAction extends Action {
 		
 		request.getSession(true).setAttribute(DataViews.REPORT, rptVal);
         
-        if (rptVal == null) return;
+        if (rptVal == null) throw new NoAccessException();
         
         myForm.setReportTitle(rptVal.getTitle());
         HTMLPropertyBean obj1= new HTMLPropertyBean();

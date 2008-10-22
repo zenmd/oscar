@@ -19,9 +19,11 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 import org.apache.struts.actions.DispatchAction;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Security;
 import com.quatro.model.security.Secuserrole;
@@ -33,7 +35,7 @@ import com.quatro.service.security.UsersManager;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.util.*;
-public class UserManagerAction extends DispatchAction {
+public class UserManagerAction extends BaseAdminAction {
 
 	private LogManager logManager;
 
@@ -65,86 +67,84 @@ public class UserManagerAction extends DispatchAction {
 	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		return list(mapping, form, request, response);
+		return mapping.findForward("list");
 	}
 
 	public ActionForward profile(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		String providerNo = request.getParameter("providerNo");
-		org.apache.struts.validator.DynaValidatorForm secForm = (org.apache.struts.validator.DynaValidatorForm) form;
-		ArrayList profilelist = new ArrayList();
-		
-		DynaActionForm secuserForm = (DynaActionForm) form;
-		
-		SecProvider provider = usersManager
-			.getProviderByProviderNo(providerNo);
-
-		if (provider != null) {
-			secuserForm.set("providerNo", providerNo);
-			secuserForm.set("firstName", provider.getFirstName());
-			secuserForm.set("lastName", provider.getLastName());
-			secuserForm.set("init", provider.getInit());
-			secuserForm.set("title", provider.getTitle());
-			secuserForm.set("jobTitle", provider.getJobTitle());
-			secuserForm.set("email", provider.getEmail());
-		}
-		
-		Security user;
-		List ulist = usersManager.getUserByProviderNo(providerNo);
-		if (ulist != null && ulist.size() > 0) {
-			user = (Security) ulist.get(0);
-
-			secuserForm.set("securityNo", user.getSecurityNo());
-			secuserForm.set("userName", user.getUserName());		
-			request.setAttribute("userForEdit", user);
-		}
-		
-		List list = usersManager.getProfile(providerNo);
-
-		if (list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++) {
-				Object[] tmp = (Object[]) list.get(i);
-
-				Secuserrole sur = new Secuserrole();
-				if (tmp != null) {
-					sur.setProviderNo((String) tmp[0]);
-					sur.setRoleName((String) tmp[1]);
-					sur.setOrgcd_desc((String) tmp[2]);
-					sur.setUserName((String) tmp[3]);
-					sur.setOrgcd((String) tmp[4]);
-					profilelist.add(sur);
-				}
-
+		try {
+			if(super.getAccess(request, KeyConstants.FUN_ADMIN_USER).compareTo(KeyConstants.ACCESS_READ) < 0)
+			{
+				return mapping.findForward("failure");
 			}
-		}
-
-		request.setAttribute("profilelist", profilelist);
-		secForm.set("secUserRoleLst", profilelist);
-//		logManager.log("read", "full secuserroles list", "", request);
-
-		String scrollPosition = (String) request.getParameter("scrollPosition");
-		if(null != scrollPosition) {
-			request.setAttribute("scrPos", scrollPosition);
-		}else{
-			request.setAttribute("scrPos", "0");
-		}
-		boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
-		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-		return mapping.findForward("addRoles");
-	}
-
-	private void setLookupLists(HttpServletRequest request)
-	{
-		
-	}
-
-	public ActionForward list(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-
-		return mapping.findForward("list");
-	}
 	
+			String providerNo = request.getParameter("providerNo");
+			org.apache.struts.validator.DynaValidatorForm secForm = (org.apache.struts.validator.DynaValidatorForm) form;
+			ArrayList profilelist = new ArrayList();
+			
+			DynaActionForm secuserForm = (DynaActionForm) form;
+			
+			SecProvider provider = usersManager
+				.getProviderByProviderNo(providerNo);
+	
+			if (provider != null) {
+				secuserForm.set("providerNo", providerNo);
+				secuserForm.set("firstName", provider.getFirstName());
+				secuserForm.set("lastName", provider.getLastName());
+				secuserForm.set("init", provider.getInit());
+				secuserForm.set("title", provider.getTitle());
+				secuserForm.set("jobTitle", provider.getJobTitle());
+				secuserForm.set("email", provider.getEmail());
+			}
+			
+			Security user;
+			List ulist = usersManager.getUserByProviderNo(providerNo);
+			if (ulist != null && ulist.size() > 0) {
+				user = (Security) ulist.get(0);
+	
+				secuserForm.set("securityNo", user.getSecurityNo());
+				secuserForm.set("userName", user.getUserName());		
+				request.setAttribute("userForEdit", user);
+			}
+			
+			List list = usersManager.getProfile(providerNo);
+	
+			if (list != null && list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
+					Object[] tmp = (Object[]) list.get(i);
+	
+					Secuserrole sur = new Secuserrole();
+					if (tmp != null) {
+						sur.setProviderNo((String) tmp[0]);
+						sur.setRoleName((String) tmp[1]);
+						sur.setOrgcd_desc((String) tmp[2]);
+						sur.setUserName((String) tmp[3]);
+						sur.setOrgcd((String) tmp[4]);
+						profilelist.add(sur);
+					}
+	
+				}
+			}
+	
+			request.setAttribute("profilelist", profilelist);
+			secForm.set("secUserRoleLst", profilelist);
+	//		logManager.log("read", "full secuserroles list", "", request);
+	
+			String scrollPosition = (String) request.getParameter("scrollPosition");
+			if(null != scrollPosition) {
+				request.setAttribute("scrPos", scrollPosition);
+			}else{
+				request.setAttribute("scrPos", "0");
+			}
+			boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
+			if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+			return mapping.findForward("addRoles");
+		}
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
+	}	
 
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -153,11 +153,6 @@ public class UserManagerAction extends DispatchAction {
         request.setAttribute("titleLst", titleLst);
         
 		return mapping.findForward("edit");
-	}
-	private SecurityManager getSecurityManager(HttpServletRequest request)
-	{
-		return (SecurityManager) request.getSession()
-		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
 	}
 	public boolean isReadOnly(HttpServletRequest request,String funName){
 		boolean readOnly =false;
@@ -170,59 +165,65 @@ public class UserManagerAction extends DispatchAction {
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		DynaActionForm secuserForm = (DynaActionForm) form;
-		String providerNo = request.getParameter("providerNo");
-
-		if (isCancelled(request)) {
-			return list(mapping, form, request, response);
-		}
-
-		if (providerNo != null) {
-
-			SecProvider provider = usersManager.getProviderByProviderNo(providerNo);
-
-			if (provider != null) {
-				secuserForm.set("providerNo", providerNo);
-				secuserForm.set("firstName", provider.getFirstName());
-				secuserForm.set("lastName", provider.getLastName());
-				secuserForm.set("init", provider.getInit());
-				secuserForm.set("title", provider.getTitle());
-				secuserForm.set("jobTitle", provider.getJobTitle());
-				secuserForm.set("email", provider.getEmail());
-				secuserForm.set("password", PWD);
-				secuserForm.set("confirmPassword", PWD);
-				secuserForm.set("pin", PIN);
-				secuserForm.set("confirmPin", PIN);
-				
-				
-				String isChecked = provider.getStatus();
-				if (isChecked != null && isChecked.equals("1"))
-					secuserForm.set("status", "on");
-
-				request.setAttribute("userForEdit", provider);
-
-				Security user;
-				List list = usersManager.getUserByProviderNo(providerNo);
-				if (list != null && list.size() > 0) {
-					user = (Security) list.get(0);
-
-					secuserForm.set("securityNo", user.getSecurityNo());
-					secuserForm.set("userName", user.getUserName());
-					boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
-					if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-					request.setAttribute("userForEdit", user);
-				}				
+		try {
+			super.getAccess(request, KeyConstants.FUN_ADMIN_USER);
+			DynaActionForm secuserForm = (DynaActionForm) form;
+			String providerNo = request.getParameter("providerNo");
+	
+			if (isCancelled(request)) {
+				return mapping.findForward("list");
 			}
-
-		} else {
-			return list(mapping, form, request, response);
+	
+			if (providerNo != null) {
+	
+				SecProvider provider = usersManager.getProviderByProviderNo(providerNo);
+	
+				if (provider != null) {
+					secuserForm.set("providerNo", providerNo);
+					secuserForm.set("firstName", provider.getFirstName());
+					secuserForm.set("lastName", provider.getLastName());
+					secuserForm.set("init", provider.getInit());
+					secuserForm.set("title", provider.getTitle());
+					secuserForm.set("jobTitle", provider.getJobTitle());
+					secuserForm.set("email", provider.getEmail());
+					secuserForm.set("password", PWD);
+					secuserForm.set("confirmPassword", PWD);
+					secuserForm.set("pin", PIN);
+					secuserForm.set("confirmPin", PIN);
+					
+					
+					String isChecked = provider.getStatus();
+					if (isChecked != null && isChecked.equals("1"))
+						secuserForm.set("status", "on");
+	
+					request.setAttribute("userForEdit", provider);
+	
+					Security user;
+					List list = usersManager.getUserByProviderNo(providerNo);
+					if (list != null && list.size() > 0) {
+						user = (Security) list.get(0);
+	
+						secuserForm.set("securityNo", user.getSecurityNo());
+						secuserForm.set("userName", user.getUserName());
+						boolean isReadOnly =isReadOnly(request, KeyConstants.FUN_ADMIN_USER);
+						if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+						request.setAttribute("userForEdit", user);
+					}				
+				}
+	
+			} else {
+				return mapping.findForward("list");
+			}
+			
+			List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
+	        request.setAttribute("titleLst", titleLst);
+	        
+			return mapping.findForward("edit");
 		}
-		
-		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
-        request.setAttribute("titleLst", titleLst);
-        
-		return mapping.findForward("edit");
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
 
 	}
 
@@ -440,7 +441,7 @@ public class UserManagerAction extends DispatchAction {
 		String providerNo = request.getParameter("providerNo");
 
 		if (isCancelled(request)) {
-			return list(mapping, form, request, response);
+			return mapping.findForward("list");
 		}
 
 		SecProvider provider = usersManager

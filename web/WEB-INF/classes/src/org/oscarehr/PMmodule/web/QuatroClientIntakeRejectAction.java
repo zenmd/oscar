@@ -17,6 +17,7 @@ import org.oscarehr.PMmodule.web.formbean.QuatroClientIntakeRejectForm;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 
 public class QuatroClientIntakeRejectAction extends BaseProgramAction {
@@ -34,54 +35,66 @@ public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpSer
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;	   
-	   String viewTab=request.getParameter("tab");
-       String id = request.getParameter("programId");
-       if(id == null || id.equals(""))
-       	id = (String)request.getAttribute("programId");
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("programId", id); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       request.setAttribute("programId", id);
-       request.setAttribute("program", programManager.getProgram(new Integer(id)));
-       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));      
-       String demographicNo= request.getParameter("clientId");
-       
-       request.setAttribute("clientId", demographicNo);
-       
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
-       List rejectReasons = lookupManager.LoadCodeList("IRR", true, null, null);
-       clientForm.setRejectReasonList(rejectReasons);
-       return mapping.findForward("edit");
+	   try {
+		   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;	   
+		   String viewTab=request.getParameter("tab");
+	       String id = request.getParameter("programId");
+	       if(id == null || id.equals(""))
+	       	id = (String)request.getAttribute("programId");
+	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("programId", id); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	       request.setAttribute("programId", id);
+	       request.setAttribute("program", programManager.getProgram(new Integer(id)));
+	       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));      
+	       String demographicNo= request.getParameter("clientId");
+	       
+	       request.setAttribute("clientId", demographicNo);
+	       
+	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+	
+	       List rejectReasons = lookupManager.LoadCodeList("IRR", true, null, null);
+	       clientForm.setRejectReasonList(rejectReasons);
+	       return mapping.findForward("edit");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
    }
 
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        ActionMessages messages = new ActionMessages();
-       String id = request.getParameter("programId");
-       if(id == null || id.equals(""))
-       	id = (String)request.getAttribute("programId");
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("programId", id); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       request.setAttribute("programId", id);
-       request.setAttribute("program", programManager.getProgram(new Integer(id)));
-       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));
-       boolean isError = false;
-       boolean isWarning = false;
-	   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;
-	   programQueueManager.rejectQueue(clientForm.getQueueId(), clientForm.getRejectNote(), clientForm.getRejectReason());
-
-	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-       saveMessages(request,messages);
-	   
-       return edit(mapping, form, request, response);
+       try {
+	       String id = request.getParameter("programId");
+	       if(id == null || id.equals(""))
+	       	id = (String)request.getAttribute("programId");
+	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("programId", id); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	       request.setAttribute("programId", id);
+	       request.setAttribute("program", programManager.getProgram(new Integer(id)));
+	       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));
+	       boolean isError = false;
+	       boolean isWarning = false;
+		   QuatroClientIntakeRejectForm clientForm = (QuatroClientIntakeRejectForm) form;
+		   programQueueManager.rejectQueue(clientForm.getQueueId(), clientForm.getRejectNote(), clientForm.getRejectReason());
+	
+		   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	       saveMessages(request,messages);
+		   
+	       return edit(mapping, form, request, response);
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
    }
    
    public void setClientManager(ClientManager clientManager) {

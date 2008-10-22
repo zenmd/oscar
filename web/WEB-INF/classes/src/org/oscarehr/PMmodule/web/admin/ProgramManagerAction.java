@@ -65,6 +65,7 @@ import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
 import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.model.security.Secuserrole;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
@@ -99,82 +100,95 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        String searchStatus = (String) programForm.get("searchStatus");
-        String searchType = (String) programForm.get("searchType");
-        String searchFacilityId = (String) programForm.get("searchFacilityId");
-        if (Utility.IsEmpty(searchFacilityId)) searchFacilityId = "0";
-        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-   		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-        
-        List list =  null;
-        list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
-    	request.setAttribute("programs", list);
-    	List lstFac=facilityDAO.getActiveFacilities(shelterId,providerNo);
-        request.setAttribute("facilities",lstFac);
-        List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
-        request.setAttribute("programTypeLst", programTypeLst);
-        
-
-        logManager.log("read", "full program list", "", request);
-        super.setMenu(request, KeyConstants.MENU_PROGRAM);
-        return mapping.findForward("list");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        String searchStatus = (String) programForm.get("searchStatus");
+	        String searchType = (String) programForm.get("searchType");
+	        String searchFacilityId = (String) programForm.get("searchFacilityId");
+	        if (Utility.IsEmpty(searchFacilityId)) searchFacilityId = "0";
+	        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	   		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	        
+	        List list =  null;
+	        list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
+	    	request.setAttribute("programs", list);
+	    	List lstFac=facilityDAO.getActiveFacilities(shelterId,providerNo);
+	        request.setAttribute("facilities",lstFac);
+	        List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
+	        request.setAttribute("programTypeLst", programTypeLst);
+	        
+	
+	        logManager.log("read", "full program list", "", request);
+	        super.setMenu(request, KeyConstants.MENU_PROGRAM);
+	        return mapping.findForward("list");
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
     }
 
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	
+	        String id = request.getParameter("programId");
+	        if(id == null || id.equals(""))
+	        	id = ((Integer)request.getAttribute("programId")).toString();
+	        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	        if(actionParam==null){
+	     	  actionParam = new HashMap();
+	           actionParam.put("programId", id); 
+	        }
+	        request.setAttribute("actionParam", actionParam);
+	        Integer programId = Integer.valueOf(id);
+	        if (id != null) {
+	            Program program = programManager.getProgram(id);
+	
+	            if (program == null) {
+	                ActionMessages messages = new ActionMessages();
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.missing"));
+	                saveMessages(request, messages);
+	
+	                return list(mapping, form, request, response);
+	            }
+	
+	            programForm.set("program", program);
+	            request.setAttribute("pageTitle",program.getName() + " - Edit");
+	            request.setAttribute("programName",program.getName());
+	            request.setAttribute("programId", program.getId());
+	            
+	            programForm.set("bedCheckTimes", bedCheckTimeManager.getBedCheckTimesByProgram(Integer.valueOf(id)));
+	
+	            //programForm.set("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(id)));
+	
+	            //List<ProgramSignature> pss = programManager.getProgramSignatures(Integer.valueOf(id));
+	            //programForm.set("programSignatures", (ProgramSignature[] ) pss.toArray(new ProgramSignature[pss.size()]));
+	            //request.setAttribute("programSignatures",programManager.getProgramSignatures(Integer.valueOf(id)));
+	        }
+	
+	        String viewTab=request.getParameter("view.tab");
+	        if(Utility.IsEmpty(viewTab)) viewTab=KeyConstants.TAB_PROGRAM_GENERAL;
+	        ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
+	        view.setTab(viewTab);  
+	       
+	        if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
+	        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE);
+	             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, programId);
+	             if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        	
+	        }
+	        else{
+	        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL);
+	             setEditAttributes(request, form);
+	        }
+	        
+	        return mapping.findForward("edit");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
 
-        String id = request.getParameter("programId");
-        if(id == null || id.equals(""))
-        	id = ((Integer)request.getAttribute("programId")).toString();
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("programId", id); 
-        }
-        request.setAttribute("actionParam", actionParam);
-        Integer programId = Integer.valueOf(id);
-        if (id != null) {
-            Program program = programManager.getProgram(id);
-
-            if (program == null) {
-                ActionMessages messages = new ActionMessages();
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.missing"));
-                saveMessages(request, messages);
-
-                return list(mapping, form, request, response);
-            }
-
-            programForm.set("program", program);
-            request.setAttribute("pageTitle",program.getName() + " - Edit");
-            request.setAttribute("programName",program.getName());
-            request.setAttribute("programId", program.getId());
-            
-            programForm.set("bedCheckTimes", bedCheckTimeManager.getBedCheckTimesByProgram(Integer.valueOf(id)));
-
-            //programForm.set("programFirstSignature",programManager.getProgramFirstSignature(Integer.valueOf(id)));
-
-            //List<ProgramSignature> pss = programManager.getProgramSignatures(Integer.valueOf(id));
-            //programForm.set("programSignatures", (ProgramSignature[] ) pss.toArray(new ProgramSignature[pss.size()]));
-            //request.setAttribute("programSignatures",programManager.getProgramSignatures(Integer.valueOf(id)));
-        }
-
-        String viewTab=request.getParameter("view.tab");
-        if(Utility.IsEmpty(viewTab)) viewTab=KeyConstants.TAB_PROGRAM_GENERAL;
-        ProgramManagerViewFormBean view = (ProgramManagerViewFormBean) programForm.get("view");
-        view.setTab(viewTab);  
-       
-        if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
-        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE);
-             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, programId);
-             if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        	
-        }
-        else{
-        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL);
-             setEditAttributes(request, form);
-        }
-        
-        return mapping.findForward("edit");
     }
     public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -188,14 +202,20 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        programForm.set("program", new Program());
-        
-        request.setAttribute("pageTitle","Program Management - New Program");
-        
-        setEditAttributes(request, form);
-
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        programForm.set("program", new Program());
+	        
+	        request.setAttribute("pageTitle","Program Management - New Program");
+	        
+	        setEditAttributes(request, form);
+	
+	        return mapping.findForward("edit");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
     }
 
     public ActionForward addBedCheckTime(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -329,20 +349,26 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     public ActionForward delete_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
-
-        programManager.deleteFunctionalUser(String.valueOf(function.getId()));
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
-        saveMessages(request, messages);
-        logManager.log("write", "edit program - delete function user", String.valueOf(program.getId()), request);
-
-        this.setEditAttributes(request, form);
-
-        return edit(mapping, form, request, response);
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
+	
+	        programManager.deleteFunctionalUser(String.valueOf(function.getId()));
+	
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
+	        saveMessages(request, messages);
+	        logManager.log("write", "edit program - delete function user", String.valueOf(program.getId()), request);
+	
+	        this.setEditAttributes(request, form);
+	
+	        return edit(mapping, form, request, response);
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 /*
     public ActionForward delete_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -396,25 +422,31 @@ public class ProgramManagerAction extends BaseProgramAction {
     
 
     public ActionForward edit_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
-
-        ProgramFunctionalUser pfu = programManager.getFunctionalUser(String.valueOf(function.getId()));
-
-        if (pfu == null) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.missing"));
-            saveMessages(request, messages);
-            setEditAttributes(request, form);
-            return edit(mapping, form, request, response);
-        }
-        programForm.set("function", pfu);
-        request.setAttribute("providerName", pfu.getProvider().getFormattedName());
-
-        setEditAttributes(request, form);
-
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
+	
+	        ProgramFunctionalUser pfu = programManager.getFunctionalUser(String.valueOf(function.getId()));
+	
+	        if (pfu == null) {
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.missing"));
+	            saveMessages(request, messages);
+	            setEditAttributes(request, form);
+	            return edit(mapping, form, request, response);
+	        }
+	        programForm.set("function", pfu);
+	        request.setAttribute("providerName", pfu.getProvider().getFormattedName());
+	
+	        setEditAttributes(request, form);
+	
+	        return mapping.findForward("edit");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 /*
     public ActionForward edit_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -471,19 +503,25 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     public ActionForward remove_queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramQueue queue = (ProgramQueue) programForm.get("queue");
-
-        ProgramQueue fullQueue = programQueueManager.getProgramQueue(String.valueOf(queue.getId()));
-//        fullQueue.setStatus(KeyConstants.STATUS_REMOVED);
-        programQueueManager.saveProgramQueue(fullQueue);
-
-        logManager.log("write", "edit program - queue removal", String.valueOf(program.getId()), request);
-
-        setEditAttributes(request, form);
-
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramQueue queue = (ProgramQueue) programForm.get("queue");
+	
+	        ProgramQueue fullQueue = programQueueManager.getProgramQueue(String.valueOf(queue.getId()));
+	//        fullQueue.setStatus(KeyConstants.STATUS_REMOVED);
+	        programQueueManager.saveProgramQueue(fullQueue);
+	
+	        logManager.log("write", "edit program - queue removal", String.valueOf(program.getId()), request);
+	
+	        setEditAttributes(request, form);
+	
+	        return mapping.findForward("edit");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 /*
     public ActionForward remove_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -524,40 +562,46 @@ public class ProgramManagerAction extends BaseProgramAction {
 */
     
     public ActionForward save_restriction_settings(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-
-        Program program = (Program) programForm.get("program");
-        Program realProgram = programManager.getProgram(program.getId());
-
-        Integer maxRestrictionDays = program.getMaximumServiceRestrictionDays();
-        Integer defaultRestrictionDays = program.getDefaultServiceRestrictionDays();
-        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0 && defaultRestrictionDays.intValue() > maxRestrictionDays.intValue()) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", defaultRestrictionDays, maxRestrictionDays));
-            saveMessages(request, messages);
-            setEditAttributes(request, form);
-
-            return edit(mapping, form, request, response);
-        }
-
-        // copy over modified attributes
-        realProgram.setDefaultServiceRestrictionDays(defaultRestrictionDays);
-       // if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0)
-            realProgram.setMaximumServiceRestrictionDays(maxRestrictionDays);
-        
-        // save program & sign the modification of the program
-        programManager.saveProgram(realProgram);
-        
-        
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-        saveMessages(request, messages);
-
-        logManager.log("write", "edit program", String.valueOf(program.getId()), request);
-
-        setEditAttributes(request, form);
-
-        return edit(mapping, form, request, response);
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	
+	        Program program = (Program) programForm.get("program");
+	        Program realProgram = programManager.getProgram(program.getId());
+	
+	        Integer maxRestrictionDays = program.getMaximumServiceRestrictionDays();
+	        Integer defaultRestrictionDays = program.getDefaultServiceRestrictionDays();
+	        if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0 && defaultRestrictionDays.intValue() > maxRestrictionDays.intValue()) {
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.default_restriction_exceeds_maximum", defaultRestrictionDays, maxRestrictionDays));
+	            saveMessages(request, messages);
+	            setEditAttributes(request, form);
+	
+	            return edit(mapping, form, request, response);
+	        }
+	
+	        // copy over modified attributes
+	        realProgram.setDefaultServiceRestrictionDays(defaultRestrictionDays);
+	       // if (maxRestrictionDays != null && maxRestrictionDays.intValue() != 0)
+	            realProgram.setMaximumServiceRestrictionDays(maxRestrictionDays);
+	        
+	        // save program & sign the modification of the program
+	        programManager.saveProgram(realProgram);
+	        
+	        
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+	        saveMessages(request, messages);
+	
+	        logManager.log("write", "edit program", String.valueOf(program.getId()), request);
+	
+	        setEditAttributes(request, form);
+	
+	        return edit(mapping, form, request, response);
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 	public void changeLstTable(int operationType, ActionForm myForm,
 			HttpServletRequest request) {
@@ -739,113 +783,119 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-
-        Program program = (Program) programForm.get("program");
-        program.setLastUpdateUser((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
-        program.setLastUpdateDate(Calendar.getInstance());
-        if (this.isCancelled(request)) {
-            return list(mapping, form, request, response);
-        }
-        
-        try {
-            program.setFacilityId(Integer.valueOf(request.getParameter("programManagerForm_program.facilityId")));
-        }
-        catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-                
-        if (request.getParameter("program.allowBatchAdmission") == null) {
-            program.setAllowBatchAdmission(false);
-        }
-        if (request.getParameter("program.allowBatchDischarge") == null) {
-            program.setAllowBatchDischarge(false);
-        }
-        if (request.getParameter("program.hic") == null) {
-            program.setHic(false);
-        }
-//        if (request.getParameter("program.holdingTank") == null) {
-//            program.setHoldingTank(false);
-//        }
-//        if(request.getParameter("program.transgender") == null)
-//            program.setTransgender(false);
-//        if(request.getParameter("program.firstNation") == null)
-//            program.setFirstNation(false);
-        if(request.getParameter("program.bedProgramAffiliated") == null)
-            program.setBedProgramAffiliated(false);
-//        if(request.getParameter("program.alcohol") == null)
-//            program.setAlcohol(false);
-//        if(request.getParameter("program.physicalHealth") == null)
-//            program.setPhysicalHealth(false);
-//        if(request.getParameter("program.mentalHealth") == null)
-//            program.setMentalHealth(false);
-//        if(request.getParameter("program.housing") == null)
-//            program.setHousing(false);
-        if (request.getParameter("program.hic") == null) {
-            program.setHic(false);
-        }
-        request.setAttribute("oldProgram",program);
-
-        //if a program has a client in it, you cannot make it inactive
-        if ("0".equals(program.getProgramStatus()) && program.getId().intValue()>0) {            
-                //Admission ad = admissionManager.getAdmission(Long.valueOf(request.getParameter("id")));
-                List intakes = intakeManager.getActiveIntakeByProgram(program.getId());
-                if(intakes.size()>0){
-                    ActionMessages messages = new ActionMessages();
-                    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_program", program.getName()));
-                    saveMessages(request, messages);
-                    setEditAttributes(request, form);
-                    return mapping.findForward("edit");
-                }
-                int numQueue = programQueueManager.getProgramQueuesByProgramId(program.getId()).size();
-                if (numQueue > 0) {
-                    ActionMessages messages = new ActionMessages();
-                    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_queue", program.getName(), String.valueOf(numQueue)));
-                    saveMessages(request, messages);
-                    setEditAttributes(request, form);
-                   // return edit(mapping,form,request,response);  
-                    return mapping.findForward("edit");
-                }
-            }
-
-
-        if (!program.getType().equalsIgnoreCase("bed") && program.isHoldingTank()) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_holding_tank"));
-            saveMessages(request, messages);
-            setEditAttributes(request,form);
-           // return edit(mapping,form,request,response);
-            return mapping.findForward("edit");
-        }
-        
-        if(program.getId()!=null && program.getId().intValue()>0){
-        	Integer actCap = programManager.getProgram(program.getId()).getCapacity_actual();
-        	if((program.getCapacity_space()!=null && actCap!=null
-        			&& actCap.intValue()>program.getCapacity_space().intValue())
-        		|| (program.getCapacity_space()==null && actCap!=null 
-        				&& actCap.intValue()>0)	
-        	){
-        		ActionMessages messages = new ActionMessages();
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_capacity_space",request.getContextPath(),actCap,program.getCapacity_space()));
-                saveMessages(request, messages);
-                setEditAttributes(request, form);
-                return mapping.findForward("edit");
-        	}        	
-        }
-        if(program.getDefaultServiceRestrictionDays() == null)
-        	program.setDefaultServiceRestrictionDays(new Integer(1));
-        
-        saveProgram(request, program);
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-        saveMessages(request, messages);
-
-        logManager.log("write", "edit program", String.valueOf(program.getId()), request);
-
-        setEditAttributes(request, form);
-
-        return edit(mapping,form,request,response);
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	
+	        Program program = (Program) programForm.get("program");
+	        program.setLastUpdateUser((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+	        program.setLastUpdateDate(Calendar.getInstance());
+	        if (this.isCancelled(request)) {
+	            return list(mapping, form, request, response);
+	        }
+	        
+	        try {
+	            program.setFacilityId(Integer.valueOf(request.getParameter("programManagerForm_program.facilityId")));
+	        }
+	        catch (NumberFormatException e) {
+	            e.printStackTrace();
+	        }
+	                
+	        if (request.getParameter("program.allowBatchAdmission") == null) {
+	            program.setAllowBatchAdmission(false);
+	        }
+	        if (request.getParameter("program.allowBatchDischarge") == null) {
+	            program.setAllowBatchDischarge(false);
+	        }
+	        if (request.getParameter("program.hic") == null) {
+	            program.setHic(false);
+	        }
+	//        if (request.getParameter("program.holdingTank") == null) {
+	//            program.setHoldingTank(false);
+	//        }
+	//        if(request.getParameter("program.transgender") == null)
+	//            program.setTransgender(false);
+	//        if(request.getParameter("program.firstNation") == null)
+	//            program.setFirstNation(false);
+	        if(request.getParameter("program.bedProgramAffiliated") == null)
+	            program.setBedProgramAffiliated(false);
+	//        if(request.getParameter("program.alcohol") == null)
+	//            program.setAlcohol(false);
+	//        if(request.getParameter("program.physicalHealth") == null)
+	//            program.setPhysicalHealth(false);
+	//        if(request.getParameter("program.mentalHealth") == null)
+	//            program.setMentalHealth(false);
+	//        if(request.getParameter("program.housing") == null)
+	//            program.setHousing(false);
+	        if (request.getParameter("program.hic") == null) {
+	            program.setHic(false);
+	        }
+	        request.setAttribute("oldProgram",program);
+	
+	        //if a program has a client in it, you cannot make it inactive
+	        if ("0".equals(program.getProgramStatus()) && program.getId().intValue()>0) {            
+	                //Admission ad = admissionManager.getAdmission(Long.valueOf(request.getParameter("id")));
+	                List intakes = intakeManager.getActiveIntakeByProgram(program.getId());
+	                if(intakes.size()>0){
+	                    ActionMessages messages = new ActionMessages();
+	                    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_program", program.getName()));
+	                    saveMessages(request, messages);
+	                    setEditAttributes(request, form);
+	                    return mapping.findForward("edit");
+	                }
+	                int numQueue = programQueueManager.getProgramQueuesByProgramId(program.getId()).size();
+	                if (numQueue > 0) {
+	                    ActionMessages messages = new ActionMessages();
+	                    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.client_in_the_queue", program.getName(), String.valueOf(numQueue)));
+	                    saveMessages(request, messages);
+	                    setEditAttributes(request, form);
+	                   // return edit(mapping,form,request,response);  
+	                    return mapping.findForward("edit");
+	                }
+	            }
+	
+	
+	        if (!program.getType().equalsIgnoreCase("bed") && program.isHoldingTank()) {
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_holding_tank"));
+	            saveMessages(request, messages);
+	            setEditAttributes(request,form);
+	           // return edit(mapping,form,request,response);
+	            return mapping.findForward("edit");
+	        }
+	        
+	        if(program.getId()!=null && program.getId().intValue()>0){
+	        	Integer actCap = programManager.getProgram(program.getId()).getCapacity_actual();
+	        	if((program.getCapacity_space()!=null && actCap!=null
+	        			&& actCap.intValue()>program.getCapacity_space().intValue())
+	        		|| (program.getCapacity_space()==null && actCap!=null 
+	        				&& actCap.intValue()>0)	
+	        	){
+	        		ActionMessages messages = new ActionMessages();
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.invalid_capacity_space",request.getContextPath(),actCap,program.getCapacity_space()));
+	                saveMessages(request, messages);
+	                setEditAttributes(request, form);
+	                return mapping.findForward("edit");
+	        	}        	
+	        }
+	        if(program.getDefaultServiceRestrictionDays() == null)
+	        	program.setDefaultServiceRestrictionDays(new Integer(1));
+	        
+	        saveProgram(request, program);
+	
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+	        saveMessages(request, messages);
+	
+	        logManager.log("write", "edit program", String.valueOf(program.getId()), request);
+	
+	        setEditAttributes(request, form);
+	
+	        return edit(mapping,form,request,response);
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     private void saveProgram(HttpServletRequest request, Program program) {
@@ -1060,37 +1110,43 @@ public class ProgramManagerAction extends BaseProgramAction {
 */
     
     public ActionForward save_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
-
-        if (this.isCancelled(request)) {
-            return list(mapping, form, request, response);
-        }
-        function.setProgramId(program.getId());
-
-        Integer pid = programManager.getFunctionalUserByUserType(program.getId(), function.getUserTypeId());
-
-        if (pid != null && function.getId().intValue() != pid.intValue()) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.duplicate", program.getName()));
-            saveMessages(request, messages);
-            programForm.set("function", new ProgramFunctionalUser());
-       //     setEditAttributes(request, String.valueOf(program.getId()));
-            setEditAttributes(request, form);
-            return mapping.findForward("edit");
-        }
-        programManager.saveFunctionalUser(function);
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
-        saveMessages(request, messages);
-
-        logManager.log("write", "edit program - save function user", String.valueOf(program.getId()), request);
-
-        programForm.set("function", new ProgramFunctionalUser());
-        setEditAttributes(request, form);        
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
+	
+	        if (this.isCancelled(request)) {
+	            return list(mapping, form, request, response);
+	        }
+	        function.setProgramId(program.getId());
+	
+	        Integer pid = programManager.getFunctionalUserByUserType(program.getId(), function.getUserTypeId());
+	
+	        if (pid != null && function.getId().intValue() != pid.intValue()) {
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_function.duplicate", program.getName()));
+	            saveMessages(request, messages);
+	            programForm.set("function", new ProgramFunctionalUser());
+	       //     setEditAttributes(request, String.valueOf(program.getId()));
+	            setEditAttributes(request, form);
+	            return mapping.findForward("edit");
+	        }
+	        programManager.saveFunctionalUser(function);
+	
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
+	        saveMessages(request, messages);
+	
+	        logManager.log("write", "edit program - save function user", String.valueOf(program.getId()), request);
+	
+	        programForm.set("function", new ProgramFunctionalUser());
+	        setEditAttributes(request, form);        
+	        return mapping.findForward("edit");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 /*
     public ActionForward save_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -1157,8 +1213,8 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("edit");
     }
 */
-    private void setEditAttributes(HttpServletRequest request, ActionForm form) {
-    	ArrayList programSignatureLst = new ArrayList();
+    private void setEditAttributes(HttpServletRequest request, ActionForm form) throws NoAccessException {
+		ArrayList programSignatureLst = new ArrayList();
     	 DynaActionForm programForm = (DynaActionForm) form;
     	Program program = (Program) programForm.get("program");
     	Integer programId = program.getId(); 
@@ -1200,124 +1256,146 @@ public class ProgramManagerAction extends BaseProgramAction {
 	       		 request.setAttribute("statusEditable", Boolean.FALSE);
 	       	 }
 	    }
-        
     }
-
 
 
     public ActionForward delete_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
-
-        if (programManager.getAllClientsInStatus(program.getId(), status.getId()).size() > 0) {
-
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.status.not_empty", program.getName()));
-            saveMessages(request, messages);
-
-            this.setEditAttributes(request, form);
-            return edit(mapping, form, request, response);
-        }
-
-        programManager.deleteProgramClientStatus(String.valueOf(status.getId()));
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
-        saveMessages(request, messages);
-
-        this.setEditAttributes(request, form);
-        programForm.set("function", new ProgramFunctionalUser());
-
-        return edit(mapping, form, request, response);
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
+	
+	        if (programManager.getAllClientsInStatus(program.getId(), status.getId()).size() > 0) {
+	
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.status.not_empty", program.getName()));
+	            saveMessages(request, messages);
+	
+	            this.setEditAttributes(request, form);
+	            return edit(mapping, form, request, response);
+	        }
+	
+	        programManager.deleteProgramClientStatus(String.valueOf(status.getId()));
+	
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
+	        saveMessages(request, messages);
+	
+	        this.setEditAttributes(request, form);
+	        programForm.set("function", new ProgramFunctionalUser());
+	
+	        return edit(mapping, form, request, response);
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     public ActionForward edit_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
-
-        ProgramClientStatus pt = programManager.getProgramClientStatus(String.valueOf(status.getId()));
-
-        if (pt == null) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_status.missing"));
-            saveMessages(request, messages);
-            setEditAttributes(request, form);
-            return edit(mapping, form, request, response);
-        }
-        programForm.set("client_status", pt);
-        setEditAttributes(request, form);
-
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
+	
+	        ProgramClientStatus pt = programManager.getProgramClientStatus(String.valueOf(status.getId()));
+	
+	        if (pt == null) {
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_status.missing"));
+	            saveMessages(request, messages);
+	            setEditAttributes(request, form);
+	            return edit(mapping, form, request, response);
+	        }
+	        programForm.set("client_status", pt);
+	        setEditAttributes(request, form);
+	
+	        return mapping.findForward("edit");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     public ActionForward save_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
-
-        if (this.isCancelled(request)) {
-            return list(mapping, form, request, response);
-        }
-        status.setProgramId(program.getId());
-
-        if (programManager.clientStatusNameExists(program.getId(), status.getName())) {
-            ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_status.duplicate", status.getName()));
-            saveMessages(request, messages);
-            programForm.set("client_status", new ProgramClientStatus());
-            setEditAttributes(request, form);
-            return mapping.findForward("edit");
-        }
-
-        programManager.saveProgramClientStatus(status);
-
-        logManager.log("write", "edit program - save status", String.valueOf(program.getId()), request);
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
-        saveMessages(request, messages);
-        programForm.set("client_status", new ProgramClientStatus());
-        setEditAttributes(request, form);
-
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
+	
+	        if (this.isCancelled(request)) {
+	            return list(mapping, form, request, response);
+	        }
+	        status.setProgramId(program.getId());
+	
+	        if (programManager.clientStatusNameExists(program.getId(), status.getName())) {
+	            ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program_status.duplicate", status.getName()));
+	            saveMessages(request, messages);
+	            programForm.set("client_status", new ProgramClientStatus());
+	            setEditAttributes(request, form);
+	            return mapping.findForward("edit");
+	        }
+	
+	        programManager.saveProgramClientStatus(status);
+	
+	        logManager.log("write", "edit program - save status", String.valueOf(program.getId()), request);
+	
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
+	        saveMessages(request, messages);
+	        programForm.set("client_status", new ProgramClientStatus());
+	        setEditAttributes(request, form);
+	
+	        return mapping.findForward("edit");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     
     public ActionForward assign_status_client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-        Program program = (Program) programForm.get("program");
-        Admission admission = (Admission) programForm.get("admission");
-
-//        Admission ad = admissionManager.getAdmission(admission.getId());
-
-//        ad.setClientStatusId(admission.getClientStatusId());
-
-//        admissionManager.saveAdmission(ad);
-
-        ActionMessages messages = new ActionMessages();
-        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
-        saveMessages(request, messages);
-
-        logManager.log("write", "edit program - assign client to status", String.valueOf(program.getId()), request);
-
-        setEditAttributes(request,form);
-
-        return mapping.findForward("edit");
+    	try {
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	        Program program = (Program) programForm.get("program");
+	        Admission admission = (Admission) programForm.get("admission");
+	
+	//        Admission ad = admissionManager.getAdmission(admission.getId());
+	
+	//        ad.setClientStatusId(admission.getClientStatusId());
+	
+	//        admissionManager.saveAdmission(ad);
+	
+	        ActionMessages messages = new ActionMessages();
+	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.saved", program.getName()));
+	        saveMessages(request, messages);
+	
+	        logManager.log("write", "edit program - assign client to status", String.valueOf(program.getId()), request);
+	
+	        setEditAttributes(request,form);
+	
+	        return mapping.findForward("edit");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     
     public ActionForward disable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
-
-        ProgramClientRestriction prc = (ProgramClientRestriction) programForm.get("restriction");
-        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        prc.setProviderNo(providerNo);
-        prc.setLastUpdateDate(new GregorianCalendar());
-        clientRestrictionManager.disableClientRestriction(prc);
-
-        return edit(mapping, form, request, response);
+	    	DynaActionForm programForm = (DynaActionForm) form;
+	
+	        ProgramClientRestriction prc = (ProgramClientRestriction) programForm.get("restriction");
+	        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	        prc.setProviderNo(providerNo);
+	        prc.setLastUpdateDate(new GregorianCalendar());
+	        clientRestrictionManager.disableClientRestriction(prc);
+	
+	        return edit(mapping, form, request, response);
     }
 
     public ActionForward enable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

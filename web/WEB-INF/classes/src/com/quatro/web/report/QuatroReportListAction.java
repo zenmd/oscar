@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.web.*;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
 import com.quatro.common.KeyConstants;
@@ -47,17 +48,22 @@ public class QuatroReportListAction extends BaseAction {
 	}
 	
 	public ActionForward reportlist(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
-		String providerNo = (String)request.getSession(true).getAttribute("user");
-		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
-		com.quatro.service.security.SecurityManager sm = (com.quatro.service.security.SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
-		boolean hasXRights = (sm.GetAccess(KeyConstants.FUN_REPORTS).compareTo(KeyConstants.ACCESS_ALL)>=0);
-		List reports = reportManager.GetReportGroupList(providerNo, hasXRights);
-		QuatroReportListForm qform = (QuatroReportListForm) form;
-		qform.setReportGroups(reports);
-		qform.setProvider(providerNo);
-		super.setMenu(request,KeyConstants.MENU_REPORT);
-		return mapping.findForward("reportlist");
+		try {
+			String providerNo = (String)request.getSession(true).getAttribute("user");
+			QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
+	        		getServlet().getServletContext()).getBean("quatroReportManager");
+			com.quatro.service.security.SecurityManager sm = (com.quatro.service.security.SecurityManager) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+			boolean hasXRights = (sm.GetAccess(KeyConstants.FUN_REPORTS).compareTo(KeyConstants.ACCESS_ALL)>=0);
+			List reports = reportManager.GetReportGroupList(providerNo, hasXRights);
+			QuatroReportListForm qform = (QuatroReportListForm) form;
+			qform.setReportGroups(reports);
+			qform.setProvider(providerNo);
+			super.setMenu(request,KeyConstants.MENU_REPORT);
+			return mapping.findForward("reportlist");
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
 	}
 }

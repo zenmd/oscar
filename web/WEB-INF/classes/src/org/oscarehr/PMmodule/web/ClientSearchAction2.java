@@ -46,6 +46,7 @@ import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 import org.apache.struts.actions.DispatchAction;
@@ -73,52 +74,55 @@ public class ClientSearchAction2 extends BaseClientAction {
 
 	public ActionForward form(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		try {
 		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
 	          actionParam.put("clientId", request.getParameter("clientId")); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
-		if (clientManager.isOutsideOfDomainEnabled()) {
-			request.getSession().setAttribute("outsideOfDomainEnabled", "true");
-		} else {
-			request.getSession()
-					.setAttribute("outsideOfDomainEnabled", "false");
-		}
-
-		setLookupLists(request);
-		DynaActionForm searchForm = (DynaActionForm) form;
-		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm
-				.get("criteria");
-		if ("cv".equals(request.getSession().getAttribute(
-				KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
-			formBean.setBedProgramId("MyP");
-		}
-		/*
-		if (null != request.getSession().getAttribute(
-				KeyConstants.SESSION_KEY_CLIENTID)) {
-			String cId = request.getSession().getAttribute(
-					KeyConstants.SESSION_KEY_CLIENTID).toString();
-			List lst = new ArrayList();
-			lst.add(this.clientManager.getClientByDemographicNo(cId));
-			request.setAttribute("clients", lst);
-		}
-		*/
-		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-		//check new Client link
-		List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
-		String prgId = "0";
-		if(allBedPrograms.size()>0){
-			Program prg = (Program)allBedPrograms.get(0);
-			prgId =prg.getId().toString();
-		}
-		request.setAttribute("searchClient", "true");
-		super.setScreenMode(request, KeyConstants.FUN_CLIENT);		
-		boolean isReadOnly=super.isReadOnly(request, KeyConstants.STATUS_ACTIVE, KeyConstants.FUN_CLIENTINTAKE, Integer.valueOf(prgId));
-		
-		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-		return mapping.findForward("form");
+			if (clientManager.isOutsideOfDomainEnabled()) {
+				request.getSession().setAttribute("outsideOfDomainEnabled", "true");
+			} else {
+				request.getSession()
+						.setAttribute("outsideOfDomainEnabled", "false");
+			}
+	
+			setLookupLists(request);
+			DynaActionForm searchForm = (DynaActionForm) form;
+			ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm
+					.get("criteria");
+			if ("cv".equals(request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_CURRENT_FUNCTION))) {
+				formBean.setBedProgramId("MyP");
+			}
+			/*
+			if (null != request.getSession().getAttribute(
+					KeyConstants.SESSION_KEY_CLIENTID)) {
+				String cId = request.getSession().getAttribute(
+						KeyConstants.SESSION_KEY_CLIENTID).toString();
+				List lst = new ArrayList();
+				lst.add(this.clientManager.getClientByDemographicNo(cId));
+				request.setAttribute("clients", lst);
+			}
+			*/
+			Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+			//check new Client link
+			List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+			String prgId = "0";
+			if(allBedPrograms.size()>0){
+				Program prg = (Program)allBedPrograms.get(0);
+				prgId =prg.getId().toString();
+			}
+			request.setAttribute("searchClient", "true");
+			super.setScreenMode(request, KeyConstants.FUN_CLIENT);		
+			return mapping.findForward("form");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
 	}
 	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {		

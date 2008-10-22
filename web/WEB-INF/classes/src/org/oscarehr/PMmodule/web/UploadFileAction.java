@@ -32,6 +32,7 @@ import java.util.GregorianCalendar;
 import com.quatro.model.Attachment;
 import com.quatro.model.AttachmentText;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.model.security.NoAccessException;
 
 public class UploadFileAction extends BaseClientAction {
 	
@@ -61,129 +62,145 @@ public class UploadFileAction extends BaseClientAction {
 	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
 		 List atts=null;
-		 DynaActionForm myform = (DynaActionForm)form;
-		 String clientId = myform.getString("clientId");
-		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-         if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", clientId); 
-         }
-	     request.setAttribute("actionParam", actionParam);
-	     Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);
-		 if(exc != null && exc.equals(Boolean.TRUE)) {
-	    	   ActionMessages messages= new ActionMessages();
-	    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment_toolarge", request.getContextPath()));
-		        saveMessages(request,messages);
-			   return edit(mapping,form,request,response);
-		  }
-	      String demographicNo= (String)actionParam.get("clientId");
-	       if(Utility.IsEmpty(demographicNo)){
-	    	   ActionMessages messages= new ActionMessages();
-	    	   
-	    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment", request.getContextPath()));
-		        saveMessages(request,messages);
-				//return mapping.findForward("edit");		        
-	    	   return edit(mapping,form,request,response);
-	       }
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
-		   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-			String providerNo=(String) request.getSession().getAttribute("user");
-
-			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		    
-			// is client in scope
-			List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-		    if(lstIntakeHeader.size()>0) {
-		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-		    }else{
-	           request.setAttribute("currentIntakeProgramId", new Integer(0));
-		    }
-			
-	       try {
+		 try {
+			 DynaActionForm myform = (DynaActionForm)form;
+			 String clientId = myform.getString("clientId");
+			 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	         if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", clientId); 
+	         }
+		     request.setAttribute("actionParam", actionParam);
+		     Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);
+			 if(exc != null && exc.equals(Boolean.TRUE)) {
+		    	   ActionMessages messages= new ActionMessages();
+		    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment_toolarge", request.getContextPath()));
+			        saveMessages(request,messages);
+				   return edit(mapping,form,request,response);
+			  }
+		      String demographicNo= (String)actionParam.get("clientId");
+		       if(Utility.IsEmpty(demographicNo)){
+		    	   ActionMessages messages= new ActionMessages();
+		    	   
+		    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment", request.getContextPath()));
+			        saveMessages(request,messages);
+					//return mapping.findForward("edit");		        
+		    	   return edit(mapping,form,request,response);
+		       }
+		       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+			   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
+			   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+				String providerNo=(String) request.getSession().getAttribute("user");
+	
+				Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			    
+				// is client in scope
+				List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+			    if(lstIntakeHeader.size()>0) {
+			       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
+		           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
+			    }else{
+		           request.setAttribute("currentIntakeProgramId", new Integer(0));
+			    }
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			    String refNo = demographicNo;			   
 			   // List lstProgram = programManager.getPrograms(providerNo, currentFacilityId);
 				atts=uploadFileManager.getAttachment(moduleId, refNo,providerNo,currentFacilityId);
 			    request.setAttribute("att_files", atts);
-		    }catch(Exception ex){
+				return mapping.findForward("list");
+		   }
+		   catch(NoAccessException e)
+		   {
+			   return mapping.findForward("failure");
+		   }catch(Exception ex){
 		    	request.setAttribute("att_files", atts);
-		    }
-			return mapping.findForward("list");
-		}
+				return mapping.findForward("list");
+		   }
+	}
 	 public ActionForward addNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		 DynaActionForm attForm = (DynaActionForm) form;
-		 attForm.set("clientId",request.getParameter("clientId"));
-		 Attachment attObj =(Attachment)attForm.get("attachmentValue");
-		 attObj.setId(null);
-		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	      String demoNo = (String)actionParam.get("clientId");      
-		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
-		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
-		 request.setAttribute("lstDocType", lst);
-		 ActionMessages messages= new ActionMessages();
-		 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-		 Integer cId=Integer.valueOf(demoNo) ;   
-		 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-		 if(null==moduleId) moduleId=KeyConstants.MODULE_ID_CLIENT; 
-		 if(null==cId){
-			 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));		 
-			 saveMessages(request,messages);
-		 }
-		 else{
-			 attObj.setModuleId(moduleId);
-			 attObj.setRefNo(cId.toString());
-		 }
-		 attForm.set("attachmentValue", attObj);
-		 return mapping.findForward("edit");
-	    }
-	 public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		 DynaActionForm attForm = (DynaActionForm) form;
-		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
-		 Attachment attObj = (Attachment)attForm.get("attachmentValue");
-		 String clientId =request.getParameter("clientId");
-		 if(clientId == null) clientId = attForm.getString("clientId");
-		 attForm.set("clientId",clientId);
-
-		 Integer aId = null;
-		 if(null!=request.getParameter("id")) {
-			 aId= new Integer(request.getParameter("id"));
-			 if(aId.intValue()>0)
-			 attObj = uploadFileManager.getAttachmentDetail(aId);
+		 try {
+			 DynaActionForm attForm = (DynaActionForm) form;
+			 attForm.set("clientId",request.getParameter("clientId"));
+			 Attachment attObj =(Attachment)attForm.get("attachmentValue");
+			 attObj.setId(null);
+			 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		       if(actionParam==null){
+		    	  actionParam = new HashMap();
+		          actionParam.put("clientId", request.getParameter("clientId")); 
+		       }
+		       request.setAttribute("actionParam", actionParam);
+		      String demoNo = (String)actionParam.get("clientId");      
+			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
+			 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
+			 request.setAttribute("lstDocType", lst);
+			 ActionMessages messages= new ActionMessages();
+			 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
+			 Integer cId=Integer.valueOf(demoNo) ;   
+			 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
+			 if(null==moduleId) moduleId=KeyConstants.MODULE_ID_CLIENT; 
+			 if(null==cId){
+				 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));		 
+				 saveMessages(request,messages);
+			 }
+			 else{
+				 attObj.setModuleId(moduleId);
+				 attObj.setRefNo(cId.toString());
+			 }
 			 attForm.set("attachmentValue", attObj);
-		 }
-		 else
-		 {
-			 aId = attObj.getId();
-		 }
-		 attForm.set("attachmentText",attTextObj);
-		 
-		 if(Utility.IsEmpty(clientId)) clientId =attObj.getRefNo();
-		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId",clientId ); 
-	       }
-	     request.setAttribute("actionParam", actionParam);
-		 request.setAttribute("clientId", clientId);
-		 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
-		 ActionMessages messages= new ActionMessages();
-		 Integer cId=Integer.valueOf(clientId) ;       
-		 Integer moduleId =KeyConstants.MODULE_ID_CLIENT;  //(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-		 request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
-		 request.setAttribute("clientId", clientId);
-		 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
-		 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
-		 request.setAttribute("lstDocType", lst);
-		 return mapping.findForward("edit");
-	    }
+			 return mapping.findForward("edit");
+		   }
+		   catch(NoAccessException e)
+		   {
+			   return mapping.findForward("failure");
+		    }
+	 }
+	 public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		 try {
+			 DynaActionForm attForm = (DynaActionForm) form;
+			 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
+			 Attachment attObj = (Attachment)attForm.get("attachmentValue");
+			 String clientId =request.getParameter("clientId");
+			 if(clientId == null) clientId = attForm.getString("clientId");
+			 attForm.set("clientId",clientId);
+	
+			 Integer aId = null;
+			 if(null!=request.getParameter("id")) {
+				 aId= new Integer(request.getParameter("id"));
+				 if(aId.intValue()>0)
+				 attObj = uploadFileManager.getAttachmentDetail(aId);
+				 attForm.set("attachmentValue", attObj);
+			 }
+			 else
+			 {
+				 aId = attObj.getId();
+			 }
+			 attForm.set("attachmentText",attTextObj);
+			 
+			 if(Utility.IsEmpty(clientId)) clientId =attObj.getRefNo();
+			 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		       if(actionParam==null){
+		    	  actionParam = new HashMap();
+		          actionParam.put("clientId",clientId ); 
+		       }
+		     request.setAttribute("actionParam", actionParam);
+			 request.setAttribute("clientId", clientId);
+			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
+			 ActionMessages messages= new ActionMessages();
+			 Integer cId=Integer.valueOf(clientId) ;       
+			 Integer moduleId =KeyConstants.MODULE_ID_CLIENT;  //(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
+			 request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+			 request.setAttribute("clientId", clientId);
+			 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
+			 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
+			 request.setAttribute("lstDocType", lst);
+			 return mapping.findForward("edit");
+		   }
+		   catch(NoAccessException e)
+		   {
+			   return mapping.findForward("failure");
+		   }
+	 }
 	 public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 Integer aId = new Integer(request.getParameter("id"));
 		 Attachment attObj=uploadFileManager.getAttachmentDetail(aId);

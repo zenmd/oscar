@@ -147,7 +147,6 @@ public class KeyConstants {
   public static final String FUN_ADMIN="_admin";
   public static final String FUN_ADMIN_SECURITY="_admin.security";
   public static final String FUN_ADMIN_SECURITYLOGREPORT="_admin.securityLogReport";
-  public static final String FUN_ADMIN_UNLOCKACCOUNT="_admin.unlockAccount";
   public static final String FUN_ADMIN_COOKIEREVOLVER="_admin.cookieRevolver";
   public static final String FUN_ADMIN_LOOKUPFIELDEDITOR="_admin.lookupFieldEditor";
   public static final String FUN_DEMOGRAPHIC="_demographic";

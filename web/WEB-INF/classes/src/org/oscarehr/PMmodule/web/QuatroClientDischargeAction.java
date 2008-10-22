@@ -25,6 +25,7 @@ import org.oscarehr.PMmodule.web.formbean.QuatroClientDischargeForm;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 
@@ -43,88 +44,105 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
    }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setEditAttributes(form, request);
-
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
-       return mapping.findForward("edit");
+       try {
+           setEditAttributes(form, request);
+	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
+	       return mapping.findForward("edit");
+       }
+       catch(NoAccessException e)
+       {
+	       return mapping.findForward("failure");
+       }
    }
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
-	   Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-       String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	   ActionMessages messages = new ActionMessages();
-	   boolean isError = false;
-	   boolean isWarning = false;
-	   Admission admObj =(Admission)clientForm.getAdmission();
-	   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
-	   admObj.setDischargeDate(Calendar.getInstance());
-	   admObj.setLastUpdateDate(new GregorianCalendar());
-	   admObj.setProviderNo(providerNo);
-	   boolean isReferral=false;
-	   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId().intValue()>0) {
-//		   isReferral =true;
-		   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
-	   }
-
-	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
-	   admissionManager.dischargeAdmission(admObj, isReferral, lstFamily);
-/*	   
-	   if(lstFamily!=null){
-		   admissionManager.updateDischargeInfo(admObj, isReferral);
-		   Iterator item = lstFamily.iterator();
-			while(item.hasNext()){
-				QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
-				Admission admLoc =admissionManager.getAdmissionByIntakeId(qifTmp.getIntakeId());
-				if(admLoc.getId().intValue()!=admObj.getId().intValue()){ 
-					admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
-					admLoc.setDischargeDate(Calendar.getInstance());
-				  	admLoc.setDischargeNotes(admObj.getDischargeNotes());	
-					admLoc.setCommunityProgramCode(admObj.getCommunityProgramCode());
-				  	admissionManager.updateDischargeInfo(admLoc, false);
+	   try {
+		   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
+		   Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	       String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+		   ActionMessages messages = new ActionMessages();
+		   boolean isError = false;
+		   boolean isWarning = false;
+		   Admission admObj =(Admission)clientForm.getAdmission();
+		   admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+		   admObj.setDischargeDate(Calendar.getInstance());
+		   admObj.setLastUpdateDate(new GregorianCalendar());
+		   admObj.setProviderNo(providerNo);
+		   boolean isReferral=false;
+		   if(null!=admObj.getBedProgramId() && admObj.getBedProgramId().intValue()>0) {
+	//		   isReferral =true;
+			   admObj.setCommunityProgramCode(admObj.getBedProgramId().toString());
+		   }
+	
+		   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+		   admissionManager.dischargeAdmission(admObj, isReferral, lstFamily);
+	/*	   
+		   if(lstFamily!=null){
+			   admissionManager.updateDischargeInfo(admObj, isReferral);
+			   Iterator item = lstFamily.iterator();
+				while(item.hasNext()){
+					QuatroIntakeFamily qifTmp = (QuatroIntakeFamily)item.next();
+					Admission admLoc =admissionManager.getAdmissionByIntakeId(qifTmp.getIntakeId());
+					if(admLoc.getId().intValue()!=admObj.getId().intValue()){ 
+						admLoc.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+						admLoc.setDischargeDate(Calendar.getInstance());
+					  	admLoc.setDischargeNotes(admObj.getDischargeNotes());	
+						admLoc.setCommunityProgramCode(admObj.getCommunityProgramCode());
+					  	admissionManager.updateDischargeInfo(admLoc, false);
+					}
 				}
-			}
-			
-	   }else{
-		   admissionManager.updateDischargeInfo(admObj, isReferral);		  
+				
+		   }else{
+			   admissionManager.updateDischargeInfo(admObj, isReferral);		  
+		   }
+	*/
+		   
+	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
+		  	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       if(actionParam==null){
+	    	  actionParam = new HashMap();
+	          actionParam.put("clientId", request.getParameter("clientId")); 
+	       }
+	       request.setAttribute("actionParam", actionParam);
+	
+		   
+		   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
+	       saveMessages(request,messages);
+	       
+	       /* discharge */      
+	      
+	       List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);
+	       request.setAttribute("lstCommProgram", lstCommProgram);
+	       List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
+	       request.setAttribute("lstDischargeReason", lstDischargeReason);
+	       List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
+	       request.setAttribute("lstTransType", lstTransType);     
+	       List  lstBed=programManager.getBedPrograms(providerNo, shelterId);
+	       request.setAttribute("lstBedProgram",lstBed);
+	       request.setAttribute("admission", admObj);
+	       request.setAttribute("admissionId", admObj.getId());
+	       
+	       request.setAttribute("clientId", admObj.getClientId());
+	       request.setAttribute("client", clientManager.getClientByDemographicNo(admObj.getClientId().toString()));
+	
+	       return mapping.findForward("edit");
 	   }
-*/
-	   
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
-	  	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
+       catch(NoAccessException e)
+       {
+	       return mapping.findForward("failure");
        }
-       request.setAttribute("actionParam", actionParam);
-
-	   
-	   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
-       saveMessages(request,messages);
-       
-       /* discharge */      
-      
-       List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);
-       request.setAttribute("lstCommProgram", lstCommProgram);
-       List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
-       request.setAttribute("lstDischargeReason", lstDischargeReason);
-       List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
-       request.setAttribute("lstTransType", lstTransType);     
-       List  lstBed=programManager.getBedPrograms(providerNo, shelterId);
-       request.setAttribute("lstBedProgram",lstBed);
-       request.setAttribute("admission", admObj);
-       request.setAttribute("admissionId", admObj.getId());
-       
-       request.setAttribute("clientId", admObj.getClientId());
-       request.setAttribute("client", clientManager.getClientByDemographicNo(admObj.getClientId().toString()));
-
-       return mapping.findForward("edit");
    }
    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       setListAttributes(form, request);
-       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
-       return mapping.findForward("list");
+	   try {
+	       setListAttributes(form, request);
+	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
+	       return mapping.findForward("list");
+	   }
+       catch(NoAccessException e)
+       {
+	       return mapping.findForward("failure");
+       }
    }
-   private void setEditAttributes(ActionForm form, HttpServletRequest request) {
+   private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
 	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");

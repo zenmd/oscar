@@ -28,14 +28,16 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.validator.DynaValidatorForm;
 import org.oscarehr.PMmodule.service.ProviderManager;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 import org.oscarehr.util.SpringUtils;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import java.util.*;
 import oscar.log.LogAction;
 
-public final class UnlockAccountAction extends DispatchAction {
+public final class UnlockAccountAction extends BaseAdminAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
     private static final String LOG_PRE = "Login!@#$: ";
 
@@ -49,32 +51,46 @@ public final class UnlockAccountAction extends DispatchAction {
     
     public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-    	DynaValidatorForm myForm = (DynaValidatorForm) form;
-    	String [] userIds = myForm.getString("userId").split(",");
-    	
-    	  String msg = "Unlock";
-    	  //LoginList llist = null;
-    	  LoginCheckLogin cl = new LoginCheckLogin();
-    	  LoginList vec = cl.findLockList();
-    	  
-    	    // unlock
-    	  for(int i=0; i<userIds.length; i++)
-    	  {
-    		  String userName = userIds[i];
-    		  if (userName.equals("")) continue;
-    	      vec.remove(userName);
-    	      cl.unlock(userName);
-    	  }
-    	  ActionMessages messages = new ActionMessages();
-    	  messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("Selected Users are successfully unlocked "));
-    	  saveMessages(request, messages);
-    	  return list(mapping, form, request, response);
+    	try {
+    		super.getAccess(request, KeyConstants.FUN_ADMIN_UNLOCKUSER);
+	    	DynaValidatorForm myForm = (DynaValidatorForm) form;
+	    	String [] userIds = myForm.getString("userId").split(",");
+	    	
+	    	  String msg = "Unlock";
+	    	  //LoginList llist = null;
+	    	  LoginCheckLogin cl = new LoginCheckLogin();
+	    	  LoginList vec = cl.findLockList();
+	    	  
+	    	    // unlock
+	    	  for(int i=0; i<userIds.length; i++)
+	    	  {
+	    		  String userName = userIds[i];
+	    		  if (userName.equals("")) continue;
+	    	      vec.remove(userName);
+	    	      cl.unlock(userName);
+	    	  }
+	    	  ActionMessages messages = new ActionMessages();
+	    	  messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("Selected Users are successfully unlocked "));
+	    	  saveMessages(request, messages);
+	    	  return list(mapping, form, request, response);
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
     }
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-  	  LoginCheckLogin cl = new LoginCheckLogin();
-	  List users = cl.getLockUserList();
-	  request.setAttribute("users", users);
-      return mapping.findForward("list");
+    	try {
+    		super.getAccess(request, KeyConstants.FUN_ADMIN_UNLOCKUSER);
+    		LoginCheckLogin cl = new LoginCheckLogin();
+    		List users = cl.getLockUserList();
+    		request.setAttribute("users", users);
+    		return mapping.findForward("list");
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
     }
  }

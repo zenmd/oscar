@@ -41,6 +41,7 @@ import org.oscarehr.PMmodule.service.FacilityMessageManager;
 import org.oscarehr.PMmodule.web.BaseFacilityAction;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 
 public class FacilityMessageAction extends BaseFacilityAction {
@@ -66,119 +67,133 @@ public class FacilityMessageAction extends BaseFacilityAction {
 		
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		
-    	
-    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("facilityId", request.getParameter("facilityId")); 
-        }
-        request.setAttribute("actionParam", actionParam);
-        
-        
-    	String idStr = request.getParameter("facilityId");
-        Integer facilityId = Integer.valueOf(idStr);
-        Facility facility = facilityMgr.getFacility(facilityId);
-        request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());      
-        /*
-         *  Lillian change Message related to Shelter not related to Facility 
-         */
-		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-		boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
-		isReadOnly = (!facility.getActive()) || isReadOnly;
-		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-		List activeMessages = mgr.getMessagesByFacilityId(providerNo, facilityId);
-		if(activeMessages!=null && activeMessages.size() >0)
-			request.setAttribute("ActiveFacilityMessages",activeMessages);
-		return mapping.findForward("list");
+    	try {
+	    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	        if(actionParam==null){
+	     	  actionParam = new HashMap();
+	           actionParam.put("facilityId", request.getParameter("facilityId")); 
+	        }
+	        request.setAttribute("actionParam", actionParam);
+	        
+	        
+	    	String idStr = request.getParameter("facilityId");
+	        Integer facilityId = Integer.valueOf(idStr);
+	        Facility facility = facilityMgr.getFacility(facilityId);
+	        request.setAttribute("facility", facility);
+	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());      
+	        /*
+	         *  Lillian change Message related to Shelter not related to Facility 
+	         */
+			Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+			boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
+			isReadOnly = (!facility.getActive()) || isReadOnly;
+			if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+			List activeMessages = mgr.getMessagesByFacilityId(providerNo, facilityId);
+			if(activeMessages!=null && activeMessages.size() >0)
+				request.setAttribute("ActiveFacilityMessages",activeMessages);
+			return mapping.findForward("list");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
 	}
 	
 	public ActionForward edit(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		    	
-    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("facilityId", request.getParameter("facilityId")); 
-        }
-        request.setAttribute("actionParam", actionParam);
-        
-        Integer facilityId = null;        
-    	String idStr = request.getParameter("facilityId");
-    	if(idStr == null){
-    		facilityId = (Integer)actionParam.get("facilityId");
-    	}else
-    		facilityId = Integer.valueOf(idStr);
-        Facility facility = facilityMgr.getFacility(facilityId);
-        request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());
-		DynaActionForm facilityMessageForm = (DynaActionForm)form;
-		String messageId = request.getParameter("id");
-		
+		try {
+	    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	        if(actionParam==null){
+	     	  actionParam = new HashMap();
+	           actionParam.put("facilityId", request.getParameter("facilityId")); 
+	        }
+	        request.setAttribute("actionParam", actionParam);
+	        
+	        Integer facilityId = null;        
+	    	String idStr = request.getParameter("facilityId");
+	    	if(idStr == null){
+	    		facilityId = (Integer)actionParam.get("facilityId");
+	    	}else
+	    		facilityId = Integer.valueOf(idStr);
+	        Facility facility = facilityMgr.getFacility(facilityId);
+	        request.setAttribute("facility", facility);
+	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());
+			DynaActionForm facilityMessageForm = (DynaActionForm)form;
+			String messageId = request.getParameter("id");
 			
-		//List facilities = programProviderDAO.getFacilitiesInProgramDomain(providerNo);
-		//List facilities = new ArrayList();
-		//facilities.add((Facility)request.getSession(true).getAttribute("currentFacility"));
-		
-		//request.getSession(true).setAttribute("facilities", facilities);
-		
-        Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-        boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
-		if(messageId != null) {
-			FacilityMessage msg = mgr.getMessage(messageId);
+				
+			//List facilities = programProviderDAO.getFacilitiesInProgramDomain(providerNo);
+			//List facilities = new ArrayList();
+			//facilities.add((Facility)request.getSession(true).getAttribute("currentFacility"));
 			
-			if(msg == null) {
-				ActionMessages webMessage = new ActionMessages();
-				webMessage.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("system_message.missing"));
-				saveErrors(request,webMessage);
-				return list(mapping,form,request,response);
+			//request.getSession(true).setAttribute("facilities", facilities);
+			
+	        Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	        boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_FACILITY_MESSAGE, shelterId);
+			if(messageId != null) {
+				FacilityMessage msg = mgr.getMessage(messageId);
+				
+				if(msg == null) {
+					ActionMessages webMessage = new ActionMessages();
+					webMessage.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("system_message.missing"));
+					saveErrors(request,webMessage);
+					return list(mapping,form,request,response);
+				}
+				facilityMessageForm.set("facility_message",msg);
+				isReadOnly = isReadOnly || msg.getExpired();
 			}
-			facilityMessageForm.set("facility_message",msg);
-			isReadOnly = isReadOnly || msg.getExpired();
-		}
-		
-		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
-        request.setAttribute("msgTypepList", msgTypepList);
-		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-		return mapping.findForward("edit");
+			
+			List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
+	        request.setAttribute("msgTypepList", msgTypepList);
+			if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+			return mapping.findForward("edit");
+		   }
+		   catch(NoAccessException e)
+		   {
+			   return mapping.findForward("failure");
+		   }
 	}
 
 	public ActionForward save(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		DynaActionForm userForm = (DynaActionForm)form;
-		FacilityMessage msg = (FacilityMessage)userForm.get("facility_message");
-		msg.setCreation_date(new Date());
-		Integer facilityId = msg.getFacilityId();
-		
-		
-    	
-    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        if(actionParam==null){
-     	  actionParam = new HashMap();
-           actionParam.put("facilityId", facilityId); 
-        }
-        request.setAttribute("actionParam", actionParam);
-		
-		String facilityName = "";
-		if(facilityId!=null && facilityId.intValue()!=0)
-			facilityName = facilityMgr.getFacility(facilityId).getName();
-		msg.setFacilityName(facilityName);
-		try{
-			//after discussing with Tony, Lillian change this facility message to shelter ralated 
-			msg.setFacilityId(facilityId);
-			mgr.saveFacilityMessage(msg);
-			ActionMessages messages = new ActionMessages();
-            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-            saveMessages(request, messages);
-		}catch(Exception e){
-	        ActionMessages messages = new ActionMessages();
-	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed", request.getContextPath()));
-	        saveMessages(request,messages);
-		}
-		
-		Facility facility = facilityMgr.getFacility(facilityId);
-        request.setAttribute("facility", facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());
-        return edit(mapping, form, request, response);
+		try {
+			DynaActionForm userForm = (DynaActionForm)form;
+			FacilityMessage msg = (FacilityMessage)userForm.get("facility_message");
+			msg.setCreation_date(new Date());
+			Integer facilityId = msg.getFacilityId();
+			
+	    	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	        if(actionParam==null){
+	     	  actionParam = new HashMap();
+	           actionParam.put("facilityId", facilityId); 
+	        }
+	        request.setAttribute("actionParam", actionParam);
+			
+			String facilityName = "";
+			if(facilityId!=null && facilityId.intValue()!=0)
+				facilityName = facilityMgr.getFacility(facilityId).getName();
+			msg.setFacilityName(facilityName);
+			try{
+				//after discussing with Tony, Lillian change this facility message to shelter ralated 
+				msg.setFacilityId(facilityId);
+				mgr.saveFacilityMessage(msg);
+				ActionMessages messages = new ActionMessages();
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+	            saveMessages(request, messages);
+			}catch(Exception e){
+		        ActionMessages messages = new ActionMessages();
+		        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed", request.getContextPath()));
+		        saveMessages(request,messages);
+			}
+			
+			Facility facility = facilityMgr.getFacility(facilityId);
+	        request.setAttribute("facility", facility);
+	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());
+	        return edit(mapping, form, request, response);
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
 	}
 	
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {

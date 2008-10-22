@@ -39,12 +39,14 @@ import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
 import org.caisi.model.SystemMessage;
 import org.caisi.service.SystemMessageManager;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 
-public class SystemMessageAction extends DispatchAction {
+public class SystemMessageAction extends BaseAdminAction {
 
 	private static Logger log = LogManager.getLogger(SystemMessageAction.class);
 	
@@ -61,41 +63,55 @@ public class SystemMessageAction extends DispatchAction {
 		
 	public ActionForward list(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 //		List activeMessages = mgr.getMessages();
-		List activeMessages = mgr.getMessages();
-		request.setAttribute("ActiveMessages",activeMessages);
-		return mapping.findForward("list");
+		try {
+			super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
+			List activeMessages = mgr.getMessages();
+			request.setAttribute("ActiveMessages",activeMessages);
+			return mapping.findForward("list");
+		}
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
 	}
 	
 	public ActionForward edit(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		DynaActionForm systemMessageForm = (DynaActionForm)form;
-		String messageId = request.getParameter("id");
-		if(messageId == null)
-			messageId = (String)request.getAttribute("systemMsgId");
-        boolean isReadOnly =false;		
-		if(messageId != null) {
-			SystemMessage msg = mgr.getMessage(messageId);
-			
-			if(msg == null) {
-				ActionMessages webMessage = new ActionMessages();
-				webMessage.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("system_message.missing"));
-				saveErrors(request,webMessage);
-				return list(mapping,form,request,response);
+		try {
+			super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
+			DynaActionForm systemMessageForm = (DynaActionForm)form;
+			String messageId = request.getParameter("id");
+			if(messageId == null)
+				messageId = (String)request.getAttribute("systemMsgId");
+	        boolean isReadOnly =false;		
+			if(messageId != null) {
+				SystemMessage msg = mgr.getMessage(messageId);
+				
+				if(msg == null) {
+					ActionMessages webMessage = new ActionMessages();
+					webMessage.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("system_message.missing"));
+					saveErrors(request,webMessage);
+					return list(mapping,form,request,response);
+				}
+				isReadOnly = msg.getExpired();
+				systemMessageForm.set("system_message",msg);
 			}
-			isReadOnly = msg.getExpired();
-			systemMessageForm.set("system_message",msg);
+			
+			List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
+	        request.setAttribute("msgTypepList", msgTypepList);
+			SecurityManager sec = (SecurityManager) request.getSession()
+			.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+			if (!isReadOnly)
+			{
+				if (sec.GetAccess(KeyConstants.FUN_ADMIN_SYSTEMMESSAGE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+					isReadOnly=true;
+			}
+			if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+			return mapping.findForward("edit");
 		}
-		
-		List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
-        request.setAttribute("msgTypepList", msgTypepList);
-		SecurityManager sec = (SecurityManager) request.getSession()
-		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
-		if (!isReadOnly)
+		catch(NoAccessException e)
 		{
-			if (sec.GetAccess(KeyConstants.FUN_ADMIN_SYSTEMMESSAGE, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
-				isReadOnly=true;
+			return mapping.findForward("failure");
 		}
-		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
-		return mapping.findForward("edit");
 	}
 
 	public ActionForward save(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -104,25 +120,35 @@ public class SystemMessageAction extends DispatchAction {
 		msg.setCreation_date(new Date());
 	
         try{
+        	super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
         	mgr.saveSystemMessage(msg);
 			ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
             saveMessages(request, messages);
+        }catch(NoAccessException e)
+        {
+        	return mapping.findForward("failure");
 		}catch(Exception e){
 	        ActionMessages messages = new ActionMessages();
 	        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.save.failed", request.getContextPath()));
 	        saveMessages(request,messages);
 		}
 		request.setAttribute("systemMsgId", msg.getId().toString());
-
         return edit(mapping, form, request, response);
 	}
 	public ActionForward view(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		List messages = mgr.getActiveMessages();
-		if(messages.size()>0) {
-			request.setAttribute("messages",messages);
+		try {
+			super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
+			List messages = mgr.getActiveMessages();
+			if(messages.size()>0) {
+				request.setAttribute("messages",messages);
+			}
+			return mapping.findForward("view");
 		}
-		return mapping.findForward("view");
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
 	}
 
 	public void setLookupManager(LookupManager lookupManager) {

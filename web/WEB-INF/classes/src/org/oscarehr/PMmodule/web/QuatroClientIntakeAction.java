@@ -15,6 +15,7 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.IntakeManager;
 
 public class QuatroClientIntakeAction  extends BaseClientAction {
@@ -29,15 +30,21 @@ public class QuatroClientIntakeAction  extends BaseClientAction {
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        //On newclient intake page, if save button not clicked before close button clicked, goto client search page. 
-	   if(request.getParameter("clientId")!=null){
-	     String demographicNo= request.getParameter("clientId");
-	     if(demographicNo.equals("0")) return mapping.findForward("close");
-       }else{
-    	 return mapping.findForward("close");
+	   try {
+		   if(request.getParameter("clientId")!=null){
+		     String demographicNo= request.getParameter("clientId");
+		     if(demographicNo.equals("0")) return mapping.findForward("close");
+	       }else{
+	    	 return mapping.findForward("close");
+	       }
+		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+	       setEditAttributes(form, request);
+	       return mapping.findForward("edit");
        }
-	   super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-       setEditAttributes(form, request);
-       return mapping.findForward("edit");
+       catch(NoAccessException e)
+       {
+	       return mapping.findForward("failure");
+       }
    }
    
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {

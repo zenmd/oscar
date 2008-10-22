@@ -3,6 +3,7 @@ import java.util.*;
 
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.dao.LookupDao;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.UserAccessValue;
@@ -68,7 +69,15 @@ public class SecurityManager {
         	;
         }
 
-        if(privilege==null) return "";
+        if(privilege==null || privilege.equals(this.ACCESS_NONE)) {
+        	if (functioncd.equals(KeyConstants.FUN_CLIENTHEALTHSAFETY)) {
+        		privilege = this.ACCESS_READ;
+        	}
+        	else
+        	{
+        		privilege = this.ACCESS_NONE;
+        	}
+        }
         return privilege;
     }
     public String GetAccess(String function)

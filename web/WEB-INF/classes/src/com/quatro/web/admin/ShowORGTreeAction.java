@@ -13,12 +13,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.ORGManager;
 
-public class ShowORGTreeAction extends DispatchAction {
+public class ShowORGTreeAction extends BaseAdminAction {
 	private ORGManager orgManager = null;
 
 	public ORGManager getOrgManager() {
@@ -36,19 +39,26 @@ public class ShowORGTreeAction extends DispatchAction {
 
 	public ActionForward tree(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		String tableId = request.getParameter("tableId");
-		
-		LookupTableDefValue tableDef = orgManager.GetLookupTableDef(tableId);
-
-		List lst = orgManager.LoadCodeList(tableId, true, null, null);
+		try {
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ORG);
+			String tableId = request.getParameter("tableId");
+			
+			LookupTableDefValue tableDef = orgManager.GetLookupTableDef(tableId);
 	
-		MenuRepository repository = setMenu(lst, request);
-
-		DynaActionForm qform = (DynaActionForm) form;
-		qform.set("tableDef", tableDef);
-		qform.set("tree", repository);
-
-		return mapping.findForward("tree");
+			List lst = orgManager.LoadCodeList(tableId, true, null, null);
+		
+			MenuRepository repository = setMenu(lst, request);
+	
+			DynaActionForm qform = (DynaActionForm) form;
+			qform.set("tableDef", tableDef);
+			qform.set("tree", repository);
+	
+			return mapping.findForward("tree");
+		}
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
 	}
 
 	private MenuRepository setMenu(List lst, HttpServletRequest request) {

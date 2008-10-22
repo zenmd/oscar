@@ -11,17 +11,20 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.BaseAction;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.FieldDefValue;
 import com.quatro.model.LookupTableDefValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
-public class LookupCodeEditAction extends DispatchAction {
+public class LookupCodeEditAction extends BaseAdminAction {
     private LookupManager lookupManager=null;
 
 	public LookupManager getLookupManager() {
@@ -33,11 +36,17 @@ public class LookupCodeEditAction extends DispatchAction {
 	}
 	
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		return loadCode(mapping,form,request,response);
+    	try {
+    		super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP);
+    		return loadCode(mapping,form,request,response);
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
 	}
 	
 	public ActionForward loadCode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        
 		String [] codeIds = request.getParameter("id").split(":");
         String tableId = codeIds[0];
         String code = "0";

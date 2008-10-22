@@ -9,10 +9,17 @@ import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.web.BaseAction;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 
 public class AdminHomeAction extends BaseAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	super.setMenu(request,KeyConstants.MENU_ADMIN);
-		return mapping.findForward("admin");
+    	try {
+    		super.setMenu(request,KeyConstants.MENU_ADMIN);
+    		return mapping.findForward("admin");
+    	}
+    	catch(NoAccessException e)
+    	{
+    		return mapping.findForward("failure");
+    	}
 	}
 }

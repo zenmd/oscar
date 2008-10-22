@@ -29,6 +29,7 @@ import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.IntakeManager;
 import com.quatro.util.Utility;
 
@@ -89,24 +90,31 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		try {
 			List lstRefers = clientManager.getManualReferrals(demographicNo,providerNo,shelterId);
 			request.setAttribute("lstRefers", lstRefers);
+			
+			super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
+			return mapping.findForward("list");
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
 		} catch (Exception e) {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"error.listRefer.failed", request.getContextPath()));
 			saveMessages(request, messages);
+			return mapping.findForward("list");
 		}
-		
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-		return mapping.findForward("list");
 	}
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		try {
 		setEditAttributes(form, request);		
 		return mapping.findForward("edit");
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 	public ActionForward selectProgram(ActionMapping mapping, ActionForm form, 
 		 HttpServletRequest request, HttpServletResponse response) {
-
+		try {
 		ActionMessages messages = new ActionMessages();
 		DynaActionForm clientForm = (DynaActionForm) form;
 		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
@@ -145,10 +153,14 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		List lstProgram =clientManager.getProgramLookups(new Integer(cId), shelterId, (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 		request.setAttribute("lstProgram", lstProgram);
 		return mapping.findForward("edit");
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 	public ActionForward refer_select_program(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
+		try {
 		DynaActionForm clientForm = (DynaActionForm) form;
 		Program p = (Program) clientForm.get("program");
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
@@ -163,11 +175,15 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 		request.setAttribute("do_refer", Boolean.TRUE);
 		return mapping.findForward("edit");
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	public ActionForward search_programs(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
+		try {
 		DynaActionForm clientForm = (DynaActionForm) form;
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		Program criteria = (Program) clientForm.get("program");
@@ -185,11 +201,14 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		ProgramUtils.addProgramRestrictions(request);
 
 		return mapping.findForward("search_programs");
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
+		try {
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		log.debug("Saving Refer");
 		ActionMessages messages = new ActionMessages();
@@ -265,9 +284,12 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		setEditAttributes(form, request);
 		//return  edit(mapping,form,request,response);
 		return mapping.findForward("edit");
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
-	private void setEditAttributes(ActionForm form, HttpServletRequest request) {
+	private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
 		DynaActionForm clientForm = (DynaActionForm) form;
 		String cId =request.getParameter("clientId");
 		ClientReferral crObj=(ClientReferral)clientForm.get("referral");

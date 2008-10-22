@@ -33,6 +33,7 @@ import oscar.MyDateFormat;
 import com.quatro.model.Complaint;
 import com.quatro.model.IncidentValue;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import com.quatro.common.KeyConstants;
 
@@ -59,7 +60,7 @@ public class ClientHistoryAction extends BaseClientAction {
 
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
+		try {
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		if (actionParam == null) {
 			actionParam = new HashMap();
@@ -113,6 +114,11 @@ public class ClientHistoryAction extends BaseClientAction {
 		request.setAttribute("actions", actions);
 
 		return mapping.findForward("list");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
 	}
 
 	public void setProgramManager(ProgramManager programManager) {

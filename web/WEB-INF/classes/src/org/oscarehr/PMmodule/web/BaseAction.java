@@ -45,6 +45,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import oscar.OscarProperties;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.service.security.UserAccessManager;
 
@@ -145,10 +146,11 @@ public abstract class BaseAction extends DispatchAction {
 		return attribute;
 	}
 	
-	protected void setMenu(HttpServletRequest request, String currentMenu) {
+	protected void setMenu(HttpServletRequest request, String currentMenu) throws NoAccessException {
 		/*
 		  isPageChangedFlag appeared?
 		*/
+		
 		if (request.getAttribute("pageChanged") == null) {
 			if(request.getParameter("pageChanged")!= null) request.setAttribute("pageChanged", request.getParameter("pageChanged"));
 		}
@@ -160,7 +162,14 @@ public abstract class BaseAction extends DispatchAction {
 		{
 			request.getSession().setAttribute(lastMenu, KeyConstants.ACCESS_VIEW);
 		}
-		
+		// check home page access
+		if(!currentMenu.equals(KeyConstants.MENU_HOME))
+		{
+			if (request.getSession().getAttribute(currentMenu).equals(KeyConstants.ACCESS_NULL))
+			{
+				throw new NoAccessException();
+			}
+		}
 		String scrollPosition = (String) request.getParameter("scrollPosition");
 		if(null != scrollPosition) {
 			request.setAttribute("scrPos", scrollPosition);

@@ -26,6 +26,7 @@ import org.oscarehr.PMmodule.web.BaseFacilityAction;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 
 public class BedManagerAction extends BaseFacilityAction {
 
@@ -39,146 +40,177 @@ public class BedManagerAction extends BaseFacilityAction {
     }
 
     public ActionForward editRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-        
-    	BedManagerForm bForm = (BedManagerForm) form;
-    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
+    	try {
+	    	prepareLeftNav(request);
+	        
+	    	BedManagerForm bForm = (BedManagerForm) form;
+	    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
+	
+	        bForm.setFacilityId(facilityId);
+	
+	        ArrayList assignedBedLst= new ArrayList();
+	        assignedBedLst.add(new LabelValueBean("N", "0"));
+	        assignedBedLst.add(new LabelValueBean("Y", "1"));
+	        request.setAttribute("assignedBedLst", assignedBedLst);
+	
+	        request.setAttribute("roomId", roomId);
+	
+	        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
+	        
+	        Room room;
+	        if(roomId.intValue()>0){
+	          room = roomManager.getRoom(roomId);
+	        }else{
+	          room = new Room();
+	          room.setFacilityId(facilityId);
+	        }
+	        bForm.setRoom(room);
+	        
+	        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
+	        bForm.setPrograms(pLst);
+	
+	        Bed[] temp = bedManager.getActiveBedsByRoom(roomId);
+	        request.setAttribute("activebednum", String.valueOf(temp.length));
+	
+	        return mapping.findForward("editroom");
+	   }
+	   catch(NoAccessException e)
+	   {
+		   return mapping.findForward("failure");
+	   }
 
-        bForm.setFacilityId(facilityId);
-
-        ArrayList assignedBedLst= new ArrayList();
-        assignedBedLst.add(new LabelValueBean("N", "0"));
-        assignedBedLst.add(new LabelValueBean("Y", "1"));
-        request.setAttribute("assignedBedLst", assignedBedLst);
-
-        request.setAttribute("roomId", roomId);
-
-        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
-        
-        Room room;
-        if(roomId.intValue()>0){
-          room = roomManager.getRoom(roomId);
-        }else{
-          room = new Room();
-          room.setFacilityId(facilityId);
-        }
-        bForm.setRoom(room);
-        
-        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
-        bForm.setPrograms(pLst);
-
-        Bed[] temp = bedManager.getActiveBedsByRoom(roomId);
-        request.setAttribute("activebednum", String.valueOf(temp.length));
-
-        return mapping.findForward("editroom");
     }
 
     public ActionForward editBed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-        
-    	BedManagerForm bForm = (BedManagerForm) form;
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
-        Integer bedId = Integer.valueOf(request.getParameter("bedId"));
-
-        bForm.setFacilityId(facilityId);
-        Room room=roomManager.getRoom(roomId);
-        bForm.setRoom(room);
-
-        Program program = programManager.getProgram(room.getProgramId());
-        request.setAttribute("program", program);
-        
-        request.setAttribute("roomId", roomId);
-        request.setAttribute("bedId", bedId);
-
-        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
-        request.setAttribute("bedTypes", bedManager.getActiveBedTypes());
-        
-        Bed bed;
-        if(bedId.intValue()>0){
-          bed = bedManager.getBed(bedId);
-        }else{
-          bed = new Bed();
-          bed.setRoomId(roomId);
-        }
-        bForm.setBed(bed);
-        
-        return mapping.findForward("editbed");
+    	try {
+	    	prepareLeftNav(request);
+	        
+	    	BedManagerForm bForm = (BedManagerForm) form;
+	        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
+	        Integer bedId = Integer.valueOf(request.getParameter("bedId"));
+	
+	        bForm.setFacilityId(facilityId);
+	        Room room=roomManager.getRoom(roomId);
+	        bForm.setRoom(room);
+	
+	        Program program = programManager.getProgram(room.getProgramId());
+	        request.setAttribute("program", program);
+	        
+	        request.setAttribute("roomId", roomId);
+	        request.setAttribute("bedId", bedId);
+	
+	        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
+	        request.setAttribute("bedTypes", bedManager.getActiveBedTypes());
+	        
+	        Bed bed;
+	        if(bedId.intValue()>0){
+	          bed = bedManager.getBed(bedId);
+	        }else{
+	          bed = new Bed();
+	          bed.setRoomId(roomId);
+	        }
+	        bForm.setBed(bed);
+	        
+	        return mapping.findForward("editbed");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     public ActionForward manageroom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-        
-    	BedManagerForm bForm = (BedManagerForm) form;
-    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-
-        bForm.setFacilityId(facilityId);
-
-        Room[] temp =null;
-        temp = roomManager.getRooms(facilityId);
-        
-        processDisplayRoom(form, request, temp, providerNo, facilityId);
-
-        return mapping.findForward("manageroom");
+    	try {
+	    	prepareLeftNav(request);
+	        
+	    	BedManagerForm bForm = (BedManagerForm) form;
+	    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	
+	        bForm.setFacilityId(facilityId);
+	
+	        Room[] temp =null;
+	        temp = roomManager.getRooms(facilityId);
+	        
+	        processDisplayRoom(form, request, temp, providerNo, facilityId);
+	
+	        return mapping.findForward("manageroom");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     public ActionForward managebed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-        
-    	BedManagerForm bForm = (BedManagerForm) form;
-    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
-        request.setAttribute("roomId", roomId);
-
-        bForm.setFacilityId(facilityId);
-
-        Room room=roomManager.getRoom(roomId);
-        bForm.setRoom(room);
-
-        Program program = programManager.getProgram(room.getProgramId());
-        request.setAttribute("program", program);
-        
-        Bed[] temp = bedManager.getAllBedsByRoom(roomId);
-        
-        processDisplayBed(form, request, temp, providerNo, facilityId);
-
-        return mapping.findForward("managebed");
+    	try {
+	    	prepareLeftNav(request);
+	        
+	    	BedManagerForm bForm = (BedManagerForm) form;
+	    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
+	        request.setAttribute("roomId", roomId);
+	
+	        bForm.setFacilityId(facilityId);
+	
+	        Room room=roomManager.getRoom(roomId);
+	        bForm.setRoom(room);
+	
+	        Program program = programManager.getProgram(room.getProgramId());
+	        request.setAttribute("program", program);
+	        
+	        Bed[] temp = bedManager.getAllBedsByRoom(roomId);
+	        
+	        processDisplayBed(form, request, temp, providerNo, facilityId);
+	
+	        return mapping.findForward("managebed");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
     
     public ActionForward doRoomFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-    	
-    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-
-        Integer roomStatus = Integer.valueOf(request.getParameter("roomStatusFilter"));
-        Integer roomFilteredProgram = Integer.valueOf(request.getParameter("bedProgramFilterForRoom"));
-        
-        Boolean roomStatusBoolean = new Boolean(false);
-
-        if (roomStatus.intValue() == 1) {
-            roomStatusBoolean = new Boolean(true);
-        }
-        else if (roomStatus.intValue() == 0) {
-            roomStatusBoolean = new Boolean(false);
-        }
-        else {
-            roomStatusBoolean = null;
-        }
-
-        if (roomFilteredProgram.intValue() == 0) {
-            roomFilteredProgram = null;
-        }
-
-        Room[] temp = roomManager.getRooms(facilityId, roomFilteredProgram, roomStatusBoolean);
-
-        processDisplayRoom(form, request, temp, providerNo, facilityId);
-
-        return mapping.findForward("manageroom");
+    	try {
+	    	prepareLeftNav(request);
+	    	
+	    	Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	    	String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	
+	        Integer roomStatus = Integer.valueOf(request.getParameter("roomStatusFilter"));
+	        Integer roomFilteredProgram = Integer.valueOf(request.getParameter("bedProgramFilterForRoom"));
+	        
+	        Boolean roomStatusBoolean = new Boolean(false);
+	
+	        if (roomStatus.intValue() == 1) {
+	            roomStatusBoolean = new Boolean(true);
+	        }
+	        else if (roomStatus.intValue() == 0) {
+	            roomStatusBoolean = new Boolean(false);
+	        }
+	        else {
+	            roomStatusBoolean = null;
+	        }
+	
+	        if (roomFilteredProgram.intValue() == 0) {
+	            roomFilteredProgram = null;
+	        }
+	
+	        Room[] temp = roomManager.getRooms(facilityId, roomFilteredProgram, roomStatusBoolean);
+	
+	        processDisplayRoom(form, request, temp, providerNo, facilityId);
+	
+	        return mapping.findForward("manageroom");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     private void processDisplayRoom(ActionForm form, HttpServletRequest request, Room[] roomLst,
@@ -290,46 +322,52 @@ public class BedManagerAction extends BaseFacilityAction {
     }
     
     public ActionForward saveRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-    	
-    	BedManagerForm bForm = (BedManagerForm) form;
-        ActionMessages messages = new ActionMessages();
-
-        Room room = bForm.getRoom();
-
-        boolean isValid = isRoomOverProgramCapacity(room,null, request);
-        
-       	if(isValid){
-            try{
-            	roomManager.saveRoom(room);
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-                saveMessages(request, messages);
-            }catch(IllegalStateException ex){
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),ex.getMessage()));
-                saveMessages(request, messages);
-            }
-            catch(DataIntegrityViolationException ex)
-            {
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),"Duplicate Room Name Detected"));
-                saveMessages(request, messages);
-            }
-       	}
-
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
-
-        ArrayList assignedBedLst= new ArrayList();
-        assignedBedLst.add(new LabelValueBean("N", "0"));
-        assignedBedLst.add(new LabelValueBean("Y", "1"));
-        request.setAttribute("assignedBedLst", assignedBedLst);
-
-        request.setAttribute("roomId", room.getId());
-        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
-
-        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
-        bForm.setPrograms(pLst);
-
-        return mapping.findForward("editroom");
+    	try {
+	    	prepareLeftNav(request);
+	    	
+	    	BedManagerForm bForm = (BedManagerForm) form;
+	        ActionMessages messages = new ActionMessages();
+	
+	        Room room = bForm.getRoom();
+	
+	        boolean isValid = isRoomOverProgramCapacity(room,null, request);
+	        
+	       	if(isValid){
+	            try{
+	            	roomManager.saveRoom(room);
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+	                saveMessages(request, messages);
+	            }catch(IllegalStateException ex){
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),ex.getMessage()));
+	                saveMessages(request, messages);
+	            }
+	            catch(DataIntegrityViolationException ex)
+	            {
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.state.error", request.getContextPath(),"Duplicate Room Name Detected"));
+	                saveMessages(request, messages);
+	            }
+	       	}
+	
+	        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	        String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+	
+	        ArrayList assignedBedLst= new ArrayList();
+	        assignedBedLst.add(new LabelValueBean("N", "0"));
+	        assignedBedLst.add(new LabelValueBean("Y", "1"));
+	        request.setAttribute("assignedBedLst", assignedBedLst);
+	
+	        request.setAttribute("roomId", room.getId());
+	        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
+	
+	        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
+	        bForm.setPrograms(pLst);
+	
+	        return mapping.findForward("editroom");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 /*
     public ActionForward deleteRoom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -377,54 +415,60 @@ public class BedManagerAction extends BaseFacilityAction {
 */    
 
     public ActionForward saveBed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	prepareLeftNav(request);
-    	
-    	BedManagerForm bForm = (BedManagerForm) form;
-    	ActionMessages messages = new ActionMessages();
-
-    	Bed bed = bForm.getBed();
-        Room room=roomManager.getRoom(bed.getRoomId());
-        boolean isNew = bed.getId().intValue()==0;
-        boolean isValid = true;
-        //not need check for change bed inactive 
-        if(bed!=null && bed.isActive()) isValid =isRoomOverProgramCapacity(room, bed, request);        
-       	if(isValid){
-       		try{
-           	  bedManager.saveBed(bed);           
-              messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
-              saveMessages(request, messages);
-            }catch(IllegalStateException ex){
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),ex.getMessage()));
-                saveMessages(request, messages);
-            }
-            catch(DataIntegrityViolationException ex)
-            {
-            	if(isNew) bed.setId(new Integer(0));
-                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),"Duplicate Bed Name Detected"));
-                saveMessages(request, messages);
-            }
-
-       	}
-       	
-        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
-        Integer roomId = bed.getRoomId();
-        Integer bedId = bed.getId();
-
-        bForm.setFacilityId(facilityId);
-        bForm.setRoom(room);
-
-        Program program = programManager.getProgram(room.getProgramId());
-        request.setAttribute("program", program);
-        
-        request.setAttribute("roomId", roomId);
-        request.setAttribute("bedId", bedId);
-
-        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
-        request.setAttribute("bedTypes", bedManager.getBedTypes());
-        
-        bForm.setBed(bed);
-
-        return mapping.findForward("editbed");
+    	try {
+	    	prepareLeftNav(request);
+	    	
+	    	BedManagerForm bForm = (BedManagerForm) form;
+	    	ActionMessages messages = new ActionMessages();
+	
+	    	Bed bed = bForm.getBed();
+	        Room room=roomManager.getRoom(bed.getRoomId());
+	        boolean isNew = bed.getId().intValue()==0;
+	        boolean isValid = true;
+	        //not need check for change bed inactive 
+	        if(bed!=null && bed.isActive()) isValid =isRoomOverProgramCapacity(room, bed, request);        
+	       	if(isValid){
+	       		try{
+	           	  bedManager.saveBed(bed);           
+	              messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+	              saveMessages(request, messages);
+	            }catch(IllegalStateException ex){
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),ex.getMessage()));
+	                saveMessages(request, messages);
+	            }
+	            catch(DataIntegrityViolationException ex)
+	            {
+	            	if(isNew) bed.setId(new Integer(0));
+	                messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.state.error", request.getContextPath(),"Duplicate Bed Name Detected"));
+	                saveMessages(request, messages);
+	            }
+	
+	       	}
+	       	
+	        Integer facilityId = Integer.valueOf(request.getParameter("facilityId"));
+	        Integer roomId = bed.getRoomId();
+	        Integer bedId = bed.getId();
+	
+	        bForm.setFacilityId(facilityId);
+	        bForm.setRoom(room);
+	
+	        Program program = programManager.getProgram(room.getProgramId());
+	        request.setAttribute("program", program);
+	        
+	        request.setAttribute("roomId", roomId);
+	        request.setAttribute("bedId", bedId);
+	
+	        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
+	        request.setAttribute("bedTypes", bedManager.getBedTypes());
+	        
+	        bForm.setBed(bed);
+	
+	        return mapping.findForward("editbed");
+ 	   }
+ 	   catch(NoAccessException e)
+ 	   {
+ 		   return mapping.findForward("failure");
+ 	   }
     }
 
     public FacilityManager getFacilityManager() {
@@ -447,7 +491,7 @@ public class BedManagerAction extends BaseFacilityAction {
         this.roomManager = roomManager;
     }
 
-	private void prepareLeftNav(HttpServletRequest request){
+	private void prepareLeftNav(HttpServletRequest request) throws NoAccessException {
 				
 		String facilityId = request.getParameter("facilityId");
 				

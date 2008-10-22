@@ -27,11 +27,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.tools.ant.taskdefs.condition.IsFileSelected;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.security.SecurityManager;
 
 public abstract class BaseFacilityAction extends BaseAction {
 
-	protected void setScreenMode(HttpServletRequest request, String currentTab, boolean isFacilityActive) {
+	protected void setScreenMode(HttpServletRequest request, String currentTab, boolean isFacilityActive) throws NoAccessException {
 		super.setMenu(request, KeyConstants.MENU_FACILITY);
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
@@ -41,7 +42,11 @@ public abstract class BaseFacilityAction extends BaseAction {
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_GENERAL))
 				request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_CURRENT);
 		}
-		else request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_NULL);
+		else 
+		{
+			request.setAttribute(KeyConstants.TAB_FACILITY_GENERAL,	KeyConstants.ACCESS_NULL);
+			if (currentTab.equals(KeyConstants.TAB_FACILITY_GENERAL)) throw new NoAccessException();
+		}
 		
 		
 		// program
@@ -50,7 +55,10 @@ public abstract class BaseFacilityAction extends BaseAction {
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_PROGRAM))
 				request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_CURRENT);
 		} 
-		else request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_NULL);
+		else {
+			request.setAttribute(KeyConstants.TAB_FACILITY_PROGRAM,	KeyConstants.ACCESS_NULL);
+			if (currentTab.equals(KeyConstants.TAB_FACILITY_PROGRAM)) throw new NoAccessException();
+		}
 		
 		
 		// message
@@ -59,7 +67,11 @@ public abstract class BaseFacilityAction extends BaseAction {
 			if (currentTab.equals(KeyConstants.TAB_FACILITY_MESSAGE))
 				request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,	KeyConstants.ACCESS_CURRENT);
 		} 
-		else request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,KeyConstants.ACCESS_NULL);
+		else 
+		{
+			request.setAttribute(KeyConstants.TAB_FACILITY_MESSAGE,KeyConstants.ACCESS_NULL);
+			if (currentTab.equals(KeyConstants.TAB_FACILITY_MESSAGE)) throw new NoAccessException();
+		}
 		
 		
 		//	Edit
@@ -69,7 +81,10 @@ public abstract class BaseFacilityAction extends BaseAction {
 				request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_CURRENT);
 		} 
 		else
+		{
 			request.setAttribute(KeyConstants.TAB_FACILITY_EDIT,KeyConstants.ACCESS_NULL);
+			if (currentTab.equals(KeyConstants.TAB_FACILITY_EDIT)) throw new NoAccessException();
+		}
 		
 		
 		//	Bed
@@ -83,18 +98,26 @@ public abstract class BaseFacilityAction extends BaseAction {
 			{
 				request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_VIEW_NOCLICK);
 			}
-		} else
+		} 
+		else
+		{
 			request.setAttribute(KeyConstants.TAB_FACILITY_BED,	KeyConstants.ACCESS_NULL);
+			if (currentTab.equals(KeyConstants.TAB_FACILITY_BED)) throw new NoAccessException();
+		}
 		
 	}
-	public boolean isReadOnly(HttpServletRequest request, String funName,Integer facilityId){
+	public boolean isReadOnly(HttpServletRequest request, String funName,Integer facilityId) throws NoAccessException{
 		boolean readOnly =false;
 		
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
 		String orgCd="";
-		if(facilityId!=null ||facilityId.intValue()!=0) orgCd=facilityId.toString();
-		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) <= 0) 
+		if(facilityId!=null ||facilityId.intValue()!=0) orgCd="F" + facilityId.toString();
+		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) < 0)
+		{
+			throw new NoAccessException();
+		}
+		else if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_READ) == 0)
 			readOnly=true;
 		return readOnly;
 	}
