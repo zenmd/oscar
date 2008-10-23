@@ -132,6 +132,7 @@ function checkExistClients(i){
    win.focus();
 }
 </script>
+<%String a="debug"; %>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr><th class="pageTitle" align="center">Client Management - Family Intake</th></tr>
 	<tr>
@@ -201,8 +202,8 @@ function checkExistClients(i){
 <td><c:out value="${quatroClientFamilyIntakeForm.familyHead.alias}" />
 <html:hidden property="familyHead.alias" /></td>
 <td>
-<c:if test="${intakeHeadId>0}">
-<a href="<c:out value="${ctx}"/>/PMmodule/QuatroIntakeEdit.do?method=update&intakeId=<c:out value="${intakeHeadId}"/>&clientId=<c:out value="${headclientId}"/>" style="color:Navy;text-decoration:underline;">View Family Head Intake</a>
+<c:if test="${intakeHeadId > 0 &&  headclientId != clientId}">
+	<a href="<c:out value="${ctx}"/>/PMmodule/QuatroIntakeEdit.do?method=update&intakeId=<c:out value="${intakeHeadId}"/>&clientId=<c:out value="${headclientId}"/>" style="color:Navy;text-decoration:underline;">View Family Head Intake</a>
 </c:if>
 </td></tr>
 </table>
@@ -218,13 +219,13 @@ function checkExistClients(i){
 <tr><td>
 <table class="simple" cellpadding="3" cellspacing="0" border="0">
 <tr><td width="3%"></td>
-<td width="6%"></td>
-<td width="15%">Last Name*</td>
-<td width="15%">First Name*</td>
-<td width="16%">DOB</td>
-<td width="14%">Gender*</td>
-<td width="14%">Alias(es)</td>
-<td width="18%">Relationship</td></tr>
+<td width="12%"></td>
+<td width="16%">Last Name*</td>
+<td width="16%">First Name*</td>
+<td width="12%">DOB</td>
+<td width="12%">Gender*</td>
+<td width="15%">Alias(es)</td>
+<td width="14%">Relationship</td></tr>
 
 <logic:iterate id="dependent" name="quatroClientFamilyIntakeForm" property="dependents" indexId="rIndex">
     <tr><td>

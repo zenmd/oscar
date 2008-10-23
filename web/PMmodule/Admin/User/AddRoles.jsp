@@ -75,11 +75,11 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 		  </TD>
 		  <TD width="40%">
 			<table cellpadding="0" style="border:0px;" cellspacing="0" width="100%">
-			<tr><td style="border:0px;" width="1px"><input type="text"
-				style="width:1px;" name="role_code<%=String.valueOf(rIndex)%>"
+			<tr><td style="border:0px;" width="85%"><input type="text"
+				style="width:99%;" name="role_code<%=String.valueOf(rIndex)%>"
 				value='<c:out value="${secUserRole.roleName}"/>' readonly></td>
-		    <td style="border:0px;" width="85%">
-		       <input style="width:99%;" type="text" 
+		    <td style="border:0px;" width="1px">
+		       <input style="width:1px;" type="text" 
 				  name="role_description<%=String.valueOf(rIndex)%>"
 				  value='<c:out value="${secUserRole.roleName}"/>' readonly></td>
 			<td style="border:0px;" width="15%">

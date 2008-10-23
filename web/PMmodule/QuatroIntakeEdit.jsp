@@ -156,31 +156,20 @@ function confirmActive()
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 	         </c:if> 
 	         <c:if	test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
-				<c:choose>
-					<c:when	test="${quatroIntakeEditForm.intake.intakeStatus=='active' ||
-	    	 			(quatroIntakeEditForm.intake.intakeStatus=='admitted' && intakeHeadId>0) ||
-	    	 			(quatroIntakeEditForm.intake.id==intakeHeadId && intakeHeadId>0)}">
+				<c:if test="${quatroIntakeEditForm.intake.intakeStatus=='active' || intakeHeadId>0}">
 	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
 							style="color:Navy;text-decoration:none;" onclick="javascript: return isDateValid;"> 
 							<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake &nbsp;&nbsp;|</a>
-							<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>"   orgCd='<%=((Integer) request.getAttribute("programId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
-							<c:choose>
-								<c:when	test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
+				</c:if>
+				
+				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>"   orgCd='<%=((Integer) request.getAttribute("programId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
+					<c:if test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
                						(intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
-               						<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
+               			<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
 									style="color:Navy;text-decoration:none;"> 
 									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
-								</c:when>
-							</c:choose>
-							</security:oscarSec>
-					</c:when>
-					<c:when test="intakeHeadId gt 0">
-              		<a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>
-              				&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
-							style="color:Navy;text-decoration:none;" onclick="return isDateValid;"> 
-						<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake&nbsp;&nbsp;|</a>
-					</c:when>
-				</c:choose>
+					</c:if>
+				</security:oscarSec>
 			</c:if></td>
 		</tr>
 		<tr>
