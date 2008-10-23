@@ -78,7 +78,7 @@
 			    <display:column property="status" sortable="true" title="Status" />
 			    <display:column sortable="true" title="Actions" sortProperty="lnkAction">
 				  <c:choose>
-					<c:when test="${consentDetail.lnkAction eq 'Withdraw' or consentDetail.lnkAction eq 'withdraw'}">
+					<c:when test="${consentDetail.lnkAction eq 'Withdraw' or consentDetail.lnkAction eq 'withdrawn'}">
 					<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCONSENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
 					  <a href="javascript:withdraw('<c:out value="${consentDetail.demographicNo}" />','<c:out value="${consentDetail.id}" />')" >Withdraw</a>
 					  <a href="javascript:updateQuatroConsent('<c:out value="${consentDetail.demographicNo}" />', '<c:out value="${consentDetail.id}" />')" >View</a>
