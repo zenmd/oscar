@@ -8,7 +8,9 @@
     <class name="com.quatro.model.IncidentValue" table="INCIDENT" >
         <id name="id" type="java.lang.Integer">
             <column name="ID" precision="10" scale="0" />
-            <generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_incident_id</param>
+			</generator>
         </id>
         <property name="createdDate" type="java.util.Calendar">
             <column name="CREATED_DATE" length="7" />

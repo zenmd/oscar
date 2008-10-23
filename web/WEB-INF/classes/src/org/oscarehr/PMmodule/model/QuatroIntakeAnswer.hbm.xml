@@ -5,7 +5,9 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="QuatroIntakeAnswer" table="intake_answer">
 		<id name="id" type="integer" column="intake_answer_id" >
-			<generator class="native" />
+			<generator class="sequence">
+	   			 <param name="sequence">seq_intake_answer_id</param>
+			</generator>
 		</id>
 
 	    <property name="intakeNodeId" column="intake_node_id"/>

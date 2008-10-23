@@ -98,7 +98,7 @@ public class KeyConstants {
 //  public static final String STATUS_CURRENT = "current";
 //  public static final String STATUS_UNKNOWN = "unknown";
   public static final String STATUS_PENDING = "pending";
-  public static final String STATUS_WITHDRAW = "withdraw";
+  public static final String STATUS_WITHDRAW = "withdrawn";
   public static final String STATUS_TERMEARLY="terminated early"; 
   public static final String STATUS_COMPLETED="completed";
   public static final String STATUS_IN_PROGRESS="in progress";

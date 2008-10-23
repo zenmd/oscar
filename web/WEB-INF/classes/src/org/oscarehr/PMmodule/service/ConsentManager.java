@@ -34,6 +34,8 @@ import org.oscarehr.PMmodule.model.ConsentDetail;
 import org.oscarehr.PMmodule.model.ConsentInterview;
 import org.oscarehr.PMmodule.model.Demographic;
 
+import com.quatro.common.KeyConstants;
+
 public class ConsentManager {
     private ConsentDAO dao;
     private ClientDao clientDao;
@@ -78,7 +80,7 @@ public class ConsentManager {
 
         if (x != null) {
             x.setProviderNo(providerNo);
-            x.setStatus("withdraw");
+            x.setStatus(KeyConstants.STATUS_WITHDRAW);
             x.setEndDate(new GregorianCalendar());
             x.setLastUpdateDate(new GregorianCalendar());
             dao.saveConsentDetail(x);

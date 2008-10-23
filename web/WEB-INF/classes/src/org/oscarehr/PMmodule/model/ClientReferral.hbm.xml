@@ -19,7 +19,9 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ClientReferral" table="client_referral">
 		<id column="referral_id" name="Id" type="java.lang.Integer">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_client_referral_id</param>
+			</generator>
 		</id>
 		<property column="client_id" length="11" name="clientId" not-null="true" type="java.lang.Integer" />
 		<property column="referral_date" name="referralDate" not-null="false" />

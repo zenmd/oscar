@@ -5,7 +5,9 @@
 		<meta attribute="sync-DAO">false</meta>
 
 		<id name="id" type="integer" column="docid">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_attachment_id</param>
+			</generator>
 		</id>
 		<property name="subject" column="subject" type="string"  not-null="false" length="256" />
 		<property name="privacyCd" column="privacycd" type="string" not-null="false" length="3" />

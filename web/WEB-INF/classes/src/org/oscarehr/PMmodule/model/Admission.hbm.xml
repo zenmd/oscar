@@ -5,7 +5,9 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="Admission" table="admission">
 		<id column="am_id" name="id" type="integer" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_admission_id</param>
+			</generator>
 		</id>
 		
 		<property name="clientId" column="client_id" />

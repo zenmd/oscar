@@ -19,7 +19,9 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ClientHistory" table="client_history">
 		<id column="his_id" name="Id" type="java.lang.Integer" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_client_history_id</param>
+			</generator>
 		</id>
 		<property column="client_id"  name="ClientId" not-null="true" type="java.lang.Integer" />
 		<property column="action"  name="Action" not-null="false" />

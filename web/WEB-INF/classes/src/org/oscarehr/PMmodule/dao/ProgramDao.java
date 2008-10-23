@@ -216,9 +216,10 @@ public class ProgramDao extends HibernateDaoSupport {
 
         if (program.getName() != null && program.getName().length() > 0) {
             String programName = StringEscapeUtils.escapeSql(program.getName());
-            String sql = "";
-        	sql = "((LEFT(SOUNDEX(name),4) = LEFT(SOUNDEX('" + programName + "'),4)))";
-        	criteria.add(Restrictions.or(Restrictions.ilike("name", "%" + programName + "%"), Restrictions.sqlRestriction(sql)));
+//            String sql = "";
+//       	sql = "((LEFT(SOUNDEX(name),4) = LEFT(SOUNDEX('" + programName + "'),4)))";
+//        	criteria.add(Restrictions.or(Restrictions.ilike("name", "%" + programName + "%"), Restrictions.sqlRestriction(sql)));
+        	criteria.add(Restrictions.ilike("name",  programName + "%"));        
         }
 
         if (program.getType() != null && program.getType().length() > 0) {
