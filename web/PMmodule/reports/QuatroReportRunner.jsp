@@ -251,13 +251,13 @@ function submitForm(mthd)
         <logic:equal name="tplCriteria" property="required" value="true">
 		<html:select name="tplCriteria" disabled="true" property="fieldNo" indexed="true" onchange="CriteriaChanged(this);"  style="width: 100%;">
            <option value="0"></option>
-           <html:options collection="filterFields" property="fieldNo" labelProperty="fieldName"></html:options>
+           <html:options collection="filterFields" property="fieldNo" labelProperty="fieldDesc"></html:options>
 		</html:select>
         </logic:equal>
         <logic:notEqual name="tplCriteria" property="required" value="true">
 		<html:select name="tplCriteria" property="fieldNo" indexed="true" onchange="CriteriaChanged(this);">
            <option value="0"></option>
-           <html:options collection="filterFields" property="fieldNo" labelProperty="fieldName"></html:options>
+           <html:options collection="filterFields" property="fieldNo" labelProperty="fieldDesc"></html:options>
 		</html:select>
         </logic:notEqual>
 	</TD>  
@@ -296,10 +296,24 @@ function submitForm(mthd)
             <quatro:datePickerTag name="tplCriteria" property="val" indexed="true" openerForm="quatroReportRunnerForm"></quatro:datePickerTag>
           </logic:equal>  
           <logic:equal name="tplCriteria" property="filter.fieldType" value="N">
-             <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
+            <logic:notEmpty name="tplCriteria" property="filter.lookupTable">
+              <html:hidden name="tplCriteria" property="filter.lookupTable" indexed="true" />
+              <quatro:lookupTag name="tplCriteria" tableName="<%=((ReportTempCriValue)tplCriteria).getFilter().getLookupTable()   %>" indexed="true" formProperty="quatroReportRunnerForm" 
+                 codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
+            </logic:notEmpty>
+            <logic:empty name="tplCriteria" property="filter.lookupTable">
+	             <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
+             </logic:empty>
           </logic:equal>  
           <logic:equal name="tplCriteria" property="filter.fieldType" value="I">
-             <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
+            <logic:notEmpty name="tplCriteria" property="filter.lookupTable">
+              <html:hidden name="tplCriteria" property="filter.lookupTable" indexed="true" />
+              <quatro:lookupTag name="tplCriteria" tableName="<%=((ReportTempCriValue)tplCriteria).getFilter().getLookupTable()   %>" indexed="true" formProperty="quatroReportRunnerForm" 
+                 codeProperty ="val" bodyProperty="valDesc"></quatro:lookupTag>
+            </logic:notEmpty>
+            <logic:empty name="tplCriteria" property="filter.lookupTable">
+	             <html:text name="tplCriteria" property="val" indexed="true" maxlength="50"/>
+	        </logic:empty>
           </logic:equal>  
         </logic:notEmpty>
 	</TD>  

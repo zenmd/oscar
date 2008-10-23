@@ -297,7 +297,7 @@ public class QuatroReportViewerAction extends Action {
                 }
                 else if ("LIKE".equals(op))
                 {
-                    criteriaSQL += "\"" + val + "\"";
+                    criteriaSQL += "\"*" + val + "*\"";
                     r_criteriaDis +=  val;
                 }
                 else
