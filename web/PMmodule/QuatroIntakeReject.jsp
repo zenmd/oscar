@@ -13,8 +13,16 @@
 <script lang="javascript">
 function submitForm(methodVal) {
 	trimInputBox();
-	document.forms[0].method.value = methodVal;
-	document.forms[0].submit();
+	if(methodVal=="save" && noChanges())
+	{
+		alert("There are no changes detected to save");
+	}
+	else
+	{
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
+	}
+	return false;
 }
 </script>
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
@@ -40,7 +48,7 @@ function submitForm(methodVal) {
 		<td align="left" class="buttonBar2">
 		<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
 		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Program&nbsp;&nbsp;</html:link>|
-		<a href='javascript:submitForm("save");' onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">
+		<a href='javascript:void1();' onclick='javascript: setNoConfirm();return submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 	</tr>
 	<tr><td align="left" class="message">

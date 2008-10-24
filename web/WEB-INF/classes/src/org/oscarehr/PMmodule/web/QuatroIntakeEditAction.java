@@ -229,10 +229,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 							&& intake.getEndDate().before(Calendar.getInstance()))
 						intake.setIntakeStatus(KeyConstants.STATUS_INACTIVE);
 				}
-				if (KeyConstants.INTAKE_STATUS_ADMITTED.equals(intake
-						.getIntakeStatus())) {
-					request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
-				}
+				setAgeGenderReadonly(request, intake);
+				
 				readOnly = super.isReadOnly(request, intake
 						.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE, intake
 						.getProgramId());
@@ -423,10 +421,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				LookupCodeValue lcv = lookupManager.GetLookupCode("CNT", cd);
 				qform.setOriginalCountry(lcv);
 			}
-			if (KeyConstants.INTAKE_STATUS_ADMITTED
-					.equals(intake.getIntakeStatus())) {
-				request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
-			}
+			setAgeGenderReadonly(request, intake);
+			
 			if (!clientId.equals("") && !"0".equals(clientId)) {
 				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(
 						Integer.valueOf(clientId), intake.getProgramId());
@@ -509,6 +505,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}
 		request.setAttribute("programEditable", Boolean.valueOf(isEditable));
 	}
+ 	private void setAgeGenderReadonly(HttpServletRequest request,
+			QuatroIntake intake) {
+		if (KeyConstants.INTAKE_STATUS_ADMITTED
+				.equals(intake.getIntakeStatus())) {
+			request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
+		}
+	}
+
 
 	private boolean validateDuplicate(QuatroIntake intake, Demographic client,
 			HttpServletRequest request, ActionMessages messages) {
@@ -739,6 +743,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setClientId(client.getDemographicNo());
 				request.setAttribute("fromManualReferralId", request
 						.getParameter("fromManualReferralId"));
+				setAgeGenderReadonly(request, intake);
 				setProgramEditable(request, intake, intakeHeadId);
 				super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 				return mapping.findForward("edit");
@@ -772,6 +777,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 						request.setAttribute("client", client);
 						request.setAttribute("fromManualReferralId", request
 								.getParameter("fromManualReferralId"));
+						setAgeGenderReadonly(request, intake);
+						setProgramEditable(request, intake, intakeHeadId);
 						super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 						return mapping.findForward("edit");
 					} else if (qih.getProgramType().equals(
@@ -789,6 +796,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 						request.setAttribute("client", client);
 						request.setAttribute("fromManualReferralId", request
 								.getParameter("fromManualReferralId"));
+						setAgeGenderReadonly(request, intake);
+						setProgramEditable(request, intake, intakeHeadId);
 						super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 						return mapping.findForward("edit");
 					}
@@ -934,6 +943,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			saveMessages(request, messages);
 			request.setAttribute("pageChanged", "");
 			request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+			setAgeGenderReadonly(request, intake);
 			setProgramEditable(request, intake, intakeHeadId);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
