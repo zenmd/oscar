@@ -60,7 +60,6 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 		sql+=" select seq_sdmt_out.nextval,"+batchNo+",sysdate,d.first_name,d.last_name,d.dob,ltrim(rtrim(ri.sin)),";
 		sql+=" ri.healthcardno,d.hin,d.demographic_no,d.pin from demographic d,admission a,report_intake ri ";
 		sql+=" where  d.demographic_no=a.client_id and a.intake_id=ri.intake_id and a.admission_status='admitted'";    
-		sql+=" order by d.demographic_no";
     	q=getSession().createSQLQuery(sql);
     	q.executeUpdate();    
     }
@@ -75,7 +74,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     		sql+="i.batchDateStr between ? and ? ";    	
     	else 
     		sql+="(i.batchDateStr between ? and ?) and sendOut=0";    		
-    
+    	sql += " order by i.clientId";
     	result =getHibernateTemplate().find(sql,params);
     	return result;
     }    
