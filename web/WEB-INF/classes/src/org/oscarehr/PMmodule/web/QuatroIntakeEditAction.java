@@ -421,7 +421,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				LookupCodeValue lcv = lookupManager.GetLookupCode("CNT", cd);
 				qform.setOriginalCountry(lcv);
 			}
-			setAgeGenderReadonly(request, intake);
 			
 			if (!clientId.equals("") && !"0".equals(clientId)) {
 				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(
@@ -466,10 +465,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			request.setAttribute("intakeHeadId", intakeHeadId);
 			if (Utility.IsEmpty(intakeHeadId))
 				intakeHeadId = "0";
+			setAgeGenderReadonly(request, intake);
 			setProgramEditable(request, intake, Integer.valueOf(intakeHeadId));
 	
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-			if (clientId.equals("")) {
+			if (clientId.equals("0")) {
 				request.setAttribute("pageChanged", "1");
 			} else {
 				if (intake.getId().intValue() == 0) {
