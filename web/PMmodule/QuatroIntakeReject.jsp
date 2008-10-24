@@ -13,7 +13,11 @@
 <script lang="javascript">
 function submitForm(methodVal) {
 	trimInputBox();
-	if(methodVal=="save" && noChanges())
+	var note =  document.getElementsByName("rejectNote")[0];
+	if(note.value == "") {
+		alert("Rejection Note is empty!");
+	}
+	else if(methodVal=="save" && noChanges())
 	{
 		alert("There are no changes detected to save");
 	}
