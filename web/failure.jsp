@@ -55,7 +55,7 @@
 	<tr><td align="center">
 		<c:choose>
 			<c:when test="${message == null}">
-				NoAccessException - No enough privilege to access the requested page
+				NoAccessException - Not enough privileges to access the requested page
 			</c:when>
 			<c:otherwise>
 				<c:out escapeXml="false" value="${message}" />
