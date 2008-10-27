@@ -54,7 +54,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     	SQLQuery q = getSession().createSQLQuery(sql);    			
     	BigDecimal result = (BigDecimal)q.uniqueResult();
     	if(result==null) result = new BigDecimal(0);
-    	
+    	 
     	int batchNo=result.intValue()+1;
     	sql =" insert into sdmt_out(recordid,batch_no,batch_date,first_name,last_name,dob,sin,health_card_no,client_id,sdmt_id,sdmt_ben_unit_id) ";
 		sql+=" select seq_sdmt_out.nextval,"+batchNo+",sysdate,d.first_name,d.last_name,d.dob,ltrim(rtrim(ri.sin)),";

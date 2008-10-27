@@ -270,7 +270,7 @@ function tryBytes() {
 			<input type="hidden" name="clientSignture2">
 			<input type="hidden" name="demographicNo"
 				value=<%=request.getParameter("demographicNo")%>>
-			<input type="hidden" name="status" value="withdraw">
+			<input type="hidden" name="status" value="withdrawn">
 
 			</td>
 	</tr>

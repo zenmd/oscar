@@ -100,7 +100,7 @@
 				<display:setProperty name="basic.msg.empty_list" value="No programs found." />
 
 				<display:column sortable="false" title="">		
-					<security:oscarSec  objectName="<%=KeyConstants.FUN_PROGRAMEDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE %>">			
+					<security:oscarSec  objectName="<%=KeyConstants.FUN_PROGRAMEDIT %>"  rights="<%=KeyConstants.ACCESS_UPDATE %>">			
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&programId=<c:out value="${program.id}" />">
 							Edit </a>
 					</security:oscarSec>		
