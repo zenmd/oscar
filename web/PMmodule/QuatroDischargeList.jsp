@@ -72,7 +72,7 @@
 					<c:when test="${discharge.admissionStatus == 'admitted'}">
 					  <c:choose>								
 						  <c:when test="${discharge.familyMember == false}">
-						  	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDISCHARGE %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">								
+						  	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDISCHARGE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">								
 						    	<a href="javascript:updateQuatroDischarge('<c:out value="${client.demographicNo}" />', '<c:out value="${discharge.id}" />')" >Discharge</a>
 						 	</security:oscarSec>						 	
 						  </c:when>
