@@ -74,7 +74,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     		sql+="i.batchDateStr between ? and ? ";    	
     	else 
     		sql+="(i.batchDateStr between ? and ?) and sendOut=0";    		
-    	sql += " order by i.clientId";
+    	sql += " order by i.recordId";
     	result =getHibernateTemplate().find(sql,params);
     	return result;
     }    

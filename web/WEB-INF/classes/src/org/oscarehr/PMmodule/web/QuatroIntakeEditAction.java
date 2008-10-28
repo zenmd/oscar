@@ -62,8 +62,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 	
-			String clientId = qform.getClientId();
-			Integer intakeId = Integer.valueOf(qform.getIntakeId());
+			String clientId = request.getParameter("clientId");
+			Integer intakeId = Integer.valueOf("0");
 			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 			if (actionParam == null) {
 				actionParam = new HashMap();
@@ -168,10 +168,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	public ActionForward update(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
+			String clientId = request.getParameter("clientId");
+			Integer intakeId = Integer.valueOf(request.getParameter("intakeId"));
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 	
-			String clientId = qform.getClientId();
-			Integer intakeId = Integer.valueOf(qform.getIntakeId());
 			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 			if (actionParam == null) {
 				actionParam = new HashMap();
