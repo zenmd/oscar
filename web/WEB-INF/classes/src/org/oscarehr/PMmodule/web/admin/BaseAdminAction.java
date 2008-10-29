@@ -15,4 +15,21 @@ public class BaseAdminAction extends BaseAction {
 		if (acc.equals(KeyConstants.ACCESS_NONE)) throw new NoAccessException();
 		return acc;
 	}
+	protected String getAccess(HttpServletRequest request,String functionName, String rights) throws NoAccessException
+	{
+		SecurityManager sec = super.getSecurityManager(request);
+		String acc = sec.GetAccess(functionName, "");
+		if (acc.compareTo(rights) < 0) throw new NoAccessException();
+		return acc;
+	}
+	public boolean isReadOnly(HttpServletRequest request,String funName) throws NoAccessException{
+		boolean readOnly =false;
+		
+		SecurityManager sec = getSecurityManager(request);
+		String r = sec.GetAccess(funName, null); 
+		if (r.compareTo(KeyConstants.ACCESS_READ) < 0) throw new NoAccessException(); 
+		if (r.compareTo(KeyConstants.ACCESS_READ) == 0) readOnly=true;
+		return readOnly;
+	}
+
 }

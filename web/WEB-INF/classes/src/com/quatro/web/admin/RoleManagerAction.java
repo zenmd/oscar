@@ -262,10 +262,15 @@ public class RoleManagerAction extends BaseAdminAction {
 	}
 
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-
-		return mapping.findForward("edit");
-
+			HttpServletRequest request, HttpServletResponse response)  {
+		try {
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+			return mapping.findForward("edit");
+		}
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
 	}
 
 	public ActionForward addFunction(ActionMapping mapping, ActionForm form,

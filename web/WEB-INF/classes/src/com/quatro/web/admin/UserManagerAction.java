@@ -73,10 +73,7 @@ public class UserManagerAction extends BaseAdminAction {
 	public ActionForward profile(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			if(super.getAccess(request, KeyConstants.FUN_ADMIN_USER).compareTo(KeyConstants.ACCESS_READ) < 0)
-			{
-				return mapping.findForward("failure");
-			}
+			super.getAccess(request, KeyConstants.FUN_ADMIN_USER);
 	
 			String providerNo = request.getParameter("providerNo");
 			org.apache.struts.validator.DynaValidatorForm secForm = (org.apache.struts.validator.DynaValidatorForm) form;
@@ -148,19 +145,18 @@ public class UserManagerAction extends BaseAdminAction {
 
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
-		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
-        request.setAttribute("titleLst", titleLst);
-        
-		return mapping.findForward("edit");
-	}
-	public boolean isReadOnly(HttpServletRequest request,String funName){
-		boolean readOnly =false;
+		try{
+			super.getAccess(request, KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_WRITE);
+			List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
+	        request.setAttribute("titleLst", titleLst);
+	        
+			return mapping.findForward("edit");
+		}
+		catch(NoAccessException e)
+		{
+			return mapping.findForward("failure");
+		}
 		
-		SecurityManager sec = getSecurityManager(request);		
-		if (sec.GetAccess(funName, null).compareTo(KeyConstants.ACCESS_READ) <= 0) 
-			readOnly=true;
-		return readOnly;
 	}
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
@@ -228,7 +224,8 @@ public class UserManagerAction extends BaseAdminAction {
 	}
 
 	public ActionForward save(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+		super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_UPDATE);
 		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
         request.setAttribute("titleLst", titleLst);
         request.setAttribute("scrPos", request.getParameter("scrollPosition"));
@@ -335,10 +332,10 @@ public class UserManagerAction extends BaseAdminAction {
         return mapping.findForward("edit");
         
 	}
-	
+	// all users can change their own password
 	public ActionForward changePassword(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+
 		DynaActionForm secuserForm = (DynaActionForm) form;
 
 		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -348,7 +345,7 @@ public class UserManagerAction extends BaseAdminAction {
         
 	}
 	public ActionForward savePassword(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
 		ActionMessages messages = new ActionMessages();
 
@@ -435,7 +432,9 @@ public class UserManagerAction extends BaseAdminAction {
 		return password;
 	}
 	public ActionForward addRole(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
+		
+		super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_WRITE);
 
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = request.getParameter("providerNo");
@@ -488,8 +487,10 @@ public class UserManagerAction extends BaseAdminAction {
 	}
 
 	public ActionForward removeRole(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 
+		super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_WRITE);
+		
 		DynaActionForm secroleForm = (DynaActionForm) form;
 		changeRoleLstTable(1, secroleForm, request);
 
@@ -572,7 +573,9 @@ public class UserManagerAction extends BaseAdminAction {
 	}
 	
 	public ActionForward saveRoles(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+
+		super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_WRITE);
 
 		DynaActionForm secuserForm = (DynaActionForm) form;
 		String providerNo = (String) secuserForm.get("providerNo");

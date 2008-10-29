@@ -57,7 +57,11 @@ public final class ShelterSelectionAction extends DispatchAction {
          	}
          	List facilityCodes = lookupManager.LoadCodeList("SHL", false, shlts, null);
          	request.setAttribute("shelters", facilityCodes);
-      
+	        response.setHeader("Expires", "-1");
+	        response.setHeader("Cache-Control",
+	        	"must-revalidate, post-check=0, pre-check=0");
+	        response.setHeader("Pragma", "private");
+
              return(mapping.findForward("shelterSelection"));
          }
          else if (shelters.size() == 1) {

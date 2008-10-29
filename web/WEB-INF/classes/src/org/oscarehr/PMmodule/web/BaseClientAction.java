@@ -249,6 +249,27 @@ public abstract class BaseClientAction extends BaseAction {
 		if(KeyConstants.ACCESS_NONE.equals(access)) throw new NoAccessException();
 		return access;
 	}
+	public boolean hasAccess(HttpServletRequest request,String funName,Integer programId, Integer programId2)
+	{
+		String r = KeyConstants.ACCESS_NONE;
+		try {
+			r = getAccess(request, funName, programId);
+		}
+		catch(NoAccessException e)
+		{
+			r = KeyConstants.ACCESS_NONE;
+		}
+		if(r.equals(KeyConstants.ACCESS_NONE)) {
+			try {
+				r = getAccess(request, funName, programId2);
+			}
+			catch(Exception e)
+			{
+				r  = KeyConstants.ACCESS_NONE;
+			}
+		}
+		return r.compareTo(KeyConstants.ACCESS_READ) >=0;
+	}
 	public CaseManagementManager getCaseManagementManager() {
 		return (CaseManagementManager) getAppContext().getBean(
 				"caseManagementManager");

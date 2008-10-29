@@ -144,7 +144,7 @@ public final class LoginAction extends DispatchAction {
 	   	     		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login.invalid"));
 	            }
 	        }
-	        saveMessages(request,messages);        
+	        saveMessages(request,messages);
 	        return mapping.getInputForward();
         }
         catch (Exception e) 
