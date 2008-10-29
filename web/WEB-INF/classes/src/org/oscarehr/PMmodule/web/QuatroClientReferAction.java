@@ -322,7 +322,15 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		} else if (!Utility.IsEmpty(rId)){			
 			crObj = clientManager.getClientReferral(rId);			
 			if(Utility.IsEmpty(programId)) programId=crObj.getProgramId().toString();
-			readOnly=super.isReadOnly(request,crObj.getStatus(), KeyConstants.FUN_CLIENTREFER,crObj.getFromProgramId());
+			if(!super.hasAccess(request, KeyConstants.FUN_CLIENTREFER,crObj.getFromProgramId(),crObj.getProgramId())) throw new NoAccessException();
+			try {
+				readOnly=super.isReadOnly(request,crObj.getStatus(), KeyConstants.FUN_CLIENTREFER,crObj.getFromProgramId());
+			}
+			catch(NoAccessException e)
+			{
+				// no access to the fromProgram, force to readonly
+				readOnly = true;
+			}
 			//for automatically Read Only
 			if(KeyConstants.AUTOMATIC.equals(crObj.getAutoManual())) readOnly=true;
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
