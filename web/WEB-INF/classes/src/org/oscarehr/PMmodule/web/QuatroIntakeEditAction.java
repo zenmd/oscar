@@ -151,7 +151,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	
 			qform.setLanguage(language);
 			qform.setOriginalCountry(originalCountry);
-	
+			request.setAttribute("clientId", clientId);
 			request.setAttribute("newClientFlag", "true");
 			request.setAttribute("isReadOnly", Boolean.FALSE);
 			setProgramEditable(request, obj, null);
@@ -749,8 +749,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				return mapping.findForward("edit");
 			}
 	
-			if (!intake.getClientId().equals("")
-					&& !"0".equals(intake.getClientId())) {
+			if (intake.getClientId().intValue() > 0) {
 				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(
 						intake.getClientId(), intake.getProgramId());
 				for (int i = 0; i < intakeHeads.size(); i++) {
@@ -866,7 +865,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			// no more than one mannual referral exists for same clientId and
 			// programId.
 			boolean intakeExist = false; // flag for same clientId and programId
-			if (!intake.getClientId().equals("")) {
+			if (intake.getClientId().intValue() > 0) {
 				List queues = programQueueManager
 						.getProgramQueuesByClientIdProgramId(intake.getClientId(),
 								intake.getProgramId());
