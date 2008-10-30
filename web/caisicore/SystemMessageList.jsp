@@ -73,16 +73,14 @@ String s = "debug";
 						        <display:setProperty name="paging.banner.items_name" value="messages" />
 						        <display:setProperty name="basic.msg.empty_list" value="No message found." />
 								
-								<logic:equal value="true" name="message" property="expired">
-							        <display:column sortable="false" title="">
+							    <display:column sortable="false" title="">
+							    	<logic:equal value="true" name="message" property="expired">
 							        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > View </a>
-							        </display:column>
-						        </logic:equal>
-								<logic:equal value="false" name="message" property="expired">
-							        <display:column sortable="false" title="">
+						        	</logic:equal>
+									<logic:equal value="false" name="message" property="expired">
 							        	<a href="<html:rewrite action="SystemMessage.do"/>?method=edit&id=<c:out value="${message.id}"/>" > Edit </a>
-							        </display:column>
-								</logic:equal>
+									</logic:equal>
+							    </display:column>
 								
 						        <display:column property="formattedCreationDate" sortable="true" title="Creation Date"/>
 						        <display:column property="formattedExpiryDate" sortable="true" title="Expiry Date" />
