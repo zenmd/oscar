@@ -826,7 +826,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   roomDemographic.setProviderNo(providerNo);
  	   roomDemographic.setAssignStart(new Date());
  	   //check # of bag
- 	   if(!Utility.IsEmpty(admission.getNoOfBags())&& Utility.IsIntLessThanZero(admission.getNoOfBags())){
+ 	   if(!Utility.IsEmpty(admission.getNoOfBags()) &&(!Utility.IsInt(admission.getNoOfBags()) || Utility.IsIntLessThanZero(admission.getNoOfBags()))){
  		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.invalid_no_of_bag", request.getContextPath()));
            isError = true;
            saveMessages(request,messages);

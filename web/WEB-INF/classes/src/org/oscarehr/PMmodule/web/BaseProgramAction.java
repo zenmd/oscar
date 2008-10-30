@@ -2,12 +2,14 @@ package org.oscarehr.PMmodule.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
-public class BaseProgramAction extends BaseAction {
+public class BaseProgramAction extends BaseAdminAction {
 
 	
 	protected void setViewScreenMode(HttpServletRequest request, String currentTab,Integer orgId)throws NoAccessException {

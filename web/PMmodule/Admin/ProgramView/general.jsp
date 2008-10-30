@@ -81,6 +81,10 @@
 					<td><c:out value="${program.descr}" /></td>
 				</tr>
 				<tr class="b">
+					<td width="20%">Phone:</td>
+					<td><c:out value="${program.phone}" /></td>
+				</tr>
+				<tr class="b">
 					<td width="20%">Health Information Custodian:</td>
 					<td>
 						<logic:equal name="program" property="hic" value="true">Yes</logic:equal>

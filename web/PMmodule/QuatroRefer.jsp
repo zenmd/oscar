@@ -99,15 +99,13 @@
 		</th>
 	<th style="color:black">Name</th>
 	<th style="color:black">Type</th>
-	<th style="color:black">Participation</th>
+	<th style="color:black">Occupancy/Queue</th>
 	<th style="color:black">Phone</th>
-	<th style="color:black">Email</th>	
 	</tr>
 	<tr><td><c:out value="${program.name }" /></td>
 	<td><c:out value="${program.type }" /></td>
 	<td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" /> <c:out value="${program.queueSize}" /> (waiting)</td>
 	<td><c:out value="${program.phone }" /></td>
-	<td><c:out value="${program.email }" /></td>
 	
 	</tr>		
  </table>

@@ -130,6 +130,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	
 	        String id = request.getParameter("programId");
@@ -190,8 +191,9 @@ public class ProgramManagerAction extends BaseProgramAction {
 	   }
 
     }
-    public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DynaActionForm programForm = (DynaActionForm) form;
+    public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+    	super.getAccess(request, KeyConstants.FUN_PROGRAM);
+    	DynaActionForm programForm = (DynaActionForm) form;
         Integer programId = Integer.valueOf(request.getParameter("programId"));
         if (programId != null) {
             //List<ProgramSignature> pss = programManager.getProgramSignatures(Integer.valueOf(programId));
@@ -203,6 +205,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_WRITE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	    	Program prog = new Program();
 	    	Integer maxDays = new Integer(oscar.OscarProperties.getInstance().getProperty("maximum_service_restriction_days_default","90"));
@@ -305,7 +308,8 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("edit");
     }
 */
-    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_WRITE);
         String id = request.getParameter("programId");
         String name = request.getParameter("name");
 
@@ -353,6 +357,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward delete_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
@@ -426,6 +431,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward edit_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
@@ -507,6 +513,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward remove_queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramQueue queue = (ProgramQueue) programForm.get("queue");
@@ -566,6 +573,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     
     public ActionForward save_restriction_settings(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	
 	        Program program = (Program) programForm.get("program");
@@ -790,6 +798,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	
 	        Program program = (Program) programForm.get("program");
@@ -907,8 +916,9 @@ public class ProgramManagerAction extends BaseProgramAction {
     private void saveProgram(HttpServletRequest request, Program program) {
         programManager.saveProgram(program);
     }
-    public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)throws NoAccessException {
     	String programId = request.getParameter("programId");
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 
         if (programId == null) {
             programId = (String) request.getAttribute("programId");
@@ -938,7 +948,9 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
 	public ActionForward saveStaff(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 		
 		String programId = request.getParameter("programId");
         if (programId == null) {
@@ -996,7 +1008,8 @@ public class ProgramManagerAction extends BaseProgramAction {
 
 	}
 
-    public ActionForward removeStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward removeStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
         
         String programId = request.getParameter("programId");
 
@@ -1023,8 +1036,9 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("view");
     }
     
-    public ActionForward removeExistStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        
+    public ActionForward removeExistStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
+
         String programId = request.getParameter("programId");
 
         if (programId == null) {
@@ -1117,6 +1131,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     
     public ActionForward save_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramFunctionalUser function = (ProgramFunctionalUser) programForm.get("function");
@@ -1267,6 +1282,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward delete_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
@@ -1300,6 +1316,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward edit_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
@@ -1326,6 +1343,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward save_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        ProgramClientStatus status = (ProgramClientStatus) programForm.get("client_status");
@@ -1365,6 +1383,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     
     public ActionForward assign_status_client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	        Program program = (Program) programForm.get("program");
 	        Admission admission = (Admission) programForm.get("admission");
@@ -1392,8 +1411,9 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 
     
-    public ActionForward disable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	    	DynaActionForm programForm = (DynaActionForm) form;
+    public ActionForward disable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
+    	DynaActionForm programForm = (DynaActionForm) form;
 	
 	        ProgramClientRestriction prc = (ProgramClientRestriction) programForm.get("restriction");
 	        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -1404,8 +1424,9 @@ public class ProgramManagerAction extends BaseProgramAction {
 	        return edit(mapping, form, request, response);
     }
 
-    public ActionForward enable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward enable_restriction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
         DynaActionForm programForm = (DynaActionForm) form;
+		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 
         ProgramClientRestriction prc = (ProgramClientRestriction) programForm.get("restriction");
         String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);

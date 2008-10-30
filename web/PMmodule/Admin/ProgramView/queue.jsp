@@ -98,7 +98,7 @@
     <display:column property="referralDate" sortable="true" title="Referral Date" format="{0, date, yyyy/MM/dd hh:mm:ss a}" />
     <display:column property="providerFormattedName" sortable="true" title="Referring Provider" />
     <display:column property="notes" sortable="true" title="Reason for Referral" />
-    <display:column property="presentProblems" sortable="true" title="Present Problems"/>
+    <display:column property="presentProblems" sortable="true" title="Notes"/>
     <display:column property="fromIntakeId" sortable="true" title="From IntakeID"/>
 </display:table></div>
 </td>

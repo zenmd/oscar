@@ -173,6 +173,7 @@ public class ProgramDao extends HibernateDaoSupport {
     }
     public List getProgramIdsByProvider(String providerNo, Integer shelterId){
     	String sql = "select p.program_id, p.name, p.type  from program p where p.program_status='1' and p.program_Id in " + Utility.getUserOrgSqlString(providerNo, shelterId);
+    	sql += " order by upper(p.name)";
     	Query query = getSession().createSQLQuery(sql);
     	((SQLQuery) query).addScalar("program_id", Hibernate.INTEGER); 
     	((SQLQuery) query).addScalar("name", Hibernate.STRING); 

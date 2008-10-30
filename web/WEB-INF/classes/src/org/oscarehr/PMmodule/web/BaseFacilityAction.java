@@ -25,12 +25,13 @@ package org.oscarehr.PMmodule.web;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tools.ant.taskdefs.condition.IsFileSelected;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.security.SecurityManager;
 
-public abstract class BaseFacilityAction extends BaseAction {
+public abstract class BaseFacilityAction extends BaseAdminAction {
 
 	protected void setScreenMode(HttpServletRequest request, String currentTab, boolean isFacilityActive) throws NoAccessException {
 		super.setMenu(request, KeyConstants.MENU_FACILITY);

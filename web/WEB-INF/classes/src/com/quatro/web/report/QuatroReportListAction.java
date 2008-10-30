@@ -9,19 +9,21 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.web.*;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
 import com.quatro.common.KeyConstants;
-public class QuatroReportListAction extends BaseAction {
+public class QuatroReportListAction extends BaseAdminAction {
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		return reportlist(mapping,form,request,response);
 	}
 
 	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-	{
+	throws NoAccessException {
+		super.getAccess(request, KeyConstants.FUN_REPORTS,KeyConstants.ACCESS_WRITE);
 		QuatroReportListForm myForm = (QuatroReportListForm) form;
 		String chkNo= myForm.getChkDel();
 		if(Utility.IsEmpty(chkNo) ) return reportlist(mapping,form,request,response);

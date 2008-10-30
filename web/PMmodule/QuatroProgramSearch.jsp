@@ -145,8 +145,9 @@
   		<tr><td>Gender</td>
   			<td><html:select property="program.manOrWoman">
 				<html:option value="">&nbsp;</html:option>				
-				<html:option value="M">Man</html:option>
-				<html:option value="W">Woman</html:option>
+				<html:option value="M">Male</html:option>
+				<html:option value="F">Female</html:option>
+				<html:option value="T">Co-ed</html:option>
 				</html:select>
 			</td></tr>
   		<tr><td>Minimun Age (inclusive)</td>

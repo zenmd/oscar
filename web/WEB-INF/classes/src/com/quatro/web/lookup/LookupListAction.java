@@ -9,24 +9,28 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
-public class LookupListAction extends DispatchAction {
+public class LookupListAction extends BaseAdminAction {
     private LookupManager lookupManager=null;
-    
+     
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}
 
-    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		return list(mapping,form,request,response);
 	}
 	
-	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
+		super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP);
         String tableId=request.getParameter("tableId");
         String parentCode =request.getParameter("parentCode");
         request.setAttribute("parentCode",parentCode);
@@ -39,7 +43,8 @@ public class LookupListAction extends DispatchAction {
 		return mapping.findForward("list");
 	}
 	
-	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
+		super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP);
 		LookupListForm qform = (LookupListForm) form;
         String tableId=request.getParameter("tableId");
         String parentCode =request.getParameter("parentCode");

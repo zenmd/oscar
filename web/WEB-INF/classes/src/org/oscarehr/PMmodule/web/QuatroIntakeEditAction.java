@@ -61,7 +61,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-	
+
 			String clientId = request.getParameter("clientId");
 			Integer intakeId = Integer.valueOf("0");
 			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -71,21 +71,22 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				actionParam.put("intakeId", intakeId.toString());
 			}
 			request.setAttribute("actionParam", actionParam);
-	
+
 			Demographic client;
 			if (Integer.parseInt(clientId) > 0) {
 				client = clientManager.getClientByDemographicNo(clientId);
-				qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
+				qform.setDob(MyDateFormat.getStandardDate(client
+						.getDateOfBirth()));
 			} else {
 				client = new Demographic();
 				qform.setDob("");
 			}
 			qform.setClient(client);
-	
+
 			com.quatro.web.intake.OptionList optionValues = intakeManager
 					.LoadOptionsList(true);
 			qform.setOptionList(optionValues);
-	
+
 			Integer shelterId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_SHELTERID);
 			ArrayList lst = (ArrayList) programManager.getProgramIds(shelterId,
@@ -102,7 +103,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			qform.setProgramList(lst2);
 			qform.setProgramTypeList(lst3);
-	
+
 			QuatroIntake obj;
 			if (intakeId.intValue() != 0) {
 				obj = intakeManager.getQuatroIntake(intakeId);
@@ -114,27 +115,27 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				obj.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 				obj.setStaffId((String) request.getSession().getAttribute(
 						KeyConstants.SESSION_KEY_PROVIDERNO));
-				obj.setYouth(KeyConstants.CONSTANT_NO);
-				obj.setVAW(KeyConstants.CONSTANT_NO);
+				// obj.setYouth(KeyConstants.CONSTANT_NO);
+				// obj.setVAW(KeyConstants.CONSTANT_NO);
 			}
-	
+
 			obj.setCurrentProgramId(obj.getProgramId());
 			qform.setIntake(obj);
-	
+
 			request.setAttribute("intakeHeadId", new Integer(0)); // intakeHeadId:
-																	// for intake
-																	// stauts='discharged'
-																	// or 'rejected'
-																	// to view
-																	// family
-																	// details.
-	
+			// for intake
+			// stauts='discharged'
+			// or 'rejected'
+			// to view
+			// family
+			// details.
+
 			LookupCodeValue language;
 			LookupCodeValue originalCountry;
 			if (intakeId.intValue() != 0) {
 				if (obj.getLanguage() != null) {
-					language = lookupManager
-							.GetLookupCode("LNG", obj.getLanguage());
+					language = lookupManager.GetLookupCode("LNG", obj
+							.getLanguage());
 				} else {
 					language = new LookupCodeValue();
 				}
@@ -148,7 +149,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				language = new LookupCodeValue();
 				originalCountry = new LookupCodeValue();
 			}
-	
+
 			qform.setLanguage(language);
 			qform.setOriginalCountry(originalCountry);
 			request.setAttribute("clientId", clientId);
@@ -157,11 +158,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			setProgramEditable(request, obj, null);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
-	       }
-	       catch(NoAccessException e)
-	       {
-		       return mapping.findForward("failure");
-	       }
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	// for existing client
@@ -169,9 +168,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			String clientId = request.getParameter("clientId");
-			Integer intakeId = Integer.valueOf(request.getParameter("intakeId"));
+			Integer intakeId = Integer
+					.valueOf(request.getParameter("intakeId"));
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-	
+
 			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 			if (actionParam == null) {
 				actionParam = new HashMap();
@@ -183,42 +183,44 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					.toString());
 			if (intakeHeadId.intValue() != 0) {
 				Integer intakeHeadClientId = intakeManager
-						.getQuatroIntakeDBByIntakeId(intakeHeadId).getClientId();
+						.getQuatroIntakeDBByIntakeId(intakeHeadId)
+						.getClientId();
 				request.setAttribute("clientId", intakeHeadClientId);
 				request.setAttribute("intakeHeadId", intakeHeadId); // intakeHeadId:
-																	// for intake
-																	// stauts='discharged'
-																	// or 'rejected'
-																	// to view
-																	// family
-																	// details.
+				// for intake
+				// stauts='discharged'
+				// or 'rejected'
+				// to view
+				// family
+				// details.
 			} else {
 				request.setAttribute("clientId", clientId);
 				request.setAttribute("intakeHeadId", new Integer(0)); // intakeHeadId:
-																		// for
-																		// intake
-																		// stauts='discharged'
-																		// or
-																		// 'rejected'
-																		// to view
-																		// family
-																		// details.
+				// for
+				// intake
+				// stauts='discharged'
+				// or
+				// 'rejected'
+				// to view
+				// family
+				// details.
 			}
-	
+
 			request.setAttribute("fromManualReferralId", request
 					.getParameter("fromManualReferralId"));
-	
+
 			Demographic client;
 			if (Integer.parseInt(clientId) > 0) {
 				client = clientManager.getClientByDemographicNo(clientId);
-				qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
+				qform.setDob(MyDateFormat.getStandardDate(client
+						.getDateOfBirth()));
 			} else {
 				client = new Demographic();
 				qform.setDob("");
 			}
 			qform.setClient(client);
 			request.setAttribute("client", client);
-	
+
 			boolean readOnly = false;
 			QuatroIntake intake;
 			if (intakeId.intValue() != 0) {
@@ -226,14 +228,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				if (KeyConstants.PROGRAM_TYPE_Service.equals(intake
 						.getProgramType())) {
 					if (intake.getEndDate() != null
-							&& intake.getEndDate().before(Calendar.getInstance()))
+							&& intake.getEndDate().before(
+									Calendar.getInstance()))
 						intake.setIntakeStatus(KeyConstants.STATUS_INACTIVE);
 				}
 				setAgeGenderReadonly(request, intake);
-				
-				readOnly = super.isReadOnly(request, intake
-						.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE, intake
-						.getProgramId());
+
+				readOnly = super.isReadOnly(request, intake.getIntakeStatus(),
+						KeyConstants.FUN_CLIENTINTAKE, intake.getProgramId());
 				request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 			} else {
 				intake = new QuatroIntake();
@@ -243,13 +245,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 				intake.setStaffId((String) request.getSession().getAttribute(
 						KeyConstants.SESSION_KEY_PROVIDERNO));
-				intake.setYouth(KeyConstants.CONSTANT_NO);
-				intake.setVAW(KeyConstants.CONSTANT_NO);
+				// intake.setYouth(KeyConstants.CONSTANT_NO);
+				// intake.setVAW(KeyConstants.CONSTANT_NO);
 				request.setAttribute("isReadOnly", Boolean.FALSE);
 			}
-			com.quatro.web.intake.OptionList optionValues = intakeManager.LoadOptionsList(!readOnly);
+			com.quatro.web.intake.OptionList optionValues = intakeManager
+					.LoadOptionsList(!readOnly);
 			qform.setOptionList(optionValues);
-	
+
 			Integer shelterId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_SHELTERID);
 			ArrayList lst = (ArrayList) programManager.getProgramIds(shelterId,
@@ -260,7 +263,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			for (int i = 0; i < lst.size(); i++) {
 				Object[] obj = (Object[]) lst.get(i);
 				// don't allow existing intake change program type
-				// if program type is wrong, discharge/reject this intake (for bed
+				// if program type is wrong, discharge/reject this intake (for
+				// bed
 				// program), then create a new intake with correct program type.
 				if (intakeId.intValue() > 0) {
 					if (intake.getProgramType().equals((String) obj[2])) {
@@ -270,28 +274,29 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 								((Integer) obj[0]).toString()));
 					}
 				} else {
-					lst2.add(new LabelValueBean((String) obj[1], ((Integer) obj[0])
-							.toString()));
-					lst3.add(new LabelValueBean((String) obj[2], ((Integer) obj[0])
-							.toString()));
+					lst2.add(new LabelValueBean((String) obj[1],
+							((Integer) obj[0]).toString()));
+					lst3.add(new LabelValueBean((String) obj[2],
+							((Integer) obj[0]).toString()));
 				}
 			}
 			qform.setProgramList(lst2);
 			qform.setProgramTypeList(lst3);
-	
+
 			intake.setCurrentProgramId(intake.getProgramId());
 			qform.setIntake(intake);
-	
+
 			request.setAttribute("programId", intake.getProgramId());
 			ProgramQueue queue = programQueueManager
 					.getProgramQueuesByIntakeId(intake.getId());
 			if (queue != null)
 				request.setAttribute("queueId", queue.getId());
-	
+
 			LookupCodeValue language = null;
 			LookupCodeValue originalCountry = null;
 			if (intakeId.intValue() != 0) {
-				language = lookupManager.GetLookupCode("LNG", intake.getLanguage());
+				language = lookupManager.GetLookupCode("LNG", intake
+						.getLanguage());
 				originalCountry = lookupManager.GetLookupCode("CNT", intake
 						.getOriginalCountry());
 			}
@@ -299,19 +304,18 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				language = new LookupCodeValue();
 			if (originalCountry == null)
 				originalCountry = new LookupCodeValue();
-	
+
 			qform.setLanguage(language);
 			qform.setOriginalCountry(originalCountry);
-	
+
 			setProgramEditable(request, intake, intakeHeadId);
-			request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+			request.setAttribute("PROGRAM_TYPE_Bed",
+					KeyConstants.PROGRAM_TYPE_Bed);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
-	       }
-	       catch(NoAccessException e)
-	       {
-		       return mapping.findForward("failure");
-	       }
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	// for existing client
@@ -319,35 +323,36 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-	
+
 			String clientId = qform.getClientId();
 			Integer queueId = Integer.valueOf(request.getParameter("queueId"));
-			Integer programId = Integer.valueOf(request.getParameter("programId"));
-	
+			Integer programId = Integer.valueOf(request
+					.getParameter("programId"));
+
 			ProgramQueue queue = programQueueManager.getProgramQueue(queueId
 					.toString());
 			Integer referralId = queue.getReferralId();
-	
+
 			HashMap actionParam = new HashMap();
 			actionParam.put("clientId", clientId);
 			actionParam.put("intakeId", "0");
 			request.setAttribute("actionParam", actionParam);
-	
+
 			request.setAttribute("clientId", clientId);
 			request.setAttribute("fromManualReferralId", referralId);
-	
+
 			Demographic client;
 			client = clientManager.getClientByDemographicNo(clientId);
 			qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
 			qform.setClient(client);
 			request.setAttribute("client", client);
-	
+
 			com.quatro.web.intake.OptionList optionValues = intakeManager
 					.LoadOptionsList(true);
 			qform.setOptionList(optionValues);
-	
+
 			QuatroIntake intake;
-	
+
 			intake = new QuatroIntake();
 			intake.setCreatedOn(Calendar.getInstance());
 			intake.setId(new Integer(0));
@@ -355,10 +360,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 			intake.setStaffId((String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO));
-			intake.setYouth(KeyConstants.CONSTANT_NO);
-			intake.setVAW(KeyConstants.CONSTANT_NO);
+//			intake.setYouth(KeyConstants.CONSTANT_NO);
+//			intake.setVAW(KeyConstants.CONSTANT_NO);
 			intake.setProgramId(programId);
-	
+
 			Integer shelterId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_SHELTERID);
 			ArrayList lst = (ArrayList) programManager.getProgramIds(shelterId,
@@ -375,30 +380,29 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			qform.setProgramList(lst2);
 			qform.setProgramTypeList(lst3);
-	
+
 			intake.setCurrentProgramId(new Integer(0));
 			qform.setIntake(intake);
-	
+
 			LookupCodeValue language = null;
 			LookupCodeValue originalCountry = null;
 			if (language == null)
 				language = new LookupCodeValue();
 			if (originalCountry == null)
 				originalCountry = new LookupCodeValue();
-	
+
 			qform.setLanguage(language);
 			qform.setOriginalCountry(originalCountry);
-	
+
 			setProgramEditable(request, intake, null);
-	
-			request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+
+			request.setAttribute("PROGRAM_TYPE_Bed",
+					KeyConstants.PROGRAM_TYPE_Bed);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
-	       }
-	       catch(NoAccessException e)
-	       {
-		       return mapping.findForward("failure");
-	       }
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	public ActionForward programChange(ActionMapping mapping, ActionForm form,
@@ -421,10 +425,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				LookupCodeValue lcv = lookupManager.GetLookupCode("CNT", cd);
 				qform.setOriginalCountry(lcv);
 			}
-			
+
 			if (!clientId.equals("") && !"0".equals(clientId)) {
-				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(
-						Integer.valueOf(clientId), intake.getProgramId());
+				List intakeHeads = intakeManager
+						.getActiveIntakeByProgramByClient(Integer
+								.valueOf(clientId), intake.getProgramId());
 				for (int i = 0; i < intakeHeads.size(); i++) {
 					QuatroIntakeHeader qih = (QuatroIntakeHeader) intakeHeads
 							.get(i);
@@ -433,10 +438,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					if (qih.getProgramType().equals(
 							KeyConstants.SERVICE_PROGRAM_TYPE)) {
 						if (qih.getEndDate() != null
-								&& qih.getEndDate().before(Calendar.getInstance()))
+								&& qih.getEndDate().before(
+										Calendar.getInstance()))
 							continue;
 						messages.add(ActionMessages.GLOBAL_MESSAGE,
-								new ActionMessage("error.intake.duplicated_intake",
+								new ActionMessage(
+										"error.intake.duplicated_intake",
 										request.getContextPath(), qih
 												.getProgramName()));
 						saveMessages(request, messages);
@@ -444,7 +451,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					} else if (qih.getProgramType().equals(
 							KeyConstants.BED_PROGRAM_TYPE)) {
 						messages.add(ActionMessages.GLOBAL_MESSAGE,
-								new ActionMessage("error.intake.duplicated_intake",
+								new ActionMessage(
+										"error.intake.duplicated_intake",
 										request.getContextPath(), qih
 												.getProgramName()));
 						saveMessages(request, messages);
@@ -452,7 +460,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					}
 				}
 			}
-	
+
 			HashMap actionParam = new HashMap();
 			actionParam.put("clientId", clientId);
 			actionParam.put("intakeId", intake.getId().toString());
@@ -467,7 +475,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intakeHeadId = "0";
 			setAgeGenderReadonly(request, intake);
 			setProgramEditable(request, intake, Integer.valueOf(intakeHeadId));
-	
+
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			if (clientId.equals("0")) {
 				request.setAttribute("pageChanged", "1");
@@ -475,8 +483,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				if (intake.getId().intValue() == 0) {
 					request.setAttribute("pageChanged", "1");
 				} else {
-					QuatroIntake cur_intake = intakeManager.getQuatroIntake(intake
-							.getId());
+					QuatroIntake cur_intake = intakeManager
+							.getQuatroIntake(intake.getId());
 					if (intake.getProgramId().equals(cur_intake.getProgramId())) {
 						request.setAttribute("pageChanged", "");
 					} else {
@@ -485,13 +493,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				}
 				request.setAttribute("pageChanged", "1");
 			}
-	
+
 			return mapping.findForward("edit");
-	       }
-	       catch(NoAccessException e)
-	       {
-		       return mapping.findForward("failure");
-	       }
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	private void setProgramEditable(HttpServletRequest request,
@@ -505,14 +511,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}
 		request.setAttribute("programEditable", Boolean.valueOf(isEditable));
 	}
- 	private void setAgeGenderReadonly(HttpServletRequest request,
+
+	private void setAgeGenderReadonly(HttpServletRequest request,
 			QuatroIntake intake) {
 		if (KeyConstants.INTAKE_STATUS_ADMITTED
 				.equals(intake.getIntakeStatus())) {
 			request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
 		}
 	}
-
 
 	private boolean validateDuplicate(QuatroIntake intake, Demographic client,
 			HttpServletRequest request, ActionMessages messages) {
@@ -571,20 +577,20 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		Integer duplicatedReferralId = new Integer(0);
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-	
+
 			Demographic client = qform.getClient();
 			QuatroIntake intake = qform.getIntake();
 			String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
 			Integer intakeHeadId = new Integer(0);
 			if (!Utility.IsEmpty(request.getParameter("intakeHeadId")))
-				intakeHeadId = Integer
-						.valueOf(request.getParameter("intakeHeadId"));
+				intakeHeadId = Integer.valueOf(request
+						.getParameter("intakeHeadId"));
 			request.setAttribute("intakeHeadId", request
 					.getParameter("intakeHeadId"));
-	
+
 			setProgramEditable(request, intake, intakeHeadId);
-	
+
 			// check for new client duplication
 			if (intake.getClientId().intValue() == 0
 					&& request.getParameter("newClientChecked").equals("N")
@@ -609,10 +615,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				client.setEffDate(MyDateFormat.getSysDate(qform.getClient()
 						.getEffDateTxt()));
 			}
-	
+
 			/* intake */
 			if (null != intake.getEndDateTxt()) {
-				intake.setEndDate(MyDateFormat.getCalendar(intake.getEndDateTxt()));
+				intake.setEndDate(MyDateFormat.getCalendar(intake
+						.getEndDateTxt()));
 			}
 			intake.setLastUpdateDate(Calendar.getInstance());
 			// get program type
@@ -626,7 +633,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME))
 					&& KeyConstants.INTAKE_STATUS_ACTIVE.equals(intake
 							.getIntakeStatus())) {
-				isWarning = validateInputWarning(intake, client, request, messages);
+				isWarning = validateInputWarning(intake, client, request,
+						messages);
 				// check service restriction
 				// if(programChange){
 				ProgramClientRestriction restrInPlace = clientRestrictionManager
@@ -637,8 +645,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					List programs = qform.getProgramList();
 					for (int i = 0; i < programs.size(); i++) {
 						LabelValueBean obj3 = (LabelValueBean) programs.get(i);
-						if (obj3.getValue()
-								.equals(intake.getProgramId().toString())) {
+						if (obj3.getValue().equals(
+								intake.getProgramId().toString())) {
 							if (intake.getProgramType().equals(
 									KeyConstants.BED_PROGRAM_TYPE)) {
 								messages
@@ -646,22 +654,26 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 												ActionMessages.GLOBAL_MESSAGE,
 												new ActionMessage(
 														"warning.intake.service_restriction",
-														request.getContextPath(),
+														request
+																.getContextPath(),
 														obj3.getLabel()));
 								isWarning = true;
 								break;
 							} else {
-								messages.add(ActionMessages.GLOBAL_MESSAGE,
-										new ActionMessage(
-												"error.intake.service_restriction",
-												request.getContextPath(), obj3
-														.getLabel()));
+								messages
+										.add(
+												ActionMessages.GLOBAL_MESSAGE,
+												new ActionMessage(
+														"error.intake.service_restriction",
+														request
+																.getContextPath(),
+														obj3.getLabel()));
 								isError = true;
 								break;
 							}
 						}
 					}
-	
+
 					if (isError) {
 						saveMessages(request, messages);
 						HashMap actionParam = new HashMap();
@@ -671,7 +683,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 							Integer intakeHeadClientId = intakeManager
 									.getQuatroIntakeDBByIntakeId(intakeHeadId)
 									.getClientId();
-							request.setAttribute("clientId", intakeHeadClientId);
+							request
+									.setAttribute("clientId",
+											intakeHeadClientId);
 						} else {
 							request.setAttribute("clientId", client
 									.getDemographicNo());
@@ -681,15 +695,17 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 						intake.setClientId(client.getDemographicNo());
 						request.setAttribute("fromManualReferralId", request
 								.getParameter("fromManualReferralId"));
-						super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+						super.setScreenMode(request,
+								KeyConstants.TAB_CLIENT_INTAKE);
 						return mapping.findForward("edit");
 					}
 				}
 				// }
 				if (isWarning) {
-					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-							"warning.intake.overwrite_conflict", request
-									.getContextPath()));
+					messages.add(ActionMessages.GLOBAL_MESSAGE,
+							new ActionMessage(
+									"warning.intake.overwrite_conflict",
+									request.getContextPath()));
 					saveMessages(request, messages);
 					HashMap actionParam = new HashMap();
 					actionParam.put("clientId", client.getDemographicNo());
@@ -700,32 +716,37 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 								.getClientId();
 						request.setAttribute("clientId", intakeHeadClientId);
 					} else {
-						request.setAttribute("clientId", client.getDemographicNo());
+						request.setAttribute("clientId", client
+								.getDemographicNo());
 					}
 					request.setAttribute("actionParam", actionParam);
 					request.setAttribute("client", client);
 					intake.setClientId(client.getDemographicNo());
 					request.setAttribute("fromManualReferralId", request
 							.getParameter("fromManualReferralId"));
-					super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+					super
+							.setScreenMode(request,
+									KeyConstants.TAB_CLIENT_INTAKE);
 					return mapping.findForward("edit");
 				}
 			}
-	
+
 			// check service program end date
 			if (intake.getEndDate() != null
 					&& MyDateFormat.isBefore(intake.getEndDate(), Calendar
 							.getInstance())) {
 				if (intake.getProgramType().equals(
 						KeyConstants.SERVICE_PROGRAM_TYPE))
-					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-							"warning.intake.serviceprogram_enddate", request
-									.getContextPath()));
+					messages.add(ActionMessages.GLOBAL_MESSAGE,
+							new ActionMessage(
+									"warning.intake.serviceprogram_enddate",
+									request.getContextPath()));
 				else if (intake.getProgramType().equals(
 						KeyConstants.BED_PROGRAM_TYPE))
-					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-							"warning.intake.bedprogram_enddate", request
-									.getContextPath()));
+					messages.add(ActionMessages.GLOBAL_MESSAGE,
+							new ActionMessage(
+									"warning.intake.bedprogram_enddate",
+									request.getContextPath()));
 				saveMessages(request, messages);
 				HashMap actionParam = new HashMap();
 				actionParam.put("clientId", client.getDemographicNo());
@@ -748,10 +769,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 				return mapping.findForward("edit");
 			}
-	
+
 			if (intake.getClientId().intValue() > 0) {
-				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(
-						intake.getClientId(), intake.getProgramId());
+				List intakeHeads = intakeManager
+						.getActiveIntakeByProgramByClient(intake.getClientId(),
+								intake.getProgramId());
 				for (int i = 0; i < intakeHeads.size(); i++) {
 					QuatroIntakeHeader qih = (QuatroIntakeHeader) intakeHeads
 							.get(i);
@@ -760,49 +782,56 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					if (qih.getProgramType().equals(
 							KeyConstants.SERVICE_PROGRAM_TYPE)) {
 						if (qih.getEndDate() != null
-								&& qih.getEndDate().before(Calendar.getInstance()))
+								&& qih.getEndDate().before(
+										Calendar.getInstance()))
 							continue;
 						messages.add(ActionMessages.GLOBAL_MESSAGE,
-								new ActionMessage("error.intake.duplicated_intake",
+								new ActionMessage(
+										"error.intake.duplicated_intake",
 										request.getContextPath(), qih
 												.getProgramName()));
 						saveMessages(request, messages);
-	
+
 						HashMap actionParam = new HashMap();
 						actionParam.put("clientId", client.getDemographicNo());
 						actionParam.put("intakeId", intake.getId().toString());
-						request.setAttribute("clientId", client.getDemographicNo());
+						request.setAttribute("clientId", client
+								.getDemographicNo());
 						request.setAttribute("actionParam", actionParam);
 						request.setAttribute("client", client);
 						request.setAttribute("fromManualReferralId", request
 								.getParameter("fromManualReferralId"));
 						setAgeGenderReadonly(request, intake);
 						setProgramEditable(request, intake, intakeHeadId);
-						super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+						super.setScreenMode(request,
+								KeyConstants.TAB_CLIENT_INTAKE);
 						return mapping.findForward("edit");
 					} else if (qih.getProgramType().equals(
 							KeyConstants.BED_PROGRAM_TYPE)) {
 						messages.add(ActionMessages.GLOBAL_MESSAGE,
-								new ActionMessage("error.intake.duplicated_intake",
+								new ActionMessage(
+										"error.intake.duplicated_intake",
 										request.getContextPath(), qih
 												.getProgramName()));
 						saveMessages(request, messages);
 						HashMap actionParam = new HashMap();
 						actionParam.put("clientId", client.getDemographicNo());
 						actionParam.put("intakeId", intake.getId().toString());
-						request.setAttribute("clientId", client.getDemographicNo());
+						request.setAttribute("clientId", client
+								.getDemographicNo());
 						request.setAttribute("actionParam", actionParam);
 						request.setAttribute("client", client);
 						request.setAttribute("fromManualReferralId", request
 								.getParameter("fromManualReferralId"));
 						setAgeGenderReadonly(request, intake);
 						setProgramEditable(request, intake, intakeHeadId);
-						super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+						super.setScreenMode(request,
+								KeyConstants.TAB_CLIENT_INTAKE);
 						return mapping.findForward("edit");
 					}
 				}
 			}
-	
+
 			if (intake.getCreatedOnTxt().equals("") == false) {
 				intake.setCreatedOn(MyDateFormat.getCalendarwithTime(intake
 						.getCreatedOnTxt()));
@@ -811,15 +840,18 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setCreatedOn(cal);
 				intake.setCreatedOnTxt(MyDateFormat.getStandardDateTime(cal));
 			}
-	
+
 			if (intake.getId().intValue() == 0)
 				intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 			intake.setLanguage(request.getParameter("language_code"));
-			intake.setOriginalCountry(request.getParameter("originalCountry_code"));
-	
+			intake.setOriginalCountry(request
+					.getParameter("originalCountry_code"));
+
 			intake.setPregnant(request.getParameter("intake.pregnant"));
-			intake.setDisclosedAbuse(request.getParameter("intake.disclosedAbuse"));
-			intake.setObservedAbuse(request.getParameter("intake.observedAbuse"));
+			intake.setDisclosedAbuse(request
+					.getParameter("intake.disclosedAbuse"));
+			intake.setObservedAbuse(request
+					.getParameter("intake.observedAbuse"));
 			intake.setDisclosedMentalIssue(request
 					.getParameter("intake.disclosedMentalIssue"));
 			intake.setPoorHygiene(request.getParameter("intake.poorHygiene"));
@@ -832,7 +864,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setBirthCertificateYN(request
 					.getParameter("intake.birthCertificateYN"));
 			intake.setSINYN(request.getParameter("intake.SINYN"));
-			intake.setHealthCardNoYN(request.getParameter("intake.healthCardNoYN"));
+			intake.setHealthCardNoYN(request
+					.getParameter("intake.healthCardNoYN"));
 			intake.setDriverLicenseNoYN(request
 					.getParameter("intake.driverLicenseNoYN"));
 			intake.setCitizenCardNoYN(request
@@ -842,7 +875,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setVeteranNoYN(request.getParameter("intake.veteranNoYN"));
 			intake.setRecordLandingYN(request
 					.getParameter("intake.recordLandingYN"));
-			intake.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
+			intake.setLibraryCardYN(request
+					.getParameter("intake.libraryCardYN"));
 			intake.setStaffId(providerNo);
 			intake.setLastUpdateDate(new GregorianCalendar());
 			String sourceIncome = request.getParameter("intake.sourceIncome");
@@ -851,36 +885,41 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			LookupCodeValue language = new LookupCodeValue();
 			language.setCode(request.getParameter("language_code"));
-			language.setDescription(request.getParameter("language_description"));
+			language.setDescription(request
+					.getParameter("language_description"));
 			LookupCodeValue originalCountry = new LookupCodeValue();
-			originalCountry.setCode(request.getParameter("originalCountry_code"));
+			originalCountry.setCode(request
+					.getParameter("originalCountry_code"));
 			originalCountry.setDescription(request
 					.getParameter("originalCountry_description"));
 			qform.setLanguage(language);
 			qform.setOriginalCountry(originalCountry);
-	
+
 			Integer shelterId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_SHELTERID);
-	
+
 			// no more than one mannual referral exists for same clientId and
 			// programId.
-			boolean intakeExist = false; // flag for same clientId and programId
+			boolean intakeExist = false; // flag for same clientId and
+											// programId
 			if (intake.getClientId().intValue() > 0) {
 				List queues = programQueueManager
-						.getProgramQueuesByClientIdProgramId(intake.getClientId(),
-								intake.getProgramId());
+						.getProgramQueuesByClientIdProgramId(intake
+								.getClientId(), intake.getProgramId());
 				if (queues.size() > 0) {
 					ProgramQueue queue = (ProgramQueue) queues.get(0);
 					if (queue.getFromIntakeId() == null) {
 						duplicatedReferralId = queue.getReferralId();
 					} else {
-						if (intake.getId() != null && intake.getId().intValue() > 0
-								&& !queue.getFromIntakeId().equals(intake.getId()))
+						if (intake.getId() != null
+								&& intake.getId().intValue() > 0
+								&& !queue.getFromIntakeId().equals(
+										intake.getId()))
 							intakeExist = true;
 					}
 				}
 			}
-	
+
 			if (intake.getId().intValue() == 0
 					&& intakeManager.checkExistBedIntakeByFacility(
 							intake.getClientId(), intake.getProgramId()).size() > 0) {
@@ -889,24 +928,24 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 								.getContextPath()));
 				isError = true;
 			} else if (intakeExist) {
-				messages.add(ActionMessages.GLOBAL_MESSAGE,
-						new ActionMessage("error.referral.duplicated_queue",
-								request.getContextPath()));
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+						"error.referral.duplicated_queue", request
+								.getContextPath()));
 				isError = true;
 			} else {
 				Integer fromManualReferralId = null;
 				if (!request.getParameter("fromManualReferralId").equals(""))
 					fromManualReferralId = new Integer(request
 							.getParameter("fromManualReferralId"));
-	
+
 				if (duplicatedReferralId.intValue() > 0
 						&& fromManualReferralId == null)
 					fromManualReferralId = duplicatedReferralId;
-				boolean isFamilyMember = (intakeHeadId.intValue()>0 && intake.getId().intValue() != intakeHeadId.intValue() );
-	//			boolean isFamilityMember = (intakeHeadId.intValue() > 0);
+				boolean isFamilyMember = (intakeHeadId.intValue() > 0 && intake
+						.getId().intValue() != intakeHeadId.intValue());
+				// boolean isFamilityMember = (intakeHeadId.intValue() > 0);
 				ArrayList lst2 = intakeManager.saveQuatroIntake(client, intake,
-						intakeHeadId, isFamilyMember,
-						fromManualReferralId);
+						intakeHeadId, isFamilyMember, fromManualReferralId);
 				Integer intakeId = (Integer) lst2.get(0);
 				Integer queueId = new Integer(0);
 				if (lst2.get(2) != null)
@@ -916,9 +955,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				qform.setIntake(intake);
 				request.setAttribute("programId", intake.getProgramId());
 				request.setAttribute("queueId", queueId);
-	
+
 			}
-	
+
 			HashMap actionParam = new HashMap();
 			actionParam.put("clientId", client.getDemographicNo());
 			actionParam.put("intakeId", intake.getId().toString());
@@ -927,12 +966,15 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			request.setAttribute("client", client);
 			request.setAttribute("fromManualReferralId", request
 					.getParameter("fromManualReferralId"));
-	
+
 			if (!(isWarning || isError)) {
 				if (duplicatedReferralId.intValue() > 0)
-					messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-							"message.intake.saved_with_duplicated_queue", request
-									.getContextPath()));
+					messages
+							.add(
+									ActionMessages.GLOBAL_MESSAGE,
+									new ActionMessage(
+											"message.intake.saved_with_duplicated_queue",
+											request.getContextPath()));
 				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 						"message.save.success", request.getContextPath()));
 			} else if (isWarning) {
@@ -941,16 +983,15 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			saveMessages(request, messages);
 			request.setAttribute("pageChanged", "");
-			request.setAttribute("PROGRAM_TYPE_Bed", KeyConstants.PROGRAM_TYPE_Bed);
+			request.setAttribute("PROGRAM_TYPE_Bed",
+					KeyConstants.PROGRAM_TYPE_Bed);
 			setAgeGenderReadonly(request, intake);
 			setProgramEditable(request, intake, intakeHeadId);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
-	       }
-	       catch(NoAccessException e)
-	       {
-		       return mapping.findForward("failure");
-	       }
+		} catch (NoAccessException e) {
+			return mapping.findForward("failure");
+		}
 	}
 
 	public ClientManager getClientManager() {

@@ -346,10 +346,10 @@ public class FacilityManagerAction extends BaseFacilityAction {
  	   }
     }
 
-    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
     	ActionMessages messages = new ActionMessages();
-    	
-    	try{
+        try{
+        	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
 	        String facilityId = request.getParameter("facilityId");
 	        Facility facility = facilityManager.getFacility(Integer.valueOf(facilityId));
 	        facility.setActive(false);
@@ -360,8 +360,10 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.remove.success", request.getContextPath()));
             saveMessages(request, messages);
-
-    	}catch( Exception e){
+        }catch (NoAccessException e)
+        {
+        	return mapping.findForward("failure");
+        }catch( Exception e){
     		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.remove.failed", request.getContextPath()));
             saveMessages(request, messages);
     	}
@@ -369,8 +371,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
         return list(mapping, form, request, response);
     }
 
-    public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        Facility facility = new Facility("", "");
+    public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+    	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
+    	Facility facility = new Facility("", "");
         facility.setActive(true);
         ((FacilityManagerForm) form).setFacility(facility);
 
@@ -385,6 +388,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
+        	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
 	    	
 	    	FacilityManagerForm mform = (FacilityManagerForm) form;
 	        Facility facility = mform.getFacility();    	

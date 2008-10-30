@@ -102,7 +102,7 @@ public class MergeClientAction extends BaseAdminAction {
 	public ActionForward unmerge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT,KeyConstants.ACCESS_WRITE);
 			setLookupLists(request);
 	
 			ActionMessages messages = new ActionMessages();
@@ -171,7 +171,7 @@ public class MergeClientAction extends BaseAdminAction {
 	public ActionForward merge(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT,KeyConstants.ACCESS_WRITE);
 			setLookupLists(request);
 	
 			ActionMessages messages = new ActionMessages();

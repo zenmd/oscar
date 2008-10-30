@@ -499,8 +499,8 @@ function confirmActive()
 						</tr>
 						<tr>
 							<td>Health card No.</td>
-							<td><html-el:text property="intake.healthCardNo" size="10"
-								maxlength="10" /></td>
+							<td><html-el:text property="intake.healthCardNo" size="15"
+								maxlength="12" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.healthCardNoYN"
 								value="1" /></td>
@@ -508,7 +508,7 @@ function confirmActive()
 						<tr>
 							<td>Driver's License No.</td>
 							<td><html-el:text property="intake.driverLicenseNo"
-								size="17" maxlength="17" /></td>
+								size="17" maxlength="20" /></td>
 							<td>On file?</td>
 							<td width="53"><html-el:checkbox
 								property="intake.driverLicenseNoYN" value="1" /></td>
@@ -532,7 +532,7 @@ function confirmActive()
 						<tr>
 							<td>Veteran No.</td>
 							<td><html-el:text property="intake.veteranNo" size="20"
-								maxlength="30" /></td>
+								maxlength="16" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.veteranNoYN"
 								value="1" /></td>
@@ -540,7 +540,7 @@ function confirmActive()
 						<tr>
 							<td>Record of Landing</td>
 							<td><html-el:text property="intake.recordLanding" size="20"
-								maxlength="30" /></td>
+								maxlength="16" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.recordLandingYN"
 								value="1" /></td>
@@ -548,7 +548,7 @@ function confirmActive()
 						<tr>
 							<td>Library Card</td>
 							<td><html-el:text property="intake.libraryCard" size="20"
-								maxlength="30" /></td>
+								maxlength="16" /></td>
 							<td>On file?</td>
 							<td><html-el:checkbox property="intake.libraryCardYN"
 								value="1" /></td>
@@ -556,7 +556,7 @@ function confirmActive()
 						<tr>
 							<td>Other</td>
 							<td><html-el:text property="intake.idOther" size="20"
-								maxlength="30" /></td>
+								maxlength="16" /></td>
 							<td></td>
 							<td width="53"></td>
 						</tr>

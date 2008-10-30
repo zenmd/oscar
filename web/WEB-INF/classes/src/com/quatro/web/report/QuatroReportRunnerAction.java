@@ -15,11 +15,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.MyDateFormat;
 
 import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
+import com.quatro.common.KeyConstants;
 import com.quatro.model.DataViews;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.ReportFilterValue;
@@ -34,7 +36,7 @@ import com.quatro.util.HTMLPropertyBean;
 import com.quatro.util.KeyValueBean;
 import com.quatro.util.Utility;
 
-public class QuatroReportRunnerAction extends Action {
+public class QuatroReportRunnerAction extends BaseAdminAction {
 	private LookupManager lookupManager;
 	
 	public void setLookupManager(LookupManager lookupManager) {
@@ -129,8 +131,9 @@ public class QuatroReportRunnerAction extends Action {
         }
 	}
     
-	public void OnCriteriaTextChangedHandler(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
+	public void OnCriteriaTextChangedHandler(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)throws NoAccessException
 	{
+        checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
         ReportTempValue rptTemp = rptVal.getReportTemp();
         if (rptTemp == null)
@@ -217,24 +220,28 @@ public class QuatroReportRunnerAction extends Action {
 		myForm.setTemplateCriteriaList(cris);
 	}
 
-    public void btnInsertTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
+    public void btnInsertTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
+        checkAccess(request, reportNo,KeyConstants.ACCESS_WRITE);
 		ChangeTplCriTable(3, myForm, request);   // insert
 	}
 
-	public void btnRemoveTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
+	public void btnRemoveTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
+        checkAccess(request, reportNo,KeyConstants.ACCESS_WRITE);
 		ChangeTplCriTable(1, myForm, request);
 	}
 
-	public void btnAddTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
+	public void btnAddTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
+        checkAccess(request, reportNo,KeyConstants.ACCESS_WRITE);
 		ChangeTplCriTable(2, myForm, request);
     }
 
-	public void btnSave_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
+	public void btnSave_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
 		ActionMessages messages = new ActionMessages();
+        checkAccess(request, reportNo,KeyConstants.ACCESS_UPDATE);
 		try
         {
         	BuildTemplate(myForm, request); 
@@ -246,8 +253,9 @@ public class QuatroReportRunnerAction extends Action {
 		myForm.setStrClientJavascript("saveTemplate");
 	}
 	
-	public void btnRun_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)
+	public void btnRun_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
+        checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
         ReportTempValue rptTempVal=null;
         try
         {
@@ -259,7 +267,6 @@ public class QuatroReportRunnerAction extends Action {
         
         try{
             ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
-            
             rptVal.setExportFormatType(Integer.parseInt(myForm.getExportFormat()));
             rptVal.setPrint2Pdf(false); // this property is kept only for the customized prints 
 
@@ -294,6 +301,7 @@ public class QuatroReportRunnerAction extends Action {
 	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, int templateNo, HttpServletRequest request) throws NoAccessException
 	{
 		ReportValue rptVal=null;
+        checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		
 	    QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
 	        		getServlet().getServletContext()).getBean("quatroReportManager");
@@ -319,9 +327,19 @@ public class QuatroReportRunnerAction extends Action {
 		myForm.setOrgSelectionList(rptTempVal.getOrgCodes());
 		myForm.setReportOption(String.valueOf(rptTempVal.getReportOptionID()));
 	}
-	
+	private void checkAccess(HttpServletRequest request,int reportNo, String right) throws NoAccessException
+	{
+        /* make sure user has access to this report */
+		super.getAccess(request, KeyConstants.FUN_REPORTS, right);
+		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
+        		getServlet().getServletContext()).getBean("quatroReportManager");
+		String loginId = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO); 
+        ReportValue rptVal = reportManager.GetReport(reportNo,loginId);
+	    if(rptVal == null) throw new NoAccessException();
+	}
 	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, HttpServletRequest request, boolean refreshFromDB) throws NoAccessException
 	{
+        checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		ReportValue rptVal=null;
 		
 	    QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
