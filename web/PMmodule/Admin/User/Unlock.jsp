@@ -92,7 +92,7 @@ function getUserIds()
 				<display:table class="simple" cellspacing="2" cellpadding="3" id="user" name="users" export="false" 
 					pagesize="0" requestURI="/PMmodule/Admin/UnlockAccount.do">
 					<display:setProperty name="paging.banner.placement" value="bottom" />
-					<display:setProperty name="basic.msg.empty_list" value="No users are blocked" />
+					<display:setProperty name="basic.msg.empty_list" value="No users are locked" />
 					<display:column title="Select">
 						<input type="checkbox" name='checked_<c:out value="${user.userName}"/>' />
 					</display:column>
