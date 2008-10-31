@@ -78,9 +78,9 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         if(filter.getActionEndDate()!=null){
             criteria.add(Restrictions.le("ActionDate", MyDateFormat.getDayEnd(filter.getActionEndDate())));
         }
-        criteria.addOrder(Order.asc("HistoryDate"));
-        criteria.addOrder(Order.asc("ActionDate"));
+        criteria.addOrder(Order.desc("ActionDate"));
         criteria.addOrder(Order.asc("Action"));
+        criteria.addOrder(Order.desc("HistoryDate"));
         List results = criteria.list();
         
         if (log.isDebugEnabled()) {
@@ -144,6 +144,7 @@ public class ClientHistoryDao extends HibernateDaoSupport {
         criteria.add(Restrictions.eq("Notes", his.getNotes()));
         criteria.add(Restrictions.eq("ProviderNo", his.getProviderNo()));
 
+     //   criteria.addOrder(Order.desc("ActionDate"));
         List results = criteria.list();
         
         if (log.isDebugEnabled()) {

@@ -149,7 +149,7 @@ public final class LoginAction extends DispatchAction {
         }
         catch (Exception e) 
         {
-	        String newURL = mapping.findForward("error").getPath();
+	        String newURL = mapping.getInput();
 	        messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.login", "Server is temporarily unavailable, please try again later"));
 	        saveMessages(request,messages);
 	        return mapping.getInputForward();

@@ -99,39 +99,39 @@
 				<display:setProperty name="paging.banner.items_name" value="programs" />
 				<display:setProperty name="basic.msg.empty_list" value="No programs found." />
 
-				<display:column sortable="false" title="">		
+				<display:column sortable="false" title="" style="width:8%">		
 					<security:oscarSec  objectName="<%=KeyConstants.FUN_PROGRAMEDIT %>"  rights="<%=KeyConstants.ACCESS_UPDATE %>">			
 						<a	href="<html:rewrite action="/PMmodule/ProgramManager.do"/>?method=edit&programId=<c:out value="${program.id}" />">
 							Edit </a>
 					</security:oscarSec>		
 				</display:column>
 					
-				<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
+				<display:column sortable="true" title="Name" sortName="program" sortProperty="name"  style="width:24%">
 					<a	href="<html:rewrite action="/PMmodule/ProgramManagerView.do"/>?programId=<c:out value="${program.id}" />">
 					<c:out value="${program.name}" /> </a>
 				</display:column>
-				<display:column property="type" sortable="true" title="Type" />
-				<display:column sortable="true"	title="Status" sortName="program" sortProperty="programStatus">
+				<display:column property="type" sortable="true" title="Type"  style="width:7%"/>
+				<display:column sortable="true"	title="Status" sortName="program" sortProperty="programStatus"  style="width:7%">
 					<c:if test="${program.programStatus == '1'}"> Active</c:if>
 					<c:if test="${program.programStatus == '0'}"> Inactive</c:if>
 				</display:column>
-				<display:column property="facilityDesc" sortable="true" title="Facility" />				
+				<display:column property="facilityDesc" sortable="true" title="Facility"  style="width:16%"/>				
 				<display:column sortable="true" title="Occupancy" sortName="program" sortProperty="numOfMembers"  style="{text-align:right}">
 					<c:out value="${program.numOfMembers}" />
 				</display:column>
-				<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize"  style="{text-align:right}">
+				<display:column sortable="true" title="Queue" sortName="program" sortProperty="queueSize"  style="{text-align:right;width:7%}">
 					<c:if test="${program.type == 'Bed'}">
 						<c:out value="${program.queueSize}" />
 					</c:if>
 				</display:column>
 				
-				<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual"  style="{text-align:right}">
+				<display:column sortable="true" title="Capacity (actual)" sortName="program" sortProperty="capacity_actual"  style="{text-align:right;width:8%}">
 					<c:out value="${program.capacity_actual}" />
 				</display:column>
-				<display:column sortable="true" title="Capacity (funding)" sortName="program" sortProperty="capacity_funding"  style="{text-align:right}">
+				<display:column sortable="true" title="Capacity (funding)" sortName="program" sortProperty="capacity_funding"  style="{text-align:right;width:8%}">
 					<c:out value="${program.capacity_funding}" />
 				</display:column>
-				<display:column sortable="false" title="Vacancy"  style="{text-align:right}">
+				<display:column sortable="false" title="Vacancy"  style="{text-align:right;width:8%}">
 					<c:if test="${program.type == 'Bed'}">
 						<c:out value="${program.capacity_actual - program.numOfMembers}" />
 					</c:if>

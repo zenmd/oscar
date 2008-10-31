@@ -37,6 +37,9 @@
 		<script type="text/javascript" src="<html:rewrite page="/js/quatroLookup.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/js/validation.js" />"></script>
 		<script type="text/javascript" src="<html:rewrite page="/js/checkDate.js" />"></script>
+	    <script>
+    	    history.forward();
+    	</script>
 
 		<script type="text/javascript">
 			var isInFrame = true;

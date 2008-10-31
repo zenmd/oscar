@@ -40,7 +40,8 @@ function submitForm(methodVal) {
 	</td></tr>
 
     <tr><td>
-	<table border="0" cellspacing="2" cellpadding="2" width="100%">
+    <div class="axial">
+	<table border="0" cellspacing="1" cellpadding="2" width="100%" bgcolor="#E8E8E8">
 	  <tr><th width="20%" align="right">Action Date</th>
 	  <td width="10%" align="right">Start</td>
 	  <td width="25%" align="left"><quatro:datePickerTag property="actionStartDateTxt" openerForm="clientHistoryForm" width="90%" /></td>
@@ -56,9 +57,12 @@ function submitForm(methodVal) {
 		<html-el:optionsCollection name="programs" value="value" label="label" />
 	  </html:select></td></tr>
 	</table>
+	</div>
 	</td></tr>
 
+
 <tr><td><div class="tabs">
+<p></p>
 <table cellpadding="3" cellspacing="0" border="0">
 <tr><th>Client History</th></tr>
 </table></div></td></tr>

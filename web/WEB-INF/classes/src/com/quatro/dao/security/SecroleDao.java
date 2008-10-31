@@ -36,7 +36,7 @@ public class SecroleDao extends HibernateDaoSupport {
     private Logger log = LogManager.getLogger(SecroleDao.class);
 
     public List getRoles() {
-        List results = this.getHibernateTemplate().find("from Secrole r");
+        List results = this.getHibernateTemplate().find("from Secrole r order by roleName");
 
         log.debug("getRoles: # of results=" + results.size());
 

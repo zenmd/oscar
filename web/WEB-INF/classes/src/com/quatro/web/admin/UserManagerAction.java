@@ -272,8 +272,8 @@ public class UserManagerAction extends BaseAdminAction {
 			}
 
 		}
-		user.setUserName((String) secuserForm.get("userName"));
-
+		user.setUserName(((String) secuserForm.get("userName")).toLowerCase());
+		secuserForm.set("userName",user.getUserName());
 		String password = (String) secuserForm.get("password");
 		String cpass = (String) secuserForm.get("confirmPassword");
 		//String pin = (String) secuserForm.get("pin");

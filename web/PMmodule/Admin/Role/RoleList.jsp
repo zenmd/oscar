@@ -40,7 +40,7 @@
 			</table>
 		</div>
 		<display:table sort="list" class="simple" cellspacing="2" cellpadding="3"
-			id="role" name="roles" export="false" pagesize="10"
+			id="role" name="roles" export="false" pagesize="20"
 			requestURI="/PMmodule/Admin/RoleManager.do">
         <display:setProperty name="paging.banner.placement" value="bottom" />
         <display:setProperty name="basic.msg.empty_list" value="No role found." />
