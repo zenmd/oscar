@@ -733,7 +733,7 @@ function confirmActive()
 							</c:otherwise>
 							</c:choose>
 							</td>
-							<td width="25%">End Date (service program)</td>
+							<td width="25%">Service Program End Date</td>
 							<td width="25%"><quatro:datePickerTag
 								property="intake.endDateTxt" openerForm="quatroIntakeEditForm">
 							</quatro:datePickerTag></td>
