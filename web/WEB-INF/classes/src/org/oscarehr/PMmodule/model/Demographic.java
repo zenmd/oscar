@@ -495,6 +495,10 @@ public class Demographic implements Serializable {
 	public String getFirstName() {
 		return firstName;
 	}
+	public String getFirstNameJS()
+	{
+		return oscar.Misc.JSEscape(firstName);
+	}
 
 	/**
 	 * Set the value related to the column: first_name
@@ -600,7 +604,10 @@ public class Demographic implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
-
+	public String getLastNameJS()
+	{
+		return oscar.Misc.JSEscape(lastName);
+	}
 	/**
 	 * Set the value related to the column: last_name
 	 * 

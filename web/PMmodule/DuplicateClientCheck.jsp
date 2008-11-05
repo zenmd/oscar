@@ -10,6 +10,10 @@
 <script language="Javascript">
 	var readOnly = false;
 	var win = null;
+	function replacePrime(str)
+	{
+		return str.replace(/&#39;/g,"\'");
+	}
 
 	function selectDuplicateClient(form_name, firstName, firstNameValue, 
 	   lastName, lastNameValue, sex, sexValue, dob, dobValue, alias, aliasValue, 
@@ -17,11 +21,10 @@
 	   newClientChecked,newClientCheckedValue, shortFlag) {
 	   var fromPage=document.forms[0].elements["pageFrom"]; 
   	   if(fromPage==null || fromPage.value=="") { 
-		   var myexpr = "opener.document." + form_name + ".elements['" + firstName +"'].value='" + firstNameValue +"'";
-		   eval(myexpr);
-		   myexpr = "opener.document." + form_name + ".elements['" + lastName +"'].value='" + lastNameValue + "'";
-		   eval(myexpr);
-		
+		   var fn = opener.document.getElementsByName(firstName)[0];
+		   fn.value = replacePrime(firstNameValue);
+		   var ln = opener.document.getElementsByName(lastName)[0];
+		   ln.value = replacePrime(lastNameValue);
 		   var elSel= window.opener.document.getElementsByName(sex)[0]; 
 		   for(var i=0;i<elSel.options.length;i++){
 		      if(sexValue==elSel.options[i].value)
@@ -102,8 +105,8 @@ function submitForm(shortFlagValue){
         <c:choose>
 	      <c:when test="${client.demographicNo==0}">
 	        <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
-	        '<c:out value="${firstName}"/>', '<c:out value="${client.firstName}"/>',
-	        '<c:out value="${lastName}"/>', '<c:out value="${client.lastName}"/>',
+	        '<c:out value="${firstName}"/>', '<c:out value="${client.firstNameJS}"/>',
+	        '<c:out value="${lastName}"/>', '<c:out value="${client.lastNameJS}"/>',
 	        '<c:out value="${sex}"/>', '<c:out value="${client.sex}"/>',
 	        '<c:out value="${dob}"/>', '<c:out value="${client.dob}"/>',
 	        '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
@@ -114,8 +117,8 @@ function submitForm(shortFlagValue){
 	      </c:when>
 	      <c:otherwise>
 	        <a href="javascript:selectDuplicateClient('<c:out value="${formName}"/>',
-	        '<c:out value="${firstName}"/>', '<c:out value="${client.firstName}"/>',
-	        '<c:out value="${lastName}"/>', '<c:out value="${client.lastName}"/>',
+	        '<c:out value="${firstName}"/>', '<c:out value="${client.firstNameJS}"/>',
+	        '<c:out value="${lastName}"/>', '<c:out value="${client.lastNameJS}"/>',
 	        '<c:out value="${sex}"/>', '<c:out value="${client.sex}"/>',
 	        '<c:out value="${dob}"/>', '<c:out value="${client.dob}"/>',
 	        '<c:out value="${alias}"/>', '<c:out value="${client.alias}"/>',
