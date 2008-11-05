@@ -35,21 +35,26 @@ import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKException;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKExceptionBase;
 import com.crystaldecisions.sdk.occa.report.reportsource.IReportSource;
+import com.quatro.common.KeyConstants;
 import com.quatro.model.ReportOptionValue;
 import com.quatro.model.ReportValue;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
 
-public class PrintViewAction extends DispatchAction {
+public class PrintViewAction extends BaseClientAction {
 	private ConsentManager consentManager;
 	
 	ReportValue _rptValue;
     ReportOptionValue _rptOption;
     public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {	
-    	PaintReport(request, response);
-		return null;
-    	// return mapping.findForward("view");
+    	try {
+    		PaintReport(request, response);
+    		return null;
+    	}
+    	catch (Exception e) {
+    		return mapping.findForward("failure");
+    	}
 	}
     private void paintReportTest(HttpServletRequest request, HttpServletResponse response){
         final String reportName = "setResultsetDatasource.rpt";    
@@ -101,11 +106,20 @@ public class PrintViewAction extends DispatchAction {
     	return statement.executeQuery(query);
 
     }
-	private void PaintReport(HttpServletRequest request, HttpServletResponse response){
+	private void PaintReport(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String rId =request.getParameter("rId");
 		request.setAttribute("rId", rId);
 		Integer id =Integer.valueOf(rId);
     	String module=request.getParameter("moduleName");
+    	Integer progId = Integer.valueOf(request.getParameter("programId"));
+    	if(module.toLowerCase().equals("consent"))
+    	{
+    		super.getAccess(request, KeyConstants.FUN_PROGRAM_CLIENTS,progId);
+    	}
+    	else if(module.toLowerCase().equals("bedcheck")) {
+    		super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT,progId);
+    	}
+    	
     	String loginId = (String)request.getSession().getAttribute("user");  
     	 String rptPath="";
     	 ReportClientDocument reportDocument1 = new ReportClientDocument();

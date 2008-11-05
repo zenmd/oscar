@@ -15,7 +15,7 @@
     	//To PDF 
     	// var url = appPath + "/Print/PrintView.aspx?id=" + reportId + ":" + recordId + ":p";
 
-    	var url='<c:out value="${ctx}" />/PMmodule/PrintView.do?rId=' +recordId+'&moduleName=BedCheck';
+    	var url='<c:out value="${ctx}" />/PMmodule/PrintView.do?rId=' +recordId+'&moduleName=BedCheck&programId=' + recordId;
 		top.childWin = window.open(url,"_blank","location=yes, toolbar=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,width=650,height=400,top=50, left=50");
 		top.childWin.focus();
 	}

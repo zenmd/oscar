@@ -18,11 +18,11 @@
 	<input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 	
 	<script lang="javascript">
-	function printForm(recordId){
+	function printForm(recordId, programId){
     	//To PDF 
     	// var url = appPath + "/Print/PrintView.aspx?id=" + reportId + ":" + recordId + ":p";
 
-    	var url='<c:out value="${ctx}" />/PMmodule/PrintView.do?rId=' +recordId+'&moduleName=consent';
+    	var url='<c:out value="${ctx}" />/PMmodule/PrintView.do?rId=' +recordId+'&moduleName=consent&programId=' + programId;
 		top.childWin = window.open(url,"_blank","toolbar=no,menubar=no,resizable=yes,scrollbars=yes,status=no,width=650,height=400,top=50, left=50");
 		top.childWin.focus();
 	}
@@ -123,7 +123,7 @@
 		  			</c:if>
 		  			<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;">
 		  				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>|
-		  			<a href="javaScript:printForm('<bean:write name="consentDetailForm" property="consentValue.id" />');"        
+		  			<a href="javaScript:printForm('<bean:write name="consentDetailForm" property="consentValue.id" />','<bean:write name="consentDetailForm" property="consentValue.programId" />');"        
          				style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Print16x16.gif"/> />&nbsp;Print&nbsp;&nbsp;</a>	
 		        </logic:greaterThan>				
