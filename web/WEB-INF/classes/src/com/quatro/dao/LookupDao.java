@@ -740,12 +740,22 @@ public class LookupDao extends HibernateDaoSupport {
 	public int getCountOfActiveClient(String orgCd) throws SQLException{
 		String sql = "select count(*) from admission where admission_status='" +  KeyConstants.INTAKE_STATUS_ADMITTED + "' and  'P' || program_id in (" +
 				" select code from lst_orgcd  where codecsv like '%' || '" +  orgCd  + ",' || '%')";
+		String sql1 = "select count(*) from program_queue where  'P' || program_id in (" +
+		" select code from lst_orgcd  where codecsv like '%' || '" +  orgCd  + ",' || '%')";
+
 		DBPreparedHandler db = new DBPreparedHandler();
 		try {
 			ResultSet rs = db.queryResults(sql);
 			int id = 0;
 			if (rs.next()) 
 				 id = rs.getInt(1);
+			if (id > 0) return id;
+			
+			rs.close();
+			rs = db.queryResults(sql1);
+			if (rs.next()) 
+				 id = rs.getInt(1);
+			rs.close();
 			return id;
 		}
 		finally
