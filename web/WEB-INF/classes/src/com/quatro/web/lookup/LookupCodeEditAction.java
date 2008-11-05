@@ -83,13 +83,15 @@ public class LookupCodeEditAction extends BaseAdminAction {
     	}
 	}
 
-	public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException 
+	public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP,KeyConstants.ACCESS_UPDATE);
 		com.quatro.web.lookup.LookupCodeEditForm qform = (com.quatro.web.lookup.LookupCodeEditForm) form;
 		LookupTableDefValue tableDef = qform.getTableDef();
 		List fieldDefList = qform.getCodeFields();
 		boolean isNew = qform.isNewCode();
+		boolean isInActive = false;
+		String  code = "";
 		String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Map map=request.getParameterMap();
 		String errMsg = "";
@@ -108,6 +110,8 @@ public class LookupCodeEditAction extends BaseAdminAction {
 				String [] val = (String[]) map.get("field[" + i + "].val");
 				if (val != null) {
 					fdv.setVal(val[0]);
+					if(fdv.getGenericIdx() == 1) code = fdv.getVal();
+					if(fdv.getGenericIdx() == 3) isInActive = "0".equals(fdv.getVal());
 					if("D".equals(fdv.getFieldType())) {
 						if(!Utility.IsDate(fdv.getVal())) {
 							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
@@ -134,13 +138,19 @@ public class LookupCodeEditAction extends BaseAdminAction {
 				}
 			}
 		}
+		if((!isNew) && isInActive) { 
+			if("SHL,OGN".indexOf(tableDef.getTableId())>= 0) {
+				int clientCount = lookupManager.getCountOfActiveClient(tableDef.getTableId().substring(0,1) + code);
+				if(clientCount > 0) errMsg += "Active Clients detected in the " + tableDef.getDescription();
+			}
+		}
 		if(!Utility.IsEmpty(errMsg)) 
 		{
 			qform.setErrMsg(errMsg);
 			return mapping.findForward("edit");
 		}
 		try {
-			String code = lookupManager.SaveCodeValue(isNew, tableDef, fieldDefList);
+			code = lookupManager.SaveCodeValue(isNew, tableDef, fieldDefList);
 			fieldDefList = lookupManager.GetCodeFieldValues(tableDef, code);
 			qform.setCodeFields(fieldDefList);
 			qform.setNewCode(false);
