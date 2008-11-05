@@ -55,7 +55,7 @@
 	<tr><td align="center">
 		<c:choose>
 			<c:when test="${message == null}">
-				NoAccessException - Not enough privileges to access the requested page
+				No enough privilege to access the requested page.
 			</c:when>
 			<c:otherwise>
 				<c:out escapeXml="false" value="${message}" />
@@ -66,7 +66,7 @@
 	<tr><td>&nbsp;</td>
 	</tr>
 	<tr><td  align="center">
-		<a href="javascript:history.back();">Back</a>
+		<html:link action="/Home.do">Home</html:link>
 	</td></tr>
 	</table>
 </body>
