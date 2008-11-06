@@ -40,4 +40,5 @@
 
 </html:form>
 </body>
+<script type="text/javascript">initializeMenus();</script>
 </html>

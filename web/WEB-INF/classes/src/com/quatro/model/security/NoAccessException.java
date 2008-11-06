@@ -8,6 +8,6 @@ public class NoAccessException extends Exception{
 	}
 	public NoAccessException()
 	{
-		super("No enough privilege to access the requested page.");
+		super("Insufficient privileges to access the requested page.");
 	}
 }

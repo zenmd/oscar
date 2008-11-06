@@ -14,6 +14,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
@@ -53,7 +54,7 @@ import com.quatro.model.ReportValue;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
 
-public class QuatroReportViewerAction extends Action {
+public class QuatroReportViewerAction extends BaseAction {
 	ReportValue _rptValue;
     ReportOptionValue _rptOption;
 //	protected CrystalDecisions.CrystalReports.Engine.ReportDocument reportDocument1;

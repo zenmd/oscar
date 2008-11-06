@@ -9,6 +9,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.model.DataViews;
@@ -18,7 +19,7 @@ import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
 
 
-public class QuatroReportTemplateAction extends Action {
+public class QuatroReportTemplateAction extends BaseAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 

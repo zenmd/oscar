@@ -65,3 +65,6 @@
 		</td>
 	</tr>
 </table>
+<script>
+	initializeMenus();
+</script>
