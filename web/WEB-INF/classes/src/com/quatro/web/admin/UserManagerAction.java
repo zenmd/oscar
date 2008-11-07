@@ -279,8 +279,8 @@ public class UserManagerAction extends BaseAdminAction {
 		String cpass = (String) secuserForm.get("confirmPassword");
 		//String pin = (String) secuserForm.get("pin");
 		//String cpin = (String) secuserForm.get("confirmPin");
-		String pin = "1117";
-		String cpin = "1117";
+		String pin = "123456";
+		String cpin = "123456";
 
 		if (password.equals(cpass) && pin.equals(cpin)) {
 			if (!password.equals(PWD)) {
