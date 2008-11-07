@@ -78,6 +78,15 @@
 		 	return true;
 		}	
 	}
+	function validateCaseStatus(){
+	
+		if (document.caseManagementEntryForm.elements["caseNote.encounter_type"].value=="" ||document.caseManagementEntryForm.elements["caseNote.encounter_type"].value==" ")
+		{
+			return false;
+		}else{
+		 	return true;
+		}	
+	}
 	function validateProgram(){
 		var elSel= document.caseManagementEntryForm.elements["caseNote.program_no"];				
 		if (elSel==null ||elSel.value=="" ||elSel.value==" ")
@@ -144,9 +153,13 @@
 
 		var str1="Please choose program before saving." ;
 		var str2="Are you sure that you want to sign and save without changing the status of any of the issues?";
-		var str3="Please choose encounter type before saving the note.";
+		var str3="Please choose Encounter Type before saving the note.";
 		var str4="Are you sure that you want to save without signing?";
 		var str5="You cannot save a note when there is no Component of Service, please add a Component of Service before save." ;
+		var str6="Please choose Case Status before saving." ;
+		if(!validateNoteStatus()) {
+			alert(str6); return false;
+		}
 		if (!validateEnounter()){
 			alert(str3); return false;
 		}				

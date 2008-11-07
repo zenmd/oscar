@@ -130,5 +130,5 @@
 		</td>
 	</tr>
 </table>
-</html:form>
 <%@ include file="/common/readonly.jsp" %>
+</html:form>

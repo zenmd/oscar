@@ -33,9 +33,7 @@ function submitForm(methodVal) {
 </td></tr>
 	
 </table>
-
-<table width="100%" class="simple">
-	<html:form action="/PMmodule/Task.do" onsubmit="return validateTicklerForm(this);">
+<html:form action="/PMmodule/Task.do" onsubmit="return validateTicklerForm(this);">
         <input type="hidden" name="method"/>
         <input type="hidden" name="clientId" value ="<c:out value="${clientId}" />"/> 
         <input type="hidden" name="ticklerNo" value ="<c:out value="${ticklerNo}" />"/> 
@@ -43,6 +41,8 @@ function submitForm(methodVal) {
 		<html:hidden property="tickler.demographic_no" />
 		<html:hidden property="tickler.tickler_no" />
 		<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
+
+	<table width="100%" class="simple">
 		
 		<tr><td width="10%">Client:</td>
 		<td width="50%"><c:out value="${client.formattedName}"/></td>
@@ -87,10 +87,8 @@ function submitForm(methodVal) {
 
 		<tr><td>New Comment:</td>
 		<td colspan="3"><textarea name="newcomment" style="width: 90%;" rows="8"></textarea></td></tr>
-
-	</html:form>
 </table>
-
+<%@ include file="/common/readonly.jsp" %>
+	</html:form>
 	</body>
 </html>
-<%@ include file="/common/readonly.jsp" %>

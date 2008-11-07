@@ -62,6 +62,8 @@ public class QuatroProgramSearchAction  extends BaseAction {
 	       List lstFacility=this.lookupManager.LoadCodeList("FAC", false, null, null);
 	       request.setAttribute("lstFacility", lstFacility);
 	       ProgramUtils.addProgramRestrictions(request);
+		   
+	       request.setAttribute("notoken", "Y");
 
 	       return mapping.findForward("view");
 	   }

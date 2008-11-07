@@ -234,10 +234,8 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 			CaseManagementIssue iss = (CaseManagementIssue) itr.next();
 			rt = rt + "\t\t\n[" + lookupManager.GetLookupCode("ISS", iss.getIssue_id().toString()).getDescription()+"]";   // + "\t\t\n";			
 		}
-		if (1==caseStatusId.intValue())
-			rt = rt+"]\t\t\n[Case Status of this note " + "[resolved]\n";
-		else
-			rt = rt+"]\t\t\n[Case Status of this note " + "[unresolved]\n";
+		String cs = lookupManager.GetLookupCode("CST", caseStatusId.toString()).getDescription();
+		rt = rt+"]\t\t\n[Case Status of this note " + "[" + cs + "]\n";
 		return rt+ "]\n";
 	}
         

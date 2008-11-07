@@ -40,6 +40,8 @@ public class LookupListAction extends BaseAdminAction {
 		LookupListForm qform = (LookupListForm) form;
 		qform.setLookups(lst);
 		qform.setTableDef(tableDef);
+		
+		request.setAttribute("notoken", "Y");
 		return mapping.findForward("list");
 	}
 	
@@ -56,6 +58,7 @@ public class LookupListAction extends BaseAdminAction {
 //		qform.setOpenerFormName(request.getParameter("openerFormName"));
 //		qform.setOpenerCodeElementName(request.getParameter("openerCodeElementName"));
 //		qform.setOpenerDescElementName(request.getParameter("openerDescElementName"));
+		request.setAttribute("notoken", "Y");
 		return mapping.findForward("list");
 	}
 	

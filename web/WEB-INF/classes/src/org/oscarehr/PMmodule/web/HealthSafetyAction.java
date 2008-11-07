@@ -50,6 +50,7 @@ public class HealthSafetyAction extends BaseAction {
 			healthSafetyForm.set("healthsafety", healthsafety);
             request.setAttribute("healthsafety", healthsafety);
 		}
+		request.setAttribute("notoken", "Y");
 		
 		return mapping.findForward("edit");
 	}
@@ -66,6 +67,7 @@ public class HealthSafetyAction extends BaseAction {
 		healthsafety.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 
 		healthSafetyManager.saveHealthSafetyByDemographic(healthsafety);	
+		request.setAttribute("notoken", "Y");
 		
 		return mapping.findForward("success");
 	}

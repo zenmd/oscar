@@ -131,8 +131,8 @@
 		</tr>
 		<!-- body end -->
 	</table>
-</html:form>
 <%@ include file="/common/readonly.jsp" %>
+</html:form>
 <script type="text/javascript">
 <!--
 	function submitForm(){

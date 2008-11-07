@@ -41,6 +41,8 @@ public class LookupTreeAction extends BaseAction {
    	    DynaActionForm qform = (DynaActionForm) form;
 	    qform.set("tableDef", tableDef);
 	    qform.set("tree", repository);
+	    
+		request.setAttribute("notoken", "Y");
 
    	    return mapping.findForward("tree");
 	}
@@ -55,6 +57,8 @@ public class LookupTreeAction extends BaseAction {
 
 	    qform.set("tableDef", tableDef);
 	    qform.set("tree", repository);
+
+	    request.setAttribute("notoken", "Y");
 
    	    return mapping.findForward("tree");
 	}

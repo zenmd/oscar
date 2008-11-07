@@ -69,6 +69,12 @@ function submitForm(methodVal) {
 }
 </script>
 
+<html:form action="/PMmodule/Task.do" onsubmit="return validateTicklerForm(this);">
+       <input type="hidden" name="method"/>
+	<html:hidden property="tickler.creator" />
+	<html:hidden property="tickler.demographic_no" />
+	<html:hidden property="tickler.tickler_no" />
+	<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 <table border="0" cellspacing="0" cellpadding="1" width="100%">
 <c:choose>
 <c:when test="${viewTickler=='Y'}">
@@ -96,12 +102,6 @@ function submitForm(methodVal) {
 </table>
 
 <table width="100%" class="simple">
-	<html:form action="/PMmodule/Task.do" onsubmit="return validateTicklerForm(this);">
-        <input type="hidden" name="method"/>
-		<html:hidden property="tickler.creator" />
-		<html:hidden property="tickler.demographic_no" />
-		<html:hidden property="tickler.tickler_no" />
-		<input type="hidden" name="pageChanged" id="pageChanged" value='<c:out value="${pageChanged}" />' />
 		<tr><td>Client:</td>
 		<td colspan="2"><input type=hidden name="clientId" value="<c:out value="${client.demographicNo}"/>">
 		<c:out value="${client.formattedName}"/></td></tr>
@@ -155,9 +155,8 @@ function submitForm(methodVal) {
 		</td></tr>
 		<tr><td>Message:</td>
 		<td colspan="2"><html:textarea style="width: 90%" rows="16" property="tickler.message" /></td></tr>
-
-	</html:form>
 </table>
 <%@ include file="/common/readonly.jsp" %>
+	</html:form>
 	</body>
 </html>

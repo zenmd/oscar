@@ -24,9 +24,11 @@ package org.oscarehr.PMmodule.web;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -232,21 +234,65 @@ public abstract class BaseAction extends DispatchAction {
 	}
 	protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response, String name) throws Exception
 	{
+		String tokenP = (String) request.getParameter("token");
 		if ( name!= null && name.indexOf("save")>=0) {
 			String tokenS = (String) request.getSession().getAttribute("token"); 
-			String tokenP = (String) request.getParameter("token");
 			if (!Utility.isNotNullOrEmptyStr(tokenP)) throw new Exception("Sorry this page cannot be displayed.");
 			if(Utility.isNotNullOrEmptyStr(tokenS)) {
 				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
 			}
 		}
-		ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
-        response.setHeader("Expires", "-1");
-        response.setHeader("Cache-Control",
-        	"must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "private");
-        request.getSession().setAttribute("token", String.valueOf(Calendar.getInstance().getTimeInMillis()));
-		return fwd;
+		Calendar startDt = Calendar.getInstance();
+		try {
+			ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
+			if(fwd.getName().equals("failure")) throw new NoAccessException();
+	        response.setHeader("Expires", "-1");
+	        response.setHeader("Cache-Control",
+	        	"must-revalidate, post-check=0, pre-check=0");
+	        response.setHeader("Pragma", "private");
+	
+	        if (request.getAttribute("notoken") == null)
+	        {
+	        	request.getSession().setAttribute("token", String.valueOf(Calendar.getInstance().getTimeInMillis()));
+	        }
+	        // do a access log
+	        Calendar endDt = Calendar.getInstance();
+	        long timeSpan = endDt.getTimeInMillis() - startDt.getTimeInMillis();
+	        log(timeSpan,null,name, 1, request);
+	        return fwd;
+		}
+		catch (Exception ex)
+		{
+	        Calendar endDt = Calendar.getInstance();
+	        long timeSpan = endDt.getTimeInMillis()-startDt.getTimeInMillis();
+			log(timeSpan, ex.toString(),name,0, request);
+			throw ex;
+		}
+	}
+	
+	private void log(long timeSpan, String ExName,String method, int result, HttpServletRequest request)
+	{
+        if (!oscar.OscarProperties.getInstance().getProperty("audit_mode").equals("on")) return;
+        HttpSession session = request.getSession();
+        String providerNo = (String) session.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+        String className = this.toString();
+        if(method == null) method = "unspecified";
+        Integer programId = (Integer) request.getAttribute("programId");
+        if(programId == null) programId = new Integer(0);
+        String clientId = (String) request.getAttribute("clientId");
+        Integer shelterId = (Integer) session.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+        if(shelterId == null) shelterId = new Integer(0);
+        String sessionId = request.getSession().getId();
+        String queryString = request.getRequestURI();
+        if(clientId == null) 
+        {
+            HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+            if(actionParam!=null){
+            	clientId = (String) actionParam.get("clientId"); 
+            }
+        }
+        oscar.log.LogAction.logAccess(providerNo, className, method, programId.toString(), shelterId.toString(), clientId, queryString, sessionId, timeSpan, ExName, result);
+		
 	}
 	protected String getClientId(HttpServletRequest request){
 		String clientId=request.getParameter("demoNo");

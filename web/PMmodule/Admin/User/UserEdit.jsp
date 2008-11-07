@@ -6,6 +6,10 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 
 <%@ include file="/taglibs.jsp"%>
 <%@page import="com.quatro.common.KeyConstants;"%>
+<html:form action="/PMmodule/Admin/UserManager" method="post">
+<html:hidden property="method" value="" />
+<html:hidden property="securityNo" />
+<html:hidden property="providerNo" />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 	<tr>
 		<th class="pageTitle" align="center"><span
@@ -60,10 +64,6 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 
 		
 
-		<html:form action="/PMmodule/Admin/UserManager" method="post">
-			<html:hidden property="method" value="" />
-			<html:hidden property="securityNo" />
-			<html:hidden property="providerNo" />
 			
 			<div class="tabs">
 			<table cellpadding="3" cellspacing="0" border="0">
@@ -130,11 +130,12 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
  				
 			</table>
 
-		</html:form></div>
+		</div>
 		</td>
 	</tr>
 </table>
 <%@ include file="/common/readonly.jsp" %>
+</html:form>
 <script language="javascript" type="text/javascript">
 <!--
 

@@ -130,8 +130,8 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 	  </td></tr>
 	</logic:present>
 </table>
-</html:form>
 <%@ include file="/common/readonly.jsp" %>
+</html:form>
 <script language="javascript" type="text/javascript">
 <!--
 	function gotoRoleList(){

@@ -101,8 +101,8 @@ Source:web/PMmodule/Admin/User/AddRoles.jsp
 	  </div>
 	</td></tr>
 </table>
-</html:form>
 <%@ include file="/common/readonly.jsp" %>
+</html:form>
 <script language="javascript" type="text/javascript">
 <!--
 function submitForm(mthd){
