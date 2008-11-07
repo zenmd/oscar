@@ -232,22 +232,20 @@ public abstract class BaseAction extends DispatchAction {
 	}
 	protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response, String name) throws Exception
 	{
-		/*
-		if ( name!= null && name.startsWith("save")) {
+		if ( name!= null && name.indexOf("save")>=0) {
 			String tokenS = (String) request.getSession().getAttribute("token"); 
 			String tokenP = (String) request.getParameter("token");
-			if (Utility.isNotNullOrEmptyStr(tokenP)) throw new Exception("Sorry this page cannot be displayed.");
+			if (!Utility.isNotNullOrEmptyStr(tokenP)) throw new Exception("Sorry this page cannot be displayed.");
 			if(Utility.isNotNullOrEmptyStr(tokenS)) {
 				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
 			}
 		}
-		*/
 		ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
         response.setHeader("Expires", "-1");
         response.setHeader("Cache-Control",
         	"must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "private");
-        request.getSession().setAttribute("token", Calendar.getInstance().getTime().toString());
+        request.getSession().setAttribute("token", String.valueOf(Calendar.getInstance().getTimeInMillis()));
 		return fwd;
 	}
 	protected String getClientId(HttpServletRequest request){
