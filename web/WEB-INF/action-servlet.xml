@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-
+ 
     <bean name="/PMmodule/Task" class="org.oscarehr.PMmodule.web.ClientTaskAction" singleton="false" autowire="byName">
     </bean>
 	<bean name="/PMmodule/UploadFile" class="org.oscarehr.PMmodule.web.UploadFileAction" singleton="false" autowire="byName">
@@ -237,6 +237,9 @@
 	<bean name="/login" class="oscar.login.LoginAction" singleton="false">
 		<property name="providerManager" ref="providerManager"/>
 		<property name="lookupManager" ref="lookupManager"/>
+	</bean>
+
+	<bean name="/PMmodule/Admin/SysAdmin" class="org.oscarehr.PMmodule.web.admin.AdminHomeAction" singleton="false">
 	</bean>
 
 	<bean name="/PMmodule/Admin/ShowORGTree" class="com.quatro.web.admin.ShowORGTreeAction" singleton="false">
