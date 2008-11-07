@@ -34,12 +34,13 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.upload.FormFile;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.casemgmt.model.ClientImage;
 import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.oscarehr.casemgmt.web.formbeans.ClientImageFormBean;
 
 
-public class ClientImageAction extends DispatchAction {
+public class ClientImageAction extends BaseAction {
 
 	private static Logger log = LogManager.getLogger(ClientImageAction.class);
 

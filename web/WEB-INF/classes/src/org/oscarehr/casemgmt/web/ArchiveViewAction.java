@@ -8,8 +8,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.web.BaseAction;
 
-public class ArchiveViewAction extends DispatchAction {
+public class ArchiveViewAction extends BaseAction {
 	protected ProgramManager programManager;
 
 	public void setProgramManager(ProgramManager mgr) {

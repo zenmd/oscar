@@ -42,7 +42,7 @@ import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 
-public class ConsentAction extends DispatchAction {
+public class ConsentAction extends BaseAction {
 	private static Log log = LogFactory.getLog(ConsentAction.class);
     private ClientManager clientManager;
     private ConsentManager consentManager;

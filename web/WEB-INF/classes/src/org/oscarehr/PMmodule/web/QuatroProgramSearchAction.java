@@ -21,7 +21,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 
-public class QuatroProgramSearchAction  extends DispatchAction {
+public class QuatroProgramSearchAction  extends BaseAction {
 	   
 	   private ProgramManager programManager;
 	   private ClientManager clientManager;

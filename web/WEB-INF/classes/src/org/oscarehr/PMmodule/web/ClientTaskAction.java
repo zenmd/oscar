@@ -46,6 +46,7 @@ public class ClientTaskAction extends BaseClientAction{
 
     //for My Task
     public ActionForward filter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
     	TicklerForm ticklerForm = (TicklerForm) form;
 
     	Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
@@ -61,6 +62,7 @@ public class ClientTaskAction extends BaseClientAction{
         List ticklers = ticklerManager.getTicklers(filter, shelterId, providerNo);
 
         request.setAttribute("ticklers", ticklers);
+        request.setAttribute("mytask", "Y");
         
         return mapping.findForward("mytask_filter");
     }

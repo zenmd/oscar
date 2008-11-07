@@ -156,7 +156,12 @@ public final class LoginAction extends BaseAction {
 	        return mapping.getInputForward();
         }
     }
-    
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+    	LoginForm loginForm = (LoginForm) form;
+    	loginForm.setUsername("");
+    	return mapping.findForward("login");
+    }
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
 	}

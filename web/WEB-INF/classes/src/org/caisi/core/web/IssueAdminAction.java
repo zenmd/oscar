@@ -40,9 +40,10 @@ import org.apache.struts.actions.DispatchAction;
 import org.caisi.model.IssueAdmin;
 //import org.caisi.service.CaisiRoleManager;
 import org.caisi.service.IssueAdminManager;
+import org.oscarehr.PMmodule.web.BaseAction;
 
 // use your IDE to handle imports
-public class IssueAdminAction extends DispatchAction {
+public class IssueAdminAction extends BaseAction {
     private static Logger log = LogManager.getLogger(IssueAdminAction.class);
     private IssueAdminManager mgr = null;
 //    private CaisiRoleManager caisiRoleMgr = null;

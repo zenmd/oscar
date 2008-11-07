@@ -22,8 +22,13 @@
 
 package org.oscarehr.PMmodule.web;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
@@ -146,7 +151,7 @@ public abstract class BaseAction extends DispatchAction {
 		return attribute;
 	}
 	
-	protected void setMenu(HttpServletRequest request, String currentMenu) throws NoAccessException {
+	protected void setMenu(HttpServletRequest request,String currentMenu) throws NoAccessException {
 		/*
 		  isPageChangedFlag appeared?
 		*/
@@ -224,6 +229,26 @@ public abstract class BaseAction extends DispatchAction {
 		path.append(parameters);
 
 		return new RedirectingActionForward(path.toString());
+	}
+	protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response, String name) throws Exception
+	{
+		/*
+		if ( name!= null && name.startsWith("save")) {
+			String tokenS = (String) request.getSession().getAttribute("token"); 
+			String tokenP = (String) request.getParameter("token");
+			if (Utility.isNotNullOrEmptyStr(tokenP)) throw new Exception("Sorry this page cannot be displayed.");
+			if(Utility.isNotNullOrEmptyStr(tokenS)) {
+				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
+			}
+		}
+		*/
+		ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
+        response.setHeader("Expires", "-1");
+        response.setHeader("Cache-Control",
+        	"must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "private");
+        request.getSession().setAttribute("token", Calendar.getInstance().getTime().toString());
+		return fwd;
 	}
 	protected String getClientId(HttpServletRequest request){
 		String clientId=request.getParameter("demoNo");

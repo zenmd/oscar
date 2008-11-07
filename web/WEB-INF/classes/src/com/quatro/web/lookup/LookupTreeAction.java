@@ -14,12 +14,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.PMmodule.web.BaseAction;
 
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.LookupTableDefValue;
 import com.quatro.service.LookupManager;
 
-public class LookupTreeAction extends DispatchAction {
+public class LookupTreeAction extends BaseAction {
     private LookupManager lookupManager=null;
     
 	public void setLookupManager(LookupManager lookupManager) {

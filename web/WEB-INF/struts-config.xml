@@ -406,7 +406,8 @@
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
  -->
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
- 			<forward name="shelterSelection" path="/shelterSelection.do"/> 
+ 			<forward name="shelterSelection" path="/shelterSelection.do"/>
+ 			<forward name="login" path="/index.jsp" /> 
         </action>     
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
  			<forward name="shelterSelection" path="/shelterSelection.do"/>
@@ -511,7 +512,7 @@
         </action>
  
         <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="request">
-            <forward name="list" path="page.pmm.admin.list" />
+            <forward name="list" path="page.pmm.admin.list"  redirect="false"/>
             <forward name="edit" path="page.pmm.admin.edit" />
             <forward name="timeout" path="/PMmodule/Timeout.jsp" />
             <forward name="programSignatures" path="/PMmodule/Admin/ProgramSignatures.jsp"/>
@@ -845,7 +846,7 @@
          <!-- Population Report -->
 
         <!-- admin Start -->
-        <action path="/PMmodule/Admin/SysAdmin" type="org.oscarehr.PMmodule.web.admin.AdminHomeAction"  scope="request" validate="false">
+        <action path="/PMmodule/Admin/SysAdmin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
          	<forward name="admin" path="page.admin.home"/>
 		</action>
 		<action path="/PMmodule/Admin/ShowORGTree" type="org.springframework.web.struts.DelegatingActionProxy"

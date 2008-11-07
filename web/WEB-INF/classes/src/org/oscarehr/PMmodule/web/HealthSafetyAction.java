@@ -16,7 +16,7 @@ import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
 
-public class HealthSafetyAction extends DispatchAction {
+public class HealthSafetyAction extends BaseAction {
 	private static Log log = LogFactory.getLog(HealthSafetyAction.class);
 
     private HealthSafetyManager healthSafetyManager=null;

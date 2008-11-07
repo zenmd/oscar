@@ -21,7 +21,7 @@ import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.service.UploadFileManager;
 
-public class ShowFileAction extends DispatchAction {
+public class ShowFileAction extends BaseAction {
 	private static Log log = LogFactory.getLog(UploadFileAction.class);
 
 	private UploadFileManager uploadFileManager;

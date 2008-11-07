@@ -19,7 +19,7 @@ import org.oscarehr.PMmodule.model.Demographic;
 import com.quatro.model.LookupCodeValue;
 import oscar.MyDateFormat;
 
-public class DuplicateClientCheckAction extends DispatchAction {
+public class DuplicateClientCheckAction extends BaseAction {
    private ClientManager clientManager;
    private LookupManager lookupManager;
 

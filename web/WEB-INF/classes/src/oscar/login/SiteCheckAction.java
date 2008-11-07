@@ -40,6 +40,7 @@ import org.oscarehr.PMmodule.dao.FacilityDAO;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProviderManager;
+import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.util.SpringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -55,7 +56,7 @@ import com.quatro.service.security.*;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.common.KeyConstants;
 
-public final class SiteCheckAction extends DispatchAction {
+public final class SiteCheckAction extends BaseAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
     private static final String LOG_PRE = "Login!@#$: ";
 

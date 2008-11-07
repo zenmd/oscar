@@ -15,7 +15,7 @@ import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 
-public class QuatroClientHistoryAction  extends DispatchAction {
+public class QuatroClientHistoryAction  extends BaseAction {
    private ClientManager clientManager;
    private ProviderManager providerManager;
    private ProgramManager programManager;

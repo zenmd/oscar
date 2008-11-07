@@ -66,7 +66,8 @@ public class UserManagerAction extends BaseAdminAction {
 
 	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+		super.getAccess(request,KeyConstants.FUN_ADMIN_USER);
 		return mapping.findForward("list");
 	}
 

@@ -12,7 +12,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 
 public class AdminHomeAction extends BaseAction {
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.setMenu(request,KeyConstants.MENU_ADMIN);
     		return mapping.findForward("admin");

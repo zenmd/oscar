@@ -132,8 +132,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 					<td align="center"><img src="images/QuatroShelter-Logo400.gif" height="80" width="400" ></td>
 				</tr>
 				<tr>
-					<Td align="center"><font size="3" face="Arial">City of
-					Toronto</font></td>
+					<Td align="center"><img border="0" src="images/city-toronto.gif"  ></td>
 				</tr>
 				<tr>
 					<td align="center"><font size="1" face="Arial">Build: <%=OscarProperties.getInstance().getBuildDate() %></font>
@@ -169,7 +168,7 @@ if (props.getProperty("logintitle", "").equals("")) {
 						<table cellspacing="2" border="0" style="BORDER-RIGHT:Gray 1px solid; BORDER-Top:Silver 1px solid; BORDER-LEFT:Silver 1px solid;BORDER-BOTTOM:Gray 1px solid" align="center" valing="center" background="images/Silver-background.gif"  width="70%">
 							<tr><td height="5"></td></tr>
 							<tr>
-								<td width="40%" align="right">
+								<td width="30%" align="right">
 									<font size="2" face="Arial"> <b><bean:message
 									key="loginApplication.formUserName" /> 
 								</b></font></td>

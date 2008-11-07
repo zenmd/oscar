@@ -62,8 +62,8 @@ function validate()
 <input type="hidden" name="method" />
 
 <tr><td class="buttonBar2">
-	<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
-	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
+	<html:link action="/Home.do" style="color:Navy;text-decoration:none;">
+	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Home&nbsp;&nbsp;|</html:link>
 	<a href="javascript:void1();" onclick="return searchClicked();" style="color:Navy;text-decoration:none;">
 	<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Search&nbsp;&nbsp;</a>
 
