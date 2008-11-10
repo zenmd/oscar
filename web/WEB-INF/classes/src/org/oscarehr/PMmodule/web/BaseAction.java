@@ -277,7 +277,14 @@ public abstract class BaseAction extends DispatchAction {
         String providerNo = (String) session.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         String className = this.toString();
         if(method == null) method = "unspecified";
-        Integer programId = (Integer) request.getAttribute("programId");
+        Integer programId = null;
+        try {
+        	programId = (Integer) request.getAttribute("programId");
+        }
+        catch(Exception ex)
+        {
+            if(request.getAttribute("programId") != null) programId = Integer.valueOf((String) request.getAttribute("programId"));
+        }
         if(programId == null) programId = new Integer(0);
         String clientId = "";
         try {
