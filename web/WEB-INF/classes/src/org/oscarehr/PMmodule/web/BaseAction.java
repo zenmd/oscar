@@ -279,7 +279,15 @@ public abstract class BaseAction extends DispatchAction {
         if(method == null) method = "unspecified";
         Integer programId = (Integer) request.getAttribute("programId");
         if(programId == null) programId = new Integer(0);
-        String clientId = (String) request.getAttribute("clientId");
+        String clientId = "";
+        try {
+        	clientId = (String) request.getAttribute("clientId");
+        }
+        catch(Exception ex)
+        {
+        	if (request.getAttribute("clientId") != null)
+        	clientId = ((Integer) request.getAttribute("clientId")).toString();
+        }
         Integer shelterId = (Integer) session.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         if(shelterId == null) shelterId = new Integer(0);
         String sessionId = request.getSession().getId();
