@@ -215,11 +215,12 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	
 	       String intakeId = (String)clientForm.getIntakeId();
 	       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
+	       Integer headClientId = clientForm.getFamilyHead().getDemographicNo();
 	       
 		   String newClientConfirmed= request.getParameter("newClientConfirmed");
 		   boolean bDupliDemographicNoApproved=true;
 	       List dependents = buildDependentList(request, clientForm);       
-	       bDupliDemographicNoApproved = checkDuplicateDemographicNo(dependents,newClientConfirmed);
+	       bDupliDemographicNoApproved = checkDuplicateDemographicNo(dependents,newClientConfirmed, headClientId);
 	       boolean familyAdmitted = Boolean.valueOf(request.getParameter("isFamilyAdmitted")).booleanValue();
 	       
 	       if(!bDupliDemographicNoApproved){
@@ -487,7 +488,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
  	   }
        return dependents;
    }
-   private boolean checkDuplicateDemographicNo(List dependents,String newClientConfirmed)
+   private boolean checkDuplicateDemographicNo(List dependents,String newClientConfirmed, Integer headClientId)
    {
 	   //check duplicate client for intakeId==0 && clientId==0 
 	   boolean bDupliDemographicNoApproved = true;
@@ -498,7 +499,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 			       ClientSearchFormBean criteria = new ClientSearchFormBean();
 		           criteria.setLastName(obj.getLastName());
 		           criteria.setFirstName(obj.getFirstName());
-		           criteria.setDob(obj.getDob());
+		           // criteria.setDob(obj.getDob());
 		           criteria.setGender(obj.getSex());
 			       List lst = clientManager.search(criteria, false,true);
 		           if(lst.size()>0){
@@ -511,6 +512,16 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 			         obj.setNewClientChecked("Y");
 			         obj.setStatusMsg("");
 		           }
+	 			}
+	 		}
+	 		else
+	 		{
+	 			if(obj.getClientId().intValue() == headClientId.intValue())
+	 			{
+	 				obj.setDuplicateClient("Y");
+	 				obj.setNewClientChecked("N");
+	 				obj.setStatusMsg("x");
+		            bDupliDemographicNoApproved=false;
 	 			}
 	 		}
 	   	}
