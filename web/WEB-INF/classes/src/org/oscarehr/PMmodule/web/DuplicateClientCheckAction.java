@@ -57,6 +57,7 @@ public class DuplicateClientCheckAction extends BaseAction {
 		   request.setAttribute("newClientChecked", split[8]);
 	   }
 	   setEditFields(request,qform);
+	   request.setAttribute("notoken", "Y");
 	   return mapping.findForward("edit");
    }
    public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -77,6 +78,7 @@ public class DuplicateClientCheckAction extends BaseAction {
 	   request.setAttribute("clientNo", request.getParameter("clientNo"));
 	   request.setAttribute("statusMsg", request.getParameter("statusMsg"));
 	   request.setAttribute("newClientChecked", request.getParameter("newClientChecked"));
+	   request.setAttribute("notoken", "Y");
        
 	   return mapping.findForward("edit");
    }
