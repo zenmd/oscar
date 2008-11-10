@@ -16,6 +16,12 @@
 <style type="text/css">
 	@import "<html:rewrite page="/css/displaytag.css" />";
 </style>
+<style type="text/css">
+	.clsAlignLeft
+	{
+		text-align:left
+	}
+</style>
 </head>
 <body>
 <html:form action="/Lookup/LookupList.do">
@@ -40,10 +46,10 @@
     <display:setProperty name="paging.banner.items_name" value="facilities" />
     <display:setProperty name="basic.msg.empty_list" value="No records found." />
 
-    <display:column sortable="false" title="Code">
+    <display:column sortable="false" title="Code" headerClass="clsAlignLeft">
         <c:out value="${lookup.code}"/>
     </display:column>
-    <display:column sortable="false" title="Description">
+    <display:column sortable="false" title="Description" headerClass="clsAlignLeft">
         <a href='javascript:selectMe("<c:out value="${lookup.code}" />", "<c:out value="${lookup.descriptionJs}" />", 
         "<c:out value="${lookupListForm.openerForm}" />", 
         "<c:out value="${lookupListForm.codeName}" />", 
