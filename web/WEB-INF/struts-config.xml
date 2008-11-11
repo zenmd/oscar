@@ -408,6 +408,7 @@
         <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
  			<forward name="shelterSelection" path="/shelterSelection.do"/>
  			<forward name="login" path="/index.jsp" /> 
+ 			<forward name="logout" path="/logout.jsp" /> 
         </action>     
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
  			<forward name="shelterSelection" path="/shelterSelection.do"/>

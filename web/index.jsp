@@ -219,6 +219,8 @@ if (props.getProperty("logintitle", "").equals("")) {
 	</tr>
 	<tr><td height=20></td></tr>
 </table>
+<input type="hidden" name="method" value="login"/>" />
+<input type="hidden" name="token" value="<c:out value="${token}"/>" />
 </html:form>
 </div>
 

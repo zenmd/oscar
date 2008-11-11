@@ -266,7 +266,7 @@ function checkExistClients(i){
     <logic:equal name="dependent" property="clientId" value="0">
        <logic:equal name="dependent" property="duplicateClient" value="Y">
        <tr><td></td><td colspan="6">
-       		<font color="#ff0000">This new client may be an existing client.</font>
+       		<font color="#ff0000">? This new client may be an existing client.</font>
        </td></tr>
        </logic:equal>
     </logic:equal>
@@ -274,6 +274,11 @@ function checkExistClients(i){
        <logic:equal name="dependent" property="serviceRestriction" value="Y">
        <tr><td></td><td colspan="6">
        <font color="#ff0000">Service Restriction applied.<br></font>
+       </td></tr>
+       </logic:equal>
+       <logic:equal name="dependent" property="statusMsg" value="x">
+       <tr><td></td><td colspan="6">
+       <font color="#ff0000">x This client is the head of the family.<br></font>
        </td></tr>
        </logic:equal>
     </logic:notEqual>

@@ -69,7 +69,7 @@
                <a target="_blank" href='<%=request.getContextPath()%>/help/QuatroShelter.htm' class="clsMenu">Help</a>
         </td>
         <td  class="clsMenuCell2" nowrap="nowrap" >
-               <a href='<%=request.getContextPath()%>/logout.jsp'  class="clsMenu">Logout</a>
+               <html:link action="/login.do?method=logout"  styleClass="clsMenu">Logout</html:link>
         </td>
         </tr></table>
         </td>

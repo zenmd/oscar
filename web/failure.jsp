@@ -52,7 +52,7 @@
 			</table>
 		</td>
 	</tr>
-	<tr><td align="center">
+	<tr><td align="center" class="message">
 		<c:choose>
 			<c:when test="${message == null}">
 				Access to the requested page has been denied due to insufficient privileges.

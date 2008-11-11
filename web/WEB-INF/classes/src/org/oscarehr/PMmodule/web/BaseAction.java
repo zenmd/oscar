@@ -235,10 +235,10 @@ public abstract class BaseAction extends DispatchAction {
 	protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response, String name) throws Exception
 	{
 		String tokenP = (String) request.getParameter("token");
-		if ( name!= null && name.indexOf("save")>=0) {
+		if ( name!= null && (name.indexOf("save")>=0 || name.indexOf("login")>=0)) {
 			String tokenS = (String) request.getSession().getAttribute("token"); 
-			if (!Utility.isNotNullOrEmptyStr(tokenP)) throw new Exception("Sorry this page cannot be displayed.");
 			if(Utility.isNotNullOrEmptyStr(tokenS)) {
+				if (!Utility.isNotNullOrEmptyStr(tokenP)) throw new Exception("Sorry this page cannot be displayed.");
 				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
 			}
 		}
@@ -250,7 +250,7 @@ public abstract class BaseAction extends DispatchAction {
 	        response.setHeader("Cache-Control",
 	        	"must-revalidate, post-check=0, pre-check=0");
 	        response.setHeader("Pragma", "private");
-	
+	        
 	        if (request.getAttribute("notoken") == null)
 	        {
 	        	request.getSession().setAttribute("token", String.valueOf(Calendar.getInstance().getTimeInMillis()));

@@ -13,12 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.oscarehr.PMmodule.web.BaseClientAction;
+
+import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 
 import oscar.OscarAction;
 import oscar.OscarDocumentCreator;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 
-public class PrintBarcodeAction extends OscarAction {
+public class PrintBarcodeAction extends BaseClientAction {
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
@@ -35,9 +39,10 @@ public class PrintBarcodeAction extends OscarAction {
     public PrintBarcodeAction() {
     }
 
-    public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
         //patient
-        String classpath = (String)request.getSession().getServletContext().getAttribute("org.apache.catalina.jsp_classpath");
+    	super.getAccess(request, KeyConstants.FUN_CLIENTPRINTLABEL, new Integer(0));
+    	String classpath = (String)request.getSession().getServletContext().getAttribute("org.apache.catalina.jsp_classpath");
         if (classpath==null) classpath = (String)request.getSession().getServletContext().getAttribute("com.ibm.websphere.servlet.application.classpath");
         
         System.setProperty("jasper.reports.compile.class.path", classpath);
@@ -73,7 +78,7 @@ public class PrintBarcodeAction extends OscarAction {
             e.printStackTrace();
         }
 
-        return actionMapping.findForward(this.target);
+        return actionMapping.findForward("success");
     }
 
     private StringBuffer getHeader(HttpServletResponse response) {

@@ -16,7 +16,10 @@ import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
 
-public class HealthSafetyAction extends BaseAction {
+import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
+
+public class HealthSafetyAction extends BaseClientAction {
 	private static Log log = LogFactory.getLog(HealthSafetyAction.class);
 
     private HealthSafetyManager healthSafetyManager=null;
@@ -26,14 +29,16 @@ public class HealthSafetyAction extends BaseAction {
 	}
 
 	
-	public ActionForward unspecified(ActionMapping mapping,	ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward unspecified(ActionMapping mapping,	ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		logManager.log("read","full provider list","",request);
 //		log.warn("Program doesn't have a name?");
 		return form(mapping,form,request,response);
 	}
 	
 	
-	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+		
+		super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
 		String id = request.getParameter("clientId");
@@ -56,10 +61,10 @@ public class HealthSafetyAction extends BaseAction {
 	}
 	
 	
-	public ActionForward savehealthSafety(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward savehealthSafety(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
 		log.debug("Saving health and Safety");
-		
+		if (super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null)) throw new NoAccessException();
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
 		HealthSafety healthsafety= (HealthSafety)healthSafetyForm.get("healthsafety");

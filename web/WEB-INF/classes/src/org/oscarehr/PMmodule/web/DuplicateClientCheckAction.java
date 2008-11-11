@@ -16,15 +16,20 @@ import com.quatro.util.Utility;
 
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.model.Demographic;
+
+import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.model.security.NoAccessException;
+
 import oscar.MyDateFormat;
 
-public class DuplicateClientCheckAction extends BaseAction {
+public class DuplicateClientCheckAction extends BaseClientAction {
    private ClientManager clientManager;
    private LookupManager lookupManager;
 
-   public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       DynaActionForm qform = (DynaActionForm) form;
+   public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
+	   if (super.isReadOnly(request, "", KeyConstants.FUN_CLIENTINTAKE, new Integer(0))) throw new NoAccessException();
+	   DynaActionForm qform = (DynaActionForm) form;
        Demographic client = (Demographic) qform.get("client");
        
        client.setFirstName(request.getParameter("firstName"));
@@ -60,7 +65,8 @@ public class DuplicateClientCheckAction extends BaseAction {
 	   request.setAttribute("notoken", "Y");
 	   return mapping.findForward("edit");
    }
-   public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+	   if (super.isReadOnly(request, "", KeyConstants.FUN_CLIENTINTAKE, new Integer(0))) throw new NoAccessException();
        DynaActionForm qform = (DynaActionForm) form;
        Demographic client = (Demographic) qform.get("client");
        

@@ -63,7 +63,7 @@ public final class LoginAction extends BaseAction {
     private ProviderManager providerManager;
     private LookupManager lookupManager;
     
-    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ActionForward login(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ActionMessages messages = new ActionMessages();
         String ip = request.getRemoteAddr();
@@ -161,6 +161,23 @@ public final class LoginAction extends BaseAction {
     	LoginForm loginForm = (LoginForm) form;
     	loginForm.setUsername("");
     	return mapping.findForward("login");
+    }
+    public ActionForward logout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+    	 HttpSession session = request.getSession(); 
+    	  if( session != null) {
+    		    Object user = session.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+    		    if (user != null) {
+    		      String ip = request.getRemoteAddr();
+    			  LogAction.addLog((String)user,(String)user, LogConst.LOGOUT, LogConst.CON_LOGIN, "", ip);
+    		      session.invalidate();
+    		      request.getSession();
+    		    }
+    	  }
+    	
+    	LoginForm loginForm = (LoginForm) form;
+    	loginForm.setUsername("");
+    	return mapping.findForward("logout");
     }
 	public ApplicationContext getAppContext() {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
