@@ -71,7 +71,9 @@ public class UploadFileAction extends BaseClientAction {
 	          actionParam.put("clientId", clientId); 
 	         }
 		     request.setAttribute("actionParam", actionParam);
-		     Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);
+			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
+		     
+			 Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);
 			 if(exc != null && exc.equals(Boolean.TRUE)) {
 		    	   ActionMessages messages= new ActionMessages();
 		    	   messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.save.attachment_toolarge", request.getContextPath()));
@@ -88,7 +90,6 @@ public class UploadFileAction extends BaseClientAction {
 		    	   return edit(mapping,form,request,response);
 		       }
 		       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-			   super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 			   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 				String providerNo=(String) request.getSession().getAttribute("user");
 	
@@ -217,7 +218,7 @@ public class UploadFileAction extends BaseClientAction {
 		 if(null!=aId)uploadFileManager.deleteAttachment(aId);
 		 return list(mapping, form, request, response);
 	    }
-	 public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	 public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		 DynaActionForm attForm = (DynaActionForm) form;
 		 Attachment attObj = (Attachment )attForm.get("attachmentValue");
 		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");		 
@@ -242,7 +243,8 @@ public class UploadFileAction extends BaseClientAction {
 	        try{
 	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
 	        }catch(Exception e){;}
-	       
+	        if("".equals(programId)) programId = "0";
+	        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_UPDATE);
 			log.info("attachment client upload id: id="  + cId);
 			FormFile formFile = attTextObj.getImagefile();			
 			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1);

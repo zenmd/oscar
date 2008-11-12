@@ -196,7 +196,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    }
    
    //from quatroClientAdmission.jsp room change event 
-   public ActionForward roomchange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward roomchange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 	   try {
  	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
 
@@ -216,7 +216,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
 
        Admission admission = clientForm.getAdmission();
-       
+       super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getBedProgramId(),KeyConstants.ACCESS_UPDATE);
        //setup rooms
        Integer curDB_RoomId = clientForm.getRoomDemographic().getId().getRoomId();
        Integer prevDB_RoomId = null;
@@ -680,6 +680,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
        ActionMessages messages = new ActionMessages();
        Admission admission = clientForm.getAdmission();
+       super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getBedProgramId(),KeyConstants.ACCESS_UPDATE);
        Integer clientId = admission.getClientId();
        Integer intakeId = admission.getIntakeId();
        Integer programId = admission.getProgramId();
