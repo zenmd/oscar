@@ -15,13 +15,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 
+import com.quatro.common.KeyConstants;
 import com.quatro.model.Attachment;
 import com.quatro.model.AttachmentText;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.service.LookupManager;
 import com.quatro.service.UploadFileManager;
 
-public class ShowFileAction extends BaseAction {
+public class ShowFileAction extends BaseClientAction {
 	private static Log log = LogFactory.getLog(UploadFileAction.class);
 
 	private UploadFileManager uploadFileManager;
@@ -37,6 +38,8 @@ public class ShowFileAction extends BaseAction {
 			throws Exception {
 		Integer recordId = Integer.valueOf((String) request.getParameter("id"));
 		Attachment attObj = uploadFileManager.getAttachmentDetail(recordId);
+		super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, attObj.getRefProgramId());
+		
 		AttachmentText attTextObj = uploadFileManager.getAttachmentText(recordId);
 		LookupCodeValue lcv = lookupManager.GetLookupCode("DTT", attObj.getFileType());
 		String contentType = lcv.getDescription();
