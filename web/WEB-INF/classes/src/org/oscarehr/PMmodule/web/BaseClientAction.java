@@ -204,7 +204,7 @@ public abstract class BaseClientAction extends BaseAction {
 			}
 		}
 	}
-	public boolean isReadOnly(HttpServletRequest request, String status,String funName,Integer programId) throws NoAccessException 
+	protected boolean isReadOnly(HttpServletRequest request, String status,String funName,Integer programId) throws NoAccessException 
 	{
 		if(getAccess(request, funName, programId).equals(KeyConstants.ACCESS_NONE)) throw new NoAccessException();
 		boolean readOnly =false;
@@ -239,7 +239,7 @@ public abstract class BaseClientAction extends BaseAction {
 			readOnly=true;
 		return readOnly;
 	}
-	public String getAccess(HttpServletRequest request, String fucName,Integer programId) throws NoAccessException {
+	protected String getAccess(HttpServletRequest request, String fucName,Integer programId) throws NoAccessException {
 		String orgCd="";
 		if(programId != null && programId.intValue()!=0) {
 			orgCd="P" + programId.toString();
@@ -249,7 +249,12 @@ public abstract class BaseClientAction extends BaseAction {
 		if(KeyConstants.ACCESS_NONE.equals(access)) throw new NoAccessException();
 		return access;
 	}
-	public boolean hasAccess(HttpServletRequest request,String funName,Integer programId, Integer programId2)
+	protected String getAccess(HttpServletRequest request, String fucName,Integer programId, String rights) throws NoAccessException {
+		String access = getAccess(request,fucName, programId);
+		if(access.compareTo(rights) < 0) throw new NoAccessException();
+		return access;
+	}
+	protected boolean hasAccess(HttpServletRequest request,String funName,Integer programId, Integer programId2)
 	{
 		String r = KeyConstants.ACCESS_NONE;
 		try {
@@ -270,15 +275,15 @@ public abstract class BaseClientAction extends BaseAction {
 		}
 		return r.compareTo(KeyConstants.ACCESS_READ) >=0;
 	}
-	public CaseManagementManager getCaseManagementManager() {
+	protected CaseManagementManager getCaseManagementManager() {
 		return (CaseManagementManager) getAppContext().getBean(
 				"caseManagementManager");
 	}
 
-	public AdmissionManager getAdmissionManager() {
+	protected AdmissionManager getAdmissionManager() {
 		return (AdmissionManager) getAppContext().getBean("admissionManager");
 	}
-	public ClientManager getClientManager() {
+	protected ClientManager getClientManager() {
 		return (ClientManager) getAppContext().getBean("clientManager");
 	}
 

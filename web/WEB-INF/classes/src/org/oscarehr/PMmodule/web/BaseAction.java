@@ -277,6 +277,7 @@ public abstract class BaseAction extends DispatchAction {
         String providerNo = (String) session.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         String className = this.toString();
         if(method == null) method = "unspecified";
+        if (request.getParameter("tab") != null) method = method + "(" + (String)request.getParameter("tab") + ")";
         Integer programId = null;
         try {
         	programId = (Integer) request.getAttribute("programId");
