@@ -326,11 +326,11 @@ function checkExistClients(i){
 <c:if test="${!isReadOnly}">
 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE%>" rights="<%=KeyConstants.ACCESS_WRITE %>">								
 <c:if test= "${quatroClientFamilyIntakeForm.intakeStatus=='active' or quatroClientFamilyIntakeForm.intakeStatus=='admitted'}" >
-&nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependent</a>
+&nbsp;<a href='javascript:submitForm("add");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Add Dependant</a>
 &nbsp;|
 </c:if>
 &nbsp;
-	<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependent</a>
+	<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependant</a>
 </security:oscarSec>
 </c:if>
 <c:choose>
