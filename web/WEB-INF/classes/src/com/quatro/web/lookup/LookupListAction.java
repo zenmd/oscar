@@ -31,7 +31,9 @@ public class LookupListAction extends BaseAdminAction {
 	
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
         String tableId=request.getParameter("tableId");
-		if("PRP,SIT,FUN,LKT,QGV,RPG".indexOf(tableId)> 0) throw new NoAccessException();
+		if("PRP,SIT,LKT,QGV,RPG".indexOf(tableId)> 0) throw new NoAccessException();
+		if(tableId.equals("FUN"))
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
 		if(tableId.equals("ROL"))
 			super.getAccess(request,KeyConstants.FUN_ADMIN_USER);
 		if(tableId.equals("USR"))
