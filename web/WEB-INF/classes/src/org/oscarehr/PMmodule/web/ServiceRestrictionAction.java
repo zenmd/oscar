@@ -50,7 +50,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   
        return list(mapping, form, request, response);
    }
-   public ActionForward terminate_early(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward terminate_early(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 	   DynaActionForm clientForm = (DynaActionForm) form;
        ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");
 	   String recId=request.getParameter("rId");
@@ -58,7 +58,8 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   		recId=restriction.getId().toString();
        Integer rId=Integer.valueOf(recId);
 	   String providerNo=(String)request.getSession().getAttribute("user");
-       clientRestrictionManager.terminateEarly(rId,providerNo);
+       super.getAccess(request, KeyConstants.FUN_CLIENTRESTRICTION,restriction.getProgramId(),KeyConstants.ACCESS_UPDATE);
+	   clientRestrictionManager.terminateEarly(rId,providerNo);
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();

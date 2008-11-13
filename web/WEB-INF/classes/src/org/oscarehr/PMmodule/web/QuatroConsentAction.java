@@ -167,8 +167,9 @@ public class QuatroConsentAction extends BaseClientAction {
 	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
 	       request.setAttribute("lstConsents", lstConsents);
 	   }
-	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-			   DynaActionForm clientForm = (DynaActionForm) form;
+	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException
+	 {
+		 	   DynaActionForm clientForm = (DynaActionForm) form;
 			   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		       String cId =request.getParameter("clientId");
 		       
@@ -187,7 +188,10 @@ public class QuatroConsentAction extends BaseClientAction {
 		       Integer rId=Integer.valueOf(recId);
 			   String providerNo=(String)request.getSession().getAttribute("user");
 			   conObj.setStatus(KeyConstants.STATUS_WITHDRAW);
-		       consentManager.withdraw(rId, providerNo);
+		       
+			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, conObj.getProgramId(),KeyConstants.ACCESS_UPDATE);
+			   
+			   consentManager.withdraw(rId, providerNo);
 		       request.setAttribute("rId", recId);
 		       return edit(mapping, form, request, response);
 		   

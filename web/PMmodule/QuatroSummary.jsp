@@ -112,12 +112,6 @@ function openHealthSafety(){
        </table>
 
  	</td></tr>
-	<tr>
-		<td>SDMT Benefit Unit Status</td>
-		<td><c:out value="${client.benefitUnitStatus}" /></td>
-		<td></td>
-		<td></td>
-	</tr>
 </table>
 </td></tr>
 
