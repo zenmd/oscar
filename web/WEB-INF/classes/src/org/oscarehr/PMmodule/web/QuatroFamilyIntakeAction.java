@@ -189,13 +189,12 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {
 		   QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
-	       
+	       setEditFields(request, clientForm);
 	
 	       List dependents = buildDependentList(request, clientForm);
 	
 	       clientForm.setDependents(dependents);
 	       clientForm.setDependentsSize(dependents.size());
-	       setEditFields(request, clientForm);
 	       request.setAttribute("pageChanged", "1");
 	       return mapping.findForward("edit");
        }

@@ -449,7 +449,7 @@ public class RoleManagerAction extends BaseAdminAction {
 			return mapping.findForward("failure");
 		}
 	}
-	public boolean saveRoleAndFunctions(ActionMapping mapping, ActionForm form,
+	private boolean saveRoleAndFunctions(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response, boolean saveRole) {
 
 		ActionMessages messages = new ActionMessages();

@@ -216,7 +216,7 @@ public abstract class BaseClientAction extends BaseAction {
 		else if(KeyConstants.STATUS_DISCHARGED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_EXPIRED.equals(status)) readOnly =true;
 		else if(KeyConstants.STATUS_TERMEARLY.equals(status)) readOnly =true;
-		
+		else if(KeyConstants.STATUS_WITHDRAW.equals(status)) readOnly = true;
 		else if(KeyConstants.STATUS_ACCEPTED.equals(status)){			
 		//	if(KeyConstants.FUNCTION_INTAKE.equals(funName))readOnly =true;
 		//	else if(KeyConstants.FUNCTION_ADMISSION.equals(funName))readOnly =true;	

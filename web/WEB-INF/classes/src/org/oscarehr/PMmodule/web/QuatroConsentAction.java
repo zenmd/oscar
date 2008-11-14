@@ -217,17 +217,20 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   Integer programId = cdObj.getProgramId();
 	    	   Program prog = programManager.getProgram(programId);
 		       request.setAttribute("facilityDesc",lookupManager.GetLookupCode("SHL", prog.getShelterId().toString()).getDescription());
-		       boolean isReadOnly=super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_CLIENTCONSENT, cdObj.getProgramId());
-	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	    	   TopazValue tv= topazManager.getTopazValue(cdObj.getId(),"consent");
 	    	   if(cdObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(cdObj.getEndDate()))
    				cdObj.setStatus(KeyConstants.STATUS_EXPIRED);
-		       if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(cdObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(cdObj.getStatus())){
+		       
+	    	   boolean isReadOnly=super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_CLIENTCONSENT, cdObj.getProgramId());
+	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
+
+	    	   if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(cdObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(cdObj.getStatus())){
 		    	   request.setAttribute("signed","Y");
 		       }
 	       }
 	       else
 	       {
+	    	   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, null,KeyConstants.ACCESS_WRITE);
 		       request.setAttribute("facilityDesc","");
 		       request.setAttribute("signed","N");
 	       }
@@ -278,15 +281,15 @@ public class QuatroConsentAction extends BaseClientAction {
 			}
 			
 			ConsentDetail consent = consentManager.getConsentDetail(Integer.valueOf(id));
+			Integer programId = null;
 			if(consent != null) {
-				ConsentDetail newConsent = new ConsentDetail();
-				try {
-					BeanUtils.copyProperties(newConsent,consent);
-					newConsent.setId(null);
-				}catch(Exception e) {log.warn(e);}
 				consentForm.set("consentValue", consent);
 				formMapping = consent.getFormName();
+				programId = consent.getProgramId();
 			}
+
+			super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, programId);
+
 			request.setAttribute("id",id);
 			request.setAttribute("clientName", demographic.getFirstName() + " " + demographic.getLastName());
 			
@@ -349,7 +352,9 @@ public class QuatroConsentAction extends BaseClientAction {
 				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.date.compare.failed", request.getContextPath()));
 		        saveMessages(request,messages);
 			}
+			
 			super.getAccess(request,KeyConstants.FUN_CLIENTCONSENT,consent.getProgramId(), KeyConstants.ACCESS_UPDATE);
+
 			if(!isError){
 				consentManager.saveConsentDetail(consent);
 				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));

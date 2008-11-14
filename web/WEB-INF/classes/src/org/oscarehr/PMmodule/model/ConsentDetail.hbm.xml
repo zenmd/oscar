@@ -5,7 +5,10 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ConsentDetail" table="consent_detail">
 		<id column="id" length="10" name="id" type="java.lang.Integer" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_admission_id</param>
+   			 <!--  for keeping the signature id unique, consent and admission share same seqence -->
+			</generator>
 		</id>
 		<property column="demographic_no" length="10" name="demographicNo" not-null="true" type="java.lang.Integer" />
 		<property name="clientFirstName" formula="(select p.first_name from demographic p where p.demographic_no = demographic_no)"></property>

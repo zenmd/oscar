@@ -106,8 +106,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-		setEditAttributes(form, request);		
-		return mapping.findForward("edit");
+			setEditAttributes(form, request);		
+			return mapping.findForward("edit");
 		} catch (NoAccessException e) {
 			return mapping.findForward("failure");
 		}

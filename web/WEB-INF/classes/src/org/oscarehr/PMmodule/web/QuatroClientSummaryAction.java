@@ -195,8 +195,9 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 			return mapping.findForward("failure");
 		}
    }
-   public ActionForward deleteHS(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+   public ActionForward deleteHS(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException 
    {
+	   super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_WRITE);
 	   String clientId=request.getParameter("clientId");
 	   healthSafetyManager.deleteHealthSafetyByDemographic(Integer.valueOf(clientId));
 	   return  edit(mapping, form, request, response);
