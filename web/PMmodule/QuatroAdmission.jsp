@@ -63,7 +63,7 @@ function submitForm(methodVal) {
 }  
 
 function signSignature(){
-   var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
+   var url='<c:out value="${ctx}" />/topazGetImage.do?method=sign&' +
      "rid=<c:out value="${quatroClientAdmissionForm.admission.intakeId}" />" + 
      "&moduleName=admission";
    if(win!=null) win.close();

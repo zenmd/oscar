@@ -11,8 +11,7 @@
 	</bean>
 	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false" autowire="byName">
 	</bean>
-	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false">
-        <property name="topazManager" ref="topazManager"/>
+	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false" autowire="byName">
 	</bean>
 	<bean name="/siteCheckLogin" class="oscar.login.SiteCheckAction" singleton="false">
 		<property name="secSiteManager" ref="secSiteManager" />

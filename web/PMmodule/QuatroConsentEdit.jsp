@@ -76,7 +76,7 @@
 	
 	function signSignature(){
 	   var rId=document.consentDetailForm.elements['consentValue.id'].value;
-	   var url='<c:out value="${ctx}" />/PMmodule/ClientManager/signature.jsp?' +
+	   var url='<c:out value="${ctx}" />/topazGetImage.do?method=sign&' +
 	     "rid=" +rId +"&moduleName=consent";
 	
 	   win = window.open(url,"_blank","toolbar=yes,menubar= yes,resizable=yes,scrollbars=yes,status=yes,width=600,height=400");
