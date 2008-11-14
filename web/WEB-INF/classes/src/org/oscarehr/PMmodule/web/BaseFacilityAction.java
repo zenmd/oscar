@@ -122,6 +122,25 @@ public abstract class BaseFacilityAction extends BaseAdminAction {
 			readOnly=true;
 		return readOnly;
 	}
-
-
+	public boolean isCreatable(HttpServletRequest request, String funName,Integer shelterId, Integer facilityId) throws NoAccessException{
+		boolean readOnly =false;
+		
+		SecurityManager sec = super.getSecurityManager(request);
+		//summary
+		String orgCd="";
+		orgCd="S" + shelterId.toString();
+		String access = sec.GetAccess(funName, orgCd);
+		if(access.compareTo(KeyConstants.ACCESS_WRITE) < 0)
+		{
+			throw new NoAccessException();
+		}
+		orgCd =  "";
+		if(facilityId!=null ||facilityId.intValue()!=0) 
+			orgCd="F" + facilityId.toString();
+		if (sec.GetAccess(funName, orgCd).compareTo(KeyConstants.ACCESS_WRITE) < 0)
+		{
+			throw new NoAccessException();
+		}
+		return true;
+	}
 }
