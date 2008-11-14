@@ -73,11 +73,14 @@ public class ClientTaskAction extends BaseClientAction{
     	TicklerForm ticklerForm = (TicklerForm) form;
     	
     	String newComment = request.getParameter("newcomment");
-        String providerNo = (String)request.getSession().getAttribute("user");
+        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Tickler tickler = ticklerForm.getTickler();
         String tickler_no = tickler.getTickler_no().toString();
-        String status = tickler.getStatus();
-        
+        tickler = ticklerManager.getTickler(tickler_no);
+
+        if(tickler == null || !tickler.getTask_assigned_to().equals(providerNo)) return mapping.findForward("failure");
+
+        String status = tickler.getStatus();        
     	ticklerManager.addComment(tickler_no, providerNo, newComment,status);
     	{
     		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
