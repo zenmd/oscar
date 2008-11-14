@@ -77,6 +77,7 @@ public class ClientTaskAction extends BaseClientAction{
         Tickler tickler = ticklerForm.getTickler();
         String tickler_no = tickler.getTickler_no().toString();
         String status = tickler.getStatus();
+        
     	ticklerManager.addComment(tickler_no, providerNo, newComment,status);
     	{
     		messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));

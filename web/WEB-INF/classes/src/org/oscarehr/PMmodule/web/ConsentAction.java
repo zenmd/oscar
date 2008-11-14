@@ -41,7 +41,7 @@ import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
-
+/*this class is replaced by QuatroConsentAction*/
 public class ConsentAction extends BaseAction {
 	private static Log log = LogFactory.getLog(ConsentAction.class);
     private ClientManager clientManager;

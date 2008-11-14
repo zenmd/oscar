@@ -121,6 +121,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 				complaint = complaintManager
 						.getComplaint(Integer.valueOf(complaintId));
 			}
+			super.getAccess(request, KeyConstants.FUN_CLIENTCOMPLAINT, complaint.getProgramId());
 			if (complaint.getCompletedDate() != null)
 				complaint.setCompletedDatex(MyDateFormat.getStandardDate(complaint
 						.getCompletedDate()));

@@ -19,7 +19,9 @@
 <hibernate-mapping>
 	<class name="org.caisi.model.TicklerComment" table="tickler_comments">
 		<id name="id" column="id" unsaved-value="null">
-			<generator class="increment" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_tickler_id</param>
+   			</generator>
 		</id>
 		<property name="tickler_no" />
 		<property name="status" />

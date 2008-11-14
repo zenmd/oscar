@@ -49,6 +49,7 @@ public class PrintViewAction extends BaseClientAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {	
     	try {
+    		super.getAccess(request, KeyConstants.FUN_REPORTS, null);
     		PaintReport(request, response);
     		return null;
     	}

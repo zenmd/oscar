@@ -94,7 +94,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   }
    }
    
-   //from queue page 
+   //from queue page, new admission 
    public ActionForward queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {
 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
@@ -117,6 +117,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        actionParam.put("intakeId", intakeId);
        request.setAttribute("actionParam", actionParam);
        
+       // check user's rights
+       super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION,intakeDB.getProgramId(),KeyConstants.ACCESS_WRITE);
+
        //check if admission existing (do this check to prevent somebody from deleting the signature 
        //by manual input of a url with method=queue.)
        Admission admissionExisting = admissionManager.getAdmissionByIntakeId(intakeId);

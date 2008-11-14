@@ -38,7 +38,7 @@ public class HealthSafetyAction extends BaseClientAction {
 	
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
-		super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
+		super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
 		String id = request.getParameter("clientId");
@@ -64,7 +64,7 @@ public class HealthSafetyAction extends BaseClientAction {
 	public ActionForward savehealthSafety(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
 		log.debug("Saving health and Safety");
-		super.getAccess(request,KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_UPDATE);
+		super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_UPDATE);
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
 		HealthSafety healthsafety= (HealthSafety)healthSafetyForm.get("healthsafety");

@@ -539,9 +539,6 @@
             <forward name="message" path="page.pmm.admin.facility.message"/>
 
         </action>
-        <action path="/PMmodule/ProviderSearch" type="org.springframework.web.struts.DelegatingActionProxy">
-            <forward name="results" path="/PMmodule/ProviderSearch.jsp" />
-        </action>
         <action path="/PMmodule/ClientSearch2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientSearchForm2" scope="request">
             <forward name="form" path="page.pmm.client.searchform" />
             <forward name="search" path="page.pmm.client.searchresults" />

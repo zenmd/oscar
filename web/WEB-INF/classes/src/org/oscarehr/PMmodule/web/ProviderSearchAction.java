@@ -30,8 +30,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.service.ProviderManager;
-
-public class ProviderSearchAction extends Action {
+/* this action is replaced by lookups */
+public class ProviderSearchAction extends BaseAction {
 	
 	private ProviderManager providerManager;
 	
@@ -39,7 +39,7 @@ public class ProviderSearchAction extends Action {
 		this.providerManager = mgr;
 	}
 	
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		String name = request.getParameter("q");
 		if(name == null) {
 			name = "";

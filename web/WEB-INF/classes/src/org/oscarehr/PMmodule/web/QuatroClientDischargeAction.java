@@ -160,7 +160,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        Admission admsObj =admissionManager.getAdmission(aId);
-      
+       
        clientForm.setAdmission(admsObj);       
        /* discharge */
        List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);

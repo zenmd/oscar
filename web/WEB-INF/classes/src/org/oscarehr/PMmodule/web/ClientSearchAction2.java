@@ -125,13 +125,15 @@ public class ClientSearchAction2 extends BaseClientAction {
 	   }
 	}
 	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {		
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException{		
+		super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT, new Integer(0));
 		return mapping.findForward("merge");
 	}	
 	
 	public ActionForward search(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 
+		super.getAccess(request, KeyConstants.FUN_CLIENT, new Integer(0));
 		DynaActionForm searchForm = (DynaActionForm) form;
 		ClientSearchFormBean formBean = (ClientSearchFormBean) searchForm
 				.get("criteria");
