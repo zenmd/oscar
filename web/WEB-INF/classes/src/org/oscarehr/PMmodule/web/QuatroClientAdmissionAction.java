@@ -116,6 +116,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        intakeId = intakeDB.getId();
        actionParam.put("intakeId", intakeId);
        request.setAttribute("actionParam", actionParam);
+       request.setAttribute("programId", intakeDB.getProgramId());
        
        // check user's rights
        super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION,intakeDB.getProgramId(),KeyConstants.ACCESS_WRITE);
@@ -219,7 +220,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("actionParam", actionParam);
 
        Admission admission = clientForm.getAdmission();
-       super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getBedProgramId(),KeyConstants.ACCESS_UPDATE);
+       request.setAttribute("programId", admission.getProgramId());
+       if(admission.getId() != null && admission.getId().intValue()>0)
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getProgramId(),KeyConstants.ACCESS_UPDATE);
+       else
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getProgramId(),KeyConstants.ACCESS_WRITE);
+    	   
        //setup rooms
        Integer curDB_RoomId = clientForm.getRoomDemographic().getId().getRoomId();
        Integer prevDB_RoomId = null;
@@ -603,6 +609,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        if("discharged".equalsIgnoreCase(admission.getAdmissionStatus())){
     	   request.setAttribute("isReadOnly", "true");
        }
+       request.setAttribute("programId", admission.getProgramId());
        boolean readOnly=super.isReadOnly(request,admission.getAdmissionStatus(), KeyConstants.FUN_CLIENTADMISSION,admission.getProgramId());
        if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
@@ -683,7 +690,11 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
        ActionMessages messages = new ActionMessages();
        Admission admission = clientForm.getAdmission();
-       super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getBedProgramId(),KeyConstants.ACCESS_UPDATE);
+       request.setAttribute("programId", admission.getProgramId());
+       if(admission.getId() != null && admission.getId().intValue()> 0)
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getProgramId(),KeyConstants.ACCESS_UPDATE);
+       else
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, admission.getProgramId(),KeyConstants.ACCESS_WRITE);
        Integer clientId = admission.getClientId();
        Integer intakeId = admission.getIntakeId();
        Integer programId = admission.getProgramId();

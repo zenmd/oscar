@@ -64,11 +64,15 @@ public class HealthSafetyAction extends BaseClientAction {
 	public ActionForward savehealthSafety(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
 		log.debug("Saving health and Safety");
-		super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_UPDATE);
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
+
 		HealthSafety healthsafety= (HealthSafety)healthSafetyForm.get("healthsafety");
-		
+		if (healthsafety.getId() != null && healthsafety.getId().intValue() > 0)
+			super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_UPDATE);
+		else
+			super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_WRITE);
+
 		healthsafety.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 
 		healthSafetyManager.saveHealthSafetyByDemographic(healthsafety);	

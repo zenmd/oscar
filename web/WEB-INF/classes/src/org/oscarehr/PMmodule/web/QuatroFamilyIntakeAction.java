@@ -74,7 +74,9 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       request.setAttribute("clientId", (String)actionParam.get("clientId"));
 	       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 	       
-	   	   boolean readOnly=super.isReadOnly(request,headIntakeDB.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE,headIntakeDB.getProgramId());
+	       Integer programId = headIntakeDB.getProgramId();
+	       request.setAttribute("programId", programId);
+	       boolean readOnly=super.isReadOnly(request,headIntakeDB.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE,programId);
 	   	   if (!readOnly)
 	   	   {
 	         if(!(intakeFamilyHeadId.toString().equals(intakeId))) readOnly = true;

@@ -247,7 +247,7 @@ public abstract class BaseAction extends DispatchAction {
 		Calendar startDt = Calendar.getInstance();
 		try {
 			ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
-			if(fwd.getName() != null && fwd.getName().equals("failure")) throw new NoAccessException();
+			if(fwd != null && fwd.getName() != null && fwd.getName().equals("failure")) throw new NoAccessException();
 	        response.setHeader("Expires", "-1");
 	        response.setHeader("Cache-Control",
 	        	"must-revalidate, post-check=0, pre-check=0");
@@ -301,7 +301,7 @@ public abstract class BaseAction extends DispatchAction {
         Integer shelterId = (Integer) session.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         if(shelterId == null) shelterId = new Integer(0);
         String sessionId = request.getSession().getId();
-        String queryString = request.getRequestURI();
+        String queryString = request.getRequestURI()  + '?' + request.getQueryString();
         if(clientId == null) 
         {
             HashMap actionParam = (HashMap) request.getAttribute("actionParam");

@@ -156,10 +156,14 @@ public class FacilityMessageAction extends BaseFacilityAction {
 
 	public ActionForward save(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try {
-        	super.getAccess(request,KeyConstants.FUN_FACILITY_MESSAGE, KeyConstants.ACCESS_UPDATE);
 
 			DynaActionForm userForm = (DynaActionForm)form;
 			FacilityMessage msg = (FacilityMessage)userForm.get("facility_message");
+			if (msg.getId() != null && msg.getId().intValue()> 0)
+	        	super.getAccess(request,KeyConstants.FUN_FACILITY_MESSAGE, KeyConstants.ACCESS_UPDATE);
+			else
+	        	super.getAccess(request,KeyConstants.FUN_FACILITY_MESSAGE, KeyConstants.ACCESS_WRITE);
+
 			msg.setCreation_date(new Date());
 			Integer facilityId = msg.getFacilityId();
 			

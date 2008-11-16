@@ -77,6 +77,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import oscar.MyDateFormat;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.IncidentValue;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.model.security.SecProvider;
 import com.quatro.model.security.Secuserrole;
@@ -351,8 +352,13 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	}else {
     		// new/edit incident
     		if(mthd.equals("save")){
-        		super.getAccess(request, KeyConstants.FUN_PROGRAM_INCIDENT, KeyConstants.ACCESS_UPDATE);
     			incidentForm = formBean.getIncidentForm();
+    			IncidentValue incident = incidentForm.getIncident();
+    			if(incident != null && incident.getId() != null && incident.getId().intValue() > 0)
+            		super.getAccess(request, KeyConstants.FUN_PROGRAM_INCIDENT, KeyConstants.ACCESS_UPDATE);
+    			else
+            		super.getAccess(request, KeyConstants.FUN_PROGRAM_INCIDENT, KeyConstants.ACCESS_WRITE);
+
     			incidentForm.getIncident().setProgramId(pid);
     			incidentForm.getIncident().setProviderNo(providerNo);
     			

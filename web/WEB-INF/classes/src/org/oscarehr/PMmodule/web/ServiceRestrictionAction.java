@@ -117,8 +117,12 @@ public class ServiceRestrictionAction  extends BaseClientAction {
    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {	   
 	   ActionMessages messages = new ActionMessages();
 	   DynaActionForm clientForm = (DynaActionForm) form;
-       ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");       
-       super.getAccess(request, KeyConstants.FUN_CLIENTRESTRICTION, restriction.getProgramId(),KeyConstants.ACCESS_UPDATE);
+       ProgramClientRestriction restriction = (ProgramClientRestriction) clientForm.get("serviceRestriction");  
+       if(restriction.getId() != null && restriction.getId().intValue()> 0)
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTRESTRICTION, restriction.getProgramId(),KeyConstants.ACCESS_UPDATE);
+       else
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTRESTRICTION, restriction.getProgramId(),KeyConstants.ACCESS_WRITE);
+       
        try {
 	       Integer days = (Integer) clientForm.get("serviceRestrictionLength");       
 	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);

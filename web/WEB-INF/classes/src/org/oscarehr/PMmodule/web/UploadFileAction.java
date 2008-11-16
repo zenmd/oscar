@@ -244,7 +244,7 @@ public class UploadFileAction extends BaseClientAction {
 	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
 	        }catch(Exception e){;}
 	        if("".equals(programId)) programId = "0";
-	        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_UPDATE);
+	        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_WRITE);
 			log.info("attachment client upload id: id="  + cId);
 			FormFile formFile = attTextObj.getImagefile();			
 			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1);

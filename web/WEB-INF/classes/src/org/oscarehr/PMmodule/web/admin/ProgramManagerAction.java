@@ -354,7 +354,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return list(mapping, form, request, response);
     }
-
+/*
     public ActionForward delete_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
@@ -378,6 +378,7 @@ public class ProgramManagerAction extends BaseProgramAction {
  		   return mapping.findForward("failure");
  	   }
     }
+*/
 /*
     public ActionForward delete_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -428,7 +429,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     }
 */
     
-
+/*
     public ActionForward edit_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
@@ -457,6 +458,7 @@ public class ProgramManagerAction extends BaseProgramAction {
  		   return mapping.findForward("failure");
  	   }
     }
+*/
 /*
     public ActionForward edit_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -510,7 +512,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return edit(mapping, form, request, response);
     }
-
+/*
     public ActionForward remove_queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
@@ -533,6 +535,7 @@ public class ProgramManagerAction extends BaseProgramAction {
  		   return mapping.findForward("failure");
  	   }
     }
+*/
 /*
     public ActionForward remove_team(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -798,10 +801,13 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
-    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
-	    	DynaActionForm programForm = (DynaActionForm) form;
-	
+	    	DynaActionForm programForm = (DynaActionForm) form;	
 	        Program program = (Program) programForm.get("program");
+	        if(program.getId() != null && program.getId().intValue() > 0)
+	    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
+	        else
+	    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_WRITE);
+
 	        program.setLastUpdateUser((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 	        program.setLastUpdateDate(Calendar.getInstance());
 	        if (this.isCancelled(request)) {
@@ -916,6 +922,7 @@ public class ProgramManagerAction extends BaseProgramAction {
     private void saveProgram(HttpServletRequest request, Program program) {
         programManager.saveProgram(program);
     }
+/*    
     public ActionForward addStaff(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)throws NoAccessException {
     	String programId = request.getParameter("programId");
 		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
@@ -1084,7 +1091,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return edit(mapping,form,request,response);
     }
-    
+*/    
 /*
     public ActionForward save_access(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -1128,7 +1135,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("edit");
     }
 */
-    
+/*    
     public ActionForward save_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
@@ -1169,6 +1176,7 @@ public class ProgramManagerAction extends BaseProgramAction {
  		   return mapping.findForward("failure");
  	   }
     }
+*/
 /*
     public ActionForward save_provider(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
@@ -1279,7 +1287,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 	    }
     }
 
-
+/*
     public ActionForward delete_status(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
@@ -1436,7 +1444,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return edit(mapping, form, request, response);
     }
-
+*/
     private boolean isChanged(Program program1, Program program2) {
         boolean changed = false;
 

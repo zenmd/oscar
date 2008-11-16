@@ -228,7 +228,10 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 	
 			QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 			Complaint complaint = complaintForm.getComplaint();
-		    super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, complaint.getProgramId(),KeyConstants.ACCESS_UPDATE);
+			if(complaint.getId() != null && complaint.getId().intValue() > 0)
+				super.getAccess(request, KeyConstants.FUN_CLIENTCOMPLAINT, complaint.getProgramId(),KeyConstants.ACCESS_UPDATE);
+			else
+				super.getAccess(request, KeyConstants.FUN_CLIENTCOMPLAINT, complaint.getProgramId(),KeyConstants.ACCESS_WRITE);
 
 			complaint.setDate1(MyDateFormat.getCalendar(complaint.getDate1x()));
 			complaint.setDate2(MyDateFormat.getCalendar(complaint.getDate2x()));

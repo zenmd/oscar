@@ -29,8 +29,6 @@ public class Admission implements Serializable, Cloneable {
 	private String programType;
 
 	private String communityProgramCode;
-	private Integer bedProgramId;
-	private String bedProgramDesc;
 	private String communityProgramDesc;
 	private String transportationType;
 	private String transportationTypeDesc;
@@ -288,21 +286,6 @@ public class Admission implements Serializable, Cloneable {
 		this.communityProgramCode = communityProgramCode;
 	}
 
-	public String getBedProgramDesc() {
-		return bedProgramDesc;
-	}
-
-	public void setBedProgramDesc(String bedProgramDesc) {
-		this.bedProgramDesc = bedProgramDesc;
-	}
-
-	public Integer getBedProgramId() {
-		return bedProgramId;
-	}
-
-	public void setBedProgramId(Integer bedProgramId) {
-		this.bedProgramId = bedProgramId;
-	}
 
 	public String getCommunityProgramDesc() {
 		return communityProgramDesc;

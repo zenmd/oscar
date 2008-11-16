@@ -51,7 +51,7 @@ public class TopazSaveAction extends BaseClientAction {
 		   else if ("admission".equals(tobj.getModuleName())) {
 			   Admission adm = admissionManager.getAdmission(tobj.getRecordId());
 			   if (adm == null) throw new NoAccessException();
-			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getBedProgramId());
+			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getProgramId());
 		   }
 		   else
 			   throw new NoAccessException();

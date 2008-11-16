@@ -294,8 +294,8 @@ public class AdmissionManager {
 		  referral = new ClientReferral();
 		  referral.setClientId(admission.getClientId());
 		  referral.setNotes("Discharge Automated referral");
-		  referral.setProgramId(admission.getBedProgramId());
-		  referral.setFromProgramId(admission.getBedProgramId());
+		  referral.setProgramId(admission.getProgramId());
+		  referral.setFromProgramId(admission.getProgramId());
 		  referral.setProviderNo(admission.getProviderNo());
 		  referral.setReferralDate(Calendar.getInstance());
 		  referral.setStatus(KeyConstants.STATUS_PENDING);

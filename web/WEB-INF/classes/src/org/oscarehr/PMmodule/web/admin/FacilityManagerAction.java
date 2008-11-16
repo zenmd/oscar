@@ -450,7 +450,27 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        	facility.setLastUpdateDate(Calendar.getInstance());
 	        	facility.setLastUpdateUser(providerNo); 
 	        	facility.setOrgId(Integer.valueOf(request.getParameter("facilityManagerForm_facility.orgId")));
-	            facilityManager.saveFacility(facility);
+
+	        	boolean isNew = false;
+	        	if (facility.getId() == null || facility.getId().intValue() == 0)
+	        	{
+	        		isNew = true;
+	        	}
+	        	else
+	        	{
+	        		Facility facOld = facilityManager.getFacility(facility.getId());
+	        		if(facOld == null) throw new NoAccessException();
+	        		if(facOld.getOrgId().intValue() != facility.getOrgId().intValue())
+	        		{
+	        			isNew = true;
+	        		}
+	        	}
+	        	if(isNew) 
+	        		super.isCreatable(request, KeyConstants.FUN_FACILITY, facility.getOrgId(), facility.getId());
+	        	else
+	        		super.isReadOnly(request, KeyConstants.FUN_FACILITY, facility.getId());
+	        		
+	        	facilityManager.saveFacility(facility);
 	
 	            ActionMessages messages = new ActionMessages();
 	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));

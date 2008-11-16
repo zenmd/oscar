@@ -226,7 +226,6 @@ public class UserManagerAction extends BaseAdminAction {
 
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
-		super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_UPDATE);
 		List titleLst = lookupManager.LoadCodeList("TLT", true, null, null);
         request.setAttribute("titleLst", titleLst);
         request.setAttribute("scrPos", request.getParameter("scrollPosition"));
@@ -238,13 +237,16 @@ public class UserManagerAction extends BaseAdminAction {
 		Security user = null;
 		String providerNo = (String) secuserForm.get("providerNo");
 		if (providerNo != null && providerNo.length() > 0) {
+			super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_UPDATE);
 			provider = usersManager.getProviderByProviderNo(providerNo);
 			List userList = usersManager.getUserByProviderNo(providerNo);
 			if (userList != null && userList.size() > 0)
 				user = (Security) userList.get(0);
 		} else
+		{
+			super.getAccess(request,KeyConstants.FUN_ADMIN_USER,KeyConstants.ACCESS_WRITE);
 			provider = new SecProvider();
-
+		}
 		provider.setFirstName((String) secuserForm.get("firstName"));
 		provider.setLastName((String) secuserForm.get("lastName"));
 		provider.setInit((String) secuserForm.get("init"));

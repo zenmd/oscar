@@ -58,7 +58,7 @@ public class TopazGetImageAction extends BaseClientAction{
 	   else if (mCd.equals("admission")) {
 		   Admission adm = admissionManager.getAdmission(recordId);
 		   if (adm == null) throw new NoAccessException();
-		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getBedProgramId());
+		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getProgramId());
 	   }
 	   else
 		   throw new NoAccessException();
@@ -74,6 +74,29 @@ public class TopazGetImageAction extends BaseClientAction{
          response.getOutputStream().print("<font color='#ff0000'>No signature found.</font>");    	   
        }
 	   return null;
+    }
+    
+    public ActionForward sign(ActionMapping mapping, ActionForm form, 
+       		HttpServletRequest request, HttpServletResponse response) throws Exception {
+       
+	   Integer recordId = Integer.valueOf((String)request.getParameter("rid"));
+	   String mCd=request.getParameter("moduleName");
+	   
+	   if (mCd.equals("consent")) {
+		   ConsentDetail consent = consentManager.getConsentDetail(recordId);
+		   if (consent == null) throw new NoAccessException();
+		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId());
+	   }
+	   else if (mCd.equals("admission")) {
+		   Admission adm = admissionManager.getAdmission(recordId);
+		   if (adm == null) throw new NoAccessException();
+		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getProgramId());
+	   }
+	   else
+		   throw new NoAccessException();
+	   request.setAttribute("rId", recordId);
+	   request.setAttribute("moduleName", mCd);
+	   return mapping.findForward("sign");
     }
 
 	public void setAdmissionManager(AdmissionManager admissionManager) {

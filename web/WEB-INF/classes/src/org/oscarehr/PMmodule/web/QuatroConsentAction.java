@@ -352,8 +352,10 @@ public class QuatroConsentAction extends BaseClientAction {
 				messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.date.compare.failed", request.getContextPath()));
 		        saveMessages(request,messages);
 			}
-			
-			super.getAccess(request,KeyConstants.FUN_CLIENTCONSENT,consent.getProgramId(), KeyConstants.ACCESS_UPDATE);
+			if(consent.getId() != null && consent.getId().intValue()> 0)
+				super.getAccess(request,KeyConstants.FUN_CLIENTCONSENT,consent.getProgramId(), KeyConstants.ACCESS_UPDATE);
+			else
+				super.getAccess(request,KeyConstants.FUN_CLIENTCONSENT,consent.getProgramId(), KeyConstants.ACCESS_WRITE);
 
 			if(!isError){
 				consentManager.saveConsentDetail(consent);
