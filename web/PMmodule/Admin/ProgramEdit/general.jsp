@@ -25,7 +25,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 		var obj8 = document.getElementsByName('programManagerForm_program.facilityId')[0];		
 		obj5.value = trim(obj5.value);
 			
-		if(obj8.value == null || obj8.value == '') {
+		if(obj8 != null && obj8.value == '') {
 			alert('Facility can not be blank.');
 			obj8.focus();
 		}else if(obj5.value == null || obj5.value == '') {
@@ -170,7 +170,14 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				</tr>
 				<tr class="b">
 					<td width="20%">Facility</td>
-					<td><quatro:lookupTag tableName="FAC" name="programManagerForm" formProperty="programManagerForm" bodyProperty="program.facilityDesc" codeProperty="program.facilityId" showCode="false"></quatro:lookupTag>
+					<td>
+					<security:oscarSec objectName="_program" rights="w">
+						<quatro:lookupTag tableName="FAC" name="programManagerForm" formProperty="programManagerForm" bodyProperty="program.facilityDesc" codeProperty="program.facilityId" showCode="false"></quatro:lookupTag>
+					</security:oscarSec>
+					<security:oscarSec objectName="_program" rights="w" reverse="true">
+						<html:hidden property="program.facilityId"/>
+						<bean:write property="program.facilityDesc" name="programManagerForm"/>
+					</security:oscarSec>
 					</td>
 				</tr>
 				<tr class="b">

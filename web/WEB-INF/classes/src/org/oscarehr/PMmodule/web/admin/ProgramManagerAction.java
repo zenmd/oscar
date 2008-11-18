@@ -803,11 +803,24 @@ public class ProgramManagerAction extends BaseProgramAction {
     	try {
 	    	DynaActionForm programForm = (DynaActionForm) form;	
 	        Program program = (Program) programForm.get("program");
+	        boolean isNew = false;
 	        if(program.getId() != null && program.getId().intValue() > 0)
-	    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
+	        {
+	        	Program programOld = programManager.getProgram(program.getId());
+	        	if (programOld == null || programOld.getFacilityId().intValue() != program.getFacilityId().intValue())
+	        	{
+	        		isNew = true;
+	        	}
+	        }
+	        if(isNew)
+	        {
+	        	super.getAccess(request, KeyConstants.FUN_PROGRAM,KeyConstants.ACCESS_WRITE);
+	        }
 	        else
-	    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_WRITE);
-
+	        {
+	    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
+	        }
+	        
 	        program.setLastUpdateUser((String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 	        program.setLastUpdateDate(Calendar.getInstance());
 	        if (this.isCancelled(request)) {

@@ -388,9 +388,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	try {
-        	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
-	    	
+    	try {	    	
 	    	FacilityManagerForm mform = (FacilityManagerForm) form;
 	        Facility facility = mform.getFacility();    	
 	        
@@ -466,9 +464,10 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        		}
 	        	}
 	        	if(isNew) 
-	        		super.isCreatable(request, KeyConstants.FUN_FACILITY, facility.getOrgId(), facility.getId());
+	            	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
 	        	else
-	        		super.isReadOnly(request, KeyConstants.FUN_FACILITY, facility.getId());
+	            	super.getAccess(request,KeyConstants.FUN_FACILITY_EDIT, KeyConstants.ACCESS_UPDATE);
+
 	        		
 	        	facilityManager.saveFacility(facility);
 	
