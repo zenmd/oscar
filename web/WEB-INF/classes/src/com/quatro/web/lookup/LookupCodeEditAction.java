@@ -89,6 +89,15 @@ public class LookupCodeEditAction extends BaseAdminAction {
 		LookupTableDefValue tableDef = qform.getTableDef();
 		List fieldDefList = qform.getCodeFields();
 		boolean isNew = qform.isNewCode();
+		
+		if(isNew)
+		{
+			super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP,KeyConstants.ACCESS_WRITE);
+		}
+		else
+		{
+			super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP,KeyConstants.ACCESS_UPDATE);
+		}
 		boolean isInActive = false;
 		
 		if(isNew)
