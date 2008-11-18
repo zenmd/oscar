@@ -6,8 +6,13 @@
       	var name= document.getElementsByName("bed.name")[0];
       	if(name.value.trim()==''){
       	   alert("Please input Bed Name.");
-      	   name.value='';
       	   name.focus();
+      	   return;
+      	}
+      	var type= document.getElementsByName("bed.bedTypeId")[0];
+      	if(type.value==''){
+      	   alert("Please input Bed Type.");
+      	   type.focus();
       	   return;
       	}
 
@@ -110,6 +115,7 @@
 				  <td><html:text property="bed.name" maxlength="45"></html:text></td></tr>
 				  <tr><td>Type</td>
 				  <td><html:select property="bed.bedTypeId">
+				  	<html:option value=""></html:option>
 				    <html:optionsCollection name="bedTypes" value="id"	label="name" />
 				  </html:select></td></tr>
 				  <tr><td>Active</td>
