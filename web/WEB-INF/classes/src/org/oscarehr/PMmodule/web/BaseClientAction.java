@@ -206,6 +206,7 @@ public abstract class BaseClientAction extends BaseAction {
 	}
 	protected boolean isReadOnly(HttpServletRequest request, String status,String funName,Integer programId) throws NoAccessException 
 	{
+		if(request.getAttribute("programId") == null) request.setAttribute("programId", programId);
 		if(getAccess(request, funName, programId).equals(KeyConstants.ACCESS_NONE)) throw new NoAccessException();
 		boolean readOnly =false;
 		if(KeyConstants.STATUS_COMPLETED.equals(status)) readOnly =true;
@@ -244,6 +245,7 @@ public abstract class BaseClientAction extends BaseAction {
 		if(programId != null && programId.intValue()!=0) {
 			orgCd="P" + programId.toString();
 		}
+		if(request.getAttribute("programId") == null) request.setAttribute("programId", programId);
 		SecurityManager sec = super.getSecurityManager(request);
 		String access = sec.GetAccess(fucName, orgCd); 
 		if(KeyConstants.ACCESS_NONE.equals(access)) throw new NoAccessException();
@@ -256,6 +258,7 @@ public abstract class BaseClientAction extends BaseAction {
 	}
 	protected boolean hasAccess(HttpServletRequest request,String funName,Integer programId, Integer programId2)
 	{
+		if(request.getAttribute("programId") == null) request.setAttribute("programId", programId);
 		String r = KeyConstants.ACCESS_NONE;
 		try {
 			r = getAccess(request, funName, programId);

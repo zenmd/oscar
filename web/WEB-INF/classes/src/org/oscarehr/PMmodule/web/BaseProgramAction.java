@@ -117,6 +117,8 @@ public class BaseProgramAction extends BaseAdminAction {
 	
 	public boolean isReadOnly(HttpServletRequest request, String funName,Integer programId) throws NoAccessException {
 		boolean readOnly =false;
+
+		if (request.getAttribute("programId") == null) request.setAttribute("programId", programId); 
 		
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary

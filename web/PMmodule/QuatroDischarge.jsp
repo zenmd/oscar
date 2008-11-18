@@ -115,17 +115,6 @@
 						labelProperty="description"></html:options>
 				</html:select></td>
 			</tr>
-			<!--    
-			<tr>
-				<td width="25%">Discharge To Temporary Program</td>
-				<td width="75%">
-				<html:select property="admission.bedProgramId">
-					<html:option value=""></html:option>
-					<html:options collection="lstBedProgram" property="id"
-						labelProperty="descr"></html:options>
-				</html:select>
-			</tr>
-			-->
 			<tr>
 				<td width="25%">Discharge Reason</td>
 				<td><html:select property="admission.dischargeReason">

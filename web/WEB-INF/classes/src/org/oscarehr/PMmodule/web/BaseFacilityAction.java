@@ -109,7 +109,7 @@ public abstract class BaseFacilityAction extends BaseAdminAction {
 	}
 	public boolean isReadOnly(HttpServletRequest request, String funName,Integer facilityId) throws NoAccessException{
 		boolean readOnly =false;
-		
+		request.setAttribute("programId", facilityId); //for access log purpose
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
 		String orgCd="";
@@ -124,6 +124,8 @@ public abstract class BaseFacilityAction extends BaseAdminAction {
 	}
 	public boolean isCreatable(HttpServletRequest request, String funName,Integer shelterId, Integer facilityId) throws NoAccessException{
 		boolean readOnly =false;
+
+		request.setAttribute("programId", shelterId); //for access log purpose
 		
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
