@@ -39,6 +39,7 @@
 	<html:hidden property="demographicNo" />
 	<html:hidden property="providerNo" />
 	<html:hidden property="tab" />
+	<html:hidden property="cpp.id" />
 	<html:hidden property="hideActiveIssue" />
 	<input type="hidden" name="issue_code" value="" />
 
