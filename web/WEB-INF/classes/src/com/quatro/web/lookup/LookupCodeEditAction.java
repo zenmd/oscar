@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
@@ -57,6 +59,7 @@ public class LookupCodeEditAction extends BaseAdminAction {
 			boolean editable=false;
 			for(int i=0;i<codeFields.size();i++){
 				FieldDefValue fdv =(FieldDefValue)codeFields.get(i);
+				if(isNew && fdv.getGenericIdx() == 1) fdv.setEditable(true);  // force a new code be added
 				if(fdv.isEditable()){
 					editable=true;
 					break;
@@ -90,6 +93,8 @@ public class LookupCodeEditAction extends BaseAdminAction {
 		List fieldDefList = qform.getCodeFields();
 		boolean isNew = qform.isNewCode();
 		
+        ActionMessages messages = new ActionMessages();
+		
 		if(isNew)
 		{
 			super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP,KeyConstants.ACCESS_WRITE);
@@ -108,7 +113,6 @@ public class LookupCodeEditAction extends BaseAdminAction {
 		String  code = "";
 		String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Map map=request.getParameterMap();
-		String errMsg = "";
 		for(int i=0; i<fieldDefList.size(); i++)
 		{
 			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
@@ -128,8 +132,8 @@ public class LookupCodeEditAction extends BaseAdminAction {
 					if(fdv.getGenericIdx() == 3) isInActive = "0".equals(fdv.getVal());
 					if("D".equals(fdv.getFieldType())) {
 						if(!Utility.IsDate(fdv.getVal())) {
-							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-							errMsg += fdv.getFieldDesc() + "should be a Date";
+							messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.date", request.getContextPath(),fdv.getFieldDesc()));
+							//errMsg += fdv.getFieldDesc() + "should be a Date";
 						}
 					}
 					else if("N".equals(fdv.getFieldType()))
@@ -137,21 +141,27 @@ public class LookupCodeEditAction extends BaseAdminAction {
 						if (!(fdv.isAuto() && isNew)) {
 							if(!Utility.IsInt(fdv.getVal()))
 							{
-								if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-								errMsg += fdv.getFieldDesc() + " should be an Integer number";
-							}else if(!Utility.IsIntBiggerThanZero(fdv.getVal())){
-								if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-								if(fdv.getGenericIdx() == 1)
-									errMsg += fdv.getFieldDesc() + " should be greater than 0";
+								messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.integer", request.getContextPath(),fdv.getFieldDesc()));
+								//errMsg += fdv.getFieldDesc() + " should be an Integer number";
 							}
+							else if (Utility.IsIntLessThanZero(fdv.getVal())) 
+							{
+									messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.integer_eq0", request.getContextPath(),fdv.getFieldDesc()));
+							}
+							else if(!Utility.IsIntBiggerThanZero(fdv.getVal())){
+								if(fdv.getGenericIdx() == 1)
+									messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.integer_gt0", request.getContextPath(),fdv.getFieldDesc()));
+//									errMsg += fdv.getFieldDesc() + " should be greater than 0";
+							}
+							
 						}
 					}
 					else if("S".equals(fdv.getFieldType()))
 					{
 						if (Utility.IsEmpty(fdv.getVal()) && fdv.getGenericIdx() == 1) 
 						{
-							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-								errMsg += fdv.getFieldDesc() + " Should not be empty";
+								messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.empty", request.getContextPath(),fdv.getFieldDesc()));
+//								errMsg += fdv.getFieldDesc() + " Should not be empty";
 						}
 
 					}	
@@ -160,8 +170,8 @@ public class LookupCodeEditAction extends BaseAdminAction {
 				{
 					if (fdv.getGenericIdx() == 1) 
 					{
-						if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-							errMsg += fdv.getFieldDesc() + " Should not be empty";
+							messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.empty", request.getContextPath(),fdv.getFieldDesc()));
+							//errMsg += fdv.getFieldDesc() + " Should not be empty";
 					}
 					fdv.setVal("");
 				}
@@ -170,12 +180,14 @@ public class LookupCodeEditAction extends BaseAdminAction {
 		if((!isNew) && isInActive) { 
 			if("SHL,OGN".indexOf(tableDef.getTableId())>= 0) {
 				int clientCount = lookupManager.getCountOfActiveClient(tableDef.getTableId().substring(0,1) + code);
-				if(clientCount > 0) errMsg += "Active Clients detected in the " + tableDef.getDescription();
+				
+				if(clientCount > 0)messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.client", request.getContextPath(),tableDef.getDescription())); 
+					//errMsg += "Active Clients detected in the " + tableDef.getDescription();
 			}
 		}
-		if(!Utility.IsEmpty(errMsg)) 
+		if(messages.size() > 0) 
 		{
-			qform.setErrMsg(errMsg);
+	        saveMessages(request, messages);
 			return mapping.findForward("edit");
 		}
 		try {
@@ -184,7 +196,9 @@ public class LookupCodeEditAction extends BaseAdminAction {
 			qform.setCodeFields(fieldDefList);
 			qform.setNewCode(false);
 			qform.setErrMsg("Saved Successfully");
-			return mapping.findForward("edit");
+	        messages.add( ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));
+			saveMessages(request, messages);
+	        return mapping.findForward("edit");
 		}
 		catch(SQLException e)
 		{

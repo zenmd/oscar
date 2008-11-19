@@ -47,21 +47,18 @@
 		</td>
  	</tr>
 	<tr>
-		<td align="left"></td>
+			<td align="left" class="message">
+			<logic:messagesPresent	message="true">
+				<html:messages id="message" message="true" bundle="pmm">
+					<c:out escapeXml="false" value="${message}" /></br>
+				</html:messages>
+			</logic:messagesPresent></td>
 	</tr>
 	<tr>
 		<td height="100%">
 		<div
 			style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
                     height: 100%; width: 100%; overflow: auto;" id="scrollBar">
-					<logic:notEmpty name="lookupCodeEditForm" property="errMsg">
-					<table width="100%">
-						<tr><td>
-						<b><bean:write name="lookupCodeEditForm" property="errMsg" /></b>
-						</td></tr>
-						<tr><td>&nbsp;</td></tr>
-					</table>
-					</logic:notEmpty>
 					<table width="100%">
 					 
 					<logic:iterate id="field" name="lookupCodeEditForm" property="codeFields" indexId="fIndex" type="com.quatro.model.FieldDefValue">
