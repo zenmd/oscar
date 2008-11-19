@@ -162,7 +162,13 @@
 								<tr class="b">
 									<td width="20%">Shelter: *</td>
 									<td>
-										<quatro:lookupTag name="facilityManagerForm" tableName="SHL" formProperty="facilityManagerForm" bodyProperty="facility.orgDesc" codeProperty="facility.orgId" showCode="false"></quatro:lookupTag>
+										<security:oscarSec objectName="<%KeyConstants.FUN_FACILITY %>"  rights="<%KeyConstants.ACCESS_WRITE%>">
+											<quatro:lookupTag name="facilityManagerForm" tableName="SHL" formProperty="facilityManagerForm" bodyProperty="facility.orgDesc" codeProperty="facility.orgId" showCode="false"></quatro:lookupTag>
+										</security:oscarSec>
+										<security:oscarSec objectName="<%KeyConstants.FUN_FACILITY %>"  rights="<%KeyConstants.ACCESS_WRITE%>" reverse="true">
+											<html:hidden property="facility.orgId"/>
+											<bean:write name="facilityManagerForm" property="facility.orgDesc" /> 
+										</security:oscarSec>
 									</td>
 								</tr>
 								<tr class="b">

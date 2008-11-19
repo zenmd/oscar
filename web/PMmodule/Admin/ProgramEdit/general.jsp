@@ -5,6 +5,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 -->
 
 <%@page import="org.oscarehr.PMmodule.model.Program"%>
+<%@page import="com.quatro.common.KeyConstants;"%>
 
 
 <script type="text/javascript">
@@ -117,7 +118,6 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 			
 			
 <%@ include file="/taglibs.jsp"%>
-<%@ page import="org.oscarehr.PMmodule.model.ProgramSignature"%>
 
 
 
@@ -171,10 +171,10 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				<tr class="b">
 					<td width="20%">Facility</td>
 					<td>
-					<security:oscarSec objectName="_program" rights="w">
+					<security:oscarSec objectName="<%KeyConstants.FUN_PROGRAM%>"  rights="<%KeyConstants.ACCESS_WRITE%>">
 						<quatro:lookupTag tableName="FAC" name="programManagerForm" formProperty="programManagerForm" bodyProperty="program.facilityDesc" codeProperty="program.facilityId" showCode="false"></quatro:lookupTag>
 					</security:oscarSec>
-					<security:oscarSec objectName="_program" rights="w" reverse="true">
+					<security:oscarSec objectName="<%KeyConstants.FUN_PROGRAM%>"  rights="<%KeyConstants.ACCESS_WRITE%>" reverse="true">
 						<html:hidden property="program.facilityId"/>
 						<bean:write property="program.facilityDesc" name="programManagerForm"/>
 					</security:oscarSec>
