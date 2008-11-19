@@ -141,13 +141,28 @@ public class LookupCodeEditAction extends BaseAdminAction {
 								errMsg += fdv.getFieldDesc() + " should be an Integer number";
 							}else if(!Utility.IsIntBiggerThanZero(fdv.getVal())){
 								if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
-								errMsg += fdv.getFieldDesc() + " should be greater than 0";
+								if(fdv.getGenericIdx() == 1)
+									errMsg += fdv.getFieldDesc() + " should be greater than 0";
 							}
 						}
 					}
+					else if("S".equals(fdv.getFieldType()))
+					{
+						if (Utility.IsEmpty(fdv.getVal()) && fdv.getGenericIdx() == 1) 
+						{
+							if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
+								errMsg += fdv.getFieldDesc() + " Should not be empty";
+						}
+
+					}	
 				}
 				else
 				{
+					if (fdv.getGenericIdx() == 1) 
+					{
+						if (!Utility.IsEmpty(errMsg)) errMsg += "<BR/>";
+							errMsg += fdv.getFieldDesc() + " Should not be empty";
+					}
 					fdv.setVal("");
 				}
 			}
