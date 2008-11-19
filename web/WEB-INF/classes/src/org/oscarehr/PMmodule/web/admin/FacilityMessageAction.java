@@ -80,6 +80,7 @@ public class FacilityMessageAction extends BaseFacilityAction {
 	        Integer facilityId = Integer.valueOf(idStr);
 	        Facility facility = facilityMgr.getFacility(facilityId);
 	        request.setAttribute("facility", facility);
+	        
 	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_MESSAGE,facility.getActive());      
 	        /*
 	         *  Lillian change Message related to Shelter not related to Facility 

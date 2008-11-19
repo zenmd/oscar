@@ -67,13 +67,9 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 		   admObj.setDischargeDate(Calendar.getInstance());
 		   admObj.setLastUpdateDate(new GregorianCalendar());
 		   admObj.setProviderNo(providerNo);
-		   boolean isReferral=false;
-		   if(null!=admObj.getProgramId() && admObj.getProgramId().intValue()>0) {
-	//		   isReferral =true;
-			   admObj.setCommunityProgramCode(admObj.getProgramId().toString());
-		   }
 		   super.getAccess(request, KeyConstants.FUN_CLIENTDISCHARGE, admObj.getProgramId(), KeyConstants.ACCESS_WRITE);
 		   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+		   boolean isReferral=false;
 		   admissionManager.dischargeAdmission(admObj, isReferral, lstFamily);
 	/*	   
 		   if(lstFamily!=null){

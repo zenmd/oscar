@@ -248,15 +248,6 @@
 						<td align="left" width="70%">
 							<table class="edit" width="100%">
 								<tr>
-									<td width="250px">Discharge Reason</td>
-									<td><html:select property="clientForm.dischargeReason" style="width:100%">
-										<html:option value=""></html:option>
-										<html:options collection="lstDischargeReason" property="code"
-											labelProperty="description"></html:options>
-									</html:select></td>
-									
-								</tr>
-								<tr>
 									<td width="250px">Discharge Disposition</td>
 									<td >
 										<html:select property="clientForm.communityProgramCode" style="width:100%">
@@ -264,6 +255,15 @@
 										<html:options collection="lstCommProgram" property="code"
 											labelProperty="description"></html:options>
 									</html:select></td>
+								</tr>
+								<tr>
+									<td width="250px">Discharge Reason</td>
+									<td><html:select property="clientForm.dischargeReason" style="width:100%">
+										<html:option value=""></html:option>
+										<html:options collection="lstDischargeReason" property="code"
+											labelProperty="description"></html:options>
+									</html:select></td>
+									
 								</tr>
 								
 							</table>
