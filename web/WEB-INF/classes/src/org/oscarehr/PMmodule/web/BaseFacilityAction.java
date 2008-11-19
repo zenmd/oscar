@@ -122,7 +122,8 @@ public abstract class BaseFacilityAction extends BaseAdminAction {
 			readOnly=true;
 		return readOnly;
 	}
-	public boolean isCreatable(HttpServletRequest request, String funName,Integer shelterId, Integer facilityId) throws NoAccessException{
+	//privated for now
+	private boolean isCreatable(HttpServletRequest request, String funName,Integer shelterId, Integer facilityId) throws NoAccessException{
 		boolean readOnly =false;
 
 		request.setAttribute("programId", shelterId); //for access log purpose
