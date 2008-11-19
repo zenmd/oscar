@@ -111,6 +111,7 @@ String s = "debug";
 							<td>Message Type:</td>
 							<td>
 								<html-el:select property="facility_message.type" tabindex="8">
+									<html-el:option value=""></html-el:option>
 									<c:forEach var="type" items="${msgTypepList}">
 										<html-el:option value="${type.code}">
 											<c:out value="${type.description}" />
@@ -156,6 +157,23 @@ String s = "debug";
 	function submitForm(){
 		trimInputBox();
 		if(!isDateValid) return;
+		var expiry_day = document.getElementsByName("facility_message.expiry_day")[0];
+		var expiry_hour = document.getElementsByName("facility_message.expiry_hour")[0];
+		var expiry_min = document.getElementsByName("facility_message.expiry_minute")[0];
+		if(expiry_day.value=='' || isBeforeNow(expiry_day.value,expiry_hour.value,expiry_min.value ))
+		{
+          alert("Expiry Day must not be earlier than today.");
+          expiry_day.focus();
+          return;
+		}
+		var messageType = document.getElementsByName("facility_message.type")[0];		
+		if(messageType.value == '') 
+		{
+			alert ("Message Type is required");
+			messageType.focus();
+			return;
+		}
+	
 		var message = document.getElementsByName("facility_message.message")[0];
 		if(message.value == '') 
 		{
@@ -163,22 +181,14 @@ String s = "debug";
 			message.focus();
 			return;
 		}
-		var expiry_day = document.getElementsByName("facility_message.expiry_day")[0];
-		var expiry_hour = document.getElementsByName("facility_message.expiry_hour")[0];
-		var expiry_min = document.getElementsByName("facility_message.expiry_minute")[0];
-		if(expiry_day.value=='' || isBeforeNow(expiry_day.value,expiry_hour.value,expiry_min.value )){
-          alert("Expiry Day must not be earlier than today.");
-          expiry_day.focus();
-		}else{
-			if(noChanges())
-			{
-				alert("There are no changes detected to save");
-			}
-			else
-			{
-		  		document.forms[0].submit();
-			}
-		}  
+		if(noChanges())
+		{
+			alert("There are no changes detected to save");
+		}
+		else
+		{
+	  		document.forms[0].submit();
+		}
 	}
 	
 	function txtAreaLenChecker(obj, maxLen) {

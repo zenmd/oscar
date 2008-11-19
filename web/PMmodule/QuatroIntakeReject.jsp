@@ -14,8 +14,12 @@
 function submitForm(methodVal) {
 	trimInputBox();
 	var note =  document.getElementsByName("rejectNote")[0];
-	if(note.value == "") {
+	var reason = document.getElementsByName("rejectReason")[0];
+	if(reason.value == "") {
 		alert("Rejection Note is empty!");
+	}
+	else if(note.value == "") {
+		alert("Rejection Reason is empty!");
 	}
 	else if(methodVal=="save" && noChanges())
 	{
@@ -78,6 +82,7 @@ function submitForm(methodVal) {
 <table class="simple" cellspacing="2" cellpadding="3">
 <tr><td width="25%">Rejection Reason</td>
 <td width="75%"><html:select property="rejectReason">
+<html-el:option value=""></html-el:option>
 <html-el:optionsCollection property="rejectReasonList" value="code" label="description"/>
 </html:select></td></tr>
 <tr><td>Rejection Note</td>

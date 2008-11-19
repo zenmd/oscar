@@ -804,6 +804,12 @@ public class ProgramManagerAction extends BaseProgramAction {
 	    	DynaActionForm programForm = (DynaActionForm) form;	
 	        Program program = (Program) programForm.get("program");
 	        boolean isNew = false;
+	        try {
+	            program.setFacilityId(Integer.valueOf(request.getParameter("programManagerForm_program.facilityId")));
+	        }
+	        catch (NumberFormatException e) {
+	            e.printStackTrace();
+	        }
 	        if(program.getId() != null && program.getId().intValue() > 0)
 	        {
 	        	Program programOld = programManager.getProgram(program.getId());
@@ -827,12 +833,6 @@ public class ProgramManagerAction extends BaseProgramAction {
 	            return list(mapping, form, request, response);
 	        }
 	        
-	        try {
-	            program.setFacilityId(Integer.valueOf(request.getParameter("programManagerForm_program.facilityId")));
-	        }
-	        catch (NumberFormatException e) {
-	            e.printStackTrace();
-	        }
 	                
 	        if (request.getParameter("program.allowBatchAdmission") == null) {
 	            program.setAllowBatchAdmission(false);

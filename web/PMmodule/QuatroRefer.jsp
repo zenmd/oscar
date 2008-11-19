@@ -27,15 +27,22 @@
     
     function submitForm(methodVal) {
 		trimInputBox();
-		if(methodVal=="save" && noChanges())
+		if(methodVal=="save")
 		{
-		    alert("There are no changes detected to save");
+			if (noChanges())
+			{
+		    	alert("There are no changes detected to save");
+		    	return;
+			}
+			var programFrom = document.getElementsByName("referral.fromProgramId")[0];
+			if(programFrom.value == "") 
+			{
+				alert("Please select From Program");
+				return;
+			}
 		}
-		else
-		{
-			document.forms[0].method.value = methodVal;
-			document.forms[0].submit();
-		}
+		document.forms[0].method.value = methodVal;
+		document.forms[0].submit();
 	}
     
 </script>
@@ -121,6 +128,7 @@
 	  <c:choose>
 	  <c:when test="${isReadOnly==null || isReadOnly==false}">
 		<td><html:select property="referral.fromProgramId">
+				<html-el:option value=""></html-el:option>
 				<html:options collection="lstProgram" property="code"
 					labelProperty="description"></html:options>
 				</html:select>

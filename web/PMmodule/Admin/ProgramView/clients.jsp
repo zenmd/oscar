@@ -57,6 +57,11 @@
 			alert('You have to select the clients');
 			return;
 		}
+		if(!validateDischarge())
+		{
+			alert('Please specify the Discharge Reason and Disposition');
+			return;
+		}
 		if(numClients == 1) {
 			var msg = 'You are about to discharge ' + numClients + ' client/family.' + '\n' +
 					'Are you sure you would like to continue?';
