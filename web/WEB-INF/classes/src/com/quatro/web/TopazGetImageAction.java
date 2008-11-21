@@ -19,8 +19,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.ConsentDetail;
-import org.oscarehr.PMmodule.service.AdmissionManager;
+import com.quatro.service.IntakeManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.web.BaseClientAction;
 
@@ -34,7 +35,7 @@ public class TopazGetImageAction extends BaseClientAction{
 	
     private TopazManager topazManager=null;
     private ConsentManager consentManager=null;
-    private AdmissionManager admissionManager=null;
+    private IntakeManager intakeManager=null;
 
     public void setTopazManager(TopazManager topazManager) {
         this.topazManager = topazManager;
@@ -56,9 +57,9 @@ public class TopazGetImageAction extends BaseClientAction{
 		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId());
 	   }
 	   else if (mCd.equals("admission")) {
-		   Admission adm = admissionManager.getAdmission(recordId);
-		   if (adm == null) throw new NoAccessException();
-		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getProgramId());
+		   QuatroIntake intake = intakeManager.getQuatroIntake(recordId);
+		   if (intake == null) throw new NoAccessException();
+		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, intake.getProgramId());
 	   }
 	   else
 		   throw new NoAccessException();
@@ -88,9 +89,9 @@ public class TopazGetImageAction extends BaseClientAction{
 		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId());
 	   }
 	   else if (mCd.equals("admission")) {
-		   Admission adm = admissionManager.getAdmission(recordId);
-		   if (adm == null) throw new NoAccessException();
-		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getProgramId());
+		   QuatroIntake intake = intakeManager.getQuatroIntake(recordId);
+		   if (intake == null) throw new NoAccessException();
+		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, intake.getProgramId());
 	   }
 	   else
 		   throw new NoAccessException();
@@ -99,8 +100,8 @@ public class TopazGetImageAction extends BaseClientAction{
 	   return mapping.findForward("sign");
     }
 
-	public void setAdmissionManager(AdmissionManager admissionManager) {
-		this.admissionManager = admissionManager;
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
 	}
 
 	public void setConsentManager(ConsentManager consentManager) {
