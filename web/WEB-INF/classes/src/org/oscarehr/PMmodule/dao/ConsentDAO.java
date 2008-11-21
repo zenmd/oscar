@@ -48,7 +48,7 @@ public class ConsentDAO extends HibernateDaoSupport {
 	public List getConsentsDetailList(Integer clientNo,String providerNo, Integer shelterId){
     	String clientIds = mergeClientDao.getMergedClientIds(clientNo);
     	String progSQL = Utility.getUserOrgQueryString(providerNo, shelterId);
-		List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo in " +clientIds+" and a.programId in " + progSQL);
+		List results =this.getHibernateTemplate().find("from ConsentDetail a where a.demographicNo in " +clientIds+" and a.programId in " + progSQL + " order by startDate desc");
     	if(results.size()>0){
     		Iterator items=results.iterator();
     		Calendar today =new GregorianCalendar();
