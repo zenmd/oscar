@@ -16,10 +16,10 @@ function submitForm(methodVal) {
 	var note =  document.getElementsByName("rejectNote")[0];
 	var reason = document.getElementsByName("rejectReason")[0];
 	if(reason.value == "") {
-		alert("Rejection Note is empty!");
+		alert("Rejection Reason is empty!");
 	}
 	else if(note.value == "") {
-		alert("Rejection Reason is empty!");
+		alert("Rejection Note is empty!");
 	}
 	else if(methodVal=="save" && noChanges())
 	{

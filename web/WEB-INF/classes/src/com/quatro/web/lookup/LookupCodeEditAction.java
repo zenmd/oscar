@@ -59,7 +59,7 @@ public class LookupCodeEditAction extends BaseAdminAction {
 			boolean editable=false;
 			for(int i=0;i<codeFields.size();i++){
 				FieldDefValue fdv =(FieldDefValue)codeFields.get(i);
-				if(isNew && fdv.getGenericIdx() == 1) fdv.setEditable(true);  // force a new code be added
+				if(isNew && fdv.getGenericIdx() == 1 && !fdv.isAuto()) fdv.setEditable(true);  // force a new code be added
 				if(fdv.isEditable()){
 					editable=true;
 					break;
@@ -202,7 +202,8 @@ public class LookupCodeEditAction extends BaseAdminAction {
 		}
 		catch(SQLException e)
 		{
-			qform.setErrMsg(e.getMessage());
+			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.lookup.duplicate",request.getContextPath(), e.getMessage()));
+			saveMessages(request, messages);
 			return mapping.findForward("edit");
 		}
 	}
