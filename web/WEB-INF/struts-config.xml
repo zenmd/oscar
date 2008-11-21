@@ -384,8 +384,8 @@
             <forward name="view" path="/PMmodule/ClientManager/signatureview.jsp" />
 		</action>
 		<action path="/topazGetImage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="imageDataForm" validate="false">
-            <forward name="image" path="/PMmodule/ClientManager/signatureimage.jsp" />
-            <forward name="sign" path="/PMmodule/ClientManager/signature.jsp" />
+            <forward name="image" path="/PMmodule/ClientManager/signatureimage.jsp"/>
+            <forward name="sign" path="/PMmodule/ClientManager/signature.jsp" redirect="true"/>
 		</action>
         
         <!-- caisi core action -->

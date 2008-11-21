@@ -17,8 +17,8 @@
     <PARAM NAME="code" VALUE="com.quatro.model.signaturePad.SigPlusApp.class">
     <PARAM NAME="archive" VALUE="topazApplet.jar, SigPlus2_51.jar, comm.jar">
     <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.4">
-    <PARAM NAME="rid" VALUE="<%=request.getAttribute("rId")%>">
-    <PARAM NAME="moduleName" VALUE="<%=request.getAttribute("moduleName")%>">
+    <PARAM NAME="rid" VALUE="<%=request.getSession().getAttribute("rId")%>">
+    <PARAM NAME="moduleName" VALUE="<%=request.getSession().getAttribute("moduleName")%>">
     <COMMENT>
         <EMBED type="application/x-java-applet;jpi-version=1.4" width="450"
            height="200" align="baseline" code="com.quatro.model.signaturePad.SigPlusApp.class" 

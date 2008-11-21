@@ -10,7 +10,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.ConsentDetail;
-import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.model.QuatroIntake;
+import com.quatro.service.IntakeManager;
 import org.oscarehr.PMmodule.service.ConsentManager;
 import org.oscarehr.PMmodule.web.BaseClientAction;
 
@@ -24,7 +25,7 @@ public class TopazSaveAction extends BaseClientAction {
 	
     private TopazManager topazManager=null;
     private ConsentManager consentManager=null;
-    private AdmissionManager admissionManager=null;
+    private IntakeManager intakeManager=null;
 
     public void setTopazManager(TopazManager topazManager) {
         this.topazManager = topazManager;
@@ -49,9 +50,9 @@ public class TopazSaveAction extends BaseClientAction {
 			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId());
 		   }
 		   else if ("admission".equals(tobj.getModuleName())) {
-			   Admission adm = admissionManager.getAdmission(tobj.getRecordId());
-			   if (adm == null) throw new NoAccessException();
-			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, adm.getProgramId());
+			   QuatroIntake intake = intakeManager.getQuatroIntake(tobj.getRecordId());
+			   if (intake == null) throw new NoAccessException();
+			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, intake.getProgramId());
 		   }
 		   else
 			   throw new NoAccessException();
@@ -81,8 +82,8 @@ public class TopazSaveAction extends BaseClientAction {
 	   return mapping.findForward("view");
     }
 
-	public void setAdmissionManager(AdmissionManager admissionManager) {
-		this.admissionManager = admissionManager;
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
 	}
 
 	public void setConsentManager(ConsentManager consentManager) {

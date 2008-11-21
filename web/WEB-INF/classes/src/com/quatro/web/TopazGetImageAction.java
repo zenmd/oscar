@@ -95,8 +95,8 @@ public class TopazGetImageAction extends BaseClientAction{
 	   }
 	   else
 		   throw new NoAccessException();
-	   request.setAttribute("rId", recordId);
-	   request.setAttribute("moduleName", mCd);
+	   request.getSession().setAttribute("rId", recordId);
+	   request.getSession().setAttribute("moduleName", mCd);
 	   return mapping.findForward("sign");
     }
 
