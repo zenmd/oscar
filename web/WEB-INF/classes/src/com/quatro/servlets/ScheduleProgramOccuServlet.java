@@ -30,7 +30,6 @@ import org.oscarehr.PMmodule.service.ProgramOccupancyManager;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ibm.xmi.mod.FileNotFoundException;
 import com.quatro.common.KeyConstants;
 import com.quatro.util.Utility;
 

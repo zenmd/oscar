@@ -12,7 +12,6 @@ import java.util.HashMap;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import java.util.ArrayList;
 
-import com.ibm.ws.channel.commands.CreateChainCommand;
 import com.quatro.common.KeyConstants;
 import com.quatro.web.intake.IntakeConstant;
 

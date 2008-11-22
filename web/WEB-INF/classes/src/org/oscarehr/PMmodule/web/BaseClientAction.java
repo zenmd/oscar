@@ -31,7 +31,7 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ibm.ws.http.HttpRequest;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.security.SecurityManager;
