@@ -11,10 +11,10 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 
 public class HomeAction extends BaseAction {
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
-    	super.setMenu(request,KeyConstants.MENU_HOME);
-		return mapping.findForward("home");
+    		super.setMenu(request,KeyConstants.MENU_HOME);
+    		return mapping.findForward("home");
     	}
     	catch(NoAccessException e)
     	{

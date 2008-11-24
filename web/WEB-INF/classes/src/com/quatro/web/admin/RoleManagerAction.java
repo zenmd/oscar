@@ -59,7 +59,7 @@ public class RoleManagerAction extends BaseAdminAction {
 			return list(mapping, form, request, response);
 	}
 
-	public ActionForward list(ActionMapping mapping, ActionForm form,
+	private ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		try {
@@ -260,7 +260,7 @@ public class RoleManagerAction extends BaseAdminAction {
 		}
 
 	}
-
+/*
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)  {
 		try {
@@ -273,6 +273,7 @@ public class RoleManagerAction extends BaseAdminAction {
 		}
 	}
 
+	/*
 	public ActionForward addFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -288,7 +289,7 @@ public class RoleManagerAction extends BaseAdminAction {
 			return mapping.findForward("failure");
 		}
 	}
-	
+	*/
 	public ActionForward addFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -312,7 +313,7 @@ public class RoleManagerAction extends BaseAdminAction {
 			return mapping.findForward("failure");
 		}
 	}
-
+/*
 	public ActionForward removeFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -328,6 +329,7 @@ public class RoleManagerAction extends BaseAdminAction {
 		}
 			
 	}
+*/
 	public ActionForward removeFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -352,7 +354,7 @@ public class RoleManagerAction extends BaseAdminAction {
 
 	}
 
-	public void ChangeFunLstTable(int operationType, DynaActionForm myForm,
+	private void ChangeFunLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
 		
 		ActionMessages messages = new ActionMessages();
@@ -433,7 +435,7 @@ public class RoleManagerAction extends BaseAdminAction {
 //       			request.getContextPath()));
 //		saveMessages(request,messages);
 	}
-
+/*
 	public ActionForward saveFunction(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -449,6 +451,7 @@ public class RoleManagerAction extends BaseAdminAction {
 			return mapping.findForward("failure");
 		}
 	}
+*/
 	private boolean saveRoleAndFunctions(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response, boolean saveRole) {
 
@@ -528,5 +531,4 @@ public class RoleManagerAction extends BaseAdminAction {
 			return false;
 		}
 	}
-
 }

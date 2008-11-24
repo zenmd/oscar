@@ -346,7 +346,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
  		   return mapping.findForward("failure");
  	   }
     }
-
+/*
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
     	ActionMessages messages = new ActionMessages();
         try{
@@ -371,7 +371,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         return list(mapping, form, request, response);
     }
-
+*/
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
     	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
     	Facility facility = new Facility("", "");

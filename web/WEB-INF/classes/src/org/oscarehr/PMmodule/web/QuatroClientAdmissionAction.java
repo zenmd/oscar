@@ -67,7 +67,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        return list(mapping, form, request, response);
    }
 
-   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {
 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);

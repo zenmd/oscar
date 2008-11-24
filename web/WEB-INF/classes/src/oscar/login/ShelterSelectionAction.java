@@ -37,7 +37,7 @@ public final class ShelterSelectionAction extends BaseAction {
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
     private static final String LOG_PRE = "Login!@#$: ";
 
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	 String mthd =request.getParameter("method");
     	// initMenu(request);
@@ -85,7 +85,7 @@ public final class ShelterSelectionAction extends BaseAction {
          return mapping.findForward("home");
             	
     }
-    public void select(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    private void select(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
 		String shelter =request.getParameter("shelterId");
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -102,18 +102,6 @@ public final class ShelterSelectionAction extends BaseAction {
         String ip = request.getRemoteAddr();
         LogAction.addLog(providerNo,providerNo, LogConst.CON_LOGIN, LogConst.SHELTER_SELECTION, shelterId.toString(), ip);
     }
-    public ApplicationContext getAppContext() {
-		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
-				.getServletContext());
-	}
-    public ProviderManager getProviderManager() {
-		return (ProviderManager) getAppContext().getBean("providerManager");
-	}
-    protected SecurityManager getSecurityManager(HttpServletRequest request)
-	{
-		return (SecurityManager) request.getSession(true)
-		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
-	}
     private void initMenu(HttpServletRequest request)
 	{
 		SecurityManager sec = getSecurityManager(request);

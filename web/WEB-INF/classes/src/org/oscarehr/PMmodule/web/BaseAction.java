@@ -280,7 +280,7 @@ public abstract class BaseAction extends DispatchAction {
         String className = this.toString();
         if(method == null) method = "unspecified";
         if (request.getParameter("tab") != null) method = method + "(" + (String)request.getParameter("tab") + ")";
-		if(request.getParameter("method") != null) method = method + "(" + (String)request.getParameter("method") + ")";
+		if(method.equals("unspecified") && request.getParameter("method") != null) method = method + "(" + (String)request.getParameter("method") + ")";
         Integer programId = null;
         try {
         	programId = (Integer) request.getAttribute("programId");

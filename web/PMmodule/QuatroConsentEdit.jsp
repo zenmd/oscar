@@ -112,7 +112,7 @@
 		        <a href='javaScript:submitForm("list");' style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>|
 			
-				<c:if test="${(signed==null || 'N'==signed) && !isReadOnly}" >		
+				<c:if test="${!isReadOnly}" >		
 					<a href='javaScript:void1();'  onclick="javascript: setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 				</c:if>

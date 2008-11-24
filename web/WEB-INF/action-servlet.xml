@@ -2,138 +2,70 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
- 
-    <bean name="/PMmodule/Task" class="org.oscarehr.PMmodule.web.ClientTaskAction" singleton="false" autowire="byName">
-    </bean>
-	<bean name="/PMmodule/UploadFile" class="org.oscarehr.PMmodule.web.UploadFileAction" singleton="false" autowire="byName">
-	</bean>
-	<bean name="/PMmodule/ShowFile" class="org.oscarehr.PMmodule.web.ShowFileAction" singleton="false" autowire="byName">
-	</bean>
-	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false" autowire="byName">
-	</bean>
-	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false" autowire="byName">
+	<bean name="/login" class="oscar.login.LoginAction" singleton="false">
+		<property name="providerManager" ref="providerManager"/>
+		<property name="lookupManager" ref="lookupManager"/>
 	</bean>
 	<bean name="/siteCheckLogin" class="oscar.login.SiteCheckAction" singleton="false">
 		<property name="secSiteManager" ref="secSiteManager" />
 	</bean>
-<!-- 
-    <bean name="/Tickler" class="org.caisi.tickler.web.TicklerAction" singleton="false">
-        <property name="ticklerManager" ref="ticklerManagerT"/>
-        <property name="demographicManager" ref="demographicManagerT"/>
-        <property name="providerManager" ref="providerManager"/>
-        <property name="preparedTicklerManager" ref="preparedTicklerManagerT"/>
-        <property name="consultationManager" ref="consultationManager"/>
-        <property name="chartManager" ref="chartManagerT"/>
-        <property name="programManager" ref="programManager"/>       
-    </bean>
-    <bean name="/CustomFilter" class="org.caisi.tickler.web.CustomFilterAction" singleton="false">
-        <property name="ticklerManager" ref="ticklerManagerT"/>
-        <property name="demographicManager" ref="demographicManagerT"/>
-        <property name="providerManager" ref="providerManager"/>
-        <property name="programManager" ref="programManager"/>
-    </bean>
-    <bean name="/UnreadTickler" class="org.caisi.tickler.web.UnreadTicklerAction" singleton="false">
-        <property name="ticklerManager" ref="ticklerManagerT"/>
-    </bean>
- -->    
+	<bean name="/shelterSelection" class="oscar.login.ShelterSelectionAction" singleton="false"  autowire="byName"/>
+
+	<bean name="/Home" class="org.oscarehr.PMmodule.web.HomeAction" singleton="false" autowire="byName"/> 
+
     <bean name="/SystemMessage" class="org.caisi.core.web.SystemMessageAction" singleton="false"  autowire="byName" />
     <bean name="/FacilityMessage" class="org.oscarehr.PMmodule.web.admin.FacilityMessageAction" singleton="false"  autowire="byName" />
-    <bean name="/issueAdmin" class="org.caisi.core.web.IssueAdminAction" singleton="false"  autowire="byName" />
-<!-- 
-    <bean name="/CaisiEditor" class="org.caisi.core.web.CaisiEditorAction" singleton="false"  autowire="byName" />
--->
-<!--
-    <bean name="/CaisiRole" class="org.caisi.core.web.RoleAction" singleton="false"  autowire="byName" />
- -->
+
+    <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
+    <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >
+    </bean>
+    <bean name="/PMmodule/BedManager" class="org.oscarehr.PMmodule.web.admin.BedManagerAction" singleton="false" autowire="byName" />
+    <bean name="/PMmodule/FacilityManager" class="org.oscarehr.PMmodule.web.admin.FacilityManagerAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/ClientSearch2" class="org.oscarehr.PMmodule.web.ClientSearchAction2" singleton="false"  autowire="byName" />
     <bean name="/PMmodule/MergeClient" class="org.oscarehr.PMmodule.web.admin.MergeClientAction" singleton="false"  autowire="byName">
     </bean>
     
     <bean name="/PMmodule/UnmergeClient" class="org.oscarehr.PMmodule.web.admin.UnMergeClientAction" singleton="false"  autowire="byName">
     </bean>
-<!-- 
-    <bean name="/PMmodule/ClientManager" class="org.oscarehr.PMmodule.web.ClientManagerAction" singleton="false" autowire="byName">
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="lookupManager" ref="lookupManager"/>       
-        <property name="intakeManager" ref="intakeManager"/>       
+    <bean name="/PMmodule/QuatroConsent" class="org.oscarehr.PMmodule.web.QuatroConsentAction" singleton="false" autowire="byName">
     </bean>
- -->
     <bean name="/PMmodule/DuplicateClientCheck" class="org.oscarehr.PMmodule.web.DuplicateClientCheckAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroFamilyIntake" class="org.oscarehr.PMmodule.web.QuatroFamilyIntakeAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroHealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroClientSummary" class="org.oscarehr.PMmodule.web.QuatroClientSummaryAction" singleton="false" autowire="byName">
     </bean>
-    <bean name="/PMmodule/QuatroConsent" class="org.oscarehr.PMmodule.web.QuatroConsentAction" singleton="false" autowire="byName">
-    </bean>
     <bean name="/PMmodule/ClientHistory" class="org.oscarehr.PMmodule.web.ClientHistoryAction" singleton="false" autowire="byName">
     </bean>
     <bean name="/PMmodule/QuatroIntake" class="org.oscarehr.PMmodule.web.QuatroClientIntakeAction" singleton="false" autowire="byName">
     </bean>
-    <bean name="/PMmodule/QuatroIntakeEdit" class="org.oscarehr.PMmodule.web.QuatroIntakeEditAction" singleton="false" autowire="byName">
-    </bean>
     <bean name="/PMmodule/QuatroAdmission" class="org.oscarehr.PMmodule.web.QuatroClientAdmissionAction" singleton="false" autowire="byName">
     </bean>
     <bean name="/PMmodule/QuatroIntakeReject" class="org.oscarehr.PMmodule.web.QuatroClientIntakeRejectAction" singleton="false" autowire="byName">
-    </bean>
-    <bean name="/PMmodule/QuatroRefer" class="org.oscarehr.PMmodule.web.QuatroClientReferAction" singleton="false" autowire="byName">
     </bean>
     <bean name="/PMmodule/QuatroProgramSearch" class="org.oscarehr.PMmodule.web.QuatroProgramSearchAction" singleton="false" autowire="byName">
     </bean>
     <bean name="/PMmodule/PrintView" class="org.oscarehr.PMmodule.web.PrintViewAction" singleton="false" autowire="byName">
     	<property name="consentManager" ref="consentManager"></property>
     </bean>
+	<bean name="/demographic/printBarcodeAction" class="oscar.oscarDemographic.PrintBarcodeAction" singleton="false" autowire="byName" />
+    <bean name="/PMmodule/QuatroRefer" class="org.oscarehr.PMmodule.web.QuatroClientReferAction" singleton="false" autowire="byName">
+    </bean>
     <bean name="/PMmodule/QuatroDischarge" class="org.oscarehr.PMmodule.web.QuatroClientDischargeAction" singleton="false" autowire="byName">
     </bean>
     <bean name="/PMmodule/QuatroServiceRestriction" class="org.oscarehr.PMmodule.web.ServiceRestrictionAction" singleton="false" autowire="byName">
     </bean>
-<!-- 
-    <bean name="/PMmodule/ProviderInfo" class="org.oscarehr.PMmodule.web.ProviderInfoAction" singleton="false" autowire="byName" />
- -->    
-    <bean name="/PMmodule/ProgramManager" class="org.oscarehr.PMmodule.web.admin.ProgramManagerAction" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/ProgramManagerView" class="org.oscarehr.PMmodule.web.admin.ProgramManagerViewAction" singleton="false" autowire="byName" >
+	<bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
+    	<property name="complaintManager" ref="complaintManager"/>
+    	<property name="lookupManager" ref="lookupManager"/>
+    	<property name="clientManager" ref="clientManager"></property>
     </bean>
-    <bean name="/PMmodule/FacilityManager" class="org.oscarehr.PMmodule.web.admin.FacilityManagerAction" singleton="false" autowire="byName" />
-    <bean name="/PMmodule/BedManager" class="org.oscarehr.PMmodule.web.admin.BedManagerAction" singleton="false" autowire="byName" />
-    <bean name="/PMmodule/HealthSafety" class="org.oscarehr.PMmodule.web.HealthSafetyAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/Consent" class="org.oscarehr.PMmodule.web.ConsentAction" singleton="false"  autowire="byName" />
-<!-- 
-    <bean name="/PMmodule/StaffManager" class="org.oscarehr.PMmodule.web.admin.StaffManagerAction" singleton="false"  autowire="byName" />
- -->
-         
-<!-- 
-    <bean name="/PMmodule/Forms/FollowUp" class="org.oscarehr.PMmodule.web.forms.FollowUpAction" singleton="false"  autowire="byName" />
- -->
- <!-- 
-    <bean name="/PMmodule/Reports/ProgramActivityReport" class="org.oscarehr.PMmodule.web.reports.ActivityReportAction" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/Reports/BasicReport" class="org.oscarehr.PMmodule.web.reports.BasicReportAction" singleton="false" autowire="byName" />
-    <bean name="/PMmodule/Reports/ExitInterviewReport" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportAction" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/Reports/ExitInterviewReportDetailed" class="org.oscarehr.PMmodule.web.reports.ExitInterviewReportDetailedAction" singleton="false"  autowire="byName" />
-    <bean name="/PMmodule/Reports/ClientListsReport" class="org.oscarehr.PMmodule.web.reports.ClientListsReportAction" singleton="false" autowire="byName" />
- -->    
- 
- <!-- 
-    <bean name="/PMmodule/Admin/DefaultRoleAccess" class="org.oscarehr.PMmodule.web.admin.DefaultRoleAccessAction" singleton="false"  autowire="byName" />
- -->
- 
-    <!--  ER -->
-<!-- 
-    <bean name="/ReceptionistReport" class="org.oscarehr.er.ReceptionistReportAction" singleton="false">
-        <property name="programManager" ref="programManager"/>
-        <property name="clientManager" ref="clientManager"/>
-        <property name="admissionManager" ref="admissionManager"/>
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="providerManager" ref="providerManager"/>
+    <bean name="/PMmodule/QuatroIntakeEdit" class="org.oscarehr.PMmodule.web.QuatroIntakeEditAction" singleton="false" autowire="byName">
     </bean>
- -->    
-    
-    <!--  CASE MANAGEMENT -->
     <bean name="/CaseManagementView2" class="org.oscarehr.casemgmt.web.CaseManagementSearchAction" singleton="false" autowire="byName">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="ticklerManager" ref="ticklerManager"/>
         <property name="clientImageManager" ref="ClientImageManager"/>
-<!-- 
-        <property name="roleManager" ref="roleManager"/>
- -->
         <property name="programManager" ref="programManager"/>        
         <property name="lookupManager" ref="lookupManager"></property>  
         <property name="clientManager" ref="clientManager"></property>    
@@ -148,15 +80,16 @@
     <!-- Quatro Shelter Report -->
     <bean name="/QuatroReport/ReportList" class="com.quatro.web.report.QuatroReportListAction" singleton="false">
     </bean>
-    
-    <!--  Lookup and Table Mainteance -->
+    <bean name="/QuatroReport/ReportRunner" class="com.quatro.web.report.QuatroReportRunnerAction" singleton="false" />
+	<bean name="/QuatroReport/ReportViewer" class= "com.quatro.web.report.QuatroReportViewerAction" singleton="false" autowire="byName" />
+	<bean name="/QuatroReport/SaveReportTemplate" class="com.quatro.web.report.QuatroReportTemplateAction" parent="false" autowire="byName" />
     <bean name="/Lookup/LookupList" class="com.quatro.web.lookup.LookupListAction" singleton="false">
         <property name="lookupManager" ref="lookupManager"/>
     </bean>
-	<bean name="/Lookup/LookupTableList" class="com.quatro.web.lookup.LookupTableListAction" singleton="false">    
+	<bean name="/Lookup/LookupTree" class="com.quatro.web.lookup.LookupTreeAction" singleton="false">
         <property name="lookupManager" ref="lookupManager"/>
 	</bean>
-	<bean name="/Lookup/LookupTree" class="com.quatro.web.lookup.LookupTreeAction" singleton="false">
+	<bean name="/Lookup/LookupTableList" class="com.quatro.web.lookup.LookupTableListAction" singleton="false">    
         <property name="lookupManager" ref="lookupManager"/>
 	</bean>
     <bean name="/Lookup/LookupCodeList" class="com.quatro.web.lookup.LookupCodeListAction" singleton="false">
@@ -165,38 +98,12 @@
 	<bean name="/Lookup/LookupCodeEdit" class="com.quatro.web.lookup.LookupCodeEditAction" singleton="false">
         <property name="lookupManager" ref="lookupManager"/>
 	</bean>
-
-    <!-- Provider Property -->
-    <bean name="/setProviderStaleDate" class="org.oscarehr.provider.web.ProviderPropertyAction" singleton="false">
-        <property name="userPropertyDAO" ref="UserPropertyDAO"/>
-    </bean>
-
-<!-- 
-    <bean name="/dms/SendDocToPhr" class="oscar.dms.actions.SendDocToPhrAction" singleton="false">
-        <property name="phrService" ref="phrService"/>
-        <property name="phrConstants" ref="phrConstants"/>
-    </bean>
-    <bean name="/phr/Login" class="org.oscarehr.phr.web.PHRLoginAction" singleton="false">
-        <property name="phrService" ref="phrService"/>
-    </bean>
-    <bean name="/phr/Logout" class="org.oscarehr.phr.web.PHRLogoutAction" singleton="false">
-    </bean>
-    <bean name="/phrExchange" class="org.oscarehr.phr.web.PHRExchangeAction" singleton="false">
-        <property name="phrService" ref="phrService"/>
-    </bean>
- -->
-     
-<!--
-    <bean name="/PMmodule/Reports/CustomReport" class="org.oscarehr.PMmodule.web.reports.CustomReportAction" singleton="false" autowire="byName">
-    </bean>
--->
-
-	<!-- Admin Start -->
-	<bean name="/login" class="oscar.login.LoginAction" singleton="false">
-		<property name="providerManager" ref="providerManager"/>
-		<property name="lookupManager" ref="lookupManager"/>
+	<bean name="/PMmodule/UploadFile" class="org.oscarehr.PMmodule.web.UploadFileAction" singleton="false" autowire="byName">
+	</bean>
+	<bean name="/PMmodule/ShowFile" class="org.oscarehr.PMmodule.web.ShowFileAction" singleton="false" autowire="byName">
 	</bean>
 
+	<!-- Admin Start -->
 	<bean name="/PMmodule/Admin/SysAdmin" class="org.oscarehr.PMmodule.web.admin.AdminHomeAction" singleton="false">
 	</bean>
 
@@ -223,10 +130,12 @@
 	<bean name="/PMmodule/Admin/UnlockAccount" class="oscar.login.UnlockAccountAction" singleton="false">
 	</bean>
 	<!-- admin End -->
-	<bean name="/PMmodule/QuatroComplaint" class="org.oscarehr.PMmodule.web.QuatroClientComplaintAction" singleton="false" autowire="byName">
-    	<property name="complaintManager" ref="complaintManager"/>
-    	<property name="lookupManager" ref="lookupManager"/>
-    	<property name="clientManager" ref="clientManager"></property>
+
+    <bean name="/PMmodule/Task" class="org.oscarehr.PMmodule.web.ClientTaskAction" singleton="false" autowire="byName">
     </bean>
-    
+	<bean name="/topazSave" class="com.quatro.web.TopazSaveAction" singleton="false" autowire="byName">
+	</bean>
+	<bean name="/topazGetImage" class="com.quatro.web.TopazGetImageAction" singleton="false" autowire="byName">
+	</bean>
+
 </beans>

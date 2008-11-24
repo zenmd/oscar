@@ -43,7 +43,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		this.lookupManager = lookupManager;
 	}
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
 		try {
@@ -131,7 +131,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
         }
 	}
     
-	public void OnCriteriaTextChangedHandler(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)throws NoAccessException
+	private void OnCriteriaTextChangedHandler(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request)throws NoAccessException
 	{
         checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		ReportValue rptVal = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
@@ -220,25 +220,25 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		myForm.setTemplateCriteriaList(cris);
 	}
 
-    public void btnInsertTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
+    private void btnInsertTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
         checkAccess(request, reportNo,KeyConstants.ACCESS_WRITE);
 		ChangeTplCriTable(3, myForm, request);   // insert
 	}
 
-	public void btnRemoveTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
+	private void btnRemoveTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
         checkAccess(request, reportNo,KeyConstants.ACCESS_WRITE);
 		ChangeTplCriTable(1, myForm, request);
 	}
 
-	public void btnAddTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
+	private void btnAddTplCri_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
         checkAccess(request, reportNo,KeyConstants.ACCESS_WRITE);
 		ChangeTplCriTable(2, myForm, request);
     }
 
-	public void btnSave_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
+	private void btnSave_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
 		ActionMessages messages = new ActionMessages();
         checkAccess(request, reportNo,KeyConstants.ACCESS_UPDATE);
@@ -253,7 +253,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		myForm.setStrClientJavascript("saveTemplate");
 	}
 	
-	public void btnRun_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
+	private void btnRun_Click(int reportNo, QuatroReportRunnerForm myForm, HttpServletRequest request) throws NoAccessException
 	{
         checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
         ReportTempValue rptTempVal=null;
@@ -298,7 +298,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
         
 	}
 	
-	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, int templateNo, HttpServletRequest request) throws NoAccessException
+	private void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, int templateNo, HttpServletRequest request) throws NoAccessException
 	{
 		ReportValue rptVal=null;
         checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
@@ -337,7 +337,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
         ReportValue rptVal = reportManager.GetReport(reportNo,loginId);
 	    if(rptVal == null) throw new NoAccessException();
 	}
-	public void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, HttpServletRequest request, boolean refreshFromDB) throws NoAccessException
+	private void Refresh(QuatroReportRunnerForm myForm, String loginId,int reportNo, HttpServletRequest request, boolean refreshFromDB) throws NoAccessException
 	{
         checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		ReportValue rptVal=null;
@@ -667,7 +667,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		  return;// repTemp;
     }
 	
-    public String ValidateCriteriaString(int reportNo, ArrayList criterias){
+    private String ValidateCriteriaString(int reportNo, ArrayList criterias){
         String tableName = "";
         String criteriaDis = "";
 
@@ -805,7 +805,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		return operators;
 	}
 
-    public void ChangeTplCriTable(int operationType, QuatroReportRunnerForm myForm, HttpServletRequest request)
+    private void ChangeTplCriTable(int operationType, QuatroReportRunnerForm myForm, HttpServletRequest request)
     {
     	ArrayList obj= new ArrayList();
 		ArrayList cris = new ArrayList();

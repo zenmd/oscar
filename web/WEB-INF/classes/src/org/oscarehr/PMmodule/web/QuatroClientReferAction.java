@@ -35,14 +35,8 @@ import com.quatro.util.Utility;
 
 public class QuatroClientReferAction  extends BaseClientAction {
    private ClientManager clientManager;
-   private ProviderManager providerManager;
    private ProgramManager programManager;
    private ProgramQueueManager programQueueManager;
-   private AdmissionManager admissionManager;
-   private CaseManagementManager caseManagementManager;
-   private RoomDemographicManager roomDemographicManager;
-   private RoomManager roomManager;
-   private BedManager bedManager;
    private IntakeManager intakeManager;
 
 	public void setIntakeManager(IntakeManager intakeManager) {
@@ -54,13 +48,10 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		return list(mapping, form, request, response);
 	}
 
-	public ActionForward list(ActionMapping mapping, ActionForm form,
+	private ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 //		setListAttributes(form, request);
 		ActionMessages messages = new ActionMessages();
-		boolean isError = false;
-		boolean isWarning = false;
-		DynaActionForm clientForm = (DynaActionForm) form;
 
 		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 		String cId = request.getParameter("clientId");
@@ -157,6 +148,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			return mapping.findForward("failure");
 		}
 	}
+/*
 	public ActionForward refer_select_program(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -205,7 +197,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			return mapping.findForward("failure");
 		}
 	}
-
+*/
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -357,13 +349,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		
 	}
 	
-   public void setAdmissionManager(AdmissionManager admissionManager) {
-	 this.admissionManager = admissionManager;
-   }
 
-   public void setCaseManagementManager(CaseManagementManager caseManagementManager) {
-	 this.caseManagementManager = caseManagementManager;
-   }
 
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
@@ -371,22 +357,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
    public void setProgramManager(ProgramManager programManager) {
 	 this.programManager = programManager;
-   }
-
-   public void setProviderManager(ProviderManager providerManager) {
-	 this.providerManager = providerManager;
-   }
-
-   public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
-	 this.roomDemographicManager = roomDemographicManager;
-   }
-
-   public void setRoomManager(RoomManager roomManager) {
-	 this.roomManager = roomManager;
-   }
-
-   public void setBedManager(BedManager bedManager) {
-	 this.bedManager = bedManager;
    }
 
 public void setProgramQueueManager(ProgramQueueManager programQueueManager) {

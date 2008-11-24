@@ -72,7 +72,7 @@ public class ClientSearchAction2 extends BaseClientAction {
 		return form(mapping, form, request, response);
 	}
 
-	public ActionForward form(ActionMapping mapping, ActionForm form,
+	private ActionForward form(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -124,11 +124,6 @@ public class ClientSearchAction2 extends BaseClientAction {
 		   return mapping.findForward("failure");
 	   }
 	}
-	public ActionForward mergeSearch(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws NoAccessException{		
-		super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT, new Integer(0));
-		return mapping.findForward("merge");
-	}	
 	
 	public ActionForward search(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {

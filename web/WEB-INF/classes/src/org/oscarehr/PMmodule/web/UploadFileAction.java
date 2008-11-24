@@ -3,7 +3,6 @@ package org.oscarehr.PMmodule.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Hashtable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -26,12 +25,10 @@ import com.quatro.service.UploadFileManager;
 import com.quatro.util.Utility;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.GregorianCalendar;
 import com.quatro.model.Attachment;
 import com.quatro.model.AttachmentText;
-import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.NoAccessException;
 
 public class UploadFileAction extends BaseClientAction {
@@ -59,7 +56,7 @@ public class UploadFileAction extends BaseClientAction {
 	 public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 return list(mapping, form, request, response);
 	 }
-	 public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	 private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			//DynaActionForm accessForm = (DynaActionForm)form;
 		 List atts=null;
 		 try {
@@ -231,8 +228,6 @@ public class UploadFileAction extends BaseClientAction {
 	       String demoNo =(String)actionParam.get("clientId");
 			 Integer cId=Integer.valueOf(demoNo) ;
 		 	ActionMessages messages = new ActionMessages();
-	        boolean isError = false;
-	        boolean isWarning = false;
 	        String dupMessage ="";
 			HttpSession session = request.getSession(true);	
 			//only for client module 
@@ -295,9 +290,6 @@ public class UploadFileAction extends BaseClientAction {
 	        return edit(mapping,form,request,response);
 
 	    }
-	 public ActionForward showFile(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
-		 return list(mapping, form, request, response); 
-	 }
 	 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}

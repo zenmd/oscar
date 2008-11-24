@@ -36,7 +36,7 @@ public class LookupTableListAction extends BaseAdminAction {
 		}
 	}
 	
-	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 			String tableId="FCT";
 			List lst = lookupManager.LoadCodeList(tableId, true, null, null);
 			

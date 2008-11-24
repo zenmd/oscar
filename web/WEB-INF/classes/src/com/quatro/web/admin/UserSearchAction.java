@@ -1,13 +1,8 @@
 package com.quatro.web.admin;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,18 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 import org.oscarehr.PMmodule.service.LogManager;
-import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
-import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
-import com.quatro.model.security.SecProvider;
-import com.quatro.model.security.Security;
 import com.quatro.model.security.Secuserrole;
 import com.quatro.service.security.RolesManager;
 import com.quatro.service.security.UsersManager;
@@ -39,7 +28,6 @@ public class UserSearchAction extends BaseAdminAction {
 
 	private UsersManager usersManager;
 
-	private MessageDigest md;
 
 	
 	public void setLogManager(LogManager mgr) {
@@ -62,7 +50,7 @@ public class UserSearchAction extends BaseAdminAction {
 
 
 
-	public ActionForward list(ActionMapping mapping, ActionForm form,
+	private ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			super.getAccess(request, KeyConstants.FUN_ADMIN_USER);
@@ -92,9 +80,7 @@ public class UserSearchAction extends BaseAdminAction {
 			String fname = formBean.getFirstName();
 			String lname = formBean.getLastName();
 		*/	
-			// TODO:search
-			
-			
+						
 			ArrayList surlist = new ArrayList();
 	
 			List userlist = usersManager.search(formBean);

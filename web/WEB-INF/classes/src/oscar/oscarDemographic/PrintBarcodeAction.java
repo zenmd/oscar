@@ -39,7 +39,7 @@ public class PrintBarcodeAction extends BaseClientAction {
     public PrintBarcodeAction() {
     }
 
-    public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
+    public ActionForward unspecified(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
         //patient
     	super.getAccess(request, KeyConstants.FUN_CLIENTPRINTLABEL, new Integer(0));
     	String classpath = (String)request.getSession().getServletContext().getAttribute("org.apache.catalina.jsp_classpath");

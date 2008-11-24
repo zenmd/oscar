@@ -45,7 +45,7 @@ public class TopazGetImageAction extends BaseClientAction{
         return image(mapping, form, request, response);
     }
 
-    public ActionForward image(ActionMapping mapping, ActionForm form, 
+    private ActionForward image(ActionMapping mapping, ActionForm form, 
        		HttpServletRequest request, HttpServletResponse response) throws Exception {
        
 	   Integer recordId = Integer.valueOf((String)request.getParameter("rid"));

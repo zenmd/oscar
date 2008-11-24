@@ -29,6 +29,9 @@ public class FacilityManager {
         return facilityDAO.getFacilities(providerNo,shelterId);
     }
     
+    public List getActiveFacilities(String providerNo,Integer shelterId) {
+        return facilityDAO.getActiveFacilities(shelterId, providerNo);
+    }
 
     public void saveFacility(Facility facility) {
         facilityDAO.saveFacility(facility);

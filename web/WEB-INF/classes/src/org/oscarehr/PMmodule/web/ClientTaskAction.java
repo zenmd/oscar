@@ -137,7 +137,7 @@ public class ClientTaskAction extends BaseClientAction{
         return mapping.findForward("mytask_edit");
     }
     
-    public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	try {
 	    	TicklerForm ticklerForm = (TicklerForm) form;
 	
@@ -339,7 +339,8 @@ public class ClientTaskAction extends BaseClientAction{
     
     public ActionForward changeProgram(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
-    	
+    	Integer programId = ticklerForm.getTickler().getProgram_id();
+    	super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, programId,KeyConstants.ACCESS_WRITE);
     	String clientId = request.getParameter("clientId");
     	HashMap actionParam = new HashMap();
         actionParam.put("clientId", clientId); 

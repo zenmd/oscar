@@ -39,10 +39,8 @@ public class UserManagerAction extends BaseAdminAction {
 
 	private LogManager logManager;
 
-	private RolesManager rolesManager;
 
 	private UsersManager usersManager;
-	private ORGManager orgManager;
 	private LookupManager lookupManager;
 
 	private MessageDigest md;
@@ -53,9 +51,6 @@ public class UserManagerAction extends BaseAdminAction {
 		this.logManager = mgr;
 	}
 
-	public void setRolesManager(RolesManager rolesManager) {
-		this.rolesManager = rolesManager;
-	}
 
 	public void setUsersManager(UsersManager usersManager) {
 		this.usersManager = usersManager;
@@ -64,12 +59,6 @@ public class UserManagerAction extends BaseAdminAction {
 		this.lookupManager = lookupManager;
 	}
 
-	
-	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
-		super.getAccess(request,KeyConstants.FUN_ADMIN_USER);
-		return mapping.findForward("list");
-	}
 
 	public ActionForward profile(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -347,6 +336,7 @@ public class UserManagerAction extends BaseAdminAction {
         return mapping.findForward("changePassword");
         
 	}
+	
 	public ActionForward savePassword(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
@@ -421,6 +411,7 @@ public class UserManagerAction extends BaseAdminAction {
         return mapping.findForward("changePassword");
         
 	}
+	
 	private String encryptPassword(String password) throws NoSuchAlgorithmException{
 		StringBuffer sbTemp = new StringBuffer();
 		byte[] pwd = password.getBytes();
@@ -508,7 +499,7 @@ public class UserManagerAction extends BaseAdminAction {
 
 	}
 
-	public void changeRoleLstTable(int operationType, DynaActionForm myForm,
+	private void changeRoleLstTable(int operationType, DynaActionForm myForm,
 			HttpServletRequest request) {
 		
 		ArrayList secUserRoleLst = new ArrayList();
@@ -534,7 +525,7 @@ public class UserManagerAction extends BaseAdminAction {
 		request.getSession(true).setAttribute("secUserRoleLst",	secUserRoleLst);
 	}
 
-	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
+	private List getRowList(HttpServletRequest request, ActionForm form, int operationType){
 		ArrayList secUserRoleLst = new ArrayList();
 		
 		DynaActionForm secuserForm = (DynaActionForm) form;
@@ -645,10 +636,6 @@ public class UserManagerAction extends BaseAdminAction {
 		
 		return profile(mapping,form,request,response);
 
-	}
-
-	public void setOrgManager(ORGManager orgManager) {
-		this.orgManager = orgManager;
 	}
 
 }

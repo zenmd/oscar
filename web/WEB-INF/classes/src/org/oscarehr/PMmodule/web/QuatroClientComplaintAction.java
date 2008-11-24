@@ -50,7 +50,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		return list(mapping, form, request, response);
 	}
 
-	public ActionForward list(ActionMapping mapping, ActionForm form,
+	private ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);

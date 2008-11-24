@@ -41,7 +41,7 @@ public class LookupCodeEditAction extends BaseAdminAction {
     		return loadCode(mapping,form,request,response);
 	}
 	
-	public ActionForward loadCode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	private ActionForward loadCode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP);
 			String [] codeIds = request.getParameter("id").split(":");

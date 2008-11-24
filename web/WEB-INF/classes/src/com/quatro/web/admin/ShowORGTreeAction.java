@@ -37,7 +37,7 @@ public class ShowORGTreeAction extends BaseAdminAction {
 		return tree(mapping, form, request, response);
 	}
 
-	public ActionForward tree(ActionMapping mapping, ActionForm form,
+	private ActionForward tree(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			super.getAccess(request, KeyConstants.FUN_ADMIN_ORG);

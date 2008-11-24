@@ -29,10 +29,6 @@ public class QuatroClientIntakeRejectAction extends BaseProgramAction {
    public void setProgramManager(ProgramManager programManager) {
 	this.programManager = programManager;
 }
-
-public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-       return edit(mapping, form, request, response);
-   }
    
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {

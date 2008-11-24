@@ -36,7 +36,7 @@ public class LookupCodeListAction extends BaseAdminAction {
 		}
 	}
 	
-	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		String tableId=request.getParameter("id");
 		LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId); 
 

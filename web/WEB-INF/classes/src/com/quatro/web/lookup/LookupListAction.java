@@ -29,7 +29,7 @@ public class LookupListAction extends BaseAdminAction {
 		return list(mapping,form,request,response);
 	}
 	
-	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
+	private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
         String tableId=request.getParameter("tableId");
 		if("PRP,SIT,LKT,QGV,RPG".indexOf(tableId)> 0) throw new NoAccessException();
 		if(tableId.equals("FUN"))

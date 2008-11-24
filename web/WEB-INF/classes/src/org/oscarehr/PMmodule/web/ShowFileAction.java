@@ -56,37 +56,6 @@ public class ShowFileAction extends BaseClientAction {
 		return null;
 	}
 
-	public void image(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws  Exception {
-
-	}
-
-	private void sendFile(Integer docId, String fileName,
-			HttpServletRequest req, byte[] data)
-	{
-		String appPath = req.getContextPath();
-		String workFolder = req.getServletPath();
-		workFolder = workFolder + "\\SHELTER" + docId.toString();
-		File file = new File(workFolder, fileName);
-
-		if (!file.exists()) {
-			try {
-				OutputStream bos = new FileOutputStream(file);
-				bos.write(data);
-				bos.flush();
-				bos.close();
-				bos = null;
-
-				req.setAttribute("sFilePath", file.getPath());
-
-			} catch (Exception ex) {
-				;
-			}
-		}
-
-	}
-
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}

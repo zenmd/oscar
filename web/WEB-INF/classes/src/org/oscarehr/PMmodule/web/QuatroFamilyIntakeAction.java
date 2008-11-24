@@ -48,7 +48,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        return edit(mapping, form, request, response);
    }
 
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   private ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        try {
 		   QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 	       

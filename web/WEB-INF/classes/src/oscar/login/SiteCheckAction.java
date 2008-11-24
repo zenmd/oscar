@@ -212,7 +212,4 @@ public final class SiteCheckAction extends BaseAction {
 	        return("failed:"+message);        
         }
     
-	public ApplicationContext getAppContext() {
-		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
-	}
 }

@@ -57,56 +57,6 @@ public class PrintViewAction extends BaseClientAction {
     		return mapping.findForward("failure");
     	}
 	}
-    private void paintReportTest(HttpServletRequest request, HttpServletResponse response){
-        final String reportName = "setResultsetDatasource.rpt";    
-        try {
-
-    	ReportClientDocument reportClientDocument = new ReportClientDocument();
-    	reportClientDocument.open(reportName, 0);
-
-        String query= "SELECT DEPTNO, DEPTNAME, MGRNO, ADMRDEPT FROM DEPARTMENT ";
-
-    	//Call simple utility function that obtains Java Result set that will be 
-    	//pushed into the report.  
-    	ResultSet resultSet = getResultSetFromJDBC(query, ResultSet.TYPE_SCROLL_INSENSITIVE); 
-    	
-    	String tableName = reportClientDocument.getDatabaseController().getDatabase().getTables().getTable(0).getName();
-
-    	//Push the Java Resultset into the report.  This will then become the datasource of the report when the report itself 
-    	//is generated.
-    	reportClientDocument.getDatabaseController().setDataSource(resultSet, tableName , "resultTbl");
-    	
-    	//Cache the report source of the ReportClientDocument in session.
-    	request.getSession().setAttribute("reportSource", reportClientDocument.getReportSource());
-
-    	request.getRequestDispatcher("/CrystalReportViewer_setResultSet.jsp").forward(request,response);
-    	//response.sendRedirect("CrystalReportViewer_setResultSet.jsp");
-
-    }
-    catch(ReportSDKException sdkEx) {
-    	System.out.println(sdkEx);
-    }
-    catch(Exception ex){
-    	System.out.println(ex);
-    }
-    }
-    private ResultSet getResultSetFromJDBC(String query, int scrollType) throws SQLException, ClassNotFoundException {
-    	OscarProperties opObj = OscarProperties.getInstance();
-    	String username = opObj.getDbUserName();
-    	String password = opObj.getDbPassword();
-    	
-    	String jdbcdriver = opObj.getDbDriver();
-    	String jdbcurl = opObj.getDbUri();
-    	Class.forName(jdbcdriver);
-    	
-    	//Construct connection to the DSN.
-    	java.sql.Connection connection = DriverManager.getConnection(jdbcurl, username,password); 
-    	Statement statement = connection.createStatement(scrollType, ResultSet.CONCUR_READ_ONLY);
-    	
-    	//Execute query and return result sets.
-    	return statement.executeQuery(query);
-
-    }
 	private void PaintReport(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String rId =request.getParameter("rId");
 		request.setAttribute("rId", rId);

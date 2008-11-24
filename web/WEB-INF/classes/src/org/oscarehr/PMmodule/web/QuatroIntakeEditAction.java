@@ -51,11 +51,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 	private ProgramQueueManager programQueueManager;
 
-	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		return update(mapping, form, request, response);
-	}
-
 	// for new client
 	public ActionForward create(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {

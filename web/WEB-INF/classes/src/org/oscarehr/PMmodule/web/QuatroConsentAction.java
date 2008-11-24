@@ -44,7 +44,7 @@ import com.quatro.service.TopazManager;
 import com.quatro.util.Utility;
 
 public class QuatroConsentAction extends BaseClientAction {
-	private static Log log = LogFactory.getLog(ConsentAction.class);
+	private static Log log = LogFactory.getLog(QuatroConsentAction.class);
     private ClientManager clientManager;
     private ConsentManager consentManager;
     private LookupManager lookupManager;
@@ -260,6 +260,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("programs", programs);
 	      // request.setAttribute("signed","N");
 	   }
+	/*
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			DynaActionForm consentForm = (DynaActionForm)form;
@@ -309,7 +310,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		       return mapping.findForward("failure");
 	       }
 	}
-	
+*/	
 	public ActionForward save(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
 		try {
 			log.debug("Saving Consent");

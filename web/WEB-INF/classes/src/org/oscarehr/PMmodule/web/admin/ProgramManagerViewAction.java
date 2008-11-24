@@ -44,7 +44,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.oscarehr.PMmodule.dao.FacilityDAO;
+import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Bed;
 import org.oscarehr.PMmodule.model.Demographic;
@@ -94,8 +94,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
     private ClientRestrictionManager clientRestrictionManager;
 
-    private FacilityDAO facilityDAO=null;
-
     private AdmissionManager admissionManager;
 
     private RoomDemographicManager roomDemographicManager;
@@ -109,25 +107,19 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
     private ProgramManager programManager;
 
-    private ProviderManager providerManager;
 
     private ProgramQueueManager programQueueManager;
     
     private IncidentManager incidentManager;
-    
-    private UsersManager usersManager;
-    
+        
     private LookupManager lookupManager;
     
     private IntakeManager intakeManager;
+    private FacilityManager facilityManager;
     
     private static final int REMOVE = 1;
     private static final int ADD = 2;
     private static final int RESET = 3;
-
-    public void setFacilityDAO(FacilityDAO facilityDAO) {
-        this.facilityDAO = facilityDAO;
-    }
     
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	//super.setMenu(request,KeyConstants.MENU_PROGRAM);
@@ -158,7 +150,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        Integer programId = Integer.valueOf(id);
 	        Program program = programManager.getProgram(programId);
 	        request.setAttribute("program", program);
-	        Facility facility=facilityDAO.getFacility(program.getFacilityId());
+	        Facility facility=facilityManager.getFacility(program.getFacilityId());
 	        if(facility!=null) request.setAttribute("facilityName", facility.getName());
 	
 	        String demographicNo = request.getParameter("clientId");
@@ -452,7 +444,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
          request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        
     }
 
-	public void changeLstTable(int operationType, ActionForm myForm,
+	private void changeLstTable(int operationType, ActionForm myForm,
 			HttpServletRequest request) {
 		
 //		ActionMessages messages = new ActionMessages();
@@ -491,7 +483,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
 	}
 
-	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
+	private List getRowList(HttpServletRequest request, ActionForm form, int operationType){
 		
 		ArrayList newStaffLst = new ArrayList();
 		
@@ -537,7 +529,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		return newStaffLst;
 	}
 	
-	public List getStaffList(HttpServletRequest request, ActionForm form, int operationType){
+	private List getStaffList(HttpServletRequest request, ActionForm form, int operationType){
 		ArrayList newStaffLst = new ArrayList();
 		ArrayList staffIdLstForRemove = new ArrayList();
 		
@@ -662,7 +654,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
         return view(mapping, form, request, response);
         
     }
-    
+   /*
     public ActionForward select_client_for_reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAM_QUEUE, KeyConstants.ACCESS_WRITE);
@@ -673,12 +665,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     		return mapping.findForward("failure");
 		}
     }
-
-    //please write your code without JointAdmission if you need call saveReservedBeds(), dawson wrote May 26, 2008  
-    public ActionForward saveReservedBeds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return view(mapping, form, request, response);
-    }
-    
+    */
     public ActionForward switch_beds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
     	try {
@@ -854,11 +841,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     public void setProgramManager(ProgramManager mgr) {
     	this.programManager = mgr;
     }
-
-    public void setProviderManager(ProviderManager mgr) {
-    	this.providerManager = mgr;
-    }
-
     public void setProgramQueueManager(ProgramQueueManager mgr) {
     	this.programQueueManager = mgr;
     }
@@ -873,9 +855,6 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	    return new Boolean(sec.GetAccess(function,orgCd).compareTo(right) >= 0);
 	}
 
-	public void setUsersManager(UsersManager usersManager) {
-		this.usersManager = usersManager;
-	}
 
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
@@ -884,5 +863,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
 	}
+    public void setFacilityManager(FacilityManager facilityManager) {
+        this.facilityManager = facilityManager;
+    }
 
 }

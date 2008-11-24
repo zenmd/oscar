@@ -24,12 +24,8 @@ package org.oscarehr.PMmodule.web.admin;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,59 +37,34 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
-import org.apache.struts.validator.DynaValidatorForm;
 import org.oscarehr.PMmodule.dao.FacilityDAO;
-import org.oscarehr.PMmodule.model.Admission;
-import org.oscarehr.PMmodule.model.BedCheckTime;
 import org.oscarehr.PMmodule.model.Program;
-import org.oscarehr.PMmodule.model.ProgramClientRestriction;
-import org.oscarehr.PMmodule.model.ProgramClientStatus;
-import org.oscarehr.PMmodule.model.ProgramFunctionalUser;
-import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.ProgramSignature;
-import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedCheckTimeManager;
-import org.oscarehr.PMmodule.service.ClientManager;
-import org.oscarehr.PMmodule.service.ClientRestrictionManager;
+import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
-import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.PMmodule.web.BaseProgramAction;
 import org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean;
-import org.oscarehr.PMmodule.web.formbean.StaffForm;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
-import com.quatro.model.security.Secuserrole;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
-import com.quatro.service.security.UsersManager;
 import com.quatro.util.Utility;
 
 public class ProgramManagerAction extends BaseProgramAction {
 
-    private ClientRestrictionManager clientRestrictionManager;
-    private FacilityDAO facilityDAO=null;
-    private AdmissionManager admissionManager;
+    private FacilityManager facilityManager=null;
     private BedCheckTimeManager bedCheckTimeManager;
     private LogManager logManager;
     private ProgramManager programManager;
     private ProviderManager providerManager;
     private ProgramQueueManager programQueueManager;
-    private UsersManager usersManager;
     private LookupManager lookupManager;
     private IntakeManager intakeManager;
-
-    private static final int REMOVE = 1;
-    private static final int ADD = 2;
-    private static final int RESET = 3;
-
-        
-    public void setFacilityDAO(FacilityDAO facilityDAO) {
-        this.facilityDAO = facilityDAO;
-    }
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return list(mapping, form, request, response);
@@ -112,7 +83,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 	        List list =  null;
 	        list = programManager.getAllPrograms(searchStatus, searchType, Integer.valueOf(searchFacilityId),providerNo,shelterId);
 	    	request.setAttribute("programs", list);
-	    	List lstFac=facilityDAO.getActiveFacilities(shelterId,providerNo);
+	    	List lstFac=facilityManager.getActiveFacilities(providerNo,shelterId);
 	        request.setAttribute("facilities",lstFac);
 	        List programTypeLst = lookupManager.LoadCodeList("PTY", true, null, null);
 	        request.setAttribute("programTypeLst", programTypeLst);
@@ -191,6 +162,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 	   }
 
     }
+    /*
     public ActionForward programSignatures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
     	super.getAccess(request, KeyConstants.FUN_PROGRAM);
     	DynaActionForm programForm = (DynaActionForm) form;
@@ -202,7 +174,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         }
         return mapping.findForward("programSignatures");
     }
-
+	*/
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_WRITE);
@@ -224,6 +196,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 	   }
     }
 
+    /*
     public ActionForward addBedCheckTime(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String programId = request.getParameter("programId");
         String addTime = request.getParameter("addTime");
@@ -233,7 +206,6 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return edit(mapping, form, request, response);
     }
-/*
     public ActionForward assign_role(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         DynaActionForm programForm = (DynaActionForm) form;
         Program program = (Program) programForm.get("program");
@@ -308,6 +280,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("edit");
     }
 */
+/*
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_WRITE);
         String id = request.getParameter("programId");
@@ -317,10 +290,8 @@ public class ProgramManagerAction extends BaseProgramAction {
             return list(mapping, form, request, response);
         }
 
-        /*
-           * have to make sure 1) no clients 2) no queue
-           */
-        Program program = programManager.getProgram(id);
+//           * have to make sure 1) no clients 2) no queue
+          Program program = programManager.getProgram(id);
         if (program == null) {
             ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("program.missing", name));
@@ -354,6 +325,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return list(mapping, form, request, response);
     }
+*/
 /*
     public ActionForward delete_function(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
@@ -504,6 +476,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         return mapping.findForward("edit");
     }
 */
+/*
     public ActionForward removeBedCheckTime(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("programId");
         String removeId = request.getParameter("removeId");
@@ -512,6 +485,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 
         return edit(mapping, form, request, response);
     }
+*/
 /*
     public ActionForward remove_queue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
@@ -620,6 +594,7 @@ public class ProgramManagerAction extends BaseProgramAction {
  		   return mapping.findForward("failure");
  	   }
     }
+/*
 	public void changeLstTable(int operationType, ActionForm myForm,
 			HttpServletRequest request) {
 		
@@ -658,8 +633,9 @@ public class ProgramManagerAction extends BaseProgramAction {
 		request.setAttribute("newStaffLst", newStaffLst);
 
 	}
-	
-	public List getStaffList(HttpServletRequest request, ActionForm form, int operationType){
+*/	
+/*
+	private List getStaffList(HttpServletRequest request, ActionForm form, int operationType){
 		
 		ArrayList newStaffLst = new ArrayList();
 		ArrayList staffIdLstForRemove = new ArrayList();
@@ -718,8 +694,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 		
 		return newStaffLst;
 	}
-
-	public List getRowList(HttpServletRequest request, ActionForm form, int operationType){
+	private List getRowList(HttpServletRequest request, ActionForm form, int operationType){
 		
 		ArrayList newStaffLst = new ArrayList();
 		
@@ -764,7 +739,8 @@ public class ProgramManagerAction extends BaseProgramAction {
 		}
 		return newStaffLst;
 	}
-
+*/
+    /*
 	private void processStaff( HttpServletRequest request, Integer programId, ProgramManagerViewFormBean formBean){
     	
     	changeLstTable(RESET, formBean, request);
@@ -798,7 +774,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 		request.setAttribute("existStaffLst", lst);		
    	
     }
-
+*/
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
 	    	DynaActionForm programForm = (DynaActionForm) form;	
@@ -1260,13 +1236,15 @@ public class ProgramManagerAction extends BaseProgramAction {
     	 DynaActionForm programForm = (DynaActionForm) form;
     	Program program = (Program) programForm.get("program");
     	Integer programId = program.getId(); 
-        if (programId != null) {
+        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+   		Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+
+    	if (programId != null) {
         	request.setAttribute("programId", programId);
             request.setAttribute("programName", program.getName());
         }else{
 	        // signature part
 	        HttpSession se=request.getSession(true);
-	        String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	        ProgramSignature ps = new ProgramSignature();
 	        ps.setProviderName(providerManager.getProvider(providerNo).getFormattedName());
 	        ps.setProviderId(providerNo);
@@ -1280,7 +1258,7 @@ public class ProgramManagerAction extends BaseProgramAction {
         List genderLst = lookupManager.LoadCodeList("GEN", true, null, null);
         request.setAttribute("genderLst", genderLst);
         
-        request.setAttribute("facilities",facilityDAO.getActiveFacilities());
+        request.setAttribute("facilities",facilityManager.getActiveFacilities(providerNo,shelterId));
         
         boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT, programId);
         if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
@@ -1515,14 +1493,6 @@ public class ProgramManagerAction extends BaseProgramAction {
         return changed;
     }
 
-    //@Required
-    public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
-        this.clientRestrictionManager = clientRestrictionManager;
-    }
-
-    public void setAdmissionManager(AdmissionManager mgr) {
-    	this.admissionManager = mgr;
-    }
 
     public void setBedCheckTimeManager(BedCheckTimeManager bedCheckTimeManager) {
         this.bedCheckTimeManager = bedCheckTimeManager;
@@ -1543,18 +1513,14 @@ public class ProgramManagerAction extends BaseProgramAction {
     public void setProviderManager(ProviderManager mgr) {
     	this.providerManager = mgr;
     }
-/*
-    public void setRoleManager(RoleManager mgr) {
-    	this.roleManager = mgr;
+
+    public void setFacilityManager(FacilityManager mgr) {
+    	this.facilityManager = mgr;
     }
-*/
+
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
 	}
-	public void setUsersManager(UsersManager usersManager) {
-		this.usersManager = usersManager;
-	}
-
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
 	}

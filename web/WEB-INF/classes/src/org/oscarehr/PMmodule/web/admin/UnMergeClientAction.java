@@ -1,30 +1,20 @@
 package org.oscarehr.PMmodule.web.admin;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
-import org.oscarehr.PMmodule.model.ClientMerge;
 import org.oscarehr.PMmodule.model.Program;
 
-import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.MergeClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 
-import org.oscarehr.PMmodule.web.BaseClientAction;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 
 
@@ -32,11 +22,9 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.LookupManager;
-import com.quatro.util.Utility;
 
 public class UnMergeClientAction extends BaseAdminAction {
 	
-	private ClientManager clientManager;
 
 	private ProviderManager providerManager;
 
@@ -49,7 +37,7 @@ public class UnMergeClientAction extends BaseAdminAction {
 		setLookupLists(request);
 		return mergedSearch(mapping, form, request, response);
 	}
-	public ActionForward mergedSearch(ActionMapping mapping, ActionForm form,
+	private ActionForward mergedSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			super.getAccess(request, KeyConstants.FUN_ADMIN_MERGECLIENT);
@@ -97,9 +85,6 @@ public class UnMergeClientAction extends BaseAdminAction {
 		request.setAttribute("allProviders", allProviders);
 		request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true,	null, null));
 		request.setAttribute("moduleName", " - Client Management");		
-	}
-	public void setClientManager(ClientManager clientManager) {
-		this.clientManager = clientManager;
 	}
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;

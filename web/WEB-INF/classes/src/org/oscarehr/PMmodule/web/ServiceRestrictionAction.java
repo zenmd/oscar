@@ -73,7 +73,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        return list(mapping, form, request, response);
    }
 
-   public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 //	   setListAttributes(form, request);
 	   try {
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -205,10 +205,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
            return mapping.findForward("detail");       
        }
    }
- public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-	   
-	   return mapping.findForward("detail"); 
- }
    private void setEditAttributes(ActionForm form, HttpServletRequest request,boolean readOnly) throws NoAccessException {
        DynaActionForm clientForm = (DynaActionForm) form;
 

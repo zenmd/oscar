@@ -28,7 +28,7 @@ public class QuatroClientIntakeAction  extends BaseClientAction {
        return edit(mapping, form, request, response);
    }
    
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   private ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        //On newclient intake page, if save button not clicked before close button clicked, goto client search page. 
 	   try {
 		   if(request.getParameter("clientId")!=null){

@@ -36,156 +36,18 @@
         <!-- login form bean -->
         <form-bean name="loginForm" type="oscar.login.LoginForm" />
 
-<!-- 
-        <form-bean name="msgSendMessageForm" type="oscar.oscarMessenger.pageUtil.MsgSendMessageForm" />
-        <form-bean name="msgCreateMessageForm" type="oscar.oscarMessenger.pageUtil.MsgCreateMessageForm" />
-        <form-bean name="msgDisplayMessagesForm" type="oscar.oscarMessenger.pageUtil.MsgDisplayMessagesForm" />
-        <form-bean name="msgDisplayDemographicMessagesForm" type="oscar.oscarMessenger.pageUtil.MsgDisplayDemographicMessagesForm" />
-        <form-bean name="msgViewMessageForm" type="oscar.oscarMessenger.pageUtil.MsgViewMessageForm" />
-        <form-bean name="msgHandleMessagesForm" type="oscar.oscarMessenger.pageUtil.MsgHandleMessagesForm" />
-        <form-bean name="msgViewPDFForm" type="oscar.oscarMessenger.pageUtil.MsgViewPDFForm" />
-        <form-bean name="msgMessengerAdminForm" type="oscar.oscarMessenger.config.pageUtil.MsgMessengerAdminForm" />
-        <form-bean name="msgMessengerCreateGroupForm" type="oscar.oscarMessenger.config.pageUtil.MsgMessengerCreateGroupForm" />
-        <form-bean name="msgViewAttachmentForm" type="oscar.oscarMessenger.pageUtil.MsgViewAttachmentForm" />
-        <form-bean name="msgViewPDFAttachmentForm" type="oscar.oscarMessenger.pageUtil.MsgViewPDFAttachmentForm" />
-        <form-bean name="msgDemographicSearchForm" type="oscar.oscarMessenger.pageUtil.MsgDemographicSearchForm" />
-        <form-bean name="msgProceedForm" type="oscar.oscarMessenger.pageUtil.MsgProceedForm" />
-        <form-bean name="msgClearMessageForm" type="oscar.oscarMessenger.pageUtil.MsgClearMessageForm" />
-        <form-bean name="msgDoc2PDFForm" type="oscar.oscarMessenger.pageUtil.MsgDoc2PDFForm" />
-        <form-bean name="msgAttachPDFForm" type="oscar.oscarMessenger.pageUtil.MsgAttachPDFForm" />
- -->                
-
-<!-- 
-        <form-bean name="EctConsultationFormRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctConsultationFormRequestForm" />
-        <form-bean name="EctViewRequestForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctViewRequestForm" />
-        <form-bean name="EctDemographicSearchForm" type="oscar.oscarEncounter.search.pageUtil.EctDemographicSearchForm" />
-        <form-bean name="EctProceedForm" type="oscar.oscarEncounter.search.pageUtil.EctProceedForm" />
-        <form-bean name="EctPatientOptionsForm" type="oscar.oscarEncounter.search.pageUtil.EctPatientOptionsForm" />
-        <form-bean name="EctCreateImmunizationSetInitForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctCreateImmunizationSetInitForm" />
-        <form-bean name="EctCreateImmunizationSetConfigForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctCreateImmunizationSetConfigForm" />
-        <form-bean name="EctDeleteImmunizationSetForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctDeleteImmunizationSetForm" />
-        <form-bean name="EctImmunizationSetDisplayForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmunizationSetDisplayForm" />
-        <form-bean name="EctIncomingConsultationForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctIncomingConsultationForm" />
-        <form-bean name="EctConAddSpecialistForm" type="oscar.oscarEncounter.oscarConsultationRequest.config.pageUtil.EctConAddSpecialistForm" />
-        <form-bean name="EctConAddServiceForm" type="oscar.oscarEncounter.oscarConsultationRequest.config.pageUtil.EctConAddServiceForm" />
-        <form-bean name="EctConShowAllServicesForm" type="oscar.oscarEncounter.oscarConsultationRequest.config.pageUtil.EctConShowAllServicesForm" />
-        <form-bean name="EctConDisplayServiceForm" type="oscar.oscarEncounter.oscarConsultationRequest.config.pageUtil.EctConDisplayServiceForm" />
-        <form-bean name="EctConEditSpecialistsForm" type="oscar.oscarEncounter.oscarConsultationRequest.config.pageUtil.EctConEditSpecialistsForm" />
-        <form-bean name="EctConDeleteServicesForm" type="oscar.oscarEncounter.oscarConsultationRequest.config.pageUtil.EctConDeleteServicesForm" />
-        <form-bean name="EctImmPassThruForm" type="oscar.oscarEncounter.immunization.pageUtil.EctImmPassThruForm" />
-        <form-bean name="EctImmCreateImmunizationSetInitForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmCreateImmunizationSetInitForm" />
-        <form-bean name="EctImmCreateImmunizationSetConfigForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmCreateImmunizationSetConfigForm" />
-        <form-bean name="EctImmDeleteImmunizationSetForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmDeleteImmunizationSetForm" />
-        <form-bean name="EctImmImmunizationSetDisplayForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmImmunizationSetDisplayForm" />
-        <form-bean name="DeleteImmuSetForm" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmInitConfigDeleteImmuSetForm" />
-        <form-bean name="EctMeasurementsForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctMeasurementsForm" />
-        <form-bean name="EctDeleteDataForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctDeleteDataForm" />
-        <form-bean name="EctAddMeasurementTypeForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctAddMeasurementTypeForm">
-            <form-property name="type" type="java.lang.String" />
-            <form-property name="typeDesc" type="java.lang.String" />
-            <form-property name="typeDisplayName" type="java.lang.String" />
-            <form-property name="measuringInstrc" type="java.lang.String" />
-            <form-property name="validation" type="java.lang.String" />
-        </form-bean>
-        <form-bean name="EctDeleteMeasurementTypesForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctDeleteMeasurementTypesForm" />
-        <form-bean name="EctAddMeasuringInstructionForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctAddMeasuringInstructionForm">
-            <form-property name="typeDisplayName" type="java.lang.String" />
-            <form-property name="measuringInstrc" type="java.lang.String" />
-            <form-property name="validation" type="java.lang.String" />
-        </form-bean>
- -->
-         
-<!-- 
-        <form-bean name="EctSelectMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctSelectMeasurementGroupForm" />
-        <form-bean name="EctSetupAddMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctSetupAddMeasurementGroupForm" />
-        <form-bean name="EctSetupEditMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctSetupEditMeasurementGroupForm" />
-        <form-bean name="EctEditMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctEditMeasurementGroupForm" />
-        <form-bean name="EctDefineNewMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctDefineNewMeasurementGroupForm" />
-        <form-bean name="EctEditMeasurementStyleForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctEditMeasurementStyleForm" />
-        <form-bean name="EctAddMeasurementGroupForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctAddMeasurementGroupForm" />
-        <form-bean name="EctDeleteMeasurementStyleSheetForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctDeleteMeasurementStyleSheetForm" />
-        <form-bean name="EctAddMeasurementStyleSheetForm" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctAddMeasurementStyleSheetForm" />
-        <form-bean name="EctViewAttachmentForm" type="oscar.oscarEncounter.pageUtil.EctViewAttachmentForm" />
-        <form-bean name="RptShowConsultForm" type="oscar.oscarReport.pageUtil.RptShowConsultForm" />
-        <form-bean name="RptFluBillingForm" type="oscar.oscarReport.pageUtil.RptFluBillingForm" />
-        <form-bean name="RptDemographicReportForm" type="oscar.oscarReport.pageUtil.RptDemographicReportForm" />
-        <form-bean name="RptByExampleForm" type="oscar.oscarReport.pageUtil.RptByExampleForm" />
-        <form-bean name="RptViewAllQueryByExamplesForm" type="oscar.oscarReport.pageUtil.RptViewAllQueryByExamplesForm" />
-        <form-bean name="RptByExamplesFavoriteForm" type="oscar.oscarReport.pageUtil.RptByExamplesFavoriteForm" />
-        <form-bean name="RptByExamplesAllFavoritesForm" type="oscar.oscarReport.pageUtil.RptByExamplesAllFavoritesForm" />
-        <form-bean name="GstControlForm" type="oscar.oscarBilling.ca.on.administration.GstControlForm" /> 
-        <form-bean name="ObecForm" type="oscar.oscarReport.pageUtil.ObecForm" />
-        <form-bean name="RptSelectCDMReportForm" type="oscar.oscarReport.oscarMeasurements.pageUtil.RptSelectCDMReportForm" />
-        <form-bean name="RptInitializePatientsMetGuidelineCDMReportForm" type="oscar.oscarReport.oscarMeasurements.pageUtil.RptInitializePatientsMetGuidelineCDMReportForm" />
-        <form-bean name="RptInitializePatientsInAbnormalRangeCDMReportForm" type="oscar.oscarReport.oscarMeasurements.pageUtil.RptInitializePatientsInAbnormalRangeCDMReportForm" />
-        <form-bean name="RptInitializeFrequencyOfRelevantTestsCDMReportForm" type="oscar.oscarReport.oscarMeasurements.pageUtil.RptInitializeFrequencyOfRelevantTestsCDMReportForm" />
-        <form-bean name="RptRehabStudyForm" type="oscar.oscarReport.pageUtil.RptRehabStudyForm" />
-        <form-bean name="MaintenanceForm" type="oscar.oscarMaintenance.pageUtil.MaintenanceForm" />
-        <form-bean name="EctConsultationFaxForm" type="oscar.oscarEncounter.oscarConsultationRequest.pageUtil.EctConsultationFaxForm" />
-        <form-bean name="ProEditSignatureForm" type="oscar.oscarProvider.pageUtil.ProEditSignatureForm" />
-        <form-bean name="dxResearchForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchForm" />
-        <form-bean name="dxResearchLoadQuickListItemsForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchLoadQuickListItemsForm" />
-        <form-bean name="dxResearchUpdateQuickListForm" type="oscar.oscarResearch.oscarDxResearch.pageUtil.dxResearchUpdateQuickListForm" />
- -->        
-
-<!-- 
-        <form-bean name="WLWaitingListForm" type="org.apache.struts.validator.LazyValidatorForm" /> 
-        <form-bean name="WLWaitingListNameForm" type="org.apache.struts.validator.LazyValidatorForm" /> 
-        <form-bean name="PreventionReportForm" type="oscar.oscarPrevention.pageUtil.PreventionReportForm" />
-        <form-bean name="ImportDemographicDataForm" type="oscar.oscarDemographic.pageUtil.ImportDemographicDataForm" />
-        <form-bean name="DemographicExportForm" type="oscar.oscarDemographic.pageUtil.DemographicExportForm" />
-        <form-bean name="DemographicSetEditForm" type="oscar.oscarReport.pageUtil.DemographicSetEditForm" />
-        <form-bean name="eFormHtmlUpload" type="oscar.eform.upload.HtmlUploadForm" />
-        <form-bean name="eFormEdit" type="oscar.eform.data.HtmlEditForm" />
-        <form-bean name="eFormImageUpload" type="oscar.eform.upload.ImageUploadForm" />
-        <form-bean name="addGroup" type="oscar.eform.data.AddGroupForm" />
-        <form-bean name="addToGroup" type="oscar.eform.data.AddToGroupForm" />
-        <form-bean name="eDocsAddEditDocument" type="oscar.dms.data.AddEditDocumentForm" />
-        <form-bean name="addLinkDoc" type="oscar.dms.data.AddEditDocumentForm" />
-        <form-bean name="addEditHtmlDoc" type="oscar.dms.data.AddEditDocumentForm" />
-        <form-bean name="ManagePatientLettersForm" type="oscar.oscarReport.pageUtil.ManagePatientLettersForm" />
--->
-<!-- 
-        <form-bean name="ticklerForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="tickler" type="org.caisi.model.Tickler" />
-            <form-property name="filter" type="org.caisi.model.CustomFilter" />
-        </form-bean>
- -->        
         <form-bean name="ticklerForm" type="org.oscarehr.PMmodule.web.formbean.TicklerForm"/>
-
-<!-- 
-        <form-bean name="customFilterForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="filter" type="org.caisi.model.CustomFilter" />
-        </form-bean>
-        <form-bean name="unreadTicklerForm" type="org.apache.struts.validator.LazyValidatorForm" />
-        <form-bean name="editProviderFaxForm" type="org.apache.struts.action.DynaActionForm">
-            <form-property name="faxNumber" type="java.lang.String" />
-        </form-bean>
- -->
- 
-<!-- 
-        <form-bean name="setMyOscarIdForm" type="org.apache.struts.action.DynaActionForm">
-            <form-property name="myOscarLoginId" type="java.lang.String" />
-            <form-property name="myOscarDomain" type="java.lang.String" />
-        </form-bean>
-        <form-bean name="attachConsultation" type="org.apache.struts.action.DynaActionForm">
-            <form-property name="documents" type="java.lang.String[]" />
-            <form-property name="attachedDocs" type="java.lang.String[]" />
-            <form-property name="requestId" type="java.lang.String" />
-            <form-property name="demoNo" type="java.lang.String" />
-            <form-property name="providerNo" type="java.lang.String" />
-        </form-bean>
- -->
-         
         <form-bean name="clientSearchForm" type="org.apache.struts.validator.LazyValidatorForm" />
          
         <form-bean name="healthSafetyForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="healthsafety" type="org.oscarehr.PMmodule.model.HealthSafety" />
         </form-bean>
+ <!-- 
         <form-bean name="consentForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="consent" type="org.oscarehr.PMmodule.model.Consent" />
             <form-property name="interview" type="org.oscarehr.PMmodule.model.ConsentInterview" />
         </form-bean>
+ -->
         <form-bean name="consentDetailForm" type="org.apache.struts.validator.DynaValidatorForm">
         	<form-property name="consentValue" type="org.oscarehr.PMmodule.model.ConsentDetail"></form-property>
         	<form-property name="clientId" type="java.lang.Integer"></form-property>
@@ -281,12 +143,6 @@
             <form-property name="programId" type="java.lang.String" />
         </form-bean>
         
-<!--
-        <form-bean name="followUpForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="intake" type="org.oscarehr.PMmodule.model.FormFollowUp" />
-        </form-bean>
--->        
-
         <form-bean name="activityReportForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="form" type="org.oscarehr.PMmodule.web.formbean.ActivityReportFormBean" />
         </form-bean>
@@ -379,7 +235,6 @@
 
     
     <action-mappings>
-
 		<action path="/topazSave" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
             <forward name="view" path="/PMmodule/ClientManager/signatureview.jsp" />
 		</action>
@@ -388,8 +243,7 @@
             <forward name="sign" path="/PMmodule/ClientManager/signature.jsp" redirect="true"/>
 		</action>
         
-        <!-- caisi core action -->
-		<action path="/Home" type="org.oscarehr.PMmodule.web.HomeAction" scope="request"  validate="false">
+		<action path="/Home" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request"  validate="false">
             <forward name="home" path="page.home" />
 		</action>
         <action path="/SystemMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/caisicore/SystemMessageForm.jsp" validate="false">
@@ -402,11 +256,8 @@
             <forward name="list" path="page.pmm.admin.facility.message" />
             <forward name="edit" path="page.pmm.admin.facility.message.edit" />
         </action>
-        <!-- Login -->
-<!-- 
-        <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
- -->
-        <action input="/index.jsp" name="loginForm" path="/login" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
+
+        <action path="/login" input="/index.jsp" name="loginForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
  			<forward name="shelterSelection" path="/shelterSelection.do"/>
  			<forward name="login" path="/index.jsp" /> 
  			<forward name="logout" path="/logout.jsp" /> 
@@ -414,105 +265,22 @@
         <action path="/siteCheckLogin" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">  
  			<forward name="shelterSelection" path="/shelterSelection.do"/>
         </action>   
-        <action path="/shelterSelection" scope="request" type="oscar.login.ShelterSelectionAction" validate="true">
+        <action path="/shelterSelection" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
  			<forward name="shelterSelection" path="page.pmm.shelterSelection"/>
- 			<forward name="home" path="/Home.do" />
+ 			<forward name="home" path="/Home.do" redirect="true" />
 			<forward name="login" path="/index.jsp" />
         </action>
-        
 <!-- 
-        <action input="/oscarMessenger/SendMessage.jsp" name="msgSendMessageForm" path="/oscarMessenger/SendMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgSendMessageAction">
-            <forward name="success" path="/oscarMessenger/SentMessage.jsp" />
-        </action>
-        <action input="/oscarMessenger/CreateMessage.jsp" name="msgCreateMessageForm" path="/oscarMessenger/CreateMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgCreateMessageAction">
-            <forward name="success" path="/oscarMessenger/SentMessage.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayMessages.jsp" name="msgDisplayMessagesForm" path="/oscarMessenger/DisplayMessages" scope="request" type="oscar.oscarMessenger.pageUtil.MsgDisplayMessagesAction">
-            <forward name="success" path="/oscarMessenger/DisplayMessages.jsp" />
-            <forward name="demoMsg" path="/oscarMessenger/DisplayDemographicMessages.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayMessages.jsp" name="frmForm" path="/oscarMessenger/SendDemoMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgSendDemographicMessageAction">
-            <forward name="success" path="/oscarMessenger/CreateMessage.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayDemographicMessages.jsp" name="msgDisplayDemographicMessagesForm" path="/oscarMessenger/DisplayDemographicMessages" scope="request" type="oscar.oscarMessenger.pageUtil.MsgDisplayDemographicMessagesAction">
-            <forward name="demoMsg" path="/oscarMessenger/DisplayDemographicMessages.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayMessages.jsp" name="msgDisplayMessagesForm" path="/oscarMessenger/ReDisplayMessages" scope="request" type="oscar.oscarMessenger.pageUtil.MsgReDisplayMessagesAction">
-            <forward name="success" path="/oscarMessenger/DisplayMessages.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayMessages.jsp" name="msgViewMessageForm" path="/oscarMessenger/ViewMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgViewMessageAction">
-            <forward name="noRights" path="/oscarMessenger/DisplayMessages.jsp" />
-            <forward name="success" path="/oscarMessenger/ViewMessage.jsp" />
-            <forward name="viewFromEncounter" path="/oscarMessenger/ViewMessageFromEncounter.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayDemographicMessages.jsp" path="/oscarMessenger/ViewMessageByPosition" scope="request" type="oscar.oscarMessenger.pageUtil.MsgViewMessageByPositionAction">
-            <forward name="success" path="/oscarMessenger/ViewMessage.do" />
-        </action>
-        <action input="/oscarMessenger/generatePreviewPDF.jsp" name="msgAttachPDFForm" path="/oscarMessenger/Doc2PDF" scope="request" type="oscar.oscarMessenger.pageUtil.MsgAttachPDFAction">
-            <forward name="success" path="/oscarMessenger/selfCloseAndRefreshOpener.jsp" />
-            <forward name="attaching" path="/oscarMessenger/generatePreviewPDF.jsp" />
-        </action>
-        <action input="/oscarMessenger/processPDF.jsp" name="msgDoc2PDFForm" path="/oscarMessenger/ProcessDoc2PDF" scope="request" type="oscar.oscarMessenger.pageUtil.MsgDoc2PDFAction">
-            <forward name="success" path="/oscarMessenger/selfClose.jsp" />
-        </action>
-        <action input="/oscarMessenger/DisplayMessages.jsp" name="msgHandleMessagesForm" path="/oscarMessenger/HandleMessages" scope="request" type="oscar.oscarMessenger.pageUtil.MsgHandleMessagesAction">
-            <forward name="success" path="/oscarMessenger/DisplayMessages.jsp" />
-            <forward name="reply" path="/oscarMessenger/CreateMessage.jsp" />
-        </action>
-        <action input="/oscarMessenger/config/MessengerAdmin.jsp" name="msgMessengerAdminForm" path="/oscarMessenger/UpdateMembers" scope="request" type="oscar.oscarMessenger.config.pageUtil.MsgMessengerAdminAction">
-            <forward name="success" path="/oscarMessenger/config/MessengerAdmin.jsp" />
-            <forward name="failure" path="/oscarMessenger/config/MessengerAdmin.jsp" />
-        </action>
-        <action input="/oscarMessenger/config/MessengerCreateGroup.jsp" name="msgMessengerCreateGroupForm" path="/oscarMessenger/AddGroup" scope="request" type="oscar.oscarMessenger.config.pageUtil.MsgMessengerCreateGroupAction">
-            <forward name="success" path="/oscarMessenger/config/MessengerAdmin.jsp" />
-        </action>
-        <action input="/oscarMessenger/ViewMessage.jsp" name="msgViewAttachmentForm" path="/oscarMessenger/ViewAttach" scope="request" type="oscar.oscarMessenger.pageUtil.MsgViewAttachmentAction">
-            <forward name="success" path="/oscarMessenger/ViewAttachment.jsp" />
-        </action>
-        <action input="/oscarMessenger/ViewMessage.jsp" name="msgViewPDFAttachmentForm" path="/oscarMessenger/ViewPDFAttach" scope="request" type="oscar.oscarMessenger.pageUtil.MsgViewPDFAttachmentAction">
-            <forward name="success" path="/oscarMessenger/ViewPDFAttachment.jsp" />
-        </action>
-        <action input="/oscarMessenger/ViewPDFAttachment.jsp" name="msgViewPDFForm" path="/oscarMessenger/ViewPDFFile" scope="request" type="oscar.oscarMessenger.pageUtil.MsgViewPDFAction">
-            <forward name="success" path="/oscarMessenger/ViewPDFFile.jsp" />
-        </action>
-        <action input="/oscarMessenger/Transfer/DemographicSearch.jsp" name="msgDemographicSearchForm" path="/oscarMessenger/SearchDemographic" scope="request" type="oscar.oscarMessenger.pageUtil.MsgDemographicSearchAction">
-            <forward name="success" path="/oscarMessenger/Transfer/DemographicSearch.jsp" />
-        </action>
-        <action input="/oscarMessenger/CreateMessage.jsp" name="msgProceedForm" path="/oscarMessenger/Transfer/Proceed" scope="request" type="oscar.oscarMessenger.pageUtil.MsgProceedAction">
-            <forward name="success" path="/oscarMessenger/Transfer/SearchComplete.jsp" />
-        </action>
-        <action input="/oscarMessenger/CreateMessage.jsp" name="msgClearMessageForm" path="/oscarMessenger/ClearMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgClearMessageAction">
-            <forward name="success" path="/oscarMessenger/CreateMessage.jsp" />
-        </action>
-        <action input="/oscarMessenger/ViewMessage.jsp" path="/oscarMessenger/WriteToEncounter" scope="request" type="oscar.oscarMessenger.pageUtil.MsgWriteToEncounterAction">
-            <forward name="success" path="/oscarEncounter/IncomingEncounter.do" />
-        </action>
-  -->        
-  
-<!-- 
-        <action input="/admin/gstControl.jsp" name="GstControlForm" path="/admin/GstControl" scope="request" type="oscar.oscarBilling.ca.on.administration.GstControlAction"> 
-            <forward name="success" path="/admin/admin.jsp" /> 
-        </action>
- -->
-         
-        <action input="/admin/demographicmergerecord.jsp" name="MergeRecords" path="/admin/MergeRecords" scope="request" type="oscar.oscarDemographic.pageUtil.DemographicMergeRecordAction"> 
+        <action  path="/admin/MergeRecords" input="/admin/demographicmergerecord.jsp" name="MergeRecords" scope="request" type="oscar.oscarDemographic.pageUtil.DemographicMergeRecordAction"> 
             <forward name="success" path="/admin/demographicmergerecord.jsp?outcome=success" />
             <forward name="failure" path="/admin/demographicmergerecord.jsp?outcome=failure" />
             <forward name="successUnMerge" path="/admin/demographicmergerecord.jsp?outcome=successUnMerge" />
             <forward name="failureUnMerge" path="/admin/demographicmergerecord.jsp?outcome=failureUnMerge" />
             <forward name="caisiSearch" path="/PMmodule/ClientSearch2.do"/>
         </action>
-
-<!-- 
-        <action path="/demographic/printDemoLabelAction" type="oscar.oscarDemographic.PrintDemoLabelAction" />
-        <action path="/demographic/printDemoAddressLabelAction" type="oscar.oscarDemographic.PrintDemoAddressLabelAction" />
- -->    
-        <action path="/demographic/printBarcodeAction" type="oscar.oscarDemographic.PrintBarcodeAction" />
-         
-        <action input="/scratch/index.jsp" name="FrmForm" path="/Scratch" scope="request" type="oscar.scratch.ScratchAction">
-            <forward name="success" path="/scratch/index.jsp" />
-        </action>
- 
+-->
+        <action path="/demographic/printBarcodeAction" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" />
+        
         <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="request">
             <forward name="list" path="page.pmm.admin.list"  redirect="false"/>
             <forward name="edit" path="page.pmm.admin.edit" />
@@ -552,22 +320,6 @@
         <action path="/PMmodule/UnmergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
             <forward name="view" path="page.pmm.client.merge" />                                   
         </action>
-<!-- 
-        <action path="/PMmodule/ClientManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientManagerForm" scope="request">
-            <forward name="edit" path="page.pmm.client" />
-            <forward name="edit-redirect" path="page.pmm.client" redirect="true" />
-            <forward name="search_programs" path="/PMmodule/ClientManager/ProgramSearch.jsp" />
-            <forward name="consent" path="page.pmm.erconsent" />
-            <forward name="er-redirect" path="/PMmodule/ErReceptionistReport.jsp" />
-            <forward name="vaccine-report" path="/VaccineProviderReport.do" redirect="true"/>
-            <forward name="search" path="/PMmodule/ClientSearch2.do" redirect="true" />
-            <forward name="links" path="/PMmodule/ClientManager/links.jsp" />
-            <forward name="view_referral" path="/PMmodule/ClientManager/view_referral.jsp"/>
-            <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
-            <forward name="service_restriction_error" path="page.pmm.client.service_restriction_error"/>
-            <forward name="case" path="/CaseManagementView2.do" />
-        </action>
- -->
                  
 		<action path="/PMmodule/QuatroConsent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="consentDetailForm" scope="request">
 			<forward name="list" path="page.pmm.consent.list"></forward>
@@ -655,28 +407,13 @@
             <forward name="view_admission" path="/PMmodule/ClientManager/view_admission.jsp"/>
             <forward name="case" path="/CaseManagementView2.do" redirect="true" />
         </action>
-<!-- 
-        <action path="/PMmodule/ProviderInfo" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
-            <forward name="view" path="page.pmm.provider.view" />
-        </action>
- -->                 
-        <action path="/PMmodule/HealthSafety" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="healthSafetyForm" validate="false">
-            <forward name="edit" path="/PMmodule/HealthSafety.jsp" />
-            <forward name="success" path="/PMmodule/HealthSafetyExit.jsp" />
-        </action>
-        
+                
         <action path="/PMmodule/Consent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="consentForm" input="/PMmodule/Consent/consentFormA.jsp" validate="false">
             <forward name="formA" path="/PMmodule/Consent/consentFormA.jsp" />
             <forward name="formB" path="/PMmodule/Consent/consentFormB.jsp" />
             <forward name="interview" path="/PMmodule/Consent/consentInterview.jsp" />
             <forward name="success" path="/PMmodule/Consent/exit.jsp" />
         </action>
-<!--        
-        <action path="/PMmodule/StaffManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="staffManagerForm" scope="request">
-            <forward name="list" path="page.pmm.staff.list" />
-            <forward name="edit" path="page.pmm.staff.edit" />
-        </action>
--->        
         <action path="/PMmodule/QuatroIntakeEdit"
             type="org.springframework.web.struts.DelegatingActionProxy"
             parameter="method" name="quatroIntakeEditForm" scope="session">
@@ -685,36 +422,19 @@
             <forward name="close" path="/PMmodule/QuatroIntake.do" redirect="true"></forward>
         </action>
 
-        <!-- FORMS -->
-<!-- 
-        <action path="/PMmodule/Forms/FollowUp" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="followUpForm" scope="request" input="/PMmodule/forms/FollowUp.jsp">
-            <forward name="form" path="/PMmodule/forms/FollowUp.jsp" />
-            <forward name="success" path="/PMmodule/ClientManager.do?method=edit" />
-            <forward name="error" path="/PMmodule/ClientManager.do?method=edit" redirect="true" />
-        </action>
- -->
- 
-<!-- 
-        <action path="/PMmodule/Admin/DefaultRoleAccess" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="defaultRoleAccessForm" validate="false" scope="request">
-            <forward name="list" path="page.pmm.admin.defaultroleaccess.list" />
-            <forward name="form" path="page.pmm.admin.defaultroleaccess.form" />
-            <forward name="rlist" path="/PMmodule/Admin/DefaultRoleAccess.do?method=list" redirect="true" />
-        </action>
- --> 
-         
         <!-- REPORTS -->
         <action path="/QuatroReport/ReportList" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="quatroReportListForm" scope="request" validate="false" >
             <forward name="reportlist" path="page.report.quatroreportlist" />
         </action>
-        <action path="/QuatroReport/ReportRunner" type="com.quatro.web.report.QuatroReportRunnerAction"
+        <action path="/QuatroReport/ReportRunner" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method0"
               name="quatroReportRunnerForm" validate="false" scope="request">
             <forward name="success" path="page.report.quatroreportrunner" />
         </action>
-        <action path="/QuatroReport/ReportViewer" type="com.quatro.web.report.QuatroReportViewerAction"
+        <action path="/QuatroReport/ReportViewer" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method"
               name="quatroReportRunnerForm" validate="false" scope="request">
            <forward name="success" path="/PMmodule/reports/QuatroReportViewer.jsp"/>
         </action>
-        <action path="/QuatroReport/SaveReportTemplate" type="com.quatro.web.report.QuatroReportTemplateAction"
+        <action path="/QuatroReport/SaveReportTemplate" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method"
               name="quatroReportSaveTemplateForm" validate="false" scope="request">
            <forward name="success" path="/PMmodule/reports/QuatroReportTemplateTitle.jsp"/>
         </action>
@@ -754,20 +474,14 @@
         <action path="/PMmodule/ShowFile" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="attachmentForm" >
             <forward name="view" path="/PMmodule/ShowFile.jsp" />            
         </action>
-          <action path="/CaseManagementView2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="caseManagementViewForm">
-            <forward name="view" path="/casemgmt/CaseManagementSearch.jsp" />           
-            <forward name="page.casemgmt.search" path="page.casemgmt.search" />
-            <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
-            <forward name="domain-error" path="page.casemgmt.domain.error" />
-<!-- 
-            <forward name="unlockForm" path="page.casemgmt.unlock.note" />
-            <forward name="unlockSuccess" path="page.casemgmt.unlock.note.success" />
-            <forward name="unlockError" path="page.casemgmt.unlock.note.error" />
-            <forward name="unlock_ajax" path="page.casemgmt.unlock.ajax" />
--->
-            <forward name="listNotes" path="page.casemgmt.view.notes"/>
-            <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
-        </action>
+        <action path="/CaseManagementView2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="caseManagementViewForm">
+           <forward name="view" path="/casemgmt/CaseManagementSearch.jsp" />           
+           <forward name="page.casemgmt.search" path="page.casemgmt.search" />
+           <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
+           <forward name="domain-error" path="page.casemgmt.domain.error" />
+           <forward name="listNotes" path="page.casemgmt.view.notes"/>
+           <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
+       </action>
         <action path="/CaseManagementEntry2" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session"  name="caseManagementEntryForm">
             <forward name="view" path="page.casemgmt.note.edit" />
             <forward name="list" path="/CaseManagementView.do?method=view" redirect="true" />
@@ -792,7 +506,6 @@
             <forward name="list" path="page.admin.role.list" />
             <forward name="edit" path="page.admin.role.edit" />
             <forward name="functions" path="page.admin.role.functions" />
-            
         </action>
         <action path="/PMmodule/Admin/UserManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secuserForm" scope="request" validate="false">
             <forward name="list" path="page.admin.user.list" />
@@ -800,7 +513,6 @@
             <forward name="edit" path="page.admin.user.edit" />
             <forward name="addRoles" path="page.admin.user.addRoles" />
             <forward name="changePassword" path="page.admin.user.changePassword" />
-            
         </action>
         <action path="/PMmodule/Admin/UserSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="userSearchForm" scope="request" validate="false">
             <forward name="list" path="page.admin.user.list" />
@@ -808,9 +520,7 @@
         <action path="/PMmodule/Admin/UnlockAccount" type="org.springframework.web.struts.DelegatingActionProxy"  parameter="method" name="userUnlockForm" scope="request" validate="false">
             <forward name="list" path="page.admin.user.unlocklist" />
         </action>
-        
     	<!-- admin End -->
-    
     </action-mappings>
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" maxFileSize="2M"  />    
     <message-resources parameter="oscarResources" />

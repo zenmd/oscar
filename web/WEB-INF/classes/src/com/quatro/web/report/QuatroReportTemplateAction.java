@@ -20,7 +20,7 @@ import com.quatro.util.Utility;
 
 
 public class QuatroReportTemplateAction extends BaseAction {
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		QuatroReportSaveTemplateForm myForm = (QuatroReportSaveTemplateForm)form;

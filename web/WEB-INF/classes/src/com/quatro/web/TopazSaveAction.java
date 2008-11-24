@@ -35,7 +35,7 @@ public class TopazSaveAction extends BaseClientAction {
         return save(mapping, form, request, response);
     }
     
-    public ActionForward save(ActionMapping mapping, ActionForm form, 
+    private ActionForward save(ActionMapping mapping, ActionForm form, 
    		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
        ObjectInputStream ois = new ObjectInputStream(request.getInputStream());       
@@ -71,15 +71,6 @@ public class TopazSaveAction extends BaseClientAction {
 	   out.close(); 
 
 	   return null;
-    }
-
-    public ActionForward view(ActionMapping mapping, ActionForm form, 
-       		HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-//	   String providerNo = (String)request.getSession().getAttribute("user");
-//     TopazValue tv= topazManager.getTopazValue(providerNo);
-
-	   return mapping.findForward("view");
     }
 
 	public void setIntakeManager(IntakeManager intakeManager) {

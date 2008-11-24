@@ -31,7 +31,7 @@ public class LookupTreeAction extends BaseAction {
 		return tree(mapping,form,request,response);
 	}
 	
-	public ActionForward tree(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	private ActionForward tree(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		String tableId=request.getParameter("tableId");
 		LookupTableDefValue tableDef = lookupManager.GetLookupTableDef(tableId); 
 
