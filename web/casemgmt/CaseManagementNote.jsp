@@ -419,7 +419,7 @@ var XMLHttpRequestObject = false;
 			<a href="javascript:void1();"
 				style="text-decoration: cursor:pointer;color: blue"
 				onclick="return spellCheck();"> <img border=0
-				src=<html:rewrite page="/images/icon_confirmsml.png"/> />&nbsp; Spell Check
+				src=<html:rewrite page="/images/icon_confirmsml.gif"/> />&nbsp; Spell Check
 			&nbsp;|</a></td>
 		</tr>
 	</table>
