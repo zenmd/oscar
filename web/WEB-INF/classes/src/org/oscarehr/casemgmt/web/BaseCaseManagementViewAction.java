@@ -62,11 +62,6 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	protected IssueAdminManager issAdmManager;
 	protected ClientManager clientManager;
 	
-	public ApplicationContext getAppContext() {
-		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
-	}
-
-	
 	
 	public void setCaseManagementManager(CaseManagementManager caseManagementMgr) {
 		this.caseManagementMgr = caseManagementMgr;
@@ -91,7 +86,7 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	}
 	
 	
-	public String getDemographicNo(HttpServletRequest request) {
+	protected String getDemographicNo(HttpServletRequest request) {
 		String demono= request.getParameter("demographicNo");
 		if (demono==null || "".equals(demono)) 
 			demono=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");		
@@ -108,36 +103,30 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		return demono;
 	}
 	
-	public String getDemoName(String demoNo){
+	protected String getDemoName(String demoNo){
 		if (demoNo==null) return "";
 		return caseManagementMgr.getDemoName(demoNo);
 	}
 
-	public String getDemoAge(String demoNo){
+	protected String getDemoAge(String demoNo){
 		if (demoNo==null) return "";
 		return caseManagementMgr.getDemoAge(demoNo);
 	}
 
-	public String getDemoDOB(String demoNo){
+	protected String getDemoDOB(String demoNo){
 		if (demoNo==null) return "";
 		return caseManagementMgr.getDemoDOB(demoNo);
 	}
 
-	public String getProviderNo(HttpServletRequest request){
-		String providerNo=request.getParameter("providerNo");
-		if (Utility.IsEmpty(providerNo)) 
-			providerNo=(String)request.getSession(true).getAttribute("user");
-		return providerNo;
-	}
 	public ProviderManager getProviderManager() {
 		return (ProviderManager) getAppContext().getBean("providerManager");
 	}
 	
-    public int getProviderId(HttpServletRequest request){
+    protected int getProviderId(HttpServletRequest request){
         return(Integer.parseInt(getProviderNo(request)));
     }
     
-	public String getProviderName(HttpServletRequest request){
+	protected String getProviderName(HttpServletRequest request){
 		String providerNo=getProviderNo(request);
 		if (providerNo==null)
 			return "";
@@ -164,22 +153,6 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 		return null;
 	}
 
-	String removeFirstSpace(String withSpaces) {
-        int spaceIndex = withSpaces.indexOf(' '); //use lastIndexOf to remove last space
-        if (spaceIndex < 0) { //no spaces!
-            return withSpaces;
-        }
-        return withSpaces.substring(0, spaceIndex)
-            + withSpaces.substring(spaceIndex+1, withSpaces.length());
-    }
-	/*
-	protected void addMessage(HttpServletRequest request, String key) {
-		ActionMessages messages = new ActionMessages();
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(key));
-		saveMessages(request, messages);
-	}
- */
-	
 	
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;

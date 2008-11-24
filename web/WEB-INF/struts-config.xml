@@ -738,44 +738,7 @@
               name="lookupCodeEditForm" scope="session" validate="false" input="/PMmodule/lookup/LookupCodeEdit.jsp">
             <forward name="edit" path="page.admin.lookup.codeedit" />
         </action>
-        
-<!-- 
-        <action path="/PMmodule/Reports/ProgramActivityReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="activityReportForm" scope="request" validate="false">
-            <forward name="form" path="page.report.activityform" />
-            <forward name="report" path="page.report.activityreport" />
-        </action>
-        <action path="/PMmodule/Reports/BasicReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
-            <forward name="form" path="page.report.basicform" />
-        </action>
-        <action path="/PMmodule/Reports/ExitInterviewReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
-            <forward name="form" path="page.report.exitinterviewform" />
-        </action>
-        <action path="/PMmodule/Reports/ExitInterviewReportDetailed" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
-            <forward name="form" path="page.report.exitinterviewformdetailed" />
-        </action>
-        
-        <action path="/PMmodule/Reports/ClientListsReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientListsReportForm" scope="request" validate="false">
-            <forward name="form" path="page.report.clientlistsreportform" />
-            <forward name="report" path="page.report.clientlistsreport" />
-        </action>
-        
-        <action path="/ReceptionistReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
-            <forward name="report" path="/er/receptionist_report.jsp" />
-        </action>
- -->
-         
-        <action path="/CaseManagementView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementView.jsp" name="caseManagementViewForm">
-            <forward name="view" path="/casemgmt/CaseManagementView.jsp" />
-            <forward name="page.casemgmt.view" path="page.casemgmt.view" />
-            <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
-            <forward name="domain-error" path="/casemgmt/domain-error.jsp" />
-            <forward name="unlockForm" path="/casemgmt/unlockNoteForm.jsp" />
-            <forward name="unlockSuccess" path="/casemgmt/unlockNoteSuccess.jsp" />
-            <forward name="unlockError" path="/casemgmt/unlockNoteError.jsp" />
-            <forward name="unlock_ajax" path="/casemgmt/unlockAjax.jsp" />
-            <forward name="expired" path="/casemgmt/expired.jsp" />  
-            <forward name="listNotes" path="/casemgmt/viewNotes.jsp"/>
-        </action>
+                 
          <action path="/PMmodule/UploadFile" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" name="attachmentForm" 
          	input="page.attachment.edit">
             <forward name="list" path="page.attachment.list" />
@@ -796,10 +759,12 @@
             <forward name="page.casemgmt.search" path="page.casemgmt.search" />
             <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
             <forward name="domain-error" path="page.casemgmt.domain.error" />
+<!-- 
             <forward name="unlockForm" path="page.casemgmt.unlock.note" />
             <forward name="unlockSuccess" path="page.casemgmt.unlock.note.success" />
             <forward name="unlockError" path="page.casemgmt.unlock.note.error" />
             <forward name="unlock_ajax" path="page.casemgmt.unlock.ajax" />
+-->
             <forward name="listNotes" path="page.casemgmt.view.notes"/>
             <forward name="client" path="/PMmodule/ClientSearch2.do" redirect="true"></forward>
         </action>
@@ -814,36 +779,7 @@
             <forward name="showHistory" path="page.casemgmt.show.history" />
             <forward name="issueAutoCompletion" path="page.casemgmt.issue.list" />
         </action>
-        <action path="/CaseManagementEntry" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementEntry.jsp" name="caseManagementEntryForm">
-            <forward name="view" path="/casemgmt/CaseManagementEntry.jsp" />
-            <forward name="list" path="/CaseManagementView.do?method=view" redirect="true" />
-            <forward name="listCPPNotes" path="/CaseManagementView.do" redirect="true" />
-            <forward name="IssueSearch" path="/casemgmt/IssueSearch.jsp" />
-            <forward name="NoDemoERR" path="/casemgmt/noDemo.jsp" />
-            <forward name="windowClose" path="/casemgmt/close.jsp" />
-            <forward name="historyview" path="/casemgmt/historyview.jsp" />
-            <forward name="showHistory" path="/casemgmt/showHistory.jsp" />
-            <forward name="issueAutoCompletion" path="/casemgmt/IssueList.jsp" />
-            <forward name="issueList_ajax" path="/casemgmt/noteIssueList.jsp" />
-            <forward name="expired" path="/casemgmt/expired.jsp" />
-        </action>
-        <action path="/ClientImage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="clientImageForm">
-            <forward name="success" path="/casemgmt/uploadimage.jsp" />
-        </action>
-<!-- 
-        <action path="/ArchiveView" type="org.springframework.web.struts.DelegatingActionProxy" scope="request" parameter="method">
-            <forward name="view" path="/provider/providercontrol.jsp" redirect="true" />
-        </action>
- -->
  
-        <!-- Population Report -->
-<!-- 
-        <action path="/PopulationReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
-            <forward name="report" path="/report/PopulationReport.jsp" />
-        </action>
- -->        
-         <!-- Population Report -->
-
         <!-- admin Start -->
         <action path="/PMmodule/Admin/SysAdmin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
          	<forward name="admin" path="page.admin.home"/>

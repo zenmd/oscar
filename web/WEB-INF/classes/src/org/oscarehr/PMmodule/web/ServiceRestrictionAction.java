@@ -158,7 +158,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	    	   }
 	       }
 	       if(hasError){
-	    	   setEditAttributes(form, request);		   
+	    	   setEditAttributes(form, request,false);		   
 			   return mapping.findForward("detail"); 
 	       }
     	   //String sDt = restriction.getStartDateStr();
@@ -186,7 +186,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
            // clientForm.set("program", new Program());
            clientForm.set("serviceRestriction", restriction);
            //clientForm.set("serviceRestrictionLength", null);       
-           setEditAttributes(form, request);
+           setEditAttributes(form, request, false);
            //logManager.log("write", "service_restriction", id, request);
            return mapping.findForward("detail");       
 	   }
@@ -209,7 +209,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   
 	   return mapping.findForward("detail"); 
  }
-   private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
+   private void setEditAttributes(ActionForm form, HttpServletRequest request,boolean readOnly) throws NoAccessException {
        DynaActionForm clientForm = (DynaActionForm) form;
 
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -226,7 +226,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        ProgramClientRestriction pcrObj =(ProgramClientRestriction)clientForm.get("serviceRestriction");
        String rId=request.getParameter("rId");      
-		if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) rId=pcrObj.getId().toString();	
+       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) rId=pcrObj.getId().toString();	
        if ("0".equals(rId) || rId==null) {
 			pcrObj = new ProgramClientRestriction();
 			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
@@ -239,7 +239,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			
 			pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
 			clientForm.set("serviceRestriction", pcrObj);
-			boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_CLIENTRESTRICTION, pcrObj.getProgramId());
+			readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_CLIENTRESTRICTION, pcrObj.getProgramId());
 			if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 		}
 
@@ -252,7 +252,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		     {
 		   	   progs += "," + ((Integer)programIds.get(i)).toString();
 		     }
-		     allPrograms =  lookupManager.LoadCodeList("PRO", true, progs, null);
+		     allPrograms =  lookupManager.LoadCodeList("PRO", !readOnly, progs, null);
 	      }
 	      else
 	      {
@@ -262,9 +262,9 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 //		clientForm.set("serviceRestriction", pcrObj);
 		request.setAttribute("serviceObj", pcrObj);
      //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
-       request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
+       request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",!readOnly, null, null));
    }
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean readOnly) {
 	   try {
 		   DynaActionForm clientForm = (DynaActionForm) form;
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -306,7 +306,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 				pcrObj =  clientRestrictionManager.find(new Integer(rId));
 				
 				pcrObj.setStartDateStr(MyDateFormat.getStandardDateTime(pcrObj.getStartDate()));
-				boolean readOnly =super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_CLIENTRESTRICTION, pcrObj.getProgramId());
+				super.isReadOnly(request, pcrObj.getStatus() ,KeyConstants.FUN_CLIENTRESTRICTION, pcrObj.getProgramId());
 				if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 				
 				int length = MyDateFormat.getDaysDiff(pcrObj.getStartDate(), pcrObj.getEndDate());
@@ -322,7 +322,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 			     {
 			   	   progs += "," + ((Integer)programIds.get(i)).toString();
 			     }
-			     programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
+			     programs =  lookupManager.LoadCodeList("PRO", !readOnly, progs, null);
 		      }
 		      else
 		      {
@@ -375,7 +375,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	           request.setAttribute("serviceObjStatus", "not");
 	       }
 	
-	       request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",true, null, null));
+	       request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",!readOnly, null, null));
 	       
 	       
 	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);

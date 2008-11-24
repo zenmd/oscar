@@ -212,7 +212,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       
 	       request.setAttribute("clientId", demographicNo);	       
 	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
+	       boolean isReadOnly = false;
 	       if(cdObj != null && cdObj.getId().intValue()>0) {
 	    	   Integer programId = cdObj.getProgramId();
 	    	   Program prog = programManager.getProgram(programId);
@@ -221,7 +221,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	    	   if(cdObj.getStatus().equals(KeyConstants.STATUS_ACTIVE) && Calendar.getInstance().after(cdObj.getEndDate()))
    				cdObj.setStatus(KeyConstants.STATUS_EXPIRED);
 		       
-	    	   boolean isReadOnly=super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_CLIENTCONSENT, cdObj.getProgramId());
+	    	   isReadOnly = super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_CLIENTCONSENT, cdObj.getProgramId());
 	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 
 	    	   if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(cdObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(cdObj.getStatus())){
@@ -251,7 +251,7 @@ public class QuatroConsentAction extends BaseClientAction {
 		       {
 		    	   progs += "," + ((Integer)programIds.get(i)).toString();
 		       }
-		       programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
+		       programs =  lookupManager.LoadCodeList("PRO", !isReadOnly, progs, null);
 	       }
 	       else
 	       {

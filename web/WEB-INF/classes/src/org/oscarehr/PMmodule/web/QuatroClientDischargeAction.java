@@ -158,20 +158,22 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        Admission admsObj =admissionManager.getAdmission(aId);
        
        clientForm.setAdmission(admsObj);       
+
+       boolean readOnly=super.isReadOnly(request,admsObj.getAdmissionStatus(), KeyConstants.FUN_CLIENTDISCHARGE,admsObj.getProgramId());
+       if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+
        /* discharge */
-       List lstCommProgram =lookupManager.LoadCodeList("IDS", true, null, null);
+       List lstCommProgram =lookupManager.LoadCodeList("IDS", !readOnly, null, null);
        request.setAttribute("lstCommProgram", lstCommProgram);
-       List lstDischargeReason =lookupManager.LoadCodeList("DRN", true, null, null);
+       List lstDischargeReason =lookupManager.LoadCodeList("DRN", !readOnly, null, null);
        request.setAttribute("lstDischargeReason", lstDischargeReason);
-       List lstTransType =lookupManager.LoadCodeList("TPT", true, null, null);
+       List lstTransType =lookupManager.LoadCodeList("TPT", !readOnly, null, null);
        request.setAttribute("lstTransType", lstTransType);     
        List  lstBed=programManager.getBedPrograms(providerNo,shelterId);
        request.setAttribute("lstBedProgram",lstBed);
        request.setAttribute("admission", admsObj);
        request.setAttribute("admissionId", admsObj.getId());
 
-       boolean readOnly=super.isReadOnly(request,admsObj.getAdmissionStatus(), KeyConstants.FUN_CLIENTDISCHARGE,admsObj.getProgramId());
-       if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        
    }
 

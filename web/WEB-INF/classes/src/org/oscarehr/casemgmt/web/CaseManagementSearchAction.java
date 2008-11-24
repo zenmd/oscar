@@ -57,6 +57,7 @@ import org.oscarehr.common.model.UserProperty;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.IntakeManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
@@ -72,62 +73,11 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         caseForm.setFilter_provider("");        
+    	super.getAccess(request, KeyConstants.FUN_CLIENTCASE, null);
         return client(mapping, form, request, response);
      //   return view(mapping, form, request, response);
     }
-
-    public ActionForward setViewType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return view(mapping, form, request, response);
-    }
-
-    public ActionForward setPrescriptViewType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return view(mapping, form, request, response);
-    }
-
-    public ActionForward setHideActiveIssues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return view(mapping, form, request, response);
-    }
-
-    public ActionForward saveAndExit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return save(mapping, form, request, response);
-    }
-
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        HttpSession session = request.getSession(true);
-
-        if (session.getAttribute("userrole") != null) {
-            CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-            CaseManagementCPP cpp = caseForm.getCpp();
-            cpp.setUpdate_date(new Date());
-            //EncounterWindow ectWin = caseForm.getEctWin();
-            String providerNo = getProviderNo(request);
-            caseManagementMgr.saveCPP(cpp, providerNo);
-            //caseManagementMgr.saveEctWin(ectWin);
-        }
-        else response.sendError(response.SC_FORBIDDEN);
-
-        return null;
-    }
-
-    /* save CPP for patient */
-    public ActionForward patientCPPSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.debug("patientCPPSave");
-        CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        CaseManagementCPP cpp = caseForm.getCpp();
-        cpp.setUpdate_date(new Date());
-        String providerNo = getProviderNo(request);
-        caseManagementMgr.saveCPP(cpp, providerNo);
-
-        ActionMessages messages = new ActionMessages();
-	    messages.add(ActionMessages.GLOBAL_MESSAGE,	new ActionMessage("cpp.saved",
-         			request.getContextPath()));
-        saveMessages(request,messages);
-
-        return view(mapping, form, request, response);
-    }
-
-    public ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        // request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
 		
     	 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -168,7 +118,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     /*
      * Session variables : case_program_id casemgmt_DemoNo casemgmt_VlCountry casemgmt_msgBeans readonly
      */
-    public String getAdmissionPrimaryWorks(List admissions) {    	
+    private String getAdmissionPrimaryWorks(List admissions) {    	
     	
     	String cds="";    	
     	for(int i=0;i<admissions.size();i++){
@@ -181,7 +131,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 		return cds ;
 
     }
-    public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    private ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         long start = System.currentTimeMillis();
         long current = 0;
         Integer currentFacilityId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
@@ -254,7 +205,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
            
             if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
             else notes = caseManagementMgr.getNotes(demoNo, userProp,shelterId,providerNo);
-            notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
+            
+            //notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
            
 
             log.info("FETCHED " + notes.size() + " NOTES");
@@ -362,83 +314,19 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         else return mapping.findForward("page.casemgmt.search");
 
     }
-    
-    public ActionForward listNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String providerNo = getProviderNo(request);
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-        String cId = request.getParameter("clientId");
-        if(Utility.IsEmpty(cId)){
-        	cId =request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
-        }
-	    if(actionParam==null){
-	      actionParam = new HashMap();
-	         actionParam.put("clientId", cId); 
-	     }
-	    request.setAttribute("actionParam", actionParam);	      
-	    String demoNo= (String)actionParam.get("clientId");
-	    request.setAttribute("clientId", demoNo);
-	    request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-        List notes = null;
-
-        //set save url to be used by ajax editor
-        String identUrl = request.getQueryString();        
-        request.setAttribute("identUrl", identUrl);               
-        
-        // filter the notes by the checked issues and date if set
-        UserProperty userProp = caseManagementMgr.getUserProperty(providerNo, UserProperty.STALE_NOTEDATE);
-        String[] codes = request.getParameterValues("issue_code");
-        String codeCvs = Utility.merge(codes, ",");
-        List issues = lookupMgr.LoadCodeList("ISS", true, codeCvs, null);
-        
-        StringBuffer checked_issues = new StringBuffer();
-        String[] issueIds = new String[issues.size()];
-        int idx = 0;
-        Iterator it = issues.iterator();
-        while(it.hasNext()){
-        	LookupCodeValue issue = (LookupCodeValue)it.next();
-        
-        //for(Issue issue: issues) {
-            checked_issues.append("&issue_id="+issue.getCode());            
-            issueIds[idx] = issue.getCode();
-        }                
-        
-        //set save Url 
-//commented by dawson on adssion javanbean merge, May 23, 2008         
-//        String addUrl = request.getContextPath() + "/CaseManagementEntry.do?method=issueNoteSave&providerNo=" + providerNo + "&demographicNo=" + demoNo + checked_issues.toString() + "&noteId=";                
-//        request.setAttribute("addUrl", addUrl);
-        
-        // need to apply issue filter        
-        notes = caseManagementMgr.getNotes(demoNo, issueIds, userProp);
-        notes = manageLockedNotes(notes, true, this.getUnlockedNotesMap(request));
-
-        log.info("FETCHED " + notes.size() + " NOTES filtered by " + StringUtils.join(issueIds,","));
-        log.info("REFERER " + request.getRequestURL().toString() + "?" + request.getQueryString());
-        
-        Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
-
-        if (programId == null) {
-            programId = new Integer(0);
-        }
-         
-        this.caseManagementMgr.getEditors(notes);
-                
-        oscar.OscarProperties p = oscar.OscarProperties.getInstance();
-        String noteSort = p.getProperty("CMESort", "");
-        if (noteSort.trim().equalsIgnoreCase("UP")) request.setAttribute("Notes", sort_notes(notes, "update_date_asc"));
-        else request.setAttribute("Notes", notes);
-        
-        return mapping.findForward("listNotes");
-    }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	//request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SWITCH_MODULE,"Y");
     	if(request.getSession(true).getAttribute("casemgmt_DemoNo")!=null) request.getSession(true).removeAttribute("casemgmt_DemoNo");
     	return mapping.findForward("client");
     }
+
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
+    	super.getAccess(request, KeyConstants.FUN_CLIENTCASE, null);
+    	Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
         String cId =request.getParameter("clientId");
         if(Utility.IsEmpty(cId)){
+        	if (request.getSession(true).getAttribute("casemgmt_DemoNo") == null) throw new NoAccessException();
         	cId =request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
         }
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -465,7 +353,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         String providerNo = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         List results = this.caseManagementMgr.search(searchBean,shelterId,providerNo);
-        List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));           
+        List filtered1 = results;           
+//        List filtered1 = manageLockedNotes(results, false, this.getUnlockedNotesMap(request));           
         // comment by lillian, it does not need apply for filter
         //List filteredResults = caseManagementMgr.filterNotes(filtered1, getProviderNo(request), programId,currentFacilityId);
         
@@ -478,7 +367,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
        //return mapping.findForward("page.newcasemgmt.view");
     }
 
-    public List sort_notes(List notes, String field) throws Exception {
+    private List sort_notes(List notes, String field) throws Exception {
         log.debug("Sorting notes by field: " + field); 
         if (field == null || field.equals("") || field.equals("update_date")) {
             return notes;
@@ -500,158 +389,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         }
 
         return notes;
-    }
-
-    // unlock a note temporarily - session
-    /*
-     * show password
-     */
-    public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-        String noteId = request.getParameter("noteId");
-        caseForm.setNoteId(Integer.parseInt(noteId));
-        return mapping.findForward("unlockForm");
-    }
-
-    public ActionForward do_unlock_ajax(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String password = request.getParameter("password");
-        int noteId = Integer.parseInt(request.getParameter("noteId"));
-
-        CaseManagementNote note = this.caseManagementMgr.getNote(request.getParameter("noteId"));
-        this.caseManagementMgr.getEditors(note);
-        request.setAttribute("Note", note);
-
-        boolean success = caseManagementMgr.unlockNote(noteId, password);
-        request.setAttribute("success", new Boolean(success));
-
-        if (success) {
-            Map unlockedNoteMap = this.getUnlockedNotesMap(request);
-            unlockedNoteMap.put(new Integer(noteId), new Boolean(success));
-            request.getSession(true).setAttribute("unlockedNoteMap", unlockedNoteMap);
-        }
-
-        return mapping.findForward("unlock_ajax");
-
-    }
-
-    public ActionForward do_unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
-
-        String password = caseForm.getPassword();
-        int noteId = caseForm.getNoteId();
-
-        boolean success = caseManagementMgr.unlockNote(noteId, password);
-        request.setAttribute("success", new Boolean(success));
-
-        if (success) {
-            Map unlockedNoteMap = this.getUnlockedNotesMap(request);
-            unlockedNoteMap.put(new Integer(noteId), new Boolean(success));
-            request.getSession(true).setAttribute("unlockedNoteMap", unlockedNoteMap);
-            return mapping.findForward("unlockSuccess");
-        }
-        else {
-            return unlock(mapping, form, request, response);
-        }
-
-    }
-
-    protected Map getUnlockedNotesMap(HttpServletRequest request) {
-        Map map = (Map) request.getSession(true).getAttribute("unlockedNoteMap");
-        if (map == null) {
-            map = new HashMap();
-        }
-        return map;
-    }
-
-    protected List applyRoleFilter(List notes, String[] roleId) {
-
-        // if no filter return everything
-        if (Arrays.binarySearch(roleId, "a") >= 0) return notes;
-
-        List filteredNotes = new ArrayList();
-
-        for (Iterator iter = notes.listIterator(); iter.hasNext();) {
-            CaseManagementNote note = (CaseManagementNote) iter.next();
-
-            if (Arrays.binarySearch(roleId, note.getReporter_caisi_role()) >= 0) filteredNotes.add(note);
-        }
-
-        return filteredNotes;
-    }
-
-    /*
-     * This method extracts a unique list of providers, and optionally filters out all notes belonging to providerNo (arg2).
-     */
-    protected List applyProviderFilter(List notes, Set providers, String providerNo) {
-        boolean filter = false;
-        List filteredNotes = new ArrayList();
-
-        if (providerNo != null && providerNo.length() > 0) {
-            filter = true;
-        }
-
-        for (Iterator iter = notes.iterator(); iter.hasNext();) {
-            CaseManagementNote note = (CaseManagementNote) iter.next();
-            providers.add(note.getProvider());
-            if (!filter) {
-                // no filter, add all
-                filteredNotes.add(note);
-            }
-            else if (filter && note.getProvider_no().equals(providerNo)) {
-                // correct provider
-                filteredNotes.add(note);
-            }
-        }
-
-        return filteredNotes;
-    }
-
-    protected List manageLockedNotes(List notes, boolean removeLockedNotes, Map unlockedNotesMap) {
-        List notesNoLocked = new ArrayList();
-        for (Iterator iter = notes.iterator(); iter.hasNext();) {
-            CaseManagementNote note = (CaseManagementNote) iter.next();
-            if (note.isLocked()) {
-                if (unlockedNotesMap.get(note.getId()) != null) {
-                    note.setLocked(false);
-                }
-            }
-            if (removeLockedNotes && !note.isLocked()) {
-                notesNoLocked.add(note);
-            }
-        }
-        if (removeLockedNotes) {
-            return notesNoLocked;
-        }
-        return notes;
-    }
-
-    /*
-     * This method extracts a unique list of providers, and optionally filters out all notes belonging to providerNo (arg2).
-     */
-    protected List applyProviderFilters(List notes, Set providers, String[] providerNo) {
-        boolean filter = false;
-        List filteredNotes = new ArrayList();
-
-        if (providerNo != null && Arrays.binarySearch(providerNo, "a") < 0) {
-            filter = true;
-        }
-
-        for (Iterator iter = notes.iterator(); iter.hasNext();) {
-            CaseManagementNote note = (CaseManagementNote) iter.next();
-            providers.add(note.getProvider());
-            if (!filter) {
-                // no filter, add all
-                filteredNotes.add(note);
-
-            }
-            else {
-                if (Arrays.binarySearch(providerNo, note.getProvider_no()) >= 0)
-                // correct provider
-                filteredNotes.add(note);
-            }
-        }
-
-        return filteredNotes;
     }
 
 	public void setIntakeManager(IntakeManager intakeManager) {

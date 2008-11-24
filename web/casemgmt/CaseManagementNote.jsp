@@ -198,7 +198,7 @@
                // alert(document.caseManagementEntryForm.elements["caseNote.note"].value);            
                 // Start the spell checker
                 startSpellCheck('<c:out value="${ctx}"/>/jspspellcheck/',elements);
-                
+                return false;
        }
  	function getIssueList(){
   		var elSel= document.getElementsByName("lstIssue")[0]; 
@@ -416,11 +416,11 @@ var XMLHttpRequestObject = false;
 	<table style="width: 90%">
 		<tr>
 			<td align="left" class="buttonBar2">
-			<span
+			<a href="javascript:void1();"
 				style="text-decoration: cursor:pointer;color: blue"
-				onclick="javascript:spellCheck();"> <img border=0
-				src=<html:rewrite page="/images/Back16.png"/> />&nbsp; Spell Check
-			&nbsp;|</span></td>
+				onclick="return spellCheck();"> <img border=0
+				src=<html:rewrite page="/images/icon_confirmsml.png"/> />&nbsp; Spell Check
+			&nbsp;|</a></td>
 		</tr>
 	</table>
 	<table width="90%" border="1">

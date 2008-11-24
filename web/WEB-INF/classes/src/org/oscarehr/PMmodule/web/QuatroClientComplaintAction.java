@@ -90,7 +90,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
+		boolean readOnly= false;
 		System.out
 				.println("=========== edit ========= in QuatroClientComplaintAction");
 		try {
@@ -147,14 +147,40 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 				complaint.setStandards1(standards1);
 			}
 					
-			List sources = lookupManager.LoadCodeList("CPS", true,
+
+			if(null==complaint.getId() || complaint.getId().intValue()==0) {
+				complaint.setStatus("0");
+			}else{
+			readOnly=super.isReadOnly(request,complaint.getComplaintStatus(), KeyConstants.FUN_CLIENTCOMPLAINT,complaint.getProgramId());
+				if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
+			}
+			complaintForm.setComplaint(complaint);
+			Integer clientId = Integer.valueOf(tmp);
+			String providerNo = (String)request.getSession().getAttribute("user");
+			Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+			 List programIds =clientManager.getRecentProgramIds(clientId,providerNo,shelterId);
+		     List programs = null;
+		     if (programIds.size() > 0) {
+			     String progs = ((Integer)programIds.get(0)).toString();
+			     for (int i=1; i<programIds.size(); i++)
+			     {
+			   	   progs += "," + ((Integer)programIds.get(i)).toString();
+			     }
+			     programs =  lookupManager.LoadCodeList("PRO", !readOnly, progs, null);
+		      }
+		      else
+		      {
+		    	 programs = new ArrayList();
+		      }
+			complaintForm.setPrograms(programs);
+			List sources = lookupManager.LoadCodeList("CPS", !readOnly,
 					null, null);
-			List methods = lookupManager.LoadCodeList("CPM", true,
+			List methods = lookupManager.LoadCodeList("CPM", !readOnly,
 					null, null);
 			List outcomes = lookupManager.LoadCodeList("CPO",
-					true, null, null);
+					!readOnly, null, null);
 			List allSections = lookupManager.LoadCodeList("CPB",
-					true, null, null);
+					!readOnly, null, null);
 	
 			int length = (allSections.size()) / 2; // value of offset in JSP file
 			int parentPlace = 0;
@@ -177,31 +203,6 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			complaintForm.setMethods(methods);
 			complaintForm.setOutcomes(outcomes);
 			complaintForm.setSections(allSections);
-			if(null==complaint.getId() || complaint.getId().intValue()==0) {
-				complaint.setStatus("0");
-			}else{
-				boolean readOnly=super.isReadOnly(request,complaint.getComplaintStatus(), KeyConstants.FUN_CLIENTCOMPLAINT,complaint.getProgramId());
-				if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
-			}
-			complaintForm.setComplaint(complaint);
-			Integer clientId = Integer.valueOf(tmp);
-			String providerNo = (String)request.getSession().getAttribute("user");
-			Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-			 List programIds =clientManager.getRecentProgramIds(clientId,providerNo,shelterId);
-		     List programs = null;
-		     if (programIds.size() > 0) {
-			     String progs = ((Integer)programIds.get(0)).toString();
-			     for (int i=1; i<programIds.size(); i++)
-			     {
-			   	   progs += "," + ((Integer)programIds.get(i)).toString();
-			     }
-			     programs =  lookupManager.LoadCodeList("PRO", true, progs, null);
-		      }
-		      else
-		      {
-		    	 programs = new ArrayList();
-		      }
-			complaintForm.setPrograms(programs);
 			
 			request.setAttribute("ComplaintForm_length", new Integer(length));
 			

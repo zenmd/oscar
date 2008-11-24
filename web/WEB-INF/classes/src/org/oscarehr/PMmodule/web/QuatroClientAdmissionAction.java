@@ -374,7 +374,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
       // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-
+       boolean readOnly= false;
        Integer admissionId;
        Admission admission;
        if(request.getParameter("admissionId")!=null){
@@ -600,9 +600,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	   pObj.setProviderNo("");
   	   providerList.add(0, pObj);
   	   clientForm.setProviderList(providerList);
-	   List provinceList = lookupManager.LoadCodeList("POV",true, null, null);
+	   List provinceList = lookupManager.LoadCodeList("POV",!readOnly, null, null);
 	   clientForm.setProvinceList(provinceList);
-	   List notSignReasonList = lookupManager.LoadCodeList("RNS",true, null, null);
+	   List notSignReasonList = lookupManager.LoadCodeList("RNS",!readOnly, null, null);
        clientForm.setNotSignReasonList(notSignReasonList);
        
        if(admission.getProviderNo()!=null) request.setAttribute("issuedBy",providerManager.getProvider(admission.getProviderNo()).getFormattedName());
@@ -610,7 +610,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	   request.setAttribute("isReadOnly", "true");
        }
        request.setAttribute("programId", admission.getProgramId());
-       boolean readOnly=super.isReadOnly(request,admission.getAdmissionStatus(), KeyConstants.FUN_CLIENTADMISSION,admission.getProgramId());
+       readOnly=super.isReadOnly(request,admission.getAdmissionStatus(), KeyConstants.FUN_CLIENTADMISSION,admission.getProgramId());
        if(readOnly) request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        return mapping.findForward("edit");

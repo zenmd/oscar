@@ -296,7 +296,7 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	}
 
 	//TODO: update access model
-	public void setCPPMedicalHistory(CaseManagementCPP cpp, String providerNo,List accessRight)	{
+	protected void setCPPMedicalHistory(CaseManagementCPP cpp, String providerNo,List accessRight)	{
 
 		if (caseManagementMgr.greaterEqualLevel(3, providerNo))	{
 			String mHis = cpp.getMedicalHistory();

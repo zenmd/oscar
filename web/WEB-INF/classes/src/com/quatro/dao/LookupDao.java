@@ -500,7 +500,7 @@ public class LookupDao extends HibernateDaoSupport {
 		LookupCodeValue lkv= GetCode(tableDef.getTableId(), idFieldVal);
 		if(lkv != null) 
 		{
-			throw new SQLException("The Code Already Exist");
+			throw new SQLException("The Code Already Exists.");
 		}
 		DBPreparedHandler db = new DBPreparedHandler();
 		try{

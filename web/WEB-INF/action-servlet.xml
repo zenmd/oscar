@@ -127,17 +127,6 @@
  -->    
     
     <!--  CASE MANAGEMENT -->
-<!-- 
-    <bean name="/CaseManagementView" class="org.oscarehr.casemgmt.web.CaseManagementViewAction" singleton="false" autowire="byName">
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="ticklerManager" ref="ticklerManager"/>
-        <property name="clientImageManager" ref="ClientImageManager"/>
-        <property name="roleManager" ref="roleManager"/>
-        <property name="programManager" ref="programManager"/>
-        <property name="admissionManager" ref="admissionManager"/>
-        <property name="surveyManager" ref="oscarSurveyManager"/>        
-    </bean>
- -->        
     <bean name="/CaseManagementView2" class="org.oscarehr.casemgmt.web.CaseManagementSearchAction" singleton="false" autowire="byName">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="ticklerManager" ref="ticklerManager"/>
@@ -149,41 +138,12 @@
         <property name="lookupManager" ref="lookupManager"></property>  
         <property name="clientManager" ref="clientManager"></property>    
     </bean>
-<!-- 
-    <bean name="/CaseManagementEntry" class="org.oscarehr.casemgmt.web.CaseManagementEntryAction" singleton="false">
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-        <property name="providerManager" ref="providerManager"/>
-        <property name="admissionManager" ref="admissionManager"></property>
-    </bean>
- -->    
     <bean name="/CaseManagementEntry2" class="org.oscarehr.casemgmt.web.CaseManagementNoteAction" singleton="false">
         <property name="caseManagementManager" ref="caseManagementManager"/>
         <property name="providerManager" ref="providerManager"/>      
         <property name="lookupManager" ref="lookupManager"/>
         <property name="clientManager" ref="clientManager"></property>
     </bean>
-    <bean name="/ClientImage" class="org.oscarehr.casemgmt.web.ClientImageAction" singleton="false">
-        <property name="clientImageManager" ref="ClientImageManager"/>
-    </bean>
-    <bean name="/ArchiveView" class="org.oscarehr.casemgmt.web.ArchiveViewAction" singleton="false">
-        <property name="programManager" ref="programManager"/>
-    </bean>
-<!-- 
-    <bean name="/oscarEncounter/displayIssues" class="oscar.oscarEncounter.pageUtil.EctDisplayIssuesAction" singleton="false">
-        <property name="caseManagementManager" ref="caseManagementManager"/>
-    </bean>
-
-    <bean name="/oscarEncounter/displayOMeds" class="oscar.oscarEncounter.pageUtil.EctDisplayOtherMedsAction" singleton="false">
-        <property name="caseManagementManager" ref="CaseManagementManager"/>
-    </bean>
- -->    
-     
-    <!-- Population Report -->
-<!-- 
-    <bean name="/PopulationReport" class="org.oscarehr.common.web.PopulationReportAction" singleton="false">
-        <property name="populationReportManager" ref="populationReportManager"/>
-    </bean>
- -->
  
     <!-- Quatro Shelter Report -->
     <bean name="/QuatroReport/ReportList" class="com.quatro.web.report.QuatroReportListAction" singleton="false">
