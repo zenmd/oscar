@@ -82,7 +82,7 @@
     </bean>
     <bean name="/QuatroReport/ReportRunner" class="com.quatro.web.report.QuatroReportRunnerAction" singleton="false" />
 	<bean name="/QuatroReport/ReportViewer" class= "com.quatro.web.report.QuatroReportViewerAction" singleton="false" autowire="byName" />
-	<bean name="/QuatroReport/SaveReportTemplate" class="com.quatro.web.report.QuatroReportTemplateAction" parent="false" autowire="byName" />
+	<bean name="/QuatroReport/SaveReportTemplate" class="com.quatro.web.report.QuatroReportTemplateAction" singleton="false" autowire="byName" />
     <bean name="/Lookup/LookupList" class="com.quatro.web.lookup.LookupListAction" singleton="false">
         <property name="lookupManager" ref="lookupManager"/>
     </bean>
