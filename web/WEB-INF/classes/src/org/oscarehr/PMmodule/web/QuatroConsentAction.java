@@ -222,11 +222,12 @@ public class QuatroConsentAction extends BaseClientAction {
    				cdObj.setStatus(KeyConstants.STATUS_EXPIRED);
 		       
 	    	   isReadOnly = super.isReadOnly(request, cdObj.getStatus(), KeyConstants.FUN_CLIENTCONSENT, cdObj.getProgramId());
-	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 
 	    	   if(tv!=null ||KeyConstants.STATUS_WITHDRAW.equals(cdObj.getStatus()) || KeyConstants.STATUS_EXPIRED.equals(cdObj.getStatus())){
 		    	   request.setAttribute("signed","Y");
+		    	   isReadOnly = true;
 		       }
+	    	   request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
 	       }
 	       else
 	       {
