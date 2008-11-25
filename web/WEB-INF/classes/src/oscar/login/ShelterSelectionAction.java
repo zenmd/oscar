@@ -85,7 +85,7 @@ public final class ShelterSelectionAction extends BaseAction {
          return mapping.findForward("home");
             	
     }
-    private void select(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward select(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	
 		String shelter =request.getParameter("shelterId");
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -101,6 +101,8 @@ public final class ShelterSelectionAction extends BaseAction {
         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
         String ip = request.getRemoteAddr();
         LogAction.addLog(providerNo,providerNo, LogConst.CON_LOGIN, LogConst.SHELTER_SELECTION, shelterId.toString(), ip);
+        
+        return mapping.findForward("home");
     }
     private void initMenu(HttpServletRequest request)
 	{
