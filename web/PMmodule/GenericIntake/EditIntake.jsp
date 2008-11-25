@@ -148,6 +148,9 @@
 
 void  goRunner(IntakeNode in,JspWriter out) throws Exception{
 //String ret = in.getLabelStr()+ " : "+ in.getId()+" <br/>";
+	if(in == null) {
+		System.out.println("in is null");		
+	}
     IntakeNode pIntake = in.getParent();
     IntakeNode node = in;
     String pId = "";
@@ -294,6 +297,12 @@ void  goRunner(IntakeNode in,JspWriter out) throws Exception{
     }
     
     for (IntakeNode iN : in.getChildren()){
+
+    	if(iN == null) {
+    		System.out.println("iN is null");
+    		//continue;
+    	}
+
         goRunner(iN,out);
     }
     
