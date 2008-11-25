@@ -639,6 +639,10 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
         
         CheckBoxBean[] checkedlist = (CheckBoxBean[]) sessionFrm.getIssueCheckList();
 
+        //bug fix - encounter type was not being updated.
+        String encounterType = request.getParameter("caseNote.encounter_type");
+        note.setEncounter_type(encounterType);
+        
         String sign = (String) request.getParameter("sign");
         String includeIssue = (String) request.getParameter("includeIssue");
         if (sign == null || !sign.equals("on")) {
