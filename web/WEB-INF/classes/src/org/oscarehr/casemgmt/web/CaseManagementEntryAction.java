@@ -641,7 +641,9 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 
         //bug fix - encounter type was not being updated.
         String encounterType = request.getParameter("caseNote.encounter_type");
-        note.setEncounter_type(encounterType);
+        if(encounterType != null) {
+        	note.setEncounter_type(encounterType);
+        }
         
         String sign = (String) request.getParameter("sign");
         String includeIssue = (String) request.getParameter("includeIssue");
