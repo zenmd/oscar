@@ -690,7 +690,7 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
             team = String.valueOf((admissionManager.getAdmission(note.getProgram_no(), Integer.valueOf(note.getDemographic_no()))).getTeamId());
         }
         catch (Throwable e) {
-            log.error(e);
+            //log.error(e);
             team = "0";
         }
         note.setReporter_program_team(team);
