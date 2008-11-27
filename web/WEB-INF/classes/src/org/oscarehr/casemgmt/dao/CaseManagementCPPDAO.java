@@ -39,7 +39,8 @@ public class CaseManagementCPPDAO extends HibernateDaoSupport {
         return (results.size() != 0)?(CaseManagementCPP)results.get(0):null;
     }
 
-    public void saveCPP(CaseManagementCPP cpp) {                        
+    public void saveCPP(CaseManagementCPP cpp) {         
+    	
         CaseManagementCPP tempcpp = new CaseManagementCPP();
         
         String fhist = cpp.getFamilyHistory() == null?"":cpp.getFamilyHistory();
@@ -66,7 +67,7 @@ public class CaseManagementCPPDAO extends HibernateDaoSupport {
         tempcpp.setOtherFileNumber(ofnum);
         tempcpp.setOtherSupportSystems(ossystem);
         tempcpp.setPastMedications(pm);         
-        this.getHibernateTemplate().saveOrUpdate(tempcpp);
+        this.getHibernateTemplate().save(cpp);
         
     }
 
