@@ -283,6 +283,14 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 		}
 		request.setAttribute("dxMap",dxMap);
 		
+		Integer currentFacilityId = (Integer) request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+				
+		// UCF
+		log.debug("Fetch Survey List");
+		request.setAttribute("survey_list", surveyMgr.getAllForms(currentFacilityId));
+		current = System.currentTimeMillis();
+		log.debug("Fetch Survey List " + String.valueOf(current - start));
+		
 		/* ISSUES */
 		current = System.currentTimeMillis();
 		log.debug("Prep work " + String.valueOf(current - start));
@@ -308,7 +316,6 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			 * request.setAttribute("Issues",issues);
 			 */
 			log.debug("Filter Issues");
-			Integer currentFacilityId = (Integer) request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 			issues = caseManagementMgr.filterIssues(issues, providerNo, programId, currentFacilityId);
 			current = System.currentTimeMillis();
 			log.debug("FILTER ISSUES " + String.valueOf(current - start));
@@ -419,16 +426,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			}
 			current = System.currentTimeMillis();
 			log.debug("Apply sorting to notes " + String.valueOf(current - start));
-			start = current;
-
-			// UCF
-			log.debug("Fetch Survey List");
-			request.setAttribute("survey_list", surveyMgr.getAllForms(currentFacilityId));
-			current = System.currentTimeMillis();
-			log.debug("Fetch Survey List " + String.valueOf(current - start));
-			start = current;
-
-			// request.setAttribute("surveys", surveyManager.getForms(demographicNo));
+			start = current;			
 
 		}
 
