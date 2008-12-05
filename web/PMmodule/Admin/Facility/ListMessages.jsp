@@ -7,7 +7,7 @@ String s = "debug";
 <bean:define id="facility" name="facilityManagerForm"
 	property="facility" />
 
-<html:form action="/PMmodule/FacilityManager.do">
+<html:form action="/FacilityMessage.do">
 	<input type="hidden" name="method" value="save" />
 
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"

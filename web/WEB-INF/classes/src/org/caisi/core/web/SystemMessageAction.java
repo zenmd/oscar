@@ -77,7 +77,6 @@ public class SystemMessageAction extends BaseAdminAction {
 	
 	public ActionForward edit(ActionMapping mapping,ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
 			DynaActionForm systemMessageForm = (DynaActionForm)form;
 			String messageId = request.getParameter("id");
 			if(messageId == null)
@@ -94,6 +93,11 @@ public class SystemMessageAction extends BaseAdminAction {
 				}
 				isReadOnly = msg.getExpired();
 				systemMessageForm.set("system_message",msg);
+				super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
+			}
+			else
+			{
+				super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE,KeyConstants.ACCESS_WRITE);
 			}
 			
 			List msgTypepList = lookupManager.LoadCodeList("MTP", true, null, null);
@@ -120,7 +124,7 @@ public class SystemMessageAction extends BaseAdminAction {
 		msg.setCreation_date(new Date());
 	
         try{
-        	super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE);
+        	super.getAccess(request, KeyConstants.FUN_ADMIN_SYSTEMMESSAGE,KeyConstants.ACCESS_WRITE);
         	mgr.saveSystemMessage(msg);
 			ActionMessages messages = new ActionMessages();
             messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.save.success", request.getContextPath()));

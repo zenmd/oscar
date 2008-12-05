@@ -208,7 +208,7 @@ function roomChanged()
 
 <tr><td><br><div class="tabs">
 <table cellpadding="3" cellspacing="0" border="0">
-<tr><th>Bed/Room</th></tr>
+<tr><th>Bed/Room*</th></tr>
 </table></div></td></tr>
 
 <tr><td>

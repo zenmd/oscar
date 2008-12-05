@@ -177,6 +177,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		
 		if (request.getParameter("note_edit") != null
 				&& request.getParameter("note_edit").equals("new")) {
+			super.getAccess(request, KeyConstants.FUN_CLIENTCASE,null, KeyConstants.ACCESS_WRITE);
 			log.info("NEW NOTE GENERATED");
 			request.getSession(true).setAttribute("newNote", "true");
 			request.getSession(true).setAttribute("issueStatusChanged", "false");

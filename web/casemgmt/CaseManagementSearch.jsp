@@ -217,6 +217,7 @@ response.setHeader("Cache-Control", "no-cache");
 	
 							</display:column>
 							<display:column property="observation_date" format="{0, date, yyyy/MM/dd}" sortable="true" title="Date" />
+							<display:column property="id" sortable="true" title="Note ID" />
 							<display:column property="providerName" sortable="true" title="Staff" />
 							<display:column property="status" sortable="true" title="Status" />
 						    <display:column property="programName" sortable="true" title="Program" />

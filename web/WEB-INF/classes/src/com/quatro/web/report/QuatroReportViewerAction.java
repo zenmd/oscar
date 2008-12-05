@@ -59,7 +59,7 @@ public class QuatroReportViewerAction extends BaseAction {
     ReportOptionValue _rptOption;
 //	protected CrystalDecisions.CrystalReports.Engine.ReportDocument reportDocument1;
     String _dateRangeDis = "";
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 			
 		QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
@@ -67,7 +67,7 @@ public class QuatroReportViewerAction extends BaseAction {
 		return null;
 	}
 	
-	public void Refresh(QuatroReportRunnerForm myForm, HttpServletRequest request, HttpServletResponse response){
+	protected void Refresh(QuatroReportRunnerForm myForm, HttpServletRequest request, HttpServletResponse response){
 		
 	    _rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 	    _rptOption = (ReportOptionValue)request.getSession(true).getAttribute(DataViews.REPORT_OPTION);
@@ -215,7 +215,7 @@ public class QuatroReportViewerAction extends BaseAction {
         return orgStr;
     }
 
-    public ArrayList ConstructCriteriaStringCrystal(int reportNo,  String criteriaDis)
+    private ArrayList ConstructCriteriaStringCrystal(int reportNo,  String criteriaDis)
     {
         ReportTempValue rptTemp = _rptValue.getReportTemp();
         if(rptTemp==null) return null;
@@ -369,7 +369,7 @@ public class QuatroReportViewerAction extends BaseAction {
         return lst;
     }
 	
-    public String GetValueListCrystal(String sValue, String sFieldType)
+    private String GetValueListCrystal(String sValue, String sFieldType)
     {
         StringBuffer sResult = new StringBuffer();
         sResult.append("[");

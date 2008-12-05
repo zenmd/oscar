@@ -260,8 +260,9 @@ public class ServiceRestrictionAction  extends BaseClientAction {
      //  request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
        request.setAttribute("serviceRestrictionList",lookupManager.LoadCodeList("SRT",!readOnly, null, null));
    }
-   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean readOnly) {
+   public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {
+		   boolean readOnly = false;
 		   DynaActionForm clientForm = (DynaActionForm) form;
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -286,6 +287,10 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	       if(Utility.IsEmpty(rId) && pcrObj.getId()!=null && pcrObj.getId().intValue() != 0) {
 	    	   pcrObj =  clientRestrictionManager.find(pcrObj.getId());
 	    	   rId=pcrObj.getId().toString();    	   
+	       }
+	       else
+	       {
+	    	   super.getAccess(request, KeyConstants.FUN_CLIENTRESTRICTION, null,KeyConstants.ACCESS_WRITE );
 	       }
 	       if(pcrObj != null && pcrObj.getProgramId() != null){
 	    	   pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");

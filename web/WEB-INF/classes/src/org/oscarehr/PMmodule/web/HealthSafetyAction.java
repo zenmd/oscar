@@ -38,16 +38,17 @@ public class HealthSafetyAction extends BaseClientAction {
 	
 	public ActionForward form(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
 		
-		super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
 		DynaActionForm healthSafetyForm = (DynaActionForm)form;
 		
 		String id = request.getParameter("clientId");
 				
 		HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(id));
 		if(healthsafety != null) {
+			super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY,null);
 			healthSafetyForm.set("healthsafety", healthsafety);
             request.setAttribute("healthsafety", healthsafety);
 		}else{
+			super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY,null,KeyConstants.ACCESS_WRITE);
 			healthsafety= new HealthSafety();
 			Provider provider=(Provider) request.getSession().getAttribute("provider");
 			healthsafety.setUserName(provider.getFormattedName());

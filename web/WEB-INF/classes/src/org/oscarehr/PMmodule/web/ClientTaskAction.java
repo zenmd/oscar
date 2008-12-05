@@ -393,7 +393,7 @@ public class ClientTaskAction extends BaseClientAction{
     
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
-
+    	super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, null, KeyConstants.ACCESS_WRITE);
     	String clientId = request.getParameter("clientId");
     	HashMap actionParam = new HashMap();
         actionParam.put("clientId", clientId); 

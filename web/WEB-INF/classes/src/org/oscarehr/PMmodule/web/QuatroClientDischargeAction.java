@@ -156,6 +156,8 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        request.setAttribute("clientId", demographicNo);
        request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        Admission admsObj =admissionManager.getAdmission(aId);
+       if(!admsObj.getAdmissionStatus().equals(KeyConstants.STATUS_DISCHARGED))
+    	   super.getAccess(request, KeyConstants.FUN_CLIENTDISCHARGE, admsObj.getProgramId(),KeyConstants.ACCESS_WRITE);
        
        clientForm.setAdmission(admsObj);       
 

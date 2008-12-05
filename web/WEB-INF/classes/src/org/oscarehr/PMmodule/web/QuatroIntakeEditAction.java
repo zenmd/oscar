@@ -55,6 +55,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	public ActionForward create(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
+			super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, null,KeyConstants.ACCESS_WRITE);
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
 			String clientId = request.getParameter("clientId");
@@ -166,7 +167,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			Integer intakeId = Integer
 					.valueOf(request.getParameter("intakeId"));
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-
+			if(intakeId.intValue() == 0) super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE,null,KeyConstants.ACCESS_WRITE);
 			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 			if (actionParam == null) {
 				actionParam = new HashMap();
@@ -575,6 +576,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 			Demographic client = qform.getClient();
 			QuatroIntake intake = qform.getIntake();
+			if(intake.getId() == null || intake.getId().intValue() == 0)
+				super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, intake.getProgramId(),KeyConstants.ACCESS_WRITE);
+			else
+				super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, intake.getProgramId(),KeyConstants.ACCESS_UPDATE);
+				
 			String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
 			Integer intakeHeadId = new Integer(0);
@@ -583,9 +589,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 						.getParameter("intakeHeadId"));
 			request.setAttribute("intakeHeadId", request
 					.getParameter("intakeHeadId"));
-
 			setProgramEditable(request, intake, intakeHeadId);
-
+				
 			// check for new client duplication
 			if (intake.getClientId().intValue() == 0
 					&& request.getParameter("newClientChecked").equals("N")

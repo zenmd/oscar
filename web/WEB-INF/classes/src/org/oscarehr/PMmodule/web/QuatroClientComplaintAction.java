@@ -114,6 +114,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 	
 			Complaint complaint = null;
 			if (complaintId == null || "0".equals(complaintId)) {
+				super.getAccess(request, KeyConstants.FUN_CLIENTCOMPLAINT, null, KeyConstants.ACCESS_WRITE);
 				complaint = new Complaint();
 				complaint.setStandardsBreached("0");
 				complaintForm.setIsStandards("1");

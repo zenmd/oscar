@@ -44,7 +44,7 @@ public class QuatroReportTemplateAction extends BaseAction {
 		return forward;
 	}
 
-	public void btnSave_Click(QuatroReportSaveTemplateForm myForm, HttpServletRequest request)
+	private void btnSave_Click(QuatroReportSaveTemplateForm myForm, HttpServletRequest request)
 	{
 		ReportValue rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 

@@ -118,6 +118,7 @@ public class UploadFileAction extends BaseClientAction {
 	}
 	 public ActionForward addNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		 try {
+			 super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, null, KeyConstants.ACCESS_WRITE);
 			 DynaActionForm attForm = (DynaActionForm) form;
 			 attForm.set("clientId",request.getParameter("clientId"));
 			 Attachment attObj =(Attachment)attForm.get("attachmentValue");
@@ -166,7 +167,7 @@ public class UploadFileAction extends BaseClientAction {
 			 if(null!=request.getParameter("id")) {
 				 aId= new Integer(request.getParameter("id"));
 				 if(aId.intValue()>0)
-				 attObj = uploadFileManager.getAttachmentDetail(aId);
+					 attObj = uploadFileManager.getAttachmentDetail(aId);
 				 attForm.set("attachmentValue", attObj);
 			 }
 			 else
@@ -190,6 +191,19 @@ public class UploadFileAction extends BaseClientAction {
 			 request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
 			 request.setAttribute("clientId", clientId);
 			 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
+
+			 if(aId.intValue() == 0)
+			 {
+				Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	 			String providerNo=(String) request.getSession().getAttribute("user");
+	 			String programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
+	 			if(programId == null) programId = "";
+		        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_WRITE);
+			 }
+			 else
+			    super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, attObj.getRefProgramId(),KeyConstants.ACCESS_UPDATE);
+				 
+			 
 			 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 			 request.setAttribute("lstDocType", lst);
 			 return mapping.findForward("edit");
@@ -199,9 +213,10 @@ public class UploadFileAction extends BaseClientAction {
 			   return mapping.findForward("failure");
 		   }
 	 }
-	 public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	 public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
 		 Integer aId = new Integer(request.getParameter("id"));
 		 Attachment attObj=uploadFileManager.getAttachmentDetail(aId);
+	     super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, attObj.getRefProgramId(),KeyConstants.ACCESS_WRITE);
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();

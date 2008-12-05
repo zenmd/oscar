@@ -90,7 +90,6 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward edit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
 	
 			DynaActionForm secroleForm = (DynaActionForm) form;
 	
@@ -101,6 +100,7 @@ public class RoleManagerAction extends BaseAdminAction {
 			}
 	
 			if (!Utility.IsEmpty(roleName)) {
+				super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
 				Secrole secrole = rolesManager.getRoleByRolename(roleName);
 	
 				if (secrole == null) {
@@ -157,6 +157,10 @@ public class RoleManagerAction extends BaseAdminAction {
 				secroleForm.set("secobjprivilegeLst", secobjprivilegeLst);
 				
 			}
+			else
+			{
+				super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE,KeyConstants.ACCESS_WRITE);
+			}
 	
 			String scrollPosition = (String) request.getParameter("scrollPosition");
 			if(null != scrollPosition) {
@@ -182,7 +186,7 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward saveNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE,KeyConstants.ACCESS_WRITE);
 	
 			ActionMessages messages = new ActionMessages();
 	        boolean isError = false;
@@ -229,7 +233,7 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward saveChange(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE, KeyConstants.ACCESS_UPDATE);
 	
 			ActionMessages messages = new ActionMessages();
 			DynaActionForm secroleForm = (DynaActionForm) form;
@@ -260,7 +264,7 @@ public class RoleManagerAction extends BaseAdminAction {
 		}
 
 	}
-/*
+
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)  {
 		try {

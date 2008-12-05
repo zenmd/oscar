@@ -6,8 +6,19 @@
 <title>Signature</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="GENERATOR" content="Rational Application Developer">
+<script language="javascript" type="text/javascript">
+	function refreshOpenner()
+	{
+		/*
+		if(opener)
+		{
+			opener.document.forms[0].submit();
+		}
+		*/
+	}
+</script>
 </head>
-<body>
+<body onunload="refreshOpenner();">
 
 <br><br>
 <table border="2" bordercolor="#000000" cellpadding="0" cellspacing="0" ><tr><td align="center" style="background-color: #c0c0c0;">

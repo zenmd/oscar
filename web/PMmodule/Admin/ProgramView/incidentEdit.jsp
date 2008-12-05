@@ -71,7 +71,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					<td colspan="2">
 						<table cellpadding="0" cellspacing="0" border="0">
 							<tr>
-								<td nowrap="nowrap"><b>Date of Incident</b> </td>
+								<td nowrap="nowrap"><b>Date of Incident</b>* </td>
 								<td><quatro:datePickerTag property="incidentForm.incidentDateStr" width="150px" openerForm="programManagerViewForm" /></td>
 								<td width="100%"></td>
 							</tr>
@@ -113,7 +113,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 						<html-el:radio property="incidentForm.ampm" value="PM">PM</html-el:radio></td>
 				</tr>
 				<tr>
-					<td colspan="2"><b>Clients Involved</b><br />
+					<td colspan="2"><b>Clients Involved</b>*<br />
 						<bean:define id="lstClientSelection" name="programManagerViewForm" property="incidentForm.clientSelectionList"/>
 						<table width="100%" >
 					        <tr>
@@ -138,7 +138,7 @@ Source: web/PMmodule/Admin/ProgramView/incidentEdit.jsp
 					    </table>
 						
 					</td>
-					<td colspan="2"><b>Staff Involved</b><br />
+					<td colspan="2"><b>Staff Involved</b>*<br />
 						<bean:define id="lstStaffSelection" name="programManagerViewForm" property="incidentForm.staffSelectionList"/>
 						<table width="100%" >
 					        <tr>

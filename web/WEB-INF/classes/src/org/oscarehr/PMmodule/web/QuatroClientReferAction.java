@@ -201,8 +201,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		log.debug("Saving Refer");
+		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		ActionMessages messages = new ActionMessages();
 		boolean isError = false;
 		boolean isWarning = false;
@@ -218,7 +218,12 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		request.setAttribute("clientId", cId);
 		Provider p = (Provider) request.getSession().getAttribute("provider");
 		if (refObj.getId().intValue() == 0) {
+			super.getAccess(request, KeyConstants.FUN_CLIENTREFER, refObj.getFromProgramId(), KeyConstants.ACCESS_WRITE);
 			refObj.setReferralDate(java.util.Calendar.getInstance());
+		}
+		else
+		{
+			super.getAccess(request, KeyConstants.FUN_CLIENTREFER, refObj.getFromProgramId(),KeyConstants.ACCESS_UPDATE);
 		}
 		refObj.setProviderNo(p.getProviderNo());
 		refObj.setStatus(KeyConstants.STATUS_PENDING);
@@ -263,6 +268,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		if(isError){
 			saveMessages(request, messages);			
 			setEditAttributes(form, request);
+			refForm.set("referral", refObj);
 			return mapping.findForward("edit");
 		}
 		clientManager.saveClientReferral(refObj);
@@ -306,12 +312,13 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();		
 		boolean readOnly =false;
-		if ("0".equals(rId) || rId==null) {
+		if (Utility.IsEmpty(rId) || "0".equals(rId)) {
+			super.getAccess(request, KeyConstants.FUN_CLIENTREFER, null, KeyConstants.ACCESS_WRITE);
 			crObj = new ClientReferral();
 			crObj.setId(new Integer(0));
 			crObj.setStatus(KeyConstants.STATUS_PENDING);
 			crObj.setClientId(Integer.valueOf(demographicNo));
-		} else if (!Utility.IsEmpty(rId)){			
+		} else {			
 			crObj = clientManager.getClientReferral(rId);			
 			if(Utility.IsEmpty(programId)) programId=crObj.getProgramId().toString();
 			if(!super.hasAccess(request, KeyConstants.FUN_CLIENTREFER,crObj.getFromProgramId(),crObj.getProgramId())) throw new NoAccessException();
