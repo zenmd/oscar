@@ -335,6 +335,7 @@ int getFrmVersion(String frmLabel, List<IntakeNode> iList) {
     for (int i=0; i<iList.size(); i++) {
 		String iLabel = iList.get(i).getLabelStr().trim();
 		if (iLabel.equals(frmLabel.trim())) {
+			if(iList.get(i).getForm_version() == null) continue;
 			int tmp = iList.get(i).getForm_version().intValue();
 			if(tmp > max_form_version) max_form_version=tmp;		
 		}
