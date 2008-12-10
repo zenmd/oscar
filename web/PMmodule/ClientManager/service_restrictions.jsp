@@ -22,6 +22,8 @@
 */
 -->
 
+<%-- Updated by Eugene Petruhin on 10 dec 2008 while fixing #2389527 --%>
+
 <%@ page import="java.util.*,
 				 org.oscarehr.util.SpringUtils,
 				 org.oscarehr.PMmodule.model.*,
@@ -223,6 +225,7 @@
         <tr>
             <td><c:out value="${program.name }" /></td>
             <td><c:out value="${program.type }" /></td>
+            <td><c:out value="${program.numOfMembers}" />/<c:out value="${program.maxAllowed}" />&nbsp;(<c:out value="${program.queueSize}" /> waiting)</td>
             <td><c:out value="${program.phone }" /></td>
             <td><c:out value="${program.email }" /></td>
         </tr>
