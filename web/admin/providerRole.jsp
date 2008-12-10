@@ -15,10 +15,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *
  *
  * <OSCAR TEAM>
- *
- * Updated by Eugene Petruhin on 09 dec 2008 while fixing #2392669
  */
 -->
+
+<%-- Updated by Eugene Petruhin on 09 dec 2008 while fixing #2392669 --%>
+
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%@ page errorPage="../errorpage.jsp" %>
 <%@ page import="java.util.*" %>
