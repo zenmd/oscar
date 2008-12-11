@@ -303,18 +303,27 @@ public class CaisiIntegratorUpdateTask extends TimerTask {
 
 		for (Integer demographicId : demographicIds) {
 			logger.debug("pushing demographic facilityId:" + facility.getId() + ", demographicId:" + demographicId);
-
-			pushDemographic(facility, service, demographicId);
-			pushDemographicIssues(facility, service, demographicId);
-			pushDemographicImages(facility, service, demographicId);
-			pushDemographicPreventions(facility, service, demographicId);
-			pushDemographicNotes(facility, service, demographicId);
+			try
+			{
+				pushDemographic(facility, service, demographicId);
+				pushDemographicIssues(facility, service, demographicId);
+				pushDemographicImages(facility, service, demographicId);
+				pushDemographicPreventions(facility, service, demographicId);
+				pushDemographicNotes(facility, service, demographicId);
+			}
+			catch(IllegalArgumentException iae)
+			{
+				// continue processing demographics if date values in current demographic are bad
+				// all other errors thrown by the above methods should indicate a failure in the service 
+				// connection at large -- continuing to process not possible
+				logger.error(iae.getMessage()+" > continuing with Demographic batch");
+			}
 		}
 
 	}
 
 	private void pushDemographic(Facility facility, DemographicWs service, Integer demographicId) throws IllegalAccessException, InvocationTargetException,
-			DatatypeConfigurationException {
+			DatatypeConfigurationException, IllegalArgumentException {
 		CachedDemographic cachedDemographic = new CachedDemographic();
 
 		// set consent info
@@ -332,10 +341,35 @@ public class CaisiIntegratorUpdateTask extends TimerTask {
 		facilityDemographicPrimaryKey.setCaisiItemId(demographic.getDemographicNo());
 		cachedDemographic.setFacilityIdIntegerCompositePk(facilityDemographicPrimaryKey);
 
+		// Date values in the demographic table aren't validated on insert.
+		// catch and rethrow IllegalArgumentExceptions with a more helpful message.
 		XMLGregorianCalendar cal = DatatypeFactory.newInstance().newXMLGregorianCalendar();
-		if (demographic.getYearOfBirth() != null) cal.setYear(Integer.parseInt(demographic.getYearOfBirth()));
-		if (demographic.getMonthOfBirth() != null) cal.setMonth(Integer.parseInt(demographic.getMonthOfBirth()));
-		if (demographic.getDateOfBirth() != null) cal.setDay(Integer.parseInt(demographic.getDateOfBirth()));
+		if (demographic.getYearOfBirth() != null) 
+		{
+			cal.setYear(Integer.parseInt(demographic.getYearOfBirth()));
+		}
+		if (demographic.getMonthOfBirth() != null) 
+		{
+			try
+			{
+				cal.setMonth(Integer.parseInt(demographic.getMonthOfBirth()));
+			}
+			catch(IllegalArgumentException iae)
+			{
+				throw new IllegalArgumentException("Invalid month value ["+demographic.getMonthOfBirth()+"] for demographic ["+demographicId+"] in facility ["+facility.getId()+"] "+iae.getMessage(), iae);
+			}
+		}
+		if (demographic.getDateOfBirth() != null) 
+		{
+			try
+			{
+				cal.setDay(Integer.parseInt(demographic.getDateOfBirth()));
+			}
+			catch(IllegalArgumentException iae)
+			{
+				throw new IllegalArgumentException("Invalid day value ["+demographic.getDateOfBirth()+"] for demographic ["+demographicId+"] in facility ["+facility.getId()+"]: "+iae.getMessage(), iae);
+			}
+		}
 		cachedDemographic.setBirthDate(cal);
 
 		cachedDemographic.setHinVersion(demographic.getVer());
