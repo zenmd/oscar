@@ -198,7 +198,9 @@ if (org.oscarehr.common.IsPropertiesOn.isCaisiEnable() && org.oscarehr.common.Is
 <head>
 <title><%=WordUtils.capitalize(userlastname + ", " +  org.apache.commons.lang.StringUtils.substring(userfirstname, 0, 1)) + "-"%><bean:message key="provider.appointmentProviderAdminDay.title"/></title>
 <link rel="stylesheet" href="../receptionist/receptionistapptstyle.css" type="text/css">
-<meta http-equiv="refresh" content="180;">
+<c:if test="${empty sessionScope.archiveView or sessionScope.archiveView != true}">
+	<meta http-equiv="refresh" content="180;">
+</c:if>
 
 <script language="javascript" type="text/javascript" src="../share/javascript/Oscar.js" ></script>
 <script type="text/javascript" src="../share/javascript/prototype.js"></script>
@@ -1006,7 +1008,7 @@ for(int nProvider=0;nProvider<numProvider;nProvider++) {
     		<%} %>	    		
 <a href=# onClick ="popupPage(400,680,'../appointment/appointmentcontrol.jsp?appointment_no=<%=apptMainBean.getString(rs,"appointment_no")%>&provider_no=<%=curProvider_no[nProvider]%>&year=<%=year%>&month=<%=month%>&day=<%=day%>&start_time=<%=iS+":"+iSm%>&demographic_no=0&displaymode=edit&dboperation=search');return false;" title="<%=iS+":"+(iSm>10?"":"0")+iSm%>-<%=iE+":"+iEm%>
 <%=name%>
-<bean:message key="provider.appointmentProviderAdminDay.reason"/>: <%=UtilMisc.htmlEscape(reason)%>itest
+<bean:message key="provider.appointmentProviderAdminDay.reason"/>: <%=UtilMisc.htmlEscape(reason)%>
 <bean:message key="provider.appointmentProviderAdminDay.notes"/>: <%=UtilMisc.htmlEscape(notes)%>" >
             .<%=(view==0&&numAvailProvider!=1)?(name.length()>len?name.substring(0,len).toUpperCase():name.toUpperCase()):name.toUpperCase()%></font></a></td>
         <%
