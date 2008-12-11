@@ -274,16 +274,22 @@ public class CaisiIntegratorUpdateTask extends TimerTask {
 
 			for (String providerId : providerIds) {
 				Provider provider = providerDao.getProvider(providerId);
-
-				CachedProvider cachedProvider = new CachedProvider();
-
-				BeanUtils.copyProperties(cachedProvider, provider);
-
-				FacilityIdStringCompositePk pk = new FacilityIdStringCompositePk();
-				pk.setCaisiItemId(provider.getProviderNo());
-				cachedProvider.setFacilityIdStringCompositePk(pk);
-
-				cachedProviders.add(cachedProvider);
+				if(provider == null)
+				{
+					logger.warn("Provider ["+providerId+"] is null, not adding to cache");
+				}
+				else
+				{
+					CachedProvider cachedProvider = new CachedProvider();
+	
+					BeanUtils.copyProperties(cachedProvider, provider);
+	
+					FacilityIdStringCompositePk pk = new FacilityIdStringCompositePk();
+					pk.setCaisiItemId(provider.getProviderNo());
+					cachedProvider.setFacilityIdStringCompositePk(pk);
+	
+					cachedProviders.add(cachedProvider);
+				}
 			}
 
 			ProviderWs service = caisiIntegratorManager.getProviderWs(facility.getId());
