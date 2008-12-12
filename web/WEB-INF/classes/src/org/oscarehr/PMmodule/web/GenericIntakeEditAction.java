@@ -175,7 +175,7 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
 				getCurrentServiceProgramIds(clientId), getCurrentExternalProgramId(clientId), facilityId);
 
 		// UCF -- intake accessment : please don't remove the following line
-		request.getSession().setAttribute("survey_list", surveyManager.getAllForms());
+		request.getSession().setAttribute("survey_list", surveyManager.getAllForms(facilityId,providerNo));
 
 		String oldBedProgramId = String.valueOf(getCurrentBedCommunityProgramId(clientId));
 		request.getSession().setAttribute("intakeCurrentBedCommunityId", oldBedProgramId);

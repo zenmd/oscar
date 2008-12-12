@@ -116,18 +116,18 @@ public class GenericIntakeSearchAction extends BaseGenericIntakeAction {
     
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         GenericIntakeSearchFormBean intakeSearchBean = (GenericIntakeSearchFormBean) form;
-
+        int currentFacilityId = (Integer) request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
+        String providerNo = (String) request.getSession().getAttribute(SessionConstants.LOGGED_IN_PROVIDER);
+        
         // UCF
-        request.getSession().setAttribute("survey_list", surveyManager.getAllForms());
+        request.getSession().setAttribute("survey_list", surveyManager.getAllForms(currentFacilityId,providerNo));
 
         List<Demographic> localMatches = localSearch(intakeSearchBean);
         intakeSearchBean.setLocalMatches(localMatches);
 
         intakeSearchBean.setSearchPerformed(true);
         request.setAttribute("genders", lookupManager.LoadCodeList("GEN", true, null, null));
-
-        int currentFacilityId = (Integer) request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-
+        
         if (caisiIntegratorManager.isIntegratorEnabled(currentFacilityId)) {
             createRemoteList(request, intakeSearchBean, currentFacilityId);
         }
