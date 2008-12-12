@@ -136,19 +136,31 @@ public class ClientSearchAction2 extends BaseClientAction {
 		// formBean.setProgramDomain((List)request.getSession().getAttribute("program_domain"));
 		boolean allowOnlyOptins = UserRoleUtils.hasRole(request,
 				UserRoleUtils.Roles_external);
-		if ("MyP".equals(formBean.getBedProgramId())) {
-			Integer shelterId = (Integer) request.getSession().getAttribute(
+		String progId = formBean.getBedProgramId();
+		Integer shelterId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_SHELTERID);
-			String providerNo = (String) request.getSession().getAttribute(
+		String providerNo = (String) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_PROVIDERNO);
 			//List allBedPrograms = programManager.getBedPrograms(providerNo, shelterId);
+		if(!"".equals(progId)) {
 			List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
 			String prgId = "";
-//			for (Program prg : allBedPrograms) {
+			boolean isOk = "MyP".equals(progId);
 			for (int i=0;i<allPrograms.size();i++) {
 				Program prg = (Program)allPrograms.get(i);
-				prgId += prg.getId().toString() + ",";
+				if ("MyP".equals(progId)) {
+					prgId += prg.getId().toString() + ",";
+				}
+				else
+				{
+					if (progId.equals(prg.getId().toString())) {
+						isOk = true;
+						prgId = progId + ",";
+					}
+				}
 			}
+			if(!isOk) throw new NoAccessException();
+			
 			if (!"".equals(prgId)) {
 				prgId = prgId.substring(0, prgId.length() - 1);
 			}
