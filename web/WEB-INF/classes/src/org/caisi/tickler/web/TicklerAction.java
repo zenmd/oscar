@@ -56,6 +56,9 @@ import org.oscarehr.util.SessionConstants;
 
 import oscar.OscarProperties;
 
+/**
+ * Updated by Eugene Petruhin on 11 dec 2008 while fixing #2356548 & #2393547
+ **/
 public class TicklerAction extends DispatchAction {
     private static Log log = LogFactory.getLog(TicklerAction.class);
     private TicklerManager ticklerMgr = null;
@@ -155,10 +158,13 @@ public class TicklerAction extends DispatchAction {
         //view tickler from CME
         String filter_clientId = filter.getDemographic_no();
         String filter_clientName = filter.getDemographic_webName();
-        if(!"".equals(filter_clientId) && filter_clientId!=null) {
-        	if("".equals(filter_clientName) || filter_clientName==null) {
+        if (filter_clientId != null && !"".equals(filter_clientId)) {
+        	if (filter_clientName == null || "".equals(filter_clientName)) {
         		filter.setDemographic_webName(demographicMgr.getDemographic(filter_clientId).getFormattedName());
         	}
+        } else {
+        	filter_clientName = "";
+        	filter.setDemographic_webName("");
         }
         
         Integer currentFacilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);        
@@ -393,7 +399,11 @@ public class TicklerAction extends DispatchAction {
         messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("tickler.saved"));
         saveMessages(request, messages);
 
-        ticklerForm.set("tickler", new Tickler());
+		CustomFilter filter = new CustomFilter();
+        filter.setDemographic_no(tickler.getDemographic_no());
+        filter.setDemographic_webName(tickler.getDemographic_webName());
+		ticklerForm.set("filter", filter);
+		ticklerForm.set("tickler", new Tickler());
         return filter(mapping, form, request, response);
     }
 

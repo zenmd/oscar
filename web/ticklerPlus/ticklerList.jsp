@@ -1,12 +1,14 @@
+
+<%-- Updated by Eugene Petruhin on 11 dec 2008 while fixing #2356548 & #2393547 --%>
+
 <%@ include file="/taglibs.jsp" %>
 <%@ include file="/ticklerPlus/header.jsp"%>
 
 <%@ page import="java.util.Calendar"%>
-<%
-                        Calendar now = Calendar.getInstance();
+			<%
+			Calendar now = Calendar.getInstance();
 			int curYear = now.get(Calendar.YEAR);
 			int curMonth = now.get(Calendar.MONTH) + 1;
-
 			%>
 
 <script type="text/javascript" src="../share/javascript/prototype.js"></script>
@@ -83,7 +85,7 @@
 		 }
 		    
 		  if(!bValid){
-            alert("Begin Date cann not be greater than End Date.");
+            alert("Begin Date can not be greater than End Date.");
             return false;		
 		  }else{
 		    var form = document.ticklerForm;
@@ -203,8 +205,7 @@
 			property="filter.programId"
 			onchange="return checkTicklerDate();">
 			<option value="All Programs">All Programs</option>
-			<html:options collection="programs" property="id"
-				labelProperty="name" />
+			<html:options collection="programs" property="id" labelProperty="name" />
 		</html:select></td>
 		
 	</tr>
@@ -261,12 +262,9 @@
 			<th></th>
 			<th>Demographic Name</th>
 			<th class=noprint>Provider Name</th>
-			
-			
-			 
+		 
 			<%
-
-			 String click_order =(String)session.getAttribute( "filter_order" );
+			String click_order = (String)session.getAttribute( "filter_order" );
 	
 			if(click_order=="DESC") {%>
 				<input type="hidden" name="filter.sort_order" value="ASC" />
@@ -277,8 +275,8 @@
 				<% session.setAttribute( "filter_order", "DESC");
 			}		
 			%>
-			<th class=noprint><a href="javascript:sortByDate();" class=noprint>Date</a></th>
 
+			<th class=noprint><a href="javascript:sortByDate();" class=noprint>Date</a></th>
 			<th class=noprint>Priority</th>
 			<th class=noprint>Task Assigned To</th>
 			<th class=noprint>Status</th>
@@ -286,26 +284,24 @@
 			<th>Program</th>
 		</tr>
 
-		<tr>
-			<%int index = 0;
+			<%
+			int index = 0;
 			String bgcolor;
 			String view_image;
-
 			%>
 			<c:forEach var="tickler" items="${ticklers}">
-				<%
-if (index++ % 2 != 0) {
+			<%
+			if (index++ % 2 != 0) {
 				bgcolor = "white";
 				view_image = "details.gif";
 			} else {
 				bgcolor = "#EEEEFF";
 				view_image = "details2.gif";
 			}
-
 			%>
 				<tr bgcolor="<%=bgcolor %>" align="center">
-					<%
-String demographic_name = "";
+			<%
+			String demographic_name = "";
 			String provider_name = "";
 			String assignee_name = "";
 			String program_name = "";
@@ -362,13 +358,12 @@ String demographic_name = "";
 						align="right" src="<c:out value="${ctx}"/>/ticklerPlus/images/<%=view_image %>" border="0" />
 					</a></td>
 
-					<%
-String style = "";
+			<%
+			String style = "";
 			style = "color:black;";
 			if ("High".equals(temp.getPriority())) {
 				style = "color:red;";
 			}
-
 			%>
 					<td style="<%=style%>"><%=demographic_name%></td>
 					<td style="<%=style%>" class=noprint><%=provider_name%></td>
@@ -382,10 +377,8 @@ String style = "";
 					<td style="<%=style%>" class=noprint><%=program_name%></td>
 				</tr>
 			</c:forEach>
-		</tr>
 		<tr>
-			<td colspan="9"><%=((java.util.List) session.getAttribute("ticklers"))
-							.size()%> ticklers found.</td>
+			<td colspan="9"><%=((java.util.List) session.getAttribute("ticklers")).size()%> ticklers found.</td>
 		</tr>
 	</table>
 

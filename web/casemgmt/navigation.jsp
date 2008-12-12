@@ -21,6 +21,9 @@
 * Toronto, Ontario, Canada
 */
 -->
+
+<%-- Updated by Eugene Petruhin on 11 dec 2008 while fixing #2356548 & #2393547 --%>
+
 <%@ include file="/casemgmt/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
@@ -447,7 +450,7 @@ String backurl=bsurl+"/oscarEncounter/IncomingEncounter.do?";
 
 <caisirole:SecurityAccess accessName="read ticklers" accessType="access" providerNo="<%=bean.providerNo%>" demoNo="<%=bean.demographicNo%>" programId="<%=pgId%>">
     <tr><td>
-        <a href="javascript:void(0)" onClick="popupPage('<%=bsurl%>/Tickler.do?method=filter&filter.demographic_no=<%=bean.demographicNo%>');return false;">View Tickler</a><br>
+        <a href="javascript:void(0)" onClick="popupPage('<%=bsurl%>/Tickler.do?method=filter&filter.demographic_webName=<%=StringEscapeUtils.escapeJavaScript(bean.getPatientLastName() +"," + bean.getPatientFirstName())%>&filter.demographic_no=<%=bean.demographicNo%>');return false;">View Tickler</a><br>
     </td></tr>
 </caisirole:SecurityAccess>
 
