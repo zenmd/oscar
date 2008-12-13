@@ -40,8 +40,8 @@
 	}
 
 	function deleteProvider(id) {
-		if(!confirm("Are you sure you want to delete the staff?")) {
-			return false;
+		if(!confirm("Are you sure you want to delete the staff entry?")) {
+			return;
 		}
 		document.programManagerForm.elements['provider.id'].value=id;
 		document.programManagerForm.method.value='delete_provider';
@@ -64,6 +64,9 @@
 	}
 	
 	function removeTeam(id,team_id) {
+		if(!confirm("Are you sure you want to delete the team entry?")) {
+			return;
+		}
 		document.programManagerForm.elements['teamId'].value=team_id;	
 		document.programManagerForm.elements['provider.id'].value=id;
 		document.programManagerForm.method.value='remove_team';
@@ -101,7 +104,7 @@
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No staff currently assigned to this program." />
 	<display:column sortable="false" title="">
-		<a onclick="deleteProvider('<c:out value="${provider.id}"/>');" href="javascript:void(0);"> Delete </a>
+		<a href="javascript:void(0);" onclick="deleteProvider('<c:out value="${provider.id}"/>');return false;"> Delete </a>
 	</display:column>
 	<display:column property="provider.formattedName" sortable="true" title="Name" />
 	<display:column property="provider.phone" sortable="true" title="Phone" />
@@ -111,7 +114,7 @@
 			<c:forEach var="team" items="${provider.teams}">
 				<tr>
 					<td><c:out value="${team.name }" /></td>
-					<td><a href="javascript:void(0);return false;" onclick="removeTeam('<c:out value="${provider.id}"/>','<c:out value="${team.id}"/>')">Remove</a>
+					<td><a href="javascript:void(0);" onclick="removeTeam('<c:out value="${provider.id}"/>','<c:out value="${team.id}"/>');return false;">Remove</a>
 				</tr>
 			</c:forEach>
 		</table>
@@ -141,7 +144,7 @@
 <br />
 <table width="100%" border="1" cellspacing="2" cellpadding="3">
 	<tr class="b">
-		<td width="20%">Provider :</td>
+		<td width="20%">Provider:</td>
 		<td>
 			<html:hidden property="provider.id" />
 			<html:hidden property="provider.providerNo" />

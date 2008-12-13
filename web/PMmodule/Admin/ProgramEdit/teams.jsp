@@ -24,6 +24,9 @@
 <%@ include file="/taglibs.jsp"%>
 <script>
 function deleteTeam(id) {
+	if(!confirm("Are you sure you want to delete the team entry?")) {
+		return;
+	}
 	document.programManagerForm.elements['team.id'].value=id;
 	document.programManagerForm.method.value='delete_team';
 	document.programManagerForm.submit();
@@ -58,7 +61,7 @@ function add_team(form) {
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No teams are currently defined for this program." />
 	<display:column sortable="false" title="">
-		<a onclick="deleteTeam('<c:out value="${team.id}"/>');" href="javascript:void(0);"> Delete </a>
+		<a onclick="deleteTeam('<c:out value="${team.id}"/>');return false;" href="javascript:void(0);"> Delete </a>
 	</display:column>
 	<display:column property="name" sortable="true" title="Name" />
 	<display:column sortable="true" title="Staff">

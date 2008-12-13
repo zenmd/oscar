@@ -37,6 +37,9 @@ function search_provider(name) {
 }
 
 function deleteFunctionalUser(id) {
+	if(!confirm("Are you sure you want to delete the functional user entry?")) {
+		return;
+	}
 	document.programManagerForm.elements['function.id'].value=id;
 	document.programManagerForm.method.value='delete_function';
 	document.programManagerForm.submit();
@@ -74,7 +77,7 @@ function add_functional_user(form) {
 	<display:setProperty name="paging.banner.placement" value="bottom" />
 	<display:setProperty name="basic.msg.empty_list" value="No functional users defined for this program" />
 	<display:column sortable="false" title="">
-		<a onclick="deleteFunctionalUser('<c:out value="${functional.id}"/>');" href="javascript:void(0);"> Delete </a>
+		<a onclick="deleteFunctionalUser('<c:out value="${functional.id}"/>');return false;" href="javascript:void(0);"> Delete </a>
 	</display:column>
 	<display:column property="userType.name" sortable="true" title="Functional User Type" />
 	<display:column property="provider.formattedName" sortable="true" title="Provider Name" />

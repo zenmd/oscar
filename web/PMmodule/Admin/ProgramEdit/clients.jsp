@@ -57,7 +57,7 @@ function assignStatus(id,selectBox) {
 	<display:setProperty name="basic.msg.empty_list" value="No clients currently admitted to this program." />
 	
 	<display:column sortable="false" title="">
-		<a href="javascript:void(0);return false;" onclick="alert('Please discharge clients from the client manager');"> Discharge </a>
+		<a href="javascript:void(0);" onclick="alert('Please discharge clients from the client manager');"> Discharge </a>
 	</display:column>
 	<display:column property="client.formattedName" sortable="true" title="Name" />
 	<display:column property="admissionDate" sortable="true" title="Admission Date" />
