@@ -158,7 +158,6 @@ public class KeyConstants {
   public static final String FUN_PROGRAM_INCIDENT="_program.incident";
   public static final String FUN_PROGRAMEDIT_SERVICERESTRICTIONS="_programEdit.serviceRestrictions";
   public static final String FUN_PROGRAM_SERVICERESTRICTIONS="_program.serviceRestrictions";
-  public static final String FUN_PROGRAM_REJECT="_program.queueReject";
  
   public static final String FUN_CLIENTADMISSION="_clientAdmission";
   public static final String FUN_CLIENTCASE="_clientCase";
