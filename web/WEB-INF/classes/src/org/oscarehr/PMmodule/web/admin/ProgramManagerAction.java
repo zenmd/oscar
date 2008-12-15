@@ -101,12 +101,13 @@ public class ProgramManagerAction extends BaseProgramAction {
 
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
-    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ACCESS_UPDATE);
 	    	DynaActionForm programForm = (DynaActionForm) form;
 	
 	        String id = request.getParameter("programId");
 	        if(id == null || id.equals(""))
 	        	id = ((Integer)request.getAttribute("programId")).toString();
+    		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT, KeyConstants.ACCESS_READ);
+
 	        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	        if(actionParam==null){
 	     	  actionParam = new HashMap();

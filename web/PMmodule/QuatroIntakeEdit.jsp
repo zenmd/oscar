@@ -155,7 +155,7 @@ function confirmActive()
 				<a id="btnSave" href='javascript:void1();' onclick="javascript: setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">&nbsp; 
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</a>
 	         </c:if> 
-	         <c:if	test="${quatroIntakeEditForm.intake.id!=0 && quatroIntakeEditForm.intake.programType==PROGRAM_TYPE_Bed}">
+	         <c:if	test="${quatroIntakeEditForm.intake.id!=0}">
 				<c:if test="${quatroIntakeEditForm.intake.intakeStatus=='active' || intakeHeadId>0}">
 	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
 							style="color:Navy;text-decoration:none;" onclick="javascript: return isDateValid;"> 
@@ -428,7 +428,7 @@ function confirmActive()
 							<td>Disability</td>
 							<td colspan="2"><html-el:text style="width: 80%"
 								property="intake.disability" maxlength="100" /></td>
-							<td>Disclosed substance abuse</td>
+							<td>Disclosed substance use</td>
 							<td><html-el:checkbox property="intake.disclosedAbuse"
 								value="1" /></td>
 						</tr>
@@ -436,7 +436,7 @@ function confirmActive()
 							<td>Pregnant</td>
 							<td></td>
 							<td><html-el:checkbox property="intake.pregnant" value="1" /></td>
-							<td>Observed substance abuse</td>
+							<td>Observed substance use</td>
 							<td><html-el:checkbox property="intake.observedAbuse"
 								value="1" /></td>
 						</tr>
@@ -452,14 +452,14 @@ function confirmActive()
 							<td colspan="2">Observed mental health issues</td>
 							<td><html-el:checkbox property="intake.observedMentalIssue"
 								value="1" /></td>
-							<td>Disclosed alcohol abuse</td>
+							<td>Disclosed alcohol use</td>
 							<td><html-el:checkbox
 								property="intake.disclosedAlcoholAbuse" value="1" /></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td></td>
-							<td>Observed alcohol abuse</td>
+							<td>Observed alcohol use</td>
 							<td><html-el:checkbox property="intake.observedAlcoholAbuse"
 								value="1" /></td>
 						</tr>

@@ -22,6 +22,8 @@ import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Program;
+import org.oscarehr.PMmodule.service.AdmissionManager;
+import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.FacilityManager;
 import org.oscarehr.PMmodule.service.LogManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
@@ -38,8 +40,8 @@ import oscar.MyDateFormat;
  */
 public class FacilityManagerAction extends BaseFacilityAction {
     private FacilityManager facilityManager;
-    private AdmissionDao admissionDao;
-    private ClientDao clientDao;
+    private AdmissionManager admissionManager;
+    private ClientManager clientManager;
     private ProgramManager programManager;
     private LookupManager lookupManager;
     private LogManager logManager;
@@ -157,8 +159,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        
 	        
 	//      Get facility associated client list -----------
-	        List facilityClients = new ArrayList();
 	
+	        List facilityClients = new ArrayList();
+	/*
 	         // Get program list by facility id in table room.
 	                  
 	         for (int i=0;i<programs.size();i++) {
@@ -166,7 +169,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	             if (program != null) {
 	                 // Get admission list by program id and automatic_discharge=true
 	
-	                 List admissions = admissionDao.getAdmissionsByProgramId(program.getId(), new Boolean(true), new Integer(-7));
+	                 List admissions = admissionManager.getAdmissionListByProgram(programId);
 	                 if (admissions != null) {
 	                     Iterator it = admissions.iterator();
 	                     while (it.hasNext()) {
@@ -174,7 +177,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	                         Admission admission = (Admission) it.next();
 	
 	                         // Get demographic list by demographic_no
-	                         Demographic client = clientDao.getClientByDemographicNo(admission.getClientId());
+	                         Demographic client = clientManager.getClientByDemographicNo(admission.getClientId());
 	
 	                         String name = client.getFirstName() + " " + client.getLastName();
 	                         String dob = MyDateFormat.getStandardDate(client.getDateOfBirth());
@@ -208,6 +211,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	                 }
 	             }
 	         }
+	      */
 	         request.setAttribute(BEAN_ASSOCIATED_CLIENTS, facilityClients);
 	        
 	        
@@ -514,12 +518,12 @@ public class FacilityManagerAction extends BaseFacilityAction {
         this.facilityManager = facilityManager;
     }
 
-    public void setAdmissionDao(AdmissionDao admissionDao) {
-        this.admissionDao = admissionDao;
+    public void setAdmissionManager(AdmissionManager admissionManager) {
+        this.admissionManager = admissionManager;
     }
 
-    public void setClientDao(ClientDao clientDao) {
-        this.clientDao = clientDao;
+    public void setClientManager(ClientManager clientManager) {
+        this.clientManager = clientManager;
     }
 
     public void setLookupManager(LookupManager lookupManager) {

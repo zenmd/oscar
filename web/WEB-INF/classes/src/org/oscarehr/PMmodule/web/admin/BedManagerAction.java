@@ -61,8 +61,10 @@ public class BedManagerAction extends BaseFacilityAction {
 	        
 	        Room room;
 	        if(roomId.intValue()>0){
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED);
 	          room = roomManager.getRoom(roomId);
 	        }else{
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED, KeyConstants.ACCESS_WRITE);
 	          room = new Room();
 	          room.setFacilityId(facilityId);
 	        }
@@ -107,8 +109,10 @@ public class BedManagerAction extends BaseFacilityAction {
 	        
 	        Bed bed;
 	        if(bedId.intValue()>0){
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED);
 	          bed = bedManager.getBed(bedId);
 	        }else{
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED, KeyConstants.ACCESS_WRITE);
 	          bed = new Bed();
 	          bed.setRoomId(roomId);
 	        }
@@ -327,8 +331,11 @@ public class BedManagerAction extends BaseFacilityAction {
 	    	
 	    	BedManagerForm bForm = (BedManagerForm) form;
 	        ActionMessages messages = new ActionMessages();
-	
 	        Room room = bForm.getRoom();
+	        if(room.getId() == null || room.getId().intValue() == 0 )
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED, KeyConstants.ACCESS_WRITE);
+	        else
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED, KeyConstants.ACCESS_UPDATE);
 	
 	        boolean isValid = isRoomOverProgramCapacity(room,null, request);
 	        
@@ -428,6 +435,11 @@ public class BedManagerAction extends BaseFacilityAction {
 	        Room room=roomManager.getRoom(bed.getRoomId());
 	        boolean isNew = bed.getId().intValue()==0;
 	        boolean isValid = true;
+	        if(isNew)
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED, KeyConstants.ACCESS_WRITE);
+	        else
+	        	super.getAccess(request, KeyConstants.FUN_FACILITY_BED, KeyConstants.ACCESS_UPDATE);
+
 	        //not need check for change bed inactive 
 	        if(bed!=null && bed.isActive()) isValid =isRoomOverProgramCapacity(room, bed, request);        
 	       	if(isValid){

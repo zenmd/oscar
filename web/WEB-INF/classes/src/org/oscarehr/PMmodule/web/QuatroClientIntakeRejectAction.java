@@ -37,7 +37,10 @@ public class QuatroClientIntakeRejectAction extends BaseProgramAction {
 	       String id = request.getParameter("programId");
 	       if(id == null || id.equals(""))
 	       	id = (String)request.getAttribute("programId");
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+		   
+	       super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE,Integer.valueOf(id),KeyConstants.ACCESS_WRITE);
+
+		   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
 	          actionParam.put("programId", id); 
@@ -68,6 +71,9 @@ public class QuatroClientIntakeRejectAction extends BaseProgramAction {
 	       String id = request.getParameter("programId");
 	       if(id == null || id.equals(""))
 	       	id = (String)request.getAttribute("programId");
+	       
+	       super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE,Integer.valueOf(id),KeyConstants.ACCESS_WRITE);
+
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();

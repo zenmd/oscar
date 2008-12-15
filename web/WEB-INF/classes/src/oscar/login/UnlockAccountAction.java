@@ -52,7 +52,7 @@ public final class UnlockAccountAction extends BaseAdminAction {
     public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
     	try {
-    		super.getAccess(request, KeyConstants.FUN_ADMIN_UNLOCKUSER);
+    		super.getAccess(request, KeyConstants.FUN_ADMIN_UNLOCKUSER, KeyConstants.ACCESS_WRITE);
 	    	DynaValidatorForm myForm = (DynaValidatorForm) form;
 	    	String [] userIds = myForm.getString("userId").split(",");
 	    	

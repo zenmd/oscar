@@ -315,12 +315,13 @@
         </action>
         <action path="/PMmodule/MergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
             <forward name="view" path="page.pmm.client.merge" />    
-            <forward name="unmerge" path="/PMmodule/UnmergeClient.do" redirect="true" />                 
+            <forward name="unmerge" path="/PMmodule/MergeClient.do?method=mergedSearch" redirect="true" />                 
         </action>
+        <!-- 
         <action path="/PMmodule/UnmergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
             <forward name="view" path="page.pmm.client.merge" />                                   
         </action>
-                 
+        -->    
 		<action path="/PMmodule/QuatroConsent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="consentDetailForm" scope="request">
 			<forward name="list" path="page.pmm.consent.list"></forward>
 			<forward name="edit" path="page.pmm.consent.edit"></forward>

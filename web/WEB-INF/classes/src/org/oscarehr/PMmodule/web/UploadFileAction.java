@@ -201,7 +201,7 @@ public class UploadFileAction extends BaseClientAction {
 		        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_WRITE);
 			 }
 			 else
-			    super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, attObj.getRefProgramId(),KeyConstants.ACCESS_UPDATE);
+			    super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, attObj.getRefProgramId(),KeyConstants.ACCESS_READ);
 				 
 			 
 			 List lst = lookupManager.LoadCodeList("DCT", true, null, null);

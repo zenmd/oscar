@@ -78,12 +78,12 @@
 				<!-- begin room status & bed program filter -->
 				<table width="100%">
 				  <tr><td width="35%">Room Status
-					<html:select property="roomStatusFilter"	name="bedManagerForm" onchange="setNoConfirm();roomFilter();">
+					<html:select property="roomStatusFilter"	name="bedManagerForm" onchange="setNoConfirm();roomFilter();" title="filter">
 					<html:optionsCollection property="roomStatusNames"	value="key" label="value" />
 					</html:select>
 				  </td>
 				  <td width="65%">Bed Program
-				  <html:select property="bedProgramFilterForRoom"	name="bedManagerForm" onchange="setNoConfirm();roomFilter();">
+				  <html:select property="bedProgramFilterForRoom"	name="bedManagerForm" onchange="setNoConfirm();roomFilter();"  title="filter">
 					<option value="0">Any</option>
 					<html:optionsCollection property="programs" value="id" label="name" />
 				  </html:select>

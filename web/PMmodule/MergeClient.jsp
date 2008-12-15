@@ -268,7 +268,7 @@
 				<c:choose>	
 						<c:when test="${mergeAction eq 'unmerge'}">				
 							<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"	id="client" name="clients" export="false" pagesize="100"
-							requestURI="/PMmodule/UnmergeClient.do" >
+							requestURI="/PMmodule/MergeClient.do" >
 							<display:setProperty name="paging.banner.placement" value="bottom" />
 							<display:setProperty name="basic.msg.empty_list"
 								value="No clients found." />							

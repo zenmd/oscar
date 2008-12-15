@@ -134,6 +134,20 @@ public class BaseProgramAction extends BaseAdminAction {
 		}
 		return readOnly;
 	}
+	public String getAccess(HttpServletRequest request, String funName,Integer programId, String right) throws NoAccessException {
+
+		if (request.getAttribute("programId") == null) request.setAttribute("programId", programId); 		
+		SecurityManager sec = super.getSecurityManager(request);
+		//summary
+		String orgCd="";
+		if(programId!=null && programId.intValue()!=0) orgCd="P" + programId.toString();
+		String access = sec.GetAccess(funName, orgCd);
+		if (access.compareTo(right) < 0)
+		{
+			throw new NoAccessException();
+		}
+		return access;
+	}
 
 
 }
