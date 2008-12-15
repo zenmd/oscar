@@ -86,8 +86,27 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     	try{
     	  if(sdVal.getRecordId()==null) sdVal.setRecordId(new Integer(0));	
     	  getHibernateTemplate().saveOrUpdate(sdVal);
+    	  updateIntake(sdVal);
     	}catch(Exception e){
     		System.out.print("DAO" + e.getMessage());
     	}
+    }
+    private void updateIntake(SdmtIn sdVal)
+    {
+    	String sql = "update intake set sdmt_ben_unit_status=?,sdmt_office=?,sdmt_last_ben_month=?";
+    	sql += " where client_id=? and intake_status in ('active','admitted')" +
+    			" and (end_date > ? or never_end=1)";
+    	SQLQuery q = getSession().createSQLQuery(sql);
+    	q.setString(0, sdVal.getBenefitUnitStatus());
+    	q.setString(1,sdVal.getOffice());
+    	q.setString(2,sdVal.getLastBenMonth());
+    	q.setInteger(3, sdVal.getClientId().intValue());
+    	Calendar today = Calendar.getInstance();
+    	today.clear(Calendar.HOUR);
+    	today.clear(Calendar.MINUTE);
+    	today.clear(Calendar.SECOND);
+    	q.setDate(4, today.getTime());
+    	
+    	q.executeUpdate();
     }
 }
