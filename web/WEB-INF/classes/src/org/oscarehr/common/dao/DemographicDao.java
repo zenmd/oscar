@@ -36,6 +36,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 import javax.persistence.PersistenceException;
 
@@ -110,8 +112,13 @@ public class DemographicDao extends HibernateDaoSupport {
     }
 
     public Set getArchiveDemographicByProgramOptimized(int programId, Date dt, Date defdt) {
-    	Set<Demographic> archivedClients = new HashSet<Demographic>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Set<Demographic> archivedClients = new TreeSet<Demographic>(new Comparator<Demographic>() {
+    		public int compare(Demographic o1, Demographic o2) {    	
+    			return String.CASE_INSENSITIVE_ORDER.compare(o1.getLastName(), o2.getLastName());
+    		}
+    	});    	
+
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String sqlQuery = "select distinct d.demographic_no,d.first_name,d.last_name,(select count(*) from admission a where client_id=d.demographic_no and admission_status='current' and program_id="+programId+" and admission_date<='"+sdf.format(dt)+"') as is_active from admission a,demographic d where a.client_id=d.demographic_no and (d.patient_status='AC' or d.patient_status='' or d.patient_status=null) and program_id="+programId;
     	System.out.println(sqlQuery);
     	
