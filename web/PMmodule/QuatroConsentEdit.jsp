@@ -26,6 +26,11 @@
 		top.childWin = window.open(url,"_blank","toolbar=no,menubar=no,resizable=yes,scrollbars=yes,status=no,width=650,height=400,top=50, left=50");
 		top.childWin.focus();
 	}
+	function refresh()
+	{
+	 		document.forms[0].method.value = "edit";
+			document.forms[0].submit();
+	}
 	function submitForm(methodVal) {
 		trimInputBox();
 		if(!isDateValid) return;
