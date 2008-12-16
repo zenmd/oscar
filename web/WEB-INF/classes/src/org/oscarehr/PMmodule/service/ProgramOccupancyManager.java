@@ -35,10 +35,10 @@ public class ProgramOccupancyManager {
 	 public void insertSdmtIn(SdmtIn sdVal){
 		 programOccupancyDao.insertSdmtIn(sdVal);
 		 Demographic client=new Demographic();
-		 client.setDemographicNo(sdVal.getRecordId());
+		 client.setDemographicNo(sdVal.getClientId());
 		 client.setBenefitUnitStatus(sdVal.getBenefitUnitStatus());
 		 client.setPin(sdVal.getSdmtBenUnitId().toString()); 
-		 client.setHin(sdVal.getClientId().toString());  //sdmt client id
+		 client.setHin(sdVal.getMemberId().toString());  //sdmt member id
 		 clientDao.updateClientBenUnitStatus(client);
 	 }
 	public void setClientDao(ClientDao clientDao) {

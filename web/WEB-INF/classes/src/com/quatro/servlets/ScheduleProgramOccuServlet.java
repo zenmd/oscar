@@ -116,6 +116,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 							String value =rStr.substring(fd.getFieldStartIndex().intValue()-1,fd.getFieldLength().intValue()+fd.getFieldStartIndex().intValue()-1).trim();
 							buHlp.setPropertyValue(sdVal, fd.getFieldName(),fd.getFieldType(),fd.getDateFormatStr(), value);
 						}	
+						sdVal.setRecordId(new Integer(0));
 						sdVal.setLastUpdateUser("1111");
 						sdVal.setLastUpdateDate(Calendar.getInstance());
 						programOccupancyManager.insertSdmtIn(sdVal);
@@ -217,9 +218,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	     */
 	    public void doGet(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, javax.servlet.ServletException {
 	        try {
-	           	            
-	            // get provider
-	            //String providerId = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	           ProgramOccuTimerTask.inputSDMT(path);            
 	           return;
 	        }
 	        catch (Exception e) {

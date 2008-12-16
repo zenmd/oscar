@@ -102,9 +102,11 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     	q.setString(2,sdVal.getLastBenMonth());
     	q.setInteger(3, sdVal.getClientId().intValue());
     	Calendar today = Calendar.getInstance();
+    	today.clear(Calendar.HOUR_OF_DAY);
     	today.clear(Calendar.HOUR);
     	today.clear(Calendar.MINUTE);
     	today.clear(Calendar.SECOND);
+    	today.clear(Calendar.MILLISECOND);
     	q.setDate(4, today.getTime());
     	
     	q.executeUpdate();

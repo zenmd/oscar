@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 public class SdmtIn implements Serializable {
 	 private static final long serialVersionUID = 1L;
+	 private Integer recordId;
 	 private Integer batchNumber;
 	 private Calendar batchDate;
 	 private String firstName;
@@ -13,7 +14,6 @@ public class SdmtIn implements Serializable {
 	 private String benefitUnitStatus;
 	 private String program;
 	 private String office;
-	 private Integer recordId;
 	 private Calendar terminationDate;
 	 private String lastBenMonth;
 	 private Double totalPayment;
@@ -24,10 +24,18 @@ public class SdmtIn implements Serializable {
 	 private String status;
 	 private String role;
 	 private Integer sdmtBenUnitId;
+	 private Integer memberId;
 	 private Integer clientId;
 	 private String lastUpdateUser;
 	 private Calendar lastUpdateDate;
-	 
+	 public Integer getRecordId()
+	 {
+		 return recordId;
+	 }
+	public void setRecordId(Integer recordId) {
+		this.recordId = recordId;
+	}
+
 	public Calendar getLastUpdateDate() {
 		return lastUpdateDate;
 	}
@@ -124,11 +132,12 @@ public class SdmtIn implements Serializable {
 	public void setProgram(String program) {
 		this.program = program;
 	}
-	public Integer getRecordId() {
-		return recordId;
+	public Integer getMemberId() {
+		return memberId;
 	}
-	public void setRecordId(Integer recordId) {
-		this.recordId = recordId;
+	public void setMemberId(Integer memberId)
+	{
+		this.memberId = memberId;
 	}
 	public String getRole() {
 		return role;
