@@ -171,7 +171,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		      }
 		      else
 		      {
-		    	 programs = new ArrayList();
+		    	  throw new NoAccessException();
 		      }
 			complaintForm.setPrograms(programs);
 			List sources = lookupManager.LoadCodeList("CPS", !readOnly,

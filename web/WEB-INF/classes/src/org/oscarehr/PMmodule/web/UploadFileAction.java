@@ -197,7 +197,7 @@ public class UploadFileAction extends BaseClientAction {
 				Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	 			String providerNo=(String) request.getSession().getAttribute("user");
 	 			String programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
-	 			if(programId == null) programId = "";
+	 			if(programId == null) throw new NoAccessException();
 		        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_WRITE);
 			 }
 			 else
@@ -247,14 +247,11 @@ public class UploadFileAction extends BaseClientAction {
 			HttpSession session = request.getSession(true);	
 			//only for client module 
 			Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
-			String programId = "";
 			Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo=(String) session.getAttribute("user");
-	        try{
-	        	programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
-	        }catch(Exception e){;}
-	        if("".equals(programId)) programId = "0";
-	        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_WRITE);
+	        Integer programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId);
+	        if(programId == null) throw new NoAccessException();
+	        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, programId,KeyConstants.ACCESS_WRITE);
 			log.info("attachment client upload id: id="  + cId);
 			FormFile formFile = attTextObj.getImagefile();			
 			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1);
@@ -279,7 +276,7 @@ public class UploadFileAction extends BaseClientAction {
 				attObj.setModuleId(moduleId);			 
 				attObj.setProviderNo((String) session.getAttribute("user"));
 				attObj.setRefNo(cId.toString());
-				attObj.setRefProgramId(new Integer(programId));
+				attObj.setRefProgramId(programId);
 				attObj.setRevDate(new GregorianCalendar());
 				attObj.setFileSize(new Integer(formFile.getFileSize()));
 				attObj.setAttText(attTextObj);

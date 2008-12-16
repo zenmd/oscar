@@ -171,10 +171,10 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				<tr class="b">
 					<td width="20%">Facility</td>
 					<td>
-					<security:oscarSec objectName="<%KeyConstants.FUN_PROGRAM%>"  rights="<%KeyConstants.ACCESS_WRITE%>">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAMEDIT%>"   rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>">
 						<quatro:lookupTag tableName="FAC" name="programManagerForm" formProperty="programManagerForm" bodyProperty="program.facilityDesc" codeProperty="program.facilityId" showCode="false"></quatro:lookupTag>
 					</security:oscarSec>
-					<security:oscarSec objectName="<%KeyConstants.FUN_PROGRAM%>"  rights="<%KeyConstants.ACCESS_WRITE%>" reverse="true">
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAMEDIT%>"  rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>" reverse="true">
 						<html:hidden property="program.facilityId"/>
 						<bean:write property="program.facilityDesc" name="programManagerForm"/>
 					</security:oscarSec>
@@ -196,8 +196,7 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 				<tr class="b">
 					<td width="20%">Type</td>
 					<td>
-					<c:choose>
-					<c:when test="${typeEditable eq false}">  
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAMEDIT%>"   rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>" reverse="true">
 					<html:hidden property="program.type" /> 
 					<html-el:select property="program.type"  disabled="true">
 						<html-el:option value="">
@@ -208,8 +207,8 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 							</html-el:option>
 						</c:forEach>
 					</html-el:select>
-					</c:when>
-					<c:otherwise>
+					</security:oscarSec>
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAMEDIT%>"   rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>">
 					<html-el:select property="program.type">
 						<html-el:option value="">
 						</html-el:option>
@@ -219,28 +218,25 @@ Source:web/PMmodule/Admin/ProgramEdit/general.jsp
 							</html-el:option>
 						</c:forEach>
 					</html-el:select>
-					</c:otherwise>
-					</c:choose>
+					</security:oscarSec>
 					</td>
 				</tr>
 				<tr class="b">
 					<td width="20%">Status</td>
 					<td>
-					<c:choose>
-					<c:when test="${statusEditable eq false}">  
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAMEDIT%>"   rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>" reverse="true">
 					<html:hidden property="program.programStatus"/>
 					<html:select property="program.programStatus" disabled="true">
 						<html:option value="1"> Active</html:option>
 						<html:option value="0"> Inactive</html:option>
 					</html:select>
-					</c:when>
-					<c:otherwise>
+					</security:oscarSec>
+					<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAMEDIT%>"   rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>">
 						<html:select property="program.programStatus">
 						<html:option value="1"> Active</html:option>
 						<html:option value="0"> Inactive</html:option>
 					</html:select>
-					</c:otherwise>
-					</c:choose>
+					</security:oscarSec>
 					</td>
 				</tr>
 				

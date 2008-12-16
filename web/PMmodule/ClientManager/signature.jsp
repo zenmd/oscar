@@ -9,12 +9,7 @@
 <script language="javascript" type="text/javascript">
 	function refreshOpenner()
 	{
-		/*
-		if(opener)
-		{
-			opener.document.forms[0].submit();
-		}
-		*/
+		opener.refresh();
 	}
 </script>
 </head>

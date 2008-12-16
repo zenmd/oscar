@@ -127,7 +127,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
         request.setAttribute("facilityId", facility.getId());
         request.setAttribute("facility", facility);
         facilityForm.setFacility(facility);
-        super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL, facility.getActive());
+        super.setScreenMode(request, KeyConstants.TAB_FACILITY_GENERAL, facility.getActive(), facility.getId());
         return mapping.findForward(FORWARD_VIEW);
  	   }
  	   catch(NoAccessException e)
@@ -219,7 +219,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        request.setAttribute("facilityId", facility.getId());
 	        
 	        request.setAttribute("facility", facility);
-	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM,facility.getActive());
+	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_PROGRAM,facility.getActive(),facility.getId());
 	        return mapping.findForward(FORWARD_PROGRAM);
 	   }
 	   catch(NoAccessException e)
@@ -340,7 +340,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	
 	        // get agency's sector list from caisi editor table
 	        request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
-	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT, facility.getActive());
+	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT, facility.getActive(),facility.getId());
 	        boolean readOnly = super.isReadOnly(request, KeyConstants.FUN_FACILITY_EDIT, facility.getId());
 	        if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 	        return mapping.findForward(FORWARD_EDIT);
@@ -425,7 +425,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	              actionParam.put("facilityId", facility.getId()); 
 	              request.setAttribute("actionParam", actionParam);
 	            
-	              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getActive());
+	              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getActive(),facility.getId());
 	              request.setAttribute("facilityId", facility.getId());
 	              return edit(mapping, form, request, response);
 	            }else if(clientCount<0){
@@ -438,7 +438,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	              actionParam.put("facilityId", facility.getId()); 
 	              request.setAttribute("actionParam", actionParam);
 	            
-	              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getActive());
+	              super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getActive(),facility.getId());
 	              request.setAttribute("facilityId", facility.getId());
 	              return edit(mapping, form, request, response);
 	            }
@@ -499,7 +499,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        actionParam.put("facilityId", facility.getId()); 
 	        request.setAttribute("actionParam", actionParam);
 	        
-	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getActive());
+	        super.setScreenMode(request, KeyConstants.TAB_FACILITY_EDIT,facility.getActive(),facility.getId());
 	        return edit(mapping, form, request, response);
 	   }
 	   catch(NoAccessException e)

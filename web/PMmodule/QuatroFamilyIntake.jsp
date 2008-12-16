@@ -10,6 +10,7 @@
 <input type="hidden" name="clientId" value="<c:out value="${clientId}" />"/>
 <input type="hidden" name="headclientId" value="<c:out value="${headclientId}" />"/>
 <input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
+<input type="hidden" name="programId" value="<c:out value="${programId}" />" />
 <input type="hidden" name="isFamilyAdmitted" value="<c:out value="${isFamilyAdmitted}" />"/>
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />

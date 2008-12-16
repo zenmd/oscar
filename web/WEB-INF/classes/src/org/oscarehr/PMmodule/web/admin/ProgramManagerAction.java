@@ -107,7 +107,7 @@ public class ProgramManagerAction extends BaseProgramAction {
 	        if(id == null || id.equals(""))
 	        	id = ((Integer)request.getAttribute("programId")).toString();
     		super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT, KeyConstants.ACCESS_READ);
-
+    		String r1Right = super.getAccess(request, KeyConstants.FUN_PROGRAMEDIT,KeyConstants.ORG_ROOT);
 	        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	        if(actionParam==null){
 	     	  actionParam = new HashMap();
@@ -146,12 +146,12 @@ public class ProgramManagerAction extends BaseProgramAction {
 	        view.setTab(viewTab);  
 	       
 	        if(view.getTab().equals(KeyConstants.TAB_PROGRAM_SEVICE)){
-	        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE);
+	        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_SEVICE,programId);
 	             boolean isReadOnly =super.isReadOnly(request, KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, programId);
 	             if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        	
 	        }
 	        else{
-	        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL);
+	        	 super.setEditScreenMode(request, KeyConstants.TAB_PROGRAM_GENERAL,programId);
 	             setEditAttributes(request, form);
 	        }
 	        

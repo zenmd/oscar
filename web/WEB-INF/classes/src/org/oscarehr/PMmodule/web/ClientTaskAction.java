@@ -278,6 +278,8 @@ public class ClientTaskAction extends BaseClientAction{
 
         request.setAttribute("clientId", clientId);
         request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
+        Integer programId = ticklerForm.getTickler().getProgram_id();
+        super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, programId, KeyConstants.ACCESS_WRITE);
  	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    
  	    
@@ -462,6 +464,7 @@ public class ClientTaskAction extends BaseClientAction{
 
 		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+        if(programLst.size()==0) throw new NoAccessException();
         ticklerForm.setProgramLst(programLst);
         
         ticklerForm.setProviderLst(new ArrayList());

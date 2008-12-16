@@ -5,13 +5,11 @@ String s = "debug";
 %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
 <%@page import="com.quatro.common.KeyConstants;"%>
-<bean:define id="facility" name="facilityManagerForm"
-	property="facility" />
 
 <html:form action="/FacilityMessage.do">
 	<input type="hidden" name="method" value="save" />
 	<html:hidden property="facility_message.id" />
-	<input type="hidden" name="facility_message.facilityId" value='<c:out value="${facility.id}" />' />
+	<html:hidden property="facility_message.facilityId" />
 
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"
 		height="100%">

@@ -269,7 +269,7 @@ public class ClientDao extends HibernateDaoSupport {
     	if (lst.size() > 0)
     		return (Integer) lst.get(0);
     	else
-    		return new Integer(0);
+    		return null;
     }
 
 	public DemographicExt getDemographicExt(Integer id) {

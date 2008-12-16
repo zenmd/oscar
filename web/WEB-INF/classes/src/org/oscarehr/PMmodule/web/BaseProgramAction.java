@@ -86,12 +86,12 @@ public class BaseProgramAction extends BaseAdminAction {
 		}
 	}
 	
-	protected void setEditScreenMode(HttpServletRequest request, String currentTab) throws NoAccessException{
+	protected void setEditScreenMode(HttpServletRequest request, String currentTab, Integer programId) throws NoAccessException{
 		super.setMenu(request, KeyConstants.MENU_PROGRAM);
 		SecurityManager sec = super.getSecurityManager(request);
 		// general
-		
-		if (sec.GetAccess(KeyConstants.FUN_PROGRAM, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		String orgCd = "P" + programId.toString();
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAM, orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_GENERAL))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_GENERAL,	KeyConstants.ACCESS_CURRENT);
@@ -102,7 +102,7 @@ public class BaseProgramAction extends BaseAdminAction {
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_GENERAL)) throw new NoAccessException();
 		}
 		
-		if (sec.GetAccess(KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS, null).compareTo(KeyConstants.ACCESS_READ) >= 0) {
+		if (sec.GetAccess(KeyConstants.FUN_PROGRAMEDIT_SERVICERESTRICTIONS,orgCd).compareTo(KeyConstants.ACCESS_READ) >= 0) {
 			request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_VIEW);
 			if (currentTab.equals(KeyConstants.TAB_PROGRAM_SEVICE))
 				request.setAttribute(KeyConstants.TAB_PROGRAM_SEVICE,	KeyConstants.ACCESS_CURRENT);

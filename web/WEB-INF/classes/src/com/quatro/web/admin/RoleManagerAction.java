@@ -32,6 +32,7 @@ import com.quatro.service.LookupManager;
 import com.quatro.service.security.RolesManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
+import com.sun.msv.grammar.xmlschema.KeyConstraint;
 
 public class RoleManagerAction extends BaseAdminAction {
 
@@ -233,7 +234,7 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward saveChange(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE, KeyConstants.ACCESS_UPDATE);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE, KeyConstants.ACCESS_WRITE);
 	
 			ActionMessages messages = new ActionMessages();
 			DynaActionForm secroleForm = (DynaActionForm) form;
@@ -268,7 +269,7 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward preNew(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)  {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE,KeyConstants.ACCESS_WRITE);
 			return mapping.findForward("edit");
 		}
 		catch(NoAccessException e)
@@ -297,7 +298,7 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward addFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE,KeyConstants.ACCESS_WRITE);
 	
 			DynaActionForm secroleForm = (DynaActionForm) form;
 			ChangeFunLstTable(2, secroleForm, request);
@@ -337,7 +338,7 @@ public class RoleManagerAction extends BaseAdminAction {
 	public ActionForward removeFunctionInEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE,KeyConstants.ACCESS_WRITE);
 			DynaActionForm secroleForm = (DynaActionForm) form;
 			ChangeFunLstTable(1, secroleForm, request);
 			request.setAttribute("secroleForEdit", "flag");

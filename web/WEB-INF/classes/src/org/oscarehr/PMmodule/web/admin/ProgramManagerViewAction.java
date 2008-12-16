@@ -669,7 +669,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     public ActionForward switch_beds(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
     	try {
-    		super.getAccess(request, KeyConstants.FUN_PROGRAM_CLIENTS, KeyConstants.ACCESS_WRITE);
+    		super.getAccess(request, KeyConstants.FUN_PROGRAM_CLIENTS, KeyConstants.ACCESS_UPDATE);
 
 	    	ActionMessages messages = new ActionMessages();
 	

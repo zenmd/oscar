@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
 import org.oscarehr.casemgmt.model.CaseManagementNote;
 
@@ -34,6 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 import oscar.util.UtilDateUtilities;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.util.*;
 
 public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
@@ -79,13 +81,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		//Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
 		Integer currentFacilityId = (Integer) request.getSession(true)
 				.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		/*
-		if (null==programId || programId.intValue()==0) {
-			Integer demoInt = Integer.valueOf(demono);
-			programId = clientManager.getRecentProgramId(
-					Integer.valueOf(demono), providerNo, currentFacilityId);
-		}
-		*/
+
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
 		boolean isReadOnly =super.isReadOnly(request, "", KeyConstants.FUN_CLIENTCASE, new Integer(0));
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.TRUE);
@@ -171,7 +167,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 	      }
 	      else
 	      {
-	    	 programs = new ArrayList();
+	    	 throw new NoAccessException();
 	      }
 		request.setAttribute("lstProgram", programs);
 		

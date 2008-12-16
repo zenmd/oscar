@@ -58,6 +58,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 	       
 	       QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
+	       request.setAttribute("programId",headIntakeDB.getProgramId());
 	       clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
 	       
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
@@ -76,6 +77,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       
 	       Integer programId = headIntakeDB.getProgramId();
 	       request.setAttribute("programId", programId);
+	       
 	       boolean readOnly=super.isReadOnly(request,headIntakeDB.getIntakeStatus(), KeyConstants.FUN_CLIENTINTAKE,programId);
 	   	   if (!readOnly)
 	   	   {
@@ -143,7 +145,9 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		   QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 	
 	       Integer intakeFamilyHeadId = Integer.valueOf(request.getParameter("intakeHeadId"));
-	       
+	       Integer programId = Integer.valueOf(request.getParameter("programId"));
+	       super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, programId, KeyConstants.ACCESS_READ);
+       
 	       List dependents = intakeManager.getClientIntakeFamilyHistory(intakeFamilyHeadId);
 	       request.setAttribute("dependents",dependents);
 	       
@@ -165,6 +169,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	    	List dependents = buildDependentList(request, clientForm);
 	        QuatroIntakeFamily obj2 = new QuatroIntakeFamily();
 	        obj2.setClientId(new Integer(0));
+	        Integer programId = Integer.valueOf(request.getParameter("programId"));
+		 	super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, programId, KeyConstants.ACCESS_WRITE);
 			obj2.setIntakeHeadId(Integer.valueOf(request.getParameter("intakeHeadId")));
 	        obj2.setIntakeId(new Integer(0));
 	        obj2.setAdmissionId(null);
@@ -192,7 +198,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	   try {
 		   QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 	       setEditFields(request, clientForm);
-	
+	       Integer programId = Integer.valueOf(request.getParameter("programId"));
+	       super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, programId, KeyConstants.ACCESS_WRITE);
 	       List dependents = buildDependentList(request, clientForm);
 	
 	       clientForm.setDependents(dependents);
@@ -217,6 +224,9 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       String intakeId = (String)clientForm.getIntakeId();
 	       Integer intakeFamilyHeadId = intakeManager.getIntakeFamilyHeadId(intakeId);
 	       Integer headClientId = clientForm.getFamilyHead().getDemographicNo();
+
+	       Integer programId = Integer.valueOf(request.getParameter("programId"));
+	       super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, programId, KeyConstants.ACCESS_WRITE);
 	       
 		   String newClientConfirmed= request.getParameter("newClientConfirmed");
 		   boolean bDupliDemographicNoApproved=true;
@@ -540,7 +550,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
     	  actionParam = new HashMap();
           actionParam.put("headclientId", request.getParameter("headclientId")); 
           actionParam.put("clientId", request.getParameter("clientId")); 
-          actionParam.put("intakeId", request.getParameter("intakeId")); 
+          actionParam.put("intakeId", request.getParameter("intakeId"));
+          actionParam.put("programId", request.getParameter("programId"));
        }
        request.setAttribute("actionParam", actionParam);
        
@@ -548,7 +559,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        request.setAttribute("headclientId", demographicNo);
        request.setAttribute("clientId", (String)actionParam.get("clientId"));
        request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
-
+       request.setAttribute("programId", (String)actionParam.get("programId"));
+       
    	   boolean readOnly=false;
    	   request.setAttribute("isReadOnly", request.getParameter("isReadOnly"));
    	   request.setAttribute("isFamilyAdmitted", request.getParameter("isFamilyAdmitted"));

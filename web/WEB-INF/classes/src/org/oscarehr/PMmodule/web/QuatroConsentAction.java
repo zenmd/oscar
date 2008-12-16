@@ -256,7 +256,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       }
 	       else
 	       {
-	    	   programs = new ArrayList();
+	    	   throw new NoAccessException();
 	       }
 	       request.setAttribute("programs", programs);
 	      // request.setAttribute("signed","N");

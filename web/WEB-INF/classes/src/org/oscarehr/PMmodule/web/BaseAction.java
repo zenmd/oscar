@@ -268,7 +268,7 @@ public abstract class BaseAction extends DispatchAction {
 	        Calendar endDt = Calendar.getInstance();
 	        long timeSpan = endDt.getTimeInMillis()-startDt.getTimeInMillis();
 			log(timeSpan, ex.toString(),name,0, request);
-			throw ex;
+			return mapping.findForward("failure");
 		}
 	}
 	

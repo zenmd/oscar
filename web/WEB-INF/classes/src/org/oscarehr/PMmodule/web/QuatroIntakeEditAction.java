@@ -314,7 +314,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		}
 	}
 
-	// for existing client
+	// this method loads a intake edit page from the program queue
 	public ActionForward manualreferral(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -324,6 +324,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			Integer queueId = Integer.valueOf(request.getParameter("queueId"));
 			Integer programId = Integer.valueOf(request
 					.getParameter("programId"));
+
+		    super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, programId, KeyConstants.ACCESS_WRITE);
 
 			ProgramQueue queue = programQueueManager.getProgramQueue(queueId
 					.toString());

@@ -44,7 +44,7 @@ public class HealthSafetyAction extends BaseClientAction {
 				
 		HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(id));
 		if(healthsafety != null) {
-			super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY,null);
+			super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY,null, KeyConstants.ACCESS_UPDATE);
 			healthSafetyForm.set("healthsafety", healthsafety);
             request.setAttribute("healthsafety", healthsafety);
 		}else{

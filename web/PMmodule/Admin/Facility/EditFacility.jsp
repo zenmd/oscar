@@ -162,10 +162,10 @@
 								<tr class="b">
 									<td width="20%">Shelter: *</td>
 									<td>
-										<security:oscarSec objectName="<%KeyConstants.FUN_FACILITY %>"  rights="<%KeyConstants.ACCESS_WRITE%>">
+										<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>">
 											<quatro:lookupTag name="facilityManagerForm" tableName="SHL" formProperty="facilityManagerForm" bodyProperty="facility.orgDesc" codeProperty="facility.orgId" showCode="false"></quatro:lookupTag>
 										</security:oscarSec>
-										<security:oscarSec objectName="<%KeyConstants.FUN_FACILITY %>"  rights="<%KeyConstants.ACCESS_WRITE%>" reverse="true">
+										<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE%>"  orgCd="<%=KeyConstants.ORG_ROOT%>" reverse="true">
 											<html:hidden property="facility.orgId"/>
 											<bean:write name="facilityManagerForm" property="facility.orgDesc" /> 
 										</security:oscarSec>
@@ -191,7 +191,14 @@
 								</tr>
 								<tr class="b">
 									<td width="20%">Active:</td>
-									<td><html:checkbox property="facility.active" /></td>
+									<td>
+									<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>">
+									<html:checkbox property="facility.active" />
+									</security:oscarSec>
+									<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>" reverse="true">
+										<html:checkbox property="facility.active" disabled="true" />
+									</security:oscarSec>
+									</td>
 								</tr>
 								
 							</table>

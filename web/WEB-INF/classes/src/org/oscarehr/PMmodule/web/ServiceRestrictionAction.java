@@ -252,7 +252,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	      }
 	      else
 	      {
-	    	  allPrograms = new ArrayList();
+	    	  throw new NoAccessException();
 	      }
        request.setAttribute("allPrograms", allPrograms);
 //		clientForm.set("serviceRestriction", pcrObj);
@@ -327,7 +327,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		      }
 		      else
 		      {
-		    	 programs = new ArrayList();
+		    	  throw new NoAccessException();
 		      }
 	       request.setAttribute("allPrograms", programs);
 	
