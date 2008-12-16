@@ -22,6 +22,8 @@
 */
  -->
 
+<%-- Updated by Eugene Petruhin on 16 dec 2008 while fixing #2434234 --%>
+
 <%@ include file="/casemgmt/taglibs.jsp" %>
 <%@ page import="org.oscarehr.casemgmt.model.*" %>
 <%@ page import="org.oscarehr.casemgmt.web.formbeans.*" %>
@@ -54,13 +56,13 @@ Prescriptions
 		</c:if>
 		<td bgcolor="white" >
 		
-		<caisirole:SecurityAccess accessName="prescription Write" accessType="access" providerNo="<%=request.getParameter("providerNo")%>" demoNo="<%=request.getParameter("demographicNo")%>" programId="<%=(String)session.getAttribute("case_program_id")%>">
+		<caisirole:SecurityAccess accessName="prescription Write" accessType="access" providerNo='<%=request.getParameter("providerNo")%>' demoNo='<%=request.getParameter("demographicNo")%>' programId='<%=(String)session.getAttribute("case_program_id")%>'>
 			<a <%= styleColor%> target="_blank" href="../oscarRx/StaticScript.jsp?gcn=<c:out value="${prescription.GCN_SEQNO}"/>&cn=<c:out value="${prescription.customName}"/>" >
 				<c:out value="${prescription.drug_special}"/>
 			</a>
 		</caisirole:SecurityAccess>
 		
-		<caisirole:SecurityAccess accessName="prescription Write" accessType="access" providerNo="<%=request.getParameter("providerNo")%>" demoNo="<%=request.getParameter("demographicNo")%>" programId="<%=(String)session.getAttribute("case_program_id")%>" reverse="true">
+		<caisirole:SecurityAccess accessName="prescription Write" accessType="access" providerNo='<%=request.getParameter("providerNo")%>' demoNo='<%=request.getParameter("demographicNo")%>' programId='<%=(String)session.getAttribute("case_program_id")%>' reverse="true">
 			<span <%= styleColor%> ><c:out value="${prescription.drug_special}"/></span>
 		</caisirole:SecurityAccess>
 		
