@@ -97,8 +97,10 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    	        	sMi = sTime.substring(2);
 	    	        }
 	    	        Integer hours=Integer.valueOf(sHr);
-	    	        if(!Utility.IsEmpty(Hrs))	    	     
-	    	        	hours+=Integer.valueOf(Hrs);	    	        
+	    	        if(!Utility.IsEmpty(Hrs))	{    	     
+	    	        	int hVal =hours.intValue()+Integer.valueOf(Hrs).intValue();
+	    	        	hours = new Integer(hVal);
+	    	        }
 	            	sDt.set(Calendar.HOUR_OF_DAY,hours.intValue());
 	            	sDt.set(Calendar.MINUTE, Integer.valueOf(sMi).intValue());
 	            	sDt.set(Calendar.SECOND, 0);

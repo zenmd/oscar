@@ -4,7 +4,6 @@ import org.apache.struts.validator.ValidatorForm;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
 
-import com.ibm.websphere.client.applicationclient.ClientRAR;
 import com.quatro.web.intake.OptionList;
 import com.quatro.model.LookupCodeValue;
 import java.util.List;
