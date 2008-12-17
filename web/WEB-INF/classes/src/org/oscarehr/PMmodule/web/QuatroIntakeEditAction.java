@@ -479,7 +479,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 						request.setAttribute("pageChanged", "1");
 					}
 				}
-				request.setAttribute("pageChanged", "1");
 			}
 		
 			request.setAttribute("programId", intake.getProgramId());
