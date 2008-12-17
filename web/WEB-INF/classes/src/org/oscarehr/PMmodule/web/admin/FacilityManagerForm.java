@@ -9,6 +9,7 @@ public class FacilityManagerForm extends ActionForm {
     private Facility facility;
 
     public Facility getFacility() {
+    	if(facility == null) facility = new Facility();
         return facility;
     }
 
