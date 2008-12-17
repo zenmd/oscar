@@ -24,9 +24,12 @@ public class QuatroIntakeEditForm extends ValidatorForm{
     private LookupCodeValue originalCountry;
     
     private QuatroIntake intake;
-    private ClientReferral clientReferral;
+   
 
 	public Demographic getClient() {
+		if(client==null){
+			client=new Demographic();
+		}
 		return client;
 	}
 
@@ -51,6 +54,9 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 	}
 
 	public QuatroIntake getIntake() {
+		if(intake == null) {
+			intake = new QuatroIntake();
+		}
 		return intake;
 	}
 
@@ -106,13 +112,7 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 		this.programTypeList = programTypeList;
 	}
 
-	public ClientReferral getClientReferral() {
-		return clientReferral;
-	}
-
-	public void setClientReferral(ClientReferral clientReferral) {
-		this.clientReferral = clientReferral;
-	}
+	
     
 /*    
     private String referredBy;
