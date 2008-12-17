@@ -136,6 +136,7 @@ function confirmActive()
 }
 
 </script>
+<%String a="debug"; %>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management -
