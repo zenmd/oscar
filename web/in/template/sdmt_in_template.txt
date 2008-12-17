@@ -16,5 +16,5 @@ address                          70S  198
 status                            9S  268
 role                             15S  277
 sdmtBenUnitId                     9N  292
-clientId                          9N  301
-recordId                         15N  310
+memberId                          9N  301
+clientId                         15N  310

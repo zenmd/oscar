@@ -3,10 +3,13 @@ package org.oscarehr.PMmodule.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import oscar.MyDateFormat;
+
 public class QuatroIntake implements Serializable,Cloneable {
     private Integer id;// fields
     private Integer clientId;
     private String staffId;
+    private String m_staffDesc;
     private Calendar createdOn;
     private String createdOnTxt;    
     private String intakeStatus;
@@ -85,6 +88,8 @@ public class QuatroIntake implements Serializable,Cloneable {
     private String sdmtBenUnitStatus; 
     private String sdmtOffice; 
     private String sdmtLastBenMonth;
+    private String completionNotes;
+    private String rejectionReasonDesc;
     
     
 
@@ -99,6 +104,10 @@ public class QuatroIntake implements Serializable,Cloneable {
 	}
 	public void setLastUpdateDate(Calendar lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+	public String getLastUpdateDateTxt()
+	{
+		return MyDateFormat.getStandardDateTime(this.lastUpdateDate);
 	}
 	public String getAboriginal() {
 		return aboriginal;
@@ -570,5 +579,23 @@ public class QuatroIntake implements Serializable,Cloneable {
 	}
 	public void setSdmtOffice(String sdmtOffice) {
 		this.sdmtOffice = sdmtOffice;
+	}
+	public String getStaffDesc() {
+		return m_staffDesc;
+	}
+	public void setStaffDesc(String staffDesc) {
+		this.m_staffDesc = staffDesc;
+	}
+	public String getCompletionNotes() {
+		return completionNotes;
+	}
+	public void setCompletionNotes(String completionNotes) {
+		this.completionNotes = completionNotes;
+	}
+	public String getRejectionReasonDesc() {
+		return rejectionReasonDesc;
+	}
+	public void setRejectionReasonDesc(String rejectionReasonDesc) {
+		this.rejectionReasonDesc = rejectionReasonDesc;
 	}
 }

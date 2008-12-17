@@ -38,6 +38,7 @@
 		<property name="programType" type="string" formula="(select p.type from program p where p.program_id = program_id)" />
 		<property column="present_problems" name="presentProblems" not-null="false" type="string" />
 		<property column="rejectionReason" length="10" name="rejectionReason" not-null="false" type="string"/>
+		<property name="rejectionReasonDesc" type="string" formula="(select p.description from lst_intake_reject_reason p where p.code = rejectionReason)" />
 		<property name="fromProgramId" column="fromprogramid"  type="java.lang.Integer" />
 		<property name="fromIntakeId" column="intake_id"></property>
 	</class>

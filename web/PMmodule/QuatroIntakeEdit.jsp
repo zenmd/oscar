@@ -164,8 +164,11 @@ function confirmActive()
 				</c:if>
 				
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>"   orgCd='<%=((Integer) request.getAttribute("programId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
-					<c:if test="${(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 && quatroIntakeEditForm.intake.intakeStatus=='active') || 
-               						(intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId && quatroIntakeEditForm.intake.intakeStatus=='active')}">
+					<c:if test="${isBedProgram && (
+						(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 
+						&& quatroIntakeEditForm.intake.intakeStatus=='active') || 
+               			 (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId 
+               			 && quatroIntakeEditForm.intake.intakeStatus=='active'))}">
                			<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
 									style="color:Navy;text-decoration:none;"> 
 									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
@@ -745,7 +748,7 @@ function confirmActive()
 							</td>
 							<td width="25%">Service Program Never Expiry</td>
 							<td width="25%">
-								<html-el:checkbox property="intake.nerverExpiry"	value="1" /></td>
+								</td>
 						</tr>
 					</table>
 					</td>
@@ -812,7 +815,18 @@ function confirmActive()
 				</tr>
 				<tr>
 					<td>
-					<table width="100%" class="simple">
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>Intake Status</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table  class="simple">
 						<tr>
 							<td width="15%">Intake Status</td>
 							<td width="15%">
@@ -821,29 +835,36 @@ function confirmActive()
 										<td width="15%">Last updated by</td>
 							<td width="15%">
 							<html-el:text style="width: 90%"
-										property="intake.staffId" readonly="true" /></td>
+										property="intake.staffDesc" readonly="true" /></td>
 							<td width="15%">Last updated date</td>
 							<td width="15%">
-							<html-el:text style="width: 90%"
-										property="intake.lastUpdateDate" readonly="true" /></td>			
+							<c:out value="${intake.lastUpdateDateTxt}" /></td>			
 						</tr>
-						</table>
-						<table width="100%">
+						</table>				
+						
+					</td>
+				</tr>
+				<tr><td>
+					<table  class="Simple" width="100%">
 						<tr>
 							<td width="15%">Rejection Reason</td>
 							<td width="30%">
-							<html-el:text style="width: 90%"
-										property="clientReferral.rejectionReason" readonly="true" /></td>
+								<html-el:text style="width: 90%"
+										property="intake.rejectionReasonDesc" readonly="true" />
+							</td>
 						
 							<td width="15%">Rejection Note</td>
-							<td width="40%">
-							<html-el:textarea style="width: 90%"
-										property="clientReferral.completionNotes"  rows="10"  readonly="true" /></td>
+							<td >
+								<html-el:textarea  style="width: 90%"
+										property="intake.completionNotes" readonly="true" />
+							</td>	
 						</tr>
 					</table>
-					</td>
-				</tr>
+					
+				</td></tr>
+					
 			</table>
+						
 			<!--  end of page content --></div>
 			</td>
 		</tr>

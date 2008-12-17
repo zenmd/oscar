@@ -139,6 +139,14 @@
    	  </c:choose>		
 	</tr>
   </table>
+  <table class="simple"  cellspacing="2" cellpadding="3">
+  <tr>
+  	<td width="15%">Rejection Reason</td>
+  	<td width="35%"><html-el:text property="referral.rejectionReasonDesc" readonly="true"></html-el:text></td>
+  	<td width="15%>Rejection Note</td>
+  	<td width="35%"><html-el:textArea property="completionNotes"  readonly="true" /> </td>
+  	</tr>
+  </table>
 </td></tr>
 
 

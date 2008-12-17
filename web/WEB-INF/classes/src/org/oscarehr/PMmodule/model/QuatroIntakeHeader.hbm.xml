@@ -16,7 +16,7 @@
 		<property name="createdOn" column="creation_date" type="calendar" not-null="true" />
 		<property name="endDate" column="end_date" type="calendar" not-null="false" />
 		<property name="intakeStatus" column="intake_status"/>
-		<property name="nerverExpiry" column="never_end"></property>
+		<property name="nerverExpiry" column="never_end" type="boolean"></property>
 		<property name="sdmtBenUnitStatus" column="sdmt_ben_unit_status"></property>
 		<property name="sdmtOffice" column="sdmt_office"></property>
 		<property name="sdmtLastBenMonth" column="sdmt_last_ben_month"></property>
