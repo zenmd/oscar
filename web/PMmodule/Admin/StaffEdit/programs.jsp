@@ -126,7 +126,7 @@ ProgramProvider pp = null;
 				<c:forEach var="team" items="${pp.teams}">
 					<tr>
 						<td><c:out value="${team.name }" /></td>
-						<td><a href="javascript:void(0);return false;" onclick="removeTeam('<c:out value="${pp.programId}"/>','<c:out value="${team.id}"/>')">Remove</a>
+						<td><a href="javascript:void(0);" onclick="removeTeam('<c:out value="${pp.programId}"/>','<c:out value="${team.id}"/>');return false;">Remove</a>
 					</tr>
 				</c:forEach>
 			</table>
