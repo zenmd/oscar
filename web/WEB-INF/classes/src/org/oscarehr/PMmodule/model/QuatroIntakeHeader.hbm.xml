@@ -16,6 +16,10 @@
 		<property name="createdOn" column="creation_date" type="calendar" not-null="true" />
 		<property name="endDate" column="end_date" type="calendar" not-null="false" />
 		<property name="intakeStatus" column="intake_status"/>
+		<property name="nerverExpiry" column="never_end"></property>
+		<property name="sdmtBenUnitStatus" column="sdmt_ben_unit_status"></property>
+		<property name="sdmtOffice" column="sdmt_office"></property>
+		<property name="sdmtLastBenMonth" column="sdmt_last_ben_month"></property>
 		<property name="programId" column="program_id" type="integer" not-null="true" length="11" />
 	    <property name="programType" lazy="false" formula="(select p.type from program p where p.program_Id=program_id)"></property> 
 	    <property name="programName" lazy="false" formula="(select p.name from program p where p.program_Id=program_id)"></property> 

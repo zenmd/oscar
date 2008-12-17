@@ -20,6 +20,10 @@ public class QuatroIntakeHeader implements Serializable {
     private Integer programId;
     private String programType;
     private String programName;
+    private boolean nerverExpiry;
+    private String sdmtBenUnitStatus; 
+    private String sdmtOffice; 
+    private String sdmtLastBenMonth;
 
     public boolean equals(Object obj) {
         if (null == obj)
@@ -129,6 +133,38 @@ public class QuatroIntakeHeader implements Serializable {
 
 	public void setProgramName(String programName) {
 		this.programName = programName;
+	}
+
+	public boolean isNerverExpiry() {
+		return nerverExpiry;
+	}
+
+	public void setNerverExpiry(boolean nerverExpiry) {
+		this.nerverExpiry = nerverExpiry;
+	}
+
+	public String getSdmtBenUnitStatus() {
+		return sdmtBenUnitStatus;
+	}
+
+	public void setSdmtBenUnitStatus(String sdmtBenUnitStatus) {
+		this.sdmtBenUnitStatus = sdmtBenUnitStatus;
+	}
+
+	public String getSdmtLastBenMonth() {
+		return sdmtLastBenMonth;
+	}
+
+	public void setSdmtLastBenMonth(String sdmtLastBenMonth) {
+		this.sdmtLastBenMonth = sdmtLastBenMonth;
+	}
+
+	public String getSdmtOffice() {
+		return sdmtOffice;
+	}
+
+	public void setSdmtOffice(String sdmtOffice) {
+		this.sdmtOffice = sdmtOffice;
 	}
 
 }

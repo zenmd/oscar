@@ -4,15 +4,17 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.oscarehr.PMmodule.dao.ClientDao;
+import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.dao.ProgramOccupancyDao;
+import org.oscarehr.PMmodule.dao.ProgramQueueDao;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.SdmtIn;
 
 public class ProgramOccupancyManager {
 	
 	private ProgramOccupancyDao  programOccupancyDao;	
-	private ClientDao clientDao;
-	
+	private ClientDao clientDao;	
+	private ProgramQueueDao programQueueDao;
 	public void insertProgramOccupancy(String providerNo,Calendar occDate) {
 		programOccupancyDao.insertProgramOccupancy(providerNo, occDate);
 	}
@@ -41,7 +43,18 @@ public class ProgramOccupancyManager {
 		 client.setHin(sdVal.getMemberId().toString());  //sdmt member id
 		 clientDao.updateClientBenUnitStatus(client);
 	 }
+	 public void DeactiveServiceIntake(Calendar sDt){
+		 programOccupancyDao.deactiveServiceProgram(sDt);
+	 }
+	 public void DeactiveBedIntake(Calendar sDt){
+		 programOccupancyDao.deactiveBedProgram(sDt);
+	 }
 	public void setClientDao(ClientDao clientDao) {
 		this.clientDao = clientDao;
 	}
+	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
+		this.programQueueDao = programQueueDao;
+	}
+	
+	
 }

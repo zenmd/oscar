@@ -155,7 +155,7 @@
 		<put name="body" value="/PMmodule/QuatroIntake.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.intakereject"  path="/PMmodule/layout.jsp"> 
-		<put name="leftNav" value="/PMmodule/navigation_client.jsp" />
+		<put name="leftNav" value="/PMmodule/navigation_program.jsp" />
 		<put name="body" value="/PMmodule/QuatroIntakeReject.jsp" />
 	</definition>
 	<definition name="page.quatro.pmm.admission"  path="/PMmodule/layout.jsp"> 

@@ -10,18 +10,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SQLQuery;
 import org.hibernate.Transaction;
+import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.ProgramQueue;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.model.SdmtIn;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-
-
+import oscar.MyDateFormat;
 import com.quatro.model.ProgramOccupancy;
 
 public class ProgramOccupancyDao extends HibernateDaoSupport {
 	private Log log = LogFactory.getLog(ProgramOccupancyDao.class);
-	
+	private ProgramQueueDao programQueueDao;
 
     public void insertProgramOccupancy(String providerNo,Calendar occDate) {
     	//Transaction tx = getSession().beginTransaction();
@@ -111,4 +112,64 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
     	
     	q.executeUpdate();
     }
+    public void deactiveServiceProgram(Calendar now){
+        List result = null;
+        String sql = "from QuatroIntakeHeader where nerverExpiry=0 and endDate is null and programType='Service'";
+        //Calendar sDt=new GregorianCalendar(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE),0,0,0);
+    	//Calendar eDt=new GregorianCalendar(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DATE),23,59,59);
+        result =getHibernateTemplate().find(sql,null);
+        while(result.iterator().hasNext()){
+       	 QuatroIntakeHeader qih = (QuatroIntakeHeader)result.iterator().next();
+       	 //Calendar now =Calendar.getInstance();
+       	 if(MyDateFormat.getHoursDiff(now,qih.getCreatedOn())>0){
+       		 sql = "update  QuatroIntakeHeader set endDate=? where id=? ";
+       		 Object[] params ;
+       		 params= new Object[]{now,qih.getId()};
+       		 getHibernateTemplate().bulkUpdate(sql, params);
+       	 }
+        }     
+       }
+      
+       public void deactiveBedProgram(Calendar now){
+       	List result = null;
+           String sql = "from QuatroIntakeHeader where intakeStatus='active' and programType='Bed'";        
+           result =getHibernateTemplate().find(sql,null);
+           //Calendar now =Calendar.getInstance();
+           while(result.iterator().hasNext()){
+          	 QuatroIntakeHeader qih = (QuatroIntakeHeader)result.iterator().next();
+          	
+          	 if(MyDateFormat.getHoursDiff(now,qih.getCreatedOn())>0){
+          		ProgramQueue queue = programQueueDao.getProgramQueueByIntakeId(qih.getId());
+   			if (queue != null)
+          		 sql = "delete  ProgramQueue where Id=? ";       		 
+          		 getHibernateTemplate().bulkUpdate(sql, queue.getId());       		 
+          		 sql = "update ClientReferral set status='rejected',autoManual='A',rejectionReason='50'," +
+          		 		"completionNotes='Intake Automated reject process',completionDate=?  where id=?";
+          		Object[] params ;
+      		 params= new Object[]{Calendar.getInstance(), queue.getReferralId()};
+          		getHibernateTemplate().bulkUpdate(sql,params);       		 
+          		sql = "update  QuatroIntakeHeader set intakeStatus='rejected' where id=? ";
+          		getHibernateTemplate().bulkUpdate(sql, qih.getId());      
+          	 }
+           }
+           sql = "from ClientReferral where status='active'"; 
+           result =getHibernateTemplate().find(sql,null);
+           while(result.iterator().hasNext()){
+           	ClientReferral cr =(ClientReferral)result.iterator().next();
+           	if(MyDateFormat.getHoursDiff(now,cr.getReferralDate())>0){
+           	 //clear quene
+           		 sql = "delete  ProgramQueue where ReferralId=? ";
+           		 getHibernateTemplate().bulkUpdate(sql, cr.getId()); 
+           	 //update Referral status
+           		 sql = "update ClientReferral set status='rejected',autoManual='A',rejectionReason='50'," +
+           		 		"completionNotes='Intake Automated reject process',completionDate=? where id=?";
+           		 Object[] params ;
+              		 params= new Object[]{Calendar.getInstance(), cr.getId()};
+               		getHibernateTemplate().bulkUpdate(sql, params);  
+           	}
+           }
+       }
+	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
+		this.programQueueDao = programQueueDao;
+	}
 }

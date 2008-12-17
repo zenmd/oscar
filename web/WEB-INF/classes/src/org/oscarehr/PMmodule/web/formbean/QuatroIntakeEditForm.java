@@ -1,7 +1,10 @@
 package org.oscarehr.PMmodule.web.formbean;
 
 import org.apache.struts.validator.ValidatorForm;
+import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
+
+import com.ibm.websphere.client.applicationclient.ClientRAR;
 import com.quatro.web.intake.OptionList;
 import com.quatro.model.LookupCodeValue;
 import java.util.List;
@@ -22,6 +25,7 @@ public class QuatroIntakeEditForm extends ValidatorForm{
     private LookupCodeValue originalCountry;
     
     private QuatroIntake intake;
+    private ClientReferral clientReferral;
 
 	public Demographic getClient() {
 		return client;
@@ -101,6 +105,14 @@ public class QuatroIntakeEditForm extends ValidatorForm{
 
 	public void setProgramTypeList(List programTypeList) {
 		this.programTypeList = programTypeList;
+	}
+
+	public ClientReferral getClientReferral() {
+		return clientReferral;
+	}
+
+	public void setClientReferral(ClientReferral clientReferral) {
+		this.clientReferral = clientReferral;
 	}
     
 /*    

@@ -80,7 +80,13 @@ public class QuatroIntake implements Serializable,Cloneable {
     private String statusInCanada;
     private String originalCountry;
     private String referredTo;
-    private String reasonNoAdmit;
+    private String reasonNoAdmit; 
+    private String nerverExpiry;
+    private String sdmtBenUnitStatus; 
+    private String sdmtOffice; 
+    private String sdmtLastBenMonth;
+    
+    
 
     private String comments;
 
@@ -540,5 +546,29 @@ public class QuatroIntake implements Serializable,Cloneable {
 	}
 	public void setReasonForService(String reasonForService) {
 		this.reasonForService = reasonForService;
+	}
+	public String getNerverExpiry() {
+		return nerverExpiry;
+	}
+	public void setNerverExpiry(String nerverExpiry) {
+		this.nerverExpiry = nerverExpiry;
+	}
+	public String getSdmtBenUnitStatus() {
+		return sdmtBenUnitStatus;
+	}
+	public void setSdmtBenUnitStatus(String sdmtBenUnitStatus) {
+		this.sdmtBenUnitStatus = sdmtBenUnitStatus;
+	}
+	public String getSdmtLastBenMonth() {
+		return sdmtLastBenMonth;
+	}
+	public void setSdmtLastBenMonth(String sdmtLastBenMonth) {
+		this.sdmtLastBenMonth = sdmtLastBenMonth;
+	}
+	public String getSdmtOffice() {
+		return sdmtOffice;
+	}
+	public void setSdmtOffice(String sdmtOffice) {
+		this.sdmtOffice = sdmtOffice;
 	}
 }

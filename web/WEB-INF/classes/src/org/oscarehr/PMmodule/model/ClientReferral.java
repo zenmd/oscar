@@ -42,6 +42,7 @@ public class ClientReferral implements Serializable {
     private String notes;
     private String presentProblems;
     private String rejectionReason;
+    private String rejectionReasonDesc;
     private String completionNotes;
     private Integer programId;
     private String status;
@@ -285,6 +286,14 @@ public class ClientReferral implements Serializable {
 
 	public void setFromIntakeId(Integer fromIntakeId) {
 		this.fromIntakeId = fromIntakeId;
+	}
+
+	public String getRejectionReasonDesc() {
+		return rejectionReasonDesc;
+	}
+
+	public void setRejectionReasonDesc(String rejectionReasonDesc) {
+		this.rejectionReasonDesc = rejectionReasonDesc;
 	}
 
 }

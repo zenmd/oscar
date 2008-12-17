@@ -41,6 +41,12 @@ public class MyDateFormat {
 		  long days = (end.getTimeInMillis() - start.getTimeInMillis())/(24*60*60*1000);
 		  return (int)days;
 	}
+	
+	public static long getHoursDiff(Calendar start, Calendar end){
+		  if(start==null || end==null) return 0;
+		  long hrs = (end.getTimeInMillis() - start.getTimeInMillis())/(60*60*1000);
+		  return hrs;
+	}
 
 	public static String formatMonthOrDay(String value) {
 	   String str2= "0" + value;

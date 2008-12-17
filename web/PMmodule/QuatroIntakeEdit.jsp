@@ -739,6 +739,14 @@ function confirmActive()
 								property="intake.endDateTxt" openerForm="quatroIntakeEditForm">
 							</quatro:datePickerTag></td>
 						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							</td>
+							<td width="25%">Service Program Never Expiry</td>
+							<td width="25%">
+								<html-el:checkbox property="intake.nerverExpiry"	value="1" /></td>
+						</tr>
 					</table>
 					</td>
 				</tr>
@@ -766,7 +774,75 @@ function confirmActive()
 					</table>
 					</td>
 				</tr>
+				<tr>
+					<td>
+					<div class="tabs">
+					<table cellpadding="3" cellspacing="0" border="0">
+						<tr>
+							<th>OW/ODSP Status</th>
+						</tr>
+					</table>
+					</div>
+					</td>
+				</tr>
 
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="25%">Benefit Unit Status</td>
+							<td width="75%">
+							<html-el:text style="width: 80%"
+										property="intake.sdmtBenUnitStatus" readonly="true" /></td>
+						</tr>
+						<tr>
+							<td width="25%">Last Benefit Month of OW</td>
+							<td width="75%">
+							<html-el:text style="width: 80%"
+										property="intake.sdmtLastBenMonth" readonly="true" /></td>
+						</tr>
+						<tr>
+							<td width="25%">Office</td>
+							<td width="75%">
+							<html-el:text style="width: 80%"
+										property="intake.sdmtOffice" readonly="true" /></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<table width="100%" class="simple">
+						<tr>
+							<td width="15%">Intake Status</td>
+							<td width="15%">
+							<html-el:text style="width: 90%"
+										property="intake.intakeStatus" readonly="true" /></td>
+										<td width="15%">Last updated by</td>
+							<td width="15%">
+							<html-el:text style="width: 90%"
+										property="intake.staffId" readonly="true" /></td>
+							<td width="15%">Last updated date</td>
+							<td width="15%">
+							<html-el:text style="width: 90%"
+										property="intake.lastUpdateDate" readonly="true" /></td>			
+						</tr>
+						</table>
+						<table width="100%">
+						<tr>
+							<td width="15%">Rejection Reason</td>
+							<td width="30%">
+							<html-el:text style="width: 90%"
+										property="clientReferral.rejectionReason" readonly="true" /></td>
+						
+							<td width="15%">Rejection Note</td>
+							<td width="40%">
+							<html-el:textarea style="width: 90%"
+										property="clientReferral.completionNotes"  rows="10"  readonly="true" /></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
 			</table>
 			<!--  end of page content --></div>
 			</td>

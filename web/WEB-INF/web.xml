@@ -324,8 +324,7 @@
         <servlet-name>redirectLinkTracking</servlet-name>
         <url-pattern>/redirectLinkTracking</url-pattern>
     </servlet-mapping>
- -->	
-    
+ -->    
     <session-config>
     	<session-timeout>120</session-timeout> <!-- 120minutes -->
     </session-config>
