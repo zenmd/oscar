@@ -88,7 +88,7 @@
 	</c:choose>		
 	</display:column>
     <display:column sortable="false">  
-    	<security:oscarSec objectName="<%=KeyConstants.FUN_PROGRAM_REJECT %>" rights="<%=KeyConstants.ACCESS_WRITE %>"> 
+    	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_WRITE %>"> 
     		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeReject.do?method=edit&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Reject</a>	
     	</security:oscarSec>	
     </display:column>
