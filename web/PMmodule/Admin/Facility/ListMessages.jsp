@@ -4,8 +4,6 @@ String s = "debug";
 %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
 <%@page import="com.quatro.common.KeyConstants;"%>
-<bean:define id="facility" name="facilityManagerForm"
-	property="facility" />
 
 <html:form action="/FacilityMessage.do">
 	<input type="hidden" name="method" value="save" />

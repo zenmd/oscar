@@ -54,6 +54,7 @@
 				document.forms[0].submit();
 			}
 		}
+		return false;
 	}
 	// trim leading and ending spaces
 	function trim (str) {
@@ -90,7 +91,7 @@
 						<html:link	action="/PMmodule/FacilityManager.do?method=list"	style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|</html:link>
 						<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">						
-							<html:link	href="javascript:submitForm();"	onclick="javascript: setNoConfirm();"	style="color:Navy;text-decoration:none;">
+							<html:link	href="javascript:void1();"	onclick="javascript: setNoConfirm();return submitForm();"	style="color:Navy;text-decoration:none;">
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/Save16.png"/>" />&nbsp;Save&nbsp;&nbsp;</html:link>
 						</security:oscarSec>	
 					</td>
