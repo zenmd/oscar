@@ -23,8 +23,8 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			
 			<logic:present	name="userForEdit">
 				<c:if test="${!isReadOnly}" >
-					<html:link href="javascript:submitForm('saveEdit');"
-						style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+					<html:link href="javascript:void1()" onclick="javascript:setNoConfirm();return submitForm('saveEdit');"
+						style="color:Navy;text-decoration:none;">
 						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>						
 				</c:if>	
 				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_USER %>" rights="<%=KeyConstants.ACCESS_READ %>">
@@ -34,7 +34,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 			</logic:present> 
 			<logic:notPresent name="userForEdit">
 				<c:if test="${!isReadOnly}" >
-					<html:link href="javascript:submitForm('saveNew');"	style="color:Navy;text-decoration:none;" onclick="javascript:setNoConfirm();">
+					<html:link href="javascript:void1();" onclick="javascript:setNoConfirm();return submitForm('saveNew');"	style="color:Navy;text-decoration:none;">
 					<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>
 				</c:if>	
 			</logic:notPresent>			
@@ -196,19 +196,17 @@ function submitForm(func){
 		}	
 		
 		if(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8 && v9){
-			document.forms[0].submit();
-		}
-	
-	} else {
-		if((func == "saveEdit" || func=="saveNew") && noChanges())
-		{
-			alert("There are no changes detected to save");
-		}
-		else
-		{
-			document.forms[0].submit();
+			if (noChanges())
+			{
+				alert("There are no changes detected to save");
+			}
+			else
+			{
+				document.forms[0].submit();
+			}
 		}
 	}
+	return false;
 }
 
 function validateRequired(field, fieldNameDisplayed ){
