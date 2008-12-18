@@ -751,7 +751,20 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			{
 				if (intake.getEndDate() != null	&& "1".equals(intake.getNerverExpiry()))
 					messages.add(ActionMessages.GLOBAL_MESSAGE,
-					new ActionMessage("warning.intake.serviceprogram_restriction",request.getContextPath()));
+					new ActionMessage("error.intake.serviceprogram_restriction",request.getContextPath()));
+				saveMessages(request, messages);
+				
+				HashMap actionParam = new HashMap();
+				actionParam.put("clientId", client.getDemographicNo());
+				actionParam.put("intakeId", intake.getId().toString());
+				request.setAttribute("clientId", client.getDemographicNo());
+				request.setAttribute("actionParam", actionParam);
+				request.setAttribute("client", client);
+				request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+				setAgeGenderReadonly(request, intake);
+				setProgramEditable(request, intake, intakeHeadId);
+				super.setScreenMode(request,KeyConstants.TAB_CLIENT_INTAKE);
+				return mapping.findForward("edit");
 			}
 			if (intake.getClientId().intValue() > 0) {
 				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(intake.getClientId(),	intake.getProgramId());
