@@ -746,7 +746,7 @@ function confirmActive()
 							<td></td>
 							<td></td>
 							</td>
-							<td width="25%">Service Program Never Expiry</td>
+							<td width="25%">Service Program Never Expiries</td>
 							<td width="25%">
 								<html-el:checkbox property="intake.nerverExpiry"
 								value="1" />
