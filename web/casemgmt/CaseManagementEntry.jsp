@@ -152,8 +152,6 @@
 		if (!validateSignStatus()){
 			if(!confirm(str4)) return false;
 		}
-		if (!validateIssueStatus())
-			if (!confirm(str2)) return false;
 			
 		
 		<oscarProp:oscarPropertiesCheck property="oncall" value="yes">		
