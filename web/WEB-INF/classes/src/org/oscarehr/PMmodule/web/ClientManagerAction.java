@@ -1144,13 +1144,13 @@ public class ClientManagerAction extends BaseAction {
 
 			temp = StringUtils.trimToNull(criteria.getManOrWoman());
 			if (temp != null) {
-				if (!cachedProgram.getGender().equals(temp)) {
+				if (cachedProgram.getGender() != null && !cachedProgram.getGender().equals(temp)) {
 					it.remove();
 					continue;
 				}
 			}
 
-			if (criteria.isTransgender() && !cachedProgram.getGender().equals("T")) {
+			if (criteria.isTransgender() && cachedProgram.getGender() != null != cachedProgram.getGender().equals("T")) {
 				it.remove();
 				continue;
 			}
@@ -1172,7 +1172,7 @@ public class ClientManagerAction extends BaseAction {
 
 			temp = StringUtils.trimToNull(criteria.getAbstinenceSupport());
 			if (temp != null) {
-				if (!cachedProgram.getAbstinenceSupport().equals(temp)) {
+				if (cachedProgram.getAbstinenceSupport() != null && !cachedProgram.getAbstinenceSupport().equals(temp)) {
 					it.remove();
 					continue;
 				}
