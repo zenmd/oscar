@@ -27,8 +27,8 @@
 <html:hidden property="codeName"/>
 <html:hidden property="descName"/>
 <table width="100%" border="0">
-<tr><td width="80%">Description: <html:text property="keywordName" style="width:100%;" maxlength="80" /></td>
-<td width="20%"><html:submit property="method" value="search" /></td></tr>
+<tr><td width="80%" valign="bottom">Description: <html:text property="keywordName" style="width:100%;" maxlength="80" /></td>
+<td width="20%" valign="bottom"><html:submit property="method" value="search" /></td></tr>
 <tr><td colspan="2">
 <menu:useMenuDisplayer name="ListMenu" repository="tree"> 
     <c:forEach var="menu" items="${tree.topMenus}"> 
