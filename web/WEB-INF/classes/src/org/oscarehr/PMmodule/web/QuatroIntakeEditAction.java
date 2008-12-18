@@ -313,9 +313,16 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			qform.setOriginalCountry(originalCountry);
 
 			setProgramEditable(request, intake, intakeHeadId);
-			if(intake.getProgramType().equals(KeyConstants.PROGRAM_TYPE_Bed))
-			request.setAttribute("isBedProgram", Boolean.TRUE);
-			else request.setAttribute("isBedProgram", Boolean.FALSE);
+			if(intake.getProgramType() == null)
+			{
+				request.setAttribute("isBedProgram", Boolean.FALSE);
+			}
+			else
+			{
+				if(intake.getProgramType().equals(KeyConstants.PROGRAM_TYPE_Bed))
+				request.setAttribute("isBedProgram", Boolean.TRUE);
+				else request.setAttribute("isBedProgram", Boolean.FALSE);
+			}
 			request.setAttribute("PROGRAM_TYPE_Bed",KeyConstants.PROGRAM_TYPE_Bed);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
