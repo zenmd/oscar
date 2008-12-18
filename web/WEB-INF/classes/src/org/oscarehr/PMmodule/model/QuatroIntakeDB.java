@@ -21,7 +21,10 @@ public class QuatroIntakeDB implements Serializable {
 //    private Integer referralId;
 //    private Integer queueId;
     private Calendar lastUpdateDate;
-
+    private boolean nerverExpiry;
+    private String sdmtBenUnitStatus; 
+    private String sdmtOffice; 
+    private String sdmtLastBenMonth;
     public Calendar getLastUpdateDate() {
 		return lastUpdateDate;
 	}
@@ -142,6 +145,38 @@ public class QuatroIntakeDB implements Serializable {
 
 	public void setEndDate(Calendar endDate) {
 		this.endDate = endDate;
+	}
+
+	public boolean isNerverExpiry() {
+		return nerverExpiry;
+	}
+
+	public void setNerverExpiry(boolean nerverExpiry) {
+		this.nerverExpiry = nerverExpiry;
+	}
+
+	public String getSdmtBenUnitStatus() {
+		return sdmtBenUnitStatus;
+	}
+
+	public void setSdmtBenUnitStatus(String sdmtBenUnitStatus) {
+		this.sdmtBenUnitStatus = sdmtBenUnitStatus;
+	}
+
+	public String getSdmtLastBenMonth() {
+		return sdmtLastBenMonth;
+	}
+
+	public void setSdmtLastBenMonth(String sdmtLastBenMonth) {
+		this.sdmtLastBenMonth = sdmtLastBenMonth;
+	}
+
+	public String getSdmtOffice() {
+		return sdmtOffice;
+	}
+
+	public void setSdmtOffice(String sdmtOffice) {
+		this.sdmtOffice = sdmtOffice;
 	}
 
 

@@ -187,7 +187,12 @@ public class IntakeDao extends HibernateDaoSupport {
 		    intake.setStaffId(intakeDb.getStaffId());
 		    intake.setProgramType(intakeDb.getProgramType());
 		    intake.setProgramName((String)oo[1]);
-		    Calendar edt = intakeDb.getEndDate();
+		    intake.setSdmtBenUnitStatus(intakeDb.getSdmtBenUnitStatus());
+		    intake.setSdmtLastBenMonth(intakeDb.getSdmtLastBenMonth());
+		    String strNerverExp="0";
+		    if(intakeDb.isNerverExpiry()) strNerverExp="1";
+		    intake.setNerverExpiry(strNerverExp);
+		    Calendar edt = intakeDb.getEndDate();		    
 		    intake.setEndDate(edt);
 		    if (null != edt) {
 		    	intake.setEndDateTxt(String.valueOf(edt.get(Calendar.YEAR)) + "/" +
@@ -625,6 +630,7 @@ public class IntakeDao extends HibernateDaoSupport {
 			    intakeDb.setProgramType(intake.getProgramType());
 			    intakeDb.setEndDate(intake.getEndDate());
 			    intakeDb.setLastUpdateDate(intake.getLastUpdateDate());
+			    intakeDb.setNerverExpiry("1".equals(intake.getNerverExpiry()));
 		      }
 		      obj.add(obj2);
 	      }
@@ -636,6 +642,7 @@ public class IntakeDao extends HibernateDaoSupport {
 		    intakeDb.setClientId(intake.getClientId());
 		    intakeDb.setCreatedOn(intake.getCreatedOn());
 		    intakeDb.setEndDate(intake.getEndDate());
+		    intakeDb.setNerverExpiry("1".equals(intake.getNerverExpiry()));
 		    intakeDb.setLastUpdateDate(intake.getLastUpdateDate());
 		    intakeDb.setProgramId(intake.getProgramId());
 		    intakeDb.setStaffId(intake.getStaffId());
