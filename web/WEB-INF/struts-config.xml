@@ -251,7 +251,7 @@
             <forward name="list" path="page.pmm.admin.system.message" />
             <forward name="edit" path="page.pmm.admin.system.message.edit" />
         </action>
-        <action path="/FacilityMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="facilityMessageForm" input="/caisicore/FacilityMessageForm.jsp" validate="false">
+        <action path="/FacilityMessage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="facilityMessageForm" input="/PMmodule/Admin/Facility/EditMessage.jsp" validate="false">
             <forward name="view" path="/caisicore/FacilityMessage.jsp" />
             <forward name="list" path="page.pmm.admin.facility.message" />
             <forward name="edit" path="page.pmm.admin.facility.message.edit" />
@@ -300,7 +300,7 @@
             <forward name="managebed" path="page.pmm.admin.beds.manage"/>
             <forward name="editbed" path="page.pmm.admin.bed.edit"/>
         </action>
-        <action path="/PMmodule/FacilityManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="facilityManagerForm" scope="session">
+        <action path="/PMmodule/FacilityManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="facilityManagerForm" scope="request">
             <forward name="list" path="page.pmm.admin.facility.list"/>
             <forward name="edit" path="page.pmm.admin.facility.edit"/>
             <forward name="view" path="page.pmm.admin.facility.view"/>
