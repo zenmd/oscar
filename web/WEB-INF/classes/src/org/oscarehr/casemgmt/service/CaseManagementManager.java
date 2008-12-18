@@ -188,15 +188,15 @@ public class CaseManagementManager {
         		rolename = "";
         	// if have signiture setting, use signiture as username
         	String tempS = null;
-        	if (providerSignitureDao.isOnSig(cproviderNo))
-        		tempS = providerSignitureDao.getProviderSig(cproviderNo);
+        	//if (providerSignitureDao.isOnSig(cproviderNo))
+        	//	tempS = providerSignitureDao.getProviderSig(cproviderNo);
         	if (tempS != null && !"".equals(tempS.trim()))
         		userName = tempS;
 
         	if (userName != null && !"".equals(userName.trim()))
         	{
         		noteStr = noteStr + "\n[[Signed on " + dt.format(now) + " "
-        				+ "by " + userName + ", " + rolename + "]]\n";
+        				+ "by " + userName + ", " + rolename + "]]\n" ;
         	} else
         		noteStr = noteStr + "\n[[" + dt.format(now) + "]]\n";
 
