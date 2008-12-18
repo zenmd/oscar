@@ -1,7 +1,7 @@
 <%@ include file="/taglibs.jsp"%>
 <% String s = "debug"; %>
 <%@ page import="org.oscarehr.PMmodule.model.Facility"%>
-<bean:define id="facility" name="facilityManagerForm" property="facility" />
+<!-- bean:define id="facility" name="facilityManagerForm" property="facility" / -->
 
 <html:form action="/PMmodule/FacilityManager.do">
 	<input type="hidden" name="method" value="save" />
@@ -59,14 +59,13 @@
 					</div>
 					<logic:empty name="associatedPrograms">No programs.<br /></logic:empty>  
 					<logic:notEmpty name="associatedPrograms">
-						<display:table class="simple" sort="list" cellspacing="2" cellpadding="3"
-							id="program" name="associatedPrograms" export="false"
-							requestURI="/PMmodule/FacilityManager.do">
+						<display:table class="simple" sort="list"  cellspacing="2" cellpadding="3"
+							id="program" name="associatedPrograms" export="false" 
+							requestURI="/PMmodule/FacilityManager.do" >
 							<display:setProperty name="basic.msg.empty_list"
-								value="No programs." />
-	
+								value="No programs." />	    								             
 							<logic:equal name="program" property="facilityId"
-								value="<%=((Facility)facility).getId().toString()%>">
+								value='<c:out value="${facilityId}"/>'>
 								<display:column sortable="true" sortProperty="name"
 									title="Program Name">
 									<a	href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?programId=<c:out value="${program.id}"/>">
@@ -74,10 +73,11 @@
 								</display:column>
 							</logic:equal>
 							<logic:notEqual name="program" property="facilityId"
-								value="<%=((Facility)facility).getId().toString()%>">
+								value='<c:out value="${facility.id}}"/>'>
 								<display:column sortable="true" sortProperty="name"
 									title="Program Name">
-									<c:out value="${program.name}" />
+									<a	href="<html:rewrite action="/PMmodule/ProgramManagerView"/>?programId=<c:out value="${program.id}"/>">
+									<c:out	value="${program.name}" /></a>
 								</display:column>
 							</logic:notEqual>
 	
