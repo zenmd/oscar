@@ -29,7 +29,7 @@
 		var obj2 = document.getElementsByName('facility.active')[0];
 		if(!obj2.checked){
           if(!confirm("Deactivating this facility will also deactivate programs in the facility. Select Ok to proceed or Cancel to cancel."))
-            return;
+            return false;
 		}
 
 		trimInputBox();
@@ -38,6 +38,7 @@
 		if (isOk) isOk = validateRequiredField('facilityDesc', 'Facility Description', 70);
 		if (isOk) isOk = validateRequiredField('facility.sectorId', 'Sector', 3);
 		var obj1 = document.getElementsByName('facilityManagerForm_facility.orgId')[0];
+		if(obj1 == null) obj1 = document.getElementsByName('facility.orgId')[0];
 		if(obj1.value == null || obj1.value == '') {
 		    isOk=false;
 			alert('Shelter can not be blank.');
@@ -198,6 +199,7 @@
 									</security:oscarSec>
 									<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>"  rights="<%=KeyConstants.ACCESS_WRITE%>" orgCd="<%=KeyConstants.ORG_ROOT%>" reverse="true">
 										<html:checkbox property="facility.active" disabled="true" />
+										<input type="hidden" id="lastActive" name="lastActive" value='<c:out value="${lastActive}" />' />
 									</security:oscarSec>
 									</td>
 								</tr>

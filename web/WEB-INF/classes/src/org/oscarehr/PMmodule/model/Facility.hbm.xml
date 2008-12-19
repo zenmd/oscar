@@ -19,7 +19,7 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
     <class name="Facility" table="facility">
         <meta attribute="sync-DAO">false</meta>
-        <id name="id" type="integer" column="id">
+        <id name="id" type="integer" column="id" unsaved-value="0">
             <generator class="native" />
         </id>
         <property name="name" column="name" type="string" not-null="true" length="32" />

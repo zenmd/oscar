@@ -28,7 +28,7 @@ Source:web/PMmodule/Admin/User/UserEdit.jsp
 						<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;|</html:link>						
 				</c:if>	
 				<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_USER %>" rights="<%=KeyConstants.ACCESS_READ %>">
-					<html:link href="javascript:submitForm('profile');" 	style="color:Navy;text-decoration:none;">
+					<html:link  href="javascript:void1();" onclick="return submitForm('profile');" 	style="color:Navy;text-decoration:none;">
 						<img border=0 src=<html:rewrite page="/images/greenarrow.gif"/> />&nbsp;Role/Org Security&nbsp;&nbsp;|</html:link>
 				</security:oscarSec>
 			</logic:present> 
@@ -194,17 +194,15 @@ function submitForm(func){
 		if ( fld_email.value.length == 0 || ( fld_email.value.length > 0 && emailChecker(fld_email.value)))	{
 			v8 = true;
 		}	
-		
-		if(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8 && v9){
-			if (noChanges())
-			{
-				alert("There are no changes detected to save");
-			}
-			else
-			{
-				document.forms[0].submit();
-			}
-		}
+		if(!(v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8 && v9)) return false;
+	}
+	if (func != 'profile' && noChanges())
+	{
+		alert("There are no changes detected to save");
+	}
+	else
+	{
+		document.forms[0].submit();
 	}
 	return false;
 }

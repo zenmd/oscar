@@ -30,7 +30,7 @@
 							action="/Home.do"
 							style="color:Navy;text-decoration:none">&nbsp;
 							<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close</html:link>					
-							<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY %>" rights="<%=KeyConstants.ACCESS_WRITE %>">
+							<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY_EDIT %>" rights="<%=KeyConstants.ACCESS_WRITE%>"  orgCd="<%=KeyConstants.ORG_ROOT%>">
 								&nbsp;|&nbsp;<html:link action="/PMmodule/FacilityManager.do?method=add"	style="color:Navy;text-decoration:none">&nbsp;
 								<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/New16.png"/>" />&nbsp;New Facility</html:link>
 							</security:oscarSec>

@@ -61,7 +61,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
     public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
-    		super.getAccess(request, KeyConstants.FUN_FACILITY);
+
+    		String right = super.getAccess(request, KeyConstants.FUN_FACILITY);
+    		
 	    	Integer shelterId = (Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	    	String providerNo = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	    	List facilities =null; 
@@ -318,7 +320,6 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	           //actionParam.put("facilityId", request.getParameter("id"));
 	        }
 	        request.setAttribute("actionParam", actionParam);
-	        
 	    	Facility facility = null;
 	    	String facilityId = request.getParameter("facilityId");
 	        if(facilityId!=null){
@@ -334,6 +335,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        request.setAttribute("orgId", facility.getOrgId());
 	        request.setAttribute("sectorId", facility.getSectorId());
 	        request.setAttribute("facility", facility);
+	        request.setAttribute("lastActive", facility.getActive()?"Y":"N");
 	        
 	        // get agency's organization list from caisi editor table
 	        request.setAttribute("orgList", lookupManager.LoadCodeList("SHL", true, null, null));
@@ -379,6 +381,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
     	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
     	Facility facility = new Facility("", "");
+    	facility.setId(Integer.valueOf("0"));
         facility.setActive(true);
         ((FacilityManagerForm) form).setFacility(facility);
 
@@ -387,6 +390,7 @@ public class FacilityManagerAction extends BaseFacilityAction {
 
         // get agency's sector list from caisi editor table
         request.setAttribute("sectorList", lookupManager.LoadCodeList("SEC", true, null, null));
+        request.setAttribute("lastActive", "Y");
 
         return mapping.findForward(FORWARD_EDIT);
     }
@@ -408,8 +412,9 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	            return list(mapping, form, request, response);
 	        }
 	
-	        if (request.getParameter("facility.active") == null){ 
-	        	facility.setActive(false);
+	        if (request.getParameter("facility.active") == null)
+	        	facility.setActive("Y".equals(request.getParameter("lastActive")));
+	        if(!facility.getActive()) {
 	        	int clientCount =0;
 	        	try{
 	            	clientCount = lookupManager.getCountOfActiveClient("F" + facility.getId().toString());
@@ -442,17 +447,20 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	              request.setAttribute("facilityId", facility.getId());
 	              return edit(mapping, form, request, response);
 	            }
-	        }else{
-	        	facility.setActive(true);
 	        }
 	
 	        
 	        try {
 	        	String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 	        	facility.setLastUpdateDate(Calendar.getInstance());
-	        	facility.setLastUpdateUser(providerNo); 
-	        	facility.setOrgId(Integer.valueOf(request.getParameter("facilityManagerForm_facility.orgId")));
-
+	        	facility.setLastUpdateUser(providerNo);
+	        	if(request.getParameter("facilityManagerForm_facility.orgId") == null) {
+	        		facility.setOrgId(Integer.valueOf(request.getParameter("facility.orgId")));
+	        	}
+	        	else
+	        	{
+	        		facility.setOrgId(Integer.valueOf(request.getParameter("facilityManagerForm_facility.orgId")));
+	        	}
 	        	boolean isNew = false;
 	        	if (facility.getId() == null || facility.getId().intValue() == 0)
 	        	{

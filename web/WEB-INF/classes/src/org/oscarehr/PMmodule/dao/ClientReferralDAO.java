@@ -66,6 +66,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         String sql=	"from ClientReferral cr where cr.clientId in " +clientIds 
         	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
         sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")";
+        sql+=" order by cr.referralDate desc";
         List results = this.getHibernateTemplate().find(sql);
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
@@ -83,6 +84,7 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         	+" and (cr.programId in " +Utility.getUserOrgQueryString(providerNo,shelterId);
         sql+=" or cr.fromProgramId in " +Utility.getUserOrgQueryString(providerNo,shelterId)+")" +
              " and cr.autoManual='M'";
+        sql+=" order by cr.referralDate desc";
         List results = this.getHibernateTemplate().find(sql);
         if (log.isDebugEnabled()) {
             log.debug("getReferrals: clientId=" + clientId + ",# of results=" + results.size());
