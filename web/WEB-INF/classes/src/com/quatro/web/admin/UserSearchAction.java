@@ -57,7 +57,7 @@ public class UserSearchAction extends BaseAdminAction {
 			
 			ArrayList roleList = (ArrayList)rolesManager.getRoles();	
 			request.getSession(true).setAttribute("roles", roleList);
-			request.setAttribute("secuserroles",request.getSession(true).getAttribute("secuserroles"));
+//			request.setAttribute("secuserroles",request.getSession(true).getAttribute("secuserroles"));
 			return mapping.findForward("list");
 		}
 		catch(NoAccessException e)

@@ -8,14 +8,14 @@
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
+		<html:link action="/Lookup/LookupTableList.do"> <img src="../images/Back16.png" border="0"/> Back to Lookup Fields</html:link>&nbsp;|&nbsp;
 		<logic:notEqual value="true" name="lookupCodeListForm" property="tableDef.readonly">
 			<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_LOOKUP %>" rights="<%=KeyConstants.ACCESS_WRITE%>">
 			<html:link  action="/Lookup/LookupCodeEdit.do" paramName="lookupCodeListForm" paramProperty="tableDef.tableId" paramId="id">
 			<img src="../images/New16.png" border="0"/> Add</html:link>&nbsp;|&nbsp;
 			</security:oscarSec>
 		</logic:notEqual>
-		<html:link action="/Lookup/LookupTableList.do"> <img src="../images/Back16.png" border="0"/> Back to Lookup Fields</html:link>
-</td>
+		</td>
 
 	</tr>
 	<tr>

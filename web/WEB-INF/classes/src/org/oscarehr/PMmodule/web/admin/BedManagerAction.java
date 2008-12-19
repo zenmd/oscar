@@ -372,6 +372,9 @@ public class BedManagerAction extends BaseFacilityAction {
 	        List pLst= programManager.getBedProgramsInFacility(providerNo, facilityId);
 	        bForm.setPrograms(pLst);
 	
+	        Bed[] temp = bedManager.getActiveBedsByRoom(room.getId());
+	        request.setAttribute("activebednum", String.valueOf(temp.length));
+
 	        return mapping.findForward("editroom");
  	   }
  	   catch(NoAccessException e)
