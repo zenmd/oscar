@@ -1,8 +1,11 @@
+
+<%-- Updated by Eugene Petruhin on 18 dec 2008 while fixing #2422864 & #2317933 & #2379840 --%>
+
 	<%@include file="/ticklerPlus/header.jsp"%>
 	
 	<%@page import="java.util.GregorianCalendar"%>
 	<%@page import="java.util.Calendar"%>
-	
+
 	<%
 		GregorianCalendar now = new GregorianCalendar();
 	
@@ -18,13 +21,10 @@
 	<script type="text/javascript">
 		function check_tickler_service_date() {
 			var serviceDate = document.ticklerForm.elements['tickler.serviceDate'].value;
-			if(check_date(serviceDate)) {		
-				return true;
-			} else {
-				return false;
-			}	
+			return check_date(serviceDate);
 		}
-		
+
+<%--		
 		function search_demographic() {
 			var popup = window.open('<c:out value="${ctx}"/>/ticklerPlus/demographicSearch.jsp?query=' + document.ticklerForm.elements['tickler.demographic_webName'].value,'demographic_search');
 		
@@ -35,21 +35,16 @@
 	    			popup.focus();
 	  			}	
 		}
-		
+
 		function search_provider() {
 			url = '<c:out value="${ctx}"/>/provider/receptionistfindprovider.jsp';
 			url += '?caisi=true&pyear=<%=curYear%>&pmonth=<%=curMonth%>&pday=<%=curDay%>&providername=';
 			var popup = window.open(url + document.ticklerForm.elements['tickler.task_assigned_to_name'].value,'provider_search');
 		}
-		
+--%>		
 		function validateTicklerForm(form) {
-			if (form.elements['tickler.demographic_no'].value == '' || form.elements['tickler.demographic_no'].value == '0') {
-				alert('You must provide patient information. Please use the search button');
-				return false;
-			}
-			
-			if (form.elements['tickler.task_assigned_to'].value == '0' || form.elements['tickler.task_assigned_to'].value == '') {
-				alert('You must assign the task to a valid provider. Please use the search button');
+			if (form.elements['tickler.task_assigned_to'].value == 'none') {
+				alert('You must assign the task to a valid provider');
 				return false;
 			}
 			
@@ -87,13 +82,12 @@
 			</td>
 			<td class="fieldValue">
 				<html:hidden property="tickler.demographic_no" />
-				<html:text property="tickler.demographic_webName" readonly="true" />
-				
-				<!--  add the tickler for the specific client,not all clients -->
-				<!--  
-				<input type="button" value="Search" onclick="search_demographic();" />
-				-->
+				<%=request.getParameter("tickler.demographic_webName")%>
 			</td>
+		</tr>
+		<tr>
+			<td class="fieldTitle">Program:</td>
+			<td class="fieldValue"><c:out value="${requestScope.program_name}"/></td>
 		</tr>
 		<tr>
 			<td class="fieldTitle">Service Date:</td>
@@ -181,9 +175,14 @@
 				Task Assigned To:
 			</td>
 			<td class="fieldValue">
-				<html:hidden property="tickler.task_assigned_to" />
+				<html:hidden property="tickler.task_assigned_to_name" />
+	            <html:select property="tickler.task_assigned_to" value="none">
+        		    <option value="none">- select -</option>
+        		    <html:options collection="providers" property="providerNo" labelProperty="formattedName"/>
+            	</html:select>
+				<%--html:hidden property="tickler.task_assigned_to" />
 				<html:text property="tickler.task_assigned_to_name" />
-				<input type="button" value="Search" onclick="search_provider();" />
+				<input type="button" value="Search" onclick="search_provider();" /--%>
 			</td>
 		</tr>
 		<tr>
@@ -217,7 +216,7 @@
 		<tr>
 			<td class="fieldValue" colspan="3" align="left">
 				<html:submit styleClass="button">Save</html:submit>
-				<input type="button" value="Cancel" onclick="location.href='<c:out value="${ctx}"/>/Tickler.do';"/>
+				<input type="button" value="Cancel" onclick="window.close()"/>
 			</td>
 		</tr>
 	</html:form>

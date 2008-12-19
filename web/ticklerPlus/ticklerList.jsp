@@ -1,5 +1,6 @@
 
 <%-- Updated by Eugene Petruhin on 11 dec 2008 while fixing #2356548 & #2393547 --%>
+<%-- Updated by Eugene Petruhin on 19 dec 2008 while fixing #2422864 & #2317933 & #2379840 --%>
 
 <%@ include file="/taglibs.jsp" %>
 <%@ include file="/ticklerPlus/header.jsp"%>
@@ -163,36 +164,36 @@
 	<input type="hidden" name="order_tcr" value="asc"/>
 
 	<tr>
-		<td class="searchTitle" colspan="4">Filter</td>
+		<td class="searchTitle" colspan="4">Filter Tickler List</td>
 	</tr>
 	<tr>
-		<td class="blueText">Service Date Range:</td>
-		<td class="blueText"><span style="text-decoration:underline"
+		<td class="blueText" width="30%">Service Date Range:</td>
+		<td class="blueText" width="30%"><span style="text-decoration:underline"
 			onClick="openBrWindow('<c:out value="${ctx}"/>/ticklerPlus/calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=ticklerForm&amp;openerElement=filter.startDate&amp;year=<%=curYear%>&amp;month=<%=curMonth%>','','width=300,height=300')">Begin:</span>
-		<html:text property="filter.startDate" maxlength="10" /></td>
+			<html:text property="filter.startDate" maxlength="10" /></td>
 		
-		<td class="blueText"><span style="text-decoration:underline"
+		<td class="blueText" width="30%"><span style="text-decoration:underline"
 			onClick="openBrWindow('<c:out value="${ctx}"/>/ticklerPlus/calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=ticklerForm&amp;openerElement=filter.endDate&amp;year=<%=curYear%>&amp;month=<%=curMonth %>','','width=300,height=300')">End:</span>
-		<html:text property="filter.endDate" maxlength="10"/>
+			<html:text property="filter.endDate" maxlength="10"/>
 		</td>
-		
-		<td><input type="button" value="Create Report"
-			onclick="return checkTicklerDate();" /></td>
+
+		<td width="10%">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="blueText">Status: <html:select property="filter.status"
+		<td class="blueText">Program: <html:select
+			property="filter.programId"
 			onchange="return checkTicklerDate();">
-			<html:option value="Z">All</html:option>
-			<html:option value="A">Active</html:option>
-			<html:option value="C">Completed</html:option>
-			<html:option value="D">Deleted</html:option>
+			<option value="All Programs">All Programs</option>
+			<html:options collection="programs" property="id" labelProperty="name" />
 		</html:select></td>
+
 		<td class="blueText">Provider: <html:select property="filter.provider"
 			onchange="return checkTicklerDate();">
 			<option value="All Providers">All Providers</option>
 			<html:options collection="providers" property="providerNo"
 				labelProperty="formattedName" />
 		</html:select></td>
+
 		<td class="blueText">Task Assigned To: <html:select
 			property="filter.assignee"
 			onchange="return checkTicklerDate();">
@@ -201,16 +202,12 @@
 				labelProperty="formattedName" />
 		</html:select></td>
 		
-		<td class="blueText">Program: <html:select
-			property="filter.programId"
-			onchange="return checkTicklerDate();">
-			<option value="All Programs">All Programs</option>
-			<html:options collection="programs" property="id" labelProperty="name" />
-		</html:select></td>
+		<td class="blueText">&nbsp;</td>
 		
 	</tr>
 	<tr>
-		<td colspan="2" class="blueText">Client: 
+
+		<td class="blueText">Client: 
 		
 		<oscar:oscarPropertiesCheck property="clientdropbox" value="on">
 		    <html:select property="filter.demographic_no"
@@ -227,28 +224,29 @@
 		    <script language="JavaScript">showClearButton();</script>
 		    <input type="button" value="Search" onclick="search_demographic();" />
 		</oscar:oscarPropertiesCheck>
-            </td>
-	</tr>
 
-	<tr>
-		<td><html:link action="CustomFilter.do">Custom Filters:</html:link>&nbsp;
-		<html:select property="filter.name"
+		</td>
+
+		<td class="blueText">Status: <html:select property="filter.status"
+			onchange="return checkTicklerDate();">
+			<html:option value="Z">All</html:option>
+			<html:option value="A">Active</html:option>
+			<html:option value="C">Completed</html:option>
+			<html:option value="D">Deleted</html:option>
+		</html:select></td>
+
+		<td colspan="2" class="blueText"><html:link action="CustomFilter.do">Custom Filters:</html:link>
+			<html:select property="filter.name"
 			onchange="this.form.method.value='run_custom_filter';this.form.submit();">
 			<option value=""></option>
 			<html:options collection="customFilters" property="name" />
 		</html:select></td>
+	</tr>
 
-<!-- 
-		<td><input type="button" value="Print Preview" onclick="location.href='<c:out value="${ctx}"/>/ticklerPlus/ticklerPrint.jsp' " /></td>
- -->
-		<!-- the following only works in Firefox, not in IE
-		<td><input type="button" value="Print Preview" onClick="window.open('<c:out value="${ctx}"/>/ticklerPlus/ticklerPrint.jsp','Tickler Print Preview','width=800,height=600,toolbar=no,location=no,directories=no,status=no,menubar=yes,scrollbars=yes,copyhistory=no,resizable=yes')" /> </td>
-		 -->
-<!-- 
-		<td><a href='<c:out value="${ctx}"/>/ticklerPlus/ticklerPrint.jsp' onClick="window.open(this.href,'Tickler Print Preview','width=800,height=600,toolbar=no,location=no,directories=no,status=no,menubar=yes,scrollbars=yes,copyhistory=no,resizable=yes');return false;">Print Preview</a> </td>
- -->		 
-		<td><a id="pre_print" href='<c:out value="${ctx}"/>/ticklerPlus/ticklerPrint.jsp' target="_pre_print">Print Preview</a> </td>
-		
+	<tr>
+		<td><input type="button" value="Create Report"
+			onclick="return checkTicklerDate();" /></td>
+		<td colspan="3"><a id="pre_print" href='<c:out value="${ctx}"/>/ticklerPlus/ticklerPrint.jsp' target="_pre_print">Print Preview</a> </td>
 	</tr>
 
 
