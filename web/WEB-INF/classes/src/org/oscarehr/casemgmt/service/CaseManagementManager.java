@@ -177,7 +177,7 @@ public class CaseManagementManager {
         String noteHistory = note.getHistory();     
         
         // process noteStr, remove existing signed on string
-        // noteStr = removeSignature(noteStr);
+        //noteStr = removeSignature(noteStr);
         if (note.isSigned())
         {
                 
@@ -189,7 +189,7 @@ public class CaseManagementManager {
         	// if have signiture setting, use signiture as username
         	String tempS = null;
         	//if (providerSignitureDao.isOnSig(cproviderNo))
-        	//	tempS = providerSignitureDao.getProviderSig(cproviderNo);
+        	tempS = providerSignitureDao.getProviderSig(cproviderNo);
         	if (tempS != null && !"".equals(tempS.trim()))
         		userName = tempS;
 
@@ -1301,4 +1301,30 @@ public class CaseManagementManager {
     public List<DxResearch> getDxByDemographicNo(String demographicNo) {
     	return this.dxResearchDAO.getByDemographicNo(Integer.parseInt(demographicNo));
     }
+    
+    public String getSignature(String cproviderNo, String userName, String roleName){
+    	
+    	SimpleDateFormat dt = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+    	Date now = new Date();
+    	// add the time, signiture and role at the end of note
+    	String rolename="";
+    	rolename= roleName;
+    	if (rolename == null)
+    		rolename = "";
+    	// if have signiture setting, use signiture as username
+    	String tempS = null;
+    	//if (providerSignitureDao.isOnSig(cproviderNo))
+    	tempS = providerSignitureDao.getProviderSig(cproviderNo);
+    	if (tempS != null && !"".equals(tempS.trim()))
+    		userName = tempS;
+
+    	if (userName != null && !"".equals(userName.trim()))
+    	{
+    		return "\n[[Signed on " + dt.format(now) + " "
+    				+ "by " + userName + ", " + rolename + "]]\n" ;
+    	} else
+    		return "\n[[" + dt.format(now) + "]]\n";
+    	
+    }
+    
 }
