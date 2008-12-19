@@ -51,10 +51,10 @@
 			<tr>
 				<td colspan="2">
 					<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_ORG %>" rights="<%=KeyConstants.ACCESS_READ%>">
-						<menu:useMenuDisplayer name="ListMenu"
+						<menu:useMenuDisplayer name="ListMenu" id="idMenu"
 							repository="tree">
 							<c:forEach var="menu" items="${tree.topMenus}">
-								<menu-el:displayMenu name="${menu.name}" />
+								<menu-el:displayMenu name="${menu.name}"/>
 							</c:forEach>
 						</menu:useMenuDisplayer>
 					</security:oscarSec>
@@ -66,5 +66,5 @@
 	</tr>
 </table>
 <script>
-	initializeMenus();
+	initializeMenus('idMenu','R00000013Actuator');
 </script>

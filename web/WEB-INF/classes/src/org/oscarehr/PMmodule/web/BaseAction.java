@@ -263,7 +263,7 @@ public abstract class BaseAction extends DispatchAction {
 	        log(timeSpan,null,name, 1, request);
 	        return fwd;
 		}
-		catch (Exception ex)
+		catch (NoAccessException ex)
 		{
 	        Calendar endDt = Calendar.getInstance();
 	        long timeSpan = endDt.getTimeInMillis()-startDt.getTimeInMillis();

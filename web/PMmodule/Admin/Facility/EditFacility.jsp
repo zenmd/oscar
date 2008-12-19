@@ -70,7 +70,7 @@
 <html:form action="/PMmodule/FacilityManager.do">
 	<input type="hidden" name="method" value="save" />
 
-
+	<html-el:hidden property="facility.id" /> 
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"
 		height="100%">
 

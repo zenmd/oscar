@@ -159,7 +159,7 @@ function checkExistClients(i){
 		  &nbsp;|&nbsp;<a href="javascript:void1();"  style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return deferedSubmit('save');">
 			<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save</a>
          </c:if>
-		  &nbsp;|&nbsp;<a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return isDateValid;" target="_blank">
+		  &nbsp;|&nbsp;<a href='QuatroFamilyIntake.do?method=history&intakeHeadId=<c:out value="${intakeHeadId}"/>&programId=<c:out value="${programId}" />' style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();return isDateValid;" target="_blank">
 			<img border=0 src=<html:rewrite page="/images/history.gif"/> />&nbsp;History&nbsp;&nbsp;</a>
 		</td>
 	</tr>

@@ -297,7 +297,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setRejectionReasonDesc("");
 			}
 			qform.setIntake(intake);
-			//LookupCodeValue language = null;
+			 language = null;
 			LookupCodeValue originalCountry = null;
 			if (intakeId.intValue() != 0) {
 				
@@ -433,6 +433,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			QuatroIntake intake = qform.getIntake();
 			Demographic client = qform.getClient();
 			String cd = request.getParameter("language_code");
+			
 			if (!Utility.IsEmpty(cd)) {
 				LookupCodeValue lcv = lookupManager.GetLookupCode("LNG", cd);
 				qform.setLanguage(lcv);
@@ -514,11 +515,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			if(Utility.IsEmpty(intake.getProgramType()) && intake.getProgramId().intValue()>0){
 				if(programManager.getProgram(intake.getProgramId()).isBed()) 
 					intake.setProgramType(KeyConstants.BED_PROGRAM_TYPE);
+				else
+					intake.setProgramType(KeyConstants.SERVICE_PROGRAM_TYPE);
 			}
 			if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE))
 				request.setAttribute("isBedProgram", Boolean.TRUE);
 			else request.setAttribute("isBedProgram", Boolean.FALSE);
 			request.setAttribute("programId", intake.getProgramId());
+			
 			return mapping.findForward("edit");
 		} catch (NoAccessException e) {
 			return mapping.findForward("failure");

@@ -138,13 +138,12 @@
    	  </c:otherwise>
    	  </c:choose>		
 	</tr>
-  </table>
-  <table class="simple"  cellspacing="2" cellpadding="3">
-  <tr>
-  	<td width="15%">Rejection Reason</td>
-  	<td width="35%"><html-el:text property="referral.rejectionReasonDesc" readonly="true"></html-el:text></td>
-  	<td width="15%>Rejection Note</td>
-  	<td width="35%"><html-el:textarea property="referral.completionNotes"  readonly="true" /> </td>
+    <tr>
+  	<td>Rejection Reason</td>
+  	<td><html-el:text property="referral.rejectionReasonDesc" readonly="true" style="width:90%"></html-el:text></td>
+  	</tr>
+  	<tr>  	<td>Rejection Note</td>
+  	<td><html-el:textarea property="referral.completionNotes"  readonly="true" style="width:90%" /> </td>
   	</tr>
   </table>
 </td></tr>
