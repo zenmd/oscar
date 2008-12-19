@@ -194,7 +194,9 @@ public class ClientManager {
         return referralDAO.search(referral);
     }
     
-    
+    public ClientReferral getClientReferralByIntake(Integer intakeId){
+    	return referralDAO.getReferralByIntakeId(intakeId);
+    }
 
 /*    
     public void processReferral(ClientReferral referral) throws AlreadyAdmittedException, AlreadyQueuedException, ServiceRestrictionException {

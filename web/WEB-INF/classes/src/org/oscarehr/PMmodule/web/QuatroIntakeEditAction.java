@@ -283,16 +283,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				}
 			}
 			
-			ClientReferral clientRef = new ClientReferral();
-			request.setAttribute("programId", intake.getProgramId());
-			ProgramQueue queue = programQueueManager.getProgramQueuesByIntakeId(intake.getId());
-			if (queue != null){
-				request.setAttribute("queueId", queue.getId());
-				Integer refId = queue.getReferralId();
-				clientRef = clientManager.getClientReferral(refId.toString());	
+			ClientReferral clientRef = clientManager.getClientReferralByIntake(intake.getId());
+			request.setAttribute("programId", intake.getProgramId());			
+			if(clientRef !=null && !Utility.IsEmpty(clientRef.getRejectionReason()))					
+			{
 				intake.setCompletionNotes(clientRef.getCompletionNotes());
 				intake.setRejectionReasonDesc(clientRef.getRejectionReasonDesc());
-			}else{
+			}
+			else{
 				intake.setCompletionNotes("");
 				intake.setRejectionReasonDesc("");
 			}

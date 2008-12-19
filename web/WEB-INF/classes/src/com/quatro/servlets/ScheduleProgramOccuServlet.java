@@ -267,7 +267,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        try {
 	            
 	           Calendar dt = Calendar.getInstance();
-               dt.add(Calendar.DATE, -1);
+               dt.add(Calendar.DATE, -2);
 	           ProgramOccuTimerTask.DeactiveBedIntake(dt);
 	           
 	           ProgramOccuTimerTask.DeactiveServiceIntake(dt);
