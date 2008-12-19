@@ -649,6 +649,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setEndDate(MyDateFormat.getCalendar(intake.getEndDateTxt()));
 			}
 			intake.setLastUpdateDate(Calendar.getInstance());
+			
 			// get program type
 			Program prog = programManager.getProgram(intake.getProgramId());
 			if (prog != null) {
@@ -723,7 +724,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					return mapping.findForward("edit");
 				}
 			}
-
+			intake.setNerverExpiry(request.getParameter("intake.nerverExpiry"));
+			if(!"1".equals(intake.getNerverExpiry()) ||KeyConstants.BED_PROGRAM_TYPE.equals(intake.getProgramType())) intake.setNerverExpiry("0");
 			// check service program end date
 			if (intake.getEndDate() != null	&& MyDateFormat.isBefore(intake.getEndDate(), Calendar.getInstance())) {
 				if (intake.getProgramType().equals(	KeyConstants.SERVICE_PROGRAM_TYPE))
@@ -753,22 +755,23 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			if(intake.getProgramType().equals(KeyConstants.SERVICE_PROGRAM_TYPE))
 			{
-				if (intake.getEndDate() != null	&& "1".equals(intake.getNerverExpiry()))
+				if (intake.getEndDate() != null	&& "1".equals(intake.getNerverExpiry())){
 					messages.add(ActionMessages.GLOBAL_MESSAGE,
 					new ActionMessage("error.intake.serviceprogram_restriction",request.getContextPath()));
-				saveMessages(request, messages);
-				
-				HashMap actionParam = new HashMap();
-				actionParam.put("clientId", client.getDemographicNo());
-				actionParam.put("intakeId", intake.getId().toString());
-				request.setAttribute("clientId", client.getDemographicNo());
-				request.setAttribute("actionParam", actionParam);
-				request.setAttribute("client", client);
-				request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
-				setAgeGenderReadonly(request, intake);
-				setProgramEditable(request, intake, intakeHeadId);
-				super.setScreenMode(request,KeyConstants.TAB_CLIENT_INTAKE);
-				return mapping.findForward("edit");
+					saveMessages(request, messages);
+					
+					HashMap actionParam = new HashMap();
+					actionParam.put("clientId", client.getDemographicNo());
+					actionParam.put("intakeId", intake.getId().toString());
+					request.setAttribute("clientId", client.getDemographicNo());
+					request.setAttribute("actionParam", actionParam);
+					request.setAttribute("client", client);
+					request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
+					setAgeGenderReadonly(request, intake);
+					setProgramEditable(request, intake, intakeHeadId);
+					super.setScreenMode(request,KeyConstants.TAB_CLIENT_INTAKE);
+					return mapping.findForward("edit");
+				}
 			}
 			if (intake.getClientId().intValue() > 0) {
 				List intakeHeads = intakeManager.getActiveIntakeByProgramByClient(intake.getClientId(),	intake.getProgramId());
@@ -845,7 +848,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setRecordLandingYN(request.getParameter("intake.recordLandingYN"));
 			intake.setLibraryCardYN(request.getParameter("intake.libraryCardYN"));
 			intake.setStaffId(providerNo);
-			intake.setNerverExpiry(request.getParameter("intake.nerverExpiry"));
+			
 			intake.setLastUpdateDate(new GregorianCalendar());
 			String sourceIncome = request.getParameter("intake.sourceIncome");
 			if (Utility.IsEmpty(sourceIncome)) {

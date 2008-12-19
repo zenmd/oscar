@@ -416,11 +416,14 @@ var XMLHttpRequestObject = false;
 	<table style="width: 90%">
 		<tr>
 			<td align="left" class="buttonBar2">
+			<c:if test="${!isReadOnly }">	
 			<a href="javascript:void1();"
 				style="text-decoration: cursor:pointer;color: blue"
 				onclick="return spellCheck();"> <img border=0
 				src=<html:rewrite page="/images/icon_confirmsml.gif"/> />&nbsp; Spell Check
-			&nbsp;|</a></td>
+			&nbsp;|</a>
+			</c:if>
+			</td>
 		</tr>
 	</table>
 	<table width="90%" border="1">

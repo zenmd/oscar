@@ -177,7 +177,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 			while (items.hasNext()) {
 				QuatroIntakeHeader qih = (QuatroIntakeHeader) items.next();
 				if (MyDateFormat.getHoursDiff(qih.getCreatedOn(), now) > 0) {
-					iIds = qih.getId().toString() + ",";
+					iIds += qih.getId().toString() + ",";
 				}
 			}
 			if (iIds.endsWith(","))
@@ -196,8 +196,8 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 					while (item.hasNext()) {
 						ProgramQueue queue = (ProgramQueue) item.next();
 						if (queue != null) {
-							qIds = queue.getId().toString() + ",";
-							rIds = queue.getReferralId().toString() + ",";
+							qIds += queue.getId().toString() + ",";
+							rIds += queue.getReferralId().toString() + ",";
 						}
 					}
 				}
@@ -218,37 +218,35 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 			}
 
 		}
-		try {
-			sql = "from ClientReferral where status='active'";
-			result = getHibernateTemplate().find(sql, null);
-			String delQsql = "delete  ProgramQueue where referralId in ( ";
-			String updCRSql = "update ClientReferral set status='rejected',autoManual='A',rejectionReason='50',"
-					+ "completionNotes='Intake Automated reject process',completionDate=? where id in(";
-			qIds = "";
-			rIds = "";
-			if (result.size() > 0) {
-				Iterator items = result.iterator();
-				while (items.hasNext()) {
 
-					ClientReferral cr = (ClientReferral) items.next();
-					if (MyDateFormat.getHoursDiff(cr.getReferralDate(), now) > 0) {
-						qIds = cr.getId().toString() + ",";
+		sql = "from ClientReferral where status='active'";
+		result = getHibernateTemplate().find(sql, null);
+		String delQsql = "delete  ProgramQueue where referralId in ( ";
+		String updCRSql = "update ClientReferral set status='rejected',autoManual='A',rejectionReason='50',"
+				+ "completionNotes='Intake Automated reject process',completionDate=? where id in(";
+		qIds = "";
+		rIds = "";
+		if (result.size() > 0) {
+			Iterator items = result.iterator();
+			while (items.hasNext()) {
 
-					}
-				}
-				if (qIds.endsWith(","))
-					qIds = qIds.substring(0, qIds.length() - 1);
-				if (!Utility.IsEmpty(qIds)) {
-					delQsql += qIds + ")";
-					getHibernateTemplate().bulkUpdate(delQsql, null);
-					updCRSql += qIds + ")";
-					params = new Object[] { Calendar.getInstance() };
-					getHibernateTemplate().bulkUpdate(updCRSql, params);
+				ClientReferral cr = (ClientReferral) items.next();
+				if (MyDateFormat.getHoursDiff(cr.getReferralDate(), now) > 0) {
+					qIds += cr.getId().toString() + ",";
+
 				}
 			}
-		} catch (Exception ex) {
-			String a = ex.getMessage();
+			if (qIds.endsWith(","))
+				qIds = qIds.substring(0, qIds.length() - 1);
+			if (!Utility.IsEmpty(qIds)) {
+				delQsql += qIds + ")";
+				getHibernateTemplate().bulkUpdate(delQsql, null);
+				updCRSql += qIds + ")";
+				params = new Object[] { Calendar.getInstance() };
+				getHibernateTemplate().bulkUpdate(updCRSql, params);
+			}
 		}
+
 	}
 
 	public void setProgramQueueDao(ProgramQueueDao programQueueDao) {
