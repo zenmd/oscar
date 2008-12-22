@@ -445,7 +445,7 @@ public class CaisiIntegratorUpdateTask extends TimerTask {
 		// for each prevention, copy fields to an integrator prevention
 		// need to copy ext info
 		// add prevention to array list to send
-		List<Prevention> localPreventions = preventionDao.findByDemographicId(demographicId);
+		List<Prevention> localPreventions = preventionDao.findNotDeletedByDemographicId(demographicId);
 		for (Prevention localPrevention : localPreventions) {
 			CachedDemographicPrevention cachedDemographicPrevention = new CachedDemographicPrevention();
 			cachedDemographicPrevention.setCaisiDemographicId(demographicId);
