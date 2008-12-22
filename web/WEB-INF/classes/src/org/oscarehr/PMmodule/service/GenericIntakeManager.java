@@ -466,10 +466,12 @@ public class GenericIntakeManager {
 			for(IntakeAnswer ia:dest.getAnswers()) {
 				if(ia.isAnswerScalar()) {
 					if(ia.getNode().getId().intValue() != ia.getNode().getEq_to_id().intValue()) {
-						//System.out.println(ia.getId() + "," + ia.getNode().getIdStr() + "," + ia.getNode().getLabelStr());
-						String value = source.getAnswerMapped(String.valueOf(ia.getNode().getEq_to_id())).getValue();
-						//System.out.println("value=" + value); 
-						ia.setValue(value);
+						try {
+							//System.out.println(ia.getId() + "," + ia.getNode().getIdStr() + "," + ia.getNode().getLabelStr());
+							String value = source.getAnswerMapped(String.valueOf(ia.getNode().getEq_to_id())).getValue();
+							//System.out.println("value=" + value); 
+							ia.setValue(value);
+						}catch(IllegalStateException e) {}
 					}
 				}				
 			}
