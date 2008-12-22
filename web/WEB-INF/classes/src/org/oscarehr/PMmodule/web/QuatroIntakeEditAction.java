@@ -329,15 +329,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
 			String clientId = qform.getClientId();
-			Integer queueId = Integer.valueOf(request.getParameter("queueId"));
 			Integer programId = Integer.valueOf(request
 					.getParameter("programId"));
 
 		    super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, programId, KeyConstants.ACCESS_WRITE);
 
-			ProgramQueue queue = programQueueManager.getProgramQueue(queueId
-					.toString());
-			Integer referralId = queue.getReferralId();
+			Integer referralId = Integer.valueOf(request.getParameter("referralId"));
 
 			HashMap actionParam = new HashMap();
 			actionParam.put("clientId", clientId);
@@ -369,6 +366,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			// intake.setYouth(KeyConstants.CONSTANT_NO);
 			// intake.setVAW(KeyConstants.CONSTANT_NO);
 			intake.setProgramId(programId);
+			if(programManager.getProgram(programId).isBed()) 
+				intake.setProgramType(KeyConstants.BED_PROGRAM_TYPE);
+			else
+				intake.setProgramType(KeyConstants.SERVICE_PROGRAM_TYPE);
 
 			Integer shelterId = (Integer) request.getSession().getAttribute(
 					KeyConstants.SESSION_KEY_SHELTERID);

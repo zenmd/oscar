@@ -73,7 +73,7 @@
     <c:when test="${queue_entry.fromIntakeId!=null}" >    
     	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_WRITE %>">									
 			<logic:equal value="true" name="queue_entry" property="clientActive">
-	  		<a onclick="javascript: return confirmActive();" href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+	  		<a onclick="javascript: return confirmActive();" href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&referralId=<c:out value="${queue_entry.referralId}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
 			</logic:equal>
 			<logic:equal value="false" name="queue_entry" property="clientActive">
 	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&referralId=<c:out value="${queue_entry.referralId}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
@@ -82,7 +82,7 @@
 	</c:when>
 	<c:otherwise>
 		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTINTAKE %>" rights="<%=KeyConstants.ACCESS_WRITE %>">									
-	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeEdit.do?method=manualreferral&intakeId=0&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Intake</a>
+	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroIntakeEdit.do?method=manualreferral&intakeId=0&clientId=<c:out value="${queue_entry.clientId}"/>&referralId=<c:out value="${queue_entry.referralId}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Intake</a>
 		</security:oscarSec>
 	</c:otherwise>
 	</c:choose>		
