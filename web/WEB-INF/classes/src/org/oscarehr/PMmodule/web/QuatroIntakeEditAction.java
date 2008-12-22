@@ -922,7 +922,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				request.setAttribute("queueId", queueId);
 
 				
-				copyFamily(request, fromManualReferralId, intake);
+				isWarning =  copyFamily(request, fromManualReferralId, intake, messages);
 				
 			}
 
@@ -958,54 +958,48 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			return mapping.findForward("failure");
 		}
 	}
-	private void copyFamily(HttpServletRequest request,
-			Integer fromReferralId, QuatroIntake headIntakeTo) {
-		ActionMessages messages = new ActionMessages();
+	private boolean copyFamily(HttpServletRequest request,
+			Integer fromReferralId, QuatroIntake headIntakeTo, ActionMessages messages) {
 		boolean isWarning = false;
-		
+		if(fromReferralId == null) return isWarning;
 		ClientReferral refer = clientManager.getClientReferral(fromReferralId.toString());
-		Integer fromIntakeId = refer.getFromProgramId();
+		Integer fromIntakeId = refer.getFromIntakeId();
 		
 		List dependents = intakeManager
 				.getClientFamilyByIntakeId(fromIntakeId.toString());
+		if(dependents.size()==0) return isWarning; //not a familly
+
 		Integer programId = headIntakeTo.getProgramId();
 		Program program = programManager
 				.getProgram(headIntakeTo.getProgramId());
 		for (int i = 0; i < dependents.size(); i++) {
-			StringBuffer sb = new StringBuffer();
 			QuatroIntakeFamily obj3 = (QuatroIntakeFamily) dependents.get(i);
 
 			// check gender conflict and age conflict
 			Demographic client = clientManager.getClientByDemographicNo(obj3
 					.getClientId().toString());
+			String clientName = client.getLastName() + ", " + client.getFirstName();
 			if (clientRestrictionManager.checkGenderConflict(program, client)) {
 				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-						"warning.intake.gender_conflict", request
-								.getContextPath()));
+						"warning.intake.gender_conflict_dep", request.getContextPath(), clientName));
 				isWarning = true;
 			}
 			if (clientRestrictionManager.checkAgeConflict(program, client)) {
 				messages.add(ActionMessages.GLOBAL_MESSAGE,
-						new ActionMessage("warning.intake.age_conflict",
-								request.getContextPath()));
+						new ActionMessage("warning.intake.age_conflict_dep",
+								request.getContextPath(),clientName));
 				isWarning = true;
 			}
 
 			// check service restriction
 			obj3.setServiceRestriction("N");
 			if (obj3.getClientId().intValue() > 0) {
-				ProgramClientRestriction restrInPlace = clientRestrictionManager
-						.checkClientRestriction(programId, obj3.getClientId(),
-								new Date());
+				ProgramClientRestriction restrInPlace = clientRestrictionManager.checkClientRestriction(programId, obj3.getClientId(),new Date());
 				if (restrInPlace != null) {
 					obj3.setServiceRestriction("Y");
-					messages
-							.add(
-									ActionMessages.GLOBAL_MESSAGE,
-									new ActionMessage(
-											"warning.intake.service_restriction",
-											request.getContextPath(), program
-													.getName()));
+					messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage(
+											"warning.intake.service_restriction_dep",
+											request.getContextPath(), program.getName(),clientName));
 					isWarning = true;
 				}
 			}
@@ -1023,19 +1017,13 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		intakeManager.saveQuatroIntakeFamilyHead(intakeFamilyHead);
 
 		for (int i = 0; i < dependents.size(); i++) {
-			QuatroIntakeFamily intakeFamily = (QuatroIntakeFamily) dependents
-					.get(i);
-			QuatroIntake intake = intakeManager.getQuatroIntake(intakeFamily
-					.getIntakeId());
-			Demographic client = clientManager
-					.getClientByDemographicNo(intakeFamily.getClientId()
-							.toString());
-
+			QuatroIntakeFamily intakeFamily = (QuatroIntakeFamily) dependents.get(i);
+			if(intakeFamily.getClientId().equals(headIntakeTo.getClientId())) continue;
+			QuatroIntake intake = intakeManager.getQuatroIntake(intakeFamily.getIntakeId());
+			Demographic client = clientManager.getClientByDemographicNo(intakeFamily.getClientId().toString());
 			QuatroIntakeDB newClient_intakeDBExist = null;
 			if (intakeFamily.getIntakeId().intValue() == 0) {
-				newClient_intakeDBExist = intakeManager
-						.findActiveQuatroIntakeDB(intakeFamily.getClientId(),
-								programId);
+				newClient_intakeDBExist = intakeManager.findActiveQuatroIntakeDB(intakeFamily.getClientId(),programId);
 				if (newClient_intakeDBExist != null)
 					intakeFamily.setIntakeId(newClient_intakeDBExist.getId());
 			}
@@ -1053,29 +1041,21 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setAboriginal(headIntakeTo.getAboriginal());
 			intake.setAboriginalOther(headIntakeTo.getAboriginalOther());
 			intake.setVAW(headIntakeTo.getVAW());
-			intake
-					.setCurSleepArrangement(headIntakeTo
-							.getCurSleepArrangement());
+			intake.setCurSleepArrangement(headIntakeTo.getCurSleepArrangement());
 			intake.setLivedBefore(headIntakeTo.getLivedBefore());
 			intake.setOriginalCountry(headIntakeTo.getOriginalCountry());
 			intake.setStaffId(headIntakeTo.getStaffId());
 			intake.setLastUpdateDate(new GregorianCalendar());
 
-			intakeFamily.setJoinFamilyDate(MyDateFormat
-					.getCalendarwithTime(intakeFamily.getJoinFamilyDateTxt()));
+			intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendarwithTime(intakeFamily.getJoinFamilyDateTxt()));
 			intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 			intakeFamily.setIntakeHeadId(headIntakeTo.getId());
 			intakeFamily.setLastUpdateUser(headIntakeTo.getStaffId());
 			intakeFamily.setLastUpdateDate(Calendar.getInstance());
-			intakeManager.saveQuatroIntakeFamily(false, client, headIntakeTo
-					.getId(), intake, newClient_intakeDBExist, intakeFamily);
+			intakeManager.saveQuatroIntakeFamily(false, client, headIntakeTo.getId(), intake, newClient_intakeDBExist, intakeFamily);
 		}
 
-		if (isWarning) {
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"warning.intake.saved_with_warning"));
-		}
-		saveMessages(request, messages);
+		return isWarning;
 	}
 
 	public ClientManager getClientManager() {
