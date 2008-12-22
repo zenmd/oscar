@@ -180,6 +180,7 @@ public class IntakeDao extends HibernateDaoSupport {
 			intakeDb.setProgramType((String)oo[0]);
 			
 			QuatroIntake intake= new QuatroIntake();
+			intake.setLastUpdateDate(intakeDb.getLastUpdateDate());
 		    intake.setId(intakeDb.getId());
 		    intake.setClientId(intakeDb.getClientId());
 		    intake.setProgramId(intakeDb.getProgramId());

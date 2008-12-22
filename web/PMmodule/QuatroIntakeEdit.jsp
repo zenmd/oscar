@@ -836,7 +836,9 @@ function confirmActive()
 										property="intake.staffDesc" readonly="true" /></td>
 							<td width="15%">Last updated date</td>
 							<td width="15%">
-							<c:out value="${intake.lastUpdateDateTxt}" /></td>			
+							<html-el:text style="width: 90%"
+										property="intake.lastUpdateDateTxt" readonly="true" />
+							</td>			
 						</tr>
 						</table>				
 						
@@ -853,8 +855,8 @@ function confirmActive()
 						
 							<td width="15%">Rejection Note</td>
 							<td >
-								<html-el:textarea  style="width: 90%"
-										property="intake.completionNotes" readonly="true" />
+								<html-el:text  style="width: 90%"
+										property="intake.completionNotes"  readonly="true" />
 							</td>	
 						</tr>
 					</table>

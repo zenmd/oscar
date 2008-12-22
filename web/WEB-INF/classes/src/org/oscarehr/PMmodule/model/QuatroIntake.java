@@ -107,7 +107,7 @@ public class QuatroIntake implements Serializable,Cloneable {
 	}
 	public String getLastUpdateDateTxt()
 	{
-		return MyDateFormat.getStandardDateTime(this.lastUpdateDate);
+		return MyDateFormat.getStandardDate(this.lastUpdateDate);
 	}
 	public String getAboriginal() {
 		return aboriginal;
