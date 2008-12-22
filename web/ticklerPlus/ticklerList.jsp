@@ -1,6 +1,7 @@
 
 <%-- Updated by Eugene Petruhin on 11 dec 2008 while fixing #2356548 & #2393547 --%>
 <%-- Updated by Eugene Petruhin on 19 dec 2008 while fixing #2422864 & #2317933 & #2379840 --%>
+<%-- Updated by Eugene Petruhin on 22 dec 2008 while fixing #2455143 --%>
 
 <%@ include file="/taglibs.jsp" %>
 <%@ include file="/ticklerPlus/header.jsp"%>
@@ -16,24 +17,23 @@
 <script type="text/javascript" src="../js/checkDate.js"></script>
 
 <script>
-	//filter for provider - will work for other dropdowns as well
-	function filter (term, _id, cellNr){
+	//filter for client - will work for other dropdowns as well
+	function filter(term, _id, cellNr) {
 		
 		var suche = term.toLowerCase();
 		//suche = trimAll(suche);
 		//alert(suche.length + suche  + _id + cellNr);
-	
+
 		var table = document.getElementById(_id);
-	
-		if(suche.length < 2){
+
+		if (suche.length < 2) {
 			for (var r = 1; r < table.rows.length; r++)
 				table.rows[r].style.display = '';
 			return;
 		}
 
-		
 		var ele;
-		for (var r = 2; r < table.rows.length - 1; r++){
+		for (var r = 1; r < table.rows.length - 1; r++){
 			//alert(table.rows.length +  table.rows[0].cells[2].innerHTML);
 			ele = table.rows[r].cells[cellNr].innerHTML.replace(/<[^>]+>/g,"");
 			
@@ -54,7 +54,7 @@
 			}
 		}
 		if(checked==false) {
-			alert('You must choose a tickler');
+			alert('You must choose at least 1 tickler');
 			return false;
 		}
 		var form = document.ticklerForm;
@@ -109,7 +109,8 @@
         }
         
         function search_demographic() {
-                var popup = window.open('<c:out value="${ctx}"/>/ticklerPlus/demographicSearch2.jsp?query=' + document.ticklerForm.elements['filter.demographic_webName'].value,'demographic_search');
+                var url = '<c:out value="${ctx}"/>/ticklerPlus/demographicSearch2.jsp?query=';// + document.ticklerForm.elements['filter.demographic_webName'].value;
+                var popup = window.open(url,'demographic_search');
                 demo_no_orig = document.ticklerForm.elements['filter.demographic_no'].value;
                 check_demo_no = setInterval("if (demo_no_orig != document.ticklerForm.elements['filter.demographic_no'].value) updTklrList()",100);
        		
@@ -120,10 +121,7 @@
     				popup.focus();
   				}	
         }
-        
-        function printTickler() {
-        	window.open
-        }
+
         function sortByDate()
         {
 			document.ticklerForm.method.value='filter';
@@ -148,14 +146,17 @@
         }
         
         function wrapUp() {
-            if (opener.callRefreshTabAlerts) {
-                opener.callRefreshTabAlerts("oscar_new_tickler");
-                setTimeout("window.close();",100);
-            } else {
+            try {
+                if (window.opener && window.opener.callRefreshTabAlerts) {
+                    window.opener.callRefreshTabAlerts("oscar_new_tickler");
+                    setTimeout("window.close();",100);
+                } else {
+                    window.close();
+                }
+            } catch (err) {
                 window.close();
             }
-        }        
-        
+        }
 </script>
 
 
@@ -167,13 +168,19 @@
 		<td class="searchTitle" colspan="4">Filter Tickler List</td>
 	</tr>
 	<tr>
-		<td class="blueText" width="30%">Service Date Range:</td>
+		<td class="blueText" width="30%">Status: <html:select property="filter.status"
+			onchange="return checkTicklerDate();">
+			<html:option value="Z">All</html:option>
+			<html:option value="A">Active</html:option>
+			<html:option value="C">Completed</html:option>
+			<html:option value="D">Deleted</html:option>
+		</html:select></td>
 		<td class="blueText" width="30%"><span style="text-decoration:underline"
-			onClick="openBrWindow('<c:out value="${ctx}"/>/ticklerPlus/calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=ticklerForm&amp;openerElement=filter.startDate&amp;year=<%=curYear%>&amp;month=<%=curMonth%>','','width=300,height=300')">Begin:</span>
+			onClick="openBrWindow('<c:out value="${ctx}"/>/ticklerPlus/calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=ticklerForm&amp;openerElement=filter.startDate&amp;year=<%=curYear%>&amp;month=<%=curMonth%>','','width=300,height=300')">Begin&nbsp;Date:</span>
 			<html:text property="filter.startDate" maxlength="10" /></td>
 		
 		<td class="blueText" width="30%"><span style="text-decoration:underline"
-			onClick="openBrWindow('<c:out value="${ctx}"/>/ticklerPlus/calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=ticklerForm&amp;openerElement=filter.endDate&amp;year=<%=curYear%>&amp;month=<%=curMonth %>','','width=300,height=300')">End:</span>
+			onClick="openBrWindow('<c:out value="${ctx}"/>/ticklerPlus/calendar/oscarCalendarPopup.jsp?type=caisi&openerForm=ticklerForm&amp;openerElement=filter.endDate&amp;year=<%=curYear%>&amp;month=<%=curMonth %>','','width=300,height=300')">End&nbsp;Date:</span>
 			<html:text property="filter.endDate" maxlength="10"/>
 		</td>
 
@@ -194,7 +201,7 @@
 				labelProperty="formattedName" />
 		</html:select></td>
 
-		<td class="blueText">Task Assigned To: <html:select
+		<td class="blueText" colspan="2">Task Assigned To: <html:select
 			property="filter.assignee"
 			onchange="return checkTicklerDate();">
 			<option value="All Providers">All Providers</option>
@@ -202,12 +209,9 @@
 				labelProperty="formattedName" />
 		</html:select></td>
 		
-		<td class="blueText">&nbsp;</td>
-		
 	</tr>
 	<tr>
-
-		<td class="blueText">Client: 
+		<td class="blueText" colspan="2">Client: 
 		
 		<oscar:oscarPropertiesCheck property="clientdropbox" value="on">
 		    <html:select property="filter.demographic_no"
@@ -226,14 +230,6 @@
 		</oscar:oscarPropertiesCheck>
 
 		</td>
-
-		<td class="blueText">Status: <html:select property="filter.status"
-			onchange="return checkTicklerDate();">
-			<html:option value="Z">All</html:option>
-			<html:option value="A">Active</html:option>
-			<html:option value="C">Completed</html:option>
-			<html:option value="D">Deleted</html:option>
-		</html:select></td>
 
 		<td colspan="2" class="blueText"><html:link action="CustomFilter.do">Custom Filters:</html:link>
 			<html:select property="filter.name"
@@ -396,17 +392,16 @@
 		</tr>
 	</table>
 </html:form>
-<%if ((request.getParameter("from") == null)
-					|| (!request.getParameter("from").equals("CaseMgmt"))) {
-%>
+
+<%if ((request.getParameter("from") == null) || (!request.getParameter("from").equals("CaseMgmt"))) { %>
 <table width="100%">
 	<tr>
 		<!-- <td><a href="../provider/providercontrol.jsp">Back to Schedule Page</a></td> -->
-		<td><a href="javascript:void(0)" onclick="wrapUp();">Close Window</a></td>
+		<td><a href="javascript:void(0);" onclick="wrapUp();">Close Window</a></td>
 	</tr>
 </table>
-
 <%}%>
+
 </body>
 </html>
 
