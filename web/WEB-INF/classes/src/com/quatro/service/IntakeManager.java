@@ -2,11 +2,16 @@ package com.quatro.service;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.quatro.dao.IntakeDao;
 import com.quatro.dao.LookupDao;
 import org.oscarehr.PMmodule.dao.ClientDao;
@@ -17,10 +22,17 @@ import org.oscarehr.PMmodule.dao.RoomDAO;
 import com.quatro.web.intake.OptionList;
 import com.quatro.model.QuatroIntakeOptionValue;
 import com.quatro.web.intake.IntakeConstant;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.model.ClientReferral;
 import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntakeAnswer;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
@@ -41,7 +53,6 @@ import org.oscarehr.PMmodule.web.formbean.ClientForm;
 import org.oscarehr.PMmodule.dao.ClientReferralDAO;
 import org.oscarehr.PMmodule.dao.ProgramQueueDao;
 
-
 import oscar.MyDateFormat;
 
 public class IntakeManager {
@@ -54,7 +65,7 @@ public class IntakeManager {
     private ClientDao clientDao;
     private ProgramDao programDao;
     private ClientHistoryDao historyDao;
-
+    
 	public IntakeDao getIntakeDao() {
 		return intakeDao;
 	}
@@ -72,7 +83,6 @@ public class IntakeManager {
 	public void setClientHistoryDao(ClientHistoryDao historyDao) {
 		this.historyDao = historyDao;
 	}
-
 	public List getActiveIntakeIds(Integer clientId){
 		return intakeDao.getActiveIntakeIds(clientId);
 	}
@@ -250,6 +260,7 @@ public class IntakeManager {
     	}
         return lst;	
     }
+	
 	public List getClientIntakeFamilyHistory(Integer intakeHeadId)
 	{
 		List lst =  intakeDao.getClientIntakeFamilyHistory(intakeHeadId);

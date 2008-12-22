@@ -22,6 +22,8 @@ import org.oscarehr.PMmodule.model.Program;
 import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntake;
+import org.oscarehr.PMmodule.model.QuatroIntakeDB;
+import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
@@ -919,6 +921,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				qform.setIntake(intake);
 				request.setAttribute("queueId", queueId);
 
+				
+				copyFamily(request, fromManualReferralId, intake);
+				
 			}
 
 			HashMap actionParam = new HashMap();
@@ -952,6 +957,125 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		} catch (NoAccessException e) {
 			return mapping.findForward("failure");
 		}
+	}
+	private void copyFamily(HttpServletRequest request,
+			Integer fromReferralId, QuatroIntake headIntakeTo) {
+		ActionMessages messages = new ActionMessages();
+		boolean isWarning = false;
+		
+		ClientReferral refer = clientManager.getClientReferral(fromReferralId.toString());
+		Integer fromIntakeId = refer.getFromProgramId();
+		
+		List dependents = intakeManager
+				.getClientFamilyByIntakeId(fromIntakeId.toString());
+		Integer programId = headIntakeTo.getProgramId();
+		Program program = programManager
+				.getProgram(headIntakeTo.getProgramId());
+		for (int i = 0; i < dependents.size(); i++) {
+			StringBuffer sb = new StringBuffer();
+			QuatroIntakeFamily obj3 = (QuatroIntakeFamily) dependents.get(i);
+
+			// check gender conflict and age conflict
+			Demographic client = clientManager.getClientByDemographicNo(obj3
+					.getClientId().toString());
+			if (clientRestrictionManager.checkGenderConflict(program, client)) {
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+						"warning.intake.gender_conflict", request
+								.getContextPath()));
+				isWarning = true;
+			}
+			if (clientRestrictionManager.checkAgeConflict(program, client)) {
+				messages.add(ActionMessages.GLOBAL_MESSAGE,
+						new ActionMessage("warning.intake.age_conflict",
+								request.getContextPath()));
+				isWarning = true;
+			}
+
+			// check service restriction
+			obj3.setServiceRestriction("N");
+			if (obj3.getClientId().intValue() > 0) {
+				ProgramClientRestriction restrInPlace = clientRestrictionManager
+						.checkClientRestriction(programId, obj3.getClientId(),
+								new Date());
+				if (restrInPlace != null) {
+					obj3.setServiceRestriction("Y");
+					messages
+							.add(
+									ActionMessages.GLOBAL_MESSAGE,
+									new ActionMessage(
+											"warning.intake.service_restriction",
+											request.getContextPath(), program
+													.getName()));
+					isWarning = true;
+				}
+			}
+		}
+
+		QuatroIntakeFamily intakeFamilyHead = new QuatroIntakeFamily();
+		intakeFamilyHead.setIntakeHeadId(headIntakeTo.getId());
+		intakeFamilyHead.setIntakeId(headIntakeTo.getId());
+		intakeFamilyHead.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+		intakeFamilyHead.setRelationship(KeyConstants.FAMILY_HEAD_CODE);
+		intakeFamilyHead.setJoinFamilyDate(headIntakeTo.getCreatedOn());
+		intakeFamilyHead.setLastUpdateUser(headIntakeTo.getStaffId());
+		intakeFamilyHead.setLastUpdateDate(Calendar.getInstance());
+
+		intakeManager.saveQuatroIntakeFamilyHead(intakeFamilyHead);
+
+		for (int i = 0; i < dependents.size(); i++) {
+			QuatroIntakeFamily intakeFamily = (QuatroIntakeFamily) dependents
+					.get(i);
+			QuatroIntake intake = intakeManager.getQuatroIntake(intakeFamily
+					.getIntakeId());
+			Demographic client = clientManager
+					.getClientByDemographicNo(intakeFamily.getClientId()
+							.toString());
+
+			QuatroIntakeDB newClient_intakeDBExist = null;
+			if (intakeFamily.getIntakeId().intValue() == 0) {
+				newClient_intakeDBExist = intakeManager
+						.findActiveQuatroIntakeDB(intakeFamily.getClientId(),
+								programId);
+				if (newClient_intakeDBExist != null)
+					intakeFamily.setIntakeId(newClient_intakeDBExist.getId());
+			}
+
+			intake.setId(Integer.valueOf("0"));
+			intake.setProgramId(programId);
+			intake.setCreatedOn(Calendar.getInstance());
+			intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+			intake.setReferredBy(headIntakeTo.getReferredBy());
+			intake.setContactName(headIntakeTo.getContactName());
+			intake.setContactNumber(headIntakeTo.getContactNumber());
+			intake.setContactEmail(headIntakeTo.getContactEmail());
+
+			intake.setLanguage(headIntakeTo.getLanguage());
+			intake.setAboriginal(headIntakeTo.getAboriginal());
+			intake.setAboriginalOther(headIntakeTo.getAboriginalOther());
+			intake.setVAW(headIntakeTo.getVAW());
+			intake
+					.setCurSleepArrangement(headIntakeTo
+							.getCurSleepArrangement());
+			intake.setLivedBefore(headIntakeTo.getLivedBefore());
+			intake.setOriginalCountry(headIntakeTo.getOriginalCountry());
+			intake.setStaffId(headIntakeTo.getStaffId());
+			intake.setLastUpdateDate(new GregorianCalendar());
+
+			intakeFamily.setJoinFamilyDate(MyDateFormat
+					.getCalendarwithTime(intakeFamily.getJoinFamilyDateTxt()));
+			intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
+			intakeFamily.setIntakeHeadId(headIntakeTo.getId());
+			intakeFamily.setLastUpdateUser(headIntakeTo.getStaffId());
+			intakeFamily.setLastUpdateDate(Calendar.getInstance());
+			intakeManager.saveQuatroIntakeFamily(false, client, headIntakeTo
+					.getId(), intake, newClient_intakeDBExist, intakeFamily);
+		}
+
+		if (isWarning) {
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"warning.intake.saved_with_warning"));
+		}
+		saveMessages(request, messages);
 	}
 
 	public ClientManager getClientManager() {
