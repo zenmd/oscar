@@ -265,13 +265,14 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	     */
 	    public void doGet(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, javax.servlet.ServletException {
 	        try {
-	            
+	            /*
 	           Calendar dt = Calendar.getInstance();
                dt.add(Calendar.DATE, -2);
 	           ProgramOccuTimerTask.DeactiveBedIntake(dt);
 	           
 	           ProgramOccuTimerTask.DeactiveServiceIntake(dt);
 	           return;
+	           */
 	        }
 	        catch (Exception e) {
 	            logger.error("Error processing request. " + request.getRequestURL() + ", " + e.getMessage());

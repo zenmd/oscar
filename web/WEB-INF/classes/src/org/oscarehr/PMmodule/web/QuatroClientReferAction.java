@@ -271,6 +271,8 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			refForm.set("referral", refObj);
 			return mapping.findForward("edit");
 		}
+		List lst = intakeManager.getActiveIntakeByProgramByClient(refObj.getClientId(), refObj.getFromProgramId());
+		if(lst.size()>0) refObj.setFromIntakeId((((QuatroIntakeHeader)lst.get(0))).getId());
 		clientManager.saveClientReferral(refObj);
 		refForm.set("referral", refObj);
 		if (!(isWarning || isError)) {

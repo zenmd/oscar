@@ -133,6 +133,8 @@ public class Demographic implements Serializable {
 	private int hsAlertCount = 0;
 
 	private boolean merged = false;
+	
+	private boolean familyHead = false;
 
 	private Calendar lastUpdateDate;
 
@@ -947,6 +949,14 @@ public class Demographic implements Serializable {
 
 	public void setLastUpdateDate(Calendar lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public boolean isFamilyHead() {
+		return familyHead;
+	}
+
+	public void setFamilyHead(boolean familyHead) {
+		this.familyHead = familyHead;
 	}
 
 }

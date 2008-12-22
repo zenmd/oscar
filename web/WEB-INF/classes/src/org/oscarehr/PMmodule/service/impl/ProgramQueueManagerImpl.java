@@ -102,21 +102,22 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 			referral.setRejectionReason(rejectionReason);			
 			this.referralDAO.saveClientReferral(referral);
 		}
-		
-        QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByReferralId(referral.getId());
-        if(intakeDB!=null){
-          List familyList = intakeDao.getClientIntakeFamily(intakeDB.getId().toString());
-		  if(familyList.size()==0){
-            dao.setIntakeRejectStatus(intakeDB.getId().toString());
-		  }else{
-		    String sIntakeIds = "";	
-		    for(int i=0;i<familyList.size();i++){
-			   QuatroIntakeFamily qif = (QuatroIntakeFamily)familyList.get(i); 
-			   sIntakeIds = sIntakeIds +  "," + qif.getIntakeId().toString();  
-		    }
-	        dao.setIntakeRejectStatus(sIntakeIds.substring(1));
-		  }
-        }
+		if(KeyConstants.AUTOMATIC.equals(referral.getAutoManual())){
+	        QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByReferralId(referral.getId());
+	        if(intakeDB!=null){
+	          List familyList = intakeDao.getClientIntakeFamily(intakeDB.getId().toString());
+			  if(familyList.size()==0){
+	            dao.setIntakeRejectStatus(intakeDB.getId().toString());
+			  }else{
+			    String sIntakeIds = "";	
+			    for(int i=0;i<familyList.size();i++){
+				   QuatroIntakeFamily qif = (QuatroIntakeFamily)familyList.get(i); 
+				   sIntakeIds = sIntakeIds +  "," + qif.getIntakeId().toString();  
+			    }
+		        dao.setIntakeRejectStatus(sIntakeIds.substring(1));
+			  }
+	        }
+		}
 
 		dao.delete(queue);
 	}

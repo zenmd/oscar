@@ -275,15 +275,13 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setCurrentProgramId(intake.getProgramId());
 			if(!Utility.IsEmpty(intake.getStaffId())){
 				language =lookupManager.GetLookupCode("USR", intake.getStaffId());
-				String desc=language.getDescription();
-				try{
-				intake.setStaffDesc(desc);
-				}catch(Exception ex){
-				 String a=ex.getMessage();
-				}
+				String desc=language.getDescription();				
+				intake.setStaffDesc(desc);				
 			}
-			
-			ClientReferral clientRef = clientManager.getClientReferralByIntake(intake.getId());
+			ClientReferral clientRef = null;
+			if(intakeHeadId!=null && intakeHeadId.intValue()>0)
+				clientRef = clientManager.getClientReferralByIntake(intakeHeadId);
+			else clientRef = clientManager.getClientReferralByIntake(intake.getId());
 			request.setAttribute("programId", intake.getProgramId());
 			if(clientRef != null)
 			{

@@ -45,6 +45,7 @@ public class ProgramQueue implements Serializable {
     private String _clientLastName;
     private String _clientFirstName;
     private boolean _clientActive;
+    private boolean clientFamilyHead = false;
     private String presentProblems;
 	private Integer fromIntakeId;
 
@@ -285,6 +286,14 @@ public class ProgramQueue implements Serializable {
 
 	public void setClientActive(boolean clientActive) {
 		this._clientActive = clientActive;
+	}
+
+	public boolean isClientFamilyHead() {
+		return clientFamilyHead;
+	}
+
+	public void setClientFamilyHead(boolean clientFamilyHead) {
+		this.clientFamilyHead = clientFamilyHead;
 	}
     
 }

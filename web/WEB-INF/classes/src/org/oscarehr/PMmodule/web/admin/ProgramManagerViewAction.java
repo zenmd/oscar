@@ -127,6 +127,20 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     }
 
     //@SuppressWarnings("unchecked")
+    private void setProgramQueueHead(ProgramQueue programQueue){
+    	Integer refId =programQueue.getReferralId();
+        Integer fromIntakeId = clientManager.getClientReferral(refId.toString()).getFromIntakeId();
+        if(fromIntakeId!=null && fromIntakeId.intValue()>0){
+	        Integer headIntakeId = intakeManager.getIntakeFamilyHeadId(fromIntakeId.toString());
+	        Integer intakeHeadClientId = new Integer(0);
+			if (headIntakeId.intValue() != 0) {
+				intakeHeadClientId = intakeManager.getQuatroIntakeDBByIntakeId(headIntakeId).getClientId();				
+				if(programQueue.getClientId().intValue()==intakeHeadClientId.intValue()) programQueue.setClientFamilyHead(true);
+			}			
+        }
+        else   	programQueue.setClientFamilyHead(false);
+       
+    }
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
 	    	ProgramManagerViewFormBean formBean = (ProgramManagerViewFormBean) form;
@@ -167,7 +181,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        // need the queue to determine which tab to go to first
 	        if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {
 		        List queue = programQueueManager.getProgramQueuesByProgramId(programId);
-		        request.setAttribute("queue", queue);
+		       
 		        super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE, programId);
 		        boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_QUEUE, programId);
 		        if(isReadOnly)request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));
@@ -176,8 +190,9 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		//        for (ProgramQueue programQueue : queue) {
 		        for (int i=0;i<queue.size();i++) {
 		        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
-		            Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
-		            
+		        	
+		        	Demographic demographic=clientManager.getClientByDemographicNo(String.valueOf(programQueue.getClientId()));
+		        	 setProgramQueueHead(programQueue);
 		            if (program.getManOrWoman()!=null && demographic.getSex()!=null)
 		            {
 		                if ("Man".equals(program.getManOrWoman()) && !"M".equals(demographic.getSex()))
@@ -200,7 +215,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
 		            }
 		        }
-		
+		        request.setAttribute("queue", queue);
 		        request.setAttribute("genderConflict", genderConflict);
 		        request.setAttribute("ageConflict", ageConflict);
 	        }

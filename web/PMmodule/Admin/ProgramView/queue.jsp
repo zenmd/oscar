@@ -69,6 +69,9 @@
     <display:setProperty name="paging.banner.placement" value="bottom" />
     <display:setProperty name="basic.msg.empty_list" value="Queue is empty." />
     <display:column sortable="false">
+    	<c:if test="${queue_entry.clientFamilyHead }"> *</c:if>
+    </display:column>
+    <display:column sortable="false">    
     <c:choose>
     <c:when test="${queue_entry.fromIntakeId!=null}" >    
     	<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>" rights="<%=KeyConstants.ACCESS_WRITE %>">									
