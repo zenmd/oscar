@@ -254,7 +254,8 @@ public class AdmissionManager {
 	}
   
   public void dischargeAdmission(Admission admission, boolean isReferral, List lstFamily){
-	   admissionDao.updateDischargeInfo(admission);
+	 try{
+	  admissionDao.updateDischargeInfo(admission);
        clientHistoryDao.saveClientHistory(admission,null,null);
 
 	   RoomDemographic rdm = roomDemographicDAO.getRoomDemographicByDemographic(admission.getClientId());
@@ -327,6 +328,9 @@ public class AdmissionManager {
 		  }
 		}
 	  }
+	 }catch(Exception ex){
+		 String a =ex.getMessage();
+	 }
   }
   
     public void setClientReferralDAO(ClientReferralDAO clientReferralDAO) {

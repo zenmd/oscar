@@ -379,8 +379,8 @@ public class IntakeManager {
 		return intakeDao.getQuatroIntake(intakeId);
 	}
 
-	public QuatroIntakeDB getQuatroIntakeDBByQueueId(Integer queueId) {
-		return intakeDao.getQuatroIntakeDBByQueueId(queueId);
+	public QuatroIntakeDB getQuatroIntakeDBByReferralId(Integer referralId) {
+		return intakeDao.getQuatroIntakeDBByReferralId(referralId);
 	}
 	public QuatroIntakeDB getQuatroIntakeDBByIntakeId(Integer intakeId) {
 		return intakeDao.getQuatroIntakeDBByIntakeId(intakeId);

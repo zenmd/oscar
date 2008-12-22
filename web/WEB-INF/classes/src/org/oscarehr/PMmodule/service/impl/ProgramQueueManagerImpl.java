@@ -94,18 +94,16 @@ public class ProgramQueueManagerImpl implements ProgramQueueManager
 			return;
 		}
 
-		if(queue.getReferralId().intValue()>0){
-		  ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
-		  if(referral != null) {
-			 referral.setStatus(KeyConstants.STATUS_REJECTED);
-			 referral.setCompletionDate(java.util.Calendar.getInstance());
-			 referral.setCompletionNotes(notes);			
-			 referral.setRejectionReason(rejectionReason);			
-			 this.referralDAO.saveClientReferral(referral);
-		  }
+		ClientReferral referral = this.referralDAO.getClientReferral(queue.getReferralId());
+		if(referral != null) {
+			referral.setStatus(KeyConstants.STATUS_REJECTED);
+			referral.setCompletionDate(java.util.Calendar.getInstance());
+			referral.setCompletionNotes(notes);			
+			referral.setRejectionReason(rejectionReason);			
+			this.referralDAO.saveClientReferral(referral);
 		}
 		
-        QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByQueueId(queueId);
+        QuatroIntakeDB intakeDB =  intakeDao.getQuatroIntakeDBByReferralId(referral.getId());
         if(intakeDB!=null){
           List familyList = intakeDao.getClientIntakeFamily(intakeDB.getId().toString());
 		  if(familyList.size()==0){

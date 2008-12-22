@@ -164,12 +164,8 @@ function confirmActive()
 				</c:if>
 				
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>"   orgCd='<%=((Integer) request.getAttribute("programId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
-					<c:if test="${isBedProgram && (
-						(intakeHeadId==0 && quatroIntakeEditForm.intake.id>0 
-						&& quatroIntakeEditForm.intake.intakeStatus=='active') || 
-               			 (intakeHeadId>0 && quatroIntakeEditForm.intake.id==intakeHeadId 
-               			 && quatroIntakeEditForm.intake.intakeStatus=='active'))}">
-               			<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&queueId=<c:out value="${queueId}"/>&programId=<c:out value="${programId}"/>"
+					<c:if test="${admitable}">
+               			<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&referralId=<c:out value="${referralId}"/>&programId=<c:out value="${programId}"/>"
 									style="color:Navy;text-decoration:none;"> 
 									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
 					</c:if>

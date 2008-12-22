@@ -284,15 +284,18 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			
 			ClientReferral clientRef = clientManager.getClientReferralByIntake(intake.getId());
-			request.setAttribute("programId", intake.getProgramId());			
-			if(clientRef !=null && !Utility.IsEmpty(clientRef.getRejectionReason()))					
+			request.setAttribute("programId", intake.getProgramId());
+			if(clientRef != null)
 			{
-				intake.setCompletionNotes(clientRef.getCompletionNotes());
-				intake.setRejectionReasonDesc(clientRef.getRejectionReasonDesc());
-			}
-			else{
-				intake.setCompletionNotes("");
-				intake.setRejectionReasonDesc("");
+				if(!Utility.IsEmpty(clientRef.getRejectionReason()))					
+				{
+					intake.setCompletionNotes(clientRef.getCompletionNotes());
+					intake.setRejectionReasonDesc(clientRef.getRejectionReasonDesc());
+				}
+				else{
+					intake.setCompletionNotes("");
+					intake.setRejectionReasonDesc("");
+				}
 			}
 			qform.setIntake(intake);
 			 language = null;
@@ -311,18 +314,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			qform.setOriginalCountry(originalCountry);
 
 			setProgramEditable(request, intake, intakeHeadId);
-			if(intake.getProgramType() == null)
-			{
-				request.setAttribute("isBedProgram", Boolean.FALSE);
-			}
-			else
-			{
-				if(intake.getProgramType().equals(KeyConstants.PROGRAM_TYPE_Bed))
-				request.setAttribute("isBedProgram", Boolean.TRUE);
-				else request.setAttribute("isBedProgram", Boolean.FALSE);
-			}
-			request.setAttribute("PROGRAM_TYPE_Bed",KeyConstants.PROGRAM_TYPE_Bed);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
+			
 			return mapping.findForward("edit");
 		} catch (NoAccessException e) {
 			return mapping.findForward("failure");
@@ -516,10 +509,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				else
 					intake.setProgramType(KeyConstants.SERVICE_PROGRAM_TYPE);
 			}
-			if(intake.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE))
-				request.setAttribute("isBedProgram", Boolean.TRUE);
-			else request.setAttribute("isBedProgram", Boolean.FALSE);
-			request.setAttribute("programId", intake.getProgramId());
 			
 			return mapping.findForward("edit");
 		} catch (NoAccessException e) {
@@ -536,7 +525,31 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			isEditable = (intakeHeadId == null || intakeHeadId.intValue() == 0 || intake
 					.getId().equals(intakeHeadId));
 		}
+		request.setAttribute("programId", intake.getProgramId());
 		request.setAttribute("programEditable", Boolean.valueOf(isEditable));
+
+		boolean isBedProgram = false;
+		if(intake.getProgramType() != null)
+			isBedProgram = intake.getProgramType().equals(KeyConstants.PROGRAM_TYPE_Bed);
+		
+		request.setAttribute("PROGRAM_TYPE_Bed",KeyConstants.PROGRAM_TYPE_Bed);
+		request.setAttribute("admitable",Boolean.FALSE);			
+		if (isBedProgram && intake.getId().intValue()>0 && intake.getIntakeStatus().equals("active"))
+		{
+			if (intakeHeadId.intValue()==0 || intakeHeadId.intValue()>0 && intake.getId().equals(intakeHeadId)) 
+   			 {
+   				 request.setAttribute("admitable", Boolean.TRUE);
+   			 }
+		}
+		ClientReferral clientRef = clientManager.getClientReferralByIntake(intake.getId());
+		if(clientRef == null)
+		{
+			request.setAttribute("referralId", Integer.valueOf("0"));
+		}
+		else
+		{
+			request.setAttribute("referralId", clientRef.getId());
+		}
 	}
 
 	private void setAgeGenderReadonly(HttpServletRequest request,
@@ -905,7 +918,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setId(intakeId);
 				intake.setCurrentProgramId(intake.getProgramId());
 				qform.setIntake(intake);
-				request.setAttribute("programId", intake.getProgramId());
 				request.setAttribute("queueId", queueId);
 
 			}

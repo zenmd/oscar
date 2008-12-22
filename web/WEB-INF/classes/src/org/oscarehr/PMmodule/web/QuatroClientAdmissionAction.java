@@ -111,8 +111,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
 
 	   actionParam.put("clientId", clientId);
-       Integer queueId=Integer.valueOf(request.getParameter("queueId"));
-       QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByQueueId(queueId);
+       Integer referralId=Integer.valueOf(request.getParameter("referralId"));
+       QuatroIntakeDB intakeDB =  intakeManager.getQuatroIntakeDBByReferralId(referralId);
        intakeId = intakeDB.getId();
        actionParam.put("intakeId", intakeId);
        request.setAttribute("actionParam", actionParam);

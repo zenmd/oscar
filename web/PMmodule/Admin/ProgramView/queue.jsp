@@ -76,7 +76,7 @@
 	  		<a onclick="javascript: return confirmActive();" href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
 			</logic:equal>
 			<logic:equal value="false" name="queue_entry" property="clientActive">
-	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&queueId=<c:out value="${queue_entry.id}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
+	  		<a href='<c:out value="${ctx}" />/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${queue_entry.clientId}"/>&referralId=<c:out value="${queue_entry.referralId}"/>&programId=<c:out value="${queue_entry.programId}"/>' >Admit</a>
 			</logic:equal>
 	  	</security:oscarSec>	
 	</c:when>

@@ -54,8 +54,9 @@ function submitForm(methodVal) {
 	</tr>
 	<tr>
 		<td align="left" class="buttonBar2">
-		<html:link	action="/PMmodule/ProgramManager.do" style="color:Navy;text-decoration:none;">&nbsp;
-		<img border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Program&nbsp;&nbsp;</html:link>|
+		<a href="<%=request.getContextPath()%>/PMmodule/ProgramManagerView.do?tab=Queue&programId=<c:out value="${programId}"/>"  style="color:Navy;text-decoration:none;">&nbsp;
+			<img style="vertical-align: middle" border="0" src="<html:rewrite page="/images/close16.png"/>" />&nbsp;Close&nbsp;&nbsp;|
+		</a>
 		<a href='javascript:void1();' onclick='javascript: setNoConfirm();return submitForm("save");' style="color:Navy;text-decoration:none;">
 		<img border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a></td>
 	</tr>
