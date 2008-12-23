@@ -399,6 +399,34 @@ public class FacilityManagerAction extends BaseFacilityAction {
     	try {	    	
 	    	FacilityManagerForm mform = (FacilityManagerForm) form;
 	        Facility facility = mform.getFacility();    	
+
+        	if(request.getParameter("facilityManagerForm_facility.orgId") == null) {
+        		facility.setOrgId(Integer.valueOf(request.getParameter("facility.orgId")));
+        	}
+        	else
+        	{
+        		facility.setOrgId(Integer.valueOf(request.getParameter("facilityManagerForm_facility.orgId")));
+        	}
+	        
+        	boolean isNew = false;
+        	if (facility.getId() == null || facility.getId().intValue() == 0)
+        	{
+        		isNew = true;
+        	}
+        	else
+        	{
+        		Facility facOld = facilityManager.getFacility(facility.getId());
+        		if(facOld == null) throw new NoAccessException();
+        		if(facOld.getOrgId().intValue() != facility.getOrgId().intValue())
+        		{
+        			isNew = true;
+        		}
+        	}
+        	if(isNew) 
+            	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
+        	else
+            	super.getAccess(request,KeyConstants.FUN_FACILITY_EDIT, KeyConstants.ACCESS_UPDATE);
+	        
 	        
 	        if (request.getParameter("facility.hic") == null) 
 	        	facility.setHic(false);
@@ -454,31 +482,6 @@ public class FacilityManagerAction extends BaseFacilityAction {
 	        	String providerNo = (String)(request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 	        	facility.setLastUpdateDate(Calendar.getInstance());
 	        	facility.setLastUpdateUser(providerNo);
-	        	if(request.getParameter("facilityManagerForm_facility.orgId") == null) {
-	        		facility.setOrgId(Integer.valueOf(request.getParameter("facility.orgId")));
-	        	}
-	        	else
-	        	{
-	        		facility.setOrgId(Integer.valueOf(request.getParameter("facilityManagerForm_facility.orgId")));
-	        	}
-	        	boolean isNew = false;
-	        	if (facility.getId() == null || facility.getId().intValue() == 0)
-	        	{
-	        		isNew = true;
-	        	}
-	        	else
-	        	{
-	        		Facility facOld = facilityManager.getFacility(facility.getId());
-	        		if(facOld == null) throw new NoAccessException();
-	        		if(facOld.getOrgId().intValue() != facility.getOrgId().intValue())
-	        		{
-	        			isNew = true;
-	        		}
-	        	}
-	        	if(isNew) 
-	            	super.getAccess(request,KeyConstants.FUN_FACILITY, KeyConstants.ACCESS_WRITE);
-	        	else
-	            	super.getAccess(request,KeyConstants.FUN_FACILITY_EDIT, KeyConstants.ACCESS_UPDATE);
 
 	        		
 	        	facilityManager.saveFacility(facility);

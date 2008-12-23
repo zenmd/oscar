@@ -462,6 +462,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		// String userName = provider != null ? provider.getFullName() : "";
 
 		String demo = getDemographicNo(request);
+		if(demo == null) throw new NoAccessException();
 		/*
 		 * CaseManagementCPP cpp = this.caseManagementMgr.getCPP(demo); if (cpp ==
 		 * null) { cpp = new CaseManagementCPP(); cpp.setDemographic_no(demo); }
