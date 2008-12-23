@@ -104,7 +104,7 @@ public class LookupDao extends HibernateDaoSupport {
 		}
 		sSQL = sSQL.substring(0,sSQL.length()-1);
 	    sSQL +=" from " + tableDef.getTableName() ;
-		sSQL1 = oscar.Misc.replace(sSQL,"s.", "a.") + " a,";	    
+		sSQL1 = oscar.Misc.replace(sSQL,"s\\.", "a.") + " a,";	    
 		sSQL += " s where 1=1";
 	    int i= 0;
         if (activeFieldExists && activeOnly) {
