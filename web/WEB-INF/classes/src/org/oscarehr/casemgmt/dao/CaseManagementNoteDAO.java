@@ -172,7 +172,7 @@ public class CaseManagementNoteDAO extends HibernateDaoSupport {
                     // UUID uuid =UUID.randomUUID();
                     note.setUuid(uuid.toString());
                 }
-		this.getHibernateTemplate().save(note);
+		this.getHibernateTemplate().saveOrUpdate(note);
 	}
 
 	public List search(CaseManagementSearchBean searchBean) {

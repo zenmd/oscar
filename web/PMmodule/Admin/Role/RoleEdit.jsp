@@ -5,6 +5,7 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 -->
 
 <%@ include file="/taglibs.jsp"%>
+<%@page import="com.quatro.common.KeyConstants;"%>
 <%String a="debug"; %>
 <html:form action="/PMmodule/Admin/RoleManager" method="post">
 <html:hidden property="method" value="save" />
@@ -120,10 +121,10 @@ Source:web/PMmodule/Admin/Role/RoleEdit.jsp
 		  </td></tr>
 		</logic:iterate>
 		<tr><td colspan="2" class="clsButtonBarText" width="100%">&nbsp;&nbsp;			
-			<c:if test="${!isReadOnly}" >
-		   <a href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
+			<security:oscarSec objectName="<%=KeyConstants.FUN_ADMIN_ROLE%>" rights="<%=KeyConstants.ACCESS_WRITE%>">
+		   	<a href="javascript:submitForm('addFunctionInEdit');" onclick="javascript:setNoConfirm();">Add</a>&nbsp;&nbsp;&nbsp;|
 			&nbsp;&nbsp;<a href="javascript:submitForm('removeFunctionInEdit');" onclick="javascript:setNoConfirm();">Remove</a>
-			</c:if>	
+			</security:oscarSec>	
 			</td></tr>
 	  </table>
 	</div>

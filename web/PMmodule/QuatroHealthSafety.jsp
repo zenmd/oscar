@@ -36,18 +36,16 @@ function submitForm(form) {
  else
  {
   	form.submit();
-  	opener.document.quatroClientSummaryForm.submit();
  }
 }
 </script>	
 </head>
 
-<body topmargin="20" leftmargin="10">
+<body topmargin="20" leftmargin="10" onunload="javascript:opener.document.quatroClientSummaryForm.submit();">
 
 <html:form action="/PMmodule/QuatroHealthSafety.do">
 <input type="hidden" name="method" value="savehealthSafety" />
-<input type="hidden" name="clientId"/>
-<input type="hidden" name="id"	value="<c:out value="${requestScope.id}"/>">
+<html:hidden property="healthsafety.id" />
 <html:hidden property="healthsafety.userName" />
 <html:hidden property="healthsafety.demographicNo" />
 <table border="2" width="700" cellspacing="0" cellpadding="0">

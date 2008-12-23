@@ -76,7 +76,7 @@ public class HealthSafetyDao extends HibernateDaoSupport {
             throw new IllegalArgumentException();
         }
 
-        this.getHibernateTemplate().save(healthsafety);
+        this.getHibernateTemplate().saveOrUpdate(healthsafety);
 
         if (log.isDebugEnabled()) {
             log.debug("saveHealthSafetyByDemographic:id=" + healthsafety.getId());
