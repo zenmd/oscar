@@ -1,10 +1,6 @@
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
 <%@page import="com.quatro.common.KeyConstants;" %>
-<bean:define id="language" name="quatroIntakeEditForm"
-	property="language" type="com.quatro.model.LookupCodeValue" />
-<bean:define id="originalCountry" name="quatroIntakeEditForm"
-	property="originalCountry" type="com.quatro.model.LookupCodeValue" />
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
@@ -321,9 +317,9 @@ function confirmActive()
 					<table width="100%" class="simple">
 						<tr>
 							<td width="22%">Language</td>
-							<td width="32%"><quatro:lookupTag name="language"
-								tableName="LNG" formProperty="quatroIntakeEditForm"
-								codeProperty="code" bodyProperty="description" width="90%"
+							<td width="32%"><quatro:lookupTag name="quatroIntakeEditForm"
+								tableName="LNG" formProperty="quatroIntakeEditForm" 
+								codeProperty="language.code" bodyProperty="language.description" width="90%"
 								codeWidth="1px" showCode="false" /></td>
 							<td width="19%">Youth</td>
 							<td width="27%"><html-el:select property="intake.youth">
@@ -667,9 +663,9 @@ function confirmActive()
 						</tr>
 						<tr>
 							<td>Country of origin</td>
-							<td><quatro:lookupTag name="originalCountry" tableName="CNT"
-								formProperty="quatroIntakeEditForm" codeProperty="code"
-								bodyProperty="description" width="90%" codeWidth="1px"
+							<td><quatro:lookupTag name="quatroIntakeEditForm" tableName="CNT"
+								formProperty="quatroIntakeEditForm" codeProperty="originalCountry.code"
+								bodyProperty="originalCountry.description" width="90%" codeWidth="1px"
 								showCode="false" /></td>
 							<td></td>
 							<td></td>

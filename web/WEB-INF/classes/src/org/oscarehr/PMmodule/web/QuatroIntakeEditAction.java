@@ -424,13 +424,13 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				clientId = "0";
 			QuatroIntake intake = qform.getIntake();
 			Demographic client = qform.getClient();
-			String cd = request.getParameter("language_code");
+			String cd = request.getParameter("quatroIntakeEditForm_language.code");
 			
 			if (!Utility.IsEmpty(cd)) {
 				LookupCodeValue lcv = lookupManager.GetLookupCode("LNG", cd);
 				qform.setLanguage(lcv);
 			}
-			cd = request.getParameter("originalCountry_code");
+			cd = request.getParameter("quatroIntakeEditForm_originalCountry.code");
 			if (!Utility.IsEmpty(cd)) {
 				LookupCodeValue lcv = lookupManager.GetLookupCode("CNT", cd);
 				qform.setOriginalCountry(lcv);
@@ -843,8 +843,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 			if (intake.getId().intValue() == 0)
 				intake.setIntakeStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
-			intake.setLanguage(request.getParameter("language_code"));
-			intake.setOriginalCountry(request.getParameter("originalCountry_code"));
+			intake.setLanguage(request.getParameter("quatroIntakeEditForm_language.code"));
+			intake.setOriginalCountry(request.getParameter("quatroIntakeEditForm_originalCountry.code"));
 
 			intake.setPregnant(request.getParameter("intake.pregnant"));
 			intake.setDisclosedAbuse(request.getParameter("intake.disclosedAbuse"));
@@ -871,11 +871,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				intake.setSourceIncome(new String[] {});
 			}
 			LookupCodeValue language = new LookupCodeValue();
-			language.setCode(request.getParameter("language_code"));
-			language.setDescription(request.getParameter("language_description"));
+			language.setCode(request.getParameter("quatroIntakeEditForm_language.code"));
+			language.setDescription(request.getParameter("quatroIntakeEditForm_language.description"));
 			LookupCodeValue originalCountry = new LookupCodeValue();
-			originalCountry.setCode(request.getParameter("originalCountry_code"));
-			originalCountry.setDescription(request.getParameter("originalCountry_description"));
+			originalCountry.setCode(request.getParameter("quatroIntakeEditForm_originalCountry.code"));
+			originalCountry.setDescription(request.getParameter("quatroIntakeEditForm_originalCountry.description"));
 			qform.setLanguage(language);
 			qform.setOriginalCountry(originalCountry);
 
@@ -1051,7 +1051,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			intake.setOriginalCountry(headIntakeTo.getOriginalCountry());
 			intake.setStaffId(headIntakeTo.getStaffId());
 			intake.setLastUpdateDate(new GregorianCalendar());
-
+			intake.setEndDate(headIntakeTo.getEndDate());
+			
 			intakeFamily.setJoinFamilyDate(MyDateFormat.getCalendarwithTime(intakeFamily.getJoinFamilyDateTxt()));
 			intakeFamily.setMemberStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
 			intakeFamily.setIntakeHeadId(headIntakeTo.getId());
