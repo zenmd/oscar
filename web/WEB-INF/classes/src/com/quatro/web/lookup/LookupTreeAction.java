@@ -88,6 +88,7 @@ public class LookupTreeAction extends BaseAction {
    	      }
    	      String title = obj.getDescription();
    	      mc.setTitle(title);
+   	      mc.setDescription(obj.getDescription());
    	      
    	      String location = "javascript:selectMe('" +  obj.getCode() + "','" 
    	         + obj.getDescriptionJs() + "','" + request.getParameter("openerForm") + "','"

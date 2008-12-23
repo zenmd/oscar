@@ -65,6 +65,3 @@
 		</td>
 	</tr>
 </table>
-<script>
-	initializeMenus('idMenu','R00000013Actuator');
-</script>
