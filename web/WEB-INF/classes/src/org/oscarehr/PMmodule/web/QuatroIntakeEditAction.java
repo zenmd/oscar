@@ -615,6 +615,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		ActionMessages messages = new ActionMessages();
 		boolean isError = false;
 		boolean isWarning = false;
+		boolean isNew = false;
 		Integer duplicatedReferralId = new Integer(0);
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
@@ -622,7 +623,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			Demographic client = qform.getClient();
 			QuatroIntake intake = qform.getIntake();
 			if (intake.getId() == null || intake.getId().intValue() == 0)
+			{
 				super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, intake.getProgramId(), KeyConstants.ACCESS_WRITE);
+				isNew = true;
+			}
 			else
 				super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, intake.getProgramId(), KeyConstants.ACCESS_UPDATE);
 
@@ -921,8 +925,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				qform.setIntake(intake);
 				request.setAttribute("queueId", queueId);
 
-				
-				isWarning =  copyFamily(request, fromManualReferralId, intake, messages);
+				if(isNew) {		
+					isWarning =  copyFamily(request, fromManualReferralId, intake, messages);
+				}
 				
 			}
 
