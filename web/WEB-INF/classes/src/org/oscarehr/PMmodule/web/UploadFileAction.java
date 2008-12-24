@@ -254,7 +254,7 @@ public class UploadFileAction extends BaseClientAction {
 	        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, programId,KeyConstants.ACCESS_WRITE);
 			log.info("attachment client upload id: id="  + cId);
 			FormFile formFile = attTextObj.getImagefile();			
-			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1);
+			String type = formFile.getFileName().substring(formFile.getFileName().lastIndexOf(".")+1).toLowerCase();
 			int count=0;		
 			log.info("extension = " + type);
 			if(Utility.IsEmpty(formFile.getContentType()) || formFile.getFileSize()==0){
