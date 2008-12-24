@@ -972,13 +972,14 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		
 		List dependents = intakeManager
 				.getClientFamilyByIntakeId(fromIntakeId.toString());
-		if(dependents.size()==0) return isWarning; //not a familly
+		if(dependents.size()<= 1 ) return isWarning; //the family include family head (this client)
 
 		Integer programId = headIntakeTo.getProgramId();
 		Program program = programManager
 				.getProgram(headIntakeTo.getProgramId());
 		for (int i = 0; i < dependents.size(); i++) {
 			QuatroIntakeFamily obj3 = (QuatroIntakeFamily) dependents.get(i);
+			if(obj3.getClientId().equals(headIntakeTo.getClientId())) continue;
 
 			// check gender conflict and age conflict
 			Demographic client = clientManager.getClientByDemographicNo(obj3

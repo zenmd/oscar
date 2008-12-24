@@ -43,13 +43,13 @@ public class LookupDao extends HibernateDaoSupport {
 	private ProviderDao providerDao;
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
 	{
-	   return LoadCodeList(tableId,activeOnly,"",code,codeDesc);
+	   return LoadCodeList(tableId,activeOnly,"",code,codeDesc,true);
 	}
 	
 	public LookupCodeValue GetCode(String tableId,String code)
 	{
 		if (code == null || "".equals(code)) return null;
-		List lst = LoadCodeList(tableId, false, code, "");
+		List lst = LoadCodeList(tableId, false,"", code, "",false);
 		LookupCodeValue lkv = null;
 		if (lst.size()>0) 
 		{
@@ -57,8 +57,11 @@ public class LookupDao extends HibernateDaoSupport {
 		}
 		return lkv;
 	}
+	public List LoadCodeList(String tableId,boolean activeOnly,  String parentCode,String code, String codeDesc){
+		return LoadCodeList(tableId,activeOnly,parentCode,code,codeDesc,true);
+	}
 
-	public List LoadCodeList(String tableId,boolean activeOnly,  String parentCode,String code, String codeDesc)
+	private List LoadCodeList(String tableId,boolean activeOnly,  String parentCode,String code, String codeDesc, boolean includeTree)
 	{
 		String pCd=parentCode;
 		if("USR".equals(tableId)) parentCode=null;
@@ -148,11 +151,11 @@ public class LookupDao extends HibernateDaoSupport {
 	    	params[i++]= new DBPreparedHandlerParam("%" + codeDesc.toUpperCase() + "%");
 	   }	
 	   
-	   if (tableDef.isTree()) {
+	   if (tableDef.isTree() && includeTree) {
 		 sSQL = sSQL1 + "(" + sSQL + ") b";
 		 sSQL += " where b." + fieldNames[6] + " like a." + fieldNames[6] + "||'%'";
 	   }
-	   if (tableDef.isTree())
+	   if (tableDef.isTree() && includeTree)
 	   {
 		   sSQL += " order by 4,7";
 	   } else {

@@ -195,13 +195,13 @@ public class IntakeManager {
 	
 	public List getClientFamilyByIntakeId(String intakeId) {
         if (intakeId == null || intakeId.length() == 0) {
-            return null;
+            return new ArrayList();
         }
         
         //avoid to join intake_family/intake table and demegraphic table for query
         List lst = intakeDao.getClientIntakeFamily(intakeId);
         
-        if(lst.size()==0) return null;
+        if(lst.size()==0) return lst;
 
         List relationships = lookupDao.LoadCodeList("FRA",true, null, null);
         Iterator it = lst.iterator();
