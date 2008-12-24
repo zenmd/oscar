@@ -15,6 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.quatro.model.DataViews;
 import com.quatro.model.ReportTempValue;
 import com.quatro.model.ReportValue;
+import com.quatro.model.security.NoAccessException;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
 
@@ -44,10 +45,10 @@ public class QuatroReportTemplateAction extends BaseAction {
 		return forward;
 	}
 
-	private void btnSave_Click(QuatroReportSaveTemplateForm myForm, HttpServletRequest request)
+	private void btnSave_Click(QuatroReportSaveTemplateForm myForm, HttpServletRequest request) throws NoAccessException
 	{
 		ReportValue rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
-
+		if(rptValue == null) throw new NoAccessException();
 		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
         		getServlet().getServletContext()).getBean("quatroReportManager");
 
