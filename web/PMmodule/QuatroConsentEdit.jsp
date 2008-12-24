@@ -122,7 +122,7 @@
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Save16.png"/> />&nbsp;Save&nbsp;&nbsp;</a>
 				</c:if>
 				<logic:greaterThan name="consentDetailForm" property="consentValue.id" value="0">		  			
-		  			<c:if test="${signed==null || 'N'==signed}" >
+		  			<c:if test="${!isReadOnly && (signed==null || 'N'==signed)}" >
 		  			<a href="javascript:signSignature();" style="color:Navy;text-decoration:none;">
 		 		 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>|
 		  			</c:if>
