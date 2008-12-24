@@ -129,7 +129,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        programId=intakeDB.getProgramId();
 
        List clientFamily = intakeManager.getClientFamilyByIntakeId(intakeId.toString());
-       if(clientFamily==null){
+       if(clientFamily.size()==0){
          clientForm.setFamilyIntakeType("N");
      	 request.setAttribute("isFamilyMember", "N");
          clientForm.setIntakeClientNum(new Integer(1));
@@ -408,7 +408,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 
        String isFamilyMember;
        List clientFamily = intakeManager.getClientFamilyByIntakeId(intakeId.toString());
-       if(clientFamily==null){
+       if(clientFamily.size()==0){
          clientForm.setFamilyIntakeType("N");
          FamilyIntakeType="N";
          isFamilyMember="N";
