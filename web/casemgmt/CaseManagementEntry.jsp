@@ -22,6 +22,8 @@
 */
  -->
 
+<%-- Updated by Eugene Petruhin on 24 dec 2008 while fixing #2459538 --%>
+
 <%@ include file="/casemgmt/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
 <%@ taglib uri="/WEB-INF/oscarProperties-tag.tld" prefix="oscarProp" %>
@@ -207,7 +209,7 @@ var XMLHttpRequestObject = false;
 					alert('saved');
                 }
 			}
-			*/                        
+			*/
 			var demographicNo = '<c:out value="${param.demographicNo}"/>';
                         var noteId = '<%=request.getParameter("noteId") != null ? request.getParameter("noteId") : request.getAttribute("noteId") != null ? request.getAttribute("noteId") : ""%>';
 			var programId = '<c:out value="${case_program_id}"/>';
@@ -390,10 +392,9 @@ if (pId==null) pId="";
 
 	<p><b>Progress Note Entry View </b></p>
 	<%if ("true".equalsIgnoreCase((String)request.getAttribute("change_flag"))) {%>
-	<span style="color:red">this note has not been saved yet!</span>
+	<span id="spanMsg" style="color:red">this note has not been saved yet!</span>
 	<%}else{%>
 	<span id="spanMsg" style="color:blue">
-	
 	<logic:messagesPresent message="true">
 		<html:messages id="message" message="true" bundle="casemgmt">
 			<I><c:out value="${message}" /></I>

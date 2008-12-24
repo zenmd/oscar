@@ -82,6 +82,9 @@ import org.oscarehr.dx.model.DxResearch;
 
 import oscar.OscarProperties;
 
+/*
+ * Updated by Eugene Petruhin on 24 dec 2008 while fixing #2459538
+ */
 public class CaseManagementManager {
 
     protected String issueAccessType = "access";
@@ -870,7 +873,7 @@ public class CaseManagementManager {
         for (Iterator iter = notes.iterator(); iter.hasNext();) {
             CaseManagementNote cmNote = (CaseManagementNote)iter.next();
             String noteRole = cmNote.getReporter_caisi_role();
-            String noteRoleName = roleManager.getRole(noteRole).getName();
+            String noteRoleName = roleManager.getRole(noteRole).getName().toLowerCase();
             ProgramAccess pa = null;
             boolean add = false;
 
@@ -946,7 +949,7 @@ public class CaseManagementManager {
 
         for (Iterator iter = paList.iterator(); iter.hasNext();) {
             ProgramAccess pa = (ProgramAccess)iter.next();
-            map.put(pa.getAccessType().getName(), pa);
+            map.put(pa.getAccessType().getName().toLowerCase(), pa);
         }
         return map;
     }
@@ -971,7 +974,7 @@ public class CaseManagementManager {
         List allowableSearchRoles = new ArrayList();
         for (Iterator iter = allRoles.iterator(); iter.hasNext();) {
             Role r = (Role)iter.next();
-            String key = "write " + r.getName() + " issues";
+            String key = "write " + r.getName().toLowerCase() + " issues";
             ProgramAccess pa = (ProgramAccess)paMap.get(key);
             if (pa != null) {
                 if (pa.isAllRoles() || isRoleIncludedInAccess(pa, role)) {
@@ -1018,7 +1021,7 @@ public class CaseManagementManager {
         //iterate through the issue list
         for (Iterator iter = issues.iterator(); iter.hasNext();) {
             CaseManagementIssue cmIssue = (CaseManagementIssue)iter.next();
-            String issueRole = cmIssue.getIssue().getRole();
+            String issueRole = cmIssue.getIssue().getRole().toLowerCase();
             ProgramAccess pa = null;
             boolean add = false;
 
@@ -1031,7 +1034,7 @@ public class CaseManagementManager {
                 }
             }
             else {
-                if (issueRole.equals(role.getName())) {
+                if (issueRole.equalsIgnoreCase(role.getName())) {
                     //default
                     cmIssue.setWriteAccess(true);
                     add = true;
@@ -1047,7 +1050,7 @@ public class CaseManagementManager {
                 }
             }
             else {
-                if (issueRole.equals(role.getName())) {
+                if (issueRole.equalsIgnoreCase(role.getName())) {
                     //default
                     add = true;
                 }
@@ -1055,7 +1058,7 @@ public class CaseManagementManager {
 
             //apply defaults
             if (!add) {
-                if (issueRole.equals(role.getName())) {
+                if (issueRole.equalsIgnoreCase(role.getName())) {
                     cmIssue.setWriteAccess(true);
                     add = true;
                 }
