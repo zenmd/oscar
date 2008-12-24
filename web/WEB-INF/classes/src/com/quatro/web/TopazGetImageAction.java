@@ -86,12 +86,12 @@ public class TopazGetImageAction extends BaseClientAction{
 	   if (mCd.equals("consent")) {
 		   ConsentDetail consent = consentManager.getConsentDetail(recordId);
 		   if (consent == null) throw new NoAccessException();
-		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId());
+		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId(),KeyConstants.ACCESS_UPDATE);
 	   }
 	   else if (mCd.equals("admission")) {
 		   QuatroIntake intake = intakeManager.getQuatroIntake(recordId);
 		   if (intake == null) throw new NoAccessException();
-		   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, intake.getProgramId());
+		   super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, intake.getProgramId(),KeyConstants.ACCESS_UPDATE);
 	   }
 	   else
 		   throw new NoAccessException();

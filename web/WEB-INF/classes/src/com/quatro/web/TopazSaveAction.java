@@ -47,12 +47,12 @@ public class TopazSaveAction extends BaseClientAction {
     	   {
     		   ConsentDetail consent = consentManager.getConsentDetail(tobj.getRecordId());
 			   if (consent == null) throw new NoAccessException();
-			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId());
+			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, consent.getProgramId(),KeyConstants.ACCESS_UPDATE);
 		   }
 		   else if ("admission".equals(tobj.getModuleName())) {
 			   QuatroIntake intake = intakeManager.getQuatroIntake(tobj.getRecordId());
 			   if (intake == null) throw new NoAccessException();
-			   super.getAccess(request, KeyConstants.FUN_CLIENTCONSENT, intake.getProgramId());
+			   super.getAccess(request, KeyConstants.FUN_CLIENTADMISSION, intake.getProgramId(),KeyConstants.ACCESS_UPDATE);
 		   }
 		   else
 			   throw new NoAccessException();
