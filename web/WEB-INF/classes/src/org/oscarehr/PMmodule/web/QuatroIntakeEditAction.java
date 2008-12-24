@@ -559,6 +559,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				.equals(intake.getIntakeStatus())) {
 			request.setAttribute("ageGenderReadOnly", Boolean.TRUE);
 		}
+		else
+		{
+			request.setAttribute("ageGenderReadOnly", Boolean.FALSE);
+		}
 	}
 
 	private boolean validateDuplicate(QuatroIntake intake, Demographic client,
