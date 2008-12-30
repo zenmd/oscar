@@ -62,6 +62,7 @@ function validateEdit() {
 				
 		var programIdStr=getElement('bedCommunityProgramId').value;
 		var programId = Number(programIdStr);
+		var gender=getElement('client.sex');
 		
 		if (gender.value == 'M')
 		{

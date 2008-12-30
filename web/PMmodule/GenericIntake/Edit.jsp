@@ -18,6 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 -->
+
+<%-- Updated by Eugene Petruhin on 30 dec 2008 while fixing #2456688 --%>
+
 <%@ include file="/taglibs.jsp" %>
 <%@ page import="org.oscarehr.PMmodule.model.Intake" %>
 <%@ page import="org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean" %>
@@ -477,9 +480,10 @@
                 <c:choose>
                     <c:when test="${not empty sessionScope.genericIntakeEditForm.client.demographicNo}">
                         <html:submit onclick="clientEdit()">Close</html:submit>
+                        <input type="button" value="Back to Search" onclick="history.go(-1)"/>
                     </c:when>
                     <c:otherwise>
-                        <input type="button" value="Close" onclick="history.go(-1)"/>
+                        <input type="button" value="Back to Search" onclick="history.go(-1)"/>
                     </c:otherwise>
                 </c:choose>
             </td>
