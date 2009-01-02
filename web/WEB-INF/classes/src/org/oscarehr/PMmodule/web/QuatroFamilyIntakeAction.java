@@ -274,6 +274,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	          		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.existing_in_other_family",
 	               			request.getContextPath(), obj3.getLastName() + "," + obj3.getFirstName()));
 	                  isError = true;
+	                  break; //only show error once
 	               }
 	             }
 	           }
