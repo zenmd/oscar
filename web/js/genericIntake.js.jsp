@@ -59,53 +59,50 @@ function validIntakeLocation() {
 }
 
 function validateEdit() {
-				
-		var programIdStr=getElement('bedCommunityProgramId').value;
-		var programId = Number(programIdStr);
-		var gender=getElement('client.sex');
-		
-		if (gender.value == 'M')
-		{
-			if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-			{
-				return error(gender, "This gender not allowed in selected program.");
-			}
-		}
-		if (gender.value == 'F')
-		{
-			if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-			{
-				return error(gender, "This gender not allowed in selected program.");
-			}
-		}
-		if (gender.value == 'T')
-		{
-			if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
-			{
-				return error(gender, "This gender not allowed in selected program.");
-			}
-		}
-		
-		var month = getElement('client.monthOfBirth');
-		var day = getElement('client.dateOfBirth');
-		var year = getElement('client.yearOfBirth');
-		
-		var age=calculateAge(year.value,month.value,day.value);
-		if (!validAgeRangeForProgram(programId,age))
-		{
-			return error(year, "This client does not meet the age range requirements for this program.");
-		}
+	var programIdStr=getElement('bedCommunityProgramId').value;
+	var programId = Number(programIdStr);
+	var gender=getElement('client.sex');
 
-		if (!validateDate(year.value, month.value, day.value))
+	if (gender.value == 'M')
+	{
+		if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
 		{
-			return error(year, "The birth date you entered is not a valid date.");
-		}	
+			return error(gender, "This gender not allowed in selected program.");
+		}
+	}
+	if (gender.value == 'F')
+	{
+		if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+		{
+			return error(gender, "This gender not allowed in selected program.");
+		}
+	}
+	if (gender.value == 'T')
+	{
+		if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
+		{
+			return error(gender, "This gender not allowed in selected program.");
+		}
+	}
 
-		
+	var month = parseInt(getElement('client.monthOfBirth').value, 10);
+	var day = parseInt(getElement('client.dateOfBirth').value, 10);
+	var year = parseInt(getElement('client.yearOfBirth').value, 10);
+	if (!validateDate(year, month, day))
+	{
+		return error(getElement('client.yearOfBirth'), "The birth date you've entered is not a valid date.");
+	}
+
+	var age = calculateAge(year, month, day);
+	if (!validAgeRangeForProgram(programId, age))
+	{
+		return error(getElement('client.yearOfBirth'), "This client does not meet the age range requirements for this program.");
+	}
+
 	// only allow numbers to be entered
 	var healthCardNo = getElement('client.hin');
 	var healthCardVersion = getElement('client.ver');
-	if(isNaN(healthCardNo.value))
+	if (isNaN(healthCardNo.value))
     {
     	alert("Please enter only digit characters in the \"Health Card #\" field.");
 		document.forms[0].elements['client.hin'].focus();
@@ -113,7 +110,7 @@ function validateEdit() {
     }
 	
 	//only allow upper case alpha characters to be entered
-	if(!checkChar(healthCardVersion)){
+	if (!checkChar(healthCardVersion)){
 		return error(healthCardVersion, "Please enter only alpha characters in the \"Version\" field.");
 		
 	}
@@ -126,8 +123,6 @@ function validateEdit() {
 	if (!hasSelection(getElement('serviceProgramIds'))) {
 		return window.confirm("No service program has been selected.\nAre you sure you want to submit?");
 	}
-	
-	
 
 	return true;
 }
