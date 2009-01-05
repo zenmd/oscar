@@ -423,6 +423,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			String clientId = qform.getClientId();
 			if (Utility.IsEmpty(clientId))
 				clientId = "0";
+			if (clientId.equals("0")) request.setAttribute("newClientFlag", "true");
 			QuatroIntake intake = qform.getIntake();
 			Demographic client = qform.getClient();
 			String cd = request.getParameter("quatroIntakeEditForm_language.code");
@@ -490,21 +491,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			setProgramEditable(request, intake, Integer.valueOf(intakeHeadId));
 
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-			if (clientId.equals("0")) {
-				request.setAttribute("pageChanged", "1");
-			} else {
-				if (intake.getId().intValue() == 0) {
-					request.setAttribute("pageChanged", "1");
-				} else {
-					QuatroIntake cur_intake = intakeManager
-							.getQuatroIntake(intake.getId());
-					if (intake.getProgramId().equals(cur_intake.getProgramId())) {
-						request.setAttribute("pageChanged", "");
-					} else {
-						request.setAttribute("pageChanged", "1");
-					}
-				}
-			}
+			request.setAttribute("pageChanged", "1");
 			if(Utility.IsEmpty(intake.getProgramType()) && intake.getProgramId().intValue()>0){
 				if(programManager.getProgram(intake.getProgramId()).isBed()) 
 					intake.setProgramType(KeyConstants.BED_PROGRAM_TYPE);

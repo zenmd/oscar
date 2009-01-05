@@ -235,7 +235,9 @@ public abstract class BaseAction extends DispatchAction {
 	{
 		
 		String tokenP = (String) request.getParameter("token");
-		if (tokenP != null && name!= null && (name.indexOf("save")>=0 || name.indexOf("login")>=0)) {
+		String methodName = name;
+		if (methodName != null) methodName = methodName.toLowerCase();
+		if (tokenP != null && name!= null && (methodName.indexOf("save") >=0 || methodName.indexOf("login")>=0 || methodName.indexOf("change")>=0)) {
 			String tokenS = (String) request.getSession().getAttribute("token"); 
 			if(Utility.isNotNullOrEmptyStr(tokenS)) {
 				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
