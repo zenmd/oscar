@@ -113,7 +113,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        		programOccupancyManager.DeactiveServiceIntake(cDt);	        	
 	        	}catch (Exception e) {
 		        	logger.error("Deactivating Service Intake: " + e.getMessage());
-					System.out.println("Sdmt in:" +e.getMessage());
+					System.out.println("Deactivating Service Intake:" +e.getMessage());
 		        }
 	        }
 			protected static void DeactiveBedIntake(Calendar sDt){
@@ -121,8 +121,8 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 					Calendar cDt = getDeactiveIntakeDate(sDt);
 	        		programOccupancyManager.DeactiveBedIntake(cDt);	        	
 	        	}catch (Exception e) {
-		        	logger.error("Deactivating Service Intake: " + e.getMessage());
-					System.out.println("Sdmt in:" +e.getMessage());
+		        	logger.error("Deactivating Bed Intake: " + e.getMessage());
+					System.out.println("Deactivating Bed Intake:" +e.getMessage());
 		        }
 			}
 	       protected static void inputSDMT(String pathLoc){	        	
@@ -269,10 +269,10 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	           Calendar dt = Calendar.getInstance();
                dt.add(Calendar.DATE, -2);
 	           ProgramOccuTimerTask.DeactiveBedIntake(dt);
-	           
-	           ProgramOccuTimerTask.DeactiveServiceIntake(dt);
-	           return;
 	           */
+	           ProgramOccuTimerTask.inputSDMT(path);
+	           return;
+	           
 	        }
 	        catch (Exception e) {
 	            logger.error("Error processing request. " + request.getRequestURL() + ", " + e.getMessage());
