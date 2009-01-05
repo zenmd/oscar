@@ -1,6 +1,7 @@
 <%@ include file="/taglibs.jsp"%>
 <%@ taglib uri="/WEB-INF/quatro-tag.tld" prefix="quatro"%>
 <%@page import="com.quatro.common.KeyConstants;" %>
+<%String a="debug"; %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
@@ -132,7 +133,6 @@ function confirmActive()
 }
 
 </script>
-<%String a="debug"; %>
 	<table width="100%" height="100%" cellpadding="0px" cellspacing="0px">
 		<tr>
 			<th class="pageTitle" align="center">Client Management -

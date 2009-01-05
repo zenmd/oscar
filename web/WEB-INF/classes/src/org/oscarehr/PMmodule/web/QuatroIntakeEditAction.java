@@ -419,6 +419,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		ActionMessages messages = new ActionMessages();
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
+			if(qform.getOptionList() == null) throw new NoAccessException();
 			String clientId = qform.getClientId();
 			if (Utility.IsEmpty(clientId))
 				clientId = "0";

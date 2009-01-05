@@ -250,7 +250,7 @@ function checkExistClients(i){
        <logic:greaterThan name="dependent" property="clientId" value="0">
 	       <c:out value="${dependent.clientId}" />
        </logic:greaterThan>
-       <html:text name="dependent" property="statusMsg" maxlength="20"  indexed="true"  style="border: 0px;width: 20px"/>
+       <html:hidden name="dependent" property="statusMsg"  indexed="true" />
     </td>
     <td><html:text name="dependent" property="lastName" maxlength="30" indexed="true"  style="width:90%" /></td>
     <td><html:text name="dependent" property="firstName" maxlength="30" indexed="true"  style="width:90%" /></td>
@@ -267,10 +267,17 @@ function checkExistClients(i){
     <logic:equal name="dependent" property="clientId" value="0">
        <logic:equal name="dependent" property="duplicateClient" value="Y">
        <tr><td></td><td colspan="6">
-       		<font color="#ff0000">? This new client may be an existing client.</font>
+       		<font color="#ff0000"> This new client may be an existing client.</font>
        </td></tr>
        </logic:equal>
     </logic:equal>
+    <logic:notEqual name="dependent" property="clientId" value="0">
+       <logic:equal name="dependent" property="duplicateClient" value="Y">
+       <tr><td></td><td colspan="6">
+       		<font color="#ff0000"> This client is already a member of this family.</font>
+       </td></tr>
+       </logic:equal>
+    </logic:notEqual>
     <logic:notEqual name="dependent" property="clientId" value="0">
        <logic:equal name="dependent" property="serviceRestriction" value="Y">
        <tr><td></td><td colspan="6">
@@ -279,7 +286,7 @@ function checkExistClients(i){
        </logic:equal>
        <logic:equal name="dependent" property="statusMsg" value="x">
        <tr><td></td><td colspan="6">
-       <font color="#ff0000">x This client is the head of the family.<br></font>
+       <font color="#ff0000"> This client is the head of the family.<br></font>
        </td></tr>
        </logic:equal>
     </logic:notEqual>

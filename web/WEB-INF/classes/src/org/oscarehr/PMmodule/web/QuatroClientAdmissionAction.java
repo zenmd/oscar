@@ -707,11 +707,14 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
   	   Program program = programManager.getProgram(programId);
 	   canOverride=canOverwrite(request, program.getId().toString());
 
+	   List lstFamily = new ArrayList();
        //don't check these if intake admitted.
+	   Integer headClientId = Integer.valueOf("0");
        if(admissionId.intValue()==0)
        {
     	 if(clientForm.getFamilyIntakeType().equals("Y")){  
-    	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());    	  
+    	   lstFamily = intakeManager.getClientFamilyByIntakeId(admission.getIntakeId().toString());
+    	   if(lstFamily.size() > 0) headClientId = ((QuatroIntakeFamily)lstFamily.get(lstFamily.size()-1)).getClientId();
            for(int i=0;i<lstFamily.size();i++){
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
 
@@ -720,42 +723,40 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)))
                isWarning = isWarning || validateConflict(request, program, client2,
               	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
-           }
-     	   if(isWarning){
-       	   	 if (!canOverride)  return update(mapping, form, request, response);
-       	   	 else{
-       	   		if(!"Y".equals(overrideYN)){
-       	   			messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.admission.overwrite_conflict", request.getContextPath()));       	     	 
-       	   			saveMessages(request,messages);
-       	   			return update(mapping, form, request, response);
-       	   		}else{
-       	   			messages.clear();
-       	   			isWarning =false;
-       	   		}
-       	   	 }
-       	   }
-
-    	   //check client active in other program
-           for(int i=0;i<lstFamily.size();i++){
-             QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
+           
+             // check if the client is a dependent in another admission
              List lst=admissionManager.getCurrentAdmissions(qif.getClientId(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
-             for(int j=0;j<lst.size();j++){
-        	   Admission admission_exist = (Admission)lst.get(j);
-        	   StringBuffer sb2 = new StringBuffer();
-        	   sb2.append("," + admission_exist.getId());
-               if(sb2.length()>0){
-                 //auto-discharge from other program   
-                 admissionManager.dischargeAdmission(sb2.substring(1), "");
-               }
+             for(int j = 0; j<lst.size(); j++) {
+            	 Admission admObj = (Admission) lst.get(j);
+            	 if(isClientAdmittedAsDependent(admObj, headClientId)) {
+            		 Demographic client1 = clientManager.getClientByDemographicNo(admObj.getClientId().toString());
+            		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.existing_dependent", request.getContextPath(),client1.getLastName() + ", " + client.getFirstName()));
+            		 isError = true;
+            	 }
              }
            }
-
     	 }else{
-  		   //check gender conflict and age conflict
-           isWarning = validateConflict(request, program, client,
+             // check if the client is a dependent in another admission
+    		 List lst=admissionManager.getCurrentAdmissions(admission.getClientId(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
+             for(int j = 0; j<lst.size(); j++) {
+            	 Admission admObj = (Admission) lst.get(j);
+            	 if(isClientAdmittedAsDependent(admObj, admission.getClientId())) {
+            		 Demographic client1 = clientManager.getClientByDemographicNo(admObj.getClientId().toString());
+            		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.existing_dependent", request.getContextPath(),client1.getLastName() + ", " + client.getFirstName()));
+            		 isError = true;
+            	 }
+             }
+    		 
+             //check gender conflict and age conflict
+             isWarning = validateConflict(request, program, client,
                	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
-     	   
-     	   if(isWarning){
+    	 }
+    	 if(isError)
+    	 {
+    		 saveMessages(request, messages);
+    		 return update(mapping, form, request, response);
+    	 }
+    	 else if(isWarning){
      		  if (!canOverride)  return update(mapping, form, request, response);
      		  else{
      			  if(!"Y".equals(overrideYN)){
@@ -768,21 +769,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
     	    	  }
     	    	 }
      		}
-     	   
-     	   //check client active in other program
-           List lst=admissionManager.getCurrentAdmissions(clientId,KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
-           for(int i=0;i<lst.size();i++){
-        	 Admission admission_exist = (Admission)lst.get(i);
-        	 StringBuffer sb = new StringBuffer();
-        	 sb.append("," + admission_exist.getId());
-             if(sb.length()>0){
-               //auto-discharge from other program   
-               admissionManager.dischargeAdmission(sb.substring(1),"");
-             }
-           }
-    	 }
        }
-       
        //check if roomId /bedId selected
        RoomDemographic rdm = clientForm.getRoomDemographic();
        if(rdm.getId().getRoomId().intValue()==0){
@@ -886,7 +873,47 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
           saveMessages(request,messages);
           return update(mapping, form, request, response);
 	    }
-	    /* Saving the admission */
+
+ 	   /* auto discharge existing admissions */
+ 	   StringBuffer sb = new StringBuffer();
+ 	   if(lstFamily.size() > 0) {
+           for(int i=0;i<lstFamily.size();i++){
+               QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
+               
+               List lst=admissionManager.getCurrentAdmissions(qif.getClientId(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
+               for(int j = 0; j<lst.size(); j++) {
+              	 Admission admObj = (Admission) lst.get(j);
+      		   	 admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+    		     admObj.setDischargeDate(Calendar.getInstance());
+    		     admObj.setLastUpdateDate(new GregorianCalendar());
+    		     admObj.setProviderNo(providerNo);
+    		     admObj.setDischargeReason(KeyConstants.AUTO_DISCHARGE_REASON);
+    		     admObj.setDischargeNotes("auto-discharge for other intake admission");
+              	 List lstFam = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+              	 boolean isReferral=false;
+              	 admissionManager.dischargeAdmission(admObj, isReferral, lstFam);
+               }
+           }
+ 	   }
+ 	   else
+ 	   {
+           List lst=admissionManager.getCurrentAdmissions(admission.getClientId(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
+           for(int j = 0; j<lst.size(); j++) {
+            	 Admission admObj = (Admission) lst.get(j);
+      		   	 admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
+    		     admObj.setDischargeDate(Calendar.getInstance());
+    		     admObj.setLastUpdateDate(new GregorianCalendar());
+    		     admObj.setProviderNo(providerNo);
+    		     admObj.setDischargeReason(KeyConstants.AUTO_DISCHARGE_REASON);
+    		     admObj.setDischargeNotes("auto-discharge for other intake admission");
+            	 
+              	 List lstFam = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+              	 boolean isReferral=false;
+              	 admissionManager.dischargeAdmission(admObj, isReferral, lstFam);
+             }
+ 	   }
+ 	   
+ 	    /* Saving the admission */
 	    if(admission.getId().intValue() == 0)
 	    {
     	  admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ADMITTED);
@@ -928,7 +955,32 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 		   return mapping.findForward("failure");
 	   }
    }
-
+   private boolean isClientAdmittedAsDependent(Admission admObj, Integer headClientId)
+   {
+	   List lstFamily = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
+	   boolean isDependent=false;
+	   if(lstFamily.size() > 0) {
+		   boolean isHead = false;
+		   for(int i=0; i<lstFamily.size(); i++)
+		   {
+			   QuatroIntakeFamily fam = (QuatroIntakeFamily) lstFamily.get(i);
+			   if(fam.getIntakeHeadId().intValue() == admObj.getIntakeId().intValue()) {
+				   isHead = true;
+				   break;
+			   }
+			   if (fam.getIntakeHeadId().intValue() == fam.getIntakeId().intValue())
+			   {
+				   if(fam.getClientId().intValue() == headClientId.intValue()) 
+				   {
+					   isHead = true;
+					   break;
+				   }
+			   }
+		   }
+		   isDependent = !isHead;
+	   }
+	   return isDependent;
+   }
    public void setClientManager(ClientManager clientManager) {
 	 this.clientManager = clientManager;
    }

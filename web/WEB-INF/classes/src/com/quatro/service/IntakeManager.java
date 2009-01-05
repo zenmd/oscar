@@ -83,8 +83,8 @@ public class IntakeManager {
 	public void setClientHistoryDao(ClientHistoryDao historyDao) {
 		this.historyDao = historyDao;
 	}
-	public List getActiveIntakeIds(Integer clientId){
-		return intakeDao.getActiveIntakeIds(clientId);
+	public List getAdmittedIntakeIds(Integer clientId){
+		return intakeDao.getAdmittedIntakeIds(clientId);
 	}
 
     public void removeInactiveIntakeFamilyMember(String sDependentInakeIds, Integer intakeHeadId){

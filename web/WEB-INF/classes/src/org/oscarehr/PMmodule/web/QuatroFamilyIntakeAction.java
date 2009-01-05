@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -267,13 +268,13 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	           //new added dependent (existing client)
 	           if(intakeFamily==null || (j==intakeFamily.size() && obj3.getClientId().intValue()>0)){
 	             //only check intake_status=active/admitted
-	             List activeIntakeIds = intakeManager.getActiveIntakeIds(obj3.getClientId());
+	             List activeIntakeIds = intakeManager.getAdmittedIntakeIds(obj3.getClientId());
 	             for(j=0;j<activeIntakeIds.size();j++){
 	               Integer intakeHeadId_exist =intakeManager.getIntakeFamilyHeadId(((Integer)activeIntakeIds.get(j)).toString());
 	               if(intakeHeadId_exist.intValue()>0 && !intakeHeadId_exist.equals(headIntakeId)){
-	          		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.family.existing_in_other_family",
-	               			request.getContextPath(), obj3.getLastName() + "," + obj3.getFirstName()));
-	                  isError = true;
+	          		  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.family.existing_in_other_family",
+	               			request.getContextPath(), obj3.getLastName() + ", " + obj3.getFirstName()));
+	                  isWarning = true;
 	                  break; //only show error once
 	               }
 	             }
@@ -306,11 +307,11 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		         client.setDateOfBirth(MyDateFormat.getCalendar(obj3.getDob()));
 		         client.setSex(obj3.getSex());
 				 if(clientRestrictionManager.checkGenderConflict(program, client)){
-		         	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict", request.getContextPath()));
+		         	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.gender_conflict_dep", request.getContextPath(), obj3.getLastName() + ", " + obj3.getFirstName(),headIntake.getProgramName()));
 		             isWarning = true;
 				 }
 				 if(clientRestrictionManager.checkAgeConflict(program, client)){
-		         	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict", request.getContextPath()));
+		         	  messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.age_conflict_dep", request.getContextPath(), obj3.getLastName() + ", " + obj3.getFirstName(),headIntake.getProgramName()));
 		             isWarning = true;
 				 }
 		    	   
@@ -321,8 +322,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 		        		 headIntake.getProgramId(), obj3.getClientId(), new Date());
 		           if (restrInPlace != null) {
 		     	     obj3.setServiceRestriction("Y");
-		        	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction",
-		             			request.getContextPath(), headIntake.getProgramName()));
+		        	 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("warning.intake.service_restriction_dep",
+		             			request.getContextPath(),  obj3.getLastName() + ", " + obj3.getFirstName(),headIntake.getProgramName()));
 		       		 isWarning = true;
 		           }
 		         }
@@ -504,6 +505,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    {
 	   //check duplicate client for intakeId==0 && clientId==0 
 	   boolean bDupliDemographicNoApproved = true;
+	   Hashtable hs = new Hashtable(); 
 	   for(int i=0; i<dependents.size(); i++) {
 	 		QuatroIntakeFamily obj = (QuatroIntakeFamily) dependents.get(i);	
 	 		if(obj.getIntakeId().intValue()==0 && obj.getClientId().intValue()==0){
@@ -528,12 +530,19 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	 		}
 	 		else
 	 		{
-	 			if(obj.getClientId().intValue() == headClientId.intValue())
+	 			if(obj.getClientId().intValue() == headClientId.intValue() || hs.containsKey(obj.getClientId().toString()))
 	 			{
 	 				obj.setDuplicateClient("Y");
 	 				obj.setNewClientChecked("N");
-	 				obj.setStatusMsg("x");
+	 				if (!hs.containsKey(obj.getClientId().toString()))
+	 					obj.setStatusMsg("x");
+	 				else
+	 					obj.setStatusMsg("*");
 		            bDupliDemographicNoApproved=false;
+	 			}
+	 			else
+	 			{
+	 				hs.put(obj.getClientId().toString(), obj.getClientId());
 	 			}
 	 		}
 	   	}

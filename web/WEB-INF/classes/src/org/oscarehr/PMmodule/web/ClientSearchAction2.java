@@ -170,6 +170,24 @@ public class ClientSearchAction2 extends BaseClientAction {
 			}
 			formBean.setBedProgramId(prgId);
 		}
+		/* checking if the staff is in scope */
+		String staffId = formBean.getAssignedToProviderNo();
+		if (!Utility.IsEmpty(staffId)) {
+			List allProviders = providerManager.getActiveProviders(providerNo,
+					shelterId);
+			boolean isStaffOk = false;
+			for(int i=0; i<allProviders.size(); i++)
+			{
+				Provider provider = (Provider) allProviders.get(i); 
+				if(provider.getProviderNo().equals(staffId))
+				{
+					isStaffOk = true;
+				    break;
+				}
+			}
+			if(!isStaffOk) throw new NoAccessException();
+
+		}
 
 		/* do the search */
 		request.setAttribute("clients", clientManager.search(formBean,allowOnlyOptins,false));

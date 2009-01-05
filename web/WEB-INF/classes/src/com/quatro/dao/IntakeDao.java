@@ -488,10 +488,10 @@ public class IntakeDao extends HibernateDaoSupport {
 		return (Integer)lst.get(0);
 	}
 
-	public List getActiveIntakeIds(Integer clientId){
+	public List getAdmittedIntakeIds(Integer clientId){
 		String sSQL="select a.id from QuatroIntakeHeader a WHERE a.clientId = ? and " +
-		"(a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ACTIVE + "'" +
-		" or a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "')";
+		"(a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "')" ;
+//		" or a.intakeStatus='" + KeyConstants.INTAKE_STATUS_ADMITTED + "')";
 
 
 		List lst = getHibernateTemplate().find(sSQL, new Object[] {clientId});
