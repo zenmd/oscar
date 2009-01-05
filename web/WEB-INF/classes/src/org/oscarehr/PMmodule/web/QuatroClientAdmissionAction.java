@@ -153,7 +153,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        admission.setAdmissionDate(Calendar.getInstance());
        admission.setAdmissionDateTxt(MyDateFormat.getStandardDateTime(admission.getAdmissionDate()));
        admission.setAdmissionStatus(KeyConstants.INTAKE_STATUS_ACTIVE);
-       admission.setNextKinProvince("ON");
+       admission.setNextKinProvince("");
        clientForm.setAdmission(admission);
 
        Room[] availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, clientId, clientForm.getFamilyIntakeType().equals("Y"));

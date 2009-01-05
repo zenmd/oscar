@@ -511,8 +511,9 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		if (!intake.getIntakeStatus().equals(KeyConstants.INTAKE_STATUS_ACTIVE)) {
 			isEditable = false;
 		} else {
-			isEditable = (intakeHeadId == null || intakeHeadId.intValue() == 0 || intake
-					.getId().equals(intakeHeadId));
+			isEditable = (intakeHeadId == null || intakeHeadId.intValue() == 0
+					// || intake.getId().equals(intakeHeadId)
+			);
 		}
 		request.setAttribute("programId", intake.getProgramId());
 		request.setAttribute("programEditable", Boolean.valueOf(isEditable));
