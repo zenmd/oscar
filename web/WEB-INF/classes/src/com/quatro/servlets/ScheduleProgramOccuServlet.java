@@ -265,12 +265,12 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	     */
 	    public void doGet(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, javax.servlet.ServletException {
 	        try {
-	            /*
+		       /*
 	           Calendar dt = Calendar.getInstance();
                dt.add(Calendar.DATE, -2);
-	           ProgramOccuTimerTask.DeactiveBedIntake(dt);
-	           */
+	           ProgramOccuTimerTask.DeactiveServiceIntake(dt);
 	           ProgramOccuTimerTask.inputSDMT(path);
+	           */
 	           return;
 	           
 	        }
