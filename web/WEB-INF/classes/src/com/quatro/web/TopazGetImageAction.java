@@ -42,7 +42,8 @@ public class TopazGetImageAction extends BaseClientAction{
     }
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return image(mapping, form, request, response);
+    	request.setAttribute("notoken", "Y");
+    	return image(mapping, form, request, response);
     }
 
     private ActionForward image(ActionMapping mapping, ActionForm form, 
@@ -80,6 +81,7 @@ public class TopazGetImageAction extends BaseClientAction{
     public ActionForward sign(ActionMapping mapping, ActionForm form, 
        		HttpServletRequest request, HttpServletResponse response) throws Exception {
        
+    	request.setAttribute("notoken", "Y");
 	   Integer recordId = Integer.valueOf((String)request.getParameter("rid"));
 	   String mCd=request.getParameter("moduleName");
 	   

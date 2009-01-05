@@ -32,7 +32,8 @@ public class TopazSaveAction extends BaseClientAction {
     }
 
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return save(mapping, form, request, response);
+    	request.setAttribute("notoken", "Y");
+    	return save(mapping, form, request, response);
     }
     
     private ActionForward save(ActionMapping mapping, ActionForm form, 

@@ -9,7 +9,8 @@
 <script language="javascript" type="text/javascript">
 	function refreshOpenner()
 	{
-		opener.refresh();
+		if (!opener.closed  && opener.refresh)
+				opener.refresh();
 	}
 </script>
 </head>
