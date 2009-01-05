@@ -134,7 +134,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 		result = getHibernateTemplate().find(sql, null);
 		Object[] params;
 		int i = 0;
-		sql = "update  QuatroIntakeHeader set endDate=? where Id in ( ";
+		sql = "update  QuatroIntakeHeader set endDate=? where id in ( ";
 		String ids = "";
 		if (result.size() > 0) {
 			Iterator items = result.iterator();
