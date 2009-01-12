@@ -84,6 +84,7 @@ import oscar.OscarProperties;
 
 /*
  * Updated by Eugene Petruhin on 24 dec 2008 while fixing #2459538
+ * Updated by Eugene Petruhin on 09 jan 2009 while fixing #2482832 & #2494061
  */
 public class CaseManagementManager {
 
@@ -468,7 +469,6 @@ public class CaseManagementManager {
         String ongoing = (cpp.getOngoingConcerns() == null)?"":cpp.getOngoingConcerns();
         ongoing = ongoing + issueName + "\n";
         cpp.setOngoingConcerns(ongoing);
-        cpp.setUpdate_date(new Date());
         caseManagementCPPDAO.saveCPP(cpp);
         echartDAO.updateEchartOngoing(cpp);
 
@@ -499,7 +499,6 @@ public class CaseManagementManager {
             newOngoing = matcher.replaceFirst("");
             
             cpp.setOngoingConcerns(newOngoing);
-            cpp.setUpdate_date(new Date());
             caseManagementCPPDAO.saveCPP(cpp);
             echartDAO.updateEchartOngoing(cpp);
         }
@@ -529,7 +528,6 @@ public class CaseManagementManager {
             description = newIssue.getIssue().getDescription();        
             newOngoing = matcher.replaceFirst(description);
             cpp.setOngoingConcerns(newOngoing);
-            cpp.setUpdate_date(new Date());
             caseManagementCPPDAO.saveCPP(cpp);
             echartDAO.updateEchartOngoing(cpp);
         }                
@@ -550,7 +548,6 @@ public class CaseManagementManager {
         }
         
         cpp.setOngoingConcerns(ongoing);
-        cpp.setUpdate_date(new Date());
         caseManagementCPPDAO.saveCPP(cpp);
         echartDAO.updateEchartOngoing(cpp);
     }

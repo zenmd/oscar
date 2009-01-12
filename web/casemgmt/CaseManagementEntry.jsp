@@ -23,6 +23,7 @@
  -->
 
 <%-- Updated by Eugene Petruhin on 24 dec 2008 while fixing #2459538 --%>
+<%-- Updated by Eugene Petruhin on 09 jan 2009 while fixing #2482832 & #2494061 --%>
 
 <%@ include file="/casemgmt/taglibs.jsp" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
@@ -188,14 +189,14 @@
 </script>
 
 <script>
-var XMLHttpRequestObject = false;
+	var XMLHttpRequestObject = false;
 
- if(window.XMLHttpRequest) {
-        XMLHttpRequestObject = new XMLHttpRequest();
- } else if(window.ActiveXObject) {
-        XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
- }
- 
+	if(window.XMLHttpRequest) {
+		XMLHttpRequestObject = new XMLHttpRequest();
+	} else if(window.ActiveXObject) {
+		XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
  	function autoSave() {
 		if(XMLHttpRequestObject) {
 			var obj = document.getElementById('caseNote_note');
@@ -211,10 +212,9 @@ var XMLHttpRequestObject = false;
 			}
 			*/
 			var demographicNo = '<c:out value="${param.demographicNo}"/>';
-                        var noteId = '<%=request.getParameter("noteId") != null ? request.getParameter("noteId") : request.getAttribute("noteId") != null ? request.getAttribute("noteId") : ""%>';
+			var noteId = '<%=request.getParameter("noteId") != null ? request.getParameter("noteId") : request.getAttribute("noteId") != null ? request.getAttribute("noteId") : ""%>';
 			var programId = '<c:out value="${case_program_id}"/>';
 			XMLHttpRequestObject.send("method=autosave&demographicNo=" + demographicNo + "&programId=" + programId + "&note_id=" + noteId + "&note="  + escape(obj.value));
-						
 		}	
 		
 		setTimer();	

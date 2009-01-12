@@ -22,6 +22,8 @@
 */
  -->
 
+<%-- Updated by Eugene Petruhin on 08 jan 2009 while fixing #2482832 & #2494061 --%>
+
 <%@ include file="/casemgmt/taglibs.jsp" %>
 
 <%
@@ -40,7 +42,7 @@
 
 <body>
 <nested:form action="/CaseManagementEntry">
-<c:url value="/casemgmt/CaseManagementEntry.jsp?demographicNo=${param.demographicNo}&providerNo=${param.providerNo}&demoName=${requestScope.demoName}" var="url" />
+<c:url value="/casemgmt/CaseManagementEntry.jsp?demographicNo=${param.demographicNo}&providerNo=${param.providerNo}&demoName=${requestScope.demoName}&demoAge=${requestScope.demoAge}&demoDOB=${requestScope.demoDOB}" var="url" />
 <script type="text/javascript">
 function backToNote(from)
 {
