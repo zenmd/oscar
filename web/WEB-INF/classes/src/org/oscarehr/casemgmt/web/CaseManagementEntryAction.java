@@ -70,6 +70,9 @@ import oscar.oscarEncounter.pageUtil.EctSessionBean;
 import oscar.oscarSurveillance.SurveillanceMaster;
 import oscar.util.UtilDateUtilities;
 
+/*
+ * Updated by Eugene Petruhin on 12 and 13 jan 2009 while fixing #2482832 & #2494061
+ */
 public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 
     private static Log log = LogFactory.getLog(CaseManagementEntryAction.class);
@@ -1590,6 +1593,11 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
             // reset current concern in CPP
             // updateIssueToConcern(cform);
             caseManagementMgr.removeIssueFromCPP(demono, iss);
+        }
+
+        // added by Eugene Petrhin in order to guarantee the DB consistency if user hits Cancel afterwards
+        if (sessionFrm.getCaseNote().getId() != null) {
+        	noteSave(cform, request);
         }
 
         String ajax = request.getParameter("ajax");
