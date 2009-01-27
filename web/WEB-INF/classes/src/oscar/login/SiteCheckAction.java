@@ -180,8 +180,7 @@ public final class SiteCheckAction extends BaseAction {
     	            session.setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
     	
     	            session.setAttribute("provider", provider);
-    	            String appPath = oscar.OscarProperties.getInstance().getProperty("contextPath");
-    	            return("confirmed:" +  "/" + appPath  + mapping.findForward(where).getPath());
+    	            return("confirmed:" +  mapping.findForward(where).getPath());
     	        }
     	        // expired password
     	        else if (user.getLoginStatus() == Security.PASSWORD_EXPIRED) {
