@@ -6,7 +6,7 @@ public class SecSiteValue implements Serializable {
 	String siteId;
 	int siteKey;
 	String userName;
-	char [] password;
+	String password;
 	String pin;
 	String description;
 	String createdBy;
@@ -55,10 +55,10 @@ public class SecSiteValue implements Serializable {
 	public void setSiteKey(int siteKey) {
 		this.siteKey = siteKey;
 	}
-	public char[] getPassword() {
+	public String getPassword() {
 		return password;
 	}
-	public void setPassword(char[] password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 	public String getUserName() {
