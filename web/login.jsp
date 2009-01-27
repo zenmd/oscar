@@ -156,14 +156,14 @@ if (props.getProperty("logintitle", "").equals("")) {
 					<td align="center">
 						<object
 							classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
-								width="500" height="150" 
+								width="500" height="550" 
 								codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_5_0-windows-i586.cab#Version=1,5,0,0">
 								    <PARAM NAME="code" VALUE="com.quatro.model.security.QSSecurity.class">
 								    <PARAM NAME="archive" VALUE="QSSecurity.jar, registry.jar">
 								    <PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.5">
 								    <COMMENT>
 									<embed align="baseline" code="com.quatro.model.security.QSSecurity.class"
-									  	width="500" height="150"
+									  	width="500" height="550"
 											  	type="application/x-java-applet;version=1.5.0"
 											  	pluginspage="http://java.sun.com/j2se/1.5.0/download.html"					        
 								        archive="QSSecurity.jar, registry.jar">
