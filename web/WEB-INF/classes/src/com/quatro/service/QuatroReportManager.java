@@ -122,6 +122,10 @@ public class QuatroReportManager {
 	public List GetReportTemplates(int reportNo, String userId, boolean withXRights){
 		return quatroReportDao.GetReportTemplates(reportNo, userId, withXRights);
 	}
+	public ReportTempValue GetReportTemplate(int templateNo, String userId, boolean withXRights)
+	{
+		return quatroReportDao.GetReportTemplate(templateNo, userId, withXRights);
+	}
 
 	public void SaveReportTemplate(ReportTempValue rtv){
 		quatroReportDao.SaveReportTemplate(rtv);

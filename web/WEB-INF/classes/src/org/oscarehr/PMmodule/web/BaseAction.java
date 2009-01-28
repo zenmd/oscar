@@ -233,7 +233,7 @@ public abstract class BaseAction extends DispatchAction {
 	}
 	protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response, String name) throws Exception
 	{
-		
+		/*
 		String tokenP = (String) request.getParameter("token");
 		String methodName = name;
 		if (methodName != null) methodName = methodName.toLowerCase();
@@ -243,7 +243,7 @@ public abstract class BaseAction extends DispatchAction {
 				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
 			}
 		}
-		
+		*/
 		Calendar startDt = Calendar.getInstance();
 		try {
 			ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
