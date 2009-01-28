@@ -12,6 +12,7 @@ import org.oscarehr.PMmodule.web.*;
 import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.quatro.model.ReportTempValue;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.QuatroReportManager;
 import com.quatro.util.Utility;
@@ -23,7 +24,8 @@ public class QuatroReportListAction extends BaseAdminAction {
 
 	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	throws NoAccessException {
-		super.getAccess(request, KeyConstants.FUN_REPORTS,KeyConstants.ACCESS_WRITE);
+		String right = super.getAccess(request, KeyConstants.FUN_REPORTS,KeyConstants.ACCESS_WRITE);
+		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		QuatroReportListForm myForm = (QuatroReportListForm) form;
 		String chkNo= myForm.getChkDel();
 		if(Utility.IsEmpty(chkNo) ) return reportlist(mapping,form,request,response);
@@ -43,6 +45,9 @@ public class QuatroReportListAction extends BaseAdminAction {
 		  String templateNo= str.toString();
 		  if("".equals(templateNo)==false){
 			  templateNo = templateNo.substring(1);
+			  boolean withXRights = false;
+			  if ("x".equals(right)) withXRights = true;
+			  if (reportManager.GetReportTemplate(Integer.valueOf(templateNo).intValue(), providerNo, withXRights) == null) throw new NoAccessException();
 			  reportManager.DeleteReportTemplates(templateNo);
 		  }
 		}  

@@ -64,7 +64,10 @@ public final class LoginAction extends BaseAction {
     private LookupManager lookupManager;
     
     public ActionForward login(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    	OscarProperties props = OscarProperties.getInstance();
+    	if (props.isSiteSecured()) {
+    		return mapping.findForward("login");
+    	}
         ActionMessages messages = new ActionMessages();
         String ip = request.getRemoteAddr();
         String where = "shelterSelection";
