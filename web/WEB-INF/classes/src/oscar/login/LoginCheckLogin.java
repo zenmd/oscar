@@ -90,15 +90,10 @@ public class LoginCheckLogin {
     		user.setLoginStatus(Security.ACCOUNT_BLOCKED);
     		return user;
     	}
-    	if ("yes".equals(oscar.OscarProperties.getInstance().getProperty("ldap_authentication")))
-    	{
-    		com.quatro.ldap.LdapAuthentication ldap = (com.quatro.ldap.LdapAuthentication) appContext.getBean("ldapAuthentication");
-    		isOk = ldap.authenticate(userName, password);
-    	}
-    	return authenticate(isOk,appContext,user); 
+    	return authenticate(appContext,user); 
     }
 
-	private Security authenticate(boolean isAuthenticated, ApplicationContext appContext,
+	private Security authenticate(ApplicationContext appContext,
 			 Security user) throws Exception, SQLException {
 		Security dbUser = getUser(user.getUserName(),appContext);
 		// the user is not in security table
@@ -112,7 +107,14 @@ public class LoginCheckLogin {
 			user.setLoginStatus(Security.PASSWORD_EXPIRED);
 			return user;
 		}
-		if (!isAuthenticated) {
+		boolean isAuthenticated = false;
+    	if ("yes".equals(oscar.OscarProperties.getInstance().getProperty("ldap_authentication")))
+    	{
+    		com.quatro.ldap.LdapAuthentication ldap = (com.quatro.ldap.LdapAuthentication) appContext.getBean("ldapAuthentication");
+    		isAuthenticated = ldap.authenticate(user.getUserName(), user.getPassword());
+    	}
+    	else
+		{
 			StringBuffer sbTemp = new StringBuffer();
 			MessageDigest md = MessageDigest.getInstance("SHA");
 			byte[] btTypeInPasswd = md.digest(user.getPassword().getBytes());

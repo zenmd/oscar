@@ -14,6 +14,14 @@ public class HomeAction extends BaseAction {
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
     		super.setMenu(request,KeyConstants.MENU_HOME);
+    		if ("yes".equals(oscar.OscarProperties.getInstance().getProperty("ldap_authentication")))
+    		{
+    			request.setAttribute("changePassword","N");
+    		}
+    		else
+    		{
+    			request.setAttribute("changePassword", "Y");
+    		}
     		return mapping.findForward("home");
     	}
     	catch(NoAccessException e)

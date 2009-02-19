@@ -6,7 +6,7 @@ String _appPath = request.getContextPath();
 %>
 <style type="text/css">
   li { 
-  		list-style-image: url(/QuatroShelter/images/smallhouse-red.gif);
+  		list-style-image: url(<%=_appPath %>/images/smallhouse-red.gif);
   		list-style-type: circle;
   		list-style-position: outside
   		}
@@ -40,7 +40,7 @@ String _appPath = request.getContextPath();
 		<td colspan="3">
 			<ul>
 				<logic:iterate id="shelter" name="shelters">
-					<li>&nbsp;<a  href='/QuatroShelter/shelterSelection.do?method=select&shelterId=<c:out value="${shelter.code}"/>' >    
+					<li>&nbsp;<a  href='<%=_appPath %>/shelterSelection.do?method=select&shelterId=<c:out value="${shelter.code}"/>' >    
 					<c:out value="${shelter.description}"></c:out></a></li>
 				</logic:iterate>
 			</ul>

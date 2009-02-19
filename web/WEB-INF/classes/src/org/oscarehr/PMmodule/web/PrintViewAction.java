@@ -22,9 +22,12 @@ import oscar.OscarProperties;
 import com.crystaldecisions.report.web.viewer.CrPrintMode;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
 import com.crystaldecisions.report.web.viewer.ReportExportControl;
+import com.crystaldecisions.reports.sdk.DatabaseController;
 import com.crystaldecisions.reports.sdk.ReportClientDocument;
 import com.crystaldecisions.sdk.occa.report.data.ConnectionInfo;
 import com.crystaldecisions.sdk.occa.report.data.ConnectionInfos;
+import com.crystaldecisions.sdk.occa.report.data.IDatabase;
+import com.crystaldecisions.sdk.occa.report.data.Table;
 import com.crystaldecisions.sdk.occa.report.data.Fields;
 import com.crystaldecisions.sdk.occa.report.data.IConnectionInfo;
 import com.crystaldecisions.sdk.occa.report.data.ParameterField;
@@ -32,6 +35,7 @@ import com.crystaldecisions.sdk.occa.report.data.ParameterFieldDiscreteValue;
 import com.crystaldecisions.sdk.occa.report.data.Values;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ExportOptions;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
+import com.crystaldecisions.sdk.occa.report.lib.PropertyBag;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKException;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKExceptionBase;
 import com.crystaldecisions.sdk.occa.report.reportsource.IReportSource;
@@ -84,6 +88,21 @@ public class PrintViewAction extends BaseClientAction {
         	path=path.substring(1);
         }
         reportDocument1.open(path,0);
+        OscarProperties opObj = OscarProperties.getInstance();
+        DatabaseController dbc = reportDocument1.getDatabaseController();
+        Table tbl = (Table)dbc.getDatabase().getTables().elementAt(0);
+        PropertyBag pb1 = (PropertyBag) tbl.getConnectionInfo().getAttributes().clone(); 
+        pb1.put("Server Name","SMISCL");
+       
+        Table tb2 = (Table) tbl.clone(true);
+        ConnectionInfos connInfos = new ConnectionInfos();
+        ConnectionInfo connInfo1 = new ConnectionInfo();
+        connInfo1.setUserName(opObj.getDbUserName());
+        connInfo1.setPassword(opObj.getDbPassword());
+        connInfo1.setAttributes(pb1);
+        tb2.setConnectionInfo(connInfo1);
+        
+        dbc.setTableLocation(tbl,tb2);
         
         IReportSource reportSource = (IReportSource)reportDocument1.getReportSource();
         
@@ -99,11 +118,6 @@ public class PrintViewAction extends BaseClientAction {
         numberParamField.setCurrentValues(numberValues);
         parameterFields.add(numberParamField);
         
-        ConnectionInfos connInfos = new ConnectionInfos();
-        ConnectionInfo connInfo1 = new ConnectionInfo();   
-        OscarProperties opObj = OscarProperties.getInstance();
-        connInfo1.setUserName(opObj.getDbUserName());
-        connInfo1.setPassword(opObj.getDbPassword());
        // reportDocument1.getDatabaseController().setDataSource(arg0, arg1, arg2)
         connInfos.add(connInfo1);
         ExportOptions oExportOptions = new ExportOptions();
