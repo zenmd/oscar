@@ -3,7 +3,7 @@ package com.quatro.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-
+import java.util.Calendar;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -57,7 +57,9 @@ public class TopazSaveAction extends BaseClientAction {
 		   }
 		   else
 			   throw new NoAccessException();
-
+	       String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
+	       tobj.setProviderNo(providerNo);
+	       tobj.setLastUpdateDate(Calendar.getInstance());	
     	   topazManager.saveTopazValue(tobj);
 		   msg = "confirmed:Saved Successfully";
        }
