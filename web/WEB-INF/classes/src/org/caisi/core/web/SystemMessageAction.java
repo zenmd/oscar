@@ -151,7 +151,8 @@ public class SystemMessageAction extends BaseAdminAction {
 		}
 		catch(NoAccessException e)
 		{
-			return mapping.findForward("failure");
+			return mapping.findForward("view");
+			//return mapping.findForward("failure");
 		}
 	}
 

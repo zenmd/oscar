@@ -195,7 +195,7 @@ response.setHeader("Cache-Control", "max-age=60");
 									<th>&nbsp;</th>
 								</tr>
 
-
+								<c:if test="${'Y' eq changePassword}">
 								<tr>
 									<th></th>
 									<th style="vertical-align: middle"><a href="<%=_appPath%>/PMmodule/Admin/UserManager.do?method=changePassword"><img src="<%=_appPath%>/images/Password.gif" height="60" width="60" border="0" onclick="lnkResource1_Click"></a></th>
@@ -215,6 +215,7 @@ response.setHeader("Cache-Control", "max-age=60");
 									<th align="left" valign="middle"></th>
 									<th>&nbsp;</th>
 								</tr>
+								</c:if>
 								<!-- Jim added end -->
 
 							</table>

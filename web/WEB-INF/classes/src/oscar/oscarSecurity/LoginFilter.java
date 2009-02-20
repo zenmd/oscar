@@ -41,7 +41,7 @@ import net.sf.cookierevolver.CRFactory;
  */
 public class LoginFilter implements Filter {
 
-	private static final String[] EXEMPT_URLS = { "/images/", "/lab/CMLlabUpload.do", "/lab/newLabUpload.do", "/lab/CA/ON/uploadComplete.jsp" };
+	private static final String[] EXEMPT_URLS = { "/images/","/login.do","/index.jsp","/login.jsp"};
 
 	/*
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -63,10 +63,11 @@ public class LoginFilter implements Filter {
 				String contextPath = httpRequest.getContextPath();
 
 				/*
-				 * If the requested resource is npt exempt then redirect to the logout page.
+				 * If the requested resource is not exempt then redirect to the logout page.
 				 */
-				if (!inListOfExemptions(requestURI, contextPath) && requestURI.indexOf("/", contextPath.length() + 1) > 0) {
-					httpResponse.sendRedirect(contextPath + "/logout.jsp");
+//				if (!inListOfExemptions(requestURI, contextPath) && requestURI.indexOf("/", contextPath.length() + 1) > 0) {
+				if (!inListOfExemptions(requestURI, contextPath)) {
+					httpResponse.sendRedirect(contextPath + "/login.do?method=logout&requri=" + requestURI);
 					return;
 				}
 			}

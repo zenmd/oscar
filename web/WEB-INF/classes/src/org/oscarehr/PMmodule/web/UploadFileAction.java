@@ -68,6 +68,7 @@ public class UploadFileAction extends BaseClientAction {
 	          actionParam.put("clientId", clientId); 
 	         }
 		     request.setAttribute("actionParam", actionParam);
+		     request.setAttribute("clientId", clientId);
 			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		     
 			 Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);

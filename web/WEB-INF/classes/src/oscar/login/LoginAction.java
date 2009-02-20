@@ -167,17 +167,22 @@ public final class LoginAction extends BaseAction {
     }
     public ActionForward logout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-    	 HttpSession session = request.getSession(); 
-    	  if( session != null) {
+    	 HttpSession session = request.getSession(false);
+	     String ip = request.getRemoteAddr();
+    	 if( session != null) {
     		    Object user = session.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
     		    if (user != null) {
-    		      String ip = request.getRemoteAddr();
     			  LogAction.addLog((String)user,(String)user, LogConst.LOGOUT, LogConst.CON_LOGIN, "", ip);
     		      session.invalidate();
     		      request.getSession();
     		    }
-    	  }
-    	
+    		    else
+    		    {
+    		    	if(request.getParameter("requri") != null) {
+    		    		LogAction.addLog("Unknown","0", LogConst.LOGOUT, request.getParameter("requri"), "", ip);
+    		    	}
+    		    }
+    	}
     	LoginForm loginForm = (LoginForm) form;
     	loginForm.setUsername("");
     	return mapping.findForward("logout");

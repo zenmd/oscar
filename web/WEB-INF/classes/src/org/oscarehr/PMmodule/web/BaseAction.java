@@ -51,6 +51,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
 
+import ca.uhn.hl7v2.Log;
+
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 import com.quatro.service.security.SecurityManager;
@@ -134,8 +136,10 @@ public abstract class BaseAction extends DispatchAction {
 
 	protected SecurityManager getSecurityManager(HttpServletRequest request)
 	{
-		return (SecurityManager) request.getSession()
-		.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+		HttpSession session = request.getSession();
+		SecurityManager secMgr =  (SecurityManager) 
+		session.getAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER);
+		return secMgr;
 	}
 	protected String getParameter(HttpServletRequest request,
 			String parameterName) {

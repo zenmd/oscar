@@ -900,6 +900,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
            List lst=admissionManager.getCurrentAdmissions(admission.getClientId(),KeyConstants.SYSTEM_USER_PROVIDER_NO,null);
            for(int j = 0; j<lst.size(); j++) {
             	 Admission admObj = (Admission) lst.get(j);
+            	 if(admObj.getId().intValue()==admission.getId().intValue()) continue;
       		   	 admObj.setAdmissionStatus(KeyConstants.INTAKE_STATUS_DISCHARGED);
     		     admObj.setDischargeDate(Calendar.getInstance());
     		     admObj.setLastUpdateDate(new GregorianCalendar());
