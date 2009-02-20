@@ -6,13 +6,15 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
-
+import java.util.Calendar;
 import org.hibernate.Hibernate;
 
 public class TopazValue implements Serializable{
 	  String moduleName;
 	  Integer recordId;
 	  byte[] signature;
+	  String providerNo;
+	  Calendar lastUpdateDate;
 	  
 	  public byte[] getSignature() {
 		return signature;
@@ -85,5 +87,21 @@ public class TopazValue implements Serializable{
 
 	public void setRecordId(Integer recordId) {
 		this.recordId = recordId;
+	}
+
+	public Calendar getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Calendar lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getProviderNo() {
+		return providerNo;
+	}
+
+	public void setProviderNo(String providerNo) {
+		this.providerNo = providerNo;
 	}
 }
