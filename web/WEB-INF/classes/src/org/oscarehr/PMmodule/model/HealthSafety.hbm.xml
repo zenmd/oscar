@@ -19,7 +19,10 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="HealthSafety" table="health_safety">
 		<id name="Id" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_healthsafety_id</param>
+			</generator>
+
 		</id>
 		<property column="demographic_no" length="11" name="demographicNo" />
 		<property name="message" />

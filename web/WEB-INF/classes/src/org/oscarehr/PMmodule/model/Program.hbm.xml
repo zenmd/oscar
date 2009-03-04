@@ -19,7 +19,10 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="Program" table="program">
 		<id column="program_id" name="id" type="integer" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_program_id</param>
+			</generator>
+
 		</id>
 		<property name="facilityId" column="facility_id" />
 		<property name="shelterId" column="shelter_id" />

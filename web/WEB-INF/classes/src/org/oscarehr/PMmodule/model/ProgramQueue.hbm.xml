@@ -19,7 +19,9 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="ProgramQueue" table="program_queue">
 		<id column="queue_id" name="Id" type="java.lang.Integer">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_programqueue_id</param>
+			</generator>
 		</id>
 		<property column="client_id" length="11" name="ClientId" not-null="true" type="java.lang.Integer" />
 		<property column="referral_date" length="19" name="ReferralDate" not-null="false" type="timestamp" />

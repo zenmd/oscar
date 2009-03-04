@@ -240,31 +240,36 @@ public abstract class BaseAction extends DispatchAction {
 		
 		String tokenP = (String) request.getParameter("token");
 		String methodName = name;
+		Calendar startDt = Calendar.getInstance();
+
 		if (methodName != null) methodName = methodName.toLowerCase();
-		if (tokenP != null && name!= null && (methodName.indexOf("save") >=0 || methodName.indexOf("login")>=0 || methodName.indexOf("change")>=0)) {
+		if (tokenP != null && !tokenP.equals("") && name!= null && (methodName.indexOf("save") >=0 || methodName.indexOf("login")>=0 || methodName.indexOf("hange")>=0)) {
 			String tokenS = (String) request.getSession().getAttribute("token"); 
 			if(Utility.isNotNullOrEmptyStr(tokenS)) {
-				if(!tokenS.equals(tokenP))   throw new Exception("Sorry this page cannot be displayed.");
+				if(!tokenS.equals(tokenP))   {
+			        log(0,request.getRequestURI() + "Sorry this page cannot be displayed. Token S:" + tokenS + "Token P:" + tokenP,name, 1, request);
+					request.setAttribute("message", "Sorry this page cannot be displayed");
+					return mapping.findForward("failure");
+				}
 			}
 		}
-	
-		Calendar startDt = Calendar.getInstance();
+
 		try {
 			ActionForward fwd =  super.dispatchMethod(mapping, form, request, response, name);
 			if(fwd != null && fwd.getName() != null && fwd.getName().equals("failure")) throw new NoAccessException();
 	        response.setHeader("Expires", "-1");
 	        response.setHeader("Cache-Control",
 	        	"must-revalidate, post-check=0, pre-check=0");
-	        response.setHeader("Pragma", "private");
+	        response.setHeader("Pragma", "no-cache");
 	        
 	        if (request.getAttribute("notoken") == null)
 	        {
-	        	request.getSession().setAttribute("token", String.valueOf(Calendar.getInstance().getTimeInMillis()));
+	        	request.getSession().setAttribute("token", request.getSession().getId() + String.valueOf(Calendar.getInstance().getTimeInMillis()));
 	        }
 	        // do a access log
 	        Calendar endDt = Calendar.getInstance();
 	        long timeSpan = endDt.getTimeInMillis() - startDt.getTimeInMillis();
-	        log(timeSpan,null,name, 1, request);
+	        log(timeSpan,request.getRequestURI(),name, 1, request);
 	        return fwd;
 		}
 		catch (NoAccessException ex)
@@ -272,6 +277,7 @@ public abstract class BaseAction extends DispatchAction {
 	        Calendar endDt = Calendar.getInstance();
 	        long timeSpan = endDt.getTimeInMillis()-startDt.getTimeInMillis();
 			log(timeSpan, ex.toString(),name,0, request);
+			request.setAttribute("message", "Access to the requested page has been denied due to insufficient privileges.");
 			return mapping.findForward("failure");
 		}
 	}

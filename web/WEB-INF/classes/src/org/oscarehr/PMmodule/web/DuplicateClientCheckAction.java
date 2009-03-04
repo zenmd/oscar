@@ -109,7 +109,7 @@ public class DuplicateClientCheckAction extends BaseClientAction {
     	   return new java.util.ArrayList();
        }
    }
-   public void setEditFields(HttpServletRequest request, DynaActionForm qform)
+   private void setEditFields(HttpServletRequest request, DynaActionForm qform)
    {
 	   List genders = lookupManager.LoadCodeList("GEN", true, null, null);
 	   LookupCodeValue obj3= new LookupCodeValue();

@@ -55,7 +55,7 @@
 	<tr><td align="center" class="message">
 		<c:choose>
 			<c:when test="${message == null}">
-				Access to the requested page has been denied due to insufficient privileges.
+				Sorry, an error has occurred, please try again or contact your administrator if the problem persists.
 			</c:when>
 			<c:otherwise>
 				<c:out escapeXml="false" value="${message}" />

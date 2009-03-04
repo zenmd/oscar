@@ -8,7 +8,9 @@
     <class name="com.quatro.model.security.SecProvider" table="PROVIDER">
         <id name="providerNo" type="java.lang.String">
             <column name="PROVIDER_NO" length="6" />
-            <generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_providerno</param>
+			</generator>
         </id>
         <property name="lastName" type="java.lang.String">
             <column name="LAST_NAME" length="30" />

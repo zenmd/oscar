@@ -20,7 +20,10 @@
 	<class name="ProgramClientRestriction" table="program_client_restriction">
 		<meta attribute="sync-DAO">false</meta>
 		<id name="id" type="integer" column="id" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_programrestriction_id</param>
+			</generator>
+
 		</id>
 		<property name="programId" column="program_id" type="integer" not-null="false" length="10" />
 		<property name="programDesc" formula="(select a.name from program a where a.program_id=program_id)"></property>

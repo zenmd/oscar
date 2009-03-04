@@ -435,7 +435,9 @@ public class QuatroReportViewerAction extends BaseAction {
 		    try{
 		    	reportManager.DownloadRptFile(path, _rptOption.getRptFileNo());
 		    }catch(Exception ex){
-	       	  	;
+	       	  	System.out.print(ex.getMessage());
+	       	  	System.out.print("loading rpt from " + path1);
+	       	  	System.out.print("download rpt to " + path);
 		    }
 	      
 		    try{

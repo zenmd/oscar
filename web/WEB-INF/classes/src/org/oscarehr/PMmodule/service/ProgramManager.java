@@ -22,6 +22,7 @@
 
 package org.oscarehr.PMmodule.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -41,6 +42,10 @@ import org.oscarehr.PMmodule.web.formbean.StaffForm;
 import com.quatro.dao.LookupDao;
 import com.quatro.dao.ORGDao;
 import com.quatro.dao.security.SecuserroleDao;
+import com.quatro.model.security.Secuserrole;
+
+import org.caisi.dao.TicklerDAO;
+import org.caisi.model.Tickler;
 
 public class ProgramManager {
 
@@ -54,7 +59,8 @@ public class ProgramManager {
     private LookupDao lookupDao;
     private SecuserroleDao secuserroleDao;
     private ORGDao orgDao;
-
+    private TicklerDAO ticklerDAO;
+    
     private boolean enabled;
 
     public boolean getEnabled() {
@@ -168,7 +174,29 @@ public class ProgramManager {
         orgDao.delete("P"+programId);
         programDao.removeProgram(Integer.valueOf(programId));
     }
-    
+    public void sendTask(Integer programId,Integer clientId, String msg)
+    {
+    	try {
+    		List staffs = this.getProgramProviders("P" + programId.toString(), true);
+    		for(int i = 0; i < staffs.size(); i++)
+    		{
+    			Secuserrole usr = (Secuserrole) staffs.get(i);
+    			Tickler tickler = new Tickler();
+    			tickler.setCreator("1111");
+    			tickler.setDemographic_no(clientId);
+    			tickler.setMessage(msg);
+    			tickler.setProgram_id(programId);
+    			tickler.setTask_assigned_to(usr.getProviderNo());
+    			tickler.setService_date(Calendar.getInstance().getTime());
+    			tickler.setStatus("Active");
+    			ticklerDAO.saveTickler(tickler);
+    		}
+    	}
+    	catch (Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    }
     public List getProgramProviders(String orgcd, boolean activeOnly) {
         return secuserroleDao.findByOrgcd(orgcd, activeOnly);
     }
@@ -286,5 +314,13 @@ public class ProgramManager {
 
 	public void setOrgDao(ORGDao orgDao) {
 		this.orgDao = orgDao;
+	}
+
+	public TicklerDAO getTicklerDAO() {
+		return ticklerDAO;
+	}
+
+	public void setTicklerDAO(TicklerDAO ticklerDAO) {
+		this.ticklerDAO = ticklerDAO;
 	}
 }

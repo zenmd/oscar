@@ -78,6 +78,7 @@ public class PrintBarcodeAction extends BaseClientAction {
             e.printStackTrace();
         }
 
+    	request.setAttribute("notoken", "Y");
         return actionMapping.findForward("success");
     }
 

@@ -20,7 +20,10 @@
     <class name="Facility" table="facility">
         <meta attribute="sync-DAO">false</meta>
         <id name="id" type="integer" column="id" unsaved-value="0">
-            <generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_facility_id</param>
+			</generator>
+
         </id>
         <property name="name" column="name" type="string" not-null="true" length="32" />
         <property name="description" column="description" type="string" not-null="true" length="70" />

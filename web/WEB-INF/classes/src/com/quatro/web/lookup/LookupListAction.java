@@ -54,9 +54,18 @@ public class LookupListAction extends BaseAdminAction {
 	}
 	
 	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
-		super.getAccess(request,KeyConstants.FUN_ADMIN_LOOKUP);
+		String tableId=request.getParameter("tableId");
+		if("PRP,SIT,LKT,QGV,RPG".indexOf(tableId)> 0) throw new NoAccessException();
+		if(tableId.equals("FUN"))
+			super.getAccess(request, KeyConstants.FUN_ADMIN_ROLE);
+		if(tableId.equals("ROL"))
+			super.getAccess(request,KeyConstants.FUN_ADMIN_USER);
+		if(tableId.equals("USR"))
+			super.getAccess(request, KeyConstants.FUN_PROGRAM_STAFF);
+		if(tableId.equals("CLN"))
+			super.getAccess(request, KeyConstants.FUN_CLIENT);
 		LookupListForm qform = (LookupListForm) form;
-        String tableId=request.getParameter("tableId");
+
         String parentCode =request.getParameter("parentCode");
         	if(Utility.IsEmpty(parentCode)) parentCode=qform.getParentCode();
 		List lst = lookupManager.LoadCodeList(tableId, true,parentCode, null, qform.getKeywordName());

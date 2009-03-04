@@ -54,7 +54,7 @@ public class LogAction {
         boolean ret = false;
         DBPreparedHandler db = new DBPreparedHandler();
         String sql = "insert into access_log (Id,provider_no,ACTIONCLASS,METHOD,QUERYSTRING,PROGRAMID,SHELTERID,CLIENTID,TIMESPAN,EXCEPTION,RESULT, SESSIONID)";
-        sql += " values(seq_log_id.nextval,'" + provider_no + "', '" + className + "','" + method + "'," ; 
+        sql += " values(seq_accesslog_id.nextval,'" + provider_no + "', '" + className + "','" + method + "'," ; 
         sql += "'" + queryStr + "'," + programId + "," + shelterId + "," + clientId + "," + String.valueOf(timeSpan) + ",'" + ex + "'," + result + ",'" + sessionId + "')";
         try {
             db.queryExecuteUpdate(sql);

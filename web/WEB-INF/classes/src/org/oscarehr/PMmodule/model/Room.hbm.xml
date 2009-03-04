@@ -20,7 +20,9 @@
 	<class name="Room" table="room">
 		<meta attribute="sync-DAO">false</meta>
 		<id name="id" type="integer" column="room_id" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_room_id</param>
+			</generator>
 		</id>
 		<property name="roomTypeId" column="room_type_id" type="integer" not-null="true" length="10" />
 		<property name="programId" column="program_id" type="integer" length="10" />

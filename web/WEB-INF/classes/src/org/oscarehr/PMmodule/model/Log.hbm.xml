@@ -19,7 +19,10 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="Log" table="pmm_log">
 		<id name="id" type="long">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_log_id</param>
+			</generator>
+
 		</id>
 		<property column="provider_no" name="ProviderNo" type="string" />
 		<property column="dateTime" name="DateTime" type="timestamp" />

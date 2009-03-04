@@ -5,7 +5,9 @@
 <hibernate-mapping>
     <class name="org.oscarehr.PMmodule.model.RoomDemographicHistorical" table="room_demographic_historical">
 		<id name="recordId" type="integer" column="recordid" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_roomdemographic_id</param>
+			</generator>
 		</id>
         <property name="roomId" type="integer">
                 <column name="room_id" />

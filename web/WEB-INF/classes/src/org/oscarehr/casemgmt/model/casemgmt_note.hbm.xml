@@ -19,7 +19,10 @@
 <hibernate-mapping>
 	<class name="org.oscarehr.casemgmt.model.CaseManagementNote" table="casemgmt_note">
 		<id name="id" column="note_id" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_note_id</param>
+			</generator>
+
 		</id>
 		<property name="update_date" type="java.util.Date" />  
         <property name="observation_date" type="java.util.Date" />  

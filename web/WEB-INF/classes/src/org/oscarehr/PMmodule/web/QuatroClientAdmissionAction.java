@@ -911,6 +911,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
               	 List lstFam = intakeManager.getClientFamilyByIntakeId(admObj.getIntakeId().toString());
               	 boolean isReferral=false;
               	 admissionManager.dischargeAdmission(admObj, isReferral, lstFam);
+              	 // programManager.sendTask(admObj.getProgramId(), admObj.getClientId(), "Client was auto-discharged");
              }
  	   }
  	   

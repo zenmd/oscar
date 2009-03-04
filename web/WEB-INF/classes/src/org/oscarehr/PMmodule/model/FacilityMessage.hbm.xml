@@ -19,7 +19,10 @@
 <hibernate-mapping>
 	<class name="org.oscarehr.PMmodule.model.FacilityMessage" table="facility_message">
 		<id name="id" column="id" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_facilitymessage_id</param>
+			</generator>
+
 		</id>
 		<property name="message" />
 		<property name="creation_date" column="creation_date" type="java.util.Date" />

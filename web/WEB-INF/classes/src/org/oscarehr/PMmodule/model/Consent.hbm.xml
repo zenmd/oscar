@@ -19,7 +19,10 @@
 <hibernate-mapping package="org.oscarehr.PMmodule.model">
 	<class name="Consent" table="consent">
 		<id column="id" length="11" name="Id" type="java.lang.Integer" unsaved-value="0">
-			<generator class="native" />
+			<generator class="sequence">
+   			 <param name="sequence">seq_consent_id</param>
+			</generator>
+
 		</id>
 		<property column="demographic_no" length="11" name="demographicNo" not-null="true" type="java.lang.Integer" />
 		<property column="provider_no" name="ProviderNo" not-null="true" type="java.lang.String" />

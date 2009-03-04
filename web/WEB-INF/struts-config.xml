@@ -230,7 +230,7 @@
     <global-forwards>
         <forward name="Logout" path="/logout.jsp" redirect="true" />
         <forward name="SessionTimeOut" path="/sessiontimeout.jsp" redirect="true" />
-        <forward name="failure" path="/failure.jsp" redirect="true" />
+        <forward name="failure" path="/failure.jsp" redirect="false" />
     </global-forwards>
 
     
