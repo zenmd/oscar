@@ -71,10 +71,12 @@ public class QuatroReportViewerAction extends BaseAction {
 		
 	    _rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 	    _rptOption = (ReportOptionValue)request.getSession(true).getAttribute(DataViews.REPORT_OPTION);
+	    /*
 	    if(request.getParameter("ini") == null) {
 	    	ViewReport(request,response);
 	    	return;
 	    }
+	    */
 	    try{
 			ReportTempValue rptTemp = _rptValue.getReportTemp();
 	        int reportNo = rptTemp.getReportNo();
