@@ -30,6 +30,7 @@ import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
@@ -42,6 +43,7 @@ public class MergeClientAction extends BaseAdminAction {
 	private ProgramManager programManager;
 
 	private LookupManager lookupManager;
+	private IntakeManager intakeManager;
 
 	private MergeClientManager mergeClientManager;
 
@@ -181,7 +183,7 @@ public class MergeClientAction extends BaseAdminAction {
 						"message.merge.errors.select", request.getContextPath()));
 				saveMessages(request, messages);
 				return mapping.findForward("view");
-			}
+			} 
 			boolean isSuccess = true;
 			request.setAttribute("mergeAction", KeyConstants.CLIENT_MODE_MERGE);
 			ArrayList records = new ArrayList(Arrays.asList(request
@@ -196,7 +198,7 @@ public class MergeClientAction extends BaseAdminAction {
 					if (!((String) records.get(i)).equals(head)){					
 						Integer mergeClientNo = Integer.valueOf((String) records.get(i));
 						Demographic mClient =clientManager.getClientByDemographicNo((String) records.get(i));
-						if(mClient.isActive()){
+						if(mClient.isActive() || intakeManager.findActiveQuatroIntakeDB(mergeClientNo, null) != null){
 							messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 									"message.merge.errors.active.client", request.getContextPath()));
 							saveMessages(request, messages);
@@ -321,4 +323,8 @@ public class MergeClientAction extends BaseAdminAction {
 	public void setMergeClientManager(MergeClientManager mergeClientManager) {
 		this.mergeClientManager = mergeClientManager;
 	}
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+
 }

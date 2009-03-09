@@ -454,6 +454,17 @@ public class QuatroReportViewerAction extends BaseAction {
 	      }catch(ReportSDKException ex){
 		      ReportSDKException ss=ex;
 	      }
+	      finally 
+	      {
+	    	  try {
+	    	    	if(reportDocument1 != null)
+	    	    		reportDocument1.close();  
+	    	  }
+	    	  catch(Exception ex)
+	    	  {
+	    		  ;
+	    	  }
+	      }
    }
         
 	private Fields getParameterFieldValues(ReportClientDocument reportDocument1, String loginId,String sessionId, String orgDis, String criteriaDis) throws ReportSDKException

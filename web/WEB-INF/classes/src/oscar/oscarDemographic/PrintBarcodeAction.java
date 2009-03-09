@@ -42,6 +42,8 @@ public class PrintBarcodeAction extends BaseClientAction {
     public ActionForward unspecified(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) throws NoAccessException {
         //patient
     	super.getAccess(request, KeyConstants.FUN_CLIENTPRINTLABEL, new Integer(0));
+    	request.setAttribute("notoken", "Y");
+    	
     	String classpath = (String)request.getSession().getServletContext().getAttribute("org.apache.catalina.jsp_classpath");
         if (classpath==null) classpath = (String)request.getSession().getServletContext().getAttribute("com.ibm.websphere.servlet.application.classpath");
         
@@ -62,13 +64,13 @@ public class PrintBarcodeAction extends BaseClientAction {
         }
 
         try {
+            response.setHeader("Content-disposition", getHeader(response).toString());
             sos = response.getOutputStream();
         }
         catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        response.setHeader("Content-disposition", getHeader(response).toString());
         OscarDocumentCreator osc = new OscarDocumentCreator();
         try {
 //            osc.fillDocumentStream( parameters, sos, "pdf", ins, DbConnectionFilter.getThreadLocalDbConnection());
@@ -77,9 +79,7 @@ public class PrintBarcodeAction extends BaseClientAction {
         catch (Exception e) {
             e.printStackTrace();
         }
-
-    	request.setAttribute("notoken", "Y");
-        return actionMapping.findForward("success");
+        return null; //actionMapping.findForward("success");
     }
 
     private StringBuffer getHeader(HttpServletResponse response) {

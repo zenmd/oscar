@@ -317,7 +317,8 @@ public abstract class BaseAction extends DispatchAction {
         {
             HashMap actionParam = (HashMap) request.getAttribute("actionParam");
             if(actionParam!=null){
-            	clientId = (String) actionParam.get("clientId"); 
+            	Object ccId = actionParam.get("clientId");
+            	if (ccId != null) clientId =  ccId.toString(); 
             }
         }
         oscar.log.LogAction.logAccess(providerNo, className, method, programId.toString(), shelterId.toString(), clientId, queryString, sessionId, timeSpan, ExName, result);

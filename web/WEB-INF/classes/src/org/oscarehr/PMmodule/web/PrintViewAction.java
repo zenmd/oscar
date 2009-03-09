@@ -139,6 +139,17 @@ public class PrintViewAction extends BaseClientAction {
     catch(Exception ex){
     	System.out.print(ex);
     }
+    finally
+    {
+    	try {
+    		if(reportDocument1 != null)
+    			reportDocument1.close();
+    	}
+    	catch(Exception ex)
+    	{
+    		;
+    	}
+    }
    }
 	public void setConsentManager(ConsentManager consentManager) {
 		this.consentManager = consentManager;

@@ -62,17 +62,24 @@ public class IntakeDao extends HibernateDaoSupport {
     	List result = getHibernateTemplate().find(sSQL);
 	    return result;
     }
-
 	public QuatroIntakeDB findActiveQuatroIntakeDB(Integer clientId, Integer programId) {
 		String clientIds=mergeClientDao.getMergedClientIds(clientId);
-		List result = getHibernateTemplate().find("from QuatroIntakeDB i where i.clientId in "+clientIds +
+		List result = null;
+		if (programId == null || programId.intValue() == 0) {
+			result = getHibernateTemplate().find("from QuatroIntakeDB i where i.clientId in "+clientIds +
+					" and i.intakeStatus='" + 
+					KeyConstants.INTAKE_STATUS_ACTIVE + "'");
+		}
+		else
+		{
+			result = getHibernateTemplate().find("from QuatroIntakeDB i where i.clientId in "+clientIds +
 					" and i.programId=? and i.intakeStatus='" + 
 					KeyConstants.INTAKE_STATUS_ACTIVE + "'", programId);
+		}
 		if(result.size()>0)
 		  return (QuatroIntakeDB)result.get(0);
 		else
 		  return null;
-		
 	}
 
 	public List getActiveIntakeByProgramByClient(Integer clientId, Integer programId) {
