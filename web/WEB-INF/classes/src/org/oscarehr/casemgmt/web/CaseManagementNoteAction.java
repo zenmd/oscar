@@ -494,7 +494,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		if (provider != null)
 			note.setProvider(provider);
 
-		WebApplicationContext ctx = this.getSpringContext();
 		String role = null;
 		Integer currentFacilityId = (Integer) request.getSession(true)
 				.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
