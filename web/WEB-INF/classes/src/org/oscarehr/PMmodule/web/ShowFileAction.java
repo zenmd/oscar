@@ -42,7 +42,9 @@ public class ShowFileAction extends BaseClientAction {
 		
 		AttachmentText attTextObj = uploadFileManager.getAttachmentText(recordId);
 		LookupCodeValue lcv = lookupManager.GetLookupCode("DTT", attObj.getFileType());
-		String contentType = lcv.getDescription();
+		String contentType = "Unknown";
+		if (lcv != null)
+			contentType = lcv.getDescription();
 
 		response.setContentType(contentType);
 		Integer len = new Integer(attTextObj.getAttData().length);

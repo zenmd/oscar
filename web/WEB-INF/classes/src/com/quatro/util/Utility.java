@@ -13,6 +13,8 @@ import java.util.TimeZone;
 
 import org.oscarehr.PMmodule.model.FieldDefinition;
 
+import oscar.OscarProperties;
+
 import com.quatro.common.KeyConstants;
 
 public class Utility {
@@ -76,15 +78,20 @@ public class Utility {
     	}
     	return isInt;
     }
-    // Convert dd/mm/yyyy d/m/yyyy to System format
-    public static Date GetSysDate(String pDate) // throws Exception
+    // Convert display date to System format
+    // date format 1 - yyyy/mm/dd
+    //             2 - dd/mm/yyyy
+    //             3 - mm/dd/yyyy
+    
+    public static Date GetSysDate(String pDate) throws Exception
     {
         Date date;
         String sTemp1, sTemp2;
+        String format = "YYYY/MM/DD";
         int day = 31;
         int month = 12;
         int year = 2999;
-     
+        
         if (IsEmpty(pDate)){
           try{
            	  return SetDate(year, month, day);
@@ -102,24 +109,47 @@ public class Utility {
             try
             {
                 int idx = pDate.indexOf(delim);
-                day = Integer.parseInt(pDate.substring(0, idx));
-
+                int dt1 = Integer.parseInt(pDate.substring(0, idx));
                 sTemp1 = pDate.substring(idx + 1);
                 idx = sTemp1.indexOf(delim);
-                month = Integer.parseInt(sTemp1.substring(0, idx))-1;
+                int dt2 = Integer.parseInt(sTemp1.substring(0, idx))-1;
 
                 sTemp2 = sTemp1.substring(idx + 1);
-                idx = sTemp2.indexOf(delim);
-                year = Integer.parseInt(sTemp2.substring(0, 4));
+                int dt3 = Integer.parseInt(sTemp2);
 
+                switch(OscarProperties.getInstance().getDateFormat())
+                {
+                	case 1:
+                		format = "YYYY/MM/DD";
+                		day = dt3;
+                		month = dt2;
+                		year = dt1;
+                		break;
+                	case 2:
+                		format = "DD/MM/YYYY";
+                		day = dt1;
+                		month = dt2;
+                		year = dt3;
+                		break;
+                	case 3:
+                		format="MM/DD/YYYYY";
+                		day = dt2;
+                		month = dt1;
+                		year = dt3;
+                		break;
+                	default:
+                		format = "YYYY/MM/DD";
+                		day = dt3;
+            			month = dt2;
+            			year = dt1;
+            			break;
+                }
                 date = SetDate(year, month, day);
-
                 return date;
             }
             catch(Exception ex)
             {
-            	return null;
-//                throw ex; //new Exception("Invalid Date - the input date is in wrong format or out of range");
+                throw new Exception("Invalid Date (" + format + ")");
             }
         }
     }
@@ -182,16 +212,21 @@ public class Utility {
     public static String FormatDate(Date pDate) //throws Exception
     {
         try{
+        	int dtFormat = OscarProperties.getInstance().getDateFormat();
+        	String format = "yyyy/MM/dd";
+        	if(dtFormat == 2) format = "dd/MM/yyyy";
+        	else if(dtFormat==3) format = "MM/dd/yyyy";
+        
     	if(pDate==null) return "";
 //    	if (pDate.getYear() < 1) pDate = Utility.SetDate(1,1,1);
         if (pDate.equals(Utility.SetDate(1,1,1))) return "";
         else{
 //            return pDate.ToString("dd/MM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo);
-   		   SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+   		   SimpleDateFormat formatter = new SimpleDateFormat(format);
    		   return formatter.format(pDate);
         }
         }catch(Exception ex){
-        	return null;
+        	return "";
         }
     }
     public static String getMergedClientQueryString(String tableAlias,String colName ){

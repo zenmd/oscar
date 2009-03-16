@@ -38,18 +38,14 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 //import org.oscarehr.PMmodule.service.RoleManager;
 //import org.oscarehr.PMmodule.service.SurveyManager;
-import org.oscarehr.casemgmt.model.CaseManagementNote;
 import org.oscarehr.casemgmt.model.ClientImage;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.caisi.service.TicklerManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
 import org.oscarehr.PMmodule.web.BaseClientAction;
-import com.quatro.util.*;
 
 public class BaseCaseManagementViewAction extends BaseClientAction {
 	
@@ -116,10 +112,6 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	protected String getDemoDOB(String demoNo){
 		if (demoNo==null) return "";
 		return caseManagementMgr.getDemoDOB(demoNo);
-	}
-
-	public ProviderManager getProviderManager() {
-		return (ProviderManager) getAppContext().getBean("providerManager");
 	}
 	
     protected int getProviderId(HttpServletRequest request){

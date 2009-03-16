@@ -180,4 +180,8 @@ public class OscarProperties extends Properties {
      public String getBuildDate(){
     	 return getProperty("builddate");
      }
+     public int getDateFormat()
+     {
+    	 return Integer.parseInt(getProperty("DATE_FORMAT"));
+     }
 }

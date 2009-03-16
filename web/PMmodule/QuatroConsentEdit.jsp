@@ -220,7 +220,7 @@
 													 The consent is valid for the period starting from 
 									: <jsp:useBean id="now" class="java.util.Date" /><fmt:formatDate pattern="yyyy/MM/dd hh:mm a" value="${now}" />
 												</td>
-												<td > To  &nbsp; &nbsp;</td>
+												<td > To*  &nbsp; &nbsp;</td>
 												<td > <quatro:datePickerTag property="consentValue.endDateStr" openerForm="consentDetailForm" width="150px"></quatro:datePickerTag></td>
 											</tr>
 										</table>

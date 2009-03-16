@@ -107,7 +107,7 @@
 
 		<table width="100%" class="edit">
 			<tr>
-				<td width="25%" >Discharge Disposition</td>
+				<td width="25%" >Discharge Disposition*</td>
 				<td width="75%">
 					<html:select	property="admission.communityProgramCode">
 					<html:option value=""></html:option>
@@ -116,7 +116,7 @@
 				</html:select></td>
 			</tr>
 			<tr>
-				<td width="25%">Discharge Reason</td>
+				<td width="25%">Discharge Reason*</td>
 				<td><html:select property="admission.dischargeReason">
 					<html:option value=""></html:option>
 					<html:options collection="lstDischargeReason" property="code"

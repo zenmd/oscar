@@ -17,23 +17,17 @@ import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
-import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.oscarehr.util.SpringUtils;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.apache.log4j.Logger;
 
 import oscar.util.UtilDateUtilities;
 
-import com.quatro.service.LookupManager;
-import com.quatro.model.LookupCodeValue;
-import java.util.List;
 
 import com.quatro.model.security.*;
-import com.quatro.service.security.*;
 
 public class LoginCheckLogin {
 //    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
@@ -46,8 +40,8 @@ public class LoginCheckLogin {
 
     boolean propFileFound = true;
     
-    private static final Logger _logger = Logger.getLogger(LoginCheckLogin.class);
-    private static final String LOG_PRE = "Login!@#$: ";
+    // private static final Logger _logger = Logger.getLogger(LoginCheckLogin.class);
+    // private static final String LOG_PRE = "Login!@#$: ";
 
     public LoginCheckLogin() {
     }
@@ -148,7 +142,7 @@ public class LoginCheckLogin {
 	}
 	private com.quatro.model.security.Security getUser(String username,
 			ApplicationContext appContext) throws SQLException {
-		com.quatro.service.security.UsersManager um = (com.quatro.service.security.UsersManager) appContext
+		com.quatro.service.security.UsersManager um = (com.quatro.service.security.UsersManager) SpringUtils
 				.getBean("usersManager");
 		Security dbUser = um.getUser(username);
 		if (dbUser == null)

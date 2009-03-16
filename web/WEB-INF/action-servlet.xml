@@ -45,7 +45,6 @@
     <bean name="/PMmodule/QuatroProgramSearch" class="org.oscarehr.PMmodule.web.QuatroProgramSearchAction" singleton="false" autowire="byName">
     </bean>
     <bean name="/PMmodule/PrintView" class="org.oscarehr.PMmodule.web.PrintViewAction" singleton="false" autowire="byName">
-    	<property name="consentManager" ref="consentManager"></property>
     </bean>
 	<bean name="/demographic/printBarcodeAction" class="oscar.oscarDemographic.PrintBarcodeAction" singleton="false" autowire="byName" />
     <bean name="/PMmodule/QuatroRefer" class="org.oscarehr.PMmodule.web.QuatroClientReferAction" singleton="false" autowire="byName">
@@ -78,9 +77,9 @@
     </bean>
  
     <!-- Quatro Shelter Report -->
-    <bean name="/QuatroReport/ReportList" class="com.quatro.web.report.QuatroReportListAction" singleton="false">
+    <bean name="/QuatroReport/ReportList" class="com.quatro.web.report.QuatroReportListAction" singleton="false"  autowire="byName">
     </bean>
-    <bean name="/QuatroReport/ReportRunner" class="com.quatro.web.report.QuatroReportRunnerAction" singleton="false" />
+    <bean name="/QuatroReport/ReportRunner" class="com.quatro.web.report.QuatroReportRunnerAction" singleton="false"  autowire="byName"/>
 	<bean name="/QuatroReport/ReportViewer" class= "com.quatro.web.report.QuatroReportViewerAction" singleton="false" autowire="byName" />
 	<bean name="/QuatroReport/SaveReportTemplate" class="com.quatro.web.report.QuatroReportTemplateAction" singleton="false" autowire="byName" />
     <bean name="/Lookup/LookupList" class="com.quatro.web.lookup.LookupListAction" singleton="false">

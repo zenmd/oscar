@@ -736,8 +736,12 @@ public class LookupDao extends HibernateDaoSupport {
 	public void runProcedure(String procName, String [] params) throws SQLException
 	{
 		DBPreparedHandler db = new DBPreparedHandler();
-		db.procExecute(procName, params);
-		db.closeConn();
+		try {
+			db.procExecute(procName, params);
+		}
+		finally{
+			db.closeConn();
+		}
 	}
 	
 	public int getCountOfActiveClient(String orgCd) throws SQLException{

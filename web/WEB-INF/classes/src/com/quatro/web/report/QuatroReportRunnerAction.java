@@ -16,7 +16,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.web.admin.BaseAdminAction;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.MyDateFormat;
 
@@ -38,9 +37,13 @@ import com.quatro.util.Utility;
 
 public class QuatroReportRunnerAction extends BaseAdminAction {
 	private LookupManager lookupManager;
+	private QuatroReportManager reportManager;
 	
 	public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
+	}
+	public void setQuatroReportManager(QuatroReportManager reportManager) {
+		this.reportManager = reportManager;
 	}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
@@ -166,8 +169,6 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		
 		ArrayList cris = (ArrayList) request.getSession(true).getAttribute(DataViews.REPORT_CRI);
 		Map map=request.getParameterMap();
-		QuatroReportManager rpt = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
 	    for(int i=0;i<cris.size();i++)
 	    {
           if(map.get("p" + i)!=null) continue;
@@ -205,7 +206,7 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 			rptCri.setFilter(rptFilterVal);
 			return;
 		}
-		rptFilterVal = rpt.GetFilterField(reportNo, rptCri.getFieldNo());
+		rptFilterVal = reportManager.GetFilterField(reportNo, rptCri.getFieldNo());
 		rptCri.setOperatorList(GetOperatorList(rptFilterVal.getOp()));
 		rptCri.setFilter(rptFilterVal);
 
@@ -303,8 +304,6 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		ReportValue rptVal=null;
         checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		
-	    QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-	        		getServlet().getServletContext()).getBean("quatroReportManager");
 
 	    rptVal = reportManager.GetReport(reportNo,templateNo, loginId);
 	    if(rptVal == null) throw new NoAccessException();
@@ -331,8 +330,6 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 	{
         /* make sure user has access to this report */
 		super.getAccess(request, KeyConstants.FUN_REPORTS, right);
-		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
 		String loginId = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO); 
         ReportValue rptVal = reportManager.GetReport(reportNo,loginId);
 	    if(rptVal == null) throw new NoAccessException();
@@ -342,8 +339,6 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
         checkAccess(request, reportNo,KeyConstants.ACCESS_READ);
 		ReportValue rptVal=null;
 		
-	    QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-	        		getServlet().getServletContext()).getBean("quatroReportManager");
 		if(refreshFromDB==true){
 		   rptVal = reportManager.GetReport(reportNo, loginId);
 		   request.getSession(true).setAttribute(DataViews.REPORTTPL, "0");
@@ -674,8 +669,6 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
         if (criterias == null || criterias.size() == 0) return "";
 
         ReportTempCriValue rptCri = (ReportTempCriValue)criterias.get(0);
-	    QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
 
         String criteriaSQL = "(";
         criteriaDis = "(\n";
@@ -819,8 +812,6 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		
 		int iReportNo = Integer.parseInt(myForm.getReportNo());
 
-		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
 
 		switch(operationType)
 		{

@@ -2,15 +2,10 @@ package com.quatro.service.security;
 import java.util.*;
 
 import com.quatro.service.LookupManager;
-import com.quatro.util.*;
-import org.apache.batik.dom.util.HashTable;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
 
 import com.quatro.dao.security.UserAccessDao;
-import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.*;
 public class UserAccessManager
 {

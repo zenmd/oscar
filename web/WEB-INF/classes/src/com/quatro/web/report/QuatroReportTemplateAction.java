@@ -10,7 +10,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.PMmodule.web.BaseAction;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.model.DataViews;
 import com.quatro.model.ReportTempValue;
@@ -21,9 +20,15 @@ import com.quatro.util.Utility;
 
 
 public class QuatroReportTemplateAction extends BaseAction {
+
+	private QuatroReportManager reportManager;
+	public void setQuatroReportManager(QuatroReportManager reportManager) {
+		this.reportManager = reportManager;
+	}
+	
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
 		QuatroReportSaveTemplateForm myForm = (QuatroReportSaveTemplateForm)form;
 
 		String param=(String)request.getSession(true).getAttribute(DataViews.REPORTTPL);
@@ -49,8 +54,6 @@ public class QuatroReportTemplateAction extends BaseAction {
 	{
 		ReportValue rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 		if(rptValue == null) throw new NoAccessException();
-		QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
 
 		ReportTempValue temp = rptValue.getReportTemp();
 		

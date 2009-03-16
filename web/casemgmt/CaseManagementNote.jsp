@@ -346,7 +346,7 @@ var XMLHttpRequestObject = false;
 	</table>		
 	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
-			<th style="width:40%">Case Status</th>
+			<th style="width:40%">Case Status*</th>
 			<td><html-el:select property="caseNote.caseStatusId">
 				<html-el:option value=""></html-el:option>
 				<html-el:options collection="lstCaseStatus" property="code"
@@ -357,7 +357,7 @@ var XMLHttpRequestObject = false;
 	</table>
 	<table cellpadding="3" cellspacing="0" border="0" width="80%">
 		<tr>
-			<th style="width:40%">Program</th>
+			<th style="width:40%">Program*</th>
 			<td><html-el:select property="caseNote.program_no">
 				<html-el:option value=""></html-el:option>
 				<html-el:options collection="lstProgram" property="code"
@@ -368,7 +368,7 @@ var XMLHttpRequestObject = false;
 	</table>
 	<table width="90%" border="0" cellpadding="0" cellspacing="1">
 	<tr>
-			<th>Components of Service</th>
+			<th>Components of Service*</th>
 		</tr>
 		<tr>
 			<td width="60%"><html-el:select property="lstIssue" multiple="true" size="3"	 style="width:100%;">
@@ -437,7 +437,7 @@ var XMLHttpRequestObject = false;
   </table>
   <table width="90%">
 		<tr>
-			<td class="fieldTitle" width="40%">Encounter Type</td>
+			<td class="fieldTitle" width="40%">Encounter Type*</td>
 			<td class="fieldValue">
 			<html-el:select property="caseNote.encounter_type">
 				<html-el:option value=""></html-el:option>

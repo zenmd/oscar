@@ -34,8 +34,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.actions.DispatchAction;
-import org.caisi.service.IssueAdminManager;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ClientManager;
@@ -46,9 +44,6 @@ import org.oscarehr.casemgmt.model.CaseManagementIssue;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
 import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.service.LookupManager;
@@ -180,9 +175,6 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		return ret;
 	}
 	
-	protected WebApplicationContext getSpringContext() {
-		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
-	}
 	
 	/* remove related issue list from note */
 	protected String removeCurrentIssue(String noteString) {

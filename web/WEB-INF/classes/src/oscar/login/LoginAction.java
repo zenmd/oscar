@@ -14,15 +14,11 @@
 package oscar.login;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Hashtable;
-import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.annotation.XmlElementDecl.GLOBAL;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -30,27 +26,19 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.apache.struts.actions.DispatchAction;
-import org.oscarehr.PMmodule.dao.FacilityDAO;
-import org.oscarehr.PMmodule.model.Facility;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.web.BaseAction;
-import org.oscarehr.util.SpringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
 import oscar.log.LogAction;
 import oscar.log.LogConst;
-import oscar.oscarDB.DBPreparedHandler;
 import oscar.util.UtilDateUtilities;
 
-import com.quatro.model.LookupCodeValue;
-import com.quatro.service.LookupManager;
-import com.quatro.service.security.*;
 import com.quatro.model.security.*;
-import com.quatro.service.security.SecurityManager;
+import com.quatro.service.LookupManager;
 import com.quatro.common.KeyConstants;
 
 public final class LoginAction extends BaseAction {
@@ -58,10 +46,8 @@ public final class LoginAction extends BaseAction {
     private static final String LOG_PRE = "Login!@#$: ";
 
 //    private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
-//    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
-
+    private LookupManager lookupManager; // = (LookupManager) SpringUtils.getBean("lookupManager");
     private ProviderManager providerManager;
-    private LookupManager lookupManager;
     
     public ActionForward login(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	OscarProperties props = OscarProperties.getInstance();
@@ -191,11 +177,11 @@ public final class LoginAction extends BaseAction {
 		return WebApplicationContextUtils.getWebApplicationContext(getServlet().getServletContext());
 	}
 
-	public void setLookupManager(LookupManager lookupManager) {
-		this.lookupManager = lookupManager;
-	}
-
 	public void setProviderManager(ProviderManager providerManager) {
 		this.providerManager = providerManager;
+	}
+
+	public void setLookupManager(LookupManager lookupManager) {
+		this.lookupManager = lookupManager;
 	}
 }

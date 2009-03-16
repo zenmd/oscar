@@ -1,11 +1,5 @@
 package org.oscarehr.PMmodule.web;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
-import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,20 +7,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ConsentManager;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
 
-import com.crystaldecisions.report.web.viewer.CrPrintMode;
-import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
 import com.crystaldecisions.report.web.viewer.ReportExportControl;
 import com.crystaldecisions.reports.sdk.ReportClientDocument;
 import com.crystaldecisions.sdk.occa.report.data.ConnectionInfo;
 import com.crystaldecisions.sdk.occa.report.data.ConnectionInfos;
 import com.crystaldecisions.sdk.occa.report.data.Fields;
-import com.crystaldecisions.sdk.occa.report.data.IConnectionInfo;
 import com.crystaldecisions.sdk.occa.report.data.ParameterField;
 import com.crystaldecisions.sdk.occa.report.data.ParameterFieldDiscreteValue;
 import com.crystaldecisions.sdk.occa.report.data.Values;
@@ -38,11 +27,8 @@ import com.crystaldecisions.sdk.occa.report.reportsource.IReportSource;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.ReportOptionValue;
 import com.quatro.model.ReportValue;
-import com.quatro.service.QuatroReportManager;
-import com.quatro.util.Utility;
 
 public class PrintViewAction extends BaseClientAction {
-	private ConsentManager consentManager;
 	
 	ReportValue _rptValue;
     ReportOptionValue _rptOption;
@@ -151,7 +137,4 @@ public class PrintViewAction extends BaseClientAction {
     	}
     }
    }
-	public void setConsentManager(ConsentManager consentManager) {
-		this.consentManager = consentManager;
-	}
  }

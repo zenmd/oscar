@@ -8,40 +8,27 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.engine.xml.JRPenFactory.Top;
-
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessages;
+import org.apache.struts.action.ActionMessage;
 import org.oscarehr.PMmodule.web.BaseAction;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import oscar.OscarProperties;
 
-import cdsDt.ReportFormat;
-
-import com.crystaldecisions.report.web.viewer.CrPrintMode;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
-import com.crystaldecisions.reports.sdk.PrintOutputController;
 import com.crystaldecisions.reports.sdk.ReportClientDocument;
-import com.crystaldecisions.sdk.occa.report.application.DataDefController;
-import com.crystaldecisions.sdk.occa.report.data.ConnectionInfo;
-import com.crystaldecisions.sdk.occa.report.data.ConnectionInfos;
 import com.crystaldecisions.sdk.occa.report.data.Fields;
 import com.crystaldecisions.sdk.occa.report.data.ParameterField;
 import com.crystaldecisions.sdk.occa.report.data.ParameterFieldDiscreteValue;
 import com.crystaldecisions.sdk.occa.report.data.Values;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKException;
+import com.crystaldecisions.sdk.occa.report.lib.ReportSDKExceptionBase;
 import com.crystaldecisions.sdk.occa.report.reportsource.IReportSource;
 import com.quatro.common.KeyConstants;
 import com.crystaldecisions.report.web.viewer.ReportExportControl;
-import com.crystaldecisions.reports.reportengineinterface.JPEReportSourceFactory;
-import com.crystaldecisions.sdk.occa.report.reportsource.IReportSourceFactory2;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ExportOptions;
-import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
-import com.crystaldecisions.sdk.occa.report.exportoptions.RTFWordExportFormatOptions;
 import com.crystaldecisions.sdk.occa.report.exportoptions.TextExportFormatOptions;
 
 import com.quatro.model.DataViews;
@@ -57,18 +44,33 @@ import com.quatro.util.Utility;
 public class QuatroReportViewerAction extends BaseAction {
 	ReportValue _rptValue;
     ReportOptionValue _rptOption;
+    private QuatroReportManager reportManager;
+	public void setQuatroReportManager(QuatroReportManager reportManager) {
+		this.reportManager = reportManager;
+	}
+
 //	protected CrystalDecisions.CrystalReports.Engine.ReportDocument reportDocument1;
     String _dateRangeDis = "";
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-			
+			HttpServletRequest request, HttpServletResponse response)  
+	{
 		QuatroReportRunnerForm myForm = (QuatroReportRunnerForm)form;
-		Refresh(myForm, request, response);
-		return null;
+		try {
+			Refresh(myForm, request, response);
+			return null;
+		}
+		catch(Exception e)
+		{
+			ActionMessages messages = new ActionMessages();
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"errors.viewer.report", request.getContextPath(), e.getMessage()));
+			saveMessages(request, messages);
+			return mapping.findForward("error");
+		}
 	}
 	
-	protected void Refresh(QuatroReportRunnerForm myForm, HttpServletRequest request, HttpServletResponse response){
-		
+	protected void Refresh(QuatroReportRunnerForm myForm, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
 	    _rptValue = (ReportValue)request.getSession(true).getAttribute(DataViews.REPORT);
 	    _rptOption = (ReportOptionValue)request.getSession(true).getAttribute(DataViews.REPORT_OPTION);
 	    /*
@@ -138,17 +140,15 @@ public class QuatroReportViewerAction extends BaseAction {
 			
 			//4. Build criteria string
 			
-			QuatroReportManager qrManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-	        		getServlet().getServletContext()).getBean("quatroReportManager");
 			String dateSql = "";
 			if ("D".equals(_rptValue.getDatePart())){
 				dateSql = getDateSql(startDate, endDate);
-				qrManager.SetReportDate(request.getSession(true).getId(), startDate, endDate);
+				reportManager.SetReportDate(request.getSession(true).getId(), startDate, endDate);
 			}
 			else
 			{
 				dateSql = getDateSql(startPayPeriod, endPayPeriod);
-				qrManager.SetReportDate(request.getSession(true).getId(), startPayPeriod, endPayPeriod);
+				reportManager.SetReportDate(request.getSession(true).getId(), startPayPeriod, endPayPeriod);
 			}
 			criteria = appendCriteria("AND", dateSql,criteria);
 			
@@ -164,7 +164,7 @@ public class QuatroReportViewerAction extends BaseAction {
 			PaintReport(request, response, criteria, orgDis, criteriaDis);
 
 	    }catch(Exception e){
-			System.out.println("Validation Error Detected:<BR>" + e.toString());
+	    	throw e;
 		}
 
 	}
@@ -217,7 +217,7 @@ public class QuatroReportViewerAction extends BaseAction {
         return orgStr;
     }
 
-    private ArrayList ConstructCriteriaStringCrystal(int reportNo,  String criteriaDis)
+    private ArrayList ConstructCriteriaStringCrystal(int reportNo,  String criteriaDis) throws Exception
     {
         ReportTempValue rptTemp = _rptValue.getReportTemp();
         if(rptTemp==null) return null;
@@ -228,11 +228,9 @@ public class QuatroReportViewerAction extends BaseAction {
         String r_criteriaDis = "";
         
         ReportTempCriValue rptCri = (ReportTempCriValue)criterias.get(0);
-		QuatroReportManager qrManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-        		getServlet().getServletContext()).getBean("quatroReportManager");
 
         String criteriaSQL = "(";
-        r_criteriaDis="(\n";
+        r_criteriaDis="(\n"; 
 
         String err = "";
         for (int i = 0; i < criterias.size(); i++)
@@ -278,7 +276,7 @@ public class QuatroReportViewerAction extends BaseAction {
                 {
                     err += "Missing Values at line " + String.valueOf(i + 1) + "<br>";
                 }
-                ReportFilterValue filter = qrManager.GetFilterField(reportNo, fieldNo);
+                ReportFilterValue filter = reportManager.GetFilterField(reportNo, fieldNo);
                 String FieldType = filter.getFieldType();
                 if ("S".equals(FieldType)) {
                 	criteriaSQL += "UpperCase({" + tableName + filter.getFieldSQL() + "})";
@@ -295,8 +293,14 @@ public class QuatroReportViewerAction extends BaseAction {
 
                 if ("IN".equals(op))
                 {
+                	try {
                     criteriaSQL += GetValueListCrystal(val, FieldType);
                     r_criteriaDis += "(" + val + ")";
+                	}
+                	catch(Exception ex)
+                	{
+                        err += ex.getMessage() + " at line " + String.valueOf(i + 1) + "<br>";
+                	}
                 }
                 else if ("LIKE".equals(op))
                 {
@@ -307,20 +311,27 @@ public class QuatroReportViewerAction extends BaseAction {
                 {
                     if ("D".equals(FieldType))
                     {
-                        Date dateValue;
+                        Date dateValue = Calendar.getInstance().getTime();
                         if ("TODAY".equals(val))
                         {
                             dateValue = new Date();
                         }
                         else
                         {
-                        dateValue = Utility.GetSysDate(val);
+                        	try {
+                        		dateValue = Utility.GetSysDate(val);
+                        	}
+                        	catch (Exception ex)
+                        	{
+                                err += ex.getMessage() + " at line " + String.valueOf(i + 1) + "<br>";
+                        	}
+                        	
                         }
                     	Calendar c1 = Calendar.getInstance();
                     	c1.setTime(dateValue);
                     	criteriaSQL += "CDATE(" + String.valueOf(c1.get(Calendar.YEAR)) + "," + String.valueOf(c1.get(Calendar.MONTH)+1) + "," + c1.get(Calendar.DAY_OF_MONTH) + ")";
 
-                        r_criteriaDis += dateValue.toString();
+                        r_criteriaDis += Utility.FormatDate(dateValue);
                     }
                     else if ("S".equals(FieldType))
                     {
@@ -359,7 +370,7 @@ public class QuatroReportViewerAction extends BaseAction {
 
         if (!"".equals(err))
         {
-//            throw new Exception(err);
+            throw new Exception(err);
         }
 
         if (r_criteriaDis.equals("()")) r_criteriaDis = "None";
@@ -371,7 +382,7 @@ public class QuatroReportViewerAction extends BaseAction {
         return lst;
     }
 	
-    private String GetValueListCrystal(String sValue, String sFieldType)
+    private String GetValueListCrystal(String sValue, String sFieldType) throws Exception
     {
         StringBuffer sResult = new StringBuffer();
         sResult.append("[");
@@ -383,11 +394,12 @@ public class QuatroReportViewerAction extends BaseAction {
             if ("D".equals(sFieldType))
             {
 //                s = CRDate(Utility.GetSysDate(s), false);
-            	Date dt=Utility.GetSysDate(s);
+            		Date dt=Utility.GetSysDate(s);
 //                s = "CDATE(" + String.valueOf(dt.getYear()) + "," + String.valueOf(dt.getMonth()) + "," + String.valueOf(dt.getDay()) + ")";
-            	Calendar c1 = Calendar.getInstance();
-            	c1.setTime(dt);
-            	s = "CDATE(" + String.valueOf(c1.get(Calendar.YEAR)) + "," + String.valueOf(c1.get(Calendar.MONTH)+1) + "," + c1.get(Calendar.DAY_OF_MONTH) + ")";
+	            	Calendar c1 = Calendar.getInstance();
+	            	c1.setTime(dt);
+	            	s = "CDATE(" + String.valueOf(c1.get(Calendar.YEAR)) + "," + String.valueOf(c1.get(Calendar.MONTH)+1) + "," + c1.get(Calendar.DAY_OF_MONTH) + ")";
+            	
             }
             else if ("S".equals(sFieldType))
             {
@@ -432,8 +444,6 @@ public class QuatroReportViewerAction extends BaseAction {
 		      	path=path.substring(1);
 		    }
 	      
-		    QuatroReportManager reportManager = (QuatroReportManager)WebApplicationContextUtils.getWebApplicationContext(
-	        		getServlet().getServletContext()).getBean("quatroReportManager");
 		    try{
 		    	reportManager.DownloadRptFile(path, _rptOption.getRptFileNo());
 		    }catch(Exception ex){
@@ -454,7 +464,11 @@ public class QuatroReportViewerAction extends BaseAction {
 		    		ViewReport(request, response, reportDocument1,orgDis, criteriaDis);
 		    	}
 	      }catch(ReportSDKException ex){
-		      ReportSDKException ss=ex;
+		      ;
+	      }
+	      catch(ReportSDKExceptionBase ex)
+	      {
+	    	 ; 
 	      }
 	      finally 
 	      {
@@ -523,44 +537,38 @@ public class QuatroReportViewerAction extends BaseAction {
 		}
 		return fields2;
 	}
-	private void ExportReport(HttpServletRequest request, HttpServletResponse response,ReportClientDocument reportDocument1, String orgDis, String criteriaDis)
+	private void ExportReport(HttpServletRequest request, HttpServletResponse response,ReportClientDocument reportDocument1, String orgDis, String criteriaDis)throws ReportSDKExceptionBase 
 	{
 	      /* export using the ReportExportControl */
 		  ReportExportControl exportControl = new ReportExportControl();
-	      try{
-	    	  String loginId = (String)request.getSession(true).getAttribute("user");
-	    	  String sessionId = request.getSession(true).getId();
-	    	  String userName = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME);
-	    	  _rptValue.setAuthor(userName);
-	    	  exportControl.setReportSource(reportDocument1.getReportSource());
-	          exportControl.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
-	  		  ExportOptions expOpts = new ExportOptions();
-	          switch (_rptValue.getExportFormatType()){
-	            case ReportExportFormat._PDF:
-	        		  expOpts.setExportFormatType(ReportExportFormat.PDF);
-	               break;
-	            case ReportExportFormat._MSExcel:
-	        		  expOpts.setExportFormatType(ReportExportFormat.recordToMSExcel);
-	               break;
-	            case ReportExportFormat._MSWord:
-	        		  expOpts.setExportFormatType(ReportExportFormat.MSWord);
-	              break;
-	            case ReportExportFormat._text:
-	        		  expOpts.setExportFormatType(ReportExportFormat.tabSeparatedText);
-	        		  TextExportFormatOptions tOpts = new TextExportFormatOptions();
-	               break;
-	            default:
-	               break;
-	          }
-	    	  exportControl.setExportOptions(expOpts);
-	    	  exportControl.setExportAsAttachment(false);
-	    	  exportControl.processHttpRequest(request, response, getServlet().getServletContext(), null);
-	    	  exportControl.dispose(); 
-	      }
-	      catch(Exception ex)
-	      {
-	    	  ;
-	      }
+    	  String loginId = (String)request.getSession(true).getAttribute("user");
+    	  String sessionId = request.getSession(true).getId();
+    	  String userName = (String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNAME);
+    	  _rptValue.setAuthor(userName);
+    	  exportControl.setReportSource(reportDocument1.getReportSource());
+          exportControl.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
+  		  ExportOptions expOpts = new ExportOptions();
+          switch (_rptValue.getExportFormatType()){
+            case ReportExportFormat._PDF:
+        		  expOpts.setExportFormatType(ReportExportFormat.PDF);
+               break;
+            case ReportExportFormat._MSExcel:
+        		  expOpts.setExportFormatType(ReportExportFormat.recordToMSExcel);
+               break;
+            case ReportExportFormat._MSWord:
+        		  expOpts.setExportFormatType(ReportExportFormat.MSWord);
+              break;
+            case ReportExportFormat._text:
+        		  expOpts.setExportFormatType(ReportExportFormat.tabSeparatedText);
+        		  TextExportFormatOptions tOpts = new TextExportFormatOptions();
+               break;
+            default:
+               break;
+          }
+    	  exportControl.setExportOptions(expOpts);
+    	  exportControl.setExportAsAttachment(false);
+    	  exportControl.processHttpRequest(request, response, getServlet().getServletContext(), null);
+    	  exportControl.dispose(); 
 	}
     private void ViewReport(HttpServletRequest request, HttpServletResponse response, ReportClientDocument reportDocument1, String orgDis, String criteriaDis){
     	CrystalReportViewer crystalReportViewer = new CrystalReportViewer();

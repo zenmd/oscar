@@ -24,12 +24,9 @@ package org.oscarehr.PMmodule.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 
 import com.quatro.common.KeyConstants;
@@ -278,21 +275,5 @@ public abstract class BaseClientAction extends BaseAction {
 		}
 		return r.compareTo(KeyConstants.ACCESS_READ) >=0;
 	}
-	protected CaseManagementManager getCaseManagementManager() {
-		return (CaseManagementManager) getAppContext().getBean(
-				"caseManagementManager");
-	}
-
-	protected AdmissionManager getAdmissionManager() {
-		return (AdmissionManager) getAppContext().getBean("admissionManager");
-	}
-	protected ClientManager getClientManager() {
-		return (ClientManager) getAppContext().getBean("clientManager");
-	}
-
-
-	public ApplicationContext getAppContext() {
-	return WebApplicationContextUtils.getWebApplicationContext(getServlet()
-			.getServletContext());
-	}	
+	
 }

@@ -32,8 +32,23 @@ import com.quatro.service.security.UserAccessManager;
 
 public final class ShelterSelectionAction extends BaseAction {
 
-    private ProviderManager providerManager = (ProviderManager) SpringUtils.getBean("providerManager");
-    private LookupManager lookupManager = (LookupManager) SpringUtils.getBean("lookupManager");
+    private ProviderManager providerManager; // = (ProviderManager) SpringUtils.getBean("providerManager");
+    private LookupManager lookupManager;  //= (LookupManager) SpringUtils.getBean("lookupManager");
+    private UserAccessManager userAccessManager;    
+    
+    public void setProviderManager(ProviderManager providerManager)
+    {
+    	this.providerManager = providerManager;
+    }
+    public void setLookupManager(LookupManager lookupManager)
+    {
+    	this.lookupManager = lookupManager;
+    }
+    public void setUserAccessManager(UserAccessManager userAccessManager)
+    {
+    	this.userAccessManager = userAccessManager;
+    }
+    
     private static final Logger _logger = Logger.getLogger(LoginAction.class);
     private static final String LOG_PRE = "Login!@#$: ";
 
@@ -77,7 +92,6 @@ public final class ShelterSelectionAction extends BaseAction {
              request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, new LookupCodeValue());
          }
          // initiate security manager
-         UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
          
          SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,null,lookupManager);
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
@@ -95,9 +109,7 @@ public final class ShelterSelectionAction extends BaseAction {
         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SHELTER, shelterObj);
         
         // initiate security manager
-        UserAccessManager userAccessManager = (UserAccessManager) getAppContext().getBean("userAccessManager");
-         
-        SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,shelterId,lookupManager);
+         SecurityManager secManager = userAccessManager.getUserSecurityManager(providerNo,shelterId,lookupManager);
         request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_SECURITY_MANAGER, secManager);
         String ip = request.getRemoteAddr();
         LogAction.addLog(providerNo,providerNo, LogConst.CON_LOGIN, LogConst.SHELTER_SELECTION, shelterId.toString(), ip);

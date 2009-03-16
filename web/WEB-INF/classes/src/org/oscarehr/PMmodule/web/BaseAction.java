@@ -23,7 +23,6 @@
 package org.oscarehr.PMmodule.web;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,12 +45,8 @@ import org.oscarehr.PMmodule.service.RatePageManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
 import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.utility.Utility;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.OscarProperties;
-
-import ca.uhn.hl7v2.Log;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
@@ -86,45 +81,11 @@ public abstract class BaseAction extends DispatchAction {
 		addMessages(req, msgs);
 	}
 
-	public ApplicationContext getAppContext() {
-		return WebApplicationContextUtils.getWebApplicationContext(getServlet()
-				.getServletContext());
-	}
 /*
 	public AgencyManager getAgencyManager() {
 		return (AgencyManager) getAppContext().getBean("agencyManager");
 	}
 */
-	public ProgramManager getProgramManager() {
-		return (ProgramManager) getAppContext().getBean("programManager");
-	}
-
-	public UserAccessManager getUserAccessManager() {
-		return (UserAccessManager) getAppContext().getBean("userAccessManager");
-	}
-
-	public ProgramQueueManager getProgramQueueManager() {
-		return (ProgramQueueManager) getAppContext().getBean(
-				"programQueueManager");
-	}
-
-	public RoomManager getRoomManager() {
-		return (RoomManager) getAppContext().getBean("roomManager");
-	}
-
-	public RoomDemographicManager getRoomDemographicManager() {
-		return (RoomDemographicManager) getAppContext().getBean(
-				"roomDemographicManager");
-	}
-
-	public ProviderManager getProviderManager() {
-		return (ProviderManager) getAppContext().getBean("providerManager");
-	}
-
-	public RatePageManager getRateManager() {
-		return (RatePageManager) getAppContext().getBean("ratePageManager");
-	}
-
 	protected String getProviderNo(HttpServletRequest request) {
 		return ((Provider) request.getSession().getAttribute("provider"))
 				.getProviderNo();

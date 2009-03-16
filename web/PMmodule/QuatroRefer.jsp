@@ -97,7 +97,7 @@
 </table></td></tr>
 <tr><td>
   <table class="simple" cellspacing="2" cellpadding="3">
-	<tr><th style="color:black" rowspan="2">Program <br>
+	<tr><th style="color:black" rowspan="2">Program* <br>
 	<c:if test="${!isReadOnly}">
 		<a href="javaScript:popupProgramSearch('<bean:write name="quatroClientReferForm" property="clientId" />');" style="color:Navy;text-decoration:none;"
 			onclick="javascript: setNoConfirm();">			
@@ -124,7 +124,7 @@
 	<td><html:textarea cols="60" rows="7" property="referral.notes" /></td></tr>
 	<tr><td width="20%">Notes</td>
 	<td><html:textarea cols="60" rows="7" property="referral.presentProblems" /></td></tr>
-	<tr><td width="20%">From Program</td>
+	<tr><td width="20%">From Program*</td>
 	  <c:choose>
 	  <c:when test="${isReadOnly==null || isReadOnly==false}">
 		<td><html:select property="referral.fromProgramId">

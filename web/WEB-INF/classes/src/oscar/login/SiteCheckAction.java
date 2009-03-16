@@ -69,7 +69,11 @@ public final class SiteCheckAction extends BaseAction {
     {
     	this.secSiteManager = secSiteManager;
     }
-
+    private ApplicationContext getAppContext()
+    {
+    	return WebApplicationContextUtils.getWebApplicationContext(
+        		getServlet().getServletContext());
+    }
     public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ObjectInputStream ois = new ObjectInputStream(request.getInputStream());       
 	    SecSiteValue ssv;
