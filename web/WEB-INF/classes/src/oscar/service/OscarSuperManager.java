@@ -36,8 +36,14 @@ public class OscarSuperManager {
 
 	private OscarSuperDao appointmentDao;
 
+	private OscarSuperDao receptionistDao;
+
 	public void setAppointmentDao(OscarSuperDao appointmentDao) {
 		this.appointmentDao = appointmentDao;
+	}
+
+	public void setReceptionistDao(OscarSuperDao receptionistDao) {
+		this.receptionistDao = receptionistDao;
 	}
 
 	/**
@@ -46,6 +52,7 @@ public class OscarSuperManager {
 	 */
 	public void init() {
 		oscarDaoMap.put("appointmentDao", appointmentDao);
+		oscarDaoMap.put("receptionistDao", receptionistDao);
 
 		// making sure all daos have been injected properly
 		for (String daoName : oscarDaoMap.keySet()) {

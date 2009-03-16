@@ -98,6 +98,7 @@
 
 	<!-- Dao classes that implement OscarSuperDao -->
 	<bean id="appointmentDao" class="oscar.dao.AppointmentDao" autowire="byName" />
+	<bean id="receptionistDao" class="oscar.dao.ReceptionistDao" autowire="byName" />
 
 	<!-- OscarSuperManager manager provides business logic facade for jsp layer -->
 	<bean id="oscarSuperManager" class="oscar.service.OscarSuperManager" autowire="byName" init-method="init"/>
