@@ -1,36 +1,47 @@
-<%@ include file="/taglibs.jsp" %>
-<%@ page import="org.caisi.model.*,org.oscarehr.PMmodule.model.*,org.springframework.context.*,org.springframework.web.context.support.*" %>
-<%@ page import="java.util.Date" %>
 
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
+<%-- Updated by Eugene Petruhin on 20 feb 2009 while fixing check_date() error --%>
+
+<%@ include file="/taglibs.jsp"%>
+<%@ page
+	import="org.caisi.model.*,org.oscarehr.PMmodule.model.*,org.springframework.context.*,org.springframework.web.context.support.*"%>
+<%@ page import="java.util.Date"%>
+
+<%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 <%
     if(session.getAttribute("userrole") == null )  response.sendRedirect("logout.jsp");
     String roleName$ = (String)session.getAttribute("userrole") + "," + (String) session.getAttribute("user");
 %>
-<security:oscarSec roleName="<%=roleName$%>" objectName="_tasks" rights="r" reverse="<%=true%>" >
-<%response.sendRedirect("noRights.html");%>
+<security:oscarSec roleName="<%=roleName$%>" objectName="_tasks"
+	rights="r" reverse="<%=true%>">
+	<%response.sendRedirect("noRights.html");%>
 </security:oscarSec>
 
 <%
 	ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(application);
 %>
 <c:if test="${requestScope.from ne 'CaseMgmt'}">
-<html>
-<head>
+	<html>
+	<head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
 	<title>TicklerPlus</title>
 
-	<style type="text/css">
-	/* <![CDATA[ */
-	@import "<html:rewrite page="/ticklerPlus/css/tickler.css" />";
-	/*  ]]> */
-	</style>
-	<html:base/>
-</head>
-<body>
+	<link rel="stylesheet" type="text/css" media="all" href="../share/css/extractedFromPages.css"  />
+	<html:base />
+	</head>
+	<body>
 </c:if>
 
-<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
-	<script>
+<c:set var="ctx" value="${pageContext.request.contextPath}"
+	scope="request" />
+<script>
+		// date picker variables
+		var readOnly = false;
+		var win = null;
+		var timerId = 0;
+		var isDateValid = true;
+		var doOnBlur = true;
+		var deferSubmit = false;
+
 		function openBrWindow(theURL,winName,features) { 
 		  window.open(theURL,winName,features);
 		}
@@ -62,6 +73,12 @@
 			    }
 			}
 		}
-	</script>	
-<table border="0" cellspacing="0" cellpadding="1" width="100%" bgcolor="#CCCCFF">
-	  <tr class="subject"><th width="20%"></th><th colspan="2" width="80%">TicklerPlus</th><th width="20%" align="right" nowrap></th></tr>
+</script>
+<table border="0" cellspacing="0" cellpadding="1" width="100%"
+	bgcolor="#CCCCFF">
+	<tr class="subject">
+		<th width="30%"></th>
+		<th width="30%" align="center">TicklerPlus</th>
+		<th width="30%"></th>
+		<th width="10%"></th>
+	</tr>
