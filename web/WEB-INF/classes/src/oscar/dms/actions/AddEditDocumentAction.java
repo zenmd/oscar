@@ -23,32 +23,115 @@
 
 package oscar.dms.actions;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.upload.FormFile;
+import org.oscarehr.common.dao.ProviderInboxRoutingDao;
 import org.oscarehr.util.SessionConstants;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import oscar.dms.EDoc;
 import oscar.dms.EDocUtil;
 import oscar.dms.data.AddEditDocumentForm;
+import oscar.log.LogAction;
+import oscar.log.LogConst;
+import oscar.util.UtilDateUtilities;
 
-public class AddEditDocumentAction extends Action {
+public class AddEditDocumentAction extends DispatchAction {
+        
+    public ActionForward multifast(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
+        System.out.println("IN MULTIFAST content len"+request.getContentLength()+" ---- "+request.getParameter("provider"));
+        Hashtable errors = new Hashtable();
+        AddEditDocumentForm fm = (AddEditDocumentForm) form;
+        
+        FormFile docFile = fm.getFiledata();
+        
+         String fileName = docFile.getFileName();
+            EDoc newDoc = new EDoc("", "", fileName, "", (String) request.getSession().getAttribute("user") , 'A', oscar.util.UtilDateUtilities.getToday("yyyy-MM-dd"), "", "", "demographic", "-1");
+            newDoc.setDocPublic("0");
+            fileName = newDoc.getFileName();
+            //save local file;
+            if (docFile.getFileSize() == 0) {
+                errors.put("uploaderror", "dms.error.uploadError");
+                throw new FileNotFoundException();
+            }
+            writeLocalFile(docFile, fileName);
+            newDoc.setContentType(docFile.getContentType());
+            if (fileName.endsWith(".PDF") || fileName.endsWith(".pdf")){
+                newDoc.setContentType("application/pdf");
+            }
+            
+            String doc_no = EDocUtil.addDocumentSQL(newDoc);
+            LogAction.addLog((String) request.getSession().getAttribute("user"), LogConst.ADD, LogConst.CON_DOCUMENT, doc_no, request.getRemoteAddr());
+        
+        if (request.getParameter("provider") !=null){ //TODO: THIS NEEDS TO RUN THRU THE  lab forwarding rules!
+            WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+            ProviderInboxRoutingDao providerInboxRoutingDao = (ProviderInboxRoutingDao) ctx.getBean("providerInboxRoutingDAO");
+            String proNo = request.getParameter("provider");
+            providerInboxRoutingDao.addToProviderInbox(proNo,doc_no,"DOC");
+        }
+            
+            
+            
+        
+        if (docFile != null){
+            System.out.println("Content type "+docFile.getContentType()+" filename "+docFile.getFileName()+"  size: "+docFile.getFileSize());        
+        }
+        
+        return mapping.findForward("fastUploadSuccess"); 
     
-    public ActionForward execute(ActionMapping mapping, ActionForm form,
+    }
+    
+    public ActionForward fastUpload(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
+        AddEditDocumentForm fm = (AddEditDocumentForm) form;
+        Hashtable errors = new Hashtable();
+        FormFile docFile = fm.getDocFile();
+            String fileName = docFile.getFileName();
+            EDoc newDoc = new EDoc("", "", fileName, "", (String) request.getSession().getAttribute("user") , 'A', oscar.util.UtilDateUtilities.getToday("yyyy-MM-dd"), "", "", "demographic", "-1");
+            newDoc.setDocPublic("0");
+            fileName = newDoc.getFileName();
+            //save local file;
+            if (docFile.getFileSize() == 0) {
+                errors.put("uploaderror", "dms.error.uploadError");
+                throw new FileNotFoundException();
+            }
+            writeLocalFile(docFile, fileName);
+            newDoc.setContentType(docFile.getContentType());
+            
+            EDocUtil.addDocumentSQL(newDoc);
+   
+          
+          return mapping.findForward("fastUploadSuccess"); 
+    }
+    
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response){
+        return execute2(mapping, form,request, response);
+    }
+    
+    public ActionForward execute2(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) {
         AddEditDocumentForm fm = (AddEditDocumentForm) form;
-        if (fm.getMode().equals("add")) {
+        if (fm.getMode().equals("") && fm.getFunction().equals("") && fm.getFunctionId().equals("")) {
+        	//file size exceeds the upload limit
+            Hashtable errors = new Hashtable();
+            errors.put("uploaderror", "dms.error.uploadError");
+            request.setAttribute("docerrors", errors);
+            request.setAttribute("completedForm", fm);
+            request.setAttribute("editDocumentNo", "");
+            return mapping.findForward("failEdit");
+        } else if (fm.getMode().equals("add")) {
             //if add/edit success then send redirect, if failed send a forward (need the formdata and errors hashtables while trying to avoid POSTDATA messages)
             if (addDocument(fm, mapping, request) == true) { //if success
                 ActionRedirect redirect = new ActionRedirect(mapping.findForward("successAdd"));
@@ -89,15 +172,15 @@ public class AddEditDocumentAction extends Action {
                 throw new Exception();
             }
             FormFile docFile = fm.getDocFile();
-            String fileName = docFile.getFileName();
-            EDoc newDoc = new EDoc(fm.getDocDesc(), fm.getDocType(), fileName, "", fm.getDocCreator(), 'A', fm.getObservationDate(), fm.getFunction(), fm.getFunctionId());
-            newDoc.setDocPublic(fm.getDocPublic());
-            fileName = newDoc.getFileName();
-            //save local file;
             if (docFile.getFileSize() == 0) {
                 errors.put("uploaderror", "dms.error.uploadError");
                 throw new FileNotFoundException();
             }
+            String fileName = docFile.getFileName();
+            EDoc newDoc = new EDoc(fm.getDocDesc(), fm.getDocType(), fileName, "", fm.getDocCreator(), 'A', fm.getObservationDate(), "", "", fm.getFunction(), fm.getFunctionId());
+            newDoc.setDocPublic(fm.getDocPublic());
+            fileName = newDoc.getFileName();
+            //save local file
             writeLocalFile(docFile, fileName);
             newDoc.setContentType(docFile.getContentType());
 
@@ -106,7 +189,8 @@ public class AddEditDocumentAction extends Action {
             if (programIdStr!=null) newDoc.setProgramId(Integer.valueOf(programIdStr));
             
             //---
-            EDocUtil.addDocumentSQL(newDoc);
+            String doc_no = EDocUtil.addDocumentSQL(newDoc);
+            LogAction.addLog((String) request.getSession().getAttribute("user"), LogConst.ADD, LogConst.CON_DOCUMENT, doc_no, request.getRemoteAddr());
         } catch (Exception e) {
             //ActionRedirect redirect = new ActionRedirect(mapping.findForward("failAdd"));
             request.setAttribute("docerrors", errors);
@@ -117,7 +201,7 @@ public class AddEditDocumentAction extends Action {
     }
     
     private ActionForward editDocument(AddEditDocumentForm fm, ActionMapping mapping, HttpServletRequest request) {
-        Hashtable errors = new Hashtable();
+    	Hashtable errors = new Hashtable();
         try {
             if (fm.getDocDesc().length() == 0) {
                 errors.put("descmissing", "dms.error.descriptionInvalid");
@@ -129,8 +213,14 @@ public class AddEditDocumentAction extends Action {
             }
             FormFile docFile = fm.getDocFile();
             String fileName = docFile.getFileName();
+            String reviewerId = filled(fm.getReviewerId()) ? fm.getReviewerId() : "";
+            String reviewDateTime = filled(fm.getReviewDateTime()) ? fm.getReviewDateTime() : "";
 
-            EDoc newDoc = new EDoc(fm.getDocDesc(), fm.getDocType(), fileName, "", fm.getDocCreator(), 'A', fm.getObservationDate(), fm.getFunction(), fm.getFunctionId());
+            if (!filled(reviewerId) && fm.getReviewDoc()) {
+                reviewerId = (String)request.getSession().getAttribute("user");
+                reviewDateTime = UtilDateUtilities.DateToString(UtilDateUtilities.now(), EDocUtil.REVIEW_DATETIME_FORMAT);
+            }
+            EDoc newDoc = new EDoc(fm.getDocDesc(), fm.getDocType(), fileName, "", fm.getDocCreator(), 'A', fm.getObservationDate(), reviewerId, reviewDateTime, fm.getFunction(), fm.getFunctionId());
             newDoc.setDocId(fm.getMode());
             newDoc.setDocPublic(fm.getDocPublic());
             fileName = newDoc.getFileName();
@@ -143,7 +233,8 @@ public class AddEditDocumentAction extends Action {
                 errors.put("uploaderror", "dms.error.uploadError");
                 throw new FileNotFoundException();
             }
-            EDocUtil.editDocumentSQL(newDoc);
+            EDocUtil.editDocumentSQL(newDoc, fm.getReviewDoc());
+            LogAction.addLog((String) request.getSession().getAttribute("user"), LogConst.UPDATE, LogConst.CON_DOCUMENT, newDoc.getDocId(), request.getRemoteAddr());
         } catch (Exception e) {
             request.setAttribute("docerrors", errors);
             request.setAttribute("completedForm", fm);
@@ -154,14 +245,26 @@ public class AddEditDocumentAction extends Action {
     }
     
     private void writeLocalFile(FormFile docFile, String fileName) throws Exception {
+        InputStream fis = null;
+        FileOutputStream fos = null;
         try {
-             byte[] docdata = docFile.getFileData();
-             String savePath = oscar.OscarProperties.getInstance().getProperty("DOCUMENT_DIR") + "/" + fileName;
-             FileOutputStream fileStream = new FileOutputStream(new File(savePath));
-             fileStream.write(docdata);
+            fis = docFile.getInputStream();
+            String savePath = oscar.OscarProperties.getInstance().getProperty("DOCUMENT_DIR") + "/" + fileName;
+            fos = new FileOutputStream(savePath);
+            byte[] buf = new byte[128*1024];
+            int i = 0;
+            while ((i = fis.read(buf)) != -1) {
+                fos.write(buf, 0, i);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fis != null) fis.close();
+            if (fos != null) fos.close();
         }
     }
     
+    private boolean filled(String s) {
+        return (s!=null && s.trim().length()>0);
+    }
 }

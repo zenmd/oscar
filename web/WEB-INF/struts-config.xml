@@ -4,7 +4,7 @@
     <form-beans>
         <!-- caisi core -->
         <form-bean name="systemMessageForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="system_message" type="org.caisi.model.SystemMessage" />
+            <form-property name="system_message" type="org.oscarehr.common.model.SystemMessage" />
         </form-bean>
         <form-bean name="facilityMessageForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="facility_message" type="org.caisi.model.FacilityMessage" />
@@ -14,9 +14,6 @@
         <form-bean name="issueAdminForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="issueAdmin" type="org.caisi.model.IssueAdmin" />
         </form-bean>
-        <form-bean name="caisiEditorForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="caisiEditor" type="org.caisi.model.CaisiEditor"/>
-        </form-bean>
         <form-bean name="lookupListForm" type="com.quatro.web.lookup.LookupListForm" />
         <form-bean name="lookupTableListForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="modules" type="java.util.List"></form-property>
@@ -25,8 +22,24 @@
             <form-property name="tableDef" type="com.quatro.model.LookupTableDefValue"></form-property>
             <form-property name="codes" type="java.util.List"></form-property>    
         </form-bean>
+        <form-bean name="lookupTreeForm" type="org.apache.struts.validator.DynaValidatorForm">
+        	<form-property name="tableDef" type="com.quatro.model.LookupTableDefValue"></form-property>
+        	<form-property name="tree" type="net.sf.navigator.menu.MenuRepository"></form-property>    
+        	<form-property name="tableId" type="java.lang.String"></form-property>    
+        	<form-property name="keywordName" type="java.lang.String"></form-property>    
+        	<form-property name="openerForm" type="java.lang.String"></form-property>    
+        	<form-property name="codeName" type="java.lang.String"></form-property>    
+        	<form-property name="descName" type="java.lang.String"></form-property>    
+        </form-bean>        
         <form-bean name="lookupCodeEditForm" type="com.quatro.web.lookup.LookupCodeEditForm">
         </form-bean>
+        <form-bean name="clinicForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="clinic" type="org.oscarehr.common.model.Clinic" />
+        </form-bean>
+         <form-bean name="annotationForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="oAnnotation" type="org.oscarehr.common.model.OscarAnnotation" />
+        </form-bean>
+        
         <!-- login form bean -->
         <form-bean name="loginForm" type="oscar.login.LoginForm" />
         <form-bean name="msgSendMessageForm" type="oscar.oscarMessenger.pageUtil.MsgSendMessageForm" />
@@ -121,6 +134,16 @@
         <form-bean name="RptByExamplesFavoriteForm" type="oscar.oscarReport.pageUtil.RptByExamplesFavoriteForm" />
         <form-bean name="RptByExamplesAllFavoritesForm" type="oscar.oscarReport.pageUtil.RptByExamplesAllFavoritesForm" />
         <form-bean name="GstControlForm" type="oscar.oscarBilling.ca.on.administration.GstControlForm" /> 
+        <form-bean name="batchBillingFrm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="providers" type="java.util.List" />
+            <form-property name="provider" type="org.oscarehr.common.model.Provider" />
+            <form-property name="serviceCode" type="java.lang.String" />
+            <form-property name="serviceDate" type="java.lang.String" />
+            <form-property name="DxCode" type="java.lang.String" />
+            <form-property name="billingDate" type="java.lang.String" />
+            <form-property name="method" type="java.lang.String" />
+            <form-property name="unlink" type="java.lang.String" />
+        </form-bean>            
         <form-bean name="ObecForm" type="oscar.oscarReport.pageUtil.ObecForm" />
         <form-bean name="RptSelectCDMReportForm" type="oscar.oscarReport.oscarMeasurements.pageUtil.RptSelectCDMReportForm" />
         <form-bean name="RptInitializePatientsMetGuidelineCDMReportForm" type="oscar.oscarReport.oscarMeasurements.pageUtil.RptInitializePatientsMetGuidelineCDMReportForm" />
@@ -215,6 +238,7 @@
         </form-bean>
         <form-bean name="intakeAReport1Form" type="org.apache.struts.validator.LazyValidatorForm" />
         <form-bean name="intakeCReport1Form" type="org.apache.struts.validator.LazyValidatorForm" />
+        <form-bean name="StreetHealthIntakeReportForm" type="org.apache.struts.validator.LazyValidatorForm" />
         <form-bean name="intakeCReportForm" type="org.apache.struts.validator.LazyValidatorForm"/>
         <form-bean name="intakeCForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="intake" type="org.oscarehr.PMmodule.model.Formintakec" />
@@ -227,10 +251,6 @@
         </form-bean>
         <form-bean name="healthSafetyForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="healthsafety" type="org.oscarehr.PMmodule.model.HealthSafety" />
-        </form-bean>
-        <form-bean name="consentForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="consent" type="org.oscarehr.PMmodule.model.Consent" />
-            <form-property name="interview" type="org.oscarehr.PMmodule.model.ConsentInterview" />
         </form-bean>
         <form-bean name="programManagerViewForm" type="org.oscarehr.PMmodule.web.formbean.ProgramManagerViewFormBean" />
         <form-bean name="programManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
@@ -271,7 +291,7 @@
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.ClientManagerFormBean" />
             <form-property name="admission" type="org.oscarehr.PMmodule.model.Admission" />
             <form-property name="bedDemographic" type="org.oscarehr.PMmodule.model.BedDemographic" />
-            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="client" type="org.oscarehr.common.model.Demographic" />
             <form-property name="erconsent" type="org.oscarehr.PMmodule.web.formbean.ErConsentFormBean" />
             <form-property name="form" type="org.oscarehr.survey.model.oscar.OscarFormInstance" />
             <form-property name="program" type="org.oscarehr.PMmodule.model.Program" />
@@ -279,13 +299,13 @@
             <form-property name="unreservedBeds" type="org.oscarehr.PMmodule.model.Bed[]" />
             <form-property name="bedDemographicStatuses" type="org.oscarehr.PMmodule.model.BedDemographicStatus[]" />
             <form-property name="agency" type="org.oscarehr.PMmodule.model.Agency"/>
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider"/>            
+            <form-property name="provider" type="org.oscarehr.common.model.Provider"/>            
             <form-property name="programWithIntakeId" type="java.lang.String" />
             <form-property name="serviceRestriction" type="org.oscarehr.PMmodule.model.ProgramClientRestriction" />
             <form-property name="serviceRestrictionLength" type="java.lang.Integer" />
         </form-bean>
         <form-bean name="staffManagerForm" type="org.apache.struts.validator.DynaValidatorForm">
-            <form-property name="provider" type="org.oscarehr.PMmodule.model.Provider" />
+            <form-property name="provider" type="org.oscarehr.common.model.Provider" />
             <form-property name="program_provider" type="org.oscarehr.PMmodule.model.ProgramProvider" />
             <form-property name="view" type="org.oscarehr.PMmodule.web.formbean.StaffManagerViewFormBean" />
             <form-property name="facilityId" type="java.lang.String" />
@@ -338,6 +358,8 @@
         <form-bean name="clientImageForm" type="org.apache.struts.validator.DynaValidatorForm">
             <form-property name="clientImage" type="org.oscarehr.casemgmt.web.formbeans.ClientImageFormBean" />
         </form-bean>
+        <form-bean name="onCallQuestionnaireForm" type="org.oscarehr.casemgmt.web.formbeans.OnCallQuestionnaireFormBean"/>
+
         <!-- Generic Intake -->
         <form-bean name="genericIntakeSearchForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeSearchFormBean" />
         <form-bean name="genericIntakeEditForm" type="org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean" />
@@ -349,7 +371,58 @@
                 <form-bean name="CreateIndivoMessageActionForm" type="oscar.indivoMessenger.CreateIndivoMessageActionForm"/>
                 <form-bean name="DisplayIndivoMsgsActionForm" type="oscar.indivoMessenger.DisplayIndivoMsgsActionForm"/ -->
         <form-bean name="apptStatusEditForm" type="org.apache.struts.validator.LazyValidatorForm" /> 	
+
+        <form-bean name="mergeClientForm" type="org.apache.struts.validator.DynaValidatorForm">
+               <form-property name="criteria" type="org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean" />
+        </form-bean>
+
+        <form-bean name="duplicateClientCheckForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="client" type="org.oscarehr.PMmodule.model.Demographic" />
+            <form-property name="genders" type="java.util.List" />
+        </form-bean>
+
+	<form-bean name="secroleForm" type="org.apache.struts.validator.DynaValidatorForm">
+		<form-property name="roleNo" type="java.lang.Integer" />
+		<form-property name="roleName" type="java.lang.String"></form-property>
+		<form-property name="description" type="java.lang.String"></form-property>
+		<form-property name="active" type="java.lang.String"></form-property>
+		<form-property name="functions" type="com.quatro.model.LookupCodeValue"></form-property>
+		<form-property name="accessTypes" type="com.quatro.model.LookupCodeValue"></form-property>
+		<form-property name="funSelectionList" type="java.util.ArrayList"></form-property>
+		<form-property name="txtFUNKey" type="java.lang.String"></form-property>
+		<form-property name="txtFUNValue" type="java.lang.String"></form-property>
+		<form-property name="lstFUN" type="java.lang.String"></form-property>
+		<form-property name="secobjprivilegeLst" type="java.util.ArrayList"></form-property>
+	</form-bean>
         
+	<form-bean name="secuserForm" type="org.apache.struts.validator.DynaValidatorForm">
+		<form-property name="securityNo" type="java.lang.Integer"></form-property>
+		<form-property name="userName" type="java.lang.String"></form-property>
+		<form-property name="password" type="java.lang.String"></form-property>
+		<form-property name="confirmPassword" type="java.lang.String"></form-property>
+		<form-property name="pin" type="java.lang.String"></form-property>
+		<form-property name="confirmPin" type="java.lang.String"></form-property>
+		<form-property name="providerNo" type="java.lang.String"></form-property>
+		<form-property name="lastName" type="java.lang.String"></form-property>
+		<form-property name="firstName" type="java.lang.String"></form-property>
+		<form-property name="init" type="java.lang.String"></form-property>
+		<form-property name="title" type="java.lang.String"></form-property>
+		<form-property name="jobTitle" type="java.lang.String"></form-property>
+		<form-property name="email" type="java.lang.String"></form-property>
+		<form-property name="status" type="java.lang.String"></form-property>
+		<form-property name="secUserRoleLst" type="java.util.ArrayList"></form-property>
+		<form-property name="roleName" type="java.lang.String"></form-property>
+		<form-property name="oldPassword" type="java.lang.String"></form-property>
+	</form-bean>
+
+	<form-bean name="userSearchForm" type="org.apache.struts.validator.DynaValidatorForm">
+		<form-property name="criteria" type="com.quatro.web.admin.UserSearchFormBean" />
+	</form-bean>
+
+	<form-bean name="userUnlockForm" type="org.apache.struts.validator.DynaValidatorForm">
+		<form-property name="userId" type="java.lang.String" />
+	</form-bean>
+
     </form-beans>
     
     <global-forwards>
@@ -362,6 +435,9 @@
     <action-mappings>
         
         
+		<action path="/Home" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request"  validate="false">
+			<forward name="home" path="page.home" />
+		</action>
         
         <!-- caisi core action -->
         <action path="/Admin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="systemMessageForm" input="/admin/admin.jsp" validate="false">
@@ -385,10 +461,6 @@
             <forward name="edit" path="/caisicore/CaisiRoleForm.jsp" />
         </action>
         <action path="/infirm" type="org.caisi.core.web.InfirmAction" name="inputForm" scope="request" parameter="action"></action>
-        <action path="/CaisiEditor" type="org.springframework.web.struts.DelegatingActionProxy" name="caisiEditorForm" scope="request" parameter="method" validate="false">
-            <forward name="list" path="/caisicore/CaisiEditorList.jsp" />
-            <forward name="edit" path="/caisicore/CaisiEditorForm.jsp" />
-        </action>
         <!-- Login -->
         <action input="/login.jsp" name="loginForm" path="/login" scope="request" type="oscar.login.LoginAction" validate="true">
             <forward name="receptionist" path="/receptionist/receptionistcontrol.jsp" redirect="true" />
@@ -397,6 +469,12 @@
             <forward name="failure" path="/logout.jsp?login=failed" />
             <forward name="error" path="/loginfailed.jsp" />
             <forward name="caisiPMM" path="/PMmodule/ProviderInfo.do" />
+            <forward name="shelterSelection" path="/shelterSelection.do" redirect="true"/>
+        </action>        
+        <action path="/shelterSelection" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="true" parameter="method">
+                        <forward name="shelterSelection" path="page.pmm.shelterSelection"/>
+                        <forward name="home" path="/Home.do" redirect="true" />
+                        <forward name="login" path="/index.jsp" />
         </action>        
         <action input="/oscarMessenger/SendMessage.jsp" name="msgSendMessageForm" path="/oscarMessenger/SendMessage" scope="request" type="oscar.oscarMessenger.pageUtil.MsgSendMessageAction">
             <forward name="success" path="/oscarMessenger/SentMessage.jsp" />
@@ -646,6 +724,7 @@
         <action path="/oscarEncounter/displayForms" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayFormAction"></action>
         <action path="/oscarEncounter/displayEForms" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayEFormAction"></action>
         <action path="/oscarEncounter/displayMessages" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayMsgAction"></action>
+        <action path="/oscarEncounter/displayBilling" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayBillingAction"></action>
         <action path="/oscarEncounter/displayDocuments" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayDocsAction"></action>
         <action path="/oscarEncounter/displayMeasurements" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayMeasurementsAction"></action>
         <action path="/oscarEncounter/displayTickler" scope="request" type="oscar.oscarEncounter.pageUtil.EctDisplayTicklerAction"></action>
@@ -784,6 +863,11 @@
         <action input="/immunization/config/ImmunizationSetDisplay.jsp" name="EctImmImmunizationSetDisplayForm" path="/oscarEncounter/immunization/config/ImmunizationSetDisplay" scope="request" type="oscar.oscarEncounter.immunization.config.pageUtil.EctImmImmunizationSetDisplayAction">
             <forward name="success" path="/oscarEncounter/immunization/config/ImmunizationSetDisplay.jsp" />
         </action>
+        <action input="/oscarEncounter/oscarMeasurements/Measurements.jsp" name="EctMeasurementsForm" path="/oscarEncounter/GraphMeasurements" scope="request" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.MeasurementGraphAction2">
+            <forward name="success" path="/oscarEncounter/oscarMeasurements/ProcessMeasurementsSubmission.jsp" />
+            <forward name="failure" path="/oscarEncounter/oscarMeasurements/Measurements.jsp" />
+        </action>
+        
         <action input="/oscarEncounter/oscarMeasurements/Measurements.jsp" name="EctMeasurementsForm" path="/oscarEncounter/Measurements" scope="request" type="oscar.oscarEncounter.oscarMeasurements.pageUtil.EctMeasurementsAction">
             <forward name="success" path="/oscarEncounter/oscarMeasurements/ProcessMeasurementsSubmission.jsp" />
             <forward name="failure" path="/oscarEncounter/oscarMeasurements/Measurements.jsp" />
@@ -1151,6 +1235,10 @@
             <forward name="error" path="/oscarPrevention/index.jsp" />
         </action>
         
+        <action name="FrmForm" path="/demographic/SearchDemographic" scope="request" type="org.oscarehr.common.web.SearchDemographicAutoCompleteAction">
+            <forward name="success" path="/demographic/autocomplete.jsp" /> 
+        </action>
+        
         <action input="/demographic/AddAlternateContact.jsp" name="FrmForm" path="/demographic/AddRelation" scope="request" type="oscar.oscarDemographic.pageUtil.AddDemographicRelationshipAction">
             <forward name="success" path="/demographic/AddAlternateContact.jsp" />
             <forward name="pmmClient" path="/PMmodule/ClientManager.do" />
@@ -1256,6 +1344,9 @@
         <action input="/demographic/demographicImport.jsp" name="CMLLabUploadForm" path="/lab/CMLlabUpload" scope="request" type="oscar.oscarLab.ca.on.CML.Upload.LabUploadAction">
             <forward name="success" path="/lab/CA/ON/uploadComplete.jsp" />
         </action>
+        <action input="/billing/CA/ON/batchBillingCode.jsp" path="/oscarBilling/batchBillingbyCode" name="batchBillingFrm" parameter="method" scope="request" type="org.springframework.web.struts.DelegatingActionProxy">
+            <forward name="report" path="/billing/CA/ON/batchBillingCode.jsp" />
+        </action>
         <action input="/demographic/demographicImport.jsp" name="LabUploadForm" path="/billing/CA/ON/benefitScheduleUpload" scope="request" type="oscar.oscarBilling.ca.on.OHIP.ScheduleOfBenefitsUploadAction">
             <forward name="success" path="/billing/CA/ON/ScheduleOfBenefitsUpload.jsp" />
         </action>
@@ -1288,11 +1379,12 @@
         <action input="/billing/CA/BC/billingSVCTrayAssoc.jsp" name="supServiceCodeAssocActionForm" path="/billing/CA/BC/supServiceCodeAssocAction" scope="request" type="oscar.oscarBilling.ca.bc.pageUtil.SupServiceCodeAssocAction" validate="false">
             <forward name="success" path="/billing/CA/BC/billingSVCTrayAssoc.jsp"></forward>
         </action>
-        <action input="/dms/documentReport.jsp" name="eDocsAddEditDocument" path="/dms/addEditDocument" type="oscar.dms.actions.AddEditDocumentAction" scope="request" validate="false">
+        <action input="/dms/documentReport.jsp" name="eDocsAddEditDocument" path="/dms/addEditDocument" type="oscar.dms.actions.AddEditDocumentAction"  parameter="method" scope="request" validate="false">
             <forward name="successAdd" path="/dms/documentReport.jsp"></forward>
             <forward name="failAdd" path="/dms/documentReport.jsp"></forward>
             <forward name="failEdit" path="/dms/editDocument.jsp"></forward>
             <forward name="successEdit" path="/dms/closeWindow.html"></forward>
+            <forward name="fastUploadSuccess" path="/dms/uploadMultiDocument.jsp"></forward>
         </action>
         <action input="/dms/documentReport.jsp" name="FrmForm" path="/dms/combinePDFs" type="oscar.dms.actions.CombinePDFAction" scope="request" validate="false">
             <forward name="success" path="/dms/documentReport.jsp"></forward>
@@ -1401,6 +1493,12 @@
             <forward name="error" path="/PMmodule/IntakeCReport1.jsp" />
             <forward name="timeout" path="/PMmodule/Timeout.jsp" />
         </action>
+        <action path="/PMmodule/StreetHealthIntakeReportAction" type="org.oscarehr.PMmodule.streethealth.StreetHealthIntakeReportAction" name="StreetHealthIntakeReportForm" scope="request" input="/PMmodule/StreetHealthIntakeReport.jsp">
+            <forward name="success" path="/PMmodule/StreetHealthIntakeReport.jsp" />
+            <forward name="download" path="/PMmodule/StreetHealthIntakeReportDownload.jsp" />
+            <forward name="error" path="/PMmodule/StreetHealthIntakeReport.jsp" />
+            <forward name="timeout" path="/PMmodule/Timeout.jsp" />
+        </action>
         <action path="/PMmodule/ProgramManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="programManagerForm" scope="session">
             <forward name="list" path="page.pmm.admin.list" />
             <forward name="edit" path="page.pmm.admin.edit" />
@@ -1467,12 +1565,6 @@
         <action path="/PMmodule/HealthSafety" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="healthSafetyForm" validate="false">
             <forward name="edit" path="/PMmodule/HealthSafety.jsp" />
             <forward name="success" path="/PMmodule/HealthSafetyExit.jsp" />
-        </action>
-        <action path="/PMmodule/Consent" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="consentForm" input="/PMmodule/Consent/consentFormA.jsp" validate="false">
-            <forward name="formA" path="/PMmodule/Consent/consentFormA.jsp" />
-            <forward name="formB" path="/PMmodule/Consent/consentFormB.jsp" />
-            <forward name="interview" path="/PMmodule/Consent/consentInterview.jsp" />
-            <forward name="success" path="/PMmodule/Consent/exit.jsp" />
         </action>
         <action path="/PMmodule/StaffManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="staffManagerForm" scope="request">
             <forward name="list" path="page.pmm.staff.list" />
@@ -1556,12 +1648,12 @@
         
         <action path="/Lookup/LookupTableList" type="org.springframework.web.struts.DelegatingActionProxy" 
                 name="lookupTableListForm" scope="request" validate="false" parameter="method">
-            <forward name="list" path="/PMmodule/lookup/LookupTableList.jsp" />
+            <forward name="list" path="page.admin.lookup.tablelist" />
         </action>
         
         <action path="/Lookup/LookupCodeList" type="org.springframework.web.struts.DelegatingActionProxy"
                 name="lookupCodeListForm" scope="request" validate="false" parameter="method">
-            <forward name="list" path="/PMmodule/lookup/LookupCodeList.jsp" />
+             <forward name="list" path="page.admin.lookup.codelist" />
         </action>
         
         <action path="/Lookup/LookupCodeEdit" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" 
@@ -1575,12 +1667,6 @@
         </action>
         <action path="/PMmodule/Reports/BasicReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
             <forward name="form" path="page.report.basicform" />
-        </action>
-        <action path="/PMmodule/Reports/ExitInterviewReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
-            <forward name="form" path="page.report.exitinterviewform" />
-        </action>
-        <action path="/PMmodule/Reports/ExitInterviewReportDetailed" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
-            <forward name="form" path="page.report.exitinterviewformdetailed" />
         </action>
         <action path="/PMmodule/Reports/ClientListsReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="clientListsReportForm" scope="request" validate="false">
             <forward name="form" path="page.report.clientlistsreportform" />
@@ -1611,7 +1697,7 @@
         <action path="/ReceptionistReport" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/er/receptionist_report.jsp" />
         </action>
-        <action path="/CaseManagementView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementView.jsp" name="caseManagementViewForm">
+        <action path="/CaseManagementView" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" input="/casemgmt/CaseManagementView.jsp" name="caseManagementViewForm">
             <forward name="view" path="/casemgmt/CaseManagementView.jsp" />
             <forward name="page.casemgmt.view" path="page.casemgmt.view" />
             <forward name="page.newcasemgmt.view" path="page.newcasemgmt.view" />
@@ -1625,7 +1711,7 @@
             <forward name="displayNote" path="/casemgmt/displayNote.jsp"/>
             <forward name="clientHistoryPrintPreview" path="/casemgmt/client_history_printPreview.jsp"/>
         </action>
-        <action path="/CaseManagementEntry" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="session" input="/casemgmt/CaseManagementEntry.jsp" name="caseManagementEntryForm">
+        <action path="/CaseManagementEntry" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" input="/casemgmt/CaseManagementEntry.jsp" name="caseManagementEntryForm">
             <forward name="view" path="/casemgmt/CaseManagementEntry.jsp" />
             <forward name="list" path="/CaseManagementView.do?method=view" redirect="true" />
             <forward name="listCPPNotes" path="/CaseManagementView.do" redirect="true" />
@@ -1636,11 +1722,17 @@
             <forward name="showHistory" path="/casemgmt/showHistory.jsp" />
             <forward name="issueAutoCompletion" path="/casemgmt/IssueList.jsp" />
             <forward name="issueList_ajax" path="/casemgmt/noteIssueList.jsp" />
-            <forward name="expired" path="/casemgmt/expired.jsp" />            
+            <forward name="expired" path="/casemgmt/expired.jsp" />   
+            <forward name="surveillance" path="/oscarSurveillance/CheckSurveillance.do" />
         </action>
         <action path="/ClientImage" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" name="clientImageForm" input="/casemgmt/uploadimage.jsp">
             <forward name="success" path="/casemgmt/uploadimage.jsp" />
         </action>
+        <action path="/OnCallQuestionnaire" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" input="/casemgmt/CaseManagementView.jsp" name="onCallQuestionnaireForm">
+        <forward name="form" path="/casemgmt/OnCallQuestionnaireForm.jsp" />
+        <forward name="windowClose" path="/casemgmt/close.jsp" />
+        </action>
+        
         <!-- OSCAR Report By Template -->
         <action input="/oscarReport/reportByTemplate/reportConfiguration.jsp" name="FrmForm" path="/oscarReport/reportByTemplate/GenerateReportAction" scope="request" type="oscar.oscarReport.reportByTemplate.actions.GenerateReportAction">
             <forward name="success" path="/oscarReport/reportByTemplate/resultReport.jsp" />
@@ -1696,6 +1788,23 @@
         <!-- Population Report -->
         <!-- PHR -->
         
+        <action path="/admin/ManageClinic" name="clinicForm" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
+            <forward name="success" path="/admin/clinicAdmin.jsp" />
+        </action>
+        
+      
+        
+        <action path="/OscarAnnotation" name="annotationForm" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
+            <forward name="success" path="/close.jsp" />
+            <forward name="formAnno" path="/common/Annotation.jsp"/>
+        </action>
+        
+        
+        
+        <action path="/dms/ManageDocument" name="FrmForm" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
+           <forward name="success" path="/dms/undocument.jsp"/>
+        </action>
+        
         <action path="/PhrRetrieve" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request">
             <forward name="report" path="/PMmodule/vaccine/vaccine_provider_report.jsp" />
         </action>
@@ -1725,9 +1834,41 @@
             <forward name="success" path="/appointment/appointmentstatussetting.jsp"/>
             <forward name="edit" path="/appointment/appointmentstatusedit.jsp"/>
         </action>
+	<action path="/PMmodule/MergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
+            <forward name="view" path="page.pmm.client.merge" />
+            <forward name="unmerge" path="/PMmodule/UnmergeClient.do" redirect="true" />
+        </action>
+        <action path="/PMmodule/UnmergeClient" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="mergeClientForm" scope="request">
+            <forward name="view" path="page.pmm.client.merge" />
+        </action>
+        <action path="/Lookup/LookupTree" type="org.springframework.web.struts.DelegatingActionProxy"
+              name="lookupTreeForm" scope="request" validate="false" parameter="method">
+            <forward name="tree" path="/PMmodule/lookup/LookupTree.jsp" />
+        </action>
+        <action path="/PMmodule/Admin/SysAdmin" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" scope="request" validate="false">
+               <forward name="admin" path="page.admin.home"/>
+               </action>
+               <action path="/PMmodule/Admin/RoleManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secroleForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.role.list" />
+            <forward name="edit" path="page.admin.role.edit" />
+            <forward name="functions" path="page.admin.role.functions" />
+        </action>
+        <action path="/PMmodule/Admin/UserManager" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="secuserForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.user.list" />
+            <forward name="profile" path="page.admin.user.addRoles" />
+            <forward name="edit" path="page.admin.user.edit" />
+            <forward name="addRoles" path="page.admin.user.addRoles" />
+            <forward name="changePassword" path="page.admin.user.changePassword" />
+        </action>
+        <action path="/PMmodule/Admin/UserSearch" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="userSearchForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.user.list" />
+        </action>
+        <action path="/PMmodule/Admin/UnlockAccount" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method" name="userUnlockForm" scope="request" validate="false">
+            <forward name="list" path="page.admin.user.unlocklist" />
+        </action>
         
     </action-mappings>
-    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" maxFileSize="10M"/>
     <message-resources parameter="oscarResources" />
     <message-resources parameter="HelpResources" key="help" />
     <message-resources parameter="MessageResources_program" key="pmm" />
@@ -1744,5 +1885,8 @@
     </plug-in>
     <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
         <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+    </plug-in>
+    <plug-in className="net.sf.navigator.menu.MenuPlugIn">
+      <set-property property="menuConfig" value="/WEB-INF/menu-config.xml"/>
     </plug-in>
 </struts-config>
