@@ -15,7 +15,6 @@ import org.oscarehr.PMmodule.model.FieldDefinition;
 
 import oscar.OscarProperties;
 
-import com.quatro.common.KeyConstants;
 
 public class Utility {
     public static boolean IsEmpty(String pStr)

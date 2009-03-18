@@ -24,7 +24,6 @@ public class CurrentDateTime {
   } 
 
   public static Calendar getCurrentDateTime(){
-	  long offset = 0L;
 	  boolean isNowatDST = checkIfNowAtDST(KeyConstants.DEFAULT_TIME_ZONE);
 	  TimeZone iTimeZone = TimeZone.getTimeZone(KeyConstants.DEFAULT_TIME_ZONE);
 	  Calendar iCalendar = Calendar.getInstance(iTimeZone);
