@@ -1,8 +1,11 @@
 <%@ include file="/taglibs.jsp"%>
 <%@page import="org.oscarehr.util.SpringUtils"%>
+<html>
 <head>
+
 <title>Program Search</title>
 <meta http-equiv="Cache-Control" content="no-cache">
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
@@ -101,6 +104,7 @@
 	
 </script>
 </head>
+<body>
 <html:form action="/PMmodule/QuatroProgramSearch.do">
 	<input type="hidden" name="method" />	
 	<input type="hidden" name="clientId"  value="<c:out value="${clientId}"/>"/>
@@ -160,7 +164,7 @@
 		<display:table class="simple" sort="list" cellspacing="2" cellpadding="3" id="program" name="programs" pagesize="200" requestURI="/PMmodule/QuatroProgramSearch.do">
 			<display:setProperty name="paging.banner.placement" value="bottom" />
 			<display:column sortable="true" title="Name" sortName="program" sortProperty="name">
-				<a href="#javascript:void(0);" onclick="selectProgram('<c:out value="${clientId}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />','<c:out value="${gender}" />');" >
+				<a href="javascript:void(0);" onclick="selectProgram('<c:out value="${clientId}" />','<c:out value="${program.id}" />','<c:out value="${program.type}" />','<c:out value="${gender}" />');" >
 						<c:out value="${program.name}" /></a>
 			</display:column>
 			<display:column property="type" sortable="true" title="Type"></display:column>
@@ -179,4 +183,5 @@
 				</c:if>
 			</display:column>
 		</display:table>	
-
+</body>
+</html>

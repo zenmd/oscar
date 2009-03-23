@@ -9,6 +9,7 @@
 
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <title>Lookup</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/quatroReport.js'></script>

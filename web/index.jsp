@@ -45,6 +45,7 @@
 <html:html locale="true">
 <head>
 <html:base />
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=UTF-8">
 <title>
 <%

@@ -27,6 +27,7 @@
 
 <html>
 <head>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="spellcheck.css" type="text/css"/>
 </head>
 <body>

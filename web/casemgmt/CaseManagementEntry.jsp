@@ -29,6 +29,7 @@
 <head>
 <title>Case Management</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css" type="text/css">
 <script language="JavaScript" src="<c:out value="${ctx}"/>/jspspellcheck/spellcheck-caller.js"></script>
 <script type="text/javascript">

@@ -31,9 +31,8 @@
 
 <html>
 <head>
-
-<meta http-equiv="Content-Type"
-	content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Consent Form</title>
 </head>
 

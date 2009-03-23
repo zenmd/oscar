@@ -27,7 +27,8 @@
 <html>
 <head>
 	<title>Issue Search</title>
-	<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>	
+	<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />	
 	<link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css" type="text/css">
 </head>
 

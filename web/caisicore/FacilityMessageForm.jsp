@@ -26,7 +26,7 @@
 <%@page import="java.util.Calendar" %>
 <html>
 	<head>
-	
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 		<style type="text/css">
 		/* <![CDATA[ */
 		@import "<html:rewrite page="/css/core.css" />";

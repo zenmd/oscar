@@ -1,6 +1,7 @@
 <%@ include file="/taglibs.jsp"%>
 <html>
 <head>
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <title>Duplicate Client Check</title>
 <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />

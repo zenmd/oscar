@@ -19,7 +19,7 @@
 	<head>
 		
 		<title>QuatroShelter</title>
-		
+		<link rel="shortcut icon" type="image/x-icon" href='<html:rewrite page="/images/favicon.ico" />'/>
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/tigris.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/displaytag.css" />' />
 	    <link rel="stylesheet" type="text/css" href='<html:rewrite page="/css/core.css" />' />

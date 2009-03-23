@@ -3,6 +3,7 @@
 	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <title>Signature</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="GENERATOR" content="Rational Application Developer">

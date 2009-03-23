@@ -27,6 +27,7 @@
 
 <html>
 	<head>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	<META HTTP-EQUIV="refresh" content="0;URL=<c:out value="${ctx}"/>/ReceptionistReport.do?id=<c:out value="${id}"/>">
 	</head>
 </html>

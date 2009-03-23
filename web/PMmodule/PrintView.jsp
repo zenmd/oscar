@@ -4,6 +4,7 @@
 <%@ include file="/taglibs.jsp" %>
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="../theme/Master.css" type="text/css">
 <title>PrintPreview</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">

@@ -27,6 +27,7 @@
 
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>

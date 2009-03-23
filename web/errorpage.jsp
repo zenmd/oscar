@@ -26,6 +26,10 @@
 
 <%@ page isErrorPage="true" %><!-- only true can access exception object -->
 <html>
+<head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<title>error</title>
+</head>
 <body>
 <h1>
 Error Page

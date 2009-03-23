@@ -6,8 +6,8 @@
 <title>Note History</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}"
 	scope="request" />
-<link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css"
-	type="text/css">
+<link rel="stylesheet" href="<c:out value="${ctx}"/>/css/casemgmt.css" type="text/css">
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 
 </head>
 <body bgcolor="#eeeeff">

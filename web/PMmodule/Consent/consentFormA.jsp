@@ -32,6 +32,7 @@
 <%@page import="org.oscarehr.PMmodule.model.Demographic"%>
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	<title>Consent Form</title>
 	
 	<script>

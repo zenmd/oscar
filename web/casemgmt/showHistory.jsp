@@ -26,6 +26,7 @@
  
  <html>
      <head>
+	     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
          <title>Note History</title>
      </head>    
      <body>

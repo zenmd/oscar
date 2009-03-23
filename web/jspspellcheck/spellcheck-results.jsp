@@ -69,6 +69,7 @@ ResourceBundle spellcheckBundle = ResourceBundle.getBundle( "spellcheckBundle", 
 
 <html>
 <head>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <title><%=spellcheckBundle.getString("WindowTitle")%></title>
     <link rel="stylesheet" href="spellcheck.css" type="text/css"/>
 </head>

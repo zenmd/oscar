@@ -1,6 +1,7 @@
 <%@ include file="../taglibs.jsp"%>
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 <title>Case Management</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}"	scope="request" />
 <script type="text/javascript" 	src='<c:out value="${ctx}"/>/js/quatroLookup.js'></script>

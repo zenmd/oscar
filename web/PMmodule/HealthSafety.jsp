@@ -8,6 +8,7 @@
 <%@page import="org.oscarehr.PMmodule.model.Demographic"%>
 <html>
 <head>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	<title>Health and Safety</title>
 <script type="text/javascript" src="<html:rewrite page="/js/validation.js" />"></script>
 
