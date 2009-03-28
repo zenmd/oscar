@@ -673,7 +673,7 @@ public class IntakeDao extends HibernateDaoSupport {
         if(intakeDb.getId().intValue()>0){
 		  getHibernateTemplate().update(intakeDb);
 
-		  clientReferral = clientReferralDao.getReferralByIntakeId(intakeDb.getId());
+		  clientReferral = clientReferralDao.getReferralAutoByIntakeId(intakeDb.getId());
           programQueue = programQueueDao.getProgramQueueByIntakeId(intakeDb.getId());
 		  
 		  //always update programId in referral and queue record in case program changed on intake_edit jsp page.

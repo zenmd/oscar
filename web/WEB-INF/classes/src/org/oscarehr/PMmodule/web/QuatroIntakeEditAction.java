@@ -215,8 +215,10 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			if (Integer.parseInt(clientId) > 0) {
 				client = clientManager.getClientByDemographicNo(clientId);
 				qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
+				request.setAttribute("newClientChecked","Y");
 			} else {
 				client = new Demographic();
+				request.setAttribute("newClientChecked","N");
 				qform.setDob("");
 			}
 			qform.setClient(client);
@@ -282,8 +284,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			ClientReferral clientRef = null;
 			if(intakeHeadId!=null && intakeHeadId.intValue()>0)
-				clientRef = clientManager.getClientReferralByIntake(intakeHeadId);
-			else clientRef = clientManager.getClientReferralByIntake(intake.getId());
+				clientRef = clientManager.getClientReferralAutoByIntake(intakeHeadId);
+			else clientRef = clientManager.getClientReferralAutoByIntake(intake.getId());
 			request.setAttribute("programId", intake.getProgramId());
 			if(clientRef != null)
 			{
@@ -417,6 +419,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	public ActionForward programChange(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionMessages messages = new ActionMessages();
+		request.setAttribute("newClientChecked",request.getParameter("newClientChecked"));
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 			if(qform.getOptionList() == null) throw new NoAccessException();
@@ -504,7 +507,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			return mapping.findForward("failure");
 		}
 	}
-
+	public ActionForward queue(ActionMapping mapping, ActionForm form, 
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		return mapping.findForward("admission");
+	}
 	private void setProgramEditable(HttpServletRequest request,
 			QuatroIntake intake, Integer intakeHeadId) {
 		boolean isEditable = true;
@@ -531,7 +538,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
    				 request.setAttribute("admitable", Boolean.TRUE);
    			 }
 		}
-		ClientReferral clientRef = clientManager.getClientReferralByIntake(intake.getId());
+		ClientReferral clientRef = clientManager.getClientReferralAutoByIntake(intake.getId());
 		if(clientRef == null)
 		{
 			request.setAttribute("referralId", Integer.valueOf("0"));
@@ -610,9 +617,13 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		boolean isWarning = false;
 		boolean isNew = false;
 		Integer duplicatedReferralId = new Integer(0);
+		request.setAttribute("newClientChecked",request.getParameter("newClientChecked"));
 		try {
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
-
+			for(int i=0; i< 10000000; i++)
+			{
+				String a =  "";
+			}
 			Demographic client = qform.getClient();
 			QuatroIntake intake = qform.getIntake();
 			if (intake.getId() == null || intake.getId().intValue() == 0)
@@ -632,7 +643,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 			// check for new client duplication
 			if (intake.getClientId().intValue() == 0
-					&& request.getParameter("newClientChecked").equals("N")
+					&& !request.getParameter("newClientChecked").equals("Y")
 					&& !validateDuplicate(intake, client, request, messages)) {
 				request.setAttribute("newClientFlag", "true");
 				HashMap actionParam2 = new HashMap();

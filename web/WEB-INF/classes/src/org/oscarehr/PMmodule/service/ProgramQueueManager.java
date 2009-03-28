@@ -35,7 +35,7 @@ public interface ProgramQueueManager
 
 	public List getProgramQueuesByProgramId(Integer programId);
 
-	public List getProgramQueuesByReferralId(Integer referralId);
+	public ProgramQueue getProgramQueueByReferralId(Integer referralId);
 	
 	public void saveProgramQueue(ProgramQueue programQueue);
 	

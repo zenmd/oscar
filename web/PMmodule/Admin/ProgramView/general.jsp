@@ -24,6 +24,7 @@
  
  
 <%@ include file="/taglibs.jsp"%>
+<%@page import="com.quatro.common.KeyConstants" %>
 <table width="100%" cellpadding="0px" cellspacing="0px" height="100%"
 	border="0">
 	<tr>
@@ -70,10 +71,15 @@
 				</tr>
 				<tr class="b">
 					<td width="20%">Facility:</td>
-					<td>					
+					<td>
+					<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY%>" rights="<%=KeyConstants.ACCESS_READ%>">					
 					<a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=view&facilityId=<c:out value="${program.facilityId}" />">
 						<c:out value="${facilityName}" />					
 					</a>
+					</security:oscarSec>
+					<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY%>" rights="<%=KeyConstants.ACCESS_READ%>" reverse="true">					
+						<c:out value="${facilityName}" />					
+					</security:oscarSec>
 					</td>
 				</tr>
 				<tr class="b">

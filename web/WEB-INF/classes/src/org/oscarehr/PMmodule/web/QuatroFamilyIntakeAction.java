@@ -22,9 +22,13 @@ import org.oscarehr.PMmodule.model.ProgramClientRestriction;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeDB;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
+import org.oscarehr.PMmodule.model.Room;
+import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ClientRestrictionManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
+import org.oscarehr.PMmodule.service.RoomDemographicManager;
+import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.formbean.QuatroClientFamilyIntakeForm;
 
@@ -44,7 +48,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    private ClientManager clientManager;
    private ProgramManager programManager;
    private ClientRestrictionManager clientRestrictionManager;
-   
+   private RoomDemographicManager roomDemographicManager;
+   private RoomManager roomManager;
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        return edit(mapping, form, request, response);
    }
@@ -116,16 +121,27 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	     	  obj.setServiceRestriction("N");
 	     	  obj.setStatusMsg("#");
 	       }
+	       boolean isFamilyAdmitted = false;
+	       Integer admId = null;
+	       int familySize = dependent.size();
 	       for(int i=0;i<dependent.size();i++){
 	    	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependent.get(i);
 	    	  if(obj.getIntakeHeadId().equals(obj.getIntakeId())){
-	    		 Boolean isFamilyAdmitted = Boolean.valueOf(obj.getAdmissionId() != null); 
-	    		 request.setAttribute("isFamilyAdmitted", isFamilyAdmitted);
-	    		 dependent.remove(obj);
-	    		 break;
+	    		  admId = obj.getAdmissionId();
+	    		  isFamilyAdmitted =  admId != null;
+	    		  request.setAttribute("isFamilyAdmitted", new Boolean(isFamilyAdmitted));
+	    		  dependent.remove(obj);
+	    		  break;
 	    	  }
 	       }
-	
+	       if (isFamilyAdmitted) 
+	       {
+	    	   RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByAdmissionId(admId);
+	    	   Room rm = roomManager.getRoom(roomDemographic.getId().getRoomId());
+	    	   request.setAttribute("roomCapacity", rm.getCapacity());
+	    	   request.setAttribute("isRoomFull", Boolean.valueOf(familySize >= rm.getCapacity().intValue()));
+	       }
+	       
 	       clientForm.setFamilyHead(familyHead);
 	       clientForm.setDob(MyDateFormat.getStandardDate(familyHead.getDateOfBirth()));
 	       clientForm.setDependents(dependent);
@@ -142,6 +158,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    }
 
    public ActionForward history(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	   request.setAttribute("notoken", "Y");
 	   try {
 		   QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 	
@@ -186,6 +203,13 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	        clientForm.setDependents(dependents);
 	        clientForm.setDependentsSize(dependents.size());
 	        request.setAttribute("pageChanged", "1");
+	        Boolean isFamilyAdmitted=Boolean.valueOf(request.getParameter("isFamilyAdmitted"));
+	       if (isFamilyAdmitted.booleanValue()) 
+	       {
+	    	   	Integer roomCapacity = Integer.valueOf(request.getParameter("roomCapacity"));
+	    	    request.setAttribute("isRoomFull", Boolean.valueOf(dependents.size()+1 >= roomCapacity.intValue()));
+	       }
+
 	       return mapping.findForward("edit");
        }
        catch(NoAccessException e)
@@ -206,6 +230,12 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       clientForm.setDependents(dependents);
 	       clientForm.setDependentsSize(dependents.size());
 	       request.setAttribute("pageChanged", "1");
+	       Boolean isFamilyAdmitted=Boolean.valueOf(request.getParameter("isFamilyAdmitted"));
+	       if (isFamilyAdmitted.booleanValue()) 
+	       {
+	    	   	Integer roomCapacity = Integer.valueOf(request.getParameter("roomCapacity"));
+	    	   	request.setAttribute("isRoomFull", Boolean.valueOf(dependents.size()+1 >= roomCapacity.intValue()));
+	       }
 	       return mapping.findForward("edit");
        }
        catch(NoAccessException e)
@@ -219,6 +249,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        boolean isError = false;
        boolean isWarning = false;
        try {
+    	   /*get page parameters */
+    	   
 	       QuatroClientFamilyIntakeForm clientForm = (QuatroClientFamilyIntakeForm)form; 
 	       setEditFields(request, clientForm);
 	
@@ -574,6 +606,9 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    	   boolean readOnly=false;
    	   request.setAttribute("isReadOnly", request.getParameter("isReadOnly"));
    	   request.setAttribute("isFamilyAdmitted", request.getParameter("isFamilyAdmitted"));
+	   request.setAttribute("roomCapacity", request.getParameter("roomCapacity")); 
+	   request.setAttribute("isRoomFull", request.getParameter("isRoomFull"));
+   	   
        List genders = lookupManager.LoadCodeList("GEN",true, null, null);
        LookupCodeValue obj2= new LookupCodeValue();
        obj2.setCode("");
@@ -616,5 +651,11 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
    public void setProgramManager(ProgramManager programManager) {
 	 this.programManager = programManager;
    }
-   
+   public void setRoomDemographicManager(RoomDemographicManager roomDemographicManager) {
+		 this.roomDemographicManager = roomDemographicManager;
+   }
+   public void setRoomManager(RoomManager roomManager)
+   {
+	   this.roomManager = roomManager;
+   }
 }

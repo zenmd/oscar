@@ -420,6 +420,7 @@
             parameter="method" name="quatroIntakeEditForm" scope="session">
             <forward name="edit" path="page.quatro.pmm.intakeedit" />
             <forward name="update" path="page.quatro.intake.edit" />
+            <forward name="admission" path="/PMmodule/QuatroAdmission.do" />
             <forward name="close" path="/PMmodule/QuatroIntake.do" redirect="true"></forward>
         </action>
 

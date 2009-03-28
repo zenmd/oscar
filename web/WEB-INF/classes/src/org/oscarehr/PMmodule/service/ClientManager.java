@@ -163,8 +163,8 @@ public class ClientManager {
             queue.setReferralId(referral.getId());
             queue.setPresentProblems(referral.getPresentProblems());
           }else{
-        	List lst = queueDao.getProgramQueuesByReferralId(referral.getId());
-        	if(lst.size()==0){
+        	queue = queueDao.getProgramQueueByReferralId(referral.getId());
+        	if(queue == null){
                queue = new ProgramQueue();
                queue.setClientId(referral.getClientId());
                queue.setNotes(referral.getNotes());
@@ -174,7 +174,6 @@ public class ClientManager {
                queue.setReferralId(referral.getId());
                queue.setPresentProblems(referral.getPresentProblems());
         	}else{
-               queue = (ProgramQueue)lst.get(0);
                queue.setClientId(referral.getClientId());
                queue.setNotes(referral.getNotes());
                queue.setProgramId(referral.getProgramId());
@@ -194,8 +193,8 @@ public class ClientManager {
         return referralDAO.search(referral);
     }
     
-    public ClientReferral getClientReferralByIntake(Integer intakeId){
-    	return referralDAO.getReferralByIntakeId(intakeId);
+    public ClientReferral getClientReferralAutoByIntake(Integer intakeId){
+    	return referralDAO.getReferralAutoByIntakeId(intakeId);
     }
 
 /*    

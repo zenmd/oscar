@@ -531,33 +531,62 @@ public class QuatroReportRunnerAction extends BaseAdminAction {
 		  if ("N".equals(rptVal.getDateOption())){
 		    repTemp.setStartDate(MyDateFormat.getSysDate("1900-01-01"));
 		    repTemp.setEndDate(MyDateFormat.getSysDate("2999-12-31"));
-		  }else{
-		    if (Utility.IsEmpty(myForm.getStartField()) && Utility.IsEmpty(myForm.getEndField())){
-		      noDateRange = true;
-		    }else if (Utility.IsEmpty(myForm.getStartField())){
-		      repTemp.setStartDate(MyDateFormat.getCurrentDate());
-			  repTemp.setEndDate(MyDateFormat.getSysDate(myForm.getEndField()));
-		    }else if (Utility.IsEmpty(myForm.getEndField())){
-	          repTemp.setStartDate(MyDateFormat.getSysDate(myForm.getStartField()));
-		      repTemp.setEndDate(MyDateFormat.getCurrentDate());
-		    }else{
-		      repTemp.setStartDate(MyDateFormat.getSysDate(myForm.getStartField()));
-			  repTemp.setEndDate(MyDateFormat.getSysDate(myForm.getEndField()));
-		      if (repTemp.getStartDate().after(repTemp.getEndDate()))
-		        errMsg = " Start Date Must Be Less or Equal to the End Date";
-		    }
+		  }else if ("B".equals(rptVal.getDateOption())){
+			   if (Utility.IsEmpty(myForm.getStartField()) && Utility.IsEmpty(myForm.getEndField()))
+			   {
+				      noDateRange = true;
+				      errMsg += "Date Range required";
+			   }
+			   else if (Utility.IsEmpty(myForm.getStartField())){
+				   errMsg += "Start Date is required";
+			    }else if (Utility.IsEmpty(myForm.getEndField())){
+					   errMsg += "End Date is required";
+			    }
+			    else
+			    {
+				      repTemp.setStartDate(MyDateFormat.getSysDate(myForm.getStartField()));
+					  repTemp.setEndDate(MyDateFormat.getSysDate(myForm.getEndField()));
+				      if (repTemp.getStartDate().after(repTemp.getEndDate()))
+				        errMsg += " Start Date Must Be Less or Equal to the End Date";
+			    }
+		  }
+		  else
+		  {
+			   if (Utility.IsEmpty(myForm.getStartField()) && Utility.IsEmpty(myForm.getEndField()))
+			   {
+				      noDateRange = true;
+				      errMsg += "Date Range required";
+			   }
+			   else if(Utility.IsEmpty(myForm.getStartField())){
+				  repTemp.setStartDate(MyDateFormat.getSysDate("1900-01-01"));
+				  repTemp.setEndDate(MyDateFormat.getSysDate(myForm.getEndField()));
+			  }else if (Utility.IsEmpty(myForm.getEndField())){
+				  repTemp.setStartDate(MyDateFormat.getSysDate(myForm.getStartField()));
+				  repTemp.setEndDate(MyDateFormat.getSysDate("2999-01-01"));
+			  }
 		  }
 		}else{
 		  if ("N".equals(rptVal.getDateOption())){
 		    repTemp.setStartPayPeriod(null);
 		    repTemp.setEndPayPeriod(null);
-		  }else{
+		  }else if ("B".equals(rptVal.getDateOption())){
 		    repTemp.setStartPayPeriod(myForm.getStartField().trim());
 		    repTemp.setEndPayPeriod(myForm.getEndField().trim());
 		    if ("".equals(repTemp.getStartPayPeriod()) && "".equals(repTemp.getEndPayPeriod())){
 		      noDateRange = true;
+		      errMsg += "Date Range required"; 
 		    }else if ("".equals(repTemp.getStartPayPeriod())){
-		      repTemp.setStartPayPeriod(repTemp.getEndPayPeriod());
+		    	errMsg += "Start Date is reqired";
+		    }
+		    else if ("".equals(repTemp.getEndPayPeriod()))
+		    {
+		    	errMsg += "End Date is reqired";
+		    }
+		  }
+		  else
+		  {
+			  if ("".equals(repTemp.getStartPayPeriod())){  
+		    	repTemp.setStartPayPeriod(repTemp.getEndPayPeriod());
 		    }else if ("".equals(repTemp.getEndPayPeriod())){
 		      repTemp.setEndPayPeriod(repTemp.getStartPayPeriod());
 		    }else{

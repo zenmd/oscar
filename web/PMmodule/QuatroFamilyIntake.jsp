@@ -12,6 +12,8 @@
 <input type="hidden" name="intakeHeadId" value="<c:out value="${intakeHeadId}" />"/>
 <input type="hidden" name="programId" value="<c:out value="${programId}" />" />
 <input type="hidden" name="isFamilyAdmitted" value="<c:out value="${isFamilyAdmitted}" />"/>
+<input type="hidden" name="isRoomFull"       value="<c:out value="${isRoomFull}" />" /> 
+<input type="hidden" name="roomCapacity"       value="<c:out value="${roomCapacity}" />" /> 
 <html:hidden property="intakeStatus"/>
 <html:hidden property="intakeId" />
 <input type="hidden" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
@@ -45,9 +47,14 @@ function submitForm(methodVal)
 	var famAdmitted = document.getElementsByName("isFamilyAdmitted")[0];
 	if (famAdmitted.value=="true" && methodVal == "add") 
 	{
+		var roomFull = document.getElementsByName("isRoomFull")[0];
+		if (roomFull.value=="true") {
+			alert("Room capacity reached");
+			return;
+		}
 		ans = confirm("New members added to the family will be discharged from other shelters if they are currently admitted to those shelters. To proceed, click OK.");	
+		if (!ans) return;
 	}
-	if (!ans) return;
     if (methodVal == "save") 
     {	    
 	    for(var i=0;i<lineNum;i++){
@@ -169,6 +176,22 @@ function checkExistClients(i){
         </html:messages> 
       </logic:messagesPresent>
 	</td></tr>
+	<tr>
+		<td>
+		<c:choose>
+<c:when test="${bDupliDemographicNoApproved==false}">
+<input type=checkbox name="newClientConfirmed" value="Y">Confirm all new clients.
+</c:when>
+<c:when test="${bDupliDemographicNoApproved==true}">
+<input type="hidden" name="newClientConfirmed" value="Y">
+</c:when>
+<c:otherwise>
+<input type="hidden" name="newClientConfirmed" value="N">
+</c:otherwise>
+</c:choose>
+		
+		</td>
+	</tr>
 	<tr>
 		<td height="100%">
 		<div style="color: Black; background-color: White; border-width: 1px; border-style: Ridge;
@@ -341,17 +364,6 @@ function checkExistClients(i){
 	<a href='javascript:submitForm("delete");' onclick='javascript:setNoConfirm();' style="color:Navy;text-decoration:underline;">Remove Dependant</a>
 </security:oscarSec>
 </c:if>
-<c:choose>
-<c:when test="${bDupliDemographicNoApproved==false}">
-<input type=checkbox name="newClientConfirmed" value="Y">Confirm all new clients.
-</c:when>
-<c:when test="${bDupliDemographicNoApproved==true}">
-<input type="hidden" name="newClientConfirmed" value="Y">
-</c:when>
-<c:otherwise>
-<input type="hidden" name="newClientConfirmed" value="N">
-</c:otherwise>
-</c:choose>
 </td>
 </tr>
 

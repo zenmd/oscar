@@ -59,7 +59,7 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         return (ProgramQueue)results.get(0);
     }
     
-    public List getProgramQueuesByReferralId(Integer referralId) {
+    public ProgramQueue getProgramQueueByReferralId(Integer referralId) {
         if (referralId == null) {
             throw new IllegalArgumentException();
         }
@@ -67,7 +67,8 @@ public class ProgramQueueDao extends HibernateDaoSupport {
         String queryStr = " FROM ProgramQueue q WHERE q.ReferralId=?";
         List results = getHibernateTemplate().find(queryStr, referralId);
 
-        return results;
+        if(results.size()==0) return null;
+        return (ProgramQueue)results.get(0);
     }
     
     public List getProgramQueuesByProgramId(Integer programId) {

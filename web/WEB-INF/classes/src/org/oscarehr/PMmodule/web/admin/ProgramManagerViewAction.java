@@ -54,6 +54,7 @@ import org.oscarehr.PMmodule.model.ProgramClientInfo;
 import org.oscarehr.PMmodule.model.ProgramQueue;
 import org.oscarehr.PMmodule.model.QuatroIntake;
 import org.oscarehr.PMmodule.model.QuatroIntakeFamily;
+import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.BedManager;
@@ -65,6 +66,7 @@ import org.oscarehr.PMmodule.service.ProgramManager;
 import org.oscarehr.PMmodule.service.ProgramQueueManager;
 import org.oscarehr.PMmodule.service.ProviderManager;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
+import org.oscarehr.PMmodule.service.RoomManager;
 import org.oscarehr.PMmodule.utility.DateTimeFormatUtils;
 import org.oscarehr.PMmodule.web.BaseAction;
 import org.oscarehr.PMmodule.web.BaseProgramAction;
@@ -100,7 +102,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 
 
     private BedManager bedManager;
-
+    private RoomManager roomManager;
+    
     private ClientManager clientManager;
 
     private LogManager logManager;
@@ -726,7 +729,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	   		RoomDemographic roomDemographic2 = (RoomDemographic)lstBeds.get(1);
 	   		
 	   		if(roomDemographic1 == null  ||  roomDemographic2 == null){
-	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error"));
+	            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error",request.getContextPath()));
 	            saveMessages(request, messages);
 	            return view(mapping, form, request, response);
 	   		}
@@ -779,47 +782,66 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	   	   		roomDemographic2.getId().setRoomId(roomId1);
 	   	   	    roomDemographic2.setBedId(bedId1);
 	
-	   	   	    roomDemographicManager.saveRoomDemographic(roomDemographic1);
-	   	   		roomDemographicManager.saveRoomDemographic(roomDemographic2);
+	   	   	    roomDemographicManager.saveRoomDemographic(roomDemographic1,admObj1);
+	   	   		roomDemographicManager.saveRoomDemographic(roomDemographic2,admObj2);
 	   		    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.swap_room_success"));
 	   		    saveMessages(request, messages);   		           
 	   		}else if(!isIndependent1  &&  !isIndependent2){
 	  			List f1 =intakeManager.getClientFamilyByIntakeId(admObj1.getIntakeId().toString());
 	   			List f2 =intakeManager.getClientFamilyByIntakeId(admObj2.getIntakeId().toString());
+	   			
+	   			if (f1.size() != f2.size()) {
+	   				// checking the room capacity before continue
+	   				RoomDemographic rmDemo = null;
+	   				int maxSize = 0;
+	   				if (f1.size() > f2.size())
+	   				{
+	   					rmDemo = roomDemographicManager.getRoomDemographicByDemographic((((QuatroIntakeFamily)f2.get(0)).getClientId()));
+	   					maxSize = f1.size();
+	   				}
+	   				else
+	   				{
+	   					rmDemo = roomDemographicManager.getRoomDemographicByDemographic((((QuatroIntakeFamily)f1.get(0)).getClientId()));
+	   					maxSize = f2.size();
+	   				}
+   					Room rm = roomManager.getRoom(rmDemo.getId().getRoomId());
+   					if (rm.getCapacity().intValue() < maxSize)
+   					{
+   			            messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("room.check.error", request.getContextPath(), rm.getName(),rm.getCapacity()));
+   			            saveMessages(request, messages);
+   			            return view(mapping, form, request, response);
+   					}
+	   			}
+	   			
 	   			String cIds="";   	   	   			
 	   			Iterator f1Items =f1.iterator();   					
 	   			while(f1Items.hasNext()){
 	   				QuatroIntakeFamily f1Intake =(QuatroIntakeFamily)f1Items.next();
-	   				cIds +=f1Intake.getClientId()+",";
-	   			}
-	   			String[] clients=cIds.split(",");
-	   			for(int i=0;i<clients.length;i++){
-	                RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(new Integer(clients[i]));
-	   	   	   			
+	   				Integer cId = f1Intake.getClientId();
+	                RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(cId);
+	   	   	   		Admission admi = admissionManager.getAdmissionByIntakeId(f1Intake.getIntakeId());	
 	   	   	   	    rdObj.setAssignStart(today);
 	   	   	   	    rdObj.setProviderNo(providerNo);   	   	   		    
 	   	   	   	    rdObj.getId().setRoomId(roomId2);
-	   	   	   	    roomDemographicManager.saveRoomDemographic(rdObj); 
+	   	   	   	    roomDemographicManager.saveRoomDemographic(rdObj, admi); 
 	  			}
 	
 	   			Iterator f2Items =f2.iterator();
 	   			cIds="";
 	   			while(f2Items.hasNext()){
 	   				QuatroIntakeFamily f2Intake =(QuatroIntakeFamily)f2Items.next();
-	   				cIds +=f2Intake.getClientId()+",";
-	   			}
-	   			clients=cIds.split(",");
-	   			for(int i=0;i<clients.length;i++){
-	                RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(new Integer(clients[i]));
+	   				Integer cId =f2Intake.getClientId();
+	                RoomDemographic rdObj =roomDemographicManager.getRoomDemographicByDemographic(cId);
+	   	   	   		Admission admi = admissionManager.getAdmissionByIntakeId(f2Intake.getIntakeId());	
 	   	   	   	    rdObj.setAssignStart(today);
 	   	   	   	    rdObj.setProviderNo(providerNo);   	   	   		    
 	   	   	   	    rdObj.getId().setRoomId(roomId1);
-	   	   	   	    roomDemographicManager.saveRoomDemographic(rdObj); 
+	   	   	   	    roomDemographicManager.saveRoomDemographic(rdObj, admi); 
 	   			}
 	   		    messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.swap_room_success"));
 	   		    saveMessages(request, messages);   		           
 	   		}else{
-	   			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error_person_type"));
+	   			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("bed.check.error_person_type",request.getContextPath()));
 	   		    saveMessages(request, messages);		            
 	   		}
 	        return view(mapping, form, request, response);
@@ -841,10 +863,13 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	this.roomDemographicManager = roomDemographicManager;
     }
 
+    public void setRoomManager(RoomManager roomManager) {
+    	this.roomManager = roomManager;
+    }
+
     public void setBedManager(BedManager bedManager) {
     	this.bedManager = bedManager;
     }
-
     public void setClientManager(ClientManager mgr) {
     	this.clientManager = mgr;
     }

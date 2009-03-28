@@ -431,7 +431,7 @@ public class IntakeManager {
 		if(exist_intakeDB!=null){
 		  Integer exist_intakeDB_referralId = new Integer(0);
 		  Integer exist_intakeDB_programQueueId = new Integer(0);
-		  ClientReferral exist_intakeDB_referral = clientReferralDAO.getReferralByIntakeId(exist_intakeDB.getId());
+		  ClientReferral exist_intakeDB_referral = clientReferralDAO.getReferralAutoByIntakeId(exist_intakeDB.getId());
 		  if(exist_intakeDB_referral!=null) exist_intakeDB_referralId= exist_intakeDB_referral.getId();
 		  ProgramQueue exist_intakeDB_programQueue = programQueueDao.getProgramQueueByIntakeId(exist_intakeDB.getId());
 		  if(exist_intakeDB_programQueue!=null) exist_intakeDB_programQueueId= exist_intakeDB_programQueue.getId();

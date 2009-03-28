@@ -26,10 +26,14 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.oscarehr.PMmodule.dao.BedDAO;
 import org.oscarehr.PMmodule.dao.ClientDao;
+import org.oscarehr.PMmodule.dao.ClientHistoryDao;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.PMmodule.dao.RoomDAO;
 import org.oscarehr.PMmodule.dao.RoomDemographicDAO;
+import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.ClientHistory;
 import org.oscarehr.PMmodule.model.Room;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 import org.oscarehr.PMmodule.service.RoomDemographicManager;
@@ -45,7 +49,9 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	private RoomDemographicDAO roomDemographicDAO;
 	private ProviderDao providerDao;
 	private ClientDao clientDao;
+	private ClientHistoryDao clientHistoryDao;
 	private RoomDAO roomDAO;
+	private BedDAO bedDAO;
 
 	public void setRoomDemographicDAO(RoomDemographicDAO roomDemographicDAO) {
 		this.roomDemographicDAO = roomDemographicDAO;
@@ -58,9 +64,16 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 	public void setClientDao(ClientDao clientDao) {
 		this.clientDao = clientDao;
 	}
+	public void setClientHistoryDao(ClientHistoryDao clientHistoryDao) {
+		this.clientHistoryDao = clientHistoryDao;
+	}
 
 	public void setRoomDAO(RoomDAO roomDAO) {
 		this.roomDAO = roomDAO;
+	}
+
+	public void setBedDAO(BedDAO bedDAO) {
+		this.bedDAO = bedDAO;
 	}
 
 	/**
@@ -133,6 +146,18 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 		if(!isNoRoomAssigned){
 			roomDemographicDAO.saveRoomDemographic(roomDemographic);
 		}
+	}
+	
+	/**
+	 * @see org.oscarehr.PMmodule.service.RoomDemographicManager#saveRoomDemographic(org.oscarehr.PMmodule.model.RoomDemographic)
+	 */
+	public void saveRoomDemographic(RoomDemographic roomDemographic, Admission admission) {
+		saveRoomDemographic(roomDemographic);
+		
+	  String roomName = roomDAO.getRoom(roomDemographic.getId().getRoomId()).getName();
+	  String bedName = "";
+  	  if (roomDemographic.getBedId() != null) bedName = bedDAO.getBed(roomDemographic.getBedId()).getName();
+      clientHistoryDao.saveClientHistory(admission,roomName, bedName);
 	}
 	
 	/**

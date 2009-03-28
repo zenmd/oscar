@@ -92,8 +92,14 @@ public class ClientReferralDAO extends HibernateDaoSupport {
         return results;
     }
     
-    public ClientReferral getReferralByIntakeId(Integer intakeId) {
+    public List getReferralsByIntakeId(Integer intakeId) {
         String sSQL="from ClientReferral cr where cr.fromIntakeId = ?";
+        List results = this.getHibernateTemplate().find(sSQL, intakeId);
+        return results;
+    }
+    
+    public ClientReferral getReferralAutoByIntakeId(Integer intakeId) {
+        String sSQL="from ClientReferral cr where cr.fromIntakeId = ? and cr.autoManual='A'";
         List results = this.getHibernateTemplate().find(sSQL, intakeId);
         if(results.size()==0) return null;
         return (ClientReferral)results.get(0);

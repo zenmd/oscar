@@ -18,19 +18,30 @@
 	<html:hidden property="intake.id" />
 	<html:hidden property="intake.createdOnTxt" />
 	<html:hidden property="client.active" />
+	<input type="hidden" name="referralId" value="<c:out value="${referralId}"/>" />
 	<input type="hidden" name="fromManualReferralId" value="<c:out value="${fromManualReferralId}"/>" />
 	<input type="hidden" name="method" />
-	<input type="hidden" name="newClientChecked" value="N" />
+	<input type="hidden" name="newClientChecked" value="<c:out value="${newClientChecked}" />" />
     <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 
-	<script lang="javascript">
+<script lang="javascript">
 
 function submitForm(methodVal) {
 	trimInputBox();
 	if(!isDateValid) return;
 	if(methodVal=='programChange'){
 
-	}else{
+	}
+	else if (methodVal == 'queue') 
+	{
+		if (!noChanges())
+		{
+			if (!confirm("You have made changes to this form.\n Click on Cancel to be able to Save information or click OK to proceed without saving?")) return false;
+			setNoConfirm();
+		}
+	}
+	else
+	{
       var obj = document.getElementsByName("client.firstName")[0];
       if(obj.value.trim()==""){
         alert("First name is empty.");
@@ -92,7 +103,6 @@ function submitForm(methodVal) {
         return; 
       }
     }
-
 	if(methodVal=="save" && noChanges())
 	{
 		alert("There are no changes detected to save");
@@ -161,9 +171,11 @@ function confirmActive()
 				
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTADMISSION %>"   orgCd='<%=((Integer) request.getAttribute("programId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
 					<c:if test="${admitable}">
-               			<a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&referralId=<c:out value="${referralId}"/>&programId=<c:out value="${programId}"/>"
+               			<!--  a	onclick="javascript:return confirmActive()"; href="<c:out value="${ctx}"/>/PMmodule/QuatroAdmission.do?method=queue&clientId=<c:out value="${clientId}"/>&referralId=<c:out value="${referralId}"/>&programId=<c:out value="${programId}"/>"
 									style="color:Navy;text-decoration:none;"> 
-									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
+									<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a -->
+					<a id="btnAdmission" href='javascript:void1();' onclick="javascript: return deferedSubmit('queue');"	style="color:Navy;text-decoration:none;">&nbsp; 
+					<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Admission&nbsp;&nbsp;|</a>
 					</c:if>
 				</security:oscarSec>
 			</c:if></td>

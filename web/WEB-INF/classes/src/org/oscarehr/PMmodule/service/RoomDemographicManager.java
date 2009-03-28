@@ -24,6 +24,7 @@ package org.oscarehr.PMmodule.service;
 
 import java.util.List;
 
+import org.oscarehr.PMmodule.model.Admission;
 import org.oscarehr.PMmodule.model.RoomDemographic;
 
 public interface RoomDemographicManager {
@@ -39,6 +40,7 @@ public interface RoomDemographicManager {
 	public RoomDemographic getRoomDemographicByAdmissionId(Integer admissionId);
 
 	public void saveRoomDemographic(RoomDemographic roomDemographic);	
+	public void saveRoomDemographic(RoomDemographic roomDemographic, Admission admission);
 	public void deleteRoomDemographic(RoomDemographic roomDemographic);
 	public void deleteRoomDemographic(String clients,Integer roomId);
 
