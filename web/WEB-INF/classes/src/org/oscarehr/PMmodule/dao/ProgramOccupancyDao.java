@@ -128,7 +128,9 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 		q.executeUpdate();
 	}
 
-	public void deactiveServiceProgram(Calendar now) {
+	public void deactiveServiceProgram() {
+		Calendar now = Calendar.getInstance();
+		Integer maxAge = Integer.valueOf(oscar.OscarProperties.getInstance().getProperty("DEACTIVE_INTAKE_HOURS"));
 		List result = null;
 		String sql = "from QuatroIntakeHeader where nerverExpiry=0 and endDate is null and programType='Service'";
 		result = getHibernateTemplate().find(sql, null);
@@ -141,7 +143,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 			while (items.hasNext()) {
 				QuatroIntakeHeader qih = (QuatroIntakeHeader) items.next();
 
-				if (MyDateFormat.getHoursDiff(qih.getCreatedOn(), now) > 0) {
+				if (MyDateFormat.getHoursDiff(qih.getCreatedOn(), now) > maxAge.intValue()) {
 					i++;
 					ids = qih.getId().toString() + ",";
 				}
@@ -157,7 +159,9 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 		}
 	}
 
-	public void deactiveBedProgram(Calendar now) {
+	public void deactiveBedProgram() {
+		Calendar now = Calendar.getInstance();
+		Integer maxAge = Integer.valueOf(oscar.OscarProperties.getInstance().getProperty("DEACTIVE_INTAKE_HOURS"));
 		List result = null;
 		String sql = "from QuatroIntakeHeader where intakeStatus='active' and programType='Bed'";
 		result = getHibernateTemplate().find(sql, null);
@@ -176,7 +180,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 			Iterator items = result.iterator();
 			while (items.hasNext()) {
 				QuatroIntakeHeader qih = (QuatroIntakeHeader) items.next();
-				if (MyDateFormat.getHoursDiff(qih.getCreatedOn(), now) > 0) {
+				if (MyDateFormat.getHoursDiff(qih.getCreatedOn(), now) > maxAge.intValue()) {
 					iIds += qih.getId().toString() + ",";
 				}
 			}
@@ -231,7 +235,7 @@ public class ProgramOccupancyDao extends HibernateDaoSupport {
 			while (items.hasNext()) {
 
 				ClientReferral cr = (ClientReferral) items.next();
-				if (MyDateFormat.getHoursDiff(cr.getReferralDate(), now) > 0) {
+				if (MyDateFormat.getHoursDiff(cr.getReferralDate(), now) > maxAge.intValue()) {
 					qIds += cr.getId().toString() + ",";
 
 				}

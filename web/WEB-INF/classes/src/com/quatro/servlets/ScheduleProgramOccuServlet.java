@@ -41,7 +41,9 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	  private static final Logger logger = LogManager.getLogger(ScheduleProgramOccuServlet.class);
 
 	    private static final Timer programOccuTimer = new Timer(true);
+	    private static final Timer intakeTimer = new Timer(true);
 	    private static ProgramOccuTimerTask programOccuTimerTask = null;
+	    private static IntakeTimerTask intakeTimerTask = null;
 	    private static boolean runAsPrevousDay = true;
 	    private static ProgramOccupancyManager programOccupancyManager = null;
 	    private static String path= "";
@@ -64,11 +66,9 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	                
 	                // WRITE OUTPUT FOR SDMT
 	                programOccupancyManager.insertSdmtOut();
-	                this.outputSDMT(path, programOccupancyManager.getSdmtOutList(dt, true));
+	                outputSDMT(path, programOccupancyManager.getSdmtOutList(dt, true));
 	                if(batchNo>0) programOccupancyManager.updateSdmtOut(batchNo);
 
-	                DeactiveBedIntake(dt);
-	                DeactiveServiceIntake(dt);
 	                programOccuTimerTask.cancel();
 	                scheduleNextRun();
 	            }
@@ -80,52 +80,6 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	            }
 	            logger.debug("ProgramOccuTimerTask timerTask completed.");
 	        }
-	        protected static Calendar getDeactiveIntakeDate(Calendar sDt){
-	        	
-	        		String Hrs = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("DEACTIVE_INTAKE_HOURS"));
-	    	        String sTime = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("DEACTIVE_INTAKE_START_TIME"));
-	    	        String sHr="";
-	    	        String sMi ="";
-	    	        
-	    	        if(sTime.indexOf(':')>0) {
-	    	        	sHr=sTime.substring(0,2);
-	    	        	sMi = sTime.substring(3);
-	    	        }
-	    	        else
-	    	        {
-	    	        	sHr=sTime.substring(0,2);
-	    	        	sMi = sTime.substring(2);
-	    	        }
-	    	        Integer hours=Integer.valueOf(sHr);
-	    	        if(!Utility.IsEmpty(Hrs))	{    	     
-	    	        	int hVal =hours.intValue()+Integer.valueOf(Hrs).intValue();
-	    	        	hours = new Integer(hVal);
-	    	        }
-	    	        if(runAsPrevousDay) sDt.add(Calendar.DATE, 1);
-	            	sDt.set(Calendar.HOUR_OF_DAY,hours.intValue());
-	            	sDt.set(Calendar.MINUTE, Integer.valueOf(sMi).intValue());
-	            	sDt.set(Calendar.SECOND, 0);
-	            	sDt.set(Calendar.MILLISECOND, 0);
-	            return sDt;
-	        }
-	        protected static void DeactiveServiceIntake(Calendar sDt){
-	        		try{
-	        			Calendar cDt = getDeactiveIntakeDate(sDt);
-	        		programOccupancyManager.DeactiveServiceIntake(cDt);	        	
-	        	}catch (Exception e) {
-		        	logger.error("Deactivating Service Intake: " + e.getMessage());
-					System.out.println("Deactivating Service Intake:" +e.getMessage());
-		        }
-	        }
-			protected static void DeactiveBedIntake(Calendar sDt){
-				try{
-					Calendar cDt = getDeactiveIntakeDate(sDt);
-	        		programOccupancyManager.DeactiveBedIntake(cDt);	        	
-	        	}catch (Exception e) {
-		        	logger.error("Deactivating Bed Intake: " + e.getMessage());
-					System.out.println("Deactivating Bed Intake:" +e.getMessage());
-		        }
-			}
 	       protected static void inputSDMT(String pathLoc){	        	
 				String filename = "";	
 				String inPath =StringUtils.trimToNull(OscarProperties.getInstance().getProperty("SDMT_IN_PATH"));
@@ -228,6 +182,148 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 			}
 
 	    }
+
+	    public static class IntakeTimerTask extends TimerTask {
+	    	String providerNo="1111";
+	        public void run() {
+	            logger.debug("IntakeTimerTask timerTask started.");	
+	            try {
+	            	Calendar dt = Calendar.getInstance();
+	                
+	                DeactiveBedIntake();
+	                DeactiveServiceIntake();
+	                intakeTimerTask.cancel();
+	                scheduleNextRunIntake();
+	            }
+	            catch (Exception e) {
+	                logger.error("Error to deactivate intakes. Re-scheduled to run in 5 minutes", e);
+	                Calendar cal = Calendar.getInstance();
+	                cal.add(Calendar.MINUTE, 5);
+	                scheduleNextRunIntake(cal);
+	            }
+	            logger.debug("intakeTimerTask timerTask completed.");
+	        }
+	        protected static void DeactiveServiceIntake(){
+	        	try{
+	        		programOccupancyManager.DeactiveServiceIntake();	        	
+		        	logger.info("Deactivating Service Intake completed");
+	        	}catch (Exception e) {
+		        	logger.error("Deactivating Service Intake: " + e.getMessage());
+					System.out.println("Deactivating Service Intake:" +e.getMessage());
+		        }
+	        }
+			protected static void DeactiveBedIntake(){
+				try{
+	        		programOccupancyManager.DeactiveBedIntake();	        	
+		        	logger.info("Deactivating Bed Intake completed");
+	        	}catch (Exception e) {
+		        	logger.error("Deactivating Bed Intake: " + e.getMessage());
+					System.out.println("Deactivating Bed Intake:" +e.getMessage());
+		        }
+			}
+	        protected static void inputSDMT(String pathLoc){	        	
+				String filename = "";	
+				String inPath =StringUtils.trimToNull(OscarProperties.getInstance().getProperty("SDMT_IN_PATH"));
+				File dir = new File(inPath);
+			    String[] list = dir.list();
+			    if(list == null) return;
+			    for (int i = 0; i < list.length; i++) {
+			        if(list[i].indexOf(".in")>0) 
+			        {
+			        	filename =list[i];
+			        	break;
+			        }
+			    }
+			    if(Utility.IsEmpty(filename)) return;
+				BeanUtilHlp buHlp = new BeanUtilHlp();
+				FileReader fstream = null;
+				try {
+					fstream = new FileReader(inPath + filename);
+				}
+				catch(java.io.FileNotFoundException e)
+				{
+					return;
+				}
+				BufferedReader in = new BufferedReader(fstream);
+				try {
+					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
+					// "/out/" + filename);
+					//StringBuffer sb = new StringBuffer();
+					
+					ArrayList tempLst = Utility.getTemplate(pathLoc, "/in/template/","sdmt_in_template.txt");
+					String rStr="";
+					SdmtIn sdVal = new SdmtIn();
+					while((rStr=in.readLine())!=null) {
+						for (int j = 0; j < tempLst.size(); j++) {
+							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
+							String value =rStr.substring(fd.getFieldStartIndex().intValue()-1,fd.getFieldLength().intValue()+fd.getFieldStartIndex().intValue()-1).trim();
+							buHlp.setPropertyValue(sdVal, fd.getFieldName(),fd.getFieldType(),fd.getDateFormatStr(), value);
+						}	
+						sdVal.setRecordId(new Integer(0));
+						sdVal.setLastUpdateUser("1111");
+						sdVal.setLastUpdateDate(Calendar.getInstance());
+						programOccupancyManager.insertSdmtIn(sdVal);
+					}
+				}
+		        catch (Exception e) {
+		        	logger.error("Sdmt import: " + e.getMessage());
+					System.out.println("Sdmt in:" +e.getMessage());
+		        }
+		        finally
+		        {
+		        	try 
+		        	{
+		        		in.close();
+		        	}
+		        	catch(IOException e)
+		        	{
+		        		;
+		        	}
+		        }
+	        }
+			protected static void outputSDMT(String pathLoc, List clientInfo) {				
+				int year = Calendar.getInstance().get(Calendar.YEAR);
+				int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+				int day = Calendar.getInstance().get(Calendar.DATE);
+				int hour = Calendar.getInstance().get(Calendar.HOUR);
+				int min = Calendar.getInstance().get(Calendar.MINUTE);
+				String filename = Utility.FormatIntNoWithZero(year, 4)+ Utility.FormatIntNoWithZero(month,2) + Utility.FormatIntNoWithZero(day,2) + Utility.FormatIntNoWithZero(hour,2) + Utility.FormatIntNoWithZero(min,2) + ".out";
+				BeanUtilHlp buHlp = new BeanUtilHlp();
+				try {
+					// java.io.FileOutputStream os = new java.io.FileOutputStream(path +
+					// "/out/" + filename);
+					FileWriter fstream = new FileWriter(StringUtils.trimToNull(OscarProperties.getInstance().getProperty("SDMT_OUT_PATH")) + filename);
+					BufferedWriter out = new BufferedWriter(fstream);
+					//StringBuffer sb = new StringBuffer();
+					
+					ArrayList tempLst = Utility.getTemplate(pathLoc, "/out/template/","sdmt_out_template.txt");
+					for (int i = 0; i < clientInfo.size(); i++) {
+						SdmtOut sdVal = (SdmtOut) clientInfo.get(i);
+						String outStr="";
+						for (int j = 0; j < tempLst.size(); j++) {
+							FieldDefinition fd = (FieldDefinition) tempLst.get(j);
+							String value = buHlp.getPropertyValue(sdVal, fd.getFieldName());
+							
+							if("batchNumber".equals(fd.getFieldName())) 
+								{
+									batchNo=new Integer(value).intValue();								
+								}							
+							if("S".equals(fd.getFieldType())) value=Utility.FormatString(value, fd.getFieldLength().intValue());
+							else if("N".equals(fd.getFieldType())) value=Utility.FormatNumber(value, fd.getFieldLength().intValue());
+							outStr+=value;
+						}	
+						out.write(outStr);
+						out.newLine(); 						
+					}					
+					out.close();
+				} catch (Exception e) {
+					String err=e.getMessage();
+				}
+
+			}
+
+	    }
+	    
 	    private static long getDelayTime(String startTime){
 	    	long delayTime=0;
 	    	Integer hr=Integer.valueOf(startTime.substring(0,2));
@@ -255,6 +351,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        	;
 	        }
 	        scheduleNextRun();
+	        scheduleNextRunIntake();
 	    }
 
 	    public void destroy() {
@@ -320,4 +417,37 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	        programOccuTimer.schedule(programOccuTimerTask,startDate.getTime());
 	    }
 	   
+	    private static void scheduleNextRunIntake()
+	    {
+	        String sTime = StringUtils.trimToNull(OscarProperties.getInstance().getProperty("DEACTIVE_INTAKE_START_TIME"));
+	        if (sTime == null) return;
+	        String sHr = "";
+	        String sMi = "";
+	        if(sTime.indexOf(':')>0) {
+	        	sHr=sTime.substring(0,2);
+	        	sMi = sTime.substring(3);
+	        }
+	        else
+	        {
+	        	sHr=sTime.substring(0,2);
+	        	sMi = sTime.substring(2);
+	        }
+            Calendar sDt = Calendar.getInstance();
+        	sDt.set(Calendar.HOUR_OF_DAY,Integer.valueOf(sHr).intValue());
+        	sDt.set(Calendar.MINUTE, Integer.valueOf(sMi).intValue());
+        	sDt.set(Calendar.SECOND, 0);
+        	sDt.set(Calendar.MILLISECOND, 0);
+        	Calendar now = Calendar.getInstance();
+        	if ((now.getTimeInMillis() - sDt.getTimeInMillis()) > 0) {
+        		sDt.add(Calendar.DATE, 1);
+        	}
+            	
+	        intakeTimerTask = new IntakeTimerTask();		
+	        intakeTimer.schedule(intakeTimerTask,sDt.getTime());
+	    }
+	    private static void scheduleNextRunIntake(Calendar startDate)
+	    {
+	        intakeTimerTask = new IntakeTimerTask();		
+	        intakeTimer.schedule(intakeTimerTask,startDate.getTime());
+	    }
 }

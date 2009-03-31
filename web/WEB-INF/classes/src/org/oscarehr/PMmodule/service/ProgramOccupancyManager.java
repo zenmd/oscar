@@ -43,11 +43,11 @@ public class ProgramOccupancyManager {
 		 client.setHin(sdVal.getMemberId().toString());  //sdmt member id
 		 clientDao.updateClientBenUnitStatus(client);
 	 }
-	 public void DeactiveServiceIntake(Calendar sDt){
-		 programOccupancyDao.deactiveServiceProgram(sDt);
+	 public void DeactiveServiceIntake(){
+		 programOccupancyDao.deactiveServiceProgram();
 	 }
-	 public void DeactiveBedIntake(Calendar sDt){
-		 programOccupancyDao.deactiveBedProgram(sDt);
+	 public void DeactiveBedIntake(){
+		 programOccupancyDao.deactiveBedProgram();
 	 }
 	public void setClientDao(ClientDao clientDao) {
 		this.clientDao = clientDao;
