@@ -34,6 +34,7 @@ public interface RoomDemographicManager {
 	public int getRoomOccupanyByRoom(Integer roomId);
 
 	public List getRoomDemographicByRoom(Integer roomId);
+	public RoomDemographic getRoomDemographicByBed(Integer bedId);
 
 	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo);
 	

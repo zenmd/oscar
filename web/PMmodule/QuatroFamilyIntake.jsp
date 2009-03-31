@@ -246,10 +246,10 @@ function checkExistClients(i){
 <td width="12%"></td>
 <td width="16%">Last Name*</td>
 <td width="16%">First Name*</td>
-<td width="12%">DOB</td>
+<td width="12%">DOB*</td>
 <td width="12%">Gender*</td>
 <td width="15%">Alias(es)</td>
-<td width="14%">Relationship</td></tr>
+<td width="14%">Relationship*</td></tr>
 
 <logic:iterate id="dependent" name="quatroClientFamilyIntakeForm" property="dependents" indexId="rIndex">
     <tr><td>

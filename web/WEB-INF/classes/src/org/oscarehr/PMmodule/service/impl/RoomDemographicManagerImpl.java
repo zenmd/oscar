@@ -103,6 +103,24 @@ public class RoomDemographicManagerImpl implements RoomDemographicManager {
 		}
 		return roomDemographicList;
 	}
+	/**
+	 * @see org.oscarehr.PMmodule.service.RoomDemographicManager#getRoomDemographicByBed(java.lang.Integer)
+	 */
+	public RoomDemographic getRoomDemographicByBed(Integer bedId) {
+		if (bedId == null) {
+			throw new IllegalArgumentException("bedId must not be null");
+		}
+		List roomDemographicList = null;
+		roomDemographicList = roomDemographicDAO.getRoomDemographicByBed(bedId);
+			
+		if(roomDemographicList.size() > 0){
+			return (RoomDemographic) roomDemographicList.get(0);
+		}
+		else
+		{
+			return null;
+		}
+	}
 
 	public RoomDemographic getRoomDemographicByDemographic(Integer demographicNo){
 		if (demographicNo == null) {

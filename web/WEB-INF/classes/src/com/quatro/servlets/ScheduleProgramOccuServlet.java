@@ -101,6 +101,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	    	        	int hVal =hours.intValue()+Integer.valueOf(Hrs).intValue();
 	    	        	hours = new Integer(hVal);
 	    	        }
+	    	        if(runAsPrevousDay) sDt.add(Calendar.DATE, 1);
 	            	sDt.set(Calendar.HOUR_OF_DAY,hours.intValue());
 	            	sDt.set(Calendar.MINUTE, Integer.valueOf(sMi).intValue());
 	            	sDt.set(Calendar.SECOND, 0);

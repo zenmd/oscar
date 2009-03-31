@@ -794,6 +794,21 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
                   saveMessages(request,messages);
           	      return update(mapping, form, request, response);
     	       }
+    	       else
+    	       {
+    	    	   RoomDemographic rdm0 = roomDemographicManager.getRoomDemographicByBed(bedId); 
+    	    	   if(rdm0 != null)
+    	    	   {
+    	    		   if(rdm0.getId().getDemographicNo().intValue() != clientId.intValue())
+    	    		   {
+    	     	          messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.occupied_bedId",
+    	           			     request.getContextPath()));
+    	                       isError = true;
+    	                       saveMessages(request,messages);
+    	               	      return update(mapping, form, request, response);
+    	    		   }
+    	    	   }
+    	       }
     		 }else{
                 Integer roomOccupancy = new Integer(roomDemographicManager.getRoomOccupanyByRoom(roomToSave.getId()));
                 RoomDemographic rdm_currentinDB = roomDemographicManager.getRoomDemographicByDemographic(clientId);
