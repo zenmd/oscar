@@ -1,29 +1,128 @@
-
-function check_date_for_oracle(checkedDate) 
-{ 
-	var date1 = convert_date(checkedDate);
-	if(date1!=null) {	
-		if(check_date_format1(date1) ) {						
-			return check_date(date1);
-		} else {
-		return false;
+function deferedSubmit(methodName)
+{
+	if(deferSubmit) {
+		if(methodName == '') {
+			setTimeout("submitForm()", 200);
 		}
-	} else {		
-		return false;
+		else
+		{
+			setTimeout("submitForm('" + methodName + "')", 200);
+		}
 	}
-}		
+	else
+	{
+		if(methodName == '') {
+			submitForm();
+		}
+		else
+		{
+			submitForm(methodName);
+		}
+	}
+	return false;
+}
+function openDatePickerCalendar(url){
+  	if(readOnly==true) return false;
+  	cancelOnCalBlur();
+  	if(win!=null) win.close();
+  	win=window.open(url, '', 'width=310,height=310'); 
+  	return false;
+}
+function onCalBlur(checkedDateName)
+{
+	isDateValid = true;
+	deferSubmit = true;
+	if(doOnBlur)
+	{
+	    timerId = setTimeout("check_date('" + checkedDateName + "')", 100);
+	}
+}
 
+function cancelOnCalBlur()
+{
+	if(timerId > 0) clearTimeout(timerId);
+	deferSubmit = false;
+}
 
-function check_date(checkedDate) 
+function onCalKeyPress(event, checkedDateName)
+{
+	var keynum;
+	if(window.event) // IE
+ 	{
+ 		keynum = event.keyCode;
+ 	}
+	else if(event.which) // Netscape/Firefox/Opera
+ 	{
+ 		keynum = event.which;
+ 	}
+	if (keynum == 13) {
+		if(!check_date(checkedDateName)) {
+			if(event.stopPropagation) {
+				event.stopPropagation();
+			}
+			else
+			{
+				event.cancelBubble=true;
+			}
+		}
+	}
+	else
+	{
+		var checkedDateObj = document.getElementsByName(checkedDateName)[0];
+		checkedDateObj.style.backgroundColor='#ffffff';
+	}
+}
+
+function setDate(form_name,element_name,year1,month1,day1) {
+	  win.close();
+  	  var dtElement = document.getElementsByName(element_name)[0];
+      var val = getFormatedDate(year1,month1,day1);
+      dtElement.value =  val;
+	  dtElement.style.backgroundColor='#ffffff';
+	  dtElement.focus();
+}
+function getFormatedDate(year1, month1,day1)
+{
+	// date format defined as YYYY/MM/DD
+	var sM = month1;
+	if (month1 < 10) sM = "0" + sM;
+	var sD = day1;
+	if (day1 < 10) sD = "0" + sD;
+	return year1 + "/" + sM + "/" + sD;
+}
+function setInvalid(checkedDateObj)
+{
+		isDateValid = false;
+		doOnBlur = false;
+    	alert('Date entered is not valid.');
+  	    checkedDateObj.style.backgroundColor='#ff0000';
+		checkedDateObj.focus();
+		doOnBlur = true;
+}
+function check_date(checkedDateName) 
 {	
-	//eg. checkedDate = '21-09-2007'
 	// Regular expression used to check if date is in correct format
-   	//var pattern = new RegExp([0-3][0-9]-0|1[0-9]-19|20[0-9]{2});
-   	//pattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	 //'21-09-2007'
+   	// pattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;	 //'2007-09-21'
+   	
+   	if(readOnly==true) return true;
+   	var checkedDateObj = document.getElementsByName(checkedDateName)[0];
+   	var checkedDate = checkedDateObj.value;
+   	if(checkedDate==''){
+   	   return true;
+    }
+    
+   	if(checkedDate.length<8 || checkedDate.length>10){
+   		setInvalid(checkedDateObj);
+       	return false;
+    }
+   	 
    	pattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;  //'2007-09-21'	
 	if(checkedDate.match(pattern))
 	{
-      	var date_array = checkedDate.split('-');
+      	var date_array = checkedDate.split('/');
+      	if (date_array.length == 1) {
+      		date_array = checkedDate.split('-');
+      	}
       	var year = date_array[0];
       	// Attention! Javascript consider months in the range 0 - 11      	
       	var month = date_array[1] - 1;      		
@@ -32,17 +131,16 @@ function check_date(checkedDate)
 		source_date = new Date(year,month,day);
 		if(year != source_date.getFullYear() || day != source_date.getDate() || month != source_date.getMonth() )
       	{
-         	alert('Date format is not valid!');
+			setInvalid(checkedDateObj);
          	return false;
      	}	
     }
    	else
    	{
-      	alert('Date format is not valid. The right date format is like 2007-10-16.');
+		setInvalid(checkedDateObj);
       	return false;
    	}
-
-   return true;
+    return true;
 }
 
 
@@ -147,13 +245,42 @@ function calculateAge(year, month, date) {
 function validateDate(year, month, day)
 {
 	var date=new Date();
+/*
+	// Updated by Eugene Petruhin on 01.04.2009 while fixing #2723507
+	// Never ever do the following, always set all date parts at once!
+
 	date.setFullYear(year);
 	date.setMonth(month-1);
 	date.setDate(day);
+
+	// This construct depends on execution time's day and can result in a wrong month being set.
+	// i.e. say today is 31st of March 2009, we pass (2009, September, 11) and date will be set to 2009 October 11.
+	// This happens because today's day is 31st and September only has 30 days
+	// so date is normalized to 2009 October 01 when setMonth() is called.
+*/
+	date.setFullYear(year, month-1, day);
 
 	if (year!=date.getFullYear()) return(false);
 	if (month!=date.getMonth()+1) return(false);
 	if (day!=date.getDate()) return(false);
 	
 	return(true);
+}
+
+function validateBirthDay(myDate){
+	var date=new Date();
+	var myDate_array=myDate.split("/");
+	date.setFullYear(myDate_array[0], myDate_array[1]-1, myDate_array[2]);
+	
+	var today = new Date;
+    if (date > today){
+      alert('Date of birth must not be greater than current date.');
+      return false;
+    }
+
+    date.setFullYear(date.getFullYear()+100, date.getMonth(), date.getDate());  
+    if (date < today){   
+      alert('Date of birth may not be older than 100 years.');
+      return false;
+    }
 }
