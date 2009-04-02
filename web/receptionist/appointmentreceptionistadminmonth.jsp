@@ -400,6 +400,8 @@ function refresh1() {
       param1[2] = mygroupno;
       resultList = oscarSuperManager.find("receptionistDao", "search_scheduledate_singlep", param1);
     }
+              Iterator<Map> it = resultList.iterator();
+              Map date = null;
               for (int i=0; i<dateGrid.length; i++) {
                 out.println("</tr>");
                 for (int j=0; j<7; j++) {
@@ -420,9 +422,8 @@ function refresh1() {
 						href='receptionistcontrol.jsp?year=<%=year%>&month=<%=MyDateFormat.getDigitalXX(month)%>&day=<%=MyDateFormat.getDigitalXX(dateGrid[i][j])%>&view=<%=view==0?"0":("1&curProvider="+request.getParameter("curProvider")+"&curProviderName="+request.getParameter("curProviderName"))%>&displaymode=day&dboperation=searchappointmentday'>
 					<span class='date'>&nbsp;<%=dateGrid[i][j] %> </span> <font
 						size="-2" color="blue"><%=strHolidayName.toString()%></font> <%
-	Iterator<Map> it = resultList.iterator();
     while (bFistEntry?it.hasNext():true) {
-      Map date = it.next();
+      date = bFistEntry?it.next():date;
       if(!String.valueOf(date.get("sdate")).equals(year+"-"+MyDateFormat.getDigitalXX(month)+"-"+MyDateFormat.getDigitalXX(dateGrid[i][j])) ) {
         bFistEntry = false;
         break;

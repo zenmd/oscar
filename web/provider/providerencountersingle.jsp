@@ -24,44 +24,34 @@
  */
 -->
 
-<%
-  if(session.getValue("user") == null) response.sendRedirect("../logout.jsp");
-%>    
-<%@ page  import="java.sql.*, java.util.*, oscar.MyDateFormat"  errorPage="errorpage.jsp"%>
-<jsp:useBean id="apptMainBean" class="oscar.AppointmentMainBean" scope="session" />
+<%@ page import="java.sql.*, java.util.*, oscar.MyDateFormat"
+	errorPage="errorpage.jsp"%>
+<%@ include file="/common/webAppContextAndSuperMgr.jsp"%>
 
 <html>
-<head><title>Single Encounter</title>
-      <meta http-equiv="expires" content="Mon,12 May 1998 00:36:05 GMT">
-      <meta http-equiv="Pragma" content="no-cache">
+<head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<title>Single Encounter</title>
+<meta http-equiv="expires" content="Mon,12 May 1998 00:36:05 GMT">
+<meta http-equiv="Pragma" content="no-cache">
 <script LANGUAGE="JavaScript">
 <!--
 function start(){
   this.focus();
 }
-function popupPage(vheight,vwidth,varpage) { //open a new popup window
-  var page = "" + varpage;
-  windowprops = "height="+vheight+",width="+vwidth+",location=no,scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=10";
-  var popup=window.open(page, "attachment", windowprops);
-  if (popup != null) {
-    if (popup.opener == null) {
-      popup.opener = self; 
-    }
-  }
-}
+
 //-->
 </script>
 </head>
 <body onload="start()" topmargin="0" leftmargin="0" rightmargin="0">
-    <table border="0" cellspacing="0" cellpadding="0" width="100%" >
-      <tr bgcolor="#CCCCFF"> 
-            <th align="CENTER">AN ENCOUNTER RECORD</th>
-      </tr>
-    </table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr bgcolor="#CCCCFF">
+		<th align="CENTER">AN ENCOUNTER RECORD</th>
+	</tr>
+</table>
 <%
   //if bNewForm is false (0), then it should be able to display xml data.
   //boolean bNew = true;
-  ResultSet rsdemo = null;
   //if( request.getParameter("bNewForm")!=null && request.getParameter("bNewForm").compareTo("0")==0 ) 
   //  bNew = false;
 
@@ -69,50 +59,53 @@ function popupPage(vheight,vwidth,varpage) { //open a new popup window
    String content="";
    String encounterattachment="";
    String temp="";
-   rsdemo = apptMainBean.queryResults(request.getParameter("encounter_no"), request.getParameter("dboperation"));
-   while (rsdemo.next()) { 
-     content = rsdemo.getString("content");
-     encounterattachment = rsdemo.getString("encounterattachment");
-%>   
-     <font size="-1"><%=rsdemo.getString("encounter_date")%> <%=rsdemo.getString("encounter_time")%>
-     &nbsp;<font color="green"><%=rsdemo.getString("subject").equals("")?"Unknown":rsdemo.getString("subject")%></font></font><br>
+   List<Map> resultList = oscarSuperManager.find("providerDao", request.getParameter("dboperation"), new Object[] {request.getParameter("encounter_no")});
+   for (Map enc : resultList) {
+     content = (String)enc.get("content");
+     encounterattachment = (String)enc.get("encounterattachment");
+%>
+<font size="-1"><%=enc.get("encounter_date")%> <%=enc.get("encounter_time")%>
+&nbsp;<font color="green"><%=((String)enc.get("subject")).equals("")?"Unknown":enc.get("subject")%></font></font>
+<br>
 <xml id="xml_list">
 <encounter>
-     <%=content%>
+<%=content%>
 </encounter>
 </xml>
 <%
    }     
-   //apptMainBean.closePstmtConn();
 %>
-<table datasrc='#xml_list' width='100%' border='0' BGCOLOR="#EEEEFF"><tr><td>
-Attachment: 
-<%
+<table datasrc='#xml_list' width='100%' border='0' BGCOLOR="#EEEEFF">
+	<tr>
+		<td>Attachment: <%
    StringTokenizer st = new StringTokenizer(encounterattachment);
    while (st.hasMoreTokens()) {
    temp = st.nextToken(">").substring(1);
-%>
-<a href=# onClick="popupPage(600,800, '<%=st.nextToken("<").substring(1)%>')" >  <%=temp%></a>
-<%
+%> <a href=#
+			onClick="popupPage(600,800, '<%=st.nextToken("<").substring(1)%>')">
+		<%=temp%></a> <%
      st.nextToken(">"); //System.out.println(st.nextToken(">"));
    }
 %>
-</td><td align='right' width='20%' nowrap><div datafld='xml_username'></div></td></tr></table>
+		</td>
+		<td align='right' width='20%' nowrap>
+		<div datafld='xml_username'></div>
+		</td>
+	</tr>
+</table>
 <%
   if(request.getParameter("template")!=null && !(request.getParameter("template").equals(".")) ) {
-     rsdemo = apptMainBean.queryResults(request.getParameter("template"), "search_template");
-     while (rsdemo.next()) { 
-       out.println(rsdemo.getString("encountertemplate_displayvalue"));
+	 resultList = oscarSuperManager.find("providerDao", "search_template", new Object[] {request.getParameter("template")});
+	 for (Map t: resultList) {
+       out.println((String)t.get("encountertemplate_displayvalue"));
      }
-  }else {
+  } else {
      out.println("<table datasrc='#xml_list' border='0'><tr><td><font color='blue'>Content:</font></td></tr><tr><td><div datafld='xml_content'></td></tr></table>");
   }
-  apptMainBean.closePstmtConn();
-%>          
+%>
 
-
-<center>
-<input type="button" value="Print Preview" onClick="popupPage(600,800, 'providerencounterprint.jsp?encounter_no=<%=request.getParameter("encounter_no")%>&demographic_no=<%=request.getParameter("demographic_no")%>&username=<%=request.getParameter("username")%>')">
+<center><input type="button" value="Print Preview"
+	onClick="popupPage(600,800, 'providerencounterprint.jsp?encounter_no=<%=request.getParameter("encounter_no")%>&demographic_no=<%=request.getParameter("demographic_no")%>&username=<%=request.getParameter("username")%>')">
 <input type="button" value="Close this window" onClick="self.close()">
 </center>
 </body>

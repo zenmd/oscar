@@ -23,11 +23,10 @@
  * Ontario, Canada 
  */
 -->
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
+<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
 
 <%
   if(session.getValue("user") == null ) response.sendRedirect("../logout.jsp");
@@ -36,17 +35,11 @@
   String month = request.getParameter("pmonth")!=null?request.getParameter("pmonth"):"5";
   String day = request.getParameter("pday")!=null?request.getParameter("pday"):"8";
 %>
-<%@ page import="java.util.*, java.sql.*, oscar.*, java.text.*, java.lang.*,java.net.*" errorPage="../appointment/errorpage.jsp" %>
-<jsp:useBean id="findProviderBean" class="oscar.AppointmentMainBean" scope="page" />
-<%@ include file="../admin/dbconnection.jsp" %>
-<% 
-  String [][] dbQueries=new String[][] { 
-    {"search_provider", "select provider_no, last_name, first_name from provider where last_name like ? and first_name like ? order by last_name"}, 
-    {"search_providersgroup", "select mygroup_no, last_name, first_name from mygroup where last_name like ? and first_name like ? order by last_name, first_name, mygroup_no"}, 
-    {"search_mygroup", "select mygroup_no from mygroup where mygroup_no like ? group by mygroup_no order by mygroup_no"}, 
-  };
-  findProviderBean.doConfigure(dbParams,dbQueries);
-%>
+<%@ page
+	import="java.util.*, java.sql.*, oscar.*, java.text.*, java.lang.*,java.net.*"
+	errorPage="../appointment/errorpage.jsp"%>
+<%@ include file="/common/webAppContextAndSuperMgr.jsp"%>
+
 <%
   String curUser_no = (String) session.getAttribute("user");
   String strStartHour = (String) session.getAttribute("starthour");
@@ -64,19 +57,19 @@
 %>
 <html>
 <head>
-<title> <bean:message key="receptionist.receptionistfindprovider.title"/></title>
-<link rel="stylesheet" href="../web.css" >
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<title><bean:message
+	key="receptionist.receptionistfindprovider.title" /></title>
+<link rel="stylesheet" href="../web.css">
 <script language="JavaScript">
 
-function setfocus() {
-  this.focus();
-}
+
 function selectProvider(p,pn) {
 	  newGroupNo = p;
 <%if (org.oscarehr.common.IsPropertiesOn.isCaisiEnable() && org.oscarehr.common.IsPropertiesOn.isTicklerPlusEnable()){%>
-	  this.location.href = "receptionistcontrol.jsp?provider_no=<%=curUser_no%>&start_hour=<%=startHour%>&end_hour=<%=endHour%>&every_min=<%=everyMin%>&new_tickler_warning_window=<%=n_t_w_w%>&color_template=deepblue&dboperation=updatepreference&displaymode=updatepreference&mygroup_no="+newGroupNo ;
+	  this.location.href = "providercontrol.jsp?provider_no=<%=curUser_no%>&start_hour=<%=startHour%>&end_hour=<%=endHour%>&every_min=<%=everyMin%>&new_tickler_warning_window=<%=n_t_w_w%>&color_template=deepblue&dboperation=updatepreference&displaymode=updatepreference&mygroup_no="+newGroupNo;
 <%}else{%>
-	  this.location.href = "receptionistcontrol.jsp?provider_no=<%=curUser_no%>&start_hour=<%=startHour%>&end_hour=<%=endHour%>&every_min=<%=everyMin%>&color_template=deepblue&dboperation=updatepreference&displaymode=updatepreference&mygroup_no="+newGroupNo ;
+	  this.location.href = "providercontrol.jsp?provider_no=<%=curUser_no%>&start_hour=<%=startHour%>&end_hour=<%=endHour%>&every_min=<%=everyMin%>&color_template=deepblue&dboperation=updatepreference&displaymode=updatepreference&mygroup_no="+newGroupNo;
 <%}%>
 }
 
@@ -87,28 +80,37 @@ function selectProviderCaisi(p,pn) {
 }
 </SCRIPT>
 </head>
-<body  bgcolor="ivory" bgproperties="fixed" onLoad="setfocus()" topmargin="0" leftmargin="0" rightmargin="0">
+<body bgcolor="ivory" bgproperties="fixed" onLoad="setfocus()"
+	topmargin="0" leftmargin="0" rightmargin="0">
 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" >
-  <tr>
-    <th NOWRAP bgcolor="#CCCCFF"><font face="Helvetica"><bean:message key="receptionist.receptionistfindprovider.2ndtitle"/></font></th>
-  </tr>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<th NOWRAP bgcolor="#CCCCFF"><font face="Helvetica"><bean:message
+			key="receptionist.receptionistfindprovider.2ndtitle" /></font></th>
+	</tr>
 </table>
 
 <table width="100%" border="0">
-<tr>
-<td align="left"><i><bean:message key="receptionist.receptionistfindprovider.keywords"/></i> <%=providername%></td>
-<td align="right"><INPUT TYPE="SUBMIT" NAME="displaymode" VALUE="<bean:message key="receptionist.receptionistfindprovider.btnExit"/>" SIZE="17" onClick="window.close();"></td>
-</tr>
+	<tr>
+		<td align="left"><i><bean:message
+			key="receptionist.receptionistfindprovider.keywords" /></i> <%=providername%></td>
+		<td align="right"><INPUT TYPE="SUBMIT" NAME="displaymode"
+			VALUE="<bean:message key="receptionist.receptionistfindprovider.btnExit"/>"
+			SIZE="17" onClick="window.close();"></td>
+	</tr>
 </table>
 
 <CENTER>
-  <table width="100%" border="1" bgcolor="#ffffff" cellspacing="1" cellpadding="0" >
-    <tr bgcolor="#CCCCFF"> 
-      <TH width="20%"><bean:message key="receptionist.receptionistfindprovider.no"/></TH>
-      <TH width="40%"><bean:message key="receptionist.receptionistfindprovider.lastname"/></TH>
-      <TH width="40%"><bean:message key="receptionist.receptionistfindprovider.firstname"/></TH>
-    </tr>
+<table width="100%" border="1" bgcolor="#ffffff" cellspacing="1"
+	cellpadding="0">
+	<tr bgcolor="#CCCCFF">
+		<TH width="20%"><bean:message
+			key="receptionist.receptionistfindprovider.no" /></TH>
+		<TH width="40%"><bean:message
+			key="receptionist.receptionistfindprovider.lastname" /></TH>
+		<TH width="40%"><bean:message
+			key="receptionist.receptionistfindprovider.firstname" /></TH>
+	</tr>
 <%
   boolean bGrpSearch = providername.startsWith(".")?true:false ;
   String dboperation = bGrpSearch?"search_providersgroup":"search_provider" ;
@@ -126,56 +128,57 @@ function selectProviderCaisi(p,pn) {
     param[1]= "%" ;
   }
   
-  ResultSet rsdemo = findProviderBean.queryResults(param, dboperation);
   int nItems = 0;
   String sp =null, spnl =null, spnf =null;
-  while (rsdemo.next()) { 
+  List<Map> resultList = oscarSuperManager.find("providerDao", dboperation, param);
+  for (Map provider : resultList) {
     bColor = bColor?false:true ;
-    sp = rsdemo.getString(field1) ;
-    spnl = rsdemo.getString("last_name") ;
-    spnf = rsdemo.getString("first_name") ;
-%>    
-    <tr bgcolor="<%=bColor?bgcolordef:"white"%>"> 
-      <td>
-      <%if(caisi) { %>
-	      <a href=# onClick="selectProviderCaisi('<%=sp%>','<%=spnl+", "+spnf%>')"><%=sp%></a></td>
-	  <%} else { %>
-      <a href=# onClick="selectProvider('<%=sp%>','<%=URLEncoder.encode(spnl+", "+spnf)%>')"><%=sp%></a></td>
-	  <%} %>
-      <td><%=spnl%></td>
-      <td><%=spnf%></td>
-<caisi:isModuleLoad moduleName="ticklerplus">
-      <input type="hidden" name="<%=sp%>_name" id="<%=sp%>_name" value="<%=new String(spnl+","+ spnf)%>"/>
-</caisi:isModuleLoad>
-    </tr>
-<%
+    sp = String.valueOf(provider.get(field1));
+    spnl = String.valueOf(provider.get("last_name"));
+    spnf = String.valueOf(provider.get("first_name"));
+%>
+	<tr bgcolor="<%=bColor?bgcolordef:"white"%>">
+		<td>
+		<%if(caisi) { %> <a href=#
+			onClick="selectProviderCaisi('<%=sp%>','<%=spnl+", "+spnf%>')"><%=sp%></a></td>
+		<%} else { %>
+		<a href=#
+			onClick="selectProvider('<%=sp%>','<%=URLEncoder.encode(spnl+", "+spnf)%>')"><%=sp%></a>
+		</td>
+		<%} %>
+		<td><%=spnl%></td>
+		<td><%=spnf%></td>
+		<caisi:isModuleLoad moduleName="ticklerplus">
+			<input type="hidden" name="<%=sp%>_name" id="<%=sp%>_name"
+				value="<%=new String(spnl+","+ spnf)%>" />
+		</caisi:isModuleLoad>
+	</tr>
+	<%
     nItems++;
   }
   
   //find a group name only if there is no ',' in the search word 
   if(providername.indexOf(',') == -1 ) {
-    rsdemo = findProviderBean.queryResults( (providername+"%"), "search_mygroup");
-    while (rsdemo.next()) { 
-      sp = rsdemo.getString("mygroup_no") ;
-%>    
-    <tr bgcolor="#CCCCFF"> 
-      <td colspan='3'>
-      <%if(caisi) { %>
-      <a href=# onClick="selectProviderCaisi('<%=sp%>','')"><%=sp%></a></td>
-      <%} else { %>
-      <a href=# onClick="selectProvider('<%=sp%>','')"><%=sp%></a></td>
-      <%} %>
-    </tr>
-<%
+	resultList = oscarSuperManager.find("providerDao", "search_mygroup", new Object[] {providername+"%"});
+	for (Map group : resultList) {
+      sp = String.valueOf(group.get("mygroup_no"));
+%>
+	<tr bgcolor="#CCCCFF">
+		<td colspan='3'>
+		<%if(caisi) { %> <a href=# onClick="selectProviderCaisi('<%=sp%>','')"><%=sp%></a></td>
+		<%} else { %>
+		<a href=# onClick="selectProvider('<%=sp%>','')"><%=sp%></a>
+		</td>
+		<%} %>
+	</tr>
+	<%
       nItems++;
     }
   }
   
-  findProviderBean.closePstmtConn();
-
   if(nItems==1) { //if there is only one search result, it should go to the appoint page directly.
-%> 
-<script language="JavaScript">
+%>
+	<script language="JavaScript">
 <!--
   <%if(caisi) {%>
   	var nodes = document.getElementsByName("<%=sp%>_name");
@@ -192,9 +195,11 @@ function selectProviderCaisi(p,pn) {
 <%
   }
 %>
-  </table>
+</table>
 <br>
 
-<p><bean:message key="receptionist.receptionistfindprovider.msgSelect"/></p></center>
+<p><bean:message
+	key="receptionist.receptionistfindprovider.msgSelect" /></p>
+</center>
 </body>
 </html>

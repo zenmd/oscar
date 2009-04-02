@@ -24,14 +24,14 @@
  */
 -->
 
-<%
-  if(session.getValue("user") == null) response.sendRedirect("../logout.jsp");
-%>    
-<%@ page  import="java.sql.*, java.util.*, oscar.MyDateFormat"  errorPage="errorpage.jsp"%>
-<jsp:useBean id="apptMainBean" class="oscar.AppointmentMainBean" scope="session" />
+<%@ page import="java.sql.*, java.util.*, oscar.MyDateFormat"
+	errorPage="errorpage.jsp"%>
+<%@ include file="/common/webAppContextAndSuperMgr.jsp"%>
 
 <html>
-<head><title></title>
+<head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<title></title>
 <script LANGUAGE="JavaScript">
     <!--
     function start(){
@@ -40,51 +40,54 @@
     //-->
 </script>
 </head>
-<body  onload="start()">
+<body onload="start()">
 <%
-  if(request.getParameter("submit").equals("Delete")) {
-    String[] param =new String[1];
+  if (request.getParameter("submit").equals("Delete")) {
+    String[] param = new String[1];
     param[0]=request.getParameter("encounterform_name");
-    int rowsAffected = apptMainBean.queryExecuteUpdate(param,"delete_encounterform");
+    int rowsAffected = oscarSuperManager.update("providerDao", "delete_encounterform", param);
     out.println("<script language='JavaScript'>self.close();</script>");
-    apptMainBean.closePstmtConn();
   } else {
 %>
 <center>
-    <table border="0" cellspacing="0" cellpadding="0" width="90%" >
-      <tr bgcolor="#486ebd"> 
-            <th align="CENTER"><font face="Helvetica" color="#FFFFFF">
-            ADD A FORM RECORD</font></th>
-      </tr>
-    </table>
+<table border="0" cellspacing="0" cellpadding="0" width="90%">
+	<tr bgcolor="#486ebd">
+		<th align="CENTER"><font face="Helvetica" color="#FFFFFF">
+		ADD A FORM RECORD</font></th>
+	</tr>
+</table>
 <%
-  String[] param =new String[2];
-  param[0]=request.getParameter("formname");
-	param[1]="form"+request.getParameter("formfilename")+".jsp?demographic_no=";
+    String[] param = new String[4];
+    param[0]=request.getParameter("formname");
+	param[1]="../form/"+request.getParameter("formfilename")+".jsp?demographic_no=";
+	param[2]=request.getParameter("formtable");
+	param[3]="0";
 
-  int rowsAffected = apptMainBean.queryExecuteUpdate(param,request.getParameter("dboperation"));
-  if (rowsAffected ==1) {
+    int rowsAffected = oscarSuperManager.update("providerDao", request.getParameter("dboperation"), param);
+    if (rowsAffected == 1) {
 %>
-  <p><h1>Successful Addition of a encounter-form Record.</h1></p>
+<p>
+<h1>Successful Addition of a encounter-form Record.</h1>
+</p>
 <script LANGUAGE="JavaScript">
       self.close();
 </script>
 <%
-  }  else {
+    } else {
 %>
-  <p><h1>Sorry, addition has failed.</h1></p>
+<p>
+<h1>Sorry, addition has failed.</h1>
+</p>
 <%  
-  }
-  apptMainBean.closePstmtConn();
+    }
 %>
-  <p></p>
-  <hr width="90%"></hr>
-<form>
-<input type="button" value="Close this window" onClick="window.close()">
-</form>
+<p></p>
+<hr width="90%"/>
+<form><input type="button" value="Close this window"
+	onClick="window.close()"></form>
 </center>
 <%
-}
+  }
 %>
 </body>
 </html>

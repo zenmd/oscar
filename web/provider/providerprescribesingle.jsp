@@ -27,14 +27,17 @@
 <%
   if(session.getValue("user") == null)
     response.sendRedirect("../logout.htm");
-%>    
-<%@ page  import="java.sql.*, java.util.*, oscar.MyDateFormat"  errorPage="errorpage.jsp"%>
-<jsp:useBean id="apptMainBean" class="oscar.AppointmentMainBean" scope="session" />
+%>
+<%@ page import="java.sql.*, java.util.*, oscar.MyDateFormat"
+	errorPage="errorpage.jsp"%>
+<%@ include file="/common/webAppContextAndSuperMgr.jsp"%>
 
 <html>
-<head><title>Single Prescribe</title>
-      <meta http-equiv="expires" content="Mon,12 May 1998 00:36:05 GMT">
-      <meta http-equiv="Pragma" content="no-cache">
+<head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<title>Single Prescribe</title>
+<meta http-equiv="expires" content="Mon,12 May 1998 00:36:05 GMT">
+<meta http-equiv="Pragma" content="no-cache">
 <script LANGUAGE="JavaScript">
 <!--
 function start(){
@@ -45,43 +48,36 @@ function start(){
 </head>
 <body onload="start()" topmargin="0" leftmargin="0" rightmargin="0">
 <center>
-    <table border="0" cellspacing="0" cellpadding="0" width="100%" >
-      <tr bgcolor="#486ebd"> 
-            <th align="CENTER"><font face="Helvetica" color="#FFFFFF">
-            A PRESCRIBE RECORD</font></th>
-      </tr>
-    </table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr bgcolor="#486ebd">
+		<th align="CENTER"><font face="Helvetica" color="#FFFFFF">
+		A PRESCRIBE RECORD</font></th>
+	</tr>
+</table>
 </center>
 <%
-   ResultSet rsdemo = null;
-   String content="";
-   rsdemo = apptMainBean.queryResults(request.getParameter("prescribe_no"), request.getParameter("dboperation"));
-   while (rsdemo.next()) { 
-     content = rsdemo.getString("content");
-  }
-%>   
-     <font size="-1"><%=rsdemo.getString("prescribe_date")%> <%=rsdemo.getString("prescribe_time")%></font><br><hr>
+   List<Map> resultList = oscarSuperManager.find("providerDao", request.getParameter("dboperation"), new Object[] {request.getParameter("prescribe_no")});
+   Map prescribe = resultList.get(0);
+%>
+<font size="-1"><%=prescribe.get("prescribe_date")%> <%=prescribe.get("prescribe_time")%></font>
+<br>
+<hr>
 <xml id="xml_list">
 <encounter>
-  <xml_content>
-     <%=content%>
-  </xml_content>
+<xml_content>
+<%=prescribe.get("content")%>
+</xml_content>
 </encounter>
 </xml>
 
-<p>
-<!-open and read from database->
-<%
+<p><!-- open and read from database--> <%
   //System.out.println("kkkkkkkkkkkkkkkkkkkkk"+request.getParameter("template"));
   out.println("<table datasrc='#xml_list' border='0'><tr><td><font color='blue'>Content:</font></td></tr><tr><td><div datafld='xml_content'></td></tr></table>");
-  apptMainBean.closePstmtConn();
-%>          
-
+%>
 
 <center>
-<form>
-<input type="button" value="Close this window" onClick="self.close()">
-</form>
+<form><input type="button" value="Close this window"
+	onClick="self.close()"></form>
 </center>
 </body>
 </html>

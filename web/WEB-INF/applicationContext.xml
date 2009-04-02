@@ -97,8 +97,9 @@
 	<bean id="providerInboxRoutingDAO" class="org.oscarehr.common.dao.ProviderInboxRoutingDao" autowire="byName"/>
 
 	<!-- Dao classes that implement OscarSuperDao -->
-	<bean id="appointmentDao" class="oscar.dao.AppointmentDao" autowire="byName" />
-	<bean id="receptionistDao" class="oscar.dao.ReceptionistDao" autowire="byName" />
+	<bean id="appointmentSuperDao" class="oscar.dao.AppointmentDao" autowire="byName" />
+	<bean id="receptionistSuperDao" class="oscar.dao.ReceptionistDao" autowire="byName" />
+	<bean id="providerSuperDao" class="oscar.dao.ProviderDao" autowire="byName" />
 
 	<!-- OscarSuperManager manager provides business logic facade for jsp layer -->
 	<bean id="oscarSuperManager" class="oscar.service.OscarSuperManager" autowire="byName" init-method="init"/>

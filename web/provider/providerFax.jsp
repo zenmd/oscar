@@ -24,29 +24,25 @@
  */
 -->
 
-<%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import ="oscar.oscarProvider.data.*"%>
+<%@ page language="java"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@ page import="oscar.oscarProvider.data.*"%>
 
 
 <%
-if(session.getValue("user") == null)
-    response.sendRedirect("../logout.htm");
-  String curUser_no;
-  curUser_no = (String) session.getAttribute("user");
-
-
+  if(session.getValue("user") == null) response.sendRedirect("../logout.htm");
+  String curUser_no = (String) session.getAttribute("user");
 %>
 <html:html locale="true">
 <head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
 
-<html:base/>
-<link rel="stylesheet" type="text/css" href="../oscarEncounter/encounterStyles.css">
+<html:base />
+<link rel="stylesheet" type="text/css"
+	href="../oscarEncounter/encounterStyles.css">
 
-<title>
-<bean:message key="provider.editRxFax.title"/>
-</title>
+<title><bean:message key="provider.editRxFax.title" /></title>
 
 <script type="text/javascript">
     function validate() {        
@@ -64,58 +60,48 @@ if(session.getValue("user") == null)
 
 </head>
 
-<body class="BodyStyle" vlink="#0000FF" >
+<body class="BodyStyle" vlink="#0000FF">
 
-    <table  class="MainTable" id="scrollNumber1" name="encounterTable">
-        <tr class="MainTableTopRow">
-            <td class="MainTableTopRowLeftColumn">
-                <bean:message key="provider.editRxFax.msgPrefs"/>
-            </td>
-            <td style="color:white" class="MainTableTopRowRightColumn">
-                <bean:message key="provider.editRxFax.msgProviderFaxNumber"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="MainTableLeftColumn">
-               &nbsp;
-            </td>
-            <td class="MainTableRightColumn">
-           
-            <%
+<table class="MainTable" id="scrollNumber1" name="encounterTable">
+	<tr class="MainTableTopRow">
+		<td class="MainTableTopRowLeftColumn"><bean:message
+			key="provider.editRxFax.msgPrefs" /></td>
+		<td style="color: white" class="MainTableTopRowRightColumn"><bean:message
+			key="provider.editRxFax.msgProviderFaxNumber" /></td>
+	</tr>
+	<tr>
+		<td class="MainTableLeftColumn">&nbsp;</td>
+		<td class="MainTableRightColumn">
+		<%
                ProviderFaxUpdater faxUpdater = new ProviderFaxUpdater(curUser_no);
                String faxNum = faxUpdater.getFax();
                
                if( request.getAttribute("status") == null )
                {
       
-            %>
-            <html:form action = "/EditFaxNum.do" >
-            
-               <bean:message key="provider.editRxFax.msgEdit"/> <br>                              
-               
-               <html:text property="faxNumber" value="<%=faxNum%>" size="40"/><br>                             
-               
-               <input type="submit" onclick="return validate();" value="<bean:message key="provider.editRxFax.btnSubmit"/>" />                           
-            </html:form> 
-            <%
+            %> <html:form action="/EditFaxNum.do">
+
+			<bean:message key="provider.editRxFax.msgEdit" />
+			<br>
+
+			<html:text property="faxNumber" value="<%=faxNum%>" size="40" />
+			<br>
+
+			<input type="submit" onclick="return validate();"
+				value="<bean:message key="provider.editRxFax.btnSubmit"/>" />
+		</html:form> <%
                }
                else if( ((String)request.getAttribute("status")).equals("complete") ) {
-            %>            
-                <bean:message key="provider.editRxFax.msgSuccess"/> <br>
-                <%=faxNum%>
-            <%
+            %> <bean:message key="provider.editRxFax.msgSuccess" /> <br>
+		<%=faxNum%> <%
                }
             %>
-            </td>
-        </tr>
-        <tr>
-            <td class="MainTableBottomRowLeftColumn">
-
-            </td>
-            <td class="MainTableBottomRowRightColumn">
-             
-            </td>
-        </tr>
-    </table>
+		</td>
+	</tr>
+	<tr>
+		<td class="MainTableBottomRowLeftColumn"></td>
+		<td class="MainTableBottomRowRightColumn"></td>
+	</tr>
+</table>
 </body>
 </html:html>

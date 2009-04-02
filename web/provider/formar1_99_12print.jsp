@@ -29,20 +29,19 @@
   if(request.getParameter("oox")!=null) oox += Integer.parseInt(request.getParameter("oox"));
   if(request.getParameter("ooy")!=null) ooy += Integer.parseInt(request.getParameter("ooy"));
 %>
-<%@ page import="java.util.*, java.sql.*, oscar.*" errorPage="errorpage.jsp" %>
-<jsp:useBean id="apptMainBean" class="oscar.AppointmentMainBean" scope="session" />
+<%@ page import="java.util.*, java.sql.*, oscar.*"
+	errorPage="errorpage.jsp"%>
 
 <html>
 <head>
-<title> ANTENATAL RECORD </title>
-<link rel="stylesheet" href="antenatalrecordprint.css" >
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<title>ANTENATAL RECORD</title>
+<link rel="stylesheet" href="antenatalrecordprint.css">
 <meta http-equiv="expires" content="Mon,12 May 1998 00:36:05 GMT">
 <meta http-equiv="Pragma" content="no-cache">
 <script language="JavaScript">
 <!--		
-function setfocus() {
-  this.focus();
-}
+
 var ox = <%=oox%>;
 var oy = <%=ooy%>;
 function ff(x,y,w,h,name) { //need escape to name for ' and "
@@ -56,12 +55,13 @@ function ff(x,y,w,h,name) { //need escape to name for ' and "
 //-->
 </SCRIPT>
 </head>
-<body onLoad="setfocus()" topmargin="0" leftmargin="1" rightmargin="1" bgcolor="navy">
+<body onLoad="setfocus()" topmargin="0" leftmargin="1" rightmargin="1"
+	bgcolor="navy">
 <img src="../images/formar1_99_12.gif">
 
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=50+oox%>px; top:<%=74+ooy%>px; width:400px; height:20px;"> 
-<%=Misc.JSEscape(request.getParameter("xml_name"))%>
-</div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=50+oox%>px; top:<%=74+ooy%>px; width:400px; height:20px;">
+<%=Misc.JSEscape(request.getParameter("xml_name"))%></div>
 
 <script language="JavaScript">
 ff(750,10,50,20,'<span class="title"><a href=# onClick="window.print()">Print</a></span>' );
@@ -116,7 +116,7 @@ ff(13,175,20,20,"<%=Misc.JSEscape(request.getParameter("xml_baobs")==null?"":"X"
 ff(55,175,20,20,"<%=Misc.JSEscape(request.getParameter("xml_bafp")==null?"":"X")%>" );
 ff(90,175,20,20,"<%=Misc.JSEscape(request.getParameter("xml_bam")==null?"":"X")%>" );
 ff(10,195,200,20,"<%=Misc.JSEscape(request.getParameter("xml_ba"))%>" );
-ff(150,175,200,100,"<%=Misc.JSEscape(request.getParameter("xml_fphy")).replace('\r', ' ')%>" );
+ff(150,175,200,100,"<%=(Misc.JSEscape(request.getParameter("xml_fphy"))+"").replace('\r', ' ')%>" );
 ff(324,175,20,20,"<%=Misc.JSEscape(request.getParameter("xml_ncp")==null?"":"X")%>" );
 ff(365,175,20,20,"<%=Misc.JSEscape(request.getParameter("xml_ncfp")==null?"":"X")%>" );
 ff(400,175,20,20,"<%=Misc.JSEscape(request.getParameter("xml_ncm")==null?"":"X")%>" );
@@ -555,43 +555,45 @@ ff(180,958,350,20,"<span class=\"smalltdname\">Canary - Mother's chart - forward
 ff(665,958,200,20,'<span class="smalltdname">7530-4654</span>' );
 
 </script>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=480+oox%>px; top:<%=ooy+175%>px; width:230px; height:30px;"> 
-<pre><%=request.getParameter("xml_ebmf")%></pre>
-</div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=480+oox%>px; top:<%=ooy+175%>px; width:230px; height:30px;">
+<pre><%=request.getParameter("xml_ebmf")%></pre></div>
 
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=80+oox%>px; top:<%=ooy+228%>px; width:280px; height:50px;"> 
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=80+oox%>px; top:<%=ooy+228%>px; width:280px; height:50px;">
 <span class="smalltdname"><%=request.getParameter("xml_Alert_demographicaccessory")%></span>
 </div>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=395+oox%>px; top:<%=ooy+228%>px; width:280px; height:50px;"> 
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=395+oox%>px; top:<%=ooy+228%>px; width:280px; height:50px;">
 <span class="smalltdname"><%=request.getParameter("xml_Medication_demographicaccessory")%></span>
 </div>
 
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=440+oox%>px; top:<%=ooy+748%>px; width:150px; height:60px;"> 
-<span class="smalltdname"><%=request.getParameter("xml_rfi")%></span>
-</div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=440+oox%>px; top:<%=ooy+748%>px; width:150px; height:60px;">
+<span class="smalltdname"><%=request.getParameter("xml_rfi")%></span></div>
 
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=12+oox%>px; top:<%=ooy+830%>px; width:300px; height:60px;"> 
-<pre><%=request.getParameter("xml_comments")%></pre>
-</div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=12+oox%>px; top:<%=ooy+830%>px; width:300px; height:60px;">
+<pre><%=request.getParameter("xml_comments")%></pre></div>
 
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+421%>px; width:340px; height:20px;"> 
-<%=request.getParameter("xml_oh1co")%>
-</div>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+439%>px; width:340px; height:20px;"> 
-<%=request.getParameter("xml_oh2co")%>
-</div>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+457%>px; width:340px; height:20px;"> 
-<%=request.getParameter("xml_oh3co")%>
-</div>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+476%>px; width:340px; height:20px;"> 
-<%=request.getParameter("xml_oh4co")%>
-</div>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+494%>px; width:340px; height:20px;"> 
-<%=request.getParameter("xml_oh5co")%>
-</div>
-<div ID="bdiv1" STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+512%>px; width:340px; height:20px;"> 
-<%=request.getParameter("xml_oh6co")%>
-</div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+421%>px; width:340px; height:20px;">
+<%=request.getParameter("xml_oh1co")%></div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+439%>px; width:340px; height:20px;">
+<%=request.getParameter("xml_oh2co")%></div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+457%>px; width:340px; height:20px;">
+<%=request.getParameter("xml_oh3co")%></div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+476%>px; width:340px; height:20px;">
+<%=request.getParameter("xml_oh4co")%></div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+494%>px; width:340px; height:20px;">
+<%=request.getParameter("xml_oh5co")%></div>
+<div ID="bdiv1"
+	STYLE="position:absolute; visibility:visible; z-index:2; left:<%=392+oox%>px; top:<%=ooy+512%>px; width:340px; height:20px;">
+<%=request.getParameter("xml_oh6co")%></div>
 
 </body>
 </html>

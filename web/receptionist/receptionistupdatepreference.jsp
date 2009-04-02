@@ -61,13 +61,15 @@ function closeit() {
 	String operation = request.getParameter("dboperation");
 	if (org.oscarehr.common.IsPropertiesOn.isCaisiEnable() && org.oscarehr.common.IsPropertiesOn.isTicklerPlusEnable()){
 		param = new String[7];
-		param[6] = request.getParameter("new_tickler_warning_window");
-		if (param[6] == null) {
-			param[6] = (String) session.getAttribute("newticklerwarningwindow");
+		param[5] = request.getParameter("new_tickler_warning_window");
+		if (param[5] == null) {
+			param[5] = (String) session.getAttribute("newticklerwarningwindow");
 		}
+		param[6] = request.getParameter("provider_no");
 		operation += "_newtickler";
 	} else {
 		param = new String[6];
+		param[5] = request.getParameter("provider_no");
 	}
 
 	param[0] = request.getParameter("start_hour");
@@ -75,7 +77,6 @@ function closeit() {
 	param[2] = request.getParameter("every_min");
 	param[3] = request.getParameter("mygroup_no");
 	param[4] = request.getParameter("color_template");
-	param[5] = request.getParameter("provider_no");
 
 	int rowsAffected = oscarSuperManager.update("receptionistDao", operation, param);
 
@@ -85,7 +86,7 @@ function closeit() {
 		session.setAttribute("everymin", param[2]);
 		session.setAttribute("groupno", param[3]);  
 		if (org.oscarehr.common.IsPropertiesOn.isCaisiEnable() && org.oscarehr.common.IsPropertiesOn.isTicklerPlusEnable()){
-			session.setAttribute("newticklerwarningwindow", param[6]);
+			session.setAttribute("newticklerwarningwindow", param[5]);
 		}
 %>
 <script LANGUAGE="JavaScript">

@@ -26,14 +26,16 @@
 
 <%
   if(session.getValue("user") == null) response.sendRedirect("../logout.htm");
-%>    
-<%@ page  import="java.sql.*, java.util.*, oscar.MyDateFormat"  errorPage="../errorpage.jsp"%>
-<jsp:useBean id="apptMainBean" class="oscar.AppointmentMainBean" scope="session" />
+%>
+<%@ page import="java.sql.*, java.util.*, oscar.MyDateFormat"
+	errorPage="../errorpage.jsp"%>
+<%@ include file="/common/webAppContextAndSuperMgr.jsp"%>
 
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <html:html locale="true">
 <head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
 <script LANGUAGE="JavaScript">
     <!--
     function start(){
@@ -42,51 +44,52 @@
     //-->
 </script>
 </head>
-<body  onload="start()">
+<body onload="start()">
 <center>
-    <table border="0" cellspacing="0" cellpadding="0" width="90%" >
-      <tr bgcolor="#486ebd"> 
-            <th align="CENTER"><font face="Helvetica" color="#FFFFFF">
-            <bean:message key="provider.providersavemygroup.msgTitle"/></font></th>
-      </tr>
-    </table>
+<table border="0" cellspacing="0" cellpadding="0" width="90%">
+	<tr bgcolor="#486ebd">
+		<th align="CENTER"><font face="Helvetica" color="#FFFFFF">
+		<bean:message key="provider.providersavemygroup.msgTitle" /></font></th>
+	</tr>
+</table>
 <%
   int rowsAffected=0, datano=0;
-  StringBuffer strbuf=new StringBuffer();
-  String[] param =new String[4];
+  String[] param = new String[4];
   param[0]=request.getParameter("mygroup_no");
 
-	for (Enumeration e = request.getParameterNames() ; e.hasMoreElements() ;) {
-	  strbuf=new StringBuffer(e.nextElement().toString());
-		if( strbuf.toString().indexOf("data")==-1 ) continue;
-		datano=Integer.parseInt(request.getParameter(strbuf.toString()) );
+  for (Enumeration e = request.getParameterNames() ; e.hasMoreElements() ;) {
+	  StringBuffer strbuf=new StringBuffer(e.nextElement().toString());
+	  if( strbuf.toString().indexOf("data")==-1 ) continue;
+	  datano=Integer.parseInt(request.getParameter(strbuf.toString()) );
 	  param[1]=request.getParameter("provider_no"+datano);
 	  param[2]=request.getParameter("last_name"+datano);
 	  param[3]=request.getParameter("first_name"+datano);
 	  //System.out.println("qssssssssssssssssssssssssssssqqqqqqqqqqqqqq"+param[1]);
-    rowsAffected = apptMainBean.queryExecuteUpdate(param,request.getParameter("dboperation"));
+	  rowsAffected = oscarSuperManager.update("providerDao", request.getParameter("dboperation"), param);
   }
 
-  if (rowsAffected ==1) {
+  if (rowsAffected == 1) {
 %>
-  <p><h1><bean:message key="provider.providersavemygroup.msgSuccessful"/></h1></p>
+<p>
+<h1><bean:message key="provider.providersavemygroup.msgSuccessful" /></h1>
+</p>
 <script LANGUAGE="JavaScript">
       self.close();
      	//self.opener.refresh();
-</script>
-<%
+</script> <%
   }  else {
 %>
-  <p><h1><bean:message key="provider.providersavemygroup.msgFailed"/></h1></p>
+<p>
+<h1><bean:message key="provider.providersavemygroup.msgFailed" /></h1>
+</p>
 <%  
   }
-  apptMainBean.closePstmtConn();
 %>
-  <p></p>
-  <hr width="90%"></hr>
-<form>
-<input type="button" value="<bean:message key="provider.providersavemygroup.btnClose"/>" onClick="window.close()">
-</form>
+<p></p>
+<hr width="90%"/>
+<form><input type="button"
+	value="<bean:message key="provider.providersavemygroup.btnClose"/>"
+	onClick="window.close()"></form>
 </center>
 </body>
 </html:html>

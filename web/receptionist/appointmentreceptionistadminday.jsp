@@ -531,6 +531,8 @@ function findProvider(p,m,d) {
      param[1]=year+"-"+month+"-"+day;//e.g."2001-02-02";
 
      List<Map> appointmentList = oscarSuperManager.find("receptionistDao", strsearchappointmentday, param);
+     Iterator<Map> it = appointmentList.iterator();
+     Map appointment = null;
 
      for (ih=startHour*60; ih<=(endHour*60+(60/depth-1)*depth); ih+=depth) { // use minutes as base
        hourCursor = ih/60;
@@ -560,10 +562,9 @@ function findProvider(p,m,d) {
 											color='<%=(DateTimeCodeBean.get("color"+hourmin.toString())!=null && !DateTimeCodeBean.get("color"+hourmin.toString()).equals(bgcolordef) )?"black":"black" %>'><%=hourmin.toString() %></font>
 										</td>
 <%
-       Iterator<Map> it = appointmentList.iterator();
        while (bFirstTimeRs?it.hasNext():true) { //if it's not the first time to parse the standard time, should pass it by
           	  len = bFirstTimeRs&&!bFirstFirstR?lenLimitedS:lenLimitedL;
-          	  Map appointment = it.next();
+          	  appointment = bFirstTimeRs?it.next():appointment;
           	  iS=Integer.parseInt(String.valueOf(appointment.get("start_time")).substring(0,2));
         	  iSm=Integer.parseInt(String.valueOf(appointment.get("start_time")).substring(3,5));
          	  iE=Integer.parseInt(String.valueOf(appointment.get("end_time")).substring(0,2));

@@ -34,16 +34,22 @@ public class OscarSuperManager {
 
 	private Map<String, OscarSuperDao> oscarDaoMap = new TreeMap<String, OscarSuperDao>();
 
-	private OscarSuperDao appointmentDao;
+	private OscarSuperDao appointmentSuperDao;
 
-	private OscarSuperDao receptionistDao;
+	private OscarSuperDao receptionistSuperDao;
 
-	public void setAppointmentDao(OscarSuperDao appointmentDao) {
-		this.appointmentDao = appointmentDao;
+	private OscarSuperDao providerSuperDao;
+
+	public void setAppointmentSuperDao(OscarSuperDao appointmentDao) {
+		this.appointmentSuperDao = appointmentDao;
 	}
 
-	public void setReceptionistDao(OscarSuperDao receptionistDao) {
-		this.receptionistDao = receptionistDao;
+	public void setReceptionistSuperDao(OscarSuperDao receptionistDao) {
+		this.receptionistSuperDao = receptionistDao;
+	}
+
+	public void setProviderSuperDao(OscarSuperDao providerDao) {
+		this.providerSuperDao = providerDao;
 	}
 
 	/**
@@ -51,8 +57,9 @@ public class OscarSuperManager {
 	 * Don't forget to update this function then you add a dao field.
 	 */
 	public void init() {
-		oscarDaoMap.put("appointmentDao", appointmentDao);
-		oscarDaoMap.put("receptionistDao", receptionistDao);
+		oscarDaoMap.put("appointmentDao", appointmentSuperDao);
+		oscarDaoMap.put("receptionistDao", receptionistSuperDao);
+		oscarDaoMap.put("providerDao", providerSuperDao);
 
 		// making sure all daos have been injected properly
 		for (String daoName : oscarDaoMap.keySet()) {
