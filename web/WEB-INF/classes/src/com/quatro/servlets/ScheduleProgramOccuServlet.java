@@ -369,6 +369,7 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	           ProgramOccuTimerTask.DeactiveServiceIntake(dt);
 	           ProgramOccuTimerTask.inputSDMT(path);
 	           */
+		       //    IntakeTimerTask.DeactiveBedIntake();
 	           return;
 	           
 	        }

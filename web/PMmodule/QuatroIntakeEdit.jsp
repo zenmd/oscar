@@ -110,6 +110,10 @@ function submitForm(methodVal) {
 	else
 	{
 		document.getElementById("btnSave").disabled=true;
+		var adm = document.getElementById("btnAdmission");
+		if (adm) adm.disabled=true;
+		var fam = document.getElementById("btnFamily");
+		if (fam) fam.disabled=true;
 		document.forms[0].method.value = methodVal;
 		document.forms[0].submit();
 	}
@@ -164,7 +168,7 @@ function confirmActive()
 	         </c:if> 
 	         <c:if	test="${quatroIntakeEditForm.intake.id!=0}">
 				<c:if test="${quatroIntakeEditForm.intake.intakeStatus=='active' || intakeHeadId>0}">
-	    	 			 <a	href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
+	    	 			 <a	id="btnFamily" href="<c:out value="${ctx}"/>/PMmodule/QuatroFamilyIntake.do?intakeId=<c:out value="${quatroIntakeEditForm.intake.id}"/>&clientId=<c:out value="${quatroIntakeEditForm.intake.clientId}"/>&headclientId=<c:out value="${clientId}"/>"
 							style="color:Navy;text-decoration:none;" onclick="javascript: return isDateValid;"> 
 							<img border=0	src=<html:rewrite page="/images/sel.gif"/> />&nbsp;Family Intake &nbsp;&nbsp;|</a>
 				</c:if>

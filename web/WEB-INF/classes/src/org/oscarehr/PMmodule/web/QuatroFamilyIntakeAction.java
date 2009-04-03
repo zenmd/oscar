@@ -65,7 +65,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       
 	       QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
 	       request.setAttribute("programId",headIntakeDB.getProgramId());
-	       clientForm.setIntakeStatus(headIntakeDB.getIntakeStatus());
+	       String intakeStatus = headIntakeDB.getIntakeStatus();
+	       clientForm.setIntakeStatus(intakeStatus);
 	       
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
@@ -121,15 +122,14 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	     	  obj.setServiceRestriction("N");
 	     	  obj.setStatusMsg("#");
 	       }
-	       boolean isFamilyAdmitted = false;
+	       boolean isFamilyAdmitted = intakeStatus.equals(KeyConstants.INTAKE_STATUS_ADMITTED);
+ 		   request.setAttribute("isFamilyAdmitted", new Boolean(isFamilyAdmitted));
 	       Integer admId = null;
 	       int familySize = dependent.size();
 	       for(int i=0;i<dependent.size();i++){
 	    	  QuatroIntakeFamily obj= (QuatroIntakeFamily)dependent.get(i);
 	    	  if(obj.getIntakeHeadId().equals(obj.getIntakeId())){
 	    		  admId = obj.getAdmissionId();
-	    		  isFamilyAdmitted =  admId != null;
-	    		  request.setAttribute("isFamilyAdmitted", new Boolean(isFamilyAdmitted));
 	    		  dependent.remove(obj);
 	    		  break;
 	    	  }
