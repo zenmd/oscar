@@ -39,6 +39,7 @@ function submitForm(methodVal) {
 			if (!confirm("You have made changes to this form.\n Click on Cancel to be able to Save information or click OK to proceed without saving?")) return false;
 			setNoConfirm();
 		}
+		if (!confirmActive()) return;
 	}
 	else
 	{
