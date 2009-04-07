@@ -19,7 +19,10 @@
 package org.oscarehr.PMmodule.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,25 +31,26 @@ import java.util.TreeSet;
 
 public class IntakeNode implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     private IntakeNodeWalker walker;
 
     public static String REF = "IntakeNode";
-    public static String PROP_PARENT = "parent";
-    public static String PROP_NODE_TEMPLATE = "nodeTemplate";
-    public static String PROP_LABEL = "label";
-    public static String PROP_ID = "id";
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private int hashCode = Integer.MIN_VALUE;// primary key
     private Integer id;// many to one
     private IntakeNodeTemplate nodeTemplate;
     private IntakeNodeLabel label;
     private Integer pos;
     private boolean mandatory;
+    private Integer eq_to_id;
+    private Integer form_version;
+    private Calendar publish_date;
+    private String publish_by;
     private IntakeNode parent;// collections
     private List<IntakeNode> children;
     private Set<Intake> intakes;
     private Set<IntakeAnswer> answers;
+    private Integer formType;
+    
 
     // constructors
     public IntakeNode() {
@@ -370,6 +374,59 @@ public class IntakeNode implements Serializable {
     }
     
     
+    public Integer getEq_to_id() {
+	return eq_to_id;
+    }
+    
+    
+    public void setEq_to_id(Integer eq_to_id) {
+	this.eq_to_id = eq_to_id;
+    }
+    
+    
+    public Integer getForm_version() {
+	return form_version;
+    }
+    
+    
+    public void setForm_version(Integer form_version) {
+	this.form_version = form_version;
+    }
+    
+    
+    public Calendar getPublish_date() {
+        return publish_date;
+    }
+    
+    public String getPublishDateStr() {
+    	Calendar c = getPublish_date();
+    	if(c!=null) {
+    		return DATE_FORMAT.format(c.getTime());
+    	} else {
+    		return null;
+    	}
+	//return DATE_FORMAT.format(getPublish_date().getTime());
+    }
+    
+    
+    public void setPublish_date(Calendar publishDate) {
+        this.publish_date = publishDate;
+    }
+
+    public void setPublishDateCurrent() {
+        setPublish_date(Calendar.getInstance());
+    }
+
+    
+    public String getPublish_by() {
+	return publish_by;
+    }
+    
+    
+    public void setPublish_by(String publishBy) {
+	this.publish_by = publishBy;
+    }
+    
 
     public boolean equals(Object obj) {
         if (null == obj)
@@ -396,4 +453,12 @@ public class IntakeNode implements Serializable {
         }
         return this.hashCode;
     }
+
+	public void setFormType(Integer type) {
+		this.formType = type;
+	}
+	
+	public Integer getFormType() {
+		return this.formType;
+	}
 }
