@@ -41,6 +41,7 @@ public class CaseManagementIssue extends BaseObject {
 	private boolean major;
 	//private boolean active;
 	private boolean resolved;
+	private boolean remote = false;
 	private String type;
 	private Date update_date;
 	private Set notes = new HashSet();
@@ -50,6 +51,10 @@ public class CaseManagementIssue extends BaseObject {
 	private boolean writeAccess;
 	
 	private int hashCode = Integer.MIN_VALUE;
+	
+	public String toString() {
+		return "CaseManagementIssue: id=" + id;
+	}
 	
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
@@ -162,6 +167,15 @@ public class CaseManagementIssue extends BaseObject {
 	public void setResolved(boolean resolved) {
 		this.resolved = resolved;
 	}
+	public boolean isRemote() {
+		return remote;
+	}
+
+	public void setRemote(boolean remote) {
+		this.remote = remote;
+	}
+
+
 	public String getType() {
 		return type;
 	}
