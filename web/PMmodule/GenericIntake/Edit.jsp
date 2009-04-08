@@ -18,21 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 -->
+
+<%-- Updated by Eugene Petruhin on 30 dec 2008 while fixing #2456688 --%>
+
 <%@ include file="/taglibs.jsp" %>
 <%@ page import="org.oscarehr.PMmodule.model.Intake" %>
 <%@ page import="org.oscarehr.PMmodule.web.formbean.GenericIntakeEditFormBean" %>
 <%@ page import="org.oscarehr.PMmodule.web.ProgramUtils" %>
 <%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-<%@ page import="org.oscarehr.common.dao.IntakeRequiredFieldsDao" %>
 <%@ page import="org.oscarehr.util.SessionConstants" %>
+<% response.setHeader("Cache-Control","no-cache");%>
+
 <%
     GenericIntakeEditFormBean intakeEditForm = (GenericIntakeEditFormBean) session.getAttribute("genericIntakeEditForm");
     Intake intake = intakeEditForm.getIntake();
     String clientId = String.valueOf(intake.getClientId());
+    String intakeType = intake.getType();
    
+    String intakeFrmDate = intake.getNode().getPublishDateStr();
+    String intakeFrmName = intake.getNode().getLabelStr();
+    Integer intakeFrmVer = intake.getNode().getForm_version();
+    intakeFrmName += intakeFrmVer==null ? " (1)" : " ("+intakeFrmVer+")";
 %>
-<html:html xhtml="true" locale="true">
+
+<%@page import="org.apache.commons.lang.StringUtils"%><html:html xhtml="true" locale="true">
 <head>
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
     <title>Generic Intake Edit</title>
     <style type="text/css">
         @import "<html:rewrite page="/css/genericIntake.css" />";
@@ -75,6 +86,104 @@
             window.open(page, "", windowprops);
         }
         
+	
+	function saveForm() {	
+	    if (check_mandatory()) {
+		return save();
+	    }
+	    return false;
+	}
+	
+	function check_mandatory() {
+	    var mquestSingle = new Array();
+	    var mquestMultiIdx = new Array();
+	    var mquestMultiName = new Array();
+	    var mqs = 0;
+	    var mqm = 0;
+	    var ret = false;
+	    for (i=0; i<document.forms[0].elements.length; i++) {
+		if (document.forms[0].elements[i].name.substring(0,7)=="mquests") {
+		    mquestSingle[mqs] = document.forms[0].elements[i].value;
+		    mqs++;
+		} else if (document.forms[0].elements[i].name.substring(0,7)=="mquestm") {
+		    mquestMultiIdx[mqm] = document.forms[0].elements[i].name;
+		    mquestMultiName[mqm] = document.forms[0].elements[i].value;
+		    mqm++;
+		}
+	    }
+	    ret = check_mandatory_single(mquestSingle);
+	    if (ret) {
+		ret = check_mandatory_multi(mquestMultiIdx, mquestMultiName);
+	    }
+	    if (!ret) {
+		alert("All mandatory questions must be answered!");
+	    }
+	    return ret;
+	}
+
+	function check_mandatory_single(mqSingle) {
+	    var errFree = true;
+	    for (i=0; i<document.forms[0].elements.length; i++) {
+		for (j=0; j<mqSingle.length; j++) {
+		    if (document.forms[0].elements[i].name==mqSingle[j]) {
+			errFree = checkfilled(document.forms[0].elements[i]);
+		    }
+		    break;
+		}
+		if (!errFree) {
+		    break;
+		}
+	    }
+	    return errFree;
+	}
+
+	function check_mandatory_multi(mqIndex, mqName) {
+	    var errFree = true;
+	    var ans_ed = 0;
+
+	    for (i=0; i<mqIndex.length; i++) {
+		for (j=0; j<document.forms[0].elements.length; j++) {
+		    if (document.forms[0].elements[j].name==mqName[i]) {
+			if (checkfilled(document.forms[0].elements[j])) {
+			    ans_ed++;
+			}
+			break;
+		    }
+		}
+		if (i==mqIndex.length-1 || (i<mqIndex.length-1 && nxtGrp(mqIndex[i], mqIndex[i+1]))) {
+		    if (ans_ed==0) {
+			errFree = false;
+			break;
+		    } else {
+			ans_ed = 0;
+		    }
+		}
+	    }
+	    return errFree;
+	}
+
+	function nxtGrp(first, second) {
+	    var mrk = first.lastIndexOf('_') + 1;
+	    var firstIdx = first.substring(mrk, first.length);
+	    mrk = second.lastIndexOf('_') + 1;
+	    var secondIdx = second.substring(mrk, second.length);
+
+	    return (firstIdx!=secondIdx);
+	}
+
+	function checkfilled(elem) {
+	    if (elem.type=="text" || elem.type=="textarea") {
+		if (elem.value.replace(" ","")=="") {
+		    return false;
+		}
+	    } else if (elem.type=="checkbox") {
+		if (!elem.checked) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
+	
     </script>
     <script type="text/javascript" src="<html:rewrite page="/dojoAjax/dojo.js" />"></script>
     <script type="text/javascript" src="<html:rewrite page="/js/AlphaTextBox.js" />"></script>
@@ -92,7 +201,10 @@
 
 <html:form action="/PMmodule/GenericIntake/Edit" onsubmit="return validateEdit()" >
 <html:hidden property="method"/>
-<input type="hidden" name="currentBedCommunityProgramId_old" value=<%=session.getAttribute("intakeCurrentBedCommunityId")%> />
+<input type="hidden" name="currentBedCommunityProgramId_old" value="<%=session.getAttribute("intakeCurrentBedCommunityId")%>" />
+<input type="hidden" name="intakeType" value="<%=intakeType %>" />
+<input type="hidden" name="remoteFacilityId" value="<%=StringUtils.trimToEmpty(request.getParameter("remoteFacilityId"))%>" />
+<input type="hidden" name="remoteDemographicId" value="<%=StringUtils.trimToEmpty(request.getParameter("remoteDemographicId"))%>" />
 
 <div id="layoutContainer" dojoType="LayoutContainer" layoutChildPriority="top-bottom" class="intakeLayoutContainer">
 <div id="topPane" dojoType="ContentPane" layoutAlign="top" class="intakeTopPane">
@@ -104,18 +216,12 @@
      labelNodeClass="intakeSectionLabel" containerNodeClass="intakeSectionContainer">
 <table class="intakeTable">
 <tr>
-    <%
-        boolean isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_FIRST_NAME);
-        String REQUIRED_MARKER = " *";
-    %>
-    <td><label>First Name<%=isRequired ? REQUIRED_MARKER : ""%><br><html:text property="client.firstName" size="20"
+    <td><label>First Name<br><html:text property="client.firstName" size="20"
                                                                               maxlength="30"/></label></td>
-    <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_LAST_NAME);%>
-    <td><label>Last Name<%=isRequired ? REQUIRED_MARKER : ""%><br><html:text property="client.lastName" size="20"
+    <td><label>Last Name<br><html:text property="client.lastName" size="20"
                                                                              maxlength="30"/></label></td>
     <td>
-        <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_GENDER);%>
-        <label>Gender<%=isRequired ? REQUIRED_MARKER : ""%><br>
+        <label>Gender<br>
             <html:select property="client.sex">
                 <html:optionsCollection property="genders" value="code" label="description"/>
             </html:select>
@@ -125,8 +231,7 @@
         <table>
             <tr>
                 <td>
-                    <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_BIRTH_DATE);%>
-                    <label>Birth Date<%=isRequired ? REQUIRED_MARKER : ""%><br>
+                    <label>Birth Date<br>
                         <html:select property="client.monthOfBirth">
                             <html:optionsCollection property="months" value="value" label="label"/>
                         </html:select>
@@ -151,9 +256,7 @@
 </tr>
 <tr>
     <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
-        <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_ALIAS);%>
-        <td><label>Alias<%=isRequired ? REQUIRED_MARKER : ""%>
-        	<br><html:text size="40" maxlength="70" property="client.alias"/></label>
+        <td><label>Alias<br><html:text size="40" maxlength="70" property="client.alias"/></label>
        </td>
     </caisi:isModuleLoad>
     
@@ -189,23 +292,15 @@
         </td>
     </tr>
     <tr>
-        <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_STREET);%>
-        <td><label>Street<%=isRequired ? REQUIRED_MARKER : ""%><br><html:text size="20" maxlength="60"
-                                                                              property="client.address"/></label></td>
-        <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_CITY);%>
-        <td><label>City<%=isRequired ? REQUIRED_MARKER : ""%><br><html:text size="20" maxlength="20"
-                                                                            property="client.city"/></label></td>
-        <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_PROVINCE);%>
-        <td><label>Province<%=isRequired ? REQUIRED_MARKER : ""%><br>
+        <td><label>Street<br><html:text size="20" maxlength="60" property="client.address"/></label></td>
+        <td><label>City<br><html:text size="20" maxlength="20" property="client.city"/></label></td>
+        <td><label>Province<br>
             <html:select property="client.province">
                 <html:optionsCollection property="provinces" value="value" label="label"/>
             </html:select>
         </label>
         </td>
-        <!-- <td><label>Province<br><html:text property="client.province" /></label></td> -->
-        <%isRequired = IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_POSTAL_CODE);%>
-        <td><label>Postal Code<%=isRequired ? REQUIRED_MARKER : ""%><br><html:text property="client.postal" size="9"
-                                                                                   maxlength="9"/></label></td>
+        <td><label>Postal Code<br><html:text property="client.postal" size="9" maxlength="9"/></label></td>
     </tr>
 
 <c:if test="${not empty sessionScope.genericIntakeEditForm.client.demographicNo}">
@@ -222,7 +317,7 @@
 </table>
 </div>
 
-
+<%if(!Intake.INDEPTH.equalsIgnoreCase(intakeType)) { %>
 <c:if test="${not empty sessionScope.genericIntakeEditForm.bedCommunityPrograms || not empty sessionScope.genericIntakeEditForm.servicePrograms}">
     <div id="admissionsTable" dojoType="TitlePane" label="Program Admissions" labelNodeClass="intakeSectionLabel"
          containerNodeClass="intakeSectionContainer">
@@ -246,9 +341,10 @@
                 </c:if>
             </tr>
             <tr>
+				<input type="hidden" name="remoteReferralId" value="<%=StringUtils.trimToEmpty(request.getParameter("remoteReferralId"))%>" />
                 <c:if test="${not empty sessionScope.genericIntakeEditForm.bedCommunityPrograms}">
                     <td class="intakeBedCommunityProgramCell">
-                        <html:select property="bedCommunityProgramId">
+                        <html:select property="bedCommunityProgramId" value='<%=request.getParameter("destinationProgramId")%>' >
                             <html:optionsCollection property="bedCommunityPrograms" value="value" label="label"/>
                         </html:select>
                     </td>
@@ -266,6 +362,7 @@
     </div>
 
 </c:if>
+<%} %>
 
 <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
 	<div id="admissionsTable" dojoType="TitlePane" label="Intake Location" labelNodeClass="intakeSectionLabel"
@@ -360,16 +457,16 @@
         <tr>
             <td>
                 <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
-                    <html:submit onclick="return save()">Save</html:submit>&nbsp;
+                    <html:submit onclick="return saveForm();">Save</html:submit>&nbsp;
                 </caisi:isModuleLoad>
                 <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
                     <!--
        				<c:choose>
                         <c:when test="${not empty sessionScope.genericIntakeEditForm.client.demographicNo}">
-                            <html:submit onclick="save()">Save</html:submit>&nbsp;
+                            <html:submit onclick="return saveForm();">Save</html:submit>&nbsp;
                         </c:when>
                         <c:otherwise>
-                            <html:submit onclick="save()">Save And Do Intake Accessment</html:submit>&nbsp;
+                            <html:submit onclick="return saveForm();">Save And Do Intake Accessment</html:submit>&nbsp;
                         </c:otherwise>
                     </c:choose>
                     -->
@@ -384,9 +481,10 @@
                 <c:choose>
                     <c:when test="${not empty sessionScope.genericIntakeEditForm.client.demographicNo}">
                         <html:submit onclick="clientEdit()">Close</html:submit>
+                        <input type="button" value="Back to Search" onclick="history.go(-1)"/>
                     </c:when>
                     <c:otherwise>
-                        <input type="button" value="Close" onclick="history.go(-1)"/>
+                        <input type="button" value="Back to Search" onclick="history.go(-1)"/>
                     </c:otherwise>
                 </c:choose>
             </td>

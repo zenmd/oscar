@@ -57,6 +57,14 @@ function openSurvey(methodId) {
 		
 	location.href = '<html:rewrite action="/PMmodule/Forms/SurveyExecute.do"/>' + "?method="+ methodName + "&formId=" + formId + "&formInstanceId=" + id + "&clientId=" + '<c:out value="${client.demographicNo}"/>';
 }
+
+function createIntake(clientId,nodeId) {
+	if(nodeId == '') {
+		return;
+	}
+	location.href = '<html:rewrite action="/PMmodule/GenericIntake/Edit.do"/>' + "?method=update&type=none&nodeId="+nodeId+"&clientId=" + clientId;
+
+}
 </script>
 
 <div class="tabs">
@@ -114,19 +122,55 @@ function openSurvey(methodId) {
 			<td><input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" /></td>
 		</tr>
 	</c:forEach>
-	<tr>
-		<td colspan="3">
-			<input type="button" value="Update" onclick="updateIndepthIntake('<c:out value="${client.demographicNo}" />')" />
-		</td>
-	</tr>
 </table>
+New Follow-up Intake:&nbsp;
+<select onchange="createIntake('<c:out value="${client.demographicNo}" />',this.options[this.selectedIndex].value);">
+	<option value="" selected></option>
+	<c:forEach var="node" items="${indepthIntakeNodes}">
+		<option value="<c:out value="${node.id}"/>"><c:out value="${node.label.label}"/></option>
+	</c:forEach>
+</select>
+
 <br />
 <br />
 
 <div class="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
 		<tr>
-			<th title="Programs">Program Intakes</th>
+			<th title="Programs">General Forms</th>
+		</tr>
+	</table>
+</div>
+<table class="simple" cellspacing="2" cellpadding="3">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Staff</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<c:forEach var="intake" items="${generalIntakes}">
+		<tr>
+			<td width="20%"><c:out value="${intake.createdOnStr}" /></td>
+			<td><c:out value="${intake.staffName}" /></td>
+			<td><input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" /></td>
+		</tr>
+	</c:forEach>
+</table>
+New General Form:&nbsp;
+<select onchange="createIntake('<c:out value="${client.demographicNo}" />',this.options[this.selectedIndex].value);">
+	<option value="" selected></option>
+	<c:forEach var="node" items="${generalIntakeNodes}">
+		<option value="<c:out value="${node.id}"/>"><c:out value="${node.label.label}"/></option>
+	</c:forEach>
+</select>
+<br />
+<br />
+
+<div class="tabs">
+	<table cellpadding="3" cellspacing="0" border="0">
+		<tr>
+			<th title="Programs">Daily work Forms</th>
 		</tr>
 	</table>
 </div>
@@ -195,3 +239,38 @@ New User Created Form:&nbsp;
 	<html:option value="0">&nbsp;</html:option>
 	<html:options collection="survey_list" property="formId" labelProperty="description" />
 </html:select>
+
+<div class="tabs">
+	<table cellpadding="3" cellspacing="0" border="0">
+		<tr>
+			<th title="Programs">Consent History</th>
+		</tr>
+	</table>
+</div>
+<table class="simple" cellspacing="2" cellpadding="3">
+	<thead>
+		<tr>		
+			<th>Date</th>
+			<th>Form Name</th>
+			<th>Provider</th>
+			<th></th>
+		</tr>
+	</thead>
+	<c:forEach var="form" items="${consents}">
+		<tr>			
+			<td><c:out value="${form.createdDate}" /></td>
+			<td><c:out value="${form.formVersion}" /></td>
+			<td><c:out value="${form.provider}" /></td>		
+			<td>
+				<c:if test="${form.formVersion != 'DETAILED'}">
+					<a target="_blank" href="ClientManager/view_consent_details.jsp?consentId=<c:out value="${form.consentId}" />&demographicId=<%=request.getAttribute("id")%>">details</a>
+				</c:if>
+				<c:if test="${form.formVersion == 'DETAILED'}">
+					<a href="ClientManager/manage_consent.jsp?consentId=<c:out value="${form.consentId}" />&demographicId=<%=request.getAttribute("id")%>">details</a>
+				</c:if>
+			</td>		
+		</tr>
+	</c:forEach>
+</table>
+<br />
+<br />

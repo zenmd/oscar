@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -38,10 +39,10 @@ import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.common.model.Demographic;
 import org.oscarehr.PMmodule.model.Intake;
 import org.oscarehr.PMmodule.model.IntakeNode;
-import org.oscarehr.PMmodule.model.Provider;
+import org.oscarehr.common.model.Provider;
 import org.oscarehr.common.model.ReportStatistic;
 import org.oscarehr.util.AccumulatorMap;
 import org.oscarehr.util.DbConnectionFilter;
@@ -98,6 +99,29 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 		LOG.info("get intakes: " + intakes.size());
 
 		return intakes;
+	}
+	
+	/*
+	 * 1. get nodes.
+	 * foreach node, get intakes for that node
+	 */
+	public List<Intake> getIntakesByType(Integer formType, Integer clientId, Integer programId, Integer facilityId) {
+		List<Intake> intake_results = new ArrayList<Intake>();
+		if (formType == null || clientId == null) {
+			throw new IllegalArgumentException("Parameters node and clientId must be non-null");
+		}
+		
+		List<IntakeNode> nodes = this.getIntakeNodesByType(formType);
+
+		for(IntakeNode node:nodes) {
+			List<?> results = getHibernateTemplate().find("from Intake i where i.node = ? and i.clientId = ? and (i.facilityId=? or i.facilityId is null) order by i.createdOn desc",
+					new Object[] { node, clientId, facilityId });			
+			List<Intake> intakes = convertToIntakes(results, programId);
+			intake_results.addAll(intakes);
+		}
+		
+		
+		return intake_results;
 	}
 
 	public List<Intake> getIntakesByFacility(IntakeNode node, Integer clientId, Integer programId, Integer facilityId) {
@@ -162,6 +186,10 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 	}
 
 	public List<Integer> getIntakeNodesIdByClientId(Integer clientId) {
+		return getIntakeNodesIdByClientId(clientId,null);
+	}
+	
+	public List<Integer> getIntakeNodesIdByClientId(Integer clientId, Integer formType) {
 		if (clientId == null) {
 			throw new IllegalArgumentException("Parameters intakeId must be non-null");
 		}
@@ -173,7 +201,9 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 		
 		List<Integer> intakeNodeIds = new ArrayList();
 		for (Intake i : intakes) {
-		    intakeNodeIds.add(i.getNode().getId());
+			if(formType != null && i.getNode().getFormType() == formType) {
+				intakeNodeIds.add(i.getNode().getId());
+			}
 		}
 		for (int i=1; i<intakeNodeIds.size(); i++) {
 		    if (intakeNodeIds.get(i).equals(intakeNodeIds.get(i-1))) {
@@ -269,20 +299,19 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 	/**
 	 * @see org.oscarehr.PMmodule.dao.GenericIntakeDAO#getReportStatistics(java.util.List, java.util.List)
 	 */
-	public SortedMap<Integer, SortedMap<String, ReportStatistic>> getReportStatistics(Set<Integer> answerIds, Set<Integer> intakeIds) {
+	public SortedMap<Integer, SortedMap<String, ReportStatistic>> getReportStatistics(Hashtable<Integer,Integer> answerIds, Set<Integer> intakeIds) {
 		if (intakeIds == null || answerIds == null) {
-			throw new IllegalArgumentException("Parameters intakeIds and answerIds must be non-null");
+			throw new IllegalArgumentException("Parameters intakeIds, answerIds must be non-null");
 		}
 
 		SortedMap<Integer, SortedMap<String, ReportStatistic>> reportStatistics = new TreeMap<Integer, SortedMap<String, ReportStatistic>>();
-
+		
 		if (!intakeIds.isEmpty() && !answerIds.isEmpty()) {
 			List<?> results = getHibernateTemplate().find(
-					"select ia.node.id, ia.value, count(ia.value) from IntakeAnswer ia where ia.node.id in (" + convertToString(answerIds)
+					"select ia.node.id, ia.value, count(ia.value) from IntakeAnswer ia where ia.node.id in (" + convertToString(answerIds.keySet())
 							+ ") and ia.intake.id in (" + convertToString(intakeIds) + ") group by ia.node.id, ia.value");
-			convertToReportStatistics(results, intakeIds.size(), reportStatistics);
+			convertToReportStatistics(results, intakeIds.size(), reportStatistics, answerIds);
 		}
-
 		LOG.info("get reportStatistics: " + reportStatistics.size());
 
 		return reportStatistics;
@@ -396,20 +425,24 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 		return builder.toString();
 	}
 
-	private void convertToReportStatistics(List<?> results, int size, SortedMap<Integer, SortedMap<String, ReportStatistic>> reportStatistics) {
+	private void convertToReportStatistics(List<?> results, int size, SortedMap<Integer, SortedMap<String, ReportStatistic>> reportStatistics, Hashtable<Integer, Integer> resultHash) {
 		for (Object o : results) {
 			Object[] tuple = (Object[]) o;
 
 			Integer nodeId = (Integer) tuple[0];
 			String value = (String) tuple[1];
-
 			Integer count = Integer.valueOf(tuple[2].toString());
-
+			
 			if (!reportStatistics.containsKey(nodeId)) {
-				reportStatistics.put(nodeId, new TreeMap<String, ReportStatistic>());
+			    reportStatistics.put(nodeId, new TreeMap<String, ReportStatistic>());
 			}
-
-			reportStatistics.get(nodeId).put(value, new ReportStatistic(count, size));
+			
+			SortedMap<String, ReportStatistic> rpStNodeId = reportStatistics.get(nodeId);
+			if (rpStNodeId.containsKey(value)) {
+			    count += rpStNodeId.get(value).getCount();
+			    rpStNodeId.remove(value);
+			}
+			rpStNodeId.put(value, new ReportStatistic(count, size));
 		}
 	}
 
@@ -498,4 +531,8 @@ public class GenericIntakeDAO extends HibernateDaoSupport {
 		return intake;
 	}
 	*/
+	
+	public List<IntakeNode> getIntakeNodesByType(Integer formType) {
+		return this.getHibernateTemplate().find("From IntakeNode n where n.formType = ? and n.publish_by is not null", new Object[] {formType});
+	}
 }

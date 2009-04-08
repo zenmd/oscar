@@ -28,14 +28,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
-import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.common.model.Demographic;
 import org.oscarehr.PMmodule.model.Intake;
 import org.oscarehr.PMmodule.model.IntakeAnswerElement;
 import org.oscarehr.PMmodule.model.Program;
 
 public class GenericIntakeEditFormBean extends ActionForm {
-
-	private static final long serialVersionUID = 1L;
 
 	private static final String BED_PROGRAM_LABEL = "Bed Program";
 	private static final String EXTERNAL_PROGRAM_LABEL = "External Agency Client Referred From";
@@ -67,6 +65,8 @@ public class GenericIntakeEditFormBean extends ActionForm {
 	
 	private Intake intake;
 
+	private Integer nodeId;
+	
     public GenericIntakeEditFormBean() {
 		months = GenericIntakeConstants.MONTHS;
 		days = GenericIntakeConstants.DAYS;
@@ -383,4 +383,13 @@ public class GenericIntakeEditFormBean extends ActionForm {
 		return result;
 	}
 
+	public Integer getNodeId() {
+		return nodeId;
+	}
+
+	public void setNodeId(Integer nodeId) {
+		this.nodeId = nodeId;
+	}
+
+	
 }
