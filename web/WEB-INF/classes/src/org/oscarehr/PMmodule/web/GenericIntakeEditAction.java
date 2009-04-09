@@ -402,7 +402,10 @@ public class GenericIntakeEditAction extends BaseGenericIntakeAction {
 				LOG.error(e);
 			}
 		}
-
+/*
+		GenericIntakeEditFormBean formBean2 = new GenericIntakeEditFormBean();
+		request.getSession().setAttribute("genericIntakeEditForm", formBean2);
+*/		
 		if (("RFQ_admit".equals(saveWhich) || "RFQ_notAdmit".equals(saveWhich)) && oldId != null) {
 			return clientEdit(mapping, form, request, response);
 		}

@@ -1,5 +1,5 @@
 <%@page import="org.oscarehr.PMmodule.web.ProgramUtils"%>
-<%@page import="org.oscarehr.common.dao.IntakeRequiredFieldsDao"%>
+<%@ page import="org.oscarehr.PMmodule.model.Intake" %>
 <%@page contentType="text/javascript"%>
 
 if (!Array.prototype.indexOf)
@@ -36,6 +36,9 @@ function validateSearchForm() {
 }
 
 function validBedCommunityProgram() {
+	if(getElement('bedCommunityProgramId') == null) {
+		return true;
+	}
 	var programIdStr=getElement('bedCommunityProgramId').value;
 	var programId = Number(programIdStr);
 		
@@ -59,242 +62,54 @@ function validIntakeLocation() {
 }
 
 function validateEdit() {
-	
-	
-	<%
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_FIRST_NAME))
-		{
-			%>
-				var firstName = getElement('client.firstName');
-				if (firstName!=null && isEmpty(firstName.value)) {
-					return error(firstName, "First name is mandatory");
-				}
-			<%
-		}
+	var programIdEl = getElement('bedCommunityProgramId');
+	var programId = 0;
+	if(programIdEl != null) {
+		var programIdStr = programIdEl.value;
+		programId = Number(programIdStr);
+	}	
+	var gender=getElement('client.sex');
 
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_LAST_NAME))
+	if (gender.value == 'M')
+	{
+		if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
 		{
-			%>
-				var lastName = getElement('client.lastName');
-				if (lastName!=null && isEmpty(lastName.value)) {
-					return error(lastName, "Last name is mandatory");
-				}
-			<%
+			return error(gender, "This gender not allowed in selected program.");
 		}
+	}
+	if (gender.value == 'F')
+	{
+		if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
+		{
+			return error(gender, "This gender not allowed in selected program.");
+		}
+	}
+	if (gender.value == 'T')
+	{
+		if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
+		{
+			return error(gender, "This gender not allowed in selected program.");
+		}
+	}
 
-	%>
-		var gender = getElement('client.sex');
-	<%
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_GENDER))
-		{
-			%>
-				if (gender!=null && isEmpty(gender.value)) {
-					return error(gender, "Gender is mandatory");
-				}
-			<%
-		}
-	%> 
-		
-		var programIdStr=getElement('bedCommunityProgramId').value;
-		var programId = Number(programIdStr);
-		
-		if (gender.value == 'M')
-		{
-			if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-			{
-				return error(gender, "This gender not allowed in selected program.");
-			}
-		}
-		if (gender.value == 'F')
-		{
-			if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-			{
-				return error(gender, "This gender not allowed in selected program.");
-			}
-		}
-		if (gender.value == 'T')
-		{
-			if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
-			{
-				return error(gender, "This gender not allowed in selected program.");
-			}
-		}
-		
-		var month = getElement('client.monthOfBirth');
-		var day = getElement('client.dateOfBirth');
-		var year = getElement('client.yearOfBirth');
-		
-		var age=calculateAge(year.value,month.value,day.value);
-		if (!validAgeRangeForProgram(programId,age))
-		{
-			return error(year, "This client does not meet the age range requirements for this program.");
-		}
+	var month = parseInt(getElement('client.monthOfBirth').value, 10);
+	var day = parseInt(getElement('client.dateOfBirth').value, 10);
+	var year = parseInt(getElement('client.yearOfBirth').value, 10);
+	if (!validateDate(year, month, day))
+	{
+		return error(getElement('client.yearOfBirth'), "The birth date you've entered is not a valid date.");
+	}
 
-		if (!validateDate(year.value, month.value, day.value))
-		{
-			return error(year, "The birth date you entered is not a valid date.");
-		}
-	
-		
-		
-	
-	<%
-		
-		
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_BIRTH_DATE))
-		{
-			%>
-				if (!isEmpty(month.value) || !isEmpty(day.value) || !isEmpty(year.value)) {
-					var date = month.value + "/" + day.value + "/" + year.value;
-					
-					if (!dojo.validate.isValidDate(date, 'MM/DD/YYYY')) {
-						return error(month, date + " (MM/DD/YYYY) is not a valid date");
-					}
-				}
-			<%
-		}
+	var age = calculateAge(year, month, day);
+	if (!validAgeRangeForProgram(programId, age))
+	{
+		return error(getElement('client.yearOfBirth'), "This client does not meet the age range requirements for this program.");
+	}
 
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_EMAIL))
-		{
-			%>
-				var email = getElement('client.email');
-				
-				if (email!=null && !isEmpty(email.value) && !dojo.validate.isEmailAddress(email.value)) {
-					return error(email, email.value + " is not a valid email address");
-				}				
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_PHONE))
-		{
-			%>
-				var phoneNumber = getElement('client.phone');
-			
-				if (phoneNumber!=null && !isEmpty(phoneNumber.value) && !dojo.validate.us.isPhoneNumber(phoneNumber.value)) {
-					return error(phoneNumber, phoneNumber.value + " is not a valid phone number");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_PHONE2))
-		{
-			%>
-				var secondaryPhoneNumber = getElement('client.phone2');
-			
-				if (secondaryPhoneNumber!=null && !isEmpty(secondaryPhoneNumber.value) && !dojo.validate.us.isPhoneNumber(secondaryPhoneNumber.value)) {
-					return error(secondaryPhoneNumber, secondaryPhoneNumber.value + " is not a valid phone number");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_STREET))
-		{
-			%>
-				var address = getElement('client.address');
-				if (address!=null && isEmpty(address.value)) {
-					return error(address, "Street is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_CITY))
-		{
-			%>
-				var city = getElement('client.city');
-				if (city!=null && isEmpty(city.value)) {
-					return error(city, "City is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_PROVINCE))
-		{
-			%>
-				var province = getElement('client.province');
-				if (province!=null && isEmpty(province.value)) {
-					return error(province, "Province is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_POSTAL_CODE))
-		{
-			%>
-				var postal = getElement('client.postal');
-				if (postal!=null && isEmpty(postal.value)) {
-					return error(postal, "Postal Code is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_ALIAS))
-		{
-			%>
-				var alias = getElement('client.alias');
-				if (alias!=null && isEmpty(alias.value)) {
-					return error(alias, "Alias is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_CITIZENSHIP))
-		{
-			%>
-				var citizenship = getElement('client.citizenship');
-				if (citizenship!=null && isEmpty(citizenship.value)) {
-					return error(citizenship, "Citizenship is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_CHILDREN))
-		{
-			%>
-				var children = getElement('client.children');
-				if (children!=null && isEmpty(children.value)) {
-					return error(children, "Children is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_PREVIOUS_ADDRESS))
-		{
-			%>
-				var previousAddress = getElement('client.previousAddress');
-				if (previousAddress!=null && isEmpty(previousAddress.value)) {
-					return error(previousAddress, "Previous Address is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_SOURCE_OF_INCOME))
-		{
-			%>
-				var sourceOfIncome = getElement('client.sourceOfIncome');
-				if (sourceOfIncome!=null && isEmpty(sourceOfIncome.value)) {
-					return error(sourceOfIncome, "Source Of Income is mandatory");
-				}
-			<%
-		}
-
-		if (IntakeRequiredFieldsDao.isRequired(IntakeRequiredFieldsDao.FIELD_SIN))
-		{
-			%>
-				var sin = getElement('client.sin');
-				if (sin!=null && isEmpty(sin.value)) {
-					return error(sin, "Social Insurance Number is mandatory");
-				}
-			<%
-		}
-	%>	
-
-	
-
-		
 	// only allow numbers to be entered
 	var healthCardNo = getElement('client.hin');
 	var healthCardVersion = getElement('client.ver');
-	if(isNaN(healthCardNo.value))
+	if (isNaN(healthCardNo.value))
     {
     	alert("Please enter only digit characters in the \"Health Card #\" field.");
 		document.forms[0].elements['client.hin'].focus();
@@ -302,7 +117,7 @@ function validateEdit() {
     }
 	
 	//only allow upper case alpha characters to be entered
-	if(!checkChar(healthCardVersion)){
+	if (!checkChar(healthCardVersion)){
 		return error(healthCardVersion, "Please enter only alpha characters in the \"Version\" field.");
 		
 	}
@@ -316,8 +131,6 @@ function validateEdit() {
 		return window.confirm("No service program has been selected.\nAre you sure you want to submit?");
 	}
 	
-	
-
 	return true;
 }
 
@@ -341,9 +154,12 @@ function updateLocal(demographicId) {
 }
 
 function save() {
-	if(!validBedCommunityProgram()) {
-		alert( "Bed program is mandatory");
-		return false;
+	var intakeType = document.forms[0].elements['intakeType'].value;
+	if(intakeType!="indepth") {
+		if(!validBedCommunityProgram()) {
+			alert( "Bed program is mandatory");
+			return false;
+		}
 	}
 	
 	setMethod('save');

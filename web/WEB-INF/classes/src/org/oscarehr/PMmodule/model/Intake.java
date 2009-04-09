@@ -27,23 +27,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import org.oscarehr.common.model.Demographic;
+import org.oscarehr.common.model.Provider;
 
 
 public class Intake implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
 	public static final String QUICK = "quick";
 	public static final String INDEPTH = "indepth";
 	public static final String PROGRAM = "program";
     public static String REF = "Intake";
-    public static String PROP_NODE = "node";
-    public static String PROP_STAFF_ID = "staffId";
-    public static String PROP_CREATED_ON = "createdOn";
-    public static String PROP_ID = "id";
-    public static String PROP_CLIENT_ID = "clientId";
     
     
     private int hashCode = Integer.MIN_VALUE;// primary key
@@ -157,9 +152,12 @@ public class Intake implements Serializable {
 		return ids;
 	}
 	
+	/*
+	 * Added the eq_to_id check for getting mapped answers from older versions.
+	 */
 	public IntakeAnswer getAnswerMapped(String key) {
 		for (IntakeAnswer answer : getAnswers()) {
-			if (answer.getNode().getIdStr().equals(key)) {
+			if (answer.getNode().getIdStr().equals(key) || String.valueOf(answer.getNode().getEq_to_id()).equals(key) ) {
 				return answer;
 			}
 		}
@@ -234,13 +232,17 @@ public class Intake implements Serializable {
 	
 	public String getType() {
 		String type = PROGRAM;
-		
+		/*
 		if (getNode().getId().equals(1)) {
 			type = QUICK;
 		} else if (getNode().getId().equals(2)) {
 			type = INDEPTH;
 		}
-		
+		*/
+		if(node.getFormType() == 1) {
+			type = QUICK;
+		}
+		else type = INDEPTH;
 		return type;
 	}
 

@@ -111,6 +111,7 @@ function createIntake(clientId,nodeId) {
 	<thead>
 		<tr>
 			<th>Date</th>
+			<th>Name</th>
 			<th>Staff</th>
 			<th>Actions</th>
 		</tr>
@@ -118,6 +119,7 @@ function createIntake(clientId,nodeId) {
 	<c:forEach var="intake" items="${indepthIntakes}">
 		<tr>
 			<td width="20%"><c:out value="${intake.createdOnStr}" /></td>
+			<td><c:out value="${intake.node.label.label}"/></td>
 			<td><c:out value="${intake.staffName}" /></td>
 			<td><input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" /></td>
 		</tr>
@@ -145,13 +147,15 @@ New Follow-up Intake:&nbsp;
 	<thead>
 		<tr>
 			<th>Date</th>
-			<th>Staff</th>
+			<th>Name</th>
+			<th>Staff</th>			
 			<th>Actions</th>
 		</tr>
 	</thead>
 	<c:forEach var="intake" items="${generalIntakes}">
 		<tr>
 			<td width="20%"><c:out value="${intake.createdOnStr}" /></td>
+			<td><c:out value="${intake.node.label.label}"/></td>
 			<td><c:out value="${intake.staffName}" /></td>
 			<td><input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" /></td>
 		</tr>
@@ -166,11 +170,11 @@ New General Form:&nbsp;
 </select>
 <br />
 <br />
-
+<!-- 
 <div class="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
 		<tr>
-			<th title="Programs">Daily work Forms</th>
+			<th title="Programs">Program Intakes</th>
 		</tr>
 	</table>
 </div>
@@ -203,11 +207,11 @@ New General Form:&nbsp;
 </table>
 <br />
 <br />
-
+-->
 <div class="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
 		<tr>
-			<th title="Programs">User Created</th>
+			<th title="Programs">User Created Forms</th>
 		</tr>
 	</table>
 </div>
@@ -231,14 +235,13 @@ New General Form:&nbsp;
 		</tr>
 	</c:forEach>
 </table>
-<br />
-<br />
-
 New User Created Form:&nbsp;
 <html:select property="form.formId" onchange="openSurvey(0)">
 	<html:option value="0">&nbsp;</html:option>
 	<html:options collection="survey_list" property="formId" labelProperty="description" />
 </html:select>
+<br />
+<br />
 
 <div class="tabs">
 	<table cellpadding="3" cellspacing="0" border="0">
