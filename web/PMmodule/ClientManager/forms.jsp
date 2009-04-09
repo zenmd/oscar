@@ -39,6 +39,11 @@ function printIndepthIntake(clientId) {
 	window.open(url, 'indepthIntakePrint', 'width=1024,height=768,scrollbars=1');
 }
 
+function printIntake(clientId, intakeId) {
+	url = '<html:rewrite action="/PMmodule/GenericIntake/Edit.do"/>' + "?method=print&type=quick&intakeId="+intakeId+"&clientId=" + clientId;
+	window.open(url, 'indepthIntakePrint', 'width=1024,height=768,scrollbars=1');
+}
+
 function printProgramIntake(clientId, programId) {
 	url = '<html:rewrite action="/PMmodule/GenericIntake/Edit.do"/>' + "?method=print&type=program&intakeId=-1&clientId=" + clientId + "&programId=" + programId;
 	window.open(url, 'programIntakePrint', 'width=1024,height=768,scrollbars=1');
@@ -123,7 +128,7 @@ function createIntake(clientId,nodeId) {
 			<td><c:out value="${intake.staffName}" /></td>
 			<td>
 				<input type="button" value="Update" onclick="createIntake('<c:out value="${client.demographicNo}" />',<c:out value="${intake.node.id}"/>)"/>
-				<input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" />
+				<input type="button" value="Print Preview" onclick="printIntake('<c:out value="${client.demographicNo}" />',<c:out value="${intake.id}" />)" />
 			</td>
 		</tr>
 	</c:forEach>
@@ -162,7 +167,7 @@ New Follow-up Intake:&nbsp;
 			<td><c:out value="${intake.staffName}" /></td>
 			<td>
 				<input type="button" value="Update" onclick="createIntake('<c:out value="${client.demographicNo}" />',<c:out value="${intake.node.id}"/>)"/>				
-				<input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" />
+				<input type="button" value="Print Preview" onclick="printIntake('<c:out value="${client.demographicNo}" />',<c:out value="${intake.id}" />)" />
 			</td>
 		</tr>
 	</c:forEach>
