@@ -21,13 +21,17 @@
 * Toronto, Ontario, Canada
 */
 -->
-<%@ include file="/taglibs.jsp" %>
-<%@ page import="java.util.*" %>
-<%@ page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils" %>
-<%@ page import="org.springframework.web.context.WebApplicationContext" %>
-<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
-<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi" %>
-<%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
+
+<%-- Updated by Eugene Petruhin on 05 feb 2009 while fixing #2493970 --%>
+
+<%@ include file="/taglibs.jsp"%>
+<%@ page import="java.util.*"%>
+<%@ page import="org.oscarehr.PMmodule.web.utils.UserRoleUtils"%>
+<%@ page import="org.springframework.web.context.WebApplicationContext"%>
+<%@ page
+	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@ taglib uri="/WEB-INF/caisi-tag.tld" prefix="caisi"%>
+<%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 
 <%
     long loadPage = System.currentTimeMillis();
@@ -59,43 +63,69 @@
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
         var startDate = prompt("Please enter a start date in this format (e.g. 2000-01-01)", dojo.date.format(oneWeekAgo, {selector:'dateOnly', datePattern:'yyyy-MM-dd'}));
-        var endDate = prompt("Please enter the end date in this format (e.g. 2000-12-01)", dojo.date.format(new Date(), {selector:'dateOnly', datePattern:'yyyy-MM-dd'}));
-
+        if (startDate == null) {
+            return;
+        }
         if (!dojo.validate.isValidDate(startDate, 'YYYY-MM-DD')) {
             alert("'" + startDate + "' is not a valid start date");
-            return false;
+            return;
         }
 
+        var endDate = prompt("Please enter the end date in this format (e.g. 2000-12-01)", dojo.date.format(new Date(), {selector:'dateOnly', datePattern:'yyyy-MM-dd'}));
+        if (endDate == null) {
+            return;
+        }
         if (!dojo.validate.isValidDate(endDate, 'YYYY-MM-DD')) {
             alert("'" + endDate + "' is not a valid end date");
-            return false;
+            return;
         }
 
-        alert("Generating report from " + startDate + " to " + endDate + "." + " " + "Please note: it is normal for the generation process to take up to a few minutes to complete, be patient.");
+        var includePast = confirm("Do you want to include past intake forms in your report? ([OK] for yes / [Cancel] for no)");
 
-        location.href = '<html:rewrite action="/PMmodule/GenericIntake/Report"/>?' + 'method=report' + '&type=' + type + '&startDate=' + startDate + '&endDate=' + endDate;
+        alert("Generating report from " + startDate + " to " + endDate + ". Please note: it is normal for the generation process to take up to a few minutes to complete, be patient.");
 
-        return false;
+        var url = '<html:rewrite action="/PMmodule/GenericIntake/Report"/>?' + 'method=report' + '&type=' + type + '&startDate=' + startDate + '&endDate=' + endDate + '&includePast=' + includePast;
+        
+        popupPage2(url, "IntakeReport" + type);
     }
 
     function createIntakeCReport1()
     {
-        var startDate = prompt("Please enter the date in this format (e.g. 2006-01-01)", "<%=dateStr%>");
+        var startDate = "";
 
         while (startDate.length != 10 || startDate.substring(4, 5) != "-" || startDate.substring(7, 8) != "-")
         {
             startDate = prompt("Please enter the date in this format (e.g. 2006-01-01)", "<%=dateStr%>");
+            if (startDate == null) {
+                return false;
+            }
         }
 
-        alert('creating report until ' + startDate);
+        alert('Generating report for date ' + startDate);
 
-        location.href = '<html:rewrite action="/PMmodule/IntakeCMentalHealthReportAction.do"/>?startDate=' + startDate;
+        popupPage2('<html:rewrite action="/PMmodule/IntakeCMentalHealthReportAction.do"/>?startDate=' + startDate, "IntakeCReport");
+    }
+
+    function createStreetHealthReport()
+    {
+        var startDate = "";
+
+        while (startDate.length != 10 || startDate.substring(4, 5) != "-" || startDate.substring(7, 8) != "-")
+        {
+            startDate = prompt("Please enter start date (e.g. 2006-01-01)", "<%=dateStr%>");
+            if (startDate == null) {
+                return false;
+            }
+        }
+
+        alert('Generating report for date ' + startDate);
+
+        popupPage2('<html:rewrite action="/PMmodule/StreetHealthIntakeReportAction.do"/>?startDate=' + startDate, "StreetHealthReport");
     }
 
     function popupPage2(varpage, windowname) {
         var page = "" + varpage;
-        windowprops = "height=700,width=1000,location=no,"
-                + "scrollbars=yes,menubars=no,toolbars=no,resizable=yes,top=10,left=0";
+        var windowprops = "height=700,width=1000,top=10,left=0,location=yes,scrollbars=yes,menubars=no,toolbars=no,resizable=yes";
         var popup = window.open(page, windowname, windowprops);
         if (popup != null) {
             if (popup.opener == null) {
@@ -137,188 +167,130 @@
 </div>
 -->
 <div id="projecttools" class="toolgroup">
-<div class="label">
-    <strong>Navigator</strong>
-</div>
-<div class="body">
-<!-- <div>
+<div class="label"><strong>Navigator</strong></div>
+<div class="body"><!-- <div>
         <span><html:link action="/PMmodule/ProviderInfo.do">Home</html:link></span>
     </div>
 -->
-    <div>
-        <span>Client Management</span>
-		<security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.clientSearch"
-                               rights="r">
-        <div>
-            <html:link action="/PMmodule/ClientSearch2.do">Search Client</html:link>
-        </div>
-        </security:oscarSec>
-        
-        <%
+<div><span>Client Management</span> <security:oscarSec
+	roleName="<%=roleName$%>" objectName="_pmm.clientSearch" rights="r">
+	<div><html:link action="/PMmodule/ClientSearch2.do">Search Client</html:link>
+	</div>
+</security:oscarSec> <%
             if (!userHasExternalOrErClerkRole) {
-        %>
-        <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.newClient"
-                               rights="r">
-        <div>
-            <html:link action="/PMmodule/GenericIntake/Search.do">New Client</html:link>
-        </div>
-        </security:oscarSec>
-        
-        <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.mergeRecords"
-                               rights="r">
-        <div>
-            <a HREF="#" ONCLICK="popupPage2('<c:out value="${ctx}"/>/admin/demographicmergerecord.jsp', 'Merge');return false;">Merge
-                Records</a>
-        </div>
-        </security:oscarSec>
-        <%
+        %> <security:oscarSec roleName="<%=roleName$%>"
+	objectName="_pmm.newClient" rights="r">
+	<div><html:link action="/PMmodule/GenericIntake/Search.do">New Client</html:link>
+	</div>
+</security:oscarSec> <security:oscarSec roleName="<%=roleName$%>"
+	objectName="_pmm.mergeRecords" rights="r">
+	<div><a HREF="#"
+		ONCLICK="popupPage2('<c:out value="${ctx}"/>/admin/demographicmergerecord.jsp', 'Merge');return false;">Merge
+	Records</a></div>
+</security:oscarSec> <%
             }
         %>
-    </div>
+</div>
 
-    <c:if test="${sessionScope.userrole ne 'er_clerk' and sessionScope.userrole ne 'Vaccine Provider'}">
-        <div>
-            <span>Reporting Tools</span>
-			<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="true">
-            <div>
-                <a href="javascript:void(0)" onclick="javascript:getIntakeReport('quick')">Registration Intake
-                    Report</a>
-            </div>
-            <div>
-                <a href="javascript:void(0)" onclick="javascript:getIntakeReport('indepth')">Follow-up Intake Report</a>
-            </div>
-            <caisi:isModuleLoad moduleName="intakec.enabled">
-                <div>
-                    <a href="javascript:void(0)" onclick="javascript:createIntakeCReport1();return false;">Street Health
-                        Mental Health Report</a>
-                </div>
-            </caisi:isModuleLoad>
-            <div>
-                <html:link action="/PMmodule/Reports/ProgramActivityReport.do">Activity Report</html:link>
-            </div>
-                <%--
+<c:if
+	test="${sessionScope.userrole ne 'er_clerk' and sessionScope.userrole ne 'Vaccine Provider'}">
+	<div><span>Reporting Tools</span> <caisi:isModuleLoad
+		moduleName="TORONTO_RFQ" reverse="true">
+		<div><a href="javascript:void(0);" onclick="javascript:getIntakeReport('quick');return false;">Registration
+		Intake Report</a></div>
+		<div><a href="javascript:void(0);" onclick="javascript:getIntakeReport('indepth');return false;">Follow-up
+		Intake Report</a></div>
+		<caisi:isModuleLoad moduleName="intakec.enabled">
+			<div><a href="javascript:void(0);" onclick="javascript:createIntakeCReport1();return false;">Street
+			Health Mental Health Report</a></div>
+		</caisi:isModuleLoad>
+		<div><html:link action="/PMmodule/Reports/ProgramActivityReport.do">Activity Report</html:link>
+		</div>
+		<%--
                 <div>
                     <html:link action="/PMmodule/Reports/ClientListsReport">Client Lists Report</html:link>
                 </div>
                 --%>
-            <div>
-                <a href="<%=request.getContextPath()%>/PMmodule/reports/PopulationReportForm.jsp">Population Report</a>
-            </div>
-            <div>
-                <html:link action="/SurveyManager.do?method=reportForm">User Created Form Report</html:link>
-            </div>
-            </caisi:isModuleLoad>
-			<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
-			<div>
-				<html:link action="QuatroReport/ReportList.do">Quatro Report Runner</html:link>
+		<div><html:link action="/SurveyManager.do?method=reportForm">User Created Form Report</html:link>
+		</div>
+		</caisi:isModuleLoad> <caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
+			<div><html:link action="QuatroReport/ReportList.do">Quatro Report Runner</html:link>
 			</div>
-			</caisi:isModuleLoad>
-        </div>
-    </c:if>
-
-    
-    <c:if test="${sessionScope.userrole ne 'er_clerk' and sessionScope.userrole ne 'Vaccine Provider'}">
-       <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.caseManagement"
-                               rights="r">
-		<div> 
-            <span>Case Management</span>
-        <div>
-            <span><a href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>Case Management</a></span>
-        </div>
-        </div>
-        </security:oscarSec>
-    </c:if>
-<!--    <div>
+		</caisi:isModuleLoad> <caisi:isModuleLoad moduleName="streethealth">
+		<div><a href="javascript:void(0);" onclick="javascript:createStreetHealthReport();return false;">Street
+		Health Mental Health Report</a></div>
+	</caisi:isModuleLoad></div>
+</c:if> <c:if
+	test="${sessionScope.userrole ne 'er_clerk' and sessionScope.userrole ne 'Vaccine Provider'}">
+	<security:oscarSec roleName="<%=roleName$%>"
+		objectName="_pmm.caseManagement" rights="r">
+		<div><span>Case Management</span>
+		<div><span><a
+			href='<c:out value="${ctx}"/>/provider/providercontrol.jsp'>Case
+		Management</a></span></div>
+		</div>
+	</security:oscarSec>
+</c:if> <!--    <div>
         <span><a href='<%=request.getContextPath()%>/logout.jsp'>Logout</a></span>
     </div>
--->
-</div>
+--></div>
 
 <div id="admintools" class="toolgroup">
-    <div class="label">
-        <strong>Administration</strong>
-    </div>
-    <div class="body">
+<%
+    if (session.getAttribute("userrole") != null && ((String) session.getAttribute("userrole")).indexOf("admin") != -1) {
+	%>
+<div class="label"><strong>Administration</strong></div>
+<%} %>
+<div class="body">
 
-        <div>
-            <span>Facilities</span>
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.manageFacilities"
-                               rights="r">
-            <div>
-                <html:link action="/PMmodule/FacilityManager.do?method=list">Manage Facilities</html:link>
-            </div>
-            </security:oscarSec>
-           
-                <div>
-                    <span><a href='<%=request.getContextPath()%>/PMmodule/EditIntake.do'>Registration Editor</a></span>
-                </div>
-                <div>
-                    <span><a href="javascript:void(0)" onclick="window.open('<%=request.getContextPath()%>/PMmodule/GenericIntake/EditIntake.jsp?id=1');">Intake Form Editor</a></span>
-                </div>
-            
-        </div>
-        
-        <div>
-            <span>Staff</span>	
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.staffList"
-                               rights="r">		
-            <div>
-                <html:link action="/PMmodule/StaffManager.do">Staff List</html:link>
-            </div>
-             </security:oscarSec>
-        </div>
-       
-        <div>
-            <span>Program</span>
-			<security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.programList"
-                               rights="r">
-            <div>
-                <html:link action="/PMmodule/ProgramManager.do">Program List</html:link>
-            </div>
-            </security:oscarSec>
-            
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.addProgram"
-                               rights="r">
-            <div>
-                <html:link action="/PMmodule/ProgramManager.do?method=add">Add Program</html:link>
-            </div>
-            </security:oscarSec>
-            
-            <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_pmm.globalRoleAccess"
-                               rights="r">
-            <div>
-                <html:link action="/PMmodule/Admin/DefaultRoleAccess.do">Global Role Access</html:link>
-            </div>
-            </security:oscarSec>
-        </div>
-        <security:oscarSec roleName="<%=roleName$%>"
-                               objectName="_admin,_admin.userAdmin,_admin.schedule,_admin.billing,_admin.resource,_admin.reporting,_admin.backup,_admin.messenger,_admin.eform,_admin.encounter,_admin.misc,_admin.torontoRfq"
-                               rights="r">
-                <div>
-                    <span>System Administration</span>
+<div><security:oscarSec roleName="<%=roleName$%>"
+	objectName="_pmm.manageFacilities" rights="r">
+	<span>Facilities</span>
 
-                    <div>
-                        <a HREF="#" ONCLICK="popupPage2('<%=request.getContextPath()%>/admin/admin.jsp', 'Admin');return false;">Admin Page</a>
-                    </div>
-<!--
+	<div><html:link action="/PMmodule/FacilityManager.do?method=list">Manage Facilities</html:link>
+	</div>
+</security:oscarSec> <security:oscarSec roleName="<%=roleName$%>" objectName="_pmm.editor"
+	rights="r">
+	<span>Editor</span>
+	<div><span><a href="javascript:void(0)"
+		onclick="window.open('<%=request.getContextPath()%>/PMmodule/GenericIntake/EditIntake.jsp');">Intake
+	Form Editor</a></span></div>
+</security:oscarSec></div>
+
+<div><span>Staff</span> <security:oscarSec
+	roleName="<%=roleName$%>" objectName="_pmm.staffList" rights="r">
+	<div><html:link action="/PMmodule/StaffManager.do">Staff List</html:link>
+	</div>
+</security:oscarSec></div>
+
+<div><span>Program</span> <security:oscarSec
+	roleName="<%=roleName$%>" objectName="_pmm.programList" rights="r">
+	<div><html:link action="/PMmodule/ProgramManager.do">Program List</html:link>
+	</div>
+</security:oscarSec> <security:oscarSec roleName="<%=roleName$%>"
+	objectName="_pmm.addProgram" rights="r">
+	<div><html:link action="/PMmodule/ProgramManager.do?method=add">Add Program</html:link>
+	</div>
+</security:oscarSec> <security:oscarSec roleName="<%=roleName$%>"
+	objectName="_pmm.globalRoleAccess" rights="r">
+	<div><html:link action="/PMmodule/Admin/DefaultRoleAccess.do">Global Role Access</html:link>
+	</div>
+</security:oscarSec></div>
+<security:oscarSec roleName="<%=roleName$%>"
+	objectName="_admin,_admin.userAdmin,_admin.schedule,_admin.billing,_admin.resource,_admin.reporting,_admin.backup,_admin.messenger,_admin.eform,_admin.encounter,_admin.misc,_admin.torontoRfq"
+	rights="r">
+	<div><span>System Administration</span>
+
+	<div><a HREF="#" ONCLICK="popupPage2('<%=request.getContextPath()%>/admin/admin.jsp', 'Admin');return false;">Admin
+	Page</a></div>
+	<!--
                    	<caisi:isModuleLoad moduleName="TORONTO_RFQ" reverse="false">
                    	<div>	
                    		<html:link action="/Lookup/LookupTableList.do">Lookup Field Editor</html:link>
                   	</div>
                     </caisi:isModuleLoad>
--->
-                </div>
-        </security:oscarSec>
-<!--         
+--></div>
+</security:oscarSec> <!--         
          <security:oscarSec roleName="<%=roleName$%>"
                                objectName="_pmm.caisiRoles"
                                rights="r">
@@ -328,7 +300,5 @@
                 Roles</a></span>
         </div></div>
 		</security:oscarSec>
--->
-    </div>
+--></div>
 </div>
-

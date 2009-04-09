@@ -121,7 +121,10 @@ function createIntake(clientId,nodeId) {
 			<td width="20%"><c:out value="${intake.createdOnStr}" /></td>
 			<td><c:out value="${intake.node.label.label}"/></td>
 			<td><c:out value="${intake.staffName}" /></td>
-			<td><input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" /></td>
+			<td>
+				<input type="button" value="Update" onclick="createIntake('<c:out value="${client.demographicNo}" />',<c:out value="${intake.node.id}"/>)"/>
+				<input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" />
+			</td>
 		</tr>
 	</c:forEach>
 </table>
@@ -157,7 +160,10 @@ New Follow-up Intake:&nbsp;
 			<td width="20%"><c:out value="${intake.createdOnStr}" /></td>
 			<td><c:out value="${intake.node.label.label}"/></td>
 			<td><c:out value="${intake.staffName}" /></td>
-			<td><input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" /></td>
+			<td>
+				<input type="button" value="Update" onclick="createIntake('<c:out value="${client.demographicNo}" />',<c:out value="${intake.node.id}"/>)"/>				
+				<input type="button" value="Print Preview" onclick="printIndepthIntake('<c:out value="${client.demographicNo}" />')" />
+			</td>
 		</tr>
 	</c:forEach>
 </table>

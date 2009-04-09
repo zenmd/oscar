@@ -125,7 +125,7 @@
         GenericIntakeManager  genericIntakeManager =  (GenericIntakeManager) ctx.getBean("genericIntakeManager");
         
         String id = request.getParameter("id");
-        if (id == null){ id = "41333";};
+        if (id == null){ id = "0";};
         int iNum = Integer.parseInt(id);
 	
         List<IntakeNode> lis = genericIntakeManager.getIntakeNodes();
@@ -147,20 +147,24 @@
 	if (session.getAttribute("publisher")==null) session.setAttribute("publisher", request.getParameter("pub"));
 	
 	IntakeNode iNode = (IntakeNode) session.getAttribute("intakeNode");
-        if (iNode==null || !iNode.getId().equals(iNum)) iNode = genericIntakeManager.getIntakeNode(iNum);
+        if (iNode==null || !iNode.getId().equals(iNum)) {
+        	if(iNum > 0) {
+        		iNode = genericIntakeManager.getIntakeNode(iNum);
+        	}
+        }
         
-	session.setAttribute("form_version", getFrmVersion(iNode.getLabelStr(), lis));
+		if(iNode != null) {
+        	session.setAttribute("form_version", getFrmVersion(iNode.getLabelStr(), lis));
+	        goRunner(iNode,out);
+    	    session.setAttribute("intakeNode", iNode);
 	
-        goRunner(iNode,out);
-        session.setAttribute("intakeNode", iNode);
-	
-     if(iNode.getPublish_date() == null) {
-    	 //this intake has never been published..safe to delete
-    	 out.write(" <input type=\"button\" value=\"Delete Form\" onclick=\"deleteform();\" />");
-     }
-        
-	out.write("<p>&nbsp;</p>");
-	out.write("Publish as: ");
+     		if(iNode.getPublish_date() == null) {
+    	 		//this intake has never been published..safe to delete
+    	 		out.write(" <input type=\"button\" value=\"Delete Form\" onclick=\"deleteform();\" />");
+     		}
+		
+			out.write("<p>&nbsp;</p>");
+			out.write("Publish as: ");
 	%>
 		<select name="form_type">
 			<option value="0" default></option>
@@ -169,16 +173,19 @@
 			<option value="3">General Form</option>
 		</select>
 	<%
-	out.write(" <input type=\"button\" value=\"Save Form\" onclick=\"saveform(form_type.options[form_type.selectedIndex].value);\" /><br/><br/>");
+			out.write(" <input type=\"button\" value=\"Save Form\" onclick=\"saveform(form_type.options[form_type.selectedIndex].value);\" /><br/><br/>");
 
-    out.write("<br>");
-    out.write(" <input type=\"button\" value=\"Import\" onclick=\"importform();\" />&nbsp;");
-    out.write(" <input type=\"button\" value=\"Export\" onclick=\"exportform();\" />");
-    out.write("<br>");
-	out.write(" <input type=\"button\" value=\"Reset\" onclick=\"resetform();\" />");
-    out.write("<p>&nbsp;</p>");
-    out.write(" <input type=\"button\" value=\"Close\" onclick=\"window.close();\" />");
-        %>
+		    out.write("<br>");
+		    out.write(" <input type=\"button\" value=\"Import\" onclick=\"importform();\" />&nbsp;");
+		    out.write(" <input type=\"button\" value=\"Export\" onclick=\"exportform();\" />");
+		    out.write("<br>");
+			out.write(" <input type=\"button\" value=\"Reset\" onclick=\"resetform();\" />");
+		    out.write("<p>&nbsp;</p>");
+		    out.write(" <input type=\"button\" value=\"Close\" onclick=\"window.close();\" />");
+     
+		}
+		    %>
+     
         </form>
     </body>
 </html>
