@@ -372,7 +372,7 @@ public class CaisiIntegratorUpdateTask extends TimerTask {
 		for (CaseManagementIssue caseManagementIssue : caseManagementIssues) {
 			// don't send issue if it is not in our facility.
 			logger.debug("Facility:" + facility.getName() + " - caseManagementIssue = " + caseManagementIssue.toString());
-			if (!isProgramIdInProgramList(programsInFacility, caseManagementIssue.getProgram_id())) continue;
+			if (caseManagementIssue.getProgram_id() == null || !isProgramIdInProgramList(programsInFacility, caseManagementIssue.getProgram_id())) continue;
 
 			Issue issue = caseManagementIssue.getIssue();
 			CachedDemographicIssue issueTransfer = new CachedDemographicIssue();
