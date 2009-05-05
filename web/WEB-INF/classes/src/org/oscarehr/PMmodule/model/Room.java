@@ -58,10 +58,6 @@ public class Room implements Serializable {
         this.roomType = roomType;
     }
 
-    public void setProgram(Program program) {
-        this.program = program;
-    }
-
     public String getRoomTypeName() {
         return roomType.getName();
     }
@@ -70,15 +66,6 @@ public class Room implements Serializable {
         roomType.setName(roomTypeName);
     }
 
-    public String getProgramName() {
-        return program != null ? program.getName() : null;
-    }
-
-    public void setProgramName(String programName) {
-        if (program != null) {
-            program.setName(programName);
-        }
-    }
 
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -166,9 +153,6 @@ public class Room implements Serializable {
         return this.hashCode;
     }
 
-    public void setFacility(Facility facility) {
-        this.facility = facility;
-    }
 
     public Integer getAssignedBed() {
 		return assignedBed;

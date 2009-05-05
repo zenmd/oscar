@@ -86,7 +86,7 @@ public class Program implements Serializable {
     private Integer shelterId;
     private Integer facilityId;
     private String facilityDesc;
-    private String orgCd;
+//    private String orgCd;
     private Integer capacity_funding = new Integer(0);
     private Integer capacity_space = new Integer(0);
     private Integer capacity_actual =new Integer(0);
@@ -157,13 +157,13 @@ public class Program implements Serializable {
         this.facilityId = facilityId;
     }
 
-    public String getOrgCd() {
-        return orgCd;
-    }
+//    public String getOrgCd() {
+//        return orgCd;
+//    }
 
-    public void setOrgCd(String orgCd) {
-        this.orgCd = orgCd;
-    }
+ //   public void setOrgCd(String orgCd) {
+ //       this.orgCd = orgCd;
+ //   }
     /**
      * Constructor for primary key
      */

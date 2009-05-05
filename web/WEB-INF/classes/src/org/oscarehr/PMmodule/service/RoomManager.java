@@ -70,11 +70,6 @@ public class RoomManager {
 
         Room room = roomDAO.getRoom(roomId);
         if(room==null) return room;
-        
-        Facility facility = facilityDAO.getFacility(room.getFacilityId()); 
-        setAttributes(room);
-        room.setFacility(facility);
-
         return room;
     }
 
@@ -84,30 +79,11 @@ public class RoomManager {
      */
     public Room[] getRooms(Integer facilityId) {
         Room[] rooms = roomDAO.getRooms(facilityId, null, null);
-        Facility facility = facilityDAO.getFacility(facilityId); 
-
-        if(rooms!=null){
-//          for (Room room : rooms) {
-          for (int i=0;i<rooms.length;i++) {
-        	Room room = rooms[i];
-            setAttributes(room);
-            room.setFacility(facility);
-          }
-        }
         return rooms;
     }
 
     public Room[] getRooms(Integer facilityId, Integer programId, Boolean active) {
         Room[] rooms = roomDAO.getRooms(facilityId, programId, active);
-        Facility facility = facilityDAO.getFacility(facilityId); 
-        if(rooms!=null){
-//          for (Room room : rooms) {
-          for (int i=0;i<rooms.length;i++) {
-           	Room room = rooms[i];
-            setAttributes(room);
-            room.setFacility(facility);
-          }
-        }
         return rooms;
     }
 
@@ -135,15 +111,6 @@ public class RoomManager {
      */
     public Room[] getAssignedBedRooms(Integer facilityId, Integer programId, Boolean active) {
         Room[] rooms = roomDAO.getAssignedBedRooms(facilityId, programId, active);
-        Facility facility = facilityDAO.getFacility(facilityId); 
-        if(rooms!=null){
-//          for (Room room : rooms) {
-          for (int i=0;i<rooms.length;i++) {
-           	Room room = rooms[i];
-            setAttributes(room);
-            room.setFacility(facility);
-          }
-        }  
         return rooms;
     }
    
@@ -153,15 +120,6 @@ public class RoomManager {
      */
     public Room[] getAssignedBedRooms(Integer facilityId) {
         Room[] rooms = roomDAO.getAssignedBedRooms(facilityId, null, null);
-        Facility facility = facilityDAO.getFacility(facilityId); 
-        if(rooms!=null){
-//          for (Room room : rooms) {
-          for (int i=0;i<rooms.length;i++) {
-           	Room room = rooms[i];
-            setAttributes(room);
-            room.setFacility(facility);
-          }
-        }
         return rooms;
     }
     
@@ -483,22 +441,6 @@ public class RoomManager {
         throw new IllegalStateException("no default room type");
 
 //        return null;
-    }
-
-    void setAttributes(Room room) {
-    	
-    	if(room == null){
-    		return;
-    	}
-        Integer roomTypeId = room.getRoomTypeId();
-        room.setRoomType(roomDAO.getRoomType(roomTypeId));
-//        room.setFacility(facilityDAO.getFacility(room.getFacilityId()));
-
-        Integer programId = room.getProgramId();
-
-        if (programId != null) {
-            room.setProgram(programDao.getProgram(programId));
-        }
     }
 
     void validate(Room room){
