@@ -11,37 +11,10 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <script type="text/javascript" src='<c:out value="${ctx}"/>/js/validation.js'></script> 
 <script language="javascript" type="text/javascript">	
-	/* var gender='<%=request.getSession(true).getAttribute("clientGender")%>'; */
-	var age=<%=request.getAttribute("age")%>;
-		
-	var programMaleOnly=<%=session.getAttribute("programMaleOnly")%>;
-    var programFemaleOnly=<%=session.getAttribute("programFemaleOnly")%>;
-    var programTransgenderOnly=<%=session.getAttribute("programTransgenderOnly")%>;
-
-	<%=session.getAttribute("programAgeValidationMethod")%>
-
 	function error(msg) {
 			alert(msg);
 			return false;
 	}
-
-	if (!Array.prototype.indexOf)
-	{
-  		Array.prototype.indexOf = function(elt /*, from*/)
-  		{
-    		var len = this.length;
-    		var from = Number(arguments[1]) || 0;
-    		from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-    		if (from < 0)	 from += len;
-    		for (; from < len; from++)
-    		{
-      			if (from in this &&  this[from] === elt)
-        		return from;
-    		}
-    		return -1;
- 		};
-	}
-		
 	
 	function resetSearchFields() {
 		var form = document.programSearchForm;
@@ -57,36 +30,6 @@
 	}
 	function selectProgram(clientId,id,type,gender) {
 		var programId=Number(id);	
-		var ruleCheck =	'N'; //opener.document.<%=request.getParameter("formName")%>.elements['ruleCheck'].value;
-		if(ruleCheck!=null && ruleCheck=='Y')
-		{
-			if (gender == 'M')
-			{
-				if (programFemaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-				{
-					return error("This gender not allowed in selected program.");
-				}
-			}
-			if (gender == 'F')
-			{
-				if (programMaleOnly.indexOf(programId)>=0 ||  programTransgenderOnly.indexOf(programId)>=0)
-				{
-					return error("This gender not allowed in selected program.");
-				}
-			}
-			if (gender == 'T')
-			{
-				if (programFemaleOnly.indexOf(programId)>=0 ||  programMaleOnly.indexOf(programId)>=0)
-				{
-					return error("This gender not allowed in selected program.");
-				}
-			}		
-		
-			if (!validAgeRangeForProgram(programId,age))
-			{
-				return error("This client does not meet the age range requirements for this program.");
-			}
-		}
 		opener.setNoConfirm();
 		opener.document.<%=request.getParameter("formName")%>.elements['pageChanged'].value="1";
 		opener.document.<%=request.getParameter("formName")%>.elements['<%=request.getParameter("formElementId")%>'].value=id;
