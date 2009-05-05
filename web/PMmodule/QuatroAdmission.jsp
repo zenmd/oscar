@@ -176,7 +176,7 @@ function roomChanged()
 <td>
 	<html:text property="admission.nextKinCity" maxlength="20" /></td> </tr>
 <tr>	<td>Province</td>
-	<td><html:text property="admission.nextKinProvince"></html:text>
+	<td><html:text property="admission.nextKinProvince" maxlength="20"></html:text>
 	</td>
 	<td>Postal Code</td>
 	<td><html:text property="admission.nextKinPostal" style="width: 60%" maxlength="7" /></td>

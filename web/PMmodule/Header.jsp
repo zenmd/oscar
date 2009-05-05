@@ -18,7 +18,7 @@
 * 
 * This software was written for 
 * Centre for Research on Inner City Health, St. Michael's Hospital, 
-* Toronto, Ontario, Canada 
+* Toronto, Ontario, Canada  - UPDATED: Quatro Group 2008/2009
 */
 -->
 <%@ include file="/taglibs.jsp"%>

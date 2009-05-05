@@ -57,7 +57,7 @@
 	}
 	function selectProgram(clientId,id,type,gender) {
 		var programId=Number(id);	
-		var ruleCheck =	opener.document.<%=request.getParameter("formName")%>.elements['ruleCheck'].value;
+		var ruleCheck =	'N'; //opener.document.<%=request.getParameter("formName")%>.elements['ruleCheck'].value;
 		if(ruleCheck!=null && ruleCheck=='Y')
 		{
 			if (gender == 'M')
