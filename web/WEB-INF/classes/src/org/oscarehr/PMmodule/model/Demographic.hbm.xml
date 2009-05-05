@@ -68,10 +68,6 @@
 		<property name="hsAlertCount"
 				  formula="(select count(*) from health_safety h where h.demographic_no=demographic_no)" />
                
-                <set name="SubRecord" table="demographic_merged" where= "deleted = 0" lazy="false" >
-                    <key column="merged_to"/>
-                    <element column="demographic_no" type="integer"/>
-                </set>
         <property column="benefit_unit_status" length="7" name="benefitUnitStatus" type="string" />                
 	</class>
 </hibernate-mapping>

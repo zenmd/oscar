@@ -40,6 +40,7 @@ public class ClientSearchFormBean {
 	private String assignedToProviderNo; 
 	private String dateFrom;
 	private String dateTo;
+	private boolean isMerged = false;
 	private List genders;
 	
 	public ClientSearchFormBean() {
@@ -211,6 +212,14 @@ public class ClientSearchFormBean {
 
 	public void setAssignedToProviderNo(String assignedToProviderNo) {
 		this.assignedToProviderNo = assignedToProviderNo;
+	}
+
+	public boolean isMerged() {
+		return isMerged;
+	}
+
+	public void setMerged(boolean isMerged) {
+		this.isMerged = isMerged;
 	}
 	
 }

@@ -47,10 +47,9 @@ public class SecurityManager {
     public String GetAccess(String functioncd, String orgcd)
     {
         String privilege = this.ACCESS_NONE;
-        LookupCodeValue lcv=lookupManager.GetLookupCode("ORG", orgcd);
-        String codecsv="";
-        if(lcv !=null)   codecsv= lcv.getCodecsv();
+        if (Utility.IsInt(orgcd)) orgcd = "P" + orgcd;
         
+        String codecsv=lookupManager.GetOrgCdCsv(orgcd);
         try
         {
             List  orgList =  (List ) _userFunctionAccessList.get(functioncd);

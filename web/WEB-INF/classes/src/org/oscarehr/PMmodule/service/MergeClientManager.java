@@ -47,15 +47,17 @@ public class MergeClientManager {
 		return mergeClientDao.getClientMerge(demographic_no);
 	}
 	public List  searchMerged(ClientSearchFormBean criteria){
+		criteria.setMerged(true);
 		List lst=this.clientDao.search(criteria, false,false);
 		List result = new ArrayList();
 		Iterator items =lst.iterator();
 		while(items.hasNext()){
 			Demographic client=(Demographic)items.next();
-			if(!client.getSubRecord().isEmpty()) {
-				Iterator subs = client.getSubRecord().iterator();
+			List subRecord = clientDao.getClientSubRecords(client.getDemographicNo());
+			if(subRecord.size()>0) {
+				Iterator subs = subRecord.iterator();
 				while(subs.hasNext()){
-					Integer cId=(Integer)subs.next();
+					Integer cId=Integer.valueOf(subs.next().toString());
 					Demographic mergedClient= clientDao.getClientByDemographicNo(cId); 
 					result.add(mergedClient);
 					result.add(client);

@@ -132,6 +132,10 @@ public class Bed implements Serializable {
         return communityProgramId;
     }
 */
+    public BedType getBedType() {
+        return this.bedType;
+    }
+
     public void setBedType(BedType bedType) {
         this.bedType = bedType;
     }

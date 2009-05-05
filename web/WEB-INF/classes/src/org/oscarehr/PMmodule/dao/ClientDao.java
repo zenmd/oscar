@@ -22,6 +22,7 @@
 
 package org.oscarehr.PMmodule.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +34,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
@@ -73,13 +75,20 @@ public class ClientDao extends HibernateDaoSupport {
         result.setEffDateTxt(MyDateFormat.getSysDateString(result.getEffDate()));
 		return result;
 	}
-
-	public List getClientFamilyByDemographicNo(String demographicNo) {
-		if (demographicNo == null || demographicNo.equals("")) {
+	public List getClientSubRecords(Integer demographicNo)
+	{
+		String sSQL="select a.merged_to from demographic_merged a where a.deleted = 0 and a.demographic_no = " + demographicNo.toString();
+		SQLQuery q = getSession().createSQLQuery(sSQL);
+		List lst =  q.list();
+		return lst;
+	}
+	
+	public List getClientFamilyByDemographicNo(String demographicNos) {
+		if (demographicNos == null || demographicNos.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		
-        String[] split= demographicNo.split(",");
+        String[] split= demographicNos.split(",");
         StringBuffer sb = new StringBuffer();
         Object[] obj= new Object[split.length];
         for(int i=0;i<split.length;i++){
@@ -126,7 +135,6 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		//@SuppressWarnings("unchecked")
 		List results = null;
-
 		if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
 			firstName = bean.getFirstName();
 			// firstName = StringEscapeUtils.escapeSql(firstName);
@@ -206,7 +214,7 @@ public class ClientDao extends HibernateDaoSupport {
 		}
 		if(bean.getAssignedToProviderNo() != null && bean.getAssignedToProviderNo().length() > 0) {
 			assignedToProviderNo = bean.getAssignedToProviderNo();
-			sql = " demographic_no in (select decode(dm.merged_to,null,a.client_id,dm.merged_to) from admission a,demographic_merged dm where a.client_id=dm.demographic_no(+)and a.primaryWorker='" + assignedToProviderNo + "')"; 
+			sql = " demographic_no in (select decode(dm.merged_to,null,a.client_id,dm.merged_to) from admission a,v_demographic_merged dm where a.client_id=dm.demographic_no(+)and a.primaryWorker='" + assignedToProviderNo + "')"; 
 			criteria.add(Restrictions.sqlRestriction(sql));
 		}
 		
@@ -215,6 +223,9 @@ public class ClientDao extends HibernateDaoSupport {
 			criteria.add(Expression.ge("activeCount", new Integer(1)));
 		}else if ("0".equals(active)){
 			criteria.add(Expression.eq("activeCount", new Integer(0)));
+		}
+		if (bean.isMerged()) {
+			criteria.add(Expression.eq("isMerged", new Integer(1)));
 		}
 			
 		gender = bean.getGender();

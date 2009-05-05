@@ -33,6 +33,7 @@
 		<property name="lastUpdateUser" column="lastupdateuser"></property>
 		<property name="bedOccupied" type="integer"  lazy="true"
 			formula="(select count(*) from room_demographic t where t.bed_id=bed_id)" />
+		<many-to-one name="bedType" class="org.oscarehr.PMmodule.model.BedType" column="bed_type_id" update="false" not-found='ignore' insert="false" lazy="false" />                
 	</class>
 </hibernate-mapping>
         

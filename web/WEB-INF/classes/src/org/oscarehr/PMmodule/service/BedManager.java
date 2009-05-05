@@ -50,7 +50,6 @@ public class BedManager {
         }
 
         Bed bed = bedDAO.getBed(bedId);
-        setAttributes(bed);
 
         return bed;
     }
@@ -65,29 +64,17 @@ public class BedManager {
 
     public Bed[] getActiveBedsByRoom(Integer roomId) {
         Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
-        for (int i=0;i<beds.length;i++) {
-        	Bed bed = beds[i];
-            setAttributes(bed);
-        }
         return beds;
     }
 
     public Bed[] getAllBedsByRoom(Integer roomId) {
         Bed[] beds = bedDAO.getBedsByRoom(roomId, null);
-        for (int i=0;i<beds.length;i++) {
-        	Bed bed = beds[i];
-            setAttributes(bed);
-        }
         return beds;
     }
 
     public Bed[] getAvailableBedsByRoom(Integer roomId) {
         Bed[] beds = bedDAO.getBedsByRoom(roomId, Boolean.TRUE);
 //        for (Bed bed : beds) {
-        for (int i=0;i<beds.length;i++) {
-           	Bed bed = beds[i];
-            setAttributes(bed);
-        }
         ArrayList lst = new ArrayList();
         for(int i=0;i<beds.length;i++){
           if(beds[i].getBedOccupied().intValue()==0) lst.add(beds[i]);
@@ -123,9 +110,6 @@ public class BedManager {
         bedDAO.deleteBed(bed);
     }
 
-    void setAttributes(Bed bed) {
-   		bed.setBedType(bedDAO.getBedType(bed.getBedTypeId()));
-    }
 
     void validate(Bed bed) {
         if (bed == null) {

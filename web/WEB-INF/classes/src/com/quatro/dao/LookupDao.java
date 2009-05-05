@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Calendar;
 
@@ -51,11 +52,29 @@ public class LookupDao extends HibernateDaoSupport {
 	 *  10 - 16 Buf3 - Buf9   17 - CodeCSV
 	 */
 	private ProviderDao providerDao;
+	private static Hashtable lookupTableDefs = null;
+	private static Hashtable orgCodeCsvs = null;
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
 	{
 	   return LoadCodeList(tableId,activeOnly,"",code,codeDesc,true);
 	}
-	
+	public String getOrgCdCsv(String code)
+	{
+		if (orgCodeCsvs == null)
+		{
+			synchronized ("runonceOrg") 
+			{
+				orgCodeCsvs = new Hashtable();
+				List list = LoadCodeList("ORG", true, "","", "");
+				for (int i=0; i< list.size(); i++)
+				{
+					LookupCodeValue lkv = (LookupCodeValue) list.get(i);
+					orgCodeCsvs.put(lkv.getCode(), lkv.getCodecsv());
+				}
+			}
+		}
+		return (String)orgCodeCsvs.get(code);
+	}
 	public LookupCodeValue GetCode(String tableId,String code)
 	{
 		if (code == null || "".equals(code)) return null;
@@ -131,7 +150,7 @@ public class LookupDao extends HibernateDaoSupport {
 	   if (!Utility.IsEmpty(code)) {
 		   //org table is different from other tables 
 		   if(tableId.equals("ORG")){
-			   sSQL += " and " + fieldNames[0] + " like ('%'||";
+			   sSQL += " and " + fieldNames[0] + " like ('_'||";
 		    	String [] codes = code.split(",");
 	    		sSQL += "?";
 		    	params[i++] = new DBPreparedHandlerParam(codes[0]);
@@ -232,16 +251,24 @@ public class LookupDao extends HibernateDaoSupport {
 
 	public LookupTableDefValue GetLookupTableDef(String tableId)
 	{
-		ArrayList paramList = new ArrayList();
-
-		String sSQL="from LookupTableDefValue s where s.tableId= ?";		
-	    paramList.add(tableId);
-	    Object params[] = paramList.toArray(new Object[paramList.size()]);
-	    try{
-	      return (LookupTableDefValue)getHibernateTemplate().find(sSQL ,params).get(0);
-	    }catch(Exception ex){
-	    	return null;
-	    }
+		if (lookupTableDefs == null) {
+		    synchronized ("runonece")
+		    {
+				try{
+					String sSQL="from LookupTableDefValue s";
+					lookupTableDefs = new Hashtable();
+					List tableDefs = getHibernateTemplate().find(sSQL);
+					for(int i=0; i<tableDefs.size(); i++)
+					{
+						LookupTableDefValue tdv = (LookupTableDefValue) tableDefs.get(i);
+						lookupTableDefs.put(tdv.getTableId(), tdv);
+					}
+			    }catch(Exception ex){
+			    	return null;
+			    }
+		    }
+		}
+	    return (LookupTableDefValue) lookupTableDefs.get(tableId);
 	}
 	public List LoadFieldDefList(String tableId) 
 	{
@@ -621,6 +648,7 @@ public class LookupDao extends HibernateDaoSupport {
 			this.updateOrgStatus(pcd.getCode(), pcd);
 		}
 		this.SaveCodeValue(isNew,pcd);
+		orgCodeCsvs = null;
 	}
 	private void updateOrgTree(String orgCd, LookupCodeValue newCd) throws SQLException
 	{
@@ -716,6 +744,7 @@ public class LookupDao extends HibernateDaoSupport {
 			this.updateOrgStatus(fcd.getCode(), fcd);
 		}
 		this.SaveCodeValue(isNew,fcd);
+		orgCodeCsvs = null;
 	}
 	public void SaveAsOrgCode(LookupCodeValue orgVal, String tableId) throws SQLException
 	{
@@ -755,6 +784,7 @@ public class LookupDao extends HibernateDaoSupport {
 			this.updateOrgStatus(ocd.getCode(), ocd);
 		}
 		this.SaveCodeValue(isNew,ocd);
+		orgCodeCsvs = null;
 	}
 	public void runProcedure(String procName, String [] params) throws SQLException
 	{

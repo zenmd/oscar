@@ -276,7 +276,7 @@ public class BedManagerAction extends BaseFacilityAction {
         request.setAttribute("beds", bedLst);
         
         request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
-        request.setAttribute("bedTypes", bedManager.getBedTypes());
+        request.setAttribute("bedTypes", bedManager.getActiveBedTypes());
     }
 
     private boolean isRoomOverProgramCapacity(Room room, Bed bed,HttpServletRequest request){
@@ -487,7 +487,7 @@ public class BedManagerAction extends BaseFacilityAction {
 	        request.setAttribute("bedId", bedId);
 	
 	        request.setAttribute("roomTypes", roomManager.getActiveRoomTypes());
-	        request.setAttribute("bedTypes", bedManager.getBedTypes());
+	        request.setAttribute("bedTypes", bedManager.getActiveBedTypes());
 	        
 	        bForm.setBed(bed);
 	

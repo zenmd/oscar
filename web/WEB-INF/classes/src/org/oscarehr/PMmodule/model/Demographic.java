@@ -879,14 +879,6 @@ public class Demographic implements Serializable {
 		return demographicNo;
 	}
 
-	public Set getSubRecord() {
-		return subRecord;
-	}
-
-	public void setSubRecord(Set subRecord) {
-		this.subRecord = subRecord;
-	}
-
 	public String getSexDesc() {
 		return sexDesc;
 	}

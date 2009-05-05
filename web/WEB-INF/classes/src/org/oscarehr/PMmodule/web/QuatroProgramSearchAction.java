@@ -62,16 +62,18 @@ public class QuatroProgramSearchAction  extends BaseAction {
 	          actionParam.put("clientId", cId); 
 	       }
 	      
+	       List lstFacility=this.lookupManager.LoadCodeList("FAC", false, null, null);
+	       request.setAttribute("lstFacility", lstFacility);
+
 	       request.setAttribute("actionParam", actionParam);
-	       Demographic clientObj =clientManager.getClientByDemographicNo(cId);
 	       request.setAttribute("clientId", cId);
 	       request.setAttribute("formName", request.getParameter("formName"));
 	       request.setAttribute("formElementId", request.getParameter("formElementId"));
-	       request.setAttribute("gender", clientObj.getSex());
-	       request.setAttribute("age", clientObj.getAge());
-	       List lstFacility=this.lookupManager.LoadCodeList("FAC", false, null, null);
-	       request.setAttribute("lstFacility", lstFacility);
-	       ProgramUtils.addProgramRestrictions(request);
+	       /* set up validation rules */
+//	       Demographic clientObj =clientManager.getClientByDemographicNo(cId);
+//	       request.setAttribute("gender", clientObj.getSex());
+//	       request.setAttribute("age", clientObj.getAge());
+//	       ProgramUtils.addProgramRestrictions(request);
 		   
 	       request.setAttribute("notoken", "Y");
 

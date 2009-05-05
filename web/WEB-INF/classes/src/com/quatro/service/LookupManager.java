@@ -35,6 +35,10 @@ public class LookupManager {
     public LookupCodeValue GetLookupCode(String tableId, String code){
         return lookupDao.GetCode(tableId, code);
     }
+    public String GetOrgCdCsv(String code)
+    {
+    	return lookupDao.getOrgCdCsv(code);
+    }
 
     public LookupDao getLookupDao() {
 		return lookupDao;

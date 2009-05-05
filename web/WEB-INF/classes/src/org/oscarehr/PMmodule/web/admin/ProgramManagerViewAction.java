@@ -191,6 +191,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		        HashSet genderConflict = new HashSet();
 		        HashSet ageConflict = new HashSet();
 		//        for (ProgramQueue programQueue : queue) {
+		        /* confilict checking is done on the intake/admission of a individual
 		        for (int i=0;i<queue.size();i++) {
 		        	ProgramQueue programQueue = (ProgramQueue)queue.get(i); 
 		        	
@@ -218,6 +219,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 		                if (age<program.getAgeMin().intValue() || age>program.getAgeMax().intValue()) ageConflict.add(programQueue.getClientId());
 		            }
 		        }
+		        */
 		        request.setAttribute("queue", queue);
 		        request.setAttribute("genderConflict", genderConflict);
 		        request.setAttribute("ageConflict", ageConflict);
