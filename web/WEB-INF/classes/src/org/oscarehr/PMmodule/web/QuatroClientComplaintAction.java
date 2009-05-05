@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008, 2009 Quatro Group Inc. and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License
+ * which accompanies this distribution, and is available at
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * Contributors:
+ *     <Quatro Group Software Systems inc.>  <OSCAR Team>
+ *******************************************************************************/
 package org.oscarehr.PMmodule.web;
 
 import java.util.ArrayList;
@@ -155,6 +165,9 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			readOnly=super.isReadOnly(request,complaint.getComplaintStatus(), KeyConstants.FUN_CLIENTCOMPLAINT,complaint.getProgramId());
 				if(readOnly)request.setAttribute("isReadOnly", Boolean.valueOf(readOnly));
 			}
+		
+			
+			
 			complaintForm.setComplaint(complaint);
 			Integer clientId = Integer.valueOf(tmp);
 			String providerNo = (String)request.getSession().getAttribute("user");

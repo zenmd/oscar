@@ -17,7 +17,7 @@
 * 
 * This software was written for 
 * CAISI, 
-* Toronto, Ontario, Canada 
+* Toronto, Ontario, Canada  - UPDATED: Quatro Group 2008/2009
 */
 package org.oscarehr.PMmodule.web;
 
@@ -123,7 +123,7 @@ public class ProgramUtils
         StringBuffer programFemaleOnly=new StringBuffer("[");
         StringBuffer programTransgenderOnly=new StringBuffer("[");
         
-        List programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null,"Man");
+        List programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null,"M");
 //        for (Program program : programDao.getProgramByGenderType("Man"))
         for (int i=0; i<programs.size(); i++)
         {
@@ -131,7 +131,7 @@ public class ProgramUtils
             if (programMaleOnly.length()>1) programMaleOnly.append(',');
             programMaleOnly.append(program.getId());
         }
-        programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null, "Woman");
+        programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null, "F");
 //        for (Program program : programDao.getProgramByGenderType("Woman"))
         for (int i=0; i<programs.size(); i++)
         {
@@ -140,7 +140,7 @@ public class ProgramUtils
             programFemaleOnly.append(program.getId());
         }
         
-        programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null, "Transgender");
+        programs = programDao.getProgramByGenderType(KeyConstants.SYSTEM_USER_PROVIDER_NO,null, "T");
 //      for (Program program : programDao.getProgramByGenderType("Transgender"))
         for (int i=0; i<programs.size(); i++)
         {

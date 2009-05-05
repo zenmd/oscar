@@ -17,7 +17,7 @@
 * 
 * This software was written for 
 * CAISI, 
-* Toronto, Ontario, Canada 
+* Toronto, Ontario, Canada  - UPDATED: Quatro Group 2008/2009
 */
 
 package org.oscarehr.util;

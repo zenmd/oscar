@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2005, 2009 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License
+ * which accompanies this distribution, and is available at
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * Contributors:
+ *     <Quatro Group Software Systems inc.>  <OSCAR Team>
+ *******************************************************************************/
 package com.quatro.dao;
 
 import java.sql.ResultSet;
@@ -463,11 +473,18 @@ public class LookupDao extends HibernateDaoSupport {
 		String tableName = tableDef.getTableName();
 		String idFieldVal = "";
 
-		DBPreparedHandlerParam[] params = new DBPreparedHandlerParam[fieldDefList.size()];
+		int fields = 0;
+		for(int i=0; i< fieldDefList.size(); i++) {
+			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
+			if (fdv.getFieldLength()!= null && fdv.getFieldLength().intValue() == -1) continue;
+			fields ++;
+		}
+		DBPreparedHandlerParam[] params = new DBPreparedHandlerParam[fields];
 		String phs = "";
 		String sql = "insert into  " + tableName + "("; 
 		for(int i=0; i< fieldDefList.size(); i++) {
 			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
+			if (fdv.getFieldLength() != null && fdv.getFieldLength().intValue() == -1) continue;
 			sql += fdv.getFieldSQL() + ",";
 			phs +="?,"; 
 			if (fdv.getGenericIdx() == 1) {
@@ -520,11 +537,17 @@ public class LookupDao extends HibernateDaoSupport {
 		String tableName = tableDef.getTableName();
 		String idFieldName = "";
 		String idFieldVal = "";
-
-		DBPreparedHandlerParam[] params = new DBPreparedHandlerParam[fieldDefList.size()+1];
+		int fields = 0;
+		for(int i=0; i< fieldDefList.size(); i++) {
+			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
+			if (fdv.getFieldLength()!= null && fdv.getFieldLength().intValue() == -1) continue;
+			fields ++;
+		}
+		DBPreparedHandlerParam[] params = new DBPreparedHandlerParam[fields+1];
 		String sql = "update " + tableName + " set ";
 		for(int i=0; i< fieldDefList.size(); i++) {
 			FieldDefValue fdv = (FieldDefValue) fieldDefList.get(i);
+			if (fdv.getFieldLength() != null && fdv.getFieldLength().intValue() == -1) continue;
 			if (fdv.getGenericIdx()==1) {
 				idFieldName = fdv.getFieldSQL();
 				idFieldVal = fdv.getVal();
@@ -552,7 +575,7 @@ public class LookupDao extends HibernateDaoSupport {
 		}
 		sql = sql.substring(0,sql.length()-1);
 		sql += " where " + idFieldName + "=?";
-		params[fieldDefList.size()] = params[0];
+		params[fields] = params[0];
 		DBPreparedHandler db = new DBPreparedHandler();
 		try {
 			db.queryExecuteUpdate(sql, params);
