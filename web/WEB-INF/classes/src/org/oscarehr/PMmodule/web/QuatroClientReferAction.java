@@ -312,15 +312,14 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			actionParam.put("clientId",cId );
 		}
 		request.setAttribute("actionParam", actionParam);
-		String demographicNo = (String) actionParam.get("clientId");
-		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+		request.setAttribute("client", clientManager.getClientByDemographicNo(cId));
 		String rId = request.getParameter("rId");
 		if(Utility.IsEmpty(rId) && crObj.getId()!=null) rId=crObj.getId().toString();		
 		String programId = request.getParameter("selectedProgramId");
 		// Integer
 		// facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-		clientForm.set("clientId", demographicNo);
-		request.setAttribute("clientId", demographicNo);
+		clientForm.set("clientId", cId);
+		request.setAttribute("clientId", cId);
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();		
 		boolean readOnly =false;
@@ -329,7 +328,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			crObj = new ClientReferral();
 			crObj.setId(new Integer(0));
 			crObj.setStatus(KeyConstants.STATUS_PENDING);
-			crObj.setClientId(Integer.valueOf(demographicNo));
+			crObj.setClientId(Integer.valueOf(cId));
 		} else {			
 			crObj = clientManager.getClientReferral(rId);			
 			if(Utility.IsEmpty(programId)) programId=crObj.getProgramId().toString();

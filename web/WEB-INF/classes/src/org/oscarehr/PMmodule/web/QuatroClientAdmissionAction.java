@@ -384,6 +384,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
       // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	   String clientId = request.getParameter("clientId");
+	   if (clientId == null) clientId = request.getAttribute("clientId").toString();
        boolean readOnly= false;
        Integer admissionId;
        Admission admission;
@@ -399,13 +401,12 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
           admission = clientForm.getAdmission();
        }
 
-	   String clientId=admission.getClientId().toString();
        Integer programId = admission.getProgramId();
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();          
        }       
-       actionParam.put("clientId", admission.getClientId());            
+       actionParam.put("clientId", clientId);            
    	   actionParam.put("intakeId", admission.getIntakeId());
    	   request.setAttribute("actionParam", actionParam);
    	   request.setAttribute("clientId", clientId);
@@ -692,7 +693,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        if(actionParam==null){
     	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
+          actionParam.put("clientId", request.getParameter("admission.clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
        boolean isError = false;
@@ -711,6 +712,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer admissionId = admission.getId();
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        Demographic client= clientManager.getClientByDemographicNo(clientId.toString());
+       request.setAttribute("clientId", clientId);
        request.setAttribute("client", client);
        String overrideYN =request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME);
        boolean canOverride=false;
@@ -974,7 +976,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setCurDB_RoomId(roomDemographic.getId().getRoomId());
        request.setAttribute("prevDB_RoomId", roomDemographic.getId().getRoomId());
  	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
- 	   
+ 	   request.setAttribute("clientId", clientId.toString());
        return update(mapping, form, request, response);
 	   }
 	   catch(NoAccessException e)

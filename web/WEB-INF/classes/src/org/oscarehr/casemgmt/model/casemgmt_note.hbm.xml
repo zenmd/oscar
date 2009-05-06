@@ -69,7 +69,9 @@
                     (select min(n2.update_date) from casemgmt_note n2 where casemgmt_note.uuid = n2.uuid) as {cmn.create_date} 
                   from casemgmt_note
                   inner join 
-                    ( select max(note_id) as note_id from casemgmt_note where demographic_no = ?  and observation_date >=?  
+                    ( select max(note_id) as note_id from casemgmt_note 
+                      where demographic_no in (select demographic_no from v_demographic_merged_No where merged_to = ?)  
+                    	and observation_date >=?  
                     	and  casemgmt_note.program_no in
   					    ( select p.program_id from Program p  where p.shelter_id =?  and 'P' || p.program_id in 
                           (select a.code from lst_orgcd a, secuserrole b 
@@ -94,7 +96,9 @@
                     (select min(n2.update_date) from casemgmt_note n2 where casemgmt_note.uuid = n2.uuid) as {cmn.create_date} 
                   from casemgmt_note
                   inner join 
-                    ( select max(note_id) as note_id from casemgmt_note where demographic_no = ?  and observation_date >=?  
+                    ( select max(note_id) as note_id from casemgmt_note 
+                      where demographic_no in (select demographic_no from v_demographic_merged_No where merged_to = ?)  
+                        and observation_date >=?  
                     	and  casemgmt_note.program_no in
   					    ( select p.program_id from Program p  where  'P' || p.program_id in 
                           (select a.code from lst_orgcd a, secuserrole b 
@@ -106,7 +110,8 @@
   </sql-query>    
   <sql-query name="mostRecentNoteIds">
         	<return-scalar column="note_id" type="java.lang.Integer"/>
-        		select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
+        		select max(note_id) as note_id from casemgmt_note 
+        		where demographic_no in (select demographic_no from v_demographic_merged_No where merged_to = ?)  
 						and  casemgmt_note.program_no in
   						(
              				select p.program_id from Program p 
@@ -116,7 +121,8 @@
   </sql-query>
    <sql-query name="mostRecentNoteIdsAll">
         	<return-scalar column="note_id" type="java.lang.Integer"/>
-        		select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
+        		select max(note_id) as note_id from casemgmt_note 
+        		where demographic_no in (select demographic_no from v_demographic_merged_No where merged_to = ?)  
 						and  casemgmt_note.program_no in
   						(
              				select p.program_id from Program p 
@@ -136,7 +142,8 @@
                     (select count(n1.uuid) from casemgmt_note n1 where casemgmt_note.uuid = n1.uuid) as {cmn.revision}, 
                     (select min(n2.update_date) from casemgmt_note n2 where casemgmt_note.uuid = n2.uuid) as {cmn.create_date} from casemgmt_note
                     inner join (
-   						select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
+   						select max(note_id) as note_id from casemgmt_note 
+                      	where demographic_no in (select demographic_no from v_demographic_merged_No where merged_to = ?)  
 						and  casemgmt_note.program_no in
   						(
              				select p.program_id from Program p 
@@ -158,8 +165,9 @@
                     (select count(n1.uuid) from casemgmt_note n1 where casemgmt_note.uuid = n1.uuid) as {cmn.revision}, 
                     (select min(n2.update_date) from casemgmt_note n2 where casemgmt_note.uuid = n2.uuid) as {cmn.create_date} from casemgmt_note
                     inner join (
-   						select max(note_id) as note_id from casemgmt_note where demographic_no = ? 
-						and  casemgmt_note.program_no in
+   						select max(note_id) as note_id from casemgmt_note
+	                    where demographic_no in (select demographic_no from v_demographic_merged_No where merged_to = ?)  
+ 						and  casemgmt_note.program_no in
   						(
              				select p.program_id from Program p 
              				where 'P' || p.program_id in (select a.code from lst_orgcd a, secuserrole b 

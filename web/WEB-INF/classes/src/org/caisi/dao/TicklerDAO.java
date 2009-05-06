@@ -32,6 +32,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.caisi.model.CustomFilter;
 import org.caisi.model.Tickler;
 import org.caisi.model.TicklerComment;
+import org.oscarehr.PMmodule.dao.MergeClientDao;
+import org.oscarehr.PMmodule.model.ClientMerge;
 import org.oscarehr.PMmodule.model.Provider;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.quatro.util.Utility;
@@ -41,6 +43,10 @@ import com.quatro.util.Utility;
 /**
  */
 public class TicklerDAO extends HibernateDaoSupport {
+    private MergeClientDao mergeClientDao;
+    public void setMergeClientDao(MergeClientDao mergeClientDao) {
+		this.mergeClientDao = mergeClientDao;
+	}
 
     public void saveTickler(Tickler tickler) {
         getHibernateTemplate().saveOrUpdate(tickler);
@@ -116,8 +122,9 @@ public class TicklerDAO extends HibernateDaoSupport {
     }
     
     public List getTicklersByClientId(Integer shelterId, String providerNo, Integer clientId) {
-        String query = "from Tickler t where t.demographic_no = ? and t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
-        return (List)getHibernateTemplate().find(query + "order by t.id desc, t.service_date desc", new Object[]{clientId});
+    	String clientIds = mergeClientDao.getMergedClientIds(clientId);
+        String query = "from Tickler t where t.demographic_no in " + clientIds + " and t.program_id in " + Utility.getUserOrgQueryString(providerNo,shelterId);
+        return (List)getHibernateTemplate().find(query + "order by t.id desc, t.service_date desc");
     }
 
     public int getActiveTicklerCount(String providerNo){

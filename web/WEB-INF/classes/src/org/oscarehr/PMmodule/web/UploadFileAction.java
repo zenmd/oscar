@@ -231,7 +231,7 @@ public class UploadFileAction extends BaseClientAction {
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("clientId",attObj.getRefNo() ); 
+	          actionParam.put("clientId",request.getParameter("clientId") ); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
 	       
@@ -248,7 +248,7 @@ public class UploadFileAction extends BaseClientAction {
 		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("clientId",attObj.getRefNo() ); 
+	          actionParam.put("clientId",request.getParameter("clientId") ); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
 	       String demoNo =(String)actionParam.get("clientId");

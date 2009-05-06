@@ -192,11 +192,23 @@ public class ComplaintDao extends HibernateDaoSupport {
 				+ ", value: " + value);
 		try {
 			String sqlOrg = com.quatro.util.Utility.getUserOrgQueryString(providerNo, shelterId);
-			String queryString = "from Complaint as model where programId in " + sqlOrg + " and model."
-					+ propertyName + "= ?"
+			String queryString = "";
+			
+			if (propertyName.equals(CLIENT_ID)) {
+		        String clientIds =mergeClientDao.getMergedClientIds(Integer.valueOf(value.toString()));
+				queryString = "from Complaint as model where programId in " + sqlOrg + " and model."
+					+ propertyName + " in " + clientIds
 					+ " order by model.id desc";
+			}
+			else
+			{
+				queryString = "from Complaint as model where programId in " + sqlOrg + " and model."
+				+ propertyName + "= ?"
+				+ " order by model.id desc";
+			}
 			Query queryObject = getSession().createQuery(queryString);
-			queryObject.setParameter(0, value);
+			if (!propertyName.equals(CLIENT_ID)) 
+				queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
