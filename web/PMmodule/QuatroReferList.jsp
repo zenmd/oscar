@@ -84,7 +84,7 @@
 						</c:when>					
 						<c:otherwise>
 							<security:oscarSec objectName="_clientRefer"  rights="<%=KeyConstants.ACCESS_READ %>" >
-								<a href="javascript:updateQuatroRefer('<c:out value="${refer.clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
+								<a href="javascript:updateQuatroRefer('<c:out value="${clientId}" />', '<c:out value="${refer.id}" />')" >View</a>
 							</security:oscarSec>
 						</c:otherwise>
 				   </c:choose>

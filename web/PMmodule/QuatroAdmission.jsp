@@ -280,11 +280,11 @@ function roomChanged()
     quatroClientAdmissionForm.admission.admissionStatus=='admitted'}">		 
   <a href="javascript:signSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
    <img border=0 src=<html:rewrite page="/images/notepad.gif"/> />&nbsp;Sign&nbsp;&nbsp;</a>
+  </c:if>
    <logic:greaterThan name="quatroClientAdmissionForm" property="admission.id" value="0">
-     |&nbsp;<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
+     &nbsp;<a href="javascript:viewSignature();" style="color:Navy;text-decoration:none;" onclick="javascript: setNoConfirm();">
       <img border=0 src=<html:rewrite page="/images/search16.gif"/> />&nbsp;Preview Signature&nbsp;&nbsp;</a>
    </logic:greaterThan>
-  </c:if>
 </c:when>
 <c:otherwise>Signature: Refer to Family Head.</c:otherwise>
 </c:choose>

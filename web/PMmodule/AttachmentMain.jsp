@@ -24,7 +24,7 @@ response.setHeader("Cache-Control", "no-cache");
 </script>
 
 <html:form action="/PMmodule/UploadFile.do">
-<input type="hidden" name="clientId" />
+<input type="hidden" name="clientId" value='<c:out value="${clientId}" />' />
 	<div id="pageTitle">
 	<table width="100%">
 		<tr>
@@ -61,13 +61,13 @@ response.setHeader("Cache-Control", "no-cache");
 		  	</html:link>		  	
 		  	-->
 		  	 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
-		  	<a title="Delete" onclick="javascript: return confirmDelete();" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=delete&id=<c:out value="${atth.id}" />">
+		  	<a title="Delete" onclick="javascript: return confirmDelete();" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=delete&id=<c:out value="${atth.id}"/>&clientId=<c:out value="${clientId}" />" >
 				Delete </a>
 			</security:oscarSec>	
 		  </display:column>	
 		  <display:column sortable="false" title="">
 		   <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" rights="<%=KeyConstants.ACCESS_UPDATE %>">
-		  	<a title="Edit" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=edit&id=<c:out value="${atth.id}" />">
+		  	<a title="Edit" href="<html:rewrite  action="/PMmodule/UploadFile.do"/>?method=edit&id=<c:out value="${atth.id}" />&clientId=<c:out value="${clientId}" />">
 				Replace </a>
 			</security:oscarSec>	
 		  </display:column>		  

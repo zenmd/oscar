@@ -23,6 +23,7 @@ response.setHeader("Cache-Control", "no-cache");
 
 <html:form action="/PMmodule/UploadFile.do"	enctype="multipart/form-data" >
 	<input type="hidden" name="method" value="save"/>
+	<input type="hidden" name="clientId" value="<c:out value="${clientId}"/>" /> 
 	<html-el:hidden property="attachmentValue.refNo" />
 	<html-el:hidden property="attachmentValue.id" />
 	<table border="0" cellspacing="0" cellpadding="0" width="100%">
