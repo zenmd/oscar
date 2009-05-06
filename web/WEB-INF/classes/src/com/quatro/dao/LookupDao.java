@@ -60,6 +60,7 @@ public class LookupDao extends HibernateDaoSupport {
 	}
 	public String getOrgCdCsv(String code)
 	{
+		if (code == null || code.equals("")) return "";
 		if (orgCodeCsvs == null)
 		{
 			synchronized ("runonceOrg") 
@@ -148,32 +149,17 @@ public class LookupDao extends HibernateDaoSupport {
 	    	params[i++]= new DBPreparedHandlerParam(parentCode);
 	   }
 	   if (!Utility.IsEmpty(code)) {
-		   //org table is different from other tables 
-		   if(tableId.equals("ORG")){
-			   sSQL += " and " + fieldNames[0] + " like ('_'||";
-		    	String [] codes = code.split(",");
-	    		sSQL += "?";
-		    	params[i++] = new DBPreparedHandlerParam(codes[0]);
-		    	for(int k = 1; k<codes.length; k++)
-		    	{
-		    		sSQL += ",?";
-			    	params[i++] = new DBPreparedHandlerParam(codes[k]);
-		    	}
-		    	sSQL += ")";
-		   }else
-		   {
-		    	sSQL += " and " + fieldNames[0] + " in (";
-		    	String [] codes = code.split(",");
-	    		sSQL += "?";
-		    	params[i++] = new DBPreparedHandlerParam(codes[0]);
-		    	for(int k = 1; k<codes.length; k++)
-		    	{
-		    		if(codes[k].equals("")) continue;
-		    		sSQL += ",?";
-			    	params[i++] = new DBPreparedHandlerParam(codes[k]);
-		    	}
-		    	sSQL += ")";
-		   }
+	    	sSQL += " and " + fieldNames[0] + " in (";
+	    	String [] codes = code.split(",");
+    		sSQL += "?";
+	    	params[i++] = new DBPreparedHandlerParam(codes[0]);
+	    	for(int k = 1; k<codes.length; k++)
+	    	{
+	    		if(codes[k].equals("")) continue;
+	    		sSQL += ",?";
+		    	params[i++] = new DBPreparedHandlerParam(codes[k]);
+	    	}
+	    	sSQL += ")";
 	   }
 	   if (!Utility.IsEmpty(codeDesc)) {
 	    	sSQL += " and upper(" + fieldNames[1] + ") like ?"; 

@@ -77,7 +77,7 @@ public class ClientDao extends HibernateDaoSupport {
 	}
 	public List getClientSubRecords(Integer demographicNo)
 	{
-		String sSQL="select a.merged_to from demographic_merged a where a.deleted = 0 and a.demographic_no = " + demographicNo.toString();
+		String sSQL="select a.merged_to from v_demographic_merged a where a.demographic_no = " + demographicNo.toString();
 		SQLQuery q = getSession().createSQLQuery(sSQL);
 		List lst =  q.list();
 		return lst;
@@ -209,7 +209,7 @@ public class ClientDao extends HibernateDaoSupport {
 		
 		if(bean.getBedProgramId() != null && bean.getBedProgramId().length() > 0) {
 			bedProgramId = bean.getBedProgramId(); 
-			sql = " demographic_no in (select decode(dm.merged_to,null,i.client_id,dm.merged_to) from intake i,demographic_merged dm where i.client_id=dm.demographic_no(+) and i.program_id in (" + bedProgramId + "))";		
+			sql = " demographic_no in (select decode(dm.merged_to,null,i.client_id,dm.merged_to) from intake i,v_demographic_merged dm where i.client_id=dm.demographic_no(+) and i.program_id in (" + bedProgramId + "))";		
 			criteria.add(Restrictions.sqlRestriction(sql));
 		}
 		if(bean.getAssignedToProviderNo() != null && bean.getAssignedToProviderNo().length() > 0) {
@@ -225,7 +225,7 @@ public class ClientDao extends HibernateDaoSupport {
 			criteria.add(Expression.eq("activeCount", new Integer(0)));
 		}
 		if (bean.isMerged()) {
-			criteria.add(Expression.eq("isMerged", new Integer(1)));
+			criteria.add(Expression.eq("merged", Boolean.TRUE));
 		}
 			
 		gender = bean.getGender();
