@@ -178,11 +178,12 @@ public class IntakeManager {
 	public List getIntakesByProgram(Integer programId){
     	return intakeDao.getIntakesByProgram(programId);
 	}
-	public Demographic getClientByDemographicNo(String demographicNo) {
-        if (demographicNo == null || demographicNo.length() == 0) {
+	/* returns the merged client if the client was merged */
+	public Demographic getClientByDemographicNo(Integer demographicNo) {
+        if (demographicNo == null || demographicNo.intValue() == 0) {
             return null;
         }
-        return clientDao.getClientByDemographicNo(Integer.valueOf(demographicNo));
+        return  clientDao.getClientMergedTo(demographicNo);
     }
 
     //for single person intake check
