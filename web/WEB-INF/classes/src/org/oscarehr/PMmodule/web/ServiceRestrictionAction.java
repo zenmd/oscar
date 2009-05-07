@@ -158,7 +158,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	       else{
 	    	   Program progObj=programManager.getProgram(restriction.getProgramId());
 	    	   Integer maxDays = progObj.getMaximumServiceRestrictionDays();
-	    	   if (maxDays != null) {
+	    	   if (maxDays != null && maxDays.intValue()>0) {
 		    	   if(days.intValue() > maxDays.intValue()){
 		    		 messages.add(ActionMessages.GLOBAL_MESSAGE, 
 		    				 new ActionMessage("restrict.exceeds_maximum_days", request.getContextPath(), progObj.getMaximumServiceRestrictionDays()));	
