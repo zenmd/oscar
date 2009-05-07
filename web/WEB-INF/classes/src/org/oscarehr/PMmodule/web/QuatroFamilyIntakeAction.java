@@ -73,7 +73,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       if (intakeFamilyHeadId.intValue() == 0) intakeFamilyHeadId = Integer.valueOf(intakeId);
 	       request.setAttribute("intakeHeadId", intakeFamilyHeadId);
 	       
-	       QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(Integer.valueOf(intakeId));
+	       QuatroIntakeDB headIntakeDB = intakeManager.getQuatroIntakeDBByIntakeId(intakeFamilyHeadId);
 	       request.setAttribute("programId",headIntakeDB.getProgramId());
 	       String intakeStatus = headIntakeDB.getIntakeStatus();
 	       clientForm.setIntakeStatus(intakeStatus);
@@ -81,14 +81,12 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("headclientId", request.getParameter("headclientId")); 
 	          actionParam.put("clientId", request.getParameter("clientId")); 
 	          actionParam.put("intakeId", request.getParameter("intakeId")); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
+	       request.setAttribute("intakeId",request.getParameter("intakeId"));
 	       
-	       String demographicNo = (String)actionParam.get("headclientId");
-	       request.setAttribute("headclientId", demographicNo);
 	       request.setAttribute("clientId", (String)actionParam.get("clientId"));
 	       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
 	       
@@ -114,6 +112,8 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       relationships.add(0,obj2);
 	       clientForm.setRelationships(relationships);
 	       
+	       Integer demographicNo = headIntakeDB.getClientId();
+	       request.setAttribute("headclientId", demographicNo.toString());
 		   Demographic familyHead = intakeManager.getClientByDemographicNo(demographicNo);
 		   for(int i=0;i<genders.size();i++){
 	           LookupCodeValue obj= (LookupCodeValue)genders.get(i);

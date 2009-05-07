@@ -99,17 +99,24 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	   try {
 		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_SUMMARY);
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
+	       Demographic client  = null;
 	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
+	    	   actionParam = new HashMap();
+		       String cId = request.getParameter("clientId");
+		       client = intakeManager.getClientByDemographicNo(Integer.valueOf(cId));
+		       actionParam.put("clientId",client.getDemographicNo().toString()); 
 	//        don't delete sample code below for html:link parameter       
 	//        actionParam.put("id", "200492"); 
 	//        actionParam.put("floatProperty", new Float(444.0)); 
 	//        actionParam.put("intProperty", new Integer(555)); 
 	//        actionParam.put("stringArray", new String[] { "Value 1", "Value 2", "Value 3" }); 
 	       }
+	       else
+	       {
+	    	   client = intakeManager.getClientByDemographicNo(Integer.valueOf((String)actionParam.get("clientId")));
+	       }
+	       String demographicNo= client.getDemographicNo().toString();    
 	
-	       String demographicNo= (String)actionParam.get("clientId");
 	
 	       request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CLIENT);
 		   logManager.log("read", "client", demographicNo, request);
@@ -118,7 +125,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	       
 	       request.setAttribute("clientId", demographicNo);
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+	       request.setAttribute("client", client);
 	
 	       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 	       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null);

@@ -178,7 +178,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	public ActionForward update(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String clientId = request.getParameter("clientId");
+			Integer clientId = Integer.valueOf(request.getParameter("clientId"));
 			Integer intakeId = Integer
 					.valueOf(request.getParameter("intakeId"));
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
@@ -198,7 +198,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				Integer intakeHeadClientId = intakeManager
 						.getQuatroIntakeDBByIntakeId(intakeHeadId)
 						.getClientId();
-				request.setAttribute("clientId", intakeHeadClientId);
 				request.setAttribute("intakeHeadId", intakeHeadId); // intakeHeadId:
 				// for intake
 				// stauts='discharged'
@@ -207,7 +206,6 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				// family
 				// details.
 			} else {
-				request.setAttribute("clientId", clientId);
 				request.setAttribute("intakeHeadId", new Integer(0)); // intakeHeadId:
 				// for
 				// intake
@@ -222,8 +220,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			request.setAttribute("fromManualReferralId", request.getParameter("fromManualReferralId"));
 
 			Demographic client;
-			if (Integer.parseInt(clientId) > 0) {
-				client = clientManager.getClientByDemographicNo(clientId);
+			if (clientId.intValue() > 0) {
+				client = intakeManager.getClientByDemographicNo(clientId);
 				qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
 				request.setAttribute("newClientChecked","Y");
 			} else {
@@ -233,7 +231,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			}
 			qform.setClient(client);
 			request.setAttribute("client", client);
-
+			request.setAttribute("clientId", clientId);
 			boolean readOnly = false;
 			QuatroIntake intake;
 			if (intakeId.intValue() != 0) {

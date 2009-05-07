@@ -75,12 +75,22 @@ public class ClientDao extends HibernateDaoSupport {
         result.setEffDateTxt(MyDateFormat.getSysDateString(result.getEffDate()));
 		return result;
 	}
-	public List getClientSubRecords(Integer demographicNo)
+	public Integer getClientNoMergedTo(Integer demographicNo)
 	{
-		String sSQL="select a.merged_to from v_demographic_merged a where a.demographic_no = " + demographicNo.toString();
-		SQLQuery q = getSession().createSQLQuery(sSQL);
-		List lst =  q.list();
-		return lst;
+			String sSQL="select a.merged_to from v_demographic_merged a where a.demographic_no = " + demographicNo.toString();
+			SQLQuery q = getSession().createSQLQuery(sSQL);
+			return  Integer.valueOf(q.uniqueResult().toString());
+	}
+	public Demographic getClientMergedTo(Integer demographicNo)
+	{
+		Demographic client = getClientByDemographicNo(demographicNo);
+		if (client.isMerged()) {
+			String sSQL="select a.merged_to from v_demographic_merged a where a.demographic_no = " + demographicNo.toString();
+			SQLQuery q = getSession().createSQLQuery(sSQL);
+			Integer cId  =  Integer.valueOf(q.uniqueResult().toString());
+			client = getClientByDemographicNo(cId);
+		}
+		return client;
 	}
 	
 	public List getClientFamilyByDemographicNo(String demographicNos) {
