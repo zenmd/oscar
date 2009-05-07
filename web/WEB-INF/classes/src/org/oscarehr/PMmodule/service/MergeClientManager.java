@@ -53,15 +53,11 @@ public class MergeClientManager {
 		Iterator items =lst.iterator();
 		while(items.hasNext()){
 			Demographic client=(Demographic)items.next();
-			List subRecord = clientDao.getClientSubRecords(client.getDemographicNo());
-			if(subRecord.size()>0) {
-				Iterator subs = subRecord.iterator();
-				while(subs.hasNext()){
-					Integer cId=Integer.valueOf(subs.next().toString());
-					Demographic mergedClient= clientDao.getClientByDemographicNo(cId); 
-					result.add(mergedClient);
-					result.add(client);
-				}				
+			if (client.isMerged())
+			{
+				Demographic mergedClient= clientDao.getClientMergedTo(client.getDemographicNo()); 
+				result.add(mergedClient);
+				result.add(client);
 			}
 		}
 		return result;
