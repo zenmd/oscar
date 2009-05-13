@@ -103,7 +103,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 			}
 			else
 			{
-				request.getSession(true).setAttribute("casemgmt_DemoNo",demono);
 				return view(mapping,form,request, response);
 			}
 		}
@@ -142,7 +141,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	          actionParam.put("clientId",cId ); 
 	       }
 	       request.setAttribute("actionParam", actionParam);	      
-	       String demoNo= (String)actionParam.get("clientId");
+	       String demoNo= super.getClientId(request).toString();
         String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
 /*
@@ -310,20 +309,13 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	super.getAccess(request, KeyConstants.FUN_CLIENTCASE, null);
     	Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
-        String cId =request.getParameter("clientId");
-        if(Utility.IsEmpty(cId)){
-        	if (request.getSession(true).getAttribute("casemgmt_DemoNo") == null) throw new NoAccessException();
-        	cId =request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
-        }
+        String cId =super.getClientId(request).toString();
         HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
 	          actionParam.put("clientId",cId ); 
 	       }
 	    request.setAttribute("actionParam", actionParam);
-	    String demoNo= (String)actionParam.get("clientId");
-	    request.setAttribute("clientId", demoNo);
-	    request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
         CaseManagementSearchBean searchBean = new CaseManagementSearchBean(this.getDemographicNo(request));
         //searchBean.setSearchEncounterType(caseForm.getSearchEncounterType());

@@ -29,17 +29,25 @@ import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.PMmodule.service.ProgramManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 
-public class QuatroProgramSearchAction  extends BaseAction {
+public class QuatroProgramSearchAction  extends BaseClientAction {
 	   
 	   private ProgramManager programManager;
 	   private ClientManager clientManager;
 	   private LookupManager lookupManager;
+	   private IntakeManager intakeManager;
 	   
 	   public void setLookupManager(LookupManager lookupManager) {
 		this.lookupManager = lookupManager;
-	}
+	   }
+	   public void setIntakeManager(IntakeManager intakeManager) {
+			 this.intakeManager = intakeManager;
+	   }
+		public IntakeManager getIntakeManager() {
+			return this.intakeManager;
+		}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	    		

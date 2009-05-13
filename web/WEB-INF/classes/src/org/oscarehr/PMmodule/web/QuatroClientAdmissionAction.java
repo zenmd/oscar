@@ -380,7 +380,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
       // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
 	   String clientId = request.getParameter("clientId");
-	   if (clientId == null) clientId = super.getClientId(request);
+	   if (clientId == null) clientId = super.getClientId(request).toString();
        boolean readOnly= false;
        Integer admissionId;
        Admission admission;

@@ -283,11 +283,5 @@ public abstract class BaseAction extends DispatchAction {
             }
         }
         oscar.log.LogAction.logAccess(providerNo, className, method, programId.toString(), shelterId.toString(), clientId, queryString, sessionId, timeSpan, ExName, result);
-		
-	}
-	protected String getClientId(HttpServletRequest request){
-		String clientId=request.getParameter("demoNo");
-		if(clientId == null) clientId= ((Integer)request.getSession().getAttribute("clientId")).toString();
-		return clientId;
 	}
 }
