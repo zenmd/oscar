@@ -52,10 +52,7 @@ public class QuatroProgramSearchAction  extends BaseAction {
 	       Program criteria = (Program) clientForm.get("program");
 	       List lstProgram=programManager.search(criteria);
 	       request.setAttribute("programs", lstProgram);
-	       String cId = request.getParameter("clientId");
-	       //have save client ID to session for button search purpose
-	       if(cId!=null) request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CLIENTID, cId);
-	       else cId =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CLIENTID);
+	       String cId = super.getClientId(request).toString();
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();

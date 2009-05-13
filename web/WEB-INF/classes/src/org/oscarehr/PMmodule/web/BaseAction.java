@@ -263,12 +263,12 @@ public abstract class BaseAction extends DispatchAction {
         if(programId == null) programId = new Integer(0);
         String clientId = "";
         try {
-        	clientId = (String) request.getAttribute("clientId");
+        	clientId = ((Integer) request.getSession().getAttribute("clientId")).toString();
         }
         catch(Exception ex)
         {
         	if (request.getAttribute("clientId") != null)
-        	clientId = ((Integer) request.getAttribute("clientId")).toString();
+        	clientId = ((Integer) request.getSession().getAttribute("clientId")).toString();
         }
         Integer shelterId = (Integer) session.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         if(shelterId == null) shelterId = new Integer(0);
@@ -287,7 +287,7 @@ public abstract class BaseAction extends DispatchAction {
 	}
 	protected String getClientId(HttpServletRequest request){
 		String clientId=request.getParameter("demoNo");
-		if(Utility.isNotNullOrEmptyStr(clientId)) clientId=request.getParameter("clientId");
+		if(clientId == null) clientId= ((Integer)request.getSession().getAttribute("clientId")).toString();
 		return clientId;
 	}
 }

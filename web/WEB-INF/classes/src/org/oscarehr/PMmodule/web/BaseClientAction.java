@@ -302,7 +302,17 @@ public abstract class BaseClientAction extends BaseAction {
 	
 	protected void cacheClient(HttpServletRequest request, Integer clientId)
 	{
-		Demographic client = this.getIntakeManager().getClientByDemographicNo(clientId);
+		Demographic client = 	null;
+		if (clientId.intValue() > 0)
+		{
+		 client = this.getIntakeManager().getClientByDemographicNo(clientId);
+		}
+		else
+		{
+			client = new Demographic();
+			client.setLastName("");
+			client.setFirstName("");
+		}
 		request.getSession().setAttribute("client", client);
 		request.getSession().setAttribute("clientId", clientId);		
 	}
