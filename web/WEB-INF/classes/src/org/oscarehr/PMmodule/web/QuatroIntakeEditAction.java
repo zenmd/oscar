@@ -84,7 +84,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 			Demographic client;
 			if (Integer.parseInt(clientId) > 0) {
-				client = clientManager.getClientByDemographicNo(clientId);
+				client = super.getClient(request, Integer.valueOf(clientId));
 				qform.setDob(MyDateFormat.getStandardDate(client
 						.getDateOfBirth()));
 			} else {
@@ -221,7 +221,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 
 			Demographic client;
 			if (clientId.intValue() > 0) {
-				client = intakeManager.getClientByDemographicNo(clientId);
+				client = super.getClient(request, clientId);
 				qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
 				request.setAttribute("newClientChecked","Y");
 			} else {
@@ -351,14 +351,11 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 			actionParam.put("intakeId", "0");
 			request.setAttribute("actionParam", actionParam);
 
-			request.setAttribute("clientId", clientId);
 			request.setAttribute("fromManualReferralId", referralId);
 
-			Demographic client;
-			client = clientManager.getClientByDemographicNo(clientId);
+			Demographic client = super.getClient(request, Integer.valueOf(clientId));
 			qform.setDob(MyDateFormat.getStandardDate(client.getDateOfBirth()));
 			qform.setClient(client);
-			request.setAttribute("client", client);
 
 			com.quatro.web.intake.OptionList optionValues = intakeManager
 					.LoadOptionsList(true);
@@ -969,6 +966,8 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				else request.setAttribute("isBedProgram", Boolean.FALSE);
 			setAgeGenderReadonly(request, intake);
 			setProgramEditable(request, intake, intakeHeadId);
+			super.cacheClient(request, intake.getClientId());
+			super.setCurrentIntakeProgramId(request, intake.getClientId(), shelterId, providerNo);
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
 			return mapping.findForward("edit");
 		} catch (NoAccessException e) {
@@ -1093,12 +1092,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 		this.lookupManager = lookupManager;
 	}
 
-	public IntakeManager getIntakeManager() {
-		return intakeManager;
-	}
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 
 	public void setProgramManager(ProgramManager programManager) {

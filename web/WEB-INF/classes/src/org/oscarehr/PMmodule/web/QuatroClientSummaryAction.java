@@ -63,37 +63,12 @@ public class QuatroClientSummaryAction extends BaseClientAction {
        return edit(mapping, form, request, response);
    }
 
-   private void setAccessType(HttpServletRequest request, List intakeHeadList) throws NoAccessException {
-	   QuatroIntakeHeader obj0=null;
-	   Integer programId = null;
-	   String accessType="";
-	   for(int i=0; i<intakeHeadList.size() ; i++) {
-    	   obj0=  (QuatroIntakeHeader)intakeHeadList.get(i);
-    	   programId=obj0.getProgramId();
-    	   accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
-    	   if(accessType.compareTo(KeyConstants.ACCESS_READ)>=0){
-    		  request.setAttribute("accessTypeRead",Boolean.TRUE);
-    		  break;
-    	   }
-       }
-	   for(int i=0; i<intakeHeadList.size() ; i++) {
-    	   obj0=  (QuatroIntakeHeader)intakeHeadList.get(i);
-    	   programId=obj0.getProgramId();
-    	   accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
-    	   if(accessType.compareTo(KeyConstants.ACCESS_UPDATE)>=0){
-    		  request.setAttribute("accessTypeUpdate",Boolean.TRUE);
-    		  break;
-    	   }
-       }
-	   for(int i=0; i<intakeHeadList.size() ; i++) {
-    	   obj0=  (QuatroIntakeHeader)intakeHeadList.get(i);
-    	   programId=obj0.getProgramId();
-    	   accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, programId);
-    	   if(accessType.compareTo(KeyConstants.ACCESS_WRITE)>=0){
-    		  request.setAttribute("accessTypeWrite",Boolean.TRUE);
-    		  break;
-    	   }
-       }
+   private void setAccessType(HttpServletRequest request) throws NoAccessException {
+    	   
+	   String accessType=super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, super.getCurrentIntakeProgramId(request, false));
+	   if(accessType.compareTo(KeyConstants.ACCESS_WRITE)>=0){
+		  request.setAttribute("accessTypeWrite",Boolean.TRUE);
+	   }
    }
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {
@@ -103,7 +78,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	       if(actionParam==null){
 	    	   actionParam = new HashMap();
 		       String cId = request.getParameter("clientId");
-		       client = intakeManager.getClientByDemographicNo(Integer.valueOf(cId));
+		       client = super.getClient(request, Integer.valueOf(cId));
 		       actionParam.put("clientId",client.getDemographicNo().toString()); 
 	//        don't delete sample code below for html:link parameter       
 	//        actionParam.put("id", "200492"); 
@@ -113,57 +88,26 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	       }
 	       else
 	       {
-	    	   client = intakeManager.getClientByDemographicNo(Integer.valueOf((String)actionParam.get("clientId")));
+	    	   client = super.getClient(request,Integer.valueOf((String)actionParam.get("clientId")));
 	       }
 	       String demographicNo= client.getDemographicNo().toString();    
-	
-	
 	       request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CLIENT);
 		   logManager.log("read", "client", demographicNo, request);
 	       
 	//       setEditAttributes(form, request, demographicNo);
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-	       
-	       request.setAttribute("clientId", demographicNo);
-	       request.setAttribute("client", client);
-	
+
 	       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 	       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
 	       request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
+
+	       super.setCurrentIntakeProgramId(request, Integer.valueOf(demographicNo), shelterId, providerNo);
+	       this.setAccessType(request);
 	       
-	       List lst = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-	       QuatroIntakeHeader obj0 = null;
-	       boolean isAdmitted = false;
-	       for(int i=0; i<lst.size() ; i++) {
-	    	   obj0=  (QuatroIntakeHeader)lst.get(i);
-	  		   isAdmitted = obj0.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED);
-	    	   if(isAdmitted) break;
-	       }       
-	       this.setAccessType(request, lst);
-	
-	       QuatroIntakeHeader obj = null;
-	       if(isAdmitted) {
-	    	   obj = obj0;
-	       }
-	       else
-	       {
-	    	   // geting 
-	    	   for(int i=0;i<lst.size();i++){
-	    		   QuatroIntakeHeader obj1 = (QuatroIntakeHeader)lst.get(i);
-//	    		   if(obj1.getProgramType().equals(KeyConstants.BED_PROGRAM_TYPE)){
-	    			   if(obj1.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE) || obj1.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
-	    				   obj = obj1;
-	    				   break;
-	    			   }
-//	    		   }
-	    	   }
-	       }
-	       
-	       if (obj != null) {
-	    	   List lst2 = intakeManager.getClientFamilyByIntakeId(obj.getId().toString());
-	    	   request.setAttribute("family", lst2);
-	       }
-	       // only allow bed/service programs show up.(not external program)
+    	   List lst2 = intakeManager.getClientFamilyByIntakeId(super.getCurrentIntakeProgramId(request, false).toString());
+    	   request.setAttribute("family", lst2);
+
+	    	   // only allow bed/service programs show up.(not external program)
 	       List currentAdmissionList = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
 	       List bedServiceList = new ArrayList();
 	       for (int i=0;i<currentAdmissionList.size();i++) {
@@ -329,6 +273,9 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
    public void setLogManager(LogManager logManager) {
 	 this.logManager = logManager;

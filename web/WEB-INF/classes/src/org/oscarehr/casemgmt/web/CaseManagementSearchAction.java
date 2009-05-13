@@ -87,10 +87,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);	      
     	String demono= (String)actionParam.get("clientId");
-    
-	    request.setAttribute("clientId", demono);
-	    request.setAttribute("client", clientManager.getClientByDemographicNo(demono));
-    	
     	
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String nView=(String)request.getParameter("note_view");
@@ -147,8 +143,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);	      
 	       String demoNo= (String)actionParam.get("clientId");
-	       request.setAttribute("clientId", demoNo);
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
         String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
 /*
@@ -159,14 +153,6 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         request.setAttribute("hasAdmission", Boolean.valueOf(hasAdm));
 */
         Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-	    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(cId), shelterId, providerNo);
-	    if(lstIntakeHeader.size()>0) {
-	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-	    }else{
-           request.setAttribute("currentIntakeProgramId", new Integer(0));
-	    }
-        
         
         if(providerNo==null || demoNo ==null) {
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
@@ -393,6 +379,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+		super.setIntakeManager(intakeManager);
 	}
 
 	public void setAdmissionManager(AdmissionManager admissionManager) {

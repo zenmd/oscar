@@ -22,8 +22,12 @@
 
 package org.oscarehr.PMmodule.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.oscarehr.PMmodule.model.Demographic;
+import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.PMmodule.service.ClientManager;
 import org.oscarehr.casemgmt.service.CaseManagementManager;
@@ -31,11 +35,12 @@ import org.oscarehr.casemgmt.service.CaseManagementManager;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.security.SecurityManager;
 import com.quatro.util.Utility;
 
 public abstract class BaseClientAction extends BaseAction {
-
+	
 	protected void setScreenMode(HttpServletRequest request, String currentTab)throws NoAccessException {
 
 		super.setMenu(request, KeyConstants.MENU_CLIENT);
@@ -44,7 +49,7 @@ public abstract class BaseClientAction extends BaseAction {
 		String clientId =request.getParameter("clientId");
 	//	Demographic client =(Demographic)request.getAttribute("client");
 		if(Utility.IsEmpty(clientId)){
-			if(null!=request.getAttribute("clientId")) clientId=request.getAttribute("clientId").toString();
+			if(null!=request.getAttribute("clientId")) clientId=request.getSession().getAttribute("clientId").toString();
 			else clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
 		}
 		if(Utility.IsEmpty(clientId)||"0".equals(clientId) ||KeyConstants.FUN_CLIENT.equals(currentTab)){
@@ -275,5 +280,76 @@ public abstract class BaseClientAction extends BaseAction {
 		}
 		return r.compareTo(KeyConstants.ACCESS_READ) >=0;
 	}
+	protected Demographic getClient(HttpServletRequest request, Integer clientId)
+	{
+		Demographic client = null;
+		if (request.getSession().getAttribute("client") == null)
+		{
+			cacheClient(request, clientId);
+			client = (Demographic)request.getSession().getAttribute("client");
+		}
+		else
+		{
+			client = (Demographic)request.getSession().getAttribute("client");
+			if (client.getDemographicNo().intValue() != clientId.intValue())
+			{
+				cacheClient(request, clientId);
+				client = (Demographic)request.getSession().getAttribute("client");
+			}
+		}
+		return client;
+	}
 	
+	protected void cacheClient(HttpServletRequest request, Integer clientId)
+	{
+		Demographic client = this.getIntakeManager().getClientByDemographicNo(clientId);
+		request.getSession().setAttribute("client", client);
+		request.getSession().setAttribute("clientId", clientId);		
+	}
+	protected void setCurrentIntakeProgramId(HttpServletRequest request,  Integer clientId, Integer shelterId, String providerNo)
+	{
+	       List lst = this.getIntakeManager().getQuatroIntakeHeaderListByFacility(clientId, shelterId, providerNo);
+	       QuatroIntakeHeader obj0 = null;
+	       Integer programIdActive = new Integer(0);
+	       Integer programId  = new Integer(0);
+	       boolean isAdmittedOrActive = false;
+	       for(int i=0; i<lst.size() ; i++) {
+	    	   obj0=  (QuatroIntakeHeader)lst.get(i);
+	  		   if (obj0.getIntakeStatus().equals(KeyConstants.STATUS_ADMITTED)) {
+	  			   programIdActive = obj0.getProgramId();
+	  			   programId = programIdActive;
+		    	   isAdmittedOrActive = true;
+		    	   break;
+	  		   }
+	       }       
+	
+	       if(!isAdmittedOrActive) {
+	    	   for(int i=0;i<lst.size();i++){
+	    		   QuatroIntakeHeader obj1 = (QuatroIntakeHeader)lst.get(i);
+	    			   if(obj1.getIntakeStatus().equals(KeyConstants.STATUS_ACTIVE)) {
+	    	  			   programIdActive = obj0.getProgramId();
+	    	  			   programId = programIdActive;
+	    		    	   isAdmittedOrActive = true;
+	    		    	   break;
+	    			   }
+//	    		   }
+	    	   }
+	       }
+	       if(!isAdmittedOrActive && lst.size() > 0) {
+    		   QuatroIntakeHeader obj1 = (QuatroIntakeHeader)lst.get(0);
+  			   programId = obj1.getProgramId();
+	       }
+	       request.getSession().setAttribute("currentIntakeProgramIdActive",programIdActive);
+	       request.getSession().setAttribute("currentIntakeProgramId",programId);
+	}
+	protected Integer getCurrentIntakeProgramId(HttpServletRequest request,boolean activeOne)
+	{
+		if (activeOne)
+			return (Integer)request.getSession().getAttribute("currentIntakeProgramIdActive");
+		else
+	        return (Integer) request.getSession().getAttribute("currentIntakeProgramId");
+			
+	}
+	protected abstract void setIntakeManager(IntakeManager intakeManager);
+	protected abstract IntakeManager getIntakeManager();
 }

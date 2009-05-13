@@ -89,6 +89,9 @@ public class TopazSaveAction extends BaseClientAction {
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
 	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
 	public void setConsentManager(ConsentManager consentManager) {
 		this.consentManager = consentManager;

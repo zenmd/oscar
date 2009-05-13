@@ -26,9 +26,14 @@ import org.apache.struts.action.ActionMessage;
 import org.oscarehr.PMmodule.web.BaseAction;
 
 
+import com.crystaldecisions.report.htmlrender.DatabaseLogonRenderer;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
 import com.crystaldecisions.reports.sdk.ReportClientDocument;
+import com.crystaldecisions.sdk.occa.report.data.ConnectionInfo;
+import com.crystaldecisions.sdk.occa.report.data.ConnectionInfos;
 import com.crystaldecisions.sdk.occa.report.data.Fields;
+import com.crystaldecisions.sdk.occa.report.data.IConnectionInfo;
+import com.crystaldecisions.sdk.occa.report.data.ITable;
 import com.crystaldecisions.sdk.occa.report.data.ParameterField;
 import com.crystaldecisions.sdk.occa.report.data.ParameterFieldDiscreteValue;
 import com.crystaldecisions.sdk.occa.report.data.Values;
@@ -587,6 +592,13 @@ public class QuatroReportViewerAction extends BaseAction {
 			String sessionId = request.getSession(true).getId();
 			IReportSource reportSource = reportDocument1.getReportSource();
 			request.getSession().setAttribute("reportSource", reportSource);
+			ConnectionInfos cifs = new ConnectionInfos();
+			
+			crystalReportViewer.setDatabaseLogonInfos(cifs);
+			ITable table =  (ITable)reportDocument1.getDatabaseController().getDatabase().getTables().get(0);
+			IConnectionInfo cif = table.getConnectionInfo();
+			cif.getAttributes().putStringValue("Server Name", "QGSHELTERXX");
+			reportDocument1.verifyDatabase();
         	crystalReportViewer.setReportSource(reportSource);
 	    	crystalReportViewer.setParameterFields(getParameterFieldValues(reportDocument1, loginId, sessionId, orgDis, criteriaDis));
         	crystalReportViewer.setOwnPage(true);

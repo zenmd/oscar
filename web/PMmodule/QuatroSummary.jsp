@@ -22,9 +22,6 @@ function openHealthSafety(){
  
 <html-el:form action="/PMmodule/QuatroClientSummary.do">
 <input type="hidden" name="method" value="edit" />
-<input type="hidden" name="accessTypeRead" />
-<input type="hidden" name="accessTypeWrite" />
-<input type="hidden" name="accessTypeUpdate" />
 <input type="hidden" name="clientId" value="<c:out value="${clientId}"/>"/>
 <input type="hidden" id="scrollPosition" name="scrollPosition" value='<c:out value="${scrPos}"/>' />
 <table width="100%" height="100%" cellpadding="0px" cellspacing="0px">

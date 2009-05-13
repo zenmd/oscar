@@ -69,9 +69,6 @@ public class QuatroClientIntakeAction  extends BaseClientAction {
        String demographicNo= (String)actionParam.get("clientId");
 
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-       
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
@@ -93,5 +90,8 @@ public class QuatroClientIntakeAction  extends BaseClientAction {
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
 }

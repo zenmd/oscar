@@ -90,8 +90,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        String demographicNo= (String)actionParam.get("clientId");
        
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        List lstAdmission = admissionManager.getAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
        request.setAttribute("admissions", lstAdmission);
@@ -117,8 +115,6 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        
        HashMap actionParam = new HashMap();
        clientId=request.getParameter("clientId");
-       request.setAttribute("clientId", clientId);
-	   request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
 
 	   actionParam.put("clientId", clientId);
        Integer referralId=Integer.valueOf(request.getParameter("referralId"));
@@ -383,9 +379,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
 	   try {
 	   QuatroClientAdmissionForm clientForm = (QuatroClientAdmissionForm) form;
       // super.setScreenMode(request, KeyConstants.TAB_CLIENT_ADMISSION);
-       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	   String clientId = request.getParameter("clientId");
-	   if (clientId == null) clientId = request.getAttribute("clientId").toString();
+	   if (clientId == null) clientId = super.getClientId(request);
        boolean readOnly= false;
        Integer admissionId;
        Admission admission;
@@ -710,10 +705,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        Integer intakeId = admission.getIntakeId();
        Integer programId = admission.getProgramId();
        Integer admissionId = admission.getId();
-       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-       Demographic client= clientManager.getClientByDemographicNo(clientId.toString());
-       request.setAttribute("clientId", clientId);
-       request.setAttribute("client", client);
+       Demographic client= super.getClient(request, clientId);
        String overrideYN =request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME);
        boolean canOverride=false;
   	   Program program = programManager.getProgram(programId);
@@ -731,7 +723,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              QuatroIntakeFamily qif = (QuatroIntakeFamily)lstFamily.get(i);
 
       	     //check gender conflict and age conflict
-             Demographic client2= clientManager.getClientByDemographicNo(qif.getClientId().toString());
+             Demographic client2= intakeManager.getClientByDemographicNo(qif.getClientId());
              if(!"Y".equals(request.getParameter(KeyConstants.CONFIRMATION_CHECKBOX_NAME)))
                isWarning = isWarning || validateConflict(request, program, client2,
               	  clientForm.getRoomDemographic().getId().getRoomId(),clientForm.getIntakeClientNum(),messages);
@@ -741,7 +733,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              for(int j = 0; j<lst.size(); j++) {
             	 Admission admObj = (Admission) lst.get(j);
             	 if(isClientAdmittedAsDependent(admObj, headClientId)) {
-            		 Demographic client1 = clientManager.getClientByDemographicNo(admObj.getClientId().toString());
+            		 Demographic client1 = intakeManager.getClientByDemographicNo(admObj.getClientId());
             		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.existing_dependent", request.getContextPath(),client1.getLastName() + ", " + client.getFirstName()));
             		 isError = true;
             	 }
@@ -753,7 +745,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
              for(int j = 0; j<lst.size(); j++) {
             	 Admission admObj = (Admission) lst.get(j);
             	 if(isClientAdmittedAsDependent(admObj, admission.getClientId())) {
-            		 Demographic client1 = clientManager.getClientByDemographicNo(admObj.getClientId().toString());
+            		 Demographic client1 = intakeManager.getClientByDemographicNo(admObj.getClientId());
             		 messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("error.intake.admission.existing_dependent", request.getContextPath(),client1.getLastName() + ", " + client.getFirstName()));
             		 isError = true;
             	 }
@@ -977,6 +969,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        request.setAttribute("prevDB_RoomId", roomDemographic.getId().getRoomId());
  	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
  	   request.setAttribute("clientId", clientId.toString());
+       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
+	   super.setCurrentIntakeProgramId(request, clientId, shelterId, providerNo);
        return update(mapping, form, request, response);
 	   }
 	   catch(NoAccessException e)
@@ -1037,6 +1031,9 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
    public void setIntakeManager(IntakeManager intakeManager) {
 	 this.intakeManager = intakeManager;
    }
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
    public void setClientRestrictionManager(ClientRestrictionManager clientRestrictionManager) {
 	 this.clientRestrictionManager = clientRestrictionManager;

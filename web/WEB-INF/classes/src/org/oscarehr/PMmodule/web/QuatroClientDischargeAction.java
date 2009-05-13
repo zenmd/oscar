@@ -126,10 +126,8 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	       request.setAttribute("lstBedProgram",lstBed);
 	       request.setAttribute("admission", admObj);
 	       request.setAttribute("admissionId", admObj.getId());
+		   super.setCurrentIntakeProgramId(request, admObj.getClientId(), shelterId, providerNo);
 	       
-	       request.setAttribute("clientId", admObj.getClientId());
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(admObj.getClientId().toString()));
-	
 	       return mapping.findForward("edit");
 	   }
        catch(NoAccessException e)
@@ -163,8 +161,6 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        Admission admsObj =admissionManager.getAdmission(aId);
        if(!admsObj.getAdmissionStatus().equals(KeyConstants.STATUS_DISCHARGED))
     	   super.getAccess(request, KeyConstants.FUN_CLIENTDISCHARGE, admsObj.getProgramId(),KeyConstants.ACCESS_WRITE);
@@ -202,9 +198,6 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
        
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
        List lstDischarge = admissionManager.getAdmissions(Integer.valueOf(demographicNo), providerNo,shelterId);
@@ -224,6 +217,9 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
    public void setIntakeManager(IntakeManager intakeManager){
 	   this.intakeManager =intakeManager;
    }
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
    public void setAdmissionManager(AdmissionManager admissionManager) {
 	 this.admissionManager = admissionManager;
    }

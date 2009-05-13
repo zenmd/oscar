@@ -25,7 +25,7 @@ import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.model.HealthSafety;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.service.HealthSafetyManager;
-
+import com.quatro.service.IntakeManager;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
 
@@ -33,9 +33,16 @@ public class HealthSafetyAction extends BaseClientAction {
 	private static Log log = LogFactory.getLog(HealthSafetyAction.class);
 
     private HealthSafetyManager healthSafetyManager=null;
+    private IntakeManager intakeManager = null;
     
 	public void setHealthSafetyManager(HealthSafetyManager healthSafetyManager) {
 		this.healthSafetyManager = healthSafetyManager;
+	}
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 
 	

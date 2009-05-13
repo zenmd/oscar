@@ -194,4 +194,8 @@ public class OscarProperties extends Properties {
      {
     	 return Integer.parseInt(getProperty("DATE_FORMAT"));
      }
+     public int getOrgCacheTimeoutMinutes()
+     {
+    	 return Integer.parseInt(getProperty("ORG_CACHE_TIMEOUT_MINUTES"));
+     }
 }

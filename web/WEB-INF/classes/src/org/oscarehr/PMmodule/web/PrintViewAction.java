@@ -37,11 +37,13 @@ import com.crystaldecisions.sdk.occa.report.reportsource.IReportSource;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.ReportOptionValue;
 import com.quatro.model.ReportValue;
+import com.quatro.service.IntakeManager;
 
 public class PrintViewAction extends BaseClientAction {
 	
 	ReportValue _rptValue;
     ReportOptionValue _rptOption;
+    
     public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {	
     	try {
@@ -147,4 +149,10 @@ public class PrintViewAction extends BaseClientAction {
     	}
     }
    }
+	public void setIntakeManager(IntakeManager intakeManager) {
+		;
+	}
+	public IntakeManager getIntakeManager() {
+		return null;
+	}
  }

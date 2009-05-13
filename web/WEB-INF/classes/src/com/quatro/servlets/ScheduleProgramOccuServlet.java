@@ -380,6 +380,8 @@ public class ScheduleProgramOccuServlet extends HttpServlet {
 	           ProgramOccuTimerTask.inputSDMT(path);
 	           */
 		       //    IntakeTimerTask.DeactiveBedIntake();
+               // programOccupancyManager.insertSdmtOut();
+	           // ProgramOccuTimerTask.outputSDMT(path, programOccupancyManager.getSdmtOutList(Calendar.getInstance(), true));
 	           return;
 	           
 	        }

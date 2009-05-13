@@ -27,6 +27,7 @@ import org.oscarehr.PMmodule.web.BaseClientAction;
 
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
+import com.quatro.service.IntakeManager;
 
 import oscar.OscarAction;
 import oscar.OscarDocumentCreator;
@@ -104,4 +105,11 @@ public class PrintBarcodeAction extends BaseClientAction {
         sbContentDispValue.append(strHeader);
         return sbContentDispValue;
     }
+	public void setIntakeManager(IntakeManager intakeManager) {
+		;
+	}
+	public IntakeManager getIntakeManager() {
+		return null;
+	}
+
 }

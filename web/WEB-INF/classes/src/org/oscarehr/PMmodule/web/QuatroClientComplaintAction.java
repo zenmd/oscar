@@ -82,15 +82,6 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			List complaints = complaintManager.getComplaintsByClientId(clientId, providerNo, shelterId);
 	
 			request.setAttribute("complaints", complaints);
-			request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));
-	
-		    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(tmp), shelterId, providerNo);
-		    if(lstIntakeHeader.size()>0) {
-		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-		    }else{
-	           request.setAttribute("currentIntakeProgramId", new Integer(0));
-		    }
 			
 			return mapping.findForward("list");
 		} catch (NoAccessException e) {
@@ -113,8 +104,6 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			request.setAttribute("actionParam", actionParam);
 	
 			String tmp = (String) actionParam.get("clientId");
-			request.setAttribute("clientId", tmp);
-			request.setAttribute("client", clientManager.getClientByDemographicNo(tmp));
 			QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 	
 			String complaintId = request.getParameter("complaintId");
@@ -325,6 +314,9 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 
 }

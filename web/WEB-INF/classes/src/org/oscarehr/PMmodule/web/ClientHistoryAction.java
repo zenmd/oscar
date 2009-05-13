@@ -44,6 +44,7 @@ import com.quatro.model.Complaint;
 import com.quatro.model.IncidentValue;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.model.security.NoAccessException;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.common.KeyConstants;
 
@@ -52,9 +53,16 @@ public class ClientHistoryAction extends BaseClientAction {
 	private ClientHistoryManager historyManager;
 	private ClientManager clientManager;
 	private ProgramManager programManager;
+	private IntakeManager intakeManager;
 
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
+	}
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 
 	public void setClientHistoryManager(ClientHistoryManager historyManager)
@@ -110,7 +118,6 @@ public class ClientHistoryAction extends BaseClientAction {
         	}
         }
 		request.setAttribute("histories", histories);
-		request.setAttribute("client", clientManager.getClientByDemographicNo(clientId.toString()));
 
 		List programs = historyManager.getClientHistoryPrograms(clientId, providerNo, shelterId, filter);
 		request.setAttribute("programs", programs);

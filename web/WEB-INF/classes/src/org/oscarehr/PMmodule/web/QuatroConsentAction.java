@@ -83,24 +83,12 @@ public class QuatroConsentAction extends BaseClientAction {
 		    }
 		    request.setAttribute("actionParam", actionParam);
 		    String demographicNo= (String)actionParam.get("clientId");
-		       
-		    request.setAttribute("clientId", demographicNo);
-		    request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-	
+		       	
 		    String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		         
 		    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
 		    request.setAttribute("lstConsents", lstConsents);
-	
-		    //for new consent, as long as there is a intake for this client before.
-		    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-		    if(lstIntakeHeader.size()>0) {
-		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-		    }else{
-	           request.setAttribute("currentIntakeProgramId", new Integer(0));
-		    }
 	
 		    super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
 			return mapping.findForward("list");
@@ -169,9 +157,6 @@ public class QuatroConsentAction extends BaseClientAction {
 	       request.setAttribute("actionParam", actionParam);
 	       String demographicNo= (String)actionParam.get("clientId");
 	       
-	       request.setAttribute("clientId", demographicNo);
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);   
 	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
@@ -189,8 +174,6 @@ public class QuatroConsentAction extends BaseClientAction {
 		       }
 		       request.setAttribute("actionParam", actionParam);
 		       String demographicNo= (String)actionParam.get("clientId");
-		       request.setAttribute("clientId", demographicNo);
-		       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 		       
 		       ConsentDetail conObj = (ConsentDetail) clientForm.get("consentValue");
 			   String recId=request.getParameter("rId");
@@ -220,8 +203,6 @@ public class QuatroConsentAction extends BaseClientAction {
 	       String demographicNo= (String)actionParam.get("clientId");
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 	       
-	       request.setAttribute("clientId", demographicNo);	       
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 	       boolean isReadOnly = false;
 	       if(cdObj != null && cdObj.getId().intValue()>0) {
 	    	   Integer programId = cdObj.getProgramId();
@@ -420,6 +401,9 @@ public class QuatroConsentAction extends BaseClientAction {
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 }
 

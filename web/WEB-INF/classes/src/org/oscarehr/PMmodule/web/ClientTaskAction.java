@@ -106,8 +106,6 @@ public class ClientTaskAction extends BaseClientAction{
     	
     	String clientId = request.getParameter("clientId");
 
-        request.setAttribute("clientId", clientId);
-        request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
 
         String tickler_no =  request.getParameter("ticklerNo");
         request.setAttribute("ticklerNo", tickler_no);
@@ -155,8 +153,6 @@ public class ClientTaskAction extends BaseClientAction{
 	        actionParam.put("clientId", request.getParameter("clientId")); 
 	        request.setAttribute("actionParam", actionParam);
 	
-	        request.setAttribute("clientId", request.getParameter("clientId"));
-	        request.setAttribute("client", clientManager.getClientByDemographicNo(request.getParameter("clientId")));
 	 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
 	
 	        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
@@ -169,16 +165,6 @@ public class ClientTaskAction extends BaseClientAction{
 	
 	        request.setAttribute("ticklers", ticklers);
 	
-	        String demographicNo = request.getParameter("clientId");
-		    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-		    Integer programId = null;
-		    if(lstIntakeHeader.size()>0) {
-		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-		       programId = obj0.getProgramId();
-		    }else{
-	           programId =  new Integer(0);
-		    }
-		    request.setAttribute("currentIntakeProgramId",programId);
 //		    super.isReadOnly(request, "", KeyConstants.FUN_CLIENTTASKS, programId);
 	        return mapping.findForward("list");
     	}
@@ -197,8 +183,6 @@ public class ClientTaskAction extends BaseClientAction{
 	        actionParam.put("clientId", clientId); 
 	        request.setAttribute("actionParam", actionParam);
 	
-	        request.setAttribute("clientId", clientId);
-	        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
 	 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
 	 	    
 	        ArrayList ampmLst = new ArrayList();
@@ -286,8 +270,6 @@ public class ClientTaskAction extends BaseClientAction{
         actionParam.put("clientId", clientId); 
         request.setAttribute("actionParam", actionParam);
 
-        request.setAttribute("clientId", clientId);
-        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
         Integer programId = ticklerForm.getTickler().getProgram_id();
         super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, programId, KeyConstants.ACCESS_WRITE);
  	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
@@ -358,8 +340,6 @@ public class ClientTaskAction extends BaseClientAction{
         actionParam.put("clientId", clientId); 
         request.setAttribute("actionParam", actionParam);
 
-        request.setAttribute("clientId", clientId);
-        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
  	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    
         ArrayList ampmLst = new ArrayList();
@@ -411,8 +391,6 @@ public class ClientTaskAction extends BaseClientAction{
         actionParam.put("clientId", clientId); 
         request.setAttribute("actionParam", actionParam);
 
-        request.setAttribute("clientId", clientId);
-        request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
  	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    Tickler tickler = new Tickler();
         tickler.setTickler_no(new Integer(0));
@@ -500,6 +478,9 @@ public class ClientTaskAction extends BaseClientAction{
 
 	public void setIntakeManager(IntakeManager intakeManager) {
 		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 
 }

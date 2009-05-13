@@ -52,6 +52,9 @@ public class QuatroClientReferAction  extends BaseClientAction {
 	public void setIntakeManager(IntakeManager intakeManager) {
 	  this.intakeManager = intakeManager;
     }
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -77,16 +80,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));	
-		request.setAttribute("clientId", cId);
-		
-	    List lstIntakeHeader = intakeManager.getActiveQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-	    if(lstIntakeHeader.size()>0) {
-	       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-	    }else{
-           request.setAttribute("currentIntakeProgramId", new Integer(0));
-	    }
 		
 		try {
 			List lstRefers = clientManager.getManualReferrals(demographicNo,providerNo,shelterId);
@@ -312,14 +305,12 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			actionParam.put("clientId",cId );
 		}
 		request.setAttribute("actionParam", actionParam);
-		request.setAttribute("client", clientManager.getClientByDemographicNo(cId));
 		String rId = request.getParameter("rId");
 		if(Utility.IsEmpty(rId) && crObj.getId()!=null) rId=crObj.getId().toString();		
 		String programId = request.getParameter("selectedProgramId");
 		// Integer
 		// facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
 		clientForm.set("clientId", cId);
-		request.setAttribute("clientId", cId);
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();		
 		boolean readOnly =false;

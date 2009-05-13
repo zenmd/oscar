@@ -78,7 +78,6 @@ public class UploadFileAction extends BaseClientAction {
 	          actionParam.put("clientId", clientId); 
 	         }
 		     request.setAttribute("actionParam", actionParam);
-		     request.setAttribute("clientId", clientId);
 			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 		     
 			 Boolean exc = (Boolean) request.getAttribute(MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED);
@@ -97,20 +96,9 @@ public class UploadFileAction extends BaseClientAction {
 					//return mapping.findForward("edit");		        
 		    	   return edit(mapping,form,request,response);
 		       }
-		       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 			   Integer currentFacilityId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 				String providerNo=(String) request.getSession().getAttribute("user");
 	
-				Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-			    
-				// is client in scope
-				List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
-			    if(lstIntakeHeader.size()>0) {
-			       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-		           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-			    }else{
-		           request.setAttribute("currentIntakeProgramId", new Integer(0));
-			    }
 		    	// attachment only for client 
 			    Integer moduleId = KeyConstants.MODULE_ID_CLIENT;
 			    String refNo = demographicNo;			   
@@ -145,7 +133,6 @@ public class UploadFileAction extends BaseClientAction {
 			 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 			 request.setAttribute("lstDocType", lst);
 			 ActionMessages messages= new ActionMessages();
-			 request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
 			 Integer cId=Integer.valueOf(demoNo) ;   
 			 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
 			 if(null==moduleId) moduleId=KeyConstants.MODULE_ID_CLIENT; 
@@ -199,8 +186,6 @@ public class UploadFileAction extends BaseClientAction {
 			 ActionMessages messages= new ActionMessages();
 			 Integer cId=Integer.valueOf(clientId) ;       
 			 Integer moduleId =KeyConstants.MODULE_ID_CLIENT;  //(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-			 request.setAttribute("client", clientManager.getClientByDemographicNo(clientId));
-			 request.setAttribute("clientId", clientId);
 			 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
 
 			 if(aId.intValue() == 0)
@@ -235,9 +220,6 @@ public class UploadFileAction extends BaseClientAction {
 	       }
 	       request.setAttribute("actionParam", actionParam);
 	       
-	       String demoNo =(String)actionParam.get("clientId");
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demoNo));
-		   request.setAttribute("clientId", demoNo);
 		 if(null!=aId)uploadFileManager.deleteAttachment(aId);
 		 return list(mapping, form, request, response);
 	    }
@@ -322,6 +304,9 @@ public class UploadFileAction extends BaseClientAction {
 
 		public void setIntakeManager(IntakeManager intakeManager) {
 			this.intakeManager = intakeManager;
+		}
+		public IntakeManager getIntakeManager() {
+			return this.intakeManager;
 		}
 
 }

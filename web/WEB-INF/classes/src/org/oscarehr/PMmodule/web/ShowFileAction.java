@@ -29,6 +29,7 @@ import com.quatro.common.KeyConstants;
 import com.quatro.model.Attachment;
 import com.quatro.model.AttachmentText;
 import com.quatro.model.LookupCodeValue;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.service.UploadFileManager;
 
@@ -41,6 +42,12 @@ public class ShowFileAction extends BaseClientAction {
 
 	public void setUploadFileManager(UploadFileManager uploadFileManager) {
 		this.uploadFileManager = uploadFileManager;
+	}
+	public void setIntakeManager(IntakeManager intakeManager) {
+		;
+	}
+	public IntakeManager getIntakeManager() {
+		return null;
 	}
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,

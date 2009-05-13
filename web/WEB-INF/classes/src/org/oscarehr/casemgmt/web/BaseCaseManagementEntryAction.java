@@ -46,6 +46,7 @@ import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.oscarehr.casemgmt.web.formbeans.CaseManagementEntryFormBean;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.model.LookupCodeValue;
 import com.quatro.util.*;
@@ -62,7 +63,15 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 	protected ClientManager clientManager;
 	protected ClientImageManager clientImageManager;
     protected ProviderManager providerManager;
+    protected IntakeManager intakeManager;
 	
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
+
 	public void setClientManager(ClientManager clientManager) {
 		this.clientManager = clientManager;
 	}

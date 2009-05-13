@@ -33,7 +33,7 @@ Source:web/PMmodule/QuatroComplaintList.jsp
 			<html:link action="/PMmodule/ClientSearch2.do" style="color:Navy;text-decoration:none;">
 			<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 			<c:if test="${currentIntakeProgramId>0}">
-			<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCOMPLAINT %>"   orgCd='<%=((Integer) request.getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
+			<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCOMPLAINT %>"   orgCd='<%=((Integer) request.getSession().getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
 				<html:link action="/PMmodule/QuatroComplaint.do?method=edit" name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Complaint&nbsp;&nbsp;</html:link>
 			</security:oscarSec>

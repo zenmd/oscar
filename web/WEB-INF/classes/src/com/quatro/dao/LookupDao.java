@@ -54,6 +54,7 @@ public class LookupDao extends HibernateDaoSupport {
 	private ProviderDao providerDao;
 	private static Hashtable lookupTableDefs = null;
 	private static Hashtable orgCodeCsvs = null;
+	private static Calendar lastCacheTime = Calendar.getInstance();
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
 	{
 	   return LoadCodeList(tableId,activeOnly,"",code,codeDesc,true);
@@ -61,20 +62,29 @@ public class LookupDao extends HibernateDaoSupport {
 	public String getOrgCdCsv(String code)
 	{
 		if (code == null || code.equals("")) return "";
-		if (orgCodeCsvs == null)
-		{
-			synchronized ("runonceOrg") 
-			{
-				orgCodeCsvs = new Hashtable();
-				List list = LoadCodeList("ORG", true, "","", "");
-				for (int i=0; i< list.size(); i++)
-				{
-					LookupCodeValue lkv = (LookupCodeValue) list.get(i);
-					orgCodeCsvs.put(lkv.getCode(), lkv.getCodecsv());
-				}
-			}
-		}
+		Calendar now = Calendar.getInstance();
+		int timeOut = OscarProperties.getInstance().getOrgCacheTimeoutMinutes();
+		timeOut = timeOut * 60000; //milliseconds
+		if (orgCodeCsvs == null || now.getTimeInMillis()-lastCacheTime.getTimeInMillis() > timeOut) doCache();
+
+		String codeCsv = (String)orgCodeCsvs.get(code);
+		if (codeCsv==null) doCache();
+		
 		return (String)orgCodeCsvs.get(code);
+	}
+	private void doCache()
+	{
+		synchronized ("runonceOrg") 
+		{
+			orgCodeCsvs = new Hashtable();
+			List list = LoadCodeList("ORG", true, "","", "");
+			for (int i=0; i< list.size(); i++)
+			{
+				LookupCodeValue lkv = (LookupCodeValue) list.get(i);
+				orgCodeCsvs.put(lkv.getCode(), lkv.getCodecsv());
+			}
+			lastCacheTime = Calendar.getInstance();
+		}
 	}
 	public LookupCodeValue GetCode(String tableId,String code)
 	{
@@ -634,7 +644,7 @@ public class LookupDao extends HibernateDaoSupport {
 			this.updateOrgStatus(pcd.getCode(), pcd);
 		}
 		this.SaveCodeValue(isNew,pcd);
-		orgCodeCsvs = null;
+		doCache();
 	}
 	private void updateOrgTree(String orgCd, LookupCodeValue newCd) throws SQLException
 	{
@@ -730,7 +740,7 @@ public class LookupDao extends HibernateDaoSupport {
 			this.updateOrgStatus(fcd.getCode(), fcd);
 		}
 		this.SaveCodeValue(isNew,fcd);
-		orgCodeCsvs = null;
+		doCache();
 	}
 	public void SaveAsOrgCode(LookupCodeValue orgVal, String tableId) throws SQLException
 	{
@@ -770,7 +780,7 @@ public class LookupDao extends HibernateDaoSupport {
 			this.updateOrgStatus(ocd.getCode(), ocd);
 		}
 		this.SaveCodeValue(isNew,ocd);
-		orgCodeCsvs = null;
+		doCache();
 	}
 	public void runProcedure(String procName, String [] params) throws SQLException
 	{

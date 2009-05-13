@@ -76,9 +76,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
           actionParam.put("clientId", request.getParameter("clientId")); 
        }
        request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        
        return list(mapping, form, request, response);
    }
@@ -95,10 +92,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	       String demographicNo= (String)actionParam.get("clientId");
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	       
-	       request.setAttribute("clientId", demographicNo);
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
-	
-	      
 	       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
 	             
 	       /* service restrictions */
@@ -106,16 +99,8 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	           //request.setAttribute("serviceRestrictions", clientRestrictionManager.getActiveRestrictionsForClient(Integer.valueOf(demographicNo), facilityId, new Date()));
 	       Integer cId =Integer.valueOf(demographicNo);
 	       request.setAttribute("serviceRestrictions", clientRestrictionManager.getAllRestrictionsForClient(cId,providerNo,shelterId));
-		
-		    List lstIntakeHeader = intakeManager.getQuatroIntakeHeaderListByFacility(cId, shelterId, providerNo);	  
-		    if(lstIntakeHeader.size()>0) {
-		       QuatroIntakeHeader obj0= (QuatroIntakeHeader)lstIntakeHeader.get(0);
-	           request.setAttribute("currentIntakeProgramId", obj0.getProgramId());
-		    }else{
-	           request.setAttribute("currentIntakeProgramId", new Integer(0));
-		    }
 	
-		    super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
+		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_RESTRICTION);
 	       return mapping.findForward("list");
        }
        catch(NoAccessException e)
@@ -228,8 +213,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
             
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       request.setAttribute("clientId", demographicNo);
-       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
        ProgramClientRestriction pcrObj =(ProgramClientRestriction)clientForm.get("serviceRestriction");
        String rId=request.getParameter("rId");      
        if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) rId=pcrObj.getId().toString();	
@@ -289,8 +272,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	            
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	       String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	       request.setAttribute("clientId", demographicNo);
-	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
 	       ProgramClientRestriction pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
 	       String rId=request.getParameter("rId");      
 	       
@@ -416,6 +397,9 @@ public void setLookupManager(LookupManager lookupManager) {
 }
 public void setIntakeManager(IntakeManager intakeManager) {
 	this.intakeManager = intakeManager;
+}
+public IntakeManager getIntakeManager() {
+	return this.intakeManager;
 }
 
 }

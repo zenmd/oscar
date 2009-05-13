@@ -87,9 +87,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       request.setAttribute("actionParam", actionParam);
 	       request.setAttribute("intakeId",request.getParameter("intakeId"));
 	       
-	       request.setAttribute("clientId", (String)actionParam.get("clientId"));
-	       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
-	       
 	       Integer programId = headIntakeDB.getProgramId();
 	       request.setAttribute("programId", programId);
 	       
@@ -343,7 +340,7 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	           client = new Demographic();
 	         }else{
 	           sb.append("," + obj3.getIntakeId().toString());
-	           client = clientManager.getClientByDemographicNo(obj3.getClientId().toString());
+	           client = intakeManager.getClientByDemographicNo(obj3.getClientId());
 	         }
 		     if (obj3.getAdmissionId() == null) {
 		         client.setDateOfBirth(MyDateFormat.getCalendar(obj3.getDob()));
@@ -609,8 +606,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        
        String demographicNo= (String)actionParam.get("headclientId");
        request.setAttribute("headclientId", demographicNo);
-       request.setAttribute("clientId", (String)actionParam.get("clientId"));
-       request.setAttribute("client", clientManager.getClientByDemographicNo((String)actionParam.get("clientId")));
        request.setAttribute("programId", (String)actionParam.get("programId"));
        
    	   boolean readOnly=false;
@@ -642,9 +637,12 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        
        super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
    }
-   public void setIntakeManager(IntakeManager intakeManager) {
-	 this.intakeManager = intakeManager;
-   }
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
    public void setLookupManager(LookupManager lookupManager) {
 	 this.lookupManager = lookupManager;

@@ -21,6 +21,8 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.actions.DispatchAction;
 import org.oscarehr.PMmodule.service.ClientManager;
+
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 
@@ -36,6 +38,7 @@ import oscar.MyDateFormat;
 public class DuplicateClientCheckAction extends BaseClientAction {
    private ClientManager clientManager;
    private LookupManager lookupManager;
+   private IntakeManager intakeManager;
 
    public ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException{
 	   super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, null);
@@ -140,5 +143,11 @@ public class DuplicateClientCheckAction extends BaseClientAction {
    public void setLookupManager(LookupManager lookupManager) {
 	 this.lookupManager = lookupManager;
   }
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
 
 }

@@ -47,6 +47,7 @@ import org.oscarehr.PMmodule.web.formbean.ClientSearchFormBean;
 import org.oscarehr.PMmodule.web.utils.UserRoleUtils;
 import com.quatro.common.KeyConstants;
 import com.quatro.model.security.NoAccessException;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import com.quatro.util.Utility;
 import org.apache.struts.actions.DispatchAction;
@@ -62,6 +63,8 @@ public class ClientSearchAction2 extends BaseClientAction {
 	private ProgramManager programManager;
 
 	private ProviderManager providerManager;
+	
+	private IntakeManager intakeManager;
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -256,6 +259,13 @@ public class ClientSearchAction2 extends BaseClientAction {
 
 	public void setProviderManager(ProviderManager providerManager) {
 		this.providerManager = providerManager;
+	}
+
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
 	}
 
 }

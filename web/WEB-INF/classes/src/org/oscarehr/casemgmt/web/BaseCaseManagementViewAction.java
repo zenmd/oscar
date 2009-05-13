@@ -44,6 +44,7 @@ import org.oscarehr.casemgmt.service.ClientImageManager;
 import org.caisi.service.TicklerManager;
 
 import com.quatro.common.KeyConstants;
+import com.quatro.service.IntakeManager;
 import com.quatro.service.LookupManager;
 import org.oscarehr.PMmodule.web.BaseClientAction;
 
@@ -57,8 +58,15 @@ public class BaseCaseManagementViewAction extends BaseClientAction {
 	protected LookupManager lookupMgr;
 	protected IssueAdminManager issAdmManager;
 	protected ClientManager clientManager;
+	protected IntakeManager intakeManager;
 	
-	
+	public void setIntakeManager(IntakeManager intakeManager) {
+		this.intakeManager = intakeManager;
+	}
+	public IntakeManager getIntakeManager() {
+		return this.intakeManager;
+	}
+
 	public void setCaseManagementManager(CaseManagementManager caseManagementMgr) {
 		this.caseManagementMgr = caseManagementMgr;
 	}
