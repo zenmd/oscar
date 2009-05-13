@@ -81,6 +81,7 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 				actionParam.put("intakeId", intakeId.toString());
 			}
 			request.setAttribute("actionParam", actionParam);
+			super.cacheClient(request, Integer.valueOf(clientId));
 
 			Demographic client;
 			if (Integer.parseInt(clientId) > 0) {
