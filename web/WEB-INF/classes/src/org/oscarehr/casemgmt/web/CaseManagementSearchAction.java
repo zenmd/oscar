@@ -46,6 +46,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.oscarehr.PMmodule.model.Admission;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.PMmodule.service.AdmissionManager;
 import org.oscarehr.casemgmt.model.CaseManagementCPP;
@@ -80,31 +81,18 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
     private ActionForward client(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        // request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
 		
-    	 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);	      
-    	String demono= (String)actionParam.get("clientId");
+    	Integer demono= super.getClientId(request);
     	
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String nView=(String)request.getParameter("note_view");
-		caseForm.setDemographicNo(demono);
+		caseForm.setDemographicNo(demono.toString());
 		if(!Utility.IsEmpty(nView)) {
 			request.setAttribute("note_view", nView);
 			return view(mapping,form,request, response);
 		}
 		else
 		{
-			if (Utility.IsEmpty(demono)) {
-				
-				return mapping.findForward("client");
-			}
-			else
-			{
-				return view(mapping,form,request, response);
-			}
+			return view(mapping,form,request, response);
 		}
     }
     
@@ -133,15 +121,8 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
         Integer currentFacilityId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;        
         HttpSession se = request.getSession(true);
-        String cId=request.getParameter("clientId");
-        if(Utility.IsEmpty(cId)) cId=request.getSession(true).getAttribute("casemgmt_DemoNo").toString();
-        HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId",cId ); 
-	       }
-	       request.setAttribute("actionParam", actionParam);	      
-	       String demoNo= super.getClientId(request).toString();
+
+        Integer demoNo= super.getClientId(request);
         String providerNo = (String)se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
 /*
@@ -157,18 +138,19 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
          request.getSession(true).setAttribute(KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "cv");
          return mapping.findForward("client");
         }        
-        request.setAttribute("casemgmt_demoName", getDemoName(demoNo));
-        request.setAttribute("casemgmt_demoAge", getDemoAge(demoNo));
-        request.setAttribute("casemgmt_demoDOB", getDemoDOB(demoNo));
-        request.setAttribute("demographicNo", demoNo);
+        Demographic client = super.getClient(request, demoNo);
+        request.setAttribute("casemgmt_demoName", client.getFormattedName());
+        request.setAttribute("casemgmt_demoAge", client.getAge());
+        request.setAttribute("casemgmt_demoDOB", client.getDob());
+        request.setAttribute("demographicNo", demoNo.toString());
 
         // get client image
-        request.setAttribute("image_filename", this.getImageFilename(demoNo, request));
+        request.setAttribute("image_filename", this.getImageFilename(demoNo.toString(), request));
 
         Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
 
         if (programId==null || programId.intValue()==0) {
-        	List intakes = this.clientManager.getIntakeByFacility(new Integer(demoNo), currentFacilityId);
+        	List intakes = this.clientManager.getIntakeByFacility(demoNo, currentFacilityId);
         	if (intakes.size() == 0) {
                 super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
                 return mapping.findForward("domain-error");             
@@ -189,7 +171,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 //            Integer shelterId=(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
            
             if(request.getAttribute("Notes")!=null) notes=(List)request.getAttribute("Notes");
-            else notes = caseManagementMgr.getNotes(demoNo, userProp,shelterId,providerNo);
+            else notes = caseManagementMgr.getNotes(demoNo.toString(), userProp,shelterId,providerNo);
             
             //notes = manageLockedNotes(notes, false, this.getUnlockedNotesMap(request));
            
@@ -222,7 +204,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
             List issues = this.lookupMgr.LoadCodeList("ISS", true,null,null);
             request.setAttribute("issues", issues);
             
-            List admis = admissionManager.getAdmissions(Integer.valueOf(demoNo),providerNo, shelterId);
+            List admis = admissionManager.getAdmissions(demoNo,providerNo, shelterId);
             String workerIds = getAdmissionPrimaryWorks(admis);
             List caseWorkers;
             if(!Utility.IsEmpty(workerIds)) {
@@ -269,7 +251,7 @@ public class CaseManagementSearchAction extends BaseCaseManagementViewAction {
 
         Locale vLocale = (Locale) se.getAttribute(org.apache.struts.Globals.LOCALE_KEY);
         caseForm.setVlCountry(vLocale.getCountry());
-        caseForm.setDemographicNo(demoNo);
+        caseForm.setDemographicNo(demoNo.toString());
 
         se.setAttribute("casemgmt_DemoNo", demoNo);
         caseForm.setRootCompURL((String) se.getAttribute("casemgmt_oscar_baseurl"));

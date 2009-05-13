@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.oscarehr.PMmodule.model.Demographic;
 import org.oscarehr.PMmodule.model.Provider;
 import org.oscarehr.PMmodule.model.QuatroIntakeHeader;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
@@ -66,38 +67,23 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		log.debug("edit");
 
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
-		Object reqForm = request.getParameter("form");
 		request.setAttribute("change_flag", "false");
 		request.setAttribute("from", "casemgmt");
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			String cId = request.getParameter("clientId");
-			if (Utility.IsEmpty(cId))
-				cId = (String) request.getSession(true).getAttribute(
-						"casemgmt_DemoNo");
-			actionParam.put("clientId", cId);
-		}
-		request.setAttribute("actionParam", actionParam);
 
-		String demono = (String) actionParam.get("clientId");
-		request.setAttribute("clientId", demono);
-		request.setAttribute("client", clientManager
-				.getClientByDemographicNo(demono));
 		String providerNo = getProviderNo(request);
 		Integer shelterId = (Integer) request.getSession(true).getAttribute(
 				KeyConstants.SESSION_KEY_SHELTERID);
-		Boolean restore = (Boolean) request.getAttribute("restore");
 		//Integer programId = (Integer) request.getSession(true).getAttribute("case_program_id");
-		Integer currentFacilityId = (Integer) request.getSession(true)
-				.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
 		boolean isReadOnly =super.isReadOnly(request, "", KeyConstants.FUN_CLIENTCASE, new Integer(0));
 		if(isReadOnly) request.setAttribute("isReadOnly", Boolean.TRUE);
-		request.setAttribute("demoName", getDemoName(demono));
-		request.setAttribute("demoAge", getDemoAge(demono));
-		request.setAttribute("demoDOB", getDemoDOB(demono));
+
+		Integer demono = super.getClientId(request);
+		Demographic client = super.getClient(request,demono);
+		request.setAttribute("demoName", client.getFirstName());
+		request.setAttribute("demoAge", client.getAge());
+		request.setAttribute("demoDOB", client.getDob());
 
 		/* process the request from other module */
 		if (!"casemgmt".equalsIgnoreCase(request.getParameter("from"))) {
@@ -115,24 +101,10 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			request.setAttribute("from", request.getParameter("from"));
 		}
 
-		String url = "";
 		if ("casemgmt".equals(request.getAttribute("from"))) {
-			String ss = (String) request.getSession(true).getAttribute(
-					"casemgmt_VlCountry");
-			Properties oscarVariables = (Properties) request.getSession(true)
-					.getAttribute("oscarVariables");
-			String province = "";
-			if (oscarVariables != null) {
-				province = ((String) oscarVariables.getProperty("billregion",
-						"")).trim().toUpperCase();
-			}
-
 			Date today = new Date();
 			Calendar todayCal = Calendar.getInstance();
 			todayCal.setTime(today);
-
-			String Hour = Integer.toString(todayCal.get(Calendar.HOUR));
-			String Min = Integer.toString(todayCal.get(Calendar.MINUTE));
 		}
 
 		/* remove the remembered echart string */
@@ -145,7 +117,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		 * caseManagementMgr.getIssues(providerNo, demono);
 		 */
 
-		cform.setDemoNo(demono);
+		cform.setDemoNo(demono.toString());
 		CaseManagementNote note = null;		
 		String nId = request.getParameter("noteId");
 		if (Utility.IsEmpty(nId))
@@ -165,7 +137,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		// twoWeeksAgo);
 		
 		
-		 List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demono),providerNo,shelterId);
+		 List programIds =clientManager.getRecentProgramIds(demono,providerNo,shelterId);
 	     List programs = null;
 	     if (programIds.size() > 0) {
 		     String progs = ((Integer)programIds.get(0)).toString();
@@ -195,7 +167,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			Provider prov = new Provider();
 			prov.setProviderNo(providerNo);
 			note.setProvider(prov);
-			note.setDemographic_no(new Integer(demono));
+			note.setDemographic_no(demono);
 
 			this.insertReason(request, note);
 
@@ -234,7 +206,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			// A hack to load last unsigned note when not specifying a
 			// particular note to edit
 			// if there is no unsigned note load a new one
-			if ((note = getLastSaved(request, demono, providerNo)) == null) {
+			if ((note = getLastSaved(request, demono.toString(), providerNo)) == null) {
 				request.getSession(true).setAttribute("newNote", "true");
 				request.getSession(true)
 						.setAttribute("issueStatusChanged", "false");
@@ -244,7 +216,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 				Provider prov = new Provider();
 				prov.setProviderNo(providerNo);
 				note.setProvider(prov);
-				note.setDemographic_no(new Integer(demono));
+				note.setDemographic_no(demono);
 				}
 				else{ 
 					note=cform.getCaseNote();			
@@ -253,7 +225,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 				this.insertReason(request, note);
 			}
 		}
-		List issues = caseManagementMgr.getIssues(providerNo, demono);
+		List issues = caseManagementMgr.getIssues(providerNo, demono.toString());
 
 		Iterator itr1 = note.getIssues().iterator();
 		 
@@ -288,7 +260,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			CaseManagementIssue iss = (CaseManagementIssue) issues.get(i);
 			checkedList[i].setIssue(iss);
 			checkedList[i].setUsed(caseManagementMgr.haveIssue(iss.getId(),
-					demono, providerNo, shelterId));
+					demono.toString(), providerNo, shelterId));
 
 		}
 
@@ -360,42 +332,25 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		log.debug("history");
 
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			String cId = request.getParameter("clientId");
-			if (Utility.IsEmpty(cId))
-				cId = (String) request.getSession(true).getAttribute(
-						"casemgmt_DemoNo");
-			actionParam.put("clientId", cId);
-		}
-		request.setAttribute("actionParam", actionParam);
 
-		String demono = (String) actionParam.get("clientId");
-		request.setAttribute("clientId", demono);
-		request.setAttribute("client", clientManager
-				.getClientByDemographicNo(demono));
-
-		request.setAttribute("demoName", getDemoName(demono));
-		request.setAttribute("demoAge", getDemoAge(demono));
-		request.setAttribute("demoDOB", getDemoDOB(demono));
+		Integer demono = super.getClientId(request);
+		Demographic client = super.getClient(request, demono);
+		request.setAttribute("demoName", client.getFormattedName());
+		request.setAttribute("demoAge", client.getAge());
+		request.setAttribute("demoDOB", client.getDob());
 
 		String noteid = (String) request.getParameter("noteId");
 		if(Utility.IsEmpty(noteid) && request.getAttribute("noteId")!=null) noteid =request.getAttribute("noteId").toString();
 		CaseManagementNote note = caseManagementMgr.getNote(noteid);
 		super.setScreenMode(request, KeyConstants.FUN_CLIENTCASE);
 		request.setAttribute("history", note.getHistory());
-		request.setAttribute("client", clientManager
-				.getClientByDemographicNo(demono));
 		cform.setCaseNote_history(note.getHistory());
 		return mapping.findForward("historyview");
 	}
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		HttpSession session = request.getSession(true);
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_CASE);
-		String providerNo = getProviderNo(request);
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
 		request.setAttribute("change_flag", "false");
 
@@ -504,9 +459,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		if (provider != null)
 			note.setProvider(provider);
 
-		String role = null;
-		Integer currentFacilityId = (Integer) request.getSession(true)
-				.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		// if this is an update, don't overwrite the program id
 		/*
 		if (note.getProgram_no()==null ||note.getProgram_no().intValue()==0) {
