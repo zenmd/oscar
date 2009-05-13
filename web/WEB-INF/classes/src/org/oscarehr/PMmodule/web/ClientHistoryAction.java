@@ -79,18 +79,10 @@ public class ClientHistoryAction extends BaseClientAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("clientId", request.getParameter("clientId"));
-		}
-		request.setAttribute("actionParam", actionParam);
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_HISTORY);
-		String tmp = (String) actionParam.get("clientId");
-		request.setAttribute("clientId", tmp);
 
 		// String tmp = request.getParameter("id");
-		Integer clientId = Integer.valueOf(tmp);
+		Integer clientId = super.getClientId(request);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 			
         Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);

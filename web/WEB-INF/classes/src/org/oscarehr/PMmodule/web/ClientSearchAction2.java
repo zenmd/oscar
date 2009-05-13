@@ -68,22 +68,15 @@ public class ClientSearchAction2 extends BaseClientAction {
 
 	public ActionForward unspecified(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		if (!Utility.IsEmpty(request.getParameter("client"))) {
-			request.getSession().setAttribute(
-					KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "client");
-		}
+		request.getSession().setAttribute(
+				KeyConstants.SESSION_KEY_CURRENT_FUNCTION, "client");
+		super.cacheClient(request,null);
 		return form(mapping, form, request, response);
 	}
 
 	private ActionForward form(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-		  HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
 			if (clientManager.isOutsideOfDomainEnabled()) {
 				request.getSession().setAttribute("outsideOfDomainEnabled", "true");
 			} else {

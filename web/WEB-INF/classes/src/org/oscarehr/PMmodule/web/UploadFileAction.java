@@ -119,21 +119,15 @@ public class UploadFileAction extends BaseClientAction {
 		 try {
 			 super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, null, KeyConstants.ACCESS_WRITE);
 			 DynaActionForm attForm = (DynaActionForm) form;
-			 attForm.set("clientId",request.getParameter("clientId"));
+			 attForm.set("clientId",super.getClientId(request).toString());
 			 Attachment attObj =(Attachment)attForm.get("attachmentValue");
 			 attObj.setId(null);
-			 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		       if(actionParam==null){
-		    	  actionParam = new HashMap();
-		          actionParam.put("clientId", request.getParameter("clientId")); 
-		       }
-		       request.setAttribute("actionParam", actionParam);
-		      String demoNo = (String)actionParam.get("clientId");      
 			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 			 List lst = lookupManager.LoadCodeList("DCT", true, null, null);
 			 request.setAttribute("lstDocType", lst);
 			 ActionMessages messages= new ActionMessages();
-			 Integer cId=Integer.valueOf(demoNo) ;   
+			 Integer cId=super.getClientId(request);   
+			 
 			 Integer moduleId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
 			 if(null==moduleId) moduleId=KeyConstants.MODULE_ID_CLIENT; 
 			 if(null==cId){

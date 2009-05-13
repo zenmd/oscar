@@ -170,16 +170,11 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        Facility facility=facilityManager.getFacility(program.getFacilityId());
 	        if(facility!=null) request.setAttribute("facilityName", facility.getName());
 	
-	        String demographicNo = request.getParameter("clientId");
-	        if (demographicNo != null) {
-	            request.setAttribute("clientId", demographicNo);
-	        }
 	
 	//        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
 	
 	        // check role permission
 	        HttpSession se=request.getSession(true);        
-	        String providerNo = (String) request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	        se.setAttribute("performAdmissions",hasAccess(request, programId, KeyConstants.FUN_CLIENTADMISSION,SecurityManager.ACCESS_UPDATE));
 	        // need the queue to determine which tab to go to first
 	        if (KeyConstants.TAB_PROGRAM_QUEUE.equals(formBean.getTab())) {

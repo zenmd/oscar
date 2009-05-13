@@ -103,9 +103,6 @@ public class ClientTaskAction extends BaseClientAction{
     
     public ActionForward mytaskedit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
-    	
-    	String clientId = request.getParameter("clientId");
-
 
         String tickler_no =  request.getParameter("ticklerNo");
         request.setAttribute("ticklerNo", tickler_no);
@@ -149,10 +146,6 @@ public class ClientTaskAction extends BaseClientAction{
     	try {
 	    	TicklerForm ticklerForm = (TicklerForm) form;
 	
-	    	HashMap actionParam = new HashMap();
-	        actionParam.put("clientId", request.getParameter("clientId")); 
-	        request.setAttribute("actionParam", actionParam);
-	
 	 	    super.setScreenMode(request, KeyConstants.TAB_CLIENT_TASK);
 	
 	        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);        
@@ -161,7 +154,7 @@ public class ClientTaskAction extends BaseClientAction{
 	        List programs=programManager.getBedPrograms(providerNo, shelterId);
 	        ticklerForm.setProgramLst(programs);
 	        
-	        List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, Integer.valueOf(request.getParameter("clientId")));
+	        List ticklers = ticklerManager.getTicklersByClientId(shelterId, providerNo, super.getClientId(request));
 	
 	        request.setAttribute("ticklers", ticklers);
 	
@@ -177,12 +170,7 @@ public class ClientTaskAction extends BaseClientAction{
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
     	try {
 	    	TicklerForm ticklerForm = (TicklerForm) form;
-	    	
-	    	String clientId = request.getParameter("clientId");
-	    	HashMap actionParam = new HashMap();
-	        actionParam.put("clientId", clientId); 
-	        request.setAttribute("actionParam", actionParam);
-	
+	    		
 	 	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
 	 	    
 	        ArrayList ampmLst = new ArrayList();
@@ -217,7 +205,7 @@ public class ClientTaskAction extends BaseClientAction{
 	
 			Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+	        List programLst = programManager.getPrograms(super.getClientId(request), providerNo, shelterId);
 	        ticklerForm.setProgramLst(programLst);
 	        
 	        String tickler_no =  request.getParameter("ticklerNo");
@@ -265,7 +253,7 @@ public class ClientTaskAction extends BaseClientAction{
 
         TicklerForm ticklerForm = (TicklerForm) form;
     	
-    	String clientId = request.getParameter("clientId");
+    	Integer clientId = super.getClientId(request);
     	HashMap actionParam = new HashMap();
         actionParam.put("clientId", clientId); 
         request.setAttribute("actionParam", actionParam);
@@ -315,7 +303,7 @@ public class ClientTaskAction extends BaseClientAction{
 
 		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+        List programLst = programManager.getPrograms(clientId, providerNo, shelterId);
         ticklerForm.setProgramLst(programLst);
         
         List providerLst = providerManager.getActiveProviders(ticklerForm.getTickler().getProgram_id());
@@ -335,10 +323,7 @@ public class ClientTaskAction extends BaseClientAction{
     	TicklerForm ticklerForm = (TicklerForm) form;
     	Integer programId = ticklerForm.getTickler().getProgram_id();
     	super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, programId,KeyConstants.ACCESS_WRITE);
-    	String clientId = request.getParameter("clientId");
-    	HashMap actionParam = new HashMap();
-        actionParam.put("clientId", clientId); 
-        request.setAttribute("actionParam", actionParam);
+    	Integer clientId = super.getClientId(request);
 
  	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
  	    
@@ -374,7 +359,7 @@ public class ClientTaskAction extends BaseClientAction{
 
 		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+        List programLst = programManager.getPrograms(clientId, providerNo, shelterId);
         ticklerForm.setProgramLst(programLst);
         
         List providerLst = providerManager.getActiveProviders(ticklerForm.getTickler().getProgram_id());
@@ -386,17 +371,15 @@ public class ClientTaskAction extends BaseClientAction{
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TicklerForm ticklerForm = (TicklerForm) form;
     	super.getAccess(request, KeyConstants.FUN_CLIENTTASKS, null, KeyConstants.ACCESS_WRITE);
-    	String clientId = request.getParameter("clientId");
-    	HashMap actionParam = new HashMap();
-        actionParam.put("clientId", clientId); 
-        request.setAttribute("actionParam", actionParam);
-
  	    super.setScreenMode(request, KeyConstants.FUN_CLIENTTASKS);
+
+ 	    Integer clientId = super.getClientId(request);
  	    Tickler tickler = new Tickler();
         tickler.setTickler_no(new Integer(0));
 		String providerNo = (String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         tickler.setCreator(providerNo);
-        tickler.setDemographic_no(Integer.valueOf(clientId));
+        
+        tickler.setDemographic_no(clientId);
 
 
         Calendar cal = com.quatro.util.CurrentDateTime.getCurrentDateTime();
@@ -451,7 +434,7 @@ public class ClientTaskAction extends BaseClientAction{
         ticklerForm.setPriorityLst(priorityLst);
 
 		Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-        List programLst = programManager.getPrograms(Integer.valueOf(clientId), providerNo, shelterId);
+        List programLst = programManager.getPrograms(clientId, providerNo, shelterId);
         if(programLst.size()==0) throw new NoAccessException();
         ticklerForm.setProgramLst(programLst);
         

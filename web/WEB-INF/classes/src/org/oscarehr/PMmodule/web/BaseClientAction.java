@@ -46,13 +46,8 @@ public abstract class BaseClientAction extends BaseAction {
 		super.setMenu(request, KeyConstants.MENU_CLIENT);
 		SecurityManager sec = super.getSecurityManager(request);
 		//summary
-		String clientId =request.getParameter("clientId");
-	//	Demographic client =(Demographic)request.getAttribute("client");
-		if(Utility.IsEmpty(clientId)){
-			if(null!=request.getAttribute("clientId")) clientId=request.getSession().getAttribute("clientId").toString();
-			else clientId=(String)request.getSession(true).getAttribute("casemgmt_DemoNo");
-		}
-		if(Utility.IsEmpty(clientId)||"0".equals(clientId) ||KeyConstants.FUN_CLIENT.equals(currentTab)){
+		Integer clientId = getClientId(request);
+		if(clientId == null || clientId.intValue() == 0 ||KeyConstants.FUN_CLIENT.equals(currentTab)){
 			request.setAttribute(KeyConstants.TAB_CLIENT_SUMMARY, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_HEALTH, KeyConstants.ACCESS_NULL);
 			request.setAttribute(KeyConstants.TAB_CLIENT_DISCHARGE, KeyConstants.ACCESS_NULL);
@@ -303,9 +298,14 @@ public abstract class BaseClientAction extends BaseAction {
 	protected void cacheClient(HttpServletRequest request, Integer clientId)
 	{
 		Demographic client = 	null;
+		if (clientId == null || clientId.intValue() == 0 ) {
+			request.getSession().removeAttribute("client");
+			if (clientId == null) request.getSession().removeAttribute("clientId");
+			return;
+		}
 		if (clientId.intValue() > 0)
 		{
-		 client = this.getIntakeManager().getClientByDemographicNo(clientId);
+			client = this.getIntakeManager().getClientByDemographicNo(clientId);
 		}
 		else
 		{
