@@ -167,8 +167,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        Integer programId = Integer.valueOf(id);
 	        Program program = programManager.getProgram(programId);
 	        request.setAttribute("program", program);
-	        Facility facility=facilityManager.getFacility(program.getFacilityId());
-	        if(facility!=null) request.setAttribute("facilityName", facility.getName());
+//	        Facility facility=facilityManager.getFacility(program.getFacilityId());
+//	        if(facility!=null) request.setAttribute("facilityName", facility.getName());
 	
 	
 	//        request.setAttribute("temporaryAdmission", new Boolean(programManager.getEnabled()));
