@@ -55,6 +55,11 @@ public class QuatroClientIntakeRejectAction extends BaseProgramAction {
 	    	  actionParam = new HashMap();
 	          actionParam.put("programId", id); 
 	       }
+	       
+	       String demographicNo= request.getParameter("clientId");
+	       request.setAttribute("clientId", demographicNo);
+	       request.setAttribute("client", clientManager.getClientByDemographicNo(demographicNo));
+	
 	       request.setAttribute("actionParam", actionParam);
 	       request.setAttribute("programId", id);
 	       request.setAttribute("program", programManager.getProgram(new Integer(id)));
