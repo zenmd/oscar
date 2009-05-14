@@ -59,9 +59,9 @@ public class PrintBarcodeAction extends BaseClientAction {
         if (classpath==null) classpath = (String)request.getSession().getServletContext().getAttribute("com.ibm.websphere.servlet.application.classpath");
         
         System.setProperty("jasper.reports.compile.class.path", classpath);
-
+        Integer clientId = super.getClientId(request);
         HashMap parameters = new HashMap();
-        parameters.put("demo", request.getParameter("clientId"));
+        parameters.put("demo", clientId.toString());
         ServletOutputStream sos = null;
         InputStream ins = null;
         try {

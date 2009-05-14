@@ -81,7 +81,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
 	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
 	       if(actionParam==null){
 	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
 	          actionParam.put("intakeId", request.getParameter("intakeId")); 
 	       }
 	       request.setAttribute("actionParam", actionParam);
@@ -598,7 +597,6 @@ public class QuatroFamilyIntakeAction extends BaseClientAction {
        if(actionParam==null){ 
     	  actionParam = new HashMap();
           actionParam.put("headclientId", request.getParameter("headclientId")); 
-          actionParam.put("clientId", request.getParameter("clientId")); 
           actionParam.put("intakeId", request.getParameter("intakeId"));
           actionParam.put("programId", request.getParameter("programId"));
        }

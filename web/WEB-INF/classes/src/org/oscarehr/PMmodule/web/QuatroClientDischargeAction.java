@@ -102,14 +102,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 		   }
 	*/
 		   
-	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);
-		  	HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	
+	       super.setScreenMode(request, KeyConstants.TAB_CLIENT_DISCHARGE);	
 		   
 		   if(!(isWarning || isError)) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.save.success", request.getContextPath()));
 	       saveMessages(request,messages);
@@ -149,15 +142,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
    private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
 	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
 
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
        Integer aId = new Integer(request.getParameter("admissionId"));
-       
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
        
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo=(String) request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
@@ -187,20 +172,12 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 
    private void setListAttributes(ActionForm form, HttpServletRequest request) {
 	   QuatroClientDischargeForm clientForm = (QuatroClientDischargeForm) form;
-
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
        
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
            
-       List lstDischarge = admissionManager.getAdmissions(Integer.valueOf(demographicNo), providerNo,shelterId);
+       List lstDischarge = admissionManager.getAdmissions(super.getClientId(request), providerNo,shelterId);
        request.setAttribute("quatroDischarge", lstDischarge);
        for(int i=0;i<lstDischarge.size();i++){
     	 Admission admission = (Admission)lstDischarge.get(i);

@@ -97,41 +97,6 @@ public class BaseCaseManagementEntryAction extends BaseClientAction {
 		this.caseManagementMgr = caseManagementMgr;
 	}
 
-	protected String getDemographicNo(HttpServletRequest request) {
-		String demono = request.getParameter("demographicNo");
-		if (demono == null || "".equals(demono)) {
-			demono = (String) request.getSession(true).getAttribute("casemgmt_DemoNo");
-		} else {
-			request.getSession(true).setAttribute("casemgmt_DemoNo", demono);
-		}
-		return demono;
-	}
-
-	protected String getDemoName(String demoNo) {
-		if (demoNo == null) {
-			return "";
-		}
-		return caseManagementMgr.getDemoName(demoNo);
-	}
-	
-	protected String getDemoSex(String demoNo) {
-            if(demoNo == null) {
-                return "";
-            }
-            return caseManagementMgr.getDemoGender(demoNo);
-        }
-        
-        protected String getDemoAge(String demoNo){
-		if (demoNo==null) return "";
-		return caseManagementMgr.getDemoAge(demoNo);
-	}
-	
-	protected String getDemoDOB(String demoNo){
-		if (demoNo==null) return "";
-		return caseManagementMgr.getDemoDOB(demoNo);
-	}	
-	
-
 	protected String getProviderNo(HttpServletRequest request) {
 		String providerNo = request.getParameter("providerNo");
 		if (Utility.IsEmpty(providerNo)) {

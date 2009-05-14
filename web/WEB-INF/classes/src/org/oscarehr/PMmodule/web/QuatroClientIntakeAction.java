@@ -41,15 +41,17 @@ public class QuatroClientIntakeAction  extends BaseClientAction {
    private ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
        //On newclient intake page, if save button not clicked before close button clicked, goto client search page. 
 	   try {
-		   if(request.getParameter("clientId")!=null){
-		     String demographicNo= request.getParameter("clientId");
-		     if(demographicNo.equals("0")) return mapping.findForward("close");
-	       }else{
-	    	 return mapping.findForward("close");
-	       }
 		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_INTAKE);
-	       setEditAttributes(form, request);
-	       return mapping.findForward("edit");
+		   Integer clientId = super.getClientId(request);
+		   if (clientId==null)
+		   {
+			   return mapping.findForward("close");
+		   }
+		   else
+		   {
+			   setEditAttributes(form, request);
+			   return mapping.findForward("edit");
+		   }
        }
        catch(NoAccessException e)
        {
@@ -58,20 +60,11 @@ public class QuatroClientIntakeAction  extends BaseClientAction {
    }
    
    private void setEditAttributes(ActionForm form, HttpServletRequest request) {
-       DynaActionForm clientForm = (DynaActionForm) form;
-
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
 
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 
        String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-       List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+       List lstIntake = intakeManager.getQuatroIntakeHeaderListByFacility(super.getClientId(request), shelterId, providerNo);
        request.setAttribute("quatroIntake", lstIntake);
    }
 

@@ -21,7 +21,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabSummary}">
 		<div><html:link action="/PMmodule/QuatroClientSummary.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Summary</html:link>
+		 style="color:Navy;text-decoration:none;">Summary</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -33,7 +33,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabHistory}">
 		<div><html:link action="/PMmodule/ClientHistory.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">History</html:link>
+			style="color:Navy;text-decoration:none;">History</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -45,7 +45,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabIntake}">
 		<div><html:link action="/PMmodule/QuatroIntake.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Intake</html:link>
+			 style="color:Navy;text-decoration:none;">Intake</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -57,7 +57,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabAdmission}">
 		<div><html:link action="/PMmodule/QuatroAdmission.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Admission</html:link>
+			style="color:Navy;text-decoration:none;">Admission</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -69,7 +69,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabRefer}">
 		<div><html:link action="PMmodule/QuatroRefer.do"
-			name="actionParam" style="color:Navy;text-decoration:none;"> Referral</html:link>
+			style="color:Navy;text-decoration:none;"> Referral</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -81,7 +81,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabDischarge}">
 		<div><html:link action="/PMmodule/QuatroDischarge.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Discharge</html:link>
+			style="color:Navy;text-decoration:none;">Discharge</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -93,7 +93,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabRestriction}">
 		<div><html:link action="/PMmodule/QuatroServiceRestriction.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Service Restriction</html:link>
+			style="color:Navy;text-decoration:none;">Service Restriction</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -105,7 +105,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabComplaint}">
 		<div><html:link action="/PMmodule/QuatroComplaint.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Complaint</html:link>
+			style="color:Navy;text-decoration:none;">Complaint</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -117,7 +117,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabConsent}">
 		<div><html:link action="/PMmodule/QuatroConsent.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Consent</html:link>
+			style="color:Navy;text-decoration:none;">Consent</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -129,7 +129,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabCase}">
 		<div><html:link action="/CaseManagementView2.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Case Management</html:link>
+			style="color:Navy;text-decoration:none;">Case Management</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -142,7 +142,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabAttachment}">
 		<div><html:link action="/PMmodule/UploadFile.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Attachment</html:link>
+			 style="color:Navy;text-decoration:none;">Attachment</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -155,7 +155,7 @@ function popupLabel(page) { //open a new popup window
 	</c:when>
 	<c:when test="${'V' eq tabTask}">
 		<div><html:link action="/PMmodule/Task.do"
-			name="actionParam" style="color:Navy;text-decoration:none;">Tasks</html:link>
+			 style="color:Navy;text-decoration:none;">Tasks</html:link>
 		</div>
 	</c:when>
 	<c:otherwise>

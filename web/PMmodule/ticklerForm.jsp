@@ -86,7 +86,7 @@ function submitForm(methodVal) {
 </c:choose>
 
 <tr><td class="buttonBar2">
-	<html:link action="/PMmodule/Task.do" name="actionParam" style="color:Navy;text-decoration:none;">
+	<html:link action="/PMmodule/Task.do" style="color:Navy;text-decoration:none;">
 	<img border=0 src='<html:rewrite page="/images/close16.png"/>' >&nbsp;Close&nbsp;&nbsp;</html:link>
    <c:if test="${viewTickler!='Y'}">
      <a href="javascript:void1();"  onclick="javascript: setNoConfirm();return deferedSubmit('save');"	style="color:Navy;text-decoration:none;">

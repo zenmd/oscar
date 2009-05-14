@@ -132,6 +132,11 @@ public abstract class BaseAction extends DispatchAction {
 		else
 		{
 			request.getSession().setAttribute(lastMenu, KeyConstants.ACCESS_VIEW);
+			if (!currentMenu.equals(KeyConstants.MENU_CLIENT) && lastMenu.equals(KeyConstants.MENU_CLIENT))
+			{
+				request.getSession().removeAttribute("clientId");
+				request.getSession().removeAttribute("client");
+			}
 		}
 		// check home page access
 		if(!currentMenu.equals(KeyConstants.MENU_HOME))
@@ -141,6 +146,7 @@ public abstract class BaseAction extends DispatchAction {
 				throw new NoAccessException();
 			}
 		}
+		request.getSession().setAttribute("currMenu",currentMenu);
 		String scrollPosition = (String) request.getParameter("scrollPosition");
 		if(null != scrollPosition) {
 			request.setAttribute("scrPos", scrollPosition);
@@ -267,8 +273,7 @@ public abstract class BaseAction extends DispatchAction {
         }
         catch(Exception ex)
         {
-        	if (request.getAttribute("clientId") != null)
-        	clientId = ((Integer) request.getSession().getAttribute("clientId")).toString();
+        	;
         }
         Integer shelterId = (Integer) session.getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
         if(shelterId == null) shelterId = new Integer(0);

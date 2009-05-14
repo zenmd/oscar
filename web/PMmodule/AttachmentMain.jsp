@@ -39,7 +39,7 @@ response.setHeader("Cache-Control", "no-cache");
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 			    <c:if test="${currentIntakeProgramId>0}">
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTDOCUMENT %>" orgCd='<%=((Integer) request.getSession().getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
-					<html:link	action="/PMmodule/UploadFile.do?method=addNew" name="actionParam"	style="color:Navy;text-decoration:none;">
+					<html:link	action="/PMmodule/UploadFile.do?method=addNew" 	style="color:Navy;text-decoration:none;">
 						<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;Add&nbsp;&nbsp;
 					</html:link>		
 				</security:oscarSec>

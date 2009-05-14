@@ -74,20 +74,12 @@ public class QuatroConsentAction extends BaseClientAction {
 	public ActionForward list(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
 //		setListAttributes(form,request);
 		try {
-			DynaActionForm clientForm = (DynaActionForm) form;
 	
-		    HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		    if(actionParam==null){
-		      actionParam = new HashMap();
-		      actionParam.put("clientId", request.getParameter("clientId")); 
-		    }
-		    request.setAttribute("actionParam", actionParam);
-		    String demographicNo= (String)actionParam.get("clientId");
-		       	
+			Integer clientId = super.getClientId(request);
 		    String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 			Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		         
-		    List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
+		    List lstConsents = consentManager.getConsentDetailByClient(clientId, providerNo,shelterId);
 		    request.setAttribute("lstConsents", lstConsents);
 	
 		    super.setScreenMode(request, KeyConstants.TAB_CLIENT_CONSENT);
@@ -106,22 +98,13 @@ public class QuatroConsentAction extends BaseClientAction {
 	       if(Utility.IsEmpty(rId)) {
 		       rId=request.getParameter("rId");
 	       }
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       String cId =request.getParameter("clientId");
-	       if(Utility.IsEmpty(cId))cId =consentObj.getDemographicNo().toString();
-	       if(actionParam==null){
-		    	  actionParam = new HashMap();
-		          actionParam.put("clientId", cId); 
-		       }
-	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
 	       LookupCodeValue shelter = new LookupCodeValue();
 	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       if("0".equals(rId))
 	       {
 	    	   consentObj = new ConsentDetail();
 	    	   consentObj.setId(new Integer(0));
-	    	   consentObj.setDemographicNo(Integer.valueOf(demographicNo));	  
+	    	   consentObj.setDemographicNo(super.getClientId(request));	  
 	    	   consentObj.setProviderNo(providerNo);
 	       }
 	       else if(rId!=null && rId!="0"){
@@ -146,34 +129,9 @@ public class QuatroConsentAction extends BaseClientAction {
 	       return mapping.findForward("failure");
        }
 	}
-	 private void setListAttributes(ActionForm form, HttpServletRequest request) {
-		   DynaActionForm clientForm = (DynaActionForm) form;
-
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
-	       
-	       String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
-	       Integer shelterId = (Integer) request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);   
-	       List lstConsents = consentManager.getConsentDetailByClient(Integer.valueOf(demographicNo), providerNo,shelterId);
-	       request.setAttribute("lstConsents", lstConsents);
-	   }
 	 public ActionForward withdraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException
 	 {
 		 	   DynaActionForm clientForm = (DynaActionForm) form;
-			   HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		       String cId =request.getParameter("clientId");
-		       
-		       if(actionParam==null){
-		    	  actionParam = new HashMap();
-		          actionParam.put("clientId", cId); 
-		       }
-		       request.setAttribute("actionParam", actionParam);
-		       String demographicNo= (String)actionParam.get("clientId");
 		       
 		       ConsentDetail conObj = (ConsentDetail) clientForm.get("consentValue");
 			   String recId=request.getParameter("rId");
@@ -192,15 +150,6 @@ public class QuatroConsentAction extends BaseClientAction {
 	 private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
 		   DynaActionForm dForm = (DynaActionForm) form;
 		   ConsentDetail cdObj =(ConsentDetail)dForm.get("consentValue");
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       String cId =request.getParameter("clientId");
-	       if(Utility.IsEmpty(cId))cId =cdObj.getDemographicNo().toString();
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", cId); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
 	      // ClientManagerFormBean tabBean = (ClientManagerFormBean) clientForm.get("view");
 	       
 	       boolean isReadOnly = false;
@@ -235,7 +184,7 @@ public class QuatroConsentAction extends BaseClientAction {
 	       }
 	       
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-	       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
+	       List programIds =clientManager.getRecentProgramIds(super.getClientId(request),providerNo,shelterId);
 	       List programs = null;
 	       if (programIds.size() > 0) {
 		       String progs = ((Integer)programIds.get(0)).toString();

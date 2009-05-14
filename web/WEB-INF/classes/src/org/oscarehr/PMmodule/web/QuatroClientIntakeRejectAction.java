@@ -59,7 +59,6 @@ public class QuatroClientIntakeRejectAction extends BaseProgramAction {
 	       request.setAttribute("programId", id);
 	       request.setAttribute("program", programManager.getProgram(new Integer(id)));
 	       super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_QUEUE,new Integer(id));      
-	       String demographicNo= request.getParameter("clientId");
 	       List rejectReasons = lookupManager.LoadCodeList("IRR", true, null, null);
 	       clientForm.setRejectReasonList(rejectReasons);
 	       return mapping.findForward("edit");

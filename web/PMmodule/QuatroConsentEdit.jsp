@@ -108,12 +108,6 @@
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
-<!-- 
-		        <html:link
-				action="/PMmodule/QuatroConsent.do?method=list" name="actionParam"
-				style="color:Navy;text-decoration:none;">
-				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Consents&nbsp;&nbsp;|</html:link>
- -->
 		        <a href='javaScript:submitForm("list");' style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;</a>|
 			

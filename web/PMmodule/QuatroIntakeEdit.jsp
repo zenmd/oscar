@@ -159,7 +159,7 @@ function confirmActive()
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
-			<html:link	action="/PMmodule/QuatroIntake.do" name="actionParam"	style="color:Navy;text-decoration:none;">&nbsp;
+			<html:link	action="/PMmodule/QuatroIntake.do" 	style="color:Navy;text-decoration:none;">&nbsp;
             <img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 
 			<c:if	test="${!isReadOnly && (quatroIntakeEditForm.intake.intakeStatus=='active' ||

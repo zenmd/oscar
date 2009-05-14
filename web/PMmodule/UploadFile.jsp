@@ -35,7 +35,7 @@ response.setHeader("Cache-Control", "no-cache");
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
-				<html:link action="/PMmodule/UploadFile.do" name="actionParam"	style="color:Navy;text-decoration:none;">
+				<html:link action="/PMmodule/UploadFile.do" 	style="color:Navy;text-decoration:none;">
 					<img border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;
 				</html:link> |
 				<a	href="javascript:submitForm('save')" onclick="javascript: setNoConfirm();" style="color:Navy;text-decoration:none;">

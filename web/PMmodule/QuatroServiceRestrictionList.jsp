@@ -46,7 +46,7 @@
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 			    <c:if test="${currentIntakeProgramId>0}">
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTRESTRICTION %>"  orgCd='<%=((Integer) request.getSession().getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
-					<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0" name="actionParam" style="color:Navy;text-decoration:none;">&nbsp;
+					<html:link	action="/PMmodule/QuatroServiceRestriction.do?method=edit&rId=0"  style="color:Navy;text-decoration:none;">&nbsp;
 					<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Service Restriction&nbsp;&nbsp;</html:link> 
 				</security:oscarSec>	
 				</c:if>

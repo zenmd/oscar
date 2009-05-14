@@ -354,11 +354,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		CaseManagementEntryFormBean cform = (CaseManagementEntryFormBean) form;
 		request.setAttribute("change_flag", "false");
 
-		String demono = getDemographicNo(request);
-		request.setAttribute("demoName", getDemoName(demono));
-		request.setAttribute("demoAge", getDemoAge(demono));
-		request.setAttribute("demoDOB", getDemoDOB(demono));
-
 		request.setAttribute("from", request.getParameter("from"));
 		boolean hasError =false; 
 		if(cform.getCaseNote().getProgram_no()==null ||cform.getCaseNote().getProgram_no().intValue()==0)
@@ -426,8 +421,6 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		Provider provider = getProvider(request);
 		// String userName = provider != null ? provider.getFullName() : "";
 
-		String demo = getDemographicNo(request);
-		if(demo == null) throw new NoAccessException();
 		/*
 		 * CaseManagementCPP cpp = this.caseManagementMgr.getCPP(demo); if (cpp ==
 		 * null) { cpp = new CaseManagementCPP(); cpp.setDemographic_no(demo); }
@@ -491,6 +484,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 		 * (Throwable e) { log.error(e); team = "0"; }
 		 * note.setReporter_program_team(team);
 		 */
+		Integer clientId = super.getClientId(request);
 		Set issueset = new HashSet();
 		Set noteSet = new HashSet();
 		String ongoing = "";
@@ -499,7 +493,7 @@ public class CaseManagementNoteAction extends BaseCaseManagementEntryAction {
 			CaseManagementIssue cmIss = new CaseManagementIssue();
 			Integer issId = Integer.valueOf(iss[i]);
 			cmIss.setIssue_id(issId);
-			cmIss.setDemographic_no(new Integer(demo));
+			cmIss.setDemographic_no(clientId);
 			cmIss.setLastUpdateUser(providerNo); 
 			cmIss.setUpdate_date(now);
 			// cmIss.setIssue(caseManagementMgr.getIssue(issId.toString()));

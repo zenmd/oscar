@@ -151,9 +151,8 @@ public class UploadFileAction extends BaseClientAction {
 			 DynaActionForm attForm = (DynaActionForm) form;
 			 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");
 			 Attachment attObj = (Attachment)attForm.get("attachmentValue");
-			 String clientId =request.getParameter("clientId");
-			 if(clientId == null) clientId = attForm.getString("clientId");
-			 attForm.set("clientId",clientId);
+			 Integer clientId = super.getClientId(request);
+			 attForm.set("clientId",clientId.toString());
 	
 			 Integer aId = null;
 			 if(null!=request.getParameter("id")) {
@@ -168,25 +167,17 @@ public class UploadFileAction extends BaseClientAction {
 			 }
 			 attForm.set("attachmentText",attTextObj);
 			 
-			 if(Utility.IsEmpty(clientId)) clientId =attObj.getRefNo();
-			 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		       if(actionParam==null){
-		    	  actionParam = new HashMap();
-		          actionParam.put("clientId",clientId ); 
-		       }
-		     request.setAttribute("actionParam", actionParam);
-			 request.setAttribute("clientId", clientId);
+
 			 super.setScreenMode(request, KeyConstants.TAB_CLIENT_ATTCHMENT);
 			 ActionMessages messages= new ActionMessages();
-			 Integer cId=Integer.valueOf(clientId) ;       
+			       
 			 Integer moduleId =KeyConstants.MODULE_ID_CLIENT;  //(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE);
-			 if(null==cId || null==moduleId) messages.add(ActionMessages.GLOBAL_MESSAGE,new ActionMessage("message.attachment.errors",request.getContextPath()));
 
 			 if(aId.intValue() == 0)
 			 {
 				Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	 			String providerNo=(String) request.getSession().getAttribute("user");
-	 			String programId = this.clientManager.getRecentProgramId(cId, providerNo, shelterId).toString();
+	 			String programId = this.clientManager.getRecentProgramId(clientId, providerNo, shelterId).toString();
 	 			if(programId == null) throw new NoAccessException();
 		        super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, Integer.valueOf(programId),KeyConstants.ACCESS_WRITE);
 			 }
@@ -207,12 +198,6 @@ public class UploadFileAction extends BaseClientAction {
 		 Integer aId = new Integer(request.getParameter("id"));
 		 Attachment attObj=uploadFileManager.getAttachmentDetail(aId);
 	     super.getAccess(request, KeyConstants.FUN_CLIENTDOCUMENT, attObj.getRefProgramId(),KeyConstants.ACCESS_WRITE);
-		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId",request.getParameter("clientId") ); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
 	       
 		 if(null!=aId)uploadFileManager.deleteAttachment(aId);
 		 return list(mapping, form, request, response);
@@ -221,14 +206,7 @@ public class UploadFileAction extends BaseClientAction {
 		 DynaActionForm attForm = (DynaActionForm) form;
 		 Attachment attObj = (Attachment )attForm.get("attachmentValue");
 		 AttachmentText attTextObj =(AttachmentText)attForm.get("attachmentText");		 
-		 HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId",request.getParameter("clientId") ); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	       String demoNo =(String)actionParam.get("clientId");
-			 Integer cId=Integer.valueOf(demoNo) ;
+			 Integer cId= super.getClientId(request);
 		 	ActionMessages messages = new ActionMessages();
 	        String dupMessage ="";
 			HttpSession session = request.getSession(true);	

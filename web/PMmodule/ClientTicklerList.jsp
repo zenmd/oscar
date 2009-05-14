@@ -11,7 +11,7 @@
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/Back16.png"/> />&nbsp;Back to Client Search&nbsp;&nbsp;|</html:link>
 	<c:if test="${currentIntakeProgramIdActive>0}">
 		<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTTASKS %>"   orgCd='<%=((Integer) request.getSession().getAttribute("currentIntakeProgramIdActive")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">		
-		<html:link action="/PMmodule/Task.do?method=add" name="actionParam"
+		<html:link action="/PMmodule/Task.do?method=add"
 				style="color:Navy;text-decoration:none;">
 		<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New&nbsp;&nbsp;</html:link>
 		</security:oscarSec>

@@ -226,7 +226,7 @@ Source:web/PMmodule/QuatroComplaint.jsp
 		</tr>
 		<tr>
 			<td align="left" class="buttonBar2">
-			<html:link	action="/PMmodule/QuatroComplaint.do" name="actionParam"	style="color:Navy;text-decoration:none;">
+			<html:link	action="/PMmodule/QuatroComplaint.do" 	style="color:Navy;text-decoration:none;">
 				<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/close16.png"/> />&nbsp;Close&nbsp;&nbsp;|</html:link>
 
 					<c:if test="${!isReadOnly && (quatroClientComplaintForm.complaint.status=='0' || quatroClientComplaintForm.complaint.status==null)}">	

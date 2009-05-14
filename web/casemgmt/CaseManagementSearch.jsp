@@ -111,7 +111,7 @@ response.setHeader("Cache-Control", "no-cache");
 				</html:link>
 			    <c:if test="${currentIntakeProgramId>0}">
 				<security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" orgCd='<%=((Integer) request.getSession().getAttribute("currentIntakeProgramId")).toString()%>' rights="<%=KeyConstants.ACCESS_WRITE %>">
-					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" name="actionParam" paramId="clientId" paramProperty="clientId"	style="color:Navy;text-decoration:none;">
+					<html:link	action="/CaseManagementEntry2.do?method=edit&note_edit=new&from=casemgmt" style="color:Navy;text-decoration:none;">
 						 |<img style="vertical-align: middle" border=0 src=<html:rewrite page="/images/New16.png"/> />&nbsp;New Note&nbsp;
 					</html:link> 
 				</security:oscarSec>
@@ -176,14 +176,14 @@ response.setHeader("Cache-Control", "no-cache");
 										<c:choose>				
 											<c:when test="${(!note.signed)}">
 											 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
-												<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+												<a	href="<html:rewrite  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 													&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
 												<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
 											</security:oscarSec>
 											</c:when>			
 											<c:when test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
 												 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
-													<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+													<a	href="<html:rewrite   action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 														&noteId=<c:out value="${note.id}"/>&forceNote=true" style="color:Navy;text-decoration:none;">
 													<img border="0" src="<c:out value="${ctx}"/>/images/edit_white.png" title="Edit/Sign Note" /> </a>
 												</security:oscarSec>
@@ -194,7 +194,7 @@ response.setHeader("Cache-Control", "no-cache");
 										</c:choose>
 										<c:choose>				
 											<c:when test="${note.hasHistory or (note.signed and (note.caseStatusId ==1))}">
-												<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
+												<a	href="<html:rewrite  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
 													&noteId=<c:out value="${note.id}"/>" 
 													 style="color:Navy;text-decoration:none;" >
 													<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"	title="Note History" /> 
@@ -206,7 +206,7 @@ response.setHeader("Cache-Control", "no-cache");
 										</c:choose>
 										<c:choose>
 											<c:when test="${note.locked}">
-												<a style="color:Navy;text-decoration:none;"	href='<html:rewrite name="actionParam"  action="/CaseManagementView2.do"/>?method=unlock&noteId=<c:out value="${note.id}"/>'> 
+												<a style="color:Navy;text-decoration:none;"	href='<html:rewrite action="/CaseManagementView2.do"/>?method=unlock&noteId=<c:out value="${note.id}"/>'> 
 													<img border="0" src='<c:out value="${ctx}"/>/images/ulock.gif'	title="Unlock"  />
 												</a>
 											</c:when>
@@ -263,20 +263,20 @@ response.setHeader("Cache-Control", "no-cache");
 											<td width="7%">Action</td>
 											<td width="93%">
 												<c:if test="${(!note.signed)}">
-													<a href="<html:rewrite name="actionParam" action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+													<a href="<html:rewrite action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 													&noteId=<c:out value="${note.id}"/>" >							
 													Edit and Sign
 												</a>
 												</c:if>
 												<c:if test="${note.signed  and (note.caseStatusId!=1 and note.locked !=true)}">
 													 <security:oscarSec objectName="<%=KeyConstants.FUN_CLIENTCASE %>" rights="<%=KeyConstants.ACCESS_READ %>">
-													<a href="<html:rewrite name="actionParam" action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
+													<a href="<html:rewrite  action="/CaseManagementEntry2.do?method=edit&from=casemgmt"/>
 														&noteId=<c:out value="${note.id}"/>" >	Edit and Sign
 													</a>
 													</security:oscarSec>
 												</c:if>																								
 												<c:if test="${note.hasHistory or (note.signed and (note.caseStatusId eq 1))}">
-													<a	href="<html:rewrite name="actionParam"  action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
+													<a	href="<html:rewrite   action="/CaseManagementEntry2.do?method=history&from=casemgmt" />
 															&noteId=<c:out value="${note.id}"/>" 
 															 style="color:Navy;text-decoration:none;" >
 														<img border="0" src="<c:out value="${ctx}"/>/images/history.gif"

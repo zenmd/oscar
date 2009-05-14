@@ -66,23 +66,12 @@ public class QuatroClientReferAction  extends BaseClientAction {
 //		setListAttributes(form, request);
 		ActionMessages messages = new ActionMessages();
 
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		String cId = request.getParameter("clientId");
-		if (Utility.IsEmpty(cId)) {
-			cId = (String) request.getParameter("referral.clientId");
-		}
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("clientId", cId);
-		}
-		request.setAttribute("actionParam", actionParam);
-		String demographicNo = (String) actionParam.get("clientId");
 
 		String providerNo =(String)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 		
 		try {
-			List lstRefers = clientManager.getManualReferrals(demographicNo,providerNo,shelterId);
+			List lstRefers = clientManager.getManualReferrals(super.getClientId(request).toString(),providerNo,shelterId);
 			request.setAttribute("lstRefers", lstRefers);
 			
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
@@ -109,7 +98,6 @@ public class QuatroClientReferAction  extends BaseClientAction {
 	public ActionForward selectProgram(ActionMapping mapping, ActionForm form, 
 		 HttpServletRequest request, HttpServletResponse response) {
 		try {
-		ActionMessages messages = new ActionMessages();
 		DynaActionForm clientForm = (DynaActionForm) form;
 		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
 		String programId = request.getParameter("selectedProgramId");
@@ -119,17 +107,9 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			crObj.setProgramId(Integer.valueOf(programId));
 			request.setAttribute("program", program);
 		}
-		String cId = request.getParameter("clientId");
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("clientId",cId );
-		}
-		request.setAttribute("actionParam", actionParam);
 		request.setAttribute("referralStatus", crObj.getStatus());		
-		request.setAttribute("client", clientManager
-				.getClientByDemographicNo(cId));
-		crObj.setClientId(Integer.valueOf(cId));
+		Integer clientId = super.getClientId(request);
+		crObj.setClientId(clientId);
 		
 		//check if any queue exists for same clienId and programId
 		/* do not check in this place
@@ -144,63 +124,13 @@ public class QuatroClientReferAction  extends BaseClientAction {
 		*/
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		Integer shelterId =(Integer)request.getSession(true).getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-		List lstProgram =clientManager.getProgramLookups(new Integer(cId), shelterId, (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
+		List lstProgram =clientManager.getProgramLookups(clientId, shelterId, (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO));
 		request.setAttribute("lstProgram", lstProgram);
 		return mapping.findForward("edit");
 		} catch (NoAccessException e) {
 			return mapping.findForward("failure");
 		}
 	}
-/*
-	public ActionForward refer_select_program(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-		DynaActionForm clientForm = (DynaActionForm) form;
-		Program p = (Program) clientForm.get("program");
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-		setEditAttributes(form, request);
-
-		Integer programId = p.getId();
-		Program program = programManager.getProgram(programId);
-		p.setName(program.getName());
-		request.setAttribute("program", program);
-
-		request.setAttribute("clientId", (String) clientForm.get("clientId"));
-
-		request.setAttribute("do_refer", Boolean.TRUE);
-		return mapping.findForward("edit");
-		} catch (NoAccessException e) {
-			return mapping.findForward("failure");
-		}
-	}
-
-	public ActionForward search_programs(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-		DynaActionForm clientForm = (DynaActionForm) form;
-		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
-		Program criteria = (Program) clientForm.get("program");
-
-		request.setAttribute("programs", programManager.search(criteria));
-
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("clientId", request.getParameter("clientId"));
-		}
-		request.setAttribute("actionParam", actionParam);
-		String demographicNo = (String) actionParam.get("clientId");
-		clientForm.set("clientId", demographicNo);
-		ProgramUtils.addProgramRestrictions(request);
-
-		return mapping.findForward("search_programs");
-		} catch (NoAccessException e) {
-			return mapping.findForward("failure");
-		}
-	}
-*/
 	public ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -294,23 +224,14 @@ public class QuatroClientReferAction  extends BaseClientAction {
 
 	private void setEditAttributes(ActionForm form, HttpServletRequest request) throws NoAccessException {
 		DynaActionForm clientForm = (DynaActionForm) form;
-		String cId =request.getParameter("clientId");
 		ClientReferral crObj=(ClientReferral)clientForm.get("referral");
-		if(Utility.IsEmpty(cId)&&crObj!=null){			
-			cId = crObj.getClientId().toString();
-		}
-		HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-		if (actionParam == null) {
-			actionParam = new HashMap();
-			actionParam.put("clientId",cId );
-		}
-		request.setAttribute("actionParam", actionParam);
 		String rId = request.getParameter("rId");
 		if(Utility.IsEmpty(rId) && crObj.getId()!=null) rId=crObj.getId().toString();		
 		String programId = request.getParameter("selectedProgramId");
 		// Integer
 		// facilityId=(Integer)request.getSession().getAttribute(SessionConstants.CURRENT_FACILITY_ID);
-		clientForm.set("clientId", cId);
+		Integer clientId = super.getClientId(request);
+		clientForm.set("clientId", clientId.toString());
 		super.setScreenMode(request, KeyConstants.TAB_CLIENT_REFER);
 		String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();		
 		boolean readOnly =false;
@@ -319,7 +240,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
 			crObj = new ClientReferral();
 			crObj.setId(new Integer(0));
 			crObj.setStatus(KeyConstants.STATUS_PENDING);
-			crObj.setClientId(Integer.valueOf(cId));
+			crObj.setClientId(clientId);
 		} else {			
 			crObj = clientManager.getClientReferral(rId);			
 			if(Utility.IsEmpty(programId)) programId=crObj.getProgramId().toString();
@@ -352,7 +273,7 @@ public class QuatroClientReferAction  extends BaseClientAction {
         	Program fromProgram = programManager.getProgram(crObj.getFromProgramId());
     		request.setAttribute("fromProgramName", fromProgram.getName());
         }else{
-    		List lstProgram =clientManager.getProgramLookups(new Integer(cId), shelterId, providerNo);
+    		List lstProgram =clientManager.getProgramLookups(super.getClientId(request), shelterId, providerNo);
     		request.setAttribute("lstProgram", lstProgram);
         }
 		

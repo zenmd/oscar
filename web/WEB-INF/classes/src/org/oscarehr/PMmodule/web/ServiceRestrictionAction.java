@@ -70,12 +70,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   String providerNo=(String)request.getSession().getAttribute("user");
        super.getAccess(request, KeyConstants.FUN_CLIENTRESTRICTION,restriction.getProgramId(),KeyConstants.ACCESS_UPDATE);
 	   clientRestrictionManager.terminateEarly(rId,providerNo);
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
        
        return list(mapping, form, request, response);
    }
@@ -83,13 +77,6 @@ public class ServiceRestrictionAction  extends BaseClientAction {
    private ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 //	   setListAttributes(form, request);
 	   try {
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
-	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	       
 	       String providerNo = ((Provider) request.getSession().getAttribute("provider")).getProviderNo();
@@ -202,15 +189,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
    }
    private void setEditAttributes(ActionForm form, HttpServletRequest request,boolean readOnly) throws NoAccessException {
        DynaActionForm clientForm = (DynaActionForm) form;
-
-       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-       if(actionParam==null){
-    	  actionParam = new HashMap();
-          actionParam.put("clientId", request.getParameter("clientId")); 
-       }
-       request.setAttribute("actionParam", actionParam);
-       String demographicNo= (String)actionParam.get("clientId");
-            
+       Integer clientId = super.getClientId(request);     
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
        String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
        ProgramClientRestriction pcrObj =(ProgramClientRestriction)clientForm.get("serviceRestriction");
@@ -218,7 +197,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
        if(Utility.IsEmpty(rId) && pcrObj.getId()!=null) rId=pcrObj.getId().toString();	
        if ("0".equals(rId) || rId==null) {
 			pcrObj = new ProgramClientRestriction();
-			pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
+			pcrObj.setDemographicNo(clientId);
 //	        Integer days = (Integer) clientForm.get("serviceRestrictionLength");       
 //			clientForm.set("serviceRestrictionLength", new Integer(180));			
 			pcrObj.setId(null);			
@@ -233,7 +212,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 		}
 
 //       List allPrograms = programManager.getPrograms(Program.PROGRAM_STATUS_ACTIVE,providerNo,shelterId);
-       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
+       List programIds =clientManager.getRecentProgramIds(clientId,providerNo,shelterId);
 	    List allPrograms = null;
 	     if (programIds.size() > 0) {
 		     String progs = ((Integer)programIds.get(0)).toString();
@@ -257,19 +236,12 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	   try {
 		   boolean readOnly = false;
 		   DynaActionForm clientForm = (DynaActionForm) form;
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       if(actionParam==null){
-	    	  actionParam = new HashMap();
-	          actionParam.put("clientId", request.getParameter("clientId")); 
-	       }
 	       Integer len = (Integer)clientForm.get("serviceRestrictionLength");
 	       
 	       if(len == null || len.intValue() == 0)
 	    	   clientForm.set("serviceRestrictionLength", null);
-	       
-	       request.setAttribute("actionParam", actionParam);
-	       String demographicNo= (String)actionParam.get("clientId");
-	            
+
+	       Integer clientId = super.getClientId(request);
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	       String providerNo =(String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 	       ProgramClientRestriction pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
@@ -285,10 +257,10 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 	       }
 	       if(pcrObj != null && pcrObj.getProgramId() != null){
 	    	   pcrObj = (ProgramClientRestriction)clientForm.get("serviceRestriction");
-	    	   pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
+	    	   pcrObj.setDemographicNo(clientId);
 	       } else if ("0".equals(rId)) {
 				pcrObj = new ProgramClientRestriction();
-				pcrObj.setDemographicNo(Integer.valueOf(demographicNo));
+				pcrObj.setDemographicNo(clientId);
 				pcrObj.setStartDateStr("0");
 				//clientForm.set("serviceRestrictionLength", new Integer(180));			
 				pcrObj.setId(null);
@@ -306,7 +278,7 @@ public class ServiceRestrictionAction  extends BaseClientAction {
 				
 			}
 	
-	       List programIds =clientManager.getRecentProgramIds(Integer.valueOf(demographicNo),providerNo,shelterId);
+	       List programIds =clientManager.getRecentProgramIds(clientId,providerNo,shelterId);
 		     List programs = null;
 		     if (programIds.size() > 0) {
 			     String progs = ((Integer)programIds.get(0)).toString();

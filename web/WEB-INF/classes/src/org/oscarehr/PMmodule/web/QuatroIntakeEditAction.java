@@ -72,26 +72,12 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 					KeyConstants.ACCESS_WRITE);
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 
-			String clientId = request.getParameter("clientId");
+			Integer clientId = Integer.valueOf("0");
 			Integer intakeId = Integer.valueOf("0");
-			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-			if (actionParam == null) {
-				actionParam = new HashMap();
-				actionParam.put("clientId", clientId);
-				actionParam.put("intakeId", intakeId.toString());
-			}
-			request.setAttribute("actionParam", actionParam);
-			super.cacheClient(request, Integer.valueOf(clientId));
+			super.cacheClient(request, clientId);
 
-			Demographic client;
-			if (Integer.parseInt(clientId) > 0) {
-				client = super.getClient(request, Integer.valueOf(clientId));
-				qform.setDob(MyDateFormat.getStandardDate(client
-						.getDateOfBirth()));
-			} else {
-				client = new Demographic();
-				qform.setDob("");
-			}
+			Demographic client = new Demographic();
+			qform.setDob("");
 			qform.setClient(client);
 
 			com.quatro.web.intake.OptionList optionValues = intakeManager
@@ -179,26 +165,16 @@ public class QuatroIntakeEditAction extends BaseClientAction {
 	public ActionForward update(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Integer clientId = Integer.valueOf(request.getParameter("clientId"));
+			Integer clientId = super.getClientId(request);
 			Integer intakeId = Integer
 					.valueOf(request.getParameter("intakeId"));
 			QuatroIntakeEditForm qform = (QuatroIntakeEditForm) form;
 			if (intakeId.intValue() == 0)
 				super.getAccess(request, KeyConstants.FUN_CLIENTINTAKE, null,
 						KeyConstants.ACCESS_WRITE);
-			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-			if (actionParam == null) {
-				actionParam = new HashMap();
-				actionParam.put("clientId", clientId);
-				actionParam.put("intakeId", intakeId.toString());
-			}
-			request.setAttribute("actionParam", actionParam);
 			Integer intakeHeadId = intakeManager.getIntakeFamilyHeadId(intakeId
 					.toString());
 			if (intakeHeadId.intValue() != 0) {
-				Integer intakeHeadClientId = intakeManager
-						.getQuatroIntakeDBByIntakeId(intakeHeadId)
-						.getClientId();
 				request.setAttribute("intakeHeadId", intakeHeadId); // intakeHeadId:
 				// for intake
 				// stauts='discharged'

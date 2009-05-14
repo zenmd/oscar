@@ -72,27 +72,18 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    }
    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 	   try {
-		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_SUMMARY);
-	       HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-	       Demographic client  = null;
-	       if(actionParam==null){
-	    	   actionParam = new HashMap();
-		       String cId = request.getParameter("clientId");
-		       client = super.getClient(request, Integer.valueOf(cId));
-		       actionParam.put("clientId",client.getDemographicNo().toString()); 
-	//        don't delete sample code below for html:link parameter       
-	//        actionParam.put("id", "200492"); 
-	//        actionParam.put("floatProperty", new Float(444.0)); 
-	//        actionParam.put("intProperty", new Integer(555)); 
-	//        actionParam.put("stringArray", new String[] { "Value 1", "Value 2", "Value 3" }); 
-	       }
-	       else
-	       {
-	    	   client = super.getClient(request,Integer.valueOf((String)actionParam.get("clientId")));
-	       }
-	       String demographicNo= client.getDemographicNo().toString();    
+		   Integer clientId;
+		   if (request.getParameter("clientId") == null){
+			   clientId = super.getClientId(request);
+		   }
+		   else
+		   {
+			   clientId = Integer.valueOf(request.getParameter("clientId"));
+			   super.cacheClient(request, clientId);
+		   }
+		       
 	       request.getSession().setAttribute(KeyConstants.SESSION_KEY_CURRENT_MODULE, KeyConstants.MODULE_ID_CLIENT);
-		   logManager.log("read", "client", demographicNo, request);
+		   logManager.log("read", "client", clientId.toString(), request);
 	       
 	//       setEditAttributes(form, request, demographicNo);
 	       Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
@@ -101,14 +92,15 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	       boolean readOnly= super.isReadOnly(request, "", KeyConstants.FUN_CLIENTHEALTHSAFETY, null);
 	       request.setAttribute("isReadOnly",Boolean.valueOf(readOnly));
 
-	       super.setCurrentIntakeProgramId(request, Integer.valueOf(demographicNo), shelterId, providerNo);
+	       super.setCurrentIntakeProgramId(request, clientId, shelterId, providerNo);
 	       this.setAccessType(request);
+		   super.setScreenMode(request, KeyConstants.TAB_CLIENT_SUMMARY);
 	       
     	   List lst2 = intakeManager.getClientFamilyByIntakeId(super.getCurrentIntakeProgramId(request, false).toString());
     	   request.setAttribute("family", lst2);
 
 	    	   // only allow bed/service programs show up.(not external program)
-	       List currentAdmissionList = admissionManager.getCurrentAdmissions(Integer.valueOf(demographicNo),providerNo, shelterId);
+	       List currentAdmissionList = admissionManager.getCurrentAdmissions(clientId,providerNo, shelterId);
 	       List bedServiceList = new ArrayList();
 	       for (int i=0;i<currentAdmissionList.size();i++) {
 	          Admission admission1 = (Admission) currentAdmissionList.get(i);
@@ -120,7 +112,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	          ccp.setDaysInProgram(admission1.getDaysInProgram());
 	          bedServiceList.add(ccp);
 	       }
-	       List currentServiceIntakeList = intakeManager.getActiveServiceIntakeHeaderListByFacility(Integer.valueOf(demographicNo), shelterId, providerNo);
+	       List currentServiceIntakeList = intakeManager.getActiveServiceIntakeHeaderListByFacility(clientId, shelterId, providerNo);
 	       Date today = new Date();
 	       for (int i=0;i<currentServiceIntakeList.size();i++) {
 	         QuatroIntakeHeader qih1 = (QuatroIntakeHeader) currentServiceIntakeList.get(i);
@@ -140,18 +132,16 @@ public class QuatroClientSummaryAction extends BaseClientAction {
 	
 	       request.setAttribute("clientCurrentPrograms", bedServiceList);
 	
-	       HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(Integer.valueOf(demographicNo));
+	       HealthSafety healthsafety = healthSafetyManager.getHealthSafetyByDemographic(clientId);
 	       request.setAttribute("healthsafety", healthsafety);
 	
-	       request.setAttribute("referrals", clientManager.getActiveManualReferrals(demographicNo,providerNo, shelterId));
+	       request.setAttribute("referrals", clientManager.getActiveManualReferrals(clientId.toString(),providerNo, shelterId));
 	           
 	       // bed reservation view
 	       if(currentAdmissionList.size()>0){
-	         RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(Integer.valueOf(demographicNo));
+	         RoomDemographic roomDemographic = roomDemographicManager.getRoomDemographicByDemographic(clientId);
 			 request.setAttribute("roomDemographic", roomDemographic);
 	       }
-	       
-	       request.setAttribute("actionParam", actionParam);
 	
 	       return mapping.findForward("edit");
 		} catch (NoAccessException e) {
@@ -161,8 +151,7 @@ public class QuatroClientSummaryAction extends BaseClientAction {
    public ActionForward deleteHS(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws NoAccessException 
    {
 	   super.getAccess(request, KeyConstants.FUN_CLIENTHEALTHSAFETY, null,KeyConstants.ACCESS_WRITE);
-	   String clientId=request.getParameter("clientId");
-	   healthSafetyManager.deleteHealthSafetyByDemographic(Integer.valueOf(clientId));
+	   healthSafetyManager.deleteHealthSafetyByDemographic(super.getClientId(request));
 	   return  edit(mapping, form, request, response);
    }
 

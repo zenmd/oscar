@@ -64,18 +64,8 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
-			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-			if (actionParam == null) {
-				actionParam = new HashMap();
-				actionParam.put("clientId", request.getParameter("clientId"));
-			}
-			request.setAttribute("actionParam", actionParam);
 	
-			String tmp = (String) actionParam.get("clientId");
-			request.setAttribute("clientId", tmp);
-	
-			// String tmp = request.getParameter("id");
-			Integer clientId = Integer.valueOf(tmp);
+			Integer clientId = super.getClientId(request);
 			String providerNo = (String)request.getSession().getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
 			Integer shelterId = (Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 	
@@ -96,14 +86,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 				.println("=========== edit ========= in QuatroClientComplaintAction");
 		try {
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
-			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-			if (actionParam == null) {
-				actionParam = new HashMap();
-				actionParam.put("clientId", request.getParameter("clientId"));
-			}
-			request.setAttribute("actionParam", actionParam);
 	
-			String tmp = (String) actionParam.get("clientId");
 			QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 	
 			String complaintId = request.getParameter("complaintId");
@@ -158,7 +141,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			
 			
 			complaintForm.setComplaint(complaint);
-			Integer clientId = Integer.valueOf(tmp);
+			Integer clientId = super.getClientId(request);
 			String providerNo = (String)request.getSession().getAttribute("user");
 			Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
 			 List programIds =clientManager.getRecentProgramIds(clientId,providerNo,shelterId);
@@ -220,15 +203,6 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 		ActionMessages messages = new ActionMessages();
 		try {
 			super.setScreenMode(request, KeyConstants.TAB_CLIENT_COMPLAINT);
-			HashMap actionParam = (HashMap) request.getAttribute("actionParam");
-			if (actionParam == null) {
-				actionParam = new HashMap();
-				actionParam.put("clientId", request.getParameter("clientId"));
-			}
-			request.setAttribute("actionParam", actionParam);
-	
-			String tmp = (String) actionParam.get("clientId");
-			request.setAttribute("clientId", tmp);
 	
 			QuatroClientComplaintForm complaintForm = (QuatroClientComplaintForm) form;
 			Complaint complaint = complaintForm.getComplaint();
@@ -253,7 +227,7 @@ public class QuatroClientComplaintAction extends BaseClientAction {
 			if (complaint.getId() == null || complaint.getId().intValue() == 0) {
 				complaint.setId(null);
 				complaint.setCreatedDate(Calendar.getInstance());
-				complaint.setClientId(Integer.valueOf(tmp));
+				complaint.setClientId(super.getClientId(request));
 			} else {
 				String str = complaint.getCreatedDatexFromPage();
 				Calendar c = MyDateFormat.getCalendar(str);
