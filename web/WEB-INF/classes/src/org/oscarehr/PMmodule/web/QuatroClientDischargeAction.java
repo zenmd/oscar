@@ -119,6 +119,7 @@ public class QuatroClientDischargeAction  extends BaseClientAction {
 	       request.setAttribute("lstBedProgram",lstBed);
 	       request.setAttribute("admission", admObj);
 	       request.setAttribute("admissionId", admObj.getId());
+	       super.cacheClient(request, admObj.getClientId());
 		   super.setCurrentIntakeProgramId(request, admObj.getClientId(), shelterId, providerNo);
 	       
 	       return mapping.findForward("edit");

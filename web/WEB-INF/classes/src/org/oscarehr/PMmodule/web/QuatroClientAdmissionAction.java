@@ -958,7 +958,8 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
  	   clientForm.setCurDB_BedId(roomDemographic.getBedId());
  	   request.setAttribute("clientId", clientId.toString());
        Integer shelterId=(Integer)request.getSession().getAttribute(KeyConstants.SESSION_KEY_SHELTERID);
-	   super.setCurrentIntakeProgramId(request, clientId, shelterId, providerNo);
+       super.cacheClient(request, clientId);
+       super.setCurrentIntakeProgramId(request, clientId, shelterId, providerNo);
        return update(mapping, form, request, response);
 	   }
 	   catch(NoAccessException e)
