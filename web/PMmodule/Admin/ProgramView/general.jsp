@@ -74,11 +74,11 @@
 					<td>
 					<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY%>" rights="<%=KeyConstants.ACCESS_READ%>">					
 					<a href="<html:rewrite action="/PMmodule/FacilityManager.do"/>?method=view&facilityId=<c:out value="${program.facilityId}" />">
-						<c:out value="${facilityName}" />					
+						<c:out value="${program.facilityDesc}" />					
 					</a>
 					</security:oscarSec>
 					<security:oscarSec objectName="<%=KeyConstants.FUN_FACILITY%>" rights="<%=KeyConstants.ACCESS_READ%>" reverse="true">					
-						<c:out value="${facilityName}" />					
+						<c:out value="${program.facilityDesc}" />					
 					</security:oscarSec>
 					</td>
 				</tr>
