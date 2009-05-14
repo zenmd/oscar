@@ -239,7 +239,8 @@ public class ProgramManagerViewAction extends BaseProgramAction {
 	        }
 	        
 	        else if (formBean.getTab().equals(KeyConstants.TAB_PROGRAM_INCIDENTS)) {
-	        	processIncident( request, programId.toString(), formBean);  
+	        	request.setAttribute("programActive", Boolean.valueOf(program.isActive()));
+	        	processIncident( request, programId.toString(),program.isActive(), formBean);  
 	        	super.setViewScreenMode(request, KeyConstants.TAB_PROGRAM_INCIDENTS, programId);
 	        }
 	        else
@@ -331,12 +332,10 @@ public class ProgramManagerViewAction extends BaseProgramAction {
    	
     }
     
-    private void processIncident(HttpServletRequest request, String programId, ProgramManagerViewFormBean formBean) throws NoAccessException{
+    private void processIncident(HttpServletRequest request, String programId,boolean isProgramActive, ProgramManagerViewFormBean formBean) throws NoAccessException{
     	String incidentId = request.getParameter("incidentId");
     	String mthd = request.getParameter("mthd");
     	Integer pid = Integer.valueOf(programId);
-    	Program prog=programManager.getProgram(pid);
-    	request.setAttribute("programActive", Boolean.valueOf(prog.isActive()));
     	HttpSession se=request.getSession(true);
     	String providerNo = (String) se.getAttribute(KeyConstants.SESSION_KEY_PROVIDERNO);
         
@@ -454,7 +453,7 @@ public class ProgramManagerViewAction extends BaseProgramAction {
     	}
     	
         boolean isReadOnly = super.isReadOnly(request, KeyConstants.FUN_PROGRAM_INCIDENT, pid);
-        isReadOnly=isReadOnly || !prog.isActive() || "1".equals(incidentForm.getIncident().getReportCompleted());
+        isReadOnly=isReadOnly || ! isProgramActive || "1".equals(incidentForm.getIncident().getReportCompleted());
         if(isReadOnly)
          request.setAttribute("isReadOnly", Boolean.valueOf(isReadOnly));        
     }
