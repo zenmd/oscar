@@ -456,7 +456,7 @@ public class QuatroClientAdmissionAction  extends BaseClientAction {
        
        Room[] availableRooms;
        if(isFamilyMember.equals("N")){
- 	     availableRooms = roomManager.getAvailableRooms(clientId, programId, Boolean.TRUE, 
+ 	     availableRooms = roomManager.getAvailableRooms(null, programId, Boolean.TRUE, 
 	           clientId.toString(), clientForm.getFamilyIntakeType().equals("Y"));
        }else{
     	 availableRooms = new Room[0];
