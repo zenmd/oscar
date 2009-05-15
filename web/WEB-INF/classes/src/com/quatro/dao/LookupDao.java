@@ -55,6 +55,7 @@ public class LookupDao extends HibernateDaoSupport {
 	private static Hashtable lookupTableDefs = null;
 	private static Hashtable orgCodeCsvs = null;
 	private static Calendar lastCacheTime = Calendar.getInstance();
+	private static int lastId  = 0;
 	public List LoadCodeList(String tableId, boolean activeOnly, String code, String codeDesc)
 	{
 	   return LoadCodeList(tableId,activeOnly,"",code,codeDesc,true);
@@ -66,22 +67,42 @@ public class LookupDao extends HibernateDaoSupport {
 		int timeOut = OscarProperties.getInstance().getOrgCacheTimeoutMinutes();
 		timeOut = timeOut * 60000; //milliseconds
 		if (orgCodeCsvs == null || now.getTimeInMillis()-lastCacheTime.getTimeInMillis() > timeOut) doCache();
-
-		String codeCsv = (String)orgCodeCsvs.get(code);
-		if (codeCsv==null) doCache();
-		
 		return (String)orgCodeCsvs.get(code);
+	}
+	private boolean isOrgChanged()
+	{
+		boolean isChanged = true;
+		String sSQL = "select max(logid) from lst_orgcd_log";
+		DBPreparedHandler db = new DBPreparedHandler();
+		try {
+			ResultSet rs = db.queryResults(sSQL);
+			rs.next();
+			int id = rs.getInt(1);
+			rs.close();
+			db.closeConn();
+			db = null;
+			isChanged = (id > lastId);
+			if (isChanged) lastId = id;
+		}
+		catch(Exception ex)
+		{
+			;
+		}
+		return isChanged;
 	}
 	private void doCache()
 	{
 		synchronized ("runonceOrg") 
 		{
-			orgCodeCsvs = new Hashtable();
-			List list = LoadCodeList("ORG", true, "","", "");
-			for (int i=0; i< list.size(); i++)
+			if (isOrgChanged())
 			{
-				LookupCodeValue lkv = (LookupCodeValue) list.get(i);
-				orgCodeCsvs.put(lkv.getCode(), lkv.getCodecsv());
+				orgCodeCsvs = new Hashtable();
+				List list = LoadCodeList("ORG", true, "","", "");
+				for (int i=0; i< list.size(); i++)
+				{
+					LookupCodeValue lkv = (LookupCodeValue) list.get(i);
+					orgCodeCsvs.put(lkv.getCode(), lkv.getCodecsv());
+				}
 			}
 			lastCacheTime = Calendar.getInstance();
 		}
