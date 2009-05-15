@@ -41,7 +41,12 @@ import net.sf.cookierevolver.CRFactory;
  */
 public class LoginFilter implements Filter {
 
-	private static final String[] EXEMPT_URLS = { "/images/","/login.do","/index.jsp","/login.jsp"};
+	private static final String[] EXEMPT_URLS = { 
+		"/images/","/login.do",
+		"/index.jsp",
+		"/login.jsp",
+		"/siteCheckLogin.do"
+	};
 
 	/*
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -78,6 +83,7 @@ public class LoginFilter implements Filter {
 
 	boolean inListOfExemptions(String requestURI, String contextPath) {
 //		for (String exemptUrl : EXEMPT_URLS) {
+		if (requestURI.endsWith(".class") || requestURI.endsWith(".jar")) return true;
 		for(int i=0; i<EXEMPT_URLS.length; i++) {
 			String exemptUrl = EXEMPT_URLS[i];
 	        if (requestURI.startsWith(contextPath + exemptUrl)) {
