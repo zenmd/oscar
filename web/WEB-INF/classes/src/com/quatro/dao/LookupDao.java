@@ -97,7 +97,7 @@ public class LookupDao extends HibernateDaoSupport {
 			if (isOrgChanged())
 			{
 				orgCodeCsvs = new Hashtable();
-				List list = LoadCodeList("ORG", true, "","", "");
+				List list = LoadCodeList("ORG", false, "","", "");
 				for (int i=0; i< list.size(); i++)
 				{
 					LookupCodeValue lkv = (LookupCodeValue) list.get(i);
